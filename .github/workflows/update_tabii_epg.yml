@@ -1,0 +1,37 @@
+name: Update Tabii Spor EPG
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 15:20 UTC = 18:20 Turkey time (UTC+3)
+    - cron: "20 15 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build XMLTV
+        run: python update_tabii_epg.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tabii_spor_1_7_epg.xml
+          git diff --cached --quiet && exit 0
+          git commit -m "Update Tabii Spor EPG"
+          git push
