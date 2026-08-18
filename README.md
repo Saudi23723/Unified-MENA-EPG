@@ -1,50 +1,22 @@
-# 📺 Ultimate EPG Generator (Shahid, Starzplay, STC TV)
+# Tabii Spor EPG
 
-هذا المشروع عبارة عن سكربت متطور بلغة **Python** يقوم بجمع بيانات دليل البرامج الإلكتروني (**EPG**) من أشهر المنصات العربية (Shahid, Starzplay, STC TV) ودمجها في ملف واحد بصيغة `XMLTV` المتوافقة مع جميع تطبيقات الـ IPTV.
+Automatic XMLTV EPG for Tabii Spor channels.
 
-## 🚀 المميزات
-* **تغطية شاملة:** يجلب البيانات لـ 3 أيام متتالية (اليوم + يومين قادمين).
-* **أتمتة كاملة:** يعمل تلقائياً كل 12 ساعة عبر **GitHub Actions**.
-* **تنظيم ذكي:** يفصل بين القنوات ببادئات فريدة (`Shahid_`, `Starz_`, `STC_`) لمنع التداخل.
-* **دقة البيانات:** يدعم العناوين باللغة العربية، الوصف، وأيقونات البرامج.
+## Channels
 
-## 🛠️ كيف يعمل؟
-يقوم السكربت بزيارة روابط الـ API الرسمية للمنصات التالية:
-1. **Shahid:** سحب بيانات القنوات المحددة مسبقاً.
-2. **Starzplay:** جلب كامل قائمة القنوات والفعاليات الرياضية والترفيهية.
-3. **STC TV:** سحب جدول البث لـ 3 أيام لضمان عدم انقطاع الدليل.
+- Tabii Spor 1
+- Tabii Spor 2
+- Tabii Spor 3
+- Tabii Spor 4
+- Tabii Spor 5
+- Tabii Spor 6
+- Tabii Spor 7
+- Tabii Spor 8
+- Tabii Spor 9
+- Tabii Spor 10
 
-## 📥 طريقة الاستخدام
-بعد تشغيل السكربت (سواء يدوياً أو عبر GitHub Actions)، ستحصل على ملف باسم:
-`combined_epg_final.xml`
+The EPG is automatically updated using GitHub Actions.
 
-يمكنك استخدام رابط الملف المباشر (Raw) ووضعه في تطبيقات مثل:
-* **TiviMate**
-* **OTT Navigator**
-* **Kodi**
-* **Perfect Player**
+## EPG URL
 
-## ⚙️ الإعداد والتشغيل اليدوي
-إذا أردت تشغيل السكربت على جهازك الخاص:
-
-1. قم بتثبيت المكتبات اللازمة:
-```bash
-   pip install requests beautifulsoup4
-   ```
-2. قم بتشغيل السكربت:
-```bash
-python combined_epg_script.py
-   ```
-
-## 🤖 الأتمتة (GitHub Actions)
-تم إعداد ملف الـ Workflow ليقوم بـ:
-
-تشغيل السكربت مرتين يومياً.
-
-تثبيت التبعات تلقائياً.
-
-عمل Commit و Push للملف المحدث إلى مستودعك مباشرة.
-
-
-⚠️ ملاحظة
-هذا المشروع للأغراض التعليمية والشخصية فقط. يتم جلب البيانات من المصادر المفتوحة المتاحة للمتصفحات.
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/tabii_spor_1_10_epg.xml
