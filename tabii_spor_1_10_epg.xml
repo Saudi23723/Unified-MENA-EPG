@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Tabii Spor 1-10 TRT incremental XMLTV v7" generator-info-url="https://www.trtspor.com.tr/">
+<tv generator-info-name="Tabii Spor 1-10 multi-source XMLTV" generator-info-url="https://www.trtspor.com.tr/">
   <channel id="TabiiSpor1.tr">
     <display-name lang="tr">Tabii Spor 1</display-name>
   </channel>
@@ -30,4 +30,19 @@
   <channel id="TabiiSpor10.tr">
     <display-name lang="tr">Tabii Spor 10</display-name>
   </channel>
+  <programme start="20260818220000 +0300" stop="20260819003000 +0300" channel="TabiiSpor1.tr">
+    <title lang="tr">18 Ağustos 2026 Dinamo Zagreb vs Viking maçı</title>
+    <category lang="en">Sports</category>
+    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484979/2026/08/18/dinamo-zagreb-viking-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
+  </programme>
+  <programme start="20260819220000 +0300" stop="20260820003000 +0300" channel="TabiiSpor1.tr">
+    <title lang="tr">19 Ağustos 2026 Celtic vs LASK Linz maçı</title>
+    <category lang="en">Sports</category>
+    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484981/2026/08/19/celtic-lask-linz-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
+  </programme>
+  <programme start="20260819220000 +0300" stop="20260820003000 +0300" channel="TabiiSpor2.tr">
+    <title lang="tr">19 Ağustos 2026 Slovan Bratislava vs NK Celje maçı</title>
+    <category lang="en">Sports</category>
+    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484982/2026/08/19/slovan-bratislava-nk-celje-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
+  </programme>
 </tv>
