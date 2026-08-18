@@ -554,6 +554,8 @@ def main():
 
         for source in dict.fromkeys(thmanyah_sources):
             try:
+            for source in dict.fromkeys(thmanyah_sources):
+        try:
             found = parse_thmanyah_page(source)
 
             if found:
@@ -561,7 +563,6 @@ def main():
                     f"THMANYAH source {source} -> "
                     f"{len(found)} event(s)"
                 )
-
                 thmanyah_events.extend(found)
 
         except Exception as exc:
@@ -570,7 +571,6 @@ def main():
                 f"{source}: {exc}",
                 file=sys.stderr
             )
-
     thmanyah_events = dedupe(
         thmanyah_events
     )
