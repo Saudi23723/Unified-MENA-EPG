@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import re
 import html
 import json
@@ -12,32 +13,43 @@ from bs4 import BeautifulSoup
 from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
+
 TZ = ZoneInfo("Europe/Istanbul")
 OUT = Path("tabii_spor_1_10_epg.xml")
 
-NEWS_INDEX_URLS = [
+TRT_SCHEDULE_URL = "https://www.trtspor.com.tr/yayin-akisi/tabii-spor"
+
+TRT_NEWS_INDEX_URLS = [
     "https://www.trtspor.com.tr/",
     "https://www.trtspor.com.tr/haberleri/tabii-spor",
     "https://www.trtspor.com.tr/haberleri/tabii",
 ]
 
-SCHEDULE_URL = "https://www.trtspor.com.tr/yayin-akisi/tabii-spor"
-SPOREKRANI_URLS = [
+SPOREKRANI_INDEX_URLS = [
     "https://www.sporekrani.com/",
     "https://www.sporekrani.com/home/sport/futbol",
     "https://www.sporekrani.com/home/league/uefa-sampiyonlar-ligi",
 ]
+
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; TabiiSporXMLTV/7.0; GitHub-Actions)"
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0 Safari/537.36"
+    )
 }
 
 CHANNEL_RE = re.compile(
     r"\b(?:TRT\s*)?TAB(?:İ|I)İ?\s*SPOR\s*(10|[1-9])\b",
-    re.I
+    re.I,
 )
 
 TIME_RE = re.compile(
     r"\b([01]?\d|2[0-3])[\.:]([0-5]\d)\b"
+)
+
+DATE_IN_URL_RE = re.compile(
+    r"/(20\d{2})/(\d{2})/(\d{2})/"
 )
 
 MONTHS = {
@@ -75,85 +87,148 @@ WEEKDAYS = {
 }
 
 
-def norm(s):
+def norm(value):
     return re.sub(
         r"\s+",
         " ",
-        html.unescape(s or "")
+        html.unescape(value or "")
     ).strip()
 
 
 def get(url):
-    r = requests.get(
+    response = requests.get(
         url,
         headers=HEADERS,
         timeout=35
     )
+    response.raise_for_status()
+    return response.text
 
-    r.raise_for_status()
-    return r.text
 
-
-def parse_iso_date(value):
-    if not value:
-        return None
-
-    s = str(value).strip()
-
-    try:
-        dt = datetime.fromisoformat(
-            s.replace("Z", "+00:00")
-        )
-
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=TZ)
-
-        return dt.astimezone(TZ).date()
-
-    except Exception:
-        pass
-
+def explicit_date(text, base_year):
     m = re.search(
-        r"\b(20\d{2})-(\d{2})-(\d{2})\b",
-        s
+        r"\b(\d{1,2})[./-](\d{1,2})[./-](20\d{2})\b",
+        text
     )
 
     if m:
-        y, mo, d = map(
-            int,
-            m.groups()
-        )
+        day, month, year = map(int, m.groups())
 
         try:
             return datetime(
-                y,
-                mo,
-                d,
+                year,
+                month,
+                day,
                 tzinfo=TZ
             ).date()
+        except ValueError:
+            pass
 
+    month_rx = "|".join(
+        map(re.escape, MONTHS)
+    )
+
+    m = re.search(
+        rf"\b(\d{{1,2}})\s+({month_rx})(?:\s+(20\d{{2}}))?\b",
+        text.lower(),
+        re.I
+    )
+
+    if m:
+        day = int(m.group(1))
+        month = MONTHS[m.group(2).lower()]
+        year = int(m.group(3) or base_year)
+
+        try:
+            return datetime(
+                year,
+                month,
+                day,
+                tzinfo=TZ
+            ).date()
         except ValueError:
             return None
 
     return None
+    def date_from_context(text, fallback_date=None):
+    base = fallback_date or datetime.now(TZ).date()
+
+    d = explicit_date(
+        text,
+        base.year
+    )
+
+    if d:
+        return d
+
+    low = text.lower()
+
+    if "bugün" in low or "bugun" in low:
+        return base
+
+    if "yarın" in low or "yarin" in low:
+        return base + timedelta(days=1)
+
+    for name, weekday in WEEKDAYS.items():
+        if re.search(
+            rf"\b{re.escape(name)}\b",
+            low
+        ):
+            return base + timedelta(
+                days=(
+                    weekday
+                    - base.weekday()
+                ) % 7
+            )
+
+    return fallback_date
 
 
-def published_date_from_soup(soup):
+def clean_title(value):
+    value = CHANNEL_RE.sub(
+        "",
+        value
+    )
+
+    value = TIME_RE.sub(
+        "",
+        value
+    )
+
+    value = re.sub(
+        r"\b(?:TSİ|TSI)\b",
+        "",
+        value,
+        flags=re.I
+    )
+
+    value = re.sub(
+        r"\s*(?:->|→|[-–—|:])+\s*$",
+        "",
+        value
+    )
+
+    value = re.sub(
+        r"^\s*(?:->|→|[-–—|:])+\s*",
+        "",
+        value
+    )
+
+    return norm(value)
+
+
+def parse_published_date(soup):
     for tag in soup.find_all(
         "script",
         type="application/ld+json"
     ):
-        raw = (
-            tag.string
-            or tag.get_text()
-        )
+        raw = tag.string or tag.get_text()
 
         if not raw:
             continue
 
         try:
             data = json.loads(raw)
-
         except Exception:
             continue
 
@@ -178,12 +253,30 @@ def published_date_from_soup(soup):
                 "dateCreated",
                 "uploadDate"
             ):
-                d = parse_iso_date(
-                    obj.get(key)
-                )
+                value = obj.get(key)
 
-                if d:
-                    return d
+                if not value:
+                    continue
+
+                try:
+                    dt = datetime.fromisoformat(
+                        str(value).replace(
+                            "Z",
+                            "+00:00"
+                        )
+                    )
+
+                    if dt.tzinfo is None:
+                        dt = dt.replace(
+                            tzinfo=TZ
+                        )
+
+                    return dt.astimezone(
+                        TZ
+                    ).date()
+
+                except Exception:
+                    pass
 
             for value in obj.values():
                 if isinstance(
@@ -195,153 +288,112 @@ def published_date_from_soup(soup):
     return None
 
 
-def explicit_date(text, base_year):
-    m = re.search(
-        r"\b(\d{1,2})[./-](\d{1,2})[./-](20\d{2})\b",
-        text
+def page_lines(url):
+    soup = BeautifulSoup(
+        get(url),
+        "html.parser"
     )
 
-    if m:
-        d, mo, y = map(
-            int,
-            m.groups()
+    text = soup.get_text(
+        "\n",
+        strip=True
+    )
+
+    lines = [
+        norm(x)
+        for x in text.splitlines()
+        if norm(x)
+    ]
+
+    return soup, lines
+    def parse_general_schedule():
+    try:
+        _, lines = page_lines(
+            TRT_SCHEDULE_URL
         )
 
-        try:
-            return datetime(
-                y,
-                mo,
-                d,
-                tzinfo=TZ
-            ).date()
-
-        except ValueError:
-            pass
-
-    month_rx = "|".join(
-        map(re.escape, MONTHS)
-    )
-
-    m = re.search(
-        rf"\b(\d{{1,2}})\s+({month_rx})(?:\s+(20\d{{2}}))?\b",
-        text.lower(),
-        re.I
-    )
-
-    if m:
-        d = int(
-            m.group(1)
+    except Exception as exc:
+        print(
+            f"WARN official TRT schedule failed: {exc}",
+            file=sys.stderr
         )
+        return []
 
-        mo = MONTHS[
-            m.group(2).lower()
-        ]
+    today = datetime.now(TZ).date()
+    entries = []
 
-        y = int(
-            m.group(3)
-            or base_year
-        )
+    for i, line in enumerate(lines):
+        tm = TIME_RE.fullmatch(line)
 
-        try:
-            return datetime(
-                y,
-                mo,
-                d,
-                tzinfo=TZ
-            ).date()
+        if not tm:
+            continue
 
-        except ValueError:
-            return None
+        title = None
 
-    return None
-
-
-def date_from_context(
-    text,
-    published
-):
-    base = (
-        published
-        or datetime.now(TZ).date()
-    )
-
-    d = explicit_date(
-        text,
-        base.year
-    )
-
-    if d:
-        return d
-
-    low = text.lower()
-
-    if (
-        "bugün" in low
-        or "bugun" in low
-    ):
-        return base
-
-    if (
-        "yarın" in low
-        or "yarin" in low
-    ):
-        return base + timedelta(
-            days=1
-        )
-
-    for name, weekday in WEEKDAYS.items():
-        if re.search(
-            rf"\b{re.escape(name)}\b",
-            low
-        ):
-            return base + timedelta(
-                days=(
-                    weekday
-                    - base.weekday()
-                ) % 7
+        for j in range(
+            i + 1,
+            min(
+                len(lines),
+                i + 5
             )
+        ):
+            candidate = lines[j]
 
-    return published
+            if not candidate:
+                continue
 
+            if TIME_RE.fullmatch(
+                candidate
+            ):
+                continue
 
-def clean_title(s):
-    s = CHANNEL_RE.sub(
-        "",
-        s
+            if candidate.lower() in {
+                "yayın akışı",
+                "yayin akisi"
+            }:
+                continue
+
+            title = candidate
+            break
+
+        if not title:
+            continue
+
+        start = datetime(
+            today.year,
+            today.month,
+            today.day,
+            int(tm.group(1)),
+            int(tm.group(2)),
+            tzinfo=TZ
+        )
+
+        entries.append({
+            "start": start,
+            "title": title,
+            "source": TRT_SCHEDULE_URL,
+        })
+
+    print(
+        f"Official Tabii Spor schedule entries: "
+        f"{len(entries)}"
     )
 
-    s = TIME_RE.sub(
-        "",
-        s
-    )
+    for e in entries[:30]:
+        print(
+            f"  GENERAL | "
+            f"{e['start']:%Y-%m-%d %H:%M} | "
+            f"{e['title']}"
+        )
 
-    s = re.sub(
-        r"\b(?:TSİ|TSI)\b",
-        "",
-        s,
-        flags=re.I
-    )
-
-    s = re.sub(
-        r"\s*(?:->|→|[-–—|:])+\s*$",
-        "",
-        s
-    )
-
-    s = re.sub(
-        r"^\s*(?:->|→|[-–—|:])+\s*",
-        "",
-        s
-    )
-
-    return norm(s)
+    return entries
 
 
-def discover_news_articles():
-    links = []
+def discover_sporekrani_match_pages():
+    urls = []
     seen = set()
 
-    for index_url in NEWS_INDEX_URLS:
+    for index_url in SPOREKRANI_INDEX_URLS:
         try:
             soup = BeautifulSoup(
                 get(index_url),
@@ -350,7 +402,8 @@ def discover_news_articles():
 
         except Exception as exc:
             print(
-                f"WARN index failed {index_url}: {exc}",
+                f"WARN Spor Ekrani index failed "
+                f"{index_url}: {exc}",
                 file=sys.stderr
             )
             continue
@@ -359,22 +412,268 @@ def discover_news_articles():
             "a",
             href=True
         ):
-            u = urljoin(
+            url = urljoin(
                 index_url,
                 a["href"]
             ).split("#", 1)[0]
 
-            if (
-                "/haber/" not in u
-                or u in seen
-            ):
+            if "/home/match/" not in url:
                 continue
 
-            seen.add(u)
-            links.append(u)
+            if url in seen:
+                continue
+
+            seen.add(url)
+            urls.append(url)
 
     print(
-        f"TRT news article links discovered: {len(links)}"
+        f"Spor Ekrani match pages discovered: "
+        f"{len(urls)}"
+    )
+
+    return urls[:150]
+
+
+def date_from_sporekrani_url(url):
+    m = DATE_IN_URL_RE.search(url)
+
+    if not m:
+        return None
+
+    year, month, day = map(
+        int,
+        m.groups()
+    )
+
+    try:
+        return datetime(
+            year,
+            month,
+            day,
+            tzinfo=TZ
+        ).date()
+
+    except ValueError:
+        return None
+        def title_from_sporekrani_page(soup):
+    h1 = soup.find("h1")
+
+    if h1:
+        title = norm(
+            h1.get_text(
+                " ",
+                strip=True
+            )
+        )
+
+        title = re.sub(
+            r"\s+Hangi\s+Kanalda.*$",
+            "",
+            title,
+            flags=re.I
+        )
+
+        if title:
+            return title
+
+    og = soup.find(
+        "meta",
+        property="og:title"
+    )
+
+    if og and og.get("content"):
+        title = norm(
+            og["content"]
+        )
+
+        title = re.sub(
+            r"\s+Hangi\s+Kanalda.*$",
+            "",
+            title,
+            flags=re.I
+        )
+
+        if title:
+            return title
+
+    if soup.title:
+        title = norm(
+            soup.title.get_text(
+                " ",
+                strip=True
+            )
+        )
+
+        title = re.sub(
+            r"\s+Hangi\s+Kanalda.*$",
+            "",
+            title,
+            flags=re.I
+        )
+
+        return title
+
+    return None
+
+
+def parse_sporekrani_match_page(url):
+    try:
+        soup, lines = page_lines(url)
+
+    except Exception as exc:
+        print(
+            f"WARN Spor Ekrani match failed "
+            f"{url}: {exc}",
+            file=sys.stderr
+        )
+        return None
+
+    joined = "\n".join(lines)
+
+    cm = CHANNEL_RE.search(joined)
+
+    if not cm:
+        return None
+
+    channel = int(
+        cm.group(1)
+    )
+
+    day = date_from_sporekrani_url(
+        url
+    )
+
+    if not day:
+        day = date_from_context(
+            joined,
+            datetime.now(TZ).date()
+        )
+
+    if not day:
+        return None
+
+    tm = TIME_RE.search(joined)
+
+    if not tm:
+        return None
+
+    title = title_from_sporekrani_page(
+        soup
+    )
+
+    if not title:
+        for line in lines:
+            if (
+                " - " in line
+                or " – " in line
+            ):
+                candidate = clean_title(
+                    line
+                )
+
+                if (
+                    5 <= len(candidate) <= 180
+                ):
+                    title = candidate
+                    break
+
+    if not title:
+        return None
+
+    start = datetime(
+        day.year,
+        day.month,
+        day.day,
+        int(tm.group(1)),
+        int(tm.group(2)),
+        tzinfo=TZ
+    )
+
+    now = datetime.now(TZ)
+
+    if not (
+        now - timedelta(days=2)
+        <= start
+        <= now + timedelta(days=45)
+    ):
+        return None
+
+    return {
+        "channel": channel,
+        "start": start,
+        "title": title,
+        "source": url,
+    }
+
+
+def parse_sporekrani():
+    events = []
+
+    for url in discover_sporekrani_match_pages():
+        event = parse_sporekrani_match_page(
+            url
+        )
+
+        if not event:
+            continue
+
+        print(
+            f"  SPOR EKRANI | "
+            f"Tabii Spor {event['channel']} | "
+            f"{event['start']:%Y-%m-%d %H:%M} | "
+            f"{event['title']}"
+        )
+
+        events.append(event)
+
+    events = dedupe(events)
+
+    print(
+        f"Spor Ekrani numbered programmes: "
+        f"{len(events)}"
+    )
+
+    return events
+    def discover_news_articles():
+    links = []
+    seen = set()
+
+    for index_url in TRT_NEWS_INDEX_URLS:
+        try:
+            soup = BeautifulSoup(
+                get(index_url),
+                "html.parser"
+            )
+
+        except Exception as exc:
+            print(
+                f"WARN TRT index failed "
+                f"{index_url}: {exc}",
+                file=sys.stderr
+            )
+            continue
+
+        for a in soup.find_all(
+            "a",
+            href=True
+        ):
+            url = urljoin(
+                index_url,
+                a["href"]
+            ).split("#", 1)[0]
+
+            if "/haber/" not in url:
+                continue
+
+            if url in seen:
+                continue
+
+            seen.add(url)
+            links.append(url)
+
+    print(
+        f"TRT news article links discovered: "
+        f"{len(links)}"
     )
 
     return links[:250]
@@ -391,14 +690,14 @@ def parse_news_article(url):
     h1 = soup.find("h1")
 
     if h1:
-        title = norm(
+        page_title = norm(
             h1.get_text(
                 " ",
                 strip=True
             )
         )
     else:
-        title = norm(
+        page_title = norm(
             soup.title.get_text(
                 " ",
                 strip=True
@@ -407,7 +706,7 @@ def parse_news_article(url):
             else ""
         )
 
-    published = published_date_from_soup(
+    published = parse_published_date(
         soup
     )
 
@@ -425,9 +724,7 @@ def parse_news_article(url):
     joined = "\n".join(lines)
 
     if not CHANNEL_RE.search(
-        title
-        + "\n"
-        + joined
+        page_title + "\n" + joined
     ):
         return []
 
@@ -435,130 +732,65 @@ def parse_news_article(url):
     found = []
 
     for i, line in enumerate(lines):
-        cm = CHANNEL_RE.search(
-            line
-        )
+        cm = CHANNEL_RE.search(line)
+        tm = TIME_RE.search(line)
 
-        tm = TIME_RE.search(
-            line
-        )
-
-        if not (
-            cm
-            and tm
-        ):
+        if not (cm and tm):
             continue
 
         context = " ".join(
             lines[
                 max(0, i - 10):
-                min(
-                    len(lines),
-                    i + 3
-                )
+                min(len(lines), i + 4)
             ]
         )
 
-        d = date_from_context(
+        day = date_from_context(
             context,
             published
         )
 
-        if not d:
+        if not day:
             continue
 
         start = datetime(
-            d.year,
-            d.month,
-            d.day,
+            day.year,
+            day.month,
+            day.day,
             int(tm.group(1)),
             int(tm.group(2)),
             tzinfo=TZ
         )
 
         if not (
-            now - timedelta(days=14)
+            now - timedelta(days=10)
             <= start
             <= now + timedelta(days=120)
         ):
             continue
 
-        event_title = clean_title(
-            line
-        )
+        title = clean_title(line)
 
         if (
-            len(event_title) < 4
-            or len(event_title) > 220
+            len(title) < 4
+            or len(title) > 220
         ):
-            event_title = clean_title(
-                title
+            title = clean_title(
+                page_title
             )
 
         found.append({
-            "channel":
-                int(cm.group(1)),
-            "start":
-                start,
-            "title":
-                event_title,
-            "source":
-                url,
+            "channel": int(cm.group(1)),
+            "start": start,
+            "title": title,
+            "source": url,
         })
-
-    if not found:
-        cm = (
-            CHANNEL_RE.search(title)
-            or CHANNEL_RE.search(joined)
-        )
-
-        tm = re.search(
-            r"(?:TSİ|TSI)?\s*([01]?\d|2[0-3])[\.:]([0-5]\d)",
-            joined,
-            re.I
-        )
-
-        if cm and tm:
-            d = date_from_context(
-                title
-                + " "
-                + " ".join(
-                    lines[:120]
-                ),
-                published
-            )
-
-            if d:
-                start = datetime(
-                    d.year,
-                    d.month,
-                    d.day,
-                    int(tm.group(1)),
-                    int(tm.group(2)),
-                    tzinfo=TZ
-                )
-
-                if (
-                    now - timedelta(days=14)
-                    <= start
-                    <= now + timedelta(days=120)
-                ):
-                    found.append({
-                        "channel":
-                            int(cm.group(1)),
-                        "start":
-                            start,
-                        "title":
-                            clean_title(title),
-                        "source":
-                            url,
-                    })
 
     out = []
     seen = set()
 
     for e in found:
-        k = (
+        key = (
             e["channel"],
             e["start"].strftime(
                 "%Y%m%d%H%M"
@@ -566,105 +798,14 @@ def parse_news_article(url):
             e["title"].lower()
         )
 
-        if k not in seen:
-            seen.add(k)
-            out.append(e)
+        if key in seen:
+            continue
+
+        seen.add(key)
+        out.append(e)
 
     return out
-
-
-def parse_general_schedule():
-    try:
-        soup = BeautifulSoup(
-            get(SCHEDULE_URL),
-            "html.parser"
-        )
-
-    except Exception as exc:
-        print(
-            f"WARN schedule page failed: {exc}",
-            file=sys.stderr
-        )
-        return []
-
-    lines = [
-        norm(x)
-        for x in soup.get_text(
-            "\n",
-            strip=True
-        ).splitlines()
-        if norm(x)
-    ]
-
-    today = datetime.now(TZ).date()
-    entries = []
-
-    for i, line in enumerate(lines):
-        tm = TIME_RE.fullmatch(
-            line
-        )
-
-        if not tm:
-            continue
-
-        title = None
-
-        for j in range(
-            i + 1,
-            min(
-                len(lines),
-                i + 5
-            )
-        ):
-            candidate = lines[j]
-
-            if (
-                candidate
-                and not TIME_RE.fullmatch(
-                    candidate
-                )
-                and candidate.lower()
-                not in {
-                    "yayın akışı",
-                    "yayin akisi"
-                }
-            ):
-                title = candidate
-                break
-
-        if not title:
-            continue
-
-        start = datetime(
-            today.year,
-            today.month,
-            today.day,
-            int(tm.group(1)),
-            int(tm.group(2)),
-            tzinfo=TZ
-        )
-
-        entries.append({
-            "start": start,
-            "title": title,
-            "source": SCHEDULE_URL,
-        })
-
-    print(
-        f"Official Tabii Spor schedule entries: {len(entries)}"
-    )
-
-    for e in entries[:30]:
-        print(
-            f"  GENERAL | "
-            f"{e['start']:%Y-%m-%d %H:%M} | "
-            f"{e['title']}"
-        )
-
-    return entries
-
-
-def read_existing():
+    def read_existing():
     if not OUT.exists():
         return []
 
@@ -716,43 +857,34 @@ def read_existing():
         ):
             continue
 
-        title_el = p.find(
-            "title"
-        )
-
-        desc_el = p.find(
-            "desc"
-        )
+        title_el = p.find("title")
+        desc_el = p.find("desc")
 
         events.append({
-            "channel":
-                int(m.group(1)),
-            "start":
-                start,
-            "title":
-                (
-                    title_el.text
-                    if (
-                        title_el
-                        is not None
-                        and title_el.text
-                    )
-                    else "Tabii Spor"
-                ),
-            "source":
-                (
-                    desc_el.text.replace(
-                        "Kaynak: ",
-                        "",
-                        1
-                    )
-                    if (
-                        desc_el
-                        is not None
-                        and desc_el.text
-                    )
-                    else "saved"
-                ),
+            "channel": int(
+                m.group(1)
+            ),
+            "start": start,
+            "title": (
+                title_el.text
+                if (
+                    title_el is not None
+                    and title_el.text
+                )
+                else "Tabii Spor"
+            ),
+            "source": (
+                desc_el.text.replace(
+                    "Kaynak: ",
+                    "",
+                    1
+                )
+                if (
+                    desc_el is not None
+                    and desc_el.text
+                )
+                else "saved"
+            ),
         })
 
     return events
@@ -770,7 +902,7 @@ def dedupe(events):
             x["title"].lower()
         )
     ):
-        k = (
+        key = (
             e["channel"],
             e["start"].strftime(
                 "%Y%m%d%H%M"
@@ -778,28 +910,25 @@ def dedupe(events):
             e["title"].lower()
         )
 
-        if k not in seen:
-            seen.add(k)
-            out.append(e)
+        if key in seen:
+            continue
+
+        seen.add(key)
+        out.append(e)
 
     return out
-
-
-def write_xml(events):
+    def write_xml(events):
     tv = ET.Element(
         "tv",
         {
             "generator-info-name":
-                "Tabii Spor 1-10 TRT incremental XMLTV v7",
+                "Tabii Spor 1-10 multi-source XMLTV",
             "generator-info-url":
                 "https://www.trtspor.com.tr/",
         }
     )
 
-    for n in range(
-        1,
-        11
-    ):
+    for n in range(1, 11):
         ch = ET.SubElement(
             tv,
             "channel",
@@ -812,7 +941,10 @@ def write_xml(events):
         ET.SubElement(
             ch,
             "display-name",
-            {"lang": "tr"}
+            {
+                "lang":
+                    "tr"
+            }
         ).text = (
             f"Tabii Spor {n}"
         )
@@ -844,19 +976,28 @@ def write_xml(events):
         ET.SubElement(
             p,
             "title",
-            {"lang": "tr"}
+            {
+                "lang":
+                    "tr"
+            }
         ).text = e["title"]
 
         ET.SubElement(
             p,
             "category",
-            {"lang": "en"}
+            {
+                "lang":
+                    "en"
+            }
         ).text = "Sports"
 
         ET.SubElement(
             p,
             "desc",
-            {"lang": "tr"}
+            {
+                "lang":
+                    "tr"
+            }
         ).text = (
             f"Kaynak: {e['source']}"
         )
@@ -873,155 +1014,28 @@ def write_xml(events):
         encoding="utf-8",
         xml_declaration=True
     )
-def parse_sporekrani():
-    events = []
-    now = datetime.now(TZ)
-
-    for url in SPOREKRANI_URLS:
-        try:
-            soup = BeautifulSoup(
-                get(url),
-                "html.parser"
-            )
-        except Exception as exc:
-            print(
-                f"WARN Spor Ekrani failed {url}: {exc}",
-                file=sys.stderr
-            )
-            continue
-
-        text = soup.get_text(
-            "\n",
-            strip=True
-        )
-
-        lines = [
-            norm(x)
-            for x in text.splitlines()
-            if norm(x)
-        ]
-
-        current_date = now.date()
-
-        for i, line in enumerate(lines):
-            d = explicit_date(
-                line,
-                now.year
-            )
-
-            if d:
-                current_date = d
-
-            low = line.lower()
-
-            if low in ("yarın", "yarin"):
-                current_date = (
-                    now.date()
-                    + timedelta(days=1)
-                )
-
-            if low in ("bugün", "bugun"):
-                current_date = now.date()
-
-            cm = re.search(
-                r"\btabii\s*spor\s*(10|[1-9])\b",
-                line,
-                re.I
-            )
-
-            if not cm:
-                continue
-
-            channel = int(
-                cm.group(1)
-            )
-
-            block = lines[
-                max(0, i - 6):
-                min(len(lines), i + 6)
-            ]
-
-            block_text = " | ".join(
-                block
-            )
-
-            tm = TIME_RE.search(
-                block_text
-            )
-
-            if not tm:
-                continue
-
-            title = None
-
-            for candidate in block:
-                if re.search(
-                    r"\s[-–]\s",
-                    candidate
-                ):
-                    cleaned = clean_title(
-                        candidate
-                    )
-
-                    if 5 <= len(cleaned) <= 180:
-                        title = cleaned
-                        break
-
-            if not title:
-                continue
-
-            start = datetime(
-                current_date.year,
-                current_date.month,
-                current_date.day,
-                int(tm.group(1)),
-                int(tm.group(2)),
-                tzinfo=TZ
-            )
-
-            if not (
-                now - timedelta(days=2)
-                <= start
-                <= now + timedelta(days=30)
-            ):
-                continue
-
-            events.append({
-                "channel": channel,
-                "start": start,
-                "title": title,
-                "source": url,
-            })
-
-    return dedupe(events)
-
-def main():
+    def main():
     old = read_existing()
 
     print(
-        f"Existing saved programmes: {len(old)}"
+        f"Existing saved programmes: "
+        f"{len(old)}"
     )
 
     general_schedule = (
         parse_general_schedule()
     )
-    new = []
-    sporekrani_events = parse_sporekrani()
 
-    print(
-        f"Spor Ekrani numbered programmes: "
-        f"{len(sporekrani_events)}"
+    new = []
+
+    sporekrani_events = (
+        parse_sporekrani()
     )
 
-    for e in sporekrani_events:
-        print(
-            f"  SPOR EKRANI | "
-            f"Tabii Spor {e['channel']} | "
-            f"{e['start']:%Y-%m-%d %H:%M} | "
-            f"{e['title']}"
-        )
+    new.extend(
+        sporekrani_events
+    )
 
-    new.extend(sporekrani_events)
     matched_articles = 0
 
     for url in discover_news_articles():
@@ -1034,14 +1048,14 @@ def main():
                 matched_articles += 1
 
                 print(
-                    f"MATCH {url} -> "
+                    f"MATCH TRT {url} -> "
                     f"{len(found)} numbered programme(s)"
                 )
 
                 for e in found:
                     print(
-                        f"  Tabii Spor "
-                        f"{e['channel']} | "
+                        f"  TRT | "
+                        f"Tabii Spor {e['channel']} | "
                         f"{e['start']:%Y-%m-%d %H:%M} | "
                         f"{e['title']}"
                     )
@@ -1050,7 +1064,7 @@ def main():
 
         except Exception as exc:
             print(
-                f"WARN article failed "
+                f"WARN TRT article failed "
                 f"{url}: {exc}",
                 file=sys.stderr
             )
