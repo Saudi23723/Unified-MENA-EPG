@@ -1,16 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Thmanyah Sports rolling EPG">
+<tv generator-info-name="Thmanyah Sports Multi-Source EPG">
   <channel id="Thmanyah1.sa">
     <display-name lang="ar">ثمانية 1</display-name>
     <display-name lang="en">Thmanyah 1</display-name>
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
   <channel id="Thmanyah2.sa">
     <display-name lang="ar">ثمانية 2</display-name>
     <display-name lang="en">Thmanyah 2</display-name>
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
   <channel id="Thmanyah3.sa">
     <display-name lang="ar">ثمانية 3</display-name>
     <display-name lang="en">Thmanyah 3</display-name>
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
   <programme start="20260818090000 +0300" stop="20260818120000 +0300" channel="Thmanyah1.sa">
     <title lang="ar">القنوات الناقلة لمباراة النصر - الدرعية في دور الـ32 من كأس الملك السعودي</title>
