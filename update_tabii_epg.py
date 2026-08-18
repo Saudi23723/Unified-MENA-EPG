@@ -918,7 +918,7 @@ def dedupe(events):
         out.append(e)
 
     return out
-    def write_xml(events):
+def write_xml(events):
     tv = ET.Element(
         "tv",
         {
@@ -1015,7 +1015,7 @@ def dedupe(events):
         encoding="utf-8",
         xml_declaration=True
     )
-    def main():
+def main():
     old = read_existing()
 
     print(
