@@ -3,8 +3,8 @@ name: Update Tabii Spor EPG
 on:
   workflow_dispatch:
   schedule:
-    # 15:20 UTC = 18:20 Turkey time (UTC+3)
-    - cron: "20 15 * * *"
+    # Every 2 days at 15:20 UTC
+    - cron: "20 15 */2 * *"
 
 permissions:
   contents: write
@@ -12,9 +12,12 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,6 +30,11 @@ jobs:
       - name: Build XMLTV
         run: python update_tabii_epg.py
 
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add tabii_spor_1_10_epg.xml
 
           if git diff --cached --quiet; then
@@ -35,6 +43,5 @@ jobs:
           fi
 
           git commit -m "Update Tabii Spor 1-10 EPG"
-
           git pull --rebase origin main
           git push origin main
