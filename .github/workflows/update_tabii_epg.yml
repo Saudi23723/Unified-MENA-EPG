@@ -2,8 +2,8 @@ name: Update Tabii Spor EPG
 
 on:
   workflow_dispatch:
+
   schedule:
-    # Every 2 days at 15:20 UTC
     - cron: "20 15 */2 * *"
 
 permissions:
@@ -25,10 +25,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
       - name: Build XMLTV
-        run: python update_tabii_epg.py
+        run: |
+          python update_tabii_epg.py
 
       - name: Commit changes
         run: |
@@ -39,9 +41,8 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No EPG changes to commit."
-            exit 0
+          else
+            git commit -m "Update Tabii Spor 1-10 EPG"
+            git pull --rebase origin main
+            git push origin main
           fi
-
-          git commit -m "Update Tabii Spor 1-10 EPG"
-          git pull --rebase origin main
-          git push origin main
