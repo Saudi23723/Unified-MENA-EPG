@@ -1005,7 +1005,7 @@ def main():
     general_schedule = (
         parse_general_schedule()
     )
- new = []
+    new = []
     sporekrani_events = parse_sporekrani()
 
     print(
