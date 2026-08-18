@@ -553,7 +553,7 @@ def main():
         thmanyah_sources = THMANYAH_SOURCES + discover_kooora_daily_pages()
 
         for source in dict.fromkeys(thmanyah_sources):
-        try:
+            try:
             found = parse_thmanyah_page(source)
 
             if found:
