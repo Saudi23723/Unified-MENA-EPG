@@ -455,7 +455,7 @@ def date_from_sporekrani_url(url):
 
     except ValueError:
         return None
-        def title_from_sporekrani_page(soup):
+def title_from_sporekrani_page(soup):
     h1 = soup.find("h1")
 
     if h1:
