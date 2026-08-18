@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <tv generator-info-name="Alwan Sports Telegram EPG">
-  <channel id="AlwanSports">
-    <display-name lang="ar">ألوان الرياضية</display-name>
-    <display-name lang="en">Alwan Sports</display-name>
+  <channel id="AlwanSports1">
+    <display-name lang="ar">ألوان الرياضية 1</display-name>
+    <display-name lang="en">Alwan Sports 1</display-name>
   </channel>
   <channel id="AlwanSports2">
     <display-name lang="ar">ألوان الرياضية 2</display-name>
@@ -16,16 +16,14 @@
     <display-name lang="ar">ألوان الرياضية 4</display-name>
     <display-name lang="en">Alwan Sports 4</display-name>
   </channel>
-  <programme start="20260817090000 +0300" stop="20260817120000 +0300" channel="AlwanSports3">
-    <title lang="ar">Please open Telegram to - iew this post</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260817100000 +0300" stop="20260817130000 +0300" channel="AlwanSports">
-    <title lang="ar">جدول مباريات الغد 17 - 8-2026</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">المصدر: existing XML</desc>
-  </programme>
+  <channel id="AlwanSports5">
+    <display-name lang="ar">ألوان الرياضية 5</display-name>
+    <display-name lang="en">Alwan Sports 5</display-name>
+  </channel>
+  <channel id="AlwanSports6">
+    <display-name lang="ar">ألوان الرياضية 6</display-name>
+    <display-name lang="en">Alwan Sports 6</display-name>
+  </channel>
   <programme start="20260817190000 +0300" stop="20260817220000 +0300" channel="AlwanSports2">
     <title lang="ar">الأنوار - الأهلي</title>
     <category lang="en">Sports</category>
@@ -36,7 +34,7 @@
     <category lang="en">Sports</category>
     <desc lang="ar">المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
-  <programme start="20260817220000 +0300" stop="20260818010000 +0300" channel="AlwanSports">
+  <programme start="20260817220000 +0300" stop="20260818010000 +0300" channel="AlwanSports1">
     <title lang="ar">لاكورونيا - إلتشي</title>
     <category lang="en">Sports</category>
     <desc lang="ar">المصدر: https://t.me/s/AlwanSports</desc>
@@ -45,11 +43,6 @@
     <title lang="ar">كارديف - ريكسهام</title>
     <category lang="en">Sports</category>
     <desc lang="ar">المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260818100000 +0300" stop="20260818130000 +0300" channel="AlwanSports">
-    <title lang="ar">جدول مباريات الغد 18 - 8-2026</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">المصدر: existing XML</desc>
   </programme>
   <programme start="20260818190000 +0300" stop="20260818220000 +0300" channel="AlwanSports2">
     <title lang="ar">هايدنهايم - بايرن</title>
@@ -66,7 +59,7 @@
     <category lang="en">Sports</category>
     <desc lang="ar">المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
-  <programme start="20260818220000 +0300" stop="20260819010000 +0300" channel="AlwanSports">
+  <programme start="20260818220000 +0300" stop="20260819010000 +0300" channel="AlwanSports1">
     <title lang="ar">فنربخشة - ليون</title>
     <category lang="en">Sports</category>
     <desc lang="ar">المصدر: https://t.me/s/AlwanSports</desc>
