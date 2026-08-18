@@ -1,28 +1,63 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Thmanyah Sports Verified Multi-Source EPG">
+<tv generator-info-name="Thmanyah Sports Verified EPG">
   <channel id="Thmanyah1.sa">
     <display-name lang="ar">ثمانية 1</display-name>
     <display-name lang="en">Thmanyah 1</display-name>
-    <icon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Thmanyah_Logo.svg/500px-Thmanyah_Logo.svg.png" />
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
   <channel id="Thmanyah2.sa">
     <display-name lang="ar">ثمانية 2</display-name>
     <display-name lang="en">Thmanyah 2</display-name>
-    <icon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Thmanyah_Logo.svg/500px-Thmanyah_Logo.svg.png" />
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
   <channel id="Thmanyah3.sa">
     <display-name lang="ar">ثمانية 3</display-name>
     <display-name lang="en">Thmanyah 3</display-name>
-    <icon src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Thmanyah_Logo.svg/500px-Thmanyah_Logo.svg.png" />
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
+  <channel id="ThmanyahPending.sa">
+    <display-name lang="ar">ثمانية - القناة لم تُعلن بعد</display-name>
+    <display-name lang="en">Thmanyah - Channel TBA</display-name>
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
+  </channel>
+  <programme start="20260818190000 +0300" stop="20260818220000 +0300" channel="ThmanyahPending.sa">
+    <title lang="ar">الجبلين - الاتفاق</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">القناة الناقلة على ثمانية لم تُعلن بعد. موعد المباراة: 2026-08-18 19:00 (بتوقيت الرياض). سيتم تثبيت رقم القناة تلقائيًا فور ظهوره في مصدر صريح.</desc>
+  </programme>
+  <programme start="20260818191500 +0300" stop="20260818221500 +0300" channel="ThmanyahPending.sa">
+    <title lang="ar">الأخدود - الخليج</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">القناة الناقلة على ثمانية لم تُعلن بعد. موعد المباراة: 2026-08-18 19:15 (بتوقيت الرياض). سيتم تثبيت رقم القناة تلقائيًا فور ظهوره في مصدر صريح.</desc>
+  </programme>
   <programme start="20260818191500 +0300" stop="20260818221500 +0300" channel="Thmanyah2.sa">
     <title lang="ar">الاتحاد - النجمة</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">مباراة منقولة على قنوات ثمانية</desc>
+    <desc lang="ar">القناة المعلنة: ثمانية 2. موعد المباراة: 2026-08-18 19:15 (بتوقيت الرياض). تم تثبيت رقم القناة من مصدر صريح.</desc>
+  </programme>
+  <programme start="20260818210000 +0300" stop="20260819000000 +0300" channel="ThmanyahPending.sa">
+    <title lang="ar">الفيصلي - نيوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">القناة الناقلة على ثمانية لم تُعلن بعد. موعد المباراة: 2026-08-18 21:00 (بتوقيت الرياض). سيتم تثبيت رقم القناة تلقائيًا فور ظهوره في مصدر صريح.</desc>
   </programme>
   <programme start="20260818210000 +0300" stop="20260819000000 +0300" channel="Thmanyah1.sa">
     <title lang="ar">النصر - الدرعية</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">مباراة منقولة على قنوات ثمانية</desc>
+    <desc lang="ar">القناة المعلنة: ثمانية 1. موعد المباراة: 2026-08-18 21:00 (بتوقيت الرياض). تم تثبيت رقم القناة من مصدر صريح.</desc>
+  </programme>
+  <programme start="20260819191500 +0300" stop="20260819221500 +0300" channel="ThmanyahPending.sa">
+    <title lang="ar">ضمك - التعاون</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">القناة الناقلة على ثمانية لم تُعلن بعد. موعد المباراة: 2026-08-19 19:15 (بتوقيت الرياض). سيتم تثبيت رقم القناة تلقائيًا فور ظهوره في مصدر صريح.</desc>
+  </programme>
+  <programme start="20260819193000 +0300" stop="20260819223000 +0300" channel="ThmanyahPending.sa">
+    <title lang="ar">جدة - الخلود</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">القناة الناقلة على ثمانية لم تُعلن بعد. موعد المباراة: 2026-08-19 19:30 (بتوقيت الرياض). سيتم تثبيت رقم القناة تلقائيًا فور ظهوره في مصدر صريح.</desc>
+  </programme>
+  <programme start="20260819210000 +0300" stop="20260820000000 +0300" channel="ThmanyahPending.sa">
+    <title lang="ar">العلا - الفتح</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">القناة الناقلة على ثمانية لم تُعلن بعد. موعد المباراة: 2026-08-19 21:00 (بتوقيت الرياض). سيتم تثبيت رقم القناة تلقائيًا فور ظهوره في مصدر صريح.</desc>
   </programme>
 </tv>
