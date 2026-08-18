@@ -548,7 +548,7 @@ def write_alwan_xml(events):
         xml_declaration=True
     )
 def main():
-    thmanyah_events = []
+        thmanyah_events = []
 
         thmanyah_sources = THMANYAH_SOURCES + discover_kooora_daily_pages()
 
