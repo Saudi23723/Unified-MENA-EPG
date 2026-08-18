@@ -19,7 +19,9 @@ THMANYAH_OUT = Path("thmanyah_epg.xml")
 ALWAN_OUT = Path("alwan_sports_epg.xml")
 
 THMANYAH_SOURCES = [
+    "https://www.kooora.com/",
     "https://www.365scores.com/ar/news/magazine/",
+    "https://app.thmanyah.com/",
 ]
 
 ALWAN_TELEGRAM = "https://t.me/s/AlwanSports"
@@ -86,6 +88,49 @@ def parse_date_from_text(text):
         except ValueError:
             return None
 
+    arabic_months = {
+        "يناير": 1,
+        "فبراير": 2,
+        "مارس": 3,
+        "أبريل": 4,
+        "ابريل": 4,
+        "مايو": 5,
+        "يونيو": 6,
+        "يوليو": 7,
+        "أغسطس": 8,
+        "اغسطس": 8,
+        "سبتمبر": 9,
+        "أكتوبر": 10,
+        "اكتوبر": 10,
+        "نوفمبر": 11,
+        "ديسمبر": 12,
+    }
+
+    months_pattern = "|".join(
+        map(re.escape, arabic_months.keys())
+    )
+
+    m = re.search(
+        rf"\b(\d{{1,2}})\s+({months_pattern})\s+(20\d{{2}})\b",
+        text,
+        re.I
+    )
+
+    if m:
+        day = int(m.group(1))
+        month = arabic_months[m.group(2)]
+        year = int(m.group(3))
+
+        try:
+            return datetime(
+                year,
+                month,
+                day,
+                tzinfo=TZ
+            ).date()
+        except ValueError:
+            return None
+
     return None
 
 
@@ -119,7 +164,47 @@ def find_match_title(lines, index):
 
     return None
 
+def discover_kooora_daily_pages():
+    urls = []
+    seen = set()
 
+    try:
+        soup = BeautifulSoup(
+            get("https://www.kooora.com/"),
+            "html.parser"
+        )
+    except Exception as exc:
+        print(
+            f"WARN Kooora discovery failed: {exc}",
+            file=sys.stderr
+        )
+        return []
+
+    for a in soup.find_all("a", href=True):
+        title = norm(
+            a.get_text(" ", strip=True)
+        )
+
+        if "جدول مباريات اليوم" not in title:
+            continue
+
+        url = urljoin(
+            "https://www.kooora.com/",
+            a["href"]
+        ).split("#", 1)[0]
+
+        if url in seen:
+            continue
+
+        seen.add(url)
+        urls.append(url)
+
+    print(
+        f"Kooora daily schedule pages discovered: "
+        f"{len(urls)}"
+    )
+
+    return urls[:10]
 def parse_thmanyah_page(url):
     try:
         soup = BeautifulSoup(
@@ -465,7 +550,9 @@ def write_alwan_xml(events):
 def main():
     thmanyah_events = []
 
-    for source in THMANYAH_SOURCES:
+        thmanyah_sources = THMANYAH_SOURCES + discover_kooora_daily_pages()
+
+    for source in dict.fromkeys(thmanyah_sources):
         try:
             found = parse_thmanyah_page(source)
 
