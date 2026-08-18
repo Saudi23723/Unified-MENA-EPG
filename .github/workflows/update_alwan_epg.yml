@@ -38,7 +38,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add alwan_sports_epg.xml
+          git add alwan_sports_epg_v2.xml
 
           if git diff --cached --quiet; then
             echo "No Alwan EPG changes to commit."
