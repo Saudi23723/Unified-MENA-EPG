@@ -548,13 +548,14 @@ def write_alwan_xml(events):
         xml_declaration=True
     )
 def main():
-        thmanyah_events = []
+    thmanyah_events = []
 
-        thmanyah_sources = THMANYAH_SOURCES + discover_kooora_daily_pages()
+    thmanyah_sources = (
+        THMANYAH_SOURCES
+        + discover_kooora_daily_pages()
+    )
 
-        for source in dict.fromkeys(thmanyah_sources):
-            try:
-            for source in dict.fromkeys(thmanyah_sources):
+    for source in dict.fromkeys(thmanyah_sources):
         try:
             found = parse_thmanyah_page(source)
 
@@ -571,9 +572,8 @@ def main():
                 f"{source}: {exc}",
                 file=sys.stderr
             )
-    thmanyah_events = dedupe(
-        thmanyah_events
-    )
+
+    thmanyah_events = dedupe(thmanyah_events)
 
     print(
         f"Thmanyah programmes detected: "
@@ -582,17 +582,13 @@ def main():
 
     for event in thmanyah_events:
         print(
-            f"  Thmanyah "
-            f"{event['channel']} | "
+            f"  Thmanyah {event['channel']} | "
             f"{event['start']:%Y-%m-%d %H:%M} | "
             f"{event['title']}"
         )
 
     alwan_events = parse_alwan_telegram()
-
-    alwan_events = dedupe(
-        alwan_events
-    )
+    alwan_events = dedupe(alwan_events)
 
     print(
         f"Alwan programmes detected: "
@@ -606,22 +602,12 @@ def main():
             f"{event['title']}"
         )
 
-    write_thmanyah_xml(
-        thmanyah_events
-    )
+    write_thmanyah_xml(thmanyah_events)
+    write_alwan_xml(alwan_events)
 
-    write_alwan_xml(
-        alwan_events
-    )
-
-    print(
-        f"Written: {THMANYAH_OUT}"
-    )
-
-    print(
-        f"Written: {ALWAN_OUT}"
-    )
+    print(f"Written: {THMANYAH_OUT}")
+    print(f"Written: {ALWAN_OUT}")
 
 
 if __name__ == "__main__":
-    main()  
+    main()
