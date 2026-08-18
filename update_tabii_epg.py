@@ -634,7 +634,8 @@ def parse_sporekrani():
     )
 
     return events
-    def discover_news_articles():
+    
+def discover_news_articles():
     links = []
     seen = set()
 
