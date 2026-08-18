@@ -150,7 +150,7 @@ def explicit_date(text, base_year):
             return None
 
     return None
-    def date_from_context(text, fallback_date=None):
+def date_from_context(text, fallback_date=None):
     base = fallback_date or datetime.now(TZ).date()
 
     d = explicit_date(
