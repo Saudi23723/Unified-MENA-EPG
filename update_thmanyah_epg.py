@@ -34,10 +34,7 @@ KOOORA_HOME = "https://www.kooora.com/"
 SCORES365_HOME = "https://www.365scores.com/ar/news/magazine/"
 
 # Stable redirect to the Commons-hosted Thmanyah logo.
-THMANYAH_LOGO = (
-    "https://commons.wikimedia.org/wiki/"
-    "Special:Redirect/file/Thmanyah_Logo.svg?width=512"
-)
+THMANYAH_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Thmanyah_Logo.svg/500px-Thmanyah_Logo.svg.png"
 
 KEEP_DAYS_BACK = 1
 KEEP_DAYS_FORWARD = 7
