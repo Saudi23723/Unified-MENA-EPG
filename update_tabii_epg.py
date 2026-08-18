@@ -1006,8 +1006,8 @@ def main():
         parse_general_schedule()
     )
 
-    new = []
-        sporekrani_events = parse_sporekrani()
+            new = []
+    sporekrani_events = parse_sporekrani()
 
     print(
         f"Spor Ekrani numbered programmes: "
