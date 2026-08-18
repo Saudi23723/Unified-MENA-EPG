@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Thmanyah Sports verified EPG">
+<tv generator-info-name="Thmanyah Sports Verified Multi-Source EPG">
   <channel id="Thmanyah1.sa">
     <display-name lang="ar">ثمانية 1</display-name>
     <display-name lang="en">Thmanyah 1</display-name>
@@ -15,19 +15,14 @@
     <display-name lang="en">Thmanyah 3</display-name>
     <icon src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Thmanyah_Logo.svg?width=512" />
   </channel>
-  <programme start="20260818090000 +0300" stop="20260818120000 +0300" channel="Thmanyah1.sa">
-    <title lang="ar">القنوات الناقلة لمباراة النصر - الدرعية في دور الـ32 من كأس الملك السعودي</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">المصدر: existing XML</desc>
-  </programme>
   <programme start="20260818191500 +0300" stop="20260818221500 +0300" channel="Thmanyah2.sa">
     <title lang="ar">الاتحاد - النجمة</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">المصدر: 365Scores: https://www.365scores.com/ar/news/magazine/%d8%a7%d9%84%d9%82%d9%86%d9%88%d8%a7%d8%aa-%d8%a7%d9%84%d9%86%d8%a7%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d8%a7%d8%aa%d8%ad%d8%a7%d8%af-%d8%a7%d9%84%d9%86%d8%ac%d9%85%d8%a9-2/</desc>
+    <desc lang="ar">مباراة منقولة على قنوات ثمانية</desc>
   </programme>
   <programme start="20260818210000 +0300" stop="20260819000000 +0300" channel="Thmanyah1.sa">
     <title lang="ar">النصر - الدرعية</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">المصدر: 365Scores: https://www.365scores.com/ar/news/magazine/%d8%a7%d9%84%d9%82%d9%86%d9%88%d8%a7%d8%aa-%d8%a7%d9%84%d9%86%d8%a7%d9%82%d9%84%d8%a9-%d8%a7%d9%84%d9%86%d8%b5%d8%b1-%d8%a7%d9%84%d8%af%d8%b1%d8%b9%d9%8a%d8%a9/</desc>
+    <desc lang="ar">مباراة منقولة على قنوات ثمانية</desc>
   </programme>
 </tv>
