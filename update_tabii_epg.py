@@ -806,7 +806,7 @@ def parse_news_article(url):
         out.append(e)
 
     return out
-    def read_existing():
+def read_existing():
     if not OUT.exists():
         return []
 
