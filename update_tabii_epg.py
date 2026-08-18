@@ -306,7 +306,7 @@ def page_lines(url):
     ]
 
     return soup, lines
-    def parse_general_schedule():
+def parse_general_schedule():
     try:
         _, lines = page_lines(
             TRT_SCHEDULE_URL
