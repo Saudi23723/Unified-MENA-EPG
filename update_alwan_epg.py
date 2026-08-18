@@ -28,7 +28,7 @@ import xml.etree.ElementTree as ET
 TZ = ZoneInfo("Asia/Riyadh")
 NOW = datetime.now(TZ)
 
-OUT = Path("alwan_sports_epg.xml")
+OUT = Path("alwan_sports_epg_v2.xml")
 TELEGRAM_BASE = "https://t.me/s/AlwanSports"
 
 KEEP_DAYS_BACK = 1
