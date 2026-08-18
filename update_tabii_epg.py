@@ -22,7 +22,11 @@ NEWS_INDEX_URLS = [
 ]
 
 SCHEDULE_URL = "https://www.trtspor.com.tr/yayin-akisi/tabii-spor"
-
+SPOREKRANI_URLS = [
+    "https://www.sporekrani.com/",
+    "https://www.sporekrani.com/home/sport/futbol",
+    "https://www.sporekrani.com/home/league/uefa-sampiyonlar-ligi",
+]
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; TabiiSporXMLTV/7.0; GitHub-Actions)"
 }
@@ -869,7 +873,127 @@ def write_xml(events):
         encoding="utf-8",
         xml_declaration=True
     )
+def parse_sporekrani():
+    events = []
+    now = datetime.now(TZ)
 
+    for url in SPOREKRANI_URLS:
+        try:
+            soup = BeautifulSoup(
+                get(url),
+                "html.parser"
+            )
+        except Exception as exc:
+            print(
+                f"WARN Spor Ekrani failed {url}: {exc}",
+                file=sys.stderr
+            )
+            continue
+
+        text = soup.get_text(
+            "\n",
+            strip=True
+        )
+
+        lines = [
+            norm(x)
+            for x in text.splitlines()
+            if norm(x)
+        ]
+
+        current_date = now.date()
+
+        for i, line in enumerate(lines):
+            d = explicit_date(
+                line,
+                now.year
+            )
+
+            if d:
+                current_date = d
+
+            low = line.lower()
+
+            if low in ("yarın", "yarin"):
+                current_date = (
+                    now.date()
+                    + timedelta(days=1)
+                )
+
+            if low in ("bugün", "bugun"):
+                current_date = now.date()
+
+            cm = re.search(
+                r"\btabii\s*spor\s*(10|[1-9])\b",
+                line,
+                re.I
+            )
+
+            if not cm:
+                continue
+
+            channel = int(
+                cm.group(1)
+            )
+
+            block = lines[
+                max(0, i - 6):
+                min(len(lines), i + 6)
+            ]
+
+            block_text = " | ".join(
+                block
+            )
+
+            tm = TIME_RE.search(
+                block_text
+            )
+
+            if not tm:
+                continue
+
+            title = None
+
+            for candidate in block:
+                if re.search(
+                    r"\s[-–]\s",
+                    candidate
+                ):
+                    cleaned = clean_title(
+                        candidate
+                    )
+
+                    if 5 <= len(cleaned) <= 180:
+                        title = cleaned
+                        break
+
+            if not title:
+                continue
+
+            start = datetime(
+                current_date.year,
+                current_date.month,
+                current_date.day,
+                int(tm.group(1)),
+                int(tm.group(2)),
+                tzinfo=TZ
+            )
+
+            if not (
+                now - timedelta(days=2)
+                <= start
+                <= now + timedelta(days=30)
+            ):
+                continue
+
+            events.append({
+                "channel": channel,
+                "start": start,
+                "title": title,
+                "source": url,
+            })
+
+    return dedupe(events)
 
 def main():
     old = read_existing()
@@ -883,6 +1007,22 @@ def main():
     )
 
     new = []
+        sporekrani_events = parse_sporekrani()
+
+    print(
+        f"Spor Ekrani numbered programmes: "
+        f"{len(sporekrani_events)}"
+    )
+
+    for e in sporekrani_events:
+        print(
+            f"  SPOR EKRANI | "
+            f"Tabii Spor {e['channel']} | "
+            f"{e['start']:%Y-%m-%d %H:%M} | "
+            f"{e['title']}"
+        )
+
+    new.extend(sporekrani_events)
     matched_articles = 0
 
     for url in discover_news_articles():
