@@ -11,6 +11,8 @@ import xml.etree.ElementTree as ET
 
 import requests
 from bs4 import BeautifulSoup
+from pypdf import PdfReader
+from io import BytesIO
 
 OUTPUT = "shasha_epg.xml"
 
@@ -32,20 +34,21 @@ USER_AGENT = (
     "Chrome/126.0 Safari/537.36"
 )
 
-ESPN_SERIE_A = (
-    "https://site.api.espn.com/apis/site/v2/sports/soccer/"
-    "ita.1/scoreboard?dates={day}"
+LEGA_DOCS = "https://www.legaseriea.it/lega-serie-a/documentazione"
+LEGA_CURRENT_PDF = (
+    "https://images.legaseriea.it/image/private/fl_attachment/prd/"
+    "czailts3apyt3kuxjran.pdf"
 )
 
-SOFASCORE_ZAIN_ID = 1002
-SOFASCORE_NEXT = (
-    "https://www.sofascore.com/api/v1/unique-tournament/"
-    f"{SOFASCORE_ZAIN_ID}/events/next/{{page}}"
+KFA_ZAIN_2627 = (
+    "https://kuwait-fa.org/en/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1/"
+    "%D8%AC%D8%AF%D9%88%D9%84-%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA-"
+    "%D8%AF%D9%88%D8%B1%D9%8A-%D8%B2%D9%8A%D9%86-%D9%84%D9%84%D8%AF%D8%B1%D8%AC%D8%A9-"
+    "%D8%A7%D9%84%D9%85%D9%85%D8%AA%D8%A7%D8%B2%D8%A9/"
 )
-SOFASCORE_LAST = (
-    "https://www.sofascore.com/api/v1/unique-tournament/"
-    f"{SOFASCORE_ZAIN_ID}/events/last/{{page}}"
-)
+FOTMOB_ZAIN = "https://www.fotmob.com/api/leagues?id=529&ccode3=KWT&season=2026%2F2027"
+SOCCERWAY_ZAIN = "https://www.soccerway.com/kuwait/premier-league/"
+ODDALERTS_ZAIN = "https://www.oddalerts.com/leagues/kuwait/zain-premier-league/fixtures"
 
 KSW_HOME = "https://www.kswmma.com/en"
 
@@ -132,8 +135,10 @@ def dedupe(events: list[dict]) -> list[dict]:
 
     priority = {
         "KSWOfficial": 120,
-        "ESPN-SerieA": 110,
-        "Sofascore-Zain": 110,
+        "LegaSerieAOfficial": 120,
+        "FotMob-Zain": 105,
+        "Soccerway-Zain": 100,
+        "OddAlerts-Zain": 95,
     }
 
     def tokens(title):
@@ -174,124 +179,212 @@ def competition_ar(c: str) -> str:
         "KSW": "KSW MMA",
     }.get(c, c)
 
+def _pdf_text(url: str) -> str:
+    r = session.get(url, timeout=HTTP_TIMEOUT)
+    r.raise_for_status()
+    reader = PdfReader(BytesIO(r.content))
+    return "\n".join((page.extract_text() or "") for page in reader.pages)
+
+
+def _discover_lega_schedule_pdfs() -> list[str]:
+    urls = [LEGA_CURRENT_PDF]
+    try:
+        soup = BeautifulSoup(fetch_text(LEGA_DOCS), "html.parser")
+        for a in soup.find_all("a", href=True):
+            href = a.get("href", "")
+            label = norm(a.get_text(" ", strip=True))
+            parent_label = norm(a.parent.get_text(" ", strip=True)) if a.parent else label
+            hay = f"{label} {parent_label}".casefold()
+            if not href.lower().endswith(".pdf"):
+                continue
+            if "serie a enilive" not in hay or "2026" not in hay:
+                continue
+            if not any(k in hay for k in ("anticip", "posticip", "programmazione", "date e orari")):
+                continue
+            if href.startswith("/"):
+                href = "https://www.legaseriea.it" + href
+            if href.startswith("http"):
+                urls.append(href)
+    except Exception as exc:
+        warn(f"Lega documentation discovery failed: {exc}")
+    return list(dict.fromkeys(urls))
+
+
+def _parse_lega_pdf(pdf_text: str, source_url: str) -> list[dict]:
+    events = []
+    row = re.compile(
+        r"(\\d{2}/\\d{2}/20\\d{2})\\s+"
+        r"[A-Za-zÀ-ÿ]+\\s+"
+        r"(\\d{1,2}[.:]\\d{2})\\s+"
+        r"([A-Za-zÀ-ÿ'’ .]+?)\\s*-\\s*"
+        r"([A-Za-zÀ-ÿ'’ .]+?)\\s+"
+        r"(?:DAZN(?:/SKY)?|SKY)",
+        re.I,
+    )
+    rome = ZoneInfo("Europe/Rome")
+    for m in row.finditer(pdf_text):
+        d_raw, t_raw, home, away = m.groups()
+        try:
+            d = datetime.strptime(d_raw, "%d/%m/%Y").date()
+            hh, mm = map(int, re.split(r"[.:]", t_raw))
+            local = datetime(d.year, d.month, d.day, hh, mm, tzinfo=rome)
+            start_utc = local.astimezone(UTC)
+        except Exception:
+            continue
+        if not in_window(start_utc):
+            continue
+        events.append({
+            "start": start_utc,
+            "title": f"{team_name(home)} - {team_name(away)}",
+            "competition": "Serie A",
+            "source_name": "LegaSerieAOfficial",
+            "source": source_url,
+            "duration_minutes": 135,
+        })
+    return events
+
+
 def parse_serie_a() -> list[dict]:
     events = []
-    start, end = window_bounds()
-    day = start.date()
-    last = end.date()
-
-    while day <= last:
-        url = ESPN_SERIE_A.format(day=day.strftime("%Y%m%d"))
+    for url in _discover_lega_schedule_pdfs():
         try:
-            data = fetch_json(url)
-            for item in data.get("events", []):
-                dt_raw = item.get("date")
-                if not dt_raw:
-                    continue
-                try:
-                    start_utc = datetime.fromisoformat(dt_raw.replace("Z", "+00:00")).astimezone(UTC)
-                except Exception:
-                    continue
-
-                if not in_window(start_utc):
-                    continue
-
-                comps = item.get("competitions") or []
-                if not comps:
-                    continue
-
-                competitors = comps[0].get("competitors") or []
-                home = away = None
-                for c in competitors:
-                    name = ((c.get("team") or {}).get("displayName")
-                            or (c.get("team") or {}).get("shortDisplayName")
-                            or "")
-                    if c.get("homeAway") == "home":
-                        home = team_name(name)
-                    elif c.get("homeAway") == "away":
-                        away = team_name(name)
-
-                if not home or not away:
-                    name = norm(item.get("name", ""))
-                    if " at " in name:
-                        away, home = [team_name(x) for x in name.split(" at ", 1)]
-                    elif " vs " in name:
-                        home, away = [team_name(x) for x in name.split(" vs ", 1)]
-
-                if not home or not away:
-                    continue
-
-                events.append({
-                    "start": start_utc,
-                    "title": f"{home} - {away}",
-                    "competition": "Serie A",
-                    "source_name": "ESPN-SerieA",
-                    "source": url,
-                    "duration_minutes": 135,
-                })
+            events.extend(_parse_lega_pdf(_pdf_text(url), url))
         except Exception as exc:
-            warn(f"Serie A {day.isoformat()} failed: {exc}")
-
-        day += timedelta(days=1)
-
+            warn(f"Lega Serie A PDF failed {url}: {exc}")
     events = dedupe(events)
     log(f"Serie A fixtures detected: {len(events)}")
     return events
 
-def _parse_sofascore_events(data, events):
-    for item in data.get("events", []):
-        tournament = item.get("tournament") or {}
-        unique = tournament.get("uniqueTournament") or {}
-        uid = unique.get("id")
 
-        if uid is not None and int(uid) != SOFASCORE_ZAIN_ID:
+def _zain_add(events, start_utc, home, away, source_name, source_url):
+    if not in_window(start_utc):
+        return
+    home, away = team_name(home), team_name(away)
+    if not home or not away:
+        return
+    events.append({
+        "start": start_utc.astimezone(UTC),
+        "title": f"{home} - {away}",
+        "competition": "Zain Premier League",
+        "source_name": source_name,
+        "source": source_url,
+        "duration_minutes": 135,
+    })
+
+
+def _parse_fotmob_zain() -> list[dict]:
+    events = []
+    data = fetch_json(FOTMOB_ZAIN)
+    matches = []
+    if isinstance(data, dict):
+        for key in ("fixtures", "matches", "allMatches"):
+            obj = data.get(key)
+            if isinstance(obj, dict):
+                for sub in ("allMatches", "matches"):
+                    if isinstance(obj.get(sub), list):
+                        matches.extend(obj[sub])
+            elif isinstance(obj, list):
+                matches.extend(obj)
+
+    for m in matches:
+        if not isinstance(m, dict):
             continue
-
-        ts = item.get("startTimestamp")
-        if not ts:
+        home = ((m.get("home") or {}).get("name") if isinstance(m.get("home"), dict) else None) or m.get("homeName")
+        away = ((m.get("away") or {}).get("name") if isinstance(m.get("away"), dict) else None) or m.get("awayName")
+        status = m.get("status") if isinstance(m.get("status"), dict) else {}
+        dt_raw = status.get("utcTime") or m.get("utcTime") or m.get("startDate")
+        if not dt_raw or not home or not away:
             continue
         try:
-            start_utc = datetime.fromtimestamp(int(ts), UTC)
+            start_utc = datetime.fromisoformat(str(dt_raw).replace("Z", "+00:00")).astimezone(UTC)
         except Exception:
             continue
+        _zain_add(events, start_utc, home, away, "FotMob-Zain", FOTMOB_ZAIN)
+    return events
 
-        if not in_window(start_utc):
-            continue
 
-        home = team_name((item.get("homeTeam") or {}).get("name", ""))
-        away = team_name((item.get("awayTeam") or {}).get("name", ""))
-        if not home or not away:
-            continue
+def _parse_zain_json_html(url: str, source_name: str) -> list[dict]:
+    import json
+    events = []
+    soup = BeautifulSoup(fetch_text(url), "html.parser")
 
-        events.append({
-            "start": start_utc,
-            "title": f"{home} - {away}",
-            "competition": "Zain Premier League",
-            "source_name": "Sofascore-Zain",
-            "source": "https://www.sofascore.com/football/tournament/kuwait/zain-premier-league/1002",
-            "duration_minutes": 135,
-        })
+    def walk(obj):
+        if isinstance(obj, dict):
+            home = away = None
+            for hk in ("homeTeam", "home", "home_name", "homeName"):
+                v = obj.get(hk)
+                if isinstance(v, dict):
+                    home = v.get("name") or v.get("displayName")
+                elif isinstance(v, str):
+                    home = v
+                if home:
+                    break
+            for ak in ("awayTeam", "away", "away_name", "awayName"):
+                v = obj.get(ak)
+                if isinstance(v, dict):
+                    away = v.get("name") or v.get("displayName")
+                elif isinstance(v, str):
+                    away = v
+                if away:
+                    break
+            dt_raw = None
+            for dk in ("startDate", "startTime", "date", "utcTime", "start"):
+                if isinstance(obj.get(dk), str):
+                    dt_raw = obj[dk]
+                    break
+            if home and away and dt_raw:
+                try:
+                    dt = datetime.fromisoformat(dt_raw.replace("Z", "+00:00"))
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=ZoneInfo("Asia/Kuwait"))
+                    _zain_add(events, dt.astimezone(UTC), home, away, source_name, url)
+                except Exception:
+                    pass
+            for v in obj.values():
+                walk(v)
+        elif isinstance(obj, list):
+            for v in obj:
+                walk(v)
+
+    for s in soup.find_all("script"):
+        if s.string and "json" in (s.get("type") or "").casefold():
+            try:
+                walk(json.loads(s.string))
+            except Exception:
+                pass
+    return events
+
 
 def parse_zain() -> list[dict]:
+    try:
+        official = fetch_text(KFA_ZAIN_2627)
+        if "2026-2027" not in official and "2026–2027" not in official:
+            warn("KFA Zain 2026/27 validation page did not contain expected season marker")
+    except Exception as exc:
+        warn(f"KFA Zain official validation failed: {exc}")
+
     events = []
-    for kind, template, pages in (
-        ("next", SOFASCORE_NEXT, range(0, 5)),
-        ("last", SOFASCORE_LAST, range(0, 2)),
-    ):
-        for page in pages:
-            url = template.format(page=page)
-            try:
-                data = fetch_json(url)
-                _parse_sofascore_events(data, events)
-                if data.get("hasNextPage") is False:
-                    break
-            except Exception as exc:
-                warn(f"Zain Sofascore {kind} page {page} failed: {exc}")
-                break
+    try:
+        events.extend(_parse_fotmob_zain())
+    except Exception as exc:
+        warn(f"Zain FotMob failed: {exc}")
+
+    if not events:
+        try:
+            events.extend(_parse_zain_json_html(SOCCERWAY_ZAIN, "Soccerway-Zain"))
+        except Exception as exc:
+            warn(f"Zain Soccerway failed: {exc}")
+
+    if not events:
+        try:
+            events.extend(_parse_zain_json_html(ODDALERTS_ZAIN, "OddAlerts-Zain"))
+        except Exception as exc:
+            warn(f"Zain OddAlerts failed: {exc}")
 
     events = dedupe(events)
     log(f"Zain Premier League fixtures detected: {len(events)}")
     return events
+
 
 def parse_ksw() -> list[dict]:
     events = []
@@ -462,7 +555,7 @@ def write_xml(events: list[dict]) -> None:
 
 def main():
     log(
-        "SHASHA FINAL | Serie A structured + Zain structured + KSW official "
+        "SHASHA FINAL | Serie A Lega official + Zain KFA-validated + KSW official "
         "| NO OCR | Abu Dhabi + Las Vegas"
     )
 
