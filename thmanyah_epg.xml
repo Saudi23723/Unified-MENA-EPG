@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Thmanyah 1-2-3 Sports EPG">
+<tv generator-info-name="Thmanyah Sports EPG FINAL v5">
   <channel id="Thmanyah1.sa">
     <display-name lang="en">Thmanyah 1</display-name>
     <display-name lang="ar">ثمانية 1</display-name>
@@ -15,20 +15,40 @@
     <display-name lang="ar">ثمانية 3</display-name>
     <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
   </channel>
-  <programme start="20260819191500 +0300" stop="20260819221500 +0300" channel="Thmanyah1.sa">
+  <channel id="ThmanyahGuide">
+    <display-name lang="en">Thmanyah | Guide</display-name>
+    <display-name lang="ar">ثمانية | Guide</display-name>
+    <icon src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg" />
+  </channel>
+  <programme start="20260819191500 +0300" stop="20260819221500 +0300" channel="ThmanyahGuide">
     <title lang="ar">ضمك - التعاون</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">القناة المعلنة: ثمانية 1. موعد المباراة: 2026-08-19 19:15 بتوقيت مكة. المصدر: existing XML</desc>
+    <desc lang="ar">رقم القناة لم يعلن بعد. أبو ظبي 20:15 | لاس فيغاس 09:15.
+
+مباريات اليوم:
+أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
   </programme>
-  <programme start="20260819193000 +0300" stop="20260819223000 +0300" channel="Thmanyah1.sa">
+  <programme start="20260819193000 +0300" stop="20260819223000 +0300" channel="ThmanyahGuide">
     <title lang="ar">جدة - الخلود</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">القناة المعلنة: ثمانية 1. موعد المباراة: 2026-08-19 19:30 بتوقيت مكة. المصدر: existing XML</desc>
+    <desc lang="ar">رقم القناة لم يعلن بعد. أبو ظبي 20:30 | لاس فيغاس 09:30.
+
+مباريات اليوم:
+أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
   </programme>
-  <programme start="20260819210000 +0300" stop="20260820000000 +0300" channel="Thmanyah1.sa">
+  <programme start="20260819210000 +0300" stop="20260820000000 +0300" channel="ThmanyahGuide">
     <title lang="ar">العلا - الفتح</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">القناة المعلنة: ثمانية 1. موعد المباراة: 2026-08-19 21:00 بتوقيت مكة. المصدر: existing XML</desc>
+    <desc lang="ar">رقم القناة لم يعلن بعد. أبو ظبي 22:00 | لاس فيغاس 11:00.
+
+مباريات اليوم:
+أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
   </programme>
   <programme start="20260819000000 +0300" stop="20260819010000 +0300" channel="Thmanyah1.sa">
     <title lang="ar">لا توجد مباراة حالياً</title>
@@ -125,7 +145,27 @@
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
   </programme>
-  <programme start="20260819190000 +0300" stop="20260819191500 +0300" channel="Thmanyah1.sa">
+  <programme start="20260819190000 +0300" stop="20260819200000 +0300" channel="Thmanyah1.sa">
+    <title lang="ar">لا توجد مباراة حالياً</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
+  </programme>
+  <programme start="20260819200000 +0300" stop="20260819210000 +0300" channel="Thmanyah1.sa">
+    <title lang="ar">لا توجد مباراة حالياً</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
+  </programme>
+  <programme start="20260819210000 +0300" stop="20260819220000 +0300" channel="Thmanyah1.sa">
+    <title lang="ar">لا توجد مباراة حالياً</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
+  </programme>
+  <programme start="20260819220000 +0300" stop="20260819230000 +0300" channel="Thmanyah1.sa">
+    <title lang="ar">لا توجد مباراة حالياً</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
+  </programme>
+  <programme start="20260819230000 +0300" stop="20260820000000 +0300" channel="Thmanyah1.sa">
     <title lang="ar">لا توجد مباراة حالياً</title>
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
@@ -3969,5 +4009,1345 @@
     <title lang="ar">لا توجد مباراة حالياً</title>
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباراة معلنة على هذه القناة حالياً.</desc>
+  </programme>
+  <programme start="20260819000000 +0300" stop="20260819010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819010000 +0300" stop="20260819020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819020000 +0300" stop="20260819030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819030000 +0300" stop="20260819040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819040000 +0300" stop="20260819050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819050000 +0300" stop="20260819060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819060000 +0300" stop="20260819070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819070000 +0300" stop="20260819080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819080000 +0300" stop="20260819090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819090000 +0300" stop="20260819100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819100000 +0300" stop="20260819110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819110000 +0300" stop="20260819120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819120000 +0300" stop="20260819130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819130000 +0300" stop="20260819140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819140000 +0300" stop="20260819150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819150000 +0300" stop="20260819160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819160000 +0300" stop="20260819170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819170000 +0300" stop="20260819180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819180000 +0300" stop="20260819190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260819190000 +0300" stop="20260819191500 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">أبو ظبي 20:15 | لاس فيغاس 09:15 | ضمك - التعاون | رقم القناة لم يعلن
+أبو ظبي 20:30 | لاس فيغاس 09:30 | جدة - الخلود | رقم القناة لم يعلن
+أبو ظبي 22:00 | لاس فيغاس 11:00 | العلا - الفتح | رقم القناة لم يعلن</desc>
+  </programme>
+  <programme start="20260820000000 +0300" stop="20260820010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820010000 +0300" stop="20260820020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820020000 +0300" stop="20260820030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820030000 +0300" stop="20260820040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820040000 +0300" stop="20260820050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820050000 +0300" stop="20260820060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820060000 +0300" stop="20260820070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820070000 +0300" stop="20260820080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820080000 +0300" stop="20260820090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820090000 +0300" stop="20260820100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820100000 +0300" stop="20260820110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820110000 +0300" stop="20260820120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820120000 +0300" stop="20260820130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820130000 +0300" stop="20260820140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820140000 +0300" stop="20260820150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820150000 +0300" stop="20260820160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820160000 +0300" stop="20260820170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820170000 +0300" stop="20260820180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820180000 +0300" stop="20260820190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820190000 +0300" stop="20260820200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820200000 +0300" stop="20260820210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820210000 +0300" stop="20260820220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820220000 +0300" stop="20260820230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260820230000 +0300" stop="20260821000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821000000 +0300" stop="20260821010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821010000 +0300" stop="20260821020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821020000 +0300" stop="20260821030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821030000 +0300" stop="20260821040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821040000 +0300" stop="20260821050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821050000 +0300" stop="20260821060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821060000 +0300" stop="20260821070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821070000 +0300" stop="20260821080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821080000 +0300" stop="20260821090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821090000 +0300" stop="20260821100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821100000 +0300" stop="20260821110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821110000 +0300" stop="20260821120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821120000 +0300" stop="20260821130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821130000 +0300" stop="20260821140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821140000 +0300" stop="20260821150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821150000 +0300" stop="20260821160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821160000 +0300" stop="20260821170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821170000 +0300" stop="20260821180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821180000 +0300" stop="20260821190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821190000 +0300" stop="20260821200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821200000 +0300" stop="20260821210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821210000 +0300" stop="20260821220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821220000 +0300" stop="20260821230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260821230000 +0300" stop="20260822000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822000000 +0300" stop="20260822010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822010000 +0300" stop="20260822020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822020000 +0300" stop="20260822030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822030000 +0300" stop="20260822040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822040000 +0300" stop="20260822050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822050000 +0300" stop="20260822060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822060000 +0300" stop="20260822070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822070000 +0300" stop="20260822080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822080000 +0300" stop="20260822090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822090000 +0300" stop="20260822100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822100000 +0300" stop="20260822110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822110000 +0300" stop="20260822120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822120000 +0300" stop="20260822130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822130000 +0300" stop="20260822140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822140000 +0300" stop="20260822150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822150000 +0300" stop="20260822160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822160000 +0300" stop="20260822170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822170000 +0300" stop="20260822180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822180000 +0300" stop="20260822190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822190000 +0300" stop="20260822200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822200000 +0300" stop="20260822210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822210000 +0300" stop="20260822220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822220000 +0300" stop="20260822230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260822230000 +0300" stop="20260823000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823000000 +0300" stop="20260823010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823010000 +0300" stop="20260823020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823020000 +0300" stop="20260823030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823030000 +0300" stop="20260823040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823040000 +0300" stop="20260823050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823050000 +0300" stop="20260823060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823060000 +0300" stop="20260823070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823070000 +0300" stop="20260823080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823080000 +0300" stop="20260823090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823090000 +0300" stop="20260823100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823100000 +0300" stop="20260823110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823110000 +0300" stop="20260823120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823120000 +0300" stop="20260823130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823130000 +0300" stop="20260823140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823140000 +0300" stop="20260823150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823150000 +0300" stop="20260823160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823160000 +0300" stop="20260823170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823170000 +0300" stop="20260823180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823180000 +0300" stop="20260823190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823190000 +0300" stop="20260823200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823200000 +0300" stop="20260823210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823210000 +0300" stop="20260823220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823220000 +0300" stop="20260823230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260823230000 +0300" stop="20260824000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824000000 +0300" stop="20260824010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824010000 +0300" stop="20260824020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824020000 +0300" stop="20260824030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824030000 +0300" stop="20260824040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824040000 +0300" stop="20260824050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824050000 +0300" stop="20260824060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824060000 +0300" stop="20260824070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824070000 +0300" stop="20260824080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824080000 +0300" stop="20260824090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824090000 +0300" stop="20260824100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824100000 +0300" stop="20260824110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824110000 +0300" stop="20260824120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824120000 +0300" stop="20260824130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824130000 +0300" stop="20260824140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824140000 +0300" stop="20260824150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824150000 +0300" stop="20260824160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824160000 +0300" stop="20260824170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824170000 +0300" stop="20260824180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824180000 +0300" stop="20260824190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824190000 +0300" stop="20260824200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824200000 +0300" stop="20260824210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824210000 +0300" stop="20260824220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824220000 +0300" stop="20260824230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260824230000 +0300" stop="20260825000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825000000 +0300" stop="20260825010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825010000 +0300" stop="20260825020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825020000 +0300" stop="20260825030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825030000 +0300" stop="20260825040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825040000 +0300" stop="20260825050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825050000 +0300" stop="20260825060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825060000 +0300" stop="20260825070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825070000 +0300" stop="20260825080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825080000 +0300" stop="20260825090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825090000 +0300" stop="20260825100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825100000 +0300" stop="20260825110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825110000 +0300" stop="20260825120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825120000 +0300" stop="20260825130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825130000 +0300" stop="20260825140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825140000 +0300" stop="20260825150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825150000 +0300" stop="20260825160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825160000 +0300" stop="20260825170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825170000 +0300" stop="20260825180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825180000 +0300" stop="20260825190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825190000 +0300" stop="20260825200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825200000 +0300" stop="20260825210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825210000 +0300" stop="20260825220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825220000 +0300" stop="20260825230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260825230000 +0300" stop="20260826000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826000000 +0300" stop="20260826010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826010000 +0300" stop="20260826020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826020000 +0300" stop="20260826030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826030000 +0300" stop="20260826040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826040000 +0300" stop="20260826050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826050000 +0300" stop="20260826060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826060000 +0300" stop="20260826070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826070000 +0300" stop="20260826080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826080000 +0300" stop="20260826090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826090000 +0300" stop="20260826100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826100000 +0300" stop="20260826110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826110000 +0300" stop="20260826120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826120000 +0300" stop="20260826130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826130000 +0300" stop="20260826140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826140000 +0300" stop="20260826150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826150000 +0300" stop="20260826160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826160000 +0300" stop="20260826170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826170000 +0300" stop="20260826180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826180000 +0300" stop="20260826190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826190000 +0300" stop="20260826200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826200000 +0300" stop="20260826210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826210000 +0300" stop="20260826220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826220000 +0300" stop="20260826230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260826230000 +0300" stop="20260827000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827000000 +0300" stop="20260827010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827010000 +0300" stop="20260827020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827020000 +0300" stop="20260827030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827030000 +0300" stop="20260827040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827040000 +0300" stop="20260827050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827050000 +0300" stop="20260827060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827060000 +0300" stop="20260827070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827070000 +0300" stop="20260827080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827080000 +0300" stop="20260827090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827090000 +0300" stop="20260827100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827100000 +0300" stop="20260827110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827110000 +0300" stop="20260827120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827120000 +0300" stop="20260827130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827130000 +0300" stop="20260827140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827140000 +0300" stop="20260827150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827150000 +0300" stop="20260827160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827160000 +0300" stop="20260827170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827170000 +0300" stop="20260827180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827180000 +0300" stop="20260827190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827190000 +0300" stop="20260827200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827200000 +0300" stop="20260827210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827210000 +0300" stop="20260827220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827220000 +0300" stop="20260827230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260827230000 +0300" stop="20260828000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828000000 +0300" stop="20260828010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828010000 +0300" stop="20260828020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828020000 +0300" stop="20260828030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828030000 +0300" stop="20260828040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828040000 +0300" stop="20260828050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828050000 +0300" stop="20260828060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828060000 +0300" stop="20260828070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828070000 +0300" stop="20260828080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828080000 +0300" stop="20260828090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828090000 +0300" stop="20260828100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828100000 +0300" stop="20260828110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828110000 +0300" stop="20260828120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828120000 +0300" stop="20260828130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828130000 +0300" stop="20260828140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828140000 +0300" stop="20260828150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828150000 +0300" stop="20260828160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828160000 +0300" stop="20260828170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828170000 +0300" stop="20260828180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828180000 +0300" stop="20260828190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828190000 +0300" stop="20260828200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828200000 +0300" stop="20260828210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828210000 +0300" stop="20260828220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828220000 +0300" stop="20260828230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260828230000 +0300" stop="20260829000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829000000 +0300" stop="20260829010000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829010000 +0300" stop="20260829020000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829020000 +0300" stop="20260829030000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829030000 +0300" stop="20260829040000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829040000 +0300" stop="20260829050000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829050000 +0300" stop="20260829060000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829060000 +0300" stop="20260829070000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829070000 +0300" stop="20260829080000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829080000 +0300" stop="20260829090000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829090000 +0300" stop="20260829100000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829100000 +0300" stop="20260829110000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829110000 +0300" stop="20260829120000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829120000 +0300" stop="20260829130000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829130000 +0300" stop="20260829140000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829140000 +0300" stop="20260829150000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829150000 +0300" stop="20260829160000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829160000 +0300" stop="20260829170000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829170000 +0300" stop="20260829180000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829180000 +0300" stop="20260829190000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829190000 +0300" stop="20260829200000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829200000 +0300" stop="20260829210000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829210000 +0300" stop="20260829220000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829220000 +0300" stop="20260829230000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
+  </programme>
+  <programme start="20260829230000 +0300" stop="20260830000000 +0300" channel="ThmanyahGuide">
+    <title lang="ar">مباريات ثمانية اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
 </tv>
