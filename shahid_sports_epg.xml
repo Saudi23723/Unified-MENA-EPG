@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Shahid Sports Daily Guide">
+<tv generator-info-name="Shahid Sports Guide FINAL v5">
   <channel id="ShahidSportsGuide">
-    <display-name lang="en">Shahid Sports | Guide</display-name>
-    <display-name lang="ar">شاهد الرياضية | Guide</display-name>
+    <display-name lang="en">Shahid | Guide</display-name>
+    <display-name lang="ar">شاهد | Guide</display-name>
   </channel>
   <programme start="20260819000000 +0300" stop="20260820000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباريات مجدولة</title>
@@ -25,12 +25,26 @@
 
 لا توجد مباريات مجدولة.</desc>
   </programme>
-  <programme start="20260822000000 +0300" stop="20260823000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">لا توجد مباريات مجدولة</title>
+  <programme start="20260822000000 +0300" stop="20260822143000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">مباريات Shahid Sports اليوم</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-08-22
 
-لا توجد مباريات مجدولة.</desc>
+15:30 أبو ظبي | 04:30 لاس فيغاس | Borussia Dortmund - Bayern München</desc>
+  </programme>
+  <programme start="20260822143000 +0300" stop="20260822173000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">Borussia Dortmund - Bayern München</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-08-22
+
+15:30 أبو ظبي | 04:30 لاس فيغاس | Borussia Dortmund - Bayern München</desc>
+  </programme>
+  <programme start="20260822173000 +0300" stop="20260823000000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">مباريات Shahid Sports اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-08-22
+
+15:30 أبو ظبي | 04:30 لاس فيغاس | Borussia Dortmund - Bayern München</desc>
   </programme>
   <programme start="20260823000000 +0300" stop="20260824000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباريات مجدولة</title>
@@ -67,12 +81,26 @@
 
 لا توجد مباريات مجدولة.</desc>
   </programme>
-  <programme start="20260828000000 +0300" stop="20260829000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">لا توجد مباريات مجدولة</title>
+  <programme start="20260828000000 +0300" stop="20260828143000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">مباريات Shahid Sports اليوم</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-08-28
 
-لا توجد مباريات مجدولة.</desc>
+15:30 أبو ظبي | 04:30 لاس فيغاس | Bayern München - Stuttgart</desc>
+  </programme>
+  <programme start="20260828143000 +0300" stop="20260828173000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">Bayern München - Stuttgart</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-08-28
+
+15:30 أبو ظبي | 04:30 لاس فيغاس | Bayern München - Stuttgart</desc>
+  </programme>
+  <programme start="20260828173000 +0300" stop="20260829000000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">مباريات Shahid Sports اليوم</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-08-28
+
+15:30 أبو ظبي | 04:30 لاس فيغاس | Bayern München - Stuttgart</desc>
   </programme>
   <programme start="20260829000000 +0300" stop="20260830000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباريات مجدولة</title>
