@@ -1,0 +1,186 @@
+name: Update Fajer Sports EPG
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-fajer-sports-epg
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install OCR and Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 pillow pytesseract
+
+      - name: Update Fajer Sports EPG
+        run: |
+          python update_fajer_sports_epg.py
+
+      - name: Validate Fajer XMLTV
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from collections import Counter
+
+          file_name = "fajer_sports_epg.xml"
+
+          root = ET.parse(file_name).getroot()
+
+          if root.tag != "tv":
+              raise SystemExit("ERROR: root element is not <tv>")
+
+          channels = root.findall("channel")
+          programmes = root.findall("programme")
+
+          if len(channels) != 5:
+              raise SystemExit(
+                  f"ERROR: expected 5 channels, got {len(channels)}"
+              )
+
+          if len(programmes) == 0:
+              raise SystemExit(
+                  "ERROR: no programmes were generated"
+              )
+
+          channel_ids = {
+              channel.get("id")
+              for channel in channels
+          }
+
+          expected_ids = {
+              "FajerSport1",
+              "FajerSport2",
+              "FajerSport3",
+              "FajerSport4",
+              "FajerSport5",
+          }
+
+          if channel_ids != expected_ids:
+              raise SystemExit(
+                  f"ERROR: unexpected channel IDs: {channel_ids}"
+              )
+
+          programme_keys = []
+
+          for programme in programmes:
+              channel = programme.get("channel")
+              start = programme.get("start")
+              stop = programme.get("stop")
+
+              if channel not in expected_ids:
+                  raise SystemExit(
+                      f"ERROR: invalid programme channel: {channel}"
+                  )
+
+              if not start or not stop:
+                  raise SystemExit(
+                      "ERROR: programme missing start/stop"
+                  )
+
+              title = programme.find("title")
+
+              if (
+                  title is None
+                  or not (title.text or "").strip()
+              ):
+                  raise SystemExit(
+                      "ERROR: programme missing title"
+                  )
+
+              programme_keys.append(
+                  (
+                      channel,
+                      start,
+                  )
+              )
+
+          duplicates = [
+              key
+              for key, count in Counter(programme_keys).items()
+              if count > 1
+          ]
+
+          if duplicates:
+              raise SystemExit(
+                  f"ERROR: duplicate channel/time programmes: {duplicates}"
+              )
+
+          print(
+              "FAJER XMLTV VALIDATION PASS | "
+              f"channels={len(channels)} | "
+              f"programmes={len(programmes)}"
+          )
+          PY
+
+      - name: Show generated programmes
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse(
+              "fajer_sports_epg.xml"
+          ).getroot()
+
+          programmes = root.findall(
+              "programme"
+          )
+
+          print(
+              f"TOTAL PROGRAMMES: {len(programmes)}"
+          )
+
+          for programme in programmes:
+              title = programme.findtext(
+                  "title",
+                  default=""
+              )
+
+              print(
+                  programme.get("start"),
+                  "|",
+                  programme.get("channel"),
+                  "|",
+                  title,
+              )
+          PY
+
+      - name: Commit updated Fajer EPG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add fajer_sports_epg.xml
+
+          if git diff --cached --quiet; then
+            echo "No Fajer EPG changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update Fajer Sports EPG"
+
+          git pull --rebase origin main
+
+          git push origin main
