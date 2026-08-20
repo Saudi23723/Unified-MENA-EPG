@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate Thamanya EPG
         run: |
-          python update_thamanya_epg.py
+          python update_thmanyah_epg.py
 
       - name: Validate XML
         run: |
