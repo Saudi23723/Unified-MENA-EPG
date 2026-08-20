@@ -4,13 +4,6 @@
     <display-name lang="en">Shahid | Guide</display-name>
     <display-name lang="ar">شاهد | Guide</display-name>
   </channel>
-  <programme start="20260820000000 +0300" stop="20260821000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">لا توجد مباريات مجدولة</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">مباريات Shahid Sports - 2026-08-20
-
-لا توجد مباريات مجدولة.</desc>
-  </programme>
   <programme start="20260821000000 +0300" stop="20260822000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباريات مجدولة</title>
     <category lang="en">Sports</category>
@@ -53,12 +46,19 @@
 
 لا توجد مباريات مجدولة.</desc>
   </programme>
-  <programme start="20260826000000 +0300" stop="20260827000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">لا توجد مباريات مجدولة</title>
+  <programme start="20260826000000 +0300" stop="20260826210000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">مباريات Shahid Sports اليوم</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-08-26
 
-لا توجد مباريات مجدولة.</desc>
+21:00 | Al Ahli - Auckland FC</desc>
+  </programme>
+  <programme start="20260826210000 +0300" stop="20260827000000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">Al Ahli - Auckland FC</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-08-26
+
+21:00 | Al Ahli - Auckland FC</desc>
   </programme>
   <programme start="20260827000000 +0300" stop="20260828000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباريات مجدولة</title>
@@ -181,5 +181,12 @@
 
 19:00 | Palermo - Mantova
 22:00 | Cagliari - Verona</desc>
+  </programme>
+  <programme start="20260904000000 +0300" stop="20260905000000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">لا توجد مباريات مجدولة</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-09-04
+
+لا توجد مباريات مجدولة.</desc>
   </programme>
 </tv>
