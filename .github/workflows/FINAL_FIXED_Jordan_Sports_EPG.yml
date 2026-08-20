@@ -30,7 +30,7 @@ jobs:
 
       - name: Generate Jordan Sports EPG
         run: |
-          python FINAL_FIXED_Jordan_Sports_EPG.py
+          python JORDAN_SPORTS_FINAL_VERIFIED.py
 
       - name: Validate XMLTV
         run: |
