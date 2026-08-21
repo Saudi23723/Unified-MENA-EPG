@@ -1,0 +1,1034 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from __future__ import annotations
+
+import os
+import re
+import sys
+import time
+from datetime import datetime, timedelta, timezone, date
+from html import unescape
+from urllib.parse import urljoin
+from zoneinfo import ZoneInfo
+import xml.etree.ElementTree as ET
+
+import requests
+from bs4 import BeautifulSoup
+
+
+OUTPUT = "onsport_epg.xml"
+
+CAIRO = ZoneInfo("Africa/Cairo")
+SOURCE_TZ = CAIRO           # كل التوقيتات تُبنى على توقيت المصدر (القاهرة)
+UTC = timezone.utc
+
+DAYS_BACK = 1
+DAYS_FORWARD = 14
+HTTP_TIMEOUT = 20
+HTTP_RETRIES = 3
+HTTP_BACKOFF = 2.0
+
+# حماية: لا يُستبدل ملف سليم موجود بملف فارغ لو تعطّلت المصادر.
+KEEP_OLD_FILE_IF_EMPTY = True
+
+# نافذة اعتبار مباراتين من مصدرين مختلفين نفس المباراة (فرق دقائق بسيط).
+DEDUPE_TOLERANCE_MINUTES = 45
+
+# مدة المباراة داخل الـEPG: 15 د استوديو قبل + 90 د لعب + 15 د راحة = 120
+MATCH_MINUTES = 120
+MIN_PROGRAMME_MINUTES = 5
+
+USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/126.0 Safari/537.36"
+)
+
+CHANNELS = {
+    "ONSport1": {"name": "ON Sport 1"},
+    "ONSport2": {"name": "ON Sport 2"},
+    "ONSportMAX": {"name": "ON Sport MAX"},
+    "ONSportPLUS": {"name": "ON Sport PLUS"},
+}
+
+# Channel-specific schedule pages: useful for confirmed non-league football
+# and as a secondary source when a fixture is explicitly listed on that page.
+LIVEFOOTBALLTV = {
+    "ONSport1": "https://www.livefootballtv.info/channel/on-sport-1",
+    "ONSport2": "https://www.livefootballtv.info/channel/on-sport-2",
+    "ONSportMAX": "https://www.livefootballtv.info/channel/on-sport-max",
+    "ONSportPLUS": "https://www.livefootballtv.info/channel/on-sport-plus",
+}
+
+# Dynamic discovery of current Egyptian Premier League broadcast-assignment
+# articles. These articles explicitly list the match, kickoff and channel.
+FILGOAL_EGYPT_SECTION = (
+    "https://www.filgoal.com/section/88/articles/"
+    "%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A"
+)
+
+# Official Egyptian Pro League site. Used as a validation source where the
+# relevant team/match page can be discovered and parsed.
+EPL_HOME = "https://www.egyptianproleague.com/"
+
+session = requests.Session()
+session.headers.update({
+    "User-Agent": USER_AGENT,
+    "Accept-Language": "ar,en-US;q=0.9,en;q=0.8",
+})
+
+
+def log(msg: str) -> None:
+    print(msg, flush=True)
+
+
+def warn(msg: str) -> None:
+    print(f"WARN {msg}", flush=True)
+
+
+def norm(s: str) -> str:
+    return re.sub(r"\s+", " ", unescape(s or "")).strip()
+
+
+def ar_norm(s: str) -> str:
+    s = norm(s)
+    trans = str.maketrans({
+        "أ": "ا", "إ": "ا", "آ": "ا",
+        "ة": "ه", "ى": "ي",
+        "ؤ": "و", "ئ": "ي",
+        "ـ": "",
+    })
+    s = s.translate(trans)
+    s = re.sub(r"[\u064b-\u065f\u0670]", "", s)
+    s = re.sub(r"[^\w\u0600-\u06ff]+", " ", s, flags=re.UNICODE)
+    return norm(s).casefold()
+
+
+TEAM_ALIASES = {
+    ar_norm("الأهلي"): "الاهلي",
+    ar_norm("الاهل"): "الاهلي",
+    ar_norm("نادي الأهلي"): "الاهلي",
+    ar_norm("الزمالك"): "الزمالك",
+    ar_norm("الاتحاد السكندري"): "الاتحاد السكندري",
+    ar_norm("زد"): "زد",
+    ar_norm("زد إف سي"): "زد",
+    ar_norm("وادي دجلة"): "وادي دجله",
+    ar_norm("البنك الأهلي"): "البنك الاهلي",
+    ar_norm("أبو قير للأسمدة"): "ابو قير للاسمده",
+    ar_norm("بترول أسيوط"): "بترول اسيوط",
+    ar_norm("منتخب السويس بتروجت"): "منتخب السويس بتروجت",
+    ar_norm("م.السـويس بتروجت"): "منتخب السويس بتروجت",
+    ar_norm("بتروجت"): "منتخب السويس بتروجت",
+    ar_norm("طلائع الجيش"): "طلايع الجيش",
+    ar_norm("المقاولون العرب"): "المقاولون العرب",
+    ar_norm("المصري"): "المصري",
+    ar_norm("سموحة"): "سموحه",
+    ar_norm("غزل المحلة"): "غزل المحله",
+    ar_norm("بيراميدز"): "بيراميدز",
+    ar_norm("الجونة"): "الجونه",
+    ar_norm("مودرن سبورت"): "مودرن سبورت",
+    ar_norm("سيراميكا كليوباترا"): "سيراميكا كليوباترا",
+    ar_norm("القناة"): "القناه",
+    ar_norm("الشرقية إنبي"): "الشرقيه انبي",
+}
+
+
+def canonical_team(s: str) -> str:
+    n = ar_norm(s)
+    return TEAM_ALIASES.get(n, n)
+
+
+_RUN_NOW: datetime | None = None
+
+
+def utc_now() -> datetime:
+    """ساعة مُجمّدة طوال التشغيلة الواحدة، حتى لا تزحف نافذة الأيام أثناء العمل."""
+    global _RUN_NOW
+    if _RUN_NOW is None:
+        _RUN_NOW = datetime.now(UTC)
+    return _RUN_NOW
+
+
+def window_bounds():
+    now = utc_now()
+    start = (now - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    end = (now + timedelta(days=DAYS_FORWARD + 1)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    return start, end
+
+
+def in_window(dt_utc: datetime) -> bool:
+    start, end = window_bounds()
+    return start <= dt_utc < end
+
+
+def fetch_text(url: str) -> str:
+    last: Exception | None = None
+    for attempt in range(1, HTTP_RETRIES + 1):
+        try:
+            r = session.get(url, timeout=HTTP_TIMEOUT)
+            r.raise_for_status()
+            if not r.encoding or r.encoding.lower() == "iso-8859-1":
+                r.encoding = r.apparent_encoding or "utf-8"
+            return r.text
+        except Exception as exc:
+            last = exc
+            if attempt < HTTP_RETRIES:
+                wait = HTTP_BACKOFF * attempt
+                warn(f"retry {attempt}/{HTTP_RETRIES - 1} after {wait:.0f}s | {url} | {exc}")
+                time.sleep(wait)
+    raise last  # type: ignore[misc]
+
+
+def xmltv_time(dt: datetime) -> str:
+    return dt.astimezone(UTC).strftime("%Y%m%d%H%M%S +0000")
+
+
+AR_MONTHS = {
+    "يناير": 1, "فبراير": 2, "مارس": 3, "ابريل": 4, "أبريل": 4,
+    "مايو": 5, "يونيو": 6, "يوليو": 7, "اغسطس": 8, "أغسطس": 8,
+    "سبتمبر": 9, "اكتوبر": 10, "أكتوبر": 10, "نوفمبر": 11, "ديسمبر": 12,
+}
+
+EN_MONTHS = {
+    "january": 1, "february": 2, "march": 3, "april": 4,
+    "may": 5, "june": 6, "july": 7, "august": 8,
+    "september": 9, "october": 10, "november": 11, "december": 12,
+}
+
+
+def to_24h(hh: int, period: str) -> int:
+    """تحويل الساعة العربية (صباحاً/ظهراً/عصراً/مساءً/ليلاً) إلى نظام 24 ساعة."""
+    p = period or ""
+    if "صباح" in p:
+        return 0 if hh == 12 else hh
+    if "ظهر" in p:
+        return 12 if hh == 12 else (hh + 12 if hh < 12 else hh)
+    if "ليل" in p:
+        return 0 if hh == 12 else (hh + 12 if hh < 12 else hh)
+    # عصراً / مساءً
+    return 12 if hh == 12 else (hh + 12 if hh < 12 else hh)
+
+
+def fix_year(d: date, ref: date) -> date:
+    """المقالات لا تذكر السنة غالباً؛ تصحيح الانقلاب بين ديسمبر ويناير."""
+    for cand in (d, d.replace(year=d.year + 1), d.replace(year=d.year - 1)):
+        if abs((cand - ref).days) <= 180:
+            return cand
+    return d
+
+
+def channel_from_arabic(label: str) -> str | None:
+    n = ar_norm(label)
+    # Explicit numbered/special channels first.
+    if "ماكس" in n or "max" in n:
+        return "ONSportMAX"
+    if "بلس" in n or "plus" in n:
+        return "ONSportPLUS"
+    if re.search(r"(?:^|\s)2(?:\s|$)", n):
+        return "ONSport2"
+    if re.search(r"(?:^|\s)1(?:\s|$)", n):
+        return "ONSport1"
+
+    # FilGoal's current round articles call the primary linear channel simply
+    # "أون سبورت" and use "أون سبورت ماكس" for the simultaneous secondary
+    # match. The primary linear feed is ON Sport 1.
+    if "اون سبورت" in n or "on sport" in n:
+        return "ONSport1"
+    return None
+
+
+def event_key(ev: dict) -> str:
+    start = ev["start"].astimezone(UTC).replace(second=0, microsecond=0)
+    teams = sorted([canonical_team(ev["home"]), canonical_team(ev["away"])])
+    return (
+        f"{ev['channel_id']}|{start:%Y%m%d%H%M}|"
+        f"{teams[0]}|{teams[1]}"
+    )
+
+
+SOURCE_PRIORITY = {
+    "FilGoal+EPL": 130,
+    "FilGoal": 120,
+    "LiveFootballTV": 100,
+}
+
+
+def prio(ev: dict) -> int:
+    return SOURCE_PRIORITY.get(ev["source_name"], 0)
+
+
+def match_key(ev: dict) -> str:
+    """هوية المباراة بدون الوقت: نفس القناة + نفس الفريقين + نفس اليوم."""
+    teams = sorted([canonical_team(ev["home"]), canonical_team(ev["away"])])
+    d = ev["start"].astimezone(SOURCE_TZ).date()
+    return f"{ev['channel_id']}|{d.isoformat()}|{teams[0]}|{teams[1]}"
+
+
+def dedupe(events: list[dict]) -> list[dict]:
+    """
+    يدمج المباراة الواحدة الواردة من أكثر من مصدر حتى لو اختلفت الدقائق قليلاً،
+    ويرجّح المصدر الأعلى ثقة (فيلجول المُوثَّق من الرابطة أولاً).
+    """
+    groups: dict[str, list[dict]] = {}
+    for ev in events:
+        groups.setdefault(match_key(ev), []).append(ev)
+
+    out: list[dict] = []
+    tol = timedelta(minutes=DEDUPE_TOLERANCE_MINUTES)
+
+    for bucket in groups.values():
+        bucket.sort(key=lambda x: (-prio(x), x["start"]))
+        kept: list[dict] = []
+        for ev in bucket:
+            if any(abs(ev["start"] - k["start"]) <= tol for k in kept):
+                continue  # نسخة مكررة من مصدر أضعف
+            kept.append(ev)
+        out.extend(kept)
+
+    return sorted(out, key=lambda x: (x["channel_id"], x["start"]))
+
+
+# ---------------------------------------------------------------------------
+# FilGoal: current Egyptian Premier League channel assignments
+# ---------------------------------------------------------------------------
+
+def discover_filgoal_assignment_articles() -> list[str]:
+    html = fetch_text(FILGOAL_EGYPT_SECTION)
+    soup = BeautifulSoup(html, "html.parser")
+    urls: list[str] = []
+
+    for a in soup.find_all("a", href=True):
+        text = norm(a.get_text(" ", strip=True))
+        n = ar_norm(text)
+        if "القنوات الناقله" not in n:
+            continue
+        if "الدوري المصري" not in n:
+            continue
+        href = urljoin(FILGOAL_EGYPT_SECTION, a["href"])
+        if href not in urls:
+            urls.append(href)
+
+    return urls[:8]
+
+
+AR_DAY_HEADER_RE = re.compile(
+    r"^(?:الجمعة|السبت|الأحد|الاحد|الاثنين|الثلاثاء|الأربعاء|الاربعاء|الخميس)"
+    r"\s+(\d{1,2})\s+([اأإآء-ي]+)"
+    r"(?:\s+(20\d{2}))?\s*:?\s*$"
+)
+
+FILGOAL_MATCH_RE = re.compile(
+    r"[-–—]*\s*"
+    r"(.+?)\s+ضد\s+(.+?)"
+    r"\s*[–—-]\s*"
+    r"الساعة\s+(\d{1,2})(?::(\d{2}))?\s*"
+    r"(صباح(?:اً|ا)?|ظهر(?:اً|ا)?|عصر(?:اً|ا)?|مساء(?:ً|ا)?|ليل(?:اً|ا)?)"
+    r".*?"
+    r"عبر\s+قناة\s+"
+    r"(أون\s+سبورت(?:\s+(?:1|2|ماكس|بلس))?)"
+    r"(?:\s+بتعليق\s+(.+))?$",
+    re.I,
+)
+
+
+def parse_filgoal_article(html: str, source_url: str) -> list[dict]:
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    lines = [norm(x) for x in soup.stripped_strings if norm(x)]
+    events: list[dict] = []
+    current_date: date | None = None
+    now_cairo = utc_now().astimezone(CAIRO)
+
+    for line in lines:
+        hd = AR_DAY_HEADER_RE.match(line)
+        if hd:
+            dd_s, mon_s, yy_s = hd.groups()
+            month = AR_MONTHS.get(mon_s)
+            if month is None:
+                month = AR_MONTHS.get(ar_norm(mon_s))
+            if month is not None:
+                year = int(yy_s) if yy_s else now_cairo.year
+                try:
+                    current_date = date(year, month, int(dd_s))
+                    if not yy_s:
+                        current_date = fix_year(current_date, now_cairo.date())
+                except ValueError:
+                    current_date = None
+            continue
+
+        if current_date is None:
+            continue
+
+        m = FILGOAL_MATCH_RE.search(line)
+        if not m:
+            continue
+
+        home, away, hh_s, mm_s, ampm, channel_label, commentator = m.groups()
+        channel_id = channel_from_arabic(channel_label)
+        if not channel_id:
+            continue
+
+        hh = to_24h(int(hh_s), ampm)
+        mm = int(mm_s or 0)
+
+        try:
+            local = datetime(
+                current_date.year, current_date.month, current_date.day,
+                hh, mm, tzinfo=CAIRO,
+            )
+            start_utc = local.astimezone(UTC)
+        except Exception:
+            continue
+
+        if not in_window(start_utc):
+            continue
+
+        events.append({
+            "channel_id": channel_id,
+            "channel_name": CHANNELS[channel_id]["name"],
+            "start": start_utc,
+            "home": norm(home),
+            "away": norm(away),
+            "competition": "Egyptian Premier League",
+            "source_name": "FilGoal",
+            "source": source_url,
+            "commentator": norm(commentator or ""),
+            "duration_minutes": MATCH_MINUTES,
+        })
+
+    return dedupe(events)
+
+
+def collect_filgoal_events() -> list[dict]:
+    events: list[dict] = []
+    try:
+        articles = discover_filgoal_assignment_articles()
+        log(f"FilGoal assignment articles discovered: {len(articles)}")
+    except Exception as exc:
+        warn(f"FilGoal article discovery failed: {exc}")
+        return events
+
+    for url in articles:
+        try:
+            parsed = parse_filgoal_article(fetch_text(url), url)
+            if parsed:
+                log(f"FilGoal assignments from article: {len(parsed)} | {url}")
+                events.extend(parsed)
+        except Exception as exc:
+            warn(f"FilGoal article failed: {exc}")
+
+    return dedupe(events)
+
+
+# ---------------------------------------------------------------------------
+# Egyptian Pro League official validation
+# ---------------------------------------------------------------------------
+
+def discover_epl_team_pages() -> dict[str, str]:
+    html = fetch_text(EPL_HOME)
+    soup = BeautifulSoup(html, "html.parser")
+    pages: dict[str, str] = {}
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "/team/" not in href:
+            continue
+        label = norm(a.get_text(" ", strip=True))
+        if not label:
+            continue
+        url = urljoin(EPL_HOME, href)
+        if not url.rstrip("/").endswith("/matches"):
+            url = url.rstrip("/") + "/matches"
+        pages.setdefault(canonical_team(label), url)
+
+    return pages
+
+
+def _official_page_contains_event(html: str, ev: dict) -> bool:
+    soup = BeautifulSoup(html, "html.parser")
+    text = ar_norm(soup.get_text(" ", strip=True))
+
+    home = canonical_team(ev["home"])
+    away = canonical_team(ev["away"])
+    local = ev["start"].astimezone(CAIRO)
+
+    if home not in text or away not in text:
+        return False
+
+    # The official team page renders date and kickoff separately. Require both.
+    month_names = [k for k, v in AR_MONTHS.items() if v == local.month]
+    date_ok = any(
+        ar_norm(f"{local.day:02d} {m} {local.year}") in text
+        or ar_norm(f"{local.day} {m} {local.year}") in text
+        for m in month_names
+    )
+    time_ok = (
+        f"{local:%H:%M}" in text
+        or f"{local.hour:02d}:{local.minute:02d}" in text
+    )
+    return date_ok and time_ok
+
+
+def validate_with_epl(events: list[dict]) -> list[dict]:
+    if not events:
+        return events
+
+    try:
+        pages = discover_epl_team_pages()
+        log(f"EPL official team pages discovered: {len(pages)}")
+    except Exception as exc:
+        warn(f"EPL official discovery failed: {exc}")
+        return events
+
+    cache: dict[str, str] = {}
+    validated = 0
+
+    for ev in events:
+        candidates = [
+            pages.get(canonical_team(ev["home"])),
+            pages.get(canonical_team(ev["away"])),
+        ]
+        ok = False
+
+        for url in [u for u in candidates if u]:
+            try:
+                if url not in cache:
+                    cache[url] = fetch_text(url)
+                if _official_page_contains_event(cache[url], ev):
+                    ok = True
+                    break
+            except Exception as exc:
+                warn(f"EPL validation page failed: {url} | {exc}")
+
+        if ok:
+            ev["source_name"] = "FilGoal+EPL"
+            validated += 1
+
+    log(f"EPL official validations matched: {validated}/{len(events)}")
+    return events
+
+
+# ---------------------------------------------------------------------------
+# LiveFootballTV: confirmed channel-specific football beyond league articles
+# ---------------------------------------------------------------------------
+
+DATE_NUMERIC = re.compile(
+    r"(?:(?:today|tomorrow)\s+)?"
+    r"(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday),?\s*"
+    r"(\d{1,2})/(\d{1,2})/(20\d{2})",
+    re.I,
+)
+
+DATE_TEXTUAL = re.compile(
+    r"(?:(?:today|tomorrow)\s+)?"
+    r"(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday),?\s*"
+    r"(\d{1,2})\s+"
+    r"(January|February|March|April|May|June|July|August|September|October|November|December)"
+    r"(?:\s+(20\d{2}))?",
+    re.I,
+)
+
+TIME_RE = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
+
+BAD_TEXT = re.compile(
+    r"^(?:live football on|football on tv|change to your time zone|"
+    r"ranking by|statistical data|number of|view full ranking|"
+    r"as of today|in this moment|the next match|"
+    r"image:|button:|menu|teams|competitions|tv channels|news|free widget|"
+    r"arab mena|all teams|all competitions|all channels|"
+    r"monday|tuesday|wednesday|thursday|friday|saturday|sunday)",
+    re.I,
+)
+
+STAGE_TEXT = re.compile(
+    r"^(?:playoffs?|final|semi-?finals?|quarter-?finals?|"
+    r"group stage|round of \d+|qualifiers?|friendly)$",
+    re.I,
+)
+
+BROADCASTER_HINTS = re.compile(
+    r"(?:sport|sports|tv|youtube|app|bein|dazn|alkass|الكأس|"
+    r"riyadiya|sharjah|oman|dubai|abu dhabi|ssc|ktv|fifa\+|ppv)",
+    re.I,
+)
+
+
+def parse_lftv_date(line: str, now_local: datetime) -> date | None:
+    s = norm(line)
+
+    m = DATE_NUMERIC.search(s)
+    if m:
+        dd, mm, yy = map(int, m.groups())
+        try:
+            return date(yy, mm, dd)
+        except ValueError:
+            return None
+
+    m = DATE_TEXTUAL.search(s)
+    if m:
+        dd, mon, yy = m.groups()
+        month = EN_MONTHS.get(mon.casefold())
+        if not month:
+            return None
+        year = int(yy) if yy else now_local.year
+        try:
+            return date(year, month, int(dd))
+        except ValueError:
+            return None
+
+    if "football on tv today" in s.casefold():
+        m = re.search(r"(\d{1,2})/(\d{1,2})/(20\d{2})", s)
+        if m:
+            dd, mm, yy = map(int, m.groups())
+            try:
+                return date(yy, mm, dd)
+            except ValueError:
+                return None
+
+    return None
+
+
+def _clean_lftv_line(s: str) -> str:
+    s = norm(s)
+    return re.sub(r"^Image:\s*", "", s, flags=re.I)
+
+
+def _plausible_lftv_name(s: str) -> bool:
+    if not s or len(s) > 70:
+        return False
+    if BAD_TEXT.search(s) or TIME_RE.match(s) or s.isdigit():
+        return False
+    return True
+
+
+def _extract_lftv_event(block: list[str], channel_name: str):
+    cleaned = [_clean_lftv_line(x) for x in block]
+    cleaned = [x for x in cleaned if x and _plausible_lftv_name(x)]
+
+    own_idx = next(
+        (i for i, x in enumerate(cleaned) if x.casefold() == channel_name.casefold()),
+        None,
+    )
+    if own_idx is None:
+        return None
+
+    first_broadcaster = next(
+        (i for i, x in enumerate(cleaned[:own_idx + 1]) if BROADCASTER_HINTS.search(x)),
+        own_idx,
+    )
+    core = cleaned[:first_broadcaster]
+    if len(core) < 3:
+        core = [x for x in cleaned[:own_idx] if not BROADCASTER_HINTS.search(x)]
+    if len(core) < 3:
+        return None
+
+    non_stage = [x for x in core if not STAGE_TEXT.match(x)]
+    if len(non_stage) < 3:
+        return None
+
+    home, away = non_stage[-2], non_stage[-1]
+    competition = non_stage[-3]
+    if BROADCASTER_HINTS.search(home) or BROADCASTER_HINTS.search(away):
+        return None
+    return competition, home, away
+
+
+def parse_lftv_channel(html: str, channel_id: str, source_url: str) -> list[dict]:
+    channel_name = CHANNELS[channel_id]["name"]
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    lines = [norm(x) for x in soup.stripped_strings if norm(x)]
+    now_cairo = utc_now().astimezone(CAIRO)
+    current_date: date | None = None
+    events: list[dict] = []
+
+    i = 0
+    while i < len(lines):
+        d = parse_lftv_date(lines[i], now_cairo)
+        if d:
+            current_date = d
+            i += 1
+            continue
+
+        tm = TIME_RE.match(lines[i])
+        if not tm or current_date is None:
+            i += 1
+            continue
+
+        hh, mm = map(int, tm.groups())
+        block: list[str] = []
+        j = i + 1
+
+        while j < len(lines) and j <= i + 30:
+            if TIME_RE.match(lines[j]) or parse_lftv_date(lines[j], now_cairo):
+                break
+            block.append(lines[j])
+            j += 1
+
+        parsed = _extract_lftv_event(block, channel_name)
+        if parsed:
+            competition, home, away = parsed
+            try:
+                local = datetime(
+                    current_date.year, current_date.month, current_date.day,
+                    hh, mm, tzinfo=CAIRO,
+                )
+                start_utc = local.astimezone(UTC)
+            except Exception:
+                start_utc = None
+
+            if start_utc and in_window(start_utc):
+                events.append({
+                    "channel_id": channel_id,
+                    "channel_name": channel_name,
+                    "start": start_utc,
+                    "home": norm(home),
+                    "away": norm(away),
+                    "competition": norm(competition),
+                    "source_name": "LiveFootballTV",
+                    "source": source_url,
+                    "commentator": "",
+                    "duration_minutes": MATCH_MINUTES,
+                })
+
+        i = max(i + 1, j)
+
+    return dedupe(events)
+
+
+def collect_lftv_events() -> list[dict]:
+    events: list[dict] = []
+    for channel_id, url in LIVEFOOTBALLTV.items():
+        try:
+            parsed = parse_lftv_channel(fetch_text(url), channel_id, url)
+            log(f"{CHANNELS[channel_id]['name']} LFTV fixtures detected: {len(parsed)}")
+            events.extend(parsed)
+        except Exception as exc:
+            warn(f"{CHANNELS[channel_id]['name']} LFTV failed: {exc}")
+    return dedupe(events)
+
+
+# ---------------------------------------------------------------------------
+# XML
+# ---------------------------------------------------------------------------
+
+def build_day_description(channel_name: str, d: date, events: list[dict]) -> str:
+    if not events:
+        return (
+            f"{channel_name} | {d.isoformat()}\n\n"
+            "لا توجد مباراة مؤكدة مجدولة في المصادر الحالية."
+        )
+
+    lines = [f"جدول {channel_name} | {d.isoformat()}", ""]
+    for ev in sorted(events, key=lambda x: x["start"]):
+        local = ev["start"].astimezone(SOURCE_TZ)
+        lines.append(f"• {local:%H:%M} — {ev['home']} - {ev['away']}")
+        lines.append(f"  {ev['competition']}")
+        if ev.get("commentator"):
+            lines.append(f"  المعلق: {ev['commentator']}")
+    lines.extend([
+        "",
+        "التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.",
+        "لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.",
+    ])
+    return "\n".join(lines)
+
+
+def is_arabic(s: str) -> bool:
+    return bool(re.search(r"[\u0600-\u06ff]", s or ""))
+
+
+def add_programme(root, channel_id, start, stop, title, desc, category=None):
+    p = ET.SubElement(
+        root, "programme",
+        start=xmltv_time(start),
+        stop=xmltv_time(stop),
+        channel=channel_id,
+    )
+    ET.SubElement(p, "title", lang="ar").text = title
+    ET.SubElement(p, "desc", lang="ar").text = desc
+    # تصنيف عام ثابت حتى تتعرّف عليه المشغّلات، ثم اسم البطولة كتصنيف إضافي.
+    ET.SubElement(p, "category", lang="en").text = "Sports"
+    if category and category.strip().lower() != "sports":
+        lang = "ar" if is_arabic(category) else "en"
+        ET.SubElement(p, "category", lang=lang).text = category.strip()
+
+
+def write_xml(events: list[dict]) -> None:
+    root = ET.Element("tv", generator_info_name="ON Sport verified EPG")
+
+    for channel_id, cfg in CHANNELS.items():
+        ch = ET.SubElement(root, "channel", id=channel_id)
+        ET.SubElement(ch, "display-name", lang="en").text = cfg["name"]
+        ET.SubElement(ch, "display-name", lang="ar").text = cfg["name"]
+
+    today_source = utc_now().astimezone(SOURCE_TZ).date()
+    first_day = today_source - timedelta(days=DAYS_BACK)
+    last_day = today_source + timedelta(days=DAYS_FORWARD)
+
+    by_key: dict[tuple[str, date], list[dict]] = {}
+    for ev in events:
+        d = ev["start"].astimezone(SOURCE_TZ).date()
+        by_key.setdefault((ev["channel_id"], d), []).append(ev)
+
+    for channel_id, cfg in CHANNELS.items():
+        for off in range((last_day - first_day).days + 1):
+            d = first_day + timedelta(days=off)
+            day_events = sorted(by_key.get((channel_id, d), []), key=lambda x: x["start"])
+            desc = build_day_description(cfg["name"], d, day_events)
+
+            day_start_local = datetime(d.year, d.month, d.day, 0, 0, tzinfo=SOURCE_TZ)
+            day_end_local = datetime(
+                d.year, d.month, d.day, 0, 0, tzinfo=SOURCE_TZ
+            ) + timedelta(days=1)
+            day_start = day_start_local.astimezone(UTC)
+            day_end = day_end_local.astimezone(UTC)
+
+            if not day_events:
+                add_programme(
+                    root, channel_id, day_start, day_end,
+                    "لا توجد مباراة مؤكدة مجدولة", desc,
+                )
+                continue
+
+            cursor = day_start
+            for idx, ev in enumerate(day_events):
+                ev_start = max(ev["start"].astimezone(UTC), cursor)
+                if ev_start >= day_end:
+                    continue
+
+                if ev_start > cursor:
+                    add_programme(
+                        root, channel_id, cursor, ev_start,
+                        f"جدول {cfg['name']} اليوم", desc,
+                    )
+
+                next_start = day_end
+                if idx + 1 < len(day_events):
+                    next_start = day_events[idx + 1]["start"].astimezone(UTC)
+
+                ev_stop = min(
+                    ev_start + timedelta(minutes=int(ev.get("duration_minutes", MATCH_MINUTES))),
+                    next_start,
+                    day_end,
+                )
+                if ev_stop - ev_start < timedelta(minutes=MIN_PROGRAMME_MINUTES):
+                    continue
+
+                title = f"{ev['home']} - {ev['away']}"
+                add_programme(
+                    root, channel_id, ev_start, ev_stop, title, desc,
+                    category=ev["competition"],
+                )
+                cursor = max(cursor, ev_stop)
+
+            if day_end - cursor >= timedelta(minutes=MIN_PROGRAMME_MINUTES):
+                add_programme(
+                    root, channel_id, cursor, day_end,
+                    f"جدول {cfg['name']} اليوم", desc,
+                )
+
+    try:
+        ET.indent(root, space="  ")
+    except AttributeError:
+        pass
+
+    # كتابة ذرّية: نكتب ملفاً مؤقتاً ونتحقق منه، ثم نستبدل الملف الحي دفعة واحدة.
+    # هكذا لا يقرأ تيفي مايت ملفاً نصفه مكتوب لو انقطعت التشغيلة.
+    tmp = f"{OUTPUT}.tmp"
+    ET.ElementTree(root).write(tmp, encoding="utf-8", xml_declaration=True)
+    ET.parse(tmp)
+    os.replace(tmp, OUTPUT)
+    log(f"Written and XML-validated: {OUTPUT} ({os.path.getsize(OUTPUT)} bytes)")
+
+
+# ---------------------------------------------------------------------------
+# Self-test
+# ---------------------------------------------------------------------------
+
+def _self_test() -> None:
+    sample_article = """
+    <html><body>
+    <p>الجمعة 21 أغسطس:</p>
+    <p>-وادي دجلة ضد زد – الساعة 5 مساء عبر قناة أون سبورت بتعليق أيمن الكاشف</p>
+    <p>-الزمالك ضد الاتحاد السكندري – الساعة 8 مساء عبر قناة أون سبورت بتعليق بلال علام</p>
+    <p>--أبو قير للأسمدة ضد البنك الأهلي – الساعة 8 مساء عبر قناة أون سبورت ماكس بتعليق محمد عفيفي</p>
+    <p>السبت 22 أغسطس:</p>
+    <p>-طلائع الجيش ضد المقاولون العرب – الساعة 5 مساء عبر قناة أون سبورت ماكس بتعليق طارق حسن</p>
+    <p>-سموحة ضد المصري – الساعة 1 ظهرا عبر قناة أون سبورت 2 بتعليق مدحت شلبي</p>
+    <p>-بيراميدز ضد الجونة – الساعة 11 مساء عبر قناة أون سبورت بلس بتعليق خالد الغندور</p>
+    </body></html>
+    """
+
+    # Structural parser test independent of current runtime window.
+    old_window = globals()["in_window"]
+    try:
+        globals()["in_window"] = lambda dt: True
+        parsed = parse_filgoal_article(sample_article, "self-test")
+    finally:
+        globals()["in_window"] = old_window
+
+    assert len(parsed) == 6, len(parsed)
+    assert parsed[0]["channel_id"] in CHANNELS
+
+    # الفترات العربية
+    assert to_24h(1, "ظهرا") == 13
+    assert to_24h(12, "ظهرا") == 12
+    assert to_24h(5, "مساء") == 17
+    assert to_24h(11, "مساء") == 23
+    assert to_24h(12, "صباحا") == 0
+    assert to_24h(12, "ليلا") == 0
+
+    noon = next(x for x in parsed if canonical_team(x["home"]) == canonical_team("سموحة"))
+    assert noon["start"].astimezone(CAIRO).hour == 13, noon["start"]
+    late = next(x for x in parsed if canonical_team(x["home"]) == canonical_team("بيراميدز"))
+    assert late["start"].astimezone(CAIRO).hour == 23, late["start"]
+    assert any(
+        x["channel_id"] == "ONSportMAX"
+        and canonical_team(x["home"]) == canonical_team("أبو قير للأسمدة")
+        for x in parsed
+    )
+    assert any(
+        x["channel_id"] == "ONSport1"
+        and canonical_team(x["home"]) == canonical_team("الزمالك")
+        for x in parsed
+    )
+    assert channel_from_arabic("أون سبورت") == "ONSport1"
+    assert channel_from_arabic("أون سبورت ماكس") == "ONSportMAX"
+
+    _dedupe_test()
+    _xml_integrity_test()
+    log("SELF TEST | PASS")
+
+
+def _dedupe_test() -> None:
+    """مباراة واحدة من مصدرين بفارق دقائق يجب أن تبقى واحدة، بالمصدر الأقوى."""
+    base = datetime(2026, 8, 21, 17, 0, tzinfo=SOURCE_TZ).astimezone(UTC)
+
+    def mk(src, delta_min, home="الزمالك", away="الاتحاد السكندري"):
+        return {
+            "channel_id": "ONSport1", "channel_name": "ON Sport 1",
+            "start": base + timedelta(minutes=delta_min),
+            "home": home, "away": away, "competition": "Egyptian Premier League",
+            "source_name": src, "source": "t", "commentator": "",
+            "duration_minutes": MATCH_MINUTES,
+        }
+
+    merged = dedupe([mk("LiveFootballTV", 30), mk("FilGoal+EPL", 0)])
+    assert len(merged) == 1, merged
+    assert merged[0]["source_name"] == "FilGoal+EPL"
+    assert merged[0]["start"] == base
+
+    # اسم مختلف الإملاء لنفس الفريق يجب أن يُدمج أيضاً
+    merged = dedupe([mk("FilGoal", 0, home="الأهلي"), mk("LiveFootballTV", 5, home="الاهلي")])
+    assert len(merged) == 1, merged
+
+    # مباراتان مختلفتان فعلاً على نفس القناة يجب أن تبقيا اثنتين
+    two = dedupe([mk("FilGoal", 0), mk("FilGoal", 180, home="سموحة", away="المصري")])
+    assert len(two) == 2, two
+    log("DEDUPE | OK")
+
+
+def _xml_integrity_test() -> None:
+    """يتحقق أن كل برنامج له stop > start وأن لا تداخل داخل القناة الواحدة."""
+    today = utc_now().astimezone(SOURCE_TZ).date()
+    late = datetime(today.year, today.month, today.day, 23, 30, tzinfo=SOURCE_TZ)
+    fake = [{
+        "channel_id": "ONSport1",
+        "channel_name": "ON Sport 1",
+        "start": late.astimezone(UTC),
+        "home": "أ", "away": "ب",
+        "competition": "Test",
+        "source_name": "FilGoal",
+        "source": "self-test",
+        "commentator": "",
+        "duration_minutes": MATCH_MINUTES,
+    }]
+
+    real_output = globals()["OUTPUT"]
+    globals()["OUTPUT"] = "/tmp/_epg_selftest.xml"
+    try:
+        write_xml(fake)
+        tree = ET.parse("/tmp/_epg_selftest.xml")
+    finally:
+        globals()["OUTPUT"] = real_output
+
+    def _p(s: str) -> datetime:
+        return datetime.strptime(s, "%Y%m%d%H%M%S %z")
+
+    last_stop: dict[str, datetime] = {}
+    count = 0
+    for pr in tree.getroot().findall("programme"):
+        ch = pr.get("channel")
+        st, sp = _p(pr.get("start")), _p(pr.get("stop"))
+        assert sp > st, f"مدة غير صالحة: {ch} {pr.get('start')} -> {pr.get('stop')}"
+        prev = last_stop.get(ch)
+        assert prev is None or st >= prev, f"تداخل في {ch} عند {pr.get('start')}"
+        last_stop[ch] = sp
+        count += 1
+    assert count > 0
+    log(f"XML INTEGRITY | {count} programmes | OK")
+
+
+def main():
+    log(
+        "ON SPORT EPG v2 | FilGoal assignments + EPL validation + LiveFootballTV | "
+        f"SOURCE TZ = {SOURCE_TZ.key} | UTC XMLTV | TIVIMATE AUTO-CONVERT | "
+        f"MATCH = {MATCH_MINUTES} MIN | 1 + 2 + MAX + PLUS"
+    )
+
+    _self_test()
+
+    filgoal = collect_filgoal_events()
+    filgoal = validate_with_epl(filgoal)
+
+    lftv = collect_lftv_events()
+
+    events = dedupe(filgoal + lftv)
+
+    log(f"ON Sport total verified football events: {len(events)}")
+    for ev in sorted(events, key=lambda x: x["start"]):
+        source_time = ev["start"].astimezone(CAIRO)
+        log(
+            f"  {ev['channel_name']} | "
+            f"{source_time:%Y-%m-%d %H:%M} CAIRO SOURCE TIME | "
+            f"{ev['home']} - {ev['away']} | "
+            f"{ev['competition']} | {ev['source_name']}"
+        )
+
+    if not events and KEEP_OLD_FILE_IF_EMPTY and existing_programme_count(OUTPUT) > 0:
+        warn(
+            "لم يُعثر على أي مباراة والمصادر على الأرجح متعطّلة — "
+            f"تم الإبقاء على {OUTPUT} السابق دون تعديل."
+        )
+        return 2
+
+    write_xml(events)
+    return 0
+
+
+def existing_programme_count(path: str) -> int:
+    """عدد البرامج في الملف الحالي، أو 0 إن كان غير موجود أو تالفاً."""
+    try:
+        if not os.path.exists(path):
+            return 0
+        return len(ET.parse(path).getroot().findall("programme"))
+    except Exception:
+        return 0
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except Exception as exc:
+        warn(f"FATAL: {exc}")
+        sys.exit(1)
