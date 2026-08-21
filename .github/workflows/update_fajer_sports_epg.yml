@@ -31,10 +31,15 @@ jobs:
       - name: Install OCR and Python dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 pillow pytesseract
-
+          pip install requests beautifulsoup4 pillow pytesseract numpy
+          
+      - name: Verify OCR languages
+        run: |
+          tesseract --list-langs
+          tesseract --list-langs | grep -qx ara
+          tesseract --list-langs | grep -qx eng
       - name: Update Fajer Sports EPG
         run: |
           python update_fajer_sports_epg.py
