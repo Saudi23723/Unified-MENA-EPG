@@ -301,8 +301,8 @@ TEAM_DISPLAY_EN = {
 
 def bilingual_fixture_title(title):
     """
-    تحويل "فريق - فريق" إلى "فريق (EN) - فريق (EN)" إذا كانت الترجمة موجودة،
-    وإلا يبقى النص الأصلي كما هو.
+    تحويل "فريق - فريق" إلى "EN (AR) - EN (AR)" إذا كانت الترجمة موجودة،
+    بحيث يظهر الإنجليزي على اليسار والعربي على اليمين.
     """
     if not title:
         return title
@@ -318,11 +318,11 @@ def bilingual_fixture_title(title):
     en_second = TEAM_DISPLAY_EN.get(second)
 
     if en_first and en_second:
-        return f"{first} ({en_first}) - {second} ({en_second})"
+        return f"{en_first} ({first}) - {en_second} ({second})"
     elif en_first:
-        return f"{first} ({en_first}) - {second}"
+        return f"{en_first} ({first}) - {second}"
     elif en_second:
-        return f"{first} - {second} ({en_second})"
+        return f"{first} - {en_second} ({second})"
     else:
         return f"{first} - {second}"
 
@@ -1070,9 +1070,9 @@ def write_xml(events):
     # Real programmes.
     for number in CHANNEL_NUMBERS:
         for event, stop in spans_by_number[number]:
-            # تحديد ما إذا كانت المباراة جارية الآن (مباشرة)
-            is_live = (event["start"] <= NOW < stop)
-            # عنوان ثنائي اللغة (عربي + إنجليزي) للمباراة، مع إضافة "Live" إذا كانت مباشرة
+            # تحديد ما إذا كانت المباراة بدأت للتو (أول 5 دقائق)
+            is_live = (event["start"] <= NOW < event["start"] + timedelta(minutes=5))
+            # عنوان ثنائي اللغة (إنجليزي + عربي) للمباراة، مع إضافة "Live" فقط عند البداية
             title = bilingual_fixture_title(event["title"])
             if is_live:
                 title = "Live: " + title
