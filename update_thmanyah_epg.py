@@ -90,9 +90,9 @@ UNCONFIRMED_MODE = "hint"
 ENABLE_TELEGRAM_OCR = False
 EXTRA_LOOKAHEAD_DAYS = 4
 
-# ✅ اللوجو الجديد (رابط رسمي من صفحة Media Kit لشركة ثمانية)
-THMANYAH_LOGO = "https://company.thmanyah.com/wp-content/uploads/2024/01/Thmanyah-Logo.png"
-THMANYAH_LOGO_SVG = "https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg"
+# تم حذف اللوجو نهائياً
+# THMANYAH_LOGO = ...
+# THMANYAH_LOGO_SVG = ...
 
 KEEP_DAYS_BACK = 1
 KEEP_DAYS_FORWARD = 10
@@ -2045,12 +2045,12 @@ def write_xml(events):
         channel = ET.SubElement(tv, "channel", {"id": channel_id})
         ET.SubElement(channel, "display-name", {"lang": "en"}).text = f"Thmanyah {number}"
         ET.SubElement(channel, "display-name", {"lang": "ar"}).text = f"ثمانية {number}"
-        ET.SubElement(channel, "icon", {"src": THMANYAH_LOGO})
+        # لا يوجد icon - تم حذف اللوجو
 
     guide = ET.SubElement(tv, "channel", {"id": GUIDE_CHANNEL_ID})
     ET.SubElement(guide, "display-name", {"lang": "en"}).text = "Thmanyah | Guide"
     ET.SubElement(guide, "display-name", {"lang": "ar"}).text = "ثمانية | Guide"
-    ET.SubElement(guide, "icon", {"src": THMANYAH_LOGO})
+    # لا يوجد icon - تم حذف اللوجو
 
     events = dedupe(events)
 
@@ -2240,6 +2240,7 @@ def write_xml(events):
         return None
 
     def countdown_title(item, moment):
+        # عد تنازلي مطلق: المدة المتبقية حتى بداية المباراة، لا يتأثر بالمنطقة الزمنية
         minutes = max(int((item["start"] - moment).total_seconds() // 60), 0)
         hours, mins = divmod(minutes, 60)
         days, hours = divmod(hours, 24)
@@ -2253,8 +2254,8 @@ def write_xml(events):
         else:
             left = f"{mins} د"
 
-        clock = item["start"].astimezone(TZ)
-        return f"{item['title']} · {clock:%H:%M} (بعد {left})"
+        # لا نعرض توقيت المصدر (الرياض) هنا، فقط اسم المباراة + العد التنازلي
+        return f"{item['title']} · بعد {left}"
 
     def add_hourly_filler(channel_id, gap_start, gap_stop):
         cursor = gap_start
