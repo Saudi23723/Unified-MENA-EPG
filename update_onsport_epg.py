@@ -216,6 +216,33 @@ TEAM_DISPLAY_AR = {
     "حرس الحدود": "حرس الحدود",
 }
 
+# قاموس الأسماء الإنجليزية المعروضة لكل فريق (كانونيكال)
+TEAM_DISPLAY_EN = {
+    "الاهلي": "Al Ahly",
+    "الزمالك": "Zamalek",
+    "الاتحاد السكندري": "Ittihad Alexandria",
+    "زد": "ZED",
+    "وادي دجله": "Wadi Degla",
+    "البنك الاهلي": "National Bank of Egypt",
+    "ابو قير للاسمده": "Abu Qair Semad",
+    "بترول اسيوط": "Asyut Petroleum",
+    "منتخب السويس بتروجت": "Petrojet",
+    "طلايع الجيش": "Tala'ea El Gaish",
+    "المقاولون العرب": "Arab Contractors",
+    "المصري": "Al Masry",
+    "سموحه": "Smouha",
+    "غزل المحله": "Ghazl El Mahalla",
+    "بيراميدز": "Pyramids",
+    "الجونه": "El Gouna",
+    "مودرن سبورت": "Modern Sport",
+    "فيوتشر": "Future",
+    "سيراميكا كليوباترا": "Ceramica Cleopatra",
+    "القناه": "El Qanah",
+    "الشرقيه انبي": "ENPPI",
+    "الاسماعيلي": "Ismaily",
+    "حرس الحدود": "Haras El Hodoud",
+}
+
 
 def canonical_team(s: str) -> str:
     n = ar_norm(s)
@@ -233,6 +260,15 @@ def canonical_team(s: str) -> str:
 def display_team(s: str) -> str:
     """يعرض الاسم بالعربي إن عُرف الفريق، وإلا يترك الاسم كما ورد من المصدر."""
     return TEAM_DISPLAY_AR.get(canonical_team(s), norm(s))
+
+
+def display_team_bilingual(s: str) -> str:
+    """يعرض الاسم بالعربية مع الإنجليزية بين قوسين إذا كانت الترجمة معروفة."""
+    ar = display_team(s)
+    en = TEAM_DISPLAY_EN.get(canonical_team(s))
+    if en:
+        return f"{ar} ({en})"
+    return ar
 
 
 _RUN_NOW: datetime | None = None
@@ -934,7 +970,7 @@ def build_day_description(channel_name: str, d: date, events: list[dict]) -> str
     for ev in sorted(events, key=lambda x: x["start"]):
         local = ev["start"].astimezone(SOURCE_TZ)
         lines.append(
-            f"• {local:%H:%M} — {display_team(ev['home'])} - {display_team(ev['away'])}"
+            f"• {local:%H:%M} — {display_team_bilingual(ev['home'])} - {display_team_bilingual(ev['away'])}"
         )
         lines.append(f"  {ev['competition']}")
         if ev.get("commentator"):
@@ -981,48 +1017,24 @@ def next_event_after(channel_events: list[dict], moment_utc: datetime) -> dict |
 def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
     """
     عنوان فترة ما بين المباريات.
-
-    ملاحظة مهمة: لا يمكن كتابة عدّ تنازلي هنا. ملف XMLTV ثابت يُولَّد مرة
-    واحدة، فأي نص مثل "متبقٍ ساعتان" يتجمّد ويصبح خاطئاً بعد دقائق.
-    نكتب بدلاً منه موعد المباراة القادمة، ويتولّى المشغّل حساب المتبقي.
+    (تم إخفاء الوقت - TiviMate يعرض الوقت حسب المنطقة تلقائياً)
     """
     if nxt is None:
         return "لا توجد مباراة مجدولة"
 
-    start_local = nxt["start"].astimezone(SOURCE_TZ)
-    gap_local = gap_start_utc.astimezone(SOURCE_TZ)
-    teams = f"{display_team(nxt['home'])} - {display_team(nxt['away'])}"
-
-    days_ahead = (start_local.date() - gap_local.date()).days
-    if days_ahead <= 0:
-        when = f"{start_local:%H:%M}"
-    elif days_ahead == 1:
-        when = f"غداً {start_local:%H:%M}"
-    elif days_ahead <= 6:
-        when = f"{AR_WEEKDAYS[start_local.weekday()]} {start_local:%H:%M}"
-    else:
-        when = f"{start_local:%d/%m} {start_local:%H:%M}"
-
-    return f"القادم · {when} · {teams}"
+    teams = f"{display_team_bilingual(nxt['home'])} - {display_team_bilingual(nxt['away'])}"
+    return f"القادم · {teams}"
 
 
 def write_xml(events: list[dict]) -> None:
     root = ET.Element("tv", generator_info_name="ON Sport verified EPG")
 
-    # روابط شعارات القنوات (استبدال الروابط المؤقتة)
-    LOGO_URLS = {
-        "ONSport1": "https://i.imgur.com/AbCdEf1.png",
-        "ONSport2": "https://i.imgur.com/FgHiJk2.png",
-        "ONSportMAX": "https://i.imgur.com/LmNoPq3.png",
-        "ONSportPLUS": "https://i.imgur.com/RsTuVw4.png",
-    }
-
+    # إزالة الشعارات - لا نستخدم أي icon
     for channel_id, cfg in CHANNELS.items():
         ch = ET.SubElement(root, "channel", id=channel_id)
         ET.SubElement(ch, "display-name", lang="en").text = cfg["name"]
         ET.SubElement(ch, "display-name", lang="ar").text = cfg["name"]
-        # إضافة الشعار (logo) لكل قناة
-        ET.SubElement(ch, "icon", src=LOGO_URLS[channel_id])
+        # تم حذف سطر icon
 
     today_source = utc_now().astimezone(SOURCE_TZ).date()
     first_day = today_source - timedelta(days=DAYS_BACK)
@@ -1087,7 +1099,7 @@ def write_xml(events: list[dict]) -> None:
                 if ev_stop - ev_start < timedelta(minutes=MIN_PROGRAMME_MINUTES):
                     continue
 
-                title = f"{display_team(ev['home'])} - {display_team(ev['away'])}"
+                title = f"{display_team_bilingual(ev['home'])} - {display_team_bilingual(ev['away'])}"
                 add_programme(
                     root, channel_id, ev_start, ev_stop, title, desc,
                     category=ev["competition"],
