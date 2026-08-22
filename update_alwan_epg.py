@@ -250,6 +250,82 @@ FILLER_MARKERS = (
     "no match currently",
 )
 
+# ---------------------------------------------------------------------------
+# ترجمة أسماء الفرق (إنجليزي) - للاستخدام في المباريات المباشرة فقط
+# ---------------------------------------------------------------------------
+TEAM_DISPLAY_EN = {
+    "الهلال": "Al-Hilal",
+    "النصر": "Al-Nassr",
+    "الاتحاد": "Al-Ittihad",
+    "الأهلي": "Al-Ahli",
+    "الشباب": "Al-Shabab",
+    "التعاون": "Al-Taawoun",
+    "الفتح": "Al-Fateh",
+    "الاتفاق": "Al-Ettifaq",
+    "الخليج": "Al-Khaleej",
+    "الحزم": "Al-Hazem",
+    "الرائد": "Al-Raed",
+    "الرياض": "Al-Riyadh",
+    "الفيحاء": "Al-Fayha",
+    "أبها": "Abha",
+    "ضمك": "Damac",
+    "الأخدود": "Al-Okhdood",
+    "الوحدة": "Al-Wehda",
+    "الباطن": "Al-Batin",
+    "القادسية": "Al-Qadsiah",
+    "العلا": "Al-Ula",
+    "نيوم": "Neom",
+    "الدرعية": "Al-Diriyah",
+    "الجبلين": "Al-Jabalain",
+    "الخلود": "Al-Kholood",
+    "الصفا": "Al-Safa",
+    "النجمة": "Al-Najma",
+    "الترجي": "Al-Taraji",
+    "الأنصار": "Al-Ansar",
+    "الجيل": "Al-Jeel",
+    "الحمادة": "Al-Hamadah",
+    "الشرق": "Al-Sharq",
+    "الزلفي": "Al-Zulfi",
+    "القوس": "Al-Qaws",
+    "السد": "Al-Sadd",  # قد تظهر في بطولات خليجية
+    "الدحيل": "Al-Duhail",
+    "الريان": "Al-Rayyan",
+    "الغرافة": "Al-Gharafa",
+    "السيلية": "Al-Sailiya",
+    "أم صلال": "Umm Salal",
+    "الوكرة": "Al-Wakrah",
+    "قطر": "Qatar SC",
+    "الأهلي قطر": "Al-Ahli (Qatar)",
+}
+
+
+def bilingual_fixture_title(title):
+    """
+    تحويل "فريق - فريق" إلى "فريق (EN) - فريق (EN)" إذا كانت الترجمة موجودة،
+    وإلا يبقى النص الأصلي كما هو.
+    """
+    if not title:
+        return title
+
+    parts = re.split(r"\s+[-–—]\s+", title)
+    if len(parts) != 2:
+        return title
+
+    first = parts[0].strip()
+    second = parts[1].strip()
+
+    en_first = TEAM_DISPLAY_EN.get(first)
+    en_second = TEAM_DISPLAY_EN.get(second)
+
+    if en_first and en_second:
+        return f"{first} ({en_first}) - {second} ({en_second})"
+    elif en_first:
+        return f"{first} ({en_first}) - {second}"
+    elif en_second:
+        return f"{first} - {second} ({en_second})"
+    else:
+        return f"{first} - {second}"
+
 
 def log(message):
     print(message, flush=True)
@@ -994,6 +1070,13 @@ def write_xml(events):
     # Real programmes.
     for number in CHANNEL_NUMBERS:
         for event, stop in spans_by_number[number]:
+            # تحديد ما إذا كانت المباراة جارية الآن (مباشرة)
+            is_live = (event["start"] <= NOW < stop)
+            # عنوان ثنائي اللغة (عربي + إنجليزي) للمباراة، مع إضافة "Live" إذا كانت مباشرة
+            title = bilingual_fixture_title(event["title"])
+            if is_live:
+                title = "Live: " + title
+
             for channel_id in channel_ids_by_number[number]:
                 programme = ET.SubElement(
                     tv,
@@ -1009,7 +1092,7 @@ def write_xml(events):
                     programme,
                     "title",
                     {"lang": "ar"},
-                ).text = event["title"]
+                ).text = title
 
                 ET.SubElement(
                     programme,
@@ -1079,6 +1162,7 @@ def write_xml(events):
                     f"توقيت الأردن: {tz_jordan} - "
                     f"توقيت لاس فيغاس: {tz_vegas}"
                 )
+                # لا نضيف ترجمة إنجليزية في الفواصل (المباراة القادمة)
                 title = f"المباراة القادمة - {times_str} - {next_event['title']}"
                 description = (
                     f"المباراة القادمة على Alwan Sport {number}:\n"
