@@ -3,8 +3,9 @@ name: Update Thamanya EPG
 on:
   workflow_dispatch:
   schedule:
-    # كل 3 ساعات: أرقام القنوات غالباً تُعلن متأخرة قبل المباراة بساعات
-    - cron: "20 */3 * * *"
+    # كل ساعة: أرقام القنوات تُعلن متأخرة، والتشغيل صار أقل من دقيقة
+    # بعد إطفاء OCR (ENABLE_TELEGRAM_OCR = False في السكربت).
+    - cron: "20 * * * *"
 
 permissions:
   contents: write
@@ -26,10 +27,18 @@ jobs:
         with:
           python-version: "3.12"
 
+      # ملاحظة: حزم tesseract تُثبَّت فقط عند تفعيل ENABLE_TELEGRAM_OCR.
+      - name: Install OCR engine (only if enabled)
+        run: |
+          if grep -q "^ENABLE_TELEGRAM_OCR = True" update_thmanyah_epg.py; then
+            sudo apt-get update
+            sudo apt-get install -y tesseract-ocr tesseract-ocr-ara
+          else
+            echo "Telegram OCR disabled; skipping tesseract install"
+          fi
+
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara
           pip install requests beautifulsoup4 pillow pytesseract lxml
 
       - name: Generate Thamanya EPG
