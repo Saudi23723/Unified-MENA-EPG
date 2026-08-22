@@ -205,32 +205,6 @@ TEAM_DISPLAY_AR = {
     "حرس الحدود": "حرس الحدود",
 }
 
-TEAM_DISPLAY_EN = {
-    "الاهلي": "Al Ahly",
-    "الزمالك": "Zamalek",
-    "الاتحاد السكندري": "Ittihad Alexandria",
-    "زد": "ZED",
-    "وادي دجله": "Wadi Degla",
-    "البنك الاهلي": "National Bank of Egypt",
-    "ابو قير للاسمده": "Abu Qair Semad",
-    "بترول اسيوط": "Asyut Petroleum",
-    "منتخب السويس بتروجت": "Petrojet",
-    "طلايع الجيش": "Tala'ea El Gaish",
-    "المقاولون العرب": "Arab Contractors",
-    "المصري": "Al Masry",
-    "سموحه": "Smouha",
-    "غزل المحله": "Ghazl El Mahalla",
-    "بيراميدز": "Pyramids",
-    "الجونه": "El Gouna",
-    "مودرن سبورت": "Modern Sport",
-    "فيوتشر": "Future",
-    "سيراميكا كليوباترا": "Ceramica Cleopatra",
-    "القناه": "El Qanah",
-    "الشرقيه انبي": "ENPPI",
-    "الاسماعيلي": "Ismaily",
-    "حرس الحدود": "Haras El Hodoud",
-}
-
 
 def canonical_team(s: str) -> str:
     n = ar_norm(s)
@@ -247,18 +221,6 @@ def canonical_team(s: str) -> str:
 def display_team(s: str) -> str:
     """يعرض الاسم بالعربي إن عُرف الفريق، وإلا يترك الاسم كما ورد من المصدر."""
     return TEAM_DISPLAY_AR.get(canonical_team(s), norm(s))
-
-
-def display_team_bilingual(s: str) -> str:
-    """
-    يعرض الاسم بالإنجليزية أولاً ثم العربية بين قوسين.
-    (إنجليزي على اليسار، عربي على اليمين)
-    """
-    ar = display_team(s)
-    en = TEAM_DISPLAY_EN.get(canonical_team(s))
-    if en:
-        return f"{en} ({ar})"
-    return ar
 
 
 _RUN_NOW: datetime | None = None
@@ -923,7 +885,7 @@ def build_day_description(channel_name: str, d: date, events: list[dict]) -> str
     for ev in sorted(events, key=lambda x: x["start"]):
         local = ev["start"].astimezone(SOURCE_TZ)
         lines.append(
-            f"• {local:%H:%M} — {display_team_bilingual(ev['home'])} - {display_team_bilingual(ev['away'])}"
+            f"• {local:%H:%M} — {display_team(ev['home'])} - {display_team(ev['away'])}"
         )
         lines.append(f"  {ev['competition']}")
         if ev.get("commentator"):
@@ -969,7 +931,7 @@ def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
     if nxt is None:
         return "لا توجد مباراة مجدولة"
 
-    teams = f"{display_team_bilingual(nxt['home'])} - {display_team_bilingual(nxt['away'])}"
+    teams = f"{display_team(nxt['home'])} - {display_team(nxt['away'])}"
     return f"القادم · {teams}"
 
 
@@ -1042,7 +1004,7 @@ def write_xml(events: list[dict]) -> None:
                 if ev_stop - ev_start < timedelta(minutes=MIN_PROGRAMME_MINUTES):
                     continue
 
-                title = f"{display_team_bilingual(ev['home'])} - {display_team_bilingual(ev['away'])}"
+                title = f"{display_team(ev['home'])} - {display_team(ev['away'])}"
                 add_programme(
                     root, channel_id, ev_start, ev_stop, title, desc,
                     category=ev["competition"],
