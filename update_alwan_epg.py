@@ -39,6 +39,11 @@ import xml.etree.ElementTree as ET
 TZ = ZoneInfo("Asia/Riyadh")
 NOW = datetime.now(TZ)
 
+# المناطق الزمنية الإضافية المطلوبة
+TZ_ABU_DHABI = ZoneInfo("Asia/Abu_Dhabi")
+TZ_AMMAN = ZoneInfo("Asia/Amman")
+TZ_LAS_VEGAS = ZoneInfo("America/Los_Angeles")
+
 OUT = Path("alwan_sports_epg.xml")
 CHANNEL_SLUG = "AlwanSports"
 TELEGRAM_URL = f"https://t.me/s/{CHANNEL_SLUG}"
@@ -1064,12 +1069,21 @@ def write_xml(events):
                     f"في هذا الوقت."
                 )
             else:
-                when = format_when(next_event["start"], start.date())
-                title = f"التالي {when} — {next_event['title']}"
+                # تحويل وقت المباراة القادمة إلى المناطق الثلاث
+                next_start = next_event["start"]
+                tz_abu = next_start.astimezone(TZ_ABU_DHABI).strftime("%H:%M")
+                tz_jordan = next_start.astimezone(TZ_AMMAN).strftime("%H:%M")
+                tz_vegas = next_start.astimezone(TZ_LAS_VEGAS).strftime("%H:%M")
+                times_str = (
+                    f"توقيت أبوظبي: {tz_abu} - "
+                    f"توقيت الأردن: {tz_jordan} - "
+                    f"توقيت لاس فيغاس: {tz_vegas}"
+                )
+                title = f"المباراة القادمة - {times_str} - {next_event['title']}"
                 description = (
                     f"المباراة القادمة على Alwan Sport {number}:\n"
                     f"{next_event['title']}\n"
-                    f"{format_when(next_event['start'], None)}"
+                    f"{times_str}"
                 )
 
             programme = ET.SubElement(
