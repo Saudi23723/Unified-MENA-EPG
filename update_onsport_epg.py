@@ -52,8 +52,6 @@ CHANNELS = {
     "ONSportPLUS": {"name": "ON Sport PLUS"},
 }
 
-# Channel-specific schedule pages: useful for confirmed non-league football
-# and as a secondary source when a fixture is explicitly listed on that page.
 LIVEFOOTBALLTV = {
     "ONSport1": "https://www.livefootballtv.info/channel/on-sport-1",
     "ONSport2": "https://www.livefootballtv.info/channel/on-sport-2",
@@ -61,19 +59,13 @@ LIVEFOOTBALLTV = {
     "ONSportPLUS": "https://www.livefootballtv.info/channel/on-sport-plus",
 }
 
-# Dynamic discovery of current Egyptian Premier League broadcast-assignment
-# articles. These articles explicitly list the match, kickoff and channel.
 FILGOAL_EGYPT_SECTION = (
     "https://www.filgoal.com/section/88/articles/"
     "%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A"
 )
 
-# Official Egyptian Pro League site. Used as a validation source where the
-# relevant team/match page can be discovered and parsed.
 EPL_HOME = "https://www.egyptianproleague.com/"
 
-# صفحة قسم الدوري المصري تُبنى بجافاسكربت، فلا يرى requests سوى قائمة التنقّل.
-# خلاصات RSS من نفس الموقع ملفات XML ثابتة تعمل بلا متصفح.
 FILGOAL_FEEDS = [
     "https://www.filgoal.com/section/88/rss/الدوري-المصري",
     "https://www.filgoal.com/section/1/rss/مصر",
@@ -154,8 +146,6 @@ def en_norm(s: str) -> str:
     return " ".join(t for t in tokens if t)
 
 
-# أسماء LiveFootballTV الإنجليزية ← نفس مفتاح فيلجول العربي.
-# بدون هذه الخريطة تظهر المباراة الواحدة مرتين عندما يعمل المصدران معاً.
 EN_TEAM_ALIASES = {
     "ahly": "الاهلي",
     "zamalek": "الزمالك",
@@ -189,7 +179,6 @@ EN_TEAM_ALIASES = {
     "bank ahly": "البنك الاهلي",
 }
 
-# الاسم المعروض في تيفي مايت (عربي مشكول صح) لكل مفتاح.
 TEAM_DISPLAY_AR = {
     "الاهلي": "الأهلي",
     "الزمالك": "الزمالك",
@@ -216,7 +205,6 @@ TEAM_DISPLAY_AR = {
     "حرس الحدود": "حرس الحدود",
 }
 
-# قاموس الأسماء الإنجليزية المعروضة لكل فريق (كانونيكال)
 TEAM_DISPLAY_EN = {
     "الاهلي": "Al Ahly",
     "الزمالك": "Zamalek",
@@ -248,7 +236,6 @@ def canonical_team(s: str) -> str:
     n = ar_norm(s)
     if n in TEAM_ALIASES:
         return TEAM_ALIASES[n]
-    # اسم لاتيني؟ جرّب خريطة الإنجليزية حتى يتطابق مع مفتاح فيلجول العربي.
     if not re.search(r"[\u0600-\u06ff]", s or ""):
         e = en_norm(s)
         if e in EN_TEAM_ALIASES:
@@ -263,11 +250,14 @@ def display_team(s: str) -> str:
 
 
 def display_team_bilingual(s: str) -> str:
-    """يعرض الاسم بالعربية مع الإنجليزية بين قوسين إذا كانت الترجمة معروفة."""
+    """
+    يعرض الاسم بالإنجليزية أولاً ثم العربية بين قوسين.
+    (إنجليزي على اليسار، عربي على اليمين)
+    """
     ar = display_team(s)
     en = TEAM_DISPLAY_EN.get(canonical_team(s))
     if en:
-        return f"{ar} ({en})"
+        return f"{en} ({ar})"
     return ar
 
 
@@ -275,7 +265,6 @@ _RUN_NOW: datetime | None = None
 
 
 def utc_now() -> datetime:
-    """ساعة مُجمّدة طوال التشغيلة الواحدة، حتى لا تزحف نافذة الأيام أثناء العمل."""
     global _RUN_NOW
     if _RUN_NOW is None:
         _RUN_NOW = datetime.now(UTC)
@@ -313,7 +302,7 @@ def fetch_text(url: str) -> str:
                 wait = HTTP_BACKOFF * attempt
                 warn(f"retry {attempt}/{HTTP_RETRIES - 1} after {wait:.0f}s | {url} | {exc}")
                 time.sleep(wait)
-    raise last  # type: ignore[misc]
+    raise last
 
 
 def xmltv_time(dt: datetime) -> str:
@@ -334,7 +323,6 @@ EN_MONTHS = {
 
 
 def to_24h(hh: int, period: str) -> int:
-    """تحويل الساعة العربية (صباحاً/ظهراً/عصراً/مساءً/ليلاً) إلى نظام 24 ساعة."""
     p = period or ""
     if "صباح" in p:
         return 0 if hh == 12 else hh
@@ -342,12 +330,10 @@ def to_24h(hh: int, period: str) -> int:
         return 12 if hh == 12 else (hh + 12 if hh < 12 else hh)
     if "ليل" in p:
         return 0 if hh == 12 else (hh + 12 if hh < 12 else hh)
-    # عصراً / مساءً
     return 12 if hh == 12 else (hh + 12 if hh < 12 else hh)
 
 
 def fix_year(d: date, ref: date) -> date:
-    """المقالات لا تذكر السنة غالباً؛ تصحيح الانقلاب بين ديسمبر ويناير."""
     for cand in (d, d.replace(year=d.year + 1), d.replace(year=d.year - 1)):
         if abs((cand - ref).days) <= 180:
             return cand
@@ -356,7 +342,6 @@ def fix_year(d: date, ref: date) -> date:
 
 def channel_from_arabic(label: str) -> str | None:
     n = ar_norm(label)
-    # Explicit numbered/special channels first.
     if "ماكس" in n or "max" in n:
         return "ONSportMAX"
     if "بلس" in n or "plus" in n:
@@ -365,10 +350,6 @@ def channel_from_arabic(label: str) -> str | None:
         return "ONSport2"
     if re.search(r"(?:^|\s)1(?:\s|$)", n):
         return "ONSport1"
-
-    # FilGoal's current round articles call the primary linear channel simply
-    # "أون سبورت" and use "أون سبورت ماكس" for the simultaneous secondary
-    # match. The primary linear feed is ON Sport 1.
     if "اون سبورت" in n or "on sport" in n:
         return "ONSport1"
     return None
@@ -395,17 +376,12 @@ def prio(ev: dict) -> int:
 
 
 def match_key(ev: dict) -> str:
-    """هوية المباراة بدون الوقت: نفس القناة + نفس الفريقين + نفس اليوم."""
     teams = sorted([canonical_team(ev["home"]), canonical_team(ev["away"])])
     d = ev["start"].astimezone(SOURCE_TZ).date()
     return f"{ev['channel_id']}|{d.isoformat()}|{teams[0]}|{teams[1]}"
 
 
 def dedupe(events: list[dict]) -> list[dict]:
-    """
-    يدمج المباراة الواحدة الواردة من أكثر من مصدر حتى لو اختلفت الدقائق قليلاً،
-    ويرجّح المصدر الأعلى ثقة (فيلجول المُوثَّق من الرابطة أولاً).
-    """
     groups: dict[str, list[dict]] = {}
     for ev in events:
         groups.setdefault(match_key(ev), []).append(ev)
@@ -418,19 +394,14 @@ def dedupe(events: list[dict]) -> list[dict]:
         kept: list[dict] = []
         for ev in bucket:
             if any(abs(ev["start"] - k["start"]) <= tol for k in kept):
-                continue  # نسخة مكررة من مصدر أضعف
+                continue
             kept.append(ev)
         out.extend(kept)
 
     return sorted(out, key=lambda x: (x["channel_id"], x["start"]))
 
 
-# ---------------------------------------------------------------------------
-# FilGoal: current Egyptian Premier League channel assignments
-# ---------------------------------------------------------------------------
-
 def _looks_like_assignment_headline(n: str) -> bool:
-    """عناوين فيلجول تتغيّر صياغتها؛ نقبل عدة أنماط بدل شرط واحد صارم."""
     if "القنوات الناقله" in n or "القنوات الناقل" in n:
         return True
     if "الناقله" in n and ("الجوله" in n or "مباريات" in n):
@@ -441,7 +412,6 @@ def _looks_like_assignment_headline(n: str) -> bool:
 
 
 def _parse_rss_items(xml_text: str) -> list[tuple[str, str]]:
-    """يرجّع (العنوان، الرابط) من خلاصة RSS. يتجاهل أي عنصر ناقص."""
     items: list[tuple[str, str]] = []
     try:
         root = ET.fromstring(xml_text.strip())
@@ -499,7 +469,6 @@ def _discover_via_html() -> tuple[list[str], list[str]]:
     soup = BeautifulSoup(html, "html.parser")
 
     for a in soup.find_all("a", href=True):
-        # العنوان قد يكون في نص الرابط أو في title/alt الصورة.
         text = norm(a.get_text(" ", strip=True))
         if not text:
             img = a.find("img")
@@ -521,12 +490,10 @@ def _discover_via_html() -> tuple[list[str], list[str]]:
 
 
 def discover_filgoal_assignment_articles() -> list[str]:
-    # المسار الأساسي: RSS — ملف XML ثابت لا يحتاج جافاسكربت.
     urls, scanned = _discover_via_rss()
     if urls:
         return urls[:8]
 
-    # احتياطي: صفحة القسم، لو عادت يوماً للعرض الثابت.
     try:
         urls, headlines = _discover_via_html()
     except Exception as exc:
@@ -651,7 +618,6 @@ def collect_filgoal_events() -> list[dict]:
                 log(f"FilGoal assignments from article: {len(parsed)} | {url}")
                 events.extend(parsed)
             else:
-                # المقال وصل لكن لم يُستخرج منه شيء: نطبع دليلاً على السبب.
                 txt = unescape(html)
                 warn(
                     f"FilGoal: مقال بلا مباريات | {url} | "
@@ -664,10 +630,6 @@ def collect_filgoal_events() -> list[dict]:
 
     return dedupe(events)
 
-
-# ---------------------------------------------------------------------------
-# Egyptian Pro League official validation
-# ---------------------------------------------------------------------------
 
 def discover_epl_team_pages() -> dict[str, str]:
     html = fetch_text(EPL_HOME)
@@ -700,7 +662,6 @@ def _official_page_contains_event(html: str, ev: dict) -> bool:
     if home not in text or away not in text:
         return False
 
-    # The official team page renders date and kickoff separately. Require both.
     month_names = [k for k, v in AR_MONTHS.items() if v == local.month]
     date_ok = any(
         ar_norm(f"{local.day:02d} {m} {local.year}") in text
@@ -752,10 +713,6 @@ def validate_with_epl(events: list[dict]) -> list[dict]:
     log(f"EPL official validations matched: {validated}/{len(events)}")
     return events
 
-
-# ---------------------------------------------------------------------------
-# LiveFootballTV: confirmed channel-specific football beyond league articles
-# ---------------------------------------------------------------------------
 
 DATE_NUMERIC = re.compile(
     r"(?:(?:today|tomorrow)\s+)?"
@@ -955,10 +912,6 @@ def collect_lftv_events() -> list[dict]:
     return dedupe(events)
 
 
-# ---------------------------------------------------------------------------
-# XML
-# ---------------------------------------------------------------------------
-
 def build_day_description(channel_name: str, d: date, events: list[dict]) -> str:
     if not events:
         return (
@@ -996,7 +949,6 @@ def add_programme(root, channel_id, start, stop, title, desc, category=None):
     )
     ET.SubElement(p, "title", lang="ar").text = title
     ET.SubElement(p, "desc", lang="ar").text = desc
-    # تصنيف عام ثابت حتى تتعرّف عليه المشغّلات، ثم اسم البطولة كتصنيف إضافي.
     ET.SubElement(p, "category", lang="en").text = "Sports"
     if category and category.strip().lower() != "sports":
         lang = "ar" if is_arabic(category) else "en"
@@ -1007,7 +959,6 @@ AR_WEEKDAYS = ["الاثنين", "الثلاثاء", "الأربعاء", "الخ
 
 
 def next_event_after(channel_events: list[dict], moment_utc: datetime) -> dict | None:
-    """أول مباراة تبدأ عند اللحظة المعطاة أو بعدها على هذه القناة."""
     for ev in channel_events:
         if ev["start"].astimezone(UTC) >= moment_utc:
             return ev
@@ -1015,10 +966,6 @@ def next_event_after(channel_events: list[dict], moment_utc: datetime) -> dict |
 
 
 def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
-    """
-    عنوان فترة ما بين المباريات.
-    (تم إخفاء الوقت - TiviMate يعرض الوقت حسب المنطقة تلقائياً)
-    """
     if nxt is None:
         return "لا توجد مباراة مجدولة"
 
@@ -1029,12 +976,10 @@ def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
 def write_xml(events: list[dict]) -> None:
     root = ET.Element("tv", generator_info_name="ON Sport verified EPG")
 
-    # إزالة الشعارات - لا نستخدم أي icon
     for channel_id, cfg in CHANNELS.items():
         ch = ET.SubElement(root, "channel", id=channel_id)
         ET.SubElement(ch, "display-name", lang="en").text = cfg["name"]
         ET.SubElement(ch, "display-name", lang="ar").text = cfg["name"]
-        # تم حذف سطر icon
 
     today_source = utc_now().astimezone(SOURCE_TZ).date()
     first_day = today_source - timedelta(days=DAYS_BACK)
@@ -1045,8 +990,6 @@ def write_xml(events: list[dict]) -> None:
         d = ev["start"].astimezone(SOURCE_TZ).date()
         by_key.setdefault((ev["channel_id"], d), []).append(ev)
 
-    # قائمة مرتّبة لكل قناة عبر كل الأيام، حتى يعرف الفلر المباراة القادمة
-    # ولو كانت في يوم لاحق.
     by_channel: dict[str, list[dict]] = {}
     for ev in events:
         by_channel.setdefault(ev["channel_id"], []).append(ev)
@@ -1117,8 +1060,6 @@ def write_xml(events: list[dict]) -> None:
     except AttributeError:
         pass
 
-    # كتابة ذرّية: نكتب ملفاً مؤقتاً ونتحقق منه، ثم نستبدل الملف الحي دفعة واحدة.
-    # هكذا لا يقرأ تيفي مايت ملفاً نصفه مكتوب لو انقطعت التشغيلة.
     tmp = f"{OUTPUT}.tmp"
     ET.ElementTree(root).write(tmp, encoding="utf-8", xml_declaration=True)
     ET.parse(tmp)
@@ -1127,7 +1068,7 @@ def write_xml(events: list[dict]) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Self-test
+# Self-test (بقي كما هو)
 # ---------------------------------------------------------------------------
 
 def _self_test() -> None:
@@ -1144,7 +1085,6 @@ def _self_test() -> None:
     </body></html>
     """
 
-    # Structural parser test independent of current runtime window.
     old_window = globals()["in_window"]
     try:
         globals()["in_window"] = lambda dt: True
@@ -1155,7 +1095,6 @@ def _self_test() -> None:
     assert len(parsed) == 6, len(parsed)
     assert parsed[0]["channel_id"] in CHANNELS
 
-    # الفترات العربية
     assert to_24h(1, "ظهرا") == 13
     assert to_24h(12, "ظهرا") == 12
     assert to_24h(5, "مساء") == 17
@@ -1210,16 +1149,14 @@ def _rss_test() -> None:
 
     hits = [l for t, l in items if _looks_like_assignment_headline(ar_norm(t))]
     assert len(hits) == 2, hits
-    assert "123458" not in " ".join(hits)  # خبر انتقالات لا يُلتقط
+    assert "123458" not in " ".join(hits)
 
-    # خلاصة تالفة يجب ألا تُسقط السكريبت
     assert _parse_rss_items("<html>not xml</html>") == []
     assert _parse_rss_items("") == []
     log("RSS PARSER | OK")
 
 
 def _cross_source_test() -> None:
-    """أسماء LiveFootballTV الإنجليزية يجب أن تعطي نفس مفتاح فيلجول العربي."""
     pairs = [
         ("Zamalek SC", "الزمالك"),
         ("Al Ahly", "الأهلي"),
@@ -1237,13 +1174,10 @@ def _cross_source_test() -> None:
     for en, ar in pairs:
         assert canonical_team(en) == canonical_team(ar), f"{en} != {ar}"
 
-    # فريق أجنبي بلا خريطة يبقى كما هو ولا ينهار
     assert canonical_team("Trabzonspor") == "trabzonspor"
     assert display_team("Trabzonspor") == "Trabzonspor"
     assert display_team("Zamalek SC") == "الزمالك"
 
-    # حارس دائم: أندية مختلفة يجب ألا تتشارك مفتاحاً واحداً،
-    # وإلا دُمجت مباراتان حقيقيتان في واحدة وضاعت إحداهما.
     must_differ = [
         ("Modern Sport", "Future FC"),
         ("Al Ahly", "National Bank"),
@@ -1254,7 +1188,6 @@ def _cross_source_test() -> None:
     for a, b in must_differ:
         assert canonical_team(a) != canonical_team(b), f"تصادم مفاتيح: {a} / {b}"
 
-    # نفس المباراة من المصدرين بلغتين مختلفتين تُدمج في واحدة
     base = datetime(2026, 8, 21, 20, 0, tzinfo=SOURCE_TZ).astimezone(UTC)
     def mk(src, h, a, delta=0):
         return {
@@ -1274,7 +1207,6 @@ def _cross_source_test() -> None:
 
 
 def _dedupe_test() -> None:
-    """مباراة واحدة من مصدرين بفارق دقائق يجب أن تبقى واحدة، بالمصدر الأقوى."""
     base = datetime(2026, 8, 21, 17, 0, tzinfo=SOURCE_TZ).astimezone(UTC)
 
     def mk(src, delta_min, home="الزمالك", away="الاتحاد السكندري"):
@@ -1291,18 +1223,15 @@ def _dedupe_test() -> None:
     assert merged[0]["source_name"] == "FilGoal+EPL"
     assert merged[0]["start"] == base
 
-    # اسم مختلف الإملاء لنفس الفريق يجب أن يُدمج أيضاً
     merged = dedupe([mk("FilGoal", 0, home="الأهلي"), mk("LiveFootballTV", 5, home="الاهلي")])
     assert len(merged) == 1, merged
 
-    # مباراتان مختلفتان فعلاً على نفس القناة يجب أن تبقيا اثنتين
     two = dedupe([mk("FilGoal", 0), mk("FilGoal", 180, home="سموحة", away="المصري")])
     assert len(two) == 2, two
     log("DEDUPE | OK")
 
 
 def _xml_integrity_test() -> None:
-    """يتحقق أن كل برنامج له stop > start وأن لا تداخل داخل القناة الواحدة."""
     today = utc_now().astimezone(SOURCE_TZ).date()
     late = datetime(today.year, today.month, today.day, 23, 30, tzinfo=SOURCE_TZ)
     fake = [{
@@ -1380,7 +1309,6 @@ def main():
 
 
 def existing_programme_count(path: str) -> int:
-    """عدد البرامج في الملف الحالي، أو 0 إن كان غير موجود أو تالفاً."""
     try:
         if not os.path.exists(path):
             return 0
