@@ -1009,10 +1009,20 @@ def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
 def write_xml(events: list[dict]) -> None:
     root = ET.Element("tv", generator_info_name="ON Sport verified EPG")
 
+    # روابط شعارات القنوات (استبدال الروابط المؤقتة)
+    LOGO_URLS = {
+        "ONSport1": "https://i.imgur.com/AbCdEf1.png",
+        "ONSport2": "https://i.imgur.com/FgHiJk2.png",
+        "ONSportMAX": "https://i.imgur.com/LmNoPq3.png",
+        "ONSportPLUS": "https://i.imgur.com/RsTuVw4.png",
+    }
+
     for channel_id, cfg in CHANNELS.items():
         ch = ET.SubElement(root, "channel", id=channel_id)
         ET.SubElement(ch, "display-name", lang="en").text = cfg["name"]
         ET.SubElement(ch, "display-name", lang="ar").text = cfg["name"]
+        # إضافة الشعار (logo) لكل قناة
+        ET.SubElement(ch, "icon", src=LOGO_URLS[channel_id])
 
     today_source = utc_now().astimezone(SOURCE_TZ).date()
     first_day = today_source - timedelta(days=DAYS_BACK)
