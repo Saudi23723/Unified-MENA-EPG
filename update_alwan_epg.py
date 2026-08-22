@@ -40,7 +40,7 @@ TZ = ZoneInfo("Asia/Riyadh")
 NOW = datetime.now(TZ)
 
 # المناطق الزمنية الإضافية المطلوبة
-TZ_ABU_DHABI = ZoneInfo("Asia/Abu_Dhabi")
+TZ_ABU_DHABI = ZoneInfo("Asia/Dubai")
 TZ_AMMAN = ZoneInfo("Asia/Amman")
 TZ_LAS_VEGAS = ZoneInfo("America/Los_Angeles")
 
