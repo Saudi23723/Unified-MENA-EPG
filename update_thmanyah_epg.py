@@ -23,11 +23,10 @@ from pytesseract import Output
 TZ = ZoneInfo("Asia/Riyadh")          # المصدر الرئيسي (توقيت المباراة الرسمي)
 TZ_ABUDHABI = ZoneInfo("Asia/Dubai")   # توقيت أبوظبي
 TZ_VEGAS = ZoneInfo("America/Los_Angeles")  # توقيت لاس فيغاس
+TZ_AMMAN = ZoneInfo("Asia/Amman")      # توقيت الأردن
 NOW = datetime.now(TZ)
 OUT = Path("thmanyah_epg.xml")
 
-# بصمة النسخة: تتغير مع كل تعديل، وتُطبع في أول سطر من اللوج.
-# قارنها بما أرسله لك لتتأكد أن التشغيل استخدم آخر ملف رفعته.
 SCRIPT_VERSION = "2026-08-21i | adaptive countdown blocks, OCR off, hourly runs"
 
 GOAL_HOME = "https://www.goal.com/ar"
@@ -35,14 +34,6 @@ KOOORA_HOME = "https://www.kooora.com/"
 SCORES365_HOME = "https://www.365scores.com/ar/news/magazine/"
 RADARKORA_TELEGRAM = "https://t.me/s/matches_today2"
 
-# ---------------------------------------------------------------------------
-# مصادر إضافية موثوقة لتأكيد رقم القناة (ثمانية 1/2/3).
-# كل مصدر يُستخدم لتأكيد رقم القناة فقط، ولا يغيّر وقت انطلاق المباراة
-# إلا إذا لم يوفّر Goal/Kooora أي مباراة لذلك اليوم (fallback).
-#   home      : صفحة يتم استخراج روابط الجداول اليومية منها
-#   keywords  : كلمات يجب أن تظهر في نص/رابط المقال
-#   tz        : المنطقة الزمنية التي يعرض بها الموقع أوقات المباريات
-# ---------------------------------------------------------------------------
 EXTRA_SOURCES = (
     {
         "label": "FilGoal",
@@ -52,7 +43,6 @@ EXTRA_SOURCES = (
     },
     {
         "label": "Youm7",
-        # قسم "أخبار الرياضة" (المسار /Sport غير موجود ويعيد 404)
         "home": "https://www.youm7.com/Section/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/298/1",
         "keywords": ("مواعيد مباريات", "جدول مباريات", "القنوات الناقلة"),
         "tz": ZoneInfo("Africa/Cairo"),
@@ -71,7 +61,6 @@ EXTRA_SOURCES = (
     },
 )
 
-# صفحات ثابتة (بدون اكتشاف روابط) تُقرأ مباشرة لتأكيد رقم القناة.
 STATIC_CONFIRMATION_PAGES = (
     {
         "label": "ElGoal Broadcast",
@@ -87,41 +76,22 @@ STATIC_CONFIRMATION_PAGES = (
     },
 )
 
-# يلاكورة: مركز المباريات فيه رابط لكل يوم، ويُستخدم لجلب مباريات
-# الأيام القادمة (Goal/Kooora ينشران جدول اليوم فقط).
 YALLAKORA_DAY_URL = "https://www.yallakora.com/matches-center?date={m:02d}/{d:02d}/{y}"
 YALLAKORA_TZ = ZoneInfo("Africa/Cairo")
-# البطولات التي تنقلها ثمانية فقط.
 YALLAKORA_SAUDI_HINTS = (
     "ksa-league", "saudi", "kings-cup", "الدوري-السعودي",
     "خادم-الحرمين", "%d8%a7%d9%84%d8%af%d9%88%d8%b1%d9%8a-%d8%a7%d9%84%d8%b3%d8%b9%d9%88%d8%af%d9%8a",
 )
-# نص بطاقة المباراة في يلاكورة يكرر اسم كل فريق مرتين:
-# "الأسبوع الثاني لم تبدأ الحزمالحزم - - - 19:15 الدرعيةالدرعية"
 YALLAKORA_CARD_RE = re.compile(
     r"(.+?)\s*\1\s*[-–—\s]*?(\d{1,2}:\d{2})\s*(.+?)\s*\3\s*$"
 )
 
-# سلوك المباريات التي لم يُعلن رقم قناتها بعد:
-#   "hint"        : (الافتراضي) تبقى مفروزة في Guide فقط، وقنوات 1/2/3 تعرض
-#                   تنبيهاً صادقاً بأن هناك مباراة لم تُعلن قناتها بدل
-#                   "لا توجد مباراة". لا تكرار ولا عناوين مباريات مضللة.
-#   "placeholder" : تُكتب المباراة باسمها على القنوات الثلاث كـ"مباراة محتملة".
-#   "guide_only"  : Guide فقط، وقنوات 1/2/3 تعرض "لا توجد مباراة حالياً".
 UNCONFIRMED_MODE = "hint"
-
-# قراءة صور تليجرام بالـ OCR: تستهلك ~7 دقائق من زمن التشغيل.
-# اجعلها False لتشغيل أسرع (أقل من دقيقة) يسمح بالتحديث كل ساعة.
 ENABLE_TELEGRAM_OCR = False
-
-# عدد الأيام القادمة التي تُقرأ من الصفحات ذات الرابط اليومي (يلاكورة).
 EXTRA_LOOKAHEAD_DAYS = 4
 
-# TiviMate وأغلب مشغلات IPTV لا ترسم SVG بشكل موثوق، لذا نستخدم نسخة PNG.
-THMANYAH_LOGO = (
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/"
-    "Thmanyah_Logo.svg/512px-Thmanyah_Logo.svg.png"
-)
+# ✅ اللوجو الجديد (رابط رسمي من صفحة Media Kit لشركة ثمانية)
+THMANYAH_LOGO = "https://company.thmanyah.com/wp-content/uploads/2024/01/Thmanyah-Logo.png"
 THMANYAH_LOGO_SVG = "https://upload.wikimedia.org/wikipedia/commons/e/e9/Thmanyah_Logo.svg"
 
 KEEP_DAYS_BACK = 1
@@ -143,7 +113,6 @@ THMANYAH_NUMBER_RE = re.compile(
     r"(?:قناة\s*)?(?:ثمانية|ثمانيه|ثماني|thmanyah)\s*[.\-:]?\s*([123])(?:\d)?\b",
     re.I,
 )
-# بعض المواقع تكتب الرقم قبل الاسم: "قناة 2 Thmanyah" أو "1 ثمانية".
 THMANYAH_NUMBER_BEFORE_RE = re.compile(
     r"(?:قناة\s*)?([123])\s*[.\-:]?\s*(?:ثمانية|ثمانيه|thmanyah)\b",
     re.I,
@@ -152,7 +121,6 @@ THMANYAH_ANY_RE = re.compile(r"(?:ثمانية|ثمانيه|thmanyah)", re.I)
 
 
 def channel_from_text(text):
-    """رقم قناة ثمانية من نص، مع دعم ترتيب الرقم قبل الاسم أو بعده."""
     text = norm(text)
     for pattern in (THMANYAH_NUMBER_RE, THMANYAH_NUMBER_BEFORE_RE):
         found = pattern.search(text)
@@ -161,6 +129,7 @@ def channel_from_text(text):
             if number in CHANNELS:
                 return number
     return None
+
 MATCH_RE = re.compile(
     r"(.{2,100}?)\s*(?:🆚|⚔️|⚔|×|✕|[xX](?=\s)|vs\.?|v\.?|ضد|أمام|امام|[-–—])\s*(.{2,100})",
     re.I,
@@ -241,10 +210,6 @@ AR_AM_RE = re.compile(r"^\s*(?:صباحا|صباحاً|صباح|ص\b|فجرا|ف
 
 
 def time_from_text(text, search_from=0):
-    """
-    يستخرج الوقت مع مراعاة صيغة 12 ساعة العربية.
-    "9:00 مساء" -> 21:00 و "7:15 مساء" -> 19:15، بينما "21:00" تبقى كما هي.
-    """
     text = norm(text)
     found = TIME_RE.search(text, search_from)
     if not found:
@@ -263,10 +228,6 @@ def time_from_text(text, search_from=0):
 
 
 def make_dt(day, hour, minute, tz=None):
-    """
-    ينشئ وقتاً بمنطقة زمنية محددة (منطقة الموقع المصدر) ثم يحوّله
-    دائماً إلى توقيت المصدر الرئيسي (الرياض) المستخدم داخلياً في الـ EPG.
-    """
     value = datetime(
         day.year, day.month, day.day,
         int(hour), int(minute),
@@ -276,17 +237,13 @@ def make_dt(day, hour, minute, tz=None):
 
 
 def three_zone_times(start):
-    """
-    يعيد سطر الوقت بثلاث مناطق زمنية:
-    أبوظبي + لاس فيغاس + توقيت المصدر الرئيسي (الرياض).
-    """
-    riyadh = start.astimezone(TZ)
     abudhabi = start.astimezone(TZ_ABUDHABI)
+    amman = start.astimezone(TZ_AMMAN)
     vegas = start.astimezone(TZ_VEGAS)
     return (
         f"أبوظبي {abudhabi:%H:%M} ({abudhabi:%d/%m}) | "
-        f"لاس فيغاس {vegas:%H:%M} ({vegas:%d/%m}) | "
-        f"المصدر الرئيسي - الرياض {riyadh:%H:%M} ({riyadh:%d/%m})"
+        f"الأردن {amman:%H:%M} ({amman:%d/%m}) | "
+        f"لاس فيغاس {vegas:%H:%M} ({vegas:%d/%m})"
     )
 
 TEAM_TAIL_RES = (
@@ -297,7 +254,6 @@ TEAM_TAIL_RES = (
 )
 
 def strip_trailing_noise(value):
-    """يحذف الوقت واسم القناة وأي زوائد بعد اسم الفريق."""
     for pattern in TEAM_TAIL_RES:
         found = pattern.search(value)
         if found:
@@ -329,10 +285,6 @@ ARABIC_FOLD = str.maketrans({
 ARABIC_DIACRITICS_RE = re.compile(r"[\u064b-\u0652\u0670]")
 
 def normalize_team_name(value):
-    """
-    توحيد أسماء الفرق بين المواقع المختلفة:
-    (الاتحاد/الإتحاد، الفيصلى/الفيصلي، نادي نيوم/نيوم ...).
-    """
     value = norm(value).casefold()
     value = ARABIC_DIACRITICS_RE.sub("", value).translate(ARABIC_FOLD)
     value = re.sub(r"[^\w\u0600-\u06ff ]+", " ", value)
@@ -382,7 +334,6 @@ def dedupe(events):
         result.append(event)
     return result
 
-# مقالات "نتائج/أهداف/ملخص مباريات اليوم" ليست جداول مواعيد، وتُستبعد.
 ARTICLE_REJECT = ("نتائج", "أهداف", "اهداف", "ملخص", "ترتيب", "تقييم")
 
 
@@ -427,11 +378,6 @@ def article_date(soup):
     return NOW.date()
 
 def parse_daily_article(url, source_tz=None, fallback_day=None):
-    """
-    يقرأ صفحة جدول يومي من أي موقع.
-    source_tz : المنطقة الزمنية التي يعرض بها الموقع الأوقات
-                (مثلاً المواقع المصرية تعرض بتوقيت القاهرة).
-    """
     source_tz = source_tz or TZ
     try:
         soup = BeautifulSoup(fetch(url), "html.parser")
@@ -545,9 +491,6 @@ def title_from_365(soup):
         candidates.append(norm(heading.get_text(" ", strip=True)))
     candidates.append(norm(soup.get_text(" ", strip=True))[:8000])
 
-    # 365Scores headlines often look like:
-    # "القنوات الناقلة لمباراة الهلال - الفيحاء بالجولة..."
-    # Extract only the two teams so the confirmation can match the daily fixture.
     pair_re = re.compile(
         r"(?:مباراة|مواجهة)\\s+"
         r"(.{2,70}?)\\s*[-–—]\\s*(.{2,70}?)"
@@ -570,11 +513,6 @@ def title_from_365(soup):
     return None
 
 def parse_365_article(url):
-    """
-    365Scores is used ONLY to confirm the Thmanyah channel number.
-    Its page time is intentionally ignored because article metadata/body times
-    can be unrelated to kickoff. Kickoff always stays from Goal/Kooora.
-    """
     try:
         soup = BeautifulSoup(fetch(url), "html.parser")
     except Exception:
@@ -645,13 +583,6 @@ def source_label(url, default="extra"):
 
 
 def yallakora_card(anchor, text):
-    """
-    يستخرج (الفريق الأول، الفريق الثاني، الساعة، الدقيقة) من بطاقة مباراة.
-    يجرّب ثلاث طرق لأن يلاكورة تغيّر بنية البطاقة أحياناً:
-      1) عناصر تحمل كلاس فيه "team"
-      2) تكرار اسم الفريق مرتين داخل النص
-      3) تقسيم النص حول الوقت مع إزالة التكرار
-    """
     clock = re.search(r"(\d{1,2}):(\d{2})", text)
     if not clock:
         return None
@@ -662,14 +593,12 @@ def yallakora_card(anchor, text):
         if not value:
             return ""
         half = len(value) // 2
-        # "الحزمالحزم" أو "الحزم الحزم" -> "الحزم"
         for candidate in (value[:half], value[:half + 1]):
             candidate = candidate.strip()
             if candidate and value.replace(" ", "") == (candidate * 2).replace(" ", ""):
                 return candidate
         return value
 
-    # (1) كلاس يحوي team
     names = []
     for node in anchor.find_all(True):
         classes = " ".join(node.get("class") or [])
@@ -680,7 +609,6 @@ def yallakora_card(anchor, text):
     if len(names) >= 2:
         return dedupe_name(names[0]), dedupe_name(names[1]), hour, minute
 
-    # (2) نمط التكرار
     card = YALLAKORA_CARD_RE.search(text)
     if card:
         home = clean_team(card.group(1))
@@ -688,7 +616,6 @@ def yallakora_card(anchor, text):
         if home and away:
             return home, away, hour, minute
 
-    # (3) التقسيم حول الوقت
     before = text[:clock.start()]
     after = text[clock.end():]
     before = re.split(r"لم تبدأ|انتهت|جارية|مؤجلة|الأسبوع\s*\S+", before)[-1]
@@ -701,11 +628,6 @@ def yallakora_card(anchor, text):
 
 
 def collect_yallakora_fixtures():
-    """
-    يجلب مباريات البطولات السعودية للأيام القادمة من مركز مباريات يلاكورة.
-    Goal/Kooora ينشران جدول اليوم فقط، فهذا المصدر يملأ الأيام التالية.
-    رقم القناة غالباً غير معلن هنا، فتظهر المباراة في Guide حتى يتأكد الرقم.
-    """
     rows = []
     day_zero_titles = None
 
@@ -764,7 +686,6 @@ def collect_yallakora_fixtures():
         if offset == 0:
             day_zero_titles = titles
         elif titles and titles == day_zero_titles:
-            # الموقع تجاهل بارامتر التاريخ وأعاد جدول اليوم نفسه.
             warn(f"Yallakora date param ignored for {day}; rows skipped")
             continue
 
@@ -782,11 +703,6 @@ def collect_yallakora_fixtures():
 
 
 def collect_extra_source_rows():
-    """
-    يجمع صفوف الجداول اليومية من عدة مواقع إضافية موثوقة.
-    كل صف = {channel, start, title, source, label}.
-    الهدف الأساسي: معرفة رقم قناة ثمانية عندما لا يعلنه Goal/Kooora.
-    """
     rows = []
 
     for source in EXTRA_SOURCES:
@@ -800,7 +716,6 @@ def collect_extra_source_rows():
             warn(f"{source['label']} discovery error: {exc}")
             continue
 
-        # بعض المواقع تعرض الجدول في نفس الصفحة الرئيسية.
         urls = [source["home"]] + urls
 
         for url in urls[:6]:
@@ -836,11 +751,6 @@ def collect_extra_source_rows():
 
 
 def rows_to_confirmations(rows):
-    """
-    يحوّل صفوف المصادر الإضافية إلى تأكيدات قناة فقط
-    (تاريخ + مباراة + رقم القناة). الأوقات هنا لا تُستخدم إطلاقاً
-    لتحديد وقت انطلاق المباراة.
-    """
     confirmations = []
     seen = set()
 
@@ -963,9 +873,6 @@ def ocr_image_url(url):
             except Exception as exc:
                 warn(f"RadarKora OCR psm={psm} failed: {exc}")
 
-        # Keep OCR line breaks. The matches_today2 image is a multi-day table,
-        # so flattening the OCR destroys the relationship between each fixture,
-        # its channel number and the date heading above it.
         return "\n".join(outputs).strip()
 
     finally:
@@ -978,10 +885,8 @@ def ocr_image_url(url):
 
 
 def radar_day_from_ocr_line(line):
-    """Extract the Gregorian day shown in a matches_today2 table heading."""
     text = normalize_ocr(line)
     months_pattern = "|".join(map(re.escape, AR_MONTHS))
-    # The image format is usually: ... 20 - أغسطس - 2026 ...
     m = re.search(rf"(?<!\d)(\d{{1,2}})\s*[-–—]?\s*({months_pattern})(?:\s*[-–—]?\s*(20\d{{2}}))?", text, re.I)
     if not m:
         return None
@@ -995,14 +900,6 @@ def radar_day_from_ocr_line(line):
 
 
 def radar_rows_from_ocr(ocr_text, fallback_day=None):
-    """
-    Parse the actual matches_today2 image layout line-by-line.
-
-    Each date heading applies to the fixture rows below it until the next date
-    heading. We only extract explicit numbered Thmanyah TV channels (1/2/3).
-    Rows saying only "تطبيق ثمانية" are intentionally NOT assigned to a TV
-    channel.
-    """
     rows = []
     current_day = fallback_day
     seen = set()
@@ -1027,8 +924,6 @@ def radar_rows_from_ocr(ocr_text, fallback_day=None):
         for a, b in glyphs.items():
             fixed = fixed.replace(a, b)
 
-        # OCR commonly reads "ثمانية" as "ثماني" and may append a stray
-        # adjacent channel digit (e.g. "ثماني23" for visible "ثماني2").
         m = re.search(
             r"(?:قناة|قناه)?\s*(?:ثمانية|ثمانيه|ثماني|thmanyah)\s*[:：.\-]?\s*([123])(?:\d)?\b",
             fixed,
@@ -1037,7 +932,6 @@ def radar_rows_from_ocr(ocr_text, fallback_day=None):
         if not m:
             continue
 
-        # Do not turn app-only rows into TV channel assignments.
         prefix = fixed[max(0, m.start() - 20):m.start()]
         if "تطبيق" in prefix and not re.search(r"(?:قناة|قناه)", prefix):
             continue
@@ -1086,9 +980,6 @@ def fixture_match_score(title, context):
             if token in context_norm:
                 hits += 1
                 continue
-            # Arabic OCR frequently substitutes one letter (e.g. الفتح -> الطتح).
-            # Allow a conservative fuzzy token match so the row can still be
-            # linked to the known Goal/Kooora fixture on the same date.
             best = max(
                 (SequenceMatcher(None, token, word).ratio() for word in context_words),
                 default=0.0,
@@ -1366,10 +1257,6 @@ def ocr_table_rows_url(url, fallback_day=None):
 
 
 
-# v15: structured table OCR for matches_today2.
-# The Telegram images are actual tables: date headings, fixture/time on the right,
-# channel in the middle, commentator on the left. OCR each column separately and
-# use vertical position to attach each row to the nearest date heading above it.
 _OCR_TEAM_LEXICON = [
     "الهلال", "الفيحاء", "الرياض", "النصر", "الحزم", "الدرعية",
     "الفيصلي", "نيوم", "القادسية", "الاتحاد", "الفتح", "الاتفاق",
@@ -1401,15 +1288,12 @@ def _repair_ocr_team(raw):
     score, team = ranked[0]
     if score < 0.42:
         return raw.strip(), score
-    # Prefer normal Arabic spelling with hamza where known.
     if team == "ابها":
         team = "أبها"
     return team, score
 
 def _fixture_from_right_column(text):
     value = normalize_ocr(text)
-    # Restrict both sides to Arabic words around the actual dash. This prevents
-    # the kickoff/commentator text from being mistaken for a team name.
     matches = list(re.finditer(
         r"([\u0600-\u06ff][\u0600-\u06ff\s]{1,24})\s*[-–—]\s*"
         r"([\u0600-\u06ff][\u0600-\u06ff\s]{1,24})",
@@ -1433,8 +1317,6 @@ def _channel_from_middle_column(text):
     value = normalize_ocr(text).translate(ARABIC_DIGITS)
     if "تطبيق" in value and not re.search(r"(?:قناة|قناه)", value):
         return None
-    # Tesseract commonly reads e.g. ثماني23 or ثمانين1. Take the FIRST valid
-    # digit immediately following the Thmanyah word instead of rejecting it.
     patterns = (
         r"(?:قناة|قناه)?\s*ثمان[^\s0-9]{0,7}\s*([123])",
         r"(?:قناة|قناه)[^\n]{0,22}?([123])",
@@ -1448,8 +1330,6 @@ def _channel_from_middle_column(text):
 def _kickoff_from_right_column(text):
     value = normalize_ocr(text).translate(ARABIC_DIGITS)
     candidates = []
-    # Tables use 12-hour source times. Extract one digit before the separator too,
-    # so OCR garbage like 519:00 still yields the real printed 9:00 candidate.
     for match in re.finditer(r"[:.]", value):
         pos = match.start()
         after = re.match(r"\s*([0-9]{2})", value[pos + 1:])
@@ -1467,9 +1347,6 @@ def _kickoff_from_right_column(text):
             if 1 <= hour <= 12:
                 candidates.append((hour, minute))
     if not candidates:
-        # OCR often drops the separator in times such as 7:15 and emits 7115
-        # or 7215. For short isolated digit runs, trust the first digit as the
-        # printed 12-hour hour and the last two digits as minutes.
         compact = []
         for m in re.finditer(r"(?<![0-9])([0-9]{3,4})(?![0-9])", value):
             digits = m.group(1)
@@ -1520,8 +1397,6 @@ def _kickoff_from_time_crop(gray, y):
                     minute = int(m.group(2))
                     if minute > 59:
                         continue
-                    # Source table is 12-hour. Consider the last digit as the
-                    # printed hour when OCR prefixes garbage (29:00 -> 9:00).
                     opts = [int(raw_hour[-1])]
                     if len(raw_hour) <= 2:
                         opts.append(int(raw_hour))
@@ -1594,7 +1469,6 @@ def _structured_rows_from_image(image, fallback_day=None):
         if day:
             date_marks.append((y, day))
             continue
-        # Fallback for OCR such as: "2026 - أغسطس - 22 ...".
         v = text.translate(ARABIC_DIGITS)
         m = re.search(r"2026[^0-9]{0,30}(1[8-9]|2[0-9]|3[0-1])", v)
         if m and ("اغسطس" in _arabic_loose(v) or "أغسطس" in v):
@@ -1615,7 +1489,6 @@ def _structured_rows_from_image(image, fallback_day=None):
         row_day = day_for_y(y)
         if not row_day:
             continue
-        # Fixture rows have a dash. Exclude date/header/separator lines.
         if not re.search(r"[-–—]", line_text):
             continue
         if "Twitter" in line_text or "2026" in line_text:
@@ -1635,11 +1508,6 @@ def _structured_rows_from_image(image, fallback_day=None):
         middle_outputs = []
         right_outputs = []
 
-        # CHANNEL SAFETY: read ONLY the visual channel column.
-        # Never infer a channel number from the full row because times, dates,
-        # commentator text, or neighbouring cells can contain 1/2/3 and create
-        # a false Thmanyah channel. Tesseract's own docs recommend OCRing the
-        # small target region with a matching PSM for table-like layouts.
         for psm in (6, 7, 11, 13):
             try:
                 mt = normalize_ocr(pytesseract.image_to_string(
@@ -1650,9 +1518,6 @@ def _structured_rows_from_image(image, fallback_day=None):
             except Exception as exc:
                 warn(f"matches_today2 middle-column OCR psm={psm} failed: {exc}")
 
-        # Always OCR the right fixture/time column separately. Use several
-        # very small vertical offsets because Tesseract can drop one team when
-        # the crop boundary lands on Arabic ascenders/descenders.
         fast_title = None
         for offset in (-4, 0, 4):
             rtop = max(0, int(y + offset - pad))
@@ -1671,9 +1536,6 @@ def _structured_rows_from_image(image, fallback_day=None):
         middle_text = " | ".join(middle_outputs)
         right_text = " | ".join(right_outputs + [line_text])
 
-        # Require explicit Thmanyah+number evidence from the middle column itself.
-        # Do not append line_text here: that was the source of cross-column false
-        # positives (e.g. reading a 1 from another cell as Thmanyah 1).
         channel_votes = []
         for mt in middle_outputs:
             ch = _extract_channel_from_row_text(mt)
@@ -1683,7 +1545,6 @@ def _structured_rows_from_image(image, fallback_day=None):
                 channel_votes.append(ch)
         if not channel_votes:
             continue
-        # Accept only a unique majority. A tie means OCR is unsafe, so skip it.
         counts = {n: channel_votes.count(n) for n in CHANNELS}
         best_count = max(counts.values())
         winners = [n for n, c in counts.items() if c == best_count and c > 0]
@@ -1714,10 +1575,6 @@ def _structured_rows_from_image(image, fallback_day=None):
                     if a and b:
                         fixture_candidates.append((sa + sb - 0.15, f"{a} - {b}"))
 
-        # Some Telegram rows are split by Tesseract across multiple OCR passes:
-        # one pass reads team A and another reads team B. When no single pass
-        # contains both sides of the dash, recover the two high-confidence team
-        # names from all right-column OCR outputs instead of discarding the row.
         if not fixture_candidates:
             team_hits = {}
             combined_team_text = " | ".join(right_outputs + [line_text])
@@ -1762,7 +1619,6 @@ def _structured_rows_from_image(image, fallback_day=None):
         })
         used_y.append(y)
 
-    # Keep unique date/time/title/channel rows only.
     unique = []
     seen = set()
     for row in rows:
@@ -1834,8 +1690,6 @@ def collect_radarkora_confirmations(daily):
             )
             caption_norm = normalize_ocr(caption)
 
-            # matches_today2 is a schedule/broadcaster channel. Accept the common
-            # schedule wording and also image posts whose captions mention matches.
             if caption_norm and not any(
                 marker in caption_norm
                 for marker in (
@@ -1852,25 +1706,13 @@ def collect_radarkora_confirmations(daily):
             if post_day:
                 page_days.append(post_day)
 
-            # IMPORTANT: matches_today2 also publishes league-specific table
-            # images (for example a Roshn League round) whose caption has NO
-            # Gregorian date. The dates are printed inside the image itself.
-            # Older versions skipped those posts before OCR and therefore
-            # always returned zero numbered confirmations.
             image_url = telegram_image_url(post)
             if not image_url:
                 continue
 
-            # If the caption has an explicit day outside our window, skip it.
-            # If there is no caption day, OCR the image and let the table
-            # headings (e.g. 20 - أغسطس - 2026) determine each row's date.
             if post_day and not (window_floor <= post_day <= window_ceiling):
                 continue
 
-            # Structured image OCR is CHANNEL evidence only.
-            # It must NEVER create a standalone EPG event or replace kickoff time.
-            # Goal/Kooora owns date/time/title; the image only confirms the numbered
-            # Thmanyah feed after a same-day two-team fixture match.
             structured_rows = ocr_structured_table_url(
                 image_url,
                 fallback_day=post_day,
@@ -1915,11 +1757,6 @@ def collect_radarkora_confirmations(daily):
                     f"{best['title']} | THMANYAH {srow['channel']} | SOURCE KICKOFF KEPT"
                 )
 
-            # Run BOTH legacy OCR strategies too, as a backup.
-            # The layout-aware pass is useful for difficult images, but it can
-            # return a non-empty *partial* result. Older versions treated that
-            # as success and skipped the full-image OCR, which is exactly why
-            # clear rows such as "الفيحاء - الهلال | ثمانية 2" could be lost.
             layout_rows = ocr_table_rows_url(
                 image_url,
                 fallback_day=post_day,
@@ -1936,9 +1773,6 @@ def collect_radarkora_confirmations(daily):
             rows = []
             row_seen = set()
             for row_day, channel, context in layout_rows + full_rows:
-                # Deduplicate by date/channel plus normalized row text. Keep
-                # both strategies available so one can recover what the other
-                # misses.
                 normalized_context = normalize_ocr(context)
                 key = (row_day, channel, normalized_context)
                 if key in row_seen:
@@ -1952,8 +1786,6 @@ def collect_radarkora_confirmations(daily):
                 f"merged={len(rows)}"
             )
 
-            # Dates discovered inside the image also help pagination stop at
-            # the correct point even when the Telegram caption had no date.
             for row_day, _, _ in rows:
                 if row_day:
                     page_days.append(row_day)
@@ -1965,18 +1797,6 @@ def collect_radarkora_confirmations(daily):
             )
 
             for row_day, channel, context in rows:
-                # The Telegram image itself is authoritative for TEAM + CHANNEL.
-                # Some matches_today2 tables OCR perfectly for the fixture row but
-                # Tesseract misses the date heading. Older versions discarded those
-                # rows here, which is why logs could show 4 numbered rows found and
-                # still end with 0 confirmations.
-                #
-                # If the image date is known, restrict matching to that day. If the
-                # date heading was not OCR'd, match the row against all Goal/Kooora
-                # fixtures already collected inside our normal EPG window and infer
-                # the date from the uniquely matched fixture. fixture_match_score()
-                # returns >0 only when BOTH teams have meaningful evidence in the OCR
-                # row, so this still requires team+channel agreement from the image.
                 if row_day and not (window_floor <= row_day <= window_ceiling):
                     continue
 
@@ -2007,18 +1827,9 @@ def collect_radarkora_confirmations(daily):
                     )
                     continue
 
-                # OCR-AUTHORITATIVE RULE:
-                # Once the image row itself contains a valid Thmanyah channel
-                # number and both teams can be linked to a same-day Goal/Kooora
-                # fixture, trust the image.  Do NOT discard it because of the old
-                # arbitrary >=1.0 score or 0.25 winner-gap thresholds.
-                # fixture_match_score already returns 0 unless BOTH teams have
-                # meaningful token/fuzzy evidence in the OCR row.
                 best_score, best = scored[0]
                 second_score = scored[1][0] if len(scored) > 1 else 0
 
-                # Only an exact top-score tie is unsafe: the OCR row does not
-                # uniquely identify one fixture. Everything else is accepted.
                 if second_score and abs(best_score - second_score) < 1e-9:
                     log(
                         "OCR ROW AMBIGUOUS TIE | "
@@ -2075,10 +1886,6 @@ def collect_radarkora_confirmations(daily):
     return unique, direct_events
 
 def fuzzy_same_fixture(first_signature, second_signature, threshold=0.86):
-    """
-    مطابقة تقريبية بين مباراتين حسب أسماء الفريقين.
-    تُستخدم فقط عندما تفشل المطابقة الحرفية، وتشترط تطابق الفريقين معاً.
-    """
     if not first_signature or not second_signature:
         return False
     if first_signature == second_signature:
@@ -2100,13 +1907,6 @@ def fuzzy_same_fixture(first_signature, second_signature, threshold=0.86):
 
 
 def vote_channel(candidates):
-    """
-    ترجيح رقم القناة بالتصويت بين المصادر المختلفة.
-    - كل مصدر (نطاق/موقع) يُحتسب مرة واحدة لكل رقم قناة.
-    - يفوز الرقم الأعلى أصواتاً بشكل قاطع.
-    - عند التعادل بين رقمين تبقى القناة "غير معلنة" (لا نخمّن أبداً).
-    يعيد (رقم القناة أو None، عدد الأصوات، وصف المصادر).
-    """
     voters = defaultdict(set)
     for candidate in candidates:
         channel = candidate.get("channel")
@@ -2148,11 +1948,6 @@ def confirmation_map(confirmations):
 
 
 def apply_confirmations(daily, confirmations):
-    """
-    Attach only a verified channel number from 365Scores to an existing
-    Goal/Kooora fixture. Never import or replace kickoff time from 365Scores.
-    A confirmation must match the same normalized fixture and same calendar day.
-    """
     by_signature = confirmation_map(confirmations)
     result = []
 
@@ -2172,8 +1967,6 @@ def apply_confirmations(daily, confirmations):
             if candidate.get("date") == current["start"].date()
         ]
 
-        # مطابقة تقريبية: بعض المواقع تكتب أسماء الفرق بصيغ مختلفة
-        # (نادي نيوم / نيوم، الاتحاد السكندري / الاتحاد السكندرى ...).
         if not candidates and signature:
             candidates = [
                 candidate
@@ -2192,7 +1985,6 @@ def apply_confirmations(daily, confirmations):
                 f"{current['source']} + channel confirmed by {votes} source(s): {detail}"
             )
 
-            # Hard safety invariant: channel confirmation may never alter time.
             if current["start"] != original_start:
                 raise RuntimeError("Channel confirmation altered kickoff time")
 
@@ -2205,19 +1997,12 @@ def apply_confirmations(daily, confirmations):
 
         result.append(current)
 
-    # IMPORTANT: do NOT append standalone 365Scores records here.
-    # They carry no trusted kickoff time and exist only as channel metadata.
     return dedupe([
         event for event in result
         if in_window(event["start"])
     ])
 
 def assign_unconfirmed(events):
-    """
-    Never guess Thmanyah 1/2/3.
-    Confirmed channel numbers stay on 1/2/3.
-    Unknown channel numbers stay on the Guide channel.
-    """
     output = []
 
     for event in dedupe(events):
@@ -2281,13 +2066,10 @@ def write_xml(events):
     }
 
     def time_text(event):
-        # التوقيتات الثلاثة (أبوظبي + لاس فيغاس + المصدر) تُعرض في قناة Guide فقط.
         return three_zone_times(event["start"])
 
     def source_time_text(event):
-        # قنوات ثمانية 1/2/3: توقيت المصدر الرئيسي فقط.
-        start = event["start"].astimezone(TZ)
-        return f"{start:%H:%M} ({start:%d/%m}) بتوقيت المصدر الرئيسي - الرياض"
+        return three_zone_times(event["start"])
 
     def day_summary(day):
         day_events = sorted(by_day.get(day, []), key=lambda x: (x["start"], x["title"]))
@@ -2303,9 +2085,6 @@ def write_xml(events):
             )
         return "\n".join(lines)
 
-    # Guide: المباريات المتزامنة تُدمج في مدخل واحد، والمدخل يُقصّ عند بداية
-    # المباراة التالية. XMLTV لا يحتمل برامج متداخلة على نفس القناة
-    # (بعض المشغلات تُسقط المتداخل فتختفي مباريات).
     guide_groups = []
     for event in sorted(events, key=lambda e: (e["start"], e["title"])):
         if guide_groups and guide_groups[-1]["start"] == event["start"]:
@@ -2357,7 +2136,6 @@ def write_xml(events):
         stop = event["start"] + timedelta(hours=3)
         channel = event.get("channel")
 
-        # Only confirmed channel assignments go to 1/2/3.
         if channel in CHANNELS:
             channel_id = f"Thmanyah{channel}.sa"
             real_by_id[channel_id].append((event["start"], stop))
@@ -2382,12 +2160,6 @@ def write_xml(events):
         if event.get("channel") not in CHANNELS
     ]
 
-    # -----------------------------------------------------------------
-    # المباريات التي لم يُعلن رقم قناتها بعد:
-    # تظهر على ثمانية 1/2/3 كـ"مباراة محتملة" بدل "لا توجد مباراة"،
-    # حتى لا تبدو القناة فارغة بينما هناك مباراة ستُذاع على إحداها.
-    # تُوضع فقط في الفراغات التي لا توجد فيها مباراة مؤكدة.
-    # -----------------------------------------------------------------
     if UNCONFIRMED_MODE == "placeholder":
         pending = []
         for event in sorted(unconfirmed_events, key=lambda e: e["start"]):
@@ -2454,7 +2226,6 @@ def write_xml(events):
     )
     window_end = window_start + timedelta(days=KEEP_DAYS_FORWARD + 1)
 
-    # المباريات القادمة لكل قناة، لحساب العد التنازلي في الفواصل.
     upcoming_by_channel = {GUIDE_CHANNEL_ID: sorted(events, key=lambda e: e["start"])}
     for number in CHANNELS:
         upcoming_by_channel[f"Thmanyah{number}.sa"] = sorted(
@@ -2469,7 +2240,6 @@ def write_xml(events):
         return None
 
     def countdown_title(item, moment):
-        """عد تنازلي للمباراة القادمة، يُحسب من بداية كل فاصل."""
         minutes = max(int((item["start"] - moment).total_seconds() // 60), 0)
         hours, mins = divmod(minutes, 60)
         days, hours = divmod(hours, 24)
@@ -2489,8 +2259,6 @@ def write_xml(events):
     def add_hourly_filler(channel_id, gap_start, gap_stop):
         cursor = gap_start
         while cursor < gap_stop:
-            # كلما اقتربت المباراة قصّرنا الفاصل ليكون العد التنازلي أدق،
-            # وبقية اليوم تبقى فواصل ساعة حتى لا يتضخم حجم الملف.
             ahead = next_match_for(channel_id, cursor)
             near = ahead and (ahead["start"] - cursor) <= timedelta(hours=3)
             step = timedelta(minutes=30) if near else timedelta(hours=1)
@@ -2661,7 +2429,6 @@ def write_xml(events):
 
 
 def dedupe_fixture_day(events):
-    """Keep one event per calendar-day fixture, regardless of conflicting times."""
     out = []
     index = {}
     for event in sorted(events, key=lambda e: e["start"]):
@@ -2669,7 +2436,6 @@ def dedupe_fixture_day(events):
         fixture_key = tuple(sorted(sig)) if sig else norm(event.get("title", "")).casefold()
         key = (event["start"].date(), fixture_key)
 
-        # مطابقة تقريبية: البكرية/البكيرية، الدرعية/الدرعيه ... تُعتبر مباراة واحدة.
         if key not in index and sig:
             for existing_key, position in index.items():
                 if existing_key[0] != event["start"].date():
@@ -2684,8 +2450,6 @@ def dedupe_fixture_day(events):
             out.append(dict(event))
             continue
         old = out[index[key]]
-        # Prefer a confirmed numbered-channel event. Otherwise prefer the first
-        # Goal/Kooora fixture already present; never create a second kickoff.
         if event.get("confirmed") and event.get("channel") in CHANNELS and not (old.get("confirmed") and old.get("channel") in CHANNELS):
             old["channel"] = event.get("channel")
             old["confirmed"] = True
@@ -2693,13 +2457,6 @@ def dedupe_fixture_day(events):
     return out
 
 def inject_verified_fallback_fixtures(events):
-    """
-    Final safety net for a verified Thmanyah fixture when Goal/Kooora
-    temporarily omit or change the daily-table HTML.  This is intentionally
-    limited to verified fixtures and does not invent channel numbers.
-    """
-    # قائمة مباريات مؤكدة يدوياً عند الحاجة الطارئة فقط.
-    # تُترك فارغة عادةً: المباريات القديمة هنا تصبح كوداً ميتاً ومصدر لبس.
     verified = []
     existing_keys = {
         (e["start"].date(), fixture_signature(e.get("title", "")))
@@ -2740,8 +2497,6 @@ def main():
 
     daily = dedupe(daily)
 
-    # مصادر إضافية: تُستخدم أساساً لتأكيد رقم القناة، وكاحتياط للمباريات
-    # في الأيام التي لم يوفّر فيها Goal/Kooora أي جدول.
     extra_rows = collect_extra_source_rows()
     confirmations_extra = rows_to_confirmations(extra_rows)
 
@@ -2774,12 +2529,6 @@ def main():
         confirmations_telegram = []
         log("Telegram OCR disabled by config")
 
-    # SAFETY: Telegram/OCR never supplies a standalone kickoff. Keep the fixture
-    # pool exclusively from Goal/Kooora so one match cannot appear twice with two
-    # OCR-derived times.
-
-    # Confirmation records intentionally contain date + fixture + channel only.
-    # Kickoff always remains the Goal/Kooora time.
     for confirmation in confirmations_365:
         confirmation.setdefault("label", "365scores.com")
     for confirmation in confirmations_telegram:
