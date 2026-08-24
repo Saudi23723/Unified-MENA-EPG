@@ -1,22 +1,22 @@
-name: Update Syria & Lebanon Channels EPG
+name: Update Turkey Extra Sports EPG (EXXEN/Tivibu/beIN Connect)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0,30 * * * *"
+    - cron: "*/15 * * * *"
   push:
     branches:
       - main
     paths:
-      - "syria_lebanon_epg.py"
+      - "turkish_extra_sports_epg.py"
       - "epg_lib.py"
-      - ".github/workflows/update_syria_lebanon_epg.yml"
+      - ".github/workflows/update_turkish_extra_sports_epg.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: syria-lebanon-epg
+  group: turkish-extra-sports-epg
   cancel-in-progress: false
 
 jobs:
@@ -39,18 +39,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate Syria & Lebanon channels EPG
-        run: python syria_lebanon_epg.py
+      - name: Generate Turkey Extra Sports EPG
+        run: python turkish_extra_sports_epg.py
 
       - name: Validate XMLTV
         run: |
           python - <<'PY'
           import xml.etree.ElementTree as ET
 
-          root = ET.parse("syria_lebanon_epg.xml").getroot()
+          root = ET.parse("turkish_extra_sports_epg.xml").getroot()
           assert root.tag == "tv"
           assert root.find("channel") is not None
-          print("SYRIA/LEBANON XMLTV VALIDATION PASS")
+          print("TURKEY EXTRA SPORTS XMLTV VALIDATION PASS")
           PY
 
       - name: Commit updated EPG
@@ -58,13 +58,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add syria_lebanon_epg.xml
+          git add turkish_extra_sports_epg.xml
 
           if git diff --cached --quiet; then
-            echo "No Syria/Lebanon EPG changes to commit."
+            echo "No Turkey Extra Sports EPG changes to commit."
             exit 0
           fi
 
-          git commit -m "Update Syria & Lebanon channels EPG"
+          git commit -m "Update Turkey Extra Sports EPG (EXXEN/Tivibu/beIN Connect)"
           git pull --rebase origin main
           git push origin main

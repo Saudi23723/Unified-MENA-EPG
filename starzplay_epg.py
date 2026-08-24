@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-STARZPLAY — full EPG, all categories (sport, movies, series, kids, ...).
+STARZPLAY — sport channels only.
 
 Source: STARZPLAY's own public web-EPG API (the same endpoint the
 starzplay.com website widget itself calls):
 
   GET https://epg.aws.playco.com/api/v1.1/epg/category/events/web-epg-scraper-sp
 
-Paginated; we walk every page until the API returns no more channels, so
-new channels/events show up automatically without any hardcoded list.
+Paginated; we walk every page until the API returns no more channels. The
+API is queried with category=all (so channel discovery still works even
+if STARZPLAY's own "sport" category slug ever changes), then every
+non-sport channel is filtered out client-side before writing the XML —
+this keeps the output small and focused on live sport only.
 """
 
 from __future__ import annotations
@@ -97,14 +100,16 @@ def fetch_all_channels(session, now) -> list[dict]:
 
 
 def build() -> int:
-    log("STARZPLAY EPG | official epg.aws.playco.com API | all categories")
+    log("STARZPLAY EPG | official epg.aws.playco.com API | sport channels only")
     session = new_session()
     now = utc_now()
 
-    channels = fetch_all_channels(session, now)
-    log(f"STARZPLAY total channels discovered: {len(channels)}")
+    all_channels = fetch_all_channels(session, now)
+    channels = [ch for ch in all_channels if is_sport_channel(ch)]
+    log(f"STARZPLAY channels discovered: {len(all_channels)} total, "
+        f"{len(channels)} sport channels kept")
 
-    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — STARZPLAY"})
+    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — STARZPLAY Sport"})
 
     total = 0
     for ch in channels:
@@ -121,8 +126,6 @@ def build() -> int:
             if src:
                 ET.SubElement(chan_el, "icon", src=src)
 
-        live_eligible = is_sport_channel(ch)
-
         for ev in ch.get("events", []) or []:
             start = parse_unix(ev.get("tsStart"))
             stop = parse_unix(ev.get("tsEnd"))
@@ -136,11 +139,11 @@ def build() -> int:
 
             add_programme(
                 root, xid, start, stop, title, desc,
-                icon=icon, live_eligible=live_eligible, now=now,
+                icon=icon, live_eligible=True, now=now,
             )
             total += 1
 
-    log(f"STARZPLAY: {total} programmes across {len(channels)} channels")
+    log(f"STARZPLAY: {total} programmes across {len(channels)} sport channels")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — STARZPLAY")
     return 0

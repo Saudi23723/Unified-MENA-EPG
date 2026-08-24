@@ -28,7 +28,7 @@ SOURCE_FILES = [
     "starzplay_epg.xml",
     "adsports_epg.xml",
     "roya_jordan_epg.xml",
-    "syria_lebanon_epg.xml",
+    "turkish_extra_sports_epg.xml",
     "jordan_sports_epg.xml",
     "onsport_epg.xml",
     "alwan_sports_epg_v2.xml",

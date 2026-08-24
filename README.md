@@ -34,11 +34,12 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_t
 
 ---
 
-### 🟣 STARZPLAY
+### 🟣 STARZPLAY (Sport only)
 
-All categories — sport, movies, series and more — sourced from STARZPLAY's
-own public web-EPG API. New channels appear automatically; no channel list
-is hardcoded.
+Sport channels only, sourced from STARZPLAY's own public web-EPG API.
+Channels are auto-discovered and filtered to "sport" client-side, so new
+sport channels appear automatically without growing the file with
+unrelated movies/series channels.
 
 EPG URL:
 
@@ -73,21 +74,19 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/roya_jordan_e
 
 ---
 
-### 🇸🇾 🇱🇧 Syria & Lebanon channels
+### 🇹🇷 Turkey — EXXEN SPOR, Tivibu Spor, beIN CONNECT
 
-Sourced from Shahid's (MBC) official public API, which republishes a
-handful of free-to-air regional channels — currently **السورية /
-Al-Souriya TV** (Syria) and **MTV Lebanon**. New Syrian/Lebanese channels
-Shahid adds are picked up automatically.
-
-> No public schedule API could be found for LBCI, OTV, Tele Liban, Al
-> Jadeed, or Syria TV (Fadaat) — rather than invent data for them, they
-> are simply not included. If you know of a public source for any of
-> these, please open an issue.
+Best-effort match-to-channel guide for three Turkish streaming sport
+platforms. None of the three publish a public schedule API (they're
+apps, not classic linear channels), so — like this repo's existing
+Jordan/ON-Sport/Shahid guides — this reads real match/channel
+assignments from Mackolik's TV programme page. A match only appears here
+when Mackolik explicitly names the channel next to it; nothing is
+invented.
 
 EPG URL:
 
-https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/syria_lebanon_epg.xml
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/turkish_extra_sports_epg.xml
 
 ---
 
