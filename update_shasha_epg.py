@@ -14,6 +14,8 @@ from bs4 import BeautifulSoup
 from pypdf import PdfReader
 from io import BytesIO
 
+from epg_lib import countdown_label, countdown_step, with_live_badge
+
 OUTPUT = "shasha_epg.xml"
 
 CHANNEL_ID = "ShashaGuide"
@@ -547,7 +549,45 @@ def write_xml(events: list[dict]) -> None:
     first_day = today_utc - timedelta(days=DAYS_BACK)
     last_day = today_utc + timedelta(days=DAYS_FORWARD)
 
-    by_day = {}
+    # Matches kicking off at the same moment must share ONE programme: this
+    # is a single guide channel, so emitting them separately produced
+    # overlapping entries and the player showed only one of them.
+    slots: dict[datetime, list[dict]] = {}
+    for ev in events:
+        slots.setdefault(ev["start"].astimezone(UTC), []).append(ev)
+    slot_starts = sorted(slots)
+
+    def next_slot_after(moment: datetime) -> datetime | None:
+        return next((s for s in slot_starts if s >= moment), None)
+
+    def slot_title(slot_start: datetime) -> str:
+        return " + ".join(ev["title"] for ev in slots[slot_start])
+
+    def add_countdown(gap_start: datetime, gap_stop: datetime, desc: str) -> None:
+        """Fill a gap with consecutive blocks counting down to the next match."""
+        cursor = gap_start
+        while cursor < gap_stop:
+            upcoming = next_slot_after(cursor)
+            if upcoming is None:
+                add_programme(
+                    root, cursor, gap_stop,
+                    "لا توجد مباراة قادمة على شاشا", desc,
+                )
+                return
+
+            remaining = upcoming - cursor
+            stop = min(cursor + countdown_step(remaining), gap_stop, upcoming)
+            if stop <= cursor:
+                return
+
+            left = countdown_label(remaining.total_seconds() // 60)
+            add_programme(
+                root, cursor, stop,
+                f"{slot_title(upcoming)} · بعد {left}", desc,
+            )
+            cursor = stop
+
+    by_day: dict[date, list[dict]] = {}
     for ev in events:
         d = ev["start"].astimezone(UTC).date()
         by_day.setdefault(d, []).append(ev)
@@ -560,52 +600,42 @@ def write_xml(events: list[dict]) -> None:
         day_start = datetime(d.year, d.month, d.day, 0, 0, tzinfo=UTC)
         day_end = day_start + timedelta(days=1)
 
-        if not day_events:
-            add_programme(
-                root,
-                day_start,
-                day_end,
-                "لا توجد مباريات مجدولة على شاشا",
-                desc,
-            )
+        day_slots = [s for s in slot_starts if day_start <= s < day_end]
+
+        if not day_slots:
+            add_countdown(day_start, day_end, desc)
             continue
 
         cursor = day_start
 
-        for ev in day_events:
-            ev_start = ev["start"].astimezone(UTC)
+        for index, slot_start in enumerate(day_slots):
+            if slot_start > cursor:
+                add_countdown(cursor, slot_start, desc)
 
-            if ev_start > cursor:
-                add_programme(
-                    root,
-                    cursor,
-                    ev_start,
-                    "جدول مباريات شاشا اليوم",
-                    desc,
-                )
+            group = slots[slot_start]
+            duration = max(int(ev.get("duration_minutes", 135)) for ev in group)
 
-            duration = int(ev.get("duration_minutes", 135))
-            ev_stop = min(ev_start + timedelta(minutes=duration), day_end)
+            limit = day_end
+            if index + 1 < len(day_slots):
+                limit = min(limit, day_slots[index + 1])
+
+            slot_stop = min(slot_start + timedelta(minutes=duration), limit)
+            if slot_stop <= cursor:
+                continue
 
             add_programme(
                 root,
-                ev_start,
-                ev_stop,
-                ev["title"],
+                max(slot_start, cursor),
+                slot_stop,
+                with_live_badge(slot_title(slot_start)),
                 desc,
-                category=competition_ar(ev["competition"]),
+                category=competition_ar(group[0]["competition"]),
             )
 
-            cursor = max(cursor, ev_stop)
+            cursor = max(cursor, slot_stop)
 
         if cursor < day_end:
-            add_programme(
-                root,
-                cursor,
-                day_end,
-                "جدول مباريات شاشا اليوم",
-                desc,
-            )
+            add_countdown(cursor, day_end, desc)
 
     try:
         ET.indent(root, space="  ")
