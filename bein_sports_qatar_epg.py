@@ -14,6 +14,21 @@ every title/description/start/stop comes straight from that API.
 If the live channel-list call fails, we fall back to the last-known-good
 channel roster below (site_id GUIDs are stable — beIN does not recycle
 them), so the script still produces a full, correct EPG.
+
+Two things the API gives us that are used here:
+
+  * every event row carries beIN's own `live` flag ("True"/"False"). The
+    Live badge follows that flag, not the clock, so a match still shows as
+    a live broadcast when you browse ahead to it — which is what LIVE means
+    in an EPG.
+  * some channels (the AFC set, NBA, 4K HDR) answer 200 with zero rows:
+    beIN publishes no schedule for them. Those are left out of the file
+    entirely rather than shown as empty rows in TiviMate. Nothing is
+    hardcoded — a channel reappears by itself the moment beIN starts
+    scheduling it again.
+
+Logos are served from this repository (see fetch_logos.py), not hot-linked,
+because third-party image hosts rate-limit and break.
 """
 
 from __future__ import annotations
@@ -24,7 +39,10 @@ from zoneinfo import ZoneInfo
 
 import xml.etree.ElementTree as ET
 
-from epg_lib import add_programme, fetch, log, new_session, run_main, utc_now, warn, write_xml_atomic
+from epg_lib import (
+    add_programme, fetch, log, new_session, run_main, utc_now, warn,
+    with_live_badge, write_xml_atomic,
+)
 
 OUTPUT = "bein_sports_qatar_epg.xml"
 
@@ -36,6 +54,59 @@ DAYS_FORWARD = 6
 
 API_CHANNELS = "https://www.beinsports.com/api/opta/tv-channel"
 API_EVENTS = "https://www.beinsports.com/api/opta/tv-event"
+
+LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
+
+# xmltv id -> the logo file fetch_logos.py writes into logos/. A channel
+# missing from this map simply gets no icon; it never breaks the guide.
+LOGO_KEYS = {
+    "beIN4K.qa": "bein_4k",
+    "beINSports.qa": "bein_brand",
+    "beINSports1.qa": "bein_1",
+    "beINSports2.qa": "bein_2",
+    "beINSports3.qa": "bein_3",
+    "beINSports4.qa": "bein_4",
+    "beINSports4KHdr.qa": "bein_4khdr",
+    "beINSports5.qa": "bein_5",
+    "beINSports6.qa": "bein_6",
+    "beINSports7.qa": "bein_7",
+    "beINSports8.qa": "bein_8",
+    "beINSports9.qa": "bein_9",
+    "beINSportsAFC.qa": "bein_afc",
+    "beINSportsAFC1.qa": "bein_afc1",
+    "beINSportsAFC2.qa": "bein_afc2",
+    "beINSportsAFC3.qa": "bein_afc3",
+    "beINSportsAFC4.qa": "bein_afc4",
+    "beINSportsAFC5.qa": "bein_afc5",
+    "beINSportsAFC6.qa": "bein_afc6",
+    "beINSportsEn1.qa": "bein_en1",
+    "beINSportsEn2.qa": "bein_en2",
+    "beINSportsFr1.qa": "bein_fr1",
+    "beINSportsFr2.qa": "bein_fr2",
+    "beINSportsMax1.qa": "bein_max1",
+    "beINSportsMax2.qa": "bein_max2",
+    "beINSportsMax3.qa": "bein_max3",
+    "beINSportsMax4.qa": "bein_max4",
+    "beINSportsMax5.qa": "bein_max5",
+    "beINSportsMax6.qa": "bein_max6",
+    "beINSportsNBA.qa": "bein_nba",
+    "beINSportsNews.qa": "bein_news",
+    "beINSportsXtra1.qa": "bein_xtra1",
+    "beINSportsXtra2.qa": "bein_xtra2",
+    "beINSportsXtra3.qa": "bein_xtra3",
+    "beINSportsXtra4.qa": "bein_xtra4",
+    "beINSportsXtra5.qa": "bein_xtra5",
+    "beINSportsXtra6.qa": "bein_xtra6",
+    "beINSportsXtra7.qa": "bein_xtra7",
+    "beINSportsXtra8.qa": "bein_xtra8",
+    "beINSportsXtra9.qa": "bein_xtra9",
+}
+
+
+def channel_icon(xid: str) -> str | None:
+    keyname = LOGO_KEYS.get(xid)
+    return f"{LOGO_BASE}/{keyname}.png" if keyname else None
+
 
 # Last-known-good roster (site_id is a stable Opta GUID beIN does not
 # recycle). Used whenever the live channel-list call fails, and merged
@@ -141,11 +212,17 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
             continue
         if stop <= start:
             continue
+        # beIN sends the flag as the string "True"/"False", and older rows
+        # have carried a real bool, so accept both.
+        flag = row.get("live")
+        is_live = flag is True or (isinstance(flag, str) and flag.strip().lower() == "true")
+
         events.append({
             "start": start.astimezone(UTC),
             "stop": stop.astimezone(UTC),
             "title": (row.get("title") or "").strip() or "beIN SPORTS",
             "desc": (row.get("description") or "").strip(),
+            "live": is_live,
         })
     return sorted(events, key=lambda e: e["start"])
 
@@ -156,31 +233,51 @@ def build() -> int:
     channels = load_channels(session)
     log(f"Total channels in roster: {len(channels)}")
 
-    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — beIN Sports Qatar"})
-    for xid, (name, _guid) in sorted(channels.items()):
-        ch = ET.SubElement(root, "channel", id=xid)
-        ET.SubElement(ch, "display-name", lang="en").text = name
-
-    now = utc_now()
-    total = 0
-    ok_channels = 0
+    # Collect first, emit second: a channel beIN publishes no schedule for
+    # must not appear in the file as an empty row.
+    per_channel: dict[str, list[dict]] = {}
     for xid, (name, guid) in sorted(channels.items()):
         try:
-            events = fetch_events_for_channel(session, guid)
+            per_channel[xid] = fetch_events_for_channel(session, guid)
         except Exception as exc:
             warn(f"{name}: schedule fetch failed | {exc}")
-            continue
+            per_channel[xid] = []
 
-        if events:
-            ok_channels += 1
-        for ev in events:
-            add_programme(
-                root, xid, ev["start"], ev["stop"], ev["title"], ev["desc"],
-                category="Sports", live_eligible=True, now=now,
+    with_data = [x for x in sorted(channels) if per_channel.get(x)]
+    empty = [channels[x][0] for x in sorted(channels) if not per_channel.get(x)]
+    if empty:
+        log(f"No schedule published for {len(empty)} channel(s), left out: {', '.join(empty)}")
+
+    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — beIN Sports Qatar"})
+    for xid in with_data:
+        name, _guid = channels[xid]
+        ch = ET.SubElement(root, "channel", id=xid)
+        ET.SubElement(ch, "display-name", lang="en").text = name
+        icon = channel_icon(xid)
+        if icon:
+            ET.SubElement(ch, "icon", src=icon)
+
+    total = 0
+    live_count = 0
+    for xid in with_data:
+        for ev in per_channel[xid]:
+            title = ev["title"]
+            if ev["live"]:
+                title = with_live_badge(title)
+                live_count += 1
+            p = add_programme(
+                root, xid, ev["start"], ev["stop"], title, ev["desc"],
+                category="Sports",
             )
+            if ev["live"]:
+                ET.SubElement(p, "category", lang="en").text = "Live"
             total += 1
 
-    log(f"beIN Qatar/MENA: {ok_channels}/{len(channels)} channels returned programmes, {total} programmes total")
+    icons = sum(1 for c in root.findall("channel") if c.find("icon") is not None)
+    log(
+        f"beIN Qatar/MENA: {len(with_data)}/{len(channels)} channels with a schedule, "
+        f"{total} programmes, {live_count} live, {icons} channel logos"
+    )
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Qatar")
     return 0

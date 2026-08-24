@@ -77,6 +77,132 @@ CANDIDATES: dict[str, list[str]] = {
     "onsportplus": [
         "https://i.imgur.com/NIMiorz.png",
     ],
+
+    # --- beIN SPORTS Qatar / MENA ------------------------------------------
+    # URLs come from the iptv-org logo database, matched on the same channel
+    # ids this guide emits. Where iptv-org carries no separate mark for a
+    # channel (XTRA 3-9, AFC 4-6, SPORTS 9) the logo of its own brand is
+    # reused rather than leaving those channels blank in TiviMate.
+    "bein_4k": [
+        "https://i.imgur.com/TTxh9tZ.png",
+    ],
+    "bein_brand": [
+        "https://i.imgur.com/RLrMBlm.png",
+    ],
+    "bein_1": [
+        "https://i.imgur.com/Vtk2cGI.png",
+    ],
+    "bein_2": [
+        "https://i.imgur.com/vUJZSvs.png",
+    ],
+    "bein_3": [
+        "https://i.imgur.com/UYSMao3.png",
+    ],
+    "bein_4": [
+        "https://i.imgur.com/vwAgJNi.png",
+    ],
+    "bein_4khdr": [
+        "https://assets.bein.com/mena/sites/3/2026/05/4K-HDR-200x200-1.png",
+    ],
+    "bein_5": [
+        "https://i.imgur.com/2Rha5aY.png",
+    ],
+    "bein_6": [
+        "https://i.imgur.com/0wBdLYb.png",
+    ],
+    "bein_7": [
+        "https://i.imgur.com/iODFwZi.png",
+    ],
+    "bein_8": [
+        "https://i.imgur.com/CaFEyVn.png",
+    ],
+    "bein_9": [  # same-brand reuse
+        "https://i.imgur.com/RLrMBlm.png",
+    ],
+    "bein_afc": [
+        "https://i.imgur.com/HOj98bH.png",
+    ],
+    "bein_afc1": [
+        "https://i.imgur.com/nk3JCpg.png",
+    ],
+    "bein_afc2": [
+        "https://i.imgur.com/WITLbxq.png",
+    ],
+    "bein_afc3": [
+        "https://i.imgur.com/ruRe9oj.png",
+    ],
+    "bein_afc4": [  # same-brand reuse
+        "https://i.imgur.com/HOj98bH.png",
+    ],
+    "bein_afc5": [  # same-brand reuse
+        "https://i.imgur.com/HOj98bH.png",
+    ],
+    "bein_afc6": [  # same-brand reuse
+        "https://i.imgur.com/HOj98bH.png",
+    ],
+    "bein_en1": [
+        "https://i.imgur.com/uqVwDrB.png",
+    ],
+    "bein_en2": [
+        "https://i.imgur.com/dWNbCyx.png",
+    ],
+    "bein_fr1": [
+        "https://i.imgur.com/tXqMkzA.png",
+    ],
+    "bein_fr2": [
+        "https://i.imgur.com/EG48QI7.png",
+    ],
+    "bein_max1": [
+        "https://i.imgur.com/FjWQjdy.png",
+    ],
+    "bein_max2": [
+        "https://i.imgur.com/5dBc5rn.png",
+    ],
+    "bein_max3": [
+        "https://i.imgur.com/ThcM2LE.png",
+    ],
+    "bein_max4": [
+        "https://i.imgur.com/j7osMfM.png",
+    ],
+    "bein_max5": [
+        "https://i.imgur.com/L6TvXAi.png",
+    ],
+    "bein_max6": [
+        "https://i.imgur.com/GHZHRPF.png",
+    ],
+    "bein_nba": [
+        "https://i.imgur.com/QmSc6kh.png",
+    ],
+    "bein_news": [
+        "https://i.imgur.com/ZNjQzR5.png",
+    ],
+    "bein_xtra1": [
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra2": [
+        "https://i.imgur.com/08Y2CW1.png",
+    ],
+    "bein_xtra3": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra4": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra5": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra6": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra7": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra8": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
+    "bein_xtra9": [  # same-brand reuse
+        "https://i.imgur.com/O9lTxQA.png",
+    ],
 }
 
 MIN_BYTES = 500
