@@ -67,5 +67,14 @@ jobs:
           fi
 
           git commit -m "Update Jordan (Roya) EPG"
-          git pull --rebase origin main
-          git push origin main
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            if git push origin main; then
+              echo "Pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected (another workflow pushed first), retrying ($attempt/5)..."
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          echo "Failed to push after 5 attempts"
+          exit 1
