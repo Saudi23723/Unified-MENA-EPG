@@ -1,0 +1,109 @@
+#cloud-config
+# Automated setup for the MENA Sports Info channel on an Oracle Cloud
+# Always Free VM.
+#
+# Paste this whole file into the Oracle console when you create the instance:
+#   Create Instance -> Show advanced options -> Management -> Initialization script
+#   -> Paste cloud-init script
+#
+# It installs everything, opens the port and starts the channel on first boot,
+# so you never need to SSH in. See ORACLE.md for the console steps.
+#
+# When the instance finishes booting (~4 minutes), the channel is at:
+#   http://<PUBLIC_IP>:8080/playlist.m3u
+
+package_update: true
+
+packages:
+  - git
+  - python3-pip
+  - python3-venv
+  - ffmpeg
+  # DejaVu is the important one: it covers Arabic AND Latin in one face,
+  # which is what keeps mixed fixture titles free of empty boxes.
+  - fonts-dejavu-core
+  - fonts-noto-core
+  - iptables-persistent
+
+write_files:
+  - path: /etc/systemd/system/mena-info.service
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=MENA Sports Info Channel (HLS)
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=mena
+      WorkingDirectory=/opt/mena-info/infochannel
+      # Segments are rewritten constantly, so keep them in RAM.
+      RuntimeDirectory=mena-info
+      ExecStart=/opt/mena-info/venv/bin/python3 /opt/mena-info/infochannel/stream.py \
+          --out /run/mena-info \
+          --port 8080 \
+          --tz Asia/Riyadh
+      Restart=always
+      RestartSec=10
+      # A transient network failure must never turn into a restart loop: the
+      # guide loader already keeps the last good data on screen.
+      StartLimitIntervalSec=0
+      NoNewPrivileges=yes
+      PrivateTmp=yes
+
+      [Install]
+      WantedBy=multi-user.target
+
+  # Keeps the guide current even if the machine runs for months.
+  - path: /etc/systemd/system/mena-info-update.service
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=Pull the latest info-channel code
+      After=network-online.target
+
+      [Service]
+      Type=oneshot
+      User=mena
+      WorkingDirectory=/opt/mena-info
+      ExecStart=/usr/bin/git pull --ff-only
+      ExecStartPost=/bin/systemctl try-restart mena-info
+
+  - path: /etc/systemd/system/mena-info-update.timer
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=Weekly info-channel code update
+
+      [Timer]
+      OnCalendar=weekly
+      Persistent=true
+      RandomizedDelaySec=1h
+
+      [Install]
+      WantedBy=timers.target
+
+runcmd:
+  - useradd --system --create-home --home-dir /var/lib/mena-info --shell /usr/sbin/nologin mena
+  - git clone --depth 1 https://github.com/Saudi23723/Unified-MENA-EPG.git /opt/mena-info
+  - python3 -m venv /opt/mena-info/venv
+  - /opt/mena-info/venv/bin/pip install --no-cache-dir -r /opt/mena-info/infochannel/requirements.txt
+  - chown -R mena:mena /opt/mena-info
+
+  # Oracle's Ubuntu images ship an iptables INPUT chain that rejects
+  # everything except SSH, so the rule has to go in ahead of that REJECT.
+  # This is separate from the Security List rule you add in the web console —
+  # both are required.
+  - iptables -I INPUT -p tcp --dport 8080 -j ACCEPT
+  - netfilter-persistent save
+
+  - systemctl daemon-reload
+  - systemctl enable --now mena-info.service
+  - systemctl enable --now mena-info-update.timer
+
+  # Leaves a one-line answer for "did it work?" in the console log.
+  - sleep 25
+  - systemctl is-active --quiet mena-info && echo "MENA-INFO READY -> http://$(curl -s --max-time 5 ifconfig.me):8080/playlist.m3u" || echo "MENA-INFO FAILED - run: journalctl -u mena-info -n 50"
+
+final_message: "MENA Sports Info ready after $UPTIME seconds. Playlist: http://<PUBLIC_IP>:8080/playlist.m3u"
