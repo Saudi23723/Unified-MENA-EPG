@@ -101,12 +101,15 @@ def fetch_sat_tv_lineup_day(session, satellite: int, lineup: int, day: datetime)
         "userDateTime": str(int(day.timestamp() * 1000)),
         "userTimezone": "Europe/London",
     }
+    # Short timeout + a single attempt: if sat.tv is unreachable/hanging we
+    # want to find out in seconds, not tie up the whole run for minutes.
     r = fetch(
         session, SAT_TV_API, method="POST", data=form,
         headers={
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             "Cookie": "pll_language=ar",
         },
+        timeout=8, retries=1,
     )
     return r.text
 
@@ -174,6 +177,7 @@ def collect_sat_tv_jordan(session, now: datetime) -> dict[str, list[dict]]:
     for (satellite, lineup), names in SAT_TV_JORDAN_LINEUPS.items():
         ok_days = 0
         by_name: dict[str, list[dict]] = {n: [] for n in names}
+        consecutive_failures = 0
 
         for offset in range(-DAYS_BACK, DAYS_FORWARD + 1):
             day = today + timedelta(days=offset)
@@ -182,7 +186,16 @@ def collect_sat_tv_jordan(session, now: datetime) -> dict[str, list[dict]]:
                 parsed = parse_sat_tv_lineup(html, names, day)
             except Exception as exc:
                 warn(f"sat.tv lineup {satellite}#{lineup} day {day.date()} failed: {exc}")
+                consecutive_failures += 1
+                # Circuit breaker: if sat.tv is unreachable, don't keep
+                # hammering it for every remaining day this run — bail out
+                # for this lineup so one dead source can't stall the job.
+                if consecutive_failures >= 2:
+                    warn(f"sat.tv lineup {satellite}#{lineup}: 2 failures in a row, "
+                         f"skipping remaining days this run")
+                    break
                 continue
+            consecutive_failures = 0
             got_any = False
             for name, events in parsed.items():
                 if events:
