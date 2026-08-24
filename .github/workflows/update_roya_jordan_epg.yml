@@ -40,9 +40,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: TEMP DEBUG PROBE
-        run: python probe_debug.py
-
       - name: Generate Jordan (Roya) EPG
         run: python roya_jordan_epg.py
 
