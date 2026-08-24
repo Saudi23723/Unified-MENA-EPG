@@ -16827,6 +16827,27 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <channel id="Roya_Ch35">
     <display-name lang="ar">قناة الشرقية</display-name>
   </channel>
+  <channel id="JO_JordanTV">
+    <display-name lang="en">Jordan TV</display-name>
+  </channel>
+  <channel id="JO_AlMamlakaTV">
+    <display-name lang="en">Al Mamlaka TV</display-name>
+  </channel>
+  <channel id="JO_AmmanTV">
+    <display-name lang="en">Amman TV</display-name>
+  </channel>
+  <channel id="JO_AlerthAlnabawi">
+    <display-name lang="en">Alerth Alnabawi</display-name>
+  </channel>
+  <channel id="JO_AzhariTV">
+    <display-name lang="en">Azhari TV</display-name>
+  </channel>
+  <channel id="JO_KaifaTV">
+    <display-name lang="en">Kaifa TV</display-name>
+  </channel>
+  <channel id="JO_Karameesh">
+    <display-name lang="en">Karameesh</display-name>
+  </channel>
   <programme start="20260823210000 +0000" stop="20260823213000 +0000" channel="Roya_RoyaTV">
     <title lang="ar">نسمات أيلول</title>
     <desc lang="ar">تدور أحداث المسلسل في إحدى القرى الريفية السورية، ويتناول العلاقات الإنسانية وهموم سكان الريف، والقضايا والمشكلات اليومية للشباب وكبار السن وما يواجهونه من تحديات حياتية مختلفة، في إطار كوميدي خفيف.</desc>
@@ -16856,15 +16877,15 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
   </programme>
   <programme start="20260824040000 +0000" stop="20260824050000 +0000" channel="Roya_RoyaTV">
-    <title lang="ar">أخبار السابعة • Live 🟢</title>
+    <title lang="ar">أخبار السابعة</title>
     <desc lang="ar">تبث نشرة أخبار السابعة من السبت إلى الخميس على الهواء في تمام الساعة 07:00 صباحاً بتوقيت العاصمة الأردنية عمان، حيث يتم استعراض أحدث الأخبار المحلية بالإضافة استعراض لحالة الطقس المتوقعة .
 نشرة أخبار السابعة  تقديم كل من : مهند القسوس، محمد عمر، اخلاص عتوم، رشا دواغرة و رفاه جواد .</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1228/ZwEbzTGF7Tajrw0.webp" />
   </programme>
   <programme start="20260824050000 +0000" stop="20260824080000 +0000" channel="Roya_RoyaTV">
-    <title lang="ar">دنيا يا دنيا</title>
+    <title lang="ar">دنيا يا دنيا • Live 🟢</title>
     <desc lang="ar">برنامج صباحي اجتماعي منوع يُبث يومياً على قناة رؤيا الفضائية من السبت للخميس، من الساعة 8:00 صباحاً الى 11:00 صباحاً</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/56/GmbUlBq4KnJJ6ps.webp" />
   </programme>
   <programme start="20260824080000 +0000" stop="20260824093000 +0000" channel="Roya_RoyaTV">
@@ -16987,15 +17008,15 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
   </programme>
   <programme start="20260824040000 +0000" stop="20260824050000 +0000" channel="Roya_RoyaNews">
-    <title lang="ar">أخبار السابعة • Live 🟢</title>
+    <title lang="ar">أخبار السابعة</title>
     <desc lang="ar">تبث نشرة أخبار السابعة من السبت إلى الخميس على الهواء في تمام الساعة 07:00 صباحاً بتوقيت العاصمة الأردنية عمان، حيث يتم استعراض أحدث الأخبار المحلية بالإضافة استعراض لحالة الطقس المتوقعة .
 نشرة أخبار السابعة  تقديم كل من : مهند القسوس، محمد عمر، اخلاص عتوم، رشا دواغرة و رفاه جواد .</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1228/ZwEbzTGF7Tajrw0.webp" />
   </programme>
   <programme start="20260824050000 +0000" stop="20260824060000 +0000" channel="Roya_RoyaNews">
-    <title lang="ar">موجز الأخبار</title>
+    <title lang="ar">موجز الأخبار • Live 🟢</title>
     <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
   </programme>
   <programme start="20260824060000 +0000" stop="20260824063000 +0000" channel="Roya_RoyaNews">
@@ -17183,14 +17204,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/219/kYadMief24h7AR2.jpg" />
   </programme>
   <programme start="20260824044226 +0000" stop="20260824050444 +0000" channel="Roya_RoyaComedy">
-    <title lang="ar">الجار قبل الدار - الموسم الثاني • Live 🟢</title>
+    <title lang="ar">الجار قبل الدار - الموسم الثاني</title>
     <desc lang="ar">يدور المسلسل، حول عائلة أبو طراد، والشخصية الرئيسة هو طراد الشاب الحالم والمشاغب بآن معا مما يُدخله في مواقف طريفة مع عائلته ومحيطه الاجتماعي ومع صديقه الأمريكي، المسلسل يعكس الى حد ما كبير صورة العائلة الأردنية العصرية والتحديات التي تواجه في إطار كوميدي مما سجل علامة مميزة على صعيد الكوميديا الأردنية.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/219/kYadMief24h7AR2.jpg" />
   </programme>
   <programme start="20260824050444 +0000" stop="20260824052715 +0000" channel="Roya_RoyaComedy">
-    <title lang="ar">الجار قبل الدار - الموسم الثاني</title>
+    <title lang="ar">الجار قبل الدار - الموسم الثاني • Live 🟢</title>
     <desc lang="ar">يدور المسلسل، حول عائلة أبو طراد، والشخصية الرئيسة هو طراد الشاب الحالم والمشاغب بآن معا مما يُدخله في مواقف طريفة مع عائلته ومحيطه الاجتماعي ومع صديقه الأمريكي، المسلسل يعكس الى حد ما كبير صورة العائلة الأردنية العصرية والتحديات التي تواجه في إطار كوميدي مما سجل علامة مميزة على صعيد الكوميديا الأردنية.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/219/kYadMief24h7AR2.jpg" />
   </programme>
   <programme start="20260824052715 +0000" stop="20260824061609 +0000" channel="Roya_RoyaComedy">
@@ -17525,14 +17546,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/432/ipcbHDMKYJ9hZRv.jpg" />
   </programme>
   <programme start="20260824042703 +0000" stop="20260824044557 +0000" channel="Roya_RoyaKitchen">
-    <title lang="ar">مطبخ رؤيا - المطبخ الأوروبي • Live 🟢</title>
+    <title lang="ar">مطبخ رؤيا - المطبخ الأوروبي</title>
     <desc lang="ar">أكبر تشكيلة من وصفات الطبخ والأكلات الجديدة من المطبخ الأوروبى ضمن مطبخ رؤيا.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/180/4HTNtPcCvdpy5w0.jpg" />
   </programme>
   <programme start="20260824044557 +0000" stop="20260824051048 +0000" channel="Roya_RoyaKitchen">
-    <title lang="ar">مطبخ رؤيا - حرف يدوية</title>
+    <title lang="ar">مطبخ رؤيا - حرف يدوية • Live 🟢</title>
     <desc lang="ar">طرق ابداعية لتقديم الطعام وتزيين السفرة خلال مطبخ رؤيا</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/192/kpTrUoXME7j72fG.jpg" />
   </programme>
   <programme start="20260824051048 +0000" stop="20260824052917 +0000" channel="Roya_RoyaKitchen">
@@ -18021,9 +18042,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1189/ow8xto7B3VqHHNI.webp" />
   </programme>
   <programme start="20260824043246 +0000" stop="20260824045506 +0000" channel="Roya_Ch38">
-    <title lang="ar">المهمة المستحيلة • Live 🟢</title>
+    <title lang="ar">المهمة المستحيلة</title>
     <desc lang="ar">برنامج مسابقات ترفيهي نوعي مبني على تفاعل المتسابقين مع مجموعة تحديات متنوعة تتدرج بصعوبتها، يطل البرنامج عليكم في كل حلقة من مدينة فلسطينية مختلفة.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/221/fREUtUD1KrUjExo.jpg" />
   </programme>
   <programme start="20260824045506 +0000" stop="20260824045930 +0000" channel="Roya_Ch38">
@@ -18037,8 +18057,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1245/AMnNTab95LvckP6.jpg" />
   </programme>
   <programme start="20260824050351 +0000" stop="20260824051003 +0000" channel="Roya_Ch38">
-    <title lang="ar">كرفان - حكواتية - الموسم الأول</title>
+    <title lang="ar">كرفان - حكواتية - الموسم الأول • Live 🟢</title>
     <desc lang="ar">قصص من غزة ُتعطي معنى لوجودنا، ونندرك أن أحدهم سيقرأ ويسمع عنا وعن حياتنا يوًما ما، ومن ناحية أخرى، تبدو حياتنا الشخصية مختلفة عادًة لكنها متشابهة بالجوهر، لذلك سنحتاج دائًما لقراءة قصص من سبقونا أو من يعيشون معنا في هذا العالم، لنتعلم منهم.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1321/2iTerQzpdjQmHhF.webp" />
   </programme>
   <programme start="20260824051003 +0000" stop="20260824051653 +0000" channel="Roya_Ch38">
@@ -19201,14 +19222,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260824040000 +0000" stop="20260824050000 +0000" channel="Roya_Ch35">
-    <title lang="ar">قناة الشرقية • Live 🟢</title>
+    <title lang="ar">قناة الشرقية</title>
     <desc lang="ar">قناة الشرقية هي قناة تلفزيونية فضائية عراقية بدأ بثّها التجريبي في آذار عام 2004، والبث العادي في 4 أيار 2004. تبثّ القناة برامج إخبارية ورياضية وكوميدية ومسلسلات عراقية أصلية ومسلسلات عربية وبرامج الواقع.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260824050000 +0000" stop="20260824060000 +0000" channel="Roya_Ch35">
-    <title lang="ar">قناة الشرقية</title>
+    <title lang="ar">قناة الشرقية • Live 🟢</title>
     <desc lang="ar">قناة الشرقية هي قناة تلفزيونية فضائية عراقية بدأ بثّها التجريبي في آذار عام 2004، والبث العادي في 4 أيار 2004. تبثّ القناة برامج إخبارية ورياضية وكوميدية ومسلسلات عراقية أصلية ومسلسلات عربية وبرامج الواقع.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260824060000 +0000" stop="20260824070000 +0000" channel="Roya_Ch35">
