@@ -51,6 +51,44 @@ def probe_roya():
         print(f"day={day} channels={sorted(names)}")
 
 
+def probe_aljazeera():
+    print("=" * 20, "AL JAZEERA PROBE", "=" * 20)
+    r = requests.get("https://www.aljazeera.net/schedule", headers=HEADERS, timeout=20)
+    print("status", r.status_code, "len", len(r.text))
+    idx = r.text.find('__NEXT_DATA__')
+    print("has __NEXT_DATA__:", idx != -1)
+    if idx != -1:
+        print(r.text[idx:idx + 2000])
+
+
+def probe_alarabiya():
+    print("=" * 20, "AL ARABIYA PROBE", "=" * 20)
+    for url in [
+        "https://www.alarabiya.net/schedule",
+        "https://english.alarabiya.net/schedule",
+        "https://www.alarabiya.net/ar/schedule.html",
+    ]:
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=15)
+            print(url, "->", r.status_code, len(r.text))
+        except Exception as exc:
+            print(url, "-> FAILED", exc)
+
+
+def probe_almayadeen():
+    print("=" * 20, "AL MAYADEEN PROBE", "=" * 20)
+    for url in [
+        "https://www.almayadeen.net/schedule",
+        "https://www.almayadeen.net/live",
+    ]:
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=15)
+            print(url, "->", r.status_code, len(r.text))
+        except Exception as exc:
+            print(url, "-> FAILED", exc)
+
+
 if __name__ == "__main__":
-    probe_satTV()
-    probe_roya()
+    probe_aljazeera()
+    probe_alarabiya()
+    probe_almayadeen()
