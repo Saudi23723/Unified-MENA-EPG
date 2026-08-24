@@ -1,0 +1,66 @@
+name: Merge Unified MENA EPG
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "merge_epg.py"
+      - "epg_lib.py"
+      - "*.xml"
+      - ".github/workflows/update_unified_epg.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unified-mena-epg
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Merge all EPG sources
+        run: python merge_epg.py
+
+      - name: Validate XMLTV
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse("unified_mena_epg.xml").getroot()
+          assert root.tag == "tv"
+          assert root.find("channel") is not None
+          print("UNIFIED MENA EPG XMLTV VALIDATION PASS")
+          PY
+
+      - name: Commit merged EPG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add unified_mena_epg.xml
+
+          if git diff --cached --quiet; then
+            echo "No unified EPG changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Merge unified MENA EPG"
+          git pull --rebase origin main
+          git push origin main

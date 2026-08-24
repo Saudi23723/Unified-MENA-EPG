@@ -8,6 +8,96 @@ Designed for **TiviMate** and other IPTV players that support XMLTV EPG sources.
 
 ## 📡 Available EPG Guides
 
+### 🔴 beIN SPORTS Qatar / MENA
+
+**Full official roster:** beIN SPORTS 1–9, MAX 1–6, XTRA 1–9, AFC 1–6, NEWS, NBA, 4K.
+
+Sourced live from beIN's own public TV-guide API — no data is invented, and
+every new channel beIN adds shows up automatically.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_qatar_epg.xml
+
+---
+
+### 🇹🇷 beIN SPORTS Türkiye
+
+**Channels:** beIN SPORTS 1–5, MAX 1–2, HABER.
+
+Sourced live from Digiturk's own public TV-guide feed (beIN Sports
+Türkiye is carried on Digiturk).
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_turkey_epg.xml
+
+---
+
+### 🟣 STARZPLAY (Sport only)
+
+Sport channels only, sourced from STARZPLAY's own public web-EPG API.
+Channels are auto-discovered and filtered to "sport" client-side, so new
+sport channels appear automatically without growing the file with
+unrelated movies/series channels.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/starzplay_epg.xml
+
+---
+
+### 🟡 AD Sports (Abu Dhabi Sports)
+
+**AD Sports 1 HD** is sourced from OSN's official public EPG API (real,
+verified data). **AD Sports 2 / Premium / Extra** are best-effort,
+auto-discovered from LiveFootballTV.info's own channel index (same
+technique already used for ON Sport/Jordan Sports below) — if a channel
+isn't currently listed there it simply has no programmes that run, it
+never breaks the rest of the file.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/adsports_epg.xml
+
+---
+
+### 🇯🇴 Jordan — Roya TV / Roya News (general programming)
+
+Full daily schedule (news, drama, talk shows, everything Roya airs),
+sourced from Roya's own official public schedule API. Complements the
+existing **Jordan Sports** guide below.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/roya_jordan_epg.xml
+
+---
+
+### 🇹🇷 Turkey — EXXEN SPOR, Tivibu Spor, beIN CONNECT
+
+Best-effort match-to-channel guide for three Turkish streaming sport
+platforms. None of the three publish a public schedule API (they're
+apps, not classic linear channels), so — like this repo's existing
+Jordan/ON-Sport/Shahid guides — this reads real match/channel
+assignments from Mackolik's TV programme page. A match only appears here
+when Mackolik explicitly names the channel next to it; nothing is
+invented.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/turkish_extra_sports_epg.xml
+
+---
+
+### 📦 Unified MENA EPG (all sources merged)
+
+Every guide above, plus every guide below, merged into one file:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/unified_mena_epg.xml
+
+---
+
 ### 🇪🇬 ON Sport
 
 **Channels:** ON Sport 1, ON Sport 2, ON Sport MAX, ON Sport PLUS
@@ -83,6 +173,17 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/shasha_epg.xm
 A combined XMLTV file is also available:
 
 https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/combined_epg_final.xml
+
+---
+
+## 🟢 Live indicator
+
+Any match or event that is airing **right now** gets its title suffixed
+with **`• Live 🟢`** automatically, on every sports guide in this repo.
+This is computed fresh on every regeneration (every 15 minutes for the
+sports guides), so as soon as TiviMate refreshes its EPG the tag appears
+and disappears exactly when the match starts/ends — no manual action
+needed.
 
 ---
 
