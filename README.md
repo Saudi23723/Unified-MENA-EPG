@@ -74,6 +74,20 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/roya_jordan_e
 
 ---
 
+### 🇹🇷 Turkey — EXXEN SPOR, Tivibu Spor, beIN CONNECT
+
+Best-effort match-to-channel guide for three Turkish streaming sport
+platforms. None of the three publish a public schedule API (they're
+apps, not classic linear channels), so — like this repo's existing
+Jordan/ON-Sport/Shahid guides — this reads real match/channel
+assignments from Mackolik's TV programme page. A match only appears here
+when Mackolik explicitly names the channel next to it; nothing is
+invented.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/turkish_extra_sports_epg.xml
+
 ---
 
 ### 📦 Unified MENA EPG (all sources merged)
