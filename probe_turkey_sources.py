@@ -1,166 +1,114 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: find a reachable, trustworthy Turkish source for the
-beIN Sports Türkiye guide, now that digiturk.com.tr answers 403 to us.
+"""Round 2: the first probe found two reachable Turkish sources. Work out
+which one actually carries all eight beIN Sports Türkiye channels and what
+its markup looks like, so the generator can be pointed at it.
 
-Candidates were picked from the iptv-org/epg grabber set (the sources that
-project keeps tested), preferring ones that actually carry all eight beIN
-Sports TR channels. Runs on GitHub Actions; deleted once a winner is chosen.
+Runs on GitHub Actions; deleted once the source is wired up.
 """
 from __future__ import annotations
 
-import gzip
 import json
 import re
-from datetime import datetime
-from zoneinfo import ZoneInfo
 
 import requests
-
-ISTANBUL = ZoneInfo("Europe/Istanbul")
 
 UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"
 )
+H = {"User-Agent": UA, "Accept-Language": "tr,en;q=0.8"}
 
 
-def show(label, resp, body_head=400):
+def head(label):
     print(f"\n{'='*72}\n{label}\n{'='*72}")
-    if resp is None:
-        return
-    print(f"  status={resp.status_code}  len={len(resp.content)}  "
-          f"ctype={resp.headers.get('content-type')}  server={resp.headers.get('server')}")
-    try:
-        text = resp.text
-    except Exception:
-        text = ""
-    print("  head:", text[:body_head].replace("\n", " "))
 
 
-def get(url, label, headers=None):
+def get(url, **kw):
     try:
-        r = requests.get(url, headers=headers or {"User-Agent": UA}, timeout=30)
+        return requests.get(url, headers=H, timeout=30, **kw)
     except Exception as exc:
-        print(f"\n{'='*72}\n{label}\n{'='*72}\n  REQUEST FAILED: {exc}")
+        print(f"  REQUEST FAILED: {exc}")
         return None
-    show(label, r)
-    return r
 
 
-# ---------------------------------------------------------------- tvprofil
-def tvprofil_query(site_id: str, datum: str) -> str:
-    """Port of the token the site's own JS builds before it will answer."""
-    c = 4
-    a = f"{datum}{site_id}{c}"
-    ua = f"{site_id}{datum}"
-    for ch in ua:
-        c += ord(ch)
-    b = 2
-    for i in range(len(a) - 1, -1, -1):
-        b += (ord(a[i]) + c * 2) * i
-    b = str(b)
-    last = ord(b[-1])
-    from urllib.parse import urlencode
-    return urlencode({
-        "datum": datum,
-        "kanal": site_id,
-        "callback": f"tvprogramit{last}",
-        f"b{last}": b,
-    })
-
-
-def probe_tvprofil():
-    datum = datetime.now(ISTANBUL).strftime("%Y-%m-%d")
-    headers = {
-        "x-requested-with": "XMLHttpRequest",
-        "user-agent": UA,
-        "referer": "https://tvprofil.com/tvprogram/",
-        "accept": "text/javascript, application/javascript, application/ecmascript,"
-                  " application/x-ecmascript, */*; q=0.01",
-    }
-    for kanal in ("bein-sports-1-tr", "bein-sports-max-1-tr"):
-        url = f"https://tvprofil.com/tr/program/?{tvprofil_query(kanal, datum)}"
-        r = get(url, f"A) tvprofil.com  {kanal}  {datum}", headers=headers)
-        if r is None or r.status_code != 200:
-            continue
-        m = re.match(r"^[^(]+\(([\s\S]*)\)$", r.text.strip())
-        if not m:
-            print("  !! not JSONP")
-            continue
+# ------------------------------------------------------- beinsports.com.tr
+def probe_official():
+    head("1) beinsports.com.tr/yayin-akisi — structure")
+    r = get("https://www.beinsports.com.tr/yayin-akisi")
+    if r is None:
+        return
+    print(f"  status={r.status_code} len={len(r.text)}")
+    m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+    print(f"  __NEXT_DATA__ present: {bool(m)}")
+    if m:
         try:
             data = json.loads(m.group(1))
         except Exception as exc:
             print(f"  !! bad JSON: {exc}")
+        else:
+            props = data.get("props", {}).get("pageProps", {})
+            print(f"  pageProps keys: {list(props)[:25]}")
+            blob = json.dumps(props, ensure_ascii=False)
+            print(f"  pageProps size: {len(blob)}")
+            print(f"  mentions 'bein sports 1': {'bein sports 1' in blob.lower()}")
+            print("  head:", blob[:1200])
+            print(f"  buildId: {data.get('buildId')}")
+    # any API hints
+    for pat in (r'"[^"]*api[^"]*"', r"/api/[A-Za-z0-9_\-/]+"):
+        hits = sorted(set(re.findall(pat, r.text)))[:15]
+        print(f"  {pat} -> {hits}")
+
+
+# ------------------------------------------------------- tvyayinakisi.com
+SLUGS = [
+    "bein-sports-1", "bein-sports-2", "bein-sports-3", "bein-sports-4",
+    "bein-sports-5", "bein-sports-max-1", "bein-sports-max-2",
+    "bein-sports-haber",
+]
+
+
+def probe_tvy():
+    head("2) tvyayinakisi.com — which beIN slugs exist")
+    for slug in SLUGS:
+        r = get(f"https://www.tvyayinakisi.com/{slug}")
+        if r is None:
             continue
-        html = (data.get("data") or {}).get("program") or ""
-        rows = re.findall(r'data-ts="(\d+)"[^>]*data-len="(\d+)"', html)
-        rows2 = re.findall(r'data-ts="(\d+)"', html)
-        print(f"  JSONP OK. program html len={len(html)}  "
-              f"rows(ts+len)={len(rows)}  rows(ts)={len(rows2)}")
-        titles = re.findall(r'<div class="col[^"]*">\s*<a[^>]*>([^<]{3,60})</a>', html)
-        print(f"  sample titles: {titles[:6]}")
-        print("  html head:", html[:500].replace("\n", " "))
+        title = (re.search(r"<title>(.*?)</title>", r.text, re.S) or [None, "?"])[1]
+        rows = len(re.findall(r'class="[^"]*akis[^"]*"', r.text))
+        print(f"  {slug:20} status={r.status_code} len={len(r.text):7} rows~{rows:4} title={title.strip()[:60]!r}")
 
-    get("https://tvprofil.com/tr/channels/getChannels/?callback=cb",
-        "B) tvprofil.com channel list (tr)", headers=headers)
-
-
-def probe_turksat():
-    dd = datetime.now(ISTANBUL).strftime("%d")
-    r = get(f"https://www.turksatkablo.com.tr/userUpload/EPG/{dd}.json",
-            f"C) turksatkablo.com.tr static JSON ({dd}.json)")
-    if r is not None and r.status_code == 200:
-        try:
-            data = r.json()
-        except Exception as exc:
-            print(f"  !! bad JSON: {exc}")
-            return
-        chans = data.get("k") or []
-        print(f"  channels={len(chans)}")
-        for c in chans:
-            if "BEIN" in str(c.get("n", "")).upper() or "SPOR" in str(c.get("n", "")).upper():
-                print(f"    id={c.get('x')!r:8} name={c.get('n')!r:28} programmes={len(c.get('p') or [])}")
-
-
-def probe_epgshare():
-    r = None
-    url = "https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz"
-    try:
-        r = requests.get(url, headers={"User-Agent": UA}, timeout=60)
-    except Exception as exc:
-        print(f"\n{'='*72}\nD) epgshare01.online TR1\n{'='*72}\n  REQUEST FAILED: {exc}")
+    head("3) tvyayinakisi.com — markup of bein-sports-1")
+    r = get("https://www.tvyayinakisi.com/bein-sports-1")
+    if r is None or r.status_code != 200:
         return
-    print(f"\n{'='*72}\nD) epgshare01.online TR1\n{'='*72}")
-    print(f"  status={r.status_code}  len={len(r.content)}  ctype={r.headers.get('content-type')}")
-    if r.status_code != 200:
-        print("  head:", r.text[:300])
-        return
-    try:
-        xml = gzip.decompress(r.content).decode("utf-8", "replace")
-    except Exception as exc:
-        print(f"  !! gunzip failed: {exc}")
-        return
-    print(f"  decompressed={len(xml)}  channels={xml.count('<channel ')}  "
-          f"programmes={xml.count('<programme ')}")
-    for cid in re.findall(r'<channel id="([^"]*[Bb][Ee][Ii][Nn][^"]*)"', xml):
-        n = xml.count(f'channel="{cid}"')
-        print(f"    {cid:44} programmes={n}")
-
-
-def probe_others():
-    get("https://www.beinsports.com.tr/yayin-akisi", "E) beinsports.com.tr (official TR site)")
-    get("https://www.digiturk.com.tr/yayin-akisi", "F) digiturk.com.tr control (expect 403)")
-    get("https://www.tvyayinakisi.com/bein-sports-1", "G) tvyayinakisi.com")
-    get("https://www.canlitv.me/yayin-akisi", "H) canlitv.me")
-    get("https://www.tvplus.com.tr/canli-tv-izle", "I) tvplus.com.tr (Turkcell)")
+    t = r.text
+    # time-looking anchors
+    times = re.findall(r"\b([01]\d|2[0-3]):[0-5]\d\b", t)
+    print(f"  HH:MM occurrences: {len(times)}")
+    for kw in ("data-", "itemprop", "schedule", "yayin-akisi", "program", "json"):
+        print(f"  contains {kw!r}: {t.lower().count(kw.lower())}")
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', t, re.S)
+    print(f"  ld+json present: {bool(m)}")
+    if m:
+        print("  ld+json head:", m.group(1)[:800].replace("\n", " "))
+    # dump the region around the first time string
+    for probe in ("19:", "20:", "21:"):
+        j = t.find(probe)
+        if j > 0:
+            print(f"\n  --- 1400 chars around first {probe!r} ---")
+            print(t[max(0, j - 700): j + 700])
+            break
+    # look for an XHR the page uses
+    for pat in (r'url\s*:\s*"([^"]+)"', r"fetch\(\s*[\"']([^\"']+)", r'ajax[^"\']*["\']([^"\']+)'):
+        hits = sorted(set(re.findall(pat, t)))[:12]
+        if hits:
+            print(f"  {pat} -> {hits}")
 
 
 def main():
-    probe_tvprofil()
-    probe_turksat()
-    probe_epgshare()
-    probe_others()
+    probe_official()
+    probe_tvy()
 
 
 if __name__ == "__main__":
