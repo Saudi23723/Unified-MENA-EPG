@@ -70,15 +70,19 @@ def new_session(extra_headers: dict | None = None) -> requests.Session:
 
 
 def fetch(session: requests.Session, url: str, *, params=None, headers=None,
-          method: str = "GET", json_body=None,
+          method: str = "GET", json_body=None, data=None,
           retries: int = HTTP_RETRIES, timeout: int = HTTP_TIMEOUT):
-    """GET/POST with retries + exponential backoff. Raises on final failure."""
+    """GET/POST with retries + exponential backoff. Raises on final failure.
+
+    `json_body` sends a JSON body; `data` sends a form-encoded (or raw)
+    body — pass at most one of them.
+    """
     last: Exception | None = None
     for attempt in range(1, retries + 1):
         try:
             r = session.request(
                 method, url, params=params, headers=headers,
-                json=json_body, timeout=timeout,
+                json=json_body, data=data, timeout=timeout,
             )
             r.raise_for_status()
             return r
