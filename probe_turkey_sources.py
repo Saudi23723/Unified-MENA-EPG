@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Round 2: the first probe found two reachable Turkish sources. Work out
-which one actually carries all eight beIN Sports Türkiye channels and what
-its markup looks like, so the generator can be pointed at it.
+"""Round 3: tvyayinakisi.com publishes schema.org BroadcastEvent JSON-LD on
+every channel page, which is exactly what the generator needs. Two things
+still to pin down before wiring it up:
 
-Runs on GitHub Actions; deleted once the source is wired up.
+  * the slug for beIN Sports 5 (the obvious one 404s)
+  * how to reach days other than today
+
+Runs on GitHub Actions; deleted once the generator is rewritten.
 """
 from __future__ import annotations
 
@@ -18,97 +21,125 @@ UA = (
     "(KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"
 )
 H = {"User-Agent": UA, "Accept-Language": "tr,en;q=0.8"}
+BASE = "https://www.tvyayinakisi.com"
 
 
 def head(label):
     print(f"\n{'='*72}\n{label}\n{'='*72}")
 
 
-def get(url, **kw):
+def get(url):
     try:
-        return requests.get(url, headers=H, timeout=30, **kw)
+        return requests.get(url, headers=H, timeout=30)
     except Exception as exc:
-        print(f"  REQUEST FAILED: {exc}")
+        print(f"  REQUEST FAILED {url}: {exc}")
         return None
 
 
-# ------------------------------------------------------- beinsports.com.tr
-def probe_official():
-    head("1) beinsports.com.tr/yayin-akisi — structure")
-    r = get("https://www.beinsports.com.tr/yayin-akisi")
-    if r is None:
-        return
-    print(f"  status={r.status_code} len={len(r.text)}")
-    m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
-    print(f"  __NEXT_DATA__ present: {bool(m)}")
-    if m:
+def broadcasts(html: str):
+    """Every BroadcastEvent in every ld+json block on the page."""
+    out = []
+    for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S):
         try:
-            data = json.loads(m.group(1))
-        except Exception as exc:
-            print(f"  !! bad JSON: {exc}")
-        else:
-            props = data.get("props", {}).get("pageProps", {})
-            print(f"  pageProps keys: {list(props)[:25]}")
-            blob = json.dumps(props, ensure_ascii=False)
-            print(f"  pageProps size: {len(blob)}")
-            print(f"  mentions 'bein sports 1': {'bein sports 1' in blob.lower()}")
-            print("  head:", blob[:1200])
-            print(f"  buildId: {data.get('buildId')}")
-    # any API hints
-    for pat in (r'"[^"]*api[^"]*"', r"/api/[A-Za-z0-9_\-/]+"):
-        hits = sorted(set(re.findall(pat, r.text)))[:15]
-        print(f"  {pat} -> {hits}")
+            data = json.loads(block)
+        except Exception:
+            continue
+        stack = [data]
+        while stack:
+            node = stack.pop()
+            if isinstance(node, dict):
+                if node.get("@type") == "BroadcastEvent":
+                    out.append(node)
+                stack.extend(node.values())
+            elif isinstance(node, list):
+                stack.extend(node)
+    return out
 
 
-# ------------------------------------------------------- tvyayinakisi.com
-SLUGS = [
-    "bein-sports-1", "bein-sports-2", "bein-sports-3", "bein-sports-4",
-    "bein-sports-5", "bein-sports-max-1", "bein-sports-max-2",
-    "bein-sports-haber",
-]
+def summarise(label, html):
+    evs = broadcasts(html)
+    starts = sorted(e.get("startDate", "") for e in evs)
+    days = sorted({s[:10] for s in starts if s})
+    perf = sorted({(e.get("performer") or {}).get("name", "?") for e in evs})
+    print(f"  {label:46} events={len(evs):4} days={days} performer={perf}")
+    return evs
 
 
-def probe_tvy():
-    head("2) tvyayinakisi.com — which beIN slugs exist")
-    for slug in SLUGS:
-        r = get(f"https://www.tvyayinakisi.com/{slug}")
+def find_bein5():
+    head("1) hunting the beIN Sports 5 slug")
+    for slug in (
+        "bein-sports-5", "bein-sports-5-yayin-akisi", "bein-sport-5",
+        "bein-sports-5-hd", "beinsports-5", "bein-sports-max-5",
+    ):
+        r = get(f"{BASE}/{slug}")
         if r is None:
             continue
-        title = (re.search(r"<title>(.*?)</title>", r.text, re.S) or [None, "?"])[1]
-        rows = len(re.findall(r'class="[^"]*akis[^"]*"', r.text))
-        print(f"  {slug:20} status={r.status_code} len={len(r.text):7} rows~{rows:4} title={title.strip()[:60]!r}")
+        title = (re.search(r"<title>(.*?)</title>", r.text, re.S) or [None, "?"])[1].strip()
+        print(f"  /{slug:28} status={r.status_code} title={title[:64]!r}")
 
-    head("3) tvyayinakisi.com — markup of bein-sports-1")
-    r = get("https://www.tvyayinakisi.com/bein-sports-1")
-    if r is None or r.status_code != 200:
+    r = get(f"{BASE}/?s=beIN+SPORTS+5")
+    if r is not None:
+        print(f"\n  site search status={r.status_code}")
+        links = sorted(set(re.findall(r'href="(https://www\.tvyayinakisi\.com/[^"]*bein[^"]*)"', r.text)))
+        for link in links[:30]:
+            print(f"    {link}")
+
+    r = get(f"{BASE}/bein-sports-1-yayin-akisi/")
+    if r is not None:
+        print(f"\n  beIN links listed on the beIN SPORTS 1 page (status={r.status_code}):")
+        links = sorted(set(re.findall(r'href="(https://www\.tvyayinakisi\.com/[^"]*bein[^"]*)"', r.text)))
+        for link in links[:40]:
+            print(f"    {link}")
+
+
+def find_other_days():
+    head("2) how to reach days other than today")
+    canonical = f"{BASE}/bein-sports-1-yayin-akisi/"
+    r = get(canonical)
+    if r is None:
         return
-    t = r.text
-    # time-looking anchors
-    times = re.findall(r"\b([01]\d|2[0-3]):[0-5]\d\b", t)
-    print(f"  HH:MM occurrences: {len(times)}")
-    for kw in ("data-", "itemprop", "schedule", "yayin-akisi", "program", "json"):
-        print(f"  contains {kw!r}: {t.lower().count(kw.lower())}")
-    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', t, re.S)
-    print(f"  ld+json present: {bool(m)}")
-    if m:
-        print("  ld+json head:", m.group(1)[:800].replace("\n", " "))
-    # dump the region around the first time string
-    for probe in ("19:", "20:", "21:"):
-        j = t.find(probe)
-        if j > 0:
-            print(f"\n  --- 1400 chars around first {probe!r} ---")
-            print(t[max(0, j - 700): j + 700])
-            break
-    # look for an XHR the page uses
-    for pat in (r'url\s*:\s*"([^"]+)"', r"fetch\(\s*[\"']([^\"']+)", r'ajax[^"\']*["\']([^"\']+)'):
-        hits = sorted(set(re.findall(pat, t)))[:12]
-        if hits:
-            print(f"  {pat} -> {hits}")
+    base_html = r.text
+    summarise("canonical page (today)", base_html)
+
+    # What day-navigation links does the page itself offer?
+    print("\n  -- day-ish links on the page --")
+    for link in sorted(set(re.findall(r'href="([^"]*(?:yarin|dun|hafta|tarih|gun|day)[^"]*)"', base_html, re.I)))[:25]:
+        print(f"    {link}")
+
+    print("\n  -- the admin-ajax call the page makes --")
+    i = base_html.find("admin-ajax.php")
+    if i > 0:
+        print(base_html[max(0, i - 1500): i + 1500])
+
+    print("\n  -- URL patterns --")
+    for suffix in ("yarin/", "?tarih=2026-08-25", "?gun=1", "2/", "hafta/"):
+        rr = get(canonical + suffix if not suffix.startswith("?") else canonical + suffix)
+        if rr is None:
+            continue
+        label = f"{suffix:22} status={rr.status_code}"
+        if rr.status_code == 200:
+            summarise(label, rr.text)
+        else:
+            print(f"  {label}")
+
+
+def check_all_channels():
+    head("3) event counts for every reachable beIN slug")
+    for slug in ("bein-sports-1", "bein-sports-2", "bein-sports-3", "bein-sports-4",
+                 "bein-sports-max-1", "bein-sports-max-2", "bein-sports-haber"):
+        r = get(f"{BASE}/{slug}")
+        if r is None or r.status_code != 200:
+            print(f"  {slug:20} status={r.status_code if r else 'ERR'}")
+            continue
+        evs = summarise(slug, r.text)
+        for e in evs[:2]:
+            print(f"      {e.get('startDate')} -> {e.get('endDate')}  {e.get('name', '')[:60]!r}")
 
 
 def main():
-    probe_official()
-    probe_tvy()
+    find_bein5()
+    find_other_days()
+    check_all_channels()
 
 
 if __name__ == "__main__":
