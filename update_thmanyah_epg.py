@@ -20,6 +20,10 @@ from PIL import Image, ImageOps, ImageEnhance
 import pytesseract
 from pytesseract import Output
 
+from epg_lib import is_live_now
+
+LIVE_SUFFIX = " • Live \U0001F7E2"  # " • Live 🟢"
+
 TZ = ZoneInfo("Asia/Riyadh")          # المصدر الرئيسي (توقيت المباراة الرسمي)
 TZ_ABUDHABI = ZoneInfo("Asia/Dubai")   # توقيت أبوظبي
 TZ_VEGAS = ZoneInfo("America/Los_Angeles")  # توقيت لاس فيغاس
@@ -2115,6 +2119,9 @@ def write_xml(events):
         else:
             gp_title = " + ".join(item["title"] for item in group["events"])
 
+        if is_live_now(group["start"], stop, NOW):
+            gp_title += LIVE_SUFFIX
+
         ET.SubElement(gp, "title", {"lang": "ar"}).text = gp_title
         ET.SubElement(gp, "category", {"lang": "en"}).text = "Sports"
 
@@ -2148,7 +2155,10 @@ def write_xml(events):
                     "channel": channel_id,
                 },
             )
-            ET.SubElement(p, "title", {"lang": "ar"}).text = event["title"]
+            title = event["title"]
+            if is_live_now(event["start"], stop, NOW):
+                title += LIVE_SUFFIX
+            ET.SubElement(p, "title", {"lang": "ar"}).text = title
             ET.SubElement(p, "category", {"lang": "en"}).text = "Sports"
             ET.SubElement(p, "desc", {"lang": "ar"}).text = (
                 f"القناة: ثمانية {channel}\n"

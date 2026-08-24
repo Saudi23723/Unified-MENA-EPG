@@ -36,6 +36,8 @@ from bs4 import BeautifulSoup
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
 import pytesseract
 
+from epg_lib import is_live_now
+
 OUTPUT = "fajer_sports_epg.xml"
 
 UTC = timezone.utc
@@ -3860,6 +3862,25 @@ def collect():
 # XMLTV
 # ============================================================
 
+LIVE_SUFFIX = " • Live \U0001F535"  # " • Live 🔵"
+
+
+def _fajer_filler_title(nxt_title):
+    if nxt_title is None:
+        return "لا توجد مباراة مجدولة"
+    return f"⏰ التالي: {nxt_title}"
+
+
+def _add_fajer_programme(root, channel_id, start, stop, title, desc):
+    programme = ET.SubElement(
+        root, "programme",
+        start=xmltv_time(start), stop=xmltv_time(stop), channel=channel_id,
+    )
+    ET.SubElement(programme, "title", lang="ar").text = title
+    ET.SubElement(programme, "category", lang="en").text = "Sports"
+    ET.SubElement(programme, "desc", lang="ar").text = desc
+
+
 def write_xml(events):
     root = ET.Element(
         "tv",
@@ -3903,6 +3924,9 @@ def write_xml(events):
     for channel_starts in starts_by_channel.values():
         channel_starts.sort()
 
+    # Real match programmes, bucketed by channel so gaps can be filled below.
+    real_by_channel: dict[str, list[dict]] = {cid: [] for cid, _ in CHANNELS.values()}
+
     for event in events:
         start = event["start"].astimezone(UTC)
 
@@ -3927,26 +3951,6 @@ def write_xml(events):
         else:
             stop = default_stop
 
-        programme = ET.SubElement(
-            root,
-            "programme",
-            start=xmltv_time(start),
-            stop=xmltv_time(stop),
-            channel=event["channel_id"],
-        )
-
-        ET.SubElement(
-            programme,
-            "title",
-            lang="ar",
-        ).text = event["title"]
-
-        ET.SubElement(
-            programme,
-            "category",
-            lang="en",
-        ).text = "Sports"
-
         local = start.astimezone(PALESTINE)
 
         title_source = event.get(
@@ -3954,17 +3958,75 @@ def write_xml(events):
             event["source_name"],
         )
 
-        ET.SubElement(
-            programme,
-            "desc",
-            lang="ar",
-        ).text = (
+        desc = (
             f"{event['channel_name']}\n"
             f"{local:%Y-%m-%d %H:%M} "
             "بتوقيت فلسطين\n"
             "المصدر: إعلان فجر سبورت الرسمي\n"
             f"مصدر اسم المباراة: {title_source}"
         )
+
+        real_by_channel.setdefault(event["channel_id"], []).append({
+            "start": start, "stop": stop, "title": event["title"], "desc": desc,
+        })
+
+    now = now_utc()
+    today_local = now.astimezone(PALESTINE).date()
+    first_day = today_local - timedelta(days=DAYS_BACK)
+    last_day = today_local + timedelta(days=DAYS_FORWARD)
+
+    for n in range(1, 6):
+        channel_id, channel_name = CHANNELS[n]
+        ch_events = sorted(real_by_channel.get(channel_id, []), key=lambda x: x["start"])
+
+        for off in range((last_day - first_day).days + 1):
+            d = first_day + timedelta(days=off)
+            day_start = datetime(d.year, d.month, d.day, 0, 0, tzinfo=PALESTINE).astimezone(UTC)
+            day_end = day_start + timedelta(days=1)
+
+            day_events = [e for e in ch_events if day_start <= e["start"] < day_end]
+
+            def next_title_after(moment):
+                return next((e["title"] for e in ch_events if e["start"] >= moment), None)
+
+            if not day_events:
+                _add_fajer_programme(
+                    root, channel_id, day_start, day_end,
+                    _fajer_filler_title(next_title_after(day_start)),
+                    f"{channel_name}\nلا توجد مباراة معلنة في هذا الوقت.",
+                )
+                continue
+
+            cursor = day_start
+            for ev in day_events:
+                ev_start = max(ev["start"], cursor)
+                if ev_start >= day_end:
+                    continue
+
+                if ev_start > cursor:
+                    _add_fajer_programme(
+                        root, channel_id, cursor, ev_start,
+                        _fajer_filler_title(ev["title"]),
+                        f"{channel_name}\nالمباراة القادمة: {ev['title']}",
+                    )
+
+                ev_stop = min(ev["stop"], day_end)
+                if ev_stop <= ev_start:
+                    continue
+
+                title = ev["title"]
+                if is_live_now(ev_start, ev_stop, now):
+                    title += LIVE_SUFFIX
+
+                _add_fajer_programme(root, channel_id, ev_start, ev_stop, title, ev["desc"])
+                cursor = max(cursor, ev_stop)
+
+            if day_end - cursor >= timedelta(minutes=1):
+                _add_fajer_programme(
+                    root, channel_id, cursor, day_end,
+                    _fajer_filler_title(next_title_after(cursor)),
+                    f"{channel_name}\nلا توجد مباراة معلنة في هذا الوقت.",
+                )
 
     ET.indent(
         root,

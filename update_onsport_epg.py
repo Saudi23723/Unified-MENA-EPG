@@ -16,6 +16,10 @@ import xml.etree.ElementTree as ET
 import requests
 from bs4 import BeautifulSoup
 
+from epg_lib import is_live_now
+
+LIVE_SUFFIX = " • Live \U0001F535"  # " • Live 🔵"
+
 
 OUTPUT = "onsport_epg.xml"
 
@@ -932,7 +936,7 @@ def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
         return "لا توجد مباراة مجدولة"
 
     teams = f"{display_team(nxt['home'])} - {display_team(nxt['away'])}"
-    return f"القادم · {teams}"
+    return f"⏰ التالي: {teams}"
 
 
 def write_xml(events: list[dict]) -> None:
@@ -1005,6 +1009,8 @@ def write_xml(events: list[dict]) -> None:
                     continue
 
                 title = f"{display_team(ev['home'])} - {display_team(ev['away'])}"
+                if is_live_now(ev_start, ev_stop, utc_now()):
+                    title += LIVE_SUFFIX
                 add_programme(
                     root, channel_id, ev_start, ev_stop, title, desc,
                     category=ev["competition"],
