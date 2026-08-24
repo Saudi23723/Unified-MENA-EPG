@@ -25,10 +25,7 @@ OUTPUT = "unified_mena_epg.xml"
 SOURCE_FILES = [
     "bein_sports_qatar_epg.xml",
     "bein_sports_turkey_epg.xml",
-    "starzplay_epg.xml",
-    "adsports_epg.xml",
     "roya_jordan_epg.xml",
-    "turkish_extra_sports_epg.xml",
     "jordan_sports_epg.xml",
     "onsport_epg.xml",
     "alwan_sports_epg_v2.xml",
