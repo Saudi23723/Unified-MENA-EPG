@@ -7,6 +7,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 from datetime import datetime, timedelta, timezone, date
 from html import unescape
 from urllib.parse import urljoin
@@ -57,6 +58,16 @@ LIVEFOOTBALLTV = {
     "ONSport2": "https://www.livefootballtv.info/channel/on-sport-2",
     "ONSportMAX": "https://www.livefootballtv.info/channel/on-sport-max",
     "ONSportPLUS": "https://www.livefootballtv.info/channel/on-sport-plus",
+}
+
+# livesoccertv.com: مصدر عالمي راسخ لجداول القنوات الرياضية، ذو ترميز HTML
+# منظم (tr.matchrow) وطابع زمني epoch دقيق (span.ts[dv]) — لا حاجة لتخمين
+# التوقيت أو تتبّع "تاريخ سطر سابق" كما في المصادر النصية الأخرى.
+LIVESOCCERTV = {
+    "ONSport1": "https://www.livesoccertv.com/channels/on-sport-egypt/",
+    "ONSport2": "https://www.livesoccertv.com/channels/on-sport-2-egypt/",
+    "ONSportMAX": "https://www.livesoccertv.com/channels/on-sport-max/",
+    "ONSportPLUS": "https://www.livesoccertv.com/channels/on-sport-plus/",
 }
 
 FILGOAL_EGYPT_SECTION = (
@@ -137,6 +148,8 @@ TEAM_ALIASES = {
 def en_norm(s: str) -> str:
     """تطبيع الاسم الإنجليزي: إزالة اللواحق والبادئات الشائعة."""
     s = norm(s).casefold()
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(ch for ch in s if not unicodedata.combining(ch))
     s = re.sub(r"[^a-z0-9\s-]+", " ", s)
     s = s.replace("-", " ")
     tokens = [t for t in s.split() if t not in {
@@ -328,7 +341,8 @@ def event_key(ev: dict) -> str:
 
 SOURCE_PRIORITY = {
     "FilGoal+EPL": 130,
-    "FilGoal": 120,
+    "LiveSoccerTV": 115,
+    "FilGoal": 105,
     "LiveFootballTV": 100,
 }
 
@@ -874,6 +888,80 @@ def collect_lftv_events() -> list[dict]:
     return dedupe(events)
 
 
+LSTV_VS_RE = re.compile(r"^(.+?)\s+vs\s+(.+)$", re.I)
+
+
+def parse_livesoccertv_channel(html: str, channel_id: str, source_url: str) -> list[dict]:
+    """يحلّل جدول livesoccertv.com الخاص بقناة واحدة.
+
+    كل صف مباراة (tr.matchrow) يحمل طابع epoch دقيق بالمللي ثانية في
+    span.ts[dv]، لذلك لا حاجة لتخمين المنطقة الزمنية أو لتتبّع "آخر
+    تاريخ ظهر" كما في المصادر النصية الأخرى — كل صف مستقل وموثوق زمنياً.
+    """
+    channel_name = CHANNELS[channel_id]["name"]
+    soup = BeautifulSoup(html, "html.parser")
+
+    table = soup.find("table", class_="schedules")
+    events: list[dict] = []
+    if table is None:
+        return events
+
+    for row in table.find_all("tr", class_="matchrow"):
+        ts_span = row.select_one(".timecell .ts")
+        dv = ts_span.get("dv") if ts_span else None
+        if not dv:
+            continue
+        try:
+            start_utc = datetime.fromtimestamp(int(dv) / 1000, tz=UTC)
+        except (ValueError, OverflowError, OSError):
+            continue
+
+        match_cell = row.find("td", class_="matchcol")
+        match_link = match_cell.find("a") if match_cell else None
+        title = norm(match_link.get("title", "")) if match_link else ""
+        m = LSTV_VS_RE.match(title)
+        if not m:
+            continue
+        home, away = m.group(1), m.group(2)
+
+        comp_cell = row.find("td", class_="compcell_right")
+        comp_link = comp_cell.find("a") if comp_cell else None
+        competition = norm(
+            (comp_link.get("title") if comp_link else "")
+            or (comp_cell.get_text(" ", strip=True) if comp_cell else "")
+        ) or "Football"
+
+        if not in_window(start_utc):
+            continue
+
+        events.append({
+            "channel_id": channel_id,
+            "channel_name": channel_name,
+            "start": start_utc,
+            "home": home,
+            "away": away,
+            "competition": competition,
+            "source_name": "LiveSoccerTV",
+            "source": source_url,
+            "commentator": "",
+            "duration_minutes": MATCH_MINUTES,
+        })
+
+    return dedupe(events)
+
+
+def collect_livesoccertv_events() -> list[dict]:
+    events: list[dict] = []
+    for channel_id, url in LIVESOCCERTV.items():
+        try:
+            parsed = parse_livesoccertv_channel(fetch_text(url), channel_id, url)
+            log(f"{CHANNELS[channel_id]['name']} LiveSoccerTV fixtures detected: {len(parsed)}")
+            events.extend(parsed)
+        except Exception as exc:
+            warn(f"{CHANNELS[channel_id]['name']} LiveSoccerTV failed: {exc}")
+    return dedupe(events)
+
+
 def build_day_description(channel_name: str, d: date, events: list[dict]) -> str:
     if not events:
         return (
@@ -1084,8 +1172,89 @@ def _self_test() -> None:
     _rss_test()
     _cross_source_test()
     _dedupe_test()
+    _livesoccertv_test()
     _xml_integrity_test()
     log("SELF TEST | PASS")
+
+
+def _livesoccertv_test() -> None:
+    # عيّنة مطابقة فعلياً لترميز livesoccertv.com (تم التحقق منها مباشرة من
+    # الموقع الحي عبر GitHub Actions)، بما فيها كتلة <!-- --> المعطّلة التي
+    # يجب على المحلّل تجاهلها ولا يلتقطها كعنصر حقيقي.
+    sample = """
+    <html><body>
+    <table class="schedules blueborder">
+      <tr><td colspan="3">Thursday, 27 August</td></tr>
+      <tr class="matchrow" data-cid="4" data-has-tv="0"
+          data-ko="2026-08-27 14:30:00" id="5738610">
+        <td class="timecol">
+          <div class="meta">
+            <!--
+                <datecell>
+                <span class='ts' dv='1787855400000' df='mmm dd'>Aug 27</span>
+                </datecell>
+            -->
+            <span class="timecell"><span class="ts" df="h:MMtt"
+                dv="1787855400000" id="ko5738610"> 2:30pm</span></span>
+          </div>
+        </td>
+        <td class="matchcol" id="match" valign="top">
+          <div class="match-ch-flex"><div class="match-name-col">
+            <a href="/match/x/y#5738610" id="g5738610"
+               title="Ferencváros vs Trabzonspor">Ferencváros vs Trabzonspor</a>
+          </div></div>
+        </td>
+        <td class="compcell_right" valign="top">
+          <a class="flag europe" href="/x/" title="UEFA Europa League">UEFA Europa League</a>
+        </td>
+      </tr>
+      <tr class="matchrow" data-cid="1" data-has-tv="0"
+          data-ko="2026-08-23 13:00:00" id="5726974">
+        <td class="timecol">
+          <div class="meta">
+            <span class="timecell"><span class="ts" df="h:MMtt"
+                dv="1787515800000" id="ko5726974"> 1:00pm</span></span>
+          </div>
+        </td>
+        <td class="matchcol" id="match" valign="top">
+          <div class="match-ch-flex"><div class="match-name-col">
+            <a href="/match/a/b#5726974" id="g5726974"
+               title="Ceramica Cleopatra vs El Qanah">Ceramica Cleopatra <score>1 - 2</score> El Qanah</a>
+          </div></div>
+        </td>
+        <td class="compcell_right" valign="top">
+          <a class="flag africa" href="/y/" title="Egyptian Premier League">Egyptian Premier League</a>
+        </td>
+      </tr>
+    </table>
+    </body></html>
+    """
+
+    old_window = globals()["in_window"]
+    try:
+        globals()["in_window"] = lambda dt: True
+        parsed = parse_livesoccertv_channel(sample, "ONSportMAX", "self-test")
+    finally:
+        globals()["in_window"] = old_window
+
+    assert len(parsed) == 2, parsed
+    assert all(ev["channel_id"] == "ONSportMAX" for ev in parsed)
+    assert all(ev["source_name"] == "LiveSoccerTV" for ev in parsed)
+
+    europa = next(ev for ev in parsed if "Trabzonspor" in ev["away"])
+    assert europa["start"] == datetime(2026, 8, 27, 18, 30, tzinfo=UTC), europa["start"]
+    assert europa["start"].astimezone(CAIRO).hour == 21, europa["start"]
+    assert canonical_team(europa["home"]) == canonical_team("Ferencvaros")
+
+    epl = next(ev for ev in parsed if "Qanah" in ev["away"])
+    assert epl["home"] == "Ceramica Cleopatra", epl["home"]
+    assert epl["away"] == "El Qanah", epl["away"]
+    assert epl["competition"] == "Egyptian Premier League"
+
+    # التأكد من أن الكتلة المعطّلة (<!-- ... -->) لم تُقرأ كعنصر حقيقي.
+    assert "Aug 27" not in [ev["home"] for ev in parsed] + [ev["away"] for ev in parsed]
+
+    log("LIVESOCCERTV PARSER | OK")
 
 
 def _rss_test() -> None:
@@ -1235,7 +1404,7 @@ def _xml_integrity_test() -> None:
 
 def main():
     log(
-        "ON SPORT EPG v2 | FilGoal assignments + EPL validation + LiveFootballTV | "
+        "ON SPORT EPG v2 | FilGoal assignments + EPL validation + LiveSoccerTV + LiveFootballTV | "
         f"SOURCE TZ = {SOURCE_TZ.key} | UTC XMLTV | TIVIMATE AUTO-CONVERT | "
         f"MATCH = {MATCH_MINUTES} MIN | 1 + 2 + MAX + PLUS"
     )
@@ -1245,9 +1414,10 @@ def main():
     filgoal = collect_filgoal_events()
     filgoal = validate_with_epl(filgoal)
 
+    lstv = collect_livesoccertv_events()
     lftv = collect_lftv_events()
 
-    events = dedupe(filgoal + lftv)
+    events = dedupe(filgoal + lstv + lftv)
 
     log(f"ON Sport total verified football events: {len(events)}")
     for ev in sorted(events, key=lambda x: x["start"]):

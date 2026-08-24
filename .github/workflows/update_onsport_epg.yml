@@ -25,9 +25,6 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-      - name: DEBUG structural probe (temporary)
-        run: python _debug_probe.py
-
       - name: Generate ON Sport EPG
         run: |
           python update_onsport_epg.py
