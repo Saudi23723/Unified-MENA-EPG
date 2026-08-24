@@ -18,6 +18,23 @@ OUTPUT = "jordan_sports_epg.xml"
 CHANNEL_ID = "JordanSports"
 CHANNEL_NAME = "Jordan Sport | الأردن الرياضية"
 
+# Recurring JRTV studio shows (currently "رياضة كافيه") carry this category.
+# They are scheduled programmes, not live match broadcasts, so they must not
+# get the live badge — only real fixtures do.
+PROGRAMME_CATEGORY = "Sports Programme"
+
+# Badge appended to every real match. It marks the broadcast as LIVE — the
+# standard EPG meaning — so it stays visible when browsing ahead, matching
+# the other sports guides in this repository.
+LRM = "\u200e"
+LIVE_LABEL = "• Live \U0001F535"  # "• Live 🔵"
+
+
+def ltr(value: str) -> str:
+    """Wrap a Latin run so it keeps its own order inside RTL text."""
+    return f"{LRM}{value}{LRM}"
+
+
 AMMAN = ZoneInfo("Asia/Amman")
 ABU_DHABI = ZoneInfo("Asia/Dubai")
 LAS_VEGAS = ZoneInfo("America/Los_Angeles")
@@ -132,7 +149,7 @@ OFFICIAL_JRTV_FALLBACK = [
         "duration_minutes": 60,
         "source_name": "JRTVOfficialFallback",
         "source": JRTV_HOME,
-        "category": "Sports Programme",
+        "category": PROGRAMME_CATEGORY,
     },
 ]
 
@@ -179,7 +196,7 @@ def parse_official_jrtv_programmes(html: str) -> list[dict]:
             "duration_minutes": 60,
             "source_name": "JRTVOfficial",
             "source": JRTV_HOME,
-            "category": "Sports Programme",
+            "category": PROGRAMME_CATEGORY,
         })
 
     # Deduplicate identical recurring cards if the homepage repeats them.
@@ -904,6 +921,8 @@ def write_xml(events: list[dict]) -> None:
 
             am = ev_start.astimezone(AMMAN)
             title = f"{ev['title']} | {am:%H:%M} الأردن"
+            if LIVE_LABEL and ev["category"] != PROGRAMME_CATEGORY:
+                title = f"{title} {ltr(LIVE_LABEL)}"
 
             add_programme(
                 root,
