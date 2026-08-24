@@ -116,9 +116,70 @@ def font(size: int, *, bold: bool = False, arabic: bool = False) -> ImageFont.Fr
     return ImageFont.truetype(path, size, layout_engine=engine)
 
 
+# --- Glyph coverage ---------------------------------------------------------
+# Pillow has no font fallback: a character the chosen face lacks is drawn as a
+# .notdef box. That matters here because the Arabic faces carry no Latin at
+# all — "Thmanyah | Guide" in an Arabic string would come out as boxes — while
+# DejaVu Sans covers Arabic, Latin and punctuation in one file.
+#
+# A glyph is judged missing by rendering it and comparing against a private-use
+# codepoint that no font defines: identical bitmap means both are .notdef.
+_TOFU: dict[tuple, bytes] = {}
+_COVERS: dict[tuple, bool] = {}
+_NOTDEF = ""
+
+
+def _key(fnt: ImageFont.FreeTypeFont) -> tuple:
+    return (getattr(fnt, "path", ""), int(getattr(fnt, "size", 0)))
+
+
+def _glyph_ok(fnt: ImageFont.FreeTypeFont, ch: str) -> bool:
+    fk = _key(fnt)
+    cached = _COVERS.get((*fk, ch))
+    if cached is not None:
+        return cached
+
+    tofu = _TOFU.get(fk)
+    if tofu is None:
+        try:
+            tofu = bytes(fnt.getmask(_NOTDEF, mode="L"))
+        except Exception:  # noqa: BLE001
+            tofu = b""
+        _TOFU[fk] = tofu
+
+    try:
+        ok = bytes(fnt.getmask(ch, mode="L")) != tofu
+    except Exception:  # noqa: BLE001
+        ok = True
+    _COVERS[(*fk, ch)] = ok
+    return ok
+
+
+def covers(fnt: ImageFont.FreeTypeFont, text: str) -> bool:
+    return all(_glyph_ok(fnt, ch) for ch in set(text) if not ch.isspace())
+
+
 def font_for(text: str, size: int, *, bold: bool = False) -> ImageFont.FreeTypeFont:
-    """Pick the right face for a specific string."""
-    return font(size, bold=bold, arabic=has_arabic(text))
+    """Pick a face that can actually render this string.
+
+    Arabic strings get the dedicated Arabic face when it covers every
+    character, which keeps the nicer Arabic shapes; anything mixed falls back
+    to DejaVu Sans, which covers both scripts.
+    """
+    if has_arabic(text):
+        arabic_face = font(size, bold=bold, arabic=True)
+        if covers(arabic_face, text):
+            return arabic_face
+    return font(size, bold=bold, arabic=False)
+
+
+def prepare(text: str, fnt: ImageFont.FreeTypeFont) -> str:
+    """Final safety net: shape the string and drop anything the chosen face
+    still cannot draw, so a stray symbol never renders as a box on air."""
+    text = shape(text)
+    if covers(fnt, text):
+        return text
+    return "".join(ch for ch in text if ch.isspace() or _glyph_ok(fnt, ch))
 
 
 # --- Palette ----------------------------------------------------------------

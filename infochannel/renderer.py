@@ -16,12 +16,12 @@ from datetime import datetime, timedelta
 
 from PIL import Image, ImageDraw, ImageFilter
 
-from theme import Palette, Theme, channel_colour, direction_for, font_for, shape
+from theme import Palette, Theme, channel_colour, covers, direction_for, font_for, prepare
 
 
 def measure(draw, text: str, fnt) -> float:
     """Width of a string as it will actually be drawn (direction included)."""
-    return draw.textlength(shape(text), font=fnt, direction=direction_for(text))
+    return draw.textlength(prepare(text, fnt), font=fnt, direction=direction_for(text))
 
 AR_MONTHS = [
     "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
@@ -121,18 +121,23 @@ class Renderer:
     # -- small helpers -------------------------------------------------------
     @staticmethod
     def _text(draw, xy, text, fnt, fill, anchor="la") -> None:
-        draw.text(xy, shape(text), font=fnt, fill=fill, anchor=anchor,
+        draw.text(xy, prepare(text, fnt), font=fnt, fill=fill, anchor=anchor,
                   direction=direction_for(text))
 
     @staticmethod
     def _fit(draw, text: str, fnt, max_w: int) -> str:
-        """Truncate with an ellipsis so a long fixture never overruns a card."""
+        """Truncate with an ellipsis so a long fixture never overruns a card.
+
+        The ellipsis character is chosen per font: the Arabic faces have no
+        U+2026, and silently dropping it would leave a title looking complete
+        when it was actually cut."""
         if measure(draw, text, fnt) <= max_w:
             return text
+        ell = "…" if covers(fnt, "…") else "..."
         out = text
-        while out and measure(draw, out + "…", fnt) > max_w:
+        while out and measure(draw, out + ell, fnt) > max_w:
             out = out[:-1]
-        return (out.rstrip() + "…") if out else ""
+        return (out.rstrip() + ell) if out else ""
 
     def _chip(self, odraw, x, y, label, colour, fnt, text_ops) -> int:
         """Rounded channel badge. Returns its width."""
