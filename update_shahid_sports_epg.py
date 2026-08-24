@@ -35,7 +35,6 @@ LIVE_SOCCER_TV = "https://www.livesoccertv.com/channels/shahid/"
 LIVE_FOOTBALL_TV = "https://www.livefootballtv.info/channel/mbc-shahid-sports"
 BUNDESLIGA_MATCHDAY = "https://www.bundesliga.com/en/bundesliga/matchday/2026-2027/{matchday}"
 BUNDESLIGA_PRESEASON = "https://www.bundesliga.com/en/bundesliga/news/2026-27-pre-season-plans-tours-friendly-fixtures-results-bayern-munich-37680"
-BERLIN_TZ = ZoneInfo("Europe/Berlin")
 
 KEEP_DAYS_BACK = 1
 KEEP_DAYS_FORWARD = 14
@@ -365,10 +364,20 @@ def fixture_from_cells(cells):
     return None
 
 
+TEAM_NAME_ALIASES = (
+    ("münchen", "munich"),
+    ("muenchen", "munich"),
+    ("fc bayern", "bayern"),
+    ("hamburger sv", "hamburg"),
+)
+
+
 def normalize_name(value):
     value = norm(value).casefold()
+    for old, new in TEAM_NAME_ALIASES:
+        value = value.replace(old, new)
     value = re.sub(r"[^\w\u0600-\u06ff ]+", " ", value)
-    value = re.sub(r"\b(?:fc|cf|club|نادي)\b", " ", value, flags=re.I)
+    value = re.sub(r"\b(?:fc|cf|club|sv|vfb|1|نادي)\b", " ", value, flags=re.I)
     return re.sub(r"\s+", " ", value).strip()
 
 
@@ -774,7 +783,7 @@ def parse_bundesliga_official():
 
     # The opening four matchdays have exact dates/times confirmed.
     for md in range(1, 5):
-        url = f"https://www.bundesliga.com/en/bundesliga/matchday/2026-2027/{md}"
+        url = BUNDESLIGA_MATCHDAY.format(matchday=md)
         try:
             soup = BeautifulSoup(fetch(url), "html.parser")
         except Exception as exc:
@@ -837,47 +846,6 @@ def parse_bundesliga_official():
     return events
 
 
-def same_fixture_loose(a, b):
-    """Same-day duplicate detector for official vs third-party naming variants."""
-    if a["start"].astimezone(RIYADH_TZ).date() != b["start"].astimezone(RIYADH_TZ).date():
-        return False
-
-    def tokens(title):
-        s = norm(title).casefold()
-        replacements = {
-            "münchen": "munich",
-            "muenchen": "munich",
-            "fc bayern": "bayern",
-            "hamburger sv": "hamburg",
-            "vfb ": "",
-            "fc ": "",
-            "1. ": "",
-            "sv ": "",
-        }
-        for old, new in replacements.items():
-            s = s.replace(old, new)
-        s = re.sub(r"[^a-z0-9\u00c0-\u024f\u0600-\u06ff]+", " ", s)
-        return {x for x in s.split() if len(x) > 2}
-
-    ta = tokens(a["title"])
-    tb = tokens(b["title"])
-    if not ta or not tb:
-        return False
-
-    overlap = len(ta & tb)
-    return overlap >= 2 and overlap / min(len(ta), len(tb)) >= 0.6
-
-
-def prefer_official_over_duplicate(events):
-    official = [e for e in events if e.get("source_name") == "BundesligaOfficial"]
-    out = []
-    for e in events:
-        if e.get("source_name") in ("LiveSoccerTV", "LiveFootballTV"):
-            if any(same_fixture_loose(e, off) for off in official):
-                continue
-        out.append(e)
-    return dedupe(out)
-
 def collect_all_sources():
     events = []
 
@@ -905,7 +873,13 @@ def collect_all_sources():
     events.extend(parse_livesoccertv())
     events.extend(parse_livefootballtv())
 
-    return prefer_official_over_duplicate(events)
+    # A single unified pass groups every source's fixtures by (Riyadh
+    # calendar day, normalized team pair) and keeps only the highest
+    # -priority source per fixture -- see normalize_name/title_signature.
+    # This is what previously caught only LiveSoccerTV/LiveFootballTV
+    # duplicates against BundesligaOfficial and missed Goal/Kooora
+    # duplicates with spelling variants (e.g. "Munich" vs "München").
+    return dedupe(events)
 
 
 def write_xml(events):
@@ -937,6 +911,12 @@ def write_xml(events):
         return "\n".join(lines)
 
     def add_programme(start, stop, title, description):
+        # Boundaries mix datetimes from different source timezones (Riyadh,
+        # US Eastern, UTC...); min()/comparisons keep whichever operand's
+        # tzinfo "won", so normalize to one timezone before formatting or
+        # adjacent <programme> tags render with inconsistent UTC offsets.
+        start = start.astimezone(RIYADH_TZ)
+        stop = stop.astimezone(RIYADH_TZ)
         if stop <= start:
             return
         p = ET.SubElement(tv, "programme", {
