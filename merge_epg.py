@@ -28,7 +28,7 @@ SOURCE_FILES = [
     "roya_jordan_epg.xml",
     "jordan_sports_epg.xml",
     "onsport_epg.xml",
-    "alwan_sports_epg_v2.xml",
+    "alwan_sports_epg.xml",
     "fajer_sports_epg.xml",
     "shahid_sports_epg.xml",
     "shasha_epg.xml",
