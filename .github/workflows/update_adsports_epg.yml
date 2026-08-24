@@ -1,0 +1,70 @@
+name: Update AD Sports EPG
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "adsports_epg.py"
+      - "epg_lib.py"
+      - ".github/workflows/update_adsports_epg.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: adsports-epg
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate AD Sports EPG
+        run: python adsports_epg.py
+
+      - name: Validate XMLTV
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse("adsports_epg.xml").getroot()
+          assert root.tag == "tv"
+          assert root.find("channel") is not None
+          print("AD SPORTS XMLTV VALIDATION PASS")
+          PY
+
+      - name: Commit updated EPG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add adsports_epg.xml
+
+          if git diff --cached --quiet; then
+            echo "No AD Sports EPG changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update AD Sports EPG"
+          git pull --rebase origin main
+          git push origin main
