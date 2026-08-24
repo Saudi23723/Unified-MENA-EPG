@@ -31,13 +31,31 @@ DEFAULT_EPG_URL = (
 # it here because this screen shows liveness with its own badge.
 LIVE_MARKERS = ("• Live 🟢", "· Live 🟢", "• Live", "🟢")
 
-# Titles that look like a fixture. Used by --sports-only to keep the board
-# focused on matches instead of studio filler.
-MATCH_RE = re.compile(
-    r"\bvs\.?\b|\bv\.?\s|\s[–—-]\s|ضد|مباراة", re.IGNORECASE
+# Placeholder programmes some generators emit to fill dead air ("no match
+# scheduled", "next up in 2h"). They are real XMLTV entries but they are not
+# events, and putting them on the board pushes actual fixtures off it.
+FILLER_RE = re.compile(
+    r"لا\s*(توجد|يوجد)|no\s+(match|event)|^\s*التالي\s*:|coming\s+up\s+next$",
+    re.IGNORECASE,
 )
+
+# Pictographs (⏰ 🟢 …) have no glyph in the text fonts and render as tofu
+# boxes on screen, so they are stripped rather than drawn.
+EMOJI_RE = re.compile(
+    "[\U0001F000-\U0001FAFF☀-➿️⬀-⯿⏩-⏺⌚-⌛]"
+)
+
+# Used by --sports-only to keep the board on matches instead of general
+# programming. A bare " - " is deliberately NOT a signal: half the entertainment
+# titles in the guide contain one.
+MATCH_RE = re.compile(r"\bvs\.?\b|\bv\b|ضد|مباراة|مباريات", re.IGNORECASE)
 SPORT_CAT_RE = re.compile(
-    r"sport|football|soccer|match|رياض|كرة|مباراة|دوري", re.IGNORECASE
+    r"sport|football|soccer|match|tennis|basket|رياض|كرة|مباراة|دوري", re.IGNORECASE
+)
+# Most channels in this guide are sports channels outright, so the channel
+# name is the strongest and cheapest signal available.
+SPORT_CHANNEL_RE = re.compile(
+    r"sport|spor|bein|tabii|thmanyah|shahid|alwan|fajer|ssc|رياض|ثمانية", re.IGNORECASE
 )
 
 
@@ -53,6 +71,9 @@ class Event:
     subtitle: str
     start: datetime
     stop: datetime
+    # Position of the channel in the guide, so the board can list events in
+    # the broadcaster's own channel order instead of alphabetically.
+    channel_index: int = 0
 
     @property
     def duration(self) -> timedelta:
@@ -86,6 +107,10 @@ def _clean_title(title: str) -> tuple[str, str]:
     text = (title or "").strip()
     for marker in LIVE_MARKERS:
         text = text.replace(marker, "")
+    # Some generators append their own countdown after a clock pictograph
+    # ("الاتحاد - الحزم ⏰ بعد 2 س و30 د"); this screen renders its own.
+    text = re.split(r"[⏰⌚🕐]", text)[0]
+    text = EMOJI_RE.sub("", text)
     text = re.sub(r"\s+", " ", text).strip(" -–—•·")
 
     # `Arsenal vs. Coventry City - English Premier League 2026/2027`
@@ -140,8 +165,10 @@ class EPGSource:
             return False
         return True
 
-    def _keep_event(self, title: str, categories: list[str]) -> bool:
+    def _keep_event(self, title: str, categories: list[str], channel: str) -> bool:
         if not self.sports_only:
+            return True
+        if SPORT_CHANNEL_RE.search(channel):
             return True
         if any(SPORT_CAT_RE.search(c) for c in categories):
             return True
@@ -157,14 +184,16 @@ class EPGSource:
             return False
 
         names: dict[str, str] = {}
-        for ch in root.findall("channel"):
+        order: dict[str, int] = {}
+        for index, ch in enumerate(root.findall("channel")):
             cid = ch.get("id") or ""
             display = ""
             for dn in ch.findall("display-name"):
                 if (dn.text or "").strip():
                     display = dn.text.strip()
                     break
-            names[cid] = display or cid
+            names[cid] = EMOJI_RE.sub("", display or cid).strip()
+            order[cid] = index
 
         events: list[Event] = []
         for pr in root.findall("programme"):
@@ -181,11 +210,15 @@ class EPGSource:
             raw_title = (pr.findtext("title") or "").strip()
             if not raw_title:
                 continue
+            if FILLER_RE.search(raw_title):
+                continue
             cats = [(c.text or "") for c in pr.findall("category")]
-            if not self._keep_event(raw_title, cats):
+            if not self._keep_event(raw_title, cats, f"{cid} {name}"):
                 continue
 
             title, subtitle = _clean_title(raw_title)
+            if not title:
+                continue
             events.append(
                 Event(
                     channel_id=cid,
@@ -194,6 +227,7 @@ class EPGSource:
                     subtitle=subtitle,
                     start=start,
                     stop=stop,
+                    channel_index=order.get(cid, 9999),
                 )
             )
 
@@ -201,7 +235,7 @@ class EPGSource:
             log("WARN parsed 0 events, keeping previous data")
             return False
 
-        events.sort(key=lambda e: (e.start, e.channel_name))
+        events.sort(key=lambda e: (e.start, e.channel_index))
         with self._lock:
             self._events = events
             self._loaded_at = datetime.now(UTC)
@@ -223,9 +257,9 @@ class EPGSource:
         with self._lock:
             events = self._events
         live = [e for e in events if e.start <= now < e.stop]
-        # Closest to finishing last: the ones that just started are the most
-        # useful thing to show at the top of the board.
-        live.sort(key=lambda e: (e.start, e.channel_name))
+        # Channel order, the way a viewer reads a channel list — not by start
+        # time, which would scatter the same broadcaster across pages.
+        live.sort(key=lambda e: (e.channel_index, e.start))
         return live
 
     def upcoming(self, now: datetime, *, within_hours: int = 36) -> list[Event]:
@@ -233,7 +267,7 @@ class EPGSource:
         with self._lock:
             events = self._events
         nxt = [e for e in events if now < e.start <= horizon]
-        nxt.sort(key=lambda e: (e.start, e.channel_name))
+        nxt.sort(key=lambda e: (e.start, e.channel_index))
         return nxt
 
     # -- background refresh --------------------------------------------------

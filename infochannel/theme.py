@@ -13,18 +13,28 @@ import os
 import re
 from functools import lru_cache
 
-from PIL import ImageFont
+from PIL import ImageFont, features
 
 # --- Arabic shaping ---------------------------------------------------------
-# Pillow draws glyphs exactly as given: without reshaping, Arabic comes out
-# disconnected and in the wrong visual order. These two libraries are optional
-# so the renderer still runs (Latin-only) if they are missing.
-try:
-    import arabic_reshaper
-    from bidi.algorithm import get_display
+# Two different worlds, and getting this wrong is what makes Arabic come out
+# either disconnected or mirrored:
+#
+#   * Pillow built with Raqm (HarfBuzz + FriBidi) already shapes and
+#     bidi-reorders text itself. Pre-shaping here would reorder it a second
+#     time and render every Arabic line backwards, so shape() must be a no-op.
+#   * Pillow without Raqm draws code points verbatim. Then we have to reshape
+#     and reorder ourselves, using the BASIC layout engine.
+HAS_RAQM = bool(features.check("raqm"))
 
-    _SHAPING = True
-except Exception:  # noqa: BLE001 - optional dependency
+if not HAS_RAQM:
+    try:
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+
+        _SHAPING = True
+    except Exception:  # noqa: BLE001 - optional dependency
+        _SHAPING = False
+else:
     _SHAPING = False
 
 ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]")
@@ -34,8 +44,15 @@ def has_arabic(text: str) -> bool:
     return bool(ARABIC_RE.search(text or ""))
 
 
+def direction_for(text: str) -> str | None:
+    """Base paragraph direction to hand Pillow. Only meaningful with Raqm."""
+    if HAS_RAQM and has_arabic(text):
+        return "rtl"
+    return None
+
+
 def shape(text: str) -> str:
-    """Reshape + bidi-reorder a string so Pillow renders Arabic correctly."""
+    """Make a string safe to draw. A no-op when Raqm does the work for us."""
     if not text or not _SHAPING or not has_arabic(text):
         return text
     try:
@@ -95,7 +112,8 @@ def font(size: int, *, bold: bool = False, arabic: bool = False) -> ImageFont.Fr
     )
     if path is None:
         return ImageFont.load_default()
-    return ImageFont.truetype(path, size)
+    engine = ImageFont.Layout.RAQM if HAS_RAQM else ImageFont.Layout.BASIC
+    return ImageFont.truetype(path, size, layout_engine=engine)
 
 
 def font_for(text: str, size: int, *, bold: bool = False) -> ImageFont.FreeTypeFont:
