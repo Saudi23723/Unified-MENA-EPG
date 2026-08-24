@@ -24,6 +24,13 @@ from epg_lib import is_live_now
 
 LIVE_SUFFIX = " • Live \U0001F7E2"  # " • Live 🟢"
 
+# Logos are served from this repository (see fetch_logos.py). Hot-linking a
+# third-party image host is what made the logos vanish in TiviMate before:
+# those hosts rate-limit, block hot-linking or need a browser User-Agent.
+LOGO_BASE = (
+    "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
+)
+
 TZ = ZoneInfo("Asia/Riyadh")          # المصدر الرئيسي (توقيت المباراة الرسمي)
 TZ_ABUDHABI = ZoneInfo("Asia/Dubai")   # توقيت أبوظبي
 TZ_VEGAS = ZoneInfo("America/Los_Angeles")  # توقيت لاس فيغاس
@@ -2049,12 +2056,12 @@ def write_xml(events):
         channel = ET.SubElement(tv, "channel", {"id": channel_id})
         ET.SubElement(channel, "display-name", {"lang": "en"}).text = f"Thmanyah {number}"
         ET.SubElement(channel, "display-name", {"lang": "ar"}).text = f"ثمانية {number}"
-        # لا يوجد icon - تم حذف اللوجو
+        ET.SubElement(channel, "icon", {"src": f"{LOGO_BASE}/thmanyah{number}.png"})
 
     guide = ET.SubElement(tv, "channel", {"id": GUIDE_CHANNEL_ID})
     ET.SubElement(guide, "display-name", {"lang": "en"}).text = "Thmanyah | Guide"
     ET.SubElement(guide, "display-name", {"lang": "ar"}).text = "ثمانية | Guide"
-    # لا يوجد icon - تم حذف اللوجو
+    ET.SubElement(guide, "icon", {"src": f"{LOGO_BASE}/thmanyah_guide.png"})
 
     events = dedupe(events)
 
