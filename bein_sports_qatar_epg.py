@@ -243,6 +243,23 @@ def build() -> int:
             warn(f"{name}: schedule fetch failed | {exc}")
             per_channel[xid] = []
 
+    # A channel whose whole schedule is one repeated title is not publishing a
+    # schedule at all: it is the channel's own blurb chopped into equal blocks
+    # (beIN does this on XTRA and MAX). beIN sets its live flag on those rows
+    # too, which would badge every hour of every day on nine channels and bury
+    # the real matches. Detected from the data, so the moment beIN publishes a
+    # genuine schedule for one of them it starts being badged normally.
+    placeholder = {
+        xid for xid, evs in per_channel.items()
+        if len(evs) > 1 and len({e["title"] for e in evs}) == 1
+    }
+    if placeholder:
+        log(
+            f"{len(placeholder)} channel(s) carry only a repeated blurb, not a real "
+            f"schedule — not badging those: "
+            f"{', '.join(channels[x][0] for x in sorted(placeholder))}"
+        )
+
     with_data = [x for x in sorted(channels) if per_channel.get(x)]
     empty = [channels[x][0] for x in sorted(channels) if not per_channel.get(x)]
     if empty:
@@ -261,15 +278,15 @@ def build() -> int:
     live_count = 0
     for xid in with_data:
         for ev in per_channel[xid]:
-            title = ev["title"]
-            if ev["live"]:
-                title = with_live_badge(title)
+            live = ev["live"] and xid not in placeholder
+            title = with_live_badge(ev["title"]) if live else ev["title"]
+            if live:
                 live_count += 1
             p = add_programme(
                 root, xid, ev["start"], ev["stop"], title, ev["desc"],
                 category="Sports",
             )
-            if ev["live"]:
+            if live:
                 ET.SubElement(p, "category", lang="en").text = "Live"
             total += 1
 
