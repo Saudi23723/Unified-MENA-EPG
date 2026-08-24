@@ -16,9 +16,23 @@ import xml.etree.ElementTree as ET
 import requests
 from bs4 import BeautifulSoup
 
-from epg_lib import is_live_now
+# Badge appended to every real match block.
+#
+# It marks the programme as a LIVE BROADCAST — the standard EPG meaning —
+# rather than "kicking off this very second". Stamping it only while the
+# match happened to be on air (the previous behaviour) meant it was
+# essentially never visible: the guide is a static file, so the badge only
+# existed in whichever copy was generated during the match, and TiviMate
+# had to re-download in that same narrow window to ever show it. Marking
+# the broadcast itself is also what makes it visible when you browse ahead.
+# This mirrors update_alwan_epg.py, where the badge has always worked.
+LRM = "‎"
+LIVE_LABEL = "• Live \U0001F535"  # "• Live 🔵"
 
-LIVE_SUFFIX = " • Live \U0001F535"  # " • Live 🔵"
+
+def ltr(value: str) -> str:
+    """Wrap a Latin run so it keeps its own order inside RTL text."""
+    return f"{LRM}{value}{LRM}"
 
 
 OUTPUT = "onsport_epg.xml"
@@ -1019,8 +1033,8 @@ def write_xml(events: list[dict]) -> None:
                     continue
 
                 title = f"{display_team(ev['home'])} - {display_team(ev['away'])}"
-                if is_live_now(ev_start, ev_stop, utc_now()):
-                    title += LIVE_SUFFIX
+                if LIVE_LABEL:
+                    title = f"{title} {ltr(LIVE_LABEL)}"
                 add_programme(
                     root, channel_id, ev_start, ev_stop, title, desc,
                     category=ev["competition"],
