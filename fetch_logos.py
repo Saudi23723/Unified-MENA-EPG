@@ -127,12 +127,23 @@ def main() -> int:
 
     ok, failed = [], []
 
+    # Several channels legitimately share one source image (all Thmanyah
+    # channels use the same brand mark). Downloading it once per channel
+    # got the 4th request rejected with HTTP 429 by Wikimedia, so cache
+    # every URL — success or failure — and fetch each one at most once.
+    cache: dict[str, Image.Image | None] = {}
+
     for key, urls in CANDIDATES.items():
         print(f"\n=== {key} ===")
         winner = None
         for url in urls:
-            print(f"  try {url}")
-            im = try_download(url)
+            if url in cache:
+                im = cache[url]
+                print(f"  reuse {url} -> {'OK (cached)' if im else 'FAILED earlier'}")
+            else:
+                print(f"  try {url}")
+                im = try_download(url)
+                cache[url] = im
             if im is not None:
                 winner = (im, url)
                 break
