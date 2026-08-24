@@ -49,11 +49,19 @@ USER_AGENT = (
     "Chrome/126.0 Safari/537.36"
 )
 
+# Logos are served from this repository (see fetch_logos.py). Hot-linking
+# imgur/ibb/broadcaster CDNs is what made the logos vanish in TiviMate
+# before: those hosts rate-limit, block hot-linking or need a browser
+# User-Agent. A raw.githubusercontent.com PNG has none of those problems.
+LOGO_BASE = (
+    "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
+)
+
 CHANNELS = {
-    "ONSport1": {"name": "ON Sport 1"},
-    "ONSport2": {"name": "ON Sport 2"},
-    "ONSportMAX": {"name": "ON Sport MAX"},
-    "ONSportPLUS": {"name": "ON Sport PLUS"},
+    "ONSport1": {"name": "ON Sport 1", "logo": f"{LOGO_BASE}/onsport1.png"},
+    "ONSport2": {"name": "ON Sport 2", "logo": f"{LOGO_BASE}/onsport2.png"},
+    "ONSportMAX": {"name": "ON Sport MAX", "logo": f"{LOGO_BASE}/onsportmax.png"},
+    "ONSportPLUS": {"name": "ON Sport PLUS", "logo": f"{LOGO_BASE}/onsportplus.png"},
 }
 
 LIVEFOOTBALLTV = {
@@ -946,6 +954,8 @@ def write_xml(events: list[dict]) -> None:
         ch = ET.SubElement(root, "channel", id=channel_id)
         ET.SubElement(ch, "display-name", lang="en").text = cfg["name"]
         ET.SubElement(ch, "display-name", lang="ar").text = cfg["name"]
+        if cfg.get("logo"):
+            ET.SubElement(ch, "icon", src=cfg["logo"])
 
     today_source = utc_now().astimezone(SOURCE_TZ).date()
     first_day = today_source - timedelta(days=DAYS_BACK)

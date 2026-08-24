@@ -1,24 +1,23 @@
-name: Update ON Sport EPG
+name: Fetch channel logos (manual)
 
+# Manual only. Run this when a channel logo needs to be added or refreshed;
+# it downloads the logos from their upstream sources, validates each one is
+# a real image, and commits them into logos/ so the guides can serve them
+# from this repository instead of hot-linking a third-party host.
 on:
   workflow_dispatch:
-  schedule:
-    # Hourly. The guide is a static file, so the "• Live 🔵" marker on a
-    # match can only appear if a run happens while that match is on air —
-    # a once-a-day run could never catch an evening kickoff.
-    - cron: "40 * * * *"
 
 permissions:
   contents: write
 
 concurrency:
-  group: onsport-epg
+  group: fetch-logos
   cancel-in-progress: false
 
 jobs:
-  update:
+  fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -33,25 +32,25 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4
+          python -m pip install --upgrade pip
+          pip install requests pillow
 
-      - name: Generate ON Sport EPG
-        run: |
-          python update_onsport_epg.py
+      - name: Download and validate logos
+        run: python fetch_logos.py
 
-      - name: Commit updated EPG
+      - name: Commit logos
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add onsport_epg.xml
+          git add logos
 
           if git diff --cached --quiet; then
-            echo "No ON Sport EPG changes to commit."
+            echo "No logo changes to commit."
             exit 0
           fi
 
-          git commit -m "Update ON Sport EPG"
+          git commit -m "Update channel logos"
           for attempt in 1 2 3 4 5; do
             git pull --rebase origin main
             if git push origin main; then
