@@ -806,6 +806,11 @@ def parse_news_article(url):
         out.append(e)
 
     return out
+# Joins events that share a start time into one programme title, and
+# splits them apart again when the guide is read back in.
+MERGE_SEPARATOR = " + "
+
+
 def read_existing():
     if not OUT.exists():
         return []
@@ -861,32 +866,44 @@ def read_existing():
         title_el = p.find("title")
         desc_el = p.find("desc")
 
-        events.append({
-            "channel": int(
-                m.group(1)
-            ),
-            "start": start,
-            "title": (
-                title_el.text
-                if (
-                    title_el is not None
-                    and title_el.text
-                )
-                else "Tabii Spor"
-            ),
-            "source": (
-                desc_el.text.replace(
-                    "Kaynak: ",
-                    "",
-                    1
-                )
-                if (
-                    desc_el is not None
-                    and desc_el.text
-                )
-                else "saved"
-            ),
-        })
+        raw_title = (
+            title_el.text
+            if (
+                title_el is not None
+                and title_el.text
+            )
+            else "Tabii Spor"
+        )
+
+        source = (
+            desc_el.text.replace(
+                "Kaynak: ",
+                "",
+                1
+            )
+            if (
+                desc_el is not None
+                and desc_el.text
+            )
+            else "saved"
+        )
+
+        # write_xml() merges events that share a start time into one
+        # programme ("A + B"), so split them apart again on the way back
+        # in. Without this the merged text would be re-imported as a single
+        # event and merged again on the next run, growing every time.
+        for part in raw_title.split(MERGE_SEPARATOR):
+            part = part.strip()
+            if not part:
+                continue
+            events.append({
+                "channel": int(
+                    m.group(1)
+                ),
+                "start": start,
+                "title": part,
+                "source": source,
+            })
 
     return events
 
@@ -950,27 +967,71 @@ def write_xml(events):
             f"Tabii Spor {n}"
         )
 
+    # Every event used to be written as its own <programme> with a fixed
+    # 2h30m length. Two events starting together therefore produced two
+    # overlapping programmes on one channel, and a long event ran straight
+    # into the next one — 52 overlaps in the published guide. A player can
+    # only show one programme per slot per channel, so the rest were hidden.
+    #
+    # Group whatever shares a start time into a single programme, then clip
+    # each programme so it ends no later than the next one begins.
+    slots = {}
     for e in events:
+        slots.setdefault(
+            (e["channel"], e["start"]),
+            []
+        ).append(e)
+
+    starts_by_channel = {}
+    for channel, start in slots:
+        starts_by_channel.setdefault(
+            channel,
+            []
+        ).append(start)
+    for values in starts_by_channel.values():
+        values.sort()
+
+    for (channel, start), group in sorted(
+        slots.items(),
+        key=lambda kv: (kv[0][0], kv[0][1])
+    ):
+        titles = []
+        for item in group:
+            if item["title"] not in titles:
+                titles.append(item["title"])
+
+        stop = start + timedelta(
+            hours=2,
+            minutes=30
+        )
+
+        siblings = starts_by_channel[channel]
+        position = siblings.index(start)
+        if position + 1 < len(siblings):
+            stop = min(
+                stop,
+                siblings[position + 1]
+            )
+
+        if stop <= start:
+            continue
+
+        e = group[0]
+
         p = ET.SubElement(
             tv,
             "programme",
             {
                 "start":
-                    e["start"].strftime(
+                    start.strftime(
                         "%Y%m%d%H%M%S %z"
                     ),
                 "stop":
-                    (
-                        e["start"]
-                        + timedelta(
-                            hours=2,
-                            minutes=30
-                        )
-                    ).strftime(
+                    stop.strftime(
                         "%Y%m%d%H%M%S %z"
                     ),
                 "channel":
-                    f"TabiiSpor{e['channel']}.tr",
+                    f"TabiiSpor{channel}.tr",
             }
         )
 
@@ -981,7 +1042,7 @@ def write_xml(events):
                 "lang":
                     "tr"
             }
-        ).text = e["title"]
+        ).text = MERGE_SEPARATOR.join(titles)
 
         ET.SubElement(
             p,
