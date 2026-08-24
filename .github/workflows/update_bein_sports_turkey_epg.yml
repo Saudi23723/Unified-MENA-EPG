@@ -40,9 +40,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: TEMP DEBUG PROBE
-        run: python probe_debug.py
-
       - name: Generate beIN Sports Türkiye EPG
         run: python bein_sports_turkey_epg.py
 
