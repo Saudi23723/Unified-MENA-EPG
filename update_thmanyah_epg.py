@@ -20,9 +20,24 @@ from PIL import Image, ImageOps, ImageEnhance
 import pytesseract
 from pytesseract import Output
 
-from epg_lib import is_live_now
 
-LIVE_SUFFIX = " • Live \U0001F7E2"  # " • Live 🟢"
+# Badge appended to every real match block.
+#
+# It marks the programme as a LIVE BROADCAST — the standard EPG meaning —
+# rather than "kicking off this very second". Stamping it only while the
+# match happened to be on air (the previous behaviour) meant it was
+# essentially never visible: the guide is a static file, so the badge only
+# existed in whichever copy was generated during the match, and TiviMate
+# had to re-download in that same narrow window to ever show it. Marking
+# the broadcast itself is also what makes it visible when you browse ahead.
+# This mirrors update_alwan_epg.py, where the badge has always worked.
+LRM = "‎"
+LIVE_LABEL = "• Live \U0001F7E2"  # "• Live 🟢"
+
+
+def ltr(value):
+    """Wrap a Latin run so it keeps its own order inside RTL text."""
+    return f"{LRM}{value}{LRM}"
 
 # Logos are served from this repository (see fetch_logos.py). Hot-linking a
 # third-party image host is what made the logos vanish in TiviMate before:
@@ -2126,8 +2141,8 @@ def write_xml(events):
         else:
             gp_title = " + ".join(item["title"] for item in group["events"])
 
-        if is_live_now(group["start"], stop, NOW):
-            gp_title += LIVE_SUFFIX
+        if LIVE_LABEL:
+            gp_title = f"{gp_title} {ltr(LIVE_LABEL)}"
 
         ET.SubElement(gp, "title", {"lang": "ar"}).text = gp_title
         ET.SubElement(gp, "category", {"lang": "en"}).text = "Sports"
@@ -2163,8 +2178,8 @@ def write_xml(events):
                 },
             )
             title = event["title"]
-            if is_live_now(event["start"], stop, NOW):
-                title += LIVE_SUFFIX
+            if LIVE_LABEL:
+                title = f"{title} {ltr(LIVE_LABEL)}"
             ET.SubElement(p, "title", {"lang": "ar"}).text = title
             ET.SubElement(p, "category", {"lang": "en"}).text = "Sports"
             ET.SubElement(p, "desc", {"lang": "ar"}).text = (
