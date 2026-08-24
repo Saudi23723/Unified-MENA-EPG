@@ -1,69 +1,76 @@
 #!/usr/bin/env python3
 """Temporary structural probe for livesoccertv.com channel pages. Not part of the app."""
+import re
 import requests
 from bs4 import BeautifulSoup
 
 UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 
-URLS = {
-    "ON Sport 1": "https://www.livesoccertv.com/channels/on-sport-egypt/",
-    "ON Sport 2": "https://www.livesoccertv.com/channels/on-sport-2-egypt/",
-    "ON Sport MAX": "https://www.livesoccertv.com/channels/on-sport-max/",
-    "ON Sport PLUS": "https://www.livesoccertv.com/channels/on-sport-plus/",
-}
+URL = "https://www.livesoccertv.com/channels/on-sport-plus/"
 
-s = requests.Session()
-s.headers.update({"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9,ar;q=0.8"})
-
-for name, url in URLS.items():
-    print(f"\n===== {name} | {url} =====")
+for label, cookies in [
+    ("no-cookie", {}),
+    ("tz=UTC", {"tz": "UTC"}),
+    ("tz=Africa/Cairo", {"tz": "Africa/Cairo"}),
+    ("timezone=Africa/Cairo", {"timezone": "Africa/Cairo"}),
+    ("myTimezone=Africa/Cairo", {"myTimezone": "Africa/Cairo"}),
+]:
+    print(f"\n===== cookies={label} =====")
+    s = requests.Session()
+    s.headers.update({"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"})
     try:
-        r = s.get(url, timeout=20)
+        r = s.get(URL, timeout=20, cookies=cookies)
         print("HTTP", r.status_code, "bytes", len(r.content))
-        r.raise_for_status()
     except Exception as exc:
         print("FETCH FAILED:", exc)
         continue
 
     soup = BeautifulSoup(r.text, "html.parser")
+    table = soup.find("table", class_="schedules")
+    if not table:
+        print("no schedules table")
+        continue
+    rows = table.find_all("tr")
+    for row in rows[:6]:
+        cells = [c.get_text(" ", strip=True) for c in row.find_all(["td", "th"])]
+        print("  ROW:", cells)
 
-    for tag in soup(["script", "style", "noscript", "svg"]):
-        tag.decompose()
+# Now dig for machine-readable timestamps near the match row (data-*, datetime=, epoch, etc.)
+print("\n===== searching for machine-readable time attributes =====")
+s = requests.Session()
+s.headers.update({"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"})
+r = s.get(URL, timeout=20)
+html = r.text
 
-    # 1) Any <table> present?
-    tables = soup.find_all("table")
-    print(f"tables found: {len(tables)}")
-    for i, t in enumerate(tables[:2]):
-        print(f"--- table[{i}] class={t.get('class')} id={t.get('id')} ---")
-        rows = t.find_all("tr")
-        print(f"  rows: {len(rows)}")
-        for row in rows[:6]:
-            cells = [c.get_text(" ", strip=True) for c in row.find_all(["td", "th"])]
-            print("   ROW:", cells)
+# any tag attributes that look time/date/epoch related
+attr_pattern = re.compile(
+    r'(data-[a-z-]*(?:time|date|utc|ts|epoch)[a-z-]*|datetime)\s*=\s*"([^"]{1,40})"',
+    re.I,
+)
+found = attr_pattern.findall(html)
+print(f"candidate time-ish attributes found: {len(found)}")
+seen = {}
+for name, val in found:
+    seen.setdefault(name, []).append(val)
+for name, vals in seen.items():
+    print(f"  {name}: sample values {vals[:5]}")
 
-    # 2) Common list-item containers
-    candidates = soup.select("[class*=match]") or []
-    print(f"elements with class containing 'match': {len(candidates)}")
-    seen_classes = {}
-    for el in candidates[:400]:
-        cls = " ".join(el.get("class", []))
-        seen_classes[cls] = seen_classes.get(cls, 0) + 1
-    top = sorted(seen_classes.items(), key=lambda x: -x[1])[:15]
-    for cls, cnt in top:
-        print(f"  class='{cls}' count={cnt}")
+# look for a JS variable holding timezone or offset info
+tz_hint = re.search(r'(timezone|utcoffset|gmtoffset|tzname)["\']?\s*[:=]\s*["\']?([^,"\';\n]{1,40})', html, re.I)
+print("timezone-ish JS hint:", tz_hint.group(0) if tz_hint else None)
 
-    # 3) Sample first plausible match-like element's raw HTML
-    if candidates:
-        print("--- sample element[0] outer html (truncated 800 chars) ---")
-        print(str(candidates[0])[:800])
-        if len(candidates) > 3:
-            print("--- sample element[3] outer html (truncated 800 chars) ---")
-            print(str(candidates[3])[:800])
+# look for the raw <tr> HTML around the match row (id="match") to see all attrs/siblings
+soup2 = BeautifulSoup(html, "html.parser")
+match_td = soup2.find("td", id="match")
+if match_td:
+    tr = match_td.find_parent("tr")
+    print("\n--- full <tr> for the match row (raw) ---")
+    print(str(tr)[:2000])
 
-    # 4) Fallback: dump plain stripped_strings lines (first 80) to see textual layout
-    print("--- first 80 stripped_strings ---")
-    for i, line in enumerate(soup.stripped_strings):
-        if i >= 80:
-            break
-        print(f"  [{i}] {line!r}")
+# look for any element carrying the visitor's detected timezone/offset (often near a "clock" widget)
+clock = soup2.find(string=re.compile(r"time zone", re.I))
+if clock:
+    print("\n--- 'time zone' text context ---")
+    print(clock.parent.get_text(" ", strip=True)[:300])
+    print(str(clock.parent)[:1000])
