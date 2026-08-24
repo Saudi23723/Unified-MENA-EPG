@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
+from epg_lib import countdown_label, countdown_step, with_live_badge
+
 # -----------------------------------------------------------------------------
 # Shahid Sports Guide EPG
 # - ONE Guide channel only
@@ -928,6 +930,49 @@ def write_xml(events):
         ET.SubElement(p, "category", {"lang": "en"}).text = "Sports"
         ET.SubElement(p, "desc", {"lang": "ar"}).text = description
 
+    # Every kickoff across the whole window, so a countdown near the end of a
+    # day can still point at tomorrow's first match instead of going blank.
+    all_kickoffs = sorted({
+        e["start"] for day in by_day.values() for e in day
+    })
+    titles_at = {
+        k: " / ".join(sorted(
+            e["title"] for day in by_day.values() for e in day if e["start"] == k
+        ))
+        for k in all_kickoffs
+    }
+
+    def next_kickoff_after(moment):
+        return next((k for k in all_kickoffs if k >= moment), None)
+
+    def add_countdown(gap_start, gap_stop, description):
+        """Fill a gap with consecutive blocks counting down to the next match.
+
+        A countdown baked into a static file would go stale immediately, so
+        the gap is split into blocks each labelled with the time left at its
+        own start. The player always shows the block covering "now", so the
+        figure stays right without re-downloading; blocks shorten as kickoff
+        approaches so it is never more than one step out of date.
+        """
+        block = gap_start
+        while block < gap_stop:
+            upcoming = next_kickoff_after(block)
+            if upcoming is None:
+                add_programme(block, gap_stop, "لا توجد مباراة قادمة", description)
+                return
+
+            remaining = upcoming - block
+            stop = min(block + countdown_step(remaining), gap_stop, upcoming)
+            if stop <= block:
+                return
+
+            left = countdown_label(remaining.total_seconds() // 60)
+            add_programme(
+                block, stop,
+                f"{titles_at[upcoming]} · بعد {left}", description,
+            )
+            block = stop
+
     cursor = window_start
     while cursor < window_end:
         day_start = cursor
@@ -942,7 +987,7 @@ def write_xml(events):
         desc = day_description(current_day, day_events)
 
         if not day_events:
-            add_programme(day_start, day_stop, "لا توجد مباريات مجدولة", desc)
+            add_countdown(day_start, day_stop, desc)
             cursor = day_stop
             continue
 
@@ -955,7 +1000,7 @@ def write_xml(events):
         kickoff_times = sorted(groups)
 
         if kickoff_times[0] > day_start:
-            add_programme(day_start, kickoff_times[0], "مباريات Shahid Sports اليوم", desc)
+            add_countdown(day_start, kickoff_times[0], desc)
 
         for index, kickoff in enumerate(kickoff_times):
             next_kickoff = kickoff_times[index + 1] if index + 1 < len(kickoff_times) else None
@@ -964,11 +1009,11 @@ def write_xml(events):
             title = " / ".join(
                 event["title"] for event in sorted(groups[kickoff], key=lambda x: x["title"])
             )
-            add_programme(kickoff, stop, title, desc)
+            add_programme(kickoff, stop, with_live_badge(title), desc)
 
         last_stop = min(kickoff_times[-1] + timedelta(hours=3), day_stop)
         if last_stop < day_stop:
-            add_programme(last_stop, day_stop, "مباريات Shahid Sports اليوم", desc)
+            add_countdown(last_stop, day_stop, desc)
 
         cursor = day_stop
 

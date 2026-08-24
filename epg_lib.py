@@ -19,7 +19,7 @@ import os
 import re
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from html import unescape
 
 import requests
@@ -261,3 +261,67 @@ def run_main(build_fn, output_path: str) -> int:
             warn(f"Keeping previous {output_path} untouched after fatal error.")
             return 0
         return 1
+
+
+# ---------------------------------------------------------------------------
+# Guide-channel helpers: live badge + "time until kickoff" countdown
+# ---------------------------------------------------------------------------
+
+LRM = "‎"
+
+# The blue badge used by the guide-style channels (Shasha, Shahid). It marks
+# the programme as a LIVE BROADCAST — the standard EPG meaning — so it stays
+# visible when browsing ahead, exactly like update_alwan_epg.py does.
+LIVE_BADGE = "• Live \U0001F535"  # "• Live 🔵"
+
+
+def ltr(value: str) -> str:
+    """Wrap a Latin run so it keeps its own order inside RTL text."""
+    return f"{LRM}{value}{LRM}"
+
+
+def with_live_badge(title: str) -> str:
+    return f"{title} {ltr(LIVE_BADGE)}"
+
+
+def countdown_label(minutes) -> str:
+    """Arabic 'time remaining' label: '15 د', '2 س', '2 س و15 د', '1 ي و3 س'."""
+    minutes = max(int(minutes), 0)
+    hours, mins = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    if days:
+        return f"{days} ي و{hours} س" if hours else f"{days} ي"
+    if hours and mins:
+        return f"{hours} س و{mins} د"
+    if hours:
+        return f"{hours} س"
+    return f"{mins} د"
+
+
+def countdown_step(remaining: timedelta) -> timedelta:
+    """How long the next countdown block should last.
+
+    A countdown written into a static XMLTV file would go stale instantly,
+    so instead the gap before a match is filled with consecutive blocks,
+    each labelled with the time left at *its own* start. The player always
+    shows the block covering "now", so the number stays correct without the
+    file being re-downloaded. Blocks get shorter as kickoff approaches, so
+    the figure is never more than one step out of date.
+    """
+    if remaining <= timedelta(hours=1):
+        return timedelta(minutes=10)
+    if remaining <= timedelta(hours=3):
+        return timedelta(minutes=15)
+    if remaining <= timedelta(hours=8):
+        return timedelta(minutes=30)
+    return timedelta(hours=1)
+
+
+def group_concurrent(events: list[dict], key="start") -> dict:
+    """start-time -> [events]. Matches kicking off together must become ONE
+    programme: a guide channel can only show one entry per time slot, so
+    emitting them separately makes the player hide all but one."""
+    slots: dict = {}
+    for ev in events:
+        slots.setdefault(ev[key], []).append(ev)
+    return slots
