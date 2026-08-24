@@ -22,8 +22,8 @@ from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, run_main, utc_now, warn,
-    write_xml_atomic,
+    add_programme, fetch, log, new_session, resolve_overlaps, run_main,
+    utc_now, warn, write_xml_atomic,
 )
 
 OUTPUT = "starzplay_epg.xml"
@@ -126,6 +126,7 @@ def build() -> int:
             if src:
                 ET.SubElement(chan_el, "icon", src=src)
 
+        raw_events = []
         for ev in ch.get("events", []) or []:
             start = parse_unix(ev.get("tsStart"))
             stop = parse_unix(ev.get("tsEnd"))
@@ -136,10 +137,14 @@ def build() -> int:
             desc = (ev.get("description") or "").strip()
             ev_images = ev.get("images") or []
             icon = ev_images[0].get("url") if ev_images and ev_images[0].get("url") else None
+            raw_events.append({"start": start, "stop": stop, "title": title, "desc": desc, "icon": icon})
 
+        # STARZPLAY's own API sometimes returns overlapping events for one
+        # channel (seen live) — invalid XMLTV, so resolve before writing.
+        for ev in resolve_overlaps(raw_events):
             add_programme(
-                root, xid, start, stop, title, desc,
-                icon=icon, live_eligible=True, now=now,
+                root, xid, ev["start"], ev["stop"], ev["title"], ev["desc"],
+                icon=ev["icon"], live_eligible=True, now=now,
             )
             total += 1
 

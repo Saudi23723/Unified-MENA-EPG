@@ -38,8 +38,8 @@ from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, norm, run_main, utc_now, warn,
-    write_xml_atomic,
+    add_programme, fetch, log, new_session, norm, resolve_overlaps, run_main,
+    utc_now, warn, write_xml_atomic,
 )
 
 OUTPUT = "adsports_epg.xml"
@@ -48,6 +48,15 @@ ABU_DHABI = ZoneInfo("Asia/Dubai")
 
 DAYS_BACK = 1
 DAYS_FORWARD = 5
+
+
+def in_window(dt: datetime, now: datetime) -> bool:
+    """LiveFootballTV.info's per-channel pages also list historical
+    fixtures going back a long time; without this, old matches (and
+    unrelated dates colliding) leak into the guide and can overlap."""
+    start = now - timedelta(days=DAYS_BACK)
+    end = now + timedelta(days=DAYS_FORWARD + 1)
+    return start <= dt < end
 
 # ---------------------------------------------------------------------------
 # 1) AD Sports 1 HD via OSN's public EPG API (official data)
@@ -94,7 +103,12 @@ def fetch_osn_ad_sports_day(session, day_start_utc: datetime) -> list[dict]:
         "startTime": start_ms,
         "endTime": end_ms,
     }
-    headers = {"X-Encrypted-Data": _osn_encrypt(json.dumps(payload))}
+    headers = {
+        "X-Encrypted-Data": _osn_encrypt(json.dumps(payload)),
+        "Referer": "https://www.osn.com/",
+        "Origin": "https://www.osn.com",
+        "Accept": "application/json, text/plain, */*",
+    }
     url = f"{OSN_SCHEDULE_URL}?t=batch1-time{start_ms}-{end_ms}-boxAndroid"
 
     r = fetch(session, url, headers=headers)
@@ -260,7 +274,8 @@ def _extract_match_block(block: list[str], channel_name: str) -> tuple[str, str,
     return norm(competition), norm(home), norm(away)
 
 
-def parse_lftv_channel(html: str, channel_name: str, source_url: str) -> list[dict]:
+def parse_lftv_channel(html: str, channel_name: str, source_url: str, now: datetime | None = None) -> list[dict]:
+    now = now or utc_now()
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
@@ -300,17 +315,20 @@ def parse_lftv_channel(html: str, channel_name: str, source_url: str) -> list[di
             competition, home, away = parsed
             local = datetime(current_date.year, current_date.month, current_date.day, hh, mm, tzinfo=ABU_DHABI)
             start_utc = local.astimezone(UTC)
-            events.append({
-                "start": start_utc,
-                "stop": start_utc + timedelta(minutes=MATCH_MINUTES),
-                "title": f"{home} - {away}",
-                "desc": competition,
-                "source": source_url,
-            })
+            # LiveFootballTV.info's per-channel pages also list historical
+            # fixtures far in the past — skip anything outside our window.
+            if in_window(start_utc, now):
+                events.append({
+                    "start": start_utc,
+                    "stop": start_utc + timedelta(minutes=MATCH_MINUTES),
+                    "title": f"{home} - {away}",
+                    "desc": competition,
+                    "source": source_url,
+                })
 
         i = max(i + 1, j)
 
-    return events
+    return resolve_overlaps(events)
 
 
 # Last-known-good fallback if the index page itself can't be reached —
@@ -321,7 +339,7 @@ FALLBACK_LFTV_CHANNELS = {
 }
 
 
-def collect_lftv_ad_sports(session) -> dict[str, list[dict]]:
+def collect_lftv_ad_sports(session, now: datetime):
     try:
         channels = discover_ad_sports_channels(session)
         if channels:
@@ -344,7 +362,7 @@ def collect_lftv_ad_sports(session) -> dict[str, list[dict]]:
     for xid, (name, url) in channels.items():
         try:
             r = fetch(session, url)
-            events = parse_lftv_channel(r.text, name, url)
+            events = parse_lftv_channel(r.text, name, url, now)
             out[xid] = events
             log(f"{name} (LiveFootballTV best-effort): {len(events)} fixtures")
         except Exception as exc:
@@ -360,7 +378,7 @@ def build() -> int:
     session = new_session()
     now = utc_now()
 
-    lftv_events, lftv_channels = collect_lftv_ad_sports(session)
+    lftv_events, lftv_channels = collect_lftv_ad_sports(session, now)
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — AD Sports"})
 
@@ -378,7 +396,7 @@ def build() -> int:
         warn(f"AD Sports 1 (OSN) collection failed entirely: {exc}")
         osn_events = []
 
-    for ev in osn_events:
+    for ev in resolve_overlaps(osn_events):
         add_programme(
             root, OSN_CHANNEL_ID, ev["start"], ev["stop"], ev["title"], ev["desc"],
             category="Sports", live_eligible=True, now=now,

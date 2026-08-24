@@ -207,6 +207,31 @@ def write_xml_atomic(
     return True
 
 
+def resolve_overlaps(events: list[dict]) -> list[dict]:
+    """Sort a single channel's events by start and remove overlaps.
+
+    Some upstream APIs (seen live on STARZPLAY) return events that overlap
+    in time for the same channel — invalid XMLTV. An event fully inside the
+    previous one is dropped; a partial overlap has its start pushed to the
+    previous event's stop (or is dropped if that leaves no duration left).
+    Expects each event to be a dict with "start"/"stop" datetimes.
+    """
+    ordered = sorted(events, key=lambda e: e["start"])
+    out: list[dict] = []
+    cursor = None
+    for ev in ordered:
+        start, stop = ev["start"], ev["stop"]
+        if cursor is not None and start < cursor:
+            if stop <= cursor:
+                continue  # fully swallowed by the previous event
+            start = cursor
+        if stop <= start:
+            continue
+        out.append({**ev, "start": start, "stop": stop})
+        cursor = stop
+    return out
+
+
 def dedupe_events(events: list[dict], key_fn, priority_fn=None) -> list[dict]:
     """Keep the highest-priority event per key (default: first wins)."""
     best: dict = {}
