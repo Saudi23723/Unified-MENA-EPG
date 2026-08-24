@@ -23,10 +23,14 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_q
 
 ### 🇹🇷 beIN SPORTS Türkiye
 
-**Channels:** beIN SPORTS 1–5, MAX 1–2, HABER.
+**Channels:** beIN SPORTS 1–4, MAX 1–2, HABER.
 
-Sourced live from Digiturk's own public TV-guide feed (beIN Sports
-Türkiye is carried on Digiturk).
+Sourced from tvyayinakisi.com, which publishes each channel's schedule as
+schema.org `BroadcastEvent` data, with the Turkish feed of
+epgshare01.online filling any time that source leaves empty. Broadcasts
+the source marks "Canlı" (live) carry the Live badge.
+
+beIN SPORTS 5 is not listed: neither source publishes a schedule for it.
 
 EPG URL:
 
