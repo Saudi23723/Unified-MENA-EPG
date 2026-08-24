@@ -34,34 +34,6 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_t
 
 ---
 
-### 🟣 STARZPLAY (Sport only)
-
-Sport channels only, sourced from STARZPLAY's own public web-EPG API.
-Channels are auto-discovered and filtered to "sport" client-side, so new
-sport channels appear automatically without growing the file with
-unrelated movies/series channels.
-
-EPG URL:
-
-https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/starzplay_epg.xml
-
----
-
-### 🟡 AD Sports (Abu Dhabi Sports)
-
-**AD Sports 1 HD** is sourced from OSN's official public EPG API (real,
-verified data). **AD Sports 2 / Premium / Extra** are best-effort,
-auto-discovered from LiveFootballTV.info's own channel index (same
-technique already used for ON Sport/Jordan Sports below) — if a channel
-isn't currently listed there it simply has no programmes that run, it
-never breaks the rest of the file.
-
-EPG URL:
-
-https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/adsports_epg.xml
-
----
-
 ### 🇯🇴 Jordan — Roya TV / Roya News (general programming)
 
 Full daily schedule (news, drama, talk shows, everything Roya airs),
@@ -71,22 +43,6 @@ existing **Jordan Sports** guide below.
 EPG URL:
 
 https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/roya_jordan_epg.xml
-
----
-
-### 🇹🇷 Turkey — EXXEN SPOR, Tivibu Spor, beIN CONNECT
-
-Best-effort match-to-channel guide for three Turkish streaming sport
-platforms. None of the three publish a public schedule API (they're
-apps, not classic linear channels), so — like this repo's existing
-Jordan/ON-Sport/Shahid guides — this reads real match/channel
-assignments from Mackolik's TV programme page. A match only appears here
-when Mackolik explicitly names the channel next to it; nothing is
-invented.
-
-EPG URL:
-
-https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/turkish_extra_sports_epg.xml
 
 ---
 
