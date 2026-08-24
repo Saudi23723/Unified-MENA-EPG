@@ -60,6 +60,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     channel_id = "MENAInfo"
     stream_file = "info.m3u8"
 
+    # Python's mimetypes maps .ts to a Qt translation format, which strict
+    # players reject outright. HLS types have to be declared explicitly.
+    extensions_map = {
+        **http.server.SimpleHTTPRequestHandler.extensions_map,
+        ".ts": "video/mp2t",
+        ".m3u8": "application/vnd.apple.mpegurl",
+        ".m3u": "audio/x-mpegurl",
+    }
+
     def __init__(self, *args, directory: str | None = None, **kwargs):
         super().__init__(*args, directory=directory, **kwargs)
 

@@ -1,0 +1,7 @@
+# Pillow wheels normally bundle Raqm (HarfBuzz + FriBidi), which shapes and
+# orders Arabic correctly on its own.
+Pillow>=10.0.0
+
+# Only used when Pillow was built WITHOUT Raqm; harmless otherwise.
+arabic-reshaper>=3.0.0
+python-bidi>=0.4.2

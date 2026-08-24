@@ -132,6 +132,34 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/combined_epg_
 
 ---
 
+## 📺 Info Channel (live 24/7 stream)
+
+Beyond the XMLTV files, this repo can also run the guide as an **actual
+channel**: a 24/7 HLS stream showing what is on air now and what is coming
+up next, which you add to TiviMate (or any IPTV player) like any other
+channel.
+
+It renders the screen directly with Pillow instead of screen-recording a
+browser, so it costs about **1% of one CPU core** — small enough to run on a
+Raspberry Pi, an old laptop, or a free-tier cloud VM.
+
+```bash
+cd infochannel
+pip install -r requirements.txt
+python3 stream.py
+# -> http://<host>:8080/playlist.m3u   (add this to your IPTV app)
+```
+
+Full setup, free hosting options and troubleshooting:
+[`infochannel/README.md`](infochannel/README.md)
+
+> GitHub Actions cannot host this — its jobs stop after 6 hours and
+> continuous streaming is outside what Actions is for. The guide files above
+> keep updating on Actions as usual; only the live stream needs a machine
+> that stays on.
+
+---
+
 ## 🟢 Live indicator
 
 Any match or event that is airing **right now** gets its title suffixed

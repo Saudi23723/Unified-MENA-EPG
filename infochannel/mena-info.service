@@ -1,0 +1,43 @@
+# systemd unit for the 24/7 info channel.
+#
+#   sudo cp mena-info.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now mena-info
+#   journalctl -u mena-info -f
+#
+# Adjust User, WorkingDirectory and the flags to match your machine.
+
+[Unit]
+Description=MENA Sports Info Channel (HLS)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mena
+WorkingDirectory=/opt/mena-info/infochannel
+ExecStart=/usr/bin/python3 /opt/mena-info/infochannel/stream.py \
+    --out /var/lib/mena-info/hls \
+    --port 8080 \
+    --tz Asia/Riyadh
+
+# Segments are rewritten constantly; keep them off the SD card on a Pi by
+# pointing --out at a tmpfs instead:
+#   RuntimeDirectory=mena-info
+#   ExecStart=... --out /run/mena-info
+
+Restart=always
+RestartSec=5
+# The stream must survive a transient network outage; the guide loader keeps
+# the last good data, so a restart loop is never the right answer to that.
+StartLimitIntervalSec=0
+
+# Modest hardening — this process only needs to read the guide and write HLS.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/mena-info
+
+[Install]
+WantedBy=multi-user.target
