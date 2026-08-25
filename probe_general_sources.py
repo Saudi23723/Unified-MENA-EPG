@@ -1,164 +1,105 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: find each broadcaster's own schedule source. First party only.
+"""Read-only: dig inside the first-party pages that actually answered.
 
-The first sweep used a bare requests User-Agent and got 403 from OSN,
-Al Arabiya, Al Hadath and Al Mayadeen. That is bot filtering, not a
-missing page, so every one of them is retried here with the headers a
-real browser sends.
+Browser headers changed nothing for OSN, Al Arabiya, Al Mayadeen and STC
+— still 403, several with a zero-byte body, and OSN's api/gateway/cdn
+hosts do not resolve at all. Those are edge blocks, not user-agent
+filtering.
 
-The other half of the problem is that these are single-page apps: the
-schedule is not in the HTML, it arrives from a backend the page calls.
-So alongside the pages this probes the API hosts and paths each
-broadcaster is likely to be using, and reports what actually answers
-with data. Nothing third-party, nothing pre-collected.
+What did answer: aljazeera.net/schedule (524KB, its جدول البث),
+lbcgroup.tv/schedule (22KB), shahid.mbc.net (452KB), alaraby.tv and
+mbc.net. Modern sites keep the schedule in an embedded payload or fetch
+it from a backend, so this pulls each page apart looking for both: the
+internal links that lead to a guide, and any JSON the page ships with.
 """
 from __future__ import annotations
 
 import json
 import re
-from datetime import datetime, timedelta, timezone
+from urllib.parse import urljoin
 
 import requests
 
-UTC = timezone.utc
-TODAY = datetime.now(UTC).strftime("%Y-%m-%d")
-TOMORROW = (datetime.now(UTC) + timedelta(days=1)).strftime("%Y-%m-%d")
-T = (5, 20)
-
+T = (5, 25)
 BROWSER = {
     "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"),
-    "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
-               "image/avif,image/webp,*/*;q=0.8"),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "ar,en-US;q=0.9,en;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Sec-Ch-Ua": '"Chromium";v="126", "Not:A-Brand";v="24"',
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"',
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "none",
-    "Sec-Fetch-User": "?1",
-    "Upgrade-Insecure-Requests": "1",
-    "Connection": "keep-alive",
 }
+GUIDEISH = re.compile(
+    r"schedule|tv-?guide|guide|programs?|barnamej|جدول|برامج|بث|akhbar|epg|grid",
+    re.I)
+JSON_SCRIPT = re.compile(
+    r'<script[^>]*(?:id="__NEXT_DATA__"|id="__NUXT_DATA__"|'
+    r'type="application/(?:ld\+)?json")[^>]*>(.*?)</script>', re.S)
+API_HINT = re.compile(
+    r'["\'](https?://[^"\']*(?:api|graphql|epg|schedule)[^"\']{0,80})["\']', re.I)
 
 
 def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def probe(label, url, *, headers=None, referer=None, json_expected=False):
-    h = dict(BROWSER)
-    if json_expected:
-        h["Accept"] = "application/json, text/plain, */*"
-        h["Sec-Fetch-Dest"] = "empty"
-        h["Sec-Fetch-Mode"] = "cors"
-        h["Sec-Fetch-Site"] = "same-site"
-    if referer:
-        h["Referer"] = referer
-        h["Origin"] = referer.rstrip("/")
-    if headers:
-        h.update(headers)
+def get(url):
     try:
-        r = requests.get(url, headers=h, timeout=T, allow_redirects=True)
+        return requests.get(url, headers=BROWSER, timeout=T, allow_redirects=True)
     except Exception as exc:
-        print(f"  {label:14} {url[:74]:76} FAILED {str(exc)[:60]}", flush=True)
+        print(f"  {url} FAILED {str(exc)[:80]}", flush=True)
         return None
-    body = r.text or ""
-    clocks = len(re.findall(r"\b([01]\d|2[0-3]):[0-5]\d\b", body))
-    kind = "html"
-    payload = None
-    ct = r.headers.get("content-type", "")
-    if "json" in ct.lower():
-        kind = "json"
+
+
+def dig(label, url):
+    r = get(url)
+    if r is None or r.status_code != 200:
+        print(f"\n## {label} {url} -> {getattr(r, 'status_code', '-')}", flush=True)
+        return
+    t = r.text
+    print(f"\n## {label} {url} -> 200 {len(t)}b", flush=True)
+
+    links = sorted({urljoin(url, h) for h in re.findall(r'href="([^"#]+)"', t)
+                    if GUIDEISH.search(h)})
+    print(f"   guide-ish links ({len(links)}):", flush=True)
+    for h in links[:22]:
+        print(f"     {h}", flush=True)
+
+    apis = sorted({a for a in API_HINT.findall(t)})[:22]
+    if apis:
+        print(f"   api-ish urls in the page ({len(apis)}):", flush=True)
+        for a in apis:
+            print(f"     {a[:130]}", flush=True)
+
+    for m in JSON_SCRIPT.finditer(t):
+        blob = m.group(1).strip()
+        if len(blob) < 200:
+            continue
         try:
-            payload = r.json()
+            payload = json.loads(blob)
         except Exception:
-            payload = None
-    flag = ""
-    if r.status_code == 200 and (clocks > 8 or payload is not None):
-        flag = "   <<< LOOK"
-    print(f"  {label:14} {url[:74]:76} {r.status_code} {len(body):8}b "
-          f"{kind:4} {clocks:4} clocks{flag}", flush=True)
-    if payload is not None:
-        text = json.dumps(payload, ensure_ascii=False)
-        print(f"       {text[:400]}", flush=True)
-    return r
+            continue
+        flat = json.dumps(payload, ensure_ascii=False)
+        keys = re.findall(r'"(\w*(?:schedule|epg|program|channel|airing|slot)\w*)"',
+                          flat, re.I)
+        print(f"   embedded JSON {len(blob)}b, schedule-ish keys: "
+              f"{sorted(set(k.lower() for k in keys))[:14]}", flush=True)
+        print(f"     {flat[:320]}", flush=True)
 
 
 def main():
-    print(f"today {TODAY}", flush=True)
-
-    section("the 403 sites, retried with real browser headers")
-    for label, url in (
-        ("Al Arabiya", "https://www.alarabiya.net/tv-schedule"),
-        ("Al Arabiya", "https://www.alarabiya.net/ar/programs"),
-        ("Al Hadath", "https://www.alhadath.net/tv-schedule"),
-        ("Al Mayadeen", "https://www.almayadeen.net/programsschedule"),
-        ("OSN", "https://www.osn.com/en-ae/tv-guide"),
-        ("OSN", "https://www.osn.com/ar-sa/tv-guide"),
-        ("Al Araby", "https://www.alaraby.tv/schedule"),
-        ("Al Araby", "https://www.alaraby.tv/"),
-    ):
-        probe(label, url)
-
-    section("MBC and Shahid — their own backends")
-    for label, url, ref in (
-        ("MBC", "https://www.mbc.net/api/channels", "https://www.mbc.net/"),
-        ("MBC", "https://www.mbc.net/ar/channels.html", None),
-        ("MBC", "https://www.mbc.net/ar.html", None),
-        ("MBC", "https://www.mbc.net/", None),
-        ("Shahid", "https://shahid.mbc.net/ar", None),
-        ("Shahid api2", "https://api2.shahid.net/proxy/v2/channels", "https://shahid.mbc.net/"),
-        ("Shahid api3", "https://api3.shahid.net/proxy/v2/channels", "https://shahid.mbc.net/"),
-        ("Shahid api2", "https://api2.shahid.net/proxy/v2/product/livestreams",
-         "https://shahid.mbc.net/"),
-        ("Shahid epg", f"https://api2.shahid.net/proxy/v2/epg?date={TODAY}",
-         "https://shahid.mbc.net/"),
-    ):
-        probe(label, url, referer=ref, json_expected="api" in url or "/api/" in url)
-
-    section("OSN — app and gateway hosts")
-    for label, url in (
-        ("OSN api", "https://api.osn.com/v1/channels"),
-        ("OSN gw", "https://gateway.osn.com/v1/epg"),
-        ("OSN plus", "https://www.osnplus.com/en-ae/tv-guide"),
-        ("OSN plus", "https://osnplus.com/"),
-        ("OSN cdn", "https://cdn.osn.com/epg/today.json"),
-    ):
-        probe(label, url, json_expected=True)
-
-    section("STC TV / Jawwy — intigral hosts")
-    for label, url in (
-        ("STC", "https://prod-cdn-content-api.intigral-ott.net/api/v1/channels"),
-        ("STC", "https://prod-cdn-content-api.intigral-ott.net/api/v3/channels"),
-        ("STC", "https://prod-cdn-content-api.intigral-ott.net/api/v1/epg"),
-        ("STC", f"https://prod-cdn-content-api.intigral-ott.net/api/v1/epg?date={TODAY}"),
-        ("STC", "https://stctv.com/"),
-        ("STC", "https://www.stctv.com/en/live-tv"),
-    ):
-        probe(label, url, json_expected="intigral" in url)
-
-    section("news channels — their own backends")
-    for label, url, ref in (
-        ("Al Arabiya", "https://www.alarabiya.net/api/v1/schedule", "https://www.alarabiya.net/"),
-        ("Al Arabiya", "https://www.alarabiya.net/.rest/tv-schedule", "https://www.alarabiya.net/"),
-        ("Al Mayadeen", "https://www.almayadeen.net/api/programsschedule",
-         "https://www.almayadeen.net/"),
-        ("Al Mayadeen", "https://api.almayadeen.net/programsschedule",
-         "https://www.almayadeen.net/"),
-        ("Al Araby", "https://api.alaraby.tv/schedule", "https://www.alaraby.tv/"),
-        ("Al Araby", "https://www.alaraby.tv/api/schedule", "https://www.alaraby.tv/"),
-        ("Al Jazeera", "https://www.aljazeera.net/schedule", None),
-        ("Al Jazeera", "https://www.aljazeera.net/graphql", None),
-        ("Sky News Ar", "https://www.skynewsarabia.com/schedule", None),
-        ("Al Ekhbariya", "https://www.alekhbariya.net/", None),
-        ("Al Mamlaka", "https://www.almamlakatv.com/schedule", None),
-        ("LBC", "https://www.lbcgroup.tv/schedule", None),
-    ):
-        probe(label, url, referer=ref, json_expected="api" in url or "graphql" in url)
+    section("pages that answered, pulled apart")
+    dig("Al Jazeera", "https://www.aljazeera.net/schedule")
+    dig("LBC", "https://www.lbcgroup.tv/schedule")
+    dig("Shahid", "https://shahid.mbc.net/ar")
+    dig("MBC", "https://www.mbc.net/")
+    dig("Al Araby", "https://www.alaraby.tv/")
+    dig("Al Ekhbariya", "https://www.alekhbariya.net/")
+    dig("Al Mamlaka", "https://www.almamlakatv.com/")
+    dig("Sky News Arabia", "https://www.skynewsarabia.com/")
+    dig("Dubai Media", "https://www.dmi.ae/")
+    dig("Abu Dhabi", "https://www.adtv.ae/")
+    dig("Saudi TV", "https://www.saudimediacity.sa/")
+    dig("Syria TV", "https://www.rtv.gov.sy/")
 
 
 if __name__ == "__main__":
