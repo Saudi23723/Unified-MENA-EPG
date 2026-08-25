@@ -26,6 +26,7 @@ always be empty, they're left out until a real public source is found.
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
 import xml.etree.ElementTree as ET
@@ -54,6 +55,43 @@ API = "https://backend.roya.tv/api/v01/channels/schedule-pagination"
 
 DAYS_BACK = 1
 DAYS_FORWARD = 6
+
+# Roya publishes no live marker of any kind, so the Live badge here can
+# only be "this is on air right now", worked out from the clock at build
+# time. Left unrestricted that put Live on a cooking show and a comedy
+# rerun — one badge per channel, on whatever happened to be airing when
+# the workflow ran, stale minutes later. It is now confined to the sport
+# channel, and there only to a title that names two sides, so it can land
+# on a match and on nothing else.
+SPORT_CHANNEL = "Roya_RoyaSport"
+
+# "الفيصلي - الحسين", "Al Faisaly vs Al Hussein", "X ضد Y".
+SIDES_RE = re.compile(r"\s(?:-|–|—|[vV][sS]\.?|ضد|[xX])\s")
+# A programme about matches rather than a match: highlights, a repeat, a
+# studio wrap. None of those is a live broadcast even while it is airing.
+NOT_A_MATCH_RE = re.compile(
+    r"ملخص|أهداف|إعادة|مباريات|استوديو|تغطية|highlights|magazine", re.I)
+
+
+def looks_like_a_match(title: str) -> bool:
+    """Does this title name two sides playing each other?
+
+    Both sides have to be words. A digit on either side is what separates
+    "الفيصلي - الحسين" from "كأس الأردن للناشئين تحت 12 عامًا - 2026",
+    which is a competition block Roya repeats all week, not a fixture.
+    """
+    title = (title or "").strip()
+    if not title or NOT_A_MATCH_RE.search(title):
+        return False
+    parts = SIDES_RE.split(title)
+    if len(parts) != 2:
+        return False
+    return all(
+        2 <= len(side.strip()) <= 40
+        and not any(ch.isdigit() for ch in side)
+        and sum(ch.isalpha() for ch in side) >= 2
+        for side in parts
+    )
 
 
 def slugify_id(name: str, site_id: str = "") -> str:
@@ -108,6 +146,7 @@ def build() -> int:
     now = utc_now()
     total = 0
     ok_days = 0
+    badgeable = 0
 
     for offset in range(-DAYS_BACK, DAYS_FORWARD + 1):
         try:
@@ -144,13 +183,19 @@ def build() -> int:
                     desc = (prog.get("description") or "").strip()
                     icon = prog.get("thumbnail_web") or None
 
+                    eligible = (meta["xmltv_id"] == SPORT_CHANNEL
+                                and looks_like_a_match(title))
                     add_programme(
                         root, meta["xmltv_id"], start, stop, title, desc,
-                        icon=icon, live_eligible=True, now=now,
+                        icon=icon, live_eligible=eligible, now=now,
                     )
                     total += 1
+                    if eligible:
+                        badgeable += 1
 
-    log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, {total} programmes total")
+    log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, "
+        f"{total} programmes total, {badgeable} eligible for the Live badge "
+        f"(matches on {SPORT_CHANNEL} only)")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Jordan (Roya)")
     return 0
