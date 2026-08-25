@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: is each Alkass block on bein.com really the channel its logo
-filename claims?
+"""Read-only: does beIN itself publish near-identical schedules for Alkass 1
+and 4, and for 5 and 7, or is this guide merging two channels together?
 
-alkass_epg.py attaches every programme to the channel named by the nearest
-preceding logo image, 2023_Alkass_N.png. Today's output has Alkass 1 and
-Alkass 4 carrying an identical schedule, and Alkass 5 and Alkass 7 the
-same — so either those logo files are reused on the page, or a block is
-being read twice. This prints every Alkass logo occurrence in document
-order with what identifies it and what follows it, so the mapping can be
-checked rather than assumed. Changes nothing.
+The published guide has Alkass 1 sharing 71 of its 87 programmes with
+Alkass 4, and Alkass 5 sharing 76 of 78 with Alkass 7 — start, stop and
+title all equal. Either beIN's own guide says that, or the parse is wrong.
+This prints each channel's rows straight off beIN's page, day by day, and
+counts the overlaps. Changes nothing.
 """
 from __future__ import annotations
 
 import html
 import re
+from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -27,9 +26,9 @@ URL = ("https://www.bein.com/{lang}/epg-ajax-template/?action=epg_fetch"
        "&offset=0&postid={pid}&serviceidentity=bein.net")
 T = (5, 20)
 
-LOGO = re.compile(r"/(\d{4})_([A-Za-z0-9_]+)\.png")
 TOKEN = re.compile(r"(?P<logo>/\d{4}_[A-Za-z0-9_]+\.png)"
                    r"|(?P<row><li(?:\s[^>]*?)?>.*?</li>)", re.S | re.I)
+ALKASS = re.compile(r"/\d{4}_Alkass_(\d+)\.png", re.I)
 RANGE = re.compile(r"data-start='([\d\- :]+)'\s+data-end='([\d\- :]+)'")
 TITLE = re.compile(r"<p class=title>(.*?)</p>", re.S)
 
@@ -42,61 +41,65 @@ def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
+def parse(text):
+    """{n: {start: (stop, title)}} — exactly how alkass_epg.py reads a page."""
+    out, cur = defaultdict(dict), None
+    for m in TOKEN.finditer(text):
+        if m.group("logo"):
+            hit = ALKASS.match(m.group("logo"))
+            cur = int(hit.group(1)) if hit else None
+            continue
+        if cur is None:
+            continue
+        span, title = RANGE.search(m.group("row")), TITLE.search(m.group("row"))
+        if span and title:
+            out[cur][span.group(1)] = (span.group(2), clean(title.group(1)))
+    return out
+
+
 def main():
-    day = datetime.now(DOHA).strftime("%Y-%m-%d")
-    print(f"Doha today: {day}  now {datetime.now(DOHA):%H:%M}", flush=True)
+    today = datetime.now(DOHA)
+    days = [(today + timedelta(days=d)).strftime("%Y-%m-%d") for d in range(4)]
+    print(f"Doha now {today:%Y-%m-%d %H:%M}; days {days}", flush=True)
 
     for lang, pid in (("ar", "25344"), ("en", "25356")):
-        section(f"bein.com {lang.upper()}")
-        try:
-            r = requests.get(URL.format(lang=lang, LANG=lang.upper(), pid=pid, d=day),
-                             headers=H, timeout=T)
-        except Exception as exc:
-            print(f"FAILED: {exc}", flush=True)
-            continue
-        t = r.text
-        print(f"status={r.status_code} bytes={len(t)}", flush=True)
-        if r.status_code != 200:
-            continue
-
-        logos = list(LOGO.finditer(t))
-        names = [m.group(2) for m in logos]
-        print(f"{len(logos)} logo references, {len(set(names))} distinct", flush=True)
-
-        # Walk in document order the way alkass_epg.py does, but keep every
-        # occurrence separate instead of merging them by number.
-        blocks, cur = [], None
-        for m in TOKEN.finditer(t):
-            if m.group("logo"):
-                cur = {"logo": m.group("logo"), "at": m.start(), "rows": []}
-                blocks.append(cur)
+        merged = defaultdict(dict)
+        section(f"bein.com {lang.upper()} — one day at a time")
+        for d in days:
+            try:
+                r = requests.get(URL.format(lang=lang, LANG=lang.upper(), pid=pid, d=d),
+                                 headers=H, timeout=T)
+            except Exception as exc:
+                print(f"  {d} FAILED: {exc}", flush=True)
                 continue
-            span, title = RANGE.search(m.group("row")), TITLE.search(m.group("row"))
-            if cur is not None and span and title:
-                cur["rows"].append((span.group(1)[11:16], clean(title.group(1))))
+            got = parse(r.text)
+            counts = {n: len(got[n]) for n in sorted(got)}
+            dates = sorted({s[:10] for n in got for s in got[n]})
+            print(f"  {d}: status={r.status_code} rows={counts} dates_seen={dates}",
+                  flush=True)
+            for n, slots in got.items():
+                merged[n].update(slots)
 
-        print("\nevery block in document order (only ones with rows, plus all Alkass):",
-              flush=True)
-        for i, b in enumerate(blocks):
-            is_alkass = "alkass" in b["logo"].lower()
-            if not b["rows"] and not is_alkass:
-                continue
-            before = t[max(0, b["at"] - 800):b["at"]]
-            after = t[b["at"]:b["at"] + 400]
-            ids = re.findall(r"id=['\"]?(channels_\d+|slider_\d+|ch_\d+)", before + after)
-            alt = re.findall(r"alt=['\"]([^'\"]{2,60})['\"]", before + after)
-            first = b["rows"][0] if b["rows"] else ("", "")
-            print(f"  blk{i:3} {b['logo']:28} rows={len(b['rows']):3} "
-                  f"first={first[0]} {first[1][:34]!r} ids={ids[:2]} alt={alt[:2]}"
-                  f"{'   <<< ALKASS' if is_alkass else ''}", flush=True)
+        section(f"{lang.upper()} — day 0, every row of every channel")
+        day0 = {n: {s: v for s, v in merged[n].items() if s[:10] == days[0]}
+                for n in sorted(merged)}
+        for n in sorted(day0):
+            print(f"\n  Alkass {n} ({len(day0[n])} rows)", flush=True)
+            for s in sorted(day0[n]):
+                stop, title = day0[n][s]
+                print(f"    {s[11:16]}-{stop[11:16]}  {title[:60]}", flush=True)
 
-        section(f"raw markup before each Alkass logo ({lang.upper()})")
-        for b in blocks:
-            if "alkass" not in b["logo"].lower():
-                continue
-            w = t[max(0, b["at"] - 1200):b["at"] + 200]
-            print(f"\n---- {b['logo']} at {b['at']} ----", flush=True)
-            print("RAW:", w[-1000:].replace("\n", " "), flush=True)
+        section(f"{lang.upper()} — pairwise identical rows (start+stop+title), all days")
+        for a in sorted(merged):
+            for b in sorted(merged):
+                if b <= a:
+                    continue
+                A = {(s, *v) for s, v in merged[a].items()}
+                B = {(s, *v) for s, v in merged[b].items()}
+                shared = len(A & B)
+                if shared:
+                    print(f"  Alkass {a} vs {b}: {shared} identical "
+                          f"of {len(A)}/{len(B)}", flush=True)
 
 
 if __name__ == "__main__":
