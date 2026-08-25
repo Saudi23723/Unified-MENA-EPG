@@ -1,0 +1,125 @@
+name: Probe tabii channels
+
+# Temporary, manual/branch-only. tabii Spor 1..10 are per-match PPV
+# streams, so TRT's own schedule page never lists them. This looks for an
+# outside source that says which fixture is on which number.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/arabic-channels-epg-99099k
+    paths:
+      - ".github/workflows/probe_tabii_channels.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests beautifulsoup4
+
+      - name: Probe
+        run: |
+          python -u - <<'PY'
+          import json, re
+          import requests
+          from bs4 import BeautifulSoup
+
+          UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
+          S = requests.Session()
+          S.headers.update({
+              "User-Agent": UA,
+              "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
+                         "image/avif,image/webp,*/*;q=0.8"),
+              "Accept-Language": "tr,en-US;q=0.9,en;q=0.8",
+          })
+
+          def get(url, **kw):
+              try:
+                  r = S.get(url, timeout=25, **kw)
+                  return r.status_code, r.text
+              except Exception as exc:
+                  return None, f"ERROR {exc}"
+
+          def head(s, n=300):
+              return re.sub(r"\s+", " ", s or "")[:n]
+
+          print("#" * 72)
+          print("A) livefootballtv.info — per-channel pages (same site the Jordan guide reads)")
+          print("#" * 72)
+          for slug in ["tabii-spor", "tabii-spor-1", "tabii-spor-2", "tabii-spor-3",
+                       "tabii-spor-4", "tabii-spor-5", "tabii-spor-6", "tabii-spor-7",
+                       "tabii-spor-8", "tabii-spor-9", "tabii-spor-10", "tabii"]:
+              code, body = get(f"https://www.livefootballtv.info/channel/{slug}")
+              ev = len(re.findall(r'schema\.org/Event', body or ""))
+              print(f"   {slug:<16} HTTP {code} | bytes {len(body):>7} | Event x{ev}")
+
+          print()
+          print("#" * 72)
+          print("B) livefootballtv.info — every channel slug it knows containing 'tabii'")
+          print("#" * 72)
+          for url in ["https://www.livefootballtv.info/",
+                      "https://www.livefootballtv.info/channels",
+                      "https://www.livefootballtv.info/country/turkey"]:
+              code, body = get(url)
+              slugs = sorted(set(re.findall(r'/channel/([a-z0-9\-]+)', body or "")))
+              tab = [s for s in slugs if "tabii" in s or "bein" in s or "trt" in s]
+              print(f"   {url} -> HTTP {code} | {len(slugs)} slugs | tabii/trt/bein: {tab}")
+
+          print()
+          print("#" * 72)
+          print("C) Does ANY page on that site mention 'Tabii Spor <n>' as a broadcaster")
+          print("#" * 72)
+          code, body = get("https://www.livefootballtv.info/")
+          names = sorted(set(re.findall(r'[Tt]abii\s?[Ss]por[^<,\"]{0,6}', body or "")))
+          print("   homepage mentions:", names[:30])
+
+          print()
+          print("#" * 72)
+          print("D) tabii.com's own platform — channel list / API")
+          print("#" * 72)
+          for url in ["https://www.tabii.com/tr/channels",
+                      "https://www.tabii.com/tr/canli-tv",
+                      "https://www.tabii.com/tr/spor",
+                      "https://www.tabii.com/tr/live-tv",
+                      "https://www.tabii.com/tr"]:
+              code, body = get(url)
+              names = sorted(set(re.findall(r'[Tt]abii\s?[Ss]por\s?\d{0,2}', body or "")))
+              print(f"   {url} -> HTTP {code} | bytes {len(body)} | names {names[:15]}")
+              if code == 200 and body:
+                  for m in sorted(set(re.findall(r'https://[a-z0-9\.\-]*tabii[a-z0-9\.\-]*/[a-z0-9\-/]*', body)))[:12]:
+                      print("        url:", m)
+
+          print()
+          print("#" * 72)
+          print("E) Turkish TV-guide sites that might list the PPV numbers")
+          print("#" * 72)
+          candidates = [
+              "https://www.tvyayinakisi.com/kanallar/",
+              "https://www.programtv.com.tr/",
+              "https://tv.yandex.com.tr/",
+              "https://www.mackolik.com/",
+              "https://www.sporx.com/tv-yayin-akisi/",
+              "https://www.canlitv.com/",
+              "https://www.tvarsivi.com/",
+              "https://www.digiturk.com.tr/",
+              "https://www.livesoccertv.com/competitions/europe/champions-league/",
+              "https://www.livesoccertv.com/channels/turkey/",
+          ]
+          for url in candidates:
+              code, body = get(url)
+              names = sorted(set(re.findall(r'[Tt]abii\s?[Ss]por\s?\d{0,2}', body or "")))
+              print(f"   HTTP {str(code):<5} names={names[:12]!r:<60} {url}")
+              if code and code >= 400:
+                  print("        ", head(body, 120))
+          PY
