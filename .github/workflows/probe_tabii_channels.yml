@@ -21,89 +21,114 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -q requests beautifulsoup4
+      - run: pip install -q requests
 
       - name: Probe
         run: |
           python -u - <<'PY'
           import json, re
           import requests
-          from bs4 import BeautifulSoup
 
           UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                 "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
           S = requests.Session()
           S.headers.update({"User-Agent": UA, "Accept-Language": "tr,en;q=0.8"})
 
-          def get(url, **kw):
+          def get(url):
               try:
-                  r = S.get(url, timeout=20, **kw)
+                  r = S.get(url, timeout=20)
                   return r.status_code, r.text
               except Exception as exc:
                   return None, f"ERROR {exc}"
 
-          code, page = get("https://www.sporekrani.com/")
-          print("sporekrani HTTP", code, "| bytes", len(page))
-          soup = BeautifulSoup(page, "html.parser")
+          STATE = re.compile(r'window\.__INITIAL_STATE__=(\{.*?\});?\s*</script>', re.S)
+
+          def state_of(page):
+              m = STATE.search(page or "")
+              if not m:
+                  return None
+              raw = m.group(1)
+              try:
+                  return json.loads(raw)
+              except Exception as exc:
+                  print("     state not JSON:", exc, "| head:", raw[:120])
+                  return None
+
+          def find_events(node, depth=0, out=None):
+              """Lists of dicts that look like broadcast rows."""
+              out = [] if out is None else out
+              if depth > 12:
+                  return out
+              if isinstance(node, dict):
+                  for v in node.values():
+                      find_events(v, depth + 1, out)
+              elif isinstance(node, list):
+                  if node and isinstance(node[0], dict) and any(
+                          k in node[0] for k in ("channels", "channel", "start_at", "starts_at", "date")):
+                      out.append(node)
+                  for v in node[:200]:
+                      find_events(v, depth + 1, out)
+              return out
+
+          print("#" * 72)
+          print("A) shape of one day page")
+          print("#" * 72)
+          code, page = get("https://www.sporekrani.com/home/day/2026-08-26")
+          print("HTTP", code, "| bytes", len(page))
+          st = state_of(page)
+          print("has __INITIAL_STATE__:", st is not None)
+          if st:
+              print("top-level keys:", list(st.keys()))
+              lists = find_events(st)
+              print("candidate event lists:", [len(l) for l in lists][:10])
+              if lists:
+                  biggest = max(lists, key=len)
+                  print("biggest list length:", len(biggest))
+                  print("SAMPLE ROW (pretty):")
+                  print(json.dumps(biggest[0], ensure_ascii=False, indent=2)[:1800])
+                  print()
+                  print("ROWS MENTIONING tabii:")
+                  n = 0
+                  for row in biggest:
+                      blob = json.dumps(row, ensure_ascii=False)
+                      if re.search(r'tabii', blob, re.I):
+                          print("  ", json.dumps(row, ensure_ascii=False)[:520])
+                          n += 1
+                          if n >= 6:
+                              break
+                  print("   total tabii rows on this day:", sum(
+                      1 for r in biggest if re.search(r'tabii', json.dumps(r, ensure_ascii=False), re.I)))
 
           print()
           print("#" * 72)
-          print("A) every tabii Spor name on the page, with counts")
+          print("B) ld+json BroadcastEvent — the simpler read")
           print("#" * 72)
-          names = {}
-          for m in re.findall(r'[Tt]abii\s?[Ss]por\s?\d{0,2}', page):
-              k = m.strip()
-              names[k] = names.get(k, 0) + 1
-          for k in sorted(names, key=lambda s: (len(s), s)):
-              print(f"   {k!r:22} x{names[k]}")
+          for blob in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', page, re.S):
+              try:
+                  arr = json.loads(blob)
+              except Exception:
+                  continue
+              arr = arr if isinstance(arr, list) else [arr]
+              tab = [e for e in arr if re.search(r'tabii', json.dumps(e, ensure_ascii=False), re.I)]
+              print(f"   {len(arr)} events, {len(tab)} mention tabii")
+              for e in tab[:5]:
+                  print("     ", json.dumps(e, ensure_ascii=False)[:600])
 
           print()
           print("#" * 72)
-          print("B) structured data on the page")
+          print("C) how many days forward exist, and do 8/9/10 ever appear")
           print("#" * 72)
-          ld = re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', page, re.S)
-          print("   ld+json blocks:", len(ld))
-          for b in ld[:3]:
-              print("     ", re.sub(r"\s+", " ", b)[:200])
-          print("   schema.org/Event blocks:", len(re.findall(r'schema\.org/(?:Broadcast)?Event', page)))
-          print("   __NEXT_DATA__:", "yes" if "__NEXT_DATA__" in page else "no")
-
-          print()
-          print("#" * 72)
-          print("C) the markup around a numbered tabii channel")
-          print("#" * 72)
-          shown = 0
-          for node in soup.find_all(string=re.compile(r'tabii\s?Spor\s?\d', re.I)):
-              row = node
-              for _ in range(5):
-                  if row.parent is None:
-                      break
-                  row = row.parent
-                  txt = re.sub(r"\s+", " ", row.get_text(" ", strip=True))
-                  if len(txt) > 40:
-                      break
-              print(f"   --- match {shown + 1} ---")
-              print("   tag chain:", " < ".join(
-                  p.name for p in list(node.parents)[:5] if p.name))
-              print("   classes:", [p.get("class") for p in list(node.parents)[:4] if hasattr(p, "get")])
-              print("   text:", re.sub(r"\s+", " ", row.get_text(" ", strip=True))[:220])
-              print("   html:", re.sub(r"\s+", " ", str(row))[:400])
-              shown += 1
-              if shown >= 4:
-                  break
-          if not shown:
-              print("   none found via soup — the numbers may be inside an attribute")
-              for m in re.finditer(r'[Tt]abii\s?[Ss]por\s?\d', page):
-                  a, b = max(0, m.start() - 300), m.end() + 300
-                  print("   ...", re.sub(r"\s+", " ", page[a:b]))
-                  break
-
-          print()
-          print("#" * 72)
-          print("D) does it have day pages / other sections")
-          print("#" * 72)
-          links = sorted(set(re.findall(r'href="(/[a-z0-9\-/]*)"', page)))
-          print("   internal links:", len(links))
-          for l in links[:40]:
-              print("     ", l)
+          import datetime as dt
+          today = dt.date(2026, 8, 25)
+          allnames = {}
+          for i in range(-1, 9):
+              d = today + dt.timedelta(days=i)
+              c, p = get(f"https://www.sporekrani.com/home/day/{d}")
+              names = {}
+              for m in re.findall(r'tabii\s?Spor\s?\d{0,2}', p or "", re.I):
+                  k = re.sub(r"\s+", " ", m.strip())
+                  names[k] = names.get(k, 0) + 1
+                  allnames[k] = allnames.get(k, 0) + 1
+              print(f"   {d} HTTP {c} bytes {len(p):>7} | {sorted(names)}")
+          print("   union across all days:", sorted(allnames))
           PY
