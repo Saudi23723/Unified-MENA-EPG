@@ -82,6 +82,10 @@ def fetch_stc_tv_3_days(root):
                 ch_id = f"STC_{raw_id}"
                 
                 # إضافة القناة فقط إذا لم تكن موجودة مسبقاً (لتجنب التكرار في الأيام اللاحقة)
+                # The schedule endpoint returns only channelId and listings -
+                # no name and no logo - so the numeric id is genuinely all
+                # there is to show here. Naming these properly needs
+                # intigral's separate channel-metadata endpoint.
                 if root.find(f"channel[@id='{ch_id}']") is None:
                     chan_el = ET.SubElement(root, "channel", id=ch_id)
                     ET.SubElement(chan_el, "display-name").text = f"STC Channel {raw_id}"
