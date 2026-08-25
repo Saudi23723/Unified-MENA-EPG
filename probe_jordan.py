@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: why does الأردن الرياضية find only one fixture in 24 days?
+"""Read-only: the livefootballtv page is full of fixtures; the parser sees one.
 
-The Live badge rule on that channel is already right — it goes on every
-real fixture and never on a studio show. The problem is upstream: over 24
-days the guide holds 33 entries, 30 of them the same "الأردن الرياضية"
-filler block, and exactly one badged match. Jordan's Pro League plays
-every week, so fixtures are being missed, not mis-badged.
+livefootballtv.info/channel/jordan-sports answers 200 with 133 clock
+strings and names the Jordanian clubs dozens of times, yet the generator
+extracts a single match across 24 days. So the fixtures are there and the
+line-based reader is dropping them.
 
-This checks each source the generator reads — JRTV, livefootballtv,
-JFA, sport24 — to see which are alive and how many fixtures each yields,
-and looks for a fixture list the channel does not currently read.
+That reader walks soup.stripped_strings looking for a date line, then a
+time line, then a block of up to 30 strings it tries to read a match out
+of. This prints the same string sequence it walks, plus the markup around
+a fixture, so the mismatch can be seen rather than guessed at.
 Changes nothing.
 """
 from __future__ import annotations
@@ -18,80 +18,60 @@ from __future__ import annotations
 import re
 
 import requests
+from bs4 import BeautifulSoup
 
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept-Language": "ar,en;q=0.8"}
 T = (5, 25)
+URL = "https://www.livefootballtv.info/channel/jordan-sports"
+TIME_RE = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
 
 
 def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def text_of(html_text):
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html_text or ""))
-
-
-def get(url, **kw):
-    try:
-        return requests.get(url, headers=H, timeout=T, allow_redirects=True, **kw)
-    except Exception as exc:
-        print(f"  {url}\n    FAILED: {str(exc)[:120]}", flush=True)
-        return None
-
-
-def report(url, r, keywords=()):
-    if r is None:
-        return
-    body = text_of(r.text)
-    print(f"  {url}\n    -> {r.status_code} {len(r.text)}b  final={r.url}", flush=True)
-    if r.status_code != 200:
-        return
-    print(f"    text: {body[:200]}", flush=True)
-    times = re.findall(r"\b([01]?\d|2[0-3]):[0-5]\d\b", r.text)
-    print(f"    {len(times)} clock strings", flush=True)
-    for kw in keywords:
-        n = len(re.findall(kw, r.text, re.I))
-        if n:
-            print(f"    /{kw}/ x{n}", flush=True)
-
-
 def main():
-    section("the four sources the generator already reads")
-    report("https://www.jrtv.gov.jo/", get("https://www.jrtv.gov.jo/"),
-           ("الأردن الرياضية", "رياضة", "مباراة"))
-    report("https://www.livefootballtv.info/channel/jordan-sports",
-           get("https://www.livefootballtv.info/channel/jordan-sports"),
-           ("jordan", "vs", "faisaly", "wehdat"))
-    report("https://jfa.jo/", get("https://jfa.jo/"), ("مباريات", "الدوري", "جدول"))
-    report("https://www.sport24.rest/", get("https://www.sport24.rest/"))
+    r = requests.get(URL, headers=H, timeout=T)
+    print(f"{URL} -> {r.status_code} {len(r.text)}b", flush=True)
 
-    section("does JRTV publish a schedule page of its own?")
-    for path in ("/ar/tv-guide", "/ar/schedule", "/tv-guide", "/ar/sport",
-                 "/ar/channels/sport", "/ar/live", "/ar"):
-        r = get(f"https://www.jrtv.gov.jo{path}")
-        if r is not None:
-            print(f"  {path:22} -> {r.status_code} {len(r.text)}b", flush=True)
+    soup = BeautifulSoup(r.text, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+    lines = [re.sub(r"\s+", " ", x).strip() for x in soup.stripped_strings]
+    lines = [x for x in lines if x]
 
-    section("Jordan Pro League fixture lists worth reading")
-    for url in ("https://jfa.jo/matches.php",
-                "https://jfa.jo/tourn.php?id=1",
-                "https://www.jfa.jo/ar/matches",
-                "https://www.kooora.com/",
-                "https://www.livefootballtv.info/country/jordan",
-                "https://www.livefootballtv.info/"):
-        r = get(url)
-        if r is not None and r.status_code == 200:
-            body = text_of(r.text)
-            print(f"  {url}\n    -> 200 {len(r.text)}b  {body[:160]}", flush=True)
-        elif r is not None:
-            print(f"  {url}\n    -> {r.status_code}", flush=True)
+    section(f"the string sequence the parser walks ({len(lines)} strings)")
+    for i, line in enumerate(lines[:220]):
+        mark = ""
+        if TIME_RE.match(line):
+            mark = "   <<< TIME"
+        elif re.search(r"\b(20\d{2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|"
+                       r"Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b",
+                       line, re.I):
+            mark = "   <<< maybe DATE"
+        print(f"  {i:4} {line[:96]!r}{mark}", flush=True)
 
-    section("what livefootballtv actually lists for the channel")
-    r = get("https://www.livefootballtv.info/channel/jordan-sports")
-    if r is not None and r.status_code == 200:
-        body = text_of(r.text)
-        print(body[:3000], flush=True)
+    section("markup around the first fixtures")
+    body = r.text
+    for name in ("Faisaly", "Wehdat", "Hussein"):
+        m = re.search(name, body, re.I)
+        if not m:
+            print(f"  {name}: not in the markup", flush=True)
+            continue
+        print(f"\n---- {name} at {m.start()} ----", flush=True)
+        print(body[max(0, m.start() - 1600):m.start() + 800].replace("\n", " "),
+              flush=True)
+
+    section("classes that look like a fixture row")
+    tally = {}
+    for m in re.finditer(r'class="([^"]{2,90})"', r.text):
+        for token in m.group(1).split():
+            if re.search(r"match|fixture|game|event|time|date|team|row|list|day",
+                         token, re.I):
+                tally[token] = tally.get(token, 0) + 1
+    for k, v in sorted(tally.items(), key=lambda x: -x[1])[:30]:
+        print(f"  {v:5}  {k}", flush=True)
 
 
 if __name__ == "__main__":
