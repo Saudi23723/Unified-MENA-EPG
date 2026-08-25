@@ -967,6 +967,17 @@ def write_xml(events):
             f"Tabii Spor {n}"
         )
 
+        # tabii publishes no separate mark per Spor channel, so all ten
+        # carry the one brand logo rather than showing nothing.
+        ET.SubElement(
+            ch,
+            "icon",
+            {
+                "src":
+                    "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png"
+            }
+        )
+
     # Every event used to be written as its own <programme> with a fixed
     # 2h30m length. Two events starting together therefore produced two
     # overlapping programmes on one channel, and a long event ran straight

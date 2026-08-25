@@ -887,6 +887,7 @@ def collect_all_sources():
 def write_xml(events):
     tv = ET.Element("tv", {"generator-info-name": "Shahid Sports Guide FINAL"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
+    ET.SubElement(channel, "icon", {"src": "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/shahid.png"})
     ET.SubElement(channel, "display-name", {"lang": "en"}).text = "Shahid | Guide"
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = "شاهد | Guide"
 

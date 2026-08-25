@@ -75,6 +75,21 @@ CHANNELS = [
     {"name": "beIN SPORTS HABER", "slug": "bein-sports-haber", "share": "Bein.Sports.Haber.tr"},
 ]
 
+LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
+
+# beIN SPORTS 1 is beIN SPORTS 1 either side of the border, so the Türkiye
+# roster reuses the marks already fetched for Qatar rather than duplicating
+# them. HABER is Türkiye-only and has its own file.
+LOGO_KEYS = {
+    "beIN SPORTS 1": "bein_1",
+    "beIN SPORTS 2": "bein_2",
+    "beIN SPORTS 3": "bein_3",
+    "beIN SPORTS 4": "bein_4",
+    "beIN SPORTS MAX 1": "bein_max1",
+    "beIN SPORTS MAX 2": "bein_max2",
+    "beIN SPORTS HABER": "bein_haber",
+}
+
 LD_JSON_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 # Turkish for "live". Spelled with either i so an upper-cased title still
 # matches — Python's case folding does not map I to the dotless ı.
@@ -244,6 +259,9 @@ def build() -> int:
     for ch in with_data:
         el = ET.SubElement(root, "channel", id=slugify_id(ch["name"]))
         ET.SubElement(el, "display-name", lang="tr").text = ch["name"]
+        logo = LOGO_KEYS.get(ch["name"])
+        if logo:
+            ET.SubElement(el, "icon", src=f"{LOGO_BASE}/{logo}.png")
 
     live_badges = 0
     for ch in with_data:

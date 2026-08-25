@@ -855,6 +855,7 @@ def write_xml(events: list[dict]) -> None:
     )
 
     ch = ET.SubElement(root, "channel", id=CHANNEL_ID)
+    ET.SubElement(ch, "icon", src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/jordan_sport.png")
     ET.SubElement(ch, "display-name", lang="ar").text = CHANNEL_NAME
     ET.SubElement(ch, "display-name", lang="en").text = "Jordan Sport"
 
