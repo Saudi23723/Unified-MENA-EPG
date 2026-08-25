@@ -38,6 +38,40 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_t
 
 ---
 
+### 🇶🇦 Alkass — الكأس
+
+**Channels:** الكأس 1-8.
+
+Sourced from the Arabic feed epgshare01 publishes for the beIN carriage of
+Alkass — already XMLTV, already Arabic, four days ahead. The broadcaster's
+own site publishes no schedule to read.
+
+Sport broadcasts (the source's own `الرياضة العام` category) carry a
+`Live 🟣` badge; the studio shows, news and reality programming do not.
+No source marks which broadcasts are live, so the badge marks sport.
+
+Alkass 9, 10, 11 and the two SHOOF channels are not listed — no reachable
+source publishes a schedule for them.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/alkass_epg.xml
+
+---
+
+### 🎬 STARZPLAY Sports
+
+**Channels:** ستارز بلاي سبورتس 1، 2، 3.
+
+Sourced from STARZPLAY's own public web-EPG API. Every event on these three
+channels is sport, so all carry the `Live 🟣` badge.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/starzplay_epg.xml
+
+---
+
 ### 🇯🇴 Jordan — Roya TV / Roya News (general programming)
 
 Full daily schedule (news, drama, talk shows, everything Roya airs),

@@ -29,6 +29,8 @@ SOURCE_FILES = [
     "jordan_sports_epg.xml",
     "onsport_epg.xml",
     "alwan_sports_epg.xml",
+    "alkass_epg.xml",
+    "starzplay_epg.xml",
     "fajer_sports_epg.xml",
     "shahid_sports_epg.xml",
     "shasha_epg.xml",

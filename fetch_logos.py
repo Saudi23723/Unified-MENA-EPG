@@ -78,6 +78,18 @@ CANDIDATES: dict[str, list[str]] = {
         "https://i.imgur.com/NIMiorz.png",
     ],
 
+    # --- Alkass (QA) -------------------------------------------------------
+    # From the iptv-org logo database. Only channels 1-8 are here because
+    # only those have a schedule in any reachable source.
+    "alkass1": ["https://i.imgur.com/10mmlha.png"],
+    "alkass2": ["https://i.imgur.com/8w61kFX.png"],
+    "alkass3": ["https://i.imgur.com/d57BdFh.png"],
+    "alkass4": ["https://i.imgur.com/iDL65Wu.png"],
+    "alkass5": ["https://i.imgur.com/6RGNGsM.png"],
+    "alkass6": ["https://i.imgur.com/CrPSPSC.png"],
+    "alkass7": ["https://i.imgur.com/3eyHP3S.png"],
+    "alkass8": ["https://i.imgur.com/ADQkn9l.png"],
+
     # --- beIN SPORTS Qatar / MENA ------------------------------------------
     # URLs come from the iptv-org logo database, matched on the same channel
     # ids this guide emits. Where iptv-org carries no separate mark for a
