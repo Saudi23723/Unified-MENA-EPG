@@ -1,16 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <tv generator_info_name="Jordan Sports conservative EPG">
   <channel id="JordanSports">
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/jordan_sport.png" />
     <display-name lang="ar">Jordan Sport | الأردن الرياضية</display-name>
     <display-name lang="en">Jordan Sport</display-name>
   </channel>
-  <programme start="20260822210000 +0000" stop="20260823210000 +0000" channel="JordanSports">
-    <title lang="ar">الأردن الرياضية</title>
-    <desc lang="ar">الأردن الرياضية | 2026-08-23
-
-لا يوجد برنامج أو مباراة بموعد موثق في المصادر الحالية.</desc>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260823210000 +0000" stop="20260824210000 +0000" channel="JordanSports">
     <title lang="ar">الأردن الرياضية</title>
     <desc lang="ar">الأردن الرياضية | 2026-08-24
@@ -231,6 +225,30 @@
     <desc lang="ar">الأردن الرياضية | 2026-09-14
 
 لا يوجد برنامج أو مباراة بموعد موثق في المصادر الحالية.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260914210000 +0000" stop="20260915140000 +0000" channel="JordanSports">
+    <title lang="ar">الأردن الرياضية</title>
+    <desc lang="ar">جدول الأردن الرياضية | 2026-09-15
+
+• رياضة كافيه — Sports Programme
+  17:00 الأردن | 18:00 أبو ظبي | 07:00 لاس فيغاس</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260915140000 +0000" stop="20260915150000 +0000" channel="JordanSports">
+    <title lang="ar">رياضة كافيه | 17:00 الأردن</title>
+    <desc lang="ar">جدول الأردن الرياضية | 2026-09-15
+
+• رياضة كافيه — Sports Programme
+  17:00 الأردن | 18:00 أبو ظبي | 07:00 لاس فيغاس</desc>
+    <category lang="en">Sports Programme</category>
+  </programme>
+  <programme start="20260915150000 +0000" stop="20260915210000 +0000" channel="JordanSports">
+    <title lang="ar">الأردن الرياضية</title>
+    <desc lang="ar">جدول الأردن الرياضية | 2026-09-15
+
+• رياضة كافيه — Sports Programme
+  17:00 الأردن | 18:00 أبو ظبي | 07:00 لاس فيغاس</desc>
     <category lang="en">Sports</category>
   </programme>
 </tv>
