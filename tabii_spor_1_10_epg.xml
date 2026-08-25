@@ -5,6 +5,56 @@
     <display-name lang="ar">تابي سبور</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
   </channel>
+  <channel id="TabiiSpor1.tr">
+    <display-name lang="tr">tabii Spor 1</display-name>
+    <display-name lang="ar">تابي سبور 1</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor2.tr">
+    <display-name lang="tr">tabii Spor 2</display-name>
+    <display-name lang="ar">تابي سبور 2</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor3.tr">
+    <display-name lang="tr">tabii Spor 3</display-name>
+    <display-name lang="ar">تابي سبور 3</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor4.tr">
+    <display-name lang="tr">tabii Spor 4</display-name>
+    <display-name lang="ar">تابي سبور 4</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor5.tr">
+    <display-name lang="tr">tabii Spor 5</display-name>
+    <display-name lang="ar">تابي سبور 5</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor6.tr">
+    <display-name lang="tr">tabii Spor 6</display-name>
+    <display-name lang="ar">تابي سبور 6</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor7.tr">
+    <display-name lang="tr">tabii Spor 7</display-name>
+    <display-name lang="ar">تابي سبور 7</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor8.tr">
+    <display-name lang="tr">tabii Spor 8</display-name>
+    <display-name lang="ar">تابي سبور 8</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor9.tr">
+    <display-name lang="tr">tabii Spor 9</display-name>
+    <display-name lang="ar">تابي سبور 9</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
+  <channel id="TabiiSpor10.tr">
+    <display-name lang="tr">tabii Spor 10</display-name>
+    <display-name lang="ar">تابي سبور 10</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
+  </channel>
   <programme start="20260824210000 +0000" stop="20260825063000 +0000" channel="TabiiSpor.tr">
     <title lang="en">TRT Spor Yıldız Ortak Yayın</title>
     <category lang="en">Spor</category>
@@ -343,6 +393,54 @@
   </programme>
   <programme start="20260831000000 +0000" stop="20260831092500 +0000" channel="TabiiSpor.tr">
     <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825190000 +0000" stop="20260825220000 +0000" channel="TabiiSpor1.tr">
+    <title lang="en">LASK Linz - Celtic ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825154500 +0000" stop="20260825184500 +0000" channel="TabiiSpor2.tr">
+    <title lang="en">Nilüfer Bld. - Spor Toto SK ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825120000 +0000" stop="20260825150000 +0000" channel="TabiiSpor3.tr">
+    <title lang="en">Türkiye - Kosova ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825160000 +0000" stop="20260825190000 +0000" channel="TabiiSpor3.tr">
+    <title lang="en">Yüzme ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825110000 +0000" stop="20260825140000 +0000" channel="TabiiSpor4.tr">
+    <title lang="en">Boks - Çeyrek Finaller ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825160000 +0000" stop="20260825190000 +0000" channel="TabiiSpor4.tr">
+    <title lang="en">Güreş ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825130000 +0000" stop="20260825160000 +0000" channel="TabiiSpor5.tr">
+    <title lang="en">Macaristan - Almanya ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825160000 +0000" stop="20260825190000 +0000" channel="TabiiSpor5.tr">
+    <title lang="en">Polonya - Slovenya ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825080000 +0000" stop="20260825110000 +0000" channel="TabiiSpor6.tr">
+    <title lang="en">Badminton - Çeyrek Finaller ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825080000 +0000" stop="20260825110000 +0000" channel="TabiiSpor7.tr">
+    <title lang="en">Ritmik Jimnastik - Bireysel All-Around Eleme ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825130000 +0000" stop="20260825160000 +0000" channel="TabiiSpor7.tr">
+    <title lang="en">Ritmik Jimnastik - Bireysel All-Around Elemeler ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825160000 +0000" stop="20260825190000 +0000" channel="TabiiSpor7.tr">
+    <title lang="en">Boks - Çeyrek Final Müsabakaları ‎• Live 🔵‎</title>
     <category lang="en">Spor</category>
   </programme>
 </tv>
