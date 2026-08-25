@@ -3,7 +3,7 @@ name: Update Shahid Sports EPG
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 */3 * * *"
+    - cron: "15 * * * *"
 
 permissions:
   contents: write

@@ -11,7 +11,7 @@ on:
       - ".github/workflows/update_tabii_epg.yml"
 
   schedule:
-    - cron: "37 */3 * * *"
+    - cron: "37 * * * *"
 permissions:
   contents: write
 

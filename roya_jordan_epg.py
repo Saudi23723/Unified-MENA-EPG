@@ -31,7 +31,7 @@ from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, run_main, utc_now, warn,
+    add_programme, fetch, log, new_session, run_main, warn,
     write_xml_atomic,
 )
 
@@ -54,6 +54,15 @@ API = "https://backend.roya.tv/api/v01/channels/schedule-pagination"
 
 DAYS_BACK = 1
 DAYS_FORWARD = 6
+
+# No Live badge on any Roya channel. Roya publishes no live marker of any
+# kind, so the only badge possible here would be "this was on air when the
+# workflow ran", read off the clock — which put Live on a cooking show and
+# a comedy rerun, and went stale minutes later either way. Guessing from
+# the title was tried and dropped too: on a channel whose sport line-up is
+# a repeated competition block rather than named fixtures, there is nothing
+# solid to guess from. The Live badge belongs on الأردن الرياضية, which has
+# real fixtures to put it on.
 
 
 def slugify_id(name: str, site_id: str = "") -> str:
@@ -105,7 +114,6 @@ def build() -> int:
         key = ROYA_LOGO_KEYS.get(meta["xmltv_id"], "roya_tv")
         ET.SubElement(ch, "icon", src=f"{LOGO_BASE}/{key}.png")
 
-    now = utc_now()
     total = 0
     ok_days = 0
 
@@ -146,11 +154,12 @@ def build() -> int:
 
                     add_programme(
                         root, meta["xmltv_id"], start, stop, title, desc,
-                        icon=icon, live_eligible=True, now=now,
+                        icon=icon,
                     )
                     total += 1
 
-    log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, {total} programmes total")
+    log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, "
+        f"{total} programmes total, no Live badge (Roya publishes no live marker)")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Jordan (Roya)")
     return 0

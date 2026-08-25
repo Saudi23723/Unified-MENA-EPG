@@ -1,0 +1,54 @@
+name: CI
+
+# Every push is checked before it can reach a guide: the scripts must
+# import cleanly and pass their own self-tests, and the committed guides
+# must still be valid. Nothing here writes to the repository.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt pyflakes
+
+      - name: Every script must parse
+        run: python -m compileall -q .
+
+      # pyflakes reports everything; only the classes that break at
+      # runtime fail the build. Unused locals in the older scripts are
+      # reported so they are visible, but they are not worth turning CI
+      # red over, and this repository does not rewrite a working guide's
+      # internals to satisfy a linter.
+      - name: No undefined names
+        run: |
+          python -m pyflakes *.py | tee /tmp/pyflakes.txt || true
+          echo
+          if grep -E "undefined name|invalid syntax" /tmp/pyflakes.txt; then
+            echo "::error::pyflakes found a name that does not exist at runtime"
+            exit 1
+          fi
+          echo "No undefined names. Remaining pyflakes notes are advisory."
+
+      - name: epg_lib's own guards must hold
+        run: python -u epg_lib_selftest.py
+
+      # Structure only: whether a guide has aged out is the scheduled
+      # health check's job, not a reason for a pull request to go red.
+      - name: The committed guides must still be structurally valid
+        run: python -u health_check.py --structure-only

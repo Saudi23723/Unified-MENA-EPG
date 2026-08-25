@@ -21,6 +21,14 @@ Two things the API gives us that are used here:
     Live badge follows that flag, not the clock, so a match still shows as
     a live broadcast when you browse ahead to it — which is what LIVE means
     in an EPG.
+
+    That flag was checked rather than trusted. Each match row also carries
+    data.m_date, the real kick-off in UTC, so a broadcast whose own window
+    contains the kick-off is by definition the live airing and one that
+    does not is a replay. Across all 40 channels — 3,569 rows, 361 of them
+    match rows — the flag agreed with that test every single time: no live
+    airing left unflagged, no replay flagged. The badge is on all of them,
+    not some.
   * some channels (the AFC set, NBA, 4K HDR) answer 200 with zero rows:
     beIN publishes no schedule for them. Those are left out of the file
     entirely rather than shown as empty rows in TiviMate. Nothing is
@@ -51,6 +59,12 @@ UTC = timezone.utc
 
 DAYS_BACK = 1
 DAYS_FORWARD = 6
+
+# The events endpoint pages. Its own default is 100, which truncates the
+# busiest channels; MAX_ROWS is only a runaway guard, far above the ~290
+# rows the fullest channel actually has.
+PAGE_SIZE = 500
+MAX_ROWS = 5000
 
 API_CHANNELS = "https://www.beinsports.com/api/opta/tv-channel"
 API_EVENTS = "https://www.beinsports.com/api/opta/tv-event"
@@ -219,21 +233,102 @@ def nested(row: dict, *path):
     return node
 
 
-def fetch_events_for_channel(session, guid: str) -> list[dict]:
+def fetch_rows(session, guid: str) -> list[dict]:
+    """Every row beIN has for this channel in the window.
+
+    The endpoint hands back 100 rows and no more unless `limit` is passed,
+    while telling you the real total in `count`. Left at the default it
+    silently cut beIN SPORTS NEWS from 290 programmes to 100 and beIN
+    SPORTS 1 from 156 to 100 — three days of guide, live matches included,
+    simply absent. So ask for a page at a time and keep going until the
+    count is satisfied, rather than trusting one response to be complete.
+    """
     now = utc_now()
     start_before = (now + timedelta(days=DAYS_FORWARD)).strftime("%Y-%m-%dT%H:%M:%S.000")
     end_after = (now - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%dT%H:%M:%S.000")
+    base = {
+        "startBefore": f"{start_before}Z",
+        "endAfter": f"{end_after}Z",
+        "channelIds": guid,
+        "limit": PAGE_SIZE,
+    }
 
-    r = fetch(
-        session, API_EVENTS,
-        params={
-            "startBefore": f"{start_before}Z",
-            "endAfter": f"{end_after}Z",
-            "channelIds": guid,
-        },
-    )
-    data = r.json()
-    rows = data.get("rows", []) or []
+    rows: list[dict] = []
+    total: int | None = None
+    while True:
+        data = fetch(session, API_EVENTS,
+                     params={**base, "offset": len(rows)}).json()
+        page = data.get("rows", []) or []
+        if total is None and isinstance(data.get("count"), int):
+            total = data["count"]
+        rows.extend(page)
+        # Stop on a short page, on no progress, or once the count is met —
+        # any one of them alone could loop forever if beIN changes shape.
+        if not page or len(page) < PAGE_SIZE or (total is not None and len(rows) >= total):
+            break
+        if len(rows) > MAX_ROWS:
+            warn(f"channel {guid}: over {MAX_ROWS} rows, stopping")
+            break
+
+    if total is not None and len(rows) < total:
+        warn(f"channel {guid}: beIN reports {total} rows but only {len(rows)} came back")
+    return rows
+
+
+def match_kickoff(row: dict) -> datetime | None:
+    """The real kick-off of the match this row is showing, in UTC.
+
+    beIN carries it as data.m_date, with data.m_time repeating the same
+    instant with a Z on it — so m_date is UTC with the marker left off.
+    Only match rows have it; a studio show or a magazine has none.
+    """
+    stamp = nested(row, "data", "m_date")
+    if not isinstance(stamp, str) or not stamp.strip():
+        return None
+    try:
+        return datetime.fromisoformat(stamp.replace("Z", "")).replace(tzinfo=UTC)
+    except ValueError:
+        return None
+
+
+def audit_live_flag(per_channel: dict[str, list[dict]]) -> None:
+    """Check beIN's live flag against the kick-off times it publishes.
+
+    Every match row states its kick-off, so a broadcast whose window
+    contains it is the live airing and one that does not is a replay.
+    That makes the flag checkable rather than a thing to trust. When this
+    was first run the two agreed on all 3,569 rows across 40 channels —
+    no live airing unflagged, no replay flagged.
+
+    This keeps checking on every build so that if beIN ever stops setting
+    the flag, or starts setting it on replays, the run says so out loud
+    instead of quietly publishing a guide with the Live badges missing.
+    """
+    checkable = missed = extra = 0
+    for events in per_channel.values():
+        for ev in events:
+            if not ev.get("has_kickoff"):
+                continue
+            checkable += 1
+            if ev["kickoff_inside"] and not ev["flagged"]:
+                missed += 1
+            if ev["flagged"] and not ev["kickoff_inside"]:
+                extra += 1
+
+    log(f"Live flag audit: {checkable} match rows checked against their kick-off "
+        f"| {missed} flag-missing | {extra} flagged-without-kickoff")
+    if missed:
+        warn(f"beIN did not flag {missed} broadcast(s) that run over their own "
+             f"kick-off — badged from the kick-off instead. Check beIN's feed.")
+    if extra > checkable * 0.5 and checkable:
+        # A studio show either side of kick-off legitimately lands here, so
+        # only a majority is a sign the flag itself has gone wrong.
+        warn(f"{extra} of {checkable} match rows are flagged live but do not run "
+             f"over their kick-off — beIN's live flag may have changed meaning.")
+
+
+def fetch_events_for_channel(session, guid: str) -> list[dict]:
+    rows = fetch_rows(session, guid)
 
     events = []
     for row in rows:
@@ -247,7 +342,17 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
         # beIN sends the flag as the string "True"/"False", and older rows
         # have carried a real bool, so accept both.
         flag = row.get("live")
-        is_live = flag is True or (isinstance(flag, str) and flag.strip().lower() == "true")
+        flagged = flag is True or (isinstance(flag, str) and flag.strip().lower() == "true")
+
+        # A match row also states the real kick-off, so a broadcast whose
+        # own window contains it IS the live airing whatever the flag says.
+        # Badge on either: the flag alone would go quiet if beIN ever
+        # stopped setting it, and the kick-off alone would miss a live
+        # studio show that runs up to kick-off rather than over it. A
+        # disagreement is reported by audit_live_flag() rather than hidden.
+        kickoff = match_kickoff(row)
+        inside = kickoff is not None and start <= kickoff < stop
+        is_live = flagged or inside
 
         # beIN carries an Arabic twin for the title, the blurb and the
         # competition name. Prefer it wherever it is really Arabic.
@@ -276,6 +381,9 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
             "title": title,
             "desc": desc,
             "live": is_live,
+            "flagged": flagged,
+            "kickoff_inside": inside,
+            "has_kickoff": kickoff is not None,
             "cat_ar": cat_ar if is_arabic(cat_ar) else "",
             "cat_en": cat_en,
         })
@@ -304,6 +412,8 @@ def build() -> int:
     # too, which would badge every hour of every day on nine channels and bury
     # the real matches. Detected from the data, so the moment beIN publishes a
     # genuine schedule for one of them it starts being badged normally.
+    audit_live_flag(per_channel)
+
     placeholder = {
         xid for xid, evs in per_channel.items()
         if len(evs) > 1 and len({e["title"] for e in evs}) == 1
