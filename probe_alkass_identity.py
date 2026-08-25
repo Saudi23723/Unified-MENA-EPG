@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: does beIN itself publish near-identical schedules for Alkass 1
-and 4, and for 5 and 7, or is this guide merging two channels together?
-
-The published guide has Alkass 1 sharing 71 of its 87 programmes with
-Alkass 4, and Alkass 5 sharing 76 of 78 with Alkass 7 — start, stop and
-title all equal. Either beIN's own guide says that, or the parse is wrong.
-This prints each channel's rows straight off beIN's page, day by day, and
-counts the overlaps. Changes nothing.
+"""Read-only: beIN's own guide publishes Alkass 1 and Alkass 4 as nearly the
+same schedule (71 of 87 rows identical), and Alkass 5 and Alkass 7 likewise
+(76 of 78). The parse was verified faithful, so the duplication is in
+beIN's data. This looks for a second source to check it against —
+Alkass's own site and the epgshare Qatar feed — and prints the disputed
+channels side by side. Changes nothing.
 """
 from __future__ import annotations
 
+import gzip
 import html
+import io
 import re
+import xml.etree.ElementTree as ET
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
@@ -21,9 +22,9 @@ import requests
 DOHA = timezone(timedelta(hours=3))
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept-Language": "ar,en;q=0.8"}
-URL = ("https://www.bein.com/{lang}/epg-ajax-template/?action=epg_fetch"
-       "&category=sports&cdate={d}&language={LANG}&loadindex=0&mins=00"
-       "&offset=0&postid={pid}&serviceidentity=bein.net")
+BEIN = ("https://www.bein.com/en/epg-ajax-template/?action=epg_fetch"
+        "&category=sports&cdate={d}&language=EN&loadindex=0&mins=00"
+        "&offset=0&postid=25356&serviceidentity=bein.net")
 T = (5, 20)
 
 TOKEN = re.compile(r"(?P<logo>/\d{4}_[A-Za-z0-9_]+\.png)"
@@ -41,10 +42,10 @@ def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def parse(text):
-    """{n: {start: (stop, title)}} — exactly how alkass_epg.py reads a page."""
+def bein_day(d):
     out, cur = defaultdict(dict), None
-    for m in TOKEN.finditer(text):
+    r = requests.get(BEIN.format(d=d), headers=H, timeout=T)
+    for m in TOKEN.finditer(r.text):
         if m.group("logo"):
             hit = ALKASS.match(m.group("logo"))
             cur = int(hit.group(1)) if hit else None
@@ -53,53 +54,89 @@ def parse(text):
             continue
         span, title = RANGE.search(m.group("row")), TITLE.search(m.group("row"))
         if span and title:
-            out[cur][span.group(1)] = (span.group(2), clean(title.group(1)))
+            out[cur][span.group(1)] = clean(title.group(1))
     return out
 
 
+def try_get(url, **kw):
+    try:
+        r = requests.get(url, headers=H, timeout=T, allow_redirects=True, **kw)
+        return r
+    except Exception as exc:
+        print(f"  {url} FAILED: {exc}", flush=True)
+        return None
+
+
 def main():
-    today = datetime.now(DOHA)
-    days = [(today + timedelta(days=d)).strftime("%Y-%m-%d") for d in range(4)]
-    print(f"Doha now {today:%Y-%m-%d %H:%M}; days {days}", flush=True)
+    today = datetime.now(DOHA).strftime("%Y-%m-%d")
+    print(f"Doha today {today}", flush=True)
 
-    for lang, pid in (("ar", "25344"), ("en", "25356")):
-        merged = defaultdict(dict)
-        section(f"bein.com {lang.upper()} — one day at a time")
-        for d in days:
-            try:
-                r = requests.get(URL.format(lang=lang, LANG=lang.upper(), pid=pid, d=d),
-                                 headers=H, timeout=T)
-            except Exception as exc:
-                print(f"  {d} FAILED: {exc}", flush=True)
-                continue
-            got = parse(r.text)
-            counts = {n: len(got[n]) for n in sorted(got)}
-            dates = sorted({s[:10] for n in got for s in got[n]})
-            print(f"  {d}: status={r.status_code} rows={counts} dates_seen={dates}",
-                  flush=True)
-            for n, slots in got.items():
-                merged[n].update(slots)
+    section("beIN EN — the four disputed channels, today, side by side")
+    try:
+        day = bein_day(today)
+        for pair in ((1, 4), (5, 7)):
+            a, b = pair
+            starts = sorted(set(day[a]) | set(day[b]))
+            print(f"\n  time        Alkass {a:<34} Alkass {b}", flush=True)
+            for s in starts:
+                ta, tb = day[a].get(s, "—"), day[b].get(s, "—")
+                flag = "" if ta == tb else "   <<< differs"
+                print(f"  {s[11:16]}  {ta[:40]:<42}{tb[:40]}{flag}", flush=True)
+    except Exception as exc:
+        print(f"beIN failed: {exc}", flush=True)
 
-        section(f"{lang.upper()} — day 0, every row of every channel")
-        day0 = {n: {s: v for s, v in merged[n].items() if s[:10] == days[0]}
-                for n in sorted(merged)}
-        for n in sorted(day0):
-            print(f"\n  Alkass {n} ({len(day0[n])} rows)", flush=True)
-            for s in sorted(day0[n]):
-                stop, title = day0[n][s]
-                print(f"    {s[11:16]}-{stop[11:16]}  {title[:60]}", flush=True)
+    section("alkass.net — does it publish its own guide?")
+    for url in ("https://www.alkass.net/",
+                "https://www.alkass.net/ar",
+                "https://www.alkass.net/sitemap.xml",
+                "https://www.alkass.net/schedule",
+                "https://www.alkass.net/epg",
+                "https://www.alkass.net/api/schedule"):
+        r = try_get(url)
+        if r is None:
+            continue
+        print(f"  {url} -> {r.status_code} {len(r.text)}b final={r.url}", flush=True)
+        if r.status_code != 200:
+            continue
+        hits = sorted({h for h in re.findall(r"href=['\"]([^'\"]+)['\"]", r.text)
+                       if re.search(r"schedul|guide|epg|جدول|برامج|program", h, re.I)})[:15]
+        print(f"    candidate links: {hits}", flush=True)
+        print(f"    text: {clean(r.text)[:200]}", flush=True)
 
-        section(f"{lang.upper()} — pairwise identical rows (start+stop+title), all days")
-        for a in sorted(merged):
-            for b in sorted(merged):
-                if b <= a:
-                    continue
-                A = {(s, *v) for s, v in merged[a].items()}
-                B = {(s, *v) for s, v in merged[b].items()}
-                shared = len(A & B)
-                if shared:
-                    print(f"  Alkass {a} vs {b}: {shared} identical "
-                          f"of {len(A)}/{len(B)}", flush=True)
+    section("epgshare01 Qatar feed — second opinion on Alkass")
+    for name in ("QA1", "AR1"):
+        url = f"https://epgshare01.online/epgshare01/epg_ripper_{name}.xml.gz"
+        r = try_get(url, stream=True)
+        if r is None or r.status_code != 200:
+            if r is not None:
+                print(f"  {url} -> {r.status_code}", flush=True)
+            continue
+        buf, cap = io.BytesIO(), 60 * 1024 * 1024
+        for chunk in r.iter_content(1 << 16):
+            buf.write(chunk)
+            if buf.tell() > cap:
+                print("  (capped)", flush=True)
+                break
+        try:
+            root = ET.fromstring(gzip.decompress(buf.getvalue()))
+        except Exception as exc:
+            print(f"  {name}: unusable ({exc})", flush=True)
+            continue
+        ids = [c.get("id") for c in root.findall("channel")
+               if re.search(r"alkass|kass", c.get("id") or "", re.I)]
+        print(f"  {name}: {len(root.findall('channel'))} channels; Alkass ids={ids}",
+              flush=True)
+        per = defaultdict(dict)
+        for p in root.findall("programme"):
+            cid = p.get("channel")
+            if cid in ids and p.get("start", "")[:8] == today.replace("-", ""):
+                per[cid][p.get("start")] = (p.findtext("title") or "").strip()
+        for cid in ids:
+            rows = sorted(per[cid])
+            print(f"\n    {cid}: {len(rows)} rows today", flush=True)
+            for s in rows[:30]:
+                print(f"      {s} {per[cid][s][:55]}", flush=True)
+        break
 
 
 if __name__ == "__main__":
