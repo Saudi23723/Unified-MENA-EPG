@@ -123,9 +123,18 @@ def add_programme(
     icon: str | None = None,
     live_eligible: bool = False,
     now: datetime | None = None,
+    alt_titles: list[tuple[str, str]] | None = None,
 ) -> ET.Element:
     """Append one <programme> element. When live_eligible=True the title gets
-    the Live marker automatically if `now` falls inside [start, stop)."""
+    the Live marker automatically if `now` falls inside [start, stop).
+
+    `alt_titles` is a list of (lang, text) written as further <title>
+    elements right after the main one — for a guide that has the same
+    programme in two languages and wants both in the file. XMLTV allows
+    repeated <title>, and a player picks whichever language it prefers,
+    falling back to the first. So pass the language you want shown as
+    `title`, and the other as an alt.
+    """
     shown_title = live_title(title, start, stop, now) if live_eligible else title
 
     p = ET.SubElement(
@@ -134,6 +143,11 @@ def add_programme(
     )
     lang = "ar" if re.search(r"[؀-ۿ]", shown_title) else "en"
     ET.SubElement(p, "title", lang=lang).text = shown_title
+    for alt_lang, alt_text in (alt_titles or []):
+        alt_text = (alt_text or "").strip()
+        # Skip an alt that is empty or just repeats what is already shown.
+        if alt_text and alt_text != shown_title:
+            ET.SubElement(p, "title", lang=alt_lang).text = alt_text
     if desc:
         dlang = "ar" if re.search(r"[؀-ۿ]", desc) else "en"
         ET.SubElement(p, "desc", lang=dlang).text = desc
