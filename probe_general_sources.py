@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: find sources for a second, non-sport guide.
+"""Read-only: judge the one feed that could carry the new guide.
 
-Wanted: MBC's channels with their programmes, OSN, STC's film and series
-channels, and the Arabic news channels — Al Arabiya, Al Hadath,
-Al Mayadeen, Al Araby 1 and 2, and their peers across Lebanon, Jordan,
-Saudi, Qatar, Syria and the UAE.
+Every broadcaster's own page is shut: MBC 404s on every schedule path,
+OSN, Al Arabiya, Al Hadath and Al Mayadeen all answer 403, Al Araby's
+schedule 500s. Al Jazeera's جدول البث is the single official page that
+answers at all.
 
-Nothing gets built until it is known which of those actually have a
-source. This checks three kinds at once: the epgshare01 mirror, which
-would cover many channels in one XMLTV file; each broadcaster's own
-schedule page, which is the authority where it exists; and the STC
-endpoint this project already knows returns listings without names.
-Changes nothing.
+That leaves epgshare01's AE1 feed — 813 channels, 69,699 programmes —
+which named Al Arabiya, Al Hadath, Al Mayadeen, Al Araby 1 and 2 and much
+else with real programme counts. The earlier listing was cut off at 45
+entries, alphabetically before M, so MBC, OSN and Rotana were never seen.
+
+Before any of it can be recommended it has to be judged, not just
+counted: which channels, how many days each, what the titles look like,
+and whether they are Arabic. Changes nothing.
 """
 from __future__ import annotations
 
@@ -21,116 +23,100 @@ import io
 import re
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+from datetime import datetime, timezone
 
 import requests
 
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept-Language": "ar,en;q=0.8"}
-T = (5, 30)
-CAP = 60 * 1024 * 1024
+T = (5, 40)
+CAP = 120 * 1024 * 1024
+ARABIC = re.compile(r"[؀-ۿ]")
 
-WANTED = re.compile(
-    r"mbc|osn|shahid|arabiya|hadath|mayadeen|araby|arabi|"
-    r"jazeera|sky.?news|alghad|extra|"
-    r"stc|jawwy|rotana|art\b|dubai|abu.?dhabi|sharjah|"
-    r"lbc|mtv|otv|aljadeed|ntv|"
-    r"saudi|ekhbariya|thekafiya|quran|sunnah|"
-    r"syria|ikhbaria|"
-    r"jordan|mamlaka|roya", re.I)
+GROUPS = {
+    "MBC": re.compile(r"\bmbc\b", re.I),
+    "OSN": re.compile(r"\bosn", re.I),
+    "Rotana": re.compile(r"rotana", re.I),
+    "News AR": re.compile(r"arabiya|hadath|mayadeen|araby|jazeera|sky.?news|"
+                          r"bbc.?arabic|france.?24|dw.arab|cnbc|extra.?news|"
+                          r"ekhbariya|ikhbariya|alghad", re.I),
+    "Levant/Gulf general": re.compile(
+        r"\blbc|\bmtv\b|otv|jadeed|dubai|abu.?dhabi|sharjah|sama|"
+        r"saudi|syria|jordan|mamlaka|roya|kuwait|qatar|oman|bahrain", re.I),
+    "STC / Jawwy": re.compile(r"\bstc\b|jawwy", re.I),
+}
 
 
 def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def get(url, **kw):
+def load(code):
+    url = f"https://epgshare01.online/epgshare01/epg_ripper_{code}.xml.gz"
     try:
-        return requests.get(url, headers=H, timeout=T, allow_redirects=True, **kw)
+        r = requests.get(url, headers=H, timeout=T, stream=True)
     except Exception as exc:
-        print(f"  {url}\n     FAILED {str(exc)[:100]}", flush=True)
+        print(f"  {code}: FAILED {str(exc)[:90]}", flush=True)
         return None
-
-
-def load_gz_xml(url):
-    r = get(url, stream=True)
-    if r is None or r.status_code != 200:
-        if r is not None:
-            print(f"  {url} -> {r.status_code}", flush=True)
+    if r.status_code != 200:
+        print(f"  {code}: HTTP {r.status_code}", flush=True)
         return None
     buf = io.BytesIO()
     for chunk in r.iter_content(1 << 16):
         buf.write(chunk)
         if buf.tell() > CAP:
-            print(f"  {url}: over cap, skipped", flush=True)
+            print(f"  {code}: over cap", flush=True)
             return None
     try:
         return ET.fromstring(gzip.decompress(buf.getvalue()))
     except Exception as exc:
-        print(f"  {url}: unusable ({exc})", flush=True)
+        print(f"  {code}: unusable ({exc})", flush=True)
         return None
 
 
+def survey(code):
+    root = load(code)
+    if root is None:
+        return
+    names = {c.get("id"): (c.findtext("display-name") or "") for c in root.findall("channel")}
+    per = defaultdict(list)
+    for p in root.findall("programme"):
+        per[p.get("channel")].append(p)
+
+    print(f"\n{code}: {len(names)} channels, {sum(len(v) for v in per.values())} programmes",
+          flush=True)
+
+    for label, pattern in GROUPS.items():
+        hits = sorted(cid for cid in names
+                      if pattern.search(cid or "") or pattern.search(names[cid] or ""))
+        withdata = [c for c in hits if per[c]]
+        print(f"\n  --- {label}: {len(hits)} channels, {len(withdata)} with programmes ---",
+              flush=True)
+        for cid in hits:
+            rows = per[cid]
+            if not rows:
+                continue
+            days = sorted({p.get("start", "")[:8] for p in rows})
+            titles = [(p.findtext("title") or "") for p in rows]
+            arabic = sum(1 for t in titles if ARABIC.search(t))
+            print(f"    {names[cid][:30]:32} {len(rows):4} prog  {len(days)} days "
+                  f"({days[0][:8]}..{days[-1][:8]})  {arabic:4} Arabic titles", flush=True)
+        # what the data actually looks like, for the first two channels
+        for cid in withdata[:2]:
+            rows = sorted(per[cid], key=lambda p: p.get("start"))
+            print(f"      e.g. {names[cid]}:", flush=True)
+            for p in rows[:5]:
+                s = p.get("start", "")
+                print(f"         {s[4:6]}-{s[6:8]} {s[8:10]}:{s[10:12]}  "
+                      f"{(p.findtext('title') or '')[:58]}", flush=True)
+
+
 def main():
-    section("what country feeds epgshare01 publishes")
-    index = get("https://epgshare01.online/epgshare01/")
-    codes = []
-    if index is not None and index.status_code == 200:
-        codes = sorted(set(re.findall(r"epg_ripper_([A-Z0-9_]+)\.xml\.gz", index.text)))
-        print(f"  {len(codes)} feeds: {codes}", flush=True)
-    else:
-        print("  index unavailable", flush=True)
-
-    mena = [c for c in codes
-            if re.match(r"^(AR|SA|AE|EG|QA|LB|JO|SY|KW|OM|BH|IQ|MA|DZ|TN|LY|YE|PS|SD)\d*",
-                        c)]
-    print(f"\n  MENA-looking: {mena}", flush=True)
-
-    section("what those feeds actually carry")
-    for code in mena[:8]:
-        root = load_gz_xml(
-            f"https://epgshare01.online/epgshare01/epg_ripper_{code}.xml.gz")
-        if root is None:
-            continue
-        per = defaultdict(int)
-        for p in root.findall("programme"):
-            per[p.get("channel")] += 1
-        names = {c.get("id"): (c.findtext("display-name") or "")
-                 for c in root.findall("channel")}
-        hits = sorted(cid for cid in names if WANTED.search(cid or "")
-                      or WANTED.search(names[cid] or ""))
-        print(f"\n  {code}: {len(names)} channels, {len(root.findall('programme'))} "
-              f"programmes | {len(hits)} of interest", flush=True)
-        for cid in hits[:45]:
-            print(f"      {cid:34} {names[cid][:28]:30} {per[cid]:5} prog", flush=True)
-
-    section("each broadcaster's own schedule page")
-    for label, url in (
-        ("MBC", "https://www.mbc.net/ar/schedule.html"),
-        ("MBC", "https://www.mbc.net/ar/schedule"),
-        ("MBC", "https://www.mbc.net/en/schedule"),
-        ("Shahid", "https://shahid.mbc.net/ar/livestreams"),
-        ("OSN", "https://www.osn.com/en-ae/tv-guide"),
-        ("OSN", "https://www.osn.com/ar-ae/tv-guide"),
-        ("Al Arabiya", "https://www.alarabiya.net/tv-schedule"),
-        ("Al Arabiya", "https://www.alarabiya.net/ar/programs"),
-        ("Al Hadath", "https://www.alhadath.net/tv-schedule"),
-        ("Al Mayadeen", "https://www.almayadeen.net/programsschedule"),
-        ("Al Mayadeen", "https://www.almayadeen.net/shows"),
-        ("Al Araby", "https://www.alaraby.tv/schedule"),
-        ("Al Araby", "https://alaraby.tv/"),
-        ("Al Jazeera", "https://www.aljazeera.net/schedule"),
-        ("Dubai TV", "https://www.dmi.ae/"),
-        ("STC listings", "https://prod-cdn-content-api.intigral-ott.net/api/v1/epg/listings"),
-    ):
-        r = get(url)
-        if r is None:
-            continue
-        body = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))
-        times = len(re.findall(r"\b([01]\d|2[0-3]):[0-5]\d\b", r.text))
-        print(f"  {label:12} {url:58} -> {r.status_code} {len(r.text):8}b "
-              f"{times:4} clocks", flush=True)
-        if r.status_code == 200 and times > 5:
-            print(f"      {body[:160]}", flush=True)
+    print(f"now UTC {datetime.now(timezone.utc):%Y-%m-%d %H:%M}", flush=True)
+    section("AE1 — the only feed with broad Arabic coverage")
+    survey("AE1")
+    section("ALJAZEERA1 — the broadcaster's own feed on the same mirror")
+    survey("ALJAZEERA1")
 
 
 if __name__ == "__main__":
