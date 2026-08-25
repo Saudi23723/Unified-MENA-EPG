@@ -452,8 +452,10 @@ def parse_lftv_microdata(html: str) -> list[dict]:
     """
     soup = BeautifulSoup(html, "html.parser")
     events: list[dict] = []
+    seen_blocks = 0
 
     for node in soup.find_all(attrs={"itemtype": re.compile(r"schema\.org/Event")}):
+        seen_blocks += 1
         fields = {}
         for meta in node.find_all("meta", attrs={"itemprop": True}):
             fields.setdefault(meta.get("itemprop"), meta.get("content") or "")
@@ -502,15 +504,30 @@ def parse_lftv_microdata(html: str) -> list[dict]:
             "priority": 200,
         })
 
-    return dedupe(events)
+    kept = dedupe(events)
+    if seen_blocks:
+        log(f"livefootballtv: {seen_blocks} fixture(s) published, {len(kept)} "
+            f"inside the guide window")
+    return kept
+
+
+MICRODATA_MARKER = "schema.org/Event"
 
 
 def parse_lftv_jordan_sports(html: str) -> list[dict]:
-    """Microdata first; the older text walk only if it yields nothing."""
+    """Microdata first; the text walk only if the page has no microdata.
+
+    The two cases have to be told apart. A page that publishes Event
+    blocks but has no fixture inside the guide window is simply a quiet
+    week — livefootballtv says so itself ("At this time there is no
+    football match being televised") and lists past matches below. That
+    must not be read as the reader having failed, or every quiet week
+    would run the fallback and log a warning that is not true.
+    """
     structured = parse_lftv_microdata(html)
-    if structured:
+    if structured or MICRODATA_MARKER in (html or ""):
         return structured
-    warn("livefootballtv: no Event microdata found, falling back to the text walk")
+    warn("livefootballtv: no Event microdata on the page, falling back to the text walk")
     return _parse_lftv_by_text(html)
 
 
