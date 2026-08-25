@@ -187,6 +187,38 @@ def load_channels(session) -> dict[str, tuple[str, str]]:
     return channels
 
 
+ARABIC_RE = re.compile(r"[\u0600-\u06FF]")
+
+
+def is_arabic(value) -> bool:
+    """True when the string actually carries Arabic script.
+
+    beIN fills its Arabic fields inconsistently: some are empty, and many
+    hold a verbatim copy of the English text. Only text that really is
+    Arabic should be preferred over the English original.
+    """
+    return isinstance(value, str) and bool(ARABIC_RE.search(value))
+
+
+def pick_localised(arabic, english, fallback: str = "") -> str:
+    """Arabic when it is genuinely Arabic, else the English original."""
+    if is_arabic(arabic):
+        return arabic.strip()
+    if isinstance(english, str) and english.strip():
+        return english.strip()
+    return fallback
+
+
+def nested(row: dict, *path):
+    """Walk row["data"]["Title"]["Arabic"]-style paths without raising."""
+    node = row
+    for step in path:
+        if not isinstance(node, dict):
+            return None
+        node = node.get(step)
+    return node
+
+
 def fetch_events_for_channel(session, guid: str) -> list[dict]:
     now = utc_now()
     start_before = (now + timedelta(days=DAYS_FORWARD)).strftime("%Y-%m-%dT%H:%M:%S.000")
@@ -217,12 +249,35 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
         flag = row.get("live")
         is_live = flag is True or (isinstance(flag, str) and flag.strip().lower() == "true")
 
+        # beIN carries an Arabic twin for the title, the blurb and the
+        # competition name. Prefer it wherever it is really Arabic.
+        title = pick_localised(
+            nested(row, "data", "Title", "Arabic"),
+            row.get("title") or nested(row, "data", "Title", "English"),
+            "beIN SPORTS",
+        )
+        desc = pick_localised(
+            row.get("descriptionArabic")
+            or nested(row, "data", "Synopsis", "Arabic")
+            or nested(row, "data", "Remarks", "Arabic"),
+            row.get("description")
+            or nested(row, "data", "Synopsis", "English")
+            or nested(row, "data", "Remarks", "English"),
+        )
+
+        # The competition, e.g. "الدوري الإنجليزي الممتاز" / "English Premier
+        # League". Both are emitted so either language can filter on it.
+        cat_ar = (row.get("categoryArabic") or nested(row, "data", "Category", "Arabic") or "").strip()
+        cat_en = (row.get("category") or nested(row, "data", "Category", "English") or "").strip()
+
         events.append({
             "start": start.astimezone(UTC),
             "stop": stop.astimezone(UTC),
-            "title": (row.get("title") or "").strip() or "beIN SPORTS",
-            "desc": (row.get("description") or "").strip(),
+            "title": title,
+            "desc": desc,
             "live": is_live,
+            "cat_ar": cat_ar if is_arabic(cat_ar) else "",
+            "cat_en": cat_en,
         })
     return sorted(events, key=lambda e: e["start"])
 
@@ -276,24 +331,35 @@ def build() -> int:
 
     total = 0
     live_count = 0
+    arabic_cats = 0
     for xid in with_data:
         for ev in per_channel[xid]:
             live = ev["live"] and xid not in placeholder
             title = with_live_badge(ev["title"]) if live else ev["title"]
             if live:
                 live_count += 1
+            # The competition beIN names for this event, in both languages,
+            # instead of tagging all 2400 programmes "Sports".
             p = add_programme(
                 root, xid, ev["start"], ev["stop"], title, ev["desc"],
-                category="Sports",
+                category=ev["cat_ar"] or ev["cat_en"] or "Sports",
             )
+            if ev["cat_ar"] and ev["cat_en"]:
+                ET.SubElement(p, "category", lang="en").text = ev["cat_en"]
             if live:
                 ET.SubElement(p, "category", lang="en").text = "Live"
+            if ev["cat_ar"]:
+                arabic_cats += 1
             total += 1
 
     icons = sum(1 for c in root.findall("channel") if c.find("icon") is not None)
+    arabic_titles = sum(
+        1 for x in with_data for e in per_channel[x] if is_arabic(e["title"])
+    )
     log(
         f"beIN Qatar/MENA: {len(with_data)}/{len(channels)} channels with a schedule, "
-        f"{total} programmes, {live_count} live, {icons} channel logos"
+        f"{total} programmes, {live_count} live, {icons} channel logos, "
+        f"{arabic_cats} Arabic categories, {arabic_titles} Arabic titles"
     )
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Qatar")
