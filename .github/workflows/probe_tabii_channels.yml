@@ -6,6 +6,14 @@ name: Probe tabii channels
 
 on:
   workflow_dispatch:
+  # workflow_dispatch only registers for workflows that exist on the
+  # default branch, and this one deliberately does not, so it runs on a
+  # push to this branch instead.
+  push:
+    branches:
+      - claude/arabic-channels-epg-99099k
+    paths:
+      - ".github/workflows/probe_tabii_channels.yml"
 
 permissions:
   contents: read
