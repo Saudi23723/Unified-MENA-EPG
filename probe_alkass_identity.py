@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: Alkass publishes its own TV guide at alkass.net/tvguide.
+"""Read-only: extract Alkass's own guide (alkass.net/tvguide) in full.
 
-beIN's guide — what this project currently reads — repeats Alkass 1's
-schedule on Alkass 4 and Alkass 5's on Alkass 7, so four of the eight
-channels cannot all be right there. Alkass is the broadcaster, so its own
-guide settles it. This maps out that page: how channels and days are
-addressed, where the times and titles sit, and whether English exists.
-Changes nothing.
+beIN's guide repeats Alkass 1's schedule on Alkass 4 and Alkass 5's on
+Alkass 7, so it cannot be right for all eight. Alkass publishes its own
+guide as one page: each channel is a collapsible block keyed by
+assets/images/<name>_.png with a table of programme name + start time.
+Before switching this project's source over, three things have to be
+known: which image means which channel, how many days the page carries,
+and whether the times are Doha local. Changes nothing.
 """
 from __future__ import annotations
 
@@ -18,7 +19,16 @@ import requests
 
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept-Language": "ar,en;q=0.8"}
-T = (5, 20)
+T = (5, 25)
+URL = "https://www.alkass.net/tvguide"
+
+BLOCK = re.compile(
+    r"data-target=\"#(?P<key>[^\"]+)\".*?"
+    r"assets/images/(?P<img>[^\"']+)\.png.*?"
+    r"<ul class=\"collapse\" id=\"(?P=key)\">(?P<body>.*?)</ul>", re.S)
+ROW = re.compile(
+    r"tv-prog-name'>(?P<name>.*?)</td>\s*"
+    r"<td class='team-result__status tv-prog-time'>(?P<time>[^<]*)</td>", re.S)
 
 
 def clean(s):
@@ -29,62 +39,33 @@ def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def get(url, **kw):
-    try:
-        return requests.get(url, headers=H, timeout=T, allow_redirects=True, **kw)
-    except Exception as exc:
-        print(f"  {url} FAILED: {exc}", flush=True)
-        return None
-
-
 def main():
-    section("alkass.net/tvguide")
-    r = get("https://www.alkass.net/tvguide")
-    if r is None or r.status_code != 200:
-        print(f"  status={getattr(r, 'status_code', '-')}", flush=True)
-        return
+    r = requests.get(URL, headers=H, timeout=T)
     t = r.text
-    print(f"  status={r.status_code} bytes={len(t)} final={r.url}", flush=True)
+    print(f"status={r.status_code} bytes={len(t)}", flush=True)
 
-    print("\n  forms / selects / inputs (how the page is parameterised):", flush=True)
-    for m in re.finditer(r"<(form|select|input|option)\b[^>]*>", t, re.I):
-        print("   ", m.group(0)[:200], flush=True)
+    section("dates / day labels anywhere on the page")
+    for pat in (r"\d{4}-\d{2}-\d{2}", r"\d{1,2}/\d{1,2}/\d{4}",
+                r"(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*day",
+                r"(?:اليوم|غدا|غداً|الأحد|الإثنين|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت)"):
+        found = sorted(set(re.findall(pat, t)))[:12]
+        print(f"  {pat}: {found}", flush=True)
 
-    print("\n  scripts that look like they fetch the schedule:", flush=True)
-    for m in re.finditer(r"(ajax|fetch\(|\$\.get|\$\.post|url\s*[:=]\s*['\"][^'\"]+)",
-                         t, re.I):
-        print("   ", t[max(0, m.start() - 90):m.start() + 160].replace("\n", " "),
+    section("every channel block")
+    blocks = list(BLOCK.finditer(t))
+    print(f"{len(blocks)} blocks", flush=True)
+    for b in blocks:
+        rows = [(clean(m.group("time")), clean(m.group("name")))
+                for m in ROW.finditer(b.group("body"))]
+        print(f"\n  key={b.group('key')} img={b.group('img')}.png rows={len(rows)}",
               flush=True)
+        for tm, nm in rows:
+            print(f"    {tm}  {nm[:70]}", flush=True)
 
-    print("\n  internal links:", flush=True)
-    links = sorted({h for h in re.findall(r"href=['\"]([^'\"#]+)['\"]", t)
-                    if not h.startswith(("http", "//", "mailto"))})
-    print("   ", links[:60], flush=True)
-
-    print("\n  first 6000 chars of visible text:", flush=True)
-    print(clean(t)[:6000], flush=True)
-
-    section("raw markup of the schedule area")
-    # anchor on a time-looking string and show what surrounds it
-    hits = list(re.finditer(r"\b([01]\d|2[0-3]):[0-5]\d\b", t))
-    print(f"  {len(hits)} clock-like strings", flush=True)
-    for m in hits[:3]:
-        print("\n  ----", flush=True)
-        print(t[max(0, m.start() - 1400):m.start() + 900].replace("\n", " "), flush=True)
-
-    section("other endpoints worth trying")
-    for u in ("https://www.alkass.net/tvguide?lang=en",
-              "https://www.alkass.net/en/tvguide",
-              "https://www.alkass.net/programs",
-              "https://www.alkass.net/tvguide?channel=2",
-              "https://www.alkass.net/tvguide?ch=2"):
-        rr = get(u)
-        if rr is None:
-            continue
-        body = clean(rr.text)
-        print(f"  {u} -> {rr.status_code} {len(rr.text)}b  same_as_tvguide="
-              f"{rr.text == t}", flush=True)
-        print(f"    {body[:220]}", flush=True)
+    section("what names sit next to each channel image")
+    for m in re.finditer(r"assets/images/([A-Za-z0-9_]+)\.png", t):
+        around = clean(t[max(0, m.start() - 400):m.end() + 400])
+        print(f"  {m.group(1)}.png :: {around[:180]}", flush=True)
 
 
 if __name__ == "__main__":
