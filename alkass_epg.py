@@ -1,50 +1,45 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Alkass (الكأس) — Qatar's sports channels, from beIN's own guide.
+Alkass (الكأس) — Qatar's sports channels, from Alkass's own TV guide.
 
-Source: bein.com's public EPG endpoint, the one its own TV-guide page
-calls, in both languages:
+Source: https://www.alkass.net/tvguide — the broadcaster's own page.
 
-  https://www.bein.com/ar/epg-ajax-template/?action=epg_fetch&category=sports&cdate=YYYY-MM-DD&...
-  https://www.bein.com/en/epg-ajax-template/?...   (postid 25356 instead of 25344)
+Why this and not beIN, which this guide read before: audited channel by
+channel on the same day, the two disagree almost completely. Of the slots
+that even start at the same minute, beIN's title matched Alkass's on 0 of
+13 for Alkass 1, 0 of 13 for Alkass 4, 1 of 15 for Alkass 2, 1 of 17 for
+Alkass 3 — beIN says "Derby Tunis" where Alkass says the Qatar Stars
+League match it is actually airing. beIN also repeats Alkass 1's whole
+schedule on Alkass 4 (71 of 87 slots identical) and Alkass 5's on
+Alkass 7 (76 of 78). Alkass is the broadcaster; its own guide is what
+goes on air.
 
-Why this and not the epgshare feed this guide used before: audited against
-this very endpoint, that feed matched beIN perfectly on Alkass 1, 2 and 4
-(141 of 141 slots, time and title) and diverged badly on the rest —
-Alkass 6 agreed on 7 slots out of 20. Five of the eight channels were
-wrong. beIN is the broadcaster, so the guide now reads beIN directly and
-the question of which to trust does not arise.
+The page carries one day, in English only, so that is what this guide
+publishes: no Arabic titles, no three days ahead. That is the cost of
+reading the source that is actually right.
 
-Two details this endpoint gets right that the feed did not:
+Parsing: the page renders the same guide twice. The collapsible cg1..cg8
+list near the top is broken — it repeats whole channels (1=4=8, 2=5=7,
+3=6) and duplicates rows inside a table — so it is ignored. The grid
+under <div class="tg-content"> is the real one: a logo column
+(one.png … eight.png, then online.png for the streaming service, which
+publishes no schedule) beside one <table ... margin-right:10px> per
+channel, in the same order. Each programme is a
+<div class='programs' id='N'> holding its title and an explicit
+"HH:MM - HH:MM" range, in Doha wall-clock, in chronological order.
 
-  * every slot states its own start AND end, and they butt together with
-    no gaps or overlaps, so nothing has to be inferred from the next
-    programme's start.
-  * times are plain Doha local ("2026-08-25 00:00:00") with no timezone
-    label to misread. The feed stamped everything "+0100" whatever the
-    channel's country, which is what made this guide two hours late.
+The page's own "now" marker is rendered server-side at the current Doha
+time, so the page is live rather than cached.
 
-Parsing: the page is scanned in document order rather than split on any
-wrapper element. Each channel's logo (2023_Alkass_N.png) marks where its
-slots begin, and every <li> after it belongs to that channel until the
-next logo. The Arabic and English editions nest their rows differently,
-so anything keyed on the wrapper works on one and silently collapses the
-other onto a single channel.
-
-Titles are shown in English with the Arabic kept alongside, paired by
-start time. No Live badge: beIN does not mark which Alkass broadcasts are
-live, so nothing here claims to.
-
-Alkass 9, 10, 11 and the two SHOOF channels are not carried by this
-endpoint and are not in this guide.
+Alkass 9, 10, 11 and the two SHOOF channels are not on this page and are
+not in this guide.
 """
 
 from __future__ import annotations
 
 import html
 import re
-from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 import xml.etree.ElementTree as ET
@@ -55,17 +50,13 @@ from epg_lib import (
 )
 
 OUTPUT = "alkass_epg.xml"
-UTC = timezone.utc
 DOHA = timezone(timedelta(hours=3))
 
-ENDPOINT = ("https://www.bein.com/{lang}/epg-ajax-template/"
-            "?action=epg_fetch&category=sports&cdate={date}&language={LANG}"
-            "&loadindex=0&mins=00&offset=0&postid={postid}"
-            "&serviceidentity=bein.net")
-EDITIONS = {"ar": "25344", "en": "25356"}
-
-# beIN publishes today plus three days; asking for more returns an empty page.
-DAYS_FORWARD = 3
+BASE = "https://www.alkass.net/tvguide"
+# The page's own day switcher: اليوم is the bare URL, غداً adds day=next.
+# Alkass often serves the same page for both; a day that repeats the one
+# before it is dropped rather than published twice.
+DAYS = [("", 0), ("?day=next", 1)]
 
 LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
 
@@ -80,102 +71,132 @@ CHANNELS = [
     (8, "AlkassEight.qa", "Alkass 8", "الكأس 8", "alkass8"),
 ]
 
-# A channel logo or a programme row, matched together so document order
-# decides which channel each row belongs to.
-TOKEN_RE = re.compile(
-    r"(?P<logo>/\d{4}_[A-Za-z0-9_]+\.png)"
-    # `<li ...>` or a bare `<li>` - the row carries attributes on the live
-    # pages, but requiring them would silently drop any that does not.
-    r"|(?P<row><li(?:\s[^>]*?)?>.*?</li>)", re.S | re.I)
-ALKASS_LOGO_RE = re.compile(r"/\d{4}_Alkass_(\d+)\.png", re.I)
-RANGE_RE = re.compile(
-    r"data-start='(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})'\s+"
-    r"data-end='(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})'")
-TITLE_RE = re.compile(r"<p class=title>(.*?)</p>", re.S)
-FORMAT_RE = re.compile(r"<p class=format>(.*?)</p>", re.S)
+GRID_START = 'class="tg-content"'
+# The logo column, which names the channels the tables belong to. Reading
+# it instead of assuming "first table is channel 1" is what stops a single
+# missing row from renaming every channel below it.
+COLUMN_RE = re.compile(
+    r"assets/images/(one|two|three|four|five|six|seven|eight|online)\.png")
+COLUMN_NUMBER = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+                 "six": 6, "seven": 7, "eight": 8,
+                 # the streaming service, which publishes no schedule
+                 "online": 0}
+# One table per channel. The timeline strip above them is a table too, but
+# it carries no margin-right, which is what keeps it out.
+CHANNEL_TABLE_RE = re.compile(
+    r"<table style=\"width: ?\d+px; margin-right:10px\">(.*?)</table>", re.S)
+PROGRAMME_RE = re.compile(
+    r"<div class='programs[^']*' id='\d+'[^>]*>(?P<title>.*?)<br>\s*"
+    r"<span[^>]*>(?P<start>\d{2}:\d{2}) - (?P<stop>\d{2}:\d{2})</span>", re.S)
 
 
 def clean(value: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html.unescape(value or ""))).strip()
 
 
-def parse_local(value: str) -> datetime | None:
-    """beIN states plain Doha wall-clock, with no offset to misread."""
-    try:
-        return datetime.strptime(value, "%Y-%m-%d %H:%M:%S").replace(tzinfo=DOHA)
-    except ValueError:
-        return None
+def parse_page(text: str) -> dict[int, list[tuple[str, str, str]]]:
+    """{alkass number: [(start "HH:MM", stop "HH:MM", title)]}, in order."""
+    cut = (text or "").find(GRID_START)
+    if cut < 0:
+        return {}
+    grid = text[cut:]
 
+    column = COLUMN_RE.findall(grid)
+    tables = CHANNEL_TABLE_RE.findall(grid)
+    if len(column) != len(tables):
+        # The two run in parallel, one table per logo. If they ever stop
+        # matching, every channel below the gap would be renamed, so read
+        # nothing rather than publish someone else's schedule.
+        warn(f"alkass.net: {len(column)} channel logos but {len(tables)} "
+             f"schedule tables — layout changed, not parsing")
+        return {}
 
-def parse_page(text: str) -> dict[int, dict[datetime, dict]]:
-    """{alkass number: {start: {stop, title, category}}} from one page."""
-    out: dict[int, dict[datetime, dict]] = defaultdict(dict)
-    current: int | None = None
-
-    for m in TOKEN_RE.finditer(text or ""):
-        if m.group("logo"):
-            hit = ALKASS_LOGO_RE.match(m.group("logo"))
-            # Any other channel's logo ends the Alkass block it followed.
-            current = int(hit.group(1)) if hit else None
+    out: dict[int, list[tuple[str, str, str]]] = {}
+    for name, body in zip(column, tables):
+        number = COLUMN_NUMBER.get(name, 0)
+        if not number:
             continue
-        if current is None:
-            continue
-
-        row = m.group("row")
-        span = RANGE_RE.search(row)
-        title = TITLE_RE.search(row)
-        if not span or not title:
-            continue
-        start, stop = parse_local(span.group(1)), parse_local(span.group(2))
-        text_title = clean(title.group(1))
-        if start is None or stop is None or stop <= start or not text_title:
-            continue
-
-        fmt = FORMAT_RE.search(row)
-        out[current][start] = {
-            "stop": stop,
-            "title": text_title,
-            "category": clean(fmt.group(1)) if fmt else "",
-        }
+        rows = [(m.group("start"), m.group("stop"), clean(m.group("title")))
+                for m in PROGRAMME_RE.finditer(body)]
+        if rows:
+            out[number] = rows
     return out
 
 
-def fetch_edition(session, lang: str, days: list[str]) -> dict[int, dict[datetime, dict]]:
-    """One language across every day, merged. Never raises: a day that
-    fails costs that day only."""
-    merged: dict[int, dict[datetime, dict]] = defaultdict(dict)
-    ok = 0
-    for date in days:
-        url = ENDPOINT.format(lang=lang, LANG=lang.upper(),
-                              postid=EDITIONS[lang], date=date)
-        try:
-            page = fetch(session, url).text
-        except Exception as exc:
-            warn(f"bein.com {lang} {date} failed: {exc}")
+def to_datetimes(rows: list[tuple[str, str, str]], day: datetime) -> list[dict]:
+    """Turn one channel's "HH:MM - HH:MM" rows into absolute Doha times.
+
+    The rows run in broadcast order from midnight, so a stop that is not
+    after its start has run past midnight, and so has a start that goes
+    backwards against the row before it.
+    """
+    events: list[dict] = []
+    offset = 0
+    previous: datetime | None = None
+
+    for start_hm, stop_hm, title in rows:
+        if not title:
             continue
-        got = parse_page(page)
-        if got:
-            ok += 1
-        for n, slots in got.items():
-            merged[n].update(slots)
-    log(f"  {lang}: {ok}/{len(days)} days, "
-        f"{sum(len(v) for v in merged.values())} slots across {len(merged)} channels")
-    return merged
+        try:
+            start = datetime.combine(
+                day.date(), datetime.strptime(start_hm, "%H:%M").time(), DOHA)
+            stop = datetime.combine(
+                day.date(), datetime.strptime(stop_hm, "%H:%M").time(), DOHA)
+        except ValueError:
+            continue
+
+        start += timedelta(days=offset)
+        if previous is not None and start < previous:
+            offset += 1
+            start += timedelta(days=1)
+        stop += timedelta(days=offset)
+        if stop <= start:
+            stop += timedelta(days=1)
+
+        previous = start
+        events.append({"start": start, "stop": stop, "title": title})
+    return events
+
+
+def fetch_day(session, suffix: str) -> dict[int, list[tuple[str, str, str]]]:
+    """One page. Never raises: a page that fails costs that day only."""
+    try:
+        page = fetch(session, BASE + suffix).text
+    except Exception as exc:
+        warn(f"alkass.net{suffix or ' (today)'} failed: {exc}")
+        return {}
+    return parse_page(page)
 
 
 def build() -> int:
-    log("ALKASS (الكأس) EPG | bein.com official guide, Arabic + English")
+    log("ALKASS (الكأس) EPG | alkass.net official guide")
     session = new_session()
-    now = utc_now()
+    today = utc_now().astimezone(DOHA)
 
-    today = now.astimezone(DOHA)
-    days = [(today + timedelta(days=d)).strftime("%Y-%m-%d")
-            for d in range(0, DAYS_FORWARD + 1)]
+    per_channel: dict[int, list[dict]] = {}
+    seen: list[dict[int, list[tuple[str, str, str]]]] = []
 
-    english = fetch_edition(session, "en", days)
-    arabic = fetch_edition(session, "ar", days)
+    for suffix, day_offset in DAYS:
+        parsed = fetch_day(session, suffix)
+        label = f"day+{day_offset}"
+        if not parsed:
+            log(f"  {label}: nothing published")
+            continue
+        if parsed in seen:
+            # Alkass serves the same page for اليوم and غداً when tomorrow
+            # is not ready; publishing it twice would invent a schedule.
+            log(f"  {label}: same page as the day before it — skipped")
+            continue
+        seen.append(parsed)
 
-    if not english and not arabic:
+        day = today + timedelta(days=day_offset)
+        log(f"  {label} ({day:%Y-%m-%d}): "
+            f"{sum(len(v) for v in parsed.values())} rows across "
+            f"{len(parsed)} channels")
+        for number, rows in parsed.items():
+            per_channel.setdefault(number, []).extend(to_datetimes(rows, day))
+
+    if not per_channel:
         # write_xml_atomic keeps the previous file rather than publishing an
         # empty one, so a bad fetch costs nothing.
         write_xml_atomic(ET.Element("tv"), OUTPUT,
@@ -183,47 +204,26 @@ def build() -> int:
         return 0
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — Alkass"})
-    with_data = [c for c in CHANNELS if english.get(c[0]) or arabic.get(c[0])]
-    missing = [c[3] for c in CHANNELS if not (english.get(c[0]) or arabic.get(c[0]))]
+    with_data = [c for c in CHANNELS if per_channel.get(c[0])]
+    missing = [c[3] for c in CHANNELS if not per_channel.get(c[0])]
     if missing:
         log(f"No schedule published for: {', '.join(missing)}")
 
-    for _n, xid, en_name, ar_name, key in with_data:
+    for _number, xid, en_name, ar_name, key in with_data:
         ch = ET.SubElement(root, "channel", id=xid)
         # English first: a player shows the first display-name it can use.
         ET.SubElement(ch, "display-name", lang="en").text = en_name
         ET.SubElement(ch, "display-name", lang="ar").text = ar_name
         ET.SubElement(ch, "icon", src=f"{LOGO_BASE}/{key}.png")
 
-    total = paired = 0
-    for n, xid, _en_name, _ar_name, _key in with_data:
-        en_slots, ar_slots = english.get(n, {}), arabic.get(n, {})
-
-        events = []
-        for start in sorted(set(en_slots) | set(ar_slots)):
-            en, ar = en_slots.get(start), ar_slots.get(start)
-            primary = en or ar
-            events.append({
-                "start": start,
-                "stop": primary["stop"],
-                "title": primary["title"],
-                "alt": ar["title"] if (en and ar) else "",
-                "category": (ar or en).get("category", ""),
-            })
-
-        for ev in resolve_overlaps(events):
-            if ev["alt"]:
-                paired += 1
-            add_programme(
-                root, xid, ev["start"], ev["stop"], ev["title"],
-                category=ev["category"] or "الرياضة",
-                alt_titles=[("ar", ev["alt"])] if ev["alt"] else None,
-            )
+    total = 0
+    for number, xid, _en_name, _ar_name, _key in with_data:
+        for ev in resolve_overlaps(per_channel[number]):
+            add_programme(root, xid, ev["start"], ev["stop"], ev["title"],
+                          category="الرياضة")
             total += 1
 
-    log(f"Alkass: {len(with_data)}/{len(CHANNELS)} channels, {total} programmes, "
-        f"{paired} with both languages")
-
+    log(f"Alkass: {len(with_data)}/{len(CHANNELS)} channels, {total} programmes")
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Alkass")
     return 0
 
