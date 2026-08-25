@@ -1,17 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-STARZPLAY — the three STARZPLAY Sports channels.
+STARZPLAY — every sport channel STARZPLAY carries.
 
 Source: STARZPLAY's own public web-EPG API, the endpoint the
 starzplay.com guide widget itself calls:
 
   GET https://epg.aws.playco.com/api/v1.1/epg/category/events/web-epg-scraper-sp
 
-The call is made with category=all and every channel STARZPLAY carries is
-then filtered down to the three sports ones by slug, so the roster cannot
-drift if STARZPLAY renames a category. Each channel arrives with its
-events inline, so one request covers the whole guide.
+The call is made with category=all and the sport channels are then picked
+out by STARZPLAY's own classification — a channel counts when its genres
+include "Sports" or its category is "sports". Nothing is matched by a
+hand-written list of slugs, so a channel added or renamed upstream is
+picked up on the next run rather than silently missed. That currently
+yields 20 channels, among them AD Sports 1 and 2, AD Sports Premium 2,
+AD Sports Extra, Yas TV and AD Fight alongside the STARZPLAY-branded ones.
+
+Names and logos come from the API too, never invented here: an earlier
+version of this file called starzplaysports2 "ستارز بلاي سبورتس 2" when
+STARZPLAY itself titles it "أبوظبي الرياضية بريميوم 2 - الدوري الإيطالي".
 
 About the Live badge: the API does send a per-event `status` of
 "live" / "upcoming" / "ended", but it is computed on STARZPLAY's side at
@@ -45,14 +52,11 @@ DAYS_FORWARD = 3
 PAGE_LIMIT = 40
 MAX_PAGES = 15  # hard cap so a runaway API can never hang the job
 
-# The three sports channels, by the slug the API uses. Note the third is
-# "starzplaysport1" (singular) while its title is "STARZPLAY Sports 3" —
-# that is STARZPLAY's own inconsistency, not a typo here.
-WANTED = {
-    "starzplaysports1": "ستارز بلاي سبورتس 1",
-    "starzplaysports2": "ستارز بلاي سبورتس 2",
-    "starzplaysport1": "ستارز بلاي سبورتس 3",
-}
+def is_sport(channel: dict) -> bool:
+    """STARZPLAY's own verdict, not a guess from the title."""
+    genres = {str(g).strip().lower() for g in (channel.get("genres") or [])}
+    category = str(channel.get("category") or "").strip().lower()
+    return "sports" in genres or category == "sports"
 
 
 def parse_unix(ts) -> datetime | None:
@@ -114,25 +118,24 @@ def channel_logo(ch: dict) -> str | None:
 
 
 def build() -> int:
-    log("STARZPLAY SPORTS EPG | official epg.aws.playco.com API | 3 sport channels")
+    log("STARZPLAY SPORTS EPG | official epg.aws.playco.com API | sport channels")
     session = new_session()
     now = utc_now()
 
     discovered = fetch_all_channels(session, now)
-    by_slug = {ch.get("slug"): ch for ch in discovered}
     log(f"STARZPLAY channels discovered: {len(discovered)}")
 
-    missing = [s for s in WANTED if s not in by_slug]
-    if missing:
-        warn(f"STARZPLAY no longer lists: {', '.join(missing)}")
+    sport = [ch for ch in discovered if is_sport(ch)]
+    log(f"Sport by STARZPLAY's own classification: {len(sport)}")
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — STARZPLAY Sports"})
 
     prepared = []
-    for slug, name in WANTED.items():
-        ch = by_slug.get(slug)
-        if not ch:
+    for ch in sport:
+        slug = ch.get("slug")
+        if not slug:
             continue
+        name = (ch.get("title") or "").strip() or slug
 
         events = []
         for ev in ch.get("events", []) or []:
@@ -155,15 +158,15 @@ def build() -> int:
         if events:
             prepared.append((slug, name, ch, events))
 
-    for _slug, name, ch, _events in prepared:
-        el = ET.SubElement(root, "channel", id=f"Starz_{_slug}")
+    for slug, name, ch, _events in prepared:
+        el = ET.SubElement(root, "channel", id=f"Starz_{slug}")
         ET.SubElement(el, "display-name", lang="ar").text = name
         logo = channel_logo(ch)
         if logo:
             ET.SubElement(el, "icon", src=logo)
 
     total = 0
-    for slug, name, _ch, events in prepared:
+    for slug, _name, _ch, events in prepared:
         xid = f"Starz_{slug}"
         for ev in events:
             p = add_programme(
@@ -174,7 +177,8 @@ def build() -> int:
             ET.SubElement(p, "category", lang="en").text = "Live"
             total += 1
 
-    log(f"STARZPLAY: {len(prepared)}/{len(WANTED)} sport channels, {total} programmes")
+    icons = sum(1 for c in root.findall("channel") if c.find("icon") is not None)
+    log(f"STARZPLAY: {len(prepared)} sport channels, {total} programmes, {icons} logos")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — STARZPLAY Sports")
     return 0
