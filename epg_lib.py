@@ -274,14 +274,19 @@ LRM = "‎"
 # visible when browsing ahead, exactly like update_alwan_epg.py does.
 LIVE_BADGE = "• Live \U0001F535"  # "• Live 🔵"
 
+# Same badge in other colours, so each guide can be told apart at a glance
+# in a merged listing: green for Thmanyah, purple for Alkass and STARZPLAY.
+LIVE_BADGE_GREEN = "• Live \U0001F7E2"   # "• Live 🟢"
+LIVE_BADGE_PURPLE = "• Live \U0001F7E3"  # "• Live 🟣"
+
 
 def ltr(value: str) -> str:
     """Wrap a Latin run so it keeps its own order inside RTL text."""
     return f"{LRM}{value}{LRM}"
 
 
-def with_live_badge(title: str) -> str:
-    return f"{title} {ltr(LIVE_BADGE)}"
+def with_live_badge(title: str, badge: str = LIVE_BADGE) -> str:
+    return f"{title} {ltr(badge)}"
 
 
 def countdown_label(minutes) -> str:
