@@ -1,146 +1,87 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: are the Türkiye guides actually being fed?
+"""Read-only: can tabii Spor be given a real schedule?
 
-tabii's file holds 83 programmes across ten channels and only 6 of them
-are still in the future — three channels are empty and the newest day is
-today. Its script does not read a schedule at all: it scrapes match
-mentions out of trtspor.com.tr news pages.
+Its current script does not read one. It scrapes match mentions out of
+trtspor.com.tr news pages, which is why the file holds 83 programmes with
+only 6 still in the future and three channels empty.
 
-beIN Türkiye is thinner than it looks too: beIN SPORTS 1 has 33
-programmes spread over eight days, about four a day, because
-tvyayinakisi.com publishes only the current day for most channels and
-epgshare fills the rest.
-
-tvyayinakisi.com is already the proven source for beIN Türkiye and
-publishes schema.org JSON-LD. This checks whether it also carries the
-tabii Spor channels, whether it can be asked for a specific day, and what
-the epgshare Turkish feed really holds for both. Changes nothing.
+tvyayinakisi.com, the proven source for beIN Türkiye, has no tabii pages
+at all (every slug 404s). But TRT's own broadcast-schedule page —
+trtspor.com.tr/yayin-akisi/tabii-spor, the URL the script already names
+and then ignores — answers 200 with 364KB. This maps what is inside it,
+and tries the endpoints tabii's own player would call. Changes nothing.
 """
 from __future__ import annotations
 
-import gzip
-import io
 import json
 import re
-import xml.etree.ElementTree as ET
-from collections import defaultdict
-from datetime import datetime, timedelta, timezone
 
 import requests
 
-IST = timezone(timedelta(hours=3))
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept-Language": "tr,en;q=0.8"}
 T = (5, 25)
-TVY = "https://www.tvyayinakisi.com"
-LD = re.compile(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', re.S)
+URL = "https://www.trtspor.com.tr/yayin-akisi/tabii-spor"
 
 
 def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def events_from(text):
-    """Every BroadcastEvent on a tvyayinakisi page."""
-    out = []
-    for block in LD.findall(text or ""):
-        try:
-            payload = json.loads(block)
-        except Exception:
-            continue
-        stack = [payload]
-        while stack:
-            node = stack.pop()
-            if isinstance(node, list):
-                stack.extend(node)
-            elif isinstance(node, dict):
-                if node.get("@type") in ("BroadcastEvent", "Event") and node.get("startDate"):
-                    out.append((node.get("startDate"), node.get("endDate"),
-                                (node.get("name") or "")[:60]))
-                stack.extend(v for v in node.values() if isinstance(v, (dict, list)))
-    return out
-
-
-def probe(slug, suffix=""):
-    url = f"{TVY}/{slug}-yayin-akisi/{suffix}"
-    try:
-        r = requests.get(url, headers=H, timeout=T)
-    except Exception as exc:
-        return url, f"FAILED {exc}", []
-    if r.status_code != 200:
-        return url, f"HTTP {r.status_code}", []
-    return url, f"200 {len(r.text)}b", events_from(r.text)
+def text_of(html_text):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html_text or ""))
 
 
 def main():
-    today = datetime.now(IST)
-    print(f"Istanbul now {today:%Y-%m-%d %H:%M}", flush=True)
+    r = requests.get(URL, headers=H, timeout=T)
+    t = r.text
+    print(f"{URL} -> {r.status_code} {len(t)}b", flush=True)
 
-    section("does tvyayinakisi carry the tabii Spor channels?")
-    for n in range(1, 11):
-        for slug in (f"tabii-spor-{n}", f"tabii-spor-{n}-hd"):
-            url, status, evs = probe(slug)
-            days = sorted({(e[0] or "")[:10] for e in evs})
-            print(f"  {slug:18} {status:14} {len(evs):3} events  days={days}", flush=True)
-            if evs:
-                for e in evs[:3]:
-                    print(f"       {e[0]} .. {e[1]}  {e[2]}", flush=True)
-                break
+    section("clock-like strings and what wraps them")
+    hits = list(re.finditer(r"\b([01]\d|2[0-3]):[0-5]\d\b", t))
+    print(f"{len(hits)} clock strings", flush=True)
+    for m in hits[:4]:
+        print(f"\n---- at {m.start()} ----", flush=True)
+        print(t[max(0, m.start() - 900):m.start() + 700].replace("\n", " "), flush=True)
 
-    section("can tvyayinakisi be asked for a specific day?")
-    for suffix in ("", "yarin/", "?tarih=" + (today + timedelta(days=1)).strftime("%Y-%m-%d"),
-                   (today + timedelta(days=1)).strftime("%Y-%m-%d") + "/"):
-        url, status, evs = probe("bein-sports-1", suffix)
-        days = sorted({(e[0] or "")[:10] for e in evs})
-        print(f"  {url:70} {status:14} {len(evs):3} events days={days}", flush=True)
+    section("tabii Spor channel names on the page")
+    for m in list(re.finditer(r"[Tt]ab(?:i|İ|ı)i?\s*[Ss]por\s*\d{0,2}", t))[:25]:
+        print(f"  {m.start():7} {text_of(t[max(0, m.start()-120):m.start()+160])[:170]}",
+              flush=True)
 
-    section("beIN Türkiye channels on tvyayinakisi today")
-    for slug in ("bein-sports-1", "bein-sports-2", "bein-sports-3", "bein-sports-4",
-                 "bein-sports-max-1", "bein-sports-max-2", "bein-sports-haber",
-                 "bein-sports-5"):
-        url, status, evs = probe(slug)
-        days = sorted({(e[0] or "")[:10] for e in evs})
-        print(f"  {slug:20} {status:14} {len(evs):3} events days={days}", flush=True)
-
-    section("what the epgshare Turkish feed actually holds")
-    try:
-        r = requests.get("https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz",
-                         headers=H, timeout=T, stream=True)
-        buf = io.BytesIO()
-        for chunk in r.iter_content(1 << 16):
-            buf.write(chunk)
-            if buf.tell() > 80 * 1024 * 1024:
-                break
-        root = ET.fromstring(gzip.decompress(buf.getvalue()))
-        per = defaultdict(lambda: defaultdict(int))
-        for p in root.findall("programme"):
-            per[p.get("channel")][p.get("start", "")[:8]] += 1
-        wanted = [c.get("id") for c in root.findall("channel")
-                  if re.search(r"bein|tabii", c.get("id") or "", re.I)]
-        print(f"  feed has {len(root.findall('channel'))} channels, "
-              f"{len(root.findall('programme'))} programmes", flush=True)
-        for cid in sorted(wanted):
-            days = per[cid]
-            print(f"  {cid:26} {sum(days.values()):4} programmes over "
-                  f"{len(days)} days {sorted(days)[:3]}...", flush=True)
-    except Exception as exc:
-        print(f"  epgshare FAILED: {exc}", flush=True)
-
-    section("tabii's own site and the URL its script points at")
-    for url in ("https://www.trtspor.com.tr/yayin-akisi/tabii-spor",
-                "https://www.tabii.com/tr/live",
-                "https://www.tabii.com/tr/channels",
-                "https://www.tvyayinakisi.com/kanallar/"):
+    section("embedded JSON payloads")
+    for m in re.finditer(r'<script[^>]*(?:id="__NEXT_DATA__"|type="application/(?:ld\+)?json")[^>]*>(.*?)</script>',
+                         t, re.S):
+        blob = m.group(1).strip()
+        print(f"\n  script at {m.start()}, {len(blob)} chars", flush=True)
         try:
-            r = requests.get(url, headers=H, timeout=T, allow_redirects=True)
-            body = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))
-            print(f"\n  {url} -> {r.status_code} {len(r.text)}b", flush=True)
-            print(f"    {body[:260]}", flush=True)
-            hits = sorted({h for h in re.findall(r'href="([^"]+)"', r.text)
-                           if re.search(r"tabii", h, re.I)})[:20]
-            if hits:
-                print(f"    tabii links: {hits}", flush=True)
+            payload = json.loads(blob)
+        except Exception as exc:
+            print(f"    unparsable: {exc}", flush=True)
+            continue
+        print(f"    {json.dumps(payload, ensure_ascii=False)[:1200]}", flush=True)
+
+    section("classes and ids that look like a schedule")
+    names = {}
+    for m in re.finditer(r'(?:class|id)="([^"]{2,80})"', t):
+        for token in m.group(1).split():
+            if re.search(r"akis|yayin|program|schedule|epg|channel|kanal|saat|time|hour",
+                         token, re.I):
+                names[token] = names.get(token, 0) + 1
+    for k, v in sorted(names.items(), key=lambda x: -x[1])[:35]:
+        print(f"  {v:5}  {k}", flush=True)
+
+    section("endpoints tabii's own player might expose")
+    for url in ("https://www.tabii.com/watch/live/tabiispor?trackId=419561",
+                "https://eu1-prod-direct.tabii.com/api/v1/channels",
+                "https://www.tabii.com/api/v1/epg",
+                "https://www.trtspor.com.tr/api/yayin-akisi/tabii-spor",
+                "https://www.trtspor.com.tr/yayin-akisi/trt-spor"):
+        try:
+            rr = requests.get(url, headers=H, timeout=T, allow_redirects=True)
+            print(f"\n  {url} -> {rr.status_code} {len(rr.text)}b", flush=True)
+            print(f"    {text_of(rr.text)[:220]}", flush=True)
         except Exception as exc:
             print(f"  {url} FAILED: {exc}", flush=True)
 

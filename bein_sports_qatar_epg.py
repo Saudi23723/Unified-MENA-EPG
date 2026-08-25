@@ -275,6 +275,58 @@ def fetch_rows(session, guid: str) -> list[dict]:
     return rows
 
 
+def match_kickoff(row: dict) -> datetime | None:
+    """The real kick-off of the match this row is showing, in UTC.
+
+    beIN carries it as data.m_date, with data.m_time repeating the same
+    instant with a Z on it — so m_date is UTC with the marker left off.
+    Only match rows have it; a studio show or a magazine has none.
+    """
+    stamp = nested(row, "data", "m_date")
+    if not isinstance(stamp, str) or not stamp.strip():
+        return None
+    try:
+        return datetime.fromisoformat(stamp.replace("Z", "")).replace(tzinfo=UTC)
+    except ValueError:
+        return None
+
+
+def audit_live_flag(per_channel: dict[str, list[dict]]) -> None:
+    """Check beIN's live flag against the kick-off times it publishes.
+
+    Every match row states its kick-off, so a broadcast whose window
+    contains it is the live airing and one that does not is a replay.
+    That makes the flag checkable rather than a thing to trust. When this
+    was first run the two agreed on all 3,569 rows across 40 channels —
+    no live airing unflagged, no replay flagged.
+
+    This keeps checking on every build so that if beIN ever stops setting
+    the flag, or starts setting it on replays, the run says so out loud
+    instead of quietly publishing a guide with the Live badges missing.
+    """
+    checkable = missed = extra = 0
+    for events in per_channel.values():
+        for ev in events:
+            if not ev.get("has_kickoff"):
+                continue
+            checkable += 1
+            if ev["kickoff_inside"] and not ev["flagged"]:
+                missed += 1
+            if ev["flagged"] and not ev["kickoff_inside"]:
+                extra += 1
+
+    log(f"Live flag audit: {checkable} match rows checked against their kick-off "
+        f"| {missed} flag-missing | {extra} flagged-without-kickoff")
+    if missed:
+        warn(f"beIN did not flag {missed} broadcast(s) that run over their own "
+             f"kick-off — badged from the kick-off instead. Check beIN's feed.")
+    if extra > checkable * 0.5 and checkable:
+        # A studio show either side of kick-off legitimately lands here, so
+        # only a majority is a sign the flag itself has gone wrong.
+        warn(f"{extra} of {checkable} match rows are flagged live but do not run "
+             f"over their kick-off — beIN's live flag may have changed meaning.")
+
+
 def fetch_events_for_channel(session, guid: str) -> list[dict]:
     rows = fetch_rows(session, guid)
 
@@ -290,7 +342,17 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
         # beIN sends the flag as the string "True"/"False", and older rows
         # have carried a real bool, so accept both.
         flag = row.get("live")
-        is_live = flag is True or (isinstance(flag, str) and flag.strip().lower() == "true")
+        flagged = flag is True or (isinstance(flag, str) and flag.strip().lower() == "true")
+
+        # A match row also states the real kick-off, so a broadcast whose
+        # own window contains it IS the live airing whatever the flag says.
+        # Badge on either: the flag alone would go quiet if beIN ever
+        # stopped setting it, and the kick-off alone would miss a live
+        # studio show that runs up to kick-off rather than over it. A
+        # disagreement is reported by audit_live_flag() rather than hidden.
+        kickoff = match_kickoff(row)
+        inside = kickoff is not None and start <= kickoff < stop
+        is_live = flagged or inside
 
         # beIN carries an Arabic twin for the title, the blurb and the
         # competition name. Prefer it wherever it is really Arabic.
@@ -319,6 +381,9 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
             "title": title,
             "desc": desc,
             "live": is_live,
+            "flagged": flagged,
+            "kickoff_inside": inside,
+            "has_kickoff": kickoff is not None,
             "cat_ar": cat_ar if is_arabic(cat_ar) else "",
             "cat_en": cat_en,
         })
@@ -347,6 +412,8 @@ def build() -> int:
     # too, which would badge every hour of every day on nine channels and bury
     # the real matches. Detected from the data, so the moment beIN publishes a
     # genuine schedule for one of them it starts being badged normally.
+    audit_live_flag(per_channel)
+
     placeholder = {
         xid for xid, evs in per_channel.items()
         if len(evs) > 1 and len({e["title"] for e in evs}) == 1
