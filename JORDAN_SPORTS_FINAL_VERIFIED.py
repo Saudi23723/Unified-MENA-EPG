@@ -396,7 +396,125 @@ def _extract_match_block(block: list[str]) -> tuple[str, str, str] | None:
     return norm(competition), norm(home), norm(away)
 
 
+ISO_DURATION_RE = re.compile(r"^P?T?(?:(\d+)H)?(?:(\d+)M)?$", re.I)
+
+
+def _lftv_duration_minutes(value: str, default: int = 135) -> int:
+    """"T1H45M" -> 105. Anything unreadable keeps the default."""
+    m = ISO_DURATION_RE.match(norm(value)) if value else None
+    if not m or not any(m.groups()):
+        return default
+    hours = int(m.group(1) or 0)
+    minutes = int(m.group(2) or 0)
+    total = hours * 60 + minutes
+    return total if 20 <= total <= 360 else default
+
+
+def _lftv_row_names_channel(node) -> bool:
+    """Is this fixture's broadcaster list the Jordan Sports channel?
+
+    The Event block sits in the row's `canales` cell beside a
+    `<ul class="listaCanales">` naming every channel carrying the match.
+    A match listed for other broadcasters must not land on this guide.
+    """
+    row = node
+    for _ in range(6):
+        if row is None:
+            return False
+        listing = row.find("ul", class_="listaCanales") if hasattr(row, "find") else None
+        if listing is not None:
+            text = norm(listing.get_text(" ", strip=True)).lower()
+            titles = " ".join(
+                norm(li.get("title") or "") for li in listing.find_all("li")
+            ).lower()
+            return "jordan sports" in text or "jordan sports" in titles
+        row = row.parent
+    return False
+
+
+def parse_lftv_microdata(html: str) -> list[dict]:
+    """Read the fixtures livefootballtv publishes as schema.org microdata.
+
+    Every match on the page carries its own Event block:
+
+        <div itemscope itemtype="https://schema.org/Event">
+          <meta itemprop="name" content="Ramtha SC - Al-Hussein SC" />
+          <meta itemprop="startDate" content="2026-08-22T18:00:00" />
+          <meta itemprop="duration" content="T1H45M" />
+
+    That is worth reading in place of walking the visible text, for two
+    reasons. It states the fixture exactly, so nothing has to be inferred
+    from where a line sits relative to a time. And `startDate` is UTC,
+    while the time in the visible row is the site's own display zone —
+    the row above renders as 20:00 against a startDate of 18:00, two
+    hours apart, so reading the visible time as Amman wall-clock put every
+    match here an hour early.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    events: list[dict] = []
+
+    for node in soup.find_all(attrs={"itemtype": re.compile(r"schema\.org/Event")}):
+        fields = {}
+        for meta in node.find_all("meta", attrs={"itemprop": True}):
+            fields.setdefault(meta.get("itemprop"), meta.get("content") or "")
+
+        title = norm(fields.get("name", ""))
+        stamp = norm(fields.get("startDate", ""))
+        if not title or not stamp:
+            continue
+        if not _lftv_row_names_channel(node):
+            continue
+
+        try:
+            start_utc = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if start_utc.tzinfo is None:
+            start_utc = start_utc.replace(tzinfo=UTC)
+        start_utc = start_utc.astimezone(UTC)
+
+        if not in_window(start_utc):
+            continue
+
+        # The competition, from the label in the same row or the slug of
+        # the competition link the Event block points at.
+        competition = ""
+        row = node
+        for _ in range(6):
+            if row is None:
+                break
+            label = row.find("label", title=True) if hasattr(row, "find") else None
+            if label is not None:
+                competition = norm(label.get("title"))
+                break
+            row = row.parent
+        if not competition:
+            slug = norm(fields.get("url", "")).rstrip("/").rsplit("/", 1)[-1]
+            competition = slug.replace("-", " ").title() if slug else "Football"
+
+        events.append({
+            "start": start_utc,
+            "title": title,
+            "category": competition,
+            "source_name": "LiveFootballTV",
+            "source": LFTV_JORDAN_SPORTS,
+            "duration_minutes": _lftv_duration_minutes(fields.get("duration", "")),
+            "priority": 200,
+        })
+
+    return dedupe(events)
+
+
 def parse_lftv_jordan_sports(html: str) -> list[dict]:
+    """Microdata first; the older text walk only if it yields nothing."""
+    structured = parse_lftv_microdata(html)
+    if structured:
+        return structured
+    warn("livefootballtv: no Event microdata found, falling back to the text walk")
+    return _parse_lftv_by_text(html)
+
+
+def _parse_lftv_by_text(html: str) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
