@@ -303,13 +303,18 @@ guides with under two days ahead.
 Run it yourself at any time:
 
 ```bash
-python health_check.py      # exit code 1 means something needs attention
+python health_check.py                   # everything, including freshness
+python health_check.py --structure-only  # skip the "has it aged out" checks
 ```
 
+Exit code 1 means something needs attention.
+
 **Every push is checked before it can reach a guide.** CI compiles every
-script, runs pyflakes over all of them, runs `test_epg_lib.py` — twenty
-checks holding the guards above in place — and then runs the health check
-against the committed guides.
+script, fails on any name that would not exist at runtime, runs
+`test_epg_lib.py` — twenty checks holding the guards above in place — and
+runs the health check in `--structure-only` mode. Freshness is left to
+the scheduled run on purpose: a pull request should not go red because a
+data file aged overnight.
 
 ### If something does go wrong
 

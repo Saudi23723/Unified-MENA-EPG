@@ -30,6 +30,11 @@ What is only reported:
   * a channel with no programmes at all
 
 Run it with no arguments. Exit code 1 means something needs attention.
+
+`--structure-only` skips the freshness checks — whether a guide has run
+out, how many days it reaches. Those are about the data ageing, not about
+the code, so a pull request must not go red for them; the scheduled run
+is what watches freshness.
 """
 
 from __future__ import annotations
@@ -155,8 +160,10 @@ def check_file(path: str, now: datetime, *, check_overlaps: bool = True) -> dict
 
 
 def main() -> int:
+    structure_only = "--structure-only" in sys.argv[1:]
     now = datetime.now(UTC)
-    print(f"Health check | {now:%Y-%m-%d %H:%M} UTC\n", flush=True)
+    print(f"Health check{' (structure only)' if structure_only else ''} | "
+          f"{now:%Y-%m-%d %H:%M} UTC\n", flush=True)
 
     files = source_files()
     if not files:
@@ -182,7 +189,9 @@ def main() -> int:
             pass
         print(f"{path:34} {len(info['ids']):4} {info['programmes']:6} "
               f"{info['ahead']:6} {days:5}")
-        if info["programmes"] and days < DEAD_DAYS:
+        if structure_only:
+            pass
+        elif info["programmes"] and days < DEAD_DAYS:
             fail(f"{path}: {info['programmes']} programmes but only {days} day(s) "
                  f"still ahead — this guide has run out")
         elif days < THIN_DAYS:
