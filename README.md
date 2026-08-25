@@ -42,16 +42,16 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_t
 
 **Channels:** الكأس 1-8.
 
-Sourced from the feed epgshare01 publishes for the beIN carriage of Alkass
-— already XMLTV, four days ahead. The broadcaster's own site publishes no
-schedule to read.
+Sourced from bein.com's own public EPG endpoint — the one beIN's TV-guide
+page itself calls — in both Arabic and English, four days ahead.
 
-Titles are shown in English with the Arabic kept alongside. The feed
-carries each channel in both languages; the English side covers 64% of
-entries, and anything without an English counterpart keeps its Arabic
-title.
+This replaced a third-party feed that was audited against this very
+endpoint and found to disagree with beIN on five of the eight channels.
+beIN is the broadcaster, so the guide reads beIN directly.
 
-No Live badge: no source marks which Alkass broadcasts are live, so
+Titles are shown in English with the Arabic kept alongside.
+
+No Live badge: beIN does not mark which Alkass broadcasts are live, so
 nothing here claims to. Each programme's own category is written instead.
 
 Alkass 9, 10, 11 and the two SHOOF channels are not listed — no reachable
