@@ -63,16 +63,19 @@ EPGSHARE_URL = "https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz"
 KEEP_BEHIND = timedelta(days=1)
 KEEP_AHEAD = timedelta(days=14)
 
-# `share` is the channel id inside the epgshare01 Turkish feed, or None
-# where that feed has no entry for the channel.
+# `share` lists the ids this channel goes by inside the epgshare01 Turkish
+# feed, empty where that feed has no entry for it. HABER is carried twice
+# there under two ids, and the HD one holds programmes the other does not,
+# so both are read and merged.
 CHANNELS = [
-    {"name": "beIN SPORTS 1",     "slug": "bein-sports-1",     "share": "Beinsports.tr"},
-    {"name": "beIN SPORTS 2",     "slug": "bein-sports-2",     "share": "Beinsports.2.tr"},
-    {"name": "beIN SPORTS 3",     "slug": "bein-sports-3",     "share": "Beinsports.3.tr"},
-    {"name": "beIN SPORTS 4",     "slug": "bein-sports-4",     "share": "Beinsports.4.tr"},
-    {"name": "beIN SPORTS MAX 1", "slug": "bein-sports-max-1", "share": None},
-    {"name": "beIN SPORTS MAX 2", "slug": "bein-sports-max-2", "share": None},
-    {"name": "beIN SPORTS HABER", "slug": "bein-sports-haber", "share": "Bein.Sports.Haber.tr"},
+    {"name": "beIN SPORTS 1",     "slug": "bein-sports-1",     "share": ["Beinsports.tr"]},
+    {"name": "beIN SPORTS 2",     "slug": "bein-sports-2",     "share": ["Beinsports.2.tr"]},
+    {"name": "beIN SPORTS 3",     "slug": "bein-sports-3",     "share": ["Beinsports.3.tr"]},
+    {"name": "beIN SPORTS 4",     "slug": "bein-sports-4",     "share": ["Beinsports.4.tr"]},
+    {"name": "beIN SPORTS MAX 1", "slug": "bein-sports-max-1", "share": []},
+    {"name": "beIN SPORTS MAX 2", "slug": "bein-sports-max-2", "share": []},
+    {"name": "beIN SPORTS HABER", "slug": "bein-sports-haber",
+     "share": ["Bein.Sports.Haber.tr", "beIN.SPORTS.HABER.HD.tr"]},
 ]
 
 LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
@@ -247,7 +250,12 @@ def build() -> int:
             warn(f"{name}: tvyayinakisi unavailable ({exc}) — falling back to filler only")
             primary = []
 
-        filler = share.get(ch["share"] or "", [])
+        # One channel can appear under several ids in the feed; a
+        # programme listed under both is kept once.
+        filler = list({
+            (ev["start"], ev["stop"], ev["title"]): ev
+            for cid in ch["share"] for ev in share.get(cid, [])
+        }.values())
         merged = merge_events(primary, filler)
         per_channel[name] = merged
         log(f"  {name:20} tvyayinakisi={len(primary):4} filler={len(filler):4} -> {len(merged):4}")
