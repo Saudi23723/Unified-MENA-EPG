@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only hunt for two Turkish gaps.
+"""Read-only: pin down the two things the last hunt turned up.
 
-tabii: TRT's own schedule page carries a real EPG in its __NEXT_DATA__,
-but names a single channel, "Tabii Spor". The current file claims ten.
-This pulls that payload apart to see exactly what TRT publishes, and
-looks elsewhere for tabii Spor 2..10.
+tvyayinakisi.com titles its pages "Yayın Akışı: Bugün | Yarın | Haftalık",
+so a weekly view exists — the guess /yarin/ 404'd, but the real links are
+on the page. If the weekly page carries a week, beIN Türkiye stops being
+one day of guide plus epgshare filler. The same site also has a
+tabii-spor page (the earlier hunt only tried tabii-spor-1..10, which all
+404), which would give tabii the same proven JSON-LD source.
 
-beIN Türkiye: tvyayinakisi.com gives only the current day for every
-channel but HABER, and refuses a date parameter. This tries the other
-Turkish TV-guide sites to see whether any publishes a full week.
+TRT's own payload holds .rows[5].content.epg[] — one entry per date, each
+with tvChannels[] carrying past/current/upcoming. This looks inside one
+programme object to learn what its time fields are called.
 
 Changes nothing.
 """
@@ -17,105 +19,99 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import datetime, timedelta, timezone
 
 import requests
 
-IST = timezone(timedelta(hours=3))
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept-Language": "tr,en;q=0.8"}
 T = (5, 25)
+TVY = "https://www.tvyayinakisi.com"
 NEXT = re.compile(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', re.S)
+LD = re.compile(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', re.S)
 
 
 def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def walk(node, want, path="", out=None, depth=0):
-    """Every dict that has all of `want` as keys, with where it was found."""
-    out = [] if out is None else out
-    if depth > 14:
-        return out
-    if isinstance(node, dict):
-        if want <= set(node):
-            out.append((path, node))
-        for k, v in node.items():
-            walk(v, want, f"{path}.{k}", out, depth + 1)
-    elif isinstance(node, list):
-        for i, v in enumerate(node[:60]):
-            walk(v, want, f"{path}[{i}]", out, depth + 1)
+def events(text):
+    out = []
+    for block in LD.findall(text or ""):
+        try:
+            payload = json.loads(block)
+        except Exception:
+            continue
+        stack = [payload]
+        while stack:
+            node = stack.pop()
+            if isinstance(node, list):
+                stack.extend(node)
+            elif isinstance(node, dict):
+                if node.get("@type") in ("BroadcastEvent", "Event") and node.get("startDate"):
+                    out.append((node.get("startDate"), node.get("endDate"),
+                                (node.get("name") or "")[:70]))
+                stack.extend(v for v in node.values() if isinstance(v, (dict, list)))
     return out
 
 
 def main():
-    section("TRT __NEXT_DATA__ — what tabii Spor really publishes")
+    section("the real Bugün / Yarın / Haftalık links")
+    r = requests.get(f"{TVY}/bein-sports-1-yayin-akisi/", headers=H, timeout=T)
+    t = r.text
+    for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>\s*([^<]{2,20})\s*</a>', t):
+        if re.search(r"bugün|bugun|yarın|yarin|haftalık|haftalik", m.group(2), re.I):
+            print(f"  {m.group(2).strip():12} -> {m.group(1)}", flush=True)
+
+    section("how much does each view carry?")
+    for slug in ("bein-sports-1", "bein-sports-2", "bein-sports-3", "bein-sports-4",
+                 "bein-sports-max-1", "bein-sports-max-2", "bein-sports-haber",
+                 "tabii-spor"):
+        for view in ("", "haftalik/", "yarin/", "haftalik-yayin-akisi/"):
+            url = f"{TVY}/{slug}-yayin-akisi/{view}"
+            try:
+                rr = requests.get(url, headers=H, timeout=T)
+            except Exception as exc:
+                print(f"  {url:62} FAILED {str(exc)[:50]}", flush=True)
+                continue
+            if rr.status_code != 200:
+                print(f"  {url:62} {rr.status_code}", flush=True)
+                continue
+            evs = events(rr.text)
+            days = sorted({(e[0] or "")[:10] for e in evs})
+            print(f"  {url:62} 200  {len(evs):4} events  days={days}", flush=True)
+            if view == "" and slug == "tabii-spor" and evs:
+                for e in evs[:6]:
+                    print(f"        {e[0]} .. {e[1]}  {e[2]}", flush=True)
+
+    section("what a TRT programme object looks like")
     try:
-        r = requests.get("https://www.trtspor.com.tr/yayin-akisi/tabii-spor",
-                         headers=H, timeout=T)
-        blob = NEXT.search(r.text)
-        payload = json.loads(blob.group(1))
-        print(f"payload {len(blob.group(1))} chars", flush=True)
-
-        chans = walk(payload, {"title", "slug"})
-        named = {}
-        for path, node in chans:
-            title = str(node.get("title") or "")
-            if re.search(r"tabii|trt spor", title, re.I):
-                named.setdefault(title, path)
-        print("channels named on the page:", flush=True)
-        for t, p in named.items():
-            print(f"  {t:24} at {p[:90]}", flush=True)
-
-        epgs = walk(payload, {"date"})
-        print(f"\n{len(epgs)} nodes carrying a 'date'", flush=True)
-        for path, node in epgs[:4]:
-            print(f"\n  {path[:100]}", flush=True)
-            print(f"    keys={sorted(node)[:14]}", flush=True)
-            print(f"    {json.dumps(node, ensure_ascii=False)[:900]}", flush=True)
-
-        shows = walk(payload, {"startDate"}) or walk(payload, {"start"})
-        print(f"\n{len(shows)} nodes carrying a start time; first three:", flush=True)
-        for path, node in shows[:3]:
-            print(f"  {path[:90]} -> "
-                  f"{json.dumps(node, ensure_ascii=False)[:420]}", flush=True)
+        rr = requests.get("https://www.trtspor.com.tr/yayin-akisi/tabii-spor",
+                          headers=H, timeout=T)
+        payload = json.loads(NEXT.search(rr.text).group(1))
+        epg = payload["props"]["pageProps"]["data"]["rows"][5]["content"]["epg"]
+        print(f"epg has {len(epg)} dates: {[d.get('date') for d in epg]}", flush=True)
+        for day in epg[:1]:
+            for ch in day.get("tvChannels", []):
+                shows = (ch.get("upcoming") or []) + (ch.get("past") or [])
+                print(f"\n  {ch.get('title')} (id {ch.get('id')}): "
+                      f"past={len(ch.get('past') or [])} "
+                      f"upcoming={len(ch.get('upcoming') or [])} "
+                      f"current={bool(ch.get('current'))}", flush=True)
+                if shows:
+                    print(f"    keys: {sorted(shows[0])}", flush=True)
+                    print(f"    {json.dumps(shows[0], ensure_ascii=False)[:700]}",
+                          flush=True)
+        # how many shows per channel across every date
+        print("\n  totals per channel across all dates:", flush=True)
+        tally = {}
+        for day in epg:
+            for ch in day.get("tvChannels", []):
+                n = len(ch.get("past") or []) + len(ch.get("upcoming") or [])
+                tally[ch.get("title")] = tally.get(ch.get("title"), 0) + n
+        for k, v in tally.items():
+            print(f"    {k:20} {v}", flush=True)
     except Exception as exc:
         print(f"FAILED: {exc}", flush=True)
-
-    section("is there any source for tabii Spor 2..10?")
-    for url in ("https://www.trtspor.com.tr/yayin-akisi/tabii-spor-2",
-                "https://www.tvyayinakisi.com/tabii-spor-yayin-akisi/",
-                "https://www.tvyayinakisi.com/tabii-yayin-akisi/",
-                "https://www.canlitv.vin/tabii-spor",
-                "https://tv.yandex.com.tr/",
-                "https://www.digiturk.com.tr/yayin-akisi"):
-        try:
-            rr = requests.get(url, headers=H, timeout=T, allow_redirects=True)
-            body = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", rr.text))
-            print(f"  {url:56} -> {rr.status_code} {len(rr.text)}b", flush=True)
-            if rr.status_code == 200:
-                print(f"     {body[:150]}", flush=True)
-        except Exception as exc:
-            print(f"  {url:56} FAILED: {str(exc)[:90]}", flush=True)
-
-    section("other Turkish TV guides — do any carry a full week for beIN?")
-    tomorrow = (datetime.now(IST) + timedelta(days=2)).strftime("%Y-%m-%d")
-    for url in ("https://www.tvyayinakisi.com/bein-sports-1-yayin-akisi/",
-                "https://www.programtv.com.tr/bein-sports-1/",
-                "https://www.canlitv.com/yayin-akisi/bein-sports-1",
-                "https://www.tvyayinakislari.com/bein-sports-1",
-                "https://tvyayinakisi.tv/bein-sports-1",
-                "https://www.yayinakisi.com.tr/bein-sports-1",
-                f"https://www.programtv.com.tr/bein-sports-1/?tarih={tomorrow}"):
-        try:
-            rr = requests.get(url, headers=H, timeout=T, allow_redirects=True)
-            text = rr.text
-            times = len(re.findall(r"\b([01]\d|2[0-3]):[0-5]\d\b", text))
-            dates = sorted(set(re.findall(r"20\d{2}-\d{2}-\d{2}", text)))[:8]
-            print(f"  {url:60} -> {rr.status_code} {len(text)}b "
-                  f"{times} clock strings, dates={dates}", flush=True)
-        except Exception as exc:
-            print(f"  {url:60} FAILED: {str(exc)[:80]}", flush=True)
 
 
 if __name__ == "__main__":
