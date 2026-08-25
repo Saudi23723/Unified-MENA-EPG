@@ -124,15 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260824124500 +0000" stop="20260824154100 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260824154100 +0000" stop="20260824172500 +0000" channel="beIN4K.qa">
     <title lang="en">Arsenal vs. Coventry City - English Premier League 2026/2027</title>
     <desc lang="en">Arsenal and Coventry City have only faced in the opening league game of a season once – in 1993-94, the Sky Blues won 3-0 at Highbury thanks to a hat-trick from Mick Quinn. This is the first Premier League meeting between Arsenal and Coventry since February 2001, a 1-0 win for the Gunners at Highfield Road. Since Coventry did the double over Arsena</desc>
@@ -561,11 +552,17 @@ Old Trafford Stadium</desc>
     <category lang="ar">الدوري الفرنسي لكرة اليد</category>
     <category lang="en">Handball - French Handball League</category>
   </programme>
-  <programme start="20260827223000 +0000" stop="20260828010000 +0000" channel="beINSports.qa">
+  <programme start="20260827223000 +0000" stop="20260828000000 +0000" channel="beINSports.qa">
     <title lang="en">Chartres vs Toulouse - LNH Division 1 - French Handball Starligue</title>
     <desc lang="en">Dive into the excitement of French handball with Liqui Moly Starligue, formerly LNH Division 1. Established in 1952, this premier league event features 16 top teams battling for glory. With Montpellier’s  14 Handball titles and Paris Saint-Germain's 11 wins, the competition is fierce. Champions earn spots in the EHF Champions League, while cup winn</desc>
     <category lang="ar">الدوري الفرنسي لكرة اليد</category>
     <category lang="en">Handball - French Handball League</category>
+  </programme>
+  <programme start="20260828000000 +0000" stop="20260828010000 +0000" channel="beINSports.qa">
+    <title lang="en">World championships athletics U20 2026 – HL – Middle and long distances hurdles</title>
+    <desc lang="en">The world championships athletics 2026 saw participation from 147 countries including 12 Arab nations</desc>
+    <category lang="ar">الفروسية</category>
+    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260828010000 +0000" stop="20260828070000 +0000" channel="beINSports.qa">
     <title lang="en">Athletics UTMB World Series 2026 - 60 Km - Day 1</title>
@@ -1241,17 +1238,16 @@ First Leg Result: Fenerbahçe 1-1 Lyon</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260827140000 +0000" stop="20260827143000 +0000" channel="beINSports1.qa">
-    <title lang="en">EPL Netbusters - 2026/2027 EP 1</title>
-    <desc lang="en">Highlights of the Premier League Matchweek from an alternative angle. A look back at every goal from every game using the best ISOs and Slow Motion angles.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260827143000 +0000" stop="20260827173000 +0000" channel="beINSports1.qa">
+  <programme start="20260827140000 +0000" stop="20260827170500 +0000" channel="beINSports1.qa">
     <title lang="en">Real Madrid vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 1</title>
     <desc lang="en">Real Madrid have won their last six LaLiga matches against Real Sociedad, their best winning streak against the Txuri-Urdin in the competition since February 2018. Real Sociedad have picked up points in three of their last eight away LaLiga games against Real Madrid, after losing on each of their previous nine league visits to the Estadio Bernabéu.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260827170500 +0000" stop="20260827173000 +0000" channel="beINSports1.qa">
+    <title lang="en">Lyon (FRA) vs Fenerbahce (TUR) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260827173000 +0000" stop="20260827180000 +0000" channel="beINSports1.qa">
     <title lang="en">EPL The Big interview - Brandon Thomas-Asante</title>
@@ -1333,44 +1329,11 @@ First Leg Result: Fenerbahçe 1-1 Lyon</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260828041500 +0000" stop="20260828044500 +0000" channel="beINSports1.qa">
-    <title lang="en">Bodo/Glimt (NOR) vs N.E.C. (NED) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260828044500 +0000" stop="20260828051500 +0000" channel="beINSports1.qa">
+  <programme start="20260828041500 +0000" stop="20260828071500 +0000" channel="beINSports1.qa">
     <title lang="en">Barcelona vs Athletic Club - Spanish LaLiga 2026/2027 - Week 1</title>
     <desc lang="en">Barcelona are unbeaten in their last 13 LaLiga matches against Athletic Club, keeping eight clean sheets in their last nine such games; they have not had a longer unbeaten run against the Basque side in the competition since 2013. Barcelona are unbeaten in their last 24 home LaLiga games against Athletic Club, winning the last seven; this is their</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
-  <programme start="20260828051500 +0000" stop="20260828054500 +0000" channel="beINSports1.qa">
-    <title lang="en">Lyon (FRA) vs Fenerbahce (TUR) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260828054500 +0000" stop="20260828061500 +0000" channel="beINSports1.qa">
-    <title lang="en">AEK Athens (GRE) vs Levski Sofia (BUL) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260828061500 +0000" stop="20260828064500 +0000" channel="beINSports1.qa">
-    <title lang="en">Arsenal vs Coventry City - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
-All matches are available live with a choice of Arabic or English commentary.
-The season will consist of 33 weekends and five midweek rounds of matches.
-Liverpool are the defending champions, having won their second Premier League title.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260828064500 +0000" stop="20260828071500 +0000" channel="beINSports1.qa">
-    <title lang="en">Hull City vs Manchester United - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
-All matches are available live with a choice of Arabic or English commentary.
-The season will consist of 33 weekends and five midweek rounds of matches.
-Liverpool are the defending champions, having won their second Premier League title.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260828071500 +0000" stop="20260828074500 +0000" channel="beINSports1.qa">
     <title lang="en">EPL Stories  2026/2027 EP.6 - Dean Ashton</title>
@@ -1378,41 +1341,32 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260828074500 +0000" stop="20260828110000 +0000" channel="beINSports1.qa">
-    <title lang="en">Barcelona vs Athletic Club - Spanish LaLiga 2026/2027 - Week 1</title>
-    <desc lang="en">Barcelona are unbeaten in their last 13 LaLiga matches against Athletic Club, keeping eight clean sheets in their last nine such games; they have not had a longer unbeaten run against the Basque side in the competition since 2013. Barcelona are unbeaten in their last 24 home LaLiga games against Athletic Club, winning the last seven; this is their</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260828110000 +0000" stop="20260828113000 +0000" channel="beINSports1.qa">
+  <programme start="20260828074500 +0000" stop="20260828081500 +0000" channel="beINSports1.qa">
     <title lang="en">Spirit of Sport</title>
     <desc lang="en">Carlos Alcaraz looks back at his outstanding 2025 season reliving his victories at Roland Garros and the US Open. Jamaican sprinting icon Shelly-Ann Fraser-Pryce reflects on her final season and life after retirement, using her platform to give back. World Cup champion Cafu takes on some quickfire questions, ranking his Top 5 defenders of all time.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260828113000 +0000" stop="20260828123000 +0000" channel="beINSports1.qa">
+  <programme start="20260828081500 +0000" stop="20260828091500 +0000" channel="beINSports1.qa">
     <title lang="en">EPL Weekly Review - 2026/2027 - EP 1</title>
     <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260828091500 +0000" stop="20260828123000 +0000" channel="beINSports1.qa">
+    <title lang="en">Qatar vs China - FIBA Asian Qualifiers - 2027</title>
+    <category lang="ar">كرة السلة</category>
+    <category lang="en">Basketball</category>
+  </programme>
   <programme start="20260828123000 +0000" stop="20260828130000 +0000" channel="beINSports1.qa">
-    <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
-All matches are available live with a choice of Arabic or English commentary.
-The season will consist of 33 weekends and five midweek rounds of matches.
-Liverpool are the defending champions, having won their second Premier League title.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+    <title lang="en">Lyon (FRA) vs Fenerbahce (TUR) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260828130000 +0000" stop="20260828133000 +0000" channel="beINSports1.qa">
-    <title lang="en">Newcastle United vs Liverpool - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
-All matches are available live with a choice of Arabic or English commentary.
-The season will consist of 33 weekends and five midweek rounds of matches.
-Liverpool are the defending champions, having won their second Premier League title.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+    <title lang="en">AEK Athens (GRE) vs Levski Sofia (BUL) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260828133000 +0000" stop="20260828163000 +0000" channel="beINSports1.qa">
     <title lang="en">Barcelona vs Athletic Club - Spanish LaLiga 2026/2027 - Week 1</title>
@@ -1420,21 +1374,55 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260824133100 +0000" stop="20260824151500 +0000" channel="beINSports2.qa">
-    <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">Manchester City have won all nine of their Premier League home games against Bournemouth by an aggregate score of 34-6. The Citizens have netted 3.8 goals per game when hosting the Cherries in the competition; their highest average against any opponent on home soil. Bournemouth boss Marco Rose will be just the fifth manager to see his first Premier</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+  <programme start="20260828163000 +0000" stop="20260828170000 +0000" channel="beINSports1.qa">
+    <title lang="en">ATP Tour - Magazine 2026</title>
+    <desc lang="en">ATP Tour This Week It is comprised of the various feature stories created by ATP Media and ATP Tour</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260828170000 +0000" stop="20260828173000 +0000" channel="beINSports1.qa">
+    <title lang="en">Lyon (FRA) vs Fenerbahce (TUR) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260828173000 +0000" stop="20260828180000 +0000" channel="beINSports1.qa">
+    <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
+    <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
+  <programme start="20260828180000 +0000" stop="20260828213000 +0000" channel="beINSports1.qa">
+    <title lang="en">Lille vs Paris Saint-Germain - French Ligue 1 2026/2027 - Week 2 ‎• Live 🔵‎</title>
+    <desc lang="en">Lille vs Paris Saint-Germain
+At 28-8-2026, MECCA 21:45, GMT 18:45
+French Ligue 1
+Season 2026/2027
+Decathlon Arena - Stade Pierre-Mauroy Stadium</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260828213000 +0000" stop="20260828220000 +0000" channel="beINSports1.qa">
+    <title lang="en">Real Madrid vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 1</title>
+    <desc lang="en">Real Madrid have won their last six LaLiga matches against Real Sociedad, their best winning streak against the Txuri-Urdin in the competition since February 2018. Real Sociedad have picked up points in three of their last eight away LaLiga games against Real Madrid, after losing on each of their previous nine league visits to the Estadio Bernabéu.</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
   </programme>
   <programme start="20260824151500 +0000" stop="20260824170300 +0000" channel="beINSports2.qa">
     <title lang="en">Trabzonspor vs İstanbul Başakşehir - Turkish Super League 2027 - MD2</title>
-    <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
+    <desc lang="en">Trabzonspor vs İstanbul Başakşehir
+Turkish Super Lig
+Season 2026/2027
+Papara Park Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260824170300 +0000" stop="20260824184500 +0000" channel="beINSports2.qa">
     <title lang="en">Corendon Alanyaspor vs Besiktas AS - Turkish Super League 2027 - MD2</title>
-    <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
+    <desc lang="en">Alanyaspor vs Beşiktaş
+Turkish Super Lig
+Season 2026/2027
+GAIN Park Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -2140,11 +2128,15 @@ Anfield Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260824133000 +0000" stop="20260824152600 +0000" channel="beINSports3.qa">
-    <title lang="en">Atlético de Madrid vs Villarreal - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Atlético de Madrid lost 5-1 to Villarreal in their last LaLiga encounter in May 2026, their heaviest defeat in the competition in 554 games under Diego Pablo Simeone. The Rojiblancos have not lost two consecutive matches against Villarreal in the competition since April 2017. Villarreal have picked up points in eight of their last 12 away LaLiga ma</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+  <programme start="20260830113000 +0000" stop="20260830133000 +0000" channel="beINSports2.qa">
+    <title lang="en">A.F.C. Bournemouth vs Everton - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">Bournemouth vs Everton
+At 29-8-2026, MECCA 17:00, GMT 14:00
+Premier League
+Season 2026/2027
+Vitality Stadium Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260824152600 +0000" stop="20260824172000 +0000" channel="beINSports3.qa">
     <title lang="en">Getafe vs Racing Club - Spanish LaLiga 2026/2027 - Week 2</title>
@@ -2426,17 +2418,26 @@ First Leg Result: Dinamo Zagreb 2-2 Viking</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260827123000 +0000" stop="20260827130000 +0000" channel="beINSports3.qa">
+  <programme start="20260827123000 +0000" stop="20260827131500 +0000" channel="beINSports3.qa">
     <title lang="en">La Liga Highlights 2026/2027 EP.2</title>
     <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260827130000 +0000" stop="20260827144500 +0000" channel="beINSports3.qa">
-    <title lang="en">Real Madrid vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 1</title>
-    <desc lang="en">Real Madrid have won their last six LaLiga matches against Real Sociedad, their best winning streak against the Txuri-Urdin in the competition since February 2018. Real Sociedad have picked up points in three of their last eight away LaLiga games against Real Madrid, after losing on each of their previous nine league visits to the Estadio Bernabéu.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+  <programme start="20260827131500 +0000" stop="20260827134500 +0000" channel="beINSports3.qa">
+    <title lang="en">LASK (AUT) vs Celtic (SCO) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260827134500 +0000" stop="20260827141500 +0000" channel="beINSports3.qa">
+    <title lang="en">Bodo/Glimt (NOR) vs N.E.C. (NED) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260827141500 +0000" stop="20260827144500 +0000" channel="beINSports3.qa">
+    <title lang="en">Lyon (FRA) vs Fenerbahce (TUR) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260827144500 +0000" stop="20260827163000 +0000" channel="beINSports3.qa">
     <title lang="en">Viking (NOR) vs GNK Dinamo (CRO) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
@@ -2479,29 +2480,49 @@ First Leg Result: Dinamo Zagreb 2-2 Viking</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260827210000 +0000" stop="20260827224500 +0000" channel="beINSports3.qa">
-    <title lang="en">Espanyol vs Real Madrid - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Espanyol have won three of their last seven home LaLiga games against Real Madrid, after losing eight of their previous nine home encounters against them in the competition. Real Madrid have won 110 of their 180 LaLiga meetings with Espanyol, a record for the most wins by one team against another in the competition's history.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+  <programme start="20260827210000 +0000" stop="20260827213000 +0000" channel="beINSports3.qa">
+    <title lang="en">LASK (AUT) vs Celtic (SCO) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260827224500 +0000" stop="20260828003000 +0000" channel="beINSports3.qa">
-    <title lang="en">Elche vs Barcelona - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Elche have lost each of their last 10 LaLiga matches against FC Barcelona, their longest losing streak against the Blaugrana in the competition. Barcelona are unbeaten in their last 11 away league games against Elche, winning each of the last five; both represent their longest such runs against the side in top-flight history.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+  <programme start="20260827213000 +0000" stop="20260827220000 +0000" channel="beINSports3.qa">
+    <title lang="en">Bodo/Glimt (NOR) vs N.E.C. (NED) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260828003000 +0000" stop="20260828010000 +0000" channel="beINSports3.qa">
+  <programme start="20260827220000 +0000" stop="20260827223000 +0000" channel="beINSports3.qa">
+    <title lang="en">Lyon (FRA) vs Fenerbahce (TUR) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260827223000 +0000" stop="20260827230000 +0000" channel="beINSports3.qa">
+    <title lang="en">AEK Athens (GRE) vs Levski Sofia (BUL) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260827230000 +0000" stop="20260827234500 +0000" channel="beINSports3.qa">
+    <title lang="en">Club’s History : Olympique Lyonnais</title>
+    <desc lang="en">The exclusive film on the unique history of Olympique Lyonnais. What is a “Gone”? To understand the essence of Lyon, you have to listen to its most prominent figures.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260827234500 +0000" stop="20260828001500 +0000" channel="beINSports3.qa">
     <title lang="en">EPL Stories  2026/2027 EP.6 - Dean Ashton</title>
     <desc lang="en">We spend the day with Dean Ashton as he reflects on a career that promised so much and was cut short far too soon. From his rise through the Football League to becoming one of the Premier League’s most exciting forwards with West Ham United, Ashton looks back on the goals, injuries and moments that shaped his journey in the game. Now working as a r</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260828010000 +0000" stop="20260828024500 +0000" channel="beINSports3.qa">
+  <programme start="20260828001500 +0000" stop="20260828020000 +0000" channel="beINSports3.qa">
     <title lang="en">Real Madrid vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 1</title>
     <desc lang="en">Real Madrid have won their last six LaLiga matches against Real Sociedad, their best winning streak against the Txuri-Urdin in the competition since February 2018. Real Sociedad have picked up points in three of their last eight away LaLiga games against Real Madrid, after losing on each of their previous nine league visits to the Estadio Bernabéu.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260828020000 +0000" stop="20260828024500 +0000" channel="beINSports3.qa">
+    <title lang="en">Barcelona vs Athletic Club - Spanish LaLiga 2026/2027 - Week 1</title>
+    <desc lang="en">Barcelona are unbeaten in their last 13 LaLiga matches against Athletic Club, keeping eight clean sheets in their last nine such games; they have not had a longer unbeaten run against the Basque side in the competition since 2013. Barcelona are unbeaten in their last 24 home LaLiga games against Athletic Club, winning the last seven; this is their</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
   </programme>
   <programme start="20260828024500 +0000" stop="20260828043000 +0000" channel="beINSports3.qa">
     <title lang="en">Viking (NOR) vs GNK Dinamo (CRO) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
@@ -2817,62 +2838,6 @@ Estadio Abanca-Balaídos Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260831031500 +0000" stop="20260831053000 +0000" channel="beINSports3.qa">
-    <title lang="en">Levante vs Real Betis - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Levante vs Real Betis
-At 29-8-2026, MECCA 18:00, GMT 15:00
-Spanish La Liga
-Season 2026/2027
-Ciutat de Valencia Stadium</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260831053000 +0000" stop="20260831071500 +0000" channel="beINSports3.qa">
-    <title lang="en">Real Sociedad vs Espanyol - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Real Sociedad vs Espanyol
-At 29-8-2026, MECCA 20:00, GMT 17:00
-Spanish La Liga
-Season 2026/2027
-Estadio Municipal de Anoeta Stadium</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260831071500 +0000" stop="20260831093000 +0000" channel="beINSports3.qa">
-    <title lang="en">Sevilla vs Atlético de Madrid - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Sevilla vs Atletico Madrid
-At 29-8-2026, MECCA 22:30, GMT 19:30
-Spanish La Liga
-Season 2026/2027
-Ramón Sánchez-Pizjuán Stadium</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260831093000 +0000" stop="20260831111500 +0000" channel="beINSports3.qa">
-    <title lang="en">Sunderland vs Fulham - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">Sunderland vs Fulham
-At 30-8-2026, MECCA 16:00, GMT 13:00
-Premier League
-Season 2026/2027
-Stadium of Light Stadium</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260831111500 +0000" stop="20260831133000 +0000" channel="beINSports3.qa">
-    <title lang="en">Deportivo La Coruna vs Valencia - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Deportivo vs Valencia
-At 30-8-2026, MECCA 20:30, GMT 17:30
-Spanish La Liga
-Season 2026/2027
-ABANCA-Riazor Stadium</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260824133000 +0000" stop="20260824151600 +0000" channel="beINSports4.qa">
-    <title lang="en">Angers vs Lille - French Ligue 1 2026/2027 - Week 1</title>
-    <desc lang="en">Angers have lost their last four Ligue 1 matches against Lille without scoring, and could record five consecutive top-flight games without a single goal against the same opponent for the third time, having previously done so against Nantes  and Toulouse. Angers have lost four of their last six home Ligue 1 matches against Lille, twice as many defea</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
   <programme start="20260824151600 +0000" stop="20260824170000 +0000" channel="beINSports4.qa">
     <title lang="en">Le Havre vs Monaco - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Le Havre have failed to win any of their last nine home Ligue 1 matches against Monaco, their second-longest winless run at home against a single opponent in the top-flight, behind only their ongoing 12-match streak against Marseille. Le Havre have lost just one of their last seven Ligue 1 matches  since the beginning of April, the joint-fewest def</desc>
@@ -3031,25 +2996,25 @@ GAIN Park Stadium Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826020000 +0000" stop="20260826023000 +0000" channel="beINSports4.qa">
+  <programme start="20260826020000 +0000" stop="20260826022700 +0000" channel="beINSports4.qa">
     <title lang="en">Ligue 1 Show - 2026/2027</title>
     <desc lang="en">All of the greatest moments from a weekend full of action in Ligue 1, with reviews of table and results. Also discusses players of the week, best play, best save, worst blooper, who is in the hot seat, and who was the revelation of the round.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826023000 +0000" stop="20260826041500 +0000" channel="beINSports4.qa">
+  <programme start="20260826022700 +0000" stop="20260826041500 +0000" channel="beINSports4.qa">
     <title lang="en">Le Mans vs Brest - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Brest are one of three teams currently in Ligue 1 that Le Mans have never faced in the division, alongside Paris FC and Angers. Le Mans lost their last encounter against Brest  after remaining unbeaten in the previous five. Le Mans are set to play their seventh season in Ligue 1, all of which have come in the 21st century, making them the team with</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826041500 +0000" stop="20260826060000 +0000" channel="beINSports4.qa">
+  <programme start="20260826041500 +0000" stop="20260826060200 +0000" channel="beINSports4.qa">
     <title lang="en">Angers vs Lille - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Angers have lost their last four Ligue 1 matches against Lille without scoring, and could record five consecutive top-flight games without a single goal against the same opponent for the third time, having previously done so against Nantes  and Toulouse. Angers have lost four of their last six home Ligue 1 matches against Lille, twice as many defea</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826060000 +0000" stop="20260826063000 +0000" channel="beINSports4.qa">
+  <programme start="20260826060200 +0000" stop="20260826063000 +0000" channel="beINSports4.qa">
     <title lang="en">Ligue 1 Show - 2026/2027</title>
     <desc lang="en">All of the greatest moments from a weekend full of action in Ligue 1, with reviews of table and results. Also discusses players of the week, best play, best save, worst blooper, who is in the hot seat, and who was the revelation of the round.</desc>
     <category lang="ar">الدوري الفرنسي</category>
@@ -3061,43 +3026,43 @@ GAIN Park Stadium Stadium</desc>
     <category lang="ar">كأس الرابطة الإنكليزي</category>
     <category lang="en">English League - Cup</category>
   </programme>
-  <programme start="20260826081500 +0000" stop="20260826100000 +0000" channel="beINSports4.qa">
+  <programme start="20260826081500 +0000" stop="20260826095900 +0000" channel="beINSports4.qa">
     <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826100000 +0000" stop="20260826110000 +0000" channel="beINSports4.qa">
+  <programme start="20260826095900 +0000" stop="20260826110000 +0000" channel="beINSports4.qa">
     <title lang="en">Rc Lens, Goal Miners &amp; Footballers</title>
     <desc lang="en">The exclusive documentary on RC Lens' season. This is a club that lives for its city, and a city that lives for its club. The grit, the sacrifice, the values…RC Lens is about more than just soccer. Never before have cameras been granted such access to a Ligue 1 club to capture and understand its identity.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260826110000 +0000" stop="20260826124500 +0000" channel="beINSports4.qa">
+  <programme start="20260826110000 +0000" stop="20260826124600 +0000" channel="beINSports4.qa">
     <title lang="en">Olympique Marseille vs Strasbourg - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Marseille have not lost any of their last 18 home league games against Strasbourg, since a 0-1 defeat in March 1997; among teams currently in Ligue 1, they are only on a longer unbeaten home run only against Le Havre. Marseille could, however, equal their longest run of consecutive home draws against a single opponent in Ligue 1. Marseille are set</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826124500 +0000" stop="20260826143000 +0000" channel="beINSports4.qa">
+  <programme start="20260826124600 +0000" stop="20260826143100 +0000" channel="beINSports4.qa">
     <title lang="en">Reims vs Annecy - French Ligue 2 - 2026/2027</title>
     <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
     <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
     <category lang="en">French League - Ligue 2</category>
   </programme>
-  <programme start="20260826143000 +0000" stop="20260826161500 +0000" channel="beINSports4.qa">
+  <programme start="20260826143100 +0000" stop="20260826162000 +0000" channel="beINSports4.qa">
     <title lang="en">Lens vs Auxerre - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Lens have won 13 of their 20 home matches against Auxerre in all competitions in the 21st century ; this is three more victories than they have recorded against any other opponent at home in that period. Lens have won only two of their last 10 opening matches of a Ligue 1 season, beating Brest in 2022  and Angers in 2024.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826161500 +0000" stop="20260826180000 +0000" channel="beINSports4.qa">
+  <programme start="20260826162000 +0000" stop="20260826181000 +0000" channel="beINSports4.qa">
     <title lang="en">Olympique Marseille vs Strasbourg - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Marseille have not lost any of their last 18 home league games against Strasbourg, since a 0-1 defeat in March 1997; among teams currently in Ligue 1, they are only on a longer unbeaten home run only against Le Havre. Marseille could, however, equal their longest run of consecutive home draws against a single opponent in Ligue 1. Marseille are set</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826180000 +0000" stop="20260826184500 +0000" channel="beINSports4.qa">
+  <programme start="20260826181000 +0000" stop="20260826184500 +0000" channel="beINSports4.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الفرنسي</category>
@@ -3188,29 +3153,29 @@ First Leg Result: Levski Sofia 0-0 AEK Athens</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260827133000 +0000" stop="20260827143000 +0000" channel="beINSports4.qa">
+  <programme start="20260827133000 +0000" stop="20260827140000 +0000" channel="beINSports4.qa">
+    <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
+    <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
+  <programme start="20260827140000 +0000" stop="20260827150000 +0000" channel="beINSports4.qa">
     <title lang="en">Rc Lens, Goal Miners &amp; Footballers</title>
     <desc lang="en">The exclusive documentary on RC Lens' season. This is a club that lives for its city, and a city that lives for its club. The grit, the sacrifice, the values…RC Lens is about more than just soccer. Never before have cameras been granted such access to a Ligue 1 club to capture and understand its identity.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260827143000 +0000" stop="20260827150000 +0000" channel="beINSports4.qa">
+  <programme start="20260827150000 +0000" stop="20260827153000 +0000" channel="beINSports4.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260827150000 +0000" stop="20260827164500 +0000" channel="beINSports4.qa">
-    <title lang="en">Olympique Marseille vs Strasbourg - French Ligue 1 2026/2027 - Week 1</title>
-    <desc lang="en">Marseille have not lost any of their last 18 home league games against Strasbourg, since a 0-1 defeat in March 1997; among teams currently in Ligue 1, they are only on a longer unbeaten home run only against Le Havre. Marseille could, however, equal their longest run of consecutive home draws against a single opponent in Ligue 1. Marseille are set</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
-  <programme start="20260827164500 +0000" stop="20260827185000 +0000" channel="beINSports4.qa">
-    <title lang="en">Reims vs Annecy - French Ligue 2 - 2026/2027</title>
-    <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
-    <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
-    <category lang="en">French League - Ligue 2</category>
+  <programme start="20260827153000 +0000" stop="20260827185000 +0000" channel="beINSports4.qa">
+    <title lang="en">Qatar vs China - FIBA Asian Qualifiers - 2027 ‎• Live 🔵‎</title>
+    <category lang="ar">كرة السلة</category>
+    <category lang="en">Basketball</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260827185000 +0000" stop="20260827213000 +0000" channel="beINSports4.qa">
     <title lang="en">Fulham vs AFC Wimbledon - Carabao Cup 2026 / 2027 - Round 2 ‎• Live 🔵‎</title>
@@ -3542,16 +3507,15 @@ Decathlon Arena - Stade Pierre-Mauroy Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260824133000 +0000" stop="20260824152000 +0000" channel="beINSports5.qa">
-    <title lang="en">Esteghlal FC (IRN) vs Al Muharraq SC (BHR) - AFC Champions League Two 2025/2026 - West MD2</title>
-    <desc lang="en">Esteghlal FC vs Al Muharraq
-AFC Champions League Two
-Season 2025/2026
-Qualifier Round
-Group A
-Shahr-e Qods Stadium Stadium</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20260830090000 +0000" stop="20260830104500 +0000" channel="beINSports4.qa">
+    <title lang="en">Auxerre vs Angers - French Ligue 1 2026/2027 - Week 2</title>
+    <desc lang="en">Auxerre vs Angers
+At 29-8-2026, MECCA 21:45, GMT 18:45
+French Ligue 1
+Season 2026/2027
+Stade de l'Abbé-Deschamps Stadium</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260824152000 +0000" stop="20260824171500 +0000" channel="beINSports5.qa">
     <title lang="en">Al Wehdat (JOR) vs Al Wasl FC (UAE) - AFC Champions League Two 2025/2026 - West MD2</title>
@@ -3972,7 +3936,7 @@ Alinma Bank Stadium at King Abdullah Sport City Stadium</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260827132000 +0000" stop="20260827135000 +0000" channel="beINSports5.qa">
+  <programme start="20260827132000 +0000" stop="20260827140000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Muharraq SC (BHR) vs Al Wasl FC (UAE) - AFC Champions League Two 2025/2026 - West MD3</title>
     <desc lang="en">The AFC Champions League Two is the second-tier competition of Asian club football, ranked below the AFC Champions League Elite. 
 Participation in the competition is open to clubs from the top 12 nations in the East and the West region based on the AFC club competitions ranking.
@@ -3980,18 +3944,7 @@ All games are live and exclusive only on beIN.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260827135000 +0000" stop="20260827153500 +0000" channel="beINSports5.qa">
-    <title lang="en">FC Goa (IND) vs Al Nassr Club (KSA) - AFC Champions League Two 2025/2026 - West MD3</title>
-    <desc lang="en">Goa vs Al Nassr
-AFC Champions League Two
-Season 2025/2026
-Qualifier Round
-Group D
-Pandit Jawaharlal Nehru Stadium Stadium</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260827153500 +0000" stop="20260827172500 +0000" channel="beINSports5.qa">
+  <programme start="20260827140000 +0000" stop="20260827154500 +0000" channel="beINSports5.qa">
     <title lang="en">Esteghlal FC (IRN) vs Al Wehdat (JOR) - AFC Champions League Two 2025/2026 - West MD3</title>
     <desc lang="en">Esteghlal FC vs Al Wehdat
 AFC Champions League Two
@@ -4002,7 +3955,29 @@ Shahr-e Qods Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260827172500 +0000" stop="20260827191500 +0000" channel="beINSports5.qa">
+  <programme start="20260827154500 +0000" stop="20260827161500 +0000" channel="beINSports5.qa">
+    <title lang="en">FC Goa (IND) vs Al Nassr Club (KSA) - AFC Champions League Two 2025/2026 - West MD3</title>
+    <desc lang="en">The AFC Champions League Two is the second-tier competition of Asian club football, ranked below the AFC Champions League Elite. 
+Participation in the competition is open to clubs from the top 12 nations in the East and the West region based on the AFC club competitions ranking.
+All games are live and exclusive only on beIN.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260827161500 +0000" stop="20260827165000 +0000" channel="beINSports5.qa">
+    <title lang="en">Al Muharraq SC (BHR) vs Al Wasl FC (UAE) - AFC Champions League Two 2025/2026 - West MD3</title>
+    <desc lang="en">The AFC Champions League Two is the second-tier competition of Asian club football, ranked below the AFC Champions League Elite. 
+Participation in the competition is open to clubs from the top 12 nations in the East and the West region based on the AFC club competitions ranking.
+All games are live and exclusive only on beIN.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260827165000 +0000" stop="20260827184500 +0000" channel="beINSports5.qa">
+    <title lang="en">Saudi Arabia vs Japan - FIBA Asian Qualifiers - 2027 ‎• Live 🔵‎</title>
+    <category lang="ar">كرة السلة</category>
+    <category lang="en">Basketball</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260827184500 +0000" stop="20260827203000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Ahli SC (QAT) vs FC Arkadag (TKM) - AFC Champions League Two 2025/2026 - West MD3</title>
     <desc lang="en">Al Ahli (QAT) vs Arkadag
 AFC Champions League Two
@@ -4013,14 +3988,11 @@ Al Thumama Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260827191500 +0000" stop="20260827210000 +0000" channel="beINSports5.qa">
+  <programme start="20260827203000 +0000" stop="20260827210000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Muharraq SC (BHR) vs Al Wasl FC (UAE) - AFC Champions League Two 2025/2026 - West MD3</title>
-    <desc lang="en">Al Muharraq vs Al Wasl
-AFC Champions League Two
-Season 2025/2026
-Qualifier Round
-Group A
-Sheikh Ali Bin Mohammed Al Khalifa Stadium Stadium</desc>
+    <desc lang="en">The AFC Champions League Two is the second-tier competition of Asian club football, ranked below the AFC Champions League Elite. 
+Participation in the competition is open to clubs from the top 12 nations in the East and the West region based on the AFC club competitions ranking.
+All games are live and exclusive only on beIN.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -4476,19 +4448,6 @@ ABANCA-Riazor Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260830203000 +0000" stop="20260830210000 +0000" channel="beINSports5.qa">
-    <title lang="en">Al Wahda FC (UAE) vs Al Sadd SC (QAT) - AFC Champions League Elite 2025/2026 - West MD5 - Mini Match</title>
-    <desc lang="en">The AFC Champions League Elite is contested by Asia's top-division football clubs. It is the most prestigious club competition in Asian football, played by the national league champions. A total of 24 clubs compete in the league stage of the competition, divided into East and West regions (12 teams each).
-All games are live and exclusive only on be</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
-  <programme start="20260824134500 +0000" stop="20260824155500 +0000" channel="beINSports6.qa">
-    <title lang="en">Tanzania vs Algeria - CAF  U17 Africa Cup of Nations Morocco 2026 - Quater Final's</title>
-    <desc lang="en">CAF U17 Africa Cup of Nations is the annual African youth football tournament organized by Confederation of African Football (CAF) for players aged 17 and below. Morocco was chosen as the host of this edition. The top 10 teams qualified for the 2026 FIFA U-17 World Cup in Qatar as the CAF representatives. Morocco are the defending champions.</desc>
-    <category lang="ar">كأس الأمم الأفريقية</category>
-    <category lang="en">African Cup of Nations</category>
-  </programme>
   <programme start="20260824155500 +0000" stop="20260824181000 +0000" channel="beINSports6.qa">
     <title lang="en">Senegal vs Mali - CAF  U17 Africa Cup of Nations Morocco 2026 - Quater Final's</title>
     <desc lang="en">CAF U17 Africa Cup of Nations is the annual African youth football tournament organized by Confederation of African Football (CAF) for players aged 17 and below. Morocco was chosen as the host of this edition. The top 10 teams qualified for the 2026 FIFA U-17 World Cup in Qatar as the CAF representatives. Morocco are the defending champions.</desc>
@@ -4592,31 +4551,31 @@ All games are live and exclusive only on be</desc>
     <category lang="en">English League - Cup</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260825210000 +0000" stop="20260825224500 +0000" channel="beINSports6.qa">
+  <programme start="20260825210000 +0000" stop="20260825230400 +0000" channel="beINSports6.qa">
     <title lang="en">Morocco vs Egypt - CAF  U17 Africa Cup of Nations Morocco 2026 -Third Place</title>
     <desc lang="en">CAF U17 Africa Cup of Nations is the annual African youth football tournament organized by Confederation of African Football (CAF) for players aged 17 and below. Morocco was chosen as the host of this edition. The top 10 teams qualified for the 2026 FIFA U-17 World Cup in Qatar as the CAF representatives. Morocco are the defending champions.</desc>
     <category lang="ar">كأس الأمم الأفريقية</category>
     <category lang="en">African Cup of Nations</category>
   </programme>
-  <programme start="20260825224500 +0000" stop="20260826003000 +0000" channel="beINSports6.qa">
+  <programme start="20260825230400 +0000" stop="20260826004800 +0000" channel="beINSports6.qa">
     <title lang="en">Dunkerque vs Montpellier - French Ligue 2 - 2026/2027</title>
     <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
     <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
     <category lang="en">French League - Ligue 2</category>
   </programme>
-  <programme start="20260826003000 +0000" stop="20260826021500 +0000" channel="beINSports6.qa">
+  <programme start="20260826004800 +0000" stop="20260826023100 +0000" channel="beINSports6.qa">
     <title lang="en">Nice vs Lorient - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Lorient are the opponent Nice have hosted most often in Ligue 1 while always scoring. Nice average 1.9 goals per home game against Lorient in the top-flight, their best average among teams hosted more than ten times in the 21st century. Nice have failed to win any of their last five Ligue 1 opening matches, recording three draws and two defeats in</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826021500 +0000" stop="20260826043500 +0000" channel="beINSports6.qa">
+  <programme start="20260826023100 +0000" stop="20260826045100 +0000" channel="beINSports6.qa">
     <title lang="en">Morocco vs Senegal - CAF  U17 Africa Cup of Nations Morocco 2026 -Semi Final's</title>
     <desc lang="en">CAF U17 Africa Cup of Nations is the annual African youth football tournament organized by Confederation of African Football (CAF) for players aged 17 and below. Morocco was chosen as the host of this edition. The top 10 teams qualified for the 2026 FIFA U-17 World Cup in Qatar as the CAF representatives. Morocco are the defending champions.</desc>
     <category lang="ar">كأس الأمم الأفريقية</category>
     <category lang="en">African Cup of Nations</category>
   </programme>
-  <programme start="20260826043500 +0000" stop="20260826070000 +0000" channel="beINSports6.qa">
+  <programme start="20260826045100 +0000" stop="20260826070000 +0000" channel="beINSports6.qa">
     <title lang="en">Egypt vs Tanzania - CAF  U17 Africa Cup of Nations Morocco 2026 -Semi Final's</title>
     <desc lang="en">CAF U17 Africa Cup of Nations is the annual African youth football tournament organized by Confederation of African Football (CAF) for players aged 17 and below. Morocco was chosen as the host of this edition. The top 10 teams qualified for the 2026 FIFA U-17 World Cup in Qatar as the CAF representatives. Morocco are the defending champions.</desc>
     <category lang="ar">كأس الأمم الأفريقية</category>
@@ -4725,19 +4684,25 @@ All games are live and exclusive only on be</desc>
     <category lang="ar">كأس الأمم الأفريقية</category>
     <category lang="en">African Cup of Nations</category>
   </programme>
-  <programme start="20260827161000 +0000" stop="20260827170000 +0000" channel="beINSports6.qa">
+  <programme start="20260827161000 +0000" stop="20260827164500 +0000" channel="beINSports6.qa">
     <title lang="en">In the Footsteps of Nuno Mendes</title>
     <desc lang="en">From Lisbon to Paris, from Sporting Clube de Portugal to Paris Saint-Germain, from his first matches on the pitches of Boavista to the UEFA Champions League victory, beIN takes you... on the trail of Nuno Mendes!</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260827170000 +0000" stop="20260827190000 +0000" channel="beINSports6.qa">
-    <title lang="en">Saudi Arabia vs Japan - FIBA Asian Qualifiers - 2027 ‎• Live 🔵‎</title>
+  <programme start="20260827164500 +0000" stop="20260827175500 +0000" channel="beINSports6.qa">
+    <title lang="en">Rc Lens, Goal Miners &amp; Footballers</title>
+    <desc lang="en">The exclusive documentary on RC Lens' season. This is a club that lives for its city, and a city that lives for its club. The grit, the sacrifice, the values…RC Lens is about more than just soccer. Never before have cameras been granted such access to a Ligue 1 club to capture and understand its identity.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260827175500 +0000" stop="20260827194000 +0000" channel="beINSports6.qa">
+    <title lang="en">Lebanon vs Korea  - FIBA Asian Qualifiers - 2027 ‎• Live 🔵‎</title>
     <category lang="ar">كرة السلة</category>
     <category lang="en">Basketball</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260827190000 +0000" stop="20260827210000 +0000" channel="beINSports6.qa">
+  <programme start="20260827194000 +0000" stop="20260827210000 +0000" channel="beINSports6.qa">
     <title lang="en">China PR (CHN) vs Bangladesh (BAN) - AFC Women's Asian Cup Australia 2026 - MD1</title>
     <desc lang="en">AFC Women's Asian Cup Australia 2026 - MD1</desc>
     <category lang="ar">كأس أمم آسيا للسيدات</category>
@@ -5117,96 +5082,99 @@ Stade Francis-Le Blé Stadium</desc>
     <category lang="ar">مباريات قصيرة</category>
     <category lang="en">Mini Matches</category>
   </programme>
-  <programme start="20260825113000 +0000" stop="20260825135400 +0000" channel="beINSports7.qa">
+  <programme start="20260825113000 +0000" stop="20260825140000 +0000" channel="beINSports7.qa">
     <title lang="en">Sebastian Gorzny (USA) vs Cruz Hewitt (AUS) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260825135400 +0000" stop="20260825160500 +0000" channel="beINSports7.qa">
-    <title lang="en">Jenson Brooksby (USA) vs Stefanos Tsitsipas (GRE) - ATP 250 Winston-Salem Open 2026</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
+  <programme start="20260825140000 +0000" stop="20260825160000 +0000" channel="beINSports7.qa">
+    <title lang="en">Elina Svitolina (UKR) / Gael Monfils (FRA) vs Alexandra Eala (PHI) / Felix Auger-Aliassime (CAN) - L ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
   </programme>
-  <programme start="20260825160500 +0000" stop="20260825180000 +0000" channel="beINSports7.qa">
-    <title lang="en">Daniel Altmaier (GER) vs Francisco Comesana (ARG) - ATP 250 Winston-Salem Open 2026</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
+  <programme start="20260825160000 +0000" stop="20260825180000 +0000" channel="beINSports7.qa">
+    <title lang="en">Karolina Muchova (CZE) / Jakub Mensik (CZE) vs Kristina Mladenovic (FRA) / Marcelo Arevalo (ESA) - L ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260825180000 +0000" stop="20260825200000 +0000" channel="beINSports7.qa">
-    <title lang="en">Mattia Bellucci (ITA) vs Luciano Darderi (ITA) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
+    <title lang="en">Emma Navarro (USA) / Tommy Paul (USA) vs Amanda Anisimova (USA) / Learner Tien (USA) - Louis Armstro ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260825200000 +0000" stop="20260825223000 +0000" channel="beINSports7.qa">
-    <title lang="en">Arthur Fery (GBR) vs Cruz Hewitt (AUS) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
+  <programme start="20260825200000 +0000" stop="20260825220000 +0000" channel="beINSports7.qa">
+    <title lang="en">Louis Armstrong - US Open Mixed Doubles - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260825223000 +0000" stop="20260826003000 +0000" channel="beINSports7.qa">
-    <title lang="en">Daniil Medvedev vs Martin Damm (USA) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
+  <programme start="20260825220000 +0000" stop="20260826000000 +0000" channel="beINSports7.qa">
+    <title lang="en">Mirra Andreeva / Andrey Rublev vs Sara Errani (ITA) / Andrea Vavassori (ITA) - Louis Armstrong - US ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260826003000 +0000" stop="20260826023000 +0000" channel="beINSports7.qa">
-    <title lang="en">Miomir Kecmanovic (SRB) Fabian Marozsan (HUN) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
+  <programme start="20260826000000 +0000" stop="20260826020000 +0000" channel="beINSports7.qa">
+    <title lang="en">Diana Shnaider / Casper Ruud (NOR)  vs Jessica Pegula (USA) /Taylor Fritz (USA) - Louis Armstrong - ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260826023000 +0000" stop="20260826043000 +0000" channel="beINSports7.qa">
+  <programme start="20260826020000 +0000" stop="20260826040000 +0000" channel="beINSports7.qa">
+    <title lang="en">Louis Armstrong - US Open Mixed Doubles - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260826040000 +0000" stop="20260826060000 +0000" channel="beINSports7.qa">
     <title lang="en">Mattia Bellucci (ITA) vs Luciano Darderi (ITA) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260826043000 +0000" stop="20260826063000 +0000" channel="beINSports7.qa">
+  <programme start="20260826060000 +0000" stop="20260826080000 +0000" channel="beINSports7.qa">
     <title lang="en">Arthur Fery (GBR) vs Cruz Hewitt (AUS) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260826063000 +0000" stop="20260826083000 +0000" channel="beINSports7.qa">
+  <programme start="20260826080000 +0000" stop="20260826100000 +0000" channel="beINSports7.qa">
     <title lang="en">Daniil Medvedev vs Martin Damm (USA) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260826083000 +0000" stop="20260826103000 +0000" channel="beINSports7.qa">
+  <programme start="20260826100000 +0000" stop="20260826120000 +0000" channel="beINSports7.qa">
     <title lang="en">Miomir Kecmanovic (SRB) Fabian Marozsan (HUN) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260826103000 +0000" stop="20260826123000 +0000" channel="beINSports7.qa">
+  <programme start="20260826120000 +0000" stop="20260826140000 +0000" channel="beINSports7.qa">
     <title lang="en">Mattia Bellucci (ITA) vs Luciano Darderi (ITA) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260826123000 +0000" stop="20260826143000 +0000" channel="beINSports7.qa">
+  <programme start="20260826140000 +0000" stop="20260826160000 +0000" channel="beINSports7.qa">
     <title lang="en">Arthur Fery (GBR) vs Cruz Hewitt (AUS) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20260826143000 +0000" stop="20260826161500 +0000" channel="beINSports7.qa">
+  <programme start="20260826160000 +0000" stop="20260826180000 +0000" channel="beINSports7.qa">
     <title lang="en">Daniil Medvedev vs Martin Damm (USA) - ATP 250 Winston-Salem Open 2026</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
-  </programme>
-  <programme start="20260826161500 +0000" stop="20260826180000 +0000" channel="beINSports7.qa">
-    <title lang="en">Miomir Kecmanovic (SRB) Fabian Marozsan (HUN) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
@@ -5689,73 +5657,59 @@ Stade Francis-Le Blé Stadium</desc>
     <category lang="ar">رياضة السيارات</category>
     <category lang="en">MotorSports</category>
   </programme>
-  <programme start="20260825140000 +0000" stop="20260825144500 +0000" channel="beINSports8.qa">
+  <programme start="20260825140000 +0000" stop="20260825150000 +0000" channel="beINSports8.qa">
     <title lang="en">Race - Zandvoort Round - Porsche SuperCup - 2026</title>
     <desc lang="en">Porsche Carrera Cup Germany is one of Europe’s leading one-make racing championships, featuring drivers competing in identical Porsche 911 Cup cars. The 2026 season consists of eight race weekends and 16 races, with six events supporting the DTM. The championship combines close competition, high-performance machinery, strategic racing and driver de</desc>
     <category lang="ar">رياضة السيارات</category>
     <category lang="en">MotorSports</category>
   </programme>
-  <programme start="20260825144500 +0000" stop="20260825160000 +0000" channel="beINSports8.qa">
-    <title lang="en">Seattle vs Dallas - Women's National Basketball Association - WNBA</title>
-    <desc lang="en">The 2026 season marks the league’s 30th campaign, running from 8 May to 24 September, with 15 teams following the addition of Portland Fire and Toronto Tempo. The competition features elite women’s basketball across the regular season and playoffs, as teams chase the championship in a growing league with expanded reach and rising global attention.</desc>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-  </programme>
-  <programme start="20260825160000 +0000" stop="20260825183700 +0000" channel="beINSports8.qa">
-    <title lang="en">Main Race - F1 Dutch Grand Prix - 2026</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
-  <programme start="20260825183700 +0000" stop="20260825210000 +0000" channel="beINSports8.qa">
-    <title lang="en">Sheffield Wednesday vs Wolves - Carabao Cup 2026 / 2027 - Round 2 ‎• Live 🔵‎</title>
-    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
-    <category lang="ar">كأس الرابطة الإنكليزي</category>
-    <category lang="en">English League - Cup</category>
-    <category lang="en">Live</category>
-  </programme>
-  <programme start="20260825210000 +0000" stop="20260825220000 +0000" channel="beINSports8.qa">
-    <title lang="en">Sprint Race Qualifying - F1 Dutch Grand Prix - 2026</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
-  <programme start="20260825220000 +0000" stop="20260825230000 +0000" channel="beINSports8.qa">
-    <title lang="en">Sprint Race - F1 Dutch Grand Prix - 2026</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
-  <programme start="20260825230000 +0000" stop="20260826001500 +0000" channel="beINSports8.qa">
-    <title lang="en">Main Race Qualifying - F1 Dutch Grand Prix - 2026</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
-  <programme start="20260826001500 +0000" stop="20260826030000 +0000" channel="beINSports8.qa">
-    <title lang="en">Main Race - F1 Dutch Grand Prix - 2026</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
-  <programme start="20260826030000 +0000" stop="20260826032900 +0000" channel="beINSports8.qa">
-    <title lang="en">The talented Isack Hadjar</title>
-    <desc lang="en">Isack Hadjar, first Arab driver in Formula 1, impressed everybody for his first season in F1 with his team. . Rookie of the year 2025, beIN followed him during his season.</desc>
+  <programme start="20260825150000 +0000" stop="20260825170000 +0000" channel="beINSports8.qa">
+    <title lang="en">Aryna Sabalenka / Novak Djokovic vs Katerina Siniakova (CZE) / Henry Patten (GBR) - Arthur Ashe Stad ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
   </programme>
-  <programme start="20260826032900 +0000" stop="20260826051800 +0000" channel="beINSports8.qa">
+  <programme start="20260825170000 +0000" stop="20260825190000 +0000" channel="beINSports8.qa">
+    <title lang="en">Arthur Ashe Stadium - US Open Mixed Doubles - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825190000 +0000" stop="20260825210000 +0000" channel="beINSports8.qa">
+    <title lang="en">Belinda Bencic (SUI) / Flavio Cobolli (ITA) vs Taylor Townsend (USA) / Alexander Zverev (GER) - Arth ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825210000 +0000" stop="20260825230000 +0000" channel="beINSports8.qa">
+    <title lang="en">Serena Williams (USA) / Carlos Alcaraz (ESP) vs Erin Routliffe (NZL) / Lloyd Glasspool (GBR) - Arthu ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825230000 +0000" stop="20260826010000 +0000" channel="beINSports8.qa">
+    <title lang="en">Arthur Ashe Stadium - US Open Mixed Doubles - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260826010000 +0000" stop="20260826034500 +0000" channel="beINSports8.qa">
+    <title lang="en">Main Race - F1 Dutch Grand Prix - 2026</title>
+    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
+    <category lang="ar">بطولة العالم للفورمولا وان</category>
+    <category lang="en">Formula One World Championship</category>
+  </programme>
+  <programme start="20260826034500 +0000" stop="20260826054500 +0000" channel="beINSports8.qa">
     <title lang="en">Fenerbahce AS vs Tumosan Konyaspor - Turkish Super League 2027 - MD2</title>
     <desc lang="en">Fenerbahçe vs Konyaspor
 Turkish Super Lig
 Season 2026/2027
 Chobani Stadyumu Stadium</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260826051800 +0000" stop="20260826054500 +0000" channel="beINSports8.qa">
-    <title lang="en">ATP Tour - Magazine 2026</title>
-    <desc lang="en">ATP Tour This Week It is comprised of the various feature stories created by ATP Media and ATP Tour</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -5946,25 +5900,37 @@ Chobani Stadyumu Stadium</desc>
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
   </programme>
-  <programme start="20260827160000 +0000" stop="20260827180000 +0000" channel="beINSports8.qa">
-    <title lang="en">Qatar vs China - FIBA Asian Qualifiers - 2027 ‎• Live 🔵‎</title>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-    <category lang="en">Live</category>
+  <programme start="20260827160000 +0000" stop="20260827170000 +0000" channel="beINSports8.qa">
+    <title lang="en">Sprint Race Qualifying - F1 Dutch Grand Prix - 2026</title>
+    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
+    <category lang="ar">بطولة العالم للفورمولا وان</category>
+    <category lang="en">Formula One World Championship</category>
   </programme>
-  <programme start="20260827180000 +0000" stop="20260827195000 +0000" channel="beINSports8.qa">
-    <title lang="en">Lebanon vs Korea  - FIBA Asian Qualifiers - 2027 ‎• Live 🔵‎</title>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-    <category lang="en">Live</category>
+  <programme start="20260827170000 +0000" stop="20260827180000 +0000" channel="beINSports8.qa">
+    <title lang="en">Sprint Race - F1 Dutch Grand Prix - 2026</title>
+    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
+    <category lang="ar">بطولة العالم للفورمولا وان</category>
+    <category lang="en">Formula One World Championship</category>
   </programme>
-  <programme start="20260827195000 +0000" stop="20260827202500 +0000" channel="beINSports8.qa">
+  <programme start="20260827180000 +0000" stop="20260827191500 +0000" channel="beINSports8.qa">
+    <title lang="en">Main Race Qualifying - F1 Dutch Grand Prix - 2026</title>
+    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
+    <category lang="ar">بطولة العالم للفورمولا وان</category>
+    <category lang="en">Formula One World Championship</category>
+  </programme>
+  <programme start="20260827191500 +0000" stop="20260827194500 +0000" channel="beINSports8.qa">
     <title lang="en">The talented Isack Hadjar</title>
     <desc lang="en">Isack Hadjar, first Arab driver in Formula 1, impressed everybody for his first season in F1 with his team. . Rookie of the year 2025, beIN followed him during his season.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260827202500 +0000" stop="20260827210000 +0000" channel="beINSports8.qa">
+  <programme start="20260827194500 +0000" stop="20260827201500 +0000" channel="beINSports8.qa">
+    <title lang="en">The talented Isack Hadjar</title>
+    <desc lang="en">Isack Hadjar, first Arab driver in Formula 1, impressed everybody for his first season in F1 with his team. . Rookie of the year 2025, beIN followed him during his season.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260827201500 +0000" stop="20260827210000 +0000" channel="beINSports8.qa">
     <title lang="en">Highlight - F1 Dutch Grand Prix - 2026</title>
     <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
     <category lang="ar">بطولة العالم للفورمولا وان</category>
@@ -6146,11 +6112,11 @@ Chobani Stadyumu Stadium</desc>
     <category lang="ar">بطولة العالم للدراجات النارية</category>
     <category lang="en">Moto GP - World Championship</category>
   </programme>
-  <programme start="20260824133000 +0000" stop="20260824151000 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Madrid  Jumping - Round 1 - Competition Team</title>
-    <desc lang="en">The 2026 Madrid round takes place from 15–17 May at Club de Campo Villa de Madrid, as part of the elite global show jumping circuit. The event features three days of top-level CSI5* action, highlighted by the LGCT Grand Prix of Madrid on Sunday, where leading riders and horses compete for key championship points.</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
+  <programme start="20260829150000 +0000" stop="20260829154500 +0000" channel="beINSports8.qa">
+    <title lang="en">Qualifying - Moto 3 - Aragon Round - 2026</title>
+    <desc lang="en">Moto3 is the lightweight class of the FIM Grand Prix World Championship, providing a highly competitive platform for young riders to develop their skills on the international stage. Featuring 250cc four-stroke single-cylinder motorcycles, the championship is renowned for close, unpredictable racing and frequent battles within large groups. Moto3 ru</desc>
+    <category lang="ar">بطولة العالم للدراجات النارية</category>
+    <category lang="en">Moto GP - World Championship</category>
   </programme>
   <programme start="20260824151000 +0000" stop="20260824162000 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - Madrid  Jumping - Round 2 - Competition Team</title>
@@ -6573,15 +6539,6 @@ Chobani Stadyumu Stadium</desc>
     <category lang="en">Sports General</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260824150000 +0000" stop="20260824153000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
-All matches are available live with a choice of Arabic or English commentary.
-The season will consist of 33 weekends and five midweek rounds of matches.
-Liverpool are the defending champions, having won their second Premier League title.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260824153000 +0000" stop="20260824160000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Newcastle United vs Liverpool - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
@@ -6607,13 +6564,13 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260824173000 +0000" stop="20260824180000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260824173000 +0000" stop="20260824183000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260824180000 +0000" stop="20260824213400 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260824183000 +0000" stop="20260824213400 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Fulham vs Chelsea - English Premier League 2026/2027 - Week 1 ‎• Live 🔵‎</title>
     <desc lang="en">Fulham will begin a Premier League season with a London derby for a fourth time, while they have lost each of the previous three: 1-2 away to Arsenal in 2007-08, 0-2 at home to Crystal Palace in 2018-19, and 0-3 at home to Arsenal in 2020-21. Chelsea were beaten in their most recent meeting with Fulham  but haven’t lost consecutive games versus the</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
@@ -7146,16 +7103,10 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260827060000 +0000" stop="20260827063000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260827060000 +0000" stop="20260827070000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Review 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
-  </programme>
-  <programme start="20260827063000 +0000" stop="20260827070000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Freiburg vs Aston Villa - UEFA Europa League 2025/2026 - Final</title>
-    <desc lang="en">The 2025–26 UEFA Europa League is the secondary club football tournament organised by UEFA. This is the second season played under a new format, which replaced the 32-team group stage with a 36-team league phase. Tottenham Hotspur are the reigning champions. The final will be played on 20 May 2026 at Beşiktaş Stadium in Istanbul, Turkey.</desc>
-    <category lang="ar">الدوري الأوروبي</category>
-    <category lang="en">UEFA Europa League</category>
   </programme>
   <programme start="20260827070000 +0000" stop="20260827073000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Crystal Palace vs Rayo Vallecano - UEFA Conference League  2025/2026 - Final</title>
@@ -7206,6 +7157,20 @@ The season will consist of 33 weekends and five midweek rounds of matches.
 Liverpool are the defending champions, having won their second Premier League title.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260827110000 +0000" stop="20260827113000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Newcastle United vs Liverpool - English Premier League 2026/2027 - Week 1</title>
+    <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
+All matches are available live with a choice of Arabic or English commentary.
+The season will consist of 33 weekends and five midweek rounds of matches.
+Liverpool are the defending champions, having won their second Premier League title.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260827113000 +0000" stop="20260827120000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">EFL Highlights 2026/27 | E2</title>
+    <category lang="ar">مسلسلات</category>
+    <category lang="en">Series</category>
   </programme>
   <programme start="20260824143000 +0000" stop="20260824161500 +0000" channel="beINSportsEn2.qa">
     <title lang="en">West Ham vs Charlton Athletic - EFL - English Football League  SkyBet - Championship 2026/2027</title>
@@ -10740,19 +10705,32 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825180000 +0000" stop="20260825190000 +0000" channel="beINSportsXtra1.qa">
+  <programme start="20260825180000 +0000" stop="20260825181000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825190000 +0000" stop="20260825200000 +0000" channel="beINSportsXtra1.qa">
+  <programme start="20260825181000 +0000" stop="20260825182000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825200000 +0000" stop="20260825210000 +0000" channel="beINSportsXtra1.qa">
+  <programme start="20260825182000 +0000" stop="20260825183500 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260825183500 +0000" stop="20260825205000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">Sheffield Wednesday vs Wolves - Carabao Cup 2026 / 2027 - Round 2 ‎• Live 🔵‎</title>
+    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
+    <category lang="ar">كأس الرابطة الإنكليزي</category>
+    <category lang="en">English League - Cup</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825205000 +0000" stop="20260825210000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11166,18 +11144,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260828170000 +0000" stop="20260828180000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260828180000 +0000" stop="20260828190000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260824150000 +0000" stop="20260824160000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -11334,55 +11300,77 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825170000 +0000" stop="20260825180000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260825170000 +0000" stop="20260825171000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825180000 +0000" stop="20260825190000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260825171000 +0000" stop="20260825172000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825190000 +0000" stop="20260825200000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260825172000 +0000" stop="20260825173000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825200000 +0000" stop="20260825210000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260825173000 +0000" stop="20260825174000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825210000 +0000" stop="20260825220000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260825174000 +0000" stop="20260825180000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825220000 +0000" stop="20260825230000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260825180000 +0000" stop="20260825200000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">Mattia Bellucci (ITA) vs Luciano Darderi (ITA) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
+    <category lang="ar">تنس -  فئة 250</category>
+    <category lang="en">Tennis - ATP 250</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825200000 +0000" stop="20260825213000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">Arthur Fery (GBR) vs Cruz Hewitt (AUS) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
+    <category lang="ar">تنس -  فئة 250</category>
+    <category lang="en">Tennis - ATP 250</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825213000 +0000" stop="20260825233000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">Daniil Medvedev vs Martin Damm (USA) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
+    <category lang="ar">تنس -  فئة 250</category>
+    <category lang="en">Tennis - ATP 250</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260825233000 +0000" stop="20260826013000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">Miomir Kecmanovic (SRB) Fabian Marozsan (HUN) - ATP 250 Winston-Salem Open 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
+    <category lang="ar">تنس -  فئة 250</category>
+    <category lang="en">Tennis - ATP 250</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260826013000 +0000" stop="20260826014000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260825230000 +0000" stop="20260826000000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260826014000 +0000" stop="20260826015000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260826000000 +0000" stop="20260826010000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260826010000 +0000" stop="20260826020000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260826015000 +0000" stop="20260826020000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11755,24 +11743,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260828150000 +0000" stop="20260828160000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260828170000 +0000" stop="20260828180000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260828180000 +0000" stop="20260828190000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
