@@ -994,9 +994,6 @@ def write_xml(events):
             display_name = label_template.format(n=number)
 
             channel = ET.SubElement(tv, "channel", {"id": channel_id})
-            # Alwan is one brand across all its channels, and publishes no
-            # per-channel mark, so every channel carries the network avatar.
-            ET.SubElement(channel, "icon", {"src": "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alwan.png"})
             ET.SubElement(
                 channel,
                 "display-name",

@@ -3926,14 +3926,6 @@ def write_xml(events):
             lang="en",
         ).text = f"Fajer Sport {n}"
 
-        # Fajer is built from its public Telegram channel, so the channel's
-        # own avatar is the broadcaster's own mark.
-        ET.SubElement(
-            channel,
-            "icon",
-            src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/fajer.png",
-        )
-
     # Compute programme end times without changing any event detection logic.
     # Default: 110 minutes. If another event on the SAME Fajer channel
     # starts sooner, end the current programme exactly at that next kickoff
