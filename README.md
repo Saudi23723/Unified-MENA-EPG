@@ -187,20 +187,54 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/shahid_sports
 
 ### 🇹🇷 tabii Spor
 
-**Channel:** tabii Spor.
+**Channels:** eleven — `tabii Spor`, plus `tabii Spor 1` through
+`tabii Spor 10`.
 
-Sourced from **TRT's own broadcast-schedule page**, which carries a full
-week of EPG, with tvyayinakisi.com filling the current day where TRT
-gives a generic block instead of the fixture.
+Those are two different kinds of channel and they need two different
+sources. `tabii Spor` is a linear channel, on air around the clock.
+`tabii Spor 1..10` are per-match PPV streams that only exist while a
+fixture is on, which is why nothing schedules them a week ahead.
 
-It used to claim ten channels. That was an artefact: the old generator
+**The linear channel** comes from **TRT's own broadcast-schedule page**,
+which carries a full week inside its Next.js payload, with
+tvyayinakisi.com filling the current day where TRT publishes a generic
+block instead of the fixture.
+
+**The ten PPV numbers** come from **Spor Ekranı** (sporekrani.com), an
+independent Turkish listings site — the only reachable source that says
+*which number* a given match is on. It publishes schema.org
+`BroadcastEvent` JSON-LD naming the channel (`"publishedOn": {"name":
+"tabii Spor 3"}`), the fixture, its start and end, and a real
+`isLiveBroadcast` flag.
+
+Everything else was checked and does not carry the numbering: TRT's own
+index lists three slugs and none is numbered, tvyayinakisi 404s on
+`tabii-spor-1` through `-10`, livefootballtv has no tabii channel at all,
+mackolik / ntvspor / fotomac / canlitv never print the number, and
+tabii's own `eu1.tabii.com/apigateway` answers `contentNotFound` without
+a token.
+
+**The PPV guide accumulates rather than being rebuilt.** Spor Ekranı
+renders today and only today — `/home/day/<any date>` and `?format=json`
+all come back as the current day. So each run merges what the source
+publishes now into what the file already holds, and drops what has aged
+out. Nothing is invented: every programme was read from the source on the
+day it ran. A run where the source publishes nothing logs a warning and
+leaves the existing entries alone.
+
+A PPV number with no fixture on a given day still appears as a channel,
+with no programmes on it — the channel id stays stable so a playlist
+mapped to it never goes blank.
+
+**Live badge** 🔵 on the PPV channels only, and only where Spor Ekranı
+sets `isLiveBroadcast`. TRT publishes no live marker, so the linear
+channel carries none.
+
+It used to claim ten channels for a different reason: the old generator
 read no schedule at all — it scraped mentions of matches out of
 trtspor.com.tr *news* pages and split them across ten invented channels,
 leaving 83 programmes of which 6 were still in the future and three
-channels empty. There is no source for "tabii Spor 2" and up: TRT names
-exactly one channel, and tvyayinakisi 404s on every numbered slug.
-
-No Live badge: neither source marks which broadcasts are live.
+channels empty.
 
 EPG URL:
 
