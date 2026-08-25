@@ -2,33 +2,43 @@
 <tv generator-info-name="Unified MENA EPG — Jordan (Roya)">
   <channel id="Roya_RoyaTV">
     <display-name lang="ar">Roya TV</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_tv.png" />
   </channel>
   <channel id="Roya_RoyaNews">
     <display-name lang="ar">Roya News</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_news.png" />
   </channel>
   <channel id="Roya_RoyaSport">
     <display-name lang="ar">Roya Sport</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_tv.png" />
   </channel>
   <channel id="Roya_RoyaComedy">
     <display-name lang="ar">Roya Comedy</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_comedy.png" />
   </channel>
   <channel id="Roya_RoyaKitchen">
     <display-name lang="ar">Roya Kitchen</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_kitchen.png" />
   </channel>
   <channel id="Roya_Ch38">
     <display-name lang="ar">رؤيا فلسطين</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_tv.png" />
   </channel>
   <channel id="Roya_RoyaKids">
     <display-name lang="ar">Roya Kids</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_kids.png" />
   </channel>
   <channel id="Roya_Ch40">
     <display-name lang="ar">إنتاجات رؤيا</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_tv.png" />
   </channel>
   <channel id="Roya_Ch41">
     <display-name lang="ar">كرفان</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_tv.png" />
   </channel>
   <channel id="Roya_Ch35">
     <display-name lang="ar">قناة الشرقية</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/roya_tv.png" />
   </channel>
   <programme start="20260824210000 +0000" stop="20260824213000 +0000" channel="Roya_RoyaTV">
     <title lang="ar">نسمات أيلول</title>
@@ -448,14 +458,14 @@
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/609/WoddRTHS0kAGdOm.jpg" />
   </programme>
   <programme start="20260825010216 +0000" stop="20260825014846 +0000" channel="Roya_RoyaComedy">
-    <title lang="ar">يوميات مدير عام • Live 🟢</title>
+    <title lang="ar">يوميات مدير عام</title>
     <desc lang="ar">المسلسل يروي قصة موظف حكومي يُدعى أيمن زيدان، الذي يُعيَّن مديرًا عامًا في إحدى الدوائر الحكومية، ويكتشف الفساد الواسع فيها. يسعى لإصلاح الوضع، فيستعين بصديقه زهير عبد الكريم، المعروف بمهارته في التنكر وتجسيد شخصيات مختلفة، ليقوم بالتسلل بين الموظفين وفضح الفاسدين. يقدم المسلسل لحظات كوميدية ساخرة تجسدت في مواقف طريفة خلال تنكر زهير، وتبرز موهبته في إحداث التغيير بطريقة غير تقليدية.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/609/WoddRTHS0kAGdOm.jpg" />
   </programme>
   <programme start="20260825014846 +0000" stop="20260825023533 +0000" channel="Roya_RoyaComedy">
-    <title lang="ar">يوميات مدير عام</title>
+    <title lang="ar">يوميات مدير عام • Live 🟢</title>
     <desc lang="ar">المسلسل يروي قصة موظف حكومي يُدعى أيمن زيدان، الذي يُعيَّن مديرًا عامًا في إحدى الدوائر الحكومية، ويكتشف الفساد الواسع فيها. يسعى لإصلاح الوضع، فيستعين بصديقه زهير عبد الكريم، المعروف بمهارته في التنكر وتجسيد شخصيات مختلفة، ليقوم بالتسلل بين الموظفين وفضح الفاسدين. يقدم المسلسل لحظات كوميدية ساخرة تجسدت في مواقف طريفة خلال تنكر زهير، وتبرز موهبته في إحداث التغيير بطريقة غير تقليدية.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/609/WoddRTHS0kAGdOm.jpg" />
   </programme>
   <programme start="20260825023533 +0000" stop="20260825024906 +0000" channel="Roya_RoyaComedy">
@@ -742,14 +752,14 @@
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/180/4HTNtPcCvdpy5w0.jpg" />
   </programme>
   <programme start="20260825013540 +0000" stop="20260825015607 +0000" channel="Roya_RoyaKitchen">
-    <title lang="ar">مطبخ رؤيا - حلويات غربية • Live 🟢</title>
+    <title lang="ar">مطبخ رؤيا - حلويات غربية</title>
     <desc lang="ar">وصفات الحلويات الغربية الشهية ضمن مطبخ رؤيا.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/182/uMTE3zy1TM3PA7f.jpg" />
   </programme>
   <programme start="20260825015607 +0000" stop="20260825021903 +0000" channel="Roya_RoyaKitchen">
-    <title lang="ar">مطبخ رؤيا - نصائح صحية</title>
+    <title lang="ar">مطبخ رؤيا - نصائح صحية • Live 🟢</title>
     <desc lang="ar">فقرة نصائح صحية ضمن مطبخ رؤيا تتحدث عن أهم النصائح الصحية، وطريقة الاهتمام بالتغذية السليمة للحفاظ على الصحية والوقاية من الأمراض.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/211/KFBsAt3SJInSKel.jpg" />
   </programme>
   <programme start="20260825021903 +0000" stop="20260825025031 +0000" channel="Roya_RoyaKitchen">
@@ -1208,9 +1218,8 @@
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/2iTerQzpdjQmHhF.webp" />
   </programme>
   <programme start="20260825014319 +0000" stop="20260825014943 +0000" channel="Roya_Ch38">
-    <title lang="ar">كرفان - بيت في فلسطين • Live 🟢</title>
+    <title lang="ar">كرفان - بيت في فلسطين</title>
     <desc lang="ar">بيت في فلسطين، ضمن فقرات كرفان.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1099/E7dk59cVDNO6fvp.webp" />
   </programme>
   <programme start="20260825014943 +0000" stop="20260825015312 +0000" channel="Roya_Ch38">
@@ -1219,8 +1228,9 @@
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1312/91YuWayIb0WX9t3.webp" />
   </programme>
   <programme start="20260825015312 +0000" stop="20260825021656 +0000" channel="Roya_Ch38">
-    <title lang="ar">ما بعد الأسر</title>
+    <title lang="ar">ما بعد الأسر • Live 🟢</title>
     <desc lang="ar">"برنامج ما بعد الأسر"، برنامج وثائقي يروي التفاصيل التي يتعرض لها الأسرى الفلسطينيين في سجون الاحتلال الإسرائيلي.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1336/4JVlbi9F5c8z4f8.webp" />
   </programme>
   <programme start="20260825021656 +0000" stop="20260825022106 +0000" channel="Roya_Ch38">
@@ -2099,13 +2109,12 @@
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1131/B7S0YnWy9eNzMnm.jpg" />
   </programme>
   <programme start="20260825011411 +0000" stop="20260825015140 +0000" channel="Roya_Ch40">
-    <title lang="ar">صدفة • Live 🟢</title>
+    <title lang="ar">صدفة</title>
     <desc lang="ar">يتناول المسلسل الكوميدي القصير قصة المغامرات الطريفة للعم غافل، الذي يجسد دور رجل متقاعد تغيرت حياته بفعل صدفة غريبة.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1284/4bIlWK3YPpoxDcP.webp" />
   </programme>
   <programme start="20260825015140 +0000" stop="20260825025641 +0000" channel="Roya_Ch40">
-    <title lang="ar">جلطة - كبرت العيلة</title>
+    <title lang="ar">جلطة - كبرت العيلة • Live 🟢</title>
     <desc lang="ar">أحداث كوميدية شيقة في عائلة جلطة "العائلة كبرت"، في هذا الموسم يستعد كل من فؤاد ولين لاستقبال مولودهما الأول، في حين أن عائلة أبو فؤاد ينشغل كل منهم في أعماله، أبو فؤاد يقرر أن يكمل تعليمه مع مساعده الجديد عماد، أما أم فؤاد فتنشغل في إدارة المقهى الجديد.
 أما عائلة سليم، فسليم في تصادم مع مها و مع نفسه بسبب حماته نهال، وفيروز تجد نفسها مسؤولة عن تسلية و الاهتمام بمي ابنة مديرها الجديد.
 العمل من بطولة: 
@@ -2119,6 +2128,7 @@
 ليا مباردي 
 زينة خريسات 
 مايا الصعيدي</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1391/NuTUqUNNzQGtuBL.jpg" />
   </programme>
   <programme start="20260825025641 +0000" stop="20260825033800 +0000" channel="Roya_Ch40">
