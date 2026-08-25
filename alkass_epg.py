@@ -24,6 +24,18 @@ page. bein.com's Arabic ajax endpoint does return the guide, but as
 659 KB of markup with none of the documented class names, so it would
 have to be reverse-engineered for data this feed already gives cleanly.
 
+A note on time, because it is easy to get wrong: the feed stamps every one
+of its 4189 programmes "+0100" regardless of which country the channel is
+in — one blanket offset applied by whoever rips it. The wall-clock values
+are Doha local time, so honouring that stamp shifted this whole guide two
+hours late.
+
+Verified against beIN's own Arabic guide: bein.com places "أخبار" on
+Alkass 1 at 00:00-00:30, and the feed carries the same programme stamped
+"20260825000000 +0100". Reading that clock as Doha reproduces beIN
+exactly; honouring the +0100 put it at 02:00. So the stated offset is
+ignored and the clock is read as Doha.
+
 Alkass 9, 10, 11 and the two SHOOF channels exist, but no reachable
 source publishes a schedule for them, so they are not in this guide.
 
@@ -80,6 +92,13 @@ XMLTV_TS_RE = re.compile(r"^(\d{14})(?:\s*([+-]\d{4}))?$")
 
 
 def parse_xmltv_time(value: str | None) -> datetime | None:
+    """Read the feed's clock as Doha time, ignoring the offset it states.
+
+    The feed labels everything "+0100" whatever the channel's country, but
+    the numbers themselves are Doha local — see the note at the top of this
+    file for the cross-check against beIN's own guide. Trusting the label
+    made the guide two hours late.
+    """
     m = XMLTV_TS_RE.match((value or "").strip())
     if not m:
         return None
@@ -87,15 +106,7 @@ def parse_xmltv_time(value: str | None) -> datetime | None:
         dt = datetime.strptime(m.group(1), "%Y%m%d%H%M%S")
     except ValueError:
         return None
-    offset = m.group(2)
-    if offset:
-        sign = 1 if offset[0] == "+" else -1
-        dt = dt.replace(tzinfo=timezone(
-            sign * timedelta(hours=int(offset[1:3]), minutes=int(offset[3:5]))
-        ))
-    else:
-        dt = dt.replace(tzinfo=DOHA)
-    return dt.astimezone(UTC)
+    return dt.replace(tzinfo=DOHA).astimezone(UTC)
 
 
 def fetch_feed(session) -> ET.Element | None:
