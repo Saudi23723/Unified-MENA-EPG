@@ -35,6 +35,12 @@ tvyayinakisi 404s on tabii-spor-1 through tabii-spor-10 and serves only
 the bare tabii-spor slug. The other nine were an artefact of the news
 scraping.
 
+The schedule is published under two channel ids, TabiiSpor.tr and
+TabiiSpor1.tr, holding the identical programmes. That is not two
+channels: TabiiSpor1.tr is the id this guide used to carry, so a player
+already mapped to it keeps its guide instead of going blank the day the
+single real channel replaced the ten invented ones.
+
 No Live badge: neither source marks which broadcasts are live. TRT
 publishes an isRepeat flag, which is not the same thing, so nothing here
 claims to be live.
@@ -60,6 +66,12 @@ TRT_URL = "https://www.trtspor.com.tr/yayin-akisi/tabii-spor"
 TVY_URL = "https://www.tvyayinakisi.com/tabii-spor-yayin-akisi/"
 
 CHANNEL_ID = "TabiiSpor.tr"
+# The id this guide published before the ten invented channels collapsed
+# into the one real one. Kept as an alias carrying the same schedule so an
+# existing playlist mapping is not silently emptied. Channels 2..10 get no
+# alias: they never had a source, so there is nothing to keep alive.
+LEGACY_CHANNEL_ID = "TabiiSpor1.tr"
+CHANNEL_IDS = [CHANNEL_ID, LEGACY_CHANNEL_ID]
 CHANNEL_TR = "tabii Spor"
 CHANNEL_AR = "تابي سبور"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG"
@@ -228,25 +240,30 @@ def build() -> int:
         return 0
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — tabii Spor"})
-    channel = ET.SubElement(root, "channel", id=CHANNEL_ID)
-    ET.SubElement(channel, "display-name", lang="tr").text = CHANNEL_TR
-    ET.SubElement(channel, "display-name", lang="ar").text = CHANNEL_AR
-    ET.SubElement(channel, "icon", src=LOGO)
+    for cid in CHANNEL_IDS:
+        channel = ET.SubElement(root, "channel", id=cid)
+        ET.SubElement(channel, "display-name", lang="tr").text = CHANNEL_TR
+        ET.SubElement(channel, "display-name", lang="ar").text = CHANNEL_AR
+        ET.SubElement(channel, "icon", src=LOGO)
 
     total = 0
     for ev in resolve_overlaps(events):
-        add_programme(root, CHANNEL_ID, ev["start"], ev["stop"], ev["title"],
-                      ev.get("desc", ""), category="Spor")
+        # The same programme under both ids: one channel, two names for it.
+        for cid in CHANNEL_IDS:
+            add_programme(root, cid, ev["start"], ev["stop"], ev["title"],
+                          ev.get("desc", ""), category="Spor")
         total += 1
 
     days = sorted({e["start"].strftime("%Y-%m-%d") for e in events})
     log(f"tabii Spor: {total} programmes over {len(days)} days "
-        f"({days[0]} .. {days[-1]})")
+        f"({days[0]} .. {days[-1]}), published on {len(CHANNEL_IDS)} ids "
+        f"({', '.join(CHANNEL_IDS)})")
 
     # One channel now instead of ten, so the channel count alone looks
     # like a collapse. A floor is the honest guard here: TRT's week never
-    # comes to under 20 programmes.
-    write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=20,
+    # comes to under 20 programmes, once per id it is published under.
+    write_xml_atomic(root, OUTPUT, guard_regression=False,
+                     min_programmes=20 * len(CHANNEL_IDS),
                      generator_name="Unified MENA EPG — tabii Spor")
     return 0
 

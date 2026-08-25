@@ -187,7 +187,10 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/shahid_sports
 
 ### 🇹🇷 tabii Spor
 
-**Channel:** tabii Spor.
+**Channel:** tabii Spor, published under two channel ids —
+`TabiiSpor.tr` and `TabiiSpor1.tr` — carrying the identical schedule.
+`TabiiSpor1.tr` is the id this guide used to carry, kept so a playlist
+already mapped to it keeps its guide instead of going blank.
 
 Sourced from **TRT's own broadcast-schedule page**, which carries a full
 week of EPG, with tvyayinakisi.com filling the current day where TRT
@@ -199,6 +202,8 @@ trtspor.com.tr *news* pages and split them across ten invented channels,
 leaving 83 programmes of which 6 were still in the future and three
 channels empty. There is no source for "tabii Spor 2" and up: TRT names
 exactly one channel, and tvyayinakisi 404s on every numbered slug.
+Channels 2 through 10 therefore get no alias — they never had a source,
+so there is nothing to keep alive.
 
 No Live badge: neither source marks which broadcasts are live.
 
