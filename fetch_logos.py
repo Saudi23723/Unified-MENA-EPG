@@ -94,12 +94,13 @@ CANDIDATES: dict[str, list[str]] = {
     "bein_haber": ["https://i.imgur.com/QWo0x7S.jpg"],
 
     # --- tabii (TR) --------------------------------------------------------
-    # One brand mark for all ten Spor channels; tabii publishes no separate
-    # logo per channel. The site favicon is the fallback.
-    "tabii": [
-        "https://cms-tabii-public-image.tabii.com/int/w300/43020.jpeg",
-        "https://www.tabii.com/favicon.ico",
-    ],
+    # Deliberately not listed. The eleven tabii marks — tabii.png for the
+    # linear channel and tabii1..tabii10.png for the PPV numbers — are held
+    # in this repository rather than fetched, because no host publishes a
+    # numbered set: sporekrani serves them at 109x19, too small to show,
+    # and TRT publishes only the unnumbered wordmark. This script writes
+    # only the keys it holds, so leaving tabii out is what stops a future
+    # run from overwriting all eleven with one unnumbered picture.
 
     # --- Shahid (guide channel) --------------------------------------------
     "shahid": [

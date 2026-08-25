@@ -230,6 +230,17 @@ mapped to it never goes blank.
 sets `isLiveBroadcast`. TRT publishes no live marker, so the linear
 channel carries none.
 
+**Each channel wears its own number.** `logos/tabii.png` for the linear
+channel and `logos/tabii1.png` … `tabii10.png` for the PPV ones, built
+from tabii's own mark with the number set in its place — the rebuilt "6"
+lands on exactly the pixels the original occupied. They are held here
+rather than fetched because no host publishes a numbered set big enough
+to show: sporekrani serves them at 109×19 and TRT only the unnumbered
+wordmark. For that reason `tabii` is deliberately absent from
+`fetch_logos.py`, so no future run can overwrite all eleven with one
+unnumbered picture. Before this, every tabii channel wore the mark of
+tabii Spor 6.
+
 It used to claim ten channels for a different reason: the old generator
 read no schedule at all — it scraped mentions of matches out of
 trtspor.com.tr *news* pages and split them across ten invented channels,

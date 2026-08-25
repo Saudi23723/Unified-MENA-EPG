@@ -73,8 +73,8 @@ TRT_URL = "https://www.trtspor.com.tr/yayin-akisi/tabii-spor"
 TVY_URL = "https://www.tvyayinakisi.com/tabii-spor-yayin-akisi/"
 SPOREKRANI_URL = "https://www.sporekrani.com/"
 
-LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG"
-        "/main/logos/tabii.png")
+LOGO_BASE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG"
+             "/main/logos")
 
 # 0 is the linear channel; 1..10 are the PPV streams.
 LINEAR = 0
@@ -89,6 +89,18 @@ def channel_names(number: int) -> tuple[str, str]:
     if number == LINEAR:
         return "tabii Spor", "تابي سبور"
     return f"tabii Spor {number}", f"تابي سبور {number}"
+
+
+def channel_logo(number: int) -> str:
+    """Each channel wears its own number.
+
+    The marks are held in this repository, not hot-linked: no host serves a
+    numbered set big enough to show. They are built from tabii's own logo
+    with the number set in its place, so tabii Spor 3 reads "spor 3" and
+    the linear channel carries no number at all.
+    """
+    name = "tabii.png" if number == LINEAR else f"tabii{number}.png"
+    return f"{LOGO_BASE}/{name}"
 
 
 ALL_NUMBERS = [LINEAR] + PPV_NUMBERS
@@ -426,7 +438,7 @@ def build() -> int:
         channel = ET.SubElement(root, "channel", id=channel_id(number))
         ET.SubElement(channel, "display-name", lang="tr").text = tr_name
         ET.SubElement(channel, "display-name", lang="ar").text = ar_name
-        ET.SubElement(channel, "icon", src=LOGO)
+        ET.SubElement(channel, "icon", src=channel_logo(number))
 
     per_channel: dict[int, list[dict]] = {}
     for event in events:
