@@ -108,6 +108,12 @@ CANDIDATES: dict[str, list[str]] = {
     ],
 
 
+    # --- Fajer -------------------------------------------------------------
+    # The guide is built from Fajer's public Telegram channel, so the
+    # channel's own avatar is the broadcaster's own mark. This is a signed
+    # CDN URL and can expire; re-run this script if it stops resolving.
+    "fajer": ["https://cdn4.telesco.pe/file/QUybT7e4plwaf01ipo_9G4j7wpncuuj5lUHaAsE5eIEPPMdFk4wfrDAnyaXQaVWDRkYHawit-XJnK5Hb_oMMDAHvIiM-uz3WCQYqupkydLFbtkX1vJaCFmGg9iyOzkdFC0HXinHQHNY7Vr5ItLu0jqkGTWMXTIczbMkbbUGFV2fPNDdNjnEXbnPX4gllUIZ8aiW0UyDw3tSeK2uZ1_6yPHmXVJg6odS7f-Z8QrW5w8S0bTLf-MzrDgMuDJQGU6o6HVtOACAgDCu8-kcXmEmwtI0PEq-qMvYOL6d_Xa0hhjdtMdT2L922zwHaEXAgUAJFwOjo2a18qKVH4ywXjIZfUg.jpg"],
+
     # --- Alkass (QA) -------------------------------------------------------
     # From the iptv-org logo database. Only channels 1-8 are here because
     # only those have a schedule in any reachable source.
