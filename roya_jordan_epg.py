@@ -38,6 +38,18 @@ from epg_lib import (
 OUTPUT = "roya_jordan_epg.xml"
 UTC = timezone.utc
 
+LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
+
+# Roya publishes a mark for only some of its channels. Anything not listed
+# here falls back to the network mark in build(), so no channel is blank.
+ROYA_LOGO_KEYS = {
+    "Roya_RoyaTV": "roya_tv",
+    "Roya_RoyaNews": "roya_news",
+    "Roya_RoyaComedy": "roya_comedy",
+    "Roya_RoyaKitchen": "roya_kitchen",
+    "Roya_RoyaKids": "roya_kids",
+}
+
 API = "https://backend.roya.tv/api/v01/channels/schedule-pagination"
 
 DAYS_BACK = 1
@@ -88,6 +100,10 @@ def build() -> int:
     for site_id, meta in channels.items():
         ch = ET.SubElement(root, "channel", id=meta["xmltv_id"])
         ET.SubElement(ch, "display-name", lang="ar").text = meta["name"]
+        # Roya publishes a mark for only some of its channels; the rest take
+        # the network mark rather than showing nothing.
+        key = ROYA_LOGO_KEYS.get(meta["xmltv_id"], "roya_tv")
+        ET.SubElement(ch, "icon", src=f"{LOGO_BASE}/{key}.png")
 
     now = utc_now()
     total = 0

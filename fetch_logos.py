@@ -78,6 +78,42 @@ CANDIDATES: dict[str, list[str]] = {
         "https://i.imgur.com/NIMiorz.png",
     ],
 
+    # --- Roya (JO) ---------------------------------------------------------
+    "roya_tv": ["https://i.imgur.com/WX80rty.png"],
+    "roya_news": ["https://i.imgur.com/afowXIe.png"],
+    "roya_comedy": ["https://i.imgur.com/oIThcM8.png"],
+    "roya_kitchen": ["https://i.imgur.com/lWfh8pP.png"],
+    "roya_kids": ["https://i.imgur.com/acuCGF8.png"],
+
+    # --- Jordan Sport (JO) -------------------------------------------------
+    "jordan_sport": ["https://i.imgur.com/2EmrZPQ.png"],
+
+    # --- beIN SPORTS HABER (TR) --------------------------------------------
+    # The rest of the Türkiye roster reuses the beIN marks already fetched
+    # for Qatar - beIN SPORTS 1 is beIN SPORTS 1 either side of the border.
+    "bein_haber": ["https://i.imgur.com/QWo0x7S.jpg"],
+
+    # --- tabii (TR) --------------------------------------------------------
+    # One brand mark for all ten Spor channels; tabii publishes no separate
+    # logo per channel. The site favicon is the fallback.
+    "tabii": [
+        "https://cms-tabii-public-image.tabii.com/int/w300/43020.jpeg",
+        "https://www.tabii.com/favicon.ico",
+    ],
+
+    # --- Shahid (guide channel) --------------------------------------------
+    "shahid": [
+        "https://shahid.mbc.net/apple-touch-icon.png",
+        "https://shahid.mbc.net/staticFiles/production/mbc-shahid-black.jpg",
+    ],
+
+    # --- Alwan / Fajer -----------------------------------------------------
+    # Both guides are built from a public Telegram channel, so the channel's
+    # own avatar is the broadcaster's own mark. These are signed CDN URLs and
+    # can expire; re-run this script if one stops resolving.
+    "alwan": ["https://cdn4.telesco.pe/file/VyRDqVS7p0qIZZ_41mf9UiuvfKxao8h6kEXGP_uTJDWlyuhrTQtW0jXDeN6nfnnrXKLrQxVZoOQluteyl4hRBzMtUG2KpmkTUNlGy7Dnz2Wdi2DBhGr2ix50w93htgBF9eAGDjb8m9kXJlsnRy-B6nSJUR-jEkjY-uwLVwSW0uAkzQoeuDHRHB1iwfO2VZjvgMMQJ-etgusCmizNFHcs13HoMzF267937IceGwxwhRueMyZpgrAWvimioYlw2_oH_sPRffGAzKct5Vz8yjZY8PiKmsbjamY0ynUe9d8VTC5l4BSbJ_aucT3iHL50Alp4c0zw42ycSAEDZfe_8iZgSg.jpg"],
+    "fajer": ["https://cdn4.telesco.pe/file/QUybT7e4plwaf01ipo_9G4j7wpncuuj5lUHaAsE5eIEPPMdFk4wfrDAnyaXQaVWDRkYHawit-XJnK5Hb_oMMDAHvIiM-uz3WCQYqupkydLFbtkX1vJaCFmGg9iyOzkdFC0HXinHQHNY7Vr5ItLu0jqkGTWMXTIczbMkbbUGFV2fPNDdNjnEXbnPX4gllUIZ8aiW0UyDw3tSeK2uZ1_6yPHmXVJg6odS7f-Z8QrW5w8S0bTLf-MzrDgMuDJQGU6o6HVtOACAgDCu8-kcXmEmwtI0PEq-qMvYOL6d_Xa0hhjdtMdT2L922zwHaEXAgUAJFwOjo2a18qKVH4ywXjIZfUg.jpg"],
+
     # --- Alkass (QA) -------------------------------------------------------
     # From the iptv-org logo database. Only channels 1-8 are here because
     # only those have a schedule in any reachable source.
