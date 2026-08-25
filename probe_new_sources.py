@@ -23,14 +23,20 @@ ARABIC = re.compile(r"[؀-ۿ]")
 
 
 def head(x):
-    print(f"\n{'='*76}\n{x}\n{'='*76}")
+    print(f"\n{'='*76}\n{x}\n{'='*76}", flush=True)
+
+
+# (connect, read) rather than one number: a host that accepts the socket and
+# then says nothing is exactly what stalled the first run of this probe.
+TIMEOUT = (5, 12)
 
 
 def get(url, **kw):
+    kw.setdefault("allow_redirects", True)
     try:
-        return requests.get(url, headers=H, timeout=40, **kw)
+        return requests.get(url, headers=H, timeout=TIMEOUT, stream=False, **kw)
     except Exception as exc:
-        print(f"  FAILED {url[:70]}: {exc}")
+        print(f"  FAILED {url[:70]}: {type(exc).__name__}: {str(exc)[:90]}", flush=True)
         return None
 
 
@@ -86,13 +92,30 @@ def probe_bein_com_alkass():
         print("      head:", t[:400].replace("\n", " "))
 
 
+def fetch_gz(url, cap=40_000_000):
+    """Download a gzipped XMLTV feed with a hard size cap and real timeouts."""
+    try:
+        with requests.get(url, headers=H, timeout=TIMEOUT, stream=True) as r:
+            if r.status_code != 200:
+                print(f"  {url.rsplit('/', 1)[-1]}: status={r.status_code}", flush=True)
+                return None
+            buf = bytearray()
+            for chunk in r.iter_content(65536):
+                buf.extend(chunk)
+                if len(buf) > cap:
+                    print(f"  {url.rsplit('/', 1)[-1]}: over {cap} bytes, giving up", flush=True)
+                    return None
+        return gzip.decompress(bytes(buf)).decode("utf-8", "replace")
+    except Exception as exc:
+        print(f"  {url.rsplit('/', 1)[-1]}: {type(exc).__name__}: {str(exc)[:90]}", flush=True)
+        return None
+
+
 def probe_epgshare_alkass():
     head("3) epgshare01 BEIN1 — Alkass coverage and reach")
-    r = get("https://epgshare01.online/epgshare01/epg_ripper_BEIN1.xml.gz")
-    if r is None or r.status_code != 200:
-        brief("epgshare BEIN1", r)
+    xml = fetch_gz("https://epgshare01.online/epgshare01/epg_ripper_BEIN1.xml.gz")
+    if xml is None:
         return
-    xml = gzip.decompress(r.content).decode("utf-8", "replace")
     print(f"  decompressed={len(xml)} channels={xml.count('<channel ')} "
           f"programmes={xml.count('<programme ')}")
     per = defaultdict(list)
@@ -167,16 +190,8 @@ def probe_stc():
         brief(url, get(url))
     print("\n  -- Saudi sport feeds on epgshare, for comparison --")
     for tag in ("SA1", "AR1", "QA1"):
-        r = get(f"https://epgshare01.online/epgshare01/epg_ripper_{tag}.xml.gz")
-        if r is None:
-            continue
-        if r.status_code != 200:
-            print(f"    {tag}: status={r.status_code}")
-            continue
-        try:
-            xml = gzip.decompress(r.content).decode("utf-8", "replace")
-        except Exception as exc:
-            print(f"    {tag}: gunzip failed {exc}")
+        xml = fetch_gz(f"https://epgshare01.online/epgshare01/epg_ripper_{tag}.xml.gz")
+        if xml is None:
             continue
         ids = re.findall(r'<channel id="([^"]+)"', xml)
         hits = [i for i in ids if re.search(r"ssc|stc|sport|alkass|kass", i, re.I)]
@@ -188,11 +203,14 @@ def probe_stc():
 
 
 def main():
-    probe_alkass_official()
-    probe_bein_com_alkass()
-    probe_epgshare_alkass()
-    probe_starzplay()
-    probe_stc()
+    # One unreachable source must not cost us the findings of the others.
+    for step in (probe_alkass_official, probe_bein_com_alkass,
+                 probe_epgshare_alkass, probe_starzplay, probe_stc):
+        try:
+            step()
+        except Exception as exc:
+            print(f"\n  !! {step.__name__} blew up: {type(exc).__name__}: {exc}", flush=True)
+        print("", flush=True)
 
 
 if __name__ == "__main__":
