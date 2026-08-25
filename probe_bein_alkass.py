@@ -65,7 +65,6 @@ def parse_scoped(text: str) -> dict[int, dict[str, tuple[str, str]]]:
     belonging to other channels are not swept up."""
     out: dict[int, dict[str, tuple[str, str]]] = defaultdict(dict)
     current: int | None = None
-    pos = 0
     combined = re.compile(
         r"(?P<any>/\d{4}_[A-Za-z0-9_]+\.png)|(?P<li><li\s[^>]*?>.*?</li>)", re.S | re.I)
     for m in combined.finditer(text or ""):

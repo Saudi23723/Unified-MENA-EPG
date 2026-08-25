@@ -108,6 +108,10 @@ CANDIDATES: dict[str, list[str]] = {
     ],
 
 
+    # Alwan is deliberately absent: logos/alwan.png is the mark the repo
+    # owner supplied directly, so this script must not overwrite it. It only
+    # ever writes the keys listed here, so leaving it out is what keeps it.
+
     # --- Fajer -------------------------------------------------------------
     # The guide is built from Fajer's public Telegram channel, so the
     # channel's own avatar is the broadcaster's own mark. This is a signed
