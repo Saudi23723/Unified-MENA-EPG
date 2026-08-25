@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Read-only: is each Alkass block on bein.com really the channel its logo
-filename claims, and does its schedule match Alkass's own?
+filename claims?
 
 alkass_epg.py attaches every programme to the channel named by the nearest
-preceding logo image, 2023_Alkass_N.png. That assumes N is the real channel
-number. If beIN's page reuses or misnumbers those images, all eight
-channels are mislabelled and every programme lands on the wrong one — a
-failure that looks exactly like "the schedule is wrong".
-
-Prints, for every channel block on the page, the logo filename with any
-name, id or alt sitting beside it; the raw markup around the first Alkass
-blocks; today's parsed schedule per channel; and, for comparison, whatever
-alkass.net publishes. Changes nothing.
+preceding logo image, 2023_Alkass_N.png. Today's output has Alkass 1 and
+Alkass 4 carrying an identical schedule, and Alkass 5 and Alkass 7 the
+same — so either those logo files are reused on the page, or a block is
+being read twice. This prints every Alkass logo occurrence in document
+order with what identifies it and what follows it, so the mapping can be
+checked rather than assumed. Changes nothing.
 """
 from __future__ import annotations
 
@@ -33,7 +30,6 @@ T = (5, 20)
 LOGO = re.compile(r"/(\d{4})_([A-Za-z0-9_]+)\.png")
 TOKEN = re.compile(r"(?P<logo>/\d{4}_[A-Za-z0-9_]+\.png)"
                    r"|(?P<row><li(?:\s[^>]*?)?>.*?</li>)", re.S | re.I)
-ALKASS = re.compile(r"/\d{4}_Alkass_(\d+)\.png", re.I)
 RANGE = re.compile(r"data-start='([\d\- :]+)'\s+data-end='([\d\- :]+)'")
 TITLE = re.compile(r"<p class=title>(.*?)</p>", re.S)
 
@@ -46,93 +42,61 @@ def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def logo_map(text):
-    """Every channel logo in document order with what identifies it."""
-    rows = []
-    for i, m in enumerate(LOGO.finditer(text)):
-        before, after = text[max(0, m.start() - 900):m.start()], text[m.end():m.end() + 400]
-        ids = re.findall(r"id=['\"]?(channels_\d+|slider_\d+|ch_\d+)", before + after)
-        alt = re.findall(r"alt=['\"]([^'\"]{2,60})['\"]", before + after)
-        # any human-readable channel name sitting in the same block
-        names = re.findall(r"class=['\"]?(?:channel|channel-name|name)['\"]?[^>]*>([^<]{2,60})<",
-                           before + after)
-        rows.append((i, m.group(2), ids[:2], alt[:2], [clean(n) for n in names[:2]]))
-    return rows
-
-
-def parse(text):
-    """{n: [(start, stop, title)]} exactly the way alkass_epg.py reads it."""
-    out, cur = {}, None
-    for m in TOKEN.finditer(text):
-        if m.group("logo"):
-            hit = ALKASS.match(m.group("logo"))
-            cur = int(hit.group(1)) if hit else None
-            continue
-        if cur is None:
-            continue
-        row = m.group("row")
-        span, title = RANGE.search(row), TITLE.search(row)
-        if span and title:
-            out.setdefault(cur, []).append((span.group(1), span.group(2), clean(title.group(1))))
-    return out
-
-
 def main():
     day = datetime.now(DOHA).strftime("%Y-%m-%d")
-    print(f"Doha today: {day}   now: {datetime.now(DOHA):%H:%M}", flush=True)
-    pages = {}
+    print(f"Doha today: {day}  now {datetime.now(DOHA):%H:%M}", flush=True)
 
     for lang, pid in (("ar", "25344"), ("en", "25356")):
         section(f"bein.com {lang.upper()}")
         try:
             r = requests.get(URL.format(lang=lang, LANG=lang.upper(), pid=pid, d=day),
                              headers=H, timeout=T)
-            print(f"status={r.status_code} bytes={len(r.text)}", flush=True)
-            if r.status_code != 200:
-                continue
-            pages[lang] = r.text
         except Exception as exc:
             print(f"FAILED: {exc}", flush=True)
             continue
-
-        print("\nchannel logos in document order (ids / alt / nearby name):", flush=True)
-        for i, name, ids, alt, names in logo_map(pages[lang]):
-            mark = "   <<< ALKASS" if "alkass" in name.lower() else ""
-            print(f"  {i:3} {name:24} ids={ids} alt={alt} names={names}{mark}", flush=True)
-
-    if "ar" in pages:
-        section("raw markup around each Alkass logo (AR)")
-        for m in ALKASS.finditer(pages["ar"]):
-            w = pages["ar"][max(0, m.start() - 1000):m.end() + 120]
-            print(f"\n---- {m.group(0)} ----", flush=True)
-            print("TEXT:", clean(w)[-320:], flush=True)
-            print("RAW :", w[-900:].replace("\n", " "), flush=True)
-
-    for lang in ("en", "ar"):
-        if lang not in pages:
+        t = r.text
+        print(f"status={r.status_code} bytes={len(t)}", flush=True)
+        if r.status_code != 200:
             continue
-        section(f"today's parsed schedule per channel ({lang.upper()})")
-        got = parse(pages[lang])
-        for n in sorted(got):
-            rows = got[n]
-            print(f"\n  Alkass {n}: {len(rows)} rows", flush=True)
-            for s, e, t in rows[:40]:
-                print(f"    {s[11:16]}-{e[11:16]}  {t[:70]}", flush=True)
 
-    section("alkass.net — independent check")
-    for url in ("https://alkass.net/", "https://alkass.net/schedule",
-                "https://www.alkass.net/tv-guide"):
-        try:
-            r = requests.get(url, headers=H, timeout=T, allow_redirects=True)
-            body = clean(r.text)
-            print(f"\n{url} -> {r.status_code} {len(r.text)}b  final={r.url}", flush=True)
-            print("  ", body[:400], flush=True)
-            for kw in ("schedule", "جدول", "epg", "guide", "بث"):
-                hits = re.findall(rf"href=['\"]([^'\"]*{kw}[^'\"]*)['\"]", r.text, re.I)[:6]
-                if hits:
-                    print(f"   links[{kw}]: {hits}", flush=True)
-        except Exception as exc:
-            print(f"{url} FAILED: {exc}", flush=True)
+        logos = list(LOGO.finditer(t))
+        names = [m.group(2) for m in logos]
+        print(f"{len(logos)} logo references, {len(set(names))} distinct", flush=True)
+
+        # Walk in document order the way alkass_epg.py does, but keep every
+        # occurrence separate instead of merging them by number.
+        blocks, cur = [], None
+        for m in TOKEN.finditer(t):
+            if m.group("logo"):
+                cur = {"logo": m.group("logo"), "at": m.start(), "rows": []}
+                blocks.append(cur)
+                continue
+            span, title = RANGE.search(m.group("row")), TITLE.search(m.group("row"))
+            if cur is not None and span and title:
+                cur["rows"].append((span.group(1)[11:16], clean(title.group(1))))
+
+        print("\nevery block in document order (only ones with rows, plus all Alkass):",
+              flush=True)
+        for i, b in enumerate(blocks):
+            is_alkass = "alkass" in b["logo"].lower()
+            if not b["rows"] and not is_alkass:
+                continue
+            before = t[max(0, b["at"] - 800):b["at"]]
+            after = t[b["at"]:b["at"] + 400]
+            ids = re.findall(r"id=['\"]?(channels_\d+|slider_\d+|ch_\d+)", before + after)
+            alt = re.findall(r"alt=['\"]([^'\"]{2,60})['\"]", before + after)
+            first = b["rows"][0] if b["rows"] else ("", "")
+            print(f"  blk{i:3} {b['logo']:28} rows={len(b['rows']):3} "
+                  f"first={first[0]} {first[1][:34]!r} ids={ids[:2]} alt={alt[:2]}"
+                  f"{'   <<< ALKASS' if is_alkass else ''}", flush=True)
+
+        section(f"raw markup before each Alkass logo ({lang.upper()})")
+        for b in blocks:
+            if "alkass" not in b["logo"].lower():
+                continue
+            w = t[max(0, b["at"] - 1200):b["at"] + 200]
+            print(f"\n---- {b['logo']} at {b['at']} ----", flush=True)
+            print("RAW:", w[-1000:].replace("\n", " "), flush=True)
 
 
 if __name__ == "__main__":
