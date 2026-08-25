@@ -46,7 +46,7 @@ jobs:
           echo "No undefined names. Remaining pyflakes notes are advisory."
 
       - name: epg_lib's own guards must hold
-        run: python -u test_epg_lib.py
+        run: python -u epg_lib_selftest.py
 
       # Structure only: whether a guide has aged out is the scheduled
       # health check's job, not a reason for a pull request to go red.

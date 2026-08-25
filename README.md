@@ -311,7 +311,7 @@ Exit code 1 means something needs attention.
 
 **Every push is checked before it can reach a guide.** CI compiles every
 script, fails on any name that would not exist at runtime, runs
-`test_epg_lib.py` — twenty checks holding the guards above in place — and
+`epg_lib_selftest.py` — twenty checks holding the guards above in place — and
 runs the health check in `--structure-only` mode. Freshness is left to
 the scheduled run on purpose: a pull request should not go red because a
 data file aged overnight.
