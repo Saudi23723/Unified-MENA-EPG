@@ -1,0 +1,40 @@
+name: CI
+
+# Every push is checked before it can reach a guide: the scripts must
+# import cleanly and pass their own self-tests, and the committed guides
+# must still be valid. Nothing here writes to the repository.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt pyflakes
+
+      - name: Every script must parse
+        run: python -m compileall -q .
+
+      - name: Every script must be free of undefined names and dead imports
+        run: python -m pyflakes *.py
+
+      - name: epg_lib's own guards must hold
+        run: python -u test_epg_lib.py
+
+      - name: The committed guides must still be valid
+        run: python -u health_check.py

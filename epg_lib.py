@@ -170,18 +170,65 @@ def existing_programme_count(path: str) -> int:
         return 0
 
 
+def existing_channel_count(path: str) -> int:
+    try:
+        if not os.path.exists(path):
+            return 0
+        return len(ET.parse(path).getroot().findall("channel"))
+    except Exception:
+        return 0
+
+
+# A run that comes back with a fraction of what the file already holds is
+# far more likely to be a source half-answering than a real schedule
+# change, and publishing it would empty out a guide people are using. The
+# floor is deliberately low — a guide may legitimately shrink when a
+# source is swapped or a tournament ends — so it only catches a collapse,
+# not ordinary movement. MIN_KEEP_RATIO is what a run must retain of the
+# previous file to be allowed to replace it.
+MIN_KEEP_RATIO = 0.35
+# Below this many programmes the ratio is meaningless: a guide with 8
+# entries dropping to 2 is noise, not a collapse.
+REGRESSION_FLOOR = 40
+
+
+def collapsed_against_previous(root: ET.Element, output_path: str) -> str:
+    """Why this run must not replace the existing file, or "" if it may.
+
+    Compares both counts. Returning a reason rather than a bool keeps the
+    warning specific enough to act on.
+    """
+    for label, new_count, old_count in (
+        ("programmes", len(root.findall("programme")),
+         existing_programme_count(output_path)),
+        ("channels", len(root.findall("channel")),
+         existing_channel_count(output_path)),
+    ):
+        if old_count < REGRESSION_FLOOR or new_count >= old_count * MIN_KEEP_RATIO:
+            continue
+        return (f"{new_count} {label} this run against {old_count} in the "
+                f"existing file — under {MIN_KEEP_RATIO:.0%} of it")
+    return ""
+
+
 def write_xml_atomic(
     root: ET.Element,
     output_path: str,
     *,
     keep_old_if_empty: bool = True,
     check_overlaps: bool = True,
+    guard_regression: bool = True,
     generator_name: str = "Unified MENA EPG",
 ) -> bool:
     """Validate + atomically write an XMLTV tree. Returns True if written.
 
-    Refuses to replace an existing file that already has programmes with a
-    run that produced zero programmes, unless keep_old_if_empty is False.
+    Two things it refuses to do, both about protecting a file that is
+    already good: replace it with a run that produced nothing, and replace
+    it with a run that collapsed to a fraction of it. Either way the
+    previous file stays exactly as it is and the run says why.
+
+    Pass guard_regression=False only where a large drop is expected and
+    intended — a guide deliberately narrowed to fewer channels, say.
     """
     programme_count = len(root.findall("programme"))
 
@@ -191,6 +238,16 @@ def write_xml_atomic(
             f"Keeping previous {output_path} untouched."
         )
         return False
+
+    if guard_regression:
+        reason = collapsed_against_previous(root, output_path)
+        if reason:
+            warn(
+                f"REFUSING to publish {output_path}: {reason}. "
+                f"Keeping the previous file untouched. If this drop is real "
+                f"and intended, pass guard_regression=False for this guide."
+            )
+            return False
 
     try:
         ET.indent(root, space="  ")
@@ -208,17 +265,25 @@ def write_xml_atomic(
     def _p(s: str) -> datetime:
         return datetime.strptime(s, "%Y%m%d%H%M%S %z")
 
-    last_stop: dict[str, datetime] = {}
+    # Overlap is a property of the schedule, not of the order the file
+    # happens to store it in — XMLTV allows any order and several guides
+    # here do write out of order. Collect per channel, then judge sorted,
+    # so an unsorted-but-valid file is never rejected.
+    spans: dict[str, list[tuple[datetime, datetime]]] = {}
     for pr in tree.getroot().findall("programme"):
         ch = pr.get("channel")
         st, sp = _p(pr.get("start")), _p(pr.get("stop"))
         if sp <= st:
             raise ValueError(f"invalid programme duration on {ch}: {pr.get('start')} -> {pr.get('stop')}")
         if check_overlaps:
-            prev = last_stop.get(ch)
-            if prev is not None and st < prev:
-                raise ValueError(f"overlapping programmes on {ch} at {pr.get('start')}")
-            last_stop[ch] = sp
+            spans.setdefault(ch, []).append((st, sp))
+
+    for ch, rows in spans.items():
+        cursor = None
+        for st, sp in sorted(rows):
+            if cursor is not None and st < cursor:
+                raise ValueError(f"overlapping programmes on {ch} at {st:%Y%m%d%H%M%S %z}")
+            cursor = sp if cursor is None else max(cursor, sp)
 
     os.replace(tmp_path, output_path)
     log(f"Written and XML-validated: {output_path} ({programme_count} programmes)")
