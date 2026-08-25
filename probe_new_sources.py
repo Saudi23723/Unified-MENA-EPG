@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe for three new guides: Alkass (QA), STARZPLAY sport,
-and whatever sports channels STC TV publishes.
+"""Round 2 — the sources are settled, now design against the real data.
 
-Runs on GitHub Actions; deleted once the sources are settled.
+Alkass comes from epgshare01's BEIN1 feed (channels 1-8, Arabic, four days
+ahead, already XMLTV with Arabic titles and categories). STARZPLAY comes
+from its own web-EPG API. What is still unknown is how to tell a live match
+from a studio show on either, and whether a countdown filler has any gaps
+to fill.
+
+Runs on GitHub Actions; deleted once the generators are written.
 """
 from __future__ import annotations
 
 import gzip
-import json
 import re
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -19,198 +23,156 @@ UTC = timezone.utc
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36")
 H = {"User-Agent": UA, "Accept-Language": "ar,en;q=0.8"}
-ARABIC = re.compile(r"[؀-ۿ]")
+TIMEOUT = (5, 15)
+BEIN1 = "https://epgshare01.online/epgshare01/epg_ripper_BEIN1.xml.gz"
 
 
 def head(x):
     print(f"\n{'='*76}\n{x}\n{'='*76}", flush=True)
 
 
-# (connect, read) rather than one number: a host that accepts the socket and
-# then says nothing is exactly what stalled the first run of this probe.
-TIMEOUT = (5, 12)
-
-
-def get(url, **kw):
-    kw.setdefault("allow_redirects", True)
-    try:
-        return requests.get(url, headers=H, timeout=TIMEOUT, stream=False, **kw)
-    except Exception as exc:
-        print(f"  FAILED {url[:70]}: {type(exc).__name__}: {str(exc)[:90]}", flush=True)
-        return None
-
-
-def brief(label, r, n=200):
-    if r is None:
-        return
-    print(f"  {label:52} status={r.status_code} len={len(r.content)} "
-          f"ctype={(r.headers.get('content-type') or '')[:28]}")
-    if r.status_code != 200:
-        print(f"      {r.text[:n]}".replace("\n", " "))
-
-
-# ------------------------------------------------------------------ Alkass
-def probe_alkass_official():
-    head("1) alkass.net — the broadcaster's own site")
-    for url in (
-        "https://alkass.net/",
-        "https://www.alkass.net/",
-        "https://alkass.net/schedule",
-        "https://alkass.net/epg",
-        "https://alkass.net/ar/schedule",
-        "https://alkass.net/api/schedule",
-    ):
-        r = get(url)
-        brief(url, r)
-        if r is not None and r.status_code == 200 and "html" in (r.headers.get("content-type") or ""):
-            t = r.text
-            print(f"      __NEXT_DATA__={bool(re.search('__NEXT_DATA__', t))} "
-                  f"ld+json={len(re.findall(r'application/ld.json', t))} "
-                  f"HH:MM={len(re.findall(r'[012]?[0-9]:[0-5][0-9]', t))} "
-                  f"arabic={bool(ARABIC.search(t))}")
-            for pat in (r'/api/[A-Za-z0-9_\-/]+', r'wp-json/[A-Za-z0-9_\-/]+'):
-                hits = sorted(set(re.findall(pat, t)))[:8]
-                if hits:
-                    print(f"      {pat} -> {hits}")
-
-
-def probe_bein_com_alkass():
-    head("2) bein.com Arabic EPG ajax — Alkass sits on ids 33-40 there")
-    today = datetime.now(UTC).strftime("%Y-%m-%d")
-    url = ("https://www.bein.com/ar/epg-ajax-template/?action=epg_fetch"
-           f"&category=sports&cdate={today}&language=AR&loadindex=0&mins=00"
-           "&offset=0&postid=25344&serviceidentity=bein.net")
-    r = get(url)
-    brief("bein.com ar epg_fetch (category=sports)", r)
-    if r is not None and r.status_code == 200:
-        t = r.text
-        print(f"      arabic={bool(ARABIC.search(t))}  len={len(t)}")
-        ids = Counter(re.findall(r'data-channel[^=]*="(\d+)"', t))
-        print(f"      data-channel ids: {dict(list(ids.items())[:20])}")
-        for cls in ("epg-item", "epg-channel", "programme", "epg_time", "epg-title"):
-            print(f"      class {cls!r}: {t.count(cls)}")
-        print("      head:", t[:400].replace("\n", " "))
-
-
-def fetch_gz(url, cap=40_000_000):
-    """Download a gzipped XMLTV feed with a hard size cap and real timeouts."""
+def fetch_gz(url, cap=60_000_000):
     try:
         with requests.get(url, headers=H, timeout=TIMEOUT, stream=True) as r:
             if r.status_code != 200:
-                print(f"  {url.rsplit('/', 1)[-1]}: status={r.status_code}", flush=True)
+                print(f"  status={r.status_code}", flush=True)
                 return None
             buf = bytearray()
             for chunk in r.iter_content(65536):
                 buf.extend(chunk)
                 if len(buf) > cap:
-                    print(f"  {url.rsplit('/', 1)[-1]}: over {cap} bytes, giving up", flush=True)
                     return None
         return gzip.decompress(bytes(buf)).decode("utf-8", "replace")
     except Exception as exc:
-        print(f"  {url.rsplit('/', 1)[-1]}: {type(exc).__name__}: {str(exc)[:90]}", flush=True)
+        print(f"  {type(exc).__name__}: {str(exc)[:100]}", flush=True)
         return None
 
 
-def probe_epgshare_alkass():
-    head("3) epgshare01 BEIN1 — Alkass coverage and reach")
-    xml = fetch_gz("https://epgshare01.online/epgshare01/epg_ripper_BEIN1.xml.gz")
+PROG_RE = re.compile(
+    r'<programme start="([^"]+)" stop="([^"]+)" channel="([^"]+)"[^>]*>(.*?)</programme>',
+    re.S)
+
+
+def tag(block, name):
+    m = re.search(rf"<{name}[^>]*>(.*?)</{name}>", block, re.S)
+    return (m.group(1).strip() if m else "")
+
+
+def parse_ts(v):
+    m = re.match(r"^(\d{14})(?:\s*([+-]\d{4}))?$", v.strip())
+    if not m:
+        return None
+    dt = datetime.strptime(m.group(1), "%Y%m%d%H%M%S")
+    off = m.group(2)
+    if off:
+        sign = 1 if off[0] == "+" else -1
+        dt = dt.replace(tzinfo=timezone(
+            sign * timedelta(hours=int(off[1:3]), minutes=int(off[3:5]))))
+    else:
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
+
+
+def probe_alkass_shape():
+    head("1) Alkass Arabic data — categories, live markers, and gaps")
+    xml = fetch_gz(BEIN1)
     if xml is None:
         return
-    print(f"  decompressed={len(xml)} channels={xml.count('<channel ')} "
-          f"programmes={xml.count('<programme ')}")
-    per = defaultdict(list)
-    for m in re.finditer(r'<programme start="(\d{8})[^"]*"[^>]*channel="([^"]+)"', xml):
-        per[m.group(2)].append(m.group(1))
-    print("\n  -- every channel id mentioning Alkass --")
-    for cid in sorted(per):
-        if "alkass" in cid.lower():
-            print(f"    {cid:34} n={len(per[cid]):4} days={sorted(set(per[cid]))}")
-    empty = sorted(c for c in re.findall(r'<channel id="([^"]+)"', xml)
-                   if "alkass" in c.lower() and c not in per)
-    print(f"  Alkass ids with NO programmes: {empty}")
-    # sample
-    for cid in sorted(per):
-        if "alkass" in cid.lower() and "_AR" in cid:
-            i = xml.find(f'channel="{cid}"')
-            j = xml.rfind("<programme", 0, i)
-            print("\n  sample block:\n", xml[j:j + 460])
-            break
+    rows = defaultdict(list)
+    for st, sp, ch, body in PROG_RE.findall(xml):
+        if not ch.lower().startswith("alkass") or "_ar" not in ch.lower():
+            continue
+        a, b = parse_ts(st), parse_ts(sp)
+        if not a or not b:
+            continue
+        rows[ch].append({"start": a, "stop": b, "title": tag(body, "title"),
+                         "sub": tag(body, "sub-title"), "cat": tag(body, "category"),
+                         "desc": tag(body, "desc")})
+
+    print(f"  Arabic Alkass channels: {sorted(rows)}")
+    allr = [r for v in rows.values() for r in v]
+    print(f"  total programmes: {len(allr)}")
+
+    print("\n  -- every category present --")
+    for k, v in Counter(r["cat"] for r in allr).most_common():
+        print(f"    {v:5}  {k!r}")
+
+    print("\n  -- does anything mark a live broadcast? --")
+    for kw in ("مباشر", "مباشرة", "LIVE", "Live", "بث حي", "اعادة", "إعادة", "ملخص"):
+        n = sum(1 for r in allr if kw in r["title"] or kw in r["sub"] or kw in r["desc"])
+        print(f"    {kw:10} -> {n}")
+
+    print("\n  -- descriptions present? --")
+    print(f"    with desc: {sum(1 for r in allr if r['desc'])}/{len(allr)}")
+    print(f"    sub-title differs from title: "
+          f"{sum(1 for r in allr if r['sub'] and r['sub'] != r['title'])}/{len(allr)}")
+
+    print("\n  -- 20 sample titles --")
+    for r in allr[:20]:
+        print(f"    {r['start']:%m-%d %H:%M}->{r['stop']:%H:%M} [{r['cat']}] {r['title'][:52]}")
+
+    print("\n  -- gap coverage per channel (does a countdown have anywhere to go?) --")
+    for ch in sorted(rows):
+        evs = sorted(rows[ch], key=lambda r: r["start"])
+        gaps = []
+        for i in range(1, len(evs)):
+            g = (evs[i]["start"] - evs[i - 1]["stop"]).total_seconds() / 60
+            if g > 1:
+                gaps.append(g)
+        span = (evs[-1]["stop"] - evs[0]["start"]).total_seconds() / 3600 if evs else 0
+        print(f"    {ch:22} n={len(evs):3} span={span:6.1f}h gaps>1min={len(gaps):3} "
+              f"total_gap={sum(gaps):7.0f}min overlaps="
+              f"{sum(1 for i in range(1, len(evs)) if evs[i]['start'] < evs[i-1]['stop'])}")
 
 
-# --------------------------------------------------------------- STARZPLAY
-def probe_starzplay():
-    head("4) STARZPLAY web-EPG API — still alive? which sport channels?")
+def probe_starzplay_status():
+    head("2) STARZPLAY — what does event.status hold, and is there a live marker?")
     now = int(datetime.now(UTC).timestamp())
     api = "https://epg.aws.playco.com/api/v1.1/epg/category/events/web-epg-scraper-sp"
-    params = {
-        "ts_start": now - 86400, "ts_end": now + 3 * 86400,
-        "lang": "ar", "pg": 18, "category": "all", "limit": 40,
-        "x-geo-country": "SA", "page": 1,
-    }
-    r = get(api, params=params)
-    brief("starzplay page=1", r)
-    if r is None or r.status_code != 200:
-        return
     try:
+        r = requests.get(api, headers=H, timeout=(5, 30), params={
+            "ts_start": now - 86400, "ts_end": now + 3 * 86400, "lang": "ar",
+            "pg": 18, "category": "all", "limit": 40, "x-geo-country": "SA", "page": 1})
         data = r.json()
     except Exception as exc:
-        print(f"   not JSON: {exc}")
+        print(f"  FAILED {type(exc).__name__}: {str(exc)[:100]}", flush=True)
         return
-    print(f"   top-level keys: {list(data)[:12]}")
-    chans = data.get("channels") or data.get("data") or []
-    if isinstance(chans, dict):
-        chans = list(chans.values())
-    print(f"   channels on page 1: {len(chans)}")
-    for c in chans:
-        if not isinstance(c, dict):
+    want = {"starzplaysports1", "starzplaysports2", "starzplaysport1"}
+    for ch in data.get("data") or []:
+        if not isinstance(ch, dict) or ch.get("slug") not in want:
             continue
-        hay = f"{c.get('title')} {c.get('slug')} {c.get('categories')}".lower()
-        mark = "  <-- SPORT" if "sport" in hay else ""
-        print(f"     slug={str(c.get('slug'))[:30]:32} title={str(c.get('title'))[:34]:36} "
-              f"events={len(c.get('events') or [])}{mark}")
-    if chans and isinstance(chans[0], dict):
-        print(f"\n   CHANNEL KEYS: {sorted(chans[0].keys())}")
-        evs = chans[0].get("events") or []
-        if evs:
-            print(f"   EVENT KEYS: {sorted(evs[0].keys())}")
-            print(f"   sample event: {json.dumps(evs[0], ensure_ascii=False)[:600]}")
-
-
-# ------------------------------------------------------------------ STC TV
-def probe_stc():
-    head("5) STC TV — is there any public schedule at all?")
-    for url in (
-        "https://www.stctv.com/",
-        "https://stctv.com/",
-        "https://www.stctv.com/ar",
-        "https://api.stctv.com/",
-        "https://www.jawwy.tv/",
-        "https://shahid.mbc.net/",
-    ):
-        brief(url, get(url))
-    print("\n  -- Saudi sport feeds on epgshare, for comparison --")
-    for tag in ("SA1", "AR1", "QA1"):
-        xml = fetch_gz(f"https://epgshare01.online/epgshare01/epg_ripper_{tag}.xml.gz")
-        if xml is None:
-            continue
-        ids = re.findall(r'<channel id="([^"]+)"', xml)
-        hits = [i for i in ids if re.search(r"ssc|stc|sport|alkass|kass", i, re.I)]
-        print(f"    {tag}: channels={len(ids)} programmes={xml.count('<programme ')} "
-              f"sport-ish={len(hits)}")
-        for i in hits[:22]:
-            n = xml.count(f'channel="{i}"')
-            print(f"       {i:40} n={n}")
+        evs = ch.get("events") or []
+        print(f"\n  {ch.get('slug')} — {ch.get('title')}  events={len(evs)}")
+        print(f"    category={ch.get('category')!r} genres={ch.get('genres')}")
+        imgs = ch.get("images") or []
+        print(f"    images: {[(i.get('type'), (i.get('url') or '')[:56]) for i in imgs][:3]}")
+        print(f"    status values: {dict(Counter(e.get('status') for e in evs))}")
+        print(f"    contentType  : {dict(Counter(e.get('contentType') for e in evs))}")
+        gen = Counter()
+        for e in evs:
+            for g in (e.get("genres") or []):
+                gen[str(g)[:26]] += 1
+        print(f"    genres       : {dict(gen.most_common(6))}")
+        for kw in ("مباشر", "LIVE", "Live", "إعادة"):
+            print(f"    kw {kw:8} in title: "
+                  f"{sum(1 for e in evs if kw in str(e.get('title') or ''))}")
+        evs_sorted = sorted(evs, key=lambda e: e.get("tsStart") or 0)
+        gaps = 0
+        for i in range(1, len(evs_sorted)):
+            if (evs_sorted[i].get("tsStart") or 0) - (evs_sorted[i-1].get("tsEnd") or 0) > 60:
+                gaps += 1
+        print(f"    gaps>1min between events: {gaps}")
+        for e in evs_sorted[:6]:
+            st = datetime.fromtimestamp(e.get("tsStart") or 0, UTC)
+            print(f"      {st:%m-%d %H:%M} [{e.get('status')}] {str(e.get('title'))[:54]}")
 
 
 def main():
-    # One unreachable source must not cost us the findings of the others.
-    for step in (probe_alkass_official, probe_bein_com_alkass,
-                 probe_epgshare_alkass, probe_starzplay, probe_stc):
+    for step in (probe_alkass_shape, probe_starzplay_status):
         try:
             step()
         except Exception as exc:
-            print(f"\n  !! {step.__name__} blew up: {type(exc).__name__}: {exc}", flush=True)
-        print("", flush=True)
+            print(f"\n  !! {step.__name__}: {type(exc).__name__}: {exc}", flush=True)
 
 
 if __name__ == "__main__":
