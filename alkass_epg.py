@@ -224,7 +224,14 @@ def build() -> int:
             total += 1
 
     log(f"Alkass: {len(with_data)}/{len(CHANNELS)} channels, {total} programmes")
-    write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Alkass")
+
+    # This guide moved from beIN's four-day guide to Alkass's own one-day
+    # one, so it is a third of the size it used to be by design and the
+    # previous file is no longer a fair yardstick — the collapse guard
+    # would refuse every run forever. An absolute floor protects it
+    # instead: eight channels of a real day never comes to under 60.
+    write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=60,
+                     generator_name="Unified MENA EPG — Alkass")
     return 0
 
 

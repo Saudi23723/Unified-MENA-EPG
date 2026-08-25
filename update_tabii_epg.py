@@ -243,7 +243,11 @@ def build() -> int:
     log(f"tabii Spor: {total} programmes over {len(days)} days "
         f"({days[0]} .. {days[-1]})")
 
-    write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — tabii Spor")
+    # One channel now instead of ten, so the channel count alone looks
+    # like a collapse. A floor is the honest guard here: TRT's week never
+    # comes to under 20 programmes.
+    write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=20,
+                     generator_name="Unified MENA EPG — tabii Spor")
     return 0
 
 

@@ -104,6 +104,37 @@ def main() -> int:
     ok, _ = write(guide(2, 5), fresh, check_overlaps=False)
     check("a brand-new file always publishes", ok is True)
 
+    print("\nwrite_xml_atomic — the absolute floor, for guides that shrank on purpose")
+    floored = os.path.join(work, "floored.xml")
+    ok, _ = write(guide(8, 180), floored, check_overlaps=False,
+                  guard_regression=False, min_programmes=60)
+    check("a run above the floor publishes", ok is True)
+    ok, log = write(guide(8, 200), floored, check_overlaps=False,
+                    guard_regression=False, min_programmes=60)
+    check("so does the next one", ok is True, log)
+    ok, log = write(guide(8, 12), floored, check_overlaps=False,
+                    guard_regression=False, min_programmes=60)
+    check("a run under the floor is refused", ok is False)
+    check("it names the floor", "floor of 60" in log, log)
+    check("the previous file survives", L.existing_programme_count(floored) == 200)
+
+    # The case that made the floor necessary: a guide that deliberately
+    # shrank to a third of itself must still be publishable.
+    narrowed = os.path.join(work, "narrowed.xml")
+    write(guide(8, 666), narrowed, check_overlaps=False)
+    ok, log = write(guide(8, 180), narrowed, check_overlaps=False,
+                    guard_regression=False, min_programmes=60)
+    check("a deliberate drop to 27% publishes with a floor instead of the ratio",
+          ok is True, log)
+    check("and it really replaced the file",
+          L.existing_programme_count(narrowed) == 180)
+
+    empty_start = os.path.join(work, "nofile.xml")
+    ok, log = write(guide(1, 5), empty_start, check_overlaps=False,
+                    min_programmes=60)
+    check("with no previous file, a thin run is published rather than nothing",
+          ok is True, log)
+
     print("\nwrite_xml_atomic — overlap is judged in time order, not file order")
     unsorted_path = os.path.join(work, "unsorted.xml")
     ok, log = write(guide(4, 200, ordered=False), unsorted_path, check_overlaps=True)

@@ -218,6 +218,7 @@ def write_xml_atomic(
     keep_old_if_empty: bool = True,
     check_overlaps: bool = True,
     guard_regression: bool = True,
+    min_programmes: int = 0,
     generator_name: str = "Unified MENA EPG",
 ) -> bool:
     """Validate + atomically write an XMLTV tree. Returns True if written.
@@ -228,7 +229,11 @@ def write_xml_atomic(
     previous file stays exactly as it is and the run says why.
 
     Pass guard_regression=False only where a large drop is expected and
-    intended — a guide deliberately narrowed to fewer channels, say.
+    intended — a guide deliberately narrowed to fewer channels, or moved
+    to a source that publishes fewer days. Give such a guide a
+    min_programmes floor instead: comparing against the previous file is
+    meaningless once the size has legitimately changed, but an absolute
+    floor still catches a source that half-answers.
     """
     programme_count = len(root.findall("programme"))
 
@@ -238,6 +243,18 @@ def write_xml_atomic(
             f"Keeping previous {output_path} untouched."
         )
         return False
+
+    if min_programmes and programme_count < min_programmes:
+        if existing_programme_count(output_path) > 0:
+            warn(
+                f"REFUSING to publish {output_path}: {programme_count} programmes "
+                f"is under this guide's floor of {min_programmes}. Keeping the "
+                f"previous file untouched."
+            )
+            return False
+        warn(f"{output_path}: {programme_count} programmes is under the floor of "
+             f"{min_programmes}, but there is no previous file to keep — "
+             f"publishing it rather than leaving nothing.")
 
     if guard_regression:
         reason = collapsed_against_previous(root, output_path)

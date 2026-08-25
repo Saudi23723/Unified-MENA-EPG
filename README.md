@@ -276,7 +276,15 @@ guide genuinely loses two thirds of itself overnight. Ordinary movement —
 a guide breathing between 400 and 1,200 entries as fixtures come and go —
 publishes untouched, and a guide small enough that the ratio is
 meaningless (under 40 programmes) is never judged by it. Where a large
-drop is real and intended, the guide opts out explicitly.
+drop is real and intended, the guide opts out explicitly and takes an
+**absolute floor** instead — Alkass moved to a source publishing one day
+rather than four and is a third of its old size by design, so it is
+judged against a floor of 60 programmes rather than against a file that
+no longer describes it.
+
+These guards only ever decide whether a run may *replace* a file. They
+can never produce a broken one: the worst case is a guide holding still
+for a cycle with a loud warning in the log.
 
 **3. Every file is validated before it is written.**
 Atomically, to a temporary file that is re-parsed and checked before it
