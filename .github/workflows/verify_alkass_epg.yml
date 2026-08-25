@@ -1,0 +1,55 @@
+name: Verify Alkass EPG (branch only)
+on:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -u alkass_epg.py
+      - name: Inspect the result
+        run: |
+          python -u - <<'PY'
+          import xml.etree.ElementTree as ET
+          from collections import defaultdict
+          from datetime import datetime
+
+          root = ET.parse("alkass_epg.xml").getroot()
+          per = defaultdict(list)
+          for p in root.findall("programme"):
+              per[p.get("channel")].append(p)
+
+          for ch in root.findall("channel"):
+              xid = ch.get("id")
+              names = [d.text for d in ch.findall("display-name")]
+              icon = ch.find("icon")
+              print(f"\n== {xid} {names} icon={icon.get('src').split('/')[-1] if icon is not None else 'NONE'} "
+                    f"n={len(per[xid])}")
+              for p in per[xid]:
+                  s = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
+                  e = datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z")
+                  assert e > s, f"bad duration on {xid}"
+                  print(f"   {s.astimezone().strftime('%m-%d')} "
+                        f"{s.strftime('%H:%M')}-{e.strftime('%H:%M')} (UTC)  "
+                        f"{p.findtext('title')}")
+
+          print("\n---- do any two channels carry the same schedule? ----")
+          ids = [c.get("id") for c in root.findall("channel")]
+          key = {i: {(p.get("start"), p.get("stop"), p.findtext("title")) for p in per[i]}
+                 for i in ids}
+          for a in range(len(ids)):
+              for b in range(a + 1, len(ids)):
+                  shared = len(key[ids[a]] & key[ids[b]])
+                  if shared:
+                      print(f"  {ids[a]} vs {ids[b]}: {shared} identical of "
+                            f"{len(key[ids[a]])}/{len(key[ids[b]])}")
+
+          print(f"\ntotals: {len(ids)} channels, {len(root.findall('programme'))} programmes")
+          PY
