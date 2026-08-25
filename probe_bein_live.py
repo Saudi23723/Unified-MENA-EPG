@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: does the Live badge land on every live broadcast beIN airs?
+"""Read-only audit: is every live broadcast beIN airs actually badged?
 
-The badge follows beIN's own per-row `live` flag. Two things could make it
-miss a genuinely live match, and neither is visible from the finished XML:
-the flag may not be the only or the best liveness field the API returns,
-and the API may be capping how many rows it hands back — several channels
-come out at exactly 100 programmes, which would truncate the guide and
-drop live matches entirely rather than merely leave them unbadged.
+Two things came out of reading the raw API:
 
-This dumps the raw response envelope and the full field set of live and
-non-live rows, and tests whether the row count can be pushed past 100.
-Changes nothing.
+  * the endpoint caps at 100 rows unless `limit` is passed. beIN SPORTS 1
+    answers count=156 and hands back 100, so three days go missing —
+    a live match in them is not unbadged, it is absent.
+  * every match row carries data.m_date / data.m_time, the real kick-off
+    in UTC. A broadcast whose own window contains the kick-off IS the
+    live airing; one that does not is a replay. That is an independent
+    check on beIN's `live` flag rather than taking it on trust.
+
+This runs that check on every channel and reports both directions: a
+kick-off inside the window with live=false (a badge we would miss) and
+live=true with the kick-off outside (a badge we would invent). Changes
+nothing.
 """
 from __future__ import annotations
 
-import json
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -23,102 +26,105 @@ import requests
 UTC = timezone.utc
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
      "Accept": "application/json", "Accept-Language": "ar,en;q=0.8"}
-T = (5, 25)
+T = (5, 30)
 API_CHANNELS = "https://www.beinsports.com/api/opta/tv-channel"
 API_EVENTS = "https://www.beinsports.com/api/opta/tv-event"
+DAYS_BACK, DAYS_FORWARD = 1, 6
 
 
 def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def window(days_back=1, days_forward=6):
-    now = datetime.now(UTC)
-    return {
-        "startBefore": (now + timedelta(days=days_forward)).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        "endAfter": (now - timedelta(days=days_back)).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-    }
+def when(value):
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(UTC)
+    except ValueError:
+        return None
 
 
-def is_live(row):
+def kickoff(row):
+    """The real kick-off, UTC. m_time carries the Z; m_date is the same
+    instant without it."""
+    data = row.get("data") or {}
+    stamp = when(data.get("m_date"))
+    return stamp.replace(tzinfo=UTC) if stamp else None
+
+
+def is_live_flag(row):
     f = row.get("live")
     return f is True or (isinstance(f, str) and f.strip().lower() == "true")
 
 
-def get(params):
-    return requests.get(API_EVENTS, headers=H, params=params, timeout=T)
-
-
 def main():
-    section("channel roster")
+    now = datetime.now(UTC)
+    params = {
+        "startBefore": (now + timedelta(days=DAYS_FORWARD)).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        "endAfter": (now - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        "limit": 1000,
+    }
+
     r = requests.get(API_CHANNELS, headers=H, params={"region": "ar-mena"}, timeout=T)
-    rows = r.json().get("rows", []) or []
-    print(f"status={r.status_code} channels={len(rows)}", flush=True)
-    guids = {}
-    for c in rows:
+    channels = []
+    for c in r.json().get("rows", []) or []:
         name = (c.get("title") or c.get("name") or "").strip()
         guid = c.get("site_id") or c.get("siteId") or c.get("id")
         if name and guid:
-            guids[name] = guid
-    for n in sorted(guids)[:45]:
-        print(f"  {n:28} {guids[n]}", flush=True)
+            channels.append((name, guid))
+    channels.sort()
+    section(f"{len(channels)} channels — auditing with limit=1000")
 
-    pick = next((n for n in guids if n.strip().lower() in
-                 ("bein sports 1", "bein sports1")), None) or sorted(guids)[0]
-    guid = guids[pick]
-    section(f"response envelope for {pick}")
-    base = window()
-    r = get({**base, "channelIds": guid})
-    body = r.json()
-    print(f"status={r.status_code} top-level keys={list(body.keys())}", flush=True)
-    for k, v in body.items():
-        if k != "rows":
-            print(f"  {k} = {json.dumps(v, ensure_ascii=False)[:300]}", flush=True)
-    rows = body.get("rows", []) or []
-    print(f"rows returned: {len(rows)}", flush=True)
+    print(f"{'channel':22} {'count':>6} {'got':>5} {'flag':>5} "
+          f"{'kickoff-in-window':>18} {'MISSED':>7} {'EXTRA':>6}", flush=True)
+    missed_all, extra_all = [], []
+    totals = [0, 0, 0, 0, 0, 0]
 
-    section("is 100 a cap?")
-    for extra in ({}, {"size": 500}, {"limit": 500}, {"pageSize": 500},
-                  {"take": 500}, {"rows": 500}, {"page": 2}, {"offset": 100}):
+    for name, guid in channels:
         try:
-            rr = get({**base, "channelIds": guid, **extra})
-            got = rr.json().get("rows", []) or []
-            first = got[0].get("startDate") if got else "-"
-            last = got[-1].get("startDate") if got else "-"
-            print(f"  {str(extra) or '(none)':22} -> {rr.status_code} "
-                  f"{len(got)} rows  {first} .. {last}", flush=True)
+            body = requests.get(API_EVENTS, headers=H,
+                                params={**params, "channelIds": guid},
+                                timeout=T).json()
         except Exception as exc:
-            print(f"  {extra} FAILED: {exc}", flush=True)
-
-    section("narrower windows — does the cap hide later days?")
-    for back, fwd in ((1, 6), (1, 2), (0, 1), (2, 3), (5, 6)):
-        try:
-            w = window(back, fwd)
-            got = get({**w, "channelIds": guid}).json().get("rows", []) or []
-            live = sum(1 for x in got if is_live(x))
-            days = sorted({(x.get("startDate") or "")[:10] for x in got})
-            print(f"  -{back}d..+{fwd}d -> {len(got)} rows, {live} live, days={days}",
-                  flush=True)
-        except Exception as exc:
-            print(f"  -{back}d..+{fwd}d FAILED: {exc}", flush=True)
-
-    section("every field on a live row and a non-live row")
-    live_row = next((x for x in rows if is_live(x)), None)
-    dead_row = next((x for x in rows if not is_live(x)), None)
-    for label, row in (("LIVE=True", live_row), ("LIVE=False", dead_row)):
-        print(f"\n---- {label} ----", flush=True)
-        if row is None:
-            print("  none in this window", flush=True)
+            print(f"  {name:22} FAILED: {exc}", flush=True)
             continue
-        print(json.dumps(row, ensure_ascii=False, indent=1)[:4000], flush=True)
+        rows = body.get("rows", []) or []
+        count = body.get("count")
 
-    section("any other field that varies with liveness?")
-    if rows:
-        keys = sorted({k for x in rows for k in x})
-        for k in keys:
-            vals = {json.dumps(x.get(k), ensure_ascii=False)[:40] for x in rows}
-            if 1 < len(vals) <= 6:
-                print(f"  {k}: {sorted(vals)}", flush=True)
+        flagged = sum(1 for x in rows if is_live_flag(x))
+        checkable = missed = extra = 0
+        for x in rows:
+            ko, start, stop = kickoff(x), when(x.get("startDate")), when(x.get("endDate"))
+            if ko is None or start is None or stop is None:
+                continue
+            checkable += 1
+            inside = start <= ko < stop
+            if inside and not is_live_flag(x):
+                missed += 1
+                missed_all.append((name, x.get("startDate"), x.get("data", {}).get("m_date"),
+                                   x.get("title")))
+            if is_live_flag(x) and not inside:
+                extra += 1
+                extra_all.append((name, x.get("startDate"), x.get("data", {}).get("m_date"),
+                                  x.get("title")))
+
+        print(f"  {name:22} {str(count):>6} {len(rows):>5} {flagged:>5} "
+              f"{checkable:>18} {missed:>7} {extra:>6}", flush=True)
+        for i, v in enumerate((count or 0, len(rows), flagged, checkable, missed, extra)):
+            totals[i] += v
+
+    section("totals")
+    print(f"  count={totals[0]}  rows={totals[1]}  live-flagged={totals[2]}  "
+          f"match-rows={totals[3]}  MISSED={totals[4]}  EXTRA={totals[5]}", flush=True)
+
+    section(f"MISSED — kick-off inside the broadcast but live=false ({len(missed_all)})")
+    for n, s, k, t in missed_all[:60]:
+        print(f"  {n:20} air {s}  kickoff {k}  {str(t)[:56]}", flush=True)
+
+    section(f"EXTRA — live=true but kick-off outside the broadcast ({len(extra_all)})")
+    for n, s, k, t in extra_all[:60]:
+        print(f"  {n:20} air {s}  kickoff {k}  {str(t)[:56]}", flush=True)
 
 
 if __name__ == "__main__":
