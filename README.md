@@ -42,13 +42,17 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/bein_sports_t
 
 **Channels:** الكأس 1-8.
 
-Sourced from the Arabic feed epgshare01 publishes for the beIN carriage of
-Alkass — already XMLTV, already Arabic, four days ahead. The broadcaster's
-own site publishes no schedule to read.
+Sourced from the feed epgshare01 publishes for the beIN carriage of Alkass
+— already XMLTV, four days ahead. The broadcaster's own site publishes no
+schedule to read.
 
-Sport broadcasts (the source's own `الرياضة العام` category) carry a
-`Live 🟣` badge; the studio shows, news and reality programming do not.
-No source marks which broadcasts are live, so the badge marks sport.
+Titles are shown in English with the Arabic kept alongside. The feed
+carries each channel in both languages; the English side covers 64% of
+entries, and anything without an English counterpart keeps its Arabic
+title.
+
+No Live badge: no source marks which Alkass broadcasts are live, so
+nothing here claims to. Each programme's own category is written instead.
 
 Alkass 9, 10, 11 and the two SHOOF channels are not listed — no reachable
 source publishes a schedule for them.
@@ -61,10 +65,17 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/alkass_epg.xm
 
 ### 🎬 STARZPLAY Sports
 
-**Channels:** ستارز بلاي سبورتس 1، 2، 3.
+**Channels:** 20, picked by STARZPLAY's own classification rather than a
+fixed list — among them AD Sports 1 and 2, AD Sports Premium 2, AD Sports
+Extra, Yas TV, AD Fight and the STARZPLAY-branded sport channels.
 
-Sourced from STARZPLAY's own public web-EPG API. Every event on these three
-channels is sport, so all carry the `Live 🟣` badge.
+Sourced from STARZPLAY's own public web-EPG API, called once in English
+and once in Arabic: titles and channel names are shown in English with the
+Arabic alongside.
+
+No Live badge. The API's per-event `live` flag is computed at request time
+— only ever one event per channel — so it would be stale within the hour,
+and marking every event instead would distinguish nothing.
 
 EPG URL:
 

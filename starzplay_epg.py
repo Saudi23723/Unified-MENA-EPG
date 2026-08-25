@@ -20,14 +20,22 @@ Names and logos come from the API too, never invented here: an earlier
 version of this file called starzplaysports2 "ستارز بلاي سبورتس 2" when
 STARZPLAY itself titles it "أبوظبي الرياضية بريميوم 2 - الدوري الإيطالي".
 
-About the Live badge: the API does send a per-event `status` of
+The API answers in whichever language is asked for, so it is called twice
+— once with lang=en and once with lang=ar — and both are written: English
+as the shown title and channel name, Arabic alongside it. The two runs
+return the same events, so they pair exactly on channel and start time.
+
+No Live badge here. The API does send a per-event `status` of
 "live" / "upcoming" / "ended", but it is computed on STARZPLAY's side at
-the moment of the request — exactly one event per channel is ever "live".
-Following it would badge whatever happened to be on air when the file was
-generated and nothing else, which goes stale within the hour and marks
-nothing you can browse ahead to. Since every event on these three
-channels is sport, the badge marks them all and stays correct whenever
-the guide is read.
+the moment of the request — exactly one event per channel is ever "live" —
+so following it would badge whatever happened to be on air when the file
+was generated and nothing else, going stale within the hour.
+
+An earlier version badged every event instead, on the grounds that these
+channels carry nothing but sport. That is true and still useless: a marker
+on all 1487 programmes distinguishes nothing, and it devalues the badge on
+the guides that do carry a real live flag. Nothing here is marked live
+unless the source says which broadcasts are.
 """
 
 from __future__ import annotations
@@ -37,9 +45,8 @@ from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    LIVE_BADGE_PURPLE, add_programme, fetch, log, new_session,
-    resolve_overlaps, run_main, utc_now, warn, with_live_badge,
-    write_xml_atomic,
+    add_programme, fetch, log, new_session, resolve_overlaps, run_main,
+    utc_now, warn, write_xml_atomic,
 )
 
 OUTPUT = "starzplay_epg.xml"
@@ -68,7 +75,7 @@ def parse_unix(ts) -> datetime | None:
         return None
 
 
-def fetch_all_channels(session, now) -> list[dict]:
+def fetch_all_channels(session, now, lang: str = "en") -> list[dict]:
     """Walk every page of the API and return the channels it lists."""
     channels: list[dict] = []
     seen: set[str] = set()
@@ -77,7 +84,7 @@ def fetch_all_channels(session, now) -> list[dict]:
     base = {
         "ts_start": now_ts - DAYS_BACK * 86400,
         "ts_end": now_ts + DAYS_FORWARD * 86400,
-        "lang": "ar",
+        "lang": lang,
         "pg": 18,
         "category": "all",
         "limit": PAGE_LIMIT,
@@ -104,7 +111,7 @@ def fetch_all_channels(session, now) -> list[dict]:
             channels.append(ch)
             new_here += 1
 
-        log(f"STARZPLAY page {page}: {len(rows)} channels ({new_here} new)")
+        log(f"STARZPLAY[{lang}] page {page}: {len(rows)} channels ({new_here} new)")
         if new_here == 0:
             break
 
@@ -122,8 +129,27 @@ def build() -> int:
     session = new_session()
     now = utc_now()
 
-    discovered = fetch_all_channels(session, now)
+    discovered = fetch_all_channels(session, now, lang="en")
     log(f"STARZPLAY channels discovered: {len(discovered)}")
+
+    # The Arabic pass is a bonus: if it fails the guide is still complete in
+    # English, just without the Arabic titles alongside.
+    arabic_names: dict[str, str] = {}
+    arabic_titles: dict[tuple[str, int], str] = {}
+    try:
+        for ch in fetch_all_channels(session, now, lang="ar"):
+            slug = ch.get("slug")
+            if not slug:
+                continue
+            arabic_names[slug] = (ch.get("title") or "").strip()
+            for ev in ch.get("events", []) or []:
+                ts = ev.get("tsStart")
+                if ts is not None:
+                    arabic_titles[(slug, int(ts))] = (ev.get("title") or "").strip()
+        log(f"Arabic pass: {len(arabic_names)} channel names, "
+            f"{len(arabic_titles)} event titles")
+    except Exception as exc:
+        warn(f"Arabic pass failed, continuing in English only: {exc}")
 
     sport = [ch for ch in discovered if is_sport(ch)]
     log(f"Sport by STARZPLAY's own classification: {len(sport)}")
@@ -144,10 +170,12 @@ def build() -> int:
             if not start or not stop or stop <= start:
                 continue
             images = ev.get("images") or []
+            ts = ev.get("tsStart")
             events.append({
                 "start": start,
                 "stop": stop,
                 "title": (ev.get("title") or "").strip() or name,
+                "title_ar": arabic_titles.get((slug, int(ts))) if ts is not None else None,
                 "desc": (ev.get("description") or "").strip(),
                 "icon": (images[0].get("url") if images else None) or None,
             })
@@ -160,25 +188,31 @@ def build() -> int:
 
     for slug, name, ch, _events in prepared:
         el = ET.SubElement(root, "channel", id=f"Starz_{slug}")
-        ET.SubElement(el, "display-name", lang="ar").text = name
+        # English first: a player shows the first display-name it can use.
+        ET.SubElement(el, "display-name", lang="en").text = name
+        ar_name = arabic_names.get(slug)
+        if ar_name and ar_name != name:
+            ET.SubElement(el, "display-name", lang="ar").text = ar_name
         logo = channel_logo(ch)
         if logo:
             ET.SubElement(el, "icon", src=logo)
 
-    total = 0
+    total = paired = 0
     for slug, _name, _ch, events in prepared:
         xid = f"Starz_{slug}"
         for ev in events:
-            p = add_programme(
-                root, xid, ev["start"], ev["stop"],
-                with_live_badge(ev["title"], LIVE_BADGE_PURPLE), ev["desc"],
-                category="رياضة", icon=ev["icon"],
+            alts = [("ar", ev["title_ar"])] if ev["title_ar"] else []
+            if alts:
+                paired += 1
+            add_programme(
+                root, xid, ev["start"], ev["stop"], ev["title"], ev["desc"],
+                category="Sport", icon=ev["icon"], alt_titles=alts,
             )
-            ET.SubElement(p, "category", lang="en").text = "Live"
             total += 1
 
     icons = sum(1 for c in root.findall("channel") if c.find("icon") is not None)
-    log(f"STARZPLAY: {len(prepared)} sport channels, {total} programmes, {icons} logos")
+    log(f"STARZPLAY: {len(prepared)} sport channels, {total} programmes, "
+        f"{icons} logos, {paired} with an Arabic title alongside")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — STARZPLAY Sports")
     return 0
