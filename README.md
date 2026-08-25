@@ -265,6 +265,22 @@ Four things stand between a bad run and a broken guide. None of them
 changes what a guide contains — they only decide whether a run is allowed
 to replace one.
 
+**0. Most breakage fixes itself, without anyone doing anything.**
+A source that is down for a few minutes, restarting, or having a bad
+moment costs nothing at all. Each request is attempted four times with a
+growing pause between them, spanning about half a minute. If the run
+still fails, the guide keeps its previous file and simply tries again on
+its own schedule — every 15 minutes for beIN, every half hour for Roya,
+hourly for most of the rest, every three hours for the slowest. So an
+outage of an hour repairs itself with no action and nothing to notice.
+
+What cannot repair itself is a source that changed rather than stopped:
+markup rewritten, an endpoint withdrawn, a domain blocked. No amount of
+retrying fixes that — it needs new code. What the guards below buy is
+that the guide keeps serving its last good data meanwhile, and that the
+health check names which source it is within hours instead of whenever
+someone happens to notice a blank guide.
+
 **1. A run that produced nothing cannot overwrite one that did.**
 If the sources are unreachable and a build ends with zero programmes, the
 previous file stays exactly as it is and the run says so.

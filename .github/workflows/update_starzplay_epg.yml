@@ -3,7 +3,7 @@ name: Update STARZPLAY Sports EPG
 on:
   workflow_dispatch:
   schedule:
-    - cron: "45 */3 * * *"
+    - cron: "45 * * * *"
   push:
     branches:
       - main

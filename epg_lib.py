@@ -33,8 +33,13 @@ USER_AGENT = (
 )
 
 HTTP_TIMEOUT = 20
-HTTP_RETRIES = 3
-HTTP_BACKOFF = 2.0
+# A source having a bad moment should not cost a whole cycle. Four
+# attempts with a growing pause spans roughly half a minute of trying,
+# which covers a restart or a blip; anything longer than that is not a
+# blip, and the guide keeps its previous file and tries again on its own
+# schedule rather than holding the run open.
+HTTP_RETRIES = 4
+HTTP_BACKOFF = 3.0
 
 # Suffix appended to the title of a programme that is airing right now.
 # Kept as a single constant so every script renders it identically.
