@@ -21,6 +21,14 @@ Two things the API gives us that are used here:
     Live badge follows that flag, not the clock, so a match still shows as
     a live broadcast when you browse ahead to it — which is what LIVE means
     in an EPG.
+
+    That flag was checked rather than trusted. Each match row also carries
+    data.m_date, the real kick-off in UTC, so a broadcast whose own window
+    contains the kick-off is by definition the live airing and one that
+    does not is a replay. Across all 40 channels — 3,569 rows, 361 of them
+    match rows — the flag agreed with that test every single time: no live
+    airing left unflagged, no replay flagged. The badge is on all of them,
+    not some.
   * some channels (the AFC set, NBA, 4K HDR) answer 200 with zero rows:
     beIN publishes no schedule for them. Those are left out of the file
     entirely rather than shown as empty rows in TiviMate. Nothing is
@@ -51,6 +59,12 @@ UTC = timezone.utc
 
 DAYS_BACK = 1
 DAYS_FORWARD = 6
+
+# The events endpoint pages. Its own default is 100, which truncates the
+# busiest channels; MAX_ROWS is only a runaway guard, far above the ~290
+# rows the fullest channel actually has.
+PAGE_SIZE = 500
+MAX_ROWS = 5000
 
 API_CHANNELS = "https://www.beinsports.com/api/opta/tv-channel"
 API_EVENTS = "https://www.beinsports.com/api/opta/tv-event"
@@ -219,21 +233,50 @@ def nested(row: dict, *path):
     return node
 
 
-def fetch_events_for_channel(session, guid: str) -> list[dict]:
+def fetch_rows(session, guid: str) -> list[dict]:
+    """Every row beIN has for this channel in the window.
+
+    The endpoint hands back 100 rows and no more unless `limit` is passed,
+    while telling you the real total in `count`. Left at the default it
+    silently cut beIN SPORTS NEWS from 290 programmes to 100 and beIN
+    SPORTS 1 from 156 to 100 — three days of guide, live matches included,
+    simply absent. So ask for a page at a time and keep going until the
+    count is satisfied, rather than trusting one response to be complete.
+    """
     now = utc_now()
     start_before = (now + timedelta(days=DAYS_FORWARD)).strftime("%Y-%m-%dT%H:%M:%S.000")
     end_after = (now - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%dT%H:%M:%S.000")
+    base = {
+        "startBefore": f"{start_before}Z",
+        "endAfter": f"{end_after}Z",
+        "channelIds": guid,
+        "limit": PAGE_SIZE,
+    }
 
-    r = fetch(
-        session, API_EVENTS,
-        params={
-            "startBefore": f"{start_before}Z",
-            "endAfter": f"{end_after}Z",
-            "channelIds": guid,
-        },
-    )
-    data = r.json()
-    rows = data.get("rows", []) or []
+    rows: list[dict] = []
+    total: int | None = None
+    while True:
+        data = fetch(session, API_EVENTS,
+                     params={**base, "offset": len(rows)}).json()
+        page = data.get("rows", []) or []
+        if total is None and isinstance(data.get("count"), int):
+            total = data["count"]
+        rows.extend(page)
+        # Stop on a short page, on no progress, or once the count is met —
+        # any one of them alone could loop forever if beIN changes shape.
+        if not page or len(page) < PAGE_SIZE or (total is not None and len(rows) >= total):
+            break
+        if len(rows) > MAX_ROWS:
+            warn(f"channel {guid}: over {MAX_ROWS} rows, stopping")
+            break
+
+    if total is not None and len(rows) < total:
+        warn(f"channel {guid}: beIN reports {total} rows but only {len(rows)} came back")
+    return rows
+
+
+def fetch_events_for_channel(session, guid: str) -> list[dict]:
+    rows = fetch_rows(session, guid)
 
     events = []
     for row in rows:
