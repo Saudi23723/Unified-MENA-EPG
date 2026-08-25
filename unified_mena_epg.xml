@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260824104300 +0000" stop="20260824124500 +0000" channel="beIN4K.qa">
-    <title lang="en">Hull City vs. Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Hull City are winless in all 10 Premier League meetings with Manchester United, the joint-most they’ve faced a side without winning along with Chelsea. The Red Devils have only faced Charlton, QPR  and Birmingham  more often without losing. Manchester United have never lost in the top-flight when facing a newly promoted team in their first game of</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260824124500 +0000" stop="20260824154100 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -343,12 +337,6 @@ Old Trafford Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
     <category lang="en">Live</category>
-  </programme>
-  <programme start="20260824111000 +0000" stop="20260824124000 +0000" channel="beINSports.qa">
-    <title lang="en">Paris vs Nantes - LNH Division 1 - French Handball Starligue</title>
-    <desc lang="en">Dive into the excitement of French handball with Liqui Moly Starligue, formerly LNH Division 1. Established in 1952, this premier league event features 16 top teams battling for glory. With Montpellier’s  14 Handball titles and Paris Saint-Germain's 11 wins, the competition is fierce. Champions earn spots in the EHF Champions League, while cup winn</desc>
-    <category lang="ar">الدوري الفرنسي لكرة اليد</category>
-    <category lang="en">Handball - French Handball League</category>
   </programme>
   <programme start="20260824124000 +0000" stop="20260824141000 +0000" channel="beINSports.qa">
     <title lang="en">Limoges vs Chambery - LNH Division 1 - French Handball Starligue</title>
@@ -1128,28 +1116,28 @@ First Leg Result: Celtic 3-0 LASK</desc>
     <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260826163000 +0000" stop="20260826170000 +0000" channel="beINSports1.qa">
-    <title lang="en">La Liga Highlights 2026/2027 EP.2</title>
-    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260826170000 +0000" stop="20260826173000 +0000" channel="beINSports1.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="beINSports1.qa">
+  <programme start="20260826170000 +0000" stop="20260826173000 +0000" channel="beINSports1.qa">
     <title lang="en">Spirit of Sport</title>
     <desc lang="en">Carlos Alcaraz looks back at his outstanding 2025 season reliving his victories at Roland Garros and the US Open. Jamaican sprinting icon Shelly-Ann Fraser-Pryce reflects on her final season and life after retirement, using her platform to give back. World Cup champion Cafu takes on some quickfire questions, ranking his Top 5 defenders of all time.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="beINSports1.qa">
+  <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="beINSports1.qa">
     <title lang="en">EPL Netbusters - 2026/2027 EP 1</title>
     <desc lang="en">Highlights of the Premier League Matchweek from an alternative angle. A look back at every goal from every game using the best ISOs and Slow Motion angles.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="beINSports1.qa">
+    <title lang="en">Espanyol vs Real Madrid - Spanish LaLiga 2026/2027 - Week 2</title>
+    <desc lang="en">Espanyol have won three of their last seven home LaLiga games against Real Madrid, after losing eight of their previous nine home encounters against them in the competition. Real Madrid have won 110 of their 180 LaLiga meetings with Espanyol, a record for the most wins by one team against another in the competition's history.</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
   </programme>
   <programme start="20260826183000 +0000" stop="20260826213000 +0000" channel="beINSports1.qa">
     <title lang="en">Real Madrid vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 1 ‎• Live 🔵‎</title>
@@ -1700,22 +1688,28 @@ First Leg Result: Celtic 3-0 LASK</desc>
     <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260826130000 +0000" stop="20260826150000 +0000" channel="beINSports2.qa">
-    <title lang="en">Ipswich Town vs Sunderland - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">The last time Ipswich Town and Sunderland faced in the Premier League was in December 2001, a 5-0 victory for the Tractor Boys which is their biggest win in the competition. Ipswich did the double over Sunderland when they last met in the 2023-24 Championship campaign – they’ve never won three consecutive league games against the Black Cats before.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+    <title lang="en">Bodo/Glimt (NOR) vs N.E.C. (NED) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
+    <desc lang="en">Bodo/Glimt vs NEC
+At 25-8-2026, MECCA 22:00, GMT 19:00
+UEFA Champions League Qualifying
+Season 2026/2027
+PlayOffs
+Aspmyra Stadion Stadium
+First Leg Result: NEC 1-3 Bodo/Glimt</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260826150000 +0000" stop="20260826160000 +0000" channel="beINSports2.qa">
+  <programme start="20260826150000 +0000" stop="20260826161500 +0000" channel="beINSports2.qa">
     <title lang="en">EPL Weekly Review - 2026/2027 - EP 1</title>
     <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826160000 +0000" stop="20260826180000 +0000" channel="beINSports2.qa">
-    <title lang="en">Nottingham Forest vs Leeds United - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">Nottingham Forest have won their last four home league games against Leeds, while in the top-flight they’re unbeaten in 14 against the Whites at the City Ground  since losing 2-0 in 1971-72. Leeds have only faced Nottingham Forest in their opening league game of the season once before – they won 1-0 in 1991-92 under Howard Wilkinson, winning the to</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+  <programme start="20260826161500 +0000" stop="20260826180000 +0000" channel="beINSports2.qa">
+    <title lang="en">Ipswich vs Leicester - Carabao Cup 2026 / 2027 - Round 2</title>
+    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
+    <category lang="ar">كأس الرابطة الإنكليزي</category>
+    <category lang="en">English League - Cup</category>
   </programme>
   <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="beINSports2.qa">
     <title lang="en">Bodo/Glimt (NOR) vs N.E.C. (NED) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg</title>
@@ -2148,18 +2142,6 @@ Coventry Building Society Arena Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260824104800 +0000" stop="20260824123300 +0000" channel="beINSports3.qa">
-    <title lang="en">Espanyol vs Real Madrid - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Espanyol have won three of their last seven home LaLiga games against Real Madrid, after losing eight of their previous nine home encounters against them in the competition. Real Madrid have won 110 of their 180 LaLiga meetings with Espanyol, a record for the most wins by one team against another in the competition's history.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260824123300 +0000" stop="20260824130100 +0000" channel="beINSports3.qa">
-    <title lang="en">La Liga Highlights 2026/2027 EP.1</title>
-    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20260824130100 +0000" stop="20260824133000 +0000" channel="beINSports3.qa">
     <title lang="en">Elche vs Barcelona - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Elche have lost each of their last 10 LaLiga matches against FC Barcelona, their longest losing streak against the Blaugrana in the competition. Barcelona are unbeaten in their last 11 away league games against Elche, winning each of the last five; both represent their longest such runs against the side in top-flight history.</desc>
@@ -2295,85 +2277,79 @@ Coventry Building Society Arena Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826003000 +0000" stop="20260826010000 +0000" channel="beINSports3.qa">
+  <programme start="20260826003000 +0000" stop="20260826005700 +0000" channel="beINSports3.qa">
     <title lang="en">Real Madrid vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 1</title>
     <desc lang="en">Real Madrid have won their last six LaLiga matches against Real Sociedad, their best winning streak against the Txuri-Urdin in the competition since February 2018. Real Sociedad have picked up points in three of their last eight away LaLiga games against Real Madrid, after losing on each of their previous nine league visits to the Estadio Bernabéu.</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260826010000 +0000" stop="20260826024500 +0000" channel="beINSports3.qa">
+  <programme start="20260826005700 +0000" stop="20260826024900 +0000" channel="beINSports3.qa">
     <title lang="en">Cordoba vs Girona - LaLiga Hypermotion 2026/2027</title>
     <desc lang="en">La Liga 2 is the men's second professional association football division of the Spanish football league system. It is contested by 22 teams, with the top two teams plus the winner of a play-off promoted to La Liga and replaced by the three lowest-placed teams in that division.</desc>
     <category lang="ar">الدوري الأسباني للدرجة الثانية</category>
     <category lang="en">Spanish League - Segunda Division</category>
   </programme>
-  <programme start="20260826024500 +0000" stop="20260826043000 +0000" channel="beINSports3.qa">
+  <programme start="20260826024900 +0000" stop="20260826044200 +0000" channel="beINSports3.qa">
     <title lang="en">Almeria vs Eldense - LaLiga Hypermotion 2026/2027</title>
     <desc lang="en">La Liga 2 is the men's second professional association football division of the Spanish football league system. It is contested by 22 teams, with the top two teams plus the winner of a play-off promoted to La Liga and replaced by the three lowest-placed teams in that division.</desc>
     <category lang="ar">الدوري الأسباني للدرجة الثانية</category>
     <category lang="en">Spanish League - Segunda Division</category>
   </programme>
-  <programme start="20260826043000 +0000" stop="20260826050000 +0000" channel="beINSports3.qa">
-    <title lang="en">Elche vs Barcelona - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Elche have lost each of their last 10 LaLiga matches against FC Barcelona, their longest losing streak against the Blaugrana in the competition. Barcelona are unbeaten in their last 11 away league games against Elche, winning each of the last five; both represent their longest such runs against the side in top-flight history.</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
-  <programme start="20260826050000 +0000" stop="20260826064500 +0000" channel="beINSports3.qa">
+  <programme start="20260826044200 +0000" stop="20260826063800 +0000" channel="beINSports3.qa">
     <title lang="en">Athletic Club vs Sevilla - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Athletic Club have lost just one of their last six LaLiga matches against Sevilla, a 2-1 defeat in January 2026 in their last league encounter. The Basque side have not suffered two consecutive defeats against Sevilla in the competition since May 2022. Sevilla have won three of their last seven away LaLiga matches against Athletic Club, after losin</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826064500 +0000" stop="20260826083000 +0000" channel="beINSports3.qa">
+  <programme start="20260826063800 +0000" stop="20260826082700 +0000" channel="beINSports3.qa">
     <title lang="en">Valencia vs Celta de Vigo - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Valencia have lost three of their last four LaLiga games against Celta de Vigo, suffering one more defeat than in their previous 15 top-flight encounters. Celta de Vigo have won just one of their last 10 away games against Valencia in LaLiga, which was their last league visit to Mestalla. On only one previous occasion have the Galician side recorde</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826083000 +0000" stop="20260826090000 +0000" channel="beINSports3.qa">
+  <programme start="20260826082700 +0000" stop="20260826085500 +0000" channel="beINSports3.qa">
     <title lang="en">EPL Stories  2026/2027 EP.6 - Dean Ashton</title>
     <desc lang="en">We spend the day with Dean Ashton as he reflects on a career that promised so much and was cut short far too soon. From his rise through the Football League to becoming one of the Premier League’s most exciting forwards with West Ham United, Ashton looks back on the goals, injuries and moments that shaped his journey in the game. Now working as a r</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826090000 +0000" stop="20260826104500 +0000" channel="beINSports3.qa">
+  <programme start="20260826085500 +0000" stop="20260826104100 +0000" channel="beINSports3.qa">
     <title lang="en">Espanyol vs Real Madrid - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Espanyol have won three of their last seven home LaLiga games against Real Madrid, after losing eight of their previous nine home encounters against them in the competition. Real Madrid have won 110 of their 180 LaLiga meetings with Espanyol, a record for the most wins by one team against another in the competition's history.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826104500 +0000" stop="20260826123000 +0000" channel="beINSports3.qa">
+  <programme start="20260826104100 +0000" stop="20260826122900 +0000" channel="beINSports3.qa">
     <title lang="en">Valencia vs Real Betis - Spanish LaLiga 2026/2027 - Week 1</title>
     <desc lang="en">Valencia have won just one of their last seven LaLiga games against Real Betis, conceding at least one goal in each of those matches; they have not gone eight or more top-flight games conceding against them since 1997. Valencia have lost three of their last six LaLiga home games against Real Betis, after losing just one of their previous 25 home ma</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826123000 +0000" stop="20260826130000 +0000" channel="beINSports3.qa">
+  <programme start="20260826122900 +0000" stop="20260826125700 +0000" channel="beINSports3.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826130000 +0000" stop="20260826144500 +0000" channel="beINSports3.qa">
+  <programme start="20260826125700 +0000" stop="20260826144600 +0000" channel="beINSports3.qa">
     <title lang="en">Getafe vs Racing Club - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Getafe have lost just one of their last seven LaLiga matches against Racing de Santander, a 0-1 defeat in February 2011, after losing five of their previous eight against them in the competition. Real Racing Club have picked up points in their last four away games against Getafe in LaLiga, their longest unbeaten run on the road against them.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826144500 +0000" stop="20260826164500 +0000" channel="beINSports3.qa">
+  <programme start="20260826144600 +0000" stop="20260826164000 +0000" channel="beINSports3.qa">
     <title lang="en">Atlético de Madrid vs Villarreal - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Atlético de Madrid lost 5-1 to Villarreal in their last LaLiga encounter in May 2026, their heaviest defeat in the competition in 554 games under Diego Pablo Simeone. The Rojiblancos have not lost two consecutive matches against Villarreal in the competition since April 2017. Villarreal have picked up points in eight of their last 12 away LaLiga ma</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260826164500 +0000" stop="20260826184500 +0000" channel="beINSports3.qa">
-    <title lang="en">Valencia vs Real Betis - Spanish LaLiga 2026/2027 - Week 1</title>
-    <desc lang="en">Valencia have won just one of their last seven LaLiga games against Real Betis, conceding at least one goal in each of those matches; they have not gone eight or more top-flight games conceding against them since 1997. Valencia have lost three of their last six LaLiga home games against Real Betis, after losing just one of their previous 25 home ma</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+  <programme start="20260826164000 +0000" stop="20260826183000 +0000" channel="beINSports3.qa">
+    <title lang="en">Nottingham Forest vs Leeds - Carabao Cup 2026 / 2027 - Round 2</title>
+    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
+    <category lang="ar">كأس الرابطة الإنكليزي</category>
+    <category lang="en">English League - Cup</category>
   </programme>
-  <programme start="20260826184500 +0000" stop="20260826210000 +0000" channel="beINSports3.qa">
+  <programme start="20260826183000 +0000" stop="20260826210000 +0000" channel="beINSports3.qa">
     <title lang="en">Viking (NOR) vs GNK Dinamo (CRO) - UEFA Champions League 2026-2027 - Play-Off - 2nd leg ‎• Live 🔵‎</title>
     <desc lang="en">Viking vs Dinamo Zagreb
 At 26-8-2026, MECCA 22:00, GMT 19:00
@@ -2859,11 +2835,35 @@ Ciutat de Valencia Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260824111500 +0000" stop="20260824130000 +0000" channel="beINSports4.qa">
-    <title lang="en">Le Havre vs Monaco - French Ligue 1 2026/2027 - Week 1</title>
-    <desc lang="en">Le Havre have failed to win any of their last nine home Ligue 1 matches against Monaco, their second-longest winless run at home against a single opponent in the top-flight, behind only their ongoing 12-match streak against Marseille. Le Havre have lost just one of their last seven Ligue 1 matches  since the beginning of April, the joint-fewest def</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
+  <programme start="20260831053000 +0000" stop="20260831071500 +0000" channel="beINSports3.qa">
+    <title lang="en">Real Sociedad vs Espanyol - Spanish LaLiga 2026/2027 - Week 3</title>
+    <desc lang="en">Real Sociedad vs Espanyol
+At 29-8-2026, MECCA 20:00, GMT 17:00
+Spanish La Liga
+Season 2026/2027
+Estadio Municipal de Anoeta Stadium</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260831071500 +0000" stop="20260831093000 +0000" channel="beINSports3.qa">
+    <title lang="en">Sevilla vs Atlético de Madrid - Spanish LaLiga 2026/2027 - Week 3</title>
+    <desc lang="en">Sevilla vs Atletico Madrid
+At 29-8-2026, MECCA 22:30, GMT 19:30
+Spanish La Liga
+Season 2026/2027
+Ramón Sánchez-Pizjuán Stadium</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260831093000 +0000" stop="20260831111500 +0000" channel="beINSports3.qa">
+    <title lang="en">Sunderland vs Fulham - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">Sunderland vs Fulham
+At 30-8-2026, MECCA 16:00, GMT 13:00
+Premier League
+Season 2026/2027
+Stadium of Light Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260824130000 +0000" stop="20260824133000 +0000" channel="beINSports4.qa">
     <title lang="en">Ligue 1 Show - 2026/2027</title>
@@ -3096,10 +3096,10 @@ GAIN Park Stadium Stadium</desc>
     <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260826161500 +0000" stop="20260826180000 +0000" channel="beINSports4.qa">
-    <title lang="en">Ipswich vs Leicester - Carabao Cup 2026 / 2027 - Round 2</title>
-    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
-    <category lang="ar">كأس الرابطة الإنكليزي</category>
-    <category lang="en">English League - Cup</category>
+    <title lang="en">Olympique Marseille vs Strasbourg - French Ligue 1 2026/2027 - Week 1</title>
+    <desc lang="en">Marseille have not lost any of their last 18 home league games against Strasbourg, since a 0-1 defeat in March 1997; among teams currently in Ligue 1, they are only on a longer unbeaten home run only against Le Havre. Marseille could, however, equal their longest run of consecutive home draws against a single opponent in Ligue 1. Marseille are set</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260826180000 +0000" stop="20260826184500 +0000" channel="beINSports4.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -3526,11 +3526,15 @@ Stade du Moustoir - Yves Allainmat Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260824111600 +0000" stop="20260824130000 +0000" channel="beINSports5.qa">
-    <title lang="en">Vissel Kobe (JPN) vs Melbourne City FC (AUS) - AFC Champions League Elite 2025/2026 - East MD2</title>
-    <desc lang="en">This will be the first AFC Champions League Elite fixture between Vissel Kobe and Melbourne City; City are without a win in any of their three Champions League Elite games against Japanese sides, while Kobe have won their only previous game against an Australian opposition in the competition. Vissel Kobe won their last AFC Champions League Elite ga</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
+  <programme start="20260830064500 +0000" stop="20260830083000 +0000" channel="beINSports4.qa">
+    <title lang="en">Brest vsToulouse - French Ligue 1 2026/2027 - Week 2</title>
+    <desc lang="en">Brest vs Toulouse
+At 29-8-2026, MECCA 21:45, GMT 18:45
+French Ligue 1
+Season 2026/2027
+Stade Francis-Le Blé Stadium</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260824130000 +0000" stop="20260824133000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Zawraa SC (IRQ) vs Al Nassr Club (KSA) - AFC Champions League Two 2025/2026 - West MD2 - Mini Mat</title>
@@ -3810,7 +3814,7 @@ All games are live and exclusive only on beIN.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260826133000 +0000" stop="20260826151700 +0000" channel="beINSports5.qa">
+  <programme start="20260826133000 +0000" stop="20260826151500 +0000" channel="beINSports5.qa">
     <title lang="en">Ahal FC (TKM) vs Sepahan SC (IRN) - AFC Champions League Two 2025/2026 - West MD3</title>
     <desc lang="en">Ahal vs Sepahan
 AFC Champions League Two
@@ -3821,11 +3825,16 @@ Naghsh-e-Jahan Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260826151700 +0000" stop="20260826170500 +0000" channel="beINSports5.qa">
-    <title lang="en">Nottingham Forest vs Leeds - Carabao Cup 2026 / 2027 - Round 2</title>
-    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
-    <category lang="ar">كأس الرابطة الإنكليزي</category>
-    <category lang="en">English League - Cup</category>
+  <programme start="20260826151500 +0000" stop="20260826170500 +0000" channel="beINSports5.qa">
+    <title lang="en">Chengdu Rongcheng FC vs Johor Darul Ta’zim FC (MAS) - AFC Champions League Elite 2025/2026 - East MD</title>
+    <desc lang="en">Chengdu Rongcheng vs Johor Darul Ta'zim
+AFC Champions League Elite
+Season 2025/2026
+Qualifier Round
+Group East
+Wuliangye Sports Center Stadium Stadium</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
   </programme>
   <programme start="20260826170500 +0000" stop="20260826173300 +0000" channel="beINSports5.qa">
     <title lang="en">Al Muharraq SC (BHR) vs Al Wasl FC (UAE) - AFC Champions League Two 2025/2026 - West MD3</title>
@@ -4462,6 +4471,12 @@ ABANCA-Riazor Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
     <category lang="en">Live</category>
+  </programme>
+  <programme start="20260830193000 +0000" stop="20260830203000 +0000" channel="beINSports5.qa">
+    <title lang="en">EPL Weekly Review - 2026/2027 - EP 1</title>
+    <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260824115500 +0000" stop="20260824134500 +0000" channel="beINSports6.qa">
     <title lang="en">Ivory Coast vs Egypt - CAF  U17 Africa Cup of Nations Morocco 2026 - Quater Final's</title>
@@ -5530,12 +5545,6 @@ Stade Francis-Le Blé Stadium</desc>
     <category lang="en">Tennis</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSports8.qa">
-    <title lang="en">Sprint Race - F1 Dutch Grand Prix - 2026</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260824130000 +0000" stop="20260824141500 +0000" channel="beINSports8.qa">
     <title lang="en">Main Race Qualifying - F1 Dutch Grand Prix - 2026</title>
     <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
@@ -5822,13 +5831,13 @@ Chobani Stadyumu Stadium</desc>
     <category lang="ar">رياضة السيارات</category>
     <category lang="en">MotorSports</category>
   </programme>
-  <programme start="20260826173000 +0000" stop="20260826183500 +0000" channel="beINSports8.qa">
+  <programme start="20260826173000 +0000" stop="20260826183700 +0000" channel="beINSports8.qa">
     <title lang="en">Feature Race - Zandvoort Feature Race - F1 Academy 2026</title>
     <desc lang="en">F1 Academy is a woman-only single-seater championship created to develop and accelerate the careers of female drivers in motorsport. The 2026 season features seven rounds and 14 races, with young talents competing in identical cars across a global calendar. The series provides a competitive platform to develop speed, race craft and technical experi</desc>
     <category lang="ar">رياضة السيارات</category>
     <category lang="en">MotorSports</category>
   </programme>
-  <programme start="20260826183500 +0000" stop="20260826210000 +0000" channel="beINSports8.qa">
+  <programme start="20260826183700 +0000" stop="20260826210000 +0000" channel="beINSports8.qa">
     <title lang="en">Tottenham vs Charlton - Carabao Cup 2026 / 2027 - Round 2 ‎• Live 🔵‎</title>
     <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
     <category lang="ar">كأس الرابطة الإنكليزي</category>
@@ -6130,10 +6139,12 @@ Chobani Stadyumu Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824100200 +0000" stop="20260824123000 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Riesenbeck  Jumping - Grand Prix</title>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
+  <programme start="20260829130000 +0000" stop="20260829140000 +0000" channel="beINSports8.qa">
+    <title lang="en">Sprint Race - Moto GP - Aragon 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">MotoGP is the premier class of the FIM Grand Prix World Championship, featuring the world’s fastest and most advanced prototype motorcycles. The 2026 season features 22 Grands Prix across five continents, with the world’s leading riders and manufacturers competing for the Riders’, Teams’ and Constructors’ Championships. The series combines extreme</desc>
+    <category lang="ar">بطولة العالم للدراجات النارية</category>
+    <category lang="en">Moto GP - World Championship</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260824123000 +0000" stop="20260824133000 +0000" channel="beINSports9.qa">
     <title lang="en">GCL R2 – Competition Team - Shanghai Tour Highlights</title>
@@ -6561,12 +6572,6 @@ Chobani Stadyumu Stadium</desc>
     <category lang="en">Sports General</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260824090800 +0000" stop="20260824121000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Newcastle United vs Liverpool - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">Newcastle are winless in their last 19 Premier League games against Liverpool. Only against Manchester City have they ever gone 20+ consecutive meetings without a victory against an opponent in the competition. Liverpool haven’t lost any of their last nine Premier League games against Newcastle at St. James’ Park  and could equal the longest unbeat</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260824121000 +0000" stop="20260824140000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
@@ -6882,17 +6887,17 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260826033000 +0000" stop="20260826040000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826033000 +0000" stop="20260826042500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Review 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826040000 +0000" stop="20260826043000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826042500 +0000" stop="20260826045500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">French Ligue 1 Highlights 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826043000 +0000" stop="20260826050000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826045500 +0000" stop="20260826052500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
 All matches are available live with a choice of Arabic or English commentary.
@@ -6901,7 +6906,7 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826050000 +0000" stop="20260826053000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826052500 +0000" stop="20260826055500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Newcastle United vs Liverpool - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
 All matches are available live with a choice of Arabic or English commentary.
@@ -6910,56 +6915,56 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826053000 +0000" stop="20260826063000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826055500 +0000" stop="20260826065500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Generation xG 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826063000 +0000" stop="20260826070000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826065500 +0000" stop="20260826072500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826070000 +0000" stop="20260826073000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826072500 +0000" stop="20260826075500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Elche vs Barcelona - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Elche have lost each of their last 10 LaLiga matches against FC Barcelona, their longest losing streak against the Blaugrana in the competition. Barcelona are unbeaten in their last 11 away league games against Elche, winning each of the last five; both represent their longest such runs against the side in top-flight history.</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260826073000 +0000" stop="20260826080000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826075500 +0000" stop="20260826082500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Netbusters 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826080000 +0000" stop="20260826083000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826082500 +0000" stop="20260826085500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EFL Highlights 2026/27 | E2</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826083000 +0000" stop="20260826090000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826085500 +0000" stop="20260826092300 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Freiburg vs Aston Villa - UEFA Europa League 2025/2026 - Final</title>
     <desc lang="en">The 2025–26 UEFA Europa League is the secondary club football tournament organised by UEFA. This is the second season played under a new format, which replaced the 32-team group stage with a 36-team league phase. Tottenham Hotspur are the reigning champions. The final will be played on 20 May 2026 at Beşiktaş Stadium in Istanbul, Turkey.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260826090000 +0000" stop="20260826093000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826092300 +0000" stop="20260826095100 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Crystal Palace vs Rayo Vallecano - UEFA Conference League  2025/2026 - Final</title>
     <desc lang="en">The UEFA Conference League is the third-tier club football tournament organised by UEFA. The new format competition runs for its second season live and exclusive only on beIN. The RB Arena in Leipzig, Germany, is the venue for the Conference League final on 27 May 2026.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260826093000 +0000" stop="20260826100000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826095100 +0000" stop="20260826104500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Review 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826100000 +0000" stop="20260826103000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826104500 +0000" stop="20260826111500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">French Ligue 1 Highlights 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826103000 +0000" stop="20260826110000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826111500 +0000" stop="20260826114500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Hull City vs Manchester United - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
 All matches are available live with a choice of Arabic or English commentary.
@@ -6968,18 +6973,18 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826110000 +0000" stop="20260826113000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826114500 +0000" stop="20260826121600 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Espanyol vs Real Madrid - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Espanyol have won three of their last seven home LaLiga games against Real Madrid, after losing eight of their previous nine home encounters against them in the competition. Real Madrid have won 110 of their 180 LaLiga meetings with Espanyol, a record for the most wins by one team against another in the competition's history.</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260826113000 +0000" stop="20260826123000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826121600 +0000" stop="20260826131000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Generation xG 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826123000 +0000" stop="20260826130000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826131000 +0000" stop="20260826133700 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
 All matches are available live with a choice of Arabic or English commentary.
@@ -6988,7 +6993,7 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826130000 +0000" stop="20260826133000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826133700 +0000" stop="20260826140400 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Newcastle United vs Liverpool - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">All 380 matches from the English Premier league are live and exclusive only on beIN.
 All matches are available live with a choice of Arabic or English commentary.
@@ -6997,56 +7002,56 @@ Liverpool are the defending champions, having won their second Premier League ti
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260826133000 +0000" stop="20260826140000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826140400 +0000" stop="20260826143200 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Netbusters 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826140000 +0000" stop="20260826143000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826143200 +0000" stop="20260826150000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EFL Highlights 2026/27 | E2</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826143000 +0000" stop="20260826150000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826150000 +0000" stop="20260826152700 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Rennes vs PSG - French Ligue 1 2026/2027 - Week 1</title>
     <desc lang="en">Rennes are the side having defeated Paris SG the most times in Ligue 1 in the 21st century. The only teams against whom Rennes have recorded more top-flight victories in that period are Nantes, Toulouse  and Montpellier. Paris SG have won nine of their last 11 Ligue 1 season opening matches, with the exceptions being a 0-1 defeat at Lens in 2020 an</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260826150000 +0000" stop="20260826153000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826152700 +0000" stop="20260826155500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Elche vs Barcelona - Spanish LaLiga 2026/2027 - Week 2</title>
     <desc lang="en">Elche have lost each of their last 10 LaLiga matches against FC Barcelona, their longest losing streak against the Blaugrana in the competition. Barcelona are unbeaten in their last 11 away league games against Elche, winning each of the last five; both represent their longest such runs against the side in top-flight history.</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260826153000 +0000" stop="20260826160000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826155500 +0000" stop="20260826162300 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN Ligue 1 Show 2026/27 | E2</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826160000 +0000" stop="20260826163000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826162300 +0000" stop="20260826165100 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Stories 2026/27 | E10 - The Ipswich Way</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826163000 +0000" stop="20260826170000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826165100 +0000" stop="20260826171800 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Freiburg vs Aston Villa - UEFA Europa League 2025/2026 - Final</title>
     <desc lang="en">The 2025–26 UEFA Europa League is the secondary club football tournament organised by UEFA. This is the second season played under a new format, which replaced the 32-team group stage with a 36-team league phase. Tottenham Hotspur are the reigning champions. The final will be played on 20 May 2026 at Beşiktaş Stadium in Istanbul, Turkey.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260826170000 +0000" stop="20260826173000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826171800 +0000" stop="20260826174500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Crystal Palace vs Rayo Vallecano - UEFA Conference League  2025/2026 - Final</title>
     <desc lang="en">The UEFA Conference League is the third-tier club football tournament organised by UEFA. The new format competition runs for its second season live and exclusive only on beIN. The RB Arena in Leipzig, Germany, is the venue for the Conference League final on 27 May 2026.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826174500 +0000" stop="20260826181500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Rewind 2026/27 | E1</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260826180000 +0000" stop="20260826184500 +0000" channel="beINSportsEn1.qa">
+  <programme start="20260826181500 +0000" stop="20260826184500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EFL Highlights 2026/27 | E2</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
@@ -7192,6 +7197,11 @@ Liverpool are the defending champions, having won their second Premier League ti
     <desc lang="en">Espanyol have won three of their last seven home LaLiga games against Real Madrid, after losing eight of their previous nine home encounters against them in the competition. Real Madrid have won 110 of their 180 LaLiga meetings with Espanyol, a record for the most wins by one team against another in the competition's history.</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
+  </programme>
+  <programme start="20260827093000 +0000" stop="20260827100000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">EN EPL Netbusters 2026/27 | E1</title>
+    <category lang="ar">مسلسلات</category>
+    <category lang="en">Series</category>
   </programme>
   <programme start="20260824112900 +0000" stop="20260824140200 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Main Race - F1 Dutch Grand Prix - 2026</title>
@@ -8556,12 +8566,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824110000 +0000" stop="20260824130000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260824130000 +0000" stop="20260824150000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8797,12 +8801,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260827190000 +0000" stop="20260827205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260824110000 +0000" stop="20260824130000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9048,12 +9046,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824110000 +0000" stop="20260824130000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260824130000 +0000" stop="20260824150000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9289,12 +9281,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260827190000 +0000" stop="20260827205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260824110000 +0000" stop="20260824130000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9540,12 +9526,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824110000 +0000" stop="20260824130000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260824130000 +0000" stop="20260824150000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9781,12 +9761,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260827190000 +0000" stop="20260827205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260824110000 +0000" stop="20260824130000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10031,12 +10005,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassad</title>
-    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260824130000 +0000" stop="20260824133000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
@@ -10646,11 +10614,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260826150000 +0000" stop="20260826153000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Six O'Clock bulletin ‎• Live 🔵‎</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260824130000 +0000" stop="20260824140000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -11246,7 +11215,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11846,7 +11815,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -12446,7 +12415,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13046,7 +13015,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13646,7 +13615,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14246,7 +14215,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14846,7 +14815,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15446,7 +15415,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260824120000 +0000" stop="20260824130000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16046,6 +16015,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260828160000 +0000" stop="20260828170000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <channel id="beINSPORTS1.tr">
     <display-name lang="tr">beIN SPORTS 1</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_1.png" />
@@ -16130,15 +16105,15 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Süper Lig Haftanın Golleri (26-27) 2.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260825090000 +0000" stop="20260825103000 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260825090000 +0000" stop="20260825103100 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Rizespor - Fenerbahçe (01-02) 8.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260825103000 +0000" stop="20260825110000 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260825103100 +0000" stop="20260825110200 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Tff 1.lig Maç Özetleri (26-27) 03.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260825110000 +0000" stop="20260825124500 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260825110200 +0000" stop="20260825124500 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Super Lig (26-27) 2. Hafta Kocaelispor - Amedspor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
@@ -17178,11 +17153,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Gün Ortası / Canlı ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260825120000 +0000" stop="20260825134500 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260825120000 +0000" stop="20260825134300 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Super Lig (26-27) 2. Hafta Erzurumspor - Galatasaray - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260825134500 +0000" stop="20260825140000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260825134300 +0000" stop="20260825140000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Under The Skin - Arsenal</title>
     <category lang="en">Sports</category>
   </programme>
@@ -18017,14 +17992,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1515/v3uEbXUv6XpT4S4.jpg" />
   </programme>
   <programme start="20260825113000 +0000" stop="20260825123000 +0000" channel="Roya_RoyaTV">
-    <title lang="ar">فترة الاطفال • Live 🟢</title>
+    <title lang="ar">فترة الاطفال</title>
     <desc lang="ar">مجموعة من برامج ورسوم متحركة خاصة بالأطفال .</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/57/kwqG4Nhie9MPvBM.jpg" />
   </programme>
   <programme start="20260825123000 +0000" stop="20260825133000 +0000" channel="Roya_RoyaTV">
-    <title lang="ar">مرايا 2003</title>
+    <title lang="ar">مرايا 2003 • Live 🟢</title>
     <desc lang="ar">مسلسل مرايا 2003 هو مسلسل كوميدي سوري من بطولة الفنان ياسر العظمة، يتناول في حلقاته المنفصلة والمتنوعة عددًا من القضايا الاجتماعية والحياتية بأسلوب ساخر وناقد، ويسلط الضوء على سلوكيات ومواقف من الحياة اليومية بأسلوب كوميدي يجمع بين النقد الاجتماعي والفكاهة.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/2194/Izljc5WH8URjMa7.png" />
   </programme>
   <programme start="20260825133000 +0000" stop="20260825140000 +0000" channel="Roya_RoyaTV">
@@ -18174,9 +18149,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
   </programme>
   <programme start="20260825113000 +0000" stop="20260825120000 +0000" channel="Roya_RoyaNews">
-    <title lang="ar">موجز الأخبار • Live 🟢</title>
+    <title lang="ar">موجز الأخبار</title>
     <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
   </programme>
   <programme start="20260825120000 +0000" stop="20260825123000 +0000" channel="Roya_RoyaNews">
@@ -18190,8 +18164,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
   </programme>
   <programme start="20260825130000 +0000" stop="20260825133000 +0000" channel="Roya_RoyaNews">
-    <title lang="ar">نبض البلد</title>
+    <title lang="ar">نبض البلد • Live 🟢</title>
     <desc lang="ar">برنامج سياسي يتناول العديد من القضايا المحلية، العربية والعالمية باستضافة أشخاص متخصصين ويعرض البرنامج تقارير ميدانية ويتواصل مع الجمهور من خلال التعليقات عبر مواقع التواصل الاجتماعي ويطرحها على الضيوف خلال الحلقة.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/59/UtXrub3W7oIYzYX.webp" />
   </programme>
   <programme start="20260825133000 +0000" stop="20260825140000 +0000" channel="Roya_RoyaNews">
@@ -18304,8 +18279,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
   </programme>
   <programme start="20260825110000 +0000" stop="20260825120000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026 • Live 🟢</title>
-    <category lang="en">Live</category>
+    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
   </programme>
   <programme start="20260825120000 +0000" stop="20260825130000 +0000" channel="Roya_RoyaSport">
@@ -18313,7 +18287,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
   </programme>
   <programme start="20260825130000 +0000" stop="20260825140000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
+    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026 • Live 🟢</title>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
   </programme>
   <programme start="20260825140000 +0000" stop="20260825150000 +0000" channel="Roya_RoyaSport">
@@ -18511,9 +18486,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/817/cTTBgjDab1pj3k3.jpg" />
   </programme>
   <programme start="20260825113543 +0000" stop="20260825121132 +0000" channel="Roya_RoyaComedy">
-    <title lang="ar">الحلال • Live 🟢</title>
+    <title lang="ar">الحلال</title>
     <desc lang="ar">تدور أحداث مسلسل "الحلال" في إحدى الحارات المصرية، يروي قصة فتاة فقيرة تصارع البؤس والفقر، فتقرر العمل مع الدجالين والسحرة لتحسين وضعها المادي. في الوقت نفسه، تخطط صديقتها للسفر إلى الخليج بحثًا عن الثراء وتحقيق أهدافها.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/817/cTTBgjDab1pj3k3.jpg" />
   </programme>
   <programme start="20260825121132 +0000" stop="20260825123252 +0000" channel="Roya_RoyaComedy">
@@ -18527,8 +18501,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/162/uaTEWCIODbczLdp.webp" />
   </programme>
   <programme start="20260825125449 +0000" stop="20260825131435 +0000" channel="Roya_RoyaComedy">
-    <title lang="ar">الحب الحب</title>
+    <title lang="ar">الحب الحب • Live 🟢</title>
     <desc lang="ar">يحكي المسلسل قصة جمال وياسمينا، شاب وفتاة أردنيين يسعيان لإيجاد شريك حياة. يظهر العديد من المواقف والشخصيات المختلفة التي يتعاملان معها خلال هذا البحث. تُقدم كل حلقة شخصية جديدة تدخل حياة جمال أو ياسمينا، ونرى كيف ستتطور هذه العلاقة. يناقش المسلسل التغييرات الاجتماعية التي طرأت على المجتمعات العربية مؤخرًا بشكل كوميدي خفيف.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/162/uaTEWCIODbczLdp.webp" />
   </programme>
   <programme start="20260825131435 +0000" stop="20260825140318 +0000" channel="Roya_RoyaComedy">
@@ -18834,9 +18809,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/211/KFBsAt3SJInSKel.jpg" />
   </programme>
   <programme start="20260825113905 +0000" stop="20260825115802 +0000" channel="Roya_RoyaKitchen">
-    <title lang="ar">مطبخ رؤيا • Live 🟢</title>
+    <title lang="ar">مطبخ رؤيا</title>
     <desc lang="ar">برنامج يقدم مقادير وطرق تحضير المأكولات والأطباق المحلية والعربيه والعالمية .</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/171/BY2264R899xAb27.webp" />
   </programme>
   <programme start="20260825115802 +0000" stop="20260825120541 +0000" channel="Roya_RoyaKitchen">
@@ -18860,8 +18834,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/182/uMTE3zy1TM3PA7f.jpg" />
   </programme>
   <programme start="20260825125954 +0000" stop="20260825132139 +0000" channel="Roya_RoyaKitchen">
-    <title lang="ar">مطبخ رؤيا - نصائح صحية</title>
+    <title lang="ar">مطبخ رؤيا - نصائح صحية • Live 🟢</title>
     <desc lang="ar">فقرة نصائح صحية ضمن مطبخ رؤيا تتحدث عن أهم النصائح الصحية، وطريقة الاهتمام بالتغذية السليمة للحفاظ على الصحية والوقاية من الأمراض.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/211/KFBsAt3SJInSKel.jpg" />
   </programme>
   <programme start="20260825132139 +0000" stop="20260825134036 +0000" channel="Roya_RoyaKitchen">
@@ -19495,9 +19470,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1195/WsR1lZJsNlmsAMr.jpg" />
   </programme>
   <programme start="20260825115405 +0000" stop="20260825120230 +0000" channel="Roya_Ch38">
-    <title lang="ar">كرفان - حكواتية - الموسم الأول • Live 🟢</title>
+    <title lang="ar">كرفان - حكواتية - الموسم الأول</title>
     <desc lang="ar">قصص من غزة ُتعطي معنى لوجودنا، ونندرك أن أحدهم سيقرأ ويسمع عنا وعن حياتنا يوًما ما، ومن ناحية أخرى، تبدو حياتنا الشخصية مختلفة عادًة لكنها متشابهة بالجوهر، لذلك سنحتاج دائًما لقراءة قصص من سبقونا أو من يعيشون معنا في هذا العالم، لنتعلم منهم.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1321/2iTerQzpdjQmHhF.webp" />
   </programme>
   <programme start="20260825120230 +0000" stop="20260825120721 +0000" channel="Roya_Ch38">
@@ -19526,8 +19500,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/221/fREUtUD1KrUjExo.jpg" />
   </programme>
   <programme start="20260825130146 +0000" stop="20260825130531 +0000" channel="Roya_Ch38">
-    <title lang="ar">كرفان - حبطرش-اللهجة الفلسطينية - الموسم الثاني</title>
+    <title lang="ar">كرفان - حبطرش-اللهجة الفلسطينية - الموسم الثاني • Live 🟢</title>
     <desc lang="ar">كلمات فلسطينية متداولة ولكن لا يعرف الجميع معانيها، محمود رزق يسأل الشارع الفسلطيني عن معانيها.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1195/WsR1lZJsNlmsAMr.jpg" />
   </programme>
   <programme start="20260825130531 +0000" stop="20260825131302 +0000" channel="Roya_Ch38">
@@ -19923,14 +19898,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
   </programme>
   <programme start="20260825115619 +0000" stop="20260825121717 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟ • Live 🟢</title>
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
     <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
   </programme>
   <programme start="20260825121717 +0000" stop="20260825131540 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <title lang="ar">فترة الاطفال - فيكسيز • Live 🟢</title>
     <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
   </programme>
   <programme start="20260825131540 +0000" stop="20260825143239 +0000" channel="Roya_RoyaKids">
@@ -20124,14 +20099,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1284/H5C4AXfTmqEYhFY.webp" />
   </programme>
   <programme start="20260825105953 +0000" stop="20260825120429 +0000" channel="Roya_Ch40">
-    <title lang="ar">نوبانيز • Live 🟢</title>
+    <title lang="ar">نوبانيز</title>
     <desc lang="ar">یطل علینا النجم زهیر النوباني في برنامجه نوبانیز كل یوم جمعة لیناقش مواضیع تمس المجتمع الأردني في قالب مسرحي ساخر بالإستعانة بمشاهد تمثیلیة كومیدیة و لیتناقش مع الشارع الأردني في فقرة سؤال الشارع حول هذه المواضیع بشخصیة من شخصیات مراسلي البرنامج (فرج االله، أبو عقلین، أبو شفیك)، وفي نهایة كل حلقة یجري النجم ً لقاءا مع شخصیة عامة قریبة من الموضوع الذي تطرحه الحلقة لیتناقش معهم ویسمع وجهة نظرهم فیها.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/957/ZiI3fobE1pEHZoz.jpg" />
   </programme>
   <programme start="20260825120429 +0000" stop="20260825131458 +0000" channel="Roya_Ch40">
-    <title lang="ar">قص وعص</title>
+    <title lang="ar">قص وعص • Live 🟢</title>
     <desc lang="ar">"قصي" الكوافير و "عصام" خبير العلاج الطبيعي صديقان مقربان ويسكنان في نفس العمارة الغريبة الأطوار، يتفقان في أحيان ولكنهما يتصادما عندما يختلفا في نظرتهما للمجتمع.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/125/FwyA6bQHgRalsFk.jpg" />
   </programme>
   <programme start="20260825131458 +0000" stop="20260825134945 +0000" channel="Roya_Ch40">
@@ -20255,16 +20230,16 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1441/qvh2JEw0ipnPxMX.webp" />
   </programme>
   <programme start="20260825110046 +0000" stop="20260825123244 +0000" channel="Roya_Ch41">
-    <title lang="ar">كرفان - مازات • Live 🟢</title>
+    <title lang="ar">كرفان - مازات</title>
     <desc lang="ar">فقرة جديدة من فقرات برنامج كرفان، يتم الحديث فيها عن اطباق المازات المختلفة من الوطن العربي من قبل أصحاب هذه الأطباق وقصة كل طبق منها، حيث تهدف لتعليم كيفية صناعة أطباق المازات المختلفة والمتنوعة.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1442/TZscmyCo51qY3Zt.webp" />
   </programme>
   <programme start="20260825123244 +0000" stop="20260825132524 +0000" channel="Roya_Ch41">
-    <title lang="ar">كرفان - كحيلان</title>
+    <title lang="ar">كرفان - كحيلان • Live 🟢</title>
     <desc lang="ar">كحيلان فقرة ضمن برنامج كرفان تهتم بالخيل وفارسها، تعنى بالتدريب على مهارات ركوب الخيل، كما تعنى بأنواع الخيول، وتحديدا الخيول العربية الأصيلة. 
 وفكرة كحيلان جاءت من سلالة الخيول العربية الأصيلة التي تتميز بجمالها وأصالتها ونقاء دمها، وكحيلان تعني الكحل في عين الخيل الأصيل. 
 الفقرة من تقديم: محمد الفاعوري</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1401/4RWDeCBUlK3cJ3O.webp" />
   </programme>
   <programme start="20260825132524 +0000" stop="20260825141349 +0000" channel="Roya_Ch41">
@@ -20378,9 +20353,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260825110000 +0000" stop="20260825120000 +0000" channel="Roya_Ch35">
-    <title lang="ar">قناة الشرقية • Live 🟢</title>
+    <title lang="ar">قناة الشرقية</title>
     <desc lang="ar">قناة الشرقية هي قناة تلفزيونية فضائية عراقية بدأ بثّها التجريبي في آذار عام 2004، والبث العادي في 4 أيار 2004. تبثّ القناة برامج إخبارية ورياضية وكوميدية ومسلسلات عراقية أصلية ومسلسلات عربية وبرامج الواقع.</desc>
-    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260825120000 +0000" stop="20260825130000 +0000" channel="Roya_Ch35">
@@ -20389,8 +20363,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260825130000 +0000" stop="20260825140000 +0000" channel="Roya_Ch35">
-    <title lang="ar">قناة الشرقية</title>
+    <title lang="ar">قناة الشرقية • Live 🟢</title>
     <desc lang="ar">قناة الشرقية هي قناة تلفزيونية فضائية عراقية بدأ بثّها التجريبي في آذار عام 2004، والبث العادي في 4 أيار 2004. تبثّ القناة برامج إخبارية ورياضية وكوميدية ومسلسلات عراقية أصلية ومسلسلات عربية وبرامج الواقع.</desc>
+    <category lang="en">Live</category>
     <icon src="https://backend.roya-tv.com/imagechanger/Size02Q40R169/images/programs/1440/u9g2hsVGhTOPa1x.webp" />
   </programme>
   <programme start="20260825140000 +0000" stop="20260825150000 +0000" channel="Roya_Ch35">
@@ -38241,52 +38216,47 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260824210000 +0000" stop="20260824213000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260824213000 +0000" stop="20260825000000 +0000" channel="AlkassFive.qa">
+  <programme start="20260824213000 +0000" stop="20260825024500 +0000" channel="AlkassFive.qa">
     <title lang="en">Jetour League Al Khor vs. Al Markhiya</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
+    <title lang="ar">دوري الدرجة الثانية القطري</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825000000 +0000" stop="20260825023000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Jetour League Al Bidda vs. Al Ittihad Al Gharafa</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825023000 +0000" stop="20260825030000 +0000" channel="AlkassFive.qa">
-    <title lang="en">The English Studio - Arabian Horse Tour</title>
-    <title lang="ar">جولة الجياد العربية</title>
+  <programme start="20260825024500 +0000" stop="20260825030000 +0000" channel="AlkassFive.qa">
+    <title lang="en">AUTO MUNDIAL</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825030000 +0000" stop="20260825033000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825033000 +0000" stop="20260825040000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260825033000 +0000" stop="20260825050000 +0000" channel="AlkassFive.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825040000 +0000" stop="20260825054500 +0000" channel="AlkassFive.qa">
+  <programme start="20260825050000 +0000" stop="20260825060000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Review</title>
+    <title lang="ar">ريفيو</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825060000 +0000" stop="20260825070000 +0000" channel="AlkassFive.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825070000 +0000" stop="20260825090000 +0000" channel="AlkassFive.qa">
     <title lang="en">Diamond League - Silesia</title>
     <title lang="ar">الدوري الماسي لألعاب القوى</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825054500 +0000" stop="20260825060000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Table Tennis Championship Studio START CONTENDER</title>
-    <title lang="ar">استوديو بطولة تنس الطاولة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825060000 +0000" stop="20260825090000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
-    <title lang="ar">ديربي تونس</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
   <programme start="20260825090000 +0000" stop="20260825093000 +0000" channel="AlkassFive.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825093000 +0000" stop="20260825100000 +0000" channel="AlkassFive.qa">
@@ -38295,63 +38265,43 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825100000 +0000" stop="20260825103000 +0000" channel="AlkassFive.qa">
-    <title lang="en">FIFA Arab Cup Qatar 2025 Morocco vs. Jordan</title>
-    <title lang="ar">بطولة كأس العرب لكرة القدم</title>
+    <title lang="en">tawasol</title>
+    <title lang="ar">تواصل</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825103000 +0000" stop="20260825110000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Fiba</title>
-    <title lang="ar">كرة السلة العالمية</title>
+  <programme start="20260825103000 +0000" stop="20260825123000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
+    <title lang="ar">ديربي تونس</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825110000 +0000" stop="20260825123000 +0000" channel="AlkassFive.qa">
+  <programme start="20260825123000 +0000" stop="20260825130000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Golmania</title>
+    <title lang="ar">جولمانيا</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825130000 +0000" stop="20260825131500 +0000" channel="AlkassFive.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825131500 +0000" stop="20260825150000 +0000" channel="AlkassFive.qa">
     <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825123000 +0000" stop="20260825130000 +0000" channel="AlkassFive.qa">
+  <programme start="20260825150000 +0000" stop="20260825160000 +0000" channel="AlkassFive.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825160000 +0000" stop="20260825163000 +0000" channel="AlkassFive.qa">
     <title lang="en">FOOTBALL REVIEW</title>
     <title lang="ar">حصيلة كرة القدم</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825130000 +0000" stop="20260825131500 +0000" channel="AlkassFive.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825131500 +0000" stop="20260825134500 +0000" channel="AlkassFive.qa">
-    <title lang="en">The Road to 2027 Al Duhail</title>
-    <title lang="ar">الطريق إلى 2027</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825134500 +0000" stop="20260825143000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Second Division League Al - Bidaa vs. Al</title>
-    <title lang="ar">دوري الدرجة الثانية القطري</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825143000 +0000" stop="20260825150000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825150000 +0000" stop="20260825154500 +0000" channel="AlkassFive.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Jordan vs. Korea</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825154500 +0000" stop="20260825163000 +0000" channel="AlkassFive.qa">
-    <title lang="en">wasl basketball Kuwait SC (Kuwait) vs. Al - Muharraq (Bahrain)</title>
-    <title lang="ar">بطولة الوصل لكرة السلة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825163000 +0000" stop="20260825170000 +0000" channel="AlkassFive.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825170000 +0000" stop="20260825173000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260825163000 +0000" stop="20260825173000 +0000" channel="AlkassFive.qa">
+    <title lang="en">FADFAD</title>
+    <title lang="ar">فض فض</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825173000 +0000" stop="20260825180000 +0000" channel="AlkassFive.qa">
@@ -38361,47 +38311,62 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260825180000 +0000" stop="20260825183000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825183000 +0000" stop="20260825190000 +0000" channel="AlkassFive.qa">
-    <title lang="en">QSL magazine</title>
-    <title lang="ar">مجلة دوري نجوم قطر</title>
+  <programme start="20260825183000 +0000" stop="20260825200000 +0000" channel="AlkassFive.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825190000 +0000" stop="20260826001500 +0000" channel="AlkassFive.qa">
-    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
-    <title lang="ar">ديربي تونس</title>
+  <programme start="20260825200000 +0000" stop="20260825203000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Marine Magazine</title>
+    <title lang="ar">المجلة البحرية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826001500 +0000" stop="20260826030000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Amir Cup Al Sadd vs. Al Duhail</title>
-    <title lang="ar">كأس سمو الأمير لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassFive.qa">
-    <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826033000 +0000" stop="20260826040000 +0000" channel="AlkassFive.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826040000 +0000" stop="20260826043000 +0000" channel="AlkassFive.qa">
+  <programme start="20260825203000 +0000" stop="20260825210000 +0000" channel="AlkassFive.qa">
     <title lang="en">Fiba</title>
     <title lang="ar">كرة السلة العالمية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826043000 +0000" stop="20260826090000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Arabian Horse Championship Studio</title>
-    <title lang="ar">بطولة جمال الخيول</title>
+  <programme start="20260825210000 +0000" stop="20260826024500 +0000" channel="AlkassFive.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826024500 +0000" stop="20260826030000 +0000" channel="AlkassFive.qa">
+    <title lang="en">AUTO MUNDIAL</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassFive.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826033000 +0000" stop="20260826050000 +0000" channel="AlkassFive.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826050000 +0000" stop="20260826060000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Review</title>
+    <title lang="ar">ريفيو</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826060000 +0000" stop="20260826070000 +0000" channel="AlkassFive.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826070000 +0000" stop="20260826090000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Diamond League - Silesia</title>
+    <title lang="ar">الدوري الماسي لألعاب القوى</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826090000 +0000" stop="20260826093000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826093000 +0000" stop="20260826100000 +0000" channel="AlkassFive.qa">
@@ -38410,43 +38375,43 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826100000 +0000" stop="20260826103000 +0000" channel="AlkassFive.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
+    <title lang="en">tawasol</title>
+    <title lang="ar">تواصل</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826103000 +0000" stop="20260826120000 +0000" channel="AlkassFive.qa">
-    <title lang="en">19th Asian Youth Handball Championship Japan vs. Korea</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826120000 +0000" stop="20260826123000 +0000" channel="AlkassFive.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
+  <programme start="20260826103000 +0000" stop="20260826123000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
+    <title lang="ar">ديربي تونس</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826123000 +0000" stop="20260826130000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
+    <title lang="en">Golmania</title>
+    <title lang="ar">جولمانيا</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826130000 +0000" stop="20260826131500 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826131500 +0000" stop="20260826134500 +0000" channel="AlkassFive.qa">
-    <title lang="en">The Road to 2027 Al Shamal</title>
-    <title lang="ar">الطريق إلى 2027</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826134500 +0000" stop="20260826160000 +0000" channel="AlkassFive.qa">
-    <title lang="en">FIFA Arab Cup Qatar 2025 Morocco vs. Saudi Arabia</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826160000 +0000" stop="20260826173000 +0000" channel="AlkassFive.qa">
-    <title lang="en">19th Asian Youth Handball Championship China vs. Bahrain</title>
+  <programme start="20260826131500 +0000" stop="20260826150000 +0000" channel="AlkassFive.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826150000 +0000" stop="20260826160000 +0000" channel="AlkassFive.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826160000 +0000" stop="20260826163000 +0000" channel="AlkassFive.qa">
+    <title lang="en">FOOTBALL REVIEW</title>
+    <title lang="ar">حصيلة كرة القدم</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826163000 +0000" stop="20260826173000 +0000" channel="AlkassFive.qa">
+    <title lang="en">FADFAD</title>
+    <title lang="ar">فض فض</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="AlkassFive.qa">
@@ -38456,17 +38421,22 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826183000 +0000" stop="20260826203000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Gulf Champions League Al - Nahda vs. Al</title>
-    <title lang="ar">دوري أبطال الخليج للأندية</title>
+  <programme start="20260826183000 +0000" stop="20260826200000 +0000" channel="AlkassFive.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826200000 +0000" stop="20260826203000 +0000" channel="AlkassFive.qa">
+    <title lang="en">Marine Magazine</title>
+    <title lang="ar">المجلة البحرية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826203000 +0000" stop="20260827010000 +0000" channel="AlkassFive.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+    <title lang="en">Fiba</title>
+    <title lang="ar">كرة السلة العالمية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827010000 +0000" stop="20260827030000 +0000" channel="AlkassFive.qa">
@@ -38476,7 +38446,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827030000 +0000" stop="20260827033000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827033000 +0000" stop="20260827080000 +0000" channel="AlkassFive.qa">
@@ -38496,7 +38466,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827090000 +0000" stop="20260827093000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827093000 +0000" stop="20260827100000 +0000" channel="AlkassFive.qa">
@@ -38531,7 +38501,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827180000 +0000" stop="20260827183000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827183000 +0000" stop="20260828020000 +0000" channel="AlkassFive.qa">
@@ -38551,7 +38521,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828030000 +0000" stop="20260828033000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828033000 +0000" stop="20260828051500 +0000" channel="AlkassFive.qa">
@@ -38571,7 +38541,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828090000 +0000" stop="20260828093000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828093000 +0000" stop="20260828100000 +0000" channel="AlkassFive.qa">
@@ -38596,7 +38566,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828130000 +0000" stop="20260828131500 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828131500 +0000" stop="20260828153000 +0000" channel="AlkassFive.qa">
@@ -38616,7 +38586,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828180000 +0000" stop="20260828183000 +0000" channel="AlkassFive.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828183000 +0000" stop="20260828203000 +0000" channel="AlkassFive.qa">
@@ -38631,7 +38601,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260824210000 +0000" stop="20260824213000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260824213000 +0000" stop="20260824230000 +0000" channel="AlkassSix.qa">
@@ -38639,64 +38609,54 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260824230000 +0000" stop="20260825003000 +0000" channel="AlkassSix.qa">
+  <programme start="20260824230000 +0000" stop="20260825000000 +0000" channel="AlkassSix.qa">
     <title lang="en">the Referee</title>
     <title lang="ar">الحكم</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825003000 +0000" stop="20260825010000 +0000" channel="AlkassSix.qa">
-    <title lang="en">wasl Basketball Al Hikma (Lebanon) vs. Astana (Kazakhstan)</title>
-    <title lang="ar">بطولة الوصل لكرة السلة</title>
+  <programme start="20260825000000 +0000" stop="20260825013000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825010000 +0000" stop="20260825023000 +0000" channel="AlkassSix.qa">
-    <title lang="en">FIFA Arab Cup 2025 Saudi Arabia vs. Jordan</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
+  <programme start="20260825013000 +0000" stop="20260825020000 +0000" channel="AlkassSix.qa">
+    <title lang="en">Marine Magazine</title>
+    <title lang="ar">المجلة البحرية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825023000 +0000" stop="20260825030000 +0000" channel="AlkassSix.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
+  <programme start="20260825020000 +0000" stop="20260825030000 +0000" channel="AlkassSix.qa">
+    <title lang="en">FADFAD</title>
+    <title lang="ar">فض فض</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825030000 +0000" stop="20260825033000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825033000 +0000" stop="20260825053000 +0000" channel="AlkassSix.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Saudi Arabia vs. Syria</title>
+  <programme start="20260825033000 +0000" stop="20260825040000 +0000" channel="AlkassSix.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825040000 +0000" stop="20260825060000 +0000" channel="AlkassSix.qa">
+    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
+    <title lang="ar">ديربي تونس</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825060000 +0000" stop="20260825073000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Jordan vs. Korea</title>
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825053000 +0000" stop="20260825060000 +0000" channel="AlkassSix.qa">
-    <title lang="en">wasl basketball Kuwait SC (Kuwait) vs. Al - Muharraq (Bahrain)</title>
-    <title lang="ar">بطولة الوصل لكرة السلة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825060000 +0000" stop="20260825070000 +0000" channel="AlkassSix.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Jordan vs. India</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825070000 +0000" stop="20260825073000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Gulf Champions League Al Rayyan (Qatar) vs Al Nahda (Oman)</title>
-    <title lang="ar">دوري أبطال الخليج للأندية</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825073000 +0000" stop="20260825080000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825080000 +0000" stop="20260825090000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Review</title>
-    <title lang="ar">ريفيو</title>
+  <programme start="20260825073000 +0000" stop="20260825090000 +0000" channel="AlkassSix.qa">
+    <title lang="en">the Referee</title>
+    <title lang="ar">الحكم</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825090000 +0000" stop="20260825093000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825093000 +0000" stop="20260825100000 +0000" channel="AlkassSix.qa">
@@ -38704,49 +38664,24 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">جرايد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825100000 +0000" stop="20260825103000 +0000" channel="AlkassSix.qa">
-    <title lang="en">tawasol</title>
-    <title lang="ar">تواصل</title>
+  <programme start="20260825100000 +0000" stop="20260825113000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825103000 +0000" stop="20260825123000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Diamond League - Silesia</title>
-    <title lang="ar">الدوري الماسي لألعاب القوى</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825123000 +0000" stop="20260825130000 +0000" channel="AlkassSix.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825130000 +0000" stop="20260825131500 +0000" channel="AlkassSix.qa">
-    <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825131500 +0000" stop="20260825143000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
-    <title lang="ar">ديربي تونس</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825143000 +0000" stop="20260825150000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825150000 +0000" stop="20260825153000 +0000" channel="AlkassSix.qa">
+  <programme start="20260825113000 +0000" stop="20260825120000 +0000" channel="AlkassSix.qa">
     <title lang="en">Fiba</title>
     <title lang="ar">كرة السلة العالمية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825153000 +0000" stop="20260825160000 +0000" channel="AlkassSix.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
+  <programme start="20260825120000 +0000" stop="20260825130000 +0000" channel="AlkassSix.qa">
+    <title lang="en">West Asian Volleyball Championship Second Edition Lebanon vs. Iraq</title>
+    <title lang="ar">بطولة غرب آسيا للكرة الطائرة</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825160000 +0000" stop="20260825173000 +0000" channel="AlkassSix.qa">
-    <title lang="en">the Referee</title>
-    <title lang="ar">الحكم</title>
+  <programme start="20260825130000 +0000" stop="20260825173000 +0000" channel="AlkassSix.qa">
+    <title lang="en">York Ebor Horse Racing Festival Studio</title>
+    <title lang="ar">مهرجان يورك إيبور</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825173000 +0000" stop="20260825180000 +0000" channel="AlkassSix.qa">
@@ -38756,67 +38691,72 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260825180000 +0000" stop="20260825183000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825183000 +0000" stop="20260825190000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Fiba</title>
-    <title lang="ar">كرة السلة العالمية</title>
+  <programme start="20260825183000 +0000" stop="20260825210000 +0000" channel="AlkassSix.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825190000 +0000" stop="20260825203000 +0000" channel="AlkassSix.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825203000 +0000" stop="20260826010000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826010000 +0000" stop="20260826013000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Fiba</title>
-    <title lang="ar">كرة السلة العالمية</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826013000 +0000" stop="20260826030000 +0000" channel="AlkassSix.qa">
-    <title lang="en">19th Asian Youth Handball Championship Oman vs. Chinese Taipei</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassSix.qa">
+  <programme start="20260825210000 +0000" stop="20260825213000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826033000 +0000" stop="20260826040000 +0000" channel="AlkassSix.qa">
+  <programme start="20260825213000 +0000" stop="20260825230000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825230000 +0000" stop="20260826000000 +0000" channel="AlkassSix.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826000000 +0000" stop="20260826013000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826013000 +0000" stop="20260826020000 +0000" channel="AlkassSix.qa">
     <title lang="en">Marine Magazine</title>
     <title lang="ar">المجلة البحرية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826040000 +0000" stop="20260826043000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
+  <programme start="20260826020000 +0000" stop="20260826030000 +0000" channel="AlkassSix.qa">
+    <title lang="en">FADFAD</title>
+    <title lang="ar">فض فض</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826043000 +0000" stop="20260826063000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Gulf Champions League Sitra vs. Al Ain</title>
-    <title lang="ar">دوري أبطال الخليج للأندية</title>
+  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassSix.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826063000 +0000" stop="20260826070000 +0000" channel="AlkassSix.qa">
-    <title lang="en">The Road to 2027 Al Shamal</title>
-    <title lang="ar">الطريق إلى 2027</title>
+  <programme start="20260826033000 +0000" stop="20260826040000 +0000" channel="AlkassSix.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826070000 +0000" stop="20260826090000 +0000" channel="AlkassSix.qa">
-    <title lang="en">West Asian Basketball Championship Kazma (Kuwait) vs. Shabab Al - Ahli (UAE)</title>
-    <title lang="ar">دوري سوبر غرب آسيا لكرة السلة</title>
+  <programme start="20260826040000 +0000" stop="20260826060000 +0000" channel="AlkassSix.qa">
+    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
+    <title lang="ar">ديربي تونس</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826060000 +0000" stop="20260826073000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Jordan vs. Korea</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826073000 +0000" stop="20260826090000 +0000" channel="AlkassSix.qa">
+    <title lang="en">the Referee</title>
+    <title lang="ar">الحكم</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826090000 +0000" stop="20260826093000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826093000 +0000" stop="20260826100000 +0000" channel="AlkassSix.qa">
@@ -38824,39 +38764,39 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">جرايد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826100000 +0000" stop="20260826120000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Second Division League Lusail vs. Al - Kharaitiyat</title>
-    <title lang="ar">دوري الدرجة الثانية القطري</title>
+  <programme start="20260826100000 +0000" stop="20260826113000 +0000" channel="AlkassSix.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826120000 +0000" stop="20260826123000 +0000" channel="AlkassSix.qa">
+  <programme start="20260826113000 +0000" stop="20260826120000 +0000" channel="AlkassSix.qa">
     <title lang="en">Fiba</title>
     <title lang="ar">كرة السلة العالمية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826123000 +0000" stop="20260826140000 +0000" channel="AlkassSix.qa">
-    <title lang="en">19th Asian Youth Handball Championship Kuwait vs. UAE</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+  <programme start="20260826120000 +0000" stop="20260826130000 +0000" channel="AlkassSix.qa">
+    <title lang="en">West Asian Volleyball Championship Second Edition Lebanon vs. Iraq</title>
+    <title lang="ar">بطولة غرب آسيا للكرة الطائرة</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826140000 +0000" stop="20260826143000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260826130000 +0000" stop="20260826173000 +0000" channel="AlkassSix.qa">
+    <title lang="en">York Ebor Horse Racing Festival Studio</title>
+    <title lang="ar">مهرجان يورك إيبور</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826143000 +0000" stop="20260826150000 +0000" channel="AlkassSix.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826150000 +0000" stop="20260826203000 +0000" channel="AlkassSix.qa">
-    <title lang="en">Arabian Horse Championship Studio</title>
-    <title lang="ar">بطولة جمال الخيول</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826203000 +0000" stop="20260827020000 +0000" channel="AlkassSix.qa">
+  <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="AlkassSix.qa">
     <title lang="en">tawasol</title>
     <title lang="ar">تواصل</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="AlkassSix.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826183000 +0000" stop="20260827020000 +0000" channel="AlkassSix.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827020000 +0000" stop="20260827033000 +0000" channel="AlkassSix.qa">
@@ -38891,7 +38831,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827090000 +0000" stop="20260827093000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827093000 +0000" stop="20260827100000 +0000" channel="AlkassSix.qa">
@@ -38911,7 +38851,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827130000 +0000" stop="20260827131500 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827131500 +0000" stop="20260827151500 +0000" channel="AlkassSix.qa">
@@ -38936,7 +38876,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827180000 +0000" stop="20260827183000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827183000 +0000" stop="20260827203000 +0000" channel="AlkassSix.qa">
@@ -38976,7 +38916,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828090000 +0000" stop="20260828093000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828093000 +0000" stop="20260828100000 +0000" channel="AlkassSix.qa">
@@ -38996,7 +38936,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828180000 +0000" stop="20260828183000 +0000" channel="AlkassSix.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828183000 +0000" stop="20260829000000 +0000" channel="AlkassSix.qa">
@@ -39006,52 +38946,47 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260824210000 +0000" stop="20260824213000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260824213000 +0000" stop="20260825000000 +0000" channel="AlkassSeven.qa">
+  <programme start="20260824213000 +0000" stop="20260825024500 +0000" channel="AlkassSeven.qa">
     <title lang="en">Jetour League Al Khor vs. Al Markhiya</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
+    <title lang="ar">دوري الدرجة الثانية القطري</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825000000 +0000" stop="20260825023000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Jetour League Al Bidda vs. Al Ittihad Al Gharafa</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825023000 +0000" stop="20260825030000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">The English Studio - Arabian Horse Tour</title>
-    <title lang="ar">جولة الجياد العربية</title>
+  <programme start="20260825024500 +0000" stop="20260825030000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">AUTO MUNDIAL</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825030000 +0000" stop="20260825033000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825033000 +0000" stop="20260825040000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260825033000 +0000" stop="20260825050000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825040000 +0000" stop="20260825054500 +0000" channel="AlkassSeven.qa">
+  <programme start="20260825050000 +0000" stop="20260825060000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Review</title>
+    <title lang="ar">ريفيو</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825060000 +0000" stop="20260825070000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825070000 +0000" stop="20260825090000 +0000" channel="AlkassSeven.qa">
     <title lang="en">Diamond League - Silesia</title>
     <title lang="ar">الدوري الماسي لألعاب القوى</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825054500 +0000" stop="20260825060000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Table Tennis Championship Studio START CONTENDER</title>
-    <title lang="ar">استوديو بطولة تنس الطاولة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825060000 +0000" stop="20260825090000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
-    <title lang="ar">ديربي تونس</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
   <programme start="20260825090000 +0000" stop="20260825093000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825093000 +0000" stop="20260825100000 +0000" channel="AlkassSeven.qa">
@@ -39060,63 +38995,43 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825100000 +0000" stop="20260825103000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">FIFA Arab Cup Qatar 2025 Morocco vs. Jordan</title>
-    <title lang="ar">بطولة كأس العرب لكرة القدم</title>
+    <title lang="en">tawasol</title>
+    <title lang="ar">تواصل</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825103000 +0000" stop="20260825110000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Fiba</title>
-    <title lang="ar">كرة السلة العالمية</title>
+  <programme start="20260825103000 +0000" stop="20260825123000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
+    <title lang="ar">ديربي تونس</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825110000 +0000" stop="20260825123000 +0000" channel="AlkassSeven.qa">
+  <programme start="20260825123000 +0000" stop="20260825130000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Golmania</title>
+    <title lang="ar">جولمانيا</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825130000 +0000" stop="20260825131500 +0000" channel="AlkassSeven.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825131500 +0000" stop="20260825150000 +0000" channel="AlkassSeven.qa">
     <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825123000 +0000" stop="20260825130000 +0000" channel="AlkassSeven.qa">
+  <programme start="20260825150000 +0000" stop="20260825160000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825160000 +0000" stop="20260825163000 +0000" channel="AlkassSeven.qa">
     <title lang="en">FOOTBALL REVIEW</title>
     <title lang="ar">حصيلة كرة القدم</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825130000 +0000" stop="20260825131500 +0000" channel="AlkassSeven.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825131500 +0000" stop="20260825134500 +0000" channel="AlkassSeven.qa">
-    <title lang="en">The Road to 2027 Al Duhail</title>
-    <title lang="ar">الطريق إلى 2027</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825134500 +0000" stop="20260825143000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Second Division League Al - Bidaa vs. Al</title>
-    <title lang="ar">دوري الدرجة الثانية القطري</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825143000 +0000" stop="20260825150000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825150000 +0000" stop="20260825154500 +0000" channel="AlkassSeven.qa">
-    <title lang="en">The 11th Asian Men’s Youth Handball Championship Jordan vs. Korea</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825154500 +0000" stop="20260825163000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">wasl basketball Kuwait SC (Kuwait) vs. Al - Muharraq (Bahrain)</title>
-    <title lang="ar">بطولة الوصل لكرة السلة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825163000 +0000" stop="20260825170000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825170000 +0000" stop="20260825173000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260825163000 +0000" stop="20260825173000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">FADFAD</title>
+    <title lang="ar">فض فض</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825173000 +0000" stop="20260825180000 +0000" channel="AlkassSeven.qa">
@@ -39126,47 +39041,62 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260825180000 +0000" stop="20260825183000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825183000 +0000" stop="20260825190000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">QSL magazine</title>
-    <title lang="ar">مجلة دوري نجوم قطر</title>
+  <programme start="20260825183000 +0000" stop="20260825200000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825190000 +0000" stop="20260826001500 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
-    <title lang="ar">ديربي تونس</title>
+  <programme start="20260825200000 +0000" stop="20260825203000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Marine Magazine</title>
+    <title lang="ar">المجلة البحرية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826001500 +0000" stop="20260826030000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Amir Cup Al Sadd vs. Al Duhail</title>
-    <title lang="ar">كأس سمو الأمير لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826033000 +0000" stop="20260826040000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826040000 +0000" stop="20260826043000 +0000" channel="AlkassSeven.qa">
+  <programme start="20260825203000 +0000" stop="20260825210000 +0000" channel="AlkassSeven.qa">
     <title lang="en">Fiba</title>
     <title lang="ar">كرة السلة العالمية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826043000 +0000" stop="20260826090000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Arabian Horse Championship Studio</title>
-    <title lang="ar">بطولة جمال الخيول</title>
+  <programme start="20260825210000 +0000" stop="20260826024500 +0000" channel="AlkassSeven.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826024500 +0000" stop="20260826030000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">AUTO MUNDIAL</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826033000 +0000" stop="20260826050000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826050000 +0000" stop="20260826060000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Review</title>
+    <title lang="ar">ريفيو</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826060000 +0000" stop="20260826070000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826070000 +0000" stop="20260826090000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Diamond League - Silesia</title>
+    <title lang="ar">الدوري الماسي لألعاب القوى</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826090000 +0000" stop="20260826093000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826093000 +0000" stop="20260826100000 +0000" channel="AlkassSeven.qa">
@@ -39175,43 +39105,43 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826100000 +0000" stop="20260826103000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
+    <title lang="en">tawasol</title>
+    <title lang="ar">تواصل</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826103000 +0000" stop="20260826120000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">19th Asian Youth Handball Championship Japan vs. Korea</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826120000 +0000" stop="20260826123000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
+  <programme start="20260826103000 +0000" stop="20260826123000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
+    <title lang="ar">ديربي تونس</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826123000 +0000" stop="20260826130000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Inside Line</title>
-    <title lang="ar">عالم السرعة</title>
+    <title lang="en">Golmania</title>
+    <title lang="ar">جولمانيا</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826130000 +0000" stop="20260826131500 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826131500 +0000" stop="20260826134500 +0000" channel="AlkassSeven.qa">
-    <title lang="en">The Road to 2027 Al Shamal</title>
-    <title lang="ar">الطريق إلى 2027</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826134500 +0000" stop="20260826160000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">FIFA Arab Cup Qatar 2025 Morocco vs. Saudi Arabia</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826160000 +0000" stop="20260826173000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">19th Asian Youth Handball Championship China vs. Bahrain</title>
+  <programme start="20260826131500 +0000" stop="20260826150000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Uzbekistan vs. India</title>
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826150000 +0000" stop="20260826160000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826160000 +0000" stop="20260826163000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">FOOTBALL REVIEW</title>
+    <title lang="ar">حصيلة كرة القدم</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826163000 +0000" stop="20260826173000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">FADFAD</title>
+    <title lang="ar">فض فض</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="AlkassSeven.qa">
@@ -39221,17 +39151,22 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826183000 +0000" stop="20260826203000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Gulf Champions League Al - Nahda vs. Al</title>
-    <title lang="ar">دوري أبطال الخليج للأندية</title>
+  <programme start="20260826183000 +0000" stop="20260826200000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Kuwait vs. Iran</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826200000 +0000" stop="20260826203000 +0000" channel="AlkassSeven.qa">
+    <title lang="en">Marine Magazine</title>
+    <title lang="ar">المجلة البحرية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826203000 +0000" stop="20260827010000 +0000" channel="AlkassSeven.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+    <title lang="en">Fiba</title>
+    <title lang="ar">كرة السلة العالمية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827010000 +0000" stop="20260827030000 +0000" channel="AlkassSeven.qa">
@@ -39241,7 +39176,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827030000 +0000" stop="20260827033000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827033000 +0000" stop="20260827080000 +0000" channel="AlkassSeven.qa">
@@ -39261,7 +39196,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827090000 +0000" stop="20260827093000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827093000 +0000" stop="20260827100000 +0000" channel="AlkassSeven.qa">
@@ -39296,7 +39231,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827180000 +0000" stop="20260827183000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827183000 +0000" stop="20260828020000 +0000" channel="AlkassSeven.qa">
@@ -39316,7 +39251,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828030000 +0000" stop="20260828033000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828033000 +0000" stop="20260828051500 +0000" channel="AlkassSeven.qa">
@@ -39336,7 +39271,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828090000 +0000" stop="20260828093000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828093000 +0000" stop="20260828100000 +0000" channel="AlkassSeven.qa">
@@ -39361,7 +39296,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828130000 +0000" stop="20260828131500 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828131500 +0000" stop="20260828153000 +0000" channel="AlkassSeven.qa">
@@ -39381,7 +39316,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828180000 +0000" stop="20260828183000 +0000" channel="AlkassSeven.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828183000 +0000" stop="20260828200000 +0000" channel="AlkassSeven.qa">
@@ -39401,57 +39336,37 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260824210000 +0000" stop="20260824223000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260824223000 +0000" stop="20260825001500 +0000" channel="AlkassEight.qa">
+  <programme start="20260824223000 +0000" stop="20260825003000 +0000" channel="AlkassEight.qa">
     <title lang="en">Derby Tunis Espérance Sportive de Tunis vs. Étoile Sportive du Sahel</title>
     <title lang="ar">ديربي تونس</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825001500 +0000" stop="20260825013000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Table Tennis Championship Studio START CONTENDER</title>
-    <title lang="ar">استوديو بطولة تنس الطاولة</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825013000 +0000" stop="20260825023000 +0000" channel="AlkassEight.qa">
+  <programme start="20260825003000 +0000" stop="20260825013000 +0000" channel="AlkassEight.qa">
     <title lang="en">Review</title>
     <title lang="ar">ريفيو</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825023000 +0000" stop="20260825030000 +0000" channel="AlkassEight.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
+  <programme start="20260825013000 +0000" stop="20260825030000 +0000" channel="AlkassEight.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
+    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825030000 +0000" stop="20260825033000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825033000 +0000" stop="20260825053000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Jetour League Al Khor vs. Al Markhiya</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825053000 +0000" stop="20260825060000 +0000" channel="AlkassEight.qa">
-    <title lang="en">19th Asian Youth Handball Championship Bahrain vs. Korea</title>
-    <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825060000 +0000" stop="20260825070000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Jetour League Al Bidda vs. Al Ittihad Al Gharafa</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825070000 +0000" stop="20260825090000 +0000" channel="AlkassEight.qa">
-    <title lang="en">FIFA Arab Cup 2025 Saudi Arabia vs. Jordan</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
+  <programme start="20260825033000 +0000" stop="20260825090000 +0000" channel="AlkassEight.qa">
+    <title lang="en">AUTO MUNDIAL</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825090000 +0000" stop="20260825093000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260825093000 +0000" stop="20260825100000 +0000" channel="AlkassEight.qa">
@@ -39459,119 +39374,74 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">جرايد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825100000 +0000" stop="20260825103000 +0000" channel="AlkassEight.qa">
-    <title lang="en">the Referee</title>
-    <title lang="ar">الحكم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825103000 +0000" stop="20260825110000 +0000" channel="AlkassEight.qa">
-    <title lang="en">The Road to 2027 Al Duhail</title>
-    <title lang="ar">الطريق إلى 2027</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825110000 +0000" stop="20260825123000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Tunisian Derby Espérance Sportive de Tunis vs. Club Africain</title>
-    <title lang="ar">ديربي تونس</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825123000 +0000" stop="20260825130000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825130000 +0000" stop="20260825133000 +0000" channel="AlkassEight.qa">
-    <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825133000 +0000" stop="20260825140000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Golmania</title>
-    <title lang="ar">جولمانيا</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825140000 +0000" stop="20260825141500 +0000" channel="AlkassEight.qa">
-    <title lang="en">Jetour League studio</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825141500 +0000" stop="20260825143000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Jetour League Mesaimeer vs. Al - Muaidar</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825143000 +0000" stop="20260825163000 +0000" channel="AlkassEight.qa">
-    <title lang="en">FIFA Arab Cup Qatar 2025 Morocco vs. Jordan</title>
-    <title lang="ar">بطولة كأس العرب لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825163000 +0000" stop="20260825173000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Jetour League Mustaqbal Al - Shamal vs. Al</title>
-    <title lang="ar">كأس جيتور لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825173000 +0000" stop="20260825180000 +0000" channel="AlkassEight.qa">
-    <title lang="en">tawasol</title>
-    <title lang="ar">تواصل</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825180000 +0000" stop="20260825183000 +0000" channel="AlkassEight.qa">
-    <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825183000 +0000" stop="20260825190000 +0000" channel="AlkassEight.qa">
-    <title lang="en">The Road to 2027 Al Shahaniya</title>
-    <title lang="ar">الطريق إلى 2027</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260825190000 +0000" stop="20260825193000 +0000" channel="AlkassEight.qa">
+  <programme start="20260825100000 +0000" stop="20260825110000 +0000" channel="AlkassEight.qa">
     <title lang="en">90 minutes</title>
     <title lang="ar">90 دقيقة</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825193000 +0000" stop="20260825203000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260825110000 +0000" stop="20260825130000 +0000" channel="AlkassEight.qa">
+    <title lang="en">Doha Bank Stars League Al Sadd vs. Al Ahli</title>
+    <title lang="ar">دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260825203000 +0000" stop="20260826020000 +0000" channel="AlkassEight.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
+  <programme start="20260825130000 +0000" stop="20260825131500 +0000" channel="AlkassEight.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826020000 +0000" stop="20260826040000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Arab Cup UAE vs. Egypt</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
+  <programme start="20260825131500 +0000" stop="20260825190000 +0000" channel="AlkassEight.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826040000 +0000" stop="20260826053000 +0000" channel="AlkassEight.qa">
-    <title lang="en">19th Asian Youth Handball Championship China vs. Bahrain</title>
+  <programme start="20260825190000 +0000" stop="20260825210000 +0000" channel="AlkassEight.qa">
+    <title lang="en">Doha Bank Stars League Al Arabi vs. Al Shamal</title>
+    <title lang="ar">دوري نجوم قطر</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825210000 +0000" stop="20260825213000 +0000" channel="AlkassEight.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825213000 +0000" stop="20260825220000 +0000" channel="AlkassEight.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825220000 +0000" stop="20260825223000 +0000" channel="AlkassEight.qa">
+    <title lang="en">tawasol</title>
+    <title lang="ar">تواصل</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260825223000 +0000" stop="20260826003000 +0000" channel="AlkassEight.qa">
+    <title lang="en">Doha Stars League Al Sadd vs Al Ahli</title>
+    <title lang="ar">دوري نجوم قطر</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826003000 +0000" stop="20260826013000 +0000" channel="AlkassEight.qa">
+    <title lang="en">Review</title>
+    <title lang="ar">ريفيو</title>
+    <category lang="ar">الرياضة العام</category>
+  </programme>
+  <programme start="20260826013000 +0000" stop="20260826030000 +0000" channel="AlkassEight.qa">
+    <title lang="en">The 11th Asian Men’s Youth Handball Championship Qatar vs. Syria</title>
     <title lang="ar">بطولة آسيا للشباب لكرة اليد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826053000 +0000" stop="20260826060000 +0000" channel="AlkassEight.qa">
-    <title lang="en">SPORT CONFIDENTIAL</title>
-    <title lang="ar">أسرار الرياضة</title>
+  <programme start="20260826030000 +0000" stop="20260826033000 +0000" channel="AlkassEight.qa">
+    <title lang="en">News</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826060000 +0000" stop="20260826080000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Arab Cup Syria vs. Palestine</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826080000 +0000" stop="20260826083000 +0000" channel="AlkassEight.qa">
-    <title lang="en">FOOTBALL REVIEW</title>
-    <title lang="ar">حصيلة كرة القدم</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826083000 +0000" stop="20260826090000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Marine Magazine</title>
-    <title lang="ar">المجلة البحرية</title>
+  <programme start="20260826033000 +0000" stop="20260826090000 +0000" channel="AlkassEight.qa">
+    <title lang="en">AUTO MUNDIAL</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826090000 +0000" stop="20260826093000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826093000 +0000" stop="20260826100000 +0000" channel="AlkassEight.qa">
@@ -39579,49 +39449,29 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">جرايد</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826100000 +0000" stop="20260826103000 +0000" channel="AlkassEight.qa">
-    <title lang="en">The Road to 2027 Al Shamal</title>
-    <title lang="ar">الطريق إلى 2027</title>
+  <programme start="20260826100000 +0000" stop="20260826110000 +0000" channel="AlkassEight.qa">
+    <title lang="en">90 minutes</title>
+    <title lang="ar">90 دقيقة</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826103000 +0000" stop="20260826130000 +0000" channel="AlkassEight.qa">
-    <title lang="en">FIFA Arab Cup 2025 Oman vs. Comoros</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
+  <programme start="20260826110000 +0000" stop="20260826130000 +0000" channel="AlkassEight.qa">
+    <title lang="en">Doha Bank Stars League Al Sadd vs. Al Ahli</title>
+    <title lang="ar">دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826130000 +0000" stop="20260826131500 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
-  <programme start="20260826131500 +0000" stop="20260826151500 +0000" channel="AlkassEight.qa">
-    <title lang="en">Gulf Champions League Al - Nahda vs. Al</title>
-    <title lang="ar">دوري أبطال الخليج للأندية</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826151500 +0000" stop="20260826173000 +0000" channel="AlkassEight.qa">
-    <title lang="en">Second Division League Lusail vs. Al - Kharaitiyat</title>
-    <title lang="ar">دوري الدرجة الثانية القطري</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826173000 +0000" stop="20260826180000 +0000" channel="AlkassEight.qa">
-    <title lang="en">tawasol</title>
-    <title lang="ar">تواصل</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826180000 +0000" stop="20260826183000 +0000" channel="AlkassEight.qa">
-    <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
-    <category lang="ar">الرياضة العام</category>
-  </programme>
-  <programme start="20260826183000 +0000" stop="20260826190000 +0000" channel="AlkassEight.qa">
-    <title lang="en">The Road to 2027 Al Sailiya</title>
-    <title lang="ar">الطريق إلى 2027</title>
+  <programme start="20260826131500 +0000" stop="20260826190000 +0000" channel="AlkassEight.qa">
+    <title lang="en">QSL magazine</title>
+    <title lang="ar">مجلة دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260826190000 +0000" stop="20260827040000 +0000" channel="AlkassEight.qa">
-    <title lang="en">FIFA Arab Cup Qatar 2025 Morocco vs. Saudi Arabia</title>
-    <title lang="ar">تصفيات كأس العرب لكرة القدم</title>
+    <title lang="en">Doha Bank Stars League Al Arabi vs. Al Shamal</title>
+    <title lang="ar">دوري نجوم قطر</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827040000 +0000" stop="20260827060000 +0000" channel="AlkassEight.qa">
@@ -39646,7 +39496,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827090000 +0000" stop="20260827093000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827093000 +0000" stop="20260827100000 +0000" channel="AlkassEight.qa">
@@ -39681,7 +39531,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827130000 +0000" stop="20260827133000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827133000 +0000" stop="20260827140000 +0000" channel="AlkassEight.qa">
@@ -39716,7 +39566,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260827180000 +0000" stop="20260827183000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260827183000 +0000" stop="20260827203000 +0000" channel="AlkassEight.qa">
@@ -39736,7 +39586,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828030000 +0000" stop="20260828033000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828033000 +0000" stop="20260828053000 +0000" channel="AlkassEight.qa">
@@ -39766,7 +39616,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828090000 +0000" stop="20260828093000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828093000 +0000" stop="20260828100000 +0000" channel="AlkassEight.qa">
@@ -39791,7 +39641,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828130000 +0000" stop="20260828131500 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828131500 +0000" stop="20260828151000 +0000" channel="AlkassEight.qa">
@@ -39811,7 +39661,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260828180000 +0000" stop="20260828183000 +0000" channel="AlkassEight.qa">
     <title lang="en">News</title>
-    <title lang="ar">أخبار</title>
+    <title lang="ar">الأخبار</title>
     <category lang="ar">الرياضة العام</category>
   </programme>
   <programme start="20260828183000 +0000" stop="20260828203000 +0000" channel="AlkassEight.qa">
