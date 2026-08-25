@@ -1,49 +1,47 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Read-only: judge the one feed that could carry the new guide.
+"""Read-only: find each broadcaster's own schedule source. First party only.
 
-Every broadcaster's own page is shut: MBC 404s on every schedule path,
-OSN, Al Arabiya, Al Hadath and Al Mayadeen all answer 403, Al Araby's
-schedule 500s. Al Jazeera's جدول البث is the single official page that
-answers at all.
+The first sweep used a bare requests User-Agent and got 403 from OSN,
+Al Arabiya, Al Hadath and Al Mayadeen. That is bot filtering, not a
+missing page, so every one of them is retried here with the headers a
+real browser sends.
 
-That leaves epgshare01's AE1 feed — 813 channels, 69,699 programmes —
-which named Al Arabiya, Al Hadath, Al Mayadeen, Al Araby 1 and 2 and much
-else with real programme counts. The earlier listing was cut off at 45
-entries, alphabetically before M, so MBC, OSN and Rotana were never seen.
-
-Before any of it can be recommended it has to be judged, not just
-counted: which channels, how many days each, what the titles look like,
-and whether they are Arabic. Changes nothing.
+The other half of the problem is that these are single-page apps: the
+schedule is not in the HTML, it arrives from a backend the page calls.
+So alongside the pages this probes the API hosts and paths each
+broadcaster is likely to be using, and reports what actually answers
+with data. Nothing third-party, nothing pre-collected.
 """
 from __future__ import annotations
 
-import gzip
-import io
+import json
 import re
-import xml.etree.ElementTree as ET
-from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 
-H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-     "Accept-Language": "ar,en;q=0.8"}
-T = (5, 40)
-CAP = 120 * 1024 * 1024
-ARABIC = re.compile(r"[؀-ۿ]")
+UTC = timezone.utc
+TODAY = datetime.now(UTC).strftime("%Y-%m-%d")
+TOMORROW = (datetime.now(UTC) + timedelta(days=1)).strftime("%Y-%m-%d")
+T = (5, 20)
 
-GROUPS = {
-    "MBC": re.compile(r"\bmbc\b", re.I),
-    "OSN": re.compile(r"\bosn", re.I),
-    "Rotana": re.compile(r"rotana", re.I),
-    "News AR": re.compile(r"arabiya|hadath|mayadeen|araby|jazeera|sky.?news|"
-                          r"bbc.?arabic|france.?24|dw.arab|cnbc|extra.?news|"
-                          r"ekhbariya|ikhbariya|alghad", re.I),
-    "Levant/Gulf general": re.compile(
-        r"\blbc|\bmtv\b|otv|jadeed|dubai|abu.?dhabi|sharjah|sama|"
-        r"saudi|syria|jordan|mamlaka|roya|kuwait|qatar|oman|bahrain", re.I),
-    "STC / Jawwy": re.compile(r"\bstc\b|jawwy", re.I),
+BROWSER = {
+    "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                   "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"),
+    "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
+               "image/avif,image/webp,*/*;q=0.8"),
+    "Accept-Language": "ar,en-US;q=0.9,en;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Sec-Ch-Ua": '"Chromium";v="126", "Not:A-Brand";v="24"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+    "Connection": "keep-alive",
 }
 
 
@@ -51,72 +49,116 @@ def section(name):
     print(f"\n{'=' * 78}\n{name}\n{'=' * 78}", flush=True)
 
 
-def load(code):
-    url = f"https://epgshare01.online/epgshare01/epg_ripper_{code}.xml.gz"
+def probe(label, url, *, headers=None, referer=None, json_expected=False):
+    h = dict(BROWSER)
+    if json_expected:
+        h["Accept"] = "application/json, text/plain, */*"
+        h["Sec-Fetch-Dest"] = "empty"
+        h["Sec-Fetch-Mode"] = "cors"
+        h["Sec-Fetch-Site"] = "same-site"
+    if referer:
+        h["Referer"] = referer
+        h["Origin"] = referer.rstrip("/")
+    if headers:
+        h.update(headers)
     try:
-        r = requests.get(url, headers=H, timeout=T, stream=True)
+        r = requests.get(url, headers=h, timeout=T, allow_redirects=True)
     except Exception as exc:
-        print(f"  {code}: FAILED {str(exc)[:90]}", flush=True)
+        print(f"  {label:14} {url[:74]:76} FAILED {str(exc)[:60]}", flush=True)
         return None
-    if r.status_code != 200:
-        print(f"  {code}: HTTP {r.status_code}", flush=True)
-        return None
-    buf = io.BytesIO()
-    for chunk in r.iter_content(1 << 16):
-        buf.write(chunk)
-        if buf.tell() > CAP:
-            print(f"  {code}: over cap", flush=True)
-            return None
-    try:
-        return ET.fromstring(gzip.decompress(buf.getvalue()))
-    except Exception as exc:
-        print(f"  {code}: unusable ({exc})", flush=True)
-        return None
-
-
-def survey(code):
-    root = load(code)
-    if root is None:
-        return
-    names = {c.get("id"): (c.findtext("display-name") or "") for c in root.findall("channel")}
-    per = defaultdict(list)
-    for p in root.findall("programme"):
-        per[p.get("channel")].append(p)
-
-    print(f"\n{code}: {len(names)} channels, {sum(len(v) for v in per.values())} programmes",
-          flush=True)
-
-    for label, pattern in GROUPS.items():
-        hits = sorted(cid for cid in names
-                      if pattern.search(cid or "") or pattern.search(names[cid] or ""))
-        withdata = [c for c in hits if per[c]]
-        print(f"\n  --- {label}: {len(hits)} channels, {len(withdata)} with programmes ---",
-              flush=True)
-        for cid in hits:
-            rows = per[cid]
-            if not rows:
-                continue
-            days = sorted({p.get("start", "")[:8] for p in rows})
-            titles = [(p.findtext("title") or "") for p in rows]
-            arabic = sum(1 for t in titles if ARABIC.search(t))
-            print(f"    {names[cid][:30]:32} {len(rows):4} prog  {len(days)} days "
-                  f"({days[0][:8]}..{days[-1][:8]})  {arabic:4} Arabic titles", flush=True)
-        # what the data actually looks like, for the first two channels
-        for cid in withdata[:2]:
-            rows = sorted(per[cid], key=lambda p: p.get("start"))
-            print(f"      e.g. {names[cid]}:", flush=True)
-            for p in rows[:5]:
-                s = p.get("start", "")
-                print(f"         {s[4:6]}-{s[6:8]} {s[8:10]}:{s[10:12]}  "
-                      f"{(p.findtext('title') or '')[:58]}", flush=True)
+    body = r.text or ""
+    clocks = len(re.findall(r"\b([01]\d|2[0-3]):[0-5]\d\b", body))
+    kind = "html"
+    payload = None
+    ct = r.headers.get("content-type", "")
+    if "json" in ct.lower():
+        kind = "json"
+        try:
+            payload = r.json()
+        except Exception:
+            payload = None
+    flag = ""
+    if r.status_code == 200 and (clocks > 8 or payload is not None):
+        flag = "   <<< LOOK"
+    print(f"  {label:14} {url[:74]:76} {r.status_code} {len(body):8}b "
+          f"{kind:4} {clocks:4} clocks{flag}", flush=True)
+    if payload is not None:
+        text = json.dumps(payload, ensure_ascii=False)
+        print(f"       {text[:400]}", flush=True)
+    return r
 
 
 def main():
-    print(f"now UTC {datetime.now(timezone.utc):%Y-%m-%d %H:%M}", flush=True)
-    section("AE1 — the only feed with broad Arabic coverage")
-    survey("AE1")
-    section("ALJAZEERA1 — the broadcaster's own feed on the same mirror")
-    survey("ALJAZEERA1")
+    print(f"today {TODAY}", flush=True)
+
+    section("the 403 sites, retried with real browser headers")
+    for label, url in (
+        ("Al Arabiya", "https://www.alarabiya.net/tv-schedule"),
+        ("Al Arabiya", "https://www.alarabiya.net/ar/programs"),
+        ("Al Hadath", "https://www.alhadath.net/tv-schedule"),
+        ("Al Mayadeen", "https://www.almayadeen.net/programsschedule"),
+        ("OSN", "https://www.osn.com/en-ae/tv-guide"),
+        ("OSN", "https://www.osn.com/ar-sa/tv-guide"),
+        ("Al Araby", "https://www.alaraby.tv/schedule"),
+        ("Al Araby", "https://www.alaraby.tv/"),
+    ):
+        probe(label, url)
+
+    section("MBC and Shahid — their own backends")
+    for label, url, ref in (
+        ("MBC", "https://www.mbc.net/api/channels", "https://www.mbc.net/"),
+        ("MBC", "https://www.mbc.net/ar/channels.html", None),
+        ("MBC", "https://www.mbc.net/ar.html", None),
+        ("MBC", "https://www.mbc.net/", None),
+        ("Shahid", "https://shahid.mbc.net/ar", None),
+        ("Shahid api2", "https://api2.shahid.net/proxy/v2/channels", "https://shahid.mbc.net/"),
+        ("Shahid api3", "https://api3.shahid.net/proxy/v2/channels", "https://shahid.mbc.net/"),
+        ("Shahid api2", "https://api2.shahid.net/proxy/v2/product/livestreams",
+         "https://shahid.mbc.net/"),
+        ("Shahid epg", f"https://api2.shahid.net/proxy/v2/epg?date={TODAY}",
+         "https://shahid.mbc.net/"),
+    ):
+        probe(label, url, referer=ref, json_expected="api" in url or "/api/" in url)
+
+    section("OSN — app and gateway hosts")
+    for label, url in (
+        ("OSN api", "https://api.osn.com/v1/channels"),
+        ("OSN gw", "https://gateway.osn.com/v1/epg"),
+        ("OSN plus", "https://www.osnplus.com/en-ae/tv-guide"),
+        ("OSN plus", "https://osnplus.com/"),
+        ("OSN cdn", "https://cdn.osn.com/epg/today.json"),
+    ):
+        probe(label, url, json_expected=True)
+
+    section("STC TV / Jawwy — intigral hosts")
+    for label, url in (
+        ("STC", "https://prod-cdn-content-api.intigral-ott.net/api/v1/channels"),
+        ("STC", "https://prod-cdn-content-api.intigral-ott.net/api/v3/channels"),
+        ("STC", "https://prod-cdn-content-api.intigral-ott.net/api/v1/epg"),
+        ("STC", f"https://prod-cdn-content-api.intigral-ott.net/api/v1/epg?date={TODAY}"),
+        ("STC", "https://stctv.com/"),
+        ("STC", "https://www.stctv.com/en/live-tv"),
+    ):
+        probe(label, url, json_expected="intigral" in url)
+
+    section("news channels — their own backends")
+    for label, url, ref in (
+        ("Al Arabiya", "https://www.alarabiya.net/api/v1/schedule", "https://www.alarabiya.net/"),
+        ("Al Arabiya", "https://www.alarabiya.net/.rest/tv-schedule", "https://www.alarabiya.net/"),
+        ("Al Mayadeen", "https://www.almayadeen.net/api/programsschedule",
+         "https://www.almayadeen.net/"),
+        ("Al Mayadeen", "https://api.almayadeen.net/programsschedule",
+         "https://www.almayadeen.net/"),
+        ("Al Araby", "https://api.alaraby.tv/schedule", "https://www.alaraby.tv/"),
+        ("Al Araby", "https://www.alaraby.tv/api/schedule", "https://www.alaraby.tv/"),
+        ("Al Jazeera", "https://www.aljazeera.net/schedule", None),
+        ("Al Jazeera", "https://www.aljazeera.net/graphql", None),
+        ("Sky News Ar", "https://www.skynewsarabia.com/schedule", None),
+        ("Al Ekhbariya", "https://www.alekhbariya.net/", None),
+        ("Al Mamlaka", "https://www.almamlakatv.com/schedule", None),
+        ("LBC", "https://www.lbcgroup.tv/schedule", None),
+    ):
+        probe(label, url, referer=ref, json_expected="api" in url or "graphql" in url)
 
 
 if __name__ == "__main__":
