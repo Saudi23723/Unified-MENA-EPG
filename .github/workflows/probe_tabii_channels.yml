@@ -33,6 +33,7 @@ jobs:
                 "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
           S = requests.Session()
           S.headers.update({"User-Agent": UA, "Accept-Language": "tr,en;q=0.8"})
+          LD = re.compile(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', re.S)
 
           def get(url):
               try:
@@ -41,94 +42,75 @@ jobs:
               except Exception as exc:
                   return None, f"ERROR {exc}"
 
-          STATE = re.compile(r'window\.__INITIAL_STATE__=(\{.*?\});?\s*</script>', re.S)
-
-          def state_of(page):
-              m = STATE.search(page or "")
-              if not m:
-                  return None
-              raw = m.group(1)
-              try:
-                  return json.loads(raw)
-              except Exception as exc:
-                  print("     state not JSON:", exc, "| head:", raw[:120])
-                  return None
-
-          def find_events(node, depth=0, out=None):
-              """Lists of dicts that look like broadcast rows."""
-              out = [] if out is None else out
-              if depth > 12:
-                  return out
-              if isinstance(node, dict):
-                  for v in node.values():
-                      find_events(v, depth + 1, out)
-              elif isinstance(node, list):
-                  if node and isinstance(node[0], dict) and any(
-                          k in node[0] for k in ("channels", "channel", "start_at", "starts_at", "date")):
-                      out.append(node)
-                  for v in node[:200]:
-                      find_events(v, depth + 1, out)
+          def events_of(page):
+              out = []
+              for blob in LD.findall(page or ""):
+                  try:
+                      arr = json.loads(blob)
+                  except Exception:
+                      continue
+                  out += arr if isinstance(arr, list) else [arr]
               return out
 
+          def channels_of(ev):
+              """Every channel name this event names, however it names them."""
+              names = set()
+              pub = ev.get("publishedOn")
+              for p in (pub if isinstance(pub, list) else [pub] if pub else []):
+                  if isinstance(p, dict) and p.get("name"):
+                      names.add(p["name"].strip())
+              if not names:
+                  d = ev.get("description") or ""
+                  m = re.search(r'(.+?)\s+kanal\(lar\)ından', d)
+                  if m:
+                      names.add(m.group(1).strip().split("  ")[-1])
+              return names
+
+          def when(ev):
+              b = ev.get("broadcastOfEvent") or {}
+              return b.get("startDate"), b.get("endDate"), (b.get("name") or ev.get("name") or "").strip()
+
           print("#" * 72)
-          print("A) shape of one day page")
+          print("A) per-channel pages: which numbers exist, how much each carries")
           print("#" * 72)
-          code, page = get("https://www.sporekrani.com/home/day/2026-08-26")
-          print("HTTP", code, "| bytes", len(page))
-          st = state_of(page)
-          print("has __INITIAL_STATE__:", st is not None)
-          if st:
-              print("top-level keys:", list(st.keys()))
-              lists = find_events(st)
-              print("candidate event lists:", [len(l) for l in lists][:10])
-              if lists:
-                  biggest = max(lists, key=len)
-                  print("biggest list length:", len(biggest))
-                  print("SAMPLE ROW (pretty):")
-                  print(json.dumps(biggest[0], ensure_ascii=False, indent=2)[:1800])
-                  print()
-                  print("ROWS MENTIONING tabii:")
-                  n = 0
-                  for row in biggest:
-                      blob = json.dumps(row, ensure_ascii=False)
-                      if re.search(r'tabii', blob, re.I):
-                          print("  ", json.dumps(row, ensure_ascii=False)[:520])
-                          n += 1
-                          if n >= 6:
-                              break
-                  print("   total tabii rows on this day:", sum(
-                      1 for r in biggest if re.search(r'tabii', json.dumps(r, ensure_ascii=False), re.I)))
+          slugs = ["tabii-spor"] + [f"tabii-spor-{n}" for n in range(1, 13)]
+          for slug in slugs:
+              code, page = get(f"https://www.sporekrani.com/home/channel/{slug}")
+              evs = events_of(page)
+              mine = [e for e in evs if any("tabii" in c.lower() for c in channels_of(e))]
+              dates = sorted({(when(e)[0] or "")[:10] for e in mine if when(e)[0]})
+              print(f"   {slug:<16} HTTP {code} | bytes {len(page):>8} | ld events {len(evs):>3} "
+                    f"| tabii {len(mine):>3} | days {dates}")
 
           print()
           print("#" * 72)
-          print("B) ld+json BroadcastEvent — the simpler read")
+          print("B) the homepage feed: full date span and per-number breakdown")
           print("#" * 72)
-          for blob in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', page, re.S):
-              try:
-                  arr = json.loads(blob)
-              except Exception:
-                  continue
-              arr = arr if isinstance(arr, list) else [arr]
-              tab = [e for e in arr if re.search(r'tabii', json.dumps(e, ensure_ascii=False), re.I)]
-              print(f"   {len(arr)} events, {len(tab)} mention tabii")
-              for e in tab[:5]:
-                  print("     ", json.dumps(e, ensure_ascii=False)[:600])
+          code, page = get("https://www.sporekrani.com/")
+          evs = events_of(page)
+          print(f"   homepage HTTP {code} | {len(evs)} events")
+          per = {}
+          span = []
+          for e in evs:
+              s, t, name = when(e)
+              if s:
+                  span.append(s)
+              for c in channels_of(e):
+                  if "tabii" in c.lower():
+                      per.setdefault(c, []).append((s, t, name, bool(e.get("isLiveBroadcast"))))
+          print(f"   overall date span: {min(span)[:16] if span else '-'} .. {max(span)[:16] if span else '-'}")
+          for c in sorted(per):
+              rows = sorted(per[c])
+              print(f"   --- {c} ({len(rows)}) ---")
+              for s, t, name, live in rows:
+                  print(f"        {(s or '')[:16]} -> {(t or '')[:16]}  live={live}  {name}")
 
           print()
           print("#" * 72)
-          print("C) how many days forward exist, and do 8/9/10 ever appear")
+          print("C) does the site expose a JSON API the page calls")
           print("#" * 72)
-          import datetime as dt
-          today = dt.date(2026, 8, 25)
-          allnames = {}
-          for i in range(-1, 9):
-              d = today + dt.timedelta(days=i)
-              c, p = get(f"https://www.sporekrani.com/home/day/{d}")
-              names = {}
-              for m in re.findall(r'tabii\s?Spor\s?\d{0,2}', p or "", re.I):
-                  k = re.sub(r"\s+", " ", m.strip())
-                  names[k] = names.get(k, 0) + 1
-                  allnames[k] = allnames.get(k, 0) + 1
-              print(f"   {d} HTTP {c} bytes {len(p):>7} | {sorted(names)}")
-          print("   union across all days:", sorted(allnames))
+          for path in ["/api/events", "/api/home", "/api/channels",
+                       "/home/day/2026-08-27?format=json"]:
+              c, b = get("https://www.sporekrani.com" + path)
+              print(f"   HTTP {str(c):<5} {path:<36} {re.sub(chr(92)+'s+', ' ', (b or ''))[:100]}")
           PY
