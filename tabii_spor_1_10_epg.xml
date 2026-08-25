@@ -1,468 +1,344 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tv generator-info-name="Tabii Spor 1-10 multi-source XMLTV" generator-info-url="https://www.trtspor.com.tr/">
-  <channel id="TabiiSpor1.tr">
-    <display-name lang="tr">Tabii Spor 1</display-name>
+<tv generator-info-name="Unified MENA EPG — tabii Spor">
+  <channel id="TabiiSpor.tr">
+    <display-name lang="tr">tabii Spor</display-name>
+    <display-name lang="ar">تابي سبور</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
   </channel>
-  <channel id="TabiiSpor2.tr">
-    <display-name lang="tr">Tabii Spor 2</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor3.tr">
-    <display-name lang="tr">Tabii Spor 3</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor4.tr">
-    <display-name lang="tr">Tabii Spor 4</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor5.tr">
-    <display-name lang="tr">Tabii Spor 5</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor6.tr">
-    <display-name lang="tr">Tabii Spor 6</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor7.tr">
-    <display-name lang="tr">Tabii Spor 7</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor8.tr">
-    <display-name lang="tr">Tabii Spor 8</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor9.tr">
-    <display-name lang="tr">Tabii Spor 9</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <channel id="TabiiSpor10.tr">
-    <display-name lang="tr">Tabii Spor 10</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
-  </channel>
-  <programme start="20260818220000 +0300" stop="20260819003000 +0300" channel="TabiiSpor1.tr">
-    <title lang="tr">18 Ağustos 2026 Dinamo Zagreb vs Viking maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484979/2026/08/18/dinamo-zagreb-viking-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260819220000 +0300" stop="20260820003000 +0300" channel="TabiiSpor1.tr">
-    <title lang="tr">19 Ağustos 2026 Celtic vs LASK Linz maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484981/2026/08/19/celtic-lask-linz-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822180000 +0300" stop="20260822203000 +0300" channel="TabiiSpor1.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Güreş - Erkekler Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485341/2026/08/22/gures-erkekler-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823180000 +0300" stop="20260823203000 +0300" channel="TabiiSpor1.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Badminton - Karma Çiftler Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485391/2026/08/23/badminton-karma-ciftler-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825220000 +0300" stop="20260826003000 +0300" channel="TabiiSpor1.tr">
-    <title lang="tr">25 Ağustos 2026 LASK Linz vs Celtic maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485295/2026/08/25/lask-linz-celtic-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260819220000 +0300" stop="20260820003000 +0300" channel="TabiiSpor2.tr">
-    <title lang="tr">19 Ağustos 2026 Slovan Bratislava vs NK Celje maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484982/2026/08/19/slovan-bratislava-nk-celje-uefa-sampiyonlar-ligi-play-off-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822160000 +0300" stop="20260822180000 +0300" channel="TabiiSpor2.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Tekvando - Yarı Finaller</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485342/2026/08/22/tekvando-yari-finaller-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822180000 +0300" stop="20260822203000 +0300" channel="TabiiSpor2.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Yarı Final Müsabakaları</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485343/2026/08/22/eskrim-yari-final-musabakalari-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823163000 +0300" stop="20260823190000 +0300" channel="TabiiSpor2.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Atıcılık - Madalya Finalleri</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485392/2026/08/23/aticilik-madalya-finalleri-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825181500 +0300" stop="20260825184500 +0300" channel="TabiiSpor2.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Bocce</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485843/2026/08/25/bocce-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825184500 +0300" stop="20260825211500 +0300" channel="TabiiSpor2.tr">
-    <title lang="tr">25 Ağustos 2026 Nilüfer Bld. vs Spor Toto SK maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484389/2026/08/25/nilufer-bld.-spor-toto-sk-thf-erkekler-cumhurbaskanligi-kupasi-yari-final-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822150000 +0300" stop="20260822173000 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Boks - Eleme Turları + 22 Ağustos 2026 Akdeniz Oyunlari - Boks - Mehmethan Çınar/Refik Kartal</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485344/2026/08/22/boks-eleme-turlari-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823160000 +0300" stop="20260823161200 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Tekvando - Çeyrek Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485393/2026/08/23/tekvando-ceyrek-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823161200 +0300" stop="20260823184200 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Tekvando - Hüseyin Berat Demircioğlu + 23 Ağustos 2026 Akdeniz Oyunlari - Tekvando - Işıl Zafer/Sude Yaren Uzunçavdar</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485448/2026/08/23/tekvando-huseyin-berat-demircioglu-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824150000 +0300" stop="20260824173000 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">24 Ağustos 2026 Cezayir vs Türkiye maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485094/2026/08/24/cezayir-turkiye-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824190000 +0300" stop="20260824213000 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">24 Ağustos 2026 Mısır vs Türkiye maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485097/2026/08/24/misir-turkiye-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825150000 +0300" stop="20260825173000 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">25 Ağustos 2026 Türkiye vs Kosova maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485098/2026/08/25/turkiye-kosova-akdeniz-oyunlari-erkekler-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825190000 +0300" stop="20260825213000 +0300" channel="TabiiSpor3.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Yüzme</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485844/2026/08/25/yuzme-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822120000 +0300" stop="20260822143000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Bisiklet - Kadınlar Yarış + 22 Ağustos 2026 Akdeniz Oyunlari - Bisiklet - Sevim Gerçek/Reyhan Yakışır</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485345/2026/08/22/bisiklet-kadinlar-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822143000 +0300" stop="20260822160000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Bisiklet - Ahmet Örken/Burak Abay + 22 Ağustos 2026 Akdeniz Oyunlari - Bisiklet - Erkekler Yarış</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485346/2026/08/22/bisiklet-ahmet-orken-burak-abay-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822160000 +0300" stop="20260822183000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Badminton - Grup Elemeleri</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485347/2026/08/22/badminton-grup-elemeleri-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822190000 +0300" stop="20260822213000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">22 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Madalya Finalleri</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485348/2026/08/22/yuzme-madalya-finalleri-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823151500 +0300" stop="20260823174500 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Çeyrek Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485394/2026/08/23/eskrim-ceyrek-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824150000 +0300" stop="20260824153000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Eskrim + 24 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Erkekler Flöre Bireysel Çeyrek Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485578/2026/08/24/eskrim-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824153000 +0300" stop="20260824163000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Kadınlar Flöre Bireysel Çeyrek Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485735/2026/08/24/eskrim-kadinlar-flore-bireysel-ceyrek-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824163000 +0300" stop="20260824172000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Erkekler Flöre Bireysel Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485736/2026/08/24/eskrim-erkekler-flore-bireysel-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824172000 +0300" stop="20260824181000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Kadınlar Flöre Bireysel Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485737/2026/08/24/eskrim-kadinlar-flore-bireysel-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824181000 +0300" stop="20260824183000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Erkekler Flöre Bireysel Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485738/2026/08/24/eskrim-erkekler-flore-bireysel-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824183000 +0300" stop="20260824210000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Eskrim - Kadınlar Flöre Bireysel Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485739/2026/08/24/eskrim-kadinlar-flore-bireysel-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825140000 +0300" stop="20260825163000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Boks + 25 Ağustos 2026 Akdeniz Oyunlari - Boks - Çeyrek Finaller</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485845/2026/08/25/boks-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825190000 +0300" stop="20260825213000 +0300" channel="TabiiSpor4.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Güreş</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485846/2026/08/25/gures-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822172000 +0300" stop="20260822195000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">22 Ağustos 2026 Avrupa Artistik Jimnastik Şampiyonasi - Erkekler Büyükler Alet Finalleri</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485349/2026/08/22/erkekler-buyukler-alet-finalleri-avrupa-artistik-jimnastik-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823160000 +0300" stop="20260823183000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">23 Ağustos 2026 Fransa vs Hırvatistan maçı + 23 Ağustos 2026 Letonya vs Almanya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484651/2026/08/23/fransa-hirvatistan-cev-kadinlar-avrupa-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823190000 +0300" stop="20260823213000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Bayrak Yarışı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485395/2026/08/23/yuzme-bayrak-yarisi-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824160000 +0300" stop="20260824183000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Polonya vs Letonya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484659/2026/08/24/polonya-letonya-cev-kadinlar-avrupa-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824190000 +0300" stop="20260824191200 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme + 24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Selinnur Sade</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485579/2026/08/24/yuzme-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824191200 +0300" stop="20260824191500 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Kadınlar 50m Sırtüstü Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485740/2026/08/24/yuzme-kadinlar-50m-sirtustu-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824191500 +0300" stop="20260824192400 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Erkekler 50m Sırtüstü Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485741/2026/08/24/yuzme-erkekler-50m-sirtustu-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824192400 +0300" stop="20260824193100 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Kadınlar 400m Bireysel Karışık Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485742/2026/08/24/yuzme-kadinlar-400m-bireysel-karisik-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824193100 +0300" stop="20260824195000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Erkekler 400m Bireysel Karışık Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485743/2026/08/24/yuzme-erkekler-400m-bireysel-karisik-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824195000 +0300" stop="20260824195400 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Kadınlar 100m Serbest Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485744/2026/08/24/yuzme-kadinlar-100m-serbest-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824195400 +0300" stop="20260824222400 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Yüzme - Erkekler 100m Serbest Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485745/2026/08/24/yuzme-erkekler-100m-serbest-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825160000 +0300" stop="20260825183000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">25 Ağustos 2026 Macaristan vs Almanya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484667/2026/08/25/macaristan-almanya-cev-kadinlar-avrupa-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825190000 +0300" stop="20260825213000 +0300" channel="TabiiSpor5.tr">
-    <title lang="tr">25 Ağustos 2026 Polonya vs Slovenya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484671/2026/08/25/polonya-slovenya-cev-kadinlar-avrupa-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260821210000 +0300" stop="20260821233000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">21 Ağustos 2026 Diamond League Elmas Lig - Lozan</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485329/2026/08/21/lozan-diamond-league-elmas-lig-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822150000 +0300" stop="20260822173000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">22 Ağustos 2026 Yelken Sail GP - Gün 1</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485290/2026/08/22/gun-1-yelken-sail-gp-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822190000 +0300" stop="20260822213000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">22 Ağustos 2026 Ümraniyespor vs Esenler Erokspor maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/482762/2026/08/22/umraniyespor-esenler-erokspor-trendyol-1.-lig-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822220000 +0300" stop="20260823003000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">22 Ağustos 2026 Fas vs Türkiye maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485350/2026/08/22/fas-turkiye-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823100000 +0300" stop="20260823102500 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Kano - Erkekler 1000m + 23 Ağustos 2026 Akdeniz Oyunlari - Kano - Rahmi Karahan/Hasan Saraç</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485396/2026/08/23/kano-erkekler-1000m-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823102500 +0300" stop="20260823123000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Kano - Işılsu Karvan/Özge Nas Yıldız</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485423/2026/08/23/kano-isilsu-karvan-ozge-nas-yildiz-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823123000 +0300" stop="20260823125500 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Kano - Hasan Saraç/Rahmi Karahan + 23 Ağustos 2026 Akdeniz Oyunlari - Kano - Kadınlar 500m</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485397/2026/08/23/kano-hasan-sarac-rahmi-karahan-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823125500 +0300" stop="20260823145000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Kano - Özge Nas Yıldız</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485424/2026/08/23/kano-ozge-nas-yildiz-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823145000 +0300" stop="20260823172000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Avrupa Artistik Jimnastik Şampiyonasi - Büyük Erkekler Takım Finali</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485398/2026/08/23/buyuk-erkekler-takim-finali-avrupa-artistik-jimnastik-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823190000 +0300" stop="20260823213000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Güreş - Bronz Madalya + 23 Ağustos 2026 Akdeniz Oyunlari - Güreş - Murat Fırat/Yunus Emre Başar/Doğan Kaya</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485399/2026/08/23/gures-bronz-madalya-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823213000 +0300" stop="20260824000000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">23 Ağustos 2026 Vanspor vs İstanbulspor maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/482768/2026/08/23/vanspor-istanbulspor-trendyol-1.-lig-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824140000 +0300" stop="20260824163000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Bisiklet + 24 Ağustos 2026 Akdeniz Oyunlari - Bisiklet - Kadınlar Yol Yarışı + 24 Ağustos 2026 Akdeniz Oyunlari - Bisiklet Yol - Ahmet Örken + 24 Ağustos 2026 Akdeniz Oyunlari - Bisiklet Yol - Burak Abay + 24 Ağustos 2026 Akdeniz Oyunlari - Bisiklet Yol - Mustafa Tarakçı + 24 Ağustos 2026 Akdeniz Oyunlari - Bisiklet Yol - Ramazan Yılmaz</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485580/2026/08/24/bisiklet-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824180000 +0300" stop="20260824181000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş + 24 Ağustos 2026 Akdeniz Oyunlari - Güreş- Kadınlar 50kg Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485581/2026/08/24/gures-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824181000 +0300" stop="20260824182000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Kadınlar 53kg Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485680/2026/08/24/gures-kadinlar-53kg-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824182000 +0300" stop="20260824183000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Kadınlar 57kg Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485681/2026/08/24/gures-kadinlar-57kg-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824183000 +0300" stop="20260824184000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Kadınlar 62kg Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485682/2026/08/24/gures-kadinlar-62kg-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824184000 +0300" stop="20260824185000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Kadınlar 68kg Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485683/2026/08/24/gures-kadinlar-68kg-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824185000 +0300" stop="20260824192000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Kadınlar 76kg Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485684/2026/08/24/gures-kadinlar-76kg-yari-final-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824192000 +0300" stop="20260824193000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Ahmet Duman</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485685/2026/08/24/gures-ahmet-duman-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824193000 +0300" stop="20260824200000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Yasin Yeşil</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485686/2026/08/24/gures-yasin-yesil-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824200000 +0300" stop="20260824201000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - İsmail Küçüksolak</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485687/2026/08/24/gures-ismail-kucuksolak-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824201000 +0300" stop="20260824204000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Resul Güne</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485688/2026/08/24/gures-resul-gune-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824204000 +0300" stop="20260824231000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Güreş - Hakan Büyükçıngıl</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485689/2026/08/24/gures-hakan-buyukcingil-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825110000 +0300" stop="20260825133000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Badminton + 25 Ağustos 2026 Akdeniz Oyunlari - Badminton - Çeyrek Finaller</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485847/2026/08/25/badminton-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825160000 +0300" stop="20260825183000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Badminton - Yarı Finaller + 25 Ağustos 2026 Akdeniz Oyunlari - Badminton Yayın 2</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485848/2026/08/25/badminton-yari-finaller-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260829190000 +0300" stop="20260829213000 +0300" channel="TabiiSpor6.tr">
-    <title lang="tr">29 Ağustos 2026 İstanbulspor vs Karagümrük maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/482775/2026/08/29/istanbulspor-karagumruk-trendyol-1.-lig-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260821211500 +0300" stop="20260821234500 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">21 Ağustos 2026 Akdeniz Oyunlari - Açılış Töreni</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485302/2026/08/21/acilis-toreni-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822160000 +0300" stop="20260822183000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">22 Ağustos 2026 Almanya vs Slovenya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484643/2026/08/22/almanya-slovenya-cev-kadinlar-avrupa-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260822190000 +0300" stop="20260822213000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">22 Ağustos 2026 Macaristan vs Polonya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/484647/2026/08/22/macaristan-polonya-cev-kadinlar-avrupa-sampiyonasi-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823110000 +0300" stop="20260823133000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">23 Ağustos 2026 Akdeniz Oyunlari - Badminton - Emre Sönmez/Yasemin Bektaş + 23 Ağustos 2026 Akdeniz Oyunlari - Badminton - Yarı Final</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485400/2026/08/23/badminton-emre-sonmez-yasemin-bektas-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823150000 +0300" stop="20260823170000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">23 Ağustos 2026 Yelken Sail GP - Gün 2</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485291/2026/08/23/gun-2-yelken-sail-gp-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260823170000 +0300" stop="20260823193000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">23 Ağustos 2026 Diamond League Elmas Lig - Silezya</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485401/2026/08/23/silezya-diamond-league-elmas-lig-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824140000 +0300" stop="20260824150000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Boks + 24 Ağustos 2026 Akdeniz Oyunlari - Boks - Gamze Soğuksu</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485582/2026/08/24/boks-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824150000 +0300" stop="20260824154500 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Boks - Ece Asude Ediz</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485770/2026/08/24/boks-ece-asude-ediz-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824154500 +0300" stop="20260824181500 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Boks - Kaan Aykutsun</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485771/2026/08/24/boks-kaan-aykutsun-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824190000 +0300" stop="20260824204500 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Boks + 24 Ağustos 2026 Akdeniz Oyunlari - Boks - Esmanur Lok</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485583/2026/08/24/boks-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824204500 +0300" stop="20260824220000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">24 Ağustos 2026 Akdeniz Oyunlari - Boks - Berat Acar</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485772/2026/08/24/boks-berat-acar-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260824220000 +0300" stop="20260825003000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">24 Ağustos 2026 Türkiye vs Kuzey Makedonya maçı</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485584/2026/08/24/turkiye-kuzey-makedonya-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825110000 +0300" stop="20260825133000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Ritmik Jimnastik + 25 Ağustos 2026 Akdeniz Oyunlari - Ritmik Jimnastik - Bireysel All-Around Eleme</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485849/2026/08/25/ritmik-jimnastik-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825160000 +0300" stop="20260825183000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Ritmik Jimnastik - Bireysel All-Around Elemeler + 25 Ağustos 2026 Akdeniz Oyunlari - Ritmik Jimnastik Yayın 2</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485850/2026/08/25/ritmik-jimnastik-bireysel-all-around-elemeler-akdeniz-oyunlari-hangi-kanalda</desc>
-  </programme>
-  <programme start="20260825190000 +0300" stop="20260825213000 +0300" channel="TabiiSpor7.tr">
-    <title lang="tr">25 Ağustos 2026 Akdeniz Oyunlari - Boks - Çeyrek Final Müsabakaları + 25 Ağustos 2026 Akdeniz Oyunlari - Boks Yayın 2</title>
-    <category lang="en">Sports</category>
-    <desc lang="tr">Kaynak: https://www.sporekrani.com/home/match/485851/2026/08/25/boks-ceyrek-final-musabakalari-akdeniz-oyunlari-hangi-kanalda</desc>
+  <programme start="20260824210000 +0000" stop="20260825063000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT Spor Yıldız Ortak Yayın</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825063000 +0000" stop="20260825065500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825065500 +0000" stop="20260825083500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Fransa - İngiltere</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825083500 +0000" stop="20260825090500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Contenders</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825090500 +0000" stop="20260825104500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Fenerbahçe - Lyon</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825104500 +0000" stop="20260825111000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Kısa Liste Magazin</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825111000 +0000" stop="20260825125000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Dinamo Zagreb - Viking</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825125000 +0000" stop="20260825125500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Road to Glory</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825125500 +0000" stop="20260825143500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Arsenal - Manchester City</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825143500 +0000" stop="20260825144000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Dünya Kupası Efsaneler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825144000 +0000" stop="20260825162000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Levski - Aek</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825162000 +0000" stop="20260825164500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Contenders</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825180000 +0000" stop="20260825194500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Levski - Aek"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825194500 +0000" stop="20260825201500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825201500 +0000" stop="20260825220000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI NEC NIJMEGEN - BODO GLIMT</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260825220000 +0000" stop="20260826000000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF RÖVANŞ TURU FUTBOL KARŞILAŞMASI AEK - LEVSKI SOFYA</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826000000 +0000" stop="20260826093000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826093000 +0000" stop="20260826095500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826095500 +0000" stop="20260826113500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Dinamo Zagreb - Viking"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826113500 +0000" stop="20260826120000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">KISA LİSTE MAGAZİN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826120000 +0000" stop="20260826120500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">DÜNYA KUPALARINDA EFSANELER</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826120500 +0000" stop="20260826123500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">2022 DÜNYA KUPASI UNUTULMAZ MAÇLAR</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826123500 +0000" stop="20260826130000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826130000 +0000" stop="20260826144000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI S.BRATISLAVA - NK CELJE</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826144000 +0000" stop="20260826162500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Levski - Aek"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826162500 +0000" stop="20260826181000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI FENERBAHÇE - LYON</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826181000 +0000" stop="20260826183500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826183500 +0000" stop="20260826201500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF RÖVANŞ TURU FUTBOL KARŞILAŞMASI BODO GLIMT - NEC NIJMEGEN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826201500 +0000" stop="20260826220000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF RÖVANŞ TURU FUTBOL KARŞILAŞMASI LASK - CELTIC</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260826220000 +0000" stop="20260827000000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI NEC NIJMEGEN - BODO GLIMT</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827000000 +0000" stop="20260827093000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827093000 +0000" stop="20260827095500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827095500 +0000" stop="20260827125500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">PSG - Arsenal | UEFA Şampiyonlar Ligi Final Karşılaşması</title>
+    <desc lang="en">PSG - Arsenal karşılaşması, Macaristan'ın başkenti Budapeşte'de bulunan Puskás Arena'da gerçekleşiyor.</desc>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827125500 +0000" stop="20260827132000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">KISA LİSTE MAGAZİN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827132000 +0000" stop="20260827134500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827134500 +0000" stop="20260827141500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">2022 DÜNYA KUPASI UNUTULMAZ MAÇLAR</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827141500 +0000" stop="20260827155500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Fransa - İngiltere | 2026 Dünya Kupası 3.Lük Maçı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827155500 +0000" stop="20260827174500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Dinamo Zagreb - Viking"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827174500 +0000" stop="20260827181000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827181000 +0000" stop="20260827195000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Levski - Aek"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827195000 +0000" stop="20260827201500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827201500 +0000" stop="20260827220000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI FENERBAHÇE - LYON</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260827220000 +0000" stop="20260828000000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI NEC NIJMEGEN - BODO GLIMT</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828000000 +0000" stop="20260828093000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828093000 +0000" stop="20260828095500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828095500 +0000" stop="20260828125500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">PSG - Arsenal | UEFA Şampiyonlar Ligi Final Karşılaşması</title>
+    <desc lang="en">PSG - Arsenal karşılaşması, Macaristan'ın başkenti Budapeşte'de bulunan Puskás Arena'da gerçekleşiyor.</desc>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828125500 +0000" stop="20260828132000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">KISA LİSTE MAGAZİN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828132000 +0000" stop="20260828134500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828134500 +0000" stop="20260828141500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">2022 DÜNYA KUPASI UNUTULMAZ MAÇLAR</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828141500 +0000" stop="20260828155500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Fransa - İngiltere | 2026 Dünya Kupası 3.Lük Maçı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828155500 +0000" stop="20260828174500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Dinamo Zagreb - Viking"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828174500 +0000" stop="20260828181000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828181000 +0000" stop="20260828195000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Levski - Aek"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828195000 +0000" stop="20260828201500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828201500 +0000" stop="20260828220000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI FENERBAHÇE - LYON</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260828220000 +0000" stop="20260829000000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI NEC NIJMEGEN - BODO GLIMT</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829000000 +0000" stop="20260829093000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829093000 +0000" stop="20260829095500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829095500 +0000" stop="20260829115500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">ELMAS LİG</title>
+    <desc lang="en">Elmas Lig'de heyecan Katar'ın başkenti Doha'da sürüyor. Sezonun ikinci ayağında milli atletler Ramil Guliyev, Yasmani Copello ve Yasemin Can da piste çıkıyor.</desc>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829115500 +0000" stop="20260829120000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">DÜNYA KUPALARINDA EFSANELER</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829120000 +0000" stop="20260829130000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">AVRUPA SAHNESİ</title>
+    <desc lang="en">Şampiyonlar Ligi, Avrupa Ligi ve Konferans Ligi'nde gerçekleştirilen maçlar, konukların katılımıyla ele alınıyor.</desc>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829130000 +0000" stop="20260829133000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829133000 +0000" stop="20260829151000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI CELTIC - LASK</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829151000 +0000" stop="20260829165000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Dinamo Zagreb - Viking"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829165000 +0000" stop="20260829183000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Play Off 1. Tur Futbol Karşılaşması "Levski - Aek"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829183000 +0000" stop="20260829201500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI NEC NIJMEGEN - BODO GLIMT</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829201500 +0000" stop="20260829204500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829204500 +0000" stop="20260829222500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI S.BRATISLAVA - NK CELJE</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260829222500 +0000" stop="20260830000000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI FENERBAHÇE - LYON</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830000000 +0000" stop="20260830093000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830093000 +0000" stop="20260830095500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830095500 +0000" stop="20260830113500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">FIFA 2026 DÜNYA KUPASI YARI FİNAL FUTBOL KARŞILAŞMASI FRANSA - İSPANYA</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830113500 +0000" stop="20260830120500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830120500 +0000" stop="20260830134500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">FIFA 2026 DÜNYA KUPASI YARI FİNAL FUTBOL KARŞILAŞMASI İNGİLTERE - ARJANTİN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830134500 +0000" stop="20260830153000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">İtalya Kupası 1. Tur Futbol Karşılaşması "Torino – Carrarese"</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830153000 +0000" stop="20260830175500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">FIFA 2026 DÜNYA KUPASI FİNAL FUTBOL KARŞILAŞMASI İSPANYA - ARJANTİN</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830175500 +0000" stop="20260830180000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">DÜNYA KUPALARINDA EFSANELER</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830180000 +0000" stop="20260830194000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI FENERBAHÇE - LYON</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830194000 +0000" stop="20260830201000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">CONTENDERS</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830201000 +0000" stop="20260830215000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI S.BRATISLAVA - NK CELJE</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830215000 +0000" stop="20260830221500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830221500 +0000" stop="20260831000000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">UEFA ŞAMPİYONLAR LİGİ PLAY OFF 1.TUR FUTBOL KARŞILAŞMASI NEC NIJMEGEN - BODO GLIMT</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260831000000 +0000" stop="20260831092500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">TRT SPOR YILDIZ ORTAK YAYIN</title>
+    <category lang="en">Spor</category>
   </programme>
 </tv>
