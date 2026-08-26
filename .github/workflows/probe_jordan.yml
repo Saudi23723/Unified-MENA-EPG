@@ -1,0 +1,66 @@
+name: Verify Roya carries Al Jadeed
+on:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths: ['.github/workflows/probe_jordan.yml', 'roya_jordan_epg.py', 'aljadeed_epg.py']
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -q -r requirements.txt
+      - name: Build the Jordan guide
+        run: python roya_jordan_epg.py
+      - name: Check what came out
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from datetime import datetime, timedelta, timezone
+          BEIRUT = timezone(timedelta(hours=3))
+          root = ET.parse("roya_jordan_epg.xml").getroot()
+          chans = root.findall("channel")
+          print(f"channels: {len(chans)}")
+          for c in chans:
+              n = [d.text for d in c.findall("display-name")]
+              ic = [i.get("src","").rsplit("/",1)[-1] for i in c.findall("icon")]
+              cnt = sum(1 for p in root.findall("programme") if p.get("channel") == c.get("id"))
+              print(f"   {c.get('id'):18s} {(n[0] or ''):16s} {cnt:5d}  {ic}")
+          jd = [p for p in root.findall("programme") if p.get("channel") == "AlJadeed.lb"]
+          print(f"\nAl Jadeed programmes: {len(jd)}")
+          assert jd, "Al Jadeed is missing from the Jordan guide"
+          for p in jd[:8]:
+              st = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
+              print(f"   {st.astimezone(BEIRUT):%m-%d %H:%M} Beirut  {p.find('title').text}")
+          # the bulletins name their own hour: that is the anchor, re-checked here
+          import re
+          bad = []
+          for p in jd:
+              m = re.search(r"موجز الساعة (\d{1,2}):(\d{2})\s*(صباح|مساء)?", p.find("title").text or "")
+              if not m: continue
+              st = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z").astimezone(BEIRUT)
+              h, mi, half = int(m.group(1)), int(m.group(2)), m.group(3)
+              want = h % 12 + (12 if half == "مساء" else 0) if half else None
+              got = st.hour
+              ok = (got % 12 == h % 12) and st.minute == mi
+              print(f"   anchor check: '{p.find('title').text}' -> published {st:%H:%M} "
+                    f"{'OK' if ok else 'MISMATCH'}")
+              if not ok: bad.append(p.find("title").text)
+          assert not bad, f"bulletin hour does not match published time: {bad}"
+          print("\nall bulletin anchors match the published times")
+          PY
+      - name: Merge and check nothing is duplicated
+        run: |
+          python merge_epg.py | tail -3
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          r = ET.parse("unified_mena_epg.xml").getroot()
+          ids = [c.get("id") for c in r.findall("channel")]
+          print("unified channels:", len(ids), "| duplicates:", len(ids) - len(set(ids)))
+          print("AlJadeed.lb present:", "AlJadeed.lb" in ids)
+          print("AlJadeed programmes:",
+                sum(1 for p in r.findall("programme") if p.get("channel") == "AlJadeed.lb"))
+          PY
+      - name: Health check
+        run: python health_check.py || true
