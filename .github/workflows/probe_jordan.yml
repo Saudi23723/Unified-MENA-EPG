@@ -1,0 +1,83 @@
+name: Can Alkass give more than one day
+on:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths: ['.github/workflows/probe_jordan.yml']
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -q requests
+      - name: Probe
+        run: |
+          python -u - <<'PY'
+          import re, hashlib
+          from datetime import datetime, timedelta, timezone
+          import requests
+          DOHA = timezone(timedelta(hours=3))
+          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
+               "Accept-Language": "ar,en;q=0.9"}
+          BASE = "https://www.alkass.net/tvguide"
+          today = datetime.now(DOHA).date()
+
+          def sig(body):
+              rows = re.findall(r"<div class='programs' id='\d+'>(.*?)</div>", body, re.S)
+              times = re.findall(r"\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}", body)
+              return len(rows), len(times), hashlib.md5(repr(times).encode()).hexdigest()[:8]
+
+          print("=" * 80)
+          print("A) does the page take a date, in any of the usual shapes")
+          print("=" * 80)
+          base = requests.get(BASE, headers=H, timeout=30)
+          b0 = base.text
+          r0, t0, h0 = sig(b0)
+          print(f"   plain            {base.status_code} {len(b0):>7}B rows={r0:<4} times={t0:<4} sig={h0}")
+          tomorrow = today + timedelta(days=1)
+          for tag, url in [
+              ("?date=Y-m-d",  f"{BASE}?date={tomorrow:%Y-%m-%d}"),
+              ("?date=d/m/Y",  f"{BASE}?date={tomorrow:%d/%m/%Y}"),
+              ("?day=1",       f"{BASE}?day=1"),
+              ("?d=1",         f"{BASE}?d=1"),
+              ("/Y-m-d",       f"{BASE}/{tomorrow:%Y-%m-%d}"),
+              ("?dt=",         f"{BASE}?dt={tomorrow:%Y-%m-%d}"),
+              ("?tvdate=",     f"{BASE}?tvdate={tomorrow:%Y-%m-%d}"),
+              ("ar locale",    "https://www.alkass.net/ar/tvguide"),
+          ]:
+              try:
+                  r = requests.get(url, headers=H, timeout=30)
+                  rr, tt, hh = sig(r.text)
+                  same = "SAME as today" if hh == h0 else ">>> DIFFERENT <<<"
+                  print(f"   {tag:<16} {r.status_code} {len(r.text):>7}B rows={rr:<4} times={tt:<4} sig={hh}  {same}")
+              except Exception as e:
+                  print(f"   {tag:<16} ERR {type(e).__name__}: {str(e)[:50]}")
+
+          print("\n" + "=" * 80)
+          print("B) what the page itself offers — forms, date inputs, day links")
+          print("=" * 80)
+          for m in re.finditer(r"<input[^>]*>", b0):
+              s = m.group(0)
+              if any(k in s.lower() for k in ("date", "day", "hidden", "calendar")):
+                  print("   input:", s[:180])
+          for m in re.finditer(r"<select[^>]*>.*?</select>", b0, re.S):
+              seg = re.sub(r"\s+", " ", m.group(0))
+              if any(k in seg.lower() for k in ("date", "day", "20")):
+                  print("   select:", seg[:260])
+          for m in re.finditer(r"<form[^>]*>", b0):
+              print("   form:", m.group(0)[:180])
+          links = sorted(set(re.findall(r'href="([^"]*(?:tvguide|guide|schedule)[^"]*)"', b0)))
+          print(f"   guide links: {links[:12] or 'none'}")
+          js = sorted(set(re.findall(r'(?:url|ajax|action)\s*[:=]\s*["\']([^"\']{6,90})["\']', b0)))
+          print(f"   js endpoints referenced: {js[:10] or 'none'}")
+
+          print("\n" + "=" * 80)
+          print("C) how much of today is actually left, right now")
+          print("=" * 80)
+          now = datetime.now(DOHA)
+          rng = re.findall(r"(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})", b0)
+          ahead = sum(1 for h1, m1, _h2, _m2 in rng
+                      if int(h1) * 60 + int(m1) > now.hour * 60 + now.minute)
+          print(f"   Doha now: {now:%H:%M}   slots on the page: {len(rng)}   still ahead: {ahead}")
+          PY
