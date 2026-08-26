@@ -5,14 +5,14 @@ name: Health check
 # here means a guide needs attention, not that anything was changed.
 
 on:
-  # Check after the merge has run, so a check can never catch the gap
-  # between a source being rebuilt and the merged link catching up — which
-  # is exactly what made this workflow red on 26 August, reporting two
-  # channels "absent from the merged link" that were simply not merged yet.
-  workflow_run:
-    workflows: ["Merge Unified MENA EPG"]
-    types: [completed]
-
+  # Deliberately NOT triggered by the merge. It was, briefly, to stop a
+  # check landing in the gap between a source rebuild and the merge
+  # catching up — but the merge now follows its sources within seconds, so
+  # that gap barely exists, while the merge itself runs after each of
+  # fourteen sources. Chaining to it ran this check seven times in two
+  # minutes, and one real failure then arrives as seven identical emails.
+  #
+  # Freshness is a thing to look at twice a day, not after every rebuild.
   schedule:
     - cron: "25 5,17 * * *"
   workflow_dispatch:
