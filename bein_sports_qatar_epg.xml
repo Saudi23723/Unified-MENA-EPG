@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260825085600 +0000" stop="20260825104000 +0000" channel="beIN4K.qa">
-    <title lang="en">Hull City vs. Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Hull City are winless in all 10 Premier League meetings with Manchester United, the joint-most they’ve faced a side without winning along with Chelsea. The Red Devils have only faced Charlton, QPR  and Birmingham  more often without losing. Manchester United have never lost in the top-flight when facing a newly promoted team in their first game of</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260825104000 +0000" stop="20260825131400 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -842,14 +836,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="en">Paris vs Montpellier - French Champions Trophy 2026 - Handball</title>
     <category lang="ar">كرة اليد</category>
     <category lang="en">Handball</category>
-  </programme>
-  <programme start="20260825100000 +0000" stop="20260825103000 +0000" channel="beINSports1.qa">
-    <title lang="en">Hull City vs Manchester United - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260825103000 +0000" stop="20260825110000 +0000" channel="beINSports1.qa">
     <title lang="en">EPL Stories  2026/2027 EP.6 - Dean Ashton</title>
@@ -1881,12 +1867,6 @@ Spotify Camp Nou Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20260825090000 +0000" stop="20260825104500 +0000" channel="beINSports2.qa">
-    <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
-    <desc lang="en">Manchester City have won all nine of their Premier League home games against Bournemouth by an aggregate score of 34-6. The Citizens have netted 3.8 goals per game when hosting the Cherries in the competition; their highest average against any opponent on home soil. Bournemouth boss Marco Rose will be just the fifth manager to see his first Premier</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260825104500 +0000" stop="20260825123000 +0000" channel="beINSports2.qa">
     <title lang="en">Fulham vs Chelsea - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">Fulham will begin a Premier League season with a London derby for a fourth time, while they have lost each of the previous three: 1-2 away to Arsenal in 2007-08, 0-2 at home to Crystal Palace in 2018-19, and 0-3 at home to Arsenal in 2020-21. Chelsea were beaten in their most recent meeting with Fulham  but haven’t lost consecutive games versus the</desc>
@@ -2701,12 +2681,6 @@ Season 2026/2027
 Samsun Yeni 19 Mayis Stadyumu Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260825090200 +0000" stop="20260825104700 +0000" channel="beINSports3.qa">
-    <title lang="en">Elche vs Barcelona - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Elche have lost each of their last 10 LaLiga matches against FC Barcelona, their longest losing streak against the Blaugrana in the competition. Barcelona are unbeaten in their last 11 away league games against Elche, winning each of the last five; both represent their longest such runs against the side in top-flight history.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260825104700 +0000" stop="20260825123500 +0000" channel="beINSports3.qa">
     <title lang="en">Getafe vs Racing Club - Spanish LaLiga 2026/2027 - Week 2</title>
@@ -3546,6 +3520,16 @@ At 29-8-2026, MECCA 20:00, GMT 17:00
 Spanish La Liga
 Season 2026/2027
 Estadio Municipal de Anoeta Stadium</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260901104500 +0000" stop="20260901124500 +0000" channel="beINSports3.qa">
+    <title lang="en">Real Madrid vs Málaga - Spanish LaLiga 2026/2027 - Week 3</title>
+    <desc lang="en">Real Madrid vs Malaga
+At 30-8-2026, MECCA 18:00, GMT 15:00
+Spanish La Liga
+Season 2026/2027
+Estadio Bernabéu Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
@@ -4430,6 +4414,16 @@ At 29-8-2026, MECCA 21:45, GMT 18:45
 French Ligue 1
 Season 2026/2027
 Stade du Moustoir - Yves Allainmat Stadium</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
+  <programme start="20260901104500 +0000" stop="20260901123000 +0000" channel="beINSports4.qa">
+    <title lang="en">Brest vsToulouse - French Ligue 1 2026/2027 - Week 2</title>
+    <desc lang="en">Brest vs Toulouse
+At 29-8-2026, MECCA 21:45, GMT 18:45
+French Ligue 1
+Season 2026/2027
+Stade Francis-Le Blé Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
@@ -6057,12 +6051,6 @@ Tüpras Stadyumu Stadium</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
     <category lang="en">Live</category>
-  </programme>
-  <programme start="20260825084000 +0000" stop="20260825103100 +0000" channel="beINSports7.qa">
-    <title lang="en">Daniel Altmaier (GER) vs Francisco Comesana (ARG) - ATP 250 Winston-Salem Open 2026</title>
-    <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
   </programme>
   <programme start="20260825103100 +0000" stop="20260825110000 +0000" channel="beINSports7.qa">
     <title lang="en">Karolina Muchova (CZE) vs Linda Noskova (CZE) - Ladies’ Singles Final - Mini Matches - Wimbledon 202</title>
@@ -9119,11 +9107,6 @@ Arsenal are the defending Champions.</desc>
     <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260825102000 +0000" stop="20260825105000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">EN Spirit of Sport Series 11 | E10</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260825105000 +0000" stop="20260825123500 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Lincoln City vs Portsmouth - EFL - English Football League  SkyBet - Championship 2026/2027</title>
