@@ -53,11 +53,23 @@ LOGO_BASE = ("https://raw.githubusercontent.com/Saudi23723/"
              "Unified-MENA-EPG/main/logos")
 
 # (xmltv id, English name, Arabic name, logo file stem)
-# Add a row here to give another channel the same placeholder grid.
+# Add a row here to give another channel the same placeholder grid, then
+# add a matching row to SPECS in make_filler_logos.py and run it, so the
+# new channel has a mark of its own rather than borrowing another's.
 CHANNELS = [
     ("Maraya.shahid", "Maraya", "مرايا", "maraya"),
     ("AlKabeerAwi.shahid", "Al Kabeer Awi", "الكبير أوي", "alkabeerawi"),
     ("Aflam.shahid", "Aflam", "أفلام", "aflam"),
+    ("Ayla5.shahid", "Ayla 5", "عيلة 5", "ayla5"),
+    ("Ayla6.shahid", "Ayla 6", "عيلة 6", "ayla6"),
+    ("FusoulArbaa1.shahid", "Al Fusoul Al Arbaa 1", "الفصول الأربعة 1", "fusoul1"),
+    ("FusoulArbaa2.shahid", "Al Fusoul Al Arbaa 2", "الفصول الأربعة 2", "fusoul2"),
+    ("DayaaDayaa1.shahid", "Dayaa Dayaa 1", "ضيعة ضايعة 1", "dayaa1"),
+    ("DayaaDayaa2.shahid", "Dayaa Dayaa 2", "ضيعة ضايعة 2", "dayaa2"),
+    ("MudeerAam1.shahid", "Yawmiyat Mudeer Aam 1", "يوميات مدير عام 1", "mudeer1"),
+    ("MudeerAam2.shahid", "Yawmiyat Mudeer Aam 2", "يوميات مدير عام 2", "mudeer2"),
+    ("AlKhibra.shahid", "Al Khibra", "الخبرة", "alkhibra"),
+    ("Bibasata.shahid", "Bibasata", "ببساطة", "bibasata"),
 ]
 
 
