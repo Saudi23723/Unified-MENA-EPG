@@ -253,6 +253,56 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/tabii_spor_1_
 
 ---
 
+### 📰 الجزيرة الإخبارية
+
+**Channel:** الجزيرة / Al Jazeera.
+
+Sourced from **Al Jazeera's own schedule page**,
+`aljazeera.net/schedule`, which is plain server-rendered HTML — one
+`schedule__row` per programme carrying its time, name and description.
+
+**Its clock is anchored, and that is why it is here.** The page states
+`كل الأوقات بتوقيت مكة`, and Mecca keeps +03:00 all year, so every time
+in this guide is a real instant rather than a guess. If Al Jazeera ever
+stops printing that sentence, the reader stops and publishes nothing:
+a guide whose clock cannot be anchored is worse than no guide.
+
+**It accumulates.** Only the current day's panel is filled server-side —
+the other weekday tabs are loaded by the page's own JavaScript, which a
+plain fetch never runs. So each run merges what the page publishes now
+into what the file already holds and drops what has aged out. Nothing is
+invented: every programme was read from the page on the day it ran. A run
+that reads nothing warns and leaves the existing entries alone.
+
+A row ends when the next one starts, capped at four hours, so a page that
+ever lists only part of a day leaves a gap rather than claiming one
+bulletin ran all afternoon.
+
+**No Live badge.** Al Jazeera marks one row `يعرض الآن`, which means "on
+air at the moment you asked" — one row per fetch, stale minutes later.
+That is the same marker rejected on Roya and STARZPLAY. The channel is
+rolling news, so badging a bulletin as live would be a rule this
+repository invented rather than something the source said.
+
+**Why the other Arabic news channels are not here.** Every one was tried
+with full browser headers: `alarabiya.net` answers **403 to every path**
+including its own sitemap, `almamlakatv.com` 403s or 404s on every
+schedule path, `jrtv.gov.jo` serves a **2.6 KB** shell, `amman.tv`
+returns the **same 16 KB page for every URL**, `sama.tv` has no schedule
+page, `alaraby.tv/schedule` 403s, and `osn.com/*/watch/tv-schedule`
+returns **403 with a zero-byte body** on every locale. elcinema.com does
+carry Jordan TV, Amman TV and Al Araby 2 — but prints no timezone
+anywhere, and measuring its offset against Roya's own API matched only a
+twice-daily bulletin and came back inconclusive. epgshare01 lists the
+channel names with about five programmes each. None of that is
+publishable, so none of it was published.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/aljazeera_epg.xml
+
+---
+
 ### 🟢 Thmanyah
 
 Sports EPG for supported **Thmanyah / ثمانية** channels and events.
