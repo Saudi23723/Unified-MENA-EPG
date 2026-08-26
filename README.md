@@ -184,7 +184,10 @@ is silently wrong for everyone outside whatever zone was guessed.
 
 | Channel | What its own site does |
 |---|---|
-| العربية | 403 on every path, its sitemap included |
+| العربية | **403 on every path including the home page** — a 180 KB block page, so the whole domain refuses datacenter traffic. Not a missing schedule: an unreachable site |
+| الحدث | 403, same block as العربية |
+| MBC (كل القنوات) | `mbc.net` loops redirects forever; every `/schedule`, `/api` and `/sitemap.xml` 404s. Its own platform **Shahid** does answer — `product/id` returns `success:true` — but walking sixty channel ids returns **zero titles**, every EPG path 400s or 500s, the reply always reports `country: USA` whatever country is asked for, and the web app's 385 KB data blob holds no channel at all. The API is reachable and empty from outside the region |
+| STC TV · SSC | `stctv.com` 403 with a zero-byte body, `api.stctv.com` does not resolve, `sscsport.com` refuses TLS, `ssc.sa` does not resolve, `sscsports.com` is a parked domain for sale |
 | العربي 1 & 2 | no schedule on `alaraby.com` or `alaraby2.com`, sitemaps included |
 | الميادين | 403 on every path, its sitemap included |
 | المملكة | 403 or 404 on every schedule path |
