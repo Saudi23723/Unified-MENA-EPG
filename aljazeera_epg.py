@@ -82,11 +82,18 @@ TIMEZONE_NOTICE = "بتوقيت مكة"
 PANEL_RE = re.compile(
     r'class="schedule__items"[^>]*aria-labelledby="([a-z]+)"(.*?)(?=class="schedule__items"|\Z)',
     re.S)
+# The row that is on air carries an extra "يعرض الآن" element between its
+# time and its name. Anything that is not another timeslot is allowed to
+# sit in that gap, so the marker cannot be mistaken for the programme.
 ROW_RE = re.compile(
-    r'class="schedule__row__timeslot">\s*(\d{1,2}:\d{2})\s*</div>\s*'
-    r'<div class="schedule__row__showname">(.*?)</div>'
+    r'class="schedule__row__timeslot">\s*(\d{1,2}:\d{2})\s*</div>'
+    r'(?:(?!schedule__row__timeslot).){0,400}?'
+    r'class="schedule__row__showname">(.*?)</div>'
     r'(?:\s*<div class="schedule__row__description">(.*?)</div>)?',
     re.S)
+# Al Jazeera's own "on air now" label. It is a state, not a programme, so
+# it never becomes a title and never becomes a badge.
+NOW_LABEL = "يعرض الآن"
 
 WEEKDAYS = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,
             "friday": 4, "saturday": 5, "sunday": 6}
@@ -146,7 +153,7 @@ def parse(page: str, today: datetime) -> list[dict]:
         offset = 0
         previous: datetime | None = None
         for slot, showname, description in rows:
-            title = clean(showname)
+            title = clean(showname).replace(NOW_LABEL, "").strip()
             if not title:
                 continue
             try:
