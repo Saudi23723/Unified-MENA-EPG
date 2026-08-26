@@ -1,4 +1,4 @@
-name: MBC and Al Arabiya
+name: Read Shahid's own error messages
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
@@ -13,106 +13,66 @@ jobs:
       - name: Probe
         run: |
           python -u - <<'PY'
-          import json, re
-          from datetime import datetime, timezone
+          import json
           import requests
-          UTC = timezone.utc
           H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
-               "Accept-Language": "ar,en;q=0.9",
-               "Accept": "application/json,text/html,*/*;q=0.8"}
+               "Accept": "application/json", "Origin": "https://shahid.mbc.net",
+               "Referer": "https://shahid.mbc.net/"}
+          API = "https://api2.shahid.net/proxy/v2"
 
-          def show(tag, url, **kw):
+          def hit(tag, path, **params):
               try:
-                  r = requests.get(url, headers=H, timeout=25, **kw)
-                  b = r.text or ""
-                  print(f"   {r.status_code} {len(b):>8}B  {tag}")
+                  r = requests.get(API + path, headers=H, params=params, timeout=25)
+                  body = (r.text or "")[:400]
+                  print(f"\n   {r.status_code}  {tag}")
+                  print(f"      {r.url[:150]}")
+                  print(f"      {body}")
                   return r
               except Exception as e:
-                  print(f"   ERR {type(e).__name__}: {str(e)[:60]}  {tag}")
+                  print(f"\n   ERR {type(e).__name__}: {str(e)[:70]}  {tag}")
                   return None
 
           print("=" * 86)
-          print("A) MBC — Shahid is the group's own platform; find its channel API")
+          print("A) what exactly is Shahid complaining about")
           print("=" * 86)
-          for tag, u in [
-              ("shahid api product/channel",
-               "https://api2.shahid.net/proxy/v2/product/channel"),
-              ("shahid playout",
-               "https://api2.shahid.net/proxy/v2/playout/channel"),
-              ("shahid page channels",
-               "https://api2.shahid.net/proxy/v2/page/channels"),
-              ("shahid livestream",
-               "https://api2.shahid.net/proxy/v2/livestream"),
-              ("shahid epg",
-               "https://api2.shahid.net/proxy/v2/epg"),
-              ("mbc.net",  "https://www.mbc.net/"),
-              ("mbc schedule", "https://www.mbc.net/ar/schedule.html"),
-              ("mbc api", "https://www.mbc.net/api/schedule"),
-              ("mbc sitemap", "https://www.mbc.net/sitemap.xml"),
-          ]:
-              r = show(tag, u)
-              if r is not None and r.status_code == 200 and r.text.strip().startswith(("{", "[")):
-                  try:
-                      d = r.json()
-                      print(f"      json keys: {sorted(d.keys())[:12] if isinstance(d, dict) else f'list[{len(d)}]'}")
-                      print(f"      {json.dumps(d, ensure_ascii=False)[:400]}")
-                  except Exception:
-                      pass
-              elif r is not None and r.status_code == 200 and "sitemap" in u:
-                  locs = re.findall(r"<loc>(.*?)</loc>", r.text)
-                  hits = [l for l in locs if re.search("sched|epg|guide|برنامج|channel", l, re.I)]
-                  print(f"      {len(locs)} urls; schedule-ish: {hits[:8] or 'none'}")
+          hit("product/channel bare", "/product/channel")
+          hit("page/channels bare", "/page/channels")
+          hit("livestream bare", "/livestream")
 
           print("\n" + "=" * 86)
-          print("B) Al Arabiya — every route except the one that 403s")
+          print("B) the request={json} shape Shahid's own player uses")
           print("=" * 86)
-          for tag, u in [
-              ("alarabiya root", "https://www.alarabiya.net/"),
-              ("alarabiya schedule", "https://www.alarabiya.net/tv-schedule"),
-              ("alarabiya ar schedule", "https://www.alarabiya.net/ar/tv-schedule"),
-              ("alarabiya programs", "https://www.alarabiya.net/programs"),
-              ("alhadath", "https://www.alhadath.net/"),
-              ("alarabiya api", "https://www.alarabiya.net/api/tv-schedule"),
-              ("alarabiya sitemap", "https://www.alarabiya.net/sitemap.xml"),
-              ("alarabiya business", "https://www.alarabiya.net/aswaq"),
+          for tag, path, req in [
+              ("product/id LIVESTREAM", "/product/id",
+               {"id": "1", "productType": "LIVESTREAM", "productSubType": "LIVE_CHANNEL"}),
+              ("page/channels", "/page/channels", {"pageNumber": 0, "pageSize": 50}),
+              ("product/channels", "/product/channels", {"pageNumber": 0, "pageSize": 50}),
+              ("livestream list", "/livestream",
+               {"pageNumber": 0, "pageSize": 50, "productType": "LIVESTREAM"}),
+              ("editorial channels", "/editorial",
+               {"pageNumber": 0, "pageSize": 50, "pageType": "LIVE"}),
           ]:
-              show(tag, u)
+              hit(tag, path, request=json.dumps(req), country="SA", language="ar")
 
           print("\n" + "=" * 86)
-          print("C) does anyone else carry them — the trick that found العربي 2")
+          print("C) the shahid.mbc.net page itself — what API does it call")
           print("=" * 86)
-          BASE = "https://backend.roya.tv/api/v01"
-          try:
-              d = requests.get(f"{BASE}/channels/schedule", headers=H, timeout=60).json()
-              names = []
-              def walk(o):
-                  if isinstance(o, dict):
-                      if "programs" in o and (o.get("title") or o.get("name")):
-                          names.append((o.get("id"), (o.get("title") or o.get("name")).strip()))
-                      for v in o.values(): walk(v)
-                  elif isinstance(o, list):
-                      for v in o: walk(v)
-              walk(d)
-              print(f"   Roya carries {len(names)} channels:")
-              print(f"      {[n for _i, n in names]}")
-              for want in ("عربية", "arabiya", "mbc", "حدث", "جديد"):
-                  hit = [x for x in names if want.lower() in x[1].lower()]
-                  print(f"      '{want}': {hit or 'no'}")
-          except Exception as e:
-              print("   roya:", e)
-
-          # Al Jadeed's own site lists other channels in its schedule nav?
-          print("\n   Al Jadeed site, channel ids 1..12 (id 1 is الجديد itself):")
-          for cid in range(1, 13):
+          for u in ("https://shahid.mbc.net/ar/livestreams",
+                    "https://shahid.mbc.net/ar/live",
+                    "https://shahid.mbc.net/en/livestreams"):
               try:
-                  r = requests.get(
-                      f"https://www.aljadeed.tv/schedule-channels-date/{cid}/2026/08/26/ar",
-                      headers=H, timeout=20)
-                  cards = r.text.count("المدة:")
-                  ttl = re.search(r"<title>(.*?)</title>", r.text, re.S)
-                  name = re.sub(r"\s+", " ", ttl.group(1)).strip()[:52] if ttl else "?"
-                  print(f"      id={cid:<3} {r.status_code} cards={cards:<4} {name}")
+                  r = requests.get(u, headers=H, timeout=30, allow_redirects=True)
+                  b = r.text or ""
+                  print(f"\n   {r.status_code} {len(b):>8}B  {r.url[:90]}")
+                  import re
+                  apis = sorted(set(re.findall(r'https://api2?\.shahid\.net[^"\'\\\s]{0,90}', b)))
+                  for a in apis[:12]:
+                      print(f"      {a}")
+                  ids = sorted(set(re.findall(r'"productType"\s*:\s*"([A-Z_]+)"', b)))
+                  if ids: print(f"      productTypes seen: {ids}")
+                  names = sorted(set(re.findall(r'"title"\s*:\s*"(MBC[^"]{0,20})"', b)))
+                  if names: print(f"      MBC titles seen: {names[:15]}")
               except Exception as e:
-                  print(f"      id={cid}: ERR {type(e).__name__}")
+                  print(f"   ERR {type(e).__name__}: {str(e)[:60]}  {u}")
           PY
