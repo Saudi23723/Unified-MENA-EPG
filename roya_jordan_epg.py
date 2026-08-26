@@ -8,7 +8,8 @@ the rest — every channel Roya schedules,
 plus الجديد (Al Jadeed, Lebanon) and الجزيرة (Al Jazeera).
 
 Those two ride in this file rather than getting links of their own. Each
-has its own reader — aljadeed_epg.py and aljazeera_epg.py — which knows
+has its own reader — aljadeed_epg.py, aljazeera_epg.py and
+filler_epg.py — which knows
 its source and its clock; this generator calls them and writes their
 channels alongside Roya's, so they arrive on a link that is already in
 use. Because two workflows must never write one file, neither has a
@@ -51,6 +52,7 @@ from epg_lib import (
 
 import aljadeed_epg
 import aljazeera_epg
+import filler_epg
 
 OUTPUT = "roya_jordan_epg.xml"
 UTC = timezone.utc
@@ -225,7 +227,9 @@ def build() -> int:
 
     # الجديد and الجزيرة share this file. Each is read after Roya, and each
     # inside its own try, so one broken source costs only its own channel.
-    for name, reader in (("Al Jadeed", aljadeed_epg), ("Al Jazeera", aljazeera_epg)):
+    for name, reader in (("Al Jadeed", aljadeed_epg),
+                         ("Al Jazeera", aljazeera_epg),
+                         ("Filler", filler_epg)):
         try:
             total += reader.emit(root, reader.collect(session, OUTPUT))
         except Exception as exc:
