@@ -5,6 +5,14 @@ name: Health check
 # here means a guide needs attention, not that anything was changed.
 
 on:
+  # Check after the merge has run, so a check can never catch the gap
+  # between a source being rebuilt and the merged link catching up — which
+  # is exactly what made this workflow red on 26 August, reporting two
+  # channels "absent from the merged link" that were simply not merged yet.
+  workflow_run:
+    workflows: ["Merge Unified MENA EPG"]
+    types: [completed]
+
   schedule:
     - cron: "25 5,17 * * *"
   workflow_dispatch:

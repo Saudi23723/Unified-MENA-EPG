@@ -2,6 +2,36 @@ name: Merge Unified MENA EPG
 
 on:
   workflow_dispatch:
+
+  # The real trigger. Every guide is committed by a workflow using
+  # GITHUB_TOKEN, and GitHub deliberately does not let a GITHUB_TOKEN push
+  # start another workflow — so the push trigger below never fires for
+  # them and the merge used to depend on the schedule alone. When GitHub
+  # drops scheduled runs under load, as it did for over an hour on
+  # 26 August, the merged link silently falls behind its own sources.
+  #
+  # workflow_run is not subject to that rule: it fires when the named
+  # workflow finishes, whoever started it. The merge now follows its
+  # sources instead of guessing when they ran.
+  workflow_run:
+    workflows:
+      - "Update Alkass EPG"
+      - "Update Alwan Sports EPG"
+      - "Update Fajer Sports EPG"
+      - "Update Jordan (Roya) EPG"
+      - "Update Jordan Sports EPG"
+      - "Update ON Sport EPG"
+      - "Update STARZPLAY Sports EPG"
+      - "Update Shahid Sports EPG"
+      - "Update Shasha EPG"
+      - "Update Tabii Spor EPG"
+      - "Update Thamanya EPG"
+      - "Update Thmanyah + Alwan EPG"
+      - "Update beIN Sports Qatar EPG"
+      - "Update beIN Sports Türkiye EPG"
+    types: [completed]
+
+  # Kept as a safety net, not as the mechanism.
   schedule:
     - cron: "*/15 * * * *"
   push:
@@ -22,6 +52,10 @@ concurrency:
 
 jobs:
   merge:
+    # A failed source wrote nothing, so there is nothing new to merge.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
