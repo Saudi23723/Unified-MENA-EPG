@@ -37,7 +37,6 @@ SOURCE_FILES = [
     "tabii_spor_1_10_epg.xml",
     "thmanyah_epg.xml",
     "aljazeera_epg.xml",
-    "aljadeed_epg.xml",
 ]
 
 

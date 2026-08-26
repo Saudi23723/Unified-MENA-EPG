@@ -2,7 +2,16 @@
 # -*- coding: utf-8 -*-
 """
 Jordan — Roya TV / Roya News / Roya Sport / Roya Comedy / Roya Kitchen /
-Roya Kids / رؤيا فلسطين / إنتاجات رؤيا / كرفان / قناة الشرقية.
+Roya Kids / رؤيا فلسطين / إنتاجات رؤيا / كرفان / قناة الشرقية,
+plus الجديد (Al Jadeed, Lebanon).
+
+Al Jadeed rides in this file rather than getting a link of its own: the
+schedule comes from aljadeed_epg.py, which reads the broadcaster's own
+dated pages and recovers their clock from the page itself. It is written
+here so the channel arrives on a link that is already in use. Because two
+workflows must never write one file, Al Jadeed has no workflow of its own
+and refreshes on this one's half-hourly run. If its site is unreachable,
+the rows already in this file are carried forward instead of vanishing.
 
 Source: Roya's own backend API (the same API roya.tv's website widget
 calls to render its schedule):
@@ -34,6 +43,8 @@ from epg_lib import (
     add_programme, fetch, log, new_session, run_main, warn,
     write_xml_atomic,
 )
+
+import aljadeed_epg
 
 OUTPUT = "roya_jordan_epg.xml"
 UTC = timezone.utc
@@ -160,6 +171,15 @@ def build() -> int:
 
     log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, "
         f"{total} programmes total, no Live badge (Roya publishes no live marker)")
+
+    # الجديد shares this file. It is read after Roya so a failure on the
+    # Lebanese site can never cost the Jordanian channels their guide, and
+    # it carries its own rows forward from the file it is about to replace.
+    try:
+        jadeed = aljadeed_epg.collect(session, OUTPUT)
+        total += aljadeed_epg.emit(root, jadeed)
+    except Exception as exc:
+        warn(f"Al Jadeed failed entirely, Roya is published without it: {exc}")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Jordan (Roya)")
     return 0
