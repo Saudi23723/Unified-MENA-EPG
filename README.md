@@ -175,26 +175,52 @@ claiming one bulletin ran all afternoon.
 air at the moment you asked", one row per fetch and stale minutes later,
 the same marker rejected on Roya and STARZPLAY.
 
-**Why the other Arabic news channels are not here.** Every one was tried
-with full browser headers: `alarabiya.net` answers **403 to every path**
-including its own sitemap, `almamlakatv.com` 403s or 404s on every
-schedule path, `jrtv.gov.jo` serves a **2.6 KB** shell, `amman.tv`
-returns the **same 16 KB page for every URL**, `sama.tv` has no schedule
-page, `alaraby.tv/schedule` 403s, and `osn.com/*/watch/tv-schedule`
-returns **403 with a zero-byte body** on every locale, and Al Araby
-publishes no schedule on either of its real domains, `alaraby.com` or
-`alaraby2.com` — sitemaps included.
+**Why the other Arabic channels are not here.** Every one was tried from
+its own site, with full browser headers, and none of them publishes a
+schedule this project can stand behind. Two ways to fail: the site never
+serves the page at all, or it serves times whose timezone cannot be
+established — and an unanchorable time is worse than no time, because it
+is silently wrong for everyone outside whatever zone was guessed.
 
-elcinema.com does carry Jordan TV, Amman TV and Al Araby 2, and it was
-measured properly in the end: against Roya's own API every matching row
-came out **exactly six hours behind Amman**, i.e. UTC−03:00, which is
-nobody's broadcast clock. Its page carries no self-anchor either — the
-date box you see in a browser is filled by JavaScript from *your* device,
-and never appears in the HTML the server sends. A source that renders an
-unexplained offset and cannot state its own clock is not publishable, so
-it was not published. epgshare01 lists the channel names with about five
-programmes each. None of that is publishable, so none of it was
-published.
+| Channel | What its own site does |
+|---|---|
+| العربية | 403 on every path, its sitemap included |
+| العربي 1 & 2 | no schedule on `alaraby.com` or `alaraby2.com`, sitemaps included |
+| الميادين | 403 on every path, its sitemap included |
+| المملكة | 403 or 404 on every schedule path |
+| التلفزيون الأردني | a 2.6 KB shell |
+| قناة عمّان | the same 16 KB page for every URL |
+| سما الأردن | no schedule page |
+| سكاي نيوز عربية | 404 on schedule, programmes and sitemap |
+| الشرق | 403, and an empty 202 on the business site |
+| الغد | 403 |
+| الحرة | 429 |
+| MTV لبنان | the page loads and contains no times |
+| المنار | 404 |
+| OTV لبنان | 410 Gone |
+| تلفزيون لبنان | a 3.4 KB shell |
+| أبوظبي | 403 |
+| دبي | 404, and awaan.ae carries no times |
+| قطر · عُمان · البحرين · النيل · فلسطين · الأقصى | the hosts do not answer at all |
+| الكويت | 404 |
+| CBC مصر | a 114-byte page |
+| CNBC عربية | a 3 KB page with no times |
+| BBC عربي · DW · فرانس24 | 404 or 403 |
+| OSN | 403 with a zero-byte body on every locale |
+| DMC مصر | **serves 28 times and names no timezone** |
+| LBCI | **serves 16 times and names no timezone** |
+| elcinema.com | carries Jordan TV, Amman TV and Al Araby 2, but renders every row a flat **six hours behind Amman** — UTC−03:00, nobody's broadcast clock — and states no zone. The date box a browser shows is filled by JavaScript from the visitor's own device and never appears in the HTML the server sends. |
+| epgshare01 | about five programmes per channel |
+
+Al Jazeera's sibling channels were checked too: `aljazeera.net/schedule`
+takes a `?channel=` parameter, but it is **ignored** — thirteen values
+including a deliberate nonsense one all return the byte-identical
+schedule. The page publishes the main channel and nothing else.
+
+DMC and LBCI are the only two worth revisiting: they publish real
+schedules and lack only a clock. If either ever states its timezone, or
+turns out to name its own bulletins by the hour the way الجديد does, it
+becomes publishable the same day.
 
 EPG URL:
 
