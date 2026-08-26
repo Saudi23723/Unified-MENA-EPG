@@ -51,7 +51,12 @@ DAYS_FORWARD = 7
 # that ends before the next programme starts leaves the gap to the
 # "التالي" placeholder, which is what fills it below -- so this is the
 # length of the match itself, not of the slot.
-MATCH_MINUTES = 105
+#
+# 110 covers a match that runs long -- stoppage, a delayed kick-off, the
+# lap after the whistle -- without ever eating into the next one: the rule
+# below still ends a match exactly where the next kick-off on that channel
+# begins, so the five extra minutes are only ever taken from an empty slot.
+MATCH_MINUTES = 110
 
 TELEGRAM_URLS = [
     "https://t.me/s/fajersport",
