@@ -1,0 +1,69 @@
+name: Fetch the Al Jazeera mark
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/arabic-channels-epg-99099k
+    paths:
+      - ".github/workflows/probe_jordan.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests pillow
+      - name: Fetch
+        run: |
+          python -u - <<'PY'
+          import base64, io, re
+          import requests
+          from PIL import Image
+
+          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
+               "Accept": "image/avif,image/webp,image/png,image/*,*/*;q=0.8"}
+
+          # what the site itself advertises, plus Wikimedia as the fallback
+          cands = []
+          try:
+              home = requests.get("https://www.aljazeera.net/", headers=H, timeout=25).text
+              for m in re.findall(r'<(?:link|meta)[^>]+(?:href|content)="([^"]+\.(?:png|svg|jpg))"', home):
+                  if m.startswith("//"): m = "https:" + m
+                  if m.startswith("/"):  m = "https://www.aljazeera.net" + m
+                  if m.startswith("http") and re.search(r'logo|icon|touch|og', m, re.I):
+                      cands.append(m)
+          except Exception as e:
+              print("homepage:", e)
+          cands += [
+            "https://www.aljazeera.net/apple-touch-icon.png",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Aljazeera.svg/512px-Aljazeera.svg.png",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Aljazeera_logo.svg/512px-Aljazeera_logo.svg.png",
+          ]
+          seen = set()
+          for u in cands:
+              if u in seen: continue
+              seen.add(u)
+              try:
+                  r = requests.get(u, headers=H, timeout=25)
+              except Exception as e:
+                  print(f"   ERR {str(e)[:40]}  {u}"); continue
+              ok = ""
+              if r.status_code == 200:
+                  try:
+                      im = Image.open(io.BytesIO(r.content))
+                      ok = f"{im.size[0]}x{im.size[1]} {im.format}"
+                  except Exception as e:
+                      ok = f"not an image ({str(e)[:30]})"
+              print(f"   HTTP {r.status_code} {len(r.content):>7}B  {ok:<22} {u}")
+              if ok and "x" in ok and len(r.content) < 90000:
+                  print(f"   B64 {u}")
+                  print("   " + base64.b64encode(r.content).decode())
+          PY
