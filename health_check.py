@@ -68,6 +68,17 @@ ONE_DAY_SOURCES = {
     "alkass_epg.xml": "alkass.net/tvguide publishes the current day only",
 }
 
+# How long a one-day guide may sit with nothing ahead before it counts as
+# dead rather than as waiting. Such a guide runs out every night by design:
+# its last programme ends at midnight in the broadcaster's own timezone and
+# the source publishes the next day some time after that. Failing the
+# moment nothing is ahead turned that nightly window into a nightly alarm —
+# Alkass went red at 23:50 in Doha for having reached the end of its own
+# day. What actually distinguishes dead from waiting is how long ago the
+# guide's newest programme ended: hours means the day is over, a day or
+# more means the source has stopped refreshing.
+ONE_DAY_STALE_HOURS = 8
+
 errors: list[str] = []
 notes: list[str] = []
 
@@ -78,6 +89,23 @@ def fail(msg: str) -> None:
 
 def note(msg: str) -> None:
     notes.append(msg)
+
+
+def stale_hours(path: str, now: datetime) -> float | None:
+    """Hours since this guide's newest programme ended, or None if unreadable.
+
+    Negative would mean it still reaches into the future; callers only ask
+    once they know it does not.
+    """
+    try:
+        root = ET.parse(path).getroot()
+    except Exception:
+        return None
+    stops = [parse_stamp(p.get("stop")) for p in root.findall("programme")]
+    stops = [s for s in stops if s]
+    if not stops:
+        return None
+    return (now - max(stops)).total_seconds() / 3600.0
 
 
 def source_files() -> list[str]:
@@ -205,16 +233,30 @@ def main() -> int:
         if structure_only:
             pass
         elif path in ONE_DAY_SOURCES:
-            # A one-day guide is dead only when it has nothing left at all;
-            # having little left is what a one-day guide looks like all
-            # evening. What still has to hold is that it reaches past now.
-            if info["programmes"] and not info["ahead"]:
-                fail(f"{path}: {info['programmes']} programmes and none of them "
-                     f"still ahead — this guide has run out "
-                     f"({ONE_DAY_SOURCES[path]})")
-            else:
+            # A one-day guide is judged on whether it is still being
+            # refreshed, not on how far ahead it reaches — it never reaches
+            # far, and every night it reaches nowhere at all.
+            if info["ahead"]:
                 note(f"{path}: {days} day(s) ahead — one-day source "
                      f"({ONE_DAY_SOURCES[path]})")
+            elif info["programmes"]:
+                behind = stale_hours(path, now)
+                if behind is None:
+                    fail(f"{path}: {info['programmes']} programmes and no "
+                         f"readable times — cannot tell whether it is fresh")
+                elif behind > ONE_DAY_STALE_HOURS:
+                    fail(f"{path}: nothing ahead and its newest programme ended "
+                         f"{behind:.0f}h ago — the source has stopped refreshing "
+                         f"({ONE_DAY_SOURCES[path]})")
+                elif behind < 0:
+                    note(f"{path}: on its last programme of the day — nothing "
+                         f"starts after it, and it is still running "
+                         f"({ONE_DAY_SOURCES[path]})")
+                else:
+                    note(f"{path}: today has ended and tomorrow is not published "
+                         f"yet — newest programme ended {behind:.0f}h ago, within "
+                         f"the {ONE_DAY_STALE_HOURS}h this source is given "
+                         f"({ONE_DAY_SOURCES[path]})")
         elif info["programmes"] and days < DEAD_DAYS:
             fail(f"{path}: {info['programmes']} programmes but only {days} day(s) "
                  f"still ahead — this guide has run out")
