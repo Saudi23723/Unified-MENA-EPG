@@ -8,6 +8,36 @@ Designed for **TiviMate** and other IPTV players that support XMLTV EPG sources.
 
 ## 📡 Available EPG Guides
 
+Every guide listed here is live and carrying programmes. A channel appears
+below only if it actually has a schedule in the published file — nothing
+is listed as "supported" that a player would open and find empty.
+
+| Guide | Channels | Programmes | File |
+|---|---:|---:|---|
+| beIN SPORTS Qatar / MENA | 31 | 3,565 | `bein_sports_qatar_epg.xml` |
+| beIN SPORTS Türkiye | 7 | 385 | `bein_sports_turkey_epg.xml` |
+| Alkass — الكأس | 8 | 182 | `alkass_epg.xml` |
+| STARZPLAY Sports | 20 | 1,445 | `starzplay_epg.xml` |
+| Jordan — Roya + الجديد + الجزيرة | 29 | 6,871 | `roya_jordan_epg.xml` |
+| ON Sport | 4 | 82 | `onsport_epg.xml` |
+| Jordan Sports — الأردن الرياضية | 1 | 33 | `jordan_sports_epg.xml` |
+| Shahid Sports | 1 | 419 | `shahid_sports_epg.xml` |
+| tabii Spor | 8 of 11 | 94 | `tabii_spor_1_10_epg.xml` |
+| Thmanyah — ثمانية | 4 | 1,062 | `thmanyah_epg.xml` |
+| Alwan Sports — ألوان | 100 | 1,070 | `alwan_sports_epg.xml` |
+| Shasha — شاشا | 1 | 737 | `shasha_epg.xml` |
+| Fajer Sports | 5 | 61 | `fajer_sports_epg.xml` |
+
+**219 channels carrying programmes, 16,006 programmes**, across thirteen
+guides. Counts move with every refresh; the figures above were taken from
+the published files, not from what the generators intend to produce.
+
+Channels that were checked and cannot be published are listed separately
+in [`docs/CHANNELS_NOT_AVAILABLE.md`](docs/CHANNELS_NOT_AVAILABLE.md).
+
+---
+
+
 ### 🔴 beIN SPORTS Qatar / MENA
 
 **Full official roster:** beIN SPORTS 1–9, MAX 1–6, XTRA 1–9, AFC 1–6, NEWS, NBA, 4K.
@@ -175,55 +205,45 @@ claiming one bulletin ran all afternoon.
 air at the moment you asked", one row per fetch and stale minutes later,
 the same marker rejected on Roya and STARZPLAY.
 
-**Why the other Arabic channels are not here.** Every one was tried from
-its own site, with full browser headers, and none of them publishes a
-schedule this project can stand behind. Two ways to fail: the site never
-serves the page at all, or it serves times whose timezone cannot be
-established — and an unanchorable time is worse than no time, because it
-is silently wrong for everyone outside whatever zone was guessed.
+**The channels in this file.** All 29 carry programmes; none is an empty
+placeholder.
 
-| Channel | What its own site does |
-|---|---|
-| العربية | **403 on every path including the home page** — a 180 KB block page, so the whole domain refuses datacenter traffic. Not a missing schedule: an unreachable site |
-| الحدث | 403, same block as العربية |
-| MBC (كل القنوات) | `mbc.net` loops redirects forever; every `/schedule`, `/api` and `/sitemap.xml` 404s. Its own platform **Shahid** does answer — `product/id` returns `success:true` — but walking sixty channel ids returns **zero titles**, every EPG path 400s or 500s, the reply always reports `country: USA` whatever country is asked for, and the web app's 385 KB data blob holds no channel at all. The API is reachable and empty from outside the region |
-| STC TV · SSC | `stctv.com` 403 with a zero-byte body, `api.stctv.com` does not resolve, `sscsport.com` refuses TLS, `ssc.sa` does not resolve, `sscsports.com` is a parked domain for sale |
-| العربي 1 & 2 | no schedule on `alaraby.com` or `alaraby2.com`, sitemaps included |
-| الميادين | 403 on every path, its sitemap included |
-| المملكة | 403 or 404 on every schedule path |
-| التلفزيون الأردني | a 2.6 KB shell |
-| قناة عمّان | the same 16 KB page for every URL |
-| سما الأردن | no schedule page |
-| سكاي نيوز عربية | 404 on schedule, programmes and sitemap |
-| الشرق | 403, and an empty 202 on the business site |
-| الغد | 403 |
-| الحرة | 429 |
-| MTV لبنان | the page loads and contains no times |
-| المنار | 404 |
-| OTV لبنان | 410 Gone |
-| تلفزيون لبنان | a 3.4 KB shell |
-| أبوظبي | 403 |
-| دبي | 404, and awaan.ae carries no times |
-| قطر · عُمان · البحرين · النيل · فلسطين · الأقصى | the hosts do not answer at all |
-| الكويت | 404 |
-| CBC مصر | a 114-byte page |
-| CNBC عربية | a 3 KB page with no times |
-| BBC عربي · DW · فرانس24 | 404 or 403 |
-| OSN | 403 with a zero-byte body on every locale |
-| DMC مصر | **serves 28 times and names no timezone** |
-| LBCI | **serves 16 times and names no timezone** |
-| elcinema.com | carries Jordan TV, Amman TV and Al Araby 2, but renders every row a flat **six hours behind Amman** — UTC−03:00, nobody's broadcast clock — and states no zone. The date box a browser shows is filled by JavaScript from the visitor's own device and never appears in the HTML the server sends. |
-| epgshare01 | about five programmes per channel |
+| Channel | id | Programmes |
+|---|---|---:|
+| Roya TV | `Roya_RoyaTV` | 59 |
+| Roya News | `Roya_RoyaNews` | 64 |
+| Roya Sport | `Roya_RoyaSport` | 72 |
+| Roya Comedy | `Roya_RoyaComedy` | 150 |
+| Roya Kitchen | `Roya_RoyaKitchen` | 386 |
+| رؤيا فلسطين | `Roya_Ch38` | 805 |
+| Roya Kids | `Roya_RoyaKids` | 153 |
+| إنتاجات رؤيا | `Roya_Ch40` | 142 |
+| كرفان | `Roya_Ch41` | 100 |
+| قناة الشرقية | `Roya_Ch35` | 144 |
+| قناة الشرقية نيوز | `Roya_Ch34` | 120 |
+| قناة العربي 2 | `Roya_Ch44` | 96 |
+| فنـطهي | `Roya_Ch16` | 165 |
+| ست النكهات | `Roya_Ch13` | 248 |
+| شيف مان | `Roya_Ch8` | 276 |
+| حول العالم | `Roya_Ch37` | 720 |
+| مغامرات | `Roya_Ch26` | 384 |
+| حلوة يا دنيا | `Roya_Ch30` | 705 |
+| العالم الكبير | `Roya_Ch28` | 340 |
+| 911 | `Roya_Ch31` | 213 |
+| ساعة محبّة | `Roya_Ch32` | 168 |
+| جلطة | `Roya_Ch9` | 219 |
+| وطن ع وتر | `Roya_Ch10` | 238 |
+| أنا بحكيلك القصة | `Roya_Ch33` | 54 |
+| حكي منوّع | `Roya_Ch36` | 68 |
+| مجتمعي | `Roya_Ch22` | 569 |
+| Documentaries | `Roya_Documentaries` | 69 |
+| الجديد · Al Jadeed | `AlJadeed.lb` | 121 |
+| الجزيرة · Al Jazeera | `AlJazeera.qa` | 23 |
 
-Al Jazeera's sibling channels were checked too: `aljazeera.net/schedule`
-takes a `?channel=` parameter, but it is **ignored** — thirteen values
-including a deliberate nonsense one all return the byte-identical
-schedule. The page publishes the main channel and nothing else.
-
-DMC and LBCI are the only two worth revisiting: they publish real
-schedules and lack only a clock. If either ever states its timezone, or
-turns out to name its own bulletins by the hour the way الجديد does, it
-becomes publishable the same day.
+Channels that were tried and could not be published — العربية, MBC,
+STC/SSC, المملكة and about thirty more — are recorded with the evidence
+in [`docs/CHANNELS_NOT_AVAILABLE.md`](docs/CHANNELS_NOT_AVAILABLE.md),
+so the same dead ends are not walked twice.
 
 EPG URL:
 
@@ -284,8 +304,13 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/shahid_sports
 
 ### 🇹🇷 tabii Spor
 
-**Channels:** eleven — `tabii Spor`, plus `tabii Spor 1` through
-`tabii Spor 10`.
+**Channels:** eleven declared — `tabii Spor`, plus `tabii Spor 1` through
+`tabii Spor 10` — of which **eight are carrying programmes right now**.
+
+The idle ones are not broken. `tabii Spor 1..10` are per-match PPV
+streams, so a number with no fixture today has nothing to schedule. The
+channel id is kept anyway so a playlist mapped to it never goes blank,
+and it fills again the moment Spor Ekranı lists a match on that number.
 
 Those are two different kinds of channel and they need two different
 sources. `tabii Spor` is a linear channel, on air around the clock.
@@ -318,10 +343,6 @@ publishes now into what the file already holds, and drops what has aged
 out. Nothing is invented: every programme was read from the source on the
 day it ran. A run where the source publishes nothing logs a warning and
 leaves the existing entries alone.
-
-A PPV number with no fixture on a given day still appears as a channel,
-with no programmes on it — the channel id stays stable so a playlist
-mapped to it never goes blank.
 
 **Live badge** 🔵 on the PPV channels only, and only where Spor Ekranı
 sets `isLiveBroadcast`. TRT publishes no live marker, so the linear
@@ -387,14 +408,6 @@ https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/shasha_epg.xm
 EPG URL:
 
 https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/fajer_sports_epg.xml
-
----
-
-## 📦 Combined EPG
-
-A combined XMLTV file is also available:
-
-https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/combined_epg_final.xml
 
 ---
 
