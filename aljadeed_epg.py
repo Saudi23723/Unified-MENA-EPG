@@ -3,6 +3,13 @@
 """
 الجديد — Al Jadeed (Lebanon).
 
+This is a reader, not a guide of its own: roya_jordan_epg.py imports it
+and writes Al Jadeed into roya_jordan_epg.xml alongside the Roya
+channels, so the channel arrives on a link that is already in use rather
+than on a new one. Two workflows must never write the same file, so
+Al Jadeed has no workflow of its own — it refreshes on Roya's half-hourly
+run.
+
 Source: the broadcaster's own dated schedule pages.
 
   https://www.aljadeed.tv/schedule-channels-date/1/YYYY/MM/DD/ar
@@ -62,11 +69,9 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, norm, resolve_overlaps,
-    run_main, utc_now, warn, write_xml_atomic,
+    add_programme, fetch, log, norm, resolve_overlaps, utc_now, warn,
 )
 
-OUTPUT = "aljadeed_epg.xml"
 UTC = timezone.utc
 # Lebanon observes daylight saving, so this has to be the real zone rather
 # than a fixed offset. The wall time handed to it is recovered from the
@@ -185,14 +190,19 @@ def parse_day(page: str, day: date) -> list[dict]:
     return events
 
 
-def load_previous(path: str) -> list[dict]:
-    """What the file already holds, so one bad fetch costs nothing."""
+def carry_forward(path: str) -> list[dict]:
+    """Al Jadeed rows already in the guide, so one bad fetch costs nothing.
+
+    The file this reads is the Roya guide, which Al Jadeed now shares. Only
+    rows on Al Jadeed's own channel are touched; the Roya channels are
+    written by their own generator and never read back here.
+    """
     if not os.path.exists(path):
         return []
     try:
         root = ET.parse(path).getroot()
     except Exception as exc:
-        warn(f"previous {path} unreadable, starting clean: {exc}")
+        warn(f"previous {path} unreadable, Al Jadeed starts clean: {exc}")
         return []
 
     out: list[dict] = []
@@ -222,10 +232,8 @@ def category_for(title: str) -> str:
     return "أخبار" if any(word in title for word in NEWS_WORDS) else "منوعات"
 
 
-def build() -> int:
-    log("AL JADEED (الجديد) EPG | aljadeed.tv, Beirut time recovered from the page")
-    session = new_session()
-
+def collect(session, previous_path: str) -> list[dict]:
+    """Every Al Jadeed programme worth publishing right now."""
     today = utc_now().astimezone(BEIRUT).date()
     fresh: list[dict] = []
     for step in range(DAYS_AHEAD):
@@ -235,29 +243,28 @@ def build() -> int:
         except Exception as exc:
             warn(f"Al Jadeed {day} fetch failed: {exc}")
 
-    carried = load_previous(OUTPUT)
+    carried = carry_forward(previous_path)
     if carried:
-        log(f"  carried forward: {len(carried)} programme(s) already published")
+        log(f"  Al Jadeed carried forward: {len(carried)} already published")
     if not fresh and carried:
         warn("Al Jadeed published nothing readable — the channel is running on "
-             "what was already in the file")
+             "what was already in the guide")
 
     merged: dict[tuple, dict] = {}
     for event in carried + fresh:
         merged[(event["start"], event["stop"], event["title"])] = event
 
     now = utc_now()
-    events = [e for e in merged.values()
-              if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
+    return [e for e in merged.values()
+            if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
 
+
+def emit(root: ET.Element, events: list[dict]) -> int:
+    """Declare the channel and write its programmes into an existing <tv>."""
     if not events:
-        # write_xml_atomic keeps the previous file rather than publishing an
-        # empty one, so a bad fetch costs nothing.
-        write_xml_atomic(ET.Element("tv"), OUTPUT,
-                         generator_name="Unified MENA EPG — Al Jadeed")
+        warn("Al Jadeed: nothing to publish, the channel is left out of this run")
         return 0
 
-    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — Al Jadeed"})
     channel = ET.SubElement(root, "channel", id=CHANNEL_ID)
     ET.SubElement(channel, "display-name", lang="ar").text = CHANNEL_AR
     ET.SubElement(channel, "display-name", lang="en").text = CHANNEL_EN
@@ -277,14 +284,4 @@ def build() -> int:
     days = sorted({e["start"].astimezone(BEIRUT).strftime("%Y-%m-%d") for e in events})
     log(f"Al Jadeed: {total} programmes over {len(days)} days "
         f"({days[0]} .. {days[-1]}), no Live badge — the source marks none")
-
-    # A single day is a little over twenty cards; the floor sits below that
-    # so one readable day still publishes, but an empty parse cannot.
-    write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=20,
-                     generator_name="Unified MENA EPG — Al Jadeed")
-    return 0
-
-
-if __name__ == "__main__":
-    import sys
-    sys.exit(run_main(build, OUTPUT))
+    return total
