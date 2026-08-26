@@ -46,6 +46,13 @@ HTTP_TIMEOUT = 30
 DAYS_BACK = 1
 DAYS_FORWARD = 7
 
+# How long one match broadcast is assumed to run. Fajer's posters give a
+# kick-off and nothing else, so the stop time is ours to choose. A match
+# that ends before the next programme starts leaves the gap to the
+# "التالي" placeholder, which is what fills it below -- so this is the
+# length of the match itself, not of the slot.
+MATCH_MINUTES = 105
+
 TELEGRAM_URLS = [
     "https://t.me/s/fajersport",
     "https://telegram.me/s/fajersport",
@@ -879,7 +886,7 @@ def parse_poster_legacy(im, post_time, source):
                 "source_name":
                     "FajerSportOfficialTelegramPosterOCR",
                 "source": source,
-                "duration_minutes": 110,
+                "duration_minutes": MATCH_MINUTES,
                 "time_type":
                     "scheduled-image",
                 "ocr_confidence":
@@ -2496,7 +2503,7 @@ def parse_poster(im, post_time, source):
                 "source_name":
                     "FajerSportOfficialTelegramPosterOCR",
                 "source": source,
-                "duration_minutes": 110,
+                "duration_minutes": MATCH_MINUTES,
                 "time_type": "scheduled-image",
                 "ocr_confidence": confidence,
                 "ocr_raw": f"card#{index} {box}",
@@ -2682,7 +2689,7 @@ def parse_text_matches(text, post_time):
                     "title": title,
                     "source_name": source_name,
                     "source": "https://t.me/fajersport",
-                    "duration_minutes": 110,
+                    "duration_minutes": MATCH_MINUTES,
                     "time_type": time_type,
                 }
             )
@@ -3935,7 +3942,7 @@ def write_xml(events):
         )
 
     # Compute programme end times without changing any event detection logic.
-    # Default: 110 minutes. If another event on the SAME Fajer channel
+    # Default: MATCH_MINUTES. If another event on the SAME Fajer channel
     # starts sooner, end the current programme exactly at that next kickoff
     # so XMLTV/TiviMate never shows overlapping programmes.
     starts_by_channel = {}
@@ -3958,7 +3965,7 @@ def write_xml(events):
             + timedelta(
                 minutes=event.get(
                     "duration_minutes",
-                    110,
+                    MATCH_MINUTES,
                 )
             )
         )

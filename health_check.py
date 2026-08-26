@@ -16,7 +16,9 @@ What counts as a failure:
   * a guide with less than half a day left in the future: it is still
     being published, but there is nothing left to watch in it. tabii's
     guide sat like that — 83 programmes, one of them still ahead — and
-    nothing said so
+    nothing said so. Sources that publish a single day by design are
+    listed in ONE_DAY_SOURCES and fail only when nothing at all is left
+    ahead, since half a day is more than they ever carry after midday
   * a channel with no name, or an icon pointing at a logo file this
     repository does not actually have
   * the same channel id claimed by two different source files — the merge
@@ -54,6 +56,17 @@ MERGED = "unified_mena_epg.xml"
 # Under half a day left means the guide has stopped being a guide.
 DEAD_DAYS = 0.5
 THIN_DAYS = 2
+
+# Sources that publish exactly one day, by their own design rather than
+# because something broke. Judging these on days-ahead raises a failure
+# every evening for a guide that is working perfectly: Alkass serves one
+# day and nothing else -- ?day=next, ?day=prev and an invented ?day=next2
+# all return byte-identical schedules -- so by late evening in Doha it
+# always has under half a day left. They are held to a different rule
+# below: they must still cover now, and they must have been refreshed.
+ONE_DAY_SOURCES = {
+    "alkass_epg.xml": "alkass.net/tvguide publishes the current day only",
+}
 
 errors: list[str] = []
 notes: list[str] = []
@@ -191,6 +204,17 @@ def main() -> int:
               f"{info['ahead']:6} {days:5}")
         if structure_only:
             pass
+        elif path in ONE_DAY_SOURCES:
+            # A one-day guide is dead only when it has nothing left at all;
+            # having little left is what a one-day guide looks like all
+            # evening. What still has to hold is that it reaches past now.
+            if info["programmes"] and not info["ahead"]:
+                fail(f"{path}: {info['programmes']} programmes and none of them "
+                     f"still ahead — this guide has run out "
+                     f"({ONE_DAY_SOURCES[path]})")
+            else:
+                note(f"{path}: {days} day(s) ahead — one-day source "
+                     f"({ONE_DAY_SOURCES[path]})")
         elif info["programmes"] and days < DEAD_DAYS:
             fail(f"{path}: {info['programmes']} programmes but only {days} day(s) "
                  f"still ahead — this guide has run out")
