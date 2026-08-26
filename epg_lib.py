@@ -221,6 +221,52 @@ def collapsed_against_previous(root: ET.Element, output_path: str) -> str:
     return ""
 
 
+def order_for_xmltv(root: ET.Element) -> int:
+    """Put every <channel> before every <programme>, in place.
+
+    XMLTV's DTD is `<!ELEMENT tv (channel*, programme*)>` — all channels,
+    then all programmes. A guide that appends a channel after it has begun
+    writing programmes still *contains* that channel, and every check here
+    still finds it, but a strict reader is entitled to stop accepting
+    channel declarations once programmes have started, and TiviMate does.
+
+    That is not hypothetical. The Jordan guide reads its own channels and
+    then hands the tree to aljadeed_epg, aljazeera_epg and filler_epg in
+    turn, each declaring its channel and then writing its programmes — four
+    channel blocks interleaved with programmes. On a television, the first
+    twenty-seven channels appeared and the eighteen after them did not,
+    while every check in this repository reported them present, because
+    they *were* present, only in a place a reader may ignore. The merged
+    guide had thirteen such blocks, one per source.
+
+    Ordering here rather than in each generator means no guide can make
+    this mistake again: they may build a tree in whatever order suits
+    them, and it leaves through this function correct.
+
+    Returns the number of channel blocks the tree had before reordering —
+    1 (or 0) was already valid, more was not.
+    """
+    children = list(root)
+    blocks, previous = 0, None
+    for node in children:
+        if node.tag not in ("channel", "programme"):
+            continue
+        if node.tag == "channel" and previous != "channel":
+            blocks += 1
+        previous = node.tag
+
+    if blocks > 1:
+        channels = [n for n in children if n.tag == "channel"]
+        programmes = [n for n in children if n.tag == "programme"]
+        others = [n for n in children if n.tag not in ("channel", "programme")]
+        for node in children:
+            root.remove(node)
+        for node in others + channels + programmes:
+            root.append(node)
+
+    return blocks
+
+
 def write_xml_atomic(
     root: ET.Element,
     output_path: str,
@@ -245,6 +291,12 @@ def write_xml_atomic(
     meaningless once the size has legitimately changed, but an absolute
     floor still catches a source that half-answers.
     """
+    blocks = order_for_xmltv(root)
+    if blocks > 1:
+        log(f"{output_path}: {blocks} channel blocks were interleaved with "
+            f"programmes — reordered so every channel precedes every "
+            f"programme, as XMLTV requires")
+
     programme_count = len(root.findall("programme"))
 
     if programme_count == 0 and keep_old_if_empty and existing_programme_count(output_path) > 0:
