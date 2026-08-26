@@ -1,4 +1,4 @@
-name: Anchor Al Jadeed by its own on-air marker
+name: Trial run the Al Jadeed parser
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
@@ -13,70 +13,90 @@ jobs:
       - name: Probe
         run: |
           python -u - <<'PY'
-          import re
-          from datetime import datetime, timezone, timedelta
+          import re, html as htmllib
+          from datetime import datetime, timedelta, timezone
+          from zoneinfo import ZoneInfo
           import requests
-          from bs4 import BeautifulSoup
 
           UTC = timezone.utc
+          BEIRUT = ZoneInfo("Asia/Beirut")
           H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
                "Accept-Language": "ar,en;q=0.8"}
-          def get(u, **kw):
-              return requests.get(u, headers=H, timeout=25, **kw)
+          DAY_URL = "https://www.aljadeed.tv/schedule-channels-date/1/{0:%Y/%m/%d}/ar"
 
-          now = datetime.now(UTC)
-          print("now UTC     ", now.strftime("%Y-%m-%d %H:%M"))
-          for name, off in (("Beirut +3", 3), ("Cairo  +3", 3), ("UTC+2   ", 2), ("Amman +3", 3)):
-              print(f"   {name}: {now.astimezone(timezone(timedelta(hours=off))):%H:%M}")
+          CARD_RE = re.compile(
+              r'المدة:\s*(\d{1,4})\s*دقيقة\s*</div>\s*'
+              r'<div[^>]*>\s*(\d{1,2}:\d{2})\s*</div>\s*'
+              r"<a [^>]*>(.*?)</a>", re.S)
+          BULLETIN_RE = re.compile(r'موجز\s+الساعة\s+(\d{1,2}):(\d{2})\s*(صباح|مساء)?')
 
-          r = get("https://www.aljadeed.tv/schedule")
-          b = r.text
-          print(f"\nHTTP {r.status_code}  {len(b)}B")
+          def clean(v):
+              return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", htmllib.unescape(v or ""))).strip()
 
-          soup = BeautifulSoup(b, "html.parser")
+          def cards(page):
+              out = []
+              for dur, slot, title in CARD_RE.findall(page):
+                  h, m = slot.split(":")
+                  out.append((int(h) * 60 + int(m), int(dur), clean(title)))
+              # the page renders every card twice (desktop + mobile markup)
+              seen, uniq = set(), []
+              for c in out:
+                  if c in seen: continue
+                  seen.add(c); uniq.append(c)
+              return uniq
+
+          def measure_shift(rows):
+              """Minutes to add to the column so it reads Beirut wall time.
+
+              The channel names its own hourly bulletins after the hour they
+              air — 'موجز الساعة 10:30 صباحاً' — so the page carries the real
+              clock inside its own titles.
+              """
+              votes = {}
+              for col, _dur, title in rows:
+                  m = BULLETIN_RE.search(title)
+                  if not m: continue
+                  h, mi, ap = int(m.group(1)), int(m.group(2)), m.group(3)
+                  if ap == "صباح":
+                      named = [(0 if h == 12 else h) * 60 + mi]
+                  elif ap == "مساء":
+                      named = [(12 if h == 12 else h + 12) * 60 + mi]
+                  else:
+                      named = [h * 60 + mi, ((h + 12) % 24) * 60 + mi]
+                  weight = 2 if ap else 1
+                  for n in named:
+                      votes[(n - col) % 1440] = votes.get((n - col) % 1440, 0) + weight
+              print("   shift votes:", {f"{k/60:+.1f}h": v for k, v in sorted(votes.items())})
+              if not votes: return None
+              best, score = max(votes.items(), key=lambda kv: kv[1])
+              if best % 60 or score < 2: return None
+              return best
+
+          today = datetime.now(BEIRUT).date()
+          allrows = []
+          for i in range(4):
+              day = today + timedelta(days=i)
+              url = DAY_URL.format(day)
+              r = requests.get(url, headers=H, timeout=25)
+              rows = cards(r.text)
+              ttl = re.search(r"<title>(.*?)</title>", r.text, re.S)
+              print(f"\n{day}  HTTP {r.status_code} {len(r.text)}B  rows={len(rows)}")
+              print("   title:", re.sub(r"\s+", " ", ttl.group(1)).strip() if ttl else "?")
+              print("   live markers in page:", r.text.count("مباشر"))
+              sh = measure_shift(rows)
+              print(f"   measured shift: {sh/60:+.1f}h" if sh is not None else "   NO SHIFT")
+              if sh is None: continue
+              for col, dur, title in rows:
+                  mins = col + sh
+                  start = datetime.combine(day, datetime.min.time(), BEIRUT) + timedelta(minutes=mins)
+                  allrows.append((start, dur, title))
 
           print("\n" + "=" * 78)
-          print("A) every row as the page renders it")
+          print(f"resulting programmes: {len(allrows)}")
           print("=" * 78)
-          # rows are cards: a 'المدة: N دقيقة' div, then a time div, then the title anchor
-          rows = []
-          for m in re.finditer(r'المدة:\s*(\d+)\s*دقيقة(.{0,3000}?)</a>', b, re.S):
-              seg = m.group(0)
-              dur = int(m.group(1))
-              tm = re.search(r'>\s*(\d{1,2}:\d{2})\s*<', seg)
-              ttl = re.findall(r'<a [^>]*>\s*([^<>]{2,90}?)\s*</a>', seg)
-              flags = [w for w in ("يعرض الان", "يعرض الآن", "مباشر", "الآن", "الان")
-                       if w in seg]
-              if tm:
-                  rows.append((tm.group(1), dur, (ttl[-1] if ttl else "?"), flags))
-          print(f"   parsed rows: {len(rows)}")
-          for t, d, ttl, f in rows:
-              print(f"   {t}  {d:>3}min  {ttl[:44]:44s} {' '.join(f)}")
-
-          print("\n" + "=" * 78)
-          print("B) where does the page put its 'now' marker")
-          print("=" * 78)
-          for w in ("يعرض الان", "يعرض الآن", "now", "current", "active", "live"):
-              n = b.count(w)
-              if n: print(f"   {w!r}: x{n}")
-          for m in re.finditer(r'يعرض ال[آا]ن', b):
-              print("   context:", re.sub(r"\s+", " ", b[max(0, m.start()-500):m.start()+260])[-620:])
-              print()
-
-          print("\n" + "=" * 78)
-          print("C) day navigation — can we reach tomorrow")
-          print("=" * 78)
-          links = sorted({a.get("href") for a in soup.find_all("a", href=True)
-                          if "schedule" in (a.get("href") or "")})
-          for h in links[:25]:
-              print("   ", h)
-          for q in ("?date=2026-08-27", "/2026-08-27", "?day=1"):
-              try:
-                  rr = get("https://www.aljadeed.tv/schedule" + q)
-                  ttl = re.search(r"<title>(.*?)</title>", rr.text, re.S)
-                  print(f"   {q!r}: HTTP {rr.status_code} {len(rr.text)}B  "
-                        f"title={re.sub(r'\\s+', ' ', ttl.group(1)).strip() if ttl else '?'}")
-              except Exception as e:
-                  print(f"   {q!r}: {e}")
+          for start, dur, title in sorted(set(allrows)):
+              stop = start + timedelta(minutes=dur)
+              print(f"   {start:%m-%d %H:%M} Beirut  ({start.astimezone(UTC):%H:%M}Z) "
+                    f"{dur:>3}m  {title[:46]}")
           PY
