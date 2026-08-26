@@ -1,0 +1,108 @@
+name: Probe Al Araby
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/arabic-channels-epg-99099k
+    paths:
+      - ".github/workflows/probe_jordan.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests beautifulsoup4
+      - name: Probe
+        run: |
+          python -u - <<'PY'
+          import json, re
+          import requests
+          from bs4 import BeautifulSoup
+
+          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
+               "Accept-Language": "ar,en;q=0.8"}
+          def get(u, **kw):
+              try: return requests.get(u, headers=H, timeout=25, **kw)
+              except Exception as e: return e
+          TIME = re.compile(r'\b([01]?\d|2[0-3]):[0-5]\d\b')
+
+          print("=" * 74)
+          print("A) every schedule-shaped path")
+          print("=" * 74)
+          paths = ["/", "/programs", "/live", "/ar", "/tv", "/tv-guide", "/epg",
+                   "/grid", "/program-schedule", "/schedule-programs",
+                   "/%D8%AC%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC",
+                   "/programs-schedule", "/broadcast", "/yawmiat", "/sitemap.xml",
+                   "/api/schedule", "/api/programs"]
+          for p in paths:
+              r = get("https://www.alaraby.tv" + p)
+              if hasattr(r, "text"):
+                  print(f"   HTTP {r.status_code} {len(r.text):>8}B  HH:MM x{len(TIME.findall(r.text)):<4} "
+                        f"ld+json x{len(re.findall(r'application/ld.json', r.text))}  {p}")
+              else:
+                  print(f"   ERR {str(r)[:40]}  {p}")
+
+          print()
+          print("=" * 74)
+          print("B) what the ld+json on /programs actually says")
+          print("=" * 74)
+          r = get("https://www.alaraby.tv/programs")
+          if hasattr(r, "text"):
+              for blob in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', r.text, re.S):
+                  try:
+                      d = json.loads(blob)
+                  except Exception:
+                      continue
+                  print("   ", json.dumps(d, ensure_ascii=False)[:700])
+              soup = BeautifulSoup(r.text, "html.parser")
+              links = sorted(set(a["href"] for a in soup.find_all("a", href=True)
+                                 if re.search(r'program|برنامج', a["href"], re.I)))
+              print(f"\n   programme links ({len(links)}):")
+              for l in links[:20]:
+                  print("      ", l)
+
+          print()
+          print("=" * 74)
+          print("C) does a programme page carry air times")
+          print("=" * 74)
+          if hasattr(r, "text"):
+              soup = BeautifulSoup(r.text, "html.parser")
+              cand = [a["href"] for a in soup.find_all("a", href=True)
+                      if re.search(r'/programs?/[^/]+', a["href"])]
+              for href in list(dict.fromkeys(cand))[:3]:
+                  u = href if href.startswith("http") else "https://www.alaraby.tv" + href
+                  rr = get(u)
+                  if not hasattr(rr, "text"):
+                      continue
+                  t = TIME.findall(rr.text)
+                  print(f"\n   {u}\n      HTTP {rr.status_code} {len(rr.text)}B  HH:MM x{len(t)}  {t[:8]}")
+                  for w in ["يعرض", "موعد", "إعادة", "توقيت", "بتوقيت", "الأحد", "الاثنين"]:
+                      n = rr.text.count(w)
+                      if n: print(f"         {w!r} x{n}")
+                  for m in list(TIME.finditer(rr.text))[:3]:
+                      a, b = max(0, m.start()-150), m.end()+90
+                      print("        ...", re.sub(r"\s+"," ", re.sub(r"<[^>]+>"," ", rr.text[a:b])).strip()[:170])
+
+          print()
+          print("=" * 74)
+          print("D) /live — where the 'العربي 2' mentions sit")
+          print("=" * 74)
+          rr = get("https://www.alaraby.tv/live")
+          if hasattr(rr, "text"):
+              b = rr.text
+              print(f"   HTTP {rr.status_code} {len(b)}B")
+              for m in list(re.finditer(r'العربي\s*2', b))[:4]:
+                  a2, b2 = max(0, m.start()-200), m.end()+200
+                  print("      ...", re.sub(r"\s+"," ", re.sub(r"<[^>]+>"," ", b[a2:b2])).strip()[:200])
+              apis = sorted(set(re.findall(r'https://[a-z0-9\.\-]+/[a-zA-Z0-9\-_/]*(?:api|graphql|epg|schedule)[a-zA-Z0-9\-_/]*', b)))
+              print("   api-looking urls:", apis[:12])
+          PY
