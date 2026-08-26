@@ -205,6 +205,11 @@ def load_previous(path: str) -> list[dict]:
         title_el = programme.find("title")
         desc_el = programme.find("desc")
         title = norm(title_el.text if title_el is not None else "")
+        # An earlier run mistook the "on air now" label for a programme.
+        # Dropping it here means the file cleans itself on the next run
+        # rather than carrying the bad row forward forever.
+        if NOW_LABEL in title:
+            continue
         if not title or stop <= start:
             continue
         out.append({"start": start.astimezone(UTC), "stop": stop.astimezone(UTC),

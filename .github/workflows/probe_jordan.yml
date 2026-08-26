@@ -1,4 +1,4 @@
-name: Probe the Jordan channel list
+name: Probe Jordan TV listings
 
 on:
   workflow_dispatch:
@@ -29,31 +29,32 @@ jobs:
           H = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"),
                "Accept-Language": "ar,en;q=0.8"}
+          TIME_RE = re.compile(r'\b([01]?\d|2[0-3]):[0-5]\d\b')
 
-          u = "https://share.google/BHQCvrUFc9CTOAXlC"
-          try:
-              r = requests.get(u, headers=H, timeout=30, allow_redirects=True)
-          except Exception as e:
-              print("ERR", e); raise SystemExit
-
-          print("final url:", r.url)
-          print("HTTP", r.status_code, len(r.text), "bytes")
-          b = r.text
-
-          title = re.search(r'<title[^>]*>(.*?)</title>', b, re.S)
-          print("title:", re.sub(r'\s+', ' ', title.group(1))[:120] if title else "-")
-
-          # every outbound link that looks like a broadcaster site
-          links = sorted(set(re.findall(r'https?://([a-z0-9\.\-]+\.(?:jo|tv|com|net))(?:/|"|\b)', b)))
-          jo = [l for l in links if not re.search(
-              r'wikipedia|wikimedia|google|facebook|twitter|youtube|instagram|archive|creativecommons|mediawiki|wmflabs|wikidata', l)]
-          print(f"\noutbound hosts ({len(jo)}):")
-          for h in jo[:60]:
-              print("   ", h)
-
-          # channel names in Arabic near a link
-          names = sorted(set(re.findall(r'>([؀-ۿ][؀-ۿ\s\d]{2,30})<', b)))
-          print(f"\nArabic strings on the page ({len(names)}), first 60:")
-          for n in names[:60]:
-              print("   ", n.strip())
+          for u in ["https://en.satexpat.com/tv/jordan/",
+                    "https://share.google/BHQCvrUFc9CTOAXlC"]:
+              try:
+                  r = requests.get(u, headers=H, timeout=30, allow_redirects=True)
+              except Exception as e:
+                  print(f"ERR {str(e)[:60]}  {u}"); continue
+              b = r.text
+              print("\n" + "=" * 70)
+              print(f"{u}\n   -> {r.url}")
+              print(f"   HTTP {r.status_code}  {len(b)}B  HH:MM x{len(TIME_RE.findall(b))}")
+              t = re.search(r'<title[^>]*>(.*?)</title>', b, re.S)
+              print("   title:", re.sub(r'\s+', ' ', t.group(1))[:110] if t else "-")
+              if r.status_code != 200:
+                  continue
+              # does it hold a schedule, or just channel/frequency rows?
+              for word in ["epg", "schedule", "برنامج", "جدول", "frequency", "تردد",
+                           "Programme", "Program"]:
+                  n = b.lower().count(word.lower())
+                  if n:
+                      print(f"      {word!r}: x{n}")
+              links = sorted(set(re.findall(r'href="(/tv/[a-z0-9\-/]+)"', b)))
+              print(f"   internal /tv/ links ({len(links)}):")
+              for l in links[:25]:
+                  print("      ", l)
+              names = sorted(set(re.findall(r'>\s*([A-Z][A-Za-z0-9 ]{3,28}(?:TV|Tv))\s*<', b)))
+              print("   channel-looking names:", names[:20])
           PY
