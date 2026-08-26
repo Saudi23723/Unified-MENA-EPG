@@ -105,6 +105,15 @@ CANDIDATES: dict[str, list[str]] = {
     # --- Al Jazeera Arabic (QA) ---------------------------------------------
     # The broadcaster's own site first, then Wikimedia Commons, which serves
     # a rendered PNG of the mark and accepts a browser User-Agent.
+    "aljadeed": [
+        # The channel's own mark, then its touch icon as the square fallback.
+        "https://www.aljadeed.tv/Images/logo.png",
+        "https://www.aljadeed.tv/apple-touch-icon.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Al_Jadeed_TV_logo.svg/512px-Al_Jadeed_TV_logo.svg.png",
+        "https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/Al_Jadeed_logo.png/512px-Al_Jadeed_logo.png",
+        "https://www.aljadeed.tv/favicon.ico",
+    ],
+
     "aljazeera": [
         # 932x522, the full mark; the touch icon is the square fallback.
         "https://www.aljazeera.net/images/logo_aja_social.png",
