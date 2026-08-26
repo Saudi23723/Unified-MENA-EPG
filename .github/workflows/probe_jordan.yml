@@ -1,0 +1,128 @@
+name: Anchor elcinema and Al Jadeed
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/arabic-channels-epg-99099k
+    paths:
+      - ".github/workflows/probe_jordan.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests beautifulsoup4
+      - name: Probe
+        run: |
+          python -u - <<'PY'
+          import collections, json, re
+          from datetime import datetime, timezone
+          import requests
+          from bs4 import BeautifulSoup
+
+          UTC = timezone.utc
+          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
+               "Accept-Language": "ar,en;q=0.8"}
+          def get(u, **kw):
+              return requests.get(u, headers=H, timeout=25, **kw)
+
+          AMPM = {"صباحًا": 0, "صباحاً": 0, "صباحا": 0,
+                  "مساءً": 12, "مساءاً": 12, "مساء": 12, "مساءا": 12}
+
+          def norm(s):
+              s = re.sub(r"^\s*(?:برنامج|مسلسل|فيلم|نشرة)\s*[-–]?\s*", "", (s or "").strip())
+              s = re.sub(r"[^ء-يa-zA-Z0-9]+", " ", s)
+              return re.sub(r"\s+", " ", s).strip().lower()
+
+          def elcinema(cid):
+              soup = BeautifulSoup(get(f"https://elcinema.com/tvguide/{cid}/").text, "html.parser")
+              out = []
+              for ul in soup.select("ul.unstyled"):
+                  lis = ul.find_all("li")
+                  if len(lis) < 2: continue
+                  title = re.sub(r"\s+", " ", lis[0].get_text(" ", strip=True)).strip()
+                  meta = re.sub(r"\s+", " ", lis[1].get_text(" ", strip=True)).strip()
+                  m = re.search(r'(\d{1,2}):(\d{2})\s*(\S+)', meta)
+                  if not m: continue
+                  h, mi, ap = int(m.group(1)), int(m.group(2)), m.group(3).strip()
+                  add = AMPM.get(ap)
+                  if add is None: continue
+                  if add == 12 and h != 12: h += 12
+                  if add == 0 and h == 12: h = 0
+                  out.append((norm(title), h * 60 + mi, title))
+              return out
+
+          print("=" * 74)
+          print("A) anchoring elcinema against Roya's own API, by cross-correlation")
+          print("=" * 74)
+          el = elcinema("1299")
+          print(f"   elcinema rows for رؤيا: {len(el)}")
+
+          roya = []
+          for day in (0, -1, 1):
+              try:
+                  d = get("https://backend.roya.tv/api/v01/channels/schedule-pagination",
+                          params={"day_number": day}).json()
+              except Exception as e:
+                  print("   roya day", day, e); continue
+              for blk in d.get("data") or []:
+                  for ch in blk.get("channel") or []:
+                      if (ch.get("title") or "").strip() != "Roya TV": continue
+                      for p in ch.get("programs") or []:
+                          ts = p.get("start_timestamp")
+                          if ts is None: continue
+                          st = datetime.fromtimestamp(int(ts), tz=UTC)
+                          roya.append((norm(p.get("name")), st.hour * 60 + st.minute))
+          print(f"   Roya API rows: {len(roya)}")
+
+          shared = {t for t, _m, _r in el} & {t for t, _m in roya}
+          print(f"   titles present in both: {len(shared)} -> {sorted(shared)[:8]}")
+
+          tally = {}
+          for step in range(-24, 29):            # -12h .. +14h in 30-min steps
+              off = step * 30
+              hits = 0
+              for t, shown, _raw in el:
+                  if t not in shared: continue
+                  want = (shown - off) % 1440
+                  if any(t2 == t and m2 == want for t2, m2 in roya):
+                      hits += 1
+              if hits:
+                  tally[off / 60.0] = hits
+          print("\n   offset -> matching rows:")
+          for off, n in sorted(tally.items(), key=lambda kv: -kv[1])[:8]:
+              print(f"      {off:+6.1f}h   {n}")
+          if tally:
+              best, n = max(tally.items(), key=lambda kv: kv[1])
+              total = sum(1 for t, _m, _r in el if t in shared)
+              print(f"\n   best: {best:+.1f}h on {n}/{total} shared rows")
+          else:
+              print("\n   no offset matches anything — cannot anchor elcinema")
+
+          print()
+          print("=" * 74)
+          print("B) Al Jadeed — does its own page state a timezone")
+          print("=" * 74)
+          r = get("https://www.aljadeed.tv/schedule")
+          b = r.text
+          print(f"   HTTP {r.status_code}  {len(b)}B")
+          for w in ["بتوقيت", "توقيت", "بيروت", "غرينتش", "GMT", "UTC", "+03", "+02", "Beirut"]:
+              n = b.count(w)
+              if n: print(f"      {w!r}: x{n}")
+          for blob in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', b, re.S):
+              print("   ld+json:", re.sub(r"\s+", " ", blob)[:400])
+          iso = sorted(set(re.findall(r'\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}[:\d]*\s*[+-]\d{2}:?\d{2}', b)))
+          print("   ISO datetimes with an offset:", iso[:8] or "none")
+          for w in ["الآن", "يعرض", "مباشر", "on air"]:
+              n = b.count(w)
+              if n: print(f"      marker {w!r}: x{n}")
+          PY
