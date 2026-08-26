@@ -36,6 +36,8 @@ SOURCE_FILES = [
     "shasha_epg.xml",
     "tabii_spor_1_10_epg.xml",
     "thmanyah_epg.xml",
+    # Placeholder grids, not schedules — see filler_epg.py.
+    "filler_epg.xml",
 ]
 
 
