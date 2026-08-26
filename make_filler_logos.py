@@ -51,6 +51,8 @@ SPECS = [
     ("mudeer2",      "MUDEER 2",  (86, 40, 74)),
     ("alkhibra",     "AL KHIBRA", (34, 62, 62)),
     ("bibasata",     "BIBASATA",  (68, 40, 40)),
+    ("alwaq",        "AL WAQ",    (40, 46, 84)),
+    ("altawareed",   "TAWAREED",  (44, 66, 40)),
 ]
 
 SUBTITLE = "24/7"

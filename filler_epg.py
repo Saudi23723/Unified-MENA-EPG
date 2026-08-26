@@ -58,24 +58,62 @@ TITLE = "Program 24/7"
 LOGO_BASE = ("https://raw.githubusercontent.com/Saudi23723/"
              "Unified-MENA-EPG/main/logos")
 
-# (xmltv id, English name, Arabic name, logo file stem)
-# Add a row here to give another channel the same placeholder grid, then
-# add a matching row to SPECS in make_filler_logos.py and run it, so the
-# new channel has a mark of its own rather than borrowing another's.
+# (xmltv id, logo file stem, [names])
+#
+# A player matches an EPG channel to a playlist channel by tvg-id when the
+# playlist sets one, and by NAME when it does not. These channels are
+# matched by name, so every spelling a playlist might carry is listed and
+# written out as its own <display-name>: the exact name seen in the user's
+# list first, then the shorter forms, the Latin transliteration and the
+# provider's own "ARA: X" label.
+#
+# The first name is what a player shows. The rest exist only to be matched.
+# One character is enough to break a match -- الاربعة and الأربعة differ by
+# a hamza and are not the same string -- which is why both are here.
+#
+# To add a channel: a row here, a matching row in SPECS in
+# make_filler_logos.py, then run that script so it gets a mark of its own.
 CHANNELS = [
-    ("Maraya.shahid", "Maraya", "مرايا", "maraya"),
-    ("AlKabeerAwi.shahid", "Al Kabeer Awi", "الكبير أوي", "alkabeerawi"),
-    ("Aflam.shahid", "Aflam", "أفلام", "aflam"),
-    ("Ayla5.shahid", "Ayla 5", "عيلة 5", "ayla5"),
-    ("Ayla6.shahid", "Ayla 6", "عيلة 6", "ayla6"),
-    ("FusoulArbaa1.shahid", "Al Fusoul Al Arbaa 1", "الفصول الأربعة 1", "fusoul1"),
-    ("FusoulArbaa2.shahid", "Al Fusoul Al Arbaa 2", "الفصول الأربعة 2", "fusoul2"),
-    ("DayaaDayaa1.shahid", "Dayaa Dayaa 1", "ضيعة ضايعة 1", "dayaa1"),
-    ("DayaaDayaa2.shahid", "Dayaa Dayaa 2", "ضيعة ضايعة 2", "dayaa2"),
-    ("MudeerAam1.shahid", "Yawmiyat Mudeer Aam 1", "يوميات مدير عام 1", "mudeer1"),
-    ("MudeerAam2.shahid", "Yawmiyat Mudeer Aam 2", "يوميات مدير عام 2", "mudeer2"),
-    ("AlKhibra.shahid", "Al Khibra", "الخبرة", "alkhibra"),
-    ("Bibasata.shahid", "Bibasata", "ببساطة", "bibasata"),
+    ("Maraya.shahid", "maraya", [
+        "مرايا ياسر العظمة", "مرايا", "Maraya", "ARA: MARAYA"]),
+    ("AlKabeerAwi.shahid", "alkabeerawi", [
+        "الكبير أوي", "الكبير اوي", "الكبير", "Al Kabeer Awi",
+        "ARA: AL KABEER AWI"]),
+    ("Aflam.shahid", "aflam", [
+        "أفلام", "افلام", "Aflam", "ARA: AFLAM"]),
+    ("Ayla5.shahid", "ayla5", [
+        "عيلة 5 نجوم", "عيلة ٥ نجوم", "عيلة 5", "Ayla 5 Njoum", "Ayla 5",
+        "ARA: AYLA 5"]),
+    ("Ayla6.shahid", "ayla6", [
+        "عيلة 6 نجوم", "عيلة ٦ نجوم", "عيلة 6", "Ayla 6 Njoum", "Ayla 6",
+        "ARA: AYLA 6"]),
+    ("FusoulArbaa1.shahid", "fusoul1", [
+        "الفصول الاربعة 1", "الفصول الأربعة 1", "الفصول الاربعة ١",
+        "Al Fusoul Al Arbaa 1", "ARA: الفصول الاربعة 1"]),
+    ("FusoulArbaa2.shahid", "fusoul2", [
+        "الفصول الاربعة 2", "الفصول الأربعة 2", "الفصول الاربعة ٢",
+        "Al Fusoul Al Arbaa 2", "ARA: الفصول الاربعة 2"]),
+    ("DayaaDayaa1.shahid", "dayaa1", [
+        "ضيعة ضايعة 1", "ضيعة ضايعة ١", "Dayaa Dayaa 1",
+        "ARA: DAYAA DAYAA 1"]),
+    ("DayaaDayaa2.shahid", "dayaa2", [
+        "ضيعة ضايعة 2", "ضيعة ضايعة ٢", "Dayaa Dayaa 2",
+        "ARA: DAYAA DAYAA 2"]),
+    ("MudeerAam1.shahid", "mudeer1", [
+        "يوميات مدير عام 1", "يوميات مدير عام ١", "Yawmiyat Mudeer Aam 1",
+        "ARA: YAWMIYAT MUDEER AAM 1"]),
+    ("MudeerAam2.shahid", "mudeer2", [
+        "يوميات مدير عام 2", "يوميات مدير عام ٢", "Yawmiyat Mudeer Aam 2",
+        "ARA: YAWMIYAT MUDEER AAM 2"]),
+    ("AlKhibra.shahid", "alkhibra", [
+        "الخبرة", "Al Khibra", "ARA: AL KHIBRA"]),
+    ("Bibasata.shahid", "bibasata", [
+        "ببساطة 1", "ببساطة ١", "ببساطة", "Bibasata 1", "Bibasata",
+        "ARA: BIBASATA"]),
+    ("AlWaqAlWaq.shahid", "alwaq", [
+        "الواق الواق", "Al Waq Al Waq", "ARA: AL WAQ AL WAQ"]),
+    ("AlTawareed.shahid", "altawareed", [
+        "الطواريد", "Al Tawareed", "ARA: AL TAWAREED"]),
 ]
 
 
@@ -115,20 +153,24 @@ def emit(root: ET.Element, grid: list[dict]) -> int:
         warn("Filler: empty grid, the placeholder channels are left out")
         return 0
 
-    for xmltv_id, en_name, ar_name, key in CHANNELS:
+    for xmltv_id, key, names in CHANNELS:
         channel = ET.SubElement(root, "channel", id=xmltv_id)
-        ET.SubElement(channel, "display-name", lang="ar").text = ar_name
-        ET.SubElement(channel, "display-name", lang="en").text = en_name
+        # Every spelling gets its own display-name, so a playlist that
+        # carries any of them matches. The first is what a player shows.
+        for name in names:
+            lang = "en" if name.isascii() else "ar"
+            ET.SubElement(channel, "display-name", lang=lang).text = name
         path = os.path.join("logos", f"{key}.png")
         if os.path.exists(path):
             ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{key}.png")
         else:
-            warn(f"logos/{key}.png is not in the repository yet — {ar_name} "
+            warn(f"logos/{key}.png is not in the repository yet — {names[0]} "
                  f"is published without an icon rather than pointing at a "
                  f"missing file")
 
     total = 0
-    for xmltv_id, _en, ar_name, _key in CHANNELS:
+    for xmltv_id, _key, names in CHANNELS:
+        ar_name = names[0]
         for block in grid:
             add_programme(
                 root, xmltv_id, block["start"], block["stop"], TITLE,
