@@ -456,8 +456,9 @@ def build() -> int:
             )
             if ev["cat_ar"] and ev["cat_en"]:
                 ET.SubElement(p, "category", lang="en").text = ev["cat_en"]
-            if live:
-                ET.SubElement(p, "category", lang="en").text = "Live"
+            # The Live category now comes from add_programme, which reads it
+            # off the badge already in the title — adding it here too would
+            # tag the programme twice.
             if ev["cat_ar"]:
                 arabic_cats += 1
             total += 1

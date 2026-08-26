@@ -498,12 +498,30 @@ The link keeps its URL, so nothing on the player side needs changing.
 
 ## 🟢 Live indicator
 
-Any match or event that is airing **right now** gets its title suffixed
-with **`• Live 🟢`** automatically, on every sports guide in this repo.
-This is computed fresh on every regeneration (every 15 minutes for the
-sports guides), so as soon as TiviMate refreshes its EPG the tag appears
-and disappears exactly when the match starts/ends — no manual action
-needed.
+There are **two** rules here, and which one applies depends on what the
+source actually tells us.
+
+**When the source declares a live broadcast** — beIN's own `live` flag,
+tabii's `isLiveBroadcast`, and the same on beIN Türkiye, ON Sport, Fajer,
+Shahid Sports, Shasha and الأردن الرياضية — the title carries
+**`• Live 🔵`** and keeps it. That is the standard EPG meaning: the badge
+is a property of the broadcast, so browsing ahead to tonight's match still
+shows it as live. On tabii right now, for example, 15 badged rows are
+still in the future and 3 are on air.
+
+**When no source flag exists** — Thmanyah — the badge is
+**`• Live 🟢`** and is computed from the clock instead, appearing and
+disappearing exactly as the programme starts and ends, recomputed on
+every regeneration.
+
+Either way the programme also carries `<category lang="en">Live</category>`,
+so a player can filter or group on it. That category is attached by
+`add_programme` from the badge itself, so a guide cannot badge a title and
+forget the category.
+
+**Channels with no badge at all** — رؤيا, الجديد, الجزيرة — are the ones
+whose sources publish no live marker. Guessing one from the clock was
+tried and rejected: it put Live on a cooking show.
 
 ---
 
