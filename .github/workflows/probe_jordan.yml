@@ -1,102 +1,61 @@
-name: Trial run the Al Jadeed parser
+name: Dry run Al Jadeed and inspect the elcinema picker
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
-    paths: ['.github/workflows/probe_jordan.yml']
+    paths: ['.github/workflows/probe_jordan.yml', 'aljadeed_epg.py']
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -q requests beautifulsoup4
-      - name: Probe
+      - run: pip install -q -r requirements.txt
+      - name: Dry run the Al Jadeed generator
+        run: |
+          python aljadeed_epg.py
+          echo "--- resulting file ---"
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from datetime import datetime
+          root = ET.parse("aljadeed_epg.xml").getroot()
+          ps = root.findall("programme")
+          print("channels:", [c.get("id") for c in root.findall("channel")])
+          print("programmes:", len(ps))
+          print("first:", ps[0].get("start"), ps[0].find("title").text)
+          print("last :", ps[-1].get("start"), ps[-1].find("title").text)
+          days = sorted({p.get("start")[:8] for p in ps})
+          print("days:", days)
+          PY
+      - name: Inspect the elcinema picker
+        if: always()
         run: |
           python -u - <<'PY'
-          import re, html as htmllib
-          from datetime import datetime, timedelta, timezone
-          from zoneinfo import ZoneInfo
+          import re
+          from datetime import datetime, timezone, timedelta
           import requests
-
-          UTC = timezone.utc
-          BEIRUT = ZoneInfo("Asia/Beirut")
           H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
                "Accept-Language": "ar,en;q=0.8"}
-          DAY_URL = "https://www.aljadeed.tv/schedule-channels-date/1/{0:%Y/%m/%d}/ar"
-
-          CARD_RE = re.compile(
-              r'المدة:\s*(\d{1,4})\s*دقيقة\s*</div>\s*'
-              r'<div[^>]*>\s*(\d{1,2}:\d{2})\s*</div>\s*'
-              r"<a [^>]*>(.*?)</a>", re.S)
-          BULLETIN_RE = re.compile(r'موجز\s+الساعة\s+(\d{1,2}):(\d{2})\s*(صباح|مساء)?')
-
-          def clean(v):
-              return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", htmllib.unescape(v or ""))).strip()
-
-          def cards(page):
-              out = []
-              for dur, slot, title in CARD_RE.findall(page):
-                  h, m = slot.split(":")
-                  out.append((int(h) * 60 + int(m), int(dur), clean(title)))
-              # the page renders every card twice (desktop + mobile markup)
-              seen, uniq = set(), []
-              for c in out:
-                  if c in seen: continue
-                  seen.add(c); uniq.append(c)
-              return uniq
-
-          def measure_shift(rows):
-              """Minutes to add to the column so it reads Beirut wall time.
-
-              The channel names its own hourly bulletins after the hour they
-              air — 'موجز الساعة 10:30 صباحاً' — so the page carries the real
-              clock inside its own titles.
-              """
-              votes = {}
-              for col, _dur, title in rows:
-                  m = BULLETIN_RE.search(title)
-                  if not m: continue
-                  h, mi, ap = int(m.group(1)), int(m.group(2)), m.group(3)
-                  if ap == "صباح":
-                      named = [(0 if h == 12 else h) * 60 + mi]
-                  elif ap == "مساء":
-                      named = [(12 if h == 12 else h + 12) * 60 + mi]
-                  else:
-                      named = [h * 60 + mi, ((h + 12) % 24) * 60 + mi]
-                  weight = 2 if ap else 1
-                  for n in named:
-                      votes[(n - col) % 1440] = votes.get((n - col) % 1440, 0) + weight
-              print("   shift votes:", {f"{k/60:+.1f}h": v for k, v in sorted(votes.items())})
-              if not votes: return None
-              best, score = max(votes.items(), key=lambda kv: kv[1])
-              if best % 60 or score < 2: return None
-              return best
-
-          today = datetime.now(BEIRUT).date()
-          allrows = []
-          for i in range(4):
-              day = today + timedelta(days=i)
-              url = DAY_URL.format(day)
-              r = requests.get(url, headers=H, timeout=25)
-              rows = cards(r.text)
-              ttl = re.search(r"<title>(.*?)</title>", r.text, re.S)
-              print(f"\n{day}  HTTP {r.status_code} {len(r.text)}B  rows={len(rows)}")
-              print("   title:", re.sub(r"\s+", " ", ttl.group(1)).strip() if ttl else "?")
-              print("   live markers in page:", r.text.count("مباشر"))
-              sh = measure_shift(rows)
-              print(f"   measured shift: {sh/60:+.1f}h" if sh is not None else "   NO SHIFT")
-              if sh is None: continue
-              for col, dur, title in rows:
-                  mins = col + sh
-                  start = datetime.combine(day, datetime.min.time(), BEIRUT) + timedelta(minutes=mins)
-                  allrows.append((start, dur, title))
-
-          print("\n" + "=" * 78)
-          print(f"resulting programmes: {len(allrows)}")
-          print("=" * 78)
-          for start, dur, title in sorted(set(allrows)):
-              stop = start + timedelta(minutes=dur)
-              print(f"   {start:%m-%d %H:%M} Beirut  ({start.astimezone(UTC):%H:%M}Z) "
-                    f"{dur:>3}m  {title[:46]}")
+          now = datetime.now(timezone.utc)
+          print("UTC now      :", now.strftime("%Y-%m-%d %H:%M"))
+          print("Amman(+3) now:", now.astimezone(timezone(timedelta(hours=3))).strftime("%Y-%m-%d %H:%M"))
+          b = requests.get("https://elcinema.com/tvguide/1299/", headers=H, timeout=25).text
+          print("\n--- every <input> on the page ---")
+          for m in re.finditer(r"<input[^>]*>", b):
+              print("   ", m.group(0)[:240])
+          print("\n--- any 'YYYY-MM-DD HH:MM' text in the HTML ---")
+          for s in sorted(set(re.findall(r"\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}", b)))[:20]:
+              print("   ", s)
+          print("\n--- <select>/<option> that look like a clock ---")
+          for m in list(re.finditer(r"<select[^>]*>.*?</select>", b, re.S))[:4]:
+              seg = re.sub(r"\s+", " ", m.group(0))
+              print("   ", seg[:400])
+          print("\n--- forms and their actions ---")
+          for m in re.finditer(r"<form[^>]*>", b):
+              print("   ", m.group(0)[:200])
+          print("\n--- first two programme blocks, raw ---")
+          for m in list(re.finditer(r'<ul class="unstyled[^"]*">.*?</ul>', b, re.S))[:2]:
+              print("   ", re.sub(r"\s+", " ", m.group(0))[:600])
+              print()
           PY
