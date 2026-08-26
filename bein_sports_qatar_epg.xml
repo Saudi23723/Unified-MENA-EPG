@@ -124,15 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260825025400 +0000" stop="20260825052800 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260825052800 +0000" stop="20260825071300 +0000" channel="beIN4K.qa">
     <title lang="en">Newcastle United vs. Liverpool - English Premier League 2026/2027</title>
     <desc lang="en">Newcastle are winless in their last 19 Premier League games against Liverpool. Only against Manchester City have they ever gone 20+ consecutive meetings without a victory against an opponent in the competition. Liverpool haven’t lost any of their last nine Premier League games against Newcastle at St. James’ Park  and could equal the longest unbeat</desc>
@@ -870,12 +861,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
     <category lang="ar">ألعاب القوى</category>
     <category lang="en">Athletics</category>
-  </programme>
-  <programme start="20260825051500 +0000" stop="20260825054500 +0000" channel="beINSports1.qa">
-    <title lang="en">EPL Stories  2026/2027 EP.6 - Dean Ashton</title>
-    <desc lang="en">We spend the day with Dean Ashton as he reflects on a career that promised so much and was cut short far too soon. From his rise through the Football League to becoming one of the Premier League’s most exciting forwards with West Ham United, Ashton looks back on the goals, injuries and moments that shaped his journey in the game. Now working as a r</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260825054500 +0000" stop="20260825061500 +0000" channel="beINSports1.qa">
     <title lang="en">Manchester City vs Bournemouth - English Premier League 2026/2027 - Week 1</title>
@@ -1911,6 +1896,14 @@ Estadio Bernabéu Stadium</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
+  <programme start="20260901053000 +0000" stop="20260901060000 +0000" channel="beINSports1.qa">
+    <title lang="en">Crystal Palace vs Manchester City - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
+The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
+Arsenal are the defending Champions.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260825050300 +0000" stop="20260825064800 +0000" channel="beINSports2.qa">
     <title lang="en">Nottingham Forest vs Leeds United - English Premier League 2026/2027 - Week 1</title>
     <desc lang="en">Nottingham Forest have won their last four home league games against Leeds, while in the top-flight they’re unbeaten in 14 against the Whites at the City Ground  since losing 2-0 in 1971-72. Leeds have only faced Nottingham Forest in their opening league game of the season once before – they won 1-0 in 1991-92 under Howard Wilkinson, winning the to</desc>
@@ -2727,6 +2720,12 @@ Season 2026/2027
 Spotify Camp Nou Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260901054500 +0000" stop="20260901073000 +0000" channel="beINSports2.qa">
+    <title lang="en">A.F.C. Bournemouth vs Everton - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">Bournemouth have won more Premier League games against Everton than they have versus any other opponent, while only against Fulham  do they have a higher win rate among sides they’ve faced 10+ times in the division. Everton have won just one of their nine Premier League away games against Bournemouth, though it was in this exact fixture last season</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260825050200 +0000" stop="20260825064900 +0000" channel="beINSports3.qa">
     <title lang="en">Eibar vs Valladolid - LaLiga Hypermotion 2026/2027</title>
@@ -3572,12 +3571,6 @@ Season 2026/2027
 Mendizorroza Stadium</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260825043000 +0000" stop="20260825053000 +0000" channel="beINSports4.qa">
-    <title lang="en">Rc Lens, Goal Miners &amp; Footballers</title>
-    <desc lang="en">The exclusive documentary on RC Lens' season. This is a club that lives for its city, and a city that lives for its club. The grit, the sacrifice, the values…RC Lens is about more than just soccer. Never before have cameras been granted such access to a Ligue 1 club to capture and understand its identity.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260825053000 +0000" stop="20260825071500 +0000" channel="beINSports4.qa">
     <title lang="en">Le Havre vs Monaco - French Ligue 1 2026/2027 - Week 1</title>
@@ -4450,13 +4443,6 @@ Decathlon Arena - Stade Pierre-Mauroy Stadium</desc>
     <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
     <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
     <category lang="en">French League - Ligue 2</category>
-  </programme>
-  <programme start="20260825050000 +0000" stop="20260825053000 +0000" channel="beINSports5.qa">
-    <title lang="en">Al Sadd SC (QAT) vs Sharjah FC (UAE) - AFC Champions League Elite 2025/2026 - West MD2  - Mini Match</title>
-    <desc lang="en">The AFC Champions League Elite is contested by Asia's top-division football clubs. It is the most prestigious club competition in Asian football, played by the national league champions. A total of 24 clubs compete in the league stage of the competition, divided into East and West regions (12 teams each).
-All games are live and exclusive only on be</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
   </programme>
   <programme start="20260825053000 +0000" stop="20260825071800 +0000" channel="beINSports5.qa">
     <title lang="en">FC Pohang Steelers (KOR) vs Kaya FC-Iloilo (PHI) - AFC Champions League Two 2025/2026 - East MD2</title>
@@ -5511,6 +5497,17 @@ Diyarbakir Stadyumu Stadium</desc>
     <title lang="en">Shabab Al Ahli (UAE) vs Al Gharafa SC (QAT) - AFC Champions League Elite 2025/2026 - West MD5 - Mini</title>
     <desc lang="en">The AFC Champions League Elite is contested by Asia's top-division football clubs. It is the most prestigious club competition in Asian football, played by the national league champions. A total of 24 clubs compete in the league stage of the competition, divided into East and West regions (12 teams each).
 All games are live and exclusive only on be</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
+  </programme>
+  <programme start="20260901053000 +0000" stop="20260901072000 +0000" channel="beINSports5.qa">
+    <title lang="en">Ulsan HD FC (KOR) vs Melbourne City FC (AUS) - AFC Champions League Elite 2025/2026 - East MD7</title>
+    <desc lang="en">Ulsan HD vs Melbourne City
+AFC Champions League Elite
+Season 2025/2026
+Qualifier Round
+Group East
+Ulsan Munsu Football Stadium Stadium</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
@@ -7980,12 +7977,6 @@ RAMS Park Stadium</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
   </programme>
-  <programme start="20260825033000 +0000" stop="20260825053000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">The Story of the FIFA World Cup 2026</title>
-    <desc lang="en">Relive the greatest goals, the key moments and the most compelling stories of the FIFA World Cup 2026 in this feature-length documentary.</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
   <programme start="20260825053000 +0000" stop="20260825060000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Crystal Palace vs Rayo Vallecano - UEFA Conference League  2025/2026 - Final</title>
     <desc lang="en">The UEFA Conference League is the third-tier club football tournament organised by UEFA. The new format competition runs for its second season live and exclusive only on beIN. The RB Arena in Leipzig, Germany, is the venue for the Conference League final on 27 May 2026.</desc>
@@ -9181,16 +9172,13 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260825045500 +0000" stop="20260825052300 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">EN ATP Tour: This Week 2026 Ep.32</title>
-    <desc lang="en">The official source for the latest news from the ATP Tour and the world of men's professional tennis.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260825052300 +0000" stop="20260825054700 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">EN MLB Plays of the Week 2026 | E20</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
+  <programme start="20260901053000 +0000" stop="20260901060000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Aston Villa vs Arsenal - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
+The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
+Arsenal are the defending Champions.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260825054700 +0000" stop="20260825075600 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Coquimbo Unido (CHI) vs Platense (ARG) - Copa Libertadores 2026 - Round of 16 - 2nd Leg</title>
@@ -12092,12 +12080,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260828190000 +0000" stop="20260828205959 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260825050000 +0000" stop="20260825053000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
