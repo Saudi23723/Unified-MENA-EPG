@@ -290,16 +290,65 @@ including its own sitemap, `almamlakatv.com` 403s or 404s on every
 schedule path, `jrtv.gov.jo` serves a **2.6 KB** shell, `amman.tv`
 returns the **same 16 KB page for every URL**, `sama.tv` has no schedule
 page, `alaraby.tv/schedule` 403s, and `osn.com/*/watch/tv-schedule`
-returns **403 with a zero-byte body** on every locale. elcinema.com does
-carry Jordan TV, Amman TV and Al Araby 2 — but prints no timezone
-anywhere, and measuring its offset against Roya's own API matched only a
-twice-daily bulletin and came back inconclusive. epgshare01 lists the
-channel names with about five programmes each. None of that is
-publishable, so none of it was published.
+returns **403 with a zero-byte body** on every locale, and Al Araby
+publishes no schedule on either of its real domains, `alaraby.com` or
+`alaraby2.com` — sitemaps included.
+
+elcinema.com does carry Jordan TV, Amman TV and Al Araby 2, and it was
+measured properly in the end: against Roya's own API every matching row
+came out **exactly six hours behind Amman**, i.e. UTC−03:00, which is
+nobody's broadcast clock. Its page carries no self-anchor either — the
+date box you see in a browser is filled by JavaScript from *your* device,
+and never appears in the HTML the server sends. A source that renders an
+unexplained offset and cannot state its own clock is not publishable, so
+it was not published. epgshare01 lists the channel names with about five
+programmes each. None of that is publishable, so none of it was
+published.
 
 EPG URL:
 
 https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/aljazeera_epg.xml
+
+---
+
+### 🇱🇧 الجديد
+
+**Channel:** الجديد / Al Jadeed (Lebanon).
+
+Sourced from **Al Jadeed's own dated schedule pages**,
+`aljadeed.tv/schedule-channels-date/1/YYYY/MM/DD/ar`. Each programme is
+one server-rendered card carrying its length, its start and its name, and
+the page's own day navigation reaches a week ahead — so this guide does
+not have to chase a rolling day.
+
+**Its clock is measured, not assumed — and re-measured every run.**
+Al Jadeed prints bare times and never names a timezone, and the times it
+prints are *not* Beirut's: the site renders them for wherever it thinks
+the caller is, and from a CI runner they come out six hours behind
+Beirut. Publishing that would have been silently wrong for every viewer.
+
+But the channel names its own hourly bulletins after the hour they air —
+`موجز الساعة 10:30 صباحاً` sitting in the `04:30` column — so the real
+clock is written inside the page's own titles. Every run recovers the
+offset by comparing the two, **on each day page separately**, and only
+accepts a whole number of hours agreed by more than one bulletin. A day
+whose bulletins stop naming their hour is skipped, not guessed. The
+recovered wall time is Beirut's, so it is attached to `Asia/Beirut` and
+converted to UTC; because the offset is measured rather than hard-coded,
+Lebanon's daylight-saving switch and any change in how the site renders
+are both absorbed automatically.
+
+Each programme ends after the length the page gives it, so nothing is
+stretched to fill a gap.
+
+**No Live badge.** The word `مباشر` appears exactly four times on every
+day page — including days that have not happened yet — so it is the
+site's own `بث مباشر` navigation, not a per-programme marker. Badging on
+that would be this repository inventing a claim the source never made.
+
+EPG URL:
+
+https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/aljadeed_epg.xml
 
 ---
 
