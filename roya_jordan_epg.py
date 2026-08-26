@@ -89,9 +89,18 @@ DAYS_FORWARD = 6
 
 
 def slugify_id(name: str, site_id: str = "") -> str:
-    """ASCII-only id (XMLTV/TiviMate channel ids are conventionally ASCII)."""
-    n = "".join(ch for ch in name if ch.isascii() and ch.isalnum())
-    return f"Roya_{n}" if n else f"Roya_Ch{site_id}"
+    """ASCII-only id (XMLTV/TiviMate channel ids are conventionally ASCII).
+
+    A name has to carry real ASCII *letters* to become the id. Counting
+    digits too produced ids like Roya_2 for قناة العربي 2 and Roya_911 for
+    911 — an id that says nothing about the channel and, in Al Araby's
+    case, actively misleads. Those fall back to the channel number, which
+    is what the Arabic-named channels have always used.
+    """
+    letters = "".join(ch for ch in name if ch.isascii() and ch.isalpha())
+    if len(letters) >= 3:
+        return "Roya_" + "".join(ch for ch in name if ch.isascii() and ch.isalnum())
+    return f"Roya_Ch{site_id}"
 
 
 def channel_blocks(payload) -> list[dict]:
