@@ -1,63 +1,52 @@
-name: Alkass day=next
+name: Alkass parser day check
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
-    paths: ['.github/workflows/probe_jordan.yml']
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: pip install -q requests
       - name: Probe
         run: |
           python -u - <<'PY'
-          import re, hashlib
+          import difflib, requests
           from datetime import datetime, timedelta, timezone
-          import requests
+          import alkass_epg as A
+
           DOHA = timezone(timedelta(hours=3))
           H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")}
-          BASE = "https://www.alkass.net/tvguide"
+                             "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")}
 
-          def rows(body):
-              # title + explicit HH:MM - HH:MM range, the shape the guide reads
-              return re.findall(r"<div class='programs'[^>]*>(.*?)</div>", body, re.S)
-          def times(body):
-              return re.findall(r"(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})", body)
-          def titles(body):
-              return [re.sub(r"<[^>]+>", " ", t).strip()[:40]
-                      for t in re.findall(r"<div class='programs'[^>]*>(.*?)</div>", body, re.S)]
+          pages = {}
+          for tag, url in (("today", A.BASE), ("next", A.BASE + "?day=next")):
+              pages[tag] = requests.get(url, headers=H, timeout=30).text
 
-          print("=" * 82)
-          print("Does ?day=next really give a different day, and can it chain?")
-          print("=" * 82)
-          seen = {}
-          for tag, url in [("today", BASE), ("day=next", BASE + "?day=next"),
-                           ("day=next&day=next", BASE + "?day=next&day=next"),
-                           ("day=prev", BASE + "?day=prev"),
-                           ("day=next2", BASE + "?day=next2")]:
-              r = requests.get(url, headers=H, timeout=30)
-              t = times(r.text)
-              h = hashlib.md5(repr(t).encode()).hexdigest()[:10]
-              seen.setdefault(h, []).append(tag)
-              print(f"   {tag:<20} {r.status_code} {len(r.text):>7}B  slots={len(t):<4} sig={h}")
-          print(f"\n   distinct schedules: {len(seen)}")
-          for h, who in seen.items(): print(f"      {h}: {who}")
+          print("=" * 78)
+          print("Does the real parser see two different days?")
+          print("=" * 78)
+          parsed = {t: A.parse_page(b) for t, b in pages.items()}
+          for t, p in parsed.items():
+              print(f"   {t:<6} channels={len(p)} rows={sum(len(v) for v in p.values())}")
+          print(f"\n   parse_page(today) == parse_page(next): "
+                f"{parsed['today'] == parsed['next']}")
+          for n in sorted(set(parsed['today']) | set(parsed['next'])):
+              a, b = parsed['today'].get(n, []), parsed['next'].get(n, [])
+              same = sum(1 for x, y in zip(a, b) if x == y)
+              print(f"      Alkass {n}: today={len(a):<3} next={len(b):<3} "
+                    f"identical rows={same}")
 
-          a = requests.get(BASE, headers=H, timeout=30).text
-          b = requests.get(BASE + "?day=next", headers=H, timeout=30).text
-          ta, tb = titles(a), titles(b)
-          print(f"\n   today rows={len(ta)}   next rows={len(tb)}")
-          print(f"   first 5 today: {ta[:5]}")
-          print(f"   first 5 next : {tb[:5]}")
-          same = sum(1 for x, y in zip(ta, tb) if x == y)
-          print(f"   identical in the same position: {same}/{min(len(ta),len(tb))}")
+          print("\n   what the 36 raw bytes actually are:")
+          for line in difflib.unified_diff(
+                  pages['today'].splitlines(), pages['next'].splitlines(),
+                  'today', 'next', n=0, lineterm=''):
+              if line.startswith(('+++', '---', '@@')): continue
+              print(f"      {line[:200]}")
 
-          # does the page say which date it is showing?
-          for tag, body in (("today", a), ("next", b)):
-              d = re.findall(r"(\d{1,2}\s+\w+\s+20\d\d|\d{4}-\d{2}-\d{2}|"
-                             r"(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2})", body)[:4]
-              print(f"   dates printed on the {tag} page: {d}")
+          now = datetime.now(DOHA)
+          rows = [r for v in parsed['today'].values() for r in v]
+          print(f"\n   Doha now {now:%Y-%m-%d %H:%M} | rows today={len(rows)}")
           PY
