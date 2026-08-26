@@ -1,4 +1,4 @@
-name: Alkass parser day check
+name: Fajer source trace + Alkass parser
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
@@ -9,44 +9,41 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -q requests
-      - name: Probe
+      - name: Deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-ara
+          pip install -q requests beautifulsoup4 pillow pytesseract lxml
+      - name: Alkass parser day check
         run: |
           python -u - <<'PY'
-          import difflib, requests
-          from datetime import datetime, timedelta, timezone
-          import alkass_epg as A
+          import requests, alkass_epg as A
+          H = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                             "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"}
+          p = {t: A.parse_page(requests.get(u, headers=H, timeout=30).text)
+               for t, u in (("today", A.BASE), ("next", A.BASE + "?day=next"))}
+          for t, v in p.items():
+              print(f"   {t:<6} channels={len(v)} rows={sum(len(x) for x in v.values())}")
+          print(f"   parse_page(today) == parse_page(next): {p['today'] == p['next']}")
+          PY
+      - name: Fajer source trace
+        run: |
+          python -u - <<'PY'
+          import update_fajer_sports_epg as F
+          from datetime import timezone, timedelta
+          MECCA = timezone(timedelta(hours=3))
 
-          DOHA = timezone(timedelta(hours=3))
-          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                             "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")}
-
-          pages = {}
-          for tag, url in (("today", A.BASE), ("next", A.BASE + "?day=next")):
-              pages[tag] = requests.get(url, headers=H, timeout=30).text
-
-          print("=" * 78)
-          print("Does the real parser see two different days?")
-          print("=" * 78)
-          parsed = {t: A.parse_page(b) for t, b in pages.items()}
-          for t, p in parsed.items():
-              print(f"   {t:<6} channels={len(p)} rows={sum(len(v) for v in p.values())}")
-          print(f"\n   parse_page(today) == parse_page(next): "
-                f"{parsed['today'] == parsed['next']}")
-          for n in sorted(set(parsed['today']) | set(parsed['next'])):
-              a, b = parsed['today'].get(n, []), parsed['next'].get(n, [])
-              same = sum(1 for x, y in zip(a, b) if x == y)
-              print(f"      Alkass {n}: today={len(a):<3} next={len(b):<3} "
-                    f"identical rows={same}")
-
-          print("\n   what the 36 raw bytes actually are:")
-          for line in difflib.unified_diff(
-                  pages['today'].splitlines(), pages['next'].splitlines(),
-                  'today', 'next', n=0, lineterm=''):
-              if line.startswith(('+++', '---', '@@')): continue
-              print(f"      {line[:200]}")
-
-          now = datetime.now(DOHA)
-          rows = [r for v in parsed['today'].values() for r in v]
-          print(f"\n   Doha now {now:%Y-%m-%d %H:%M} | rows today={len(rows)}")
+          print("=" * 80)
+          print("Where does each Fajer match come from?")
+          print("=" * 80)
+          evs = F.collect()
+          print(f"\n   {len(evs)} events\n")
+          for e in sorted(evs, key=lambda x: str(x.get("start"))):
+              start = e.get("start")
+              local = start.astimezone(MECCA) if hasattr(start, "astimezone") else start
+              print(f"   {local} | {e.get('channel_name')} | {e.get('title')}")
+              for k, v in sorted(e.items()):
+                  if k in ("start", "stop", "title", "channel_name"): continue
+                  print(f"        {k} = {str(v)[:120]}")
+              print()
           PY
