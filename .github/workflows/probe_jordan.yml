@@ -1,0 +1,133 @@
+name: Sweep Arabic broadcasters for published schedules
+on:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths: ['.github/workflows/probe_jordan.yml']
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -q requests
+      - name: Sweep
+        run: |
+          python -u - <<'PY'
+          import re, concurrent.futures as cf
+          import requests
+
+          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
+               "Accept-Language": "ar,en;q=0.9",
+               "Accept": "text/html,application/xhtml+xml,*/*;q=0.8"}
+
+          # a page only counts if it has many clock times AND names its zone,
+          # or gives ISO datetimes that carry their own offset
+          TIME_RE = re.compile(r"\b([01]?\d|2[0-3]):[0-5]\d\b")
+          ISO_RE  = re.compile(r"\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}[:\d]*\s*(?:Z|[+-]\d{2}:?\d{2})")
+          TZ_WORDS = ("بتوقيت", "توقيت مكة", "توقيت بيروت", "توقيت غرينتش", "GMT", "UTC")
+
+          CANDIDATES = {
+            # ---- Lebanon --------------------------------------------------
+            "MTV Lebanon":    ["https://www.mtv.com.lb/Schedule", "https://www.mtv.com.lb/programs"],
+            "LBCI":           ["https://www.lbcgroup.tv/schedule/ar", "https://www.lbcgroup.tv/programs-schedule/ar"],
+            "Al Manar":       ["https://almanar.com.lb/schedule", "https://www.almanar.com.lb/schedule"],
+            "OTV Lebanon":    ["https://www.otv.com.lb/schedule", "https://otv.com.lb/programs"],
+            "Tele Liban":     ["https://www.teleliban.com.lb/schedule"],
+            # ---- Pan-Arab news -------------------------------------------
+            "Al Mayadeen":    ["https://www.almayadeen.net/schedule", "https://www.almayadeen.net/programsschedule",
+                               "https://www.almayadeen.net/shows"],
+            "Sky News Arabia":["https://www.skynewsarabia.com/schedule", "https://www.skynewsarabia.com/tv-schedule"],
+            "Asharq News":    ["https://www.asharqbusiness.com/schedule", "https://asharq.com/schedule"],
+            "Al Hurra":       ["https://www.alhurra.com/schedule", "https://www.alhurra.com/tv-schedule"],
+            "Al Ghad":        ["https://alghad.tv/schedule", "https://www.alghad.tv/schedule"],
+            "TRT Arabi":      ["https://www.trtarabi.com/yayin-akisi", "https://www.trtarabi.com/schedule"],
+            "France24 AR":    ["https://www.france24.com/ar/grille-des-programmes"],
+            "DW Arabic":      ["https://www.dw.com/ar/tv/program-guide/s-100822"],
+            "RT Arabic":      ["https://arabic.rt.com/schedule/"],
+            "BBC Arabic":     ["https://www.bbc.com/arabic/tv_and_radio_index"],
+            "CNBC Arabia":    ["https://www.cnbcarabia.com/schedule", "https://www.cnbcarabia.com/programs"],
+            # ---- Gulf / state -------------------------------------------
+            "Abu Dhabi TV":   ["https://www.adtv.ae/schedule", "https://adtv.ae/ar/schedule"],
+            "Dubai TV":       ["https://www.dmi.ae/dubaitv/schedule", "https://awaan.ae/schedule"],
+            "Qatar TV":       ["https://www.qatartv.qa/schedule", "https://qatartv.qa/ar/schedule"],
+            "Oman TV":        ["https://omantv.om/schedule", "https://www.omantv.om/ar/schedule"],
+            "Kuwait TV":      ["https://www.media.gov.kw/schedule"],
+            "Bahrain TV":     ["https://www.bahraintv.bh/schedule"],
+            "Saudi TV":       ["https://www.saudimediacity.sa/schedule", "https://www.spa.gov.sa"],
+            # ---- Egypt / Palestine / Syria -------------------------------
+            "DMC Egypt":      ["https://www.dmc.tv/schedule", "https://dmc.tv/programs"],
+            "CBC Egypt":      ["https://www.cbc.tv/schedule"],
+            "Nile TV":        ["https://www.nileinternational.net/schedule"],
+            "Palestine TV":   ["https://www.palestinetv.ps/schedule", "https://pbc.ps/schedule"],
+            "Al Aqsa TV":     ["https://aqsatv.ps/schedule"],
+            "Syria TV":       ["https://www.rtv.gov.sy/schedule", "https://sana.sy"],
+          }
+
+          def probe(name, urls):
+              lines = []
+              best = None
+              for u in urls:
+                  try:
+                      r = requests.get(u, headers=H, timeout=20, allow_redirects=True)
+                      body = r.text or ""
+                      times = len(set(TIME_RE.findall(body))) if body else 0
+                      ntimes = len(TIME_RE.findall(body)) if body else 0
+                      iso = len(ISO_RE.findall(body)) if body else 0
+                      tz = [w for w in TZ_WORDS if w in body]
+                      verdict = "-"
+                      if r.status_code == 200 and (ntimes >= 15 or iso >= 15):
+                          verdict = "LOOK" if (tz or iso >= 15) else "times, no zone"
+                      lines.append(f"      {r.status_code} {len(body):>7}B  times={ntimes:<4} iso={iso:<4} "
+                                   f"tz={tz if tz else '-'}  {verdict}  {u}")
+                      if verdict == "LOOK": best = u
+                  except Exception as e:
+                      lines.append(f"      ERR {type(e).__name__}: {str(e)[:60]}  {u}")
+              return name, best, lines
+
+          print("=" * 90)
+          print("Sweeping broadcaster sites. 'LOOK' = enough times AND a zone it states itself.")
+          print("=" * 90)
+          hits = []
+          with cf.ThreadPoolExecutor(max_workers=8) as ex:
+              futs = [ex.submit(probe, n, u) for n, u in CANDIDATES.items()]
+              for f in cf.as_completed(futs):
+                  name, best, lines = f.result()
+                  print(f"\n   {name}")
+                  for l in lines: print(l)
+                  if best: hits.append((name, best))
+
+          print("\n" + "=" * 90)
+          print("WORTH A CLOSER LOOK")
+          print("=" * 90)
+          for n, u in hits: print(f"   {n}: {u}")
+          if not hits: print("   none")
+
+          # --- siblings of a source that already works -----------------------
+          print("\n" + "=" * 90)
+          print("Al Jazeera's sibling channels, on a source already anchored")
+          print("=" * 90)
+          for path in ("/mubasher/schedule", "/documentary/schedule", "/schedule/mubasher",
+                       "/net/schedule", "/schedule?channel=mubasher"):
+              try:
+                  r = requests.get("https://www.aljazeera.net" + path, headers=H, timeout=20)
+                  b = r.text or ""
+                  print(f"   {r.status_code} {len(b):>7}B  rows={b.count('schedule__row__timeslot'):<4} "
+                        f"مكة={'بتوقيت مكة' in b}  {path}")
+              except Exception as e:
+                  print(f"   ERR {e}  {path}")
+
+          print("\n" + "=" * 90)
+          print("Al Jadeed's site: does it schedule any channel besides id 1")
+          print("=" * 90)
+          for cid in (2, 3, 4, 5):
+              try:
+                  r = requests.get(f"https://www.aljadeed.tv/schedule-channels-date/{cid}/2026/08/26/ar",
+                                   headers=H, timeout=20)
+                  b = r.text or ""
+                  ttl = re.search(r"<title>(.*?)</title>", b, re.S)
+                  print(f"   id={cid}: {r.status_code} {len(b):>7}B  cards={b.count('المدة:'):<4} "
+                        f"{re.sub(r'\\s+',' ',ttl.group(1)).strip()[:60] if ttl else '?'}")
+              except Exception as e:
+                  print(f"   id={cid}: ERR {e}")
+          PY
