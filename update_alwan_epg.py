@@ -55,8 +55,9 @@ TELEGRAM_PAGES = 3
 MIN_POSTS_REQUIRED = 3
 
 # Default match length in minutes. Automatically shortened if another match
-# starts sooner on the same channel.
-MATCH_MINUTES = 110
+# starts sooner on the same channel, so the extra minutes are only ever
+# taken from an empty slot and never from the next match.
+MATCH_MINUTES = 115
 
 # What to put in the empty slots between matches.
 #
