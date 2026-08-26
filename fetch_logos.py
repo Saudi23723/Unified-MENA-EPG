@@ -102,6 +102,17 @@ CANDIDATES: dict[str, list[str]] = {
     # only the keys it holds, so leaving tabii out is what stops a future
     # run from overwriting all eleven with one unnumbered picture.
 
+    # --- Al Jazeera Arabic (QA) ---------------------------------------------
+    # The broadcaster's own site first, then Wikimedia Commons, which serves
+    # a rendered PNG of the mark and accepts a browser User-Agent.
+    "aljazeera": [
+        "https://www.aljazeera.net/apple-touch-icon.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Aljazeera.svg/512px-Aljazeera.svg.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Aljazeera_logo.svg/512px-Aljazeera_logo.svg.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Aljazeera_arabic.svg/512px-Aljazeera_arabic.svg.png",
+        "https://www.aljazeera.net/favicon.ico",
+    ],
+
     # --- Shahid (guide channel) --------------------------------------------
     "shahid": [
         "https://shahid.mbc.net/apple-touch-icon.png",
