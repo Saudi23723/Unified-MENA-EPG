@@ -1,4 +1,4 @@
-name: Verify elcinema anchor and Al Jadeed clock
+name: Anchor Al Jadeed by its own on-air marker
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
@@ -19,100 +19,64 @@ jobs:
           from bs4 import BeautifulSoup
 
           UTC = timezone.utc
-          AMMAN = timezone(timedelta(hours=3))
           H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
                "Accept-Language": "ar,en;q=0.8"}
           def get(u, **kw):
               return requests.get(u, headers=H, timeout=25, **kw)
 
-          AMPM = {"صباحًا": 0, "صباحاً": 0, "صباحا": 0,
-                  "مساءً": 12, "مساءاً": 12, "مساء": 12, "مساءا": 12}
+          now = datetime.now(UTC)
+          print("now UTC     ", now.strftime("%Y-%m-%d %H:%M"))
+          for name, off in (("Beirut +3", 3), ("Cairo  +3", 3), ("UTC+2   ", 2), ("Amman +3", 3)):
+              print(f"   {name}: {now.astimezone(timezone(timedelta(hours=off))):%H:%M}")
 
-          def norm(s):
-              s = re.sub(r"^\s*(?:برنامج|مسلسل|فيلم|نشرة)\s*[-–]?\s*", "", (s or "").strip())
-              s = re.sub(r"[^ء-يa-zA-Z0-9]+", " ", s)
-              return re.sub(r"\s+", " ", s).strip().lower()
+          r = get("https://www.aljadeed.tv/schedule")
+          b = r.text
+          print(f"\nHTTP {r.status_code}  {len(b)}B")
 
-          def hhmm(m):
-              return f"{m//60:02d}:{m%60:02d}"
+          soup = BeautifulSoup(b, "html.parser")
 
-          def elcinema(cid):
-              soup = BeautifulSoup(get(f"https://elcinema.com/tvguide/{cid}/").text, "html.parser")
-              out = []
-              for ul in soup.select("ul.unstyled"):
-                  lis = ul.find_all("li")
-                  if len(lis) < 2: continue
-                  title = re.sub(r"\s+", " ", lis[0].get_text(" ", strip=True)).strip()
-                  meta = re.sub(r"\s+", " ", lis[1].get_text(" ", strip=True)).strip()
-                  m = re.search(r'(\d{1,2}):(\d{2})\s*(\S+)', meta)
-                  if not m: continue
-                  h, mi, ap = int(m.group(1)), int(m.group(2)), m.group(3).strip()
-                  add = AMPM.get(ap)
-                  if add is None: continue
-                  if add == 12 and h != 12: h += 12
-                  if add == 0 and h == 12: h = 0
-                  out.append((norm(title), h * 60 + mi, title, meta))
-              return out
-
+          print("\n" + "=" * 78)
+          print("A) every row as the page renders it")
           print("=" * 78)
-          print("A) elcinema رؤيا 1299 — every row as published")
-          print("=" * 78)
-          el = elcinema("1299")
-          for t, m, raw, meta in el:
-              print(f"   {hhmm(m)}  {raw[:44]:44s} | {meta[:40]}")
+          # rows are cards: a 'المدة: N دقيقة' div, then a time div, then the title anchor
+          rows = []
+          for m in re.finditer(r'المدة:\s*(\d+)\s*دقيقة(.{0,3000}?)</a>', b, re.S):
+              seg = m.group(0)
+              dur = int(m.group(1))
+              tm = re.search(r'>\s*(\d{1,2}:\d{2})\s*<', seg)
+              ttl = re.findall(r'<a [^>]*>\s*([^<>]{2,90}?)\s*</a>', seg)
+              flags = [w for w in ("يعرض الان", "يعرض الآن", "مباشر", "الآن", "الان")
+                       if w in seg]
+              if tm:
+                  rows.append((tm.group(1), dur, (ttl[-1] if ttl else "?"), flags))
+          print(f"   parsed rows: {len(rows)}")
+          for t, d, ttl, f in rows:
+              print(f"   {t}  {d:>3}min  {ttl[:44]:44s} {' '.join(f)}")
 
-          print()
+          print("\n" + "=" * 78)
+          print("B) where does the page put its 'now' marker")
           print("=" * 78)
-          print("B) Roya API — every row, UTC and Amman(+3)")
+          for w in ("يعرض الان", "يعرض الآن", "now", "current", "active", "live"):
+              n = b.count(w)
+              if n: print(f"   {w!r}: x{n}")
+          for m in re.finditer(r'يعرض ال[آا]ن', b):
+              print("   context:", re.sub(r"\s+", " ", b[max(0, m.start()-500):m.start()+260])[-620:])
+              print()
+
+          print("\n" + "=" * 78)
+          print("C) day navigation — can we reach tomorrow")
           print("=" * 78)
-          roya = []
-          for day in (0, -1, 1):
+          links = sorted({a.get("href") for a in soup.find_all("a", href=True)
+                          if "schedule" in (a.get("href") or "")})
+          for h in links[:25]:
+              print("   ", h)
+          for q in ("?date=2026-08-27", "/2026-08-27", "?day=1"):
               try:
-                  d = get("https://backend.roya.tv/api/v01/channels/schedule-pagination",
-                          params={"day_number": day}).json()
+                  rr = get("https://www.aljadeed.tv/schedule" + q)
+                  ttl = re.search(r"<title>(.*?)</title>", rr.text, re.S)
+                  print(f"   {q!r}: HTTP {rr.status_code} {len(rr.text)}B  "
+                        f"title={re.sub(r'\\s+', ' ', ttl.group(1)).strip() if ttl else '?'}")
               except Exception as e:
-                  print("   roya day", day, e); continue
-              for blk in d.get("data") or []:
-                  for ch in blk.get("channel") or []:
-                      if (ch.get("title") or "").strip() != "Roya TV": continue
-                      for p in ch.get("programs") or []:
-                          ts = p.get("start_timestamp")
-                          if ts is None: continue
-                          st = datetime.fromtimestamp(int(ts), tz=UTC)
-                          roya.append((norm(p.get("name")), st.hour * 60 + st.minute,
-                                       p.get("name"), st))
-          roya.sort(key=lambda r: r[3])
-          for t, m, raw, st in roya:
-              print(f"   UTC {st:%m-%d %H:%M}  Amman {st.astimezone(AMMAN):%H:%M}  {raw[:40]}")
-
-          print()
-          print("=" * 78)
-          print("C) the matched pairs at each candidate offset")
-          print("=" * 78)
-          shared = {t for t, _m, _r, _x in el} & {t for t, _m, _r, _x in roya}
-          for off in (-180, 0, 180, 510):
-              pairs = []
-              for t, shown, raw, _meta in el:
-                  if t not in shared: continue
-                  want = (shown - off) % 1440
-                  for t2, m2, raw2, st2 in roya:
-                      if t2 == t and m2 == want:
-                          pairs.append((raw, hhmm(shown), f"{st2:%m-%d %H:%M}Z",
-                                        f"{st2.astimezone(AMMAN):%H:%M}"))
-                          break
-              print(f"\n   offset {off/60:+.1f}h -> {len(pairs)} pairs")
-              for raw, s, z, a in pairs:
-                  print(f"      elcinema {s}  ==  Roya {z} (Amman {a})   {raw[:34]}")
-
-          print()
-          print("=" * 78)
-          print("D) Al Jadeed — context around 'توقيت' / 'بيروت'")
-          print("=" * 78)
-          b = get("https://www.aljadeed.tv/schedule").text
-          for w in ("توقيت", "بيروت"):
-              for m in re.finditer(w, b):
-                  seg = re.sub(r"\s+", " ", b[max(0, m.start()-220):m.start()+220])
-                  print(f"   [{w}] ...{seg}...")
-                  print()
+                  print(f"   {q!r}: {e}")
           PY
