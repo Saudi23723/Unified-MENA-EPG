@@ -1,4 +1,4 @@
-name: Fetch the Al Jazeera mark
+name: Probe OSN schedule
 
 on:
   workflow_dispatch:
@@ -14,56 +14,55 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -q requests pillow
-      - name: Fetch
+      - run: pip install -q requests
+      - name: Probe
         run: |
           python -u - <<'PY'
-          import base64, io, re
+          import json, re
           import requests
-          from PIL import Image
 
-          H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                              "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
-               "Accept": "image/avif,image/webp,image/png,image/*,*/*;q=0.8"}
+          H = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"),
+               "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+               "Accept-Language": "ar,en;q=0.8",
+               "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate",
+               "Sec-Fetch-Site": "none", "Upgrade-Insecure-Requests": "1"}
+          TIME_RE = re.compile(r'\b([01]?\d|2[0-3]):[0-5]\d\b')
+          WANT = re.compile(r'جزيرة|عربية|العربي|مملكة|عمان|الأردن|سما|الجديد|'
+                            r'jazeera|arabiya|araby|mamlaka|amman|jordan|jadeed|roya|sama', re.I)
 
-          # what the site itself advertises, plus Wikimedia as the fallback
-          cands = []
-          try:
-              home = requests.get("https://www.aljazeera.net/", headers=H, timeout=25).text
-              for m in re.findall(r'<(?:link|meta)[^>]+(?:href|content)="([^"]+\.(?:png|svg|jpg))"', home):
-                  if m.startswith("//"): m = "https:" + m
-                  if m.startswith("/"):  m = "https://www.aljazeera.net" + m
-                  if m.startswith("http") and re.search(r'logo|icon|touch|og', m, re.I):
-                      cands.append(m)
-          except Exception as e:
-              print("homepage:", e)
-          cands += [
-            "https://www.aljazeera.net/apple-touch-icon.png",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Aljazeera.svg/512px-Aljazeera.svg.png",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Aljazeera_logo.svg/512px-Aljazeera_logo.svg.png",
-          ]
-          seen = set()
-          for u in cands:
-              if u in seen: continue
-              seen.add(u)
+          for u in ["https://www.osn.com/ar-eg/watch/tv-schedule",
+                    "https://www.osn.com/en-eg/watch/tv-schedule",
+                    "https://www.osn.com/ar-ae/watch/tv-schedule"]:
               try:
-                  r = requests.get(u, headers=H, timeout=25)
+                  r = requests.get(u, headers=H, timeout=30)
               except Exception as e:
-                  print(f"   ERR {str(e)[:40]}  {u}"); continue
-              ok = ""
-              if r.status_code == 200:
+                  print(f"   ERR {str(e)[:60]}  {u}"); continue
+              b = r.text
+              print(f"\n   HTTP {r.status_code}  {len(b):>8}B  HH:MM x{len(TIME_RE.findall(b))}  {u}")
+              if r.status_code != 200:
+                  print("     ", re.sub(r'\s+', ' ', b)[:160]); continue
+              print("      __NEXT_DATA__:", "yes" if "__NEXT_DATA__" in b else "no",
+                    "| ld+json:", len(re.findall(r'application/ld\+json', b)))
+              names = sorted(set(m.group(0) for m in WANT.finditer(b)))
+              print("      channel names present:", names[:14])
+              # any API the page calls
+              apis = sorted(set(re.findall(r'https://[a-z0-9\.\-]*osn[a-z0-9\.\-]*/[a-zA-Z0-9\-_/]{4,60}', b)))
+              for a in apis[:14]:
+                  print("      url:", a)
+              m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', b, re.S)
+              if m:
                   try:
-                      im = Image.open(io.BytesIO(r.content))
-                      ok = f"{im.size[0]}x{im.size[1]} {im.format}"
+                      d = json.loads(m.group(1))
+                      blob = json.dumps(d, ensure_ascii=False)
+                      print("      payload bytes:", len(blob))
+                      print("      channel-ish keys:", sorted(set(re.findall(
+                          r'"(channel[A-Za-z]*|programs?|schedule|epg|startTime|endTime|airDate)"', blob)))[:14])
                   except Exception as e:
-                      ok = f"not an image ({str(e)[:30]})"
-              print(f"   HTTP {r.status_code} {len(r.content):>7}B  {ok:<22} {u}")
-              if ok and "x" in ok and len(r.content) < 90000:
-                  print(f"   B64 {u}")
-                  print("   " + base64.b64encode(r.content).decode())
+                      print("      payload not JSON:", str(e)[:50])
           PY

@@ -106,6 +106,8 @@ CANDIDATES: dict[str, list[str]] = {
     # The broadcaster's own site first, then Wikimedia Commons, which serves
     # a rendered PNG of the mark and accepts a browser User-Agent.
     "aljazeera": [
+        # 932x522, the full mark; the touch icon is the square fallback.
+        "https://www.aljazeera.net/images/logo_aja_social.png",
         "https://www.aljazeera.net/apple-touch-icon.png",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Aljazeera.svg/512px-Aljazeera.svg.png",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Aljazeera_logo.svg/512px-Aljazeera_logo.svg.png",
