@@ -1,4 +1,4 @@
-name: Probe Al Araby
+name: Probe Al Araby real domains
 
 on:
   workflow_dispatch:
@@ -19,90 +19,74 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -q requests beautifulsoup4
+      - run: pip install -q requests
       - name: Probe
         run: |
           python -u - <<'PY'
-          import json, re
+          import re
           import requests
-          from bs4 import BeautifulSoup
+          from concurrent.futures import ThreadPoolExecutor
 
           H = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
                "Accept-Language": "ar,en;q=0.8"}
-          def get(u, **kw):
-              try: return requests.get(u, headers=H, timeout=25, **kw)
-              except Exception as e: return e
           TIME = re.compile(r'\b([01]?\d|2[0-3]):[0-5]\d\b')
 
-          print("=" * 74)
-          print("A) every schedule-shaped path")
-          print("=" * 74)
-          paths = ["/", "/programs", "/live", "/ar", "/tv", "/tv-guide", "/epg",
-                   "/grid", "/program-schedule", "/schedule-programs",
+          SLUGS = ["", "/schedule", "/tv-schedule", "/programs-schedule",
+                   "/program-schedule", "/epg", "/grid", "/live", "/programs",
                    "/%D8%AC%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC",
-                   "/programs-schedule", "/broadcast", "/yawmiat", "/sitemap.xml",
-                   "/api/schedule", "/api/programs"]
-          for p in paths:
-              r = get("https://www.alaraby.tv" + p)
-              if hasattr(r, "text"):
-                  print(f"   HTTP {r.status_code} {len(r.text):>8}B  HH:MM x{len(TIME.findall(r.text)):<4} "
-                        f"ld+json x{len(re.findall(r'application/ld.json', r.text))}  {p}")
-              else:
-                  print(f"   ERR {str(r)[:40]}  {p}")
+                   "/%D8%AE%D8%B1%D9%8A%D8%B7%D8%A9-%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC",
+                   "/sitemap.xml"]
+          HOSTS = ["https://www.alaraby.com", "https://www.alaraby2.com"]
+
+          def check(item):
+              host, slug = item
+              u = host + slug
+              try:
+                  r = requests.get(u, headers=H, timeout=20)
+              except Exception as e:
+                  return u, None, 0, 0, str(e)[:40]
+              return u, r.status_code, len(r.text), len(TIME.findall(r.text)), ""
+
+          jobs = [(h, s) for h in HOSTS for s in SLUGS]
+          with ThreadPoolExecutor(max_workers=8) as pool:
+              rows = list(pool.map(check, jobs))
+          host = None
+          winners = []
+          for u, c, size, times, err in rows:
+              h = u.split("/")[2]
+              if h != host:
+                  print(f"\n--- {h} ---"); host = h
+              flag = ""
+              if c == 200 and times >= 10:
+                  flag = "  <== TIMES"; winners.append(u)
+              print(f"   HTTP {str(c):<5} {size:>8}B  HH:MM x{times:<4}{flag}  {u}  {err}")
 
           print()
           print("=" * 74)
-          print("B) what the ld+json on /programs actually says")
-          print("=" * 74)
-          r = get("https://www.alaraby.tv/programs")
-          if hasattr(r, "text"):
-              for blob in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', r.text, re.S):
-                  try:
-                      d = json.loads(blob)
-                  except Exception:
+          for u in winners:
+              b = requests.get(u, headers=H, timeout=25).text
+              print(f"\n### {u}")
+              seen = 0
+              for m in TIME.finditer(b):
+                  a, bb = max(0, m.start()-180), m.end()+120
+                  txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", b[a:bb])).strip()
+                  if len(txt) < 25 or "datePublished" in txt or "dateModified" in txt:
                       continue
-                  print("   ", json.dumps(d, ensure_ascii=False)[:700])
-              soup = BeautifulSoup(r.text, "html.parser")
-              links = sorted(set(a["href"] for a in soup.find_all("a", href=True)
-                                 if re.search(r'program|برنامج', a["href"], re.I)))
-              print(f"\n   programme links ({len(links)}):")
-              for l in links[:20]:
-                  print("      ", l)
+                  print("   ...", txt[:200]); seen += 1
+                  if seen >= 6: break
+              for w in ["بتوقيت", "توقيت", "غرينتش", "مكة", "الدوحة", "لندن"]:
+                  n = b.count(w)
+                  if n: print(f"   timezone word {w!r}: x{n}")
+          if not winners:
+              print("no page on either domain carries a schedule")
 
-          print()
-          print("=" * 74)
-          print("C) does a programme page carry air times")
-          print("=" * 74)
-          if hasattr(r, "text"):
-              soup = BeautifulSoup(r.text, "html.parser")
-              cand = [a["href"] for a in soup.find_all("a", href=True)
-                      if re.search(r'/programs?/[^/]+', a["href"])]
-              for href in list(dict.fromkeys(cand))[:3]:
-                  u = href if href.startswith("http") else "https://www.alaraby.tv" + href
-                  rr = get(u)
-                  if not hasattr(rr, "text"):
-                      continue
-                  t = TIME.findall(rr.text)
-                  print(f"\n   {u}\n      HTTP {rr.status_code} {len(rr.text)}B  HH:MM x{len(t)}  {t[:8]}")
-                  for w in ["يعرض", "موعد", "إعادة", "توقيت", "بتوقيت", "الأحد", "الاثنين"]:
-                      n = rr.text.count(w)
-                      if n: print(f"         {w!r} x{n}")
-                  for m in list(TIME.finditer(rr.text))[:3]:
-                      a, b = max(0, m.start()-150), m.end()+90
-                      print("        ...", re.sub(r"\s+"," ", re.sub(r"<[^>]+>"," ", rr.text[a:b])).strip()[:170])
-
-          print()
-          print("=" * 74)
-          print("D) /live — where the 'العربي 2' mentions sit")
-          print("=" * 74)
-          rr = get("https://www.alaraby.tv/live")
-          if hasattr(rr, "text"):
-              b = rr.text
-              print(f"   HTTP {rr.status_code} {len(b)}B")
-              for m in list(re.finditer(r'العربي\s*2', b))[:4]:
-                  a2, b2 = max(0, m.start()-200), m.end()+200
-                  print("      ...", re.sub(r"\s+"," ", re.sub(r"<[^>]+>"," ", b[a2:b2])).strip()[:200])
-              apis = sorted(set(re.findall(r'https://[a-z0-9\.\-]+/[a-zA-Z0-9\-_/]*(?:api|graphql|epg|schedule)[a-zA-Z0-9\-_/]*', b)))
-              print("   api-looking urls:", apis[:12])
+          # the sitemap may name a schedule page outright
+          for h in HOSTS:
+              try:
+                  b = requests.get(h + "/sitemap.xml", headers=H, timeout=20).text
+              except Exception:
+                  continue
+              hits = sorted(set(re.findall(r'<loc>([^<]*(?:schedule|جدول|epg|grid|%D8%AC%D8%AF)[^<]*)</loc>', b, re.I)))
+              print(f"\n   {h}/sitemap.xml schedule-ish entries: {hits[:10] or 'none'}")
           PY
