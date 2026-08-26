@@ -165,9 +165,43 @@ def main() -> int:
         {"start": base + timedelta(minutes=30), "stop": base + timedelta(hours=1), "title": "C"},
     ]
     out = L.resolve_overlaps(events)
-    check("swallowed events are dropped", [e["title"] for e in out] == ["A", "B"],
+    # A start is published as the source gave it; a stop yields instead.
+    check("every start survives untouched",
+          [e["start"] for e in out] == [base, base + timedelta(minutes=30),
+                                        base + timedelta(hours=1)],
+          str([str(e["start"]) for e in out]))
+    check("nothing is dropped when starts differ",
+          [e["title"] for e in out] == ["A", "C", "B"],
           str([e["title"] for e in out]))
-    check("partial overlap is clipped", out[1]["start"] == base + timedelta(hours=2))
+    check("the earlier event is cut short, not the later one delayed",
+          out[0]["stop"] == base + timedelta(minutes=30)
+          and out[1]["stop"] == base + timedelta(hours=1))
+    check("no overlap remains",
+          all(a["stop"] <= b["start"] for a, b in zip(out, out[1:])))
+
+    # The real case this was changed for: Spor Ekranı gave two tabii Spor 7
+    # slots the same 18:00 start, and the second was published at 21:00.
+    same = [
+        {"start": base + timedelta(hours=18), "stop": base + timedelta(hours=21),
+         "title": "Badminton"},
+        {"start": base + timedelta(hours=18), "stop": base + timedelta(hours=21),
+         "title": "Paletli Yuzme"},
+    ]
+    out2 = L.resolve_overlaps(same)
+    check("two events on the same minute keep one, and it is not moved",
+          len(out2) == 1 and out2[0]["start"] == base + timedelta(hours=18),
+          str([(e["title"], str(e["start"])) for e in out2]))
+
+    # An event wholly inside another must not be pushed past it either.
+    inside = [
+        {"start": base, "stop": base + timedelta(hours=3), "title": "long"},
+        {"start": base + timedelta(hours=1), "stop": base + timedelta(hours=2),
+         "title": "inside"},
+    ]
+    out3 = L.resolve_overlaps(inside)
+    check("an event inside another keeps its own start",
+          [e["start"] for e in out3] == [base, base + timedelta(hours=1)],
+          str([(e["title"], str(e["start"])) for e in out3]))
 
     print()
     if failures:

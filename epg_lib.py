@@ -372,25 +372,43 @@ def write_xml_atomic(
 def resolve_overlaps(events: list[dict]) -> list[dict]:
     """Sort a single channel's events by start and remove overlaps.
 
-    Some upstream APIs (seen live on STARZPLAY) return events that overlap
-    in time for the same channel — invalid XMLTV. An event fully inside the
-    previous one is dropped; a partial overlap has its start pushed to the
-    previous event's stop (or is dropped if that leaves no duration left).
-    Expects each event to be a dict with "start"/"stop" datetimes.
+    XMLTV cannot express two programmes at once on one channel, and some
+    sources publish them anyway — Spor Ekranı gives every live slot a
+    padded three-hour window, so two events beginning together is routine.
+    Something has to give; this chooses which.
+
+    **A start time is kept as published; a stop time is what gives way.**
+    An event that begins before the previous one has ended cuts that
+    previous event short rather than being pushed out behind it.
+
+    It used to be the other way round, and it put real broadcasts at the
+    wrong hour. Spor Ekranı listed both "Badminton - Neslihan Arın" and
+    "Paletli Yüzme" starting 18:00 on tabii Spor 7; the second was shoved
+    to 21:00, three hours after it actually began, and published that way.
+    A viewer setting a reminder from that would have missed it entirely.
+    A stop time is an estimate — for a live match nobody knows it in
+    advance — while a start time is the one number the source is sure of
+    and the one a viewer acts on. So the estimate yields.
+
+    Two events that begin at the very same minute cannot both survive: the
+    first in sort order is kept and the other dropped, since cutting one
+    short would leave it with no duration at all.
     """
-    ordered = sorted(events, key=lambda e: e["start"])
+    ordered = sorted(events, key=lambda e: (e["start"], e["stop"]))
     out: list[dict] = []
-    cursor = None
     for ev in ordered:
         start, stop = ev["start"], ev["stop"]
-        if cursor is not None and start < cursor:
-            if stop <= cursor:
-                continue  # fully swallowed by the previous event
-            start = cursor
         if stop <= start:
             continue
+        if out:
+            previous = out[-1]
+            if start < previous["stop"]:
+                if start <= previous["start"]:
+                    # Same minute: keeping both is impossible and cutting
+                    # the earlier one leaves it empty, so this one goes.
+                    continue
+                previous["stop"] = start
         out.append({**ev, "start": start, "stop": stop})
-        cursor = stop
     return out
 
 
