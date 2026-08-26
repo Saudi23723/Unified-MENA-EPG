@@ -3,6 +3,13 @@
 """
 الجزيرة الإخبارية — Al Jazeera Arabic.
 
+This is a reader, not a guide of its own: roya_jordan_epg.py imports it
+and writes Al Jazeera into roya_jordan_epg.xml, so the channel arrives on
+a link that is already in use rather than on a new one. Two workflows must
+never write the same file, so Al Jazeera has no workflow of its own — it
+refreshes on Roya's half-hourly run, which also suits a page that only
+ever renders one day at a time.
+
 Source: the broadcaster's own schedule page.
 
   https://www.aljazeera.net/schedule
@@ -55,11 +62,9 @@ from datetime import datetime, timedelta, timezone
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, norm, resolve_overlaps,
-    run_main, utc_now, warn, write_xml_atomic,
+    add_programme, fetch, log, norm, resolve_overlaps, utc_now, warn,
 )
 
-OUTPUT = "aljazeera_epg.xml"
 UTC = timezone.utc
 # The page says so itself: "كل الأوقات بتوقيت مكة". Mecca keeps +03:00 all
 # year — Saudi Arabia has never observed daylight saving — so this is a
@@ -183,8 +188,12 @@ def parse(page: str, today: datetime) -> list[dict]:
     return events
 
 
-def load_previous(path: str) -> list[dict]:
-    """What the file already holds, so a one-day page accumulates."""
+def carry_forward(path: str) -> list[dict]:
+    """What the guide already holds, so a one-day page accumulates.
+
+    The file this reads is the Roya guide, which Al Jazeera now shares.
+    Only rows on Al Jazeera's own channel are touched.
+    """
     if not os.path.exists(path):
         return []
     try:
@@ -228,39 +237,36 @@ def channel_icon() -> str | None:
     return f"{LOGO_BASE}/{LOGO_FILE}" if os.path.exists(f"logos/{LOGO_FILE}") else None
 
 
-def build() -> int:
-    log("AL JAZEERA (الجزيرة) EPG | aljazeera.net/schedule, Mecca time as the page states")
-    session = new_session()
-
+def collect(session, previous_path: str) -> list[dict]:
+    """Every Al Jazeera programme worth publishing right now."""
     fresh: list[dict] = []
     try:
         fresh = parse(fetch(session, URL).text, utc_now().astimezone(MECCA))
     except Exception as exc:
         warn(f"Al Jazeera fetch failed: {exc}")
 
-    carried = load_previous(OUTPUT)
+    carried = carry_forward(previous_path)
     if carried:
-        log(f"  carried forward: {len(carried)} programme(s) already published")
+        log(f"  Al Jazeera carried forward: {len(carried)} already published")
     if not fresh and carried:
-        warn("Al Jazeera published nothing readable — the channel is running on "
-             "what was already in the file")
+        warn("Al Jazeera published nothing readable — the channel is running "
+             "on what was already in the guide")
 
     merged: dict[tuple, dict] = {}
     for event in carried + fresh:
         merged[(event["start"], event["stop"])] = event
 
     now = utc_now()
-    events = [e for e in merged.values()
-              if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
+    return [e for e in merged.values()
+            if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
 
+
+def emit(root: ET.Element, events: list[dict]) -> int:
+    """Declare the channel and write its programmes into an existing <tv>."""
     if not events:
-        # write_xml_atomic keeps the previous file rather than publishing an
-        # empty one, so a bad fetch costs nothing.
-        write_xml_atomic(ET.Element("tv"), OUTPUT,
-                         generator_name="Unified MENA EPG — Al Jazeera")
+        warn("Al Jazeera: nothing to publish, the channel is left out of this run")
         return 0
 
-    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — Al Jazeera"})
     channel = ET.SubElement(root, "channel", id=CHANNEL_ID)
     ET.SubElement(channel, "display-name", lang="ar").text = CHANNEL_AR
     ET.SubElement(channel, "display-name", lang="en").text = CHANNEL_EN
@@ -272,22 +278,12 @@ def build() -> int:
              f"without an icon rather than pointing at a missing file")
 
     total = 0
-    for ev in resolve_overlaps(sorted(events, key=lambda e: e["start"])):
-        add_programme(root, CHANNEL_ID, ev["start"], ev["stop"], ev["title"],
-                      ev.get("desc", ""), category="أخبار")
+    for event in resolve_overlaps(sorted(events, key=lambda e: e["start"])):
+        add_programme(root, CHANNEL_ID, event["start"], event["stop"],
+                      event["title"], event.get("desc", ""), category="أخبار")
         total += 1
 
     days = sorted({e["start"].astimezone(MECCA).strftime("%Y-%m-%d") for e in events})
     log(f"Al Jazeera: {total} programmes over {len(days)} days "
         f"({days[0]} .. {days[-1]}), no Live badge — the source marks none")
-
-    # One rolling-news day is a couple of dozen rows; the floor is set below
-    # that so a thin day still publishes, but an empty parse cannot.
-    write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=10,
-                     generator_name="Unified MENA EPG — Al Jazeera")
-    return 0
-
-
-if __name__ == "__main__":
-    import sys
-    sys.exit(run_main(build, OUTPUT))
+    return total

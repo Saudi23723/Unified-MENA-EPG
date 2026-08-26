@@ -1,8 +1,8 @@
-name: Verify Roya carries Al Jadeed
+name: Verify Roya carries Al Jadeed and Al Jazeera
 on:
   push:
     branches: [claude/arabic-channels-epg-99099k]
-    paths: ['.github/workflows/probe_jordan.yml', 'roya_jordan_epg.py', 'aljadeed_epg.py']
+    paths: ['.github/workflows/probe_jordan.yml', 'roya_jordan_epg.py', 'aljadeed_epg.py', 'aljazeera_epg.py']
 jobs:
   probe:
     runs-on: ubuntu-latest
@@ -28,8 +28,13 @@ jobs:
               cnt = sum(1 for p in root.findall("programme") if p.get("channel") == c.get("id"))
               print(f"   {c.get('id'):18s} {(n[0] or ''):16s} {cnt:5d}  {ic}")
           jd = [p for p in root.findall("programme") if p.get("channel") == "AlJadeed.lb"]
+          jz = [p for p in root.findall("programme") if p.get("channel") == "AlJazeera.qa"]
           print(f"\nAl Jadeed programmes: {len(jd)}")
+          print(f"Al Jazeera programmes: {len(jz)}")
           assert jd, "Al Jadeed is missing from the Jordan guide"
+          assert jz, "Al Jazeera is missing from the Jordan guide"
+          assert not [p for p in jz if "يعرض" in (p.find("title").text or "")], \
+              "Al Jazeera on-air label leaked into a title"
           for p in jd[:8]:
               st = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
               print(f"   {st.astimezone(BEIRUT):%m-%d %H:%M} Beirut  {p.find('title').text}")
@@ -58,9 +63,9 @@ jobs:
           r = ET.parse("unified_mena_epg.xml").getroot()
           ids = [c.get("id") for c in r.findall("channel")]
           print("unified channels:", len(ids), "| duplicates:", len(ids) - len(set(ids)))
-          print("AlJadeed.lb present:", "AlJadeed.lb" in ids)
-          print("AlJadeed programmes:",
-                sum(1 for p in r.findall("programme") if p.get("channel") == "AlJadeed.lb"))
+          for cid in ("AlJadeed.lb", "AlJazeera.qa"):
+              print(f"{cid} present:", cid in ids, "| programmes:",
+                    sum(1 for p in r.findall("programme") if p.get("channel") == cid))
           PY
       - name: Health check
         run: python health_check.py || true

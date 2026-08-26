@@ -3,15 +3,18 @@
 """
 Jordan — Roya TV / Roya News / Roya Sport / Roya Comedy / Roya Kitchen /
 Roya Kids / رؤيا فلسطين / إنتاجات رؤيا / كرفان / قناة الشرقية,
-plus الجديد (Al Jadeed, Lebanon).
+plus الجديد (Al Jadeed, Lebanon) and الجزيرة (Al Jazeera).
 
-Al Jadeed rides in this file rather than getting a link of its own: the
-schedule comes from aljadeed_epg.py, which reads the broadcaster's own
-dated pages and recovers their clock from the page itself. It is written
-here so the channel arrives on a link that is already in use. Because two
-workflows must never write one file, Al Jadeed has no workflow of its own
-and refreshes on this one's half-hourly run. If its site is unreachable,
-the rows already in this file are carried forward instead of vanishing.
+Those two ride in this file rather than getting links of their own. Each
+has its own reader — aljadeed_epg.py and aljazeera_epg.py — which knows
+its source and its clock; this generator calls them and writes their
+channels alongside Roya's, so they arrive on a link that is already in
+use. Because two workflows must never write one file, neither has a
+workflow of its own; both refresh on this one's half-hourly run. Both are
+read after the Roya channels, so a failure abroad can never cost the
+Jordanian channels their guide, and both carry their own rows forward from
+the file they are about to replace rather than vanishing when a source is
+unreachable.
 
 Source: Roya's own backend API (the same API roya.tv's website widget
 calls to render its schedule):
@@ -45,6 +48,7 @@ from epg_lib import (
 )
 
 import aljadeed_epg
+import aljazeera_epg
 
 OUTPUT = "roya_jordan_epg.xml"
 UTC = timezone.utc
@@ -172,14 +176,13 @@ def build() -> int:
     log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, "
         f"{total} programmes total, no Live badge (Roya publishes no live marker)")
 
-    # الجديد shares this file. It is read after Roya so a failure on the
-    # Lebanese site can never cost the Jordanian channels their guide, and
-    # it carries its own rows forward from the file it is about to replace.
-    try:
-        jadeed = aljadeed_epg.collect(session, OUTPUT)
-        total += aljadeed_epg.emit(root, jadeed)
-    except Exception as exc:
-        warn(f"Al Jadeed failed entirely, Roya is published without it: {exc}")
+    # الجديد and الجزيرة share this file. Each is read after Roya, and each
+    # inside its own try, so one broken source costs only its own channel.
+    for name, reader in (("Al Jadeed", aljadeed_epg), ("Al Jazeera", aljazeera_epg)):
+        try:
+            total += reader.emit(root, reader.collect(session, OUTPUT))
+        except Exception as exc:
+            warn(f"{name} failed entirely, the guide is published without it: {exc}")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Jordan (Roya)")
     return 0
