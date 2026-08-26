@@ -159,7 +159,12 @@ def add_programme(
     if category:
         clang = "ar" if re.search(r"[؀-ۿ]", category) else "en"
         ET.SubElement(p, "category", lang=clang).text = category
-    if live_eligible and is_live_now(start, stop, now):
+    # One rule for the Live category, wherever the badge came from: the
+    # caller may have badged the title itself (a source that declares a
+    # live broadcast), or asked for the on-air rule below. Either way the
+    # programme is tagged Live exactly once, so a player can filter on it
+    # on every guide rather than only on the ones that remembered.
+    if carries_live_badge(shown_title) or (live_eligible and is_live_now(start, stop, now)):
         ET.SubElement(p, "category", lang="en").text = "Live"
     if icon:
         ET.SubElement(p, "icon", src=icon)
@@ -388,6 +393,17 @@ def ltr(value: str) -> str:
 
 def with_live_badge(title: str, badge: str = LIVE_BADGE) -> str:
     return f"{title} {ltr(badge)}"
+
+
+def carries_live_badge(title: str) -> bool:
+    """Whether a title has already been marked as a live broadcast.
+
+    Any of the three colours counts. add_programme uses this to attach the
+    Live category, so a guide that badges a title never has to remember to
+    add the category too — the two can no longer drift apart.
+    """
+    return any(b in (title or "")
+               for b in (LIVE_BADGE, LIVE_BADGE_GREEN, LIVE_BADGE_PURPLE, LIVE_SUFFIX))
 
 
 def countdown_label(minutes) -> str:
