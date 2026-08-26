@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Jordan — Roya TV / Roya News / Roya Sport / Roya Comedy / Roya Kitchen /
-Roya Kids / رؤيا فلسطين / إنتاجات رؤيا / كرفان / قناة الشرقية,
+Jordan — the whole Roya network: Roya TV, News, Sport, Comedy, Kitchen,
+Kids, Documentaries, مجتمعي, حول العالم, أنا بحكيلك القصة, رؤيا فلسطين,
+إنتاجات رؤيا, كرفان, قناة الشرقية, قناة الشرقية نيوز, قناة العربي 2 and
+the rest — every channel Roya schedules,
 plus الجديد (Al Jadeed, Lebanon) and الجزيرة (Al Jazeera).
 
 Those two ride in this file rather than getting links of their own. Each
@@ -65,7 +67,13 @@ ROYA_LOGO_KEYS = {
     "Roya_RoyaKids": "roya_kids",
 }
 
-API = "https://backend.roya.tv/api/v01/channels/schedule-pagination"
+# Roya has two schedule endpoints. schedule-pagination, which this guide
+# used to read, returns ten channels. /channels/schedule returns the whole
+# network — twenty-seven at the last count, including Documentaries,
+# مجتمعي, حول العالم, أنا بحكيلك القصة and قناة العربي 2 — with the same
+# day_number parameter and the same programme fields, so reading the wider
+# one costs nothing and no channel has to be listed here by hand.
+API = "https://backend.roya.tv/api/v01/channels/schedule"
 
 DAYS_BACK = 1
 DAYS_FORWARD = 6
@@ -86,21 +94,55 @@ def slugify_id(name: str, site_id: str = "") -> str:
     return f"Roya_{n}" if n else f"Roya_Ch{site_id}"
 
 
+def channel_blocks(payload) -> list[dict]:
+    """Every channel object in a response, wherever the API nests it.
+
+    The two endpoints wrap their channels differently and have changed
+    shape before, so a channel is recognised by what it is — an object
+    carrying a programme list and a name — rather than by the path it
+    happens to sit at.
+    """
+    found: list[dict] = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            if "programs" in node and (node.get("title") or node.get("name")):
+                found.append(node)
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value)
+
+    walk(payload)
+    return found
+
+
+def channel_logo(xmltv_id: str, block: dict) -> str:
+    """The channel's own mark when Roya publishes one, else this repo's."""
+    for key in ("image", "logo", "icon", "thumbnail", "thumbnail_web", "channel_image"):
+        url = (block.get(key) or "").strip() if isinstance(block.get(key), str) else ""
+        if url.startswith("http"):
+            return url
+    key = ROYA_LOGO_KEYS.get(xmltv_id, "roya_tv")
+    return f"{LOGO_BASE}/{key}.png"
+
+
 def discover_channels(session) -> dict[str, dict]:
-    """channel_site_id -> {xmltv_id, name}"""
-    r = fetch(session, API, params={"day_number": 0})
-    data = r.json()
-    days = data.get("data", []) or []
-    if not days:
+    """channel_site_id -> {xmltv_id, name, logo}"""
+    blocks = channel_blocks(fetch(session, API, params={"day_number": 0}).json())
+    if not blocks:
         raise ValueError("empty channel-discovery response")
 
     channels: dict[str, dict] = {}
-    for ch in days[0].get("channel", []) or []:
-        site_id = ch.get("id")
-        name = (ch.get("title") or "").strip()
+    for block in blocks:
+        site_id = block.get("id")
+        name = (block.get("title") or block.get("name") or "").strip()
         if site_id is None or not name:
             continue
-        channels[str(site_id)] = {"xmltv_id": slugify_id(name, str(site_id)), "name": name}
+        xmltv_id = slugify_id(name, str(site_id))
+        channels[str(site_id)] = {"xmltv_id": xmltv_id, "name": name,
+                                  "logo": channel_logo(xmltv_id, block)}
 
     if not channels:
         raise ValueError("no channels discovered")
@@ -108,9 +150,7 @@ def discover_channels(session) -> dict[str, dict]:
 
 
 def fetch_day(session, day_number: int) -> list[dict]:
-    r = fetch(session, API, params={"day_number": day_number})
-    data = r.json()
-    return data.get("data", []) or []
+    return channel_blocks(fetch(session, API, params={"day_number": day_number}).json())
 
 
 def build() -> int:
@@ -126,8 +166,7 @@ def build() -> int:
         ET.SubElement(ch, "display-name", lang="ar").text = meta["name"]
         # Roya publishes a mark for only some of its channels; the rest take
         # the network mark rather than showing nothing.
-        key = ROYA_LOGO_KEYS.get(meta["xmltv_id"], "roya_tv")
-        ET.SubElement(ch, "icon", src=f"{LOGO_BASE}/{key}.png")
+        ET.SubElement(ch, "icon", src=meta["logo"])
 
     total = 0
     ok_days = 0
@@ -143,8 +182,7 @@ def build() -> int:
             continue
         ok_days += 1
 
-        for day_entry in days:
-            for ch_entry in day_entry.get("channel", []) or []:
+        for ch_entry in days:
                 site_id = str(ch_entry.get("id"))
                 meta = channels.get(site_id)
                 if not meta:
