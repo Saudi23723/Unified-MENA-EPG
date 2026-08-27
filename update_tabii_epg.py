@@ -147,6 +147,8 @@ STAND_IN_HOURS = 3
 STAND_IN_DAYS_AHEAD = 7
 STAND_IN_DAYS_BACK = 1
 STAND_IN_TITLE = "PPV — حسب المباراة"
+# A sliver left between two fixtures is noise on a guide, not information.
+STAND_IN_MIN = timedelta(minutes=5)
 STAND_IN_DESC = (
     "قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.\n"
     "تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — "
@@ -398,6 +400,34 @@ def load_previous(path: str) -> list[dict]:
     return out
 
 
+def subtract(start: datetime, stop: datetime,
+             taken: list[tuple[datetime, datetime]]
+             ) -> list[tuple[datetime, datetime]]:
+    """What is left of [start, stop) once every interval in `taken` is cut out.
+
+    A fixture rarely lines up with a three-hour boundary — one running
+    22:00 to 01:00 lands inside two of them — so a block it touches is
+    trimmed around it rather than dropped whole. Dropping whole is what
+    left an hour of "No information" between the last notice and the
+    match, which is the thing this is here to remove.
+
+    Returns zero, one or two pieces per interval cut, in order.
+    """
+    pieces = [(start, stop)]
+    for begin, end in taken:
+        nxt: list[tuple[datetime, datetime]] = []
+        for piece_start, piece_stop in pieces:
+            if end <= piece_start or begin >= piece_stop:
+                nxt.append((piece_start, piece_stop))
+                continue
+            if piece_start < begin:
+                nxt.append((piece_start, begin))
+            if end < piece_stop:
+                nxt.append((end, piece_stop))
+        pieces = nxt
+    return pieces
+
+
 def stand_in_blocks(number: int, real: list[dict], now: datetime) -> list[dict]:
     """A standing notice for the hours a PPV number has no fixture in.
 
@@ -413,9 +443,10 @@ def stand_in_blocks(number: int, real: list[dict], now: datetime) -> list[dict]:
     is deliberately not the "24/7" the always-on filler channels carry,
     because these channels are the opposite of always on.
 
-    A block is dropped the moment a real fixture touches it, so a named
-    match always wins and the notice only ever occupies hours that would
-    otherwise be blank. The day is cut on the three-hour mark against
+    A fixture always wins: the notice is cut away around it, so it only
+    ever occupies time that would otherwise be blank, and a block a
+    fixture lands in the middle of survives on both sides of it rather
+    than vanishing. The day is cut on the three-hour mark against
     Istanbul time, which is the clock tabii itself schedules on.
     """
     local = now.astimezone(ISTANBUL)
@@ -423,13 +454,16 @@ def stand_in_blocks(number: int, real: list[dict], now: datetime) -> list[dict]:
         - timedelta(days=STAND_IN_DAYS_BACK)
     last = first + timedelta(days=STAND_IN_DAYS_BACK + STAND_IN_DAYS_AHEAD)
 
-    taken = [(e["start"], e["stop"]) for e in real]
+    taken = sorted((e["start"], e["stop"]) for e in real)
     out: list[dict] = []
     start = first
     while start < last:
         stop = start + timedelta(hours=STAND_IN_HOURS)
-        if not any(start < end and begin < stop for begin, end in taken):
-            out.append({"number": number, "start": start, "stop": stop,
+        for piece_start, piece_stop in subtract(start, stop, taken):
+            if piece_stop - piece_start < STAND_IN_MIN:
+                continue
+            out.append({"number": number,
+                        "start": piece_start, "stop": piece_stop,
                         "title": STAND_IN_TITLE, "desc": STAND_IN_DESC,
                         "live": False, "stand_in": True})
         start = stop
