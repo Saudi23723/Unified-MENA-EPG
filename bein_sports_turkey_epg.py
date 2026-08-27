@@ -284,6 +284,78 @@ def fetch_xmltv_feed(session, url: str, label: str, now: datetime,
     return dict(per)
 
 
+# ------------------------------------------------- a source contradicting itself
+# No sports broadcast runs this long. Past it, a stop time is not a claim
+# about the programme, it is a placeholder the feed never filled in.
+IMPLAUSIBLE = timedelta(hours=4)
+# How much longer the outer programme must be before the inner one is read
+# as the feed listing the same slot twice rather than as a real segment.
+CONTAINED_RATIO = 3
+
+
+def drop_self_contradictions(events: list[dict], label: str,
+                             channel: str) -> list[dict]:
+    """Remove what a feed says twice, or says impossibly, about one slot.
+
+    Two defects, and they need opposite treatment — which is the whole
+    reason this is a pass of its own rather than a rule inside
+    resolve_overlaps.
+
+    An exact repeat is noise: epgshare listed beIN Sabah 09:00-10:30 twice
+    on the same channel, forty-two times over on HABER alone.
+
+    A short event sitting wholly inside a longer one is the feed listing
+    the same slot at two resolutions. "Maç Önü" 21:39-21:45 inside
+    "Le Havre - Monaco" 21:30-22:00 is not a pre-match show broadcast in
+    the middle of the match; it is the same slot twice. Kept, it cuts the
+    match to nine minutes, because resolve_overlaps quite correctly holds
+    the later start and yields the earlier stop.
+
+    But containment alone must not decide it. "Lille - PSG" 21:45-06:00
+    contains three later fixtures, and there the eight-hour block is the
+    defect, not the container — dropping what it swallows would delete
+    real matches and keep the junk. So an outer event is only allowed to
+    displace an inner one while its own length is still plausible;
+    anything longer is left for resolve_overlaps to cut back against
+    whatever starts next, which is exactly the right answer for it.
+    """
+    ordered = sorted(events, key=lambda e: (e["start"], e["stop"]))
+
+    seen: set[tuple] = set()
+    unique: list[dict] = []
+    duplicates = 0
+    for event in ordered:
+        key = (event["start"], event["stop"], event["title"])
+        if key in seen:
+            duplicates += 1
+            continue
+        seen.add(key)
+        unique.append(event)
+
+    kept: list[dict] = []
+    swallowed = 0
+    for event in unique:
+        span = event["stop"] - event["start"]
+        contained = any(
+            other is not event
+            and other["start"] <= event["start"]
+            and event["stop"] <= other["stop"]
+            and other["stop"] - other["start"] <= IMPLAUSIBLE
+            and other["stop"] - other["start"] >= span * CONTAINED_RATIO
+            for other in unique
+        )
+        if contained:
+            swallowed += 1
+            continue
+        kept.append(event)
+
+    if duplicates or swallowed:
+        log(f"    {channel}: {label} contradicted itself — "
+            f"{duplicates} exact repeat(s), {swallowed} slot(s) listed "
+            f"twice at different lengths")
+    return kept
+
+
 # ---------------------------------------------------------------------- merge
 def constant_offset(left: list[dict], right: list[dict]) -> int | None:
     """The single constant gap in minutes between two sources, if there is one.
@@ -361,6 +433,11 @@ def build() -> int:
             for cid in ch["share"] for ev in share.get(cid, [])
         }.values())
         from_open = openepg.get(ch.get("open", ""), [])
+
+        # Both feeds are aggregations and both contradict themselves; the
+        # broadcaster's own listing is left alone.
+        from_share = drop_self_contradictions(from_share, "epgshare", name)
+        from_open = drop_self_contradictions(from_open, "open-epg", name)
 
         # open-epg is read as Istanbul wall-clock because it declares an
         # offset it does not keep. If it is ever corrected, that override
