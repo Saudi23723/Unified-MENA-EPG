@@ -1,0 +1,28 @@
+name: Probe tabii forward sources
+
+# Research only, and deliberately not on main.
+#
+# It runs when the probe itself is pushed to the branch it lives on, so the
+# answer comes from a runner that these Turkish hosts actually serve. It
+# writes no file, commits nothing, and has read-only permissions; it is
+# deleted once the question it was written to answer is answered.
+on:
+  push:
+    paths:
+      - "tools/probe_tabii_forward.py"
+      - ".github/workflows/probe_tabii_forward.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python tools/probe_tabii_forward.py
