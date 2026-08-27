@@ -32,9 +32,17 @@ on:
       - "Update beIN Sports Türkiye EPG"
     types: [completed]
 
-  # Kept as a safety net, not as the mechanism.
+  # Kept as a safety net, not as the mechanism — and now priced like one.
+  #
+  # At */15 this was 96 runs a day on top of the several hundred the
+  # workflow_run trigger above already produces, in a repository whose
+  # scheduled runs GitHub is visibly dropping: the Combined EPG workflow,
+  # on a twice-daily cron, did not fire once between 18 and 27 August, and
+  # beIN Türkiye lost three consecutive runs on the morning of the 27th.
+  # Scheduling pressure is the thing being reduced, so the net that is
+  # never the mechanism costs an hour instead of a quarter of one.
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "0 * * * *"
   push:
     branches:
       - main
