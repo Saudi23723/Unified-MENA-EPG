@@ -50,6 +50,17 @@ on the day it ran.
 Live badge: on the PPV channels only, and only where the source sets
 isLiveBroadcast. TRT publishes no live marker, so the linear channel
 carries none.
+
+The ten numbers also carry a standing notice in the hours no fixture
+covers. They are dark most of the time and nothing schedules them before
+the morning of the broadcast, so without it a player shows an unbroken
+"No information" strip and some will not let a reminder or a recording be
+set at all. The notice says the channel is PPV and that what is on
+depends on the fixture, and its description says in as many words that it
+is not a schedule; it is not the "24/7" the always-on filler channels
+carry, because these channels are the opposite of always on. A real
+fixture always displaces it, and the run log counts real and stand-in
+apart so a day the fixtures vanish cannot look healthy.
 """
 
 from __future__ import annotations
@@ -58,6 +69,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import xml.etree.ElementTree as ET
 
@@ -127,6 +139,21 @@ XMLTV_TIME = "%Y%m%d%H%M%S %z"
 # Keep the file to what a guide can sensibly show.
 KEEP_BEHIND = timedelta(days=1)
 KEEP_AHEAD = timedelta(days=14)
+
+# The standing notice on the PPV numbers. See stand_in_blocks below for
+# why it exists and what it is careful not to claim.
+ISTANBUL = ZoneInfo("Europe/Istanbul")
+STAND_IN_HOURS = 3
+STAND_IN_DAYS_AHEAD = 7
+STAND_IN_DAYS_BACK = 1
+STAND_IN_TITLE = "PPV — حسب المباراة"
+# A sliver left between two fixtures is noise on a guide, not information.
+STAND_IN_MIN = timedelta(minutes=5)
+STAND_IN_DESC = (
+    "قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.\n"
+    "تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — "
+    "وهذا الحقل ليس موعد برنامج."
+)
 
 
 def parse_utc(value) -> datetime | None:
@@ -373,6 +400,76 @@ def load_previous(path: str) -> list[dict]:
     return out
 
 
+def subtract(start: datetime, stop: datetime,
+             taken: list[tuple[datetime, datetime]]
+             ) -> list[tuple[datetime, datetime]]:
+    """What is left of [start, stop) once every interval in `taken` is cut out.
+
+    A fixture rarely lines up with a three-hour boundary — one running
+    22:00 to 01:00 lands inside two of them — so a block it touches is
+    trimmed around it rather than dropped whole. Dropping whole is what
+    left an hour of "No information" between the last notice and the
+    match, which is the thing this is here to remove.
+
+    Returns zero, one or two pieces per interval cut, in order.
+    """
+    pieces = [(start, stop)]
+    for begin, end in taken:
+        nxt: list[tuple[datetime, datetime]] = []
+        for piece_start, piece_stop in pieces:
+            if end <= piece_start or begin >= piece_stop:
+                nxt.append((piece_start, piece_stop))
+                continue
+            if piece_start < begin:
+                nxt.append((piece_start, begin))
+            if end < piece_stop:
+                nxt.append((end, piece_stop))
+        pieces = nxt
+    return pieces
+
+
+def stand_in_blocks(number: int, real: list[dict], now: datetime) -> list[dict]:
+    """A standing notice for the hours a PPV number has no fixture in.
+
+    These ten channels are dark most of the time and no source says what
+    they will carry before the morning of the broadcast, so a player shows
+    them as an unbroken "No information" strip — and some players will not
+    let you set a reminder or start a recording on a channel with nothing
+    under the cursor.
+
+    **This does not claim a programme.** The title says the channel is
+    PPV and that what is on depends on the fixture; the description says
+    in as many words that it is not a schedule and why there is none. It
+    is deliberately not the "24/7" the always-on filler channels carry,
+    because these channels are the opposite of always on.
+
+    A fixture always wins: the notice is cut away around it, so it only
+    ever occupies time that would otherwise be blank, and a block a
+    fixture lands in the middle of survives on both sides of it rather
+    than vanishing. The day is cut on the three-hour mark against
+    Istanbul time, which is the clock tabii itself schedules on.
+    """
+    local = now.astimezone(ISTANBUL)
+    first = local.replace(hour=0, minute=0, second=0, microsecond=0) \
+        - timedelta(days=STAND_IN_DAYS_BACK)
+    last = first + timedelta(days=STAND_IN_DAYS_BACK + STAND_IN_DAYS_AHEAD)
+
+    taken = sorted((e["start"], e["stop"]) for e in real)
+    out: list[dict] = []
+    start = first
+    while start < last:
+        stop = start + timedelta(hours=STAND_IN_HOURS)
+        for piece_start, piece_stop in subtract(start, stop, taken):
+            if piece_stop - piece_start < STAND_IN_MIN:
+                continue
+            out.append({"number": number,
+                        "start": piece_start, "stop": piece_stop,
+                        "title": STAND_IN_TITLE, "desc": STAND_IN_DESC,
+                        "live": False, "stand_in": True})
+        start = stop
+    return out
+
+
 def build() -> int:
     log("TABII SPOR EPG | TRT for the linear channel, Spor Ekranı for the ten PPV numbers")
     session = new_session()
@@ -444,6 +541,16 @@ def build() -> int:
     for event in events:
         per_channel.setdefault(event["number"], []).append(event)
 
+    # The PPV numbers only. TRT schedules the linear channel a week out,
+    # so it never needs one and must never be given one.
+    real_ppv = sum(len(per_channel.get(n, [])) for n in PPV_NUMBERS)
+    stand_ins = 0
+    for number in PPV_NUMBERS:
+        blocks = stand_in_blocks(number, per_channel.get(number, []), now)
+        if blocks:
+            per_channel.setdefault(number, []).extend(blocks)
+            stand_ins += len(blocks)
+
     total = 0
     badged = 0
     for number in ALL_NUMBERS:
@@ -459,16 +566,27 @@ def build() -> int:
                           title, event.get("desc", ""), category="Spor")
             total += 1
 
-    live_numbers = sorted(n for n in per_channel if n != LINEAR)
+    live_numbers = sorted(n for n in PPV_NUMBERS
+                          if any(not e.get("stand_in")
+                                 for e in per_channel.get(n, [])))
     days = sorted({e["start"].strftime("%Y-%m-%d") for e in events})
+    # Real and stand-in are counted apart on purpose: a run where the
+    # fixtures vanish must not look healthy because the notice filled in
+    # behind them.
     log(f"tabii Spor: {total} programmes over {len(days)} days "
         f"({days[0]} .. {days[-1]}), {badged} badged Live | "
         f"linear {len(per_channel.get(LINEAR, []))} | "
-        f"PPV on {live_numbers or 'no channel today'}")
+        f"PPV real {real_ppv} on {live_numbers or 'no channel today'} | "
+        f"PPV stand-in {stand_ins}")
+    if not real_ppv:
+        warn("no PPV fixture from any source today — the ten numbers are "
+             "carrying the standing notice alone")
 
-    # The linear channel alone is a week of TRT's grid, so the floor is
-    # about that: the PPV numbers come and go with the fixtures and are
-    # not something to hold the file to.
+    # The floor is still about the linear channel alone, which is a week
+    # of TRT's grid. It is deliberately not raised to account for the
+    # standing notice: that notice is generated here and would always
+    # clear any floor set against it, so it would turn the guard into a
+    # test this file cannot fail.
     write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=20,
                      generator_name="Unified MENA EPG — tabii Spor")
     return 0
