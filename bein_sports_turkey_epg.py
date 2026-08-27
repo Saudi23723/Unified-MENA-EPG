@@ -275,7 +275,8 @@ def merge_events(primary: list[dict], filler: list[dict]) -> list[dict]:
 
 
 def build() -> int:
-    log("beIN SPORTS TÜRKİYE EPG | tvyayinakisi.com BroadcastEvent JSON-LD, epgshare01 TR as filler")
+    log("beIN SPORTS TÜRKİYE EPG | tvyayinakisi.com BroadcastEvent JSON-LD, "
+        "epgshare01 TR and open-epg turkey1 as filler")
     session = new_session()
     now = utc_now()
 
