@@ -145,6 +145,24 @@ LOGO_KEYS = {
 LD_JSON_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 # Turkish for "live". Spelled with either i so an upper-cased title still
 # matches — Python's case folding does not map I to the dotless ı.
+#
+# This is read from tvyayinakisi and from nowhere else. It is the
+# broadcaster's own marker on its own listing: "Bein Sabah / Canlı" is
+# beIN saying that programme is live, which is the only basis this guide
+# has for saying so too.
+#
+# epgshare and open-epg are aggregations, and this file already carries
+# the evidence that they cannot be trusted at that resolution — one
+# stamps Istanbul time and calls it UTC, both contradict themselves about
+# the same slot, and both republish a replay under the name of the match
+# it is a replay of. A badge from either would be a guess wearing the
+# same blue circle as a fact, so they never set it.
+#
+# The badge's absence therefore means only "no source we trust said this
+# is live", not "this is a recording". On a day beIN SPORTS 1 to 5 run
+# archive loops — which the source labels 'Arşiv' and which is what they
+# were doing when this was written — nothing on them is badged, and that
+# is the correct answer rather than a missing one.
 LIVE_RE = re.compile(r"canl[ıiİI]\b", re.IGNORECASE)
 XMLTV_TS_RE = re.compile(r"^(\d{14})(?:\s*([+-]\d{4}))?$")
 
@@ -279,7 +297,8 @@ def fetch_xmltv_feed(session, url: str, label: str, now: datetime,
             "start": start,
             "stop": stop,
             "title": title,
-            "live": bool(LIVE_RE.search(title)),
+            # Never live from here. See the note above LIVE_RE.
+            "live": False,
         })
     return dict(per)
 
