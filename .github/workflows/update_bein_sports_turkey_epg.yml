@@ -2,8 +2,13 @@ name: Update beIN Sports Türkiye EPG
 
 on:
   workflow_dispatch:
+  # Hourly, not two-hourly. On 27 August this guide's 01:25, 03:25 and
+  # 05:25 runs were all dropped and the published file stood seven hours
+  # old; at twelve runs a day, three lost in a row is a quarter of them.
+  # The twelve added here are far fewer than the seventy-two taken off the
+  # merge in the same change.
   schedule:
-    - cron: "25 */2 * * *"
+    - cron: "25 * * * *"
   push:
     branches:
       - main
