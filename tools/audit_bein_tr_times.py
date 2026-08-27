@@ -73,26 +73,33 @@ def main() -> int:
               f"open={len(from_open)}")
 
         # --- agreement on time, per pair of sources ---------------------
+        #
+        # Only titles that occur exactly once on BOTH sides are compared.
+        # A channel that fills its day with its own name repeated, as MAX 1
+        # and 2 do, otherwise pairs every copy with every other and returns
+        # the whole spread of the day, which says nothing about the clock.
         labels = [k for k, v in by_source.items() if v]
         for i, a in enumerate(labels):
             for b in labels[i + 1:]:
-                index = defaultdict(list)
-                for ev in by_source[b]:
-                    index[ev["title"].strip().lower()].append(ev["start"])
-                deltas = []
-                for ev in by_source[a]:
-                    for other in index.get(ev["title"].strip().lower(), []):
-                        deltas.append(
-                            round((other - ev["start"]).total_seconds() / 60))
-                if not deltas:
-                    print(f"    {a} vs {b}: no shared title to compare")
+                left = Counter(ev["title"].strip().lower() for ev in by_source[a])
+                right = Counter(ev["title"].strip().lower() for ev in by_source[b])
+                unique = {t for t in left if left[t] == 1 and right.get(t) == 1}
+                if not unique:
+                    print(f"    {a} vs {b}: no title occurs once on both sides")
                     continue
+                at = {ev["title"].strip().lower(): ev["start"]
+                      for ev in by_source[a]}
+                bt = {ev["title"].strip().lower(): ev["start"]
+                      for ev in by_source[b]}
+                deltas = [round((bt[t] - at[t]).total_seconds() / 60)
+                          for t in unique]
                 counts = Counter(deltas)
                 shown = ", ".join(f"{d:+d}min x{n}"
                                   for d, n in counts.most_common(4))
-                verdict = ("AGREE" if set(counts) == {0} else
-                           "OFFSET" if len(counts) == 1 else "MIXED")
-                print(f"    {a} vs {b}: {len(deltas)} shared title(s) "
+                verdict = ("SAME CLOCK" if set(counts) == {0} else
+                           "CONSTANT OFFSET — BUG" if len(counts) == 1 else
+                           "no single offset")
+                print(f"    {a} vs {b}: {len(deltas)} unique shared title(s) "
                       f"-> {verdict}  [{shown}]")
 
         # --- the merged timeline, with where each event came from -------
@@ -101,6 +108,26 @@ def main() -> int:
         for label in ("open-epg", "epgshare", "tvyayinakisi"):
             for ev in by_source[label]:
                 origin[(ev["start"], ev["title"])] = label
+
+        # --- what the sources themselves published, before merging -----
+        #
+        # A thirty-minute Premier League match is the sign of a stop that
+        # was cut back, so the raw events are shown wherever two of them
+        # from the SAME source overlap: that is the source contradicting
+        # itself, and no merge rule can repair it.
+        for label, evs in by_source.items():
+            ordered = sorted(evs, key=lambda e: e["start"])
+            clashes = [(x, y) for x, y in zip(ordered, ordered[1:])
+                       if y["start"] < x["stop"]]
+            if clashes:
+                print(f"    {label}: {len(clashes)} self-overlap(s), "
+                      f"first three:")
+                for x, y in clashes[:3]:
+                    print(f"        {x['start'].astimezone(TR):%m-%d %H:%M}"
+                          f"-{x['stop'].astimezone(TR):%H:%M} {x['title'][:34]}")
+                    print(f"        {y['start'].astimezone(TR):%m-%d %H:%M}"
+                          f"-{y['stop'].astimezone(TR):%H:%M} {y['title'][:34]}"
+                          f"   <-- starts before the one above ends")
 
         print(f"    merged {len(merged)} event(s); first day shown:")
         first_day = None
