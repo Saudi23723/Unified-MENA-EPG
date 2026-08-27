@@ -1,0 +1,25 @@
+name: Verify live flags schedule nothing
+
+# Research only, and deliberately not on main. Read-only, commits
+# nothing, deleted once the property is asserted.
+on:
+  push:
+    paths:
+      - "tools/verify_live_flags.py"
+      - "bein_sports_turkey_epg.py"
+      - ".github/workflows/verify_live_flags.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python tools/verify_live_flags.py
