@@ -88,7 +88,10 @@ def main() -> int:
     raw_stamps(session)
 
     share = g.fetch_xmltv_feed(session, g.EPGSHARE_URL, "epgshare01", now)
-    openepg = g.fetch_xmltv_feed(session, g.OPENEPG_URL, "open-epg", now)
+    # assume_local mirrors what build() does, so this measures the fix
+    # rather than the state it was written to correct.
+    openepg = g.fetch_xmltv_feed(session, g.OPENEPG_URL, "open-epg", now,
+                                 assume_local=True)
 
     for ch in g.CHANNELS:
         name, slug = ch["name"], ch["slug"]

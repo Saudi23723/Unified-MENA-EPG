@@ -31,6 +31,23 @@ three two days ahead and is what closes that gap.
 
 open-epg is also the reason beIN SPORTS 5 is here at all — see below.
 
+open-epg's clock needs an override. It stamps Istanbul wall-clock and
+labels it +0000:
+
+  epgshare01   start="20260827094500 +0300"   the offset it keeps
+  open-epg     start="20260827000000 +0000"   Istanbul midnight, called UTC
+
+Read at face value every open-epg programme lands three hours late, which
+looks like an ordinary schedule and is not one. Measured against
+tvyayinakisi on titles the two share and that occur once on each side, the
+gap was +180 minutes in all eighteen comparisons across beIN SPORTS 1, 3,
+MAX 1 and HABER, with no exception; epgshare showed no such constant, so
+this is open-epg alone. Its timestamps are therefore read as Istanbul
+wall-clock and the declared offset is ignored.
+
+That override is only correct while the feed stays wrong, so build()
+measures the same gap on every run and warns if a constant reappears.
+
 Why not Digiturk, which this generator used to read: digiturk.com.tr now
 answers 403 from its edge gateway (Microsoft-Azure-Application-Gateway) to
 every request, the plain human TV-guide page included, so the guide it
@@ -198,7 +215,14 @@ def fetch_tvy_channel(session, slug: str, now: datetime) -> list[dict]:
 
 
 # ----------------------------------------------------------------- epgshare01
-def parse_xmltv_time(value: str | None) -> datetime | None:
+def parse_xmltv_time(value: str | None,
+                     assume_local: bool = False) -> datetime | None:
+    """An XMLTV timestamp, as UTC.
+
+    assume_local reads the fourteen digits as Istanbul wall-clock and
+    ignores whatever offset the feed declares. It exists for one feed that
+    declares an offset it does not keep — see OPENEPG_URL below.
+    """
     m = XMLTV_TS_RE.match((value or "").strip())
     if not m:
         return None
@@ -207,7 +231,7 @@ def parse_xmltv_time(value: str | None) -> datetime | None:
     except ValueError:
         return None
     offset = m.group(2)
-    if offset:
+    if offset and not assume_local:
         sign = 1 if offset[0] == "+" else -1
         dt = dt.replace(tzinfo=timezone(
             sign * timedelta(hours=int(offset[1:3]), minutes=int(offset[3:5]))
@@ -217,8 +241,8 @@ def parse_xmltv_time(value: str | None) -> datetime | None:
     return dt.astimezone(UTC)
 
 
-def fetch_xmltv_feed(session, url: str, label: str,
-                     now: datetime) -> dict[str, list[dict]]:
+def fetch_xmltv_feed(session, url: str, label: str, now: datetime,
+                     assume_local: bool = False) -> dict[str, list[dict]]:
     """An XMLTV feed, keyed by its own channel ids.
 
     Never raises. Both feeds read through this are filler, so one of them
@@ -241,8 +265,8 @@ def fetch_xmltv_feed(session, url: str, label: str,
 
     for pr in root.findall("programme"):
         cid = pr.get("channel")
-        start = parse_xmltv_time(pr.get("start"))
-        stop = parse_xmltv_time(pr.get("stop"))
+        start = parse_xmltv_time(pr.get("start"), assume_local)
+        stop = parse_xmltv_time(pr.get("stop"), assume_local)
         if not cid or start is None or stop is None or stop <= start:
             continue
         if not in_window(start, now):
@@ -261,6 +285,36 @@ def fetch_xmltv_feed(session, url: str, label: str,
 
 
 # ---------------------------------------------------------------------- merge
+def constant_offset(left: list[dict], right: list[dict]) -> int | None:
+    """The single constant gap in minutes between two sources, if there is one.
+
+    Only titles occurring exactly once on both sides are compared: a
+    channel that fills its day with its own name repeated would otherwise
+    pair every copy with every other and return the spread of a day.
+
+    None means they either agree, share nothing comparable, or disagree in
+    no single way — all three are normal. A single non-zero answer is not:
+    it means one of them is being read on the wrong clock.
+    """
+    lc = defaultdict(int)
+    rc = defaultdict(int)
+    for ev in left:
+        lc[ev["title"].strip().lower()] += 1
+    for ev in right:
+        rc[ev["title"].strip().lower()] += 1
+    shared = [t for t in lc if lc[t] == 1 and rc.get(t) == 1]
+    if len(shared) < 3:
+        return None
+
+    lt = {ev["title"].strip().lower(): ev["start"] for ev in left}
+    rt = {ev["title"].strip().lower(): ev["start"] for ev in right}
+    deltas = {round((rt[t] - lt[t]).total_seconds() / 60) for t in shared}
+    if len(deltas) != 1:
+        return None
+    only = deltas.pop()
+    return only or None
+
+
 def merge_events(primary: list[dict], filler: list[dict]) -> list[dict]:
     """Primary wins outright; a filler event survives only if it occupies
     time the primary source left empty."""
@@ -284,7 +338,8 @@ def build() -> int:
     if share:
         log(f"epgshare01 filler loaded: {len(share)} channels")
 
-    openepg = fetch_xmltv_feed(session, OPENEPG_URL, "open-epg turkey1 feed", now)
+    openepg = fetch_xmltv_feed(session, OPENEPG_URL, "open-epg turkey1 feed",
+                               now, assume_local=True)
     if openepg:
         log(f"open-epg filler loaded: {len(openepg)} channels")
 
@@ -306,6 +361,18 @@ def build() -> int:
             for cid in ch["share"] for ev in share.get(cid, [])
         }.values())
         from_open = openepg.get(ch.get("open", ""), [])
+
+        # open-epg is read as Istanbul wall-clock because it declares an
+        # offset it does not keep. If it is ever corrected, that override
+        # becomes the bug, so the disagreement is measured every run
+        # rather than assumed to stay put.
+        drift = constant_offset(primary, from_open)
+        if drift:
+            warn(f"{name}: open-epg disagrees with tvyayinakisi by a "
+                 f"constant {drift:+d} minutes on every title they share. "
+                 f"The assume_local override in fetch_xmltv_feed is meant "
+                 f"to leave no constant gap — check whether open-epg has "
+                 f"started keeping the offset it declares.")
 
         # Each source is offered only the time the ones above it left
         # empty, so precedence runs broadcaster, then epgshare, then
