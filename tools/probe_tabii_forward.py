@@ -1,158 +1,100 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Look for a source that lists tabii Spor 1-10 *ahead of today*.
+Read Spor Ekranı exactly the way update_tabii_epg.py reads it, and print
+every tabii broadcast it publishes with the date it falls on.
 
-The ten PPV numbers currently come from Spor Ekranı, which renders the
-current day and only the current day, so those channels are empty from
-tomorrow on while the linear channel carries a full week. This probe asks
-every candidate the same two questions:
+The first pass of this probe found "tabii Spor 6" sitting next to
+2026-08-28 on the homepage, which contradicts what the generator's own
+docstring says — that the site renders the current day and only the
+current day. That claim is the reason the numbered channels are empty
+from tomorrow on, so it is worth settling with the parser itself rather
+than with a proximity heuristic.
 
-  1. does it answer at all, from a runner in a country these hosts serve?
-  2. does its answer name a numbered tabii channel on a date after today?
-
-It writes nothing and publishes nothing. It is run from a branch, prints
-what it found, and is deleted once the answer is known.
+Same import path as the generator, so whatever it would collect is what
+is printed here. Writes nothing, commits nothing.
 """
 
 from __future__ import annotations
 
-import json
-import re
 import sys
-from datetime import date, datetime, timedelta
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 
-import requests
+from epg_lib import new_session
+from update_tabii_epg import (
+    LD_JSON_RE, SPOREKRANI_URL, fetch, fetch_sporekrani, tabii_numbers,
+)
 
-TODAY = date.today()
-TOMORROW = TODAY + timedelta(days=1)
-DAY_AFTER = TODAY + timedelta(days=2)
-
-UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/127.0 Safari/537.36")
-
-LD_JSON_RE = re.compile(
-    r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', re.S)
-NEXT_DATA_RE = re.compile(
-    r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', re.S)
-# "tabii Spor 3" / "tabii spor3" / "Tabii Spor 10"
-NUMBERED_RE = re.compile(r"tab(?:i|İ|ı)i?\s*spor\s*(\d{1,2})", re.I)
-ISO_DATE_RE = re.compile(r"(20\d{2}-\d{2}-\d{2})")
-
-
-def candidates() -> list[tuple[str, str]]:
-    """(label, url). Grouped by the idea being tested, not by host."""
-    d1, d2 = TOMORROW.isoformat(), DAY_AFTER.isoformat()
-    tr1 = TOMORROW.strftime("%d-%m-%Y")
-    out = [
-        # Spor Ekranı — does any path give a day other than today?
-        ("sporekrani home",        "https://www.sporekrani.com/"),
-        ("sporekrani day path",    f"https://www.sporekrani.com/home/day/{d1}"),
-        ("sporekrani day +2",      f"https://www.sporekrani.com/home/day/{d2}"),
-        ("sporekrani ?date",       f"https://www.sporekrani.com/?date={d1}"),
-        ("sporekrani ?gun",        f"https://www.sporekrani.com/?gun={d1}"),
-        ("sporekrani /yarin",      "https://www.sporekrani.com/yarin"),
-        ("sporekrani tr date",     f"https://www.sporekrani.com/home/day/{tr1}"),
-        ("sporekrani api day",     f"https://www.sporekrani.com/api/day/{d1}"),
-
-        # tabii itself
-        ("tabii tr live",          "https://www.tabii.com/tr/live"),
-        ("tabii tr spor",          "https://www.tabii.com/tr/spor"),
-        ("tabii epg api",          "https://eu1.tabii.com/apigateway/epg/channels"),
-
-        # TRT — do numbered slugs exist?
-        ("trt tabii-spor-1",       "https://www.trtspor.com.tr/yayin-akisi/tabii-spor-1"),
-        ("trt tabii-spor-3",       "https://www.trtspor.com.tr/yayin-akisi/tabii-spor-3"),
-        ("trt yayin-akisi index",  "https://www.trtspor.com.tr/yayin-akisi"),
-
-        # Other Turkish guides
-        ("tvyayinakisi tabii-1",   "https://www.tvyayinakisi.com/tabii-spor-1-yayin-akisi/"),
-        ("canlitv tabii spor 1",   "https://www.canlitv.com/tabii-spor-1"),
-        ("programtv",              "https://www.programtv.com.tr/"),
-        ("sporx tv rehberi",       "https://www.sporx.com/tv-rehberi/"),
-
-        # Fixture lists that sometimes name the broadcaster with its number
-        ("mackolik",               "https://www.mackolik.com/"),
-        ("sahadan program",        "https://www.sahadan.com/"),
-    ]
-    return out
-
-
-def dates_near(text: str) -> set[str]:
-    """Every ISO date in the text that is tomorrow or later."""
-    found = set()
-    for raw in ISO_DATE_RE.findall(text):
-        try:
-            when = datetime.strptime(raw, "%Y-%m-%d").date()
-        except ValueError:
-            continue
-        if when >= TOMORROW:
-            found.add(raw)
-    return found
-
-
-def forward_numbered(text: str) -> list[str]:
-    """Numbered-tabii mentions that sit near a date after today.
-
-    A page can mention "tabii Spor 5" for a match tonight and a date for
-    next week in an unrelated banner; requiring the two within the same
-    1500-character window is a crude but honest way to ask whether the
-    page really schedules a numbered channel ahead.
-    """
-    hits = []
-    for match in NUMBERED_RE.finditer(text):
-        window = text[max(0, match.start() - 1500): match.end() + 1500]
-        ahead = dates_near(window)
-        if ahead:
-            hits.append(f"{match.group(0).strip()} near {sorted(ahead)[:3]}")
-    return hits[:8]
-
-
-def structured_dates(text: str) -> set[str]:
-    """Dates inside JSON-LD / __NEXT_DATA__ only — no page furniture."""
-    blobs = LD_JSON_RE.findall(text) + NEXT_DATA_RE.findall(text)
-    found = set()
-    for blob in blobs:
-        try:
-            json.loads(blob)
-        except Exception:
-            pass
-        found |= dates_near(blob)
-    return found
-
-
-def probe(session: requests.Session, label: str, url: str) -> None:
-    try:
-        response = session.get(url, timeout=25, headers={"User-Agent": UA})
-    except Exception as exc:
-        print(f"  {label:<24} ERROR  {type(exc).__name__}: {exc}")
-        return
-
-    text = response.text or ""
-    numbered = sorted({int(n) for n in NUMBERED_RE.findall(text)})
-    ahead_all = sorted(dates_near(text))[:5]
-    ahead_structured = sorted(structured_dates(text))[:5]
-    forward = forward_numbered(text)
-
-    print(f"  {label:<24} http={response.status_code} "
-          f"bytes={len(response.content)}")
-    print(f"      numbered tabii channels named : {numbered or '—'}")
-    print(f"      dates >= tomorrow, structured : {ahead_structured or '—'}")
-    print(f"      dates >= tomorrow, anywhere   : {ahead_all or '—'}")
-    if forward:
-        print(f"      *** NUMBERED CHANNEL NEAR A FUTURE DATE ***")
-        for hit in forward:
-            print(f"          {hit}")
+TR = timezone(timedelta(hours=3))
 
 
 def main() -> int:
-    print(f"tabii forward-source probe | today={TODAY} tomorrow={TOMORROW}")
-    print("Looking for: a numbered tabii channel scheduled after today.\n")
-    session = requests.Session()
-    for label, url in candidates():
-        print(f"{url}")
-        probe(session, label, url)
-        print()
+    today = datetime.now(TR).date()
+    print(f"Spor Ekranı, read with the generator's own parser | "
+          f"today={today} (TR)\n")
+
+    session = new_session()
+    events = fetch_sporekrani(session)
+
+    if not events:
+        print("The parser collected nothing at all.")
+    else:
+        by_day: dict = defaultdict(list)
+        for event in events:
+            by_day[event["start"].astimezone(TR).date()].append(event)
+
+        print(f"{len(events)} tabii broadcast(s), by day:\n")
+        for day in sorted(by_day):
+            when = "TODAY" if day == today else (
+                "TOMORROW" if day == today + timedelta(days=1) else
+                f"+{(day - today).days}d" if day > today else "past")
+            print(f"  {day}  ({when})  {len(by_day[day])} broadcast(s)")
+            for event in sorted(by_day[day], key=lambda e: e["start"]):
+                local = event["start"].astimezone(TR)
+                print(f"      tabii Spor {event['number']:<2} "
+                      f"{local:%H:%M}  {event['title']}")
+            print()
+
+    # How much of the page never reaches the parser: every broadcast the
+    # site publishes, tabii or not, with the day it belongs to. If future
+    # days are present here but absent above, the limit is our filter; if
+    # they are absent here too, the limit is the source.
+    print("-" * 70)
+    print("Every broadcast on the page, by day, whatever the channel:\n")
+
+    import json
+    page = fetch(session, SPOREKRANI_URL).text
+    days: dict = defaultdict(int)
+    tabii_days: dict = defaultdict(int)
+    for block in LD_JSON_RE.findall(page):
+        try:
+            payload = json.loads(block)
+        except Exception:
+            continue
+        for event in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(event, dict):
+                continue
+            slot = event.get("broadcastOfEvent")
+            slot = slot if isinstance(slot, dict) else {}
+            raw = slot.get("startDate")
+            if not isinstance(raw, str):
+                continue
+            try:
+                start = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            day = start.astimezone(TR).date()
+            days[day] += 1
+            if tabii_numbers(event):
+                tabii_days[day] += 1
+
+    for day in sorted(days):
+        mark = "TODAY" if day == today else (
+            "TOMORROW" if day == today + timedelta(days=1) else
+            f"+{(day - today).days}d" if day > today else "past")
+        print(f"  {day}  ({mark:<8}) {days[day]:>4} broadcast(s), "
+              f"{tabii_days.get(day, 0)} on tabii")
     return 0
 
 
