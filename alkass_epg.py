@@ -19,10 +19,30 @@ The page carries one day, in English only, so that is what this guide
 publishes: no Arabic titles, no three days ahead. That is the cost of
 reading the source that is actually right.
 
+What this guide cannot fix, and what was checked before saying so.
+
+Alkass publishes one schedule across three channels. Read straight off
+the tg-content grid on 27 August, the opening rows were identical for
+one, four and eight; for two, five and seven; and for three and six —
+and five and seven were the same table byte for byte. The logo column
+and the tables pair correctly, nine of each, so this is the broadcaster
+repeating itself and not a parser losing its place.
+
+?day=next returns the same page, to the byte, same sha1. There is no
+tomorrow to fetch; the day switcher is decorative.
+
+Nothing better exists. epgshare's UAE feed lists Alkass One HD, Two HD,
+Three and Four with four days each, which looked like the answer until
+it was compared against the broadcaster on the day both cover: Alkass 2,
+3 and 4 matched on nought titles out of eleven-to-thirteen shared start
+times, and what they actually carry is The Best Defense, Farming the
+Wild and American Airgunner — an American hunting channel wearing the
+name. Alkass One agreed on three titles of twelve. Reading it would
+replace a repeated schedule with a wrong one.
+
 Parsing: the page renders the same guide twice. The collapsible cg1..cg8
-list near the top is broken — it repeats whole channels (1=4=8, 2=5=7,
-3=6) and duplicates rows inside a table — so it is ignored. The grid
-under <div class="tg-content"> is the real one: a logo column
+list near the top duplicates rows inside a table, so it is ignored. The
+grid under <div class="tg-content"> is read instead: a logo column
 (one.png … eight.png, then online.png for the streaming service, which
 publishes no schedule) beside one <table ... margin-right:10px> per
 channel, in the same order. Each programme is a
