@@ -1,0 +1,24 @@
+name: Probe beIN Qatar gaps
+
+# Research only, and deliberately not on main. Read-only, commits
+# nothing, deleted once it has answered.
+on:
+  push:
+    paths:
+      - "tools/probe_bein_qa_gaps.py"
+      - ".github/workflows/probe_bein_qa_gaps.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python tools/probe_bein_qa_gaps.py
