@@ -17,9 +17,14 @@ is printed here. Writes nothing, commits nothing.
 
 from __future__ import annotations
 
+import os
 import sys
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
+
+# The generator lives at the repository root; this probe lives one level
+# down, so the root has to be on the path before it can be imported.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from epg_lib import new_session
 from update_tabii_epg import (
