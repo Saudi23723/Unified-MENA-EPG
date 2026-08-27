@@ -48,6 +48,21 @@ wall-clock and the declared offset is ignored.
 That override is only correct while the feed stays wrong, so build()
 measures the same gap on every run and warns if a constant reappears.
 
+Fourth source — Spor Ekranı, for the channel name and nothing else:
+
+  https://www.sporekrani.com/
+
+It names the fixture where the others name only the strand, or nothing:
+"M.Timofeeva - A.Li" where tvyayinakisi says "Wta Monterrey" and where
+MAX 1 and MAX 2 are given eleven two-hour blocks a day each titled with
+the channel's own name. Its reach is small — on the day it was added it
+named one broadcast on a channel this guide carries, and it has never
+named beIN SPORTS 1 to 5 at all — and it publishes the current day only.
+
+So it is applied last and narrowly: a fixture may take the place of a
+block whose title is just the channel's name, and nothing else. A real
+programme is never displaced by it.
+
 Why not Digiturk, which this generator used to read: digiturk.com.tr now
 answers 403 from its edge gateway (Microsoft-Azure-Application-Gateway) to
 every request, the plain human TV-guide page included, so the guide it
@@ -86,6 +101,7 @@ ISTANBUL = ZoneInfo("Europe/Istanbul")
 TVY_BASE = "https://www.tvyayinakisi.com"
 EPGSHARE_URL = "https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz"
 OPENEPG_URL = "https://www.open-epg.com/files/turkey1.xml"
+SPOREKRANI_URL = "https://www.sporekrani.com/"
 
 # Only keep what a TV guide can sensibly show, so a stray far-future or
 # long-past event from either source can never bloat the file.
@@ -143,6 +159,10 @@ LOGO_KEYS = {
 }
 
 LD_JSON_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
+# Spor Ekranı puts attributes before type=, which the pattern above will
+# not match, so it gets one that does not care about their order.
+LD_JSON_ANY_RE = re.compile(
+    r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', re.S)
 # Turkish for "live". Spelled with either i so an upper-cased title still
 # matches — Python's case folding does not map I to the dotless ı.
 LIVE_RE = re.compile(r"canl[ıiİI]\b", re.IGNORECASE)
@@ -284,6 +304,101 @@ def fetch_xmltv_feed(session, url: str, label: str, now: datetime,
     return dict(per)
 
 
+# ----------------------------------------------------------------- Spor Ekranı
+def normalise_name(name: str) -> str:
+    """Fold a channel name so two spellings of it compare equal.
+
+    "Bein Sports Max 1" and "beIN SPORTS MAX 1" are the same channel;
+    only case and run-together spacing separate them.
+    """
+    return re.sub(r"\s+", " ", (name or "").strip().lower())
+
+
+def fetch_sporekrani(session, now: datetime) -> dict[str, list[dict]]:
+    """Today's live fixtures, keyed by the channel name the site states.
+
+    Never raises: this is the narrowest of the three extra sources and a
+    failure here must cost only what it contributes.
+
+    The site names the match rather than the strand — "M.Timofeeva - A.Li"
+    where the broadcaster's own guide says "Wta Monterrey", and where MAX 1
+    and 2 are given nothing but their own name. It publishes the current
+    day only, and it names only the channels carrying something today, so
+    most channels are absent from it most of the time.
+    """
+    per: dict[str, list[dict]] = defaultdict(list)
+    try:
+        page = fetch(session, SPOREKRANI_URL).text
+    except Exception as exc:
+        warn(f"Spor Ekranı unavailable, continuing without it: {exc}")
+        return {}
+
+    for block in LD_JSON_ANY_RE.findall(page):
+        try:
+            payload = json.loads(block)
+        except Exception:
+            continue  # one malformed block must not lose the others
+        for event in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(event, dict):
+                continue
+            slot = event.get("broadcastOfEvent")
+            slot = slot if isinstance(slot, dict) else {}
+            start = parse_iso(slot.get("startDate"))
+            stop = parse_iso(slot.get("endDate"))
+            title = norm(slot.get("name")) or norm(event.get("name"))
+            if not title or start is None or stop is None or stop <= start:
+                continue
+            if not in_window(start, now):
+                continue
+
+            published = event.get("publishedOn")
+            entries = (published if isinstance(published, list)
+                       else [published] if published else [])
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                key = normalise_name(entry.get("name") or "")
+                if key:
+                    per[key].append({
+                        "start": start, "stop": stop, "title": title,
+                        "live": event.get("isLiveBroadcast") is True,
+                    })
+    return dict(per)
+
+
+def is_placeholder(title: str, channel_name: str) -> bool:
+    """True where the programme is only the channel repeating its own name.
+
+    Every source does this on MAX 1 and MAX 2 — eleven two-hour blocks a
+    day, each titled "Bein Sports Max 1". It fills the grid and says
+    nothing, which is the one thing worth displacing.
+    """
+    return normalise_name(title) == normalise_name(channel_name)
+
+
+def replace_placeholders(events: list[dict], live: list[dict],
+                         channel_name: str) -> tuple[list[dict], int]:
+    """Let a named fixture take the place of the channel's own name.
+
+    Only placeholders are removed, and only where a fixture actually
+    covers them; a real programme is never displaced. What is left keeps
+    precedence, so the fixture fills the hole its removal opened and
+    nothing else.
+    """
+    if not live:
+        return events, 0
+    kept = [
+        ev for ev in events
+        if not (is_placeholder(ev["title"], channel_name)
+                and any(ev["start"] < f["stop"] and f["start"] < ev["stop"]
+                        for f in live))
+    ]
+    dropped = len(events) - len(kept)
+    if not dropped:
+        return events, 0
+    return merge_events(kept, live), dropped
+
+
 # ---------------------------------------------------------------------- merge
 def constant_offset(left: list[dict], right: list[dict]) -> int | None:
     """The single constant gap in minutes between two sources, if there is one.
@@ -343,6 +458,20 @@ def build() -> int:
     if openepg:
         log(f"open-epg filler loaded: {len(openepg)} channels")
 
+    live = fetch_sporekrani(session, now)
+    if live:
+        known = {normalise_name(ch["name"]) for ch in CHANNELS}
+        named = {k for k in live if "bein" in k}
+        log(f"Spor Ekranı: {sum(len(v) for v in live.values())} fixture(s) "
+            f"across {len(live)} channel(s), {len(named & known)} of them "
+            f"published here")
+        # It has never named beIN SPORTS 1 to 5, only MAX 1 and the beIN
+        # Connect platform. If that changes it is worth knowing, because
+        # those are the channels with the least real information.
+        for key in sorted(named - known):
+            log(f"  Spor Ekranı names a beIN channel this guide does not "
+                f"carry: {key!r}")
+
     per_channel: dict[str, list[dict]] = {}
     for ch in CHANNELS:
         name, slug = ch["name"], ch["slug"]
@@ -378,9 +507,17 @@ def build() -> int:
         # empty, so precedence runs broadcaster, then epgshare, then
         # open-epg — never the other way round.
         merged = merge_events(merge_events(primary, from_share), from_open)
+
+        # Last, and only against the channel's own name: a fixture Spor
+        # Ekranı has named takes the place of a block that carries nothing
+        # but the channel it is on.
+        fixtures = live.get(normalise_name(name), [])
+        merged, replaced = replace_placeholders(merged, fixtures, name)
+
         per_channel[name] = merged
         log(f"  {name:20} tvyayinakisi={len(primary):4} "
             f"epgshare={len(from_share):4} open-epg={len(from_open):4} "
+            f"sporekrani={len(fixtures):3} (named over {replaced:2}) "
             f"-> {len(merged):4}")
 
     total = sum(len(v) for v in per_channel.values())
