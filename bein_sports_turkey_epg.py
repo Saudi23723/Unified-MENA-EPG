@@ -61,6 +61,13 @@ output rather than declared blank.
 
 Titles ending in "/ Canlı" are the source's own marker for a live
 broadcast; those, and only those, get the Live badge.
+
+Tivibu Spor rides on this file. Türk Telekom's five sports channels have
+their own source and their own module, tivibu_spor_epg, but no link of
+their own: they are written into this guide so a player needs one URL for
+Turkish sport rather than two. Nothing about the beIN channels depends on
+them, and the reader runs inside its own try, so a broken TR3 feed costs
+only the five Tivibu channels.
 """
 
 from __future__ import annotations
@@ -78,6 +85,8 @@ from epg_lib import (
     add_programme, fetch, log, new_session, norm, resolve_overlaps,
     run_main, utc_now, warn, with_live_badge, write_xml_atomic,
 )
+
+import tivibu_spor_epg
 
 OUTPUT = "bein_sports_turkey_epg.xml"
 UTC = timezone.utc
@@ -627,6 +636,16 @@ def build() -> int:
         f"beIN Türkiye: {len(with_data)}/{len(CHANNELS)} channels with data, "
         f"{total} programmes, {live_badges} marked live"
     )
+
+    # Tivibu Spor shares this file — see the note at the top. It reads its
+    # own source and reads this guide's previous contents back for its own
+    # channels only; inside a try so it can fail without taking beIN with it.
+    try:
+        total += tivibu_spor_epg.emit(
+            root, tivibu_spor_epg.collect(session, OUTPUT))
+    except Exception as exc:
+        warn(f"Tivibu Spor failed entirely, the guide is published without "
+             f"it: {exc}")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Türkiye")
     return 0

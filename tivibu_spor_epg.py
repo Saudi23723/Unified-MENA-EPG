@@ -3,6 +3,12 @@
 """
 Tivibu Spor — Türk Telekom's sports channels, five of them.
 
+This is not a guide of its own. It has no output file and no workflow:
+collect() and emit() are called from bein_sports_turkey_epg.build(), so
+the five channels come down the beIN SPORTS Türkiye link that is already
+in the player. Both are Turkish sports guides and a player needs one URL
+for them, not two.
+
 Source — the Turkish feed epgshare01 publishes as TR3, already XMLTV:
 
   https://epgshare01.online/epgshare01/epg_ripper_TR3.xml.gz
@@ -15,7 +21,9 @@ named no Tivibu channel on either of two days sampled.
 
 What the feed gives is modest and worth stating: the numbered channels
 reach one day past the current one, and TİVİBU SPOR itself usually only
-the current day. That is what exists.
+the current day. That is what exists. Because that is so little, what was
+published last run is read back out of the beIN Türkiye file and merged
+in, so a single failed fetch empties nothing.
 
 The channel ids here are new, so nothing in a player is already mapped to
 them. Each channel is therefore declared under several spellings — the
@@ -42,11 +50,11 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, norm, resolve_overlaps,
-    run_main, utc_now, warn, with_live_badge, write_xml_atomic,
+    LIVE_BADGE, LIVE_BADGE_GREEN, LIVE_BADGE_PURPLE,
+    add_programme, fetch, log, norm, resolve_overlaps, utc_now, warn,
+    with_live_badge,
 )
 
-OUTPUT = "tivibu_spor_epg.xml"
 UTC = timezone.utc
 ISTANBUL = ZoneInfo("Europe/Istanbul")
 
@@ -80,6 +88,8 @@ CHANNELS = [
         "Tivibu Spor 4", "TİVİBU SPOR 4", "TIVIBU SPOR 4", "Tivibu Sport 4",
         "تيفيبو سبور 4", "تيفيبو سبور ٤"]),
 ]
+
+CHANNEL_IDS = {xid for xid, _feed_id, _names in CHANNELS}
 
 # Empty until a real mark exists; see the note in the module docstring.
 LOGO_KEYS: dict[str, str] = {}
@@ -115,18 +125,32 @@ def parse_xmltv_time(value: str | None) -> datetime | None:
     return dt.astimezone(UTC)
 
 
+def strip_badge(title: str) -> str:
+    """A title as the feed wrote it, with any Live mark this project added.
+
+    Rows read back out of the published file already carry the badge emit()
+    put there. Leaving it on would let it be re-appended, and would freeze a
+    "live" claim onto a programme long after it aired; the badge is decided
+    again on every run from the feed's own wording.
+    """
+    out = title or ""
+    for badge in (LIVE_BADGE, LIVE_BADGE_GREEN, LIVE_BADGE_PURPLE):
+        out = out.replace(badge, "")
+    return norm(out.replace("‎", ""))
+
+
 def fetch_feed(session, now: datetime) -> dict[str, list[dict]]:
-    """The TR3 feed, keyed by its own channel ids."""
+    """The TR3 feed, keyed by this project's channel ids."""
     per: dict[str, list[dict]] = defaultdict(list)
     raw = fetch(session, EPGSHARE_URL).content
     if raw[:2] == b"\x1f\x8b":
         raw = gzip.decompress(raw)
     root = ET.fromstring(raw.decode("utf-8", "replace"))
 
-    wanted = {feed_id for _xid, feed_id, _names in CHANNELS}
+    by_feed_id = {feed_id: xid for xid, feed_id, _names in CHANNELS}
     for programme in root.findall("programme"):
-        cid = programme.get("channel")
-        if cid not in wanted:
+        xid = by_feed_id.get(programme.get("channel"))
+        if xid is None:
             continue
         start = parse_xmltv_time(programme.get("start"))
         stop = parse_xmltv_time(programme.get("stop"))
@@ -138,68 +162,105 @@ def fetch_feed(session, now: datetime) -> dict[str, list[dict]]:
         title = norm(title_el.text or "") if title_el is not None else ""
         if not title:
             continue
-        per[cid].append({
-            "start": start, "stop": stop, "title": title,
-            "live": bool(LIVE_RE.search(title)),
-        })
+        per[xid].append({"start": start, "stop": stop, "title": title})
     return dict(per)
 
 
-def build() -> int:
-    log("TIVIBU SPOR EPG | epgshare01 TR3")
-    session = new_session()
+def carry_forward(path: str) -> dict[str, list[dict]]:
+    """Tivibu rows already in the beIN Türkiye guide.
+
+    Only the five channel ids above are read back; every other channel in
+    that file is written by its own generator and is never touched here.
+    """
+    per: dict[str, list[dict]] = defaultdict(list)
+    if not path or not os.path.exists(path):
+        return {}
+    try:
+        root = ET.parse(path).getroot()
+    except Exception as exc:
+        warn(f"previous {path} unreadable, Tivibu starts clean: {exc}")
+        return {}
+
+    for programme in root.findall("programme"):
+        xid = programme.get("channel")
+        if xid not in CHANNEL_IDS:
+            continue
+        start = parse_xmltv_time(programme.get("start"))
+        stop = parse_xmltv_time(programme.get("stop"))
+        if start is None or stop is None or stop <= start:
+            continue
+        title_el = programme.find("title")
+        title = strip_badge(title_el.text if title_el is not None else "")
+        if not title:
+            continue
+        per[xid].append({"start": start, "stop": stop, "title": title})
+    return dict(per)
+
+
+def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
+    """Every Tivibu Spor programme worth publishing right now, per channel."""
     now = utc_now()
 
+    fresh: dict[str, list[dict]] = {}
     try:
-        feed = fetch_feed(session, now)
+        fresh = fetch_feed(session, now)
     except Exception as exc:
-        warn(f"epgshare01 TR3 unavailable: {exc}")
-        # write_xml_atomic keeps the previous file rather than publishing
-        # an empty one, so a bad fetch costs nothing.
-        write_xml_atomic(ET.Element("tv"), OUTPUT,
-                         generator_name="Unified MENA EPG — Tivibu Spor")
-        return 0
+        warn(f"epgshare01 TR3 unavailable ({exc}) — Tivibu runs on what was "
+             f"already in the guide")
 
-    per_channel: dict[str, list[dict]] = {}
-    for xmltv_id, feed_id, names in CHANNELS:
-        events = resolve_overlaps(feed.get(feed_id, []))
-        if events:
-            per_channel[xmltv_id] = events
-        log(f"  {names[0]:16} feed={len(feed.get(feed_id, [])):4} "
-            f"-> {len(events):4}")
+    carried = carry_forward(previous_path)
+    if not fresh and carried:
+        warn("Tivibu Spor got nothing readable from the feed — the five "
+             "channels are running on what was already published")
 
+    per: dict[str, list[dict]] = {}
+    for xid, _feed_id, _names in CHANNELS:
+        merged: dict[tuple, dict] = {}
+        for event in carried.get(xid, []) + fresh.get(xid, []):
+            merged[(event["start"], event["stop"], event["title"])] = event
+        kept = [e for e in merged.values()
+                if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
+        if kept:
+            per[xid] = resolve_overlaps(sorted(kept, key=lambda e: e["start"]))
+        log(f"  {_names[0]:16} feed={len(fresh.get(xid, [])):4} "
+            f"carried={len(carried.get(xid, [])):4} -> {len(per.get(xid, [])):4}")
+    return per
+
+
+def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
+    """Declare the channels and write their programmes into an existing <tv>.
+
+    The elements are appended wherever this is called from; write_xml_atomic
+    reorders the file into the channel-then-programme shape XMLTV requires.
+    """
     if not per_channel:
-        warn("no Tivibu channel came back with programmes — keeping the "
-             "previous file rather than publishing empty channels")
-        write_xml_atomic(ET.Element("tv"), OUTPUT,
-                         generator_name="Unified MENA EPG — Tivibu Spor")
+        warn("Tivibu Spor: nothing to publish, the five channels are left "
+             "out of this run")
         return 0
 
-    root = ET.Element("tv",
-                      {"generator-info-name": "Unified MENA EPG — Tivibu Spor"})
     # A channel with nothing to show is left out entirely: an empty
     # channel is worse in a player than no channel at all.
-    for xmltv_id, _feed_id, names in CHANNELS:
-        if xmltv_id not in per_channel:
+    for xid, _feed_id, names in CHANNELS:
+        if xid not in per_channel:
             continue
-        channel = ET.SubElement(root, "channel", id=xmltv_id)
+        channel = ET.SubElement(root, "channel", id=xid)
         for name in names:
             lang = "ar" if any("؀" <= c <= "ۿ" for c in name) else "tr"
             ET.SubElement(channel, "display-name", lang=lang).text = name
-        key = LOGO_KEYS.get(xmltv_id)
+        key = LOGO_KEYS.get(xid)
         if key and os.path.exists(os.path.join("logos", f"{key}.png")):
             ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{key}.png")
 
     total = 0
     badged = 0
-    for xmltv_id, _feed_id, _names in CHANNELS:
-        for event in per_channel.get(xmltv_id, []):
+    for xid, _feed_id, _names in CHANNELS:
+        for event in per_channel.get(xid, []):
             title = event["title"]
-            if event["live"]:
+            if LIVE_RE.search(title):
                 title = with_live_badge(title)
                 badged += 1
-            add_programme(root, xmltv_id, event["start"], event["stop"],
-                          title, category="Spor")
+            add_programme(root, xid, event["start"], event["stop"], title,
+                          category="Spor")
             total += 1
 
     days = sorted({e["start"].astimezone(ISTANBUL).strftime("%Y-%m-%d")
@@ -207,12 +268,4 @@ def build() -> int:
     log(f"Tivibu Spor: {len(per_channel)}/{len(CHANNELS)} channels with data, "
         f"{total} programmes over {len(days)} days "
         f"({days[0]} .. {days[-1]}), {badged} marked live")
-
-    write_xml_atomic(root, OUTPUT, guard_regression=False, min_programmes=10,
-                     generator_name="Unified MENA EPG — Tivibu Spor")
-    return 0
-
-
-if __name__ == "__main__":
-    import sys
-    sys.exit(run_main(build, OUTPUT))
+    return total
