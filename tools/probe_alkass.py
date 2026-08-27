@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Why does the Alkass guide repeat channels, and is there a better source?
+Is epgshare's Alkass worth trusting where alkass.net has nothing?
 
-The published guide shows Alkass 1 and 4 with byte-identical schedules,
-3 and 6 at 91 per cent, 2 and 7 at 87. That is exactly the pattern
-alkass_epg.py's own docstring names as the broken one it avoids — "the
-collapsible cg1..cg8 list repeats whole channels (1=4=8, 2=5=7, 3=6)".
-So either the page changed under the parser, or the grid it reads has
-gone the same way.
+Settled by the first pass: alkass.net's own grid publishes one schedule
+across three channels — 1=4=8, 2=5=7, 3=6 — and serves the identical
+page for ?day=next. The parser reads it correctly; the source is what is
+wrong, and it has exactly one day.
 
-Only the page settles it, and the page answers from Doha and nowhere
-else. This dumps what the parser sees: how many logos, how many tables,
-the order they pair in, and the opening rows of each table so identical
-ones are visible as identical.
+epgshare's UAE feed carries Alkass One HD, Two HD, Three and Four with
+four days each. Four days beats one, and separate schedules beat one
+schedule three times over — if the data is right.
 
-It also asks whether tomorrow exists — the guide publishes one day, and
-the generator does request ?day=next — and what other sources carry
-Alkass at all, since a second opinion is worth having either way.
+Today is how that is tested. Both describe it, so they can be compared
+programme by programme: if epgshare agrees with the broadcaster on the
+day both cover, its other three days are worth having. If it disagrees,
+it is a different channel wearing the same name and must not be used.
+
+The clock is checked the same way, because epgshare stamps +0300 in its
+Turkish feed and open-epg stamps Istanbul time as +0000 in its own — a
+mistake this project has already paid for once.
 
 Reads only; writes nothing.
 """
@@ -25,13 +27,12 @@ Reads only; writes nothing.
 from __future__ import annotations
 
 import gzip
-import hashlib
 import io
 import os
-import re
 import sys
 import xml.etree.ElementTree as ET
-from collections import defaultdict
+from collections import Counter, defaultdict
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -39,108 +40,86 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import alkass_epg as g  # noqa: E402
 
+DOHA = timezone(timedelta(hours=3))
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/127.0 Safari/537.36")
+AE1 = "https://epgshare01.online/epgshare01/epg_ripper_AE1.xml.gz"
 
-OTHERS = [
-    ("epgshare AR1", "https://epgshare01.online/epgshare01/epg_ripper_AR1.xml.gz"),
-    ("epgshare AE1", "https://epgshare01.online/epgshare01/epg_ripper_AE1.xml.gz"),
-    ("open-epg qatar1", "https://www.open-epg.com/files/qatar1.xml"),
-]
-
-
-def dump_page(session, label: str, url: str) -> str:
-    print(f"\n--- {label}: {url} ---")
-    try:
-        page = session.get(url, timeout=45, headers={"User-Agent": UA}).text
-    except Exception as exc:
-        print(f"    ERROR {type(exc).__name__}: {exc}")
-        return ""
-    print(f"    {len(page)} chars, sha1 {hashlib.sha1(page.encode()).hexdigest()[:12]}")
-
-    cut = page.find(g.GRID_START)
-    print(f"    '{g.GRID_START}' found at {cut}")
-    if cut < 0:
-        return page
-    grid = page[cut:]
-    column = g.COLUMN_RE.findall(grid)
-    tables = g.CHANNEL_TABLE_RE.findall(grid)
-    print(f"    logos in column : {column}")
-    print(f"    schedule tables : {len(tables)}")
-    if len(column) != len(tables):
-        print("    *** MISMATCH — the parser refuses to read this ***")
-
-    for name, body in zip(column, tables):
-        rows = [(m.group("start"), m.group("stop"), g.clean(m.group("title")))
-                for m in g.PROGRAMME_RE.finditer(body)]
-        head = " | ".join(f"{s} {t[:22]}" for s, _e, t in rows[:3])
-        print(f"      logo={name:<7} rows={len(rows):>3}  {head}")
-
-    # Identical tables are the whole question, so say it outright.
-    seen: dict[str, list[str]] = defaultdict(list)
-    for name, body in zip(column, tables):
-        rows = tuple((m.group("start"), g.clean(m.group("title")))
-                     for m in g.PROGRAMME_RE.finditer(body))
-        seen[hashlib.sha1(str(rows).encode()).hexdigest()].append(name)
-    dupes = {k: v for k, v in seen.items() if len(v) > 1}
-    if dupes:
-        print("    IDENTICAL TABLES ON THE PAGE ITSELF:")
-        for names in dupes.values():
-            print(f"      {names}")
-    else:
-        print("    every table on the page is distinct")
-    return page
+# epgshare's name for each Alkass number, as its channel list spells them.
+SHARE_IDS = {
+    1: "Alkass.One.HD.ae",
+    2: "Alkass.Two.HD.ae",
+    3: "Alkass.Three.ae",
+    4: "Alkass.Four.ae",
+}
 
 
 def main() -> int:
     session = requests.Session()
-    print("=" * 72)
-    print("1. What alkass.net actually serves")
-    print("=" * 72)
-    today = dump_page(session, "today", g.BASE)
-    tomorrow = dump_page(session, "?day=next", g.BASE + "?day=next")
-    if today and tomorrow:
-        same = hashlib.sha1(today.encode()).digest() == \
-            hashlib.sha1(tomorrow.encode()).digest()
-        print(f"\n  today and ?day=next are the same page: {same}")
 
-    print("\n" + "=" * 72)
-    print("2. Who else carries Alkass")
-    print("=" * 72)
-    for label, url in OTHERS:
-        print(f"\n[{label}]")
-        try:
-            resp = session.get(url, timeout=60, headers={"User-Agent": UA})
-        except Exception as exc:
-            print(f"    ERROR {type(exc).__name__}")
-            continue
-        print(f"    http={resp.status_code} bytes={len(resp.content)}")
-        if resp.status_code != 200 or not resp.content:
-            continue
-        raw = resp.content
-        if raw[:2] == b"\x1f\x8b":
-            raw = gzip.decompress(raw)
-        try:
-            root = ET.parse(io.BytesIO(raw)).getroot()
-        except Exception:
-            print("    not XMLTV")
-            continue
-        names = {c.get("id"): " / ".join(d.text or ""
-                                        for d in c.findall("display-name"))
-                 for c in root.findall("channel")}
-        counts: dict[str, int] = defaultdict(int)
-        days: dict[str, set] = defaultdict(set)
-        for p in root.findall("programme"):
-            counts[p.get("channel")] += 1
-            days[p.get("channel")].add(p.get("start")[:8])
-        hits = [c for c in names
-                if re.search(r"alkass|kass|الكأس", c + names[c], re.I)]
-        if not hits:
-            print("    no Alkass channel")
-            continue
-        for c in sorted(hits):
-            print(f"      {c:<30} {counts[c]:>4} progs over "
-                  f"{len(days[c])} day(s)  | {names[c][:30]}")
+    # --- the broadcaster, for today -------------------------------------
+    page = session.get(g.BASE, timeout=45, headers={"User-Agent": UA}).text
+    theirs = g.parse_page(page)
+    today = datetime.now(DOHA)
+    official: dict[int, list[dict]] = {
+        n: g.to_datetimes(rows, today) for n, rows in theirs.items()}
+    print("alkass.net today:",
+          {n: len(v) for n, v in sorted(official.items())})
+
+    # --- epgshare -------------------------------------------------------
+    raw = session.get(AE1, timeout=60, headers={"User-Agent": UA}).content
+    if raw[:2] == b"\x1f\x8b":
+        raw = gzip.decompress(raw)
+    root = ET.parse(io.BytesIO(raw)).getroot()
+
+    share: dict[int, list[dict]] = defaultdict(list)
+    for p in root.findall("programme"):
+        for number, cid in SHARE_IDS.items():
+            if p.get("channel") != cid:
+                continue
+            try:
+                s = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
+                e = datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z")
+            except Exception:
+                continue
+            share[number].append(
+                {"start": s, "stop": e, "title": (p.findtext("title") or "").strip()})
+    print("epgshare AE1  :",
+          {n: len(v) for n, v in sorted(share.items())})
+    offs = Counter(p.get("start")[15:] for p in root.findall("programme")
+                   if p.get("channel") in SHARE_IDS.values())
+    print("offsets epgshare declares for Alkass:", dict(offs))
+
+    print("\n--- days each source covers, Doha time ---")
+    for n in sorted(SHARE_IDS):
+        od = sorted({e["start"].astimezone(DOHA).date() for e in official.get(n, [])})
+        sd = sorted({e["start"].astimezone(DOHA).date() for e in share.get(n, [])})
+        print(f"  Alkass {n}:  alkass.net {[str(d) for d in od]}")
+        print(f"             epgshare   {[str(d) for d in sd]}")
+
+    print("\n--- do they agree on today? (title match at the same start) ---")
+    for n in sorted(SHARE_IDS):
+        mine = {(e["start"], e["title"].strip().lower()) for e in official.get(n, [])}
+        starts_mine = {e["start"]: e["title"] for e in official.get(n, [])}
+        same_day = [e for e in share.get(n, [])
+                    if e["start"].astimezone(DOHA).date() == today.date()]
+        exact = sum(1 for e in same_day
+                    if (e["start"], e["title"].strip().lower()) in mine)
+        shared_start = [e for e in same_day if e["start"] in starts_mine]
+        print(f"  Alkass {n}: epgshare has {len(same_day)} rows today, "
+              f"{len(shared_start)} start at the same minute, "
+              f"{exact} of those have the same title")
+        for e in shared_start[:3]:
+            print(f"      {e['start'].astimezone(DOHA):%H:%M}  "
+                  f"epgshare={e['title'][:30]:<30} alkass={starts_mine[e['start']][:30]}")
+
+    print("\n--- what epgshare actually says, Alkass 1, first day ---")
+    rows = sorted(share.get(1, []), key=lambda e: e["start"])
+    for e in rows[:14]:
+        mins = round((e["stop"] - e["start"]).total_seconds() / 60)
+        print(f"  {e['start'].astimezone(DOHA):%m-%d %H:%M} {mins:>4}min  {e['title'][:52]}")
+    distinct = len({e["title"] for e in rows})
+    print(f"  distinct titles: {distinct} of {len(rows)}")
     return 0
 
 
