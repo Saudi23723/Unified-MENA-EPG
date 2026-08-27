@@ -1,0 +1,27 @@
+name: Verify beIN Türkiye depth
+
+# Research only, and deliberately not on main. Builds the guide on a
+# runner — the Turkish hosts refuse every request from anywhere else —
+# and prints the published file beside the one this branch produces.
+# Read-only: it writes into a scratch directory and commits nothing.
+on:
+  push:
+    paths:
+      - "tools/verify_bein_tr.py"
+      - "bein_sports_turkey_epg.py"
+      - ".github/workflows/verify_bein_tr.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python tools/verify_bein_tr.py

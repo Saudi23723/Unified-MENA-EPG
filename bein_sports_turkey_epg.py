@@ -14,22 +14,33 @@ class names to go stale — this is data the site publishes for machines to
 read. How far ahead a page reaches varies by channel: HABER currently
 carries a full week, most others only the current day.
 
-Secondary source — the Turkish feed of epgshare01.online, already XMLTV:
+Second and third sources — two public XMLTV feeds, in this order:
 
   https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz
+  https://www.open-epg.com/files/turkey1.xml
 
-It is used strictly as filler: an event from it is kept only where the
-Turkish site scheduled nothing for that channel at that time. That covers
-beIN SPORTS 4, which tvyayinakisi does not schedule at all, and extends
-beIN SPORTS 1/2/3 a few days past the current one.
+Both are filler and never outrank the broadcaster's own listing: an event
+from either is kept only where nothing above it scheduled that channel at
+that time, and epgshare is offered the gap before open-epg.
+
+epgshare covers beIN SPORTS 4, which tvyayinakisi does not schedule at
+all, and extends 1/2/3 a few days. It leaves a hole all the same: it
+carries beIN SPORTS 1 and MAX 1/2 under ids that hold zero programmes, so
+those three ran out at the end of the current day. open-epg schedules all
+three two days ahead and is what closes that gap.
+
+open-epg is also the reason beIN SPORTS 5 is here at all — see below.
 
 Why not Digiturk, which this generator used to read: digiturk.com.tr now
 answers 403 from its edge gateway (Microsoft-Azure-Application-Gateway) to
 every request, the plain human TV-guide page included, so the guide it
 produced had eight channels and not one programme.
 
-beIN SPORTS 5 is deliberately absent — neither source publishes a schedule
-for it, and a channel with no programmes is worse than no channel at all.
+beIN SPORTS 5 used to be left out because no source scheduled it, and a
+channel with no programmes is worse than no channel at all. open-epg does
+schedule it, so it is published now. The rule has not changed: a channel
+that comes back empty on a given run is still dropped from that run's
+output rather than declared blank.
 
 Titles ending in "/ Canlı" are the source's own marker for a live
 broadcast; those, and only those, get the Live badge.
@@ -57,25 +68,45 @@ ISTANBUL = ZoneInfo("Europe/Istanbul")
 
 TVY_BASE = "https://www.tvyayinakisi.com"
 EPGSHARE_URL = "https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz"
+OPENEPG_URL = "https://www.open-epg.com/files/turkey1.xml"
 
 # Only keep what a TV guide can sensibly show, so a stray far-future or
 # long-past event from either source can never bloat the file.
 KEEP_BEHIND = timedelta(days=1)
 KEEP_AHEAD = timedelta(days=14)
 
-# `share` lists the ids this channel goes by inside the epgshare01 Turkish
-# feed, empty where that feed has no entry for it. HABER is carried twice
-# there under two ids, and the HD one holds programmes the other does not,
-# so both are read and merged.
+# Each channel names itself differently in each feed, so both id sets are
+# written out rather than guessed at.
+#
+# `share` lists the ids the channel goes by inside epgshare01, empty where
+# that feed has no usable entry. HABER is carried there twice under two
+# ids, and the HD one holds programmes the other does not, so both are read
+# and merged. epgshare also publishes beIN.SPORTS.1 / MAX.1 / MAX.2 ids
+# that hold zero programmes; they are left out deliberately, since an id
+# with nothing behind it only looks like coverage.
+#
+# `open` is the single id inside open-epg's turkey1 feed, which spells
+# every one of them the same way the channel does.
 CHANNELS = [
-    {"name": "beIN SPORTS 1",     "slug": "bein-sports-1",     "share": ["Beinsports.tr"]},
-    {"name": "beIN SPORTS 2",     "slug": "bein-sports-2",     "share": ["Beinsports.2.tr"]},
-    {"name": "beIN SPORTS 3",     "slug": "bein-sports-3",     "share": ["Beinsports.3.tr"]},
-    {"name": "beIN SPORTS 4",     "slug": "bein-sports-4",     "share": ["Beinsports.4.tr"]},
-    {"name": "beIN SPORTS MAX 1", "slug": "bein-sports-max-1", "share": []},
-    {"name": "beIN SPORTS MAX 2", "slug": "bein-sports-max-2", "share": []},
+    {"name": "beIN SPORTS 1",     "slug": "bein-sports-1",     "share": ["Beinsports.tr"],
+     "open": "beIN SPORTS 1.tr"},
+    {"name": "beIN SPORTS 2",     "slug": "bein-sports-2",     "share": ["Beinsports.2.tr"],
+     "open": "beIN SPORTS 2.tr"},
+    {"name": "beIN SPORTS 3",     "slug": "bein-sports-3",     "share": ["Beinsports.3.tr"],
+     "open": "beIN SPORTS 3.tr"},
+    {"name": "beIN SPORTS 4",     "slug": "bein-sports-4",     "share": ["Beinsports.4.tr"],
+     "open": "beIN SPORTS 4.tr"},
+    # No tvyayinakisi page: bein-sports-5-yayin-akisi 404s. open-epg is the
+    # only source that schedules this channel, which is why it is here.
+    {"name": "beIN SPORTS 5",     "slug": "",                  "share": [],
+     "open": "beIN SPORTS 5.tr"},
+    {"name": "beIN SPORTS MAX 1", "slug": "bein-sports-max-1", "share": [],
+     "open": "beIN SPORTS MAX 1.tr"},
+    {"name": "beIN SPORTS MAX 2", "slug": "bein-sports-max-2", "share": [],
+     "open": "beIN SPORTS MAX 2.tr"},
     {"name": "beIN SPORTS HABER", "slug": "bein-sports-haber",
-     "share": ["Bein.Sports.Haber.tr", "beIN.SPORTS.HABER.HD.tr"]},
+     "share": ["Bein.Sports.Haber.tr", "beIN.SPORTS.HABER.HD.tr"],
+     "open": "beIN SPORTS HABER.tr"},
 ]
 
 LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
@@ -88,6 +119,7 @@ LOGO_KEYS = {
     "beIN SPORTS 2": "bein_2",
     "beIN SPORTS 3": "bein_3",
     "beIN SPORTS 4": "bein_4",
+    "beIN SPORTS 5": "bein_5",
     "beIN SPORTS MAX 1": "bein_max1",
     "beIN SPORTS MAX 2": "bein_max2",
     "beIN SPORTS HABER": "bein_haber",
@@ -185,16 +217,26 @@ def parse_xmltv_time(value: str | None) -> datetime | None:
     return dt.astimezone(UTC)
 
 
-def fetch_epgshare(session, now: datetime) -> dict[str, list[dict]]:
-    """The Turkish XMLTV feed, keyed by its own channel ids. Never raises —
-    it is only filler, so a failure here must not cost us the main source."""
+def fetch_xmltv_feed(session, url: str, label: str,
+                     now: datetime) -> dict[str, list[dict]]:
+    """An XMLTV feed, keyed by its own channel ids.
+
+    Never raises. Both feeds read through this are filler, so one of them
+    being down must cost only its own contribution — not the broadcaster's
+    listing, and not the other feed.
+
+    Compression is decided by the first two bytes rather than by the file
+    extension: epgshare serves .xml.gz and open-epg serves plain .xml, and
+    either could change that without changing what it means.
+    """
     per: dict[str, list[dict]] = defaultdict(list)
     try:
-        raw = fetch(session, EPGSHARE_URL).content
-        text = gzip.decompress(raw).decode("utf-8", "replace")
-        root = ET.fromstring(text)
+        raw = fetch(session, url).content
+        if raw[:2] == b"\x1f\x8b":
+            raw = gzip.decompress(raw)
+        root = ET.fromstring(raw.decode("utf-8", "replace"))
     except Exception as exc:
-        warn(f"epgshare01 Turkish feed unavailable, continuing without filler: {exc}")
+        warn(f"{label} unavailable, continuing without it: {exc}")
         return {}
 
     for pr in root.findall("programme"):
@@ -237,28 +279,41 @@ def build() -> int:
     session = new_session()
     now = utc_now()
 
-    share = fetch_epgshare(session, now)
+    share = fetch_xmltv_feed(session, EPGSHARE_URL, "epgshare01 Turkish feed", now)
     if share:
         log(f"epgshare01 filler loaded: {len(share)} channels")
+
+    openepg = fetch_xmltv_feed(session, OPENEPG_URL, "open-epg turkey1 feed", now)
+    if openepg:
+        log(f"open-epg filler loaded: {len(openepg)} channels")
 
     per_channel: dict[str, list[dict]] = {}
     for ch in CHANNELS:
         name, slug = ch["name"], ch["slug"]
-        try:
-            primary = fetch_tvy_channel(session, slug, now)
-        except Exception as exc:
-            warn(f"{name}: tvyayinakisi unavailable ({exc}) — falling back to filler only")
-            primary = []
+        primary: list[dict] = []
+        if slug:
+            try:
+                primary = fetch_tvy_channel(session, slug, now)
+            except Exception as exc:
+                warn(f"{name}: tvyayinakisi unavailable ({exc}) — "
+                     f"falling back to filler only")
 
         # One channel can appear under several ids in the feed; a
         # programme listed under both is kept once.
-        filler = list({
+        from_share = list({
             (ev["start"], ev["stop"], ev["title"]): ev
             for cid in ch["share"] for ev in share.get(cid, [])
         }.values())
-        merged = merge_events(primary, filler)
+        from_open = openepg.get(ch.get("open", ""), [])
+
+        # Each source is offered only the time the ones above it left
+        # empty, so precedence runs broadcaster, then epgshare, then
+        # open-epg — never the other way round.
+        merged = merge_events(merge_events(primary, from_share), from_open)
         per_channel[name] = merged
-        log(f"  {name:20} tvyayinakisi={len(primary):4} filler={len(filler):4} -> {len(merged):4}")
+        log(f"  {name:20} tvyayinakisi={len(primary):4} "
+            f"epgshare={len(from_share):4} open-epg={len(from_open):4} "
+            f"-> {len(merged):4}")
 
     total = sum(len(v) for v in per_channel.values())
     with_data = [c for c in CHANNELS if per_channel.get(c["name"])]
