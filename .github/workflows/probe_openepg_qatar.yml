@@ -1,12 +1,12 @@
-name: Probe beIN Qatar gaps
+name: Probe open-epg Qatar quality
 
 # Research only, and deliberately not on main. Read-only, commits
 # nothing, deleted once it has answered.
 on:
   push:
     paths:
-      - "tools/probe_bein_qa_gaps.py"
-      - ".github/workflows/probe_bein_qa_gaps.yml"
+      - "tools/probe_openepg_qatar.py"
+      - ".github/workflows/probe_openepg_qatar.yml"
   workflow_dispatch:
 
 permissions:
@@ -21,4 +21,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python tools/probe_bein_qa_gaps.py
+      - run: python tools/probe_openepg_qatar.py
