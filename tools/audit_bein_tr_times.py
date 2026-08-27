@@ -43,10 +43,49 @@ def looks_like_fixture(title: str) -> bool:
             and len(title) < 60)
 
 
+def raw_stamps(session) -> None:
+    """The timestamp strings the two XMLTV feeds actually publish.
+
+    A three-hour disagreement can come from either side, and the fix
+    differs: a feed that omits the offset is being defaulted correctly, a
+    feed that stamps local time and labels it +0000 is not. Only the raw
+    string says which, so it is printed before anything is concluded.
+    """
+    import re
+    import gzip
+    from epg_lib import fetch
+
+    for label, url in (("epgshare01", g.EPGSHARE_URL),
+                       ("open-epg", g.OPENEPG_URL)):
+        print(f"--- {label}: raw <programme> stamps ---")
+        try:
+            raw = fetch(session, url).content
+            if raw[:2] == b"\x1f\x8b":
+                raw = gzip.decompress(raw)
+            text = raw.decode("utf-8", "replace")
+        except Exception as exc:
+            print(f"    unavailable: {exc}\n")
+            continue
+
+        shown = 0
+        for m in re.finditer(r'<programme([^>]*)>', text):
+            attrs = m.group(1)
+            if "beIN SPORTS 1" not in attrs and "Beinsports.tr" not in attrs:
+                continue
+            print(f"    {attrs.strip()[:120]}")
+            shown += 1
+            if shown >= 4:
+                break
+        if not shown:
+            print("    no beIN SPORTS 1 programme found under either id")
+        print()
+
+
 def main() -> int:
     now = utc_now()
     session = new_session()
     print(f"beIN Türkiye time audit | now={now.astimezone(TR):%Y-%m-%d %H:%M} TR\n")
+    raw_stamps(session)
 
     share = g.fetch_xmltv_feed(session, g.EPGSHARE_URL, "epgshare01", now)
     openepg = g.fetch_xmltv_feed(session, g.OPENEPG_URL, "open-epg", now)
