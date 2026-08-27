@@ -14,6 +14,7 @@ on:
       - main
     paths:
       - "bein_sports_turkey_epg.py"
+      - "tivibu_spor_epg.py"
       - "epg_lib.py"
       - ".github/workflows/update_bein_sports_turkey_epg.yml"
 
