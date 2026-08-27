@@ -86,6 +86,7 @@ ISTANBUL = ZoneInfo("Europe/Istanbul")
 TVY_BASE = "https://www.tvyayinakisi.com"
 EPGSHARE_URL = "https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz"
 OPENEPG_URL = "https://www.open-epg.com/files/turkey1.xml"
+SPOREKRANI_URL = "https://www.sporekrani.com/"
 
 # Only keep what a TV guide can sensibly show, so a stray far-future or
 # long-past event from either source can never bloat the file.
@@ -143,6 +144,15 @@ LOGO_KEYS = {
 }
 
 LD_JSON_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
+# Spor Ekranı puts attributes before type=, which the pattern above will
+# not match, so it gets one that does not care about their order.
+LD_JSON_ANY_RE = re.compile(
+    r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', re.S)
+
+# How far apart two sources may put the same broadcast and still be
+# talking about it. Programmes on these channels sit half an hour or more
+# apart, so five minutes cannot reach the neighbour.
+LIVE_TOLERANCE = timedelta(minutes=5)
 # Turkish for "live". Spelled with either i so an upper-cased title still
 # matches — Python's case folding does not map I to the dotless ı.
 #
@@ -157,6 +167,19 @@ LD_JSON_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>', r
 # the same slot, and both republish a replay under the name of the match
 # it is a replay of. A badge from either would be a guess wearing the
 # same blue circle as a fact, so they never set it.
+#
+# A second source may set it, and only set it. Spor Ekranı marks each
+# broadcast isLiveBroadcast, and where it says a live broadcast starts at
+# the same minute a programme here starts, that programme is badged. It
+# can never add, remove or move one — an earlier attempt to schedule from
+# that site left an hour of nothing on MAX 1 and was reverted, and its
+# stop times are padded to three hours whatever the sport.
+#
+# Agreement on the START is required, not merely an overlap. These
+# channels replay all day, so a live fixture at 20:00 and a repeat at
+# 20:00 overlap perfectly; badging on overlap alone would put the blue
+# circle on the repeat, which is a lie told in exactly the place the
+# badge exists to tell the truth.
 #
 # The badge's absence therefore means only "no source we trust said this
 # is live", not "this is a recording". On a day beIN SPORTS 1 to 5 run
@@ -303,6 +326,90 @@ def fetch_xmltv_feed(session, url: str, label: str, now: datetime,
     return dict(per)
 
 
+# ------------------------------------------------------- Spor Ekranı, for Live
+def normalise_name(name: str) -> str:
+    """Fold a channel name so two spellings of it compare equal.
+
+    "Bein Sports Max 1" and "beIN SPORTS MAX 1" are the same channel;
+    only case and spacing separate them.
+    """
+    return re.sub(r"\s+", " ", (name or "").strip().lower())
+
+
+def fetch_live_windows(session, now: datetime) -> dict[str, list[datetime]]:
+    """When Spor Ekranı says a live broadcast starts, per channel name.
+
+    Only the start time is taken, and only from broadcasts the site marks
+    isLiveBroadcast. Nothing here is ever scheduled: this cannot add,
+    remove or move a programme, and the one thing it can do is set a flag
+    on a programme another source already published.
+
+    That restraint is deliberate. An earlier attempt to schedule from this
+    site removed a placeholder and left an hour of nothing where its
+    fixture failed to land, and the fixture times here are padded — the
+    site gives every live slot three hours whatever the sport. The start
+    is the part it is sure of; the stop is not.
+
+    Never raises: a badge is the least of what this guide owes a viewer.
+    """
+    out: dict[str, list[datetime]] = defaultdict(list)
+    try:
+        page = fetch(session, SPOREKRANI_URL).text
+    except Exception as exc:
+        warn(f"Spor Ekranı unavailable, no live flags from it: {exc}")
+        return {}
+
+    for block in LD_JSON_ANY_RE.findall(page):
+        try:
+            payload = json.loads(block)
+        except Exception:
+            continue  # one malformed block must not lose the others
+        for event in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(event, dict) or event.get("isLiveBroadcast") is not True:
+                continue
+            slot = event.get("broadcastOfEvent")
+            slot = slot if isinstance(slot, dict) else {}
+            start = parse_iso(slot.get("startDate"))
+            if start is None or not in_window(start, now):
+                continue
+            published = event.get("publishedOn")
+            entries = (published if isinstance(published, list)
+                       else [published] if published else [])
+            for entry in entries:
+                if isinstance(entry, dict):
+                    key = normalise_name(entry.get("name") or "")
+                    if key:
+                        out[key].append(start)
+    return dict(out)
+
+
+def badge_from_live_windows(events: list[dict], starts: list[datetime],
+                            channel: str) -> int:
+    """Mark an event live where Spor Ekranı says a live broadcast starts with it.
+
+    The two must agree on the start, within LIVE_TOLERANCE. Agreeing only
+    that something overlaps is not enough and would be actively harmful:
+    these channels replay all day, so a live fixture at 20:00 and a repeat
+    at 20:00 overlap perfectly, and badging on overlap alone would put the
+    blue circle on the repeat — lying in exactly the place the badge
+    exists to tell the truth.
+    """
+    if not starts:
+        return 0
+    marked = 0
+    for event in events:
+        if event.get("live"):
+            continue
+        if any(abs(event["start"] - start) <= LIVE_TOLERANCE
+               for start in starts):
+            event["live"] = True
+            marked += 1
+    if marked:
+        log(f"    {channel}: {marked} programme(s) marked live — Spor Ekranı "
+            f"flags a live broadcast starting at the same time")
+    return marked
+
+
 # ------------------------------------------------- a source contradicting itself
 # No sports broadcast runs this long. Past it, a stop time is not a claim
 # about the programme, it is a placeholder the feed never filled in.
@@ -434,6 +541,14 @@ def build() -> int:
     if openepg:
         log(f"open-epg filler loaded: {len(openepg)} channels")
 
+    # Flags only — see fetch_live_windows. Nothing below schedules from it.
+    live_windows = fetch_live_windows(session, now)
+    if live_windows:
+        known = {normalise_name(ch["name"]) for ch in CHANNELS}
+        mine = sorted(k for k in live_windows if k in known)
+        log(f"Spor Ekranı: live flags on {len(live_windows)} channel(s), "
+            f"{len(mine)} of them published here {mine or ''}")
+
     per_channel: dict[str, list[dict]] = {}
     for ch in CHANNELS:
         name, slug = ch["name"], ch["slug"]
@@ -474,6 +589,11 @@ def build() -> int:
         # empty, so precedence runs broadcaster, then epgshare, then
         # open-epg — never the other way round.
         merged = merge_events(merge_events(primary, from_share), from_open)
+
+        # Last, and only ever a flag on something already scheduled.
+        badge_from_live_windows(
+            merged, live_windows.get(normalise_name(name), []), name)
+
         per_channel[name] = merged
         log(f"  {name:20} tvyayinakisi={len(primary):4} "
             f"epgshare={len(from_share):4} open-epg={len(from_open):4} "
