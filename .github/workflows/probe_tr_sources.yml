@@ -1,0 +1,26 @@
+name: Probe Turkish EPG sources
+
+# Research only, and deliberately not on main. It runs when pushed to the
+# branch it lives on, because the Turkish hosts refuse every request from
+# outside the countries they serve and a runner is the only place the
+# question can be asked. Read-only, writes nothing, deleted once answered.
+on:
+  push:
+    paths:
+      - "tools/probe_tr_sources.py"
+      - ".github/workflows/probe_tr_sources.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python tools/probe_tr_sources.py
