@@ -424,6 +424,56 @@ def dedupe(events: list[dict]) -> list[dict]:
     return sorted(out, key=lambda x: (x["channel_id"], x["start"]))
 
 
+def drop_channel_clashes(events: list[dict]) -> list[dict]:
+    """One channel cannot show two different matches at once.
+
+    dedupe() above merges the same fixture reported by several sources. It
+    deliberately does not merge two *different* fixtures, and until the
+    front page was added nothing produced any: each channel page named its
+    own channel and no other. The front page names every channel at once,
+    so it can now say ON Sport carries a match that a channel page assigns
+    elsewhere, and both would be laid out over the same two hours —
+    invalid XMLTV, and a guide showing two matches in one slot.
+
+    One of the two is wrong and there is no way to publish both. The
+    higher-priority source wins; on a tie the earlier start is kept, so
+    the result does not depend on the order the sources were read. Either
+    way it is said out loud, because this is the guide choosing between
+    two sources that contradict each other, not a tidy-up.
+    """
+    per: dict[str, list[dict]] = {}
+    for ev in events:
+        per.setdefault(ev["channel_id"], []).append(ev)
+
+    out: list[dict] = []
+    for channel_id, bucket in per.items():
+        bucket.sort(key=lambda x: (x["start"], -prio(x)))
+        kept: list[dict] = []
+        for ev in bucket:
+            clash = next(
+                (k for k in kept
+                 if ev["start"] < k["start"] + timedelta(
+                     minutes=k.get("duration_minutes", MATCH_MINUTES))),
+                None)
+            if clash is None:
+                kept.append(ev)
+                continue
+            loser, winner = (clash, ev) if prio(ev) > prio(clash) else (ev, clash)
+            if loser is clash:
+                kept.remove(clash)
+                kept.append(ev)
+            warn(
+                f"{CHANNELS[channel_id]['name']}: two different matches in one "
+                f"slot — kept {winner['home']} - {winner['away']} "
+                f"({winner['start'].astimezone(SOURCE_TZ):%d/%m %H:%M}, "
+                f"{winner['source_name']}), dropped {loser['home']} - "
+                f"{loser['away']} ({loser['start'].astimezone(SOURCE_TZ):%d/%m %H:%M}, "
+                f"{loser['source_name']})")
+        out.extend(kept)
+
+    return sorted(out, key=lambda x: (x["channel_id"], x["start"]))
+
+
 def _looks_like_assignment_headline(n: str) -> bool:
     if "القنوات الناقله" in n or "القنوات الناقل" in n:
         return True
@@ -1426,7 +1476,7 @@ def main():
     lftv = collect_lftv_events()
     lftv_home = collect_lftv_home_events()
 
-    events = dedupe(filgoal + lftv_home + lftv)
+    events = drop_channel_clashes(dedupe(filgoal + lftv_home + lftv))
 
     log(f"ON Sport total verified football events: {len(events)}")
     for ev in sorted(events, key=lambda x: x["start"]):
