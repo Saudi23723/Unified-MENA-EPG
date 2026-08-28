@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import update_shahid_sports_epg as SH  # noqa: E402
 from epg_lib import COUNTDOWN_HORIZON, is_channel_name  # noqa: E402
 
 GUIDES = [
@@ -59,6 +60,21 @@ def main() -> int:
                 side = side.strip()
                 if side and is_channel_name(side):
                     bad.append(f"{name}: channel as a team -> {title}")
+
+        # No slot may carry the same match twice under two spellings.
+        for title in titles:
+            body = re.sub(r"^⏰\s*", "", title)
+            body = re.sub(r"·.*$", "", body).strip()
+            parts = [p.strip() for p in body.split(" + ") if p.strip()]
+            if len(parts) < 2:
+                continue
+            seen = {}
+            for part in parts:
+                key = SH.title_signature(part)
+                if key in seen:
+                    bad.append(f"{name}: one match twice -> "
+                               f"{seen[key]} / {part}")
+                seen[key] = part
 
         # No countdown row may sit further out than the horizon.
         kickoffs = sorted({when(p.get("start")) for p, t in zip(rows, titles)
