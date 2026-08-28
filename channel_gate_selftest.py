@@ -235,9 +235,170 @@ def gate_not_a_team() -> None:
                   for c in clubs), True)
 
 
+def gate_channel_is_never_a_team() -> None:
+    """A channel name may never be published where a club belongs.
+
+    LiveFootballTV lists every channel carrying a match on the same lines
+    as the two teams. A parser that takes "the last two plausible names"
+    off that block reaches for a channel the moment a page lists one more
+    channel than usual, and that is not hypothetical: this repository
+    published
+
+        ⏰ Eintracht Frankfurt - MBC Action + …
+
+    MBC Action being a television channel and not a football club. Only
+    "MBC Sport" had been taught to the filter, so every other channel in
+    the world was a candidate opponent.
+
+    So the gate is by name, in one place, for every guide at once — the
+    same lesson as ON Sport, where feeding a world channel list into a
+    number-first matcher put Liverpool on an Egyptian channel.
+    """
+    print("\nChannels are never clubs — CHANNEL_NAME")
+    from epg_lib import is_channel_name, is_not_a_team
+
+    channels = [
+        "MBC Action", "MBC Shahid Sports", "MBC 1", "MBC Masr",
+        "beIN Sports 1", "beIN SPORTS MAX 2", "بي إن سبورت",
+        "ON Time Sports 2", "أون تايم سبورت", "ON Sport 1",
+        "SSC 1", "SSC Sports", "Shahid VIP", "StarzPlay", "TOD",
+        "tabii Spor 1", "Thmanyah 1", "Alkass One", "قناة الكأس",
+        "Dubai Sports 1", "Abu Dhabi Sports 2", "AD Sports Premium",
+        "DAZN", "ESPN", "Sky Sports Main Event", "TNT Sports 1",
+        "Canal+ Sport", "Movistar LaLiga", "Prime Video", "Apple TV",
+        "SuperSport Football", "Sport TV1", "Eleven Sports 2",
+        "Viaplay Sports 1", "Nova Sports", "Arena Sport 1",
+        "Digi Sport 2", "Match TV", "Fox Sports 1", "CBS Sports Network",
+        "NBC Sports", "Peacock", "Paramount+", "RMC Sport 1",
+        "S Sport Plus", "Idman TV", "Varzish TV", "TRT Spor",
+        "Tivibu Spor 3", "Roya TV", "JRTV Sports", "الأردن الرياضية",
+        "دبي الرياضية", "أبو ظبي الرياضية",
+    ]
+    leaked = [c for c in channels if not is_channel_name(c)]
+    if leaked:
+        print(f"       accepted as a club: {leaked}")
+    check("CHANNEL", f"{len(channels)} channel names refused", not leaked, True)
+
+    # is_not_a_team is what the guides actually call, so the gate has to
+    # reach them through it, not only through its own regex.
+    unreached = [c for c in channels if not is_not_a_team(c)]
+    check("CHANNEL", "and every guide sees it through is_not_a_team",
+          not unreached, True)
+
+    # The direction that matters more: a club whose name merely brushes
+    # against broadcast vocabulary must still be a club.
+    clubs = [
+        "Sporting CP", "Sporting Lisbon", "Sport Boys", "Sport Recife",
+        "Sportivo Luqueño", "Deportivo Alavés", "Eintracht Frankfurt",
+        "Union Berlin", "Bayern München", "Stuttgart", "Real Madrid",
+        "Al Sahel", "Al Arabi SC", "Kazma", "الأهلي", "الهلال", "القناة",
+        "الاتحاد", "النصر السعودي", "الوحدات", "ZED FC", "ENPPI Club",
+    ]
+    refused = [c for c in clubs if is_channel_name(c)]
+    if refused:
+        print(f"       real clubs mistaken for channels: {refused}")
+    check("CHANNEL", f"none of {len(clubs)} real clubs called a channel",
+          not refused, True)
+
+    # And the guides' own parsers, through their own front doors.
+    import update_shahid_sports_epg as SH
+    accepted = [c for c in channels if SH.looks_like_team(c)]
+    if accepted:
+        print(f"       Shahid would publish as a club: {accepted}")
+    check("Shahid", "looks_like_team refuses every channel name",
+          not accepted, True)
+    dropped = [c for c in clubs if not SH.looks_like_team(c)]
+    if dropped:
+        print(f"       Shahid would drop real clubs: {dropped}")
+    check("Shahid", "and still accepts every real club", not dropped, True)
+
+
+def gate_one_match_one_row() -> None:
+    """The same match may not appear twice because two sources spell it twice.
+
+    Matches kicking off together share one row on a single-channel guide,
+    joined with " + ". That is right, and it is what made a spelling
+    difference visible as nonsense:
+
+        Elversberg - Bayer Leverkusen + FC Koln - Hoffenheim
+        + Köln - Hoffenheim + Mainz - Paderborn + Mainz 05 - Paderborn
+        + RB Leipzig - B. Monchengladbach + RB Leipzig - Borussia M'gladbach
+
+    Five matches printed as nine, because dedupe compared the names
+    literally. This decides only whether two rows are the same match — it
+    never changes a name anyone reads — so a wrong entry costs a lost
+    fixture, and the second half of this gate is what keeps that honest.
+    """
+    print("\nOne match, one row — title_signature")
+    import update_shahid_sports_epg as SH
+
+    same = [
+        ("FC Koln - Hoffenheim", "Köln - Hoffenheim"),
+        ("Mainz - Paderborn", "Mainz 05 - Paderborn"),
+        ("RB Leipzig - B. Monchengladbach",
+         "RB Leipzig - Borussia M'gladbach"),
+        ("Bayern Munich - Stuttgart", "Bayern München - Stuttgart"),
+        ("Union Berlin - Schalke 04", "Union Berlin - Schalke"),
+        ("Union Berlin - Eintracht Frankfurt", "Union Berlin - Frankfurt"),
+        ("Hamburger SV - Mainz 05", "Hamburg - Mainz"),
+        ("Hoffenheim - Borussia Dortmund", "1899 Hoffenheim - Dortmund"),
+        ("Bayer 04 Leverkusen - Union Berlin",
+         "Bayer Leverkusen - Union Berlin"),
+    ]
+    split = [(a, b) for a, b in same
+             if SH.title_signature(a) != SH.title_signature(b)]
+    if split:
+        print(f"       still counted as two matches: {split[:3]}")
+    check("DEDUPE", f"{len(same)} spellings of one match collapse",
+          not split, True)
+
+    # The direction that costs a fixture: two different matches must never
+    # collapse into one, so every distinct club needs a distinct signature.
+    clubs = [
+        "Bayern München", "Borussia Dortmund", "Borussia M'gladbach",
+        "Union Berlin", "Eintracht Frankfurt", "Schalke 04", "Mainz 05",
+        "Hoffenheim", "Köln", "Bayer Leverkusen", "RB Leipzig", "Stuttgart",
+        "Werder Bremen", "Freiburg", "Augsburg", "Hamburger SV",
+        "Elversberg", "Paderborn", "Heidenheim", "St. Pauli",
+        "Inter", "Milan", "Juventus", "Roma", "Lazio", "Napoli", "Torino",
+        "Monza", "Parma", "Como", "Genoa", "Lecce", "Cagliari", "Verona",
+        "Udinese", "Venezia", "Frosinone", "Sassuolo", "Atalanta",
+        "Bologna", "Fiorentina", "Cremonese", "Palermo", "Mantova",
+        "Al Sahel", "Al Sulaibikhat", "Kazma", "Al Tadhamon", "Al Qadsia",
+        "Al Arabi SC", "Al Salmiyah", "Al Fahaheel", "Al Nasar",
+        "Al Kuwait", "Al Jahra", "Al Shabab",
+        "الأهلي", "الزمالك", "الهلال", "النصر", "الاتحاد", "الشباب",
+    ]
+    seen: dict[str, str] = {}
+    collisions = []
+    for club in clubs:
+        key = SH.normalize_name(club)
+        if key in seen:
+            collisions.append((seen[key], club))
+        seen[key] = club
+    if collisions:
+        print(f"       two clubs share one signature: {collisions}")
+    check("DEDUPE", f"all {len(clubs)} clubs keep distinct signatures",
+          not collisions, True)
+
+    # And a whole slot, the way it was published.
+    titles = ["Elversberg - Bayer Leverkusen", "FC Koln - Hoffenheim",
+              "Köln - Hoffenheim", "Mainz - Paderborn",
+              "Mainz 05 - Paderborn", "RB Leipzig - B. Monchengladbach",
+              "RB Leipzig - Borussia M'gladbach",
+              "Union Berlin - Eintracht Frankfurt"]
+    distinct = {SH.title_signature(t) for t in titles}
+    if len(distinct) != 5:
+        print(f"       the slot collapses to {len(distinct)} matches, not 5")
+    check("DEDUPE", "the published slot of 8 rows is 5 matches",
+          len(distinct) == 5, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
-    for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team):
+    for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
+                 gate_channel_is_never_a_team,
+                 gate_one_match_one_row):
         try:
             gate()
         except Exception as exc:

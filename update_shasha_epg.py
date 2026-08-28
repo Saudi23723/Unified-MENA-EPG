@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 from pypdf import PdfReader
 from io import BytesIO
 
-from epg_lib import countdown_step, countdown_title, with_live_badge
+from epg_lib import fill_wait, with_live_badge
 
 OUTPUT = "shasha_epg.xml"
 
@@ -586,29 +586,20 @@ def write_xml(events: list[dict]) -> None:
         return " + ".join(ev["title"] for ev in slots[slot_start])
 
     def add_countdown(gap_start: datetime, gap_stop: datetime, desc: str) -> None:
-        """Fill a gap with consecutive blocks counting down to the next match."""
-        cursor = gap_start
-        while cursor < gap_stop:
-            upcoming = next_slot_after(cursor)
-            if upcoming is None:
-                add_programme(
-                    root, cursor, gap_stop,
-                    "لا توجد مباراة قادمة على شاشا", desc,
-                )
-                return
+        """Fill a gap: one row for the long wait, a countdown near kickoff.
 
-            remaining = upcoming - cursor
-            stop = min(cursor + countdown_step(remaining), gap_stop, upcoming)
-            if stop <= cursor:
-                return
-
-            add_programme(
-                root, cursor, stop,
-                countdown_title(slot_title(upcoming),
-                                remaining.total_seconds() // 60),
-                desc,
-            )
-            cursor = stop
+        See fill_wait in epg_lib — the shape is shared with Shahid so the
+        two guides cannot drift apart, and so the horizon that stopped this
+        guide publishing 1004 countdown rows for 38 matches is set once.
+        """
+        fill_wait(
+            gap_start, gap_stop,
+            next_slot_after,
+            slot_title,
+            lambda start, stop, title: add_programme(
+                root, start, stop, title, desc),
+            "لا توجد مباراة معلنة بعد على شاشا",
+        )
 
     by_day: dict[date, list[dict]] = {}
     for ev in events:

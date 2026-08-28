@@ -258,6 +258,61 @@ def main() -> int:
           == f"{L.COUNTDOWN_MARK} A - B + C - D · بعد 3 دقائق",
           title)
 
+    # -------------------------------------------------------- fill_wait
+    #
+    # 17 matches were being published as 640 rows, 623 of them countdown
+    # blocks, because a five-day gap was filled hour by hour. A guide is
+    # meant to answer "what is next" in one row, not repeat it 120 times.
+    print("\nfill_wait — a long wait is one row, not a ticker")
+
+    day0 = datetime(2026, 8, 28, 0, 0)
+    kickoff = day0 + timedelta(days=5, hours=21, minutes=30)
+
+    rows: list[tuple[datetime, datetime, str]] = []
+
+    def emit(start, stop, title):
+        rows.append((start, stop, title))
+
+    # One day at a time, the way both guides call it.
+    for offset in range(6):
+        start = day0 + timedelta(days=offset)
+        stop = min(start + timedelta(days=1), kickoff)
+        if stop <= start:
+            continue
+        L.fill_wait(start, stop,
+                    lambda m: kickoff if kickoff >= m else None,
+                    lambda k: "A - B", emit, "nothing")
+
+    waits = [r for r in rows if r[2].startswith(f"{L.COUNTDOWN_MARK} المباراة القادمة")]
+    counts = [r for r in rows if "بعد" in r[2]]
+    check("a five-day wait is one row a day, not one an hour",
+          len(waits) == 6, f"{len(waits)} wait rows over six days")
+    check("the countdown is short and only near kickoff",
+          len(counts) <= 30
+          and all(kickoff - c[0] <= L.COUNTDOWN_HORIZON for c in counts),
+          f"{len(counts)} countdown rows, "
+          f"earliest {min((kickoff - c[0] for c in counts), default=0)} out")
+    check("the whole span is covered with no gap and no overlap",
+          all(rows[i][1] == rows[i + 1][0] for i in range(len(rows) - 1))
+          and rows[0][0] == day0 and rows[-1][1] == kickoff,
+          f"{len(rows)} rows, {rows[0][0]} .. {rows[-1][1]}")
+    check("every row ends after it starts",
+          all(a < b for a, b, _ in rows), "a row ends before it starts")
+    check("the wait row names the match without a clock in the title",
+          waits and "A - B" in waits[0][2]
+          and not re.search(r"\d{1,2}:\d{2}", waits[0][2]),
+          waits[0][2] if waits else "no wait row")
+
+    # Nothing announced: one row, not one an hour saying nothing is on.
+    empty: list[tuple[datetime, datetime, str]] = []
+    L.fill_wait(day0, day0 + timedelta(days=3),
+                lambda m: None, lambda k: "",
+                lambda a, b, t: empty.append((a, b, t)), "لا شيء")
+    check("an unannounced stretch is a single row",
+          len(empty) == 1 and empty[0][2] == "لا شيء"
+          and empty[0][1] - empty[0][0] == timedelta(days=3),
+          f"{len(empty)} rows")
+
     print()
     if failures:
         print(f"{len(failures)} check(s) failed: {', '.join(failures)}")

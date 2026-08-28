@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    COMPETITION_NAME, countdown_step, countdown_title, is_not_a_team,
+    COMPETITION_NAME, fill_wait, fold_name, is_channel_name, is_not_a_team,
     with_live_badge,
 )
 
@@ -328,6 +328,44 @@ def competition_from(lines) -> str:
     return "، ".join(found[:2])
 
 
+def channels_from(lines) -> str:
+    """The other channels named alongside a fixture, if any.
+
+    LiveFootballTV lists every channel carrying a match, this guide's own
+    among them:
+
+        الدوري الألماني
+        Union Berlin
+        Eintracht Frankfurt
+        MBC Shahid Sports
+        MBC Action
+
+    Reading "the last two plausible names" off that block gives
+    "Eintracht Frankfurt - MBC Action", and that is exactly what reached
+    the guide: a television channel published as a football club. The
+    channel gate now refuses those lines outright.
+
+    Refusing them is only half the answer. A viewer who sees the match on
+    this guide is better off knowing it is also on MBC Action than having
+    that fact silently dropped, so the names are read back here and shown
+    with the fixture — the guide says where else to watch instead of
+    inventing an opponent out of it.
+
+    This guide's own name is left out: saying "also on Shahid" inside the
+    Shahid guide tells nobody anything.
+    """
+    found = []
+    for item in lines:
+        value = clean_side(item)
+        if not value or len(value) > 40:
+            continue
+        if TIME_RE.search(value) or SHAHID_RE.search(value):
+            continue
+        if is_channel_name(value) and value not in found:
+            found.append(value)
+    return "، ".join(found[:3])
+
+
 def looks_like_team(value):
     value = clean_side(value)
     if not value:
@@ -413,19 +451,48 @@ def fixture_from_cells(cells):
     return None
 
 
+# One club, several spellings. These are matched on the folded, lowercased,
+# punctuation-stripped form, which is why the keys carry no accents: by the
+# time they run, "München" is already "munchen".
+#
+# Each pair here was seen in one published slot, the same match printed
+# twice because two sources spelled it differently:
+#
+#     FC Koln - Hoffenheim + Köln - Hoffenheim
+#     Mainz - Paderborn + Mainz 05 - Paderborn
+#     RB Leipzig - B. Monchengladbach + RB Leipzig - Borussia M'gladbach
+#
+# This decides only whether two rows are the same match. It never changes
+# a name a viewer reads, so the risk of a wrong entry is a lost fixture,
+# not a wrong one — which is why nothing here merges on a guess.
 TEAM_NAME_ALIASES = (
-    ("münchen", "munich"),
-    ("muenchen", "munich"),
-    ("fc bayern", "bayern"),
-    ("hamburger sv", "hamburg"),
+    (r"\bm\s*gladbach\b|\bmonchengladbach\b|\bmgladbach\b", "gladbach"),
+    (r"\bmunchen\b|\bmuenchen\b", "munich"),
+    (r"\bhamburger\b", "hamburg"),
+    (r"\beintracht\s+frankfurt\b", "frankfurt"),
+    (r"\b1899\b", " "),
+    # "Borussia" tells Dortmund from Mönchengladbach in prose and nothing
+    # apart once the city is normalised, so both sides drop it or neither
+    # can match: "B. Monchengladbach" against "Borussia M'gladbach".
+    (r"\bborussia\b|\bbor\b", " "),
+    # A lone letter left by an abbreviation — "B. Monchengladbach" — is an
+    # initial, never an identity. Run after the aliases so it cannot eat a
+    # letter one of them still needs.
+    (r"\b[a-z]\b", " "),
+    # The founding year German clubs carry in their name — Schalke 04,
+    # Mainz 05, Bayer 04 — printed by some sources and not by others.
+    (r"\b\d{2}\b", " "),
 )
 
 
 def normalize_name(value):
-    value = norm(value).casefold()
-    for old, new in TEAM_NAME_ALIASES:
-        value = value.replace(old, new)
+    # Fold the accent before anything compares the string. Sources spell one
+    # club several ways, and comparing literally showed the same match twice
+    # in one slot: "FC Koln - Hoffenheim + Köln - Hoffenheim".
+    value = fold_name(norm(value)).casefold()
     value = re.sub(r"[^\w\u0600-\u06ff ]+", " ", value)
+    for pattern, replacement in TEAM_NAME_ALIASES:
+        value = re.sub(pattern, replacement, value)
     value = re.sub(r"\b(?:fc|cf|club|sv|vfb|1|نادي)\b", " ", value, flags=re.I)
     return re.sub(r"\s+", " ", value).strip()
 
@@ -746,6 +813,9 @@ def parse_livefootballtv():
         # is read whichever way the fixture itself was found.
         competition = competition_from(pending_lines)
 
+        # So are the other channels carrying it — see channels_from.
+        channels = channels_from(pending_lines)
+
         # LiveFootballTV often renders competition + team1 + team2 + channel on
         # separate lines, without a VS token. In that case take the last two
         # plausible team names before the channel label.
@@ -771,6 +841,7 @@ def parse_livefootballtv():
                     "start": start,
                     "title": title,
                     "competition": competition,
+                    "channels": channels,
                     "source": LIVE_FOOTBALL_TV,
                     "source_name": "LiveFootballTV",
                 })
@@ -967,8 +1038,13 @@ def write_xml(events):
             # dropped — so the guide could say a match was on and not say
             # which competition it belonged to.
             competition = (event.get("competition") or "").strip()
+            # Where else the match is carried, when the source said so.
+            # A channel name used to end up in the opponent's place; it is
+            # named here as a channel instead of being thrown away.
+            channels = (event.get("channels") or "").strip()
             lines.append(f"{source_time(event)} | {event['title']}"
-                         + (f" — {competition}" if competition else ""))
+                         + (f" — {competition}" if competition else "")
+                         + (f" | يُبث أيضًا على: {channels}" if channels else ""))
         return "\n".join(lines)
 
     def add_programme(start, stop, title, description):
@@ -1008,33 +1084,20 @@ def write_xml(events):
         return next((k for k in all_kickoffs if k >= moment), None)
 
     def add_countdown(gap_start, gap_stop, description):
-        """Fill a gap with consecutive blocks counting down to the next match.
+        """Fill a gap: one row for the long wait, a countdown near kickoff.
 
-        A countdown baked into a static file would go stale immediately, so
-        the gap is split into blocks each labelled with the time left at its
-        own start. The player always shows the block covering "now", so the
-        figure stays right without re-downloading; blocks shorten as kickoff
-        approaches so it is never more than one step out of date.
+        See fill_wait in epg_lib — the shape is shared with Shasha so the
+        two guides cannot drift apart, and so the horizon that stopped this
+        guide publishing 623 countdown rows for 17 matches is set once.
         """
-        block = gap_start
-        while block < gap_stop:
-            upcoming = next_kickoff_after(block)
-            if upcoming is None:
-                add_programme(block, gap_stop, "لا توجد مباراة قادمة", description)
-                return
-
-            remaining = upcoming - block
-            stop = min(block + countdown_step(remaining), gap_stop, upcoming)
-            if stop <= block:
-                return
-
-            add_programme(
-                block, stop,
-                countdown_title(titles_at[upcoming],
-                                remaining.total_seconds() // 60),
-                description,
-            )
-            block = stop
+        fill_wait(
+            gap_start, gap_stop,
+            next_kickoff_after,
+            lambda kickoff: titles_at[kickoff],
+            lambda start, stop, title: add_programme(
+                start, stop, title, description),
+            "لا توجد مباراة معلنة بعد",
+        )
 
     cursor = window_start
     while cursor < window_end:

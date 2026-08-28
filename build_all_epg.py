@@ -145,6 +145,22 @@ STANDIN_TITLE = re.compile(
     r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|Tanıtım|24/7",
     re.I)
 
+# Rows that fill the space between broadcasts rather than announcing one:
+# a countdown, or the single row that covers a long wait.
+#
+# Counting them as programmes made the collapse guard measure the wrong
+# thing. A guide with 17 matches published 640 rows because the gaps were
+# filled hour by hour; when the filling was made sane the row count halved
+# and the guard would have called that a collapse and restored the old
+# file — for ever, since the published file never moves. Worse, it was
+# blind in the direction that matters: a guide whose source had died could
+# keep 600 countdown rows pointed at one stale fixture and sail past a
+# floor set on rows.
+#
+# So the floor counts what a guide is actually for: how many broadcasts it
+# knows about.
+FILLER_TITLE = re.compile(r"\u23f0|·\s*بعد\s|المباراة القادمة")
+
 # A generator that has not finished in this long is not going to. The
 # whole set normally runs in a few minutes; this is the brake, not the
 # budget.
@@ -200,50 +216,53 @@ def run(script: str, budget_left: timedelta) -> tuple[str, float]:
     return "ok", seconds
 
 
-def measure(path: str) -> tuple[int, int]:
-    """(programmes, rows that say the guide does not know) for one file."""
-    if not os.path.exists(path):
-        return 0, 0
-    try:
-        root = ET.parse(path).getroot()
-    except Exception:
-        return 0, 0
+def count(root) -> tuple[int, int, int]:
+    """(programmes, rows that say the guide does not know, real broadcasts).
+
+    One function, so a rebuild and the file it is compared against are
+    always counted the same way.
+    """
     per: dict[str, list] = {}
     for programme in root.findall("programme"):
         title = (programme.findtext("title") or "").strip()
-        slot = per.setdefault(programme.get("channel"), [0, 0, set()])
+        slot = per.setdefault(programme.get("channel"), [0, 0, set(), 0])
         slot[0] += 1
         slot[2].add(title)
         if STANDIN_TITLE.search(title):
             slot[1] += 1
+        elif not FILLER_TITLE.search(title):
+            slot[3] += 1
     for slot in per.values():
+        # A channel saying one single thing all day is saying nothing,
+        # whatever that thing is.
         if slot[0] >= 4 and len(slot[2]) == 1:
             slot[1] = slot[0]
-    return sum(v[0] for v in per.values()), sum(v[1] for v in per.values())
+            slot[3] = 0
+    return (sum(v[0] for v in per.values()),
+            sum(v[1] for v in per.values()),
+            sum(v[3] for v in per.values()))
 
 
-def committed(path: str) -> tuple[int, int]:
+def measure(path: str) -> tuple[int, int, int]:
+    """Count a file on disk."""
+    if not os.path.exists(path):
+        return 0, 0, 0
+    try:
+        return count(ET.parse(path).getroot())
+    except Exception:
+        return 0, 0, 0
+
+
+def committed(path: str) -> tuple[int, int, int]:
     """The same measurement, taken on what is already published."""
     done = subprocess.run(["git", "show", f"HEAD:{path}"],
                           capture_output=True, check=False)
     if done.returncode != 0 or not done.stdout:
-        return 0, 0
+        return 0, 0, 0
     try:
-        root = ET.fromstring(done.stdout)
+        return count(ET.fromstring(done.stdout))
     except Exception:
-        return 0, 0
-    per: dict[str, list] = {}
-    for programme in root.findall("programme"):
-        title = (programme.findtext("title") or "").strip()
-        slot = per.setdefault(programme.get("channel"), [0, 0, set()])
-        slot[0] += 1
-        slot[2].add(title)
-        if STANDIN_TITLE.search(title):
-            slot[1] += 1
-    for slot in per.values():
-        if slot[0] >= 4 and len(slot[2]) == 1:
-            slot[1] = slot[0]
-    return sum(v[0] for v in per.values()), sum(v[1] for v in per.values())
+        return 0, 0, 0
 
 
 def keep_published_if_collapsed(label: str, path: str,
@@ -253,13 +272,19 @@ def keep_published_if_collapsed(label: str, path: str,
     Returns a note when it intervened, so the caller can say so in the
     table rather than leaving it to a log line.
     """
-    was_rows, was_blank = committed(path)
-    now_rows, now_blank = measure(path)
+    was_rows, was_blank, was_real = committed(path)
+    now_rows, now_blank, now_real = measure(path)
     if not was_rows or not now_rows:
         return None
 
     reason = None
-    if now_rows < was_rows * COLLAPSE_FLOOR:
+    # Broadcasts, not rows — see FILLER_TITLE. Rows are the fallback for a
+    # guide that has never had a real one to count.
+    if was_real:
+        if now_real < was_real * COLLAPSE_FLOOR:
+            reason = (f"{now_real} matches against {was_real} already "
+                      f"published — under half")
+    elif now_rows < was_rows * COLLAPSE_FLOOR:
         reason = (f"{now_rows} programmes against {was_rows} already "
                   f"published — under half")
     else:
