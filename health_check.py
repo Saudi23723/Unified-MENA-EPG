@@ -25,6 +25,12 @@ What counts as a failure:
     keeps whichever it reads first and silently drops the other
   * a channel that exists in a source file but is missing from the merged
     guide
+  * a guide made up of more stand-in than guide_ceilings.json allows it.
+    A stand-in is a title that fills time instead of describing a
+    broadcast, and a guide that turns mostly into them has usually lost a
+    source rather than run out of sport. ON Sport sat at 94 per cent for
+    days after FilGoal shut off its feed, warning every run into a log
+    nobody read, while every other check here passed
 
 What is only reported:
 
@@ -41,6 +47,7 @@ is what watches freshness.
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import sys
@@ -106,6 +113,85 @@ def stale_hours(path: str, now: datetime) -> float | None:
     if not stops:
         return None
     return (now - max(stops)).total_seconds() / 3600.0
+
+
+# A title that stands in for a schedule instead of being one. Each entry
+# is a real string some guide publishes, not a guess:
+#
+#   لا توجد مباراة مجدولة       ON Sport, Alwan, Fajer, Thmanyah — no match known
+#   مباراة لم تُعلن قناتها بعد   Thmanyah — match known, channel not
+#   PPV — حسب المباراة          tabii Spor 1-10, the standing notice
+#   ⏰ التالي:                   the countdown filler between fixtures
+#   Tanıtım                     Tivibu Spor, the channel trailing itself
+#
+# A channel whose every row carries one single title is counted the same
+# way whatever that title is, because that is what beIN's XTRA blurb and
+# an operator's channel-name filler both look like from here.
+STANDIN_TITLE = re.compile(
+    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|"
+    r"⏰ التالي|Tanıtım|24/7",
+    re.I)
+
+CEILINGS_FILE = "guide_ceilings.json"
+
+
+def standin_share(path: str) -> tuple[int, int]:
+    """(stand-in rows, total rows) for one published guide."""
+    try:
+        root = ET.parse(path).getroot()
+    except Exception:
+        return 0, 0
+    per: dict[str, list] = {}
+    for programme in root.findall("programme"):
+        title = (programme.findtext("title") or "").strip()
+        cid = programme.get("channel")
+        slot = per.setdefault(cid, [0, 0, set()])
+        slot[0] += 1
+        slot[2].add(title)
+        if STANDIN_TITLE.search(title):
+            slot[1] += 1
+    for slot in per.values():
+        # One title for a whole channel is filler whatever it says.
+        if slot[0] >= 4 and len(slot[2]) == 1:
+            slot[1] = slot[0]
+    return (sum(v[1] for v in per.values()),
+            sum(v[0] for v in per.values()))
+
+
+def check_ceilings(now: datetime) -> None:
+    """Fail a guide that has turned mostly into stand-in.
+
+    This is the check that would have caught FilGoal on the first run
+    after it was shut off, instead of days later and on a television.
+    """
+    if not os.path.exists(CEILINGS_FILE):
+        note(f"{CEILINGS_FILE} is missing — no guide is held to a "
+             f"stand-in ceiling this run")
+        return
+    try:
+        ceilings = json.load(open(CEILINGS_FILE, encoding="utf-8"))
+    except Exception as exc:
+        fail(f"{CEILINGS_FILE} is unreadable: {exc}")
+        return
+
+    print(f"\n{'file':34} {'stand-in':>9} {'ceiling':>8}")
+    for path, ceiling in sorted(ceilings.items()):
+        if not path.endswith(".xml") or not isinstance(ceiling, (int, float)):
+            continue
+        if not os.path.exists(path):
+            continue
+        standin, total = standin_share(path)
+        if not total:
+            continue
+        share = round(100 * standin / total)
+        mark = "  OVER" if share > ceiling else ""
+        print(f"{path:34} {share:>8}% {ceiling:>7}%{mark}")
+        if share > ceiling:
+            fail(f"{path}: {share}% of its rows are stand-in, above the "
+                 f"{ceiling}% this guide is held to. A guide does not "
+                 f"usually fill up with stand-in because there is no sport "
+                 f"— check whether one of its sources has stopped "
+                 f"answering, the way FilGoal's feed did")
 
 
 def source_files() -> list[str]:
@@ -285,6 +371,9 @@ def main() -> int:
                  f"but absent from the merged link: {', '.join(missing[:8])}")
 
     print()
+    if not structure_only:
+        check_ceilings(now)
+
     for n in notes:
         print(f"NOTE  {n}", flush=True)
     for e in errors:

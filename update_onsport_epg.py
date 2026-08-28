@@ -85,6 +85,22 @@ LIVEFOOTBALLTV = {
     "ONSportPLUS": "https://www.livefootballtv.info/channel/on-sport-plus",
 }
 
+# The same site's front page, which lists every match of the day with the
+# channels carrying it — including channels that have no page of their
+# own above.
+#
+# That gap is not hypothetical. On 28 August the Egyptian league match
+# ZED FC - Al Ahly was listed there against a channel called plainly
+# "ON Sport", which is not one of the four slugs, so the guide showed
+# "لا توجد مباراة مجدولة" on every channel while the source had the
+# match all along. FilGoal, which used to supply the channel for exactly
+# this case, had stopped answering — see FILGOAL_RSS_FEEDS below.
+#
+# It is also better data than anything scraped from prose: each row is
+# schema.org Event markup, giving the fixture, its start and its channel
+# list as attributes rather than as sentences to be parsed.
+LIVEFOOTBALLTV_HOME = "https://www.livefootballtv.info/"
+
 FILGOAL_EGYPT_SECTION = (
     "https://www.filgoal.com/section/88/articles/"
     "%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A"
@@ -92,11 +108,25 @@ FILGOAL_EGYPT_SECTION = (
 
 EPL_HOME = "https://www.egyptianproleague.com/"
 
-FILGOAL_FEEDS = [
-    "https://www.filgoal.com/section/88/rss/الدوري-المصري",
-    "https://www.filgoal.com/section/1/rss/مصر",
-    "https://www.filgoal.com/section/0/rss/مصر",
-]
+# FilGoal retired its RSS service. All three feeds answer, in as many
+# words, "Sorry, this service is no longer available." — measured on
+# 28 August 2026, on two different user agents:
+#
+#   https://www.filgoal.com/section/88/rss/الدوري-المصري   403, 43 bytes
+#   https://www.filgoal.com/section/1/rss/مصر               403, 43 bytes
+#   https://www.filgoal.com/section/0/rss/مصر               403, 43 bytes
+#
+# That is not a block to work around; it is a service that has been shut
+# off. Asking anyway cost eighteen seconds of retries a run and printed
+# three failures that buried the real one, so the list is empty. The
+# parser and its self-test stay: nothing else knows how to read a feed,
+# and if FilGoal ever publishes one again a URL here is all it needs.
+#
+# The site itself is still up and its section page still answers, so
+# _discover_via_html below remains the way in — though on the day the RSS
+# died that page yielded no assignment articles either, its layout having
+# moved on. LiveFootballTV's front page is what carries the guide now.
+FILGOAL_FEEDS: list[str] = []
 
 session = requests.Session()
 session.headers.update({
@@ -355,6 +385,11 @@ def event_key(ev: dict) -> str:
 SOURCE_PRIORITY = {
     "FilGoal+EPL": 130,
     "FilGoal": 120,
+    # The front page and the channel pages are one publisher saying the
+    # same thing two ways. The front page is ranked a shade higher of the
+    # two because it reads the channel out of markup rather than out of a
+    # line of text, so it cannot mistake a neighbouring word for a name.
+    "LiveFootballTV-home": 105,
     "LiveFootballTV": 100,
 }
 
@@ -888,6 +923,118 @@ def parse_lftv_channel(html: str, channel_id: str, source_url: str) -> list[dict
     return dedupe(events)
 
 
+LFTV_META_TOLERANCE = timedelta(hours=6)
+
+
+def parse_lftv_home(html: str) -> list[dict]:
+    """Every ON Sport fixture on livefootballtv's front page.
+
+    A row is a <tr> carrying four things this needs: the displayed time in
+    td.hora, the two teams in td.local and td.visitante, and the channels
+    in td.canales as <li title="...">. Alongside them sits schema.org
+    Event markup with a startDate, which is used only to date the row —
+    the time itself is taken from the visible cell, because that is the
+    one the site shows an Egyptian reader and the one the per-channel
+    parser has always used.
+
+    The two are checked against each other rather than trusted blindly. A
+    site publishing local wall-clock under a foreign offset has already
+    cost this project three hours once, on a different feed, so a row
+    whose markup and whose visible time disagree by more than a few hours
+    is dropped with a warning instead of being published six hours out.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    events: list[dict] = []
+    dropped = 0
+    for row in soup.find_all("tr"):
+        hora = row.find("td", class_="hora")
+        local = row.find("td", class_="local")
+        visit = row.find("td", class_="visitante")
+        canales = row.find("td", class_="canales")
+        if not (hora and local and visit and canales):
+            continue
+
+        m = re.search(r"(\d{1,2}):(\d{2})", hora.get_text(" ", strip=True))
+        if not m:
+            continue
+
+        def team(cell):
+            span = cell.find("span", title=True)
+            if span and span.get("title"):
+                return norm(span["title"])
+            return norm(cell.get_text(" ", strip=True))
+
+        home, away = team(local), team(visit)
+        if not home or not away:
+            continue
+
+        meta = canales.find("meta", attrs={"itemprop": "startDate"})
+        if not meta or not meta.get("content"):
+            continue
+        try:
+            marked = datetime.fromisoformat(meta["content"])
+        except ValueError:
+            continue
+        if marked.tzinfo is None:
+            marked = marked.replace(tzinfo=UTC)
+
+        # The date from the markup, the clock from the cell, read as Cairo.
+        day = marked.astimezone(SOURCE_TZ).date()
+        start_local = datetime(day.year, day.month, day.day,
+                               int(m.group(1)), int(m.group(2)), tzinfo=SOURCE_TZ)
+        start_utc = start_local.astimezone(UTC)
+        if abs(start_utc - marked.astimezone(UTC)) > LFTV_META_TOLERANCE:
+            dropped += 1
+            continue
+        if not in_window(start_utc):
+            continue
+
+        for li in canales.select("ul.listaCanales li"):
+            label = norm(li.get("title") or li.get_text(" ", strip=True))
+            channel_id = channel_from_arabic(label)
+            if not channel_id:
+                continue
+            events.append({
+                "channel_id": channel_id,
+                "channel_name": CHANNELS[channel_id]["name"],
+                "start": start_utc,
+                "home": home,
+                "away": away,
+                "competition": norm(
+                    (canales.find("meta", attrs={"itemprop": "url"}) or {})
+                    .get("content", "").rsplit("/", 1)[-1].replace("-", " ").title()
+                ) or "Football",
+                "source_name": "LiveFootballTV-home",
+                "source": LIVEFOOTBALLTV_HOME,
+                "commentator": "",
+                "duration_minutes": MATCH_MINUTES,
+            })
+
+    if dropped:
+        warn(f"LFTV home: {dropped} row(s) whose markup and displayed time "
+             f"disagree by more than {LFTV_META_TOLERANCE} — dropped rather "
+             f"than published at the wrong hour")
+    return events
+
+
+def collect_lftv_home_events() -> list[dict]:
+    """The front page, which names channels the four slugs do not cover."""
+    try:
+        events = parse_lftv_home(fetch_text(LIVEFOOTBALLTV_HOME))
+    except Exception as exc:
+        warn(f"LFTV home failed: {exc}")
+        return []
+    per = {}
+    for ev in events:
+        per[ev["channel_name"]] = per.get(ev["channel_name"], 0) + 1
+    log(f"LFTV home fixtures on ON Sport channels: {len(events)} "
+        f"{per if per else ''}")
+    return dedupe(events)
+
+
 def collect_lftv_events() -> list[dict]:
     events: list[dict] = []
     for channel_id, url in LIVEFOOTBALLTV.items():
@@ -1265,7 +1412,8 @@ def _xml_integrity_test() -> None:
 
 def main():
     log(
-        "ON SPORT EPG v2 | FilGoal assignments + EPL validation + LiveFootballTV | "
+        "ON SPORT EPG v2 | LiveFootballTV front page + channel pages, "
+        "FilGoal where it still answers | "
         f"SOURCE TZ = {SOURCE_TZ.key} | UTC XMLTV | TIVIMATE AUTO-CONVERT | "
         f"MATCH = {MATCH_MINUTES} MIN | 1 + 2 + MAX + PLUS"
     )
@@ -1276,8 +1424,9 @@ def main():
     filgoal = validate_with_epl(filgoal)
 
     lftv = collect_lftv_events()
+    lftv_home = collect_lftv_home_events()
 
-    events = dedupe(filgoal + lftv)
+    events = dedupe(filgoal + lftv_home + lftv)
 
     log(f"ON Sport total verified football events: {len(events)}")
     for ev in sorted(events, key=lambda x: x["start"]):

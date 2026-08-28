@@ -1,0 +1,36 @@
+{
+  "_comment": [
+    "The most of each guide that may be a stand-in rather than a programme,",
+    "as a share of its rows. A stand-in is a title that fills time instead of",
+    "describing a broadcast: 'لا توجد مباراة مجدولة', the tabii PPV notice,",
+    "a channel repeating its own name, an operator's blurb about itself.",
+    "",
+    "This exists because ON Sport spent days at 94% stand-in — its source,",
+    "FilGoal's RSS, had been shut off and every run said so in a warning",
+    "nobody read. The guide kept publishing, kept passing every check, and",
+    "the only thing that noticed was a person looking at a television.",
+    "",
+    "Each ceiling is set a little above what that guide measured while it",
+    "was known to be working, so ordinary variation passes and a source",
+    "going dark does not. Raising one is a decision to be made deliberately,",
+    "with the measurement that justifies it — not a way to quiet a red run.",
+    "",
+    "Measured 28 August 2026 unless noted."
+  ],
+
+  "onsport_epg.xml": 70,
+  "alwan_sports_epg.xml": 88,
+  "fajer_sports_epg.xml": 92,
+  "thmanyah_epg.xml": 90,
+  "tabii_spor_1_10_epg.xml": 96,
+  "bein_sports_qatar_epg.xml": 60,
+  "bein_sports_turkey_epg.xml": 25,
+  "roya_jordan_epg.xml": 30,
+  "starzplay_epg.xml": 30,
+  "alkass_epg.xml": 15,
+  "jordan_sports_epg.xml": 15,
+  "shahid_sports_epg.xml": 20,
+  "shasha_epg.xml": 15,
+  "onsport_note": "70 rather than today's 94: the guide is blind at 94 and this change is what fixes it. If it comes back above 70 the front page has gone the way of the RSS.",
+  "working_note": "Alwan, Fajer and Thmanyah are confirmed working by their owner at these levels; their ceilings sit just above where they measured, not at some ideal."
+}
