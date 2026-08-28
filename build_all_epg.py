@@ -26,8 +26,9 @@ an hour late. That is throttling, and the lever on it is the number of
 scheduled events the repository asks for.
 
 So there is now one scheduled build instead of fifteen. It runs every
-generator in sequence, merges, and pushes once. Roughly fifty runs a day
-where there were seven hundred and fifty.
+generator in sequence, merges, and pushes once, three times an hour.
+Roughly seventy runs a day where there were seven hundred and fifty, and
+a whole build measured 5m29s the day it went in.
 
 The second effect matters as much as the first. A dropped per-guide cron
 used to strand that one guide until its own cron came round again — tabii

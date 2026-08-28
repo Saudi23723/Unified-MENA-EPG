@@ -4,20 +4,30 @@ name: Build every EPG
 # put it here; in short, fifteen hourly crons plus a merge chained to all
 # of them came to ~750 workflow runs a day, and GitHub answered by
 # delaying this repository's scheduled events by up to 45 minutes and
-# dropping them for eight to eleven hours at a stretch. This is ~50 a day.
+# dropping them for eight to eleven hours at a stretch. This is ~72 a day.
 #
-# Two crons an hour, not one. They are the redundancy: a dropped event
-# costs half an hour, and because every tick rebuilds every guide, the
+# Three crons an hour, not one. They are the redundancy: each is a
+# separate scheduling event, so a dropped one costs twenty minutes rather
+# than the whole hour, and because every tick rebuilds every guide, the
 # next one that does land heals all of them at once.
 #
-# :13 and :43 rather than :00 and :30 on purpose — GitHub's own guidance
-# is to avoid the top of the hour, and the load spikes that eat scheduled
-# events land on the quarter hours.
+# Twenty minutes also keeps beIN Qatar roughly as current as the */15 it
+# used to have to itself — the one guide this consolidation could
+# otherwise have made staler.
+#
+# :07, :27 and :47 rather than :00, :20, :40 on purpose. GitHub's own
+# guidance is to avoid the top of the hour, and the load spikes that eat
+# scheduled events land on the round minutes.
+#
+# A whole build measured 5m29s on 28 August, all thirteen generators plus
+# the merge, so three an hour leaves the runner idle most of the time and
+# two ticks can never overlap.
 
 on:
   schedule:
-    - cron: "13 * * * *"
-    - cron: "43 * * * *"
+    - cron: "7 * * * *"
+    - cron: "27 * * * *"
+    - cron: "47 * * * *"
 
   workflow_dispatch:
 
