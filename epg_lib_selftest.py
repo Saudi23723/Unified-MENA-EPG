@@ -203,6 +203,44 @@ def main() -> int:
           [e["start"] for e in out3] == [base, base + timedelta(hours=1)],
           str([(e["title"], str(e["start"])) for e in out3]))
 
+    # ------------------------------------------------------------ countdown
+    #
+    # A countdown block may never outlast the time it counts down. When it
+    # did, a viewer two minutes from kickoff was shown "بعد 12 د" — the
+    # coarsest reading at the moment it matters most, and wrong in the
+    # direction that makes someone miss the start.
+    print("\ncountdown")
+
+    too_long = [
+        left for left in range(1, 60 * 30)
+        if L.countdown_step(timedelta(minutes=left)).total_seconds() // 60
+        > max(left, 1)
+    ]
+    check("no block outlasts the time it counts down, over 30 hours",
+          not too_long, f"first bad offset: {too_long[:3]}")
+
+    near = max(int(L.countdown_step(timedelta(minutes=m)).total_seconds() // 60)
+               for m in range(1, 16))
+    check("inside the last quarter hour a block is at most 2 minutes",
+          near <= 2, f"largest block is {near} minutes")
+
+    check("labels read as Arabic and never say '0 د'",
+          L.countdown_label(0) == "أقل من دقيقة"
+          and L.countdown_label(1) == "1 د"
+          and L.countdown_label(45) == "45 د"
+          and L.countdown_label(60) == "1 س"
+          and L.countdown_label(95) == "1 س و35 د"
+          and L.countdown_label(60 * 24) == "1 ي"
+          and L.countdown_label(60 * 25) == "1 ي و1 س",
+          L.countdown_label(0))
+
+    title = L.countdown_title("A - B", 95)
+    check("one wording, marked as a wait rather than a broadcast",
+          title == f"{L.COUNTDOWN_MARK} A - B · بعد 1 س و35 د"
+          and L.countdown_title("A - B + C - D", 3)
+          == f"{L.COUNTDOWN_MARK} A - B + C - D · بعد 3 د",
+          title)
+
     print()
     if failures:
         print(f"{len(failures)} check(s) failed: {', '.join(failures)}")

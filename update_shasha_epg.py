@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 from pypdf import PdfReader
 from io import BytesIO
 
-from epg_lib import countdown_label, countdown_step, with_live_badge
+from epg_lib import countdown_step, countdown_title, with_live_badge
 
 OUTPUT = "shasha_epg.xml"
 
@@ -602,10 +602,11 @@ def write_xml(events: list[dict]) -> None:
             if stop <= cursor:
                 return
 
-            left = countdown_label(remaining.total_seconds() // 60)
             add_programme(
                 root, cursor, stop,
-                f"{slot_title(upcoming)} · بعد {left}", desc,
+                countdown_title(slot_title(upcoming),
+                                remaining.total_seconds() // 60),
+                desc,
             )
             cursor = stop
 
