@@ -13,6 +13,7 @@ from __future__ import annotations
 import contextlib
 import io
 import os
+import re
 import sys
 import tempfile
 import xml.etree.ElementTree as ET
@@ -224,21 +225,37 @@ def main() -> int:
     check("inside the last quarter hour a block is at most 2 minutes",
           near <= 2, f"largest block is {near} minutes")
 
-    check("labels read as Arabic and never say '0 د'",
+    check("every unit is a whole word, so a number cannot drift from it",
           L.countdown_label(0) == "أقل من دقيقة"
-          and L.countdown_label(1) == "1 د"
-          and L.countdown_label(45) == "45 د"
-          and L.countdown_label(60) == "1 س"
-          and L.countdown_label(95) == "1 س و35 د"
-          and L.countdown_label(60 * 24) == "1 ي"
-          and L.countdown_label(60 * 25) == "1 ي و1 س",
-          L.countdown_label(0))
+          and L.countdown_label(1) == "دقيقة"
+          and L.countdown_label(2) == "دقيقتين"
+          and L.countdown_label(5) == "5 دقائق"
+          and L.countdown_label(45) == "45 دقيقة"
+          and L.countdown_label(60) == "ساعة"
+          and L.countdown_label(95) == "ساعة و35 دقيقة"
+          and L.countdown_label(150) == "ساعتين و30 دقيقة"
+          and L.countdown_label(1170) == "19 ساعة و30 دقيقة"
+          and L.countdown_label(60 * 24) == "يوم"
+          and L.countdown_label(60 * 25) == "يوم وساعة"
+          and L.countdown_label(60 * 24 * 3 + 60) == "3 أيام وساعة",
+          L.countdown_label(1170))
+
+    # "19 س و30 د" was read on a television as nineteen minutes, as thirty
+    # minutes, and as thirty hours and nineteen minutes — three readings of
+    # one line, because a lone letter beside a Latin club name does not stay
+    # next to its number. No abbreviated unit may come back.
+    letters = re.compile(r"(?:^|\s)[سدي](?:\s|$)")
+    abbreviated = [m for m in range(0, 60 * 30, 7)
+                   if letters.search(L.countdown_label(m))]
+    check("no label falls back to a single-letter unit, over 30 hours",
+          not abbreviated,
+          f"first abbreviated offset: {abbreviated[:3]}")
 
     title = L.countdown_title("A - B", 95)
     check("one wording, marked as a wait rather than a broadcast",
-          title == f"{L.COUNTDOWN_MARK} A - B · بعد 1 س و35 د"
+          title == f"{L.COUNTDOWN_MARK} A - B · بعد ساعة و35 دقيقة"
           and L.countdown_title("A - B + C - D", 3)
-          == f"{L.COUNTDOWN_MARK} A - B + C - D · بعد 3 د",
+          == f"{L.COUNTDOWN_MARK} A - B + C - D · بعد 3 دقائق",
           title)
 
     print()

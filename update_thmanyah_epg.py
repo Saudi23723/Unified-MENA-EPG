@@ -16,6 +16,8 @@ from bs4 import BeautifulSoup
 from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
+from epg_lib import countdown_label
+
 from PIL import Image, ImageOps, ImageEnhance
 import pytesseract
 from pytesseract import Output
@@ -2273,18 +2275,14 @@ def write_xml(events):
 
     def countdown_title(item, moment):
         # عد تنازلي مطلق: المدة المتبقية حتى بداية المباراة، لا يتأثر بالمنطقة الزمنية
+        #
+        # الوحدات مكتوبة بالكلمة الكاملة لا بحرف واحد. "19 س و30 د" على
+        # الشاشة قُرئت ثلاث قراءات مختلفة — 19 دقيقة، 30 دقيقة، 30 ساعة
+        # و19 دقيقة — لأن الحرف المفرد لا يبقى ملاصقًا لرقمه بجانب أسماء
+        # لاتينية. countdown_label يكتبها كاملة فلا تحتمل إلا قراءة واحدة،
+        # ويتكفل أيضًا بحالة "أقل من دقيقة" بدل "0 د".
         minutes = max(int((item["start"] - moment).total_seconds() // 60), 0)
-        hours, mins = divmod(minutes, 60)
-        days, hours = divmod(hours, 24)
-
-        if days:
-            left = f"{days} ي و{hours} س"
-        elif hours and mins:
-            left = f"{hours} س و{mins} د"
-        elif hours:
-            left = f"{hours} س"
-        else:
-            left = f"{mins} د"
+        left = countdown_label(minutes)
 
         # لا نعرض توقيت المصدر (الرياض) هنا، فقط اسم المباراة + العد التنازلي
         return f"{item['title']} · بعد {left}"

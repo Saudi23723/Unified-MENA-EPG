@@ -548,23 +548,69 @@ def is_not_a_team(value: str) -> bool:
                 or COMPETITION_NAME.search(value or ""))
 
 
+def arabic_count(number: int, one: str, two: str, few: str, many: str) -> str:
+    """A number with its unit, in the form Arabic actually uses.
+
+    Arabic does not simply put a numeral in front of a noun. One and two
+    are the word alone, three to ten take the plural, and eleven upward
+    take the singular again:
+
+        1  ساعة        2  ساعتين      3  3 ساعات     19  19 ساعة
+        1  دقيقة       2  دقيقتين     5  5 دقائق     30  30 دقيقة
+
+    Written the wrong way it reads as a machine talking. Written this way
+    a viewer reads it without stopping, which is the whole point of a
+    countdown they glance at.
+    """
+    if number == 1:
+        return one
+    if number == 2:
+        return two
+    if 3 <= number <= 10:
+        return f"{number} {few}"
+    return f"{number} {many}"
+
+
 def countdown_label(minutes) -> str:
-    """Arabic 'time remaining' label: '15 د', '2 س', '2 س و15 د', '1 ي و3 س'."""
+    """Arabic 'time remaining', spelled so it can only be read one way.
+
+    This used to abbreviate: "19 س و30 د". On a television, in a line that
+    also carries Latin club names, the single letters drift away from
+    their numbers and a viewer cannot tell whether that says nineteen
+    minutes, thirty minutes, or thirty hours and nineteen minutes. It was
+    reported as exactly those three readings.
+
+    So the units are written out. "19 ساعة و30 دقيقة" cannot be read three
+    ways however the line is laid out, because each number carries its own
+    word rather than a letter that can float off.
+    """
     minutes = max(int(minutes), 0)
     if minutes == 0:
         # The last block of a countdown ends at kickoff, so this is the
         # width of one rounding — "0 د" would read as though the match had
         # already started.
         return "أقل من دقيقة"
+
     hours, mins = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
+
+    def days_word(n):
+        return arabic_count(n, "يوم", "يومين", "أيام", "يوم")
+
+    def hours_word(n):
+        return arabic_count(n, "ساعة", "ساعتين", "ساعات", "ساعة")
+
+    def mins_word(n):
+        return arabic_count(n, "دقيقة", "دقيقتين", "دقائق", "دقيقة")
+
     if days:
-        return f"{days} ي و{hours} س" if hours else f"{days} ي"
+        return (f"{days_word(days)} و{hours_word(hours)}" if hours
+                else days_word(days))
     if hours and mins:
-        return f"{hours} س و{mins} د"
+        return f"{hours_word(hours)} و{mins_word(mins)}"
     if hours:
-        return f"{hours} س"
-    return f"{mins} د"
+        return hours_word(hours)
+    return mins_word(mins)
 
 
 def countdown_step(remaining: timedelta) -> timedelta:
