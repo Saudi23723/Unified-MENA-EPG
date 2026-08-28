@@ -500,7 +500,15 @@ COUNTDOWN_MARK = "\u23f0"          # ⏰
 # both directions: "ودية" sits inside "السعودية" and "cup" inside a dozen
 # innocent words. \b works on Arabic letters here because they are word
 # characters, so "ودية" cannot fire inside "السعودية".
-NOT_A_TEAM_NAME = re.compile(
+# Split in two, because the two halves are worth different things.
+#
+# A date is furniture: "أغسطس" on a page is the day the page was written,
+# and there is nothing to keep. A competition is not — "الدوري الألماني،
+# الجولة 2" says which league and which matchday, which is exactly what a
+# viewer opening a programme wants to read. Telling a club from a heading
+# is one job; throwing the heading away afterwards is a different and
+# worse decision, and this repository was making it.
+DATE_WORD = re.compile(
     # months
     r"\b(?:january|february|march|april|may|june|july|august|september"
     r"|october|november|december)\b"
@@ -513,8 +521,11 @@ NOT_A_TEAM_NAME = re.compile(
     r"|\b(?:mon|tue|tues|wed|thu|thur|thurs|fri|sat|sun)\b"
     r"|\b(?:الاثنين|الإثنين|الثلاثاء|الأربعاء|الاربعاء|الخميس|الجمعة"
     r"|السبت|الأحد|الاحد|اليوم|غدا|غد[اً]?|[أا]مس)\b"
-    # competitions, rounds and stages
-    r"|\b(?:league|cup|supercup|trophy|championship|friendly|qualifier"
+    , re.I,
+)
+
+COMPETITION_NAME = re.compile(
+    r"\b(?:league|cup|supercup|trophy|championship|friendly|qualifier"
     r"|qualifiers|playoff|playoffs|matchday|matchweek|gameweek|round"
     r"|week|leg|group|stage|final|finals|semi|quarter)\b"
     r"|\b(?:semi|quarter)[\s-]?finals?\b"
@@ -529,6 +540,12 @@ NOT_A_TEAM_NAME = re.compile(
     r"|الترتيب|الممتاز)\b",
     re.I,
 )
+
+
+def is_not_a_team(value: str) -> bool:
+    """Whether this text names a date or a competition rather than a club."""
+    return bool(DATE_WORD.search(value or "")
+                or COMPETITION_NAME.search(value or ""))
 
 
 def countdown_label(minutes) -> str:

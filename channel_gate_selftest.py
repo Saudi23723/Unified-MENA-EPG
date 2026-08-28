@@ -175,7 +175,7 @@ def gate_not_a_team() -> None:
     "الاثنين". Nine such pairs.
     """
     print("\nHeadings and dates — NOT_A_TEAM_NAME, both scripts")
-    from epg_lib import NOT_A_TEAM_NAME
+    from epg_lib import is_not_a_team as NOT_A_TEAM
 
     pairs = [
         ("August", "أغسطس"), ("September", "سبتمبر"), ("Aug", "آب"),
@@ -188,9 +188,8 @@ def gate_not_a_team() -> None:
         ("Coppa Italia", "بطولة الكأس"), ("Serie A", "الدوري السعودي الممتاز"),
     ]
     asymmetric = [(en, ar) for en, ar in pairs
-                  if bool(NOT_A_TEAM_NAME.search(en))
-                  != bool(NOT_A_TEAM_NAME.search(ar))]
-    missed = [x for pair in pairs for x in pair if not NOT_A_TEAM_NAME.search(x)]
+                  if NOT_A_TEAM(en) != NOT_A_TEAM(ar)]
+    missed = [x for pair in pairs for x in pair if not NOT_A_TEAM(x)]
     if asymmetric or missed:
         print(f"       asymmetric pairs: {asymmetric[:4]}")
         print(f"       let through     : {missed[:6]}")
@@ -213,11 +212,27 @@ def gate_not_a_team() -> None:
         "Aston Villa", "Sheffield Utd", "West Brom", "Khor Fakkan",
         "Ceramica Cleopatra FC", "ENPPI Club", "El Gouna FC", "ZED FC",
     ]
-    caught = [c for c in clubs if NOT_A_TEAM_NAME.search(c)]
+    caught = [c for c in clubs if NOT_A_TEAM(c)]
     if caught:
         print(f"       real clubs wrongly refused: {caught}")
     check("NOT_A_TEAM", f"none of {len(clubs)} real clubs refused",
           not caught, True)
+
+    # And the half that is kept rather than dropped: a competition must be
+    # recognisable as one, so the guide can show which league a match
+    # belongs to instead of silently discarding the line that said so.
+    from epg_lib import COMPETITION_NAME, DATE_WORD
+    comps = ["الدوري الألماني", "الجولة 2", "Bundesliga", "Matchday 2",
+             "Premier League", "Coppa Italia", "نصف النهائي", "Semi-final",
+             "كأس السوبر", "Super Cup", "الأسبوع الثاني", "Gameweek 3"]
+    dates = ["أغسطس", "August", "الاثنين", "Monday", "آب", "Sep"]
+    check("COMPETITION", f"{len(comps)} competitions recognised, both scripts",
+          all(COMPETITION_NAME.search(c) for c in comps), True)
+    check("COMPETITION", "a date is never mistaken for a competition",
+          not any(COMPETITION_NAME.search(d) for d in dates), True)
+    check("COMPETITION", "a club is never mistaken for a competition",
+          not any(COMPETITION_NAME.search(c) or DATE_WORD.search(c)
+                  for c in clubs), True)
 
 
 def main() -> int:
