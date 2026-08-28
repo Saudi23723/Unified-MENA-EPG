@@ -48,3 +48,5 @@ jobs:
       - name: Does it clear its ceiling now
         if: always()
         run: python -u health_check.py || echo "health_check exit $?"
+
+# re-run after the clash rule
