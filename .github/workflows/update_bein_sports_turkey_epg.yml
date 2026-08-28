@@ -1,22 +1,15 @@
 name: Update beIN Sports Türkiye EPG
 
 on:
+  # Scheduled builds all live in one workflow now — "Build every EPG",
+  # which runs this guide's generator along with every other one. See
+  # build_all_epg.py for why: fifteen separate crons had GitHub delaying
+  # and dropping this repository's scheduled events for hours at a time.
+  #
+  # This file is kept as the way to rebuild THIS guide on its own, by
+  # hand, when something about it needs looking at. It is not part of the
+  # regular schedule and nothing chains to it.
   workflow_dispatch:
-  # Hourly, not two-hourly. On 27 August this guide's 01:25, 03:25 and
-  # 05:25 runs were all dropped and the published file stood seven hours
-  # old; at twelve runs a day, three lost in a row is a quarter of them.
-  # The twelve added here are far fewer than the seventy-two taken off the
-  # merge in the same change.
-  schedule:
-    - cron: "25 * * * *"
-  push:
-    branches:
-      - main
-    paths:
-      - "bein_sports_turkey_epg.py"
-      - "tivibu_spor_epg.py"
-      - "epg_lib.py"
-      - ".github/workflows/update_bein_sports_turkey_epg.yml"
 
 permissions:
   contents: write

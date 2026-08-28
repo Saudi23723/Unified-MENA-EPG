@@ -1,0 +1,116 @@
+name: Build every EPG
+
+# The one scheduled build. See build_all_epg.py for the measurements that
+# put it here; in short, fifteen hourly crons plus a merge chained to all
+# of them came to ~750 workflow runs a day, and GitHub answered by
+# delaying this repository's scheduled events by up to 45 minutes and
+# dropping them for eight to eleven hours at a stretch. This is ~72 a day.
+#
+# Three crons an hour, not one. They are the redundancy: each is a
+# separate scheduling event, so a dropped one costs twenty minutes rather
+# than the whole hour, and because every tick rebuilds every guide, the
+# next one that does land heals all of them at once.
+#
+# Twenty minutes also keeps beIN Qatar roughly as current as the */15 it
+# used to have to itself — the one guide this consolidation could
+# otherwise have made staler.
+#
+# :07, :27 and :47 rather than :00, :20, :40 on purpose. GitHub's own
+# guidance is to avoid the top of the hour, and the load spikes that eat
+# scheduled events land on the round minutes.
+#
+# A whole build measured 5m29s on 28 August, all thirteen generators plus
+# the merge, so three an hour leaves the runner idle most of the time and
+# two ticks can never overlap.
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+    - cron: "27 * * * *"
+    - cron: "47 * * * *"
+
+  workflow_dispatch:
+
+  # A change to any generator, to the shared library, or to this workflow
+  # rebuilds everything rather than waiting for the next tick.
+  push:
+    branches:
+      - main
+    paths:
+      - "*.py"
+      - "requirements.txt"
+      - ".github/workflows/update_all_epg.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-every-epg
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # The script's own budget stops it at 32 minutes and merges what it
+    # has; this is the outer limit, not the working one.
+    timeout-minutes: 50
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Fajer reads its schedule off a poster image, so the OCR engine and
+      # both language packs are a hard requirement for that guide. It is
+      # installed once here instead of once per guide.
+      - name: Install the OCR engine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
+          tesseract --list-langs
+          tesseract --list-langs | grep -qx ara
+          tesseract --list-langs | grep -qx eng
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build every guide, then merge them
+        id: build
+        run: python -u build_all_epg.py
+
+      # always(): a run that fell over after some guides were rebuilt
+      # still publishes what it managed. Losing good work to a later
+      # failure is exactly the staleness this workflow exists to end.
+      - name: Commit whatever was rebuilt
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -- '*.xml'
+
+          if git diff --cached --quiet; then
+            echo "No EPG changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update every EPG"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            if git push origin main; then
+              echo "Pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected (another workflow pushed first), retrying ($attempt/5)..."
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          echo "Failed to push after 5 attempts"
+          exit 1

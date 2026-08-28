@@ -1,17 +1,16 @@
 name: Update Tabii Spor EPG
 
 on:
+  # Scheduled builds all live in one workflow now — "Build every EPG",
+  # which runs this guide's generator along with every other one. See
+  # build_all_epg.py for why: fifteen separate crons had GitHub delaying
+  # and dropping this repository's scheduled events for hours at a time.
+  #
+  # This file is kept as the way to rebuild THIS guide on its own, by
+  # hand, when something about it needs looking at. It is not part of the
+  # regular schedule and nothing chains to it.
   workflow_dispatch:
 
-  push:
-    branches:
-      - main
-    paths:
-      - "update_tabii_epg.py"
-      - ".github/workflows/update_tabii_epg.yml"
-
-  schedule:
-    - cron: "37 * * * *"
 permissions:
   contents: write
 

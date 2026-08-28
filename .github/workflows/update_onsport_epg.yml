@@ -1,12 +1,15 @@
 name: Update ON Sport EPG
 
 on:
+  # Scheduled builds all live in one workflow now — "Build every EPG",
+  # which runs this guide's generator along with every other one. See
+  # build_all_epg.py for why: fifteen separate crons had GitHub delaying
+  # and dropping this repository's scheduled events for hours at a time.
+  #
+  # This file is kept as the way to rebuild THIS guide on its own, by
+  # hand, when something about it needs looking at. It is not part of the
+  # regular schedule and nothing chains to it.
   workflow_dispatch:
-  schedule:
-    # Hourly. The guide is a static file, so the "• Live 🔵" marker on a
-    # match can only appear if a run happens while that match is on air —
-    # a once-a-day run could never catch an evening kickoff.
-    - cron: "40 * * * *"
 
 permissions:
   contents: write
