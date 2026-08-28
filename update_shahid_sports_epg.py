@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    COMPETITION_NAME, fill_wait, is_channel_name, is_not_a_team,
+    COMPETITION_NAME, fill_wait, fold_name, is_channel_name, is_not_a_team,
     with_live_badge,
 )
 
@@ -451,19 +451,48 @@ def fixture_from_cells(cells):
     return None
 
 
+# One club, several spellings. These are matched on the folded, lowercased,
+# punctuation-stripped form, which is why the keys carry no accents: by the
+# time they run, "München" is already "munchen".
+#
+# Each pair here was seen in one published slot, the same match printed
+# twice because two sources spelled it differently:
+#
+#     FC Koln - Hoffenheim + Köln - Hoffenheim
+#     Mainz - Paderborn + Mainz 05 - Paderborn
+#     RB Leipzig - B. Monchengladbach + RB Leipzig - Borussia M'gladbach
+#
+# This decides only whether two rows are the same match. It never changes
+# a name a viewer reads, so the risk of a wrong entry is a lost fixture,
+# not a wrong one — which is why nothing here merges on a guess.
 TEAM_NAME_ALIASES = (
-    ("münchen", "munich"),
-    ("muenchen", "munich"),
-    ("fc bayern", "bayern"),
-    ("hamburger sv", "hamburg"),
+    (r"\bm\s*gladbach\b|\bmonchengladbach\b|\bmgladbach\b", "gladbach"),
+    (r"\bmunchen\b|\bmuenchen\b", "munich"),
+    (r"\bhamburger\b", "hamburg"),
+    (r"\beintracht\s+frankfurt\b", "frankfurt"),
+    (r"\b1899\b", " "),
+    # "Borussia" tells Dortmund from Mönchengladbach in prose and nothing
+    # apart once the city is normalised, so both sides drop it or neither
+    # can match: "B. Monchengladbach" against "Borussia M'gladbach".
+    (r"\bborussia\b|\bbor\b", " "),
+    # A lone letter left by an abbreviation — "B. Monchengladbach" — is an
+    # initial, never an identity. Run after the aliases so it cannot eat a
+    # letter one of them still needs.
+    (r"\b[a-z]\b", " "),
+    # The founding year German clubs carry in their name — Schalke 04,
+    # Mainz 05, Bayer 04 — printed by some sources and not by others.
+    (r"\b\d{2}\b", " "),
 )
 
 
 def normalize_name(value):
-    value = norm(value).casefold()
-    for old, new in TEAM_NAME_ALIASES:
-        value = value.replace(old, new)
+    # Fold the accent before anything compares the string. Sources spell one
+    # club several ways, and comparing literally showed the same match twice
+    # in one slot: "FC Koln - Hoffenheim + Köln - Hoffenheim".
+    value = fold_name(norm(value)).casefold()
     value = re.sub(r"[^\w\u0600-\u06ff ]+", " ", value)
+    for pattern, replacement in TEAM_NAME_ALIASES:
+        value = re.sub(pattern, replacement, value)
     value = re.sub(r"\b(?:fc|cf|club|sv|vfb|1|نادي)\b", " ", value, flags=re.I)
     return re.sub(r"\s+", " ", value).strip()
 

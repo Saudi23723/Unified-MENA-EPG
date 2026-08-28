@@ -18,6 +18,7 @@ from __future__ import annotations
 import os
 import re
 import time
+import unicodedata
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from html import unescape
@@ -540,6 +541,33 @@ COMPETITION_NAME = re.compile(
     r"|الترتيب|الممتاز)\b",
     re.I,
 )
+
+
+def fold_name(value: str) -> str:
+    """A club name with its accents and Arabic diacritics folded away.
+
+    Sources spell the same club differently and a guide that compares
+    names literally then shows one match twice:
+
+        Elversberg - Bayer Leverkusen + FC Koln - Hoffenheim
+        + Köln - Hoffenheim + Mainz 05 - Paderborn …
+
+    "FC Koln" and "Köln" are one club; so are "Bayern München" and
+    "Bayern Munchen". Folding the accent (and ß, ø, æ, đ, which decomposing
+    alone does not touch) makes those spellings one string, so dedupe can
+    do its job.
+
+    On Arabic the same fold removes the harakat a source may or may not
+    print and levels the alef and ya variants — أ إ آ to ا, ى to ي, ة to ه
+    — which is the same class of difference in that script.
+    """
+    value = unicodedata.normalize("NFKD", value or "")
+    value = "".join(ch for ch in value if not unicodedata.combining(ch))
+    for old, new in (("ß", "ss"), ("ø", "o"), ("æ", "ae"), ("œ", "oe"),
+                     ("đ", "d"), ("ł", "l"), ("ð", "d"), ("þ", "th"),
+                     ("ى", "ي"), ("ة", "ه")):
+        value = value.replace(old, new).replace(old.upper(), new)
+    return value
 
 
 CHANNEL_NAME = re.compile(

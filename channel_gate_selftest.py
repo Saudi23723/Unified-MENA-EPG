@@ -313,10 +313,92 @@ def gate_channel_is_never_a_team() -> None:
     check("Shahid", "and still accepts every real club", not dropped, True)
 
 
+def gate_one_match_one_row() -> None:
+    """The same match may not appear twice because two sources spell it twice.
+
+    Matches kicking off together share one row on a single-channel guide,
+    joined with " + ". That is right, and it is what made a spelling
+    difference visible as nonsense:
+
+        Elversberg - Bayer Leverkusen + FC Koln - Hoffenheim
+        + Köln - Hoffenheim + Mainz - Paderborn + Mainz 05 - Paderborn
+        + RB Leipzig - B. Monchengladbach + RB Leipzig - Borussia M'gladbach
+
+    Five matches printed as nine, because dedupe compared the names
+    literally. This decides only whether two rows are the same match — it
+    never changes a name anyone reads — so a wrong entry costs a lost
+    fixture, and the second half of this gate is what keeps that honest.
+    """
+    print("\nOne match, one row — title_signature")
+    import update_shahid_sports_epg as SH
+
+    same = [
+        ("FC Koln - Hoffenheim", "Köln - Hoffenheim"),
+        ("Mainz - Paderborn", "Mainz 05 - Paderborn"),
+        ("RB Leipzig - B. Monchengladbach",
+         "RB Leipzig - Borussia M'gladbach"),
+        ("Bayern Munich - Stuttgart", "Bayern München - Stuttgart"),
+        ("Union Berlin - Schalke 04", "Union Berlin - Schalke"),
+        ("Union Berlin - Eintracht Frankfurt", "Union Berlin - Frankfurt"),
+        ("Hamburger SV - Mainz 05", "Hamburg - Mainz"),
+        ("Hoffenheim - Borussia Dortmund", "1899 Hoffenheim - Dortmund"),
+        ("Bayer 04 Leverkusen - Union Berlin",
+         "Bayer Leverkusen - Union Berlin"),
+    ]
+    split = [(a, b) for a, b in same
+             if SH.title_signature(a) != SH.title_signature(b)]
+    if split:
+        print(f"       still counted as two matches: {split[:3]}")
+    check("DEDUPE", f"{len(same)} spellings of one match collapse",
+          not split, True)
+
+    # The direction that costs a fixture: two different matches must never
+    # collapse into one, so every distinct club needs a distinct signature.
+    clubs = [
+        "Bayern München", "Borussia Dortmund", "Borussia M'gladbach",
+        "Union Berlin", "Eintracht Frankfurt", "Schalke 04", "Mainz 05",
+        "Hoffenheim", "Köln", "Bayer Leverkusen", "RB Leipzig", "Stuttgart",
+        "Werder Bremen", "Freiburg", "Augsburg", "Hamburger SV",
+        "Elversberg", "Paderborn", "Heidenheim", "St. Pauli",
+        "Inter", "Milan", "Juventus", "Roma", "Lazio", "Napoli", "Torino",
+        "Monza", "Parma", "Como", "Genoa", "Lecce", "Cagliari", "Verona",
+        "Udinese", "Venezia", "Frosinone", "Sassuolo", "Atalanta",
+        "Bologna", "Fiorentina", "Cremonese", "Palermo", "Mantova",
+        "Al Sahel", "Al Sulaibikhat", "Kazma", "Al Tadhamon", "Al Qadsia",
+        "Al Arabi SC", "Al Salmiyah", "Al Fahaheel", "Al Nasar",
+        "Al Kuwait", "Al Jahra", "Al Shabab",
+        "الأهلي", "الزمالك", "الهلال", "النصر", "الاتحاد", "الشباب",
+    ]
+    seen: dict[str, str] = {}
+    collisions = []
+    for club in clubs:
+        key = SH.normalize_name(club)
+        if key in seen:
+            collisions.append((seen[key], club))
+        seen[key] = club
+    if collisions:
+        print(f"       two clubs share one signature: {collisions}")
+    check("DEDUPE", f"all {len(clubs)} clubs keep distinct signatures",
+          not collisions, True)
+
+    # And a whole slot, the way it was published.
+    titles = ["Elversberg - Bayer Leverkusen", "FC Koln - Hoffenheim",
+              "Köln - Hoffenheim", "Mainz - Paderborn",
+              "Mainz 05 - Paderborn", "RB Leipzig - B. Monchengladbach",
+              "RB Leipzig - Borussia M'gladbach",
+              "Union Berlin - Eintracht Frankfurt"]
+    distinct = {SH.title_signature(t) for t in titles}
+    if len(distinct) != 5:
+        print(f"       the slot collapses to {len(distinct)} matches, not 5")
+    check("DEDUPE", "the published slot of 8 rows is 5 matches",
+          len(distinct) == 5, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
-                 gate_channel_is_never_a_team):
+                 gate_channel_is_never_a_team,
+                 gate_one_match_one_row):
         try:
             gate()
         except Exception as exc:
