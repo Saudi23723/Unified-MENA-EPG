@@ -1,55 +1,15 @@
 name: Merge Unified MENA EPG
 
 on:
+  # The merge runs at the end of "Build every EPG", in the same job as the
+  # generators that feed it — see build_all_epg.py. It used to have an
+  # hourly cron of its own and to chain off all fourteen sources through
+  # workflow_run, which by itself was several hundred workflow runs a day
+  # in a repository whose scheduled events GitHub had started dropping.
+  #
+  # This file is kept as the way to re-merge by hand from whatever is
+  # currently committed, without rebuilding any source first.
   workflow_dispatch:
-
-  # The real trigger. Every guide is committed by a workflow using
-  # GITHUB_TOKEN, and GitHub deliberately does not let a GITHUB_TOKEN push
-  # start another workflow — so the push trigger below never fires for
-  # them and the merge used to depend on the schedule alone. When GitHub
-  # drops scheduled runs under load, as it did for over an hour on
-  # 26 August, the merged link silently falls behind its own sources.
-  #
-  # workflow_run is not subject to that rule: it fires when the named
-  # workflow finishes, whoever started it. The merge now follows its
-  # sources instead of guessing when they ran.
-  workflow_run:
-    workflows:
-      - "Update Alkass EPG"
-      - "Update Alwan Sports EPG"
-      - "Update Fajer Sports EPG"
-      - "Update Jordan (Roya) EPG"
-      - "Update Jordan Sports EPG"
-      - "Update ON Sport EPG"
-      - "Update STARZPLAY Sports EPG"
-      - "Update Shahid Sports EPG"
-      - "Update Shasha EPG"
-      - "Update Tabii Spor EPG"
-      - "Update Thamanya EPG"
-      - "Update Thmanyah + Alwan EPG"
-      - "Update beIN Sports Qatar EPG"
-      - "Update beIN Sports Türkiye EPG"
-    types: [completed]
-
-  # Kept as a safety net, not as the mechanism — and now priced like one.
-  #
-  # At */15 this was 96 runs a day on top of the several hundred the
-  # workflow_run trigger above already produces, in a repository whose
-  # scheduled runs GitHub is visibly dropping: the Combined EPG workflow,
-  # on a twice-daily cron, did not fire once between 18 and 27 August, and
-  # beIN Türkiye lost three consecutive runs on the morning of the 27th.
-  # Scheduling pressure is the thing being reduced, so the net that is
-  # never the mechanism costs an hour instead of a quarter of one.
-  schedule:
-    - cron: "0 * * * *"
-  push:
-    branches:
-      - main
-    paths:
-      - "merge_epg.py"
-      - "epg_lib.py"
-      - "*.xml"
-      - ".github/workflows/update_unified_epg.yml"
 
 permissions:
   contents: write
@@ -60,10 +20,6 @@ concurrency:
 
 jobs:
   merge:
-    # A failed source wrote nothing, so there is nothing new to merge.
-    if: >-
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 

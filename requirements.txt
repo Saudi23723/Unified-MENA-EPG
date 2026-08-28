@@ -1,3 +1,17 @@
 requests==2.32.3
 beautifulsoup4==4.12.3
 cryptography==43.0.3
+
+# Everything below used to be installed ad hoc by whichever workflow
+# needed it. One build now runs every generator, so the dependency list
+# has to be complete in one place.
+#
+# Deliberately unpinned, the way those workflows had them: pinning a
+# version here for the first time would be a change to what Fajer,
+# Thmanyah and Shasha actually run, made in passing while fixing the
+# scheduler. If they are ever pinned it should be its own change, tested
+# on its own.
+pillow          # Fajer and Thmanyah read a poster image
+pytesseract     # ...through tesseract, installed by the workflow
+numpy           # Fajer
+pypdf           # Shasha reads a PDF schedule
