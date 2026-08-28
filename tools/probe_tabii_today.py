@@ -1,39 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Ask every tabii source, today, and print what it actually says."""
-import os, re, sys, json
+"""Run the tabii generator now and report what lands on channels 1-10."""
+import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
-from epg_lib import fetch, new_session, utc_now
 import update_tabii_epg as T
 
 IST = ZoneInfo("Europe/Istanbul")
-s = new_session()
-now = utc_now()
-today = now.astimezone(IST).date()
-print("Istanbul now:", now.astimezone(IST).strftime("%Y-%m-%d %H:%M"))
+rc = T.build()
+print("\n=== build returned", rc, "===\n")
 
-for name, fn in (("TRT", T.fetch_trt), ("tvyayinakisi", T.fetch_tvyayinakisi),
-                 ("Spor Ekranı", T.fetch_sporekrani)):
-    try:
-        rows = fn(s)
-    except Exception as exc:
-        print(f"\n### {name}: FAILED {exc}")
-        continue
-    per = {}
-    for r in rows:
-        per.setdefault(r["number"], []).append(r)
-    print(f"\n### {name}: {len(rows)} rows, channels {sorted(per)}")
-    for num in sorted(per):
-        tod = [r for r in per[num] if r["start"].astimezone(IST).date() == today]
-        print(f"  ch {num}: {len(per[num])} rows total, {len(tod)} today")
-        for r in sorted(tod, key=lambda r: r["start"])[:12]:
-            print("      ", r["start"].astimezone(IST).strftime("%H:%M"),
-                  (r.get("title") or "")[:70])
+root = ET.parse(T.OUTPUT).getroot()
+today = datetime.now(timezone.utc).astimezone(IST).date()
+per = {}
+for p in root.findall("programme"):
+    raw = p.get("start")
+    st = datetime.strptime(raw[:14], "%Y%m%d%H%M%S").replace(
+        tzinfo=timezone(timedelta(hours=int(raw[-5:-2]))))
+    per.setdefault(p.get("channel"), []).append(
+        (st.astimezone(IST), p.findtext("title") or ""))
 
-# raw: does sporekrani.com name a numbered tabii channel at all today?
-page = fetch(s, T.SPOREKRANI_URL).text
-hits = sorted(set(re.findall(r"[Tt]abii\s*Spor\s*\d{0,2}", page)))
-print("\n### raw sporekrani.com channel mentions:", hits)
-print("### page bytes:", len(page))
+for cid in sorted(per):
+    rows = sorted(r for r in per[cid] if r[0].date() == today)
+    real = [r for r in rows if "PPV" not in r[1]]
+    print(f"{cid}: {len(rows)} today, {len(real)} real")
+    for s, t in real:
+        print("     ", s.strftime("%H:%M"), t[:70])
