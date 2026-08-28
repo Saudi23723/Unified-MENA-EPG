@@ -358,6 +358,62 @@ def fix_year(d: date, ref: date) -> date:
     return d
 
 
+# The channel must actually be ON Sport before any number in its name is
+# read as an ON Sport number. This is not a nicety — see
+# onsport_channel_from_label below for what happened without it.
+ON_SPORT_NAME = re.compile(
+    r"on[\s\-_]*sport|on[\s\-_]*time[\s\-_]*sport|"
+    r"[أا]ون[\s\-_]*سبورت|[أا]ون[\s\-_]*تايم",
+    re.I)
+
+
+def onsport_channel_from_label(label: str) -> str | None:
+    """Which ON Sport channel a broadcaster label names, or None.
+
+    livefootballtv's front page lists, against every match, every channel
+    in the world that carries it — beIN Sports 1, AD Sports 2, SSC 1, TNT
+    Sports 1, Sky Sports Plus and dozens more. channel_from_arabic below
+    was written for a different diet: the Egyptian article text FilGoal
+    published, and pages that named ON Sport and nothing else. Given the
+    world's channel list it reads the number first and the name never, so
+    every one of those became an ON Sport channel:
+
+        AD Sports 1        -> ONSport1
+        beIN Sports 1      -> ONSport1
+        beIN Sports MAX 1  -> ONSportMAX
+        Sky Sports Plus    -> ONSportPLUS
+        TNT Sports 1       -> ONSport1
+
+    which is how Liverpool - Nottingham, Al Wasl - Shabab Al Ahli and
+    Gençlerbirligi - Erzurumspor came to be published on an Egyptian
+    channel that carries none of them. A guide that invents a broadcast is
+    worse than one that admits it does not know: a viewer who trusts it
+    turns on the television and finds something else.
+
+    So the name is the gate. Nothing is an ON Sport channel unless it says
+    so, and only then does the number decide which one.
+    """
+    text = (label or "").strip()
+    if not ON_SPORT_NAME.search(text):
+        return None
+
+    # What is left after the channel's own name is where its number lives,
+    # so "beIN Sports MAX 1" cannot reach this at all and "ON Sport MAX"
+    # is read from "MAX" rather than from a stray digit elsewhere.
+    tail = ON_SPORT_NAME.sub(" ", text)
+    if re.search(r"max|ماكس", tail, re.I):
+        return "ONSportMAX"
+    if re.search(r"plus|\+|بلس", tail, re.I):
+        return "ONSportPLUS"
+    if re.search(r"(?:^|\D)2(?:\D|$)", tail):
+        return "ONSport2"
+    if re.search(r"(?:^|\D)1(?:\D|$)", tail):
+        return "ONSport1"
+    # Plain "ON Sport" is the flagship, which this guide publishes as
+    # ON Sport 1 — the mapping channel_from_arabic has always used.
+    return "ONSport1"
+
+
 def channel_from_arabic(label: str) -> str | None:
     n = ar_norm(label)
     if "ماكس" in n or "max" in n:
@@ -1044,7 +1100,7 @@ def parse_lftv_home(html: str) -> list[dict]:
 
         for li in canales.select("ul.listaCanales li"):
             label = norm(li.get("title") or li.get_text(" ", strip=True))
-            channel_id = channel_from_arabic(label)
+            channel_id = onsport_channel_from_label(label)
             if not channel_id:
                 continue
             events.append({
