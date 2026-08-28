@@ -1,0 +1,22 @@
+name: Verify the countdown reads one way
+on:
+  push:
+    paths:
+      - "tools/verify_countdown_wording.py"
+      - ".github/workflows/verify_countdown.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
+      - run: pip install -r requirements.txt
+      - run: python -u tools/verify_countdown_wording.py
