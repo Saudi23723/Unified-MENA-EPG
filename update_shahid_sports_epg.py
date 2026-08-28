@@ -68,7 +68,10 @@ TIME_AMPM_RE = re.compile(
 SHAHID_RE = re.compile(
     r"(?:\bshahid\b(?:\s*(?:vip|sports?|plus))?)"
     r"|(?:\bmbc\s*shahid\b)"
-    r"|(?:\bmbc\s*sports?\b)"
+    # "MBC Sport" is the Arabic broadcaster. "MBC Sports+" is a Korean
+    # channel of no relation, and livesoccertv lists it, so the plus sign
+    # has to be excluded or a K-League match lands on this guide.
+    r"|(?:\bmbc\s*sports?\b(?!\s*\+))"
     r"|(?:شاهد(?:\s*(?:vip|سبورت|الرياضية))?)",
     re.I,
 )
@@ -303,6 +306,11 @@ def looks_like_team(value):
         "اليوم", "غدا", "غداً", "بتوقيت", "الساعة", "موعد", "القنوات", "الناقلة",
         "المصدر", "كتب", "تحرير", "آخر تحديث", "اخر تحديث",
         "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
+        # A competition heading is not a team, and one reached the guide:
+        # "الدوري الفرنسي - الجولة 2" was published as though it were a
+        # fixture, because it carries a dash and nothing above rejected
+        # it. No club is named after a league or a matchday.
+        "الدوري", "الجولة", "الأسبوع", "الاسبوع", "بطولة", "matchday",
     )
     if any(word in low for word in bad):
         return False
