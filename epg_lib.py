@@ -476,9 +476,21 @@ def carries_live_badge(title: str) -> bool:
                for b in (LIVE_BADGE, LIVE_BADGE_GREEN, LIVE_BADGE_PURPLE, LIVE_SUFFIX))
 
 
+# Marks a row as a countdown rather than a broadcast. Without it a guide
+# full of "Bayern München - Stuttgart · بعد 7 س" reads, at a glance in a
+# grid, as seven hours of Bayern München — the clock is what says the row
+# is a wait, not a programme.
+COUNTDOWN_MARK = "\u23f0"          # ⏰
+
+
 def countdown_label(minutes) -> str:
     """Arabic 'time remaining' label: '15 د', '2 س', '2 س و15 د', '1 ي و3 س'."""
     minutes = max(int(minutes), 0)
+    if minutes == 0:
+        # The last block of a countdown ends at kickoff, so this is the
+        # width of one rounding — "0 د" would read as though the match had
+        # already started.
+        return "أقل من دقيقة"
     hours, mins = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     if days:
@@ -497,16 +509,45 @@ def countdown_step(remaining: timedelta) -> timedelta:
     so instead the gap before a match is filled with consecutive blocks,
     each labelled with the time left at *its own* start. The player always
     shows the block covering "now", so the number stays correct without the
-    file being re-downloaded. Blocks get shorter as kickoff approaches, so
-    the figure is never more than one step out of date.
+    file being re-downloaded.
+
+    The one rule that matters: a block may never be longer than the time
+    it is counting down. At ten-minute blocks inside the last hour, a
+    viewer sitting in front of the guide two minutes before kickoff was
+    being shown "بعد 12 د" — the coarsest reading at the moment it matters
+    most, and wrong in the direction that makes someone miss the start.
+
+    So the step shortens as kickoff nears, and never exceeds a third of
+    what is left. The cost is rows, which are cheap; the gain is that the
+    figure is never out by more than one step, and near kickoff that step
+    is two minutes.
     """
-    if remaining <= timedelta(hours=1):
-        return timedelta(minutes=10)
-    if remaining <= timedelta(hours=3):
-        return timedelta(minutes=15)
-    if remaining <= timedelta(hours=8):
-        return timedelta(minutes=30)
-    return timedelta(hours=1)
+    if remaining <= timedelta(minutes=15):
+        step = timedelta(minutes=2)
+    elif remaining <= timedelta(hours=1):
+        step = timedelta(minutes=5)
+    elif remaining <= timedelta(hours=3):
+        step = timedelta(minutes=15)
+    elif remaining <= timedelta(hours=12):
+        step = timedelta(minutes=30)
+    else:
+        step = timedelta(hours=1)
+
+    # Both callers already clamp the block to kickoff, so this changes
+    # nothing they do — but a function that answers "two minutes" when one
+    # is left is stating something untrue, and the next caller may not
+    # clamp. It never proposes a block longer than what remains.
+    return min(step, remaining) if remaining > timedelta(0) else step
+
+
+def countdown_title(what: str, minutes) -> str:
+    """One countdown row, worded identically wherever it is used.
+
+    Shahid and Shasha each built this string themselves and had drifted
+    apart in their separators. Building it here means the two guides
+    cannot disagree about how a wait is written.
+    """
+    return f"{COUNTDOWN_MARK} {what} · بعد {countdown_label(minutes)}"
 
 
 def group_concurrent(events: list[dict], key="start") -> dict:

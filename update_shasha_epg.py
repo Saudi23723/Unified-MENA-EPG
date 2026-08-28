@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 from pypdf import PdfReader
 from io import BytesIO
 
-from epg_lib import countdown_label, countdown_step, with_live_badge
+from epg_lib import countdown_step, countdown_title, with_live_badge
 
 OUTPUT = "shasha_epg.xml"
 
@@ -310,6 +310,24 @@ def _parse_oddalerts_zain() -> list[dict]:
         re.I,
     )
 
+    # A finished row carries a status column between the kickoff and the
+    # teams, and then each side's goals:
+    #
+    #   Thu 27 Aug, 16:45 | FT | Al Sahel | 1 | Al Sulaibikhat | 0
+    #   Thu 27 Aug, 19:00 | FT | Kazma    | 3 | Al Tadhamon    | 1
+    #
+    # Taking the first two plausible lines makes that "FT - Al Sahel":
+    # a status code standing in for the home side, the real home side
+    # demoted to away, and the away side dropped off the end entirely.
+    # This guide published exactly that for thirty-one rows. An upcoming
+    # row has no status column, which is why only finished matches were
+    # wrong and the error looked like an odd team name rather than a
+    # parser losing a column.
+    #
+    # Skipped like any other furniture, so the pair becomes the two clubs.
+    status_line = re.compile(
+        r"(?:FT|HT|AET|ET|Pen|Pens|Postp|Canc|Abd|Susp|Live|vs)\.?", re.I)
+
     kwt = ZoneInfo("Asia/Kuwait")
     now_kwt = utc_now().astimezone(kwt)
 
@@ -330,6 +348,7 @@ def _parse_oddalerts_zain() -> list[dict]:
                 break
             if (
                 not bad.match(candidate)
+                and not status_line.fullmatch(candidate)
                 and "%" not in candidate
                 and len(candidate) <= 60
                 and not candidate.isdigit()
@@ -364,6 +383,9 @@ def _parse_oddalerts_zain() -> list[dict]:
 
         i = max(i + 1, j)
 
+    if not events:
+        warn("OddAlerts returned no Zain fixture — the Kuwaiti league is "
+             "running on whatever else answered")
     return events
 
 
@@ -580,10 +602,11 @@ def write_xml(events: list[dict]) -> None:
             if stop <= cursor:
                 return
 
-            left = countdown_label(remaining.total_seconds() // 60)
             add_programme(
                 root, cursor, stop,
-                f"{slot_title(upcoming)} · بعد {left}", desc,
+                countdown_title(slot_title(upcoming),
+                                remaining.total_seconds() // 60),
+                desc,
             )
             cursor = stop
 
