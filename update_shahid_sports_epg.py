@@ -12,7 +12,10 @@ from bs4 import BeautifulSoup
 from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
-from epg_lib import countdown_step, countdown_title, with_live_badge
+from epg_lib import (
+    COMPETITION_NAME, countdown_step, countdown_title, is_not_a_team,
+    with_live_badge,
+)
 
 # -----------------------------------------------------------------------------
 # Shahid Sports Guide EPG
@@ -294,6 +297,37 @@ def clean_side(value):
     return value.strip(" |:-–—")
 
 
+def competition_from(lines) -> str:
+    """The competition and round named alongside a fixture, if any.
+
+    LiveFootballTV prints them on their own lines above the two teams:
+
+        الدوري الألماني
+        الجولة 2
+        Bayern München
+        Stuttgart
+        MBC Shahid Sports
+
+    looks_like_team turns those two lines down, correctly — they are not
+    clubs. Until now they were then dropped on the floor, so the guide
+    knew which match was on and could not say which competition it
+    belonged to. They are read back here and shown with the fixture.
+
+    Joined with a comma in source order, so "الدوري الألماني، الجولة 2"
+    reads as it was printed rather than being reordered or translated.
+    """
+    found = []
+    for item in lines:
+        value = clean_side(item)
+        if not value or len(value) > 60:
+            continue
+        if SHAHID_RE.search(value) or TIME_RE.search(value):
+            continue
+        if COMPETITION_NAME.search(value) and value not in found:
+            found.append(value)
+    return "، ".join(found[:2])
+
+
 def looks_like_team(value):
     value = clean_side(value)
     if not value:
@@ -306,13 +340,18 @@ def looks_like_team(value):
         "اليوم", "غدا", "غداً", "بتوقيت", "الساعة", "موعد", "القنوات", "الناقلة",
         "المصدر", "كتب", "تحرير", "آخر تحديث", "اخر تحديث",
         "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
-        # A competition heading is not a team, and one reached the guide:
-        # "الدوري الفرنسي - الجولة 2" was published as though it were a
-        # fixture, because it carries a dash and nothing above rejected
-        # it. No club is named after a league or a matchday.
-        "الدوري", "الجولة", "الأسبوع", "الاسبوع", "بطولة", "matchday",
     )
     if any(word in low for word in bad):
+        return False
+    # Dates, competitions and stages, in both scripts and on word
+    # boundaries — see DATE_WORD and COMPETITION_NAME. The list above had
+    # learned each kind in one language only: it rejected "أغسطس" and
+    # published "August", rejected "الجولة 2" and published "Round 2".
+    #
+    # Saying a line is not a club is not the same as saying it is worth
+    # nothing. The competition it names is kept — see competition_from,
+    # which reads it back out of the same lines this one turns down.
+    if is_not_a_team(value):
         return False
     if low in NOISE_WORDS:
         return False
@@ -703,6 +742,10 @@ def parse_livefootballtv():
         block = " | ".join(pending_lines)
         title = fixture_from_text(block)
 
+        # The competition is named on the same lines as the fixture, and
+        # is read whichever way the fixture itself was found.
+        competition = competition_from(pending_lines)
+
         # LiveFootballTV often renders competition + team1 + team2 + channel on
         # separate lines, without a VS token. In that case take the last two
         # plausible team names before the channel label.
@@ -727,6 +770,7 @@ def parse_livefootballtv():
                 events.append({
                     "start": start,
                     "title": title,
+                    "competition": competition,
                     "source": LIVE_FOOTBALL_TV,
                     "source_name": "LiveFootballTV",
                 })
@@ -918,7 +962,13 @@ def write_xml(events):
 
         lines = [f"مباريات Shahid Sports - {day:%Y-%m-%d}", ""]
         for event in sorted(day_events, key=lambda x: (x["start"], x["title"])):
-            lines.append(f"{source_time(event)} | {event['title']}")
+            # The competition, where the source named one. It used to be
+            # read off the page, recognised as not being a club, and then
+            # dropped — so the guide could say a match was on and not say
+            # which competition it belonged to.
+            competition = (event.get("competition") or "").strip()
+            lines.append(f"{source_time(event)} | {event['title']}"
+                         + (f" — {competition}" if competition else ""))
         return "\n".join(lines)
 
     def add_programme(start, stop, title, description):
