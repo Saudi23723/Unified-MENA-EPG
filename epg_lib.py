@@ -542,10 +542,63 @@ COMPETITION_NAME = re.compile(
 )
 
 
+CHANNEL_NAME = re.compile(
+    # Broadcaster and channel brands, in both scripts. A club never carries
+    # one of these words, and a channel almost always does.
+    r"\b(?:bein|be\s?in|ssc|ssc\s*sports?|shahid|starzplay|tod|tabii"
+    r"|thmanyah|alkass|al\s*kass|dubai\s*sports?|abu\s*dhabi\s*sports?"
+    r"|ad\s*sports?|dazn|espn|sky\s*sports?|bt\s*sports?|tnt\s*sports?"
+    r"|canal\+?|movistar|amazon\s*prime|prime\s*video|dsports?"
+    r"|supersport|sporttv|sport\s*tv|eleven\s*sports?|viaplay|nova\s*sports?"
+    r"|arena\s*sport|digi\s*sport|match\s*tv|setanta|astro|sonyliv"
+    r"|fox\s*sports?|cbs\s*sports?|nbc\s*sports?|usa\s*network|peacock"
+    r"|paramount\+?|apple\s*tv|netflix|youtube|twitch|rmc\s*sport"
+    r"|s\s*sport|idman|varzish|ontime|on\s*time|onsport|on\s*sport"
+    # A trailing number is part of the channel, not the end of the name:
+    # "Sport TV1" reached a guide as a club because the word boundary
+    # after "tv" fell inside "tv1" and the whole brand stopped matching.
+    r"|jrtv|roya|tivibu|trt\s*spor|smart\s*spor)\s*\d*\b"
+    # MBC's own family: any MBC-something is a channel, never a club, and
+    # that is the whole point — "MBC Action" reached a guide dressed as
+    # Eintracht Frankfurt's opponent because only "MBC Sport" was known.
+    r"|\bmbc(?:\s*\w+)?\b"
+    # The generic words a channel name is built from. "sports" alone is not
+    # enough (Sporting, Sport Boys), so these need a qualifier or a number.
+    r"|\b(?:channel|kanal|قناة|قنوات)\b"
+    r"|\b(?:hd|sd|4k|uhd)\s*\d*\b"
+    r"|\b(?:بي\s*[إا]ن|بين\s*سبورت|[أا]بو\s*ظبي\s*الرياضية"
+    r"|دبي\s*الرياضية|الكأس|ثمانية|شاهد|ستارزبلاي|تود|تابي"
+    r"|[أا]ون\s*تايم|[أا]ون\s*سبورت|الرياضية)\b",
+    re.I,
+)
+
+
+def is_channel_name(value: str) -> bool:
+    """Whether this text names a channel or a broadcaster rather than a club.
+
+    Every guide in this repository reads fixtures out of prose, and every
+    source prints the carrying channel on the same lines as the two teams.
+    A parser that takes "the last two plausible names" therefore reaches
+    for the channel the moment a page lists one more channel than usual —
+    which is how "Eintracht Frankfurt - MBC Action" was published as a
+    fixture, MBC Action being a television channel and not a football club.
+
+    The name is the gate, in one place, so no guide can be strict about the
+    broadcaster it belongs to and careless about everybody else's.
+    """
+    return bool(CHANNEL_NAME.search(value or ""))
+
+
 def is_not_a_team(value: str) -> bool:
-    """Whether this text names a date or a competition rather than a club."""
+    """Whether this text names something other than a club.
+
+    Three kinds of text turn up where a team name belongs, and each one
+    reached a published guide at some point: a date ("August", "الجولة 2"
+    is not a date but arrives the same way), a competition, and a channel.
+    """
     return bool(DATE_WORD.search(value or "")
-                or COMPETITION_NAME.search(value or ""))
+                or COMPETITION_NAME.search(value or "")
+                or CHANNEL_NAME.search(value or ""))
 
 
 def arabic_count(number: int, one: str, two: str, few: str, many: str) -> str:
@@ -649,6 +702,79 @@ def countdown_step(remaining: timedelta) -> timedelta:
     # is left is stating something untrue, and the next caller may not
     # clamp. It never proposes a block longer than what remains.
     return min(step, remaining) if remaining > timedelta(0) else step
+
+
+# How long before kickoff a countdown starts.
+#
+# A countdown has to be cut into blocks to stay accurate in a static file,
+# and that is fine for the last stretch before a match. Run over an empty
+# night it turns the channel into a wall: a guide with 17 matches in it was
+# publishing 640 rows, 623 of them countdown blocks, because a five-day gap
+# between two matches was filled hour by hour with "بعد 4 أيام و7 ساعات".
+# Nobody reads a ticker four days out — scrolling the guide, every row said
+# the same thing.
+#
+# Past this horizon the whole wait is one row instead, naming what is
+# coming. The grid already prints when that row ends, in the viewer's own
+# timezone, so the guide answers "what is next, and when" the way a
+# television guide does, without a clock baked into a title that would be
+# wrong everywhere but one country.
+COUNTDOWN_HORIZON = timedelta(hours=3)
+
+
+def waiting_title(what: str) -> str:
+    """The title of the single row that covers a long wait."""
+    return f"{COUNTDOWN_MARK} المباراة القادمة · {what}"
+
+
+def fill_wait(gap_start, gap_stop, next_kickoff_after, title_at, emit,
+              nothing_title: str) -> None:
+    """Fill the space between broadcasts the way a guide should read.
+
+    One shape, shared, because two guides had grown their own copy of it
+    and both had the same fault. A gap is covered by:
+
+      * one row for the long wait, up to COUNTDOWN_HORIZON before kickoff,
+      * a countdown from there to kickoff, blocks shortening as it nears,
+      * one row to the end of the gap when no match is announced at all.
+
+    The caller supplies the pieces that differ between guides:
+      next_kickoff_after(moment) -> the next kickoff at or after moment
+      title_at(kickoff)          -> what to call the match(es) then
+      emit(start, stop, title)   -> add one programme
+      nothing_title              -> what to show when nothing is coming
+
+    Callers pass gaps that already stop at a day boundary, so a wait row
+    never spans two dates in the grid.
+    """
+    cursor = gap_start
+    while cursor < gap_stop:
+        upcoming = next_kickoff_after(cursor)
+        if upcoming is None:
+            # Nothing announced. One row for the rest, not a row per hour
+            # repeating that there is nothing.
+            emit(cursor, gap_stop, nothing_title)
+            return
+
+        what = title_at(upcoming)
+
+        # Still far out: one row for the whole wait.
+        countdown_from = upcoming - COUNTDOWN_HORIZON
+        if cursor < countdown_from:
+            stop = min(countdown_from, gap_stop)
+            if stop <= cursor:
+                return
+            emit(cursor, stop, waiting_title(what))
+            cursor = stop
+            continue
+
+        remaining = upcoming - cursor
+        stop = min(cursor + countdown_step(remaining), gap_stop, upcoming)
+        if stop <= cursor:
+            return
+        emit(cursor, stop,
+             countdown_title(what, remaining.total_seconds() // 60))
+        cursor = stop
 
 
 def countdown_title(what: str, minutes) -> str:

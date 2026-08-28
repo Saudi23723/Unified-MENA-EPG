@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    COMPETITION_NAME, countdown_step, countdown_title, is_not_a_team,
+    COMPETITION_NAME, fill_wait, is_channel_name, is_not_a_team,
     with_live_badge,
 )
 
@@ -326,6 +326,44 @@ def competition_from(lines) -> str:
         if COMPETITION_NAME.search(value) and value not in found:
             found.append(value)
     return "، ".join(found[:2])
+
+
+def channels_from(lines) -> str:
+    """The other channels named alongside a fixture, if any.
+
+    LiveFootballTV lists every channel carrying a match, this guide's own
+    among them:
+
+        الدوري الألماني
+        Union Berlin
+        Eintracht Frankfurt
+        MBC Shahid Sports
+        MBC Action
+
+    Reading "the last two plausible names" off that block gives
+    "Eintracht Frankfurt - MBC Action", and that is exactly what reached
+    the guide: a television channel published as a football club. The
+    channel gate now refuses those lines outright.
+
+    Refusing them is only half the answer. A viewer who sees the match on
+    this guide is better off knowing it is also on MBC Action than having
+    that fact silently dropped, so the names are read back here and shown
+    with the fixture — the guide says where else to watch instead of
+    inventing an opponent out of it.
+
+    This guide's own name is left out: saying "also on Shahid" inside the
+    Shahid guide tells nobody anything.
+    """
+    found = []
+    for item in lines:
+        value = clean_side(item)
+        if not value or len(value) > 40:
+            continue
+        if TIME_RE.search(value) or SHAHID_RE.search(value):
+            continue
+        if is_channel_name(value) and value not in found:
+            found.append(value)
+    return "، ".join(found[:3])
 
 
 def looks_like_team(value):
@@ -746,6 +784,9 @@ def parse_livefootballtv():
         # is read whichever way the fixture itself was found.
         competition = competition_from(pending_lines)
 
+        # So are the other channels carrying it — see channels_from.
+        channels = channels_from(pending_lines)
+
         # LiveFootballTV often renders competition + team1 + team2 + channel on
         # separate lines, without a VS token. In that case take the last two
         # plausible team names before the channel label.
@@ -771,6 +812,7 @@ def parse_livefootballtv():
                     "start": start,
                     "title": title,
                     "competition": competition,
+                    "channels": channels,
                     "source": LIVE_FOOTBALL_TV,
                     "source_name": "LiveFootballTV",
                 })
@@ -967,8 +1009,13 @@ def write_xml(events):
             # dropped — so the guide could say a match was on and not say
             # which competition it belonged to.
             competition = (event.get("competition") or "").strip()
+            # Where else the match is carried, when the source said so.
+            # A channel name used to end up in the opponent's place; it is
+            # named here as a channel instead of being thrown away.
+            channels = (event.get("channels") or "").strip()
             lines.append(f"{source_time(event)} | {event['title']}"
-                         + (f" — {competition}" if competition else ""))
+                         + (f" — {competition}" if competition else "")
+                         + (f" | يُبث أيضًا على: {channels}" if channels else ""))
         return "\n".join(lines)
 
     def add_programme(start, stop, title, description):
@@ -1008,33 +1055,20 @@ def write_xml(events):
         return next((k for k in all_kickoffs if k >= moment), None)
 
     def add_countdown(gap_start, gap_stop, description):
-        """Fill a gap with consecutive blocks counting down to the next match.
+        """Fill a gap: one row for the long wait, a countdown near kickoff.
 
-        A countdown baked into a static file would go stale immediately, so
-        the gap is split into blocks each labelled with the time left at its
-        own start. The player always shows the block covering "now", so the
-        figure stays right without re-downloading; blocks shorten as kickoff
-        approaches so it is never more than one step out of date.
+        See fill_wait in epg_lib — the shape is shared with Shasha so the
+        two guides cannot drift apart, and so the horizon that stopped this
+        guide publishing 623 countdown rows for 17 matches is set once.
         """
-        block = gap_start
-        while block < gap_stop:
-            upcoming = next_kickoff_after(block)
-            if upcoming is None:
-                add_programme(block, gap_stop, "لا توجد مباراة قادمة", description)
-                return
-
-            remaining = upcoming - block
-            stop = min(block + countdown_step(remaining), gap_stop, upcoming)
-            if stop <= block:
-                return
-
-            add_programme(
-                block, stop,
-                countdown_title(titles_at[upcoming],
-                                remaining.total_seconds() // 60),
-                description,
-            )
-            block = stop
+        fill_wait(
+            gap_start, gap_stop,
+            next_kickoff_after,
+            lambda kickoff: titles_at[kickoff],
+            lambda start, stop, title: add_programme(
+                start, stop, title, description),
+            "لا توجد مباراة معلنة بعد",
+        )
 
     cursor = window_start
     while cursor < window_end:

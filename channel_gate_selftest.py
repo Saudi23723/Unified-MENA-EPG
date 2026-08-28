@@ -235,9 +235,88 @@ def gate_not_a_team() -> None:
                   for c in clubs), True)
 
 
+def gate_channel_is_never_a_team() -> None:
+    """A channel name may never be published where a club belongs.
+
+    LiveFootballTV lists every channel carrying a match on the same lines
+    as the two teams. A parser that takes "the last two plausible names"
+    off that block reaches for a channel the moment a page lists one more
+    channel than usual, and that is not hypothetical: this repository
+    published
+
+        ⏰ Eintracht Frankfurt - MBC Action + …
+
+    MBC Action being a television channel and not a football club. Only
+    "MBC Sport" had been taught to the filter, so every other channel in
+    the world was a candidate opponent.
+
+    So the gate is by name, in one place, for every guide at once — the
+    same lesson as ON Sport, where feeding a world channel list into a
+    number-first matcher put Liverpool on an Egyptian channel.
+    """
+    print("\nChannels are never clubs — CHANNEL_NAME")
+    from epg_lib import is_channel_name, is_not_a_team
+
+    channels = [
+        "MBC Action", "MBC Shahid Sports", "MBC 1", "MBC Masr",
+        "beIN Sports 1", "beIN SPORTS MAX 2", "بي إن سبورت",
+        "ON Time Sports 2", "أون تايم سبورت", "ON Sport 1",
+        "SSC 1", "SSC Sports", "Shahid VIP", "StarzPlay", "TOD",
+        "tabii Spor 1", "Thmanyah 1", "Alkass One", "قناة الكأس",
+        "Dubai Sports 1", "Abu Dhabi Sports 2", "AD Sports Premium",
+        "DAZN", "ESPN", "Sky Sports Main Event", "TNT Sports 1",
+        "Canal+ Sport", "Movistar LaLiga", "Prime Video", "Apple TV",
+        "SuperSport Football", "Sport TV1", "Eleven Sports 2",
+        "Viaplay Sports 1", "Nova Sports", "Arena Sport 1",
+        "Digi Sport 2", "Match TV", "Fox Sports 1", "CBS Sports Network",
+        "NBC Sports", "Peacock", "Paramount+", "RMC Sport 1",
+        "S Sport Plus", "Idman TV", "Varzish TV", "TRT Spor",
+        "Tivibu Spor 3", "Roya TV", "JRTV Sports", "الأردن الرياضية",
+        "دبي الرياضية", "أبو ظبي الرياضية",
+    ]
+    leaked = [c for c in channels if not is_channel_name(c)]
+    if leaked:
+        print(f"       accepted as a club: {leaked}")
+    check("CHANNEL", f"{len(channels)} channel names refused", not leaked, True)
+
+    # is_not_a_team is what the guides actually call, so the gate has to
+    # reach them through it, not only through its own regex.
+    unreached = [c for c in channels if not is_not_a_team(c)]
+    check("CHANNEL", "and every guide sees it through is_not_a_team",
+          not unreached, True)
+
+    # The direction that matters more: a club whose name merely brushes
+    # against broadcast vocabulary must still be a club.
+    clubs = [
+        "Sporting CP", "Sporting Lisbon", "Sport Boys", "Sport Recife",
+        "Sportivo Luqueño", "Deportivo Alavés", "Eintracht Frankfurt",
+        "Union Berlin", "Bayern München", "Stuttgart", "Real Madrid",
+        "Al Sahel", "Al Arabi SC", "Kazma", "الأهلي", "الهلال", "القناة",
+        "الاتحاد", "النصر السعودي", "الوحدات", "ZED FC", "ENPPI Club",
+    ]
+    refused = [c for c in clubs if is_channel_name(c)]
+    if refused:
+        print(f"       real clubs mistaken for channels: {refused}")
+    check("CHANNEL", f"none of {len(clubs)} real clubs called a channel",
+          not refused, True)
+
+    # And the guides' own parsers, through their own front doors.
+    import update_shahid_sports_epg as SH
+    accepted = [c for c in channels if SH.looks_like_team(c)]
+    if accepted:
+        print(f"       Shahid would publish as a club: {accepted}")
+    check("Shahid", "looks_like_team refuses every channel name",
+          not accepted, True)
+    dropped = [c for c in clubs if not SH.looks_like_team(c)]
+    if dropped:
+        print(f"       Shahid would drop real clubs: {dropped}")
+    check("Shahid", "and still accepts every real club", not dropped, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
-    for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team):
+    for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
+                 gate_channel_is_never_a_team):
         try:
             gate()
         except Exception as exc:
