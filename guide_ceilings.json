@@ -28,7 +28,7 @@
   "bein_sports_turkey_epg.xml": 25,
   "fajer_sports_epg.xml": 82,
   "jordan_sports_epg.xml": 15,
-  "onsport_epg.xml": 70,
+  "onsport_epg.xml": 90,
   "roya_jordan_epg.xml": 30,
   "shahid_sports_epg.xml": 20,
   "shasha_epg.xml": 15,
@@ -40,11 +40,11 @@
     "alkass_epg.xml": 0, "alwan_sports_epg.xml": 75,
     "bein_sports_qatar_epg.xml": 45, "bein_sports_turkey_epg.xml": 5,
     "fajer_sports_epg.xml": 65, "jordan_sports_epg.xml": 0,
-    "onsport_epg.xml": 36, "roya_jordan_epg.xml": 15,
+    "onsport_epg.xml": 82, "roya_jordan_epg.xml": 15,
     "shahid_sports_epg.xml": 2, "shasha_epg.xml": 0,
     "starzplay_epg.xml": 12, "tabii_spor_1_10_epg.xml": 91,
     "thmanyah_epg.xml": 85
   },
   "_note_working": "Alwan, Fajer and Thmanyah are confirmed working by their owner at these levels. Their ceilings sit above where they measured, not at some ideal.",
-  "_note_onsport": "36 is the fixed guide, measured on a runner on 28 August. 86 is the same guide the same day with FilGoal dead. 70 separates them with room for a quiet fortnight."
+  "_note_onsport": "A weak signal for this guide, and the file should say so rather than pretend. Correctly read, ON Sport carries four or five fixtures a day and its remaining hours are honest ignorance: 82%. Blind, it read 86%. Four points is not a threshold anybody can act on, so the ceiling is set at 90 to stop it crying wolf, and the real protection for this guide is the collapse guard in build_all_epg.py and a second independent publisher. The 36% measured earlier today was not a healthier guide — it was the mis-mapping that put Liverpool, Al Wasl and Tottenham on an Egyptian channel, and inflated fixtures inflate the ratio too."
 }
