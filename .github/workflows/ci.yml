@@ -48,6 +48,12 @@ jobs:
       - name: epg_lib's own guards must hold
         run: python -u epg_lib_selftest.py
 
+      # No guide may publish another broadcaster's match. This exists
+      # because one did: ON Time Sports carried Liverpool - Nottingham
+      # for an afternoon because a gate read a number before a name.
+      - name: No guide may accept another broadcaster's channel
+        run: python -u channel_gate_selftest.py
+
       # Structure only: whether a guide has aged out is the scheduled
       # health check's job, not a reason for a pull request to go red.
       - name: The committed guides must still be structurally valid

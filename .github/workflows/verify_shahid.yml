@@ -1,0 +1,50 @@
+name: Verify Shahid
+on:
+  push:
+    paths:
+      - ".github/workflows/verify_shahid.yml"
+      - "update_shahid_sports_epg.py"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -u channel_gate_selftest.py
+      - name: Build Shahid
+        run: python -u update_shahid_sports_epg.py
+      - name: Every fixture, and whether each side is a club
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, xml.etree.ElementTree as ET
+          root = ET.parse("shahid_sports_epg.xml").getroot()
+          seen, sides = [], set()
+          for p in root.findall("programme"):
+              t = re.sub(r"\s*·.*$", "", (p.findtext("title") or "")).replace("‎", "")
+              t = t.replace("• Live 🔵", "").strip()
+              if not t or "لا توجد" in t or t in seen:
+                  continue
+              seen.append(t)
+              for piece in t.split(" / "):
+                  if " - " in piece:
+                      a, b = piece.rsplit(" - ", 1)
+                      sides.add(a.strip()); sides.add(b.strip())
+          print(f"{len(seen)} distinct titles, {len(sides)} distinct sides\n")
+          for t in seen:
+              print("  •", t[:110])
+          bad = [s for s in sorted(sides)
+                 if re.search(r"الدوري|الجولة|الأسبوع|الاسبوع|بطولة|matchday", s, re.I)]
+          print(f"\ncompetition headings published as a team: {len(bad)}")
+          for s in bad:
+              print("   ", s)
+          PY
+      - name: Health
+        if: always()
+        run: python -u health_check.py || echo "health_check exit $?"
