@@ -2,7 +2,7 @@ name: Audit every source
 on:
   push:
     paths:
-      - "tools/audit_sources.py"
+      - "tools/probe_yallakora.py"
       - ".github/workflows/audit_sources.yml"
 permissions:
   contents: read
@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -u tools/audit_sources.py
+      - run: python -u tools/probe_yallakora.py
