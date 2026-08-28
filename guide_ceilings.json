@@ -1,0 +1,50 @@
+{
+  "_comment": [
+    "The most of each guide that may be a row saying it does not know what",
+    "is on, as a share of its rows: 'لا توجد مباراة مجدولة', the tabii PPV",
+    "notice, a channel repeating its own name, an operator's blurb about",
+    "itself. A countdown naming the next fixture is NOT counted — see",
+    "STANDIN_TITLE in health_check.py for why that distinction is the whole",
+    "point.",
+    "",
+    "This exists because ON Sport spent days at 86% — its source, FilGoal's",
+    "RSS, had been shut off and every run said so in a warning nobody read.",
+    "The guide kept publishing, kept passing every check, and the only thing",
+    "that noticed was a person looking at a television.",
+    "",
+    "Each ceiling sits above what that guide measured while known to be",
+    "working, with room for a quiet week, and below what it measures when",
+    "blind. ON Sport is the worked example: 36% fixed, 86% blind, held at 70.",
+    "",
+    "Raising one is a decision to make deliberately, with the measurement",
+    "that justifies it — not a way to quiet a red run.",
+    "",
+    "Measured 28 August 2026."
+  ],
+
+  "alkass_epg.xml": 15,
+  "alwan_sports_epg.xml": 88,
+  "bein_sports_qatar_epg.xml": 60,
+  "bein_sports_turkey_epg.xml": 25,
+  "fajer_sports_epg.xml": 82,
+  "jordan_sports_epg.xml": 15,
+  "onsport_epg.xml": 70,
+  "roya_jordan_epg.xml": 30,
+  "shahid_sports_epg.xml": 20,
+  "shasha_epg.xml": 15,
+  "starzplay_epg.xml": 30,
+  "tabii_spor_1_10_epg.xml": 96,
+  "thmanyah_epg.xml": 90,
+
+  "_measured_working": {
+    "alkass_epg.xml": 0, "alwan_sports_epg.xml": 75,
+    "bein_sports_qatar_epg.xml": 45, "bein_sports_turkey_epg.xml": 5,
+    "fajer_sports_epg.xml": 65, "jordan_sports_epg.xml": 0,
+    "onsport_epg.xml": 36, "roya_jordan_epg.xml": 15,
+    "shahid_sports_epg.xml": 2, "shasha_epg.xml": 0,
+    "starzplay_epg.xml": 12, "tabii_spor_1_10_epg.xml": 91,
+    "thmanyah_epg.xml": 85
+  },
+  "_note_working": "Alwan, Fajer and Thmanyah are confirmed working by their owner at these levels. Their ceilings sit above where they measured, not at some ideal.",
+  "_note_onsport": "36 is the fixed guide, measured on a runner on 28 August. 86 is the same guide the same day with FilGoal dead. 70 separates them with room for a quiet fortnight."
+}
