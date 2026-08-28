@@ -483,6 +483,54 @@ def carries_live_badge(title: str) -> bool:
 COUNTDOWN_MARK = "\u23f0"          # ⏰
 
 
+# Words that name a date, a competition or a stage of one — never a club.
+#
+# Every guide that reads a fixture out of prose has to tell a team from a
+# heading, and each had learned that in one language only. Shahid rejected
+# "أغسطس" and published "August"; rejected "الجولة 2" and published
+# "Round 2"; rejected "الدوري الفرنسي" and published "Premier League" —
+# and the mirror image, rejecting "Monday" while publishing "الاثنين".
+# Nine such pairs, each one a heading that reached the guide dressed as a
+# fixture in whichever language the filter had not been taught.
+#
+# One vocabulary, both scripts, in one place, so a guide cannot be strict
+# in Arabic and careless in English.
+#
+# Matched on word boundaries, never as substrings, and that matters in
+# both directions: "ودية" sits inside "السعودية" and "cup" inside a dozen
+# innocent words. \b works on Arabic letters here because they are word
+# characters, so "ودية" cannot fire inside "السعودية".
+NOT_A_TEAM_NAME = re.compile(
+    # months
+    r"\b(?:january|february|march|april|may|june|july|august|september"
+    r"|october|november|december)\b"
+    r"|\b(?:jan|feb|mar|apr|jun|jul|aug|sept?|oct|nov|dec)\b"
+    r"|\b(?:يناير|فبراير|مارس|[أا]بريل|مايو|يونيو|يوليو|[أا]غسطس|سبتمبر"
+    r"|[أا]كتوبر|نوفمبر|ديسمبر|كانون|شباط|[آأا]ذار|نيسان|[أا]يار|حزيران"
+    r"|تموز|[آأا]ب|[أا]يلول|تشرين)\b"
+    # weekdays
+    r"|\b(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b"
+    r"|\b(?:mon|tue|tues|wed|thu|thur|thurs|fri|sat|sun)\b"
+    r"|\b(?:الاثنين|الإثنين|الثلاثاء|الأربعاء|الاربعاء|الخميس|الجمعة"
+    r"|السبت|الأحد|الاحد|اليوم|غدا|غد[اً]?|[أا]مس)\b"
+    # competitions, rounds and stages
+    r"|\b(?:league|cup|supercup|trophy|championship|friendly|qualifier"
+    r"|qualifiers|playoff|playoffs|matchday|matchweek|gameweek|round"
+    r"|week|leg|group|stage|final|finals|semi|quarter)\b"
+    r"|\b(?:semi|quarter)[\s-]?finals?\b"
+    r"|\b(?:super\s+cup|play[\s-]?off)\b"
+    # Competition names in their own language, which is how a source
+    # prints them whatever language the rest of the page is in.
+    r"|\b(?:coppa|copa|supercoppa|supercopa|liga|laliga|serie|bundesliga"
+    r"|ligue|eredivisie|primeira|dfb|dfl|efl|uefa|fifa|caf|afc|concacaf"
+    r"|pokal|taca|superliga)\b"
+    r"|\b(?:الدوري|الجولة|الأسبوع|الاسبوع|بطولة|البطولة|كأس|الكأس|السوبر"
+    r"|النهائي|نهائي|المجموعة|مجموعة|ذهاب|[إا]ياب|ودية|تصفيات|تمهيدي"
+    r"|الترتيب|الممتاز)\b",
+    re.I,
+)
+
+
 def countdown_label(minutes) -> str:
     """Arabic 'time remaining' label: '15 د', '2 س', '2 س و15 د', '1 ي و3 س'."""
     minutes = max(int(minutes), 0)

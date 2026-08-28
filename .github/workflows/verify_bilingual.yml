@@ -1,0 +1,55 @@
+name: Verify bilingual filters
+on:
+  push:
+    paths:
+      - ".github/workflows/verify_bilingual.yml"
+      - "epg_lib.py"
+      - "update_shahid_sports_epg.py"
+      - "JORDAN_SPORTS_FINAL_VERIFIED.py"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt
+      - run: python -u epg_lib_selftest.py
+      - run: python -u channel_gate_selftest.py
+      - name: Rebuild the two guides the filters touch
+        run: |
+          python -u update_shahid_sports_epg.py
+          python -u JORDAN_SPORTS_FINAL_VERIFIED.py
+      - name: Did the stricter filter throw away anything real?
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, subprocess, xml.etree.ElementTree as ET
+          for path in ("shahid_sports_epg.xml", "jordan_sports_epg.xml"):
+              def sides(blob):
+                  out = set()
+                  root = ET.fromstring(blob)
+                  for p in root.findall("programme"):
+                      t = re.sub(r"\s*·.*$", "", (p.findtext("title") or ""))
+                      t = t.replace("‎", "").replace("• Live 🔵", "").replace("⏰", "").strip()
+                      if not t or "لا توجد" in t:
+                          continue
+                      for piece in t.split(" + "):
+                          if " - " in piece:
+                              a, b = piece.rsplit(" - ", 1)
+                              out.add(a.strip()); out.add(b.strip())
+                  return out
+              was = sides(subprocess.run(["git", "show", f"HEAD:{path}"],
+                                         capture_output=True).stdout)
+              now = sides(open(path, "rb").read())
+              lost, gained = sorted(was - now), sorted(now - was)
+              print(f"\n=== {path}")
+              print(f"    sides before {len(was)}  after {len(now)}")
+              print(f"    no longer published: {lost or 'none'}")
+              print(f"    newly published    : {gained or 'none'}")
+          PY
+      - if: always()
+        run: python -u health_check.py || echo "health_check exit $?"

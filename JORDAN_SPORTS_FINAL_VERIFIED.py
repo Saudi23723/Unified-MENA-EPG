@@ -410,6 +410,27 @@ def _lftv_duration_minutes(value: str, default: int = 135) -> int:
     return total if 20 <= total <= 360 else default
 
 
+# The channel's own name, in every spelling a source might print it.
+#
+# This asked for the literal string "jordan sports" and nothing else, so
+# "Jordan Sport" singular, "JRTV Sports", and the channel's own Arabic
+# name "الأردن الرياضية" all failed it. A guide whose gate does not know
+# its own name in the language of the page does not publish something
+# wrong — it silently publishes nothing, which is how a source going
+# quiet and a source being misread look identical from the outside.
+#
+# Still a gate: it names this channel and no other, so a row listing only
+# beIN or AD Sports is refused exactly as before.
+JORDAN_SPORTS_NAME = re.compile(
+    r"jordan\s*sports?\b"
+    r"|jrtv\s*sports?\b"
+    r"|الأردن\s*الرياضية|الاردن\s*الرياضية"
+    r"|الرياضية\s*الأردنية|الرياضية\s*الاردنية"
+    r"|الأردنية\s*الرياضية|الاردنية\s*الرياضية",
+    re.I,
+)
+
+
 def _lftv_row_names_channel(node) -> bool:
     """Is this fixture's broadcaster list the Jordan Sports channel?
 
@@ -423,11 +444,11 @@ def _lftv_row_names_channel(node) -> bool:
             return False
         listing = row.find("ul", class_="listaCanales") if hasattr(row, "find") else None
         if listing is not None:
-            text = norm(listing.get_text(" ", strip=True)).lower()
+            text = norm(listing.get_text(" ", strip=True))
             titles = " ".join(
                 norm(li.get("title") or "") for li in listing.find_all("li")
-            ).lower()
-            return "jordan sports" in text or "jordan sports" in titles
+            )
+            return bool(JORDAN_SPORTS_NAME.search(f"{text} {titles}"))
         row = row.parent
     return False
 

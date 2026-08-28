@@ -12,7 +12,9 @@ from bs4 import BeautifulSoup
 from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
-from epg_lib import countdown_step, countdown_title, with_live_badge
+from epg_lib import (
+    NOT_A_TEAM_NAME, countdown_step, countdown_title, with_live_badge,
+)
 
 # -----------------------------------------------------------------------------
 # Shahid Sports Guide EPG
@@ -306,13 +308,14 @@ def looks_like_team(value):
         "اليوم", "غدا", "غداً", "بتوقيت", "الساعة", "موعد", "القنوات", "الناقلة",
         "المصدر", "كتب", "تحرير", "آخر تحديث", "اخر تحديث",
         "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
-        # A competition heading is not a team, and one reached the guide:
-        # "الدوري الفرنسي - الجولة 2" was published as though it were a
-        # fixture, because it carries a dash and nothing above rejected
-        # it. No club is named after a league or a matchday.
-        "الدوري", "الجولة", "الأسبوع", "الاسبوع", "بطولة", "matchday",
     )
     if any(word in low for word in bad):
+        return False
+    # Dates, competitions and stages, in both scripts and on word
+    # boundaries — see NOT_A_TEAM_NAME. The list above had learned each
+    # kind in one language only: it rejected "أغسطس" and published
+    # "August", rejected "الجولة 2" and published "Round 2".
+    if NOT_A_TEAM_NAME.search(value):
         return False
     if low in NOISE_WORDS:
         return False
