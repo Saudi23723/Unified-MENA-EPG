@@ -1,0 +1,19 @@
+name: Probe yallakora structure
+on:
+  push:
+    paths:
+      - "tools/probe_yallakora_dom.py"
+      - ".github/workflows/probe_yk.yml"
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -u tools/probe_yallakora_dom.py

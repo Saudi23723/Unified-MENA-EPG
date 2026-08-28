@@ -83,7 +83,9 @@ its own schedule. This one's job is to keep the link fed.
 
 from __future__ import annotations
 
+import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -116,6 +118,32 @@ GENERATORS: list[tuple[str, str, str]] = [
 
 MERGE_SCRIPT = "merge_epg.py"
 MERGED = "unified_mena_epg.xml"
+
+# A rebuild that comes back with less than this share of what is already
+# published has not had a quiet day; it has lost a source. The published
+# file is put back and the run says so.
+#
+# Seven of the thirteen generators already refuse this themselves, through
+# write_xml_atomic's regression guard. Six write their own XML and have no
+# such guard, and three of those six are not ours to change. Doing it here
+# covers all thirteen without touching any of them.
+#
+# Half is deliberately far below ordinary variation. Across a week of runs
+# no guide moved by more than a few per cent between consecutive builds,
+# and the two real collapses on record — ON Sport losing FilGoal, and the
+# Combined pipeline before it was retired — were far past it.
+COLLAPSE_FLOOR = 0.5
+
+# ON Sport did not collapse to nothing when FilGoal died. It collapsed to
+# placeholder: ten real events and sixty-two rows saying it did not know,
+# which is a full file by any count of rows. So the share of rows that say
+# nothing is checked too, against the same ceilings health_check enforces.
+# A rebuild that crosses its guide's ceiling, when what is published is
+# still under it, is the same failure wearing a different shape.
+CEILINGS_FILE = "guide_ceilings.json"
+STANDIN_TITLE = re.compile(
+    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|Tanıtım|24/7",
+    re.I)
 
 # A generator that has not finished in this long is not going to. The
 # whole set normally runs in a few minutes; this is the brake, not the
@@ -170,6 +198,89 @@ def run(script: str, budget_left: timedelta) -> tuple[str, float]:
               f"previously published file is kept")
         return f"exit {done.returncode}", seconds
     return "ok", seconds
+
+
+def measure(path: str) -> tuple[int, int]:
+    """(programmes, rows that say the guide does not know) for one file."""
+    if not os.path.exists(path):
+        return 0, 0
+    try:
+        root = ET.parse(path).getroot()
+    except Exception:
+        return 0, 0
+    per: dict[str, list] = {}
+    for programme in root.findall("programme"):
+        title = (programme.findtext("title") or "").strip()
+        slot = per.setdefault(programme.get("channel"), [0, 0, set()])
+        slot[0] += 1
+        slot[2].add(title)
+        if STANDIN_TITLE.search(title):
+            slot[1] += 1
+    for slot in per.values():
+        if slot[0] >= 4 and len(slot[2]) == 1:
+            slot[1] = slot[0]
+    return sum(v[0] for v in per.values()), sum(v[1] for v in per.values())
+
+
+def committed(path: str) -> tuple[int, int]:
+    """The same measurement, taken on what is already published."""
+    done = subprocess.run(["git", "show", f"HEAD:{path}"],
+                          capture_output=True, check=False)
+    if done.returncode != 0 or not done.stdout:
+        return 0, 0
+    try:
+        root = ET.fromstring(done.stdout)
+    except Exception:
+        return 0, 0
+    per: dict[str, list] = {}
+    for programme in root.findall("programme"):
+        title = (programme.findtext("title") or "").strip()
+        slot = per.setdefault(programme.get("channel"), [0, 0, set()])
+        slot[0] += 1
+        slot[2].add(title)
+        if STANDIN_TITLE.search(title):
+            slot[1] += 1
+    for slot in per.values():
+        if slot[0] >= 4 and len(slot[2]) == 1:
+            slot[1] = slot[0]
+    return sum(v[0] for v in per.values()), sum(v[1] for v in per.values())
+
+
+def keep_published_if_collapsed(label: str, path: str,
+                                ceilings: dict) -> str | None:
+    """Put the published file back if this rebuild is a collapse.
+
+    Returns a note when it intervened, so the caller can say so in the
+    table rather than leaving it to a log line.
+    """
+    was_rows, was_blank = committed(path)
+    now_rows, now_blank = measure(path)
+    if not was_rows or not now_rows:
+        return None
+
+    reason = None
+    if now_rows < was_rows * COLLAPSE_FLOOR:
+        reason = (f"{now_rows} programmes against {was_rows} already "
+                  f"published — under half")
+    else:
+        ceiling = ceilings.get(path)
+        if isinstance(ceiling, (int, float)):
+            was_share = 100 * was_blank / was_rows
+            now_share = 100 * now_blank / now_rows
+            if now_share > ceiling >= was_share:
+                reason = (f"{now_share:.0f}% of it says it does not know what "
+                          f"is on, against {was_share:.0f}% published and a "
+                          f"ceiling of {ceiling}%")
+
+    if reason is None:
+        return None
+
+    restored = subprocess.run(["git", "checkout", "--", path],
+                              check=False).returncode == 0
+    print(f"::warning::{label}: {reason}. "
+          f"{'Kept the published file' if restored else 'COULD NOT restore ' + path}"
+          f" — a source has almost certainly stopped answering.")
+    return "collapsed, kept published" if restored else "collapsed, NOT restored"
 
 
 def describe(path: str, now: datetime) -> tuple[str, str, str]:
@@ -278,6 +389,14 @@ def build_once() -> bool:
     print(f"Building every guide — {datetime.now(UTC):%Y-%m-%d %H:%M} UTC, "
           f"{len(GENERATORS)} generators")
 
+    ceilings: dict = {}
+    if os.path.exists(CEILINGS_FILE):
+        try:
+            ceilings = json.load(open(CEILINGS_FILE, encoding="utf-8"))
+        except Exception as exc:
+            print(f"::warning::{CEILINGS_FILE} unreadable ({exc}) — this pass "
+                  f"can only catch a collapse by row count, not by content")
+
     rows: list[tuple[str, str, float, str, str, str]] = []
     for label, script, output in GENERATORS:
         spent = timedelta(seconds=time.monotonic() - started)
@@ -288,6 +407,10 @@ def build_once() -> bool:
             outcome, seconds = "skipped, out of time", 0.0
         else:
             outcome, seconds = run(script, left)
+            if outcome == "ok":
+                collapsed = keep_published_if_collapsed(label, output, ceilings)
+                if collapsed:
+                    outcome = collapsed
         rows.append((label, outcome, seconds, "", "", ""))
 
     # Every file is measured after the whole set has run, so the table
