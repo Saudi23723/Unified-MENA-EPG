@@ -1,0 +1,69 @@
+name: Verify ON Sport carries only ON Sport
+on:
+  push:
+    paths:
+      - ".github/workflows/verify_onsport_names.yml"
+      - "update_onsport_epg.py"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Which labels the front page offers, and what each maps to
+        run: |
+          python - <<'PY'
+          import re, requests
+          from bs4 import BeautifulSoup
+          import update_onsport_epg as O
+          UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
+          html = requests.get(O.LIVEFOOTBALLTV_HOME,
+                              headers={"User-Agent": UA}, timeout=30).text
+          soup = BeautifulSoup(html, "html.parser")
+          labels = {}
+          for li in soup.select("td.canales ul.listaCanales li"):
+              lab = (li.get("title") or li.get_text(" ", strip=True)).strip()
+              if lab:
+                  labels[lab] = labels.get(lab, 0) + 1
+          print(f"{len(labels)} distinct channel labels on the page\n")
+          kept = {l: O.onsport_channel_from_label(l) for l in labels}
+          print("ACCEPTED as ON Sport:")
+          for l, c in sorted(kept.items()):
+              if c:
+                  print(f"   {l:34} -> {c}   ({labels[l]} matches)")
+          print("\nA sample of what is REJECTED (should be everything else):")
+          for l in sorted(l for l, c in kept.items() if not c)[:40]:
+              print(f"   {l}")
+          PY
+      - name: Build it
+        run: python -u update_onsport_epg.py
+      - name: Every fixture it now publishes
+        if: always()
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from datetime import datetime, timedelta, timezone
+          CAIRO = timezone(timedelta(hours=3))
+          root = ET.parse("onsport_epg.xml").getroot()
+          rows = []
+          for p in root.findall("programme"):
+              r = p.get("start")
+              st = datetime.strptime(r[:14], "%Y%m%d%H%M%S").replace(
+                  tzinfo=timezone(timedelta(hours=int(r[-5:-2]))))
+              t = p.findtext("title") or ""
+              if "لا توجد" not in t and "التالي" not in t:
+                  rows.append((st.astimezone(CAIRO), p.get("channel"), t))
+          print(f"{len(rows)} real fixtures, {len(root.findall('programme'))} rows total")
+          for s, c, t in sorted(rows):
+              print(f"   {s:%m-%d %H:%M}  {c:12} {t[:60]}")
+          PY
+      - name: Health
+        if: always()
+        run: python -u health_check.py || echo "health_check exit $?"
