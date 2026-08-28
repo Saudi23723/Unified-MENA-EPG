@@ -26,15 +26,38 @@ an hour late. That is throttling, and the lever on it is the number of
 scheduled events the repository asks for.
 
 So there is now one scheduled build instead of fifteen. It runs every
-generator in sequence, merges, and pushes once, three times an hour.
-Roughly seventy runs a day where there were seven hundred and fifty, and
-a whole build measured 5m29s the day it went in.
+generator in sequence, merges, and pushes. A whole pass measured 5m29s
+the day it went in.
 
 The second effect matters as much as the first. A dropped per-guide cron
 used to strand that one guide until its own cron came round again — tabii
-sat eleven hours behind while every other guide was current. Every tick
+sat eleven hours behind while every other guide was current. Every pass
 here rebuilds everything, so any single successful run heals the whole
 lot at once, no matter how many were missed before it.
+
+Why it does not just run once and exit
+--------------------------------------
+
+Cutting the volume was not enough on its own. With the fifteen crons gone
+and this one left, GitHub still dropped the 14:27, 14:47 and 15:07
+events — three in a row, on a workflow asking for three events an hour
+against the four hundred a day it had been asking for. Whatever the
+scheduler is doing, correctness cannot be made to depend on it.
+
+So a scheduled run does not build once. It builds, publishes, waits for
+the next twenty-minute mark, and builds again, for three passes inside
+one run, then exits before the next hour's event is due. One landed
+event therefore covers a whole hour rather than a single moment, and the
+repository asks for one scheduled event an hour — twenty-four a day
+against the four hundred that were being throttled, which is the lowest
+pressure this can be run at while still refreshing every twenty minutes.
+
+Each pass publishes on its own, immediately. A run that is cancelled or
+killed in its third pass has already pushed the first two; nothing waits
+for the end.
+
+A run started by hand or by a code change builds once and stops — the
+--once flag. There is nothing to bridge there.
 
 What it does not do
 -------------------
@@ -44,8 +67,12 @@ writes nothing keeps its previously published file — write_xml_atomic in
 epg_lib guarantees that — so one broken source costs one guide's
 freshness and nothing else. The run stays green and publishes the rest;
 the summary table says plainly which one failed and how far ahead each
-guide still reaches. The job goes red only if the merge itself fails,
-because that is the link the player actually reads.
+guide still reaches.
+
+The job goes red only if the merge failed on the last pass, because that
+is the state the link is actually left in. A merge that failed at :07 and
+succeeded at :27 is reported as a warning and not as a red run: the link
+is fine, and a red one there would train the eye to ignore it.
 
 Whether a guide has quietly aged out is health_check.py's question, on
 its own schedule. This one's job is to keep the link fed.
@@ -92,11 +119,18 @@ MERGED = "unified_mena_epg.xml"
 # budget.
 PER_SCRIPT_TIMEOUT = timedelta(minutes=6)
 
-# And a brake on the set, so a run can never sit against the job's own
+# And a brake on the set, so a pass can never sit against the job's own
 # timeout and be killed before it has merged and pushed anything at all.
 # Whatever has not started by then is skipped and keeps its previous
 # file; the merge and the push still happen.
-TOTAL_BUDGET = timedelta(minutes=32)
+TOTAL_BUDGET = timedelta(minutes=16)
+
+# A scheduled run bridges its hour rather than building once — see the
+# docstring. Three passes twenty minutes apart, the last starting at +40,
+# so the run is finished well before the next hour's event is due and two
+# runs can never overlap.
+CYCLE = timedelta(minutes=20)
+PASSES = 3
 
 
 def run(script: str, budget_left: timedelta) -> tuple[str, float]:
@@ -190,7 +224,42 @@ def summarise(rows: list[tuple[str, str, float, str, str, str]],
             fh.write(f"\nKept the previous file for: {', '.join(failed)}\n")
 
 
-def main() -> int:
+def publish() -> bool:
+    """Commit and push whatever this pass rewrote.
+
+    Every pass publishes on its own rather than at the end of the run, so
+    a run killed in its third pass has already delivered the first two.
+    The retry loop is here because several workflows used to race for the
+    same branch; only this one pushes guides now, but a merge landing at
+    the same moment would still reject the push.
+    """
+    subprocess.run(["git", "add", "--", "*.xml"], check=False)
+    staged = subprocess.run(["git", "diff", "--cached", "--quiet"],
+                            check=False).returncode
+    if staged == 0:
+        print("nothing changed, nothing to push")
+        return True
+
+    # Whatever branch the run is on, which on a scheduled run is main.
+    # Naming it rather than hard-coding main is what lets this be
+    # exercised end to end from a branch without touching the real guide.
+    branch = os.environ.get("GITHUB_REF_NAME") or "main"
+
+    subprocess.run(["git", "commit", "-m", "Update every EPG"], check=False)
+    for attempt in range(1, 6):
+        subprocess.run(["git", "pull", "--rebase", "origin", branch], check=False)
+        if subprocess.run(["git", "push", "origin", f"HEAD:{branch}"],
+                          check=False).returncode == 0:
+            print(f"pushed on attempt {attempt}")
+            return True
+        print(f"push rejected, retrying ({attempt}/5)")
+        time.sleep(2 + attempt * 2)
+    print("::error::could not push after five attempts")
+    return False
+
+
+def build_once() -> bool:
+    """One pass: every generator, then the merge, then a push."""
     started = time.monotonic()
     print(f"Building every guide — {datetime.now(UTC):%Y-%m-%d %H:%M} UTC, "
           f"{len(GENERATORS)} generators")
@@ -227,12 +296,48 @@ def main() -> int:
     print(f"\nWhole build took {took}")
 
     if not merged_ok:
-        print("::error::the merge failed — the link the player reads was not "
-              "rebuilt this run")
-        return 1
+        print("::warning::the merge failed — the link the player reads was "
+              "not rebuilt this pass")
+        return False
     if ahead in ("missing", "unparsable", "nothing"):
-        print(f"::error::{MERGED} is {ahead} after a merge that reported "
+        print(f"::warning::{MERGED} is {ahead} after a merge that reported "
               f"success")
+        return False
+
+    return publish()
+
+
+def main() -> int:
+    once = "--once" in sys.argv
+    passes = 1 if once else PASSES
+    started = time.monotonic()
+    ok = False
+
+    for index in range(passes):
+        print(f"\n########  pass {index + 1} of {passes}  "
+              f"########", flush=True)
+        ok = build_once()
+
+        if index + 1 >= passes:
+            break
+
+        # Sleep to the next twenty-minute mark measured from the start of
+        # the run, not from the end of the pass, so the marks stay put
+        # however long a pass took. A pass that overran its slot goes
+        # straight into the next one rather than sliding the whole run.
+        due = (index + 1) * CYCLE.total_seconds()
+        wait = due - (time.monotonic() - started)
+        if wait > 0:
+            print(f"\nnext pass in {timedelta(seconds=round(wait))} — "
+                  f"the guides just published stand until then", flush=True)
+            time.sleep(wait)
+
+    # The colour of the run reports the state the link was left in, so a
+    # pass that failed and a later one that fixed it is a warning, not a
+    # red run. An earlier failure is already annotated where it happened.
+    if not ok:
+        print("::error::the last pass did not publish — the link may be "
+              "behind its sources")
         return 1
     return 0
 
