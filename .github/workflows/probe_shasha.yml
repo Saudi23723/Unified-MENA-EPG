@@ -1,19 +1,66 @@
-name: Probe Shasha FT
+name: Verify Shahid and Shasha
 on:
   push:
     paths:
-      - "tools/probe_shasha_ft.py"
       - ".github/workflows/probe_shasha.yml"
+      - "update_shasha_epg.py"
+      - "update_shahid_sports_epg.py"
 permissions:
   contents: read
 jobs:
-  probe:
+  verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -u tools/probe_shasha_ft.py
+      - run: python -u channel_gate_selftest.py
+      - run: python -u update_shasha_epg.py
+      - run: python -u update_shahid_sports_epg.py
+      - name: Both guides — order, separator, countdown, sides
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, xml.etree.ElementTree as ET
+          from datetime import datetime, timedelta, timezone
+          Z = timezone(timedelta(hours=3))
+          for path in ("shasha_epg.xml", "shahid_sports_epg.xml"):
+              root = ET.parse(path).getroot()
+              rows = []
+              for p in root.findall("programme"):
+                  r = p.get("start")
+                  st = datetime.strptime(r[:14], "%Y%m%d%H%M%S").replace(
+                      tzinfo=timezone(timedelta(hours=int(r[-5:-2]))))
+                  rows.append((st, (p.findtext("title") or "").replace("‎", "")))
+              in_order = rows == sorted(rows, key=lambda x: x[0])
+              slash = sum(" / " in t for _s, t in rows)
+              plus = sum(" + " in t for _s, t in rows)
+              cd = sum("· بعد " in t for _s, t in rows)
+              sides = set()
+              for _s, t in rows:
+                  base = re.sub(r"\s*·.*$", "", t).replace("• Live 🔵", "").strip()
+                  if "لا توجد" in base:
+                      continue
+                  for piece in base.split(" + "):
+                      if " - " in piece:
+                          a, b = piece.rsplit(" - ", 1)
+                          sides.add(a.strip()); sides.add(b.strip())
+              junk = sorted(x for x in sides if re.fullmatch(
+                  r"(?:FT|HT|AET|ET|Pen|Pens|Postp|Canc|Abd|Susp|Live|vs)\.?", x, re.I)
+                  or re.search(r"الدوري|الجولة|بطولة", x))
+              print(f"\n=== {path}")
+              print(f"    rows {len(rows)} | in time order: {in_order}")
+              print(f"    ' / ' rows: {slash}   ' + ' rows: {plus}   countdown rows: {cd}")
+              print(f"    distinct sides: {len(sides)} | status codes or headings among them: {junk or 'none'}")
+              shown = 0
+              for s, t in rows:
+                  base = re.sub(r"\s*·.*$", "", t)
+                  if " + " in base and shown < 3:
+                      print(f"      {s.astimezone(Z):%m-%d %H:%M}  {t[:100]}")
+                      shown += 1
+          PY
+      - if: always()
+        run: python -u health_check.py || echo "health_check exit $?"

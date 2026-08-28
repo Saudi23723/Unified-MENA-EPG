@@ -944,8 +944,11 @@ def write_xml(events):
     all_kickoffs = sorted({
         e["start"] for day in by_day.values() for e in day
     })
+    # Joined with " + " for the same reason the slot titles are, so a
+    # countdown names the coming matches exactly as the row it counts down
+    # to will name them.
     titles_at = {
-        k: " / ".join(sorted(
+        k: " + ".join(sorted(
             e["title"] for day in by_day.values() for e in day if e["start"] == k
         ))
         for k in all_kickoffs
@@ -1015,7 +1018,12 @@ def write_xml(events):
             next_kickoff = kickoff_times[index + 1] if index + 1 < len(kickoff_times) else None
             natural_stop = kickoff + timedelta(hours=3)
             stop = min(next_kickoff, natural_stop, day_stop) if next_kickoff else min(natural_stop, day_stop)
-            title = " / ".join(
+            # Matches kicking off at the same minute share one row, because
+            # a single guide channel cannot show them side by side. They are
+            # joined with " + ", the same separator Shasha's guide uses, so
+            # the two read alike: "A - B + C - D" is two matches, and the
+            # dash always separates the sides of one.
+            title = " + ".join(
                 event["title"] for event in sorted(groups[kickoff], key=lambda x: x["title"])
             )
             add_programme(kickoff, stop, with_live_badge(title), desc)
