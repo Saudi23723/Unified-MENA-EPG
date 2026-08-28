@@ -45,16 +45,19 @@ against the four hundred a day it had been asking for. Whatever the
 scheduler is doing, correctness cannot be made to depend on it.
 
 So a scheduled run does not build once. It builds, publishes, waits for
-the next twenty-minute mark, and builds again, for three passes inside
-one run, then exits before the next hour's event is due. One landed
-event therefore covers a whole hour rather than a single moment, and the
-repository asks for one scheduled event an hour — twenty-four a day
-against the four hundred that were being throttled, which is the lowest
-pressure this can be run at while still refreshing every twenty minutes.
+the next twenty-minute mark, and builds again — nine passes, not quite
+three hours, from a single landed event. Whatever the scheduler does
+after that, the guides keep being rebuilt every twenty minutes.
+
+Two events an hour are asked for, which is two chances an hour of
+starting a fresh ticker after a long silence, and the workflow cancels a
+run in progress when a new one lands so they can never pile up. Forty-
+eight scheduled events a day against the four hundred that were being
+throttled.
 
 Each pass publishes on its own, immediately. A run that is cancelled or
-killed in its third pass has already pushed the first two; nothing waits
-for the end.
+killed in its fifth pass has already pushed the first four; nothing waits
+for the end, and a cancellation almost always lands during a sleep.
 
 A run started by hand or by a code change builds once and stops — the
 --once flag. There is nothing to bridge there.
@@ -125,12 +128,23 @@ PER_SCRIPT_TIMEOUT = timedelta(minutes=6)
 # file; the merge and the push still happen.
 TOTAL_BUDGET = timedelta(minutes=16)
 
-# A scheduled run bridges its hour rather than building once — see the
-# docstring. Three passes twenty minutes apart, the last starting at +40,
-# so the run is finished well before the next hour's event is due and two
-# runs can never overlap.
+# A scheduled run bridges the gap to the next one rather than building
+# once — see the docstring. Nine passes twenty minutes apart, so one
+# landed event covers not quite three hours on its own.
+#
+# The length is set by how long the scheduler has actually gone quiet.
+# Before the consolidation the observed gaps ran two to eleven hours; the
+# afternoon it went in, three events an hour were dropped in a row and
+# then a fourth. Three hours covers the common case outright and turns
+# the worst one from eleven hours dark into eight.
+#
+# It costs nothing when the scheduler is behaving: the workflow cancels a
+# run in progress when a new event lands, so a ticker that is no longer
+# needed is replaced rather than left to finish. Almost every such
+# cancellation lands during a sleep, and a pass that is cut off has
+# already published everything the passes before it built.
 CYCLE = timedelta(minutes=20)
-PASSES = 3
+PASSES = 9
 
 
 def run(script: str, budget_left: timedelta) -> tuple[str, float]:

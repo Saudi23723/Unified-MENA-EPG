@@ -1,37 +1,40 @@
 name: Build every EPG
 
-# The one scheduled build, and it bridges its own hour.
+# The one scheduled build, and it bridges the gaps the scheduler leaves.
 #
 # Fifteen hourly crons plus a merge chained to all of them came to ~750
 # workflow runs a day, and GitHub answered by delaying this repository's
 # scheduled events by up to 45 minutes and dropping them for eight to
-# eleven hours at a stretch. Cutting that to three events an hour was not
-# enough on its own: the 14:27, 14:47 and 15:07 events were all dropped
-# too. See build_all_epg.py for the measurements.
+# eleven hours at a stretch. Cutting that to three events an hour did not
+# fix it — 14:27, 14:47, 15:07 and 16:07 were all dropped too. See
+# build_all_epg.py for the measurements.
 #
-# So correctness no longer depends on the scheduler firing often. One
-# event an hour — twenty-four a day, the lowest pressure this can be run
-# at — and the run it starts builds three times, twenty minutes apart,
-# publishing each pass as it finishes. One landed event covers the whole
-# hour. A dropped one costs an hour rather than the eleven it used to.
+# So correctness does not depend on the scheduler firing often. A run
+# builds nine times, twenty minutes apart, publishing each pass as it
+# finishes: one landed event covers not quite three hours on its own.
 #
-# :07 rather than :00 on purpose. GitHub's own guidance is to avoid the
-# top of the hour, and the load spikes that eat scheduled events land on
-# the round minutes.
+# Two events an hour, at :07 and :37, are two chances of starting a fresh
+# ticker after a silence — and cancel-in-progress means a new one
+# replaces the running one instead of queueing behind it, so they can
+# never pile up. A cancellation almost always lands during a sleep, and
+# whatever the cancelled run had already built is already pushed.
 #
-# A pass measured 5m29s for all thirteen generators and the merge, so the
-# third pass starts at +40 and the run is done around +46 — well clear of
-# the next hour's event, and two runs can never overlap.
+# :07 and :37 rather than :00 and :30 on purpose. GitHub's own guidance
+# is to avoid the top of the hour, and the load spikes that eat scheduled
+# events land on the round minutes.
+#
+# A pass measured 5m29s for all thirteen generators and the merge.
 
 on:
   schedule:
     - cron: "7 * * * *"
+    - cron: "37 * * * *"
 
   workflow_dispatch:
 
   # A change to any generator, to the shared library, or to this workflow
   # rebuilds everything rather than waiting for the next tick. One pass,
-  # not three — there is no gap to bridge.
+  # not nine — there is no gap to bridge.
   push:
     branches:
       - main
@@ -45,15 +48,19 @@ permissions:
 
 concurrency:
   group: build-every-epg
-  cancel-in-progress: false
+  # A newly landed event replaces the ticker still running from an
+  # earlier one. Queueing would stack three-hour runs behind each other
+  # for ever; cancelling costs at most one pass, and every pass before it
+  # has already been pushed.
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Three passes twenty minutes apart, the last ending around +46. Each
+    # Nine passes twenty minutes apart, the last ending around +166. Each
     # pass has its own sixteen-minute budget, so this is the outer limit
     # and not the working one.
-    timeout-minutes: 75
+    timeout-minutes: 190
 
     steps:
       - name: Checkout repository
