@@ -115,21 +115,28 @@ def stale_hours(path: str, now: datetime) -> float | None:
     return (now - max(stops)).total_seconds() / 3600.0
 
 
-# A title that stands in for a schedule instead of being one. Each entry
-# is a real string some guide publishes, not a guess:
+# A title that says the guide does not know what is on. Each entry is a
+# real string some guide publishes, not a guess:
 #
-#   لا توجد مباراة مجدولة       ON Sport, Alwan, Fajer, Thmanyah — no match known
-#   مباراة لم تُعلن قناتها بعد   Thmanyah — match known, channel not
+#   لا توجد مباراة مجدولة       ON Sport, Alwan, Fajer, Thmanyah
+#   مباراة لم تُعلن قناتها بعد   Thmanyah — a match exists, its channel is unknown
 #   PPV — حسب المباراة          tabii Spor 1-10, the standing notice
-#   ⏰ التالي:                   the countdown filler between fixtures
 #   Tanıtım                     Tivibu Spor, the channel trailing itself
 #
-# A channel whose every row carries one single title is counted the same
-# way whatever that title is, because that is what beIN's XTRA blurb and
-# an operator's channel-name filler both look like from here.
+# The countdown filler, "⏰ التالي: Liverpool - Nottingham", is
+# deliberately NOT in this list, and the distinction is the whole point of
+# the check. A countdown only exists because a real fixture was found; it
+# names the match and when it starts. A guide that has lost its source
+# cannot produce one — it produces "لا توجد مباراة مجدولة" and nothing
+# else. Counting countdowns as ignorance would have put a healthy ON Sport
+# at 74 per cent and a blind one at 86, which is not a signal anybody can
+# act on. Counting only ignorance puts them at 36 and 86.
+#
+# A channel whose every row carries one single title is counted here
+# whatever that title is, because that is what beIN's XTRA blurb and an
+# operator repeating its own channel name both amount to.
 STANDIN_TITLE = re.compile(
-    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|"
-    r"⏰ التالي|Tanıtım|24/7",
+    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|Tanıtım|24/7",
     re.I)
 
 CEILINGS_FILE = "guide_ceilings.json"

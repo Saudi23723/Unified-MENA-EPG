@@ -50,3 +50,5 @@ jobs:
         run: python -u health_check.py || echo "health_check exit $?"
 
 # re-run after the clash rule
+
+# re-run with the sharpened guard
