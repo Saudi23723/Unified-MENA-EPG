@@ -842,24 +842,28 @@ def countdown_step(remaining: timedelta) -> timedelta:
     shows the block covering "now", so the number stays correct without the
     file being re-downloaded.
 
-    The one rule that matters: a block may never be longer than the time
-    it is counting down. At ten-minute blocks inside the last hour, a
-    viewer sitting in front of the guide two minutes before kickoff was
-    being shown "بعد 12 د" — the coarsest reading at the moment it matters
-    most, and wrong in the direction that makes someone miss the start.
+    The length of a block IS the largest error in the number it shows: a
+    thirty-minute block still says "بعد 30 دقيقة" in its final minute. So
+    the step is the whole trade between an exact number and a readable
+    guide, and rows are not cheap after all — chasing two-minute accuracy
+    filled 93% of a guide with countdown, which is what a viewer sees when
+    they scroll it.
 
-    So the step shortens as kickoff nears, and never exceeds a third of
-    what is left. The cost is rows, which are cheap; the gain is that the
-    figure is never out by more than one step, and near kickoff that step
-    is two minutes.
+    An hour out, nobody minds whether it says 55 or 60 minutes. So: an
+    hour at a time, half an hour inside the last hour, and a quarter of an
+    hour inside the last quarter — that last step only because "بعد 30
+    دقيقة" one minute before kickoff is not a rounding, it is wrong in the
+    direction that makes someone miss the start.
+
+    Four or five blocks now cover what took twenty-five.
+
+    The one rule that still holds absolutely: a block may never be longer
+    than the time it is counting down, which is what the min() below is
+    for.
     """
     if remaining <= timedelta(minutes=15):
-        step = timedelta(minutes=2)
-    elif remaining <= timedelta(hours=1):
-        step = timedelta(minutes=5)
-    elif remaining <= timedelta(hours=3):
         step = timedelta(minutes=15)
-    elif remaining <= timedelta(hours=12):
+    elif remaining <= timedelta(hours=1):
         step = timedelta(minutes=30)
     else:
         step = timedelta(hours=1)
