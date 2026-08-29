@@ -564,7 +564,11 @@ ARABIC_LETTER = re.compile(r"[\u0600-\u06ff]")
 # (ص/س, ض/د, ط/ت, ظ/ز) — no European name distinguishes them — and ع, which
 # has no Latin sound at all, disappears.
 ARABIC_SOUND = {
-    "ب": "b", "ت": "t", "ث": "t", "ج": "j", "ح": "h", "خ": "k", "د": "d",
+    "ب": "b", "ت": "t", "ث": "t", "ج": "g", "ح": "h", "خ": "k", "د": "d",
+    # ج stands for both sounds a source may write, and Latin "j" is levelled
+    # to a vowel below (Juventus is يوفنتوس). Reading it as "g" is what lets
+    # "Leipzig" meet "لايبزيج"; as "j" the Arabic ended in a vowel and the
+    # Latin in a consonant, and they never met.
     "ذ": "z", "ر": "r", "ز": "z", "س": "s", "ش": "s", "ص": "s", "ض": "d",
     "ط": "t", "ظ": "z", "ع": "", "غ": "g", "ف": "f", "ق": "k", "ك": "k",
     "ل": "l", "م": "m", "ن": "n", "ه": "h", "ة": "h", "و": "w", "ي": "y",

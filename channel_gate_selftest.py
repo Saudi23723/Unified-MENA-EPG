@@ -426,7 +426,7 @@ def gate_one_club_across_two_scripts() -> None:
         ("Stuttgart", "شتوتغارت"), ("Napoli", "نابولي"), ("Milan", "ميلان"),
         ("Roma", "روما"), ("Real Madrid", "ريال مدريد"),
         ("Liverpool", "ليفربول"), ("Porto", "بورتو"), ("Ajax", "أياكس"),
-        ("Al Ahly", "الأهلي"),
+        ("Al Ahly", "الأهلي"), ("RB Leipzig", "لايبزيج"),
     ]
     missed = [(a, b) for a, b in same if not same_club(a, b)]
     if missed:
@@ -449,6 +449,8 @@ def gate_one_club_across_two_scripts() -> None:
         ("Atalanta", "أتلانتا يونايتد"), ("Bologna", "برشلونة"),
         ("Manchester United", "مانشستر سيتي"),
         ("Al Sahel", "الساحل الثاني"), ("Napoli", "نابولي الثاني"),
+        ("Leipzig", "لايبزيا الثاني"), ("Genoa", "جنوى يونايتد"),
+        ("Juventus", "يوفنتوس الثاني"),
         ("Verona", "فيرونتينا"), ("Lecce", "ليتشي الثاني"),
     ]
     merged = [(a, b) for a, b in different if same_club(a, b)]
