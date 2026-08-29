@@ -69,7 +69,10 @@ def main() -> int:
     for script, path in (("update_bein_sports_turkey_epg.py",
                           "bein_sports_turkey_epg.xml"),
                          ("update_roya_jordan_epg.py",
-                          "roya_jordan_epg.xml")):
+                          "roya_jordan_epg.xml"),
+                         ("update_shasha_epg.py", "shasha_epg.xml"),
+                         ("update_shahid_sports_epg.py",
+                          "shahid_sports_epg.xml")):
         print("\n" + "=" * 66)
         print(f"{path}")
         before = blank_channels(path) if Path(path).exists() else []
@@ -85,6 +88,14 @@ def main() -> int:
         if after:
             print("  STILL BLANK — the fix did not take")
             return 1
+
+        # And show the widest row, which is what the photograph showed.
+        rows = ET.parse(path).getroot().iter("programme")
+        widest = max((( (p.findtext("title") or "").count(")") ,
+                       (p.findtext("title") or "")) for p in rows),
+                     default=(0, ""))[1]
+        if widest:
+            print(f"  widest row: {widest[:150]}")
     print("\nno channel shows a blank row")
     return 0
 
