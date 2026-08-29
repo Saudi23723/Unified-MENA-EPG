@@ -396,13 +396,47 @@ def publish() -> bool:
     branch = os.environ.get("GITHUB_REF_NAME") or "main"
 
     subprocess.run(["git", "commit", "-m", "Update every EPG"], check=False)
+
+    # Rebasing generated files against a moving branch is the wrong shape
+    # and it cost a whole night: a rebase stopped on a conflict in a guide,
+    # left .git/rebase-merge behind, and every later attempt died on
+    # "there is already a rebase-merge directory". The build kept producing
+    # correct files and never published one of them.
+    #
+    # Nothing here needs merging. These XML files are written whole by the
+    # pass that just ran, so on a rejection the answer is simply: take the
+    # branch as it now stands, put our files back on top, commit that.
+    built = {path: open(path, "rb").read()
+             for _, _, path in GENERATORS + [("", "", MERGED)]
+             if os.path.exists(path)}
+
     for attempt in range(1, 6):
-        subprocess.run(["git", "pull", "--rebase", "origin", branch], check=False)
         if subprocess.run(["git", "push", "origin", f"HEAD:{branch}"],
                           check=False).returncode == 0:
             print(f"pushed on attempt {attempt}")
             return True
-        print(f"push rejected, retrying ({attempt}/5)")
+        print(f"push rejected, rebuilding on top of {branch} "
+              f"({attempt}/5)")
+
+        # Leave no half-finished rebase behind, whoever started it.
+        subprocess.run(["git", "rebase", "--abort"], check=False,
+                       capture_output=True)
+        subprocess.run(["git", "merge", "--abort"], check=False,
+                       capture_output=True)
+        subprocess.run(["git", "fetch", "origin", branch], check=False)
+        subprocess.run(["git", "reset", "--hard", "FETCH_HEAD"], check=False)
+
+        # Their code and everything else; our guides.
+        for path, blob in built.items():
+            with open(path, "wb") as handle:
+                handle.write(blob)
+        subprocess.run(["git", "add", "--", "*.xml"], check=False)
+        if subprocess.run(["git", "diff", "--cached", "--quiet"],
+                          check=False).returncode == 0:
+            print("the branch already carries these guides")
+            return True
+        subprocess.run(["git", "commit", "-m", "Update every EPG"],
+                       check=False)
         time.sleep(2 + attempt * 2)
     print("::error::could not push after five attempts")
     return False
