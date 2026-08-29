@@ -66,9 +66,9 @@ def main() -> int:
     print("  (the tolerance check runs before the ON Sport filter, so its")
     print("   'dropped' count is about every channel, not this guide)")
 
-    for script, path in (("update_bein_sports_turkey_epg.py",
+    for script, path in (("bein_sports_turkey_epg.py",
                           "bein_sports_turkey_epg.xml"),
-                         ("update_roya_jordan_epg.py",
+                         ("roya_jordan_epg.py",
                           "roya_jordan_epg.xml"),
                          ("update_shasha_epg.py", "shasha_epg.xml"),
                          ("update_shahid_sports_epg.py",
