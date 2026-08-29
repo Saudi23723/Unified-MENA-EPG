@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260828065000 +0000" stop="20260828083400 +0000" channel="beIN4K.qa">
-    <title lang="en">Hull City vs. Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Hull City are winless in all 10 Premier League meetings with Manchester United, the joint-most they’ve faced a side without winning along with Chelsea. The Red Devils have only faced Charlton, QPR  and Birmingham  more often without losing. Manchester United have never lost in the top-flight when facing a newly promoted team in their first game of</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260828083400 +0000" stop="20260828110800 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -694,6 +688,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
   <programme start="20260904065000 +0000" stop="20260904083500 +0000" channel="beIN4K.qa">
     <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
     <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260904083500 +0000" stop="20260904102000 +0000" channel="beIN4K.qa">
+    <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
+    <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -1902,6 +1902,12 @@ Stade de l'Aube Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260904083000 +0000" stop="20260904090000 +0000" channel="beINSports1.qa">
+    <title lang="en">The Big Interview 2026-2027</title>
+    <desc lang="en">While Coventry City have waited 25 years for their return to the top-flight, it’s been a lifetime’s work for Sky Blues striker Brandon Thomas-Asante. Having toiled hard in the lower leagues for a number of years, the Ghana international made his World Cup debut this summer and can now look forward to a first Premier League appearance at the home of</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260828080000 +0000" stop="20260828095200 +0000" channel="beINSports2.qa">
     <title lang="en">Celta de Vigo vs Osasuna - Spanish LaLiga 2026/2027 - Week 1</title>
     <desc lang="en">Celta de Vigo have won three of their last five LaLiga matches against Osasuna, one more victory than they managed in their previous nine encounters against them in the competition. Osasuna have won three of their last four away LaLiga matches against Celta de Vigo, after managing just one victory in their previous 23 visits to the Galician side in</desc>
@@ -2618,12 +2624,6 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260828064500 +0000" stop="20260828083000 +0000" channel="beINSports3.qa">
-    <title lang="en">Chelsea vs Luton - Carabao Cup 2026 / 2027 - Round 2</title>
-    <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
-    <category lang="ar">كأس الرابطة الإنكليزي</category>
-    <category lang="en">English League - Cup</category>
-  </programme>
   <programme start="20260828083000 +0000" stop="20260828090000 +0000" channel="beINSports3.qa">
     <title lang="en">La Liga Highlights 2026/2027 EP.2</title>
     <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
@@ -3311,6 +3311,12 @@ Diyarbakir Stadyumu Stadium</desc>
     <desc lang="en">FC Barcelona have beaten Rayo Vallecano in four of their last five LaLiga matches  after failing to win any of the previous five. FC Barcelona are unbeaten in their last four home LaLiga matches against Rayo Vallecano, keeping a clean sheet in all four. They could keep five consecutive home clean sheets against them for the first time ever.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260904083000 +0000" stop="20260904090000 +0000" channel="beINSports3.qa">
+    <title lang="en">Real Madrid vs Málaga - Spanish LaLiga 2026/2027 - Week 3</title>
+    <desc lang="en">Real Madrid are unbeaten in their last 11 LaLiga matches against Málaga  since a 3-2 defeat in December 2012, which is their only loss against them in the competition's history. Real Madrid are unbeaten in their 17 home LaLiga matches against Málaga ; only against Las Palmas, Elche, CD Málaga  and Real Murcia  have they played more home games in th</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
   </programme>
   <programme start="20260828080000 +0000" stop="20260828094700 +0000" channel="beINSports4.qa">
     <title lang="en">Angers vs Lille - French Ligue 1 2026/2027 - Week 1</title>
@@ -5700,6 +5706,13 @@ Tüpras Stadyumu Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
+  <programme start="20260904083000 +0000" stop="20260904100000 +0000" channel="beINSports6.qa">
+    <title lang="en">Match 2 - Women - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
+    <category lang="ar">باديل</category>
+    <category lang="en">Live</category>
+    <category lang="en">Padel</category>
+  </programme>
   <programme start="20260828073400 +0000" stop="20260828100500 +0000" channel="beINSports7.qa">
     <title lang="en">Benjamin Bonzi (Fra) vs botic Van De Zandschulp (Ned) - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
@@ -6989,11 +7002,6 @@ RAMS Park Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260828071500 +0000" stop="20260828083000 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - St Tropez  Jumping - Round 2 Competition Team</title>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
-  </programme>
   <programme start="20260828083000 +0000" stop="20260828110000 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - St Tropez  Jumping - Against The Clock With Jump Off</title>
     <category lang="ar">الفروسية</category>
@@ -7540,6 +7548,12 @@ RAMS Park Stadium</desc>
     <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260904073000 +0000" stop="20260904083000 +0000" channel="beINSports9.qa">
+    <title lang="en">GCL R2 – Competition Team - Shanghai Tour Highlights</title>
+    <desc lang="en">Day 1 of Longines Global Champions Tour</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260904083000 +0000" stop="20260904091500 +0000" channel="beINSports9.qa">
     <title lang="en">GCL R2 – Competition Team - Shanghai Tour Highlights</title>
     <desc lang="en">Day 1 of Longines Global Champions Tour</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8742,11 +8756,10 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260828061500 +0000" stop="20260828082800 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">River Plate (ARG) vs Santa Fe (COL) - Conmebol Sudamericana - Round of 16  2nd Leg</title>
-    <desc lang="en">Live and exclusive coverage from South American of the Copa Sudamericana.</desc>
-    <category lang="ar">كأس أندية أميركا الجنوبية</category>
-    <category lang="en">Copa Sudamericana</category>
+  <programme start="20260904083000 +0000" stop="20260904090000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">EN EPL Netbusters 2026/27 | E2</title>
+    <category lang="ar">مسلسلات</category>
+    <category lang="en">Series</category>
   </programme>
   <programme start="20260828082800 +0000" stop="20260828101700 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Independiente del Valle (ECU) vs Deportes Tolima (COL) - Copa Libertadores 2026 - Round of 16 - 2nd</title>
@@ -11697,12 +11710,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260828080000 +0000" stop="20260828083000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260828083000 +0000" stop="20260828090000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Best Goals World Cup 2026</title>
     <category lang="ar">الرياضة العام</category>
@@ -13534,6 +13541,12 @@ This tournament promises to be a monumental event, with over five million fans e
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260904083000 +0000" stop="20260904090000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">La Liga Highlights 2026/2027 EP.3</title>
+    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260828080000 +0000" stop="20260828090000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
