@@ -272,6 +272,7 @@ def gate_channel_is_never_a_team() -> None:
         "NBC Sports", "Peacock", "Paramount+", "RMC Sport 1",
         "S Sport Plus", "Idman TV", "Varzish TV", "TRT Spor",
         "Tivibu Spor 3", "Roya TV", "JRTV Sports", "الأردن الرياضية",
+        "Football HD", "Sport 1 HD", "Sports HD", "beIN 4K", "TV 4K",
         "دبي الرياضية", "أبو ظبي الرياضية",
     ]
     leaked = [c for c in channels if not is_channel_name(c)]
@@ -290,6 +291,13 @@ def gate_channel_is_never_a_team() -> None:
     clubs = [
         "Sporting CP", "Sporting Lisbon", "Sport Boys", "Sport Recife",
         "Sportivo Luqueño", "Deportivo Alavés", "Eintracht Frankfurt",
+        # Real clubs carrying a word that also marks a channel. "Ulsan HD
+        # FC" is Korean and was refused as a team name because HD matched
+        # anywhere — a lost fixture, which is the expensive direction.
+        # ("Shahid Afridi" turns up in a STARZPLAY documentary title, but
+        # that guide never reads a fixture out of a title, and on the
+        # Shahid guide the word is the broadcaster. Left refused.)
+        "Ulsan HD FC", "Ulsan HD", "Guangzhou HD",
         "Union Berlin", "Bayern München", "Stuttgart", "Real Madrid",
         "Al Sahel", "Al Arabi SC", "Kazma", "الأهلي", "الهلال", "القناة",
         "الاتحاد", "النصر السعودي", "الوحدات", "ZED FC", "ENPPI Club",

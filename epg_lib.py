@@ -726,7 +726,13 @@ CHANNEL_NAME = re.compile(
     # The generic words a channel name is built from. "sports" alone is not
     # enough (Sporting, Sport Boys), so these need a qualifier or a number.
     r"|\b(?:channel|kanal|قناة|قنوات)\b"
-    r"|\b(?:hd|sd|4k|uhd)\s*\d*\b"
+    # A picture-quality suffix is weak evidence on its own: "Football HD"
+    # is a channel and "Ulsan HD FC" is a Korean football club. Matching HD
+    # anywhere refused that club as a team name, which costs a fixture —
+    # the expensive direction. So the suffix only counts behind a word that
+    # is itself broadcast vocabulary, and only at the end of the name.
+    r"|\b(?:sports?|football|channel|tv|movies?|news|cinema|drama|max|extra)"
+    r"\s*\w*\s*(?:hd|sd|4k|uhd)\s*\d*\s*$"
     r"|\b(?:بي\s*[إا]ن|بين\s*سبورت|[أا]بو\s*ظبي\s*الرياضية"
     r"|دبي\s*الرياضية|الكأس|ثمانية|شاهد|ستارزبلاي|تود|تابي"
     r"|[أا]ون\s*تايم|[أا]ون\s*سبورت|الرياضية)\b",
@@ -885,7 +891,42 @@ COUNTDOWN_HORIZON = timedelta(hours=3)
 
 def waiting_title(what: str) -> str:
     """The title of the single row that covers a long wait."""
-    return f"{COUNTDOWN_MARK} المباراة القادمة · {what}"
+    return f"{COUNTDOWN_MARK} المباراة القادمة {isolate('·')} {what}"
+
+
+def close_channel_gaps(rows, window_start, window_end, title: str):
+    """Give a channel something to show at every minute of its window.
+
+    A player renders a hole as a blank row, and a viewer reads a blank row
+    as a dead channel. Two of these were live in the published guides:
+    Tivibu Spor, whose upstream feed had stopped supplying anything past
+    yesterday evening, and Al Jadeed, whose source publishes 03:00 to 20:59
+    and leaves six hours of every night unwritten.
+
+    Neither is our data being wrong. Both are the guide having nothing to
+    say and saying it by going blank instead of out loud.
+
+    Takes and returns rows of {"start", "stop", "title"}, sorted, with the
+    holes — and any lead-in or run-out inside the window — filled by a row
+    carrying `title`. Existing rows are never moved, shortened or dropped:
+    the filler only occupies time nothing else claims.
+    """
+    kept = sorted((r for r in rows if r["stop"] > r["start"]),
+                  key=lambda r: r["start"])
+    out: list[dict] = []
+    cursor = window_start
+
+    for row in kept:
+        if row["start"] > cursor:
+            out.append({"start": cursor, "stop": row["start"], "title": title,
+                        "filler": True})
+        out.append(row)
+        cursor = max(cursor, row["stop"])
+
+    if cursor < window_end:
+        out.append({"start": cursor, "stop": window_end, "title": title,
+                    "filler": True})
+    return out
 
 
 def fill_wait(gap_start, gap_stop, next_kickoff_after, title_at, emit,
@@ -938,6 +979,54 @@ def fill_wait(gap_start, gap_stop, next_kickoff_after, title_at, emit,
         cursor = stop
 
 
+# Unicode bidirectional isolates. Everything between FSI and PDI is laid
+# out on its own, so a Latin club name cannot reorder the Arabic around it
+# and the Arabic cannot pull the club name apart.
+#
+# This is the fix for what a television actually showed:
+#
+#     ⏰ Fiorentina - Frosinone + Monza - Udinese + Sassuolo - Torino · بعد15 ساعة و
+#
+# One long line of Latin names with Arabic at the end, and the renderer
+# decides where each run begins. The countdown drifted from its number,
+# the separator wandered, and the line could not be read left to right or
+# right to left. It is not a wording problem — it is a direction problem,
+# and it needs direction marks, not different words.
+FSI = "\u2068"      # first-strong isolate: open a run, let it pick its own way
+PDI = "\u2069"      # pop directional isolate: close it
+LRM = "\u200e"      # a left-to-right anchor, for renderers too old for FSI
+
+# The letters that number the matches sharing one slot. A viewer scanning a
+# row of three fixtures needs somewhere for the eye to land, and " + "
+# between six club names gives it nothing — the photo of a real screen
+# showed one unbroken line.
+SLOT_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def isolate(value: str) -> str:
+    """Wrap a run so its direction is decided by itself, not its neighbours."""
+    value = (value or "").strip()
+    return f"{FSI}{value}{PDI}" if value else ""
+
+
+def label_fixtures(titles) -> str:
+    """One slot's matches, lettered and each isolated from the others.
+
+        A) Fiorentina - Frosinone   B) Monza - Udinese   C) Sassuolo - Torino
+
+    A single match is left unlettered — "A)" in front of one fixture is
+    noise, and the letters exist only to separate several.
+    """
+    kept = [t.strip() for t in titles if t and t.strip()]
+    if not kept:
+        return ""
+    if len(kept) == 1:
+        return isolate(kept[0])
+    return "  ".join(
+        isolate(f"{SLOT_LETTERS[i % len(SLOT_LETTERS)]}) {t}")
+        for i, t in enumerate(kept))
+
+
 def countdown_title(what: str, minutes) -> str:
     """One countdown row, worded identically wherever it is used.
 
@@ -945,7 +1034,10 @@ def countdown_title(what: str, minutes) -> str:
     apart in their separators. Building it here means the two guides
     cannot disagree about how a wait is written.
     """
-    return f"{COUNTDOWN_MARK} {what} · بعد {countdown_label(minutes)}"
+    # The Arabic tail is isolated from the names in front of it, so the
+    # number and its unit stay together whatever the names are made of.
+    return (f"{COUNTDOWN_MARK} {what} "
+            f"{isolate('·')} بعد {countdown_label(minutes)}")
 
 
 def group_concurrent(events: list[dict], key="start") -> dict:
