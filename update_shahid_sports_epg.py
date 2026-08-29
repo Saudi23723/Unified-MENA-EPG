@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 
 from epg_lib import (
     COMPETITION_NAME, fill_wait, fold_name, is_channel_name, is_not_a_team,
-    merge_transliterations,
+    label_fixtures, merge_transliterations,
     with_live_badge,
 )
 
@@ -1113,7 +1113,10 @@ def write_xml(events):
         names, could not see they were the same. merge_transliterations
         compares the sounds instead. See epg_lib.
         """
-        return " + ".join(merge_transliterations(sorted(
+        # Lettered and each isolated, because a television showed six club
+        # names and an Arabic countdown as one unbroken line — see
+        # label_fixtures in epg_lib.
+        return label_fixtures(merge_transliterations(sorted(
             e["title"] for day in by_day.values() for e in day
             if e["start"] == kickoff
         )))

@@ -14,7 +14,9 @@ from bs4 import BeautifulSoup
 from pypdf import PdfReader
 from io import BytesIO
 
-from epg_lib import fill_wait, merge_transliterations, with_live_badge
+from epg_lib import (
+    fill_wait, label_fixtures, merge_transliterations, with_live_badge,
+)
 
 OUTPUT = "shasha_epg.xml"
 
@@ -585,7 +587,8 @@ def write_xml(events: list[dict]) -> None:
     def slot_title(slot_start: datetime) -> str:
         # One match named once, even when two sources wrote it in two
         # scripts — see merge_transliterations in epg_lib.
-        return " + ".join(
+        # Lettered and each isolated — see label_fixtures in epg_lib.
+        return label_fixtures(
             merge_transliterations([ev["title"] for ev in slots[slot_start]]))
 
     def add_countdown(gap_start: datetime, gap_stop: datetime, desc: str) -> None:

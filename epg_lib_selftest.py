@@ -251,12 +251,34 @@ def main() -> int:
           not abbreviated,
           f"first abbreviated offset: {abbreviated[:3]}")
 
+    # The separator is isolated from the names in front of it: on a real
+    # screen "⏰ Fiorentina - Frosinone + Monza - Udinese · بعد15 ساعة و"
+    # came out as one unbroken run, the countdown drifting from its number.
+    # That is a direction problem, not a wording one — see isolate().
+    dot = L.isolate("·")
     title = L.countdown_title("A - B", 95)
     check("one wording, marked as a wait rather than a broadcast",
-          title == f"{L.COUNTDOWN_MARK} A - B · بعد ساعة و35 دقيقة"
-          and L.countdown_title("A - B + C - D", 3)
-          == f"{L.COUNTDOWN_MARK} A - B + C - D · بعد 3 دقائق",
+          title == f"{L.COUNTDOWN_MARK} A - B {dot} بعد ساعة و35 دقيقة"
+          and L.countdown_title("A - B", 3)
+          == f"{L.COUNTDOWN_MARK} A - B {dot} بعد 3 دقائق",
           title)
+
+    # ---------------------------------------------------- label_fixtures
+    print("\nlabel_fixtures — several matches in one row")
+    three = L.label_fixtures(["Fiorentina - Frosinone", "Monza - Udinese",
+                              "Sassuolo - Torino"])
+    check("each match is lettered so the eye has somewhere to land",
+          "A) Fiorentina" in three and "B) Monza" in three
+          and "C) Sassuolo" in three, three)
+    check("and each is isolated, so no name reorders its neighbour",
+          three.count(L.FSI) == 3 and three.count(L.PDI) == 3, three)
+    check("a single match is not lettered",
+          L.label_fixtures(["Milan - Venezia"]) == L.isolate("Milan - Venezia"),
+          L.label_fixtures(["Milan - Venezia"]))
+    check("nothing in, nothing out", L.label_fixtures([]) == "", "!")
+    check("every isolate opened is closed, in the finished title",
+          (lambda t: t.count(L.FSI) == t.count(L.PDI))(
+              L.countdown_title(three, 930)), "unbalanced")
 
     # -------------------------------------------------------- fill_wait
     #
