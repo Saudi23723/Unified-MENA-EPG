@@ -781,29 +781,6 @@ def arabic_count(number: int, one: str, two: str, few: str, many: str) -> str:
     return f"{number} {many}"
 
 
-def arabic_count(number: int, one: str, two: str, few: str, many: str) -> str:
-    """A number with its unit, in the form Arabic actually uses.
-
-    Arabic does not simply put a numeral in front of a noun. One and two
-    are the word alone, three to ten take the plural, and eleven upward
-    take the singular again:
-
-        1  ساعة        2  ساعتين      3  3 ساعات     19  19 ساعة
-        1  دقيقة       2  دقيقتين     5  5 دقائق     30  30 دقيقة
-
-    Written the wrong way it reads as a machine talking. Written this way
-    a viewer reads it without stopping, which is the whole point of a
-    countdown they glance at.
-    """
-    if number == 1:
-        return one
-    if number == 2:
-        return two
-    if 3 <= number <= 10:
-        return f"{number} {few}"
-    return f"{number} {many}"
-
-
 def countdown_label(minutes) -> str:
     """Arabic 'time remaining', spelled so it can only be read one way.
 
