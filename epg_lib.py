@@ -726,7 +726,13 @@ CHANNEL_NAME = re.compile(
     # The generic words a channel name is built from. "sports" alone is not
     # enough (Sporting, Sport Boys), so these need a qualifier or a number.
     r"|\b(?:channel|kanal|قناة|قنوات)\b"
-    r"|\b(?:hd|sd|4k|uhd)\s*\d*\b"
+    # A picture-quality suffix is weak evidence on its own: "Football HD"
+    # is a channel and "Ulsan HD FC" is a Korean football club. Matching HD
+    # anywhere refused that club as a team name, which costs a fixture —
+    # the expensive direction. So the suffix only counts behind a word that
+    # is itself broadcast vocabulary, and only at the end of the name.
+    r"|\b(?:sports?|football|channel|tv|movies?|news|cinema|drama|max|extra)"
+    r"\s*\w*\s*(?:hd|sd|4k|uhd)\s*\d*\s*$"
     r"|\b(?:بي\s*[إا]ن|بين\s*سبورت|[أا]بو\s*ظبي\s*الرياضية"
     r"|دبي\s*الرياضية|الكأس|ثمانية|شاهد|ستارزبلاي|تود|تابي"
     r"|[أا]ون\s*تايم|[أا]ون\s*سبورت|الرياضية)\b",

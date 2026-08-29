@@ -33,7 +33,7 @@ def onsport() -> None:
     print("=" * 70)
     print(f"ON SPORT   (now {NOW:%Y-%m-%d %H:%M} UTC)")
     try:
-        html = ON.fetch(ON.LIVEFOOTBALLTV_HOME)
+        html = ON.fetch_text(ON.LIVEFOOTBALLTV_HOME)
         print(f"  livefootballtv front page: HTTP ok, {len(html)} bytes")
     except Exception as exc:
         print(f"  livefootballtv front page: FAILED {exc}")
@@ -104,7 +104,7 @@ def aljadeed() -> None:
 
 
 def main() -> int:
-    for step in (onsport, tivibu, aljadeed):
+    for step in (onsport,):
         try:
             step()
         except Exception as exc:
