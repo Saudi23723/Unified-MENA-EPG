@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260828050600 +0000" stop="20260828065000 +0000" channel="beIN4K.qa">
-    <title lang="en">Arsenal vs. Coventry City - English Premier League 2026/2027</title>
-    <desc lang="en">Arsenal and Coventry City have only faced in the opening league game of a season once – in 1993-94, the Sky Blues won 3-0 at Highbury thanks to a hat-trick from Mick Quinn. This is the first Premier League meeting between Arsenal and Coventry since February 2001, a 1-0 win for the Gunners at Highfield Road. Since Coventry did the double over Arsena</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260828065000 +0000" stop="20260828083400 +0000" channel="beIN4K.qa">
     <title lang="en">Hull City vs. Manchester United - English Premier League 2026/2027</title>
     <desc lang="en">Hull City are winless in all 10 Premier League meetings with Manchester United, the joint-most they’ve faced a side without winning along with Chelsea. The Red Devils have only faced Charlton, QPR  and Birmingham  more often without losing. Manchester United have never lost in the top-flight when facing a newly promoted team in their first game of</desc>
@@ -694,6 +688,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
   <programme start="20260904050500 +0000" stop="20260904065000 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260904065000 +0000" stop="20260904083500 +0000" channel="beIN4K.qa">
+    <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
+    <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -2608,11 +2608,13 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
     <category lang="en">English League - Championship</category>
   </programme>
-  <programme start="20260828050000 +0000" stop="20260828064500 +0000" channel="beINSports3.qa">
-    <title lang="en">Málaga vs Deprotivo La Coruna - Spanish LaLiga 2026/2027 - Week 2</title>
-    <desc lang="en">Málaga have lost two of their last three LaLiga matches against Deportivo de A Coruña, after not losing any of their previous six encounters against them in the competition. After losing two of their first four home games in LaLiga against RC Deportivo de A Coruña, Málaga CF have not lost any of their last 11 against them, winning the last three, t</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+  <programme start="20260904064500 +0000" stop="20260904071500 +0000" channel="beINSports2.qa">
+    <title lang="en">Crystal Palace vs Manchester City - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
+The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
+Arsenal are the defending Champions.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260828064500 +0000" stop="20260828083000 +0000" channel="beINSports3.qa">
     <title lang="en">Chelsea vs Luton - Carabao Cup 2026 / 2027 - Round 2</title>
@@ -3299,6 +3301,12 @@ Diyarbakir Stadyumu Stadium</desc>
   <programme start="20260904050000 +0000" stop="20260904064500 +0000" channel="beINSports3.qa">
     <title lang="en">Osasuna vs Getafe - Spanish LaLiga 2026/2027 - Week 3</title>
     <desc lang="en">Osasuna have won two of their last five LaLiga matches against Getafe, as many victories as they managed in their previous 20 encounters in the competition. Getafe have failed to score in each of their last three away games in LaLiga, and they have not gone four without scoring in the competition since a run of four between May and August 2021.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260904064500 +0000" stop="20260904083000 +0000" channel="beINSports3.qa">
+    <title lang="en">Barcelona vs Rayo Vallecano - Spanish LaLiga 2026/2027 - Week 3</title>
+    <desc lang="en">FC Barcelona have beaten Rayo Vallecano in four of their last five LaLiga matches  after failing to win any of the previous five. FC Barcelona are unbeaten in their last four home LaLiga matches against Rayo Vallecano, keeping a clean sheet in all four. They could keep five consecutive home clean sheets against them for the first time ever.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
@@ -4047,6 +4055,12 @@ Tüpras Stadyumu Stadium</desc>
   <programme start="20260904050000 +0000" stop="20260904064500 +0000" channel="beINSports4.qa">
     <title lang="en">Auxerre vs Angers - French Ligue 1 2026/2027 - Week 2</title>
     <desc lang="en">Auxerre have won their last three home games against Angers in all competitions, having won only one of their first nine such meetings. Beaten on the opening matchday of the Ligue 1 season, Auxerre have not started a league campaign with consecutive defeats since the 2018-19 Ligue 2 season under Pablo Correa.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
+  <programme start="20260904064500 +0000" stop="20260904071500 +0000" channel="beINSports4.qa">
+    <title lang="en">Lille vs Paris Saint-Germain - French Ligue 1 2026/2027 - Week 2</title>
+    <desc lang="en">Paris SG have scored 33 goals in 10 Ligue 1 matches against Lille since the start of the 2021-22 season, at least seven more than against any other side present throughout that period. Only Saint-Etienne have scored more in a 10-game consecutive L1 run against Lille. After drawing with Paris SG last season, Lille could go two home Ligue 1 matches u</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
