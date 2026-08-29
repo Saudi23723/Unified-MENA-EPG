@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Build the guides and count what a viewer actually scrolls past."""
+"""Build the guides and count what a viewer actually scrolls past.
+
+Also checks no slot still prints one match twice, which is how the
+Dortmund - Hamburg row was found.
+"""
 from __future__ import annotations
 
 import re
@@ -29,6 +33,18 @@ def main() -> int:
         print(f"\n{name}: {before} rows -> {len(titles)}   "
               f"{real} matches + {len(wait)} wait + {len(cnt)} countdown "
               f"({filler}% filler)")
+        from epg_lib import same_fixture
+        for t in titles:
+            body = re.sub(r"·.*$", "", re.sub(r"^⏰\s*", "", t))
+            body = re.sub(r"‎?• Live.*", "", body)
+            parts = [re.sub(r"^[A-Z]\)\s*", "", x.strip().strip("\u2068\u2069"))
+                     for x in re.split(r"\s{2,}|\s\+\s", body) if x.strip()]
+            for i, a in enumerate(parts):
+                for b in parts[i + 1:]:
+                    if same_fixture(a, b):
+                        print(f"   !! one match twice: {a} / {b}")
+                        return 1
+
         for p, t in list(zip(rows, titles))[:6]:
             a = p.get("start")[:12]
             print(f"   {a}  {t[:96]}")
