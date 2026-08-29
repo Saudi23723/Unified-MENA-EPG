@@ -512,11 +512,41 @@ def event_group_key(event):
     return (event["start"].astimezone(RIYADH_TZ).date().isoformat(), title_signature(event["title"]))
 
 
+# Facts about a match that any source may know and no source owns.
+#
+# The ranking decides whose kickoff time and whose spelling to trust. It
+# has no business deciding which competition the match belongs to, or
+# which other channels carry it: those are simply true or not, and the
+# source that happened to print them is usually not the highest-ranked
+# one. LiveFootballTV is the only page that lists the channels and it sits
+# lowest at 75, so every Bundesliga fixture — BundesligaOfficial, 110 —
+# threw the channel list away. The guide had been taught to say
+# "يُبث أيضًا على: MBC Action" and then never said it once.
+SHARED_FACTS = ("competition", "channels")
+
+
 def choose_best_event(events):
+    """The best-ranked event, keeping what the others knew.
+
+    Timing and title come from the highest-priority source. Anything in
+    SHARED_FACTS is filled in from whichever candidate has it, in rank
+    order, so a fact survives even when the source that supplied it lost.
+    """
     def rank(event):
         source = event.get("source_name", "")
         return SOURCE_PRIORITY.get(source, 0)
-    return sorted(events, key=lambda e: (rank(e), e["start"]), reverse=True)[0]
+
+    ordered = sorted(events, key=lambda e: (rank(e), e["start"]), reverse=True)
+    best = dict(ordered[0])
+    for fact in SHARED_FACTS:
+        if (best.get(fact) or "").strip():
+            continue
+        for other in ordered[1:]:
+            value = (other.get(fact) or "").strip()
+            if value:
+                best[fact] = value
+                break
+    return best
 
 
 def dedupe(events):

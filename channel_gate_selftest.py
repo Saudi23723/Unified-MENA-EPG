@@ -506,12 +506,59 @@ def gate_one_club_across_two_scripts() -> None:
           kept and kept[0] == "Elversberg - Bayer Leverkusen", True)
 
 
+def gate_a_fact_survives_its_source() -> None:
+    """What one source knew must not be lost because another outranked it.
+
+    The ranking decides whose kickoff time and whose spelling to trust. It
+    has no business deciding which competition a match belongs to or which
+    other channels carry it — those are true or not, and the source that
+    printed them is usually not the highest-ranked one.
+
+    LiveFootballTV is the only page listing the channels and sits lowest at
+    75, so every Bundesliga fixture (BundesligaOfficial, 110) threw the
+    list away. The guide was taught to say "يُبث أيضًا على: MBC Action" and
+    then never said it once — caught by reading the published file, not by
+    reading the code.
+    """
+    print("\nA fact outlives the source that supplied it")
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    import update_shahid_sports_epg as SH
+
+    when = datetime(2026, 8, 29, 21, 30, tzinfo=ZoneInfo("Asia/Riyadh"))
+    top = {"start": when, "title": "Union Berlin - Eintracht Frankfurt",
+           "source_name": "BundesligaOfficial"}
+    low = {"start": when, "title": "Union Berlin - Eintracht Frankfurt",
+           "source_name": "LiveFootballTV",
+           "competition": "الدوري الألماني", "channels": "MBC Action"}
+
+    best = SH.choose_best_event([top, low])
+    check("FACTS", "the higher-ranked source still wins the fixture",
+          best["source_name"] == "BundesligaOfficial", True)
+    check("FACTS", "the competition survives from the lower-ranked source",
+          best.get("competition") == "الدوري الألماني", True)
+    check("FACTS", "so do the other channels carrying it",
+          best.get("channels") == "MBC Action", True)
+
+    # And the winner's own values are never overwritten by a weaker source.
+    rich = dict(top, competition="Bundesliga", channels="MBC Shahid Sports")
+    kept = SH.choose_best_event([rich, low])
+    check("FACTS", "a fact the winner already knew is left alone",
+          kept.get("competition") == "Bundesliga"
+          and kept.get("channels") == "MBC Shahid Sports", True)
+
+    # Filling a fact must not mutate the event the caller passed in.
+    check("FACTS", "the source events are not modified in place",
+          "competition" not in top and "channels" not in top, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
                  gate_channel_is_never_a_team,
                  gate_one_match_one_row,
-                 gate_one_club_across_two_scripts):
+                 gate_one_club_across_two_scripts,
+                 gate_a_fact_survives_its_source):
         try:
             gate()
         except Exception as exc:
