@@ -394,11 +394,124 @@ def gate_one_match_one_row() -> None:
           len(distinct) == 5, True)
 
 
+def gate_one_club_across_two_scripts() -> None:
+    """One club written in two scripts is one club — and two are still two.
+
+    Sources disagree on script, so a slot carried the same match twice:
+
+        Union Berlin - Eintracht Frankfurt
+        + أونيون برلين - أينتراخت فرانكفورت
+
+    A table of club names in both scripts would answer this and would have
+    to grow to every club in the world. The alphabet is the smaller unit:
+    Arabic sports writing transliterates a foreign club sound by sound.
+
+    The risk runs the other way. A fuzzy name match is unsafe inside one
+    script at any threshold that still catches real duplicates — measured,
+    "Mainz"/"Monza", "Al Nassr"/"Al Nasar" and "الهلال"/"الأهلي" all score
+    at or above it. So the match is cross-script only, and this gate is
+    weighted towards proving that different clubs stay different: losing a
+    fixture is worse than printing one twice.
+    """
+    print("\nOne club in two scripts — same_club")
+    from epg_lib import merge_transliterations, same_club, same_fixture
+
+    same = [
+        ("Union Berlin", "أونيون برلين"),
+        ("Eintracht Frankfurt", "أينتراخت فرانكفورت"),
+        ("Elversberg", "إلفيرسبيرج"),
+        ("Bayer Leverkusen", "باير ليفركوزن"),
+        ("Köln", "كولن"), ("Hoffenheim", "هوفنهايم"),
+        ("Paderborn", "بادربورن"), ("Mainz", "ماينتس"), ("Mainz", "ماينز"),
+        ("Stuttgart", "شتوتغارت"), ("Napoli", "نابولي"), ("Milan", "ميلان"),
+        ("Roma", "روما"), ("Real Madrid", "ريال مدريد"),
+        ("Liverpool", "ليفربول"), ("Porto", "بورتو"), ("Ajax", "أياكس"),
+        ("Al Ahly", "الأهلي"), ("RB Leipzig", "لايبزيج"),
+    ]
+    missed = [(a, b) for a, b in same if not same_club(a, b)]
+    if missed:
+        print(f"       not recognised as one club: {missed[:4]}")
+    check("TRANSLIT", f"{len(same) - len(missed)}/{len(same)} cross-script "
+                      f"spellings recognised", not missed, True)
+
+    # The direction that costs a fixture. Every pair here is two genuinely
+    # different clubs, written one in each script.
+    different = [
+        ("Al Hilal", "الأهلي"), ("Al Ahly", "الهلال"), ("Al Nassr", "النجمة"),
+        ("Mainz", "مونزا"), ("Monza", "ماينتس"), ("Köln", "كيل"),
+        ("Torino", "تورونتو"), ("Parma", "باليرمو"),
+        ("Cagliari", "كالياري ستي"), ("Inter", "إنتراخت"),
+        ("Milan", "ميلانو سيتي"), ("Roma", "رومانيا"),
+        ("Genoa", "جنوة الثاني"), ("Real Madrid", "ريال بيتيس"),
+        ("Union Berlin", "يونيون سانت جيلواز"),
+        ("Bayern Munich", "باير ليفركوزن"), ("Leipzig", "ليفركوزن"),
+        ("Frosinone", "فيورنتينا"), ("Sassuolo", "ساليرنيتانا"),
+        ("Atalanta", "أتلانتا يونايتد"), ("Bologna", "برشلونة"),
+        ("Manchester United", "مانشستر سيتي"),
+        ("Al Sahel", "الساحل الثاني"), ("Napoli", "نابولي الثاني"),
+        ("Leipzig", "لايبزيا الثاني"), ("Genoa", "جنوى يونايتد"),
+        ("Juventus", "يوفنتوس الثاني"),
+        ("Verona", "فيرونتينا"), ("Lecce", "ليتشي الثاني"),
+    ]
+    merged = [(a, b) for a, b in different if same_club(a, b)]
+    if merged:
+        print(f"       two clubs merged into one: {merged}")
+    check("TRANSLIT", f"none of {len(different)} different clubs merged",
+          not merged, True)
+
+    # A measured limit, recorded rather than papered over. Latin writes the
+    # short vowels of "Al Hilal"; Arabic does not write them in "الهلال",
+    # so the two skeletons differ by one slot and fall under the floor.
+    #
+    # Deleting vowels instead would match this pair and seven others — and
+    # it also merges "Al Hilal" with "الأهلي", and "Mainz" with "مونزا":
+    # measured over the corpus above, 26 of 28 recognised at the cost of
+    # four different clubs collapsed into one. Four lost fixtures to gain
+    # eight cosmetic merges is the wrong trade, so the vowel stays and this
+    # pair goes unmatched on purpose.
+    #
+    # It costs little in practice: both sources write an Arab club in
+    # Arabic, so the cross-script pair barely arises for these names.
+    limits = [("Al Hilal", "الهلال"), ("Al Nassr", "النصر"),
+              ("Zamalek", "الزمالك")]
+    surprising = [(a, b) for a, b in limits if same_club(a, b)]
+    check("TRANSLIT", f"{len(limits)} known short-name limits, still safe",
+          not surprising, True)
+
+    # Within one script this must never fire, however alike the names —
+    # that is what keeps "Mainz"/"Monza" and "الهلال"/"الأهلي" apart.
+    inside = [("Mainz", "Monza"), ("Al Nassr", "Al Nasar"),
+              ("Torino", "Toronto"), ("Köln", "Kiel"),
+              ("الهلال", "الأهلي"), ("الزمالك", "الزوراء"),
+              ("Parma", "Palermo"), ("Cagliari", "Calgary")]
+    fired = [(a, b) for a, b in inside if same_club(a, b)]
+    check("TRANSLIT", "never fires inside one script", not fired, True)
+
+    # Both sides must agree before a fixture is called a duplicate.
+    check("TRANSLIT", "one side agreeing is not enough",
+          not same_fixture("Union Berlin - Hoffenheim",
+                           "أونيون برلين - بادربورن"), True)
+
+    # And the slot exactly as it was published.
+    slot = ["Elversberg - Bayer Leverkusen", "Köln - Hoffenheim",
+            "Mainz 05 - Paderborn", "Union Berlin - Eintracht Frankfurt",
+            "أونيون برلين - أينتراخت فرانكفورت", "إلفيرسبيرج - باير ليفركوزن",
+            "كولن - هوفنهايم", "ماينتس - بادربورن"]
+    kept = merge_transliterations(slot)
+    if len(kept) != 4:
+        print(f"       slot collapsed to {len(kept)}: {kept}")
+    check("TRANSLIT", "the published slot of 8 rows is 4 matches",
+          len(kept) == 4, True)
+    check("TRANSLIT", "and it keeps the first spelling, not the shortest",
+          kept and kept[0] == "Elversberg - Bayer Leverkusen", True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
                  gate_channel_is_never_a_team,
-                 gate_one_match_one_row):
+                 gate_one_match_one_row,
+                 gate_one_club_across_two_scripts):
         try:
             gate()
         except Exception as exc:

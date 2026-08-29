@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 
 from epg_lib import (
     COMPETITION_NAME, fill_wait, fold_name, is_channel_name, is_not_a_team,
+    merge_transliterations,
     with_live_badge,
 )
 
@@ -474,7 +475,7 @@ TEAM_NAME_ALIASES = (
     # "Borussia" tells Dortmund from Mönchengladbach in prose and nothing
     # apart once the city is normalised, so both sides drop it or neither
     # can match: "B. Monchengladbach" against "Borussia M'gladbach".
-    (r"\bborussia\b|\bbor\b", " "),
+    (r"\bborussia\b|\bbor\b|بوروسيا", " "),
     # A lone letter left by an abbreviation — "B. Monchengladbach" — is an
     # initial, never an identity. Run after the aliases so it cannot eat a
     # letter one of them still needs.
@@ -1073,12 +1074,21 @@ def write_xml(events):
     # Joined with " + " for the same reason the slot titles are, so a
     # countdown names the coming matches exactly as the row it counts down
     # to will name them.
-    titles_at = {
-        k: " + ".join(sorted(
-            e["title"] for day in by_day.values() for e in day if e["start"] == k
-        ))
-        for k in all_kickoffs
-    }
+    def slot_title(kickoff):
+        """Every match at one kickoff, each named once.
+
+        Sources disagree on script as well as spelling, so one match
+        arrived twice — "Union Berlin - Eintracht Frankfurt" beside
+        "أونيون برلين - أينتراخت فرانكفورت" — and dedupe, which compares
+        names, could not see they were the same. merge_transliterations
+        compares the sounds instead. See epg_lib.
+        """
+        return " + ".join(merge_transliterations(sorted(
+            e["title"] for day in by_day.values() for e in day
+            if e["start"] == kickoff
+        )))
+
+    titles_at = {k: slot_title(k) for k in all_kickoffs}
 
     def next_kickoff_after(moment):
         return next((k for k in all_kickoffs if k >= moment), None)
@@ -1137,9 +1147,9 @@ def write_xml(events):
             # joined with " + ", the same separator Shasha's guide uses, so
             # the two read alike: "A - B + C - D" is two matches, and the
             # dash always separates the sides of one.
-            title = " + ".join(
-                event["title"] for event in sorted(groups[kickoff], key=lambda x: x["title"])
-            )
+            # The same join the countdown uses, so a row and the countdown
+            # pointing at it always name the matches identically.
+            title = slot_title(kickoff)
             add_programme(kickoff, stop, with_live_badge(title), desc)
 
         last_stop = min(kickoff_times[-1] + timedelta(hours=3), day_stop)

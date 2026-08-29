@@ -19,6 +19,7 @@ import os
 import re
 import time
 import unicodedata
+from difflib import SequenceMatcher
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from html import unescape
@@ -543,6 +544,138 @@ COMPETITION_NAME = re.compile(
 )
 
 
+# One club, written in two scripts.
+#
+# A guide reading several sources gets the same match twice, once in each
+# script, and printed them both into one slot:
+#
+#     Union Berlin - Eintracht Frankfurt
+#     + أونيون برلين - أينتراخت فرانكفورت
+#
+# A table of club names in both scripts would answer this, and would have
+# to grow to every club in the world and be kept there. It is the wrong
+# unit of work. The alphabet is the right one: Arabic sports writing
+# transliterates a foreign club sound by sound, and there are 28 letters.
+# Reduce both spellings to the same skeleton and the comparison holds for
+# any club, including ones nobody has heard of yet.
+ARABIC_LETTER = re.compile(r"[\u0600-\u06ff]")
+
+# Arabic letter to the Latin sound it stands for. Emphatic pairs collapse
+# (ص/س, ض/د, ط/ت, ظ/ز) — no European name distinguishes them — and ع, which
+# has no Latin sound at all, disappears.
+ARABIC_SOUND = {
+    "ب": "b", "ت": "t", "ث": "t", "ج": "g", "ح": "h", "خ": "k", "د": "d",
+    # ج stands for both sounds a source may write, and Latin "j" is levelled
+    # to a vowel below (Juventus is يوفنتوس). Reading it as "g" is what lets
+    # "Leipzig" meet "لايبزيج"; as "j" the Arabic ended in a vowel and the
+    # Latin in a consonant, and they never met.
+    "ذ": "z", "ر": "r", "ز": "z", "س": "s", "ش": "s", "ص": "s", "ض": "d",
+    "ط": "t", "ظ": "z", "ع": "", "غ": "g", "ف": "f", "ق": "k", "ك": "k",
+    "ل": "l", "م": "m", "ن": "n", "ه": "h", "ة": "h", "و": "w", "ي": "y",
+    "ى": "y", "ا": "a", "أ": "a", "إ": "a", "آ": "a", "ء": "", "ؤ": "w",
+    "ئ": "y", "پ": "b", "چ": "s", "ڤ": "f", "گ": "g", "ژ": "j",
+}
+
+# Latin spellings of one sound, longest first so "sch" is read before "ch".
+_SOUND_DIGRAPHS = (("tsch", "s"), ("sch", "s"), ("ch", "s"), ("sh", "s"),
+                   ("ph", "f"), ("th", "t"), ("ck", "k"), ("kh", "k"),
+                   ("gh", "g"), ("ts", "s"), ("zz", "s"))
+_SOUND_SINGLES = (("c", "k"), ("q", "k"), ("x", "ks"), ("v", "f"),
+                  ("z", "s"), ("p", "b"), ("j", "y"))
+
+# Corporate furniture that one source prints and another does not.
+_CLUB_PREFIX = re.compile(
+    r"^(?:rb|ac|as|ss|ssc|sc|fc|cf|afc|cd|ca|us|vfb|vfl|tsg|fsv|sv)\b", re.I)
+
+# The definite article, stripped from the RAW text on purpose: "الهلال"
+# carries it, "إلفيرسبيرج" begins with a hamza and does not. Folding first
+# turns إ into ا and destroys the difference, which cost Elversberg its
+# match against its own Arabic spelling.
+_CLUB_ARTICLE = re.compile(r"^(?:al|el)[\s-]+|^ال(?=.)", re.I)
+
+
+def club_skeleton(value: str) -> str:
+    """A club name reduced to the sounds both scripts agree on."""
+    value = _CLUB_ARTICLE.sub("", _CLUB_PREFIX.sub("", (value or "").strip())
+                             .strip())
+    value = unicodedata.normalize("NFKD", value)
+    value = "".join(c for c in value if not unicodedata.combining(c)).lower()
+    if ARABIC_LETTER.search(value):
+        value = "".join(ARABIC_SOUND.get(ch, ch if ch.isascii() else "")
+                        for ch in value)
+    for old, new in _SOUND_DIGRAPHS:
+        value = value.replace(old, new)
+    for old, new in _SOUND_SINGLES:
+        value = value.replace(old, new)
+    value = re.sub(r"[^a-z]", "", value)
+    # Arabic writes long vowels only, so every vowel becomes one symbol
+    # rather than vanishing. Deleting them made "الهلال" and "الأهلي" the
+    # same string, and "Mainz" the same as "Monza".
+    value = re.sub(r"[aeiouwy]+", "a", value)
+    return re.sub(r"(.)\1+", r"\1", value)
+
+
+# Below this, a skeleton is too small to judge on resemblance alone: at
+# five letters "Torino" and "Toronto" score 0.92. Short names still match,
+# but only on an exact skeleton.
+CLUB_SKELETON_FLOOR = 7
+CLUB_SIMILARITY = 0.88
+
+
+def same_club(first: str, second: str) -> bool:
+    """Whether two spellings, one Arabic and one Latin, name one club.
+
+    Cross-script only, deliberately. Within one script the guides already
+    compare names strictly, and measured against real pairs a fuzzy match
+    inside one script is unsafe at every threshold — "Mainz"/"Monza",
+    "Al Nassr"/"Al Nasar" and "الهلال"/"الأهلي" all score at or above
+    anything that still catches real duplicates. Across scripts the same
+    measurement is clean: of 28 pairs of genuinely different clubs written
+    one in each script, none matched.
+
+    Losing a fixture is worse than showing one twice, so this errs at the
+    strict end and misses some real pairs rather than risking a wrong one.
+    """
+    if bool(ARABIC_LETTER.search(first)) == bool(ARABIC_LETTER.search(second)):
+        return False
+    a, b = club_skeleton(first), club_skeleton(second)
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    if len(a) < CLUB_SKELETON_FLOOR or len(b) < CLUB_SKELETON_FLOOR:
+        return False
+    return SequenceMatcher(None, a, b).ratio() >= CLUB_SIMILARITY
+
+
+def same_fixture(first: str, second: str) -> bool:
+    """Whether two "A - B" titles name one match across the two scripts.
+
+    Both sides must match. One side agreeing is a coincidence; two sides
+    agreeing, at the same kickoff minute on the same channel, is the same
+    match written twice.
+    """
+    left = [x.strip() for x in (first or "").split(" - ")]
+    right = [x.strip() for x in (second or "").split(" - ")]
+    if len(left) != 2 or len(right) != 2 or not all(left) or not all(right):
+        return False
+    return same_club(left[0], right[0]) and same_club(left[1], right[1])
+
+
+def merge_transliterations(titles):
+    """Collapse one slot's titles so a match appears once, not once a script.
+
+    Order is preserved and the first spelling of each match wins, so the
+    guide keeps whichever the higher-priority source supplied rather than
+    whichever sorts first.
+    """
+    kept: list[str] = []
+    for title in titles:
+        if not any(same_fixture(title, other) for other in kept):
+            kept.append(title)
+    return kept
+
+
 def fold_name(value: str) -> str:
     """A club name with its accents and Arabic diacritics folded away.
 
@@ -627,29 +760,6 @@ def is_not_a_team(value: str) -> bool:
     return bool(DATE_WORD.search(value or "")
                 or COMPETITION_NAME.search(value or "")
                 or CHANNEL_NAME.search(value or ""))
-
-
-def arabic_count(number: int, one: str, two: str, few: str, many: str) -> str:
-    """A number with its unit, in the form Arabic actually uses.
-
-    Arabic does not simply put a numeral in front of a noun. One and two
-    are the word alone, three to ten take the plural, and eleven upward
-    take the singular again:
-
-        1  ساعة        2  ساعتين      3  3 ساعات     19  19 ساعة
-        1  دقيقة       2  دقيقتين     5  5 دقائق     30  30 دقيقة
-
-    Written the wrong way it reads as a machine talking. Written this way
-    a viewer reads it without stopping, which is the whole point of a
-    countdown they glance at.
-    """
-    if number == 1:
-        return one
-    if number == 2:
-        return two
-    if 3 <= number <= 10:
-        return f"{number} {few}"
-    return f"{number} {many}"
 
 
 def arabic_count(number: int, one: str, two: str, few: str, many: str) -> str:
