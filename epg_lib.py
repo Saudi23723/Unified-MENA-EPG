@@ -894,6 +894,41 @@ def waiting_title(what: str) -> str:
     return f"{COUNTDOWN_MARK} المباراة القادمة · {what}"
 
 
+def close_channel_gaps(rows, window_start, window_end, title: str):
+    """Give a channel something to show at every minute of its window.
+
+    A player renders a hole as a blank row, and a viewer reads a blank row
+    as a dead channel. Two of these were live in the published guides:
+    Tivibu Spor, whose upstream feed had stopped supplying anything past
+    yesterday evening, and Al Jadeed, whose source publishes 03:00 to 20:59
+    and leaves six hours of every night unwritten.
+
+    Neither is our data being wrong. Both are the guide having nothing to
+    say and saying it by going blank instead of out loud.
+
+    Takes and returns rows of {"start", "stop", "title"}, sorted, with the
+    holes — and any lead-in or run-out inside the window — filled by a row
+    carrying `title`. Existing rows are never moved, shortened or dropped:
+    the filler only occupies time nothing else claims.
+    """
+    kept = sorted((r for r in rows if r["stop"] > r["start"]),
+                  key=lambda r: r["start"])
+    out: list[dict] = []
+    cursor = window_start
+
+    for row in kept:
+        if row["start"] > cursor:
+            out.append({"start": cursor, "stop": row["start"], "title": title,
+                        "filler": True})
+        out.append(row)
+        cursor = max(cursor, row["stop"])
+
+    if cursor < window_end:
+        out.append({"start": cursor, "stop": window_end, "title": title,
+                    "filler": True})
+    return out
+
+
 def fill_wait(gap_start, gap_stop, next_kickoff_after, title_at, emit,
               nothing_title: str) -> None:
     """Fill the space between broadcasts the way a guide should read.

@@ -165,6 +165,62 @@ def standin_share(path: str) -> tuple[int, int]:
             sum(v[0] for v in per.values()))
 
 
+def check_live_coverage(now: datetime) -> None:
+    """No channel may show a blank row at this moment.
+
+    A player renders a hole as a blank row and a viewer reads a blank row
+    as a dead channel. Nothing checked for this, and two were live in the
+    published guides for hours: the four Tivibu Spor channels, whose
+    upstream feed had stopped supplying anything past the previous evening,
+    and Al Jadeed, whose source publishes 03:00 to 20:59 and leaves six
+    hours of every night unwritten.
+
+    Both were found by reading the files by hand. That is what this check
+    is for — every guard in this repository exists because something
+    reached a television first.
+
+    A one-day source is held to a softer rule: it genuinely reaches
+    nowhere overnight, and staleness is already checked for it elsewhere.
+    """
+    print(f"\n{'file':34} {'channels blank right now':>26}")
+    for path in source_files():
+        if not os.path.exists(path):
+            continue
+        try:
+            root = ET.parse(path).getroot()
+        except Exception:
+            continue
+
+        declared = [c.get("id") for c in root.findall("channel")]
+        spans: dict[str, list] = {}
+        for programme in root.findall("programme"):
+            start = parse_stamp(programme.get("start"))
+            stop = parse_stamp(programme.get("stop"))
+            if start and stop:
+                spans.setdefault(programme.get("channel"), []).append(
+                    (start, stop))
+
+        blank = [cid for cid in declared
+                 if not any(a <= now < b for a, b in spans.get(cid, []))]
+        print(f"{path:34} {len(blank):>26}")
+        for cid in blank:
+            rows = sorted(spans.get(cid, []))
+            if not rows:
+                fail(f"{path}: {cid} is declared and has no programmes at all")
+            elif path in ONE_DAY_SOURCES:
+                note(f"{path}: {cid} shows nothing right now — one-day "
+                     f"source ({ONE_DAY_SOURCES[path]})")
+            else:
+                last = max(b for _, b in rows)
+                gap = ("its listing ran out "
+                       f"{(now - last).total_seconds() / 3600:.1f}h ago"
+                       if last <= now else
+                       "there is a hole in the middle of its day")
+                fail(f"{path}: {cid} shows a blank row right now — {gap}. "
+                     f"A viewer reads a blank row as a dead channel, so the "
+                     f"guide should say it does not know instead")
+
+
 def check_ceilings(now: datetime) -> None:
     """Fail a guide that has turned mostly into stand-in.
 
@@ -380,6 +436,7 @@ def main() -> int:
     print()
     if not structure_only:
         check_ceilings(now)
+        check_live_coverage(now)
 
     for n in notes:
         print(f"NOTE  {n}", flush=True)

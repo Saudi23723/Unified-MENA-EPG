@@ -69,7 +69,8 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, norm, resolve_overlaps, utc_now, warn,
+    add_programme, close_channel_gaps, fetch, log, norm, resolve_overlaps,
+    utc_now, warn,
 )
 
 UTC = timezone.utc
@@ -86,6 +87,12 @@ DAYS_AHEAD = 6
 CHANNEL_ID = "AlJadeed.lb"
 CHANNEL_AR = "الجديد"
 CHANNEL_EN = "Al Jadeed"
+
+# The site publishes 03:00 to 20:59 and leaves the rest of the night
+# unwritten, so the channel went blank every night between 20:59 and
+# 03:00 — six hours in which a player showed a dead row. The station
+# is on air; it is the listing that stops, and this says so.
+OVERNIGHT = "برامج الجديد — لم تُعلن التفاصيل"
 LOGO_BASE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG"
              "/main/logos")
 LOGO_FILE = "aljadeed.png"
@@ -255,8 +262,15 @@ def collect(session, previous_path: str) -> list[dict]:
         merged[(event["start"], event["stop"], event["title"])] = event
 
     now = utc_now()
-    return [e for e in merged.values()
+    kept = [e for e in merged.values()
             if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
+    if not kept:
+        return kept
+
+    # No hole anywhere in what we publish — see close_channel_gaps.
+    rows = resolve_overlaps(sorted(kept, key=lambda e: e["start"]))
+    return close_channel_gaps(
+        rows, min(rows[0]["start"], now), max(rows[-1]["stop"], now), OVERNIGHT)
 
 
 def emit(root: ET.Element, events: list[dict]) -> int:

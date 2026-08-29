@@ -50,6 +50,7 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
+    close_channel_gaps,
     LIVE_BADGE, LIVE_BADGE_GREEN, LIVE_BADGE_PURPLE,
     add_programme, fetch, log, norm, resolve_overlaps, utc_now, warn,
     with_live_badge,
@@ -66,6 +67,10 @@ LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/
 # long-past event can never bloat the file.
 KEEP_BEHIND = timedelta(days=1)
 KEEP_AHEAD = timedelta(days=14)
+
+# What a Tivibu channel says when the feed has run out. Better than
+# a blank row, which a player renders as a dead channel.
+NOTHING_ANNOUNCED = "Yayın akışı açıklanmadı — لم يُعلن البث"
 
 # (xmltv id, the feed's own id, [names])
 #
@@ -221,7 +226,14 @@ def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
         kept = [e for e in merged.values()
                 if now - KEEP_BEHIND <= e["stop"] and e["start"] <= now + KEEP_AHEAD]
         if kept:
-            per[xid] = resolve_overlaps(sorted(kept, key=lambda e: e["start"]))
+            rows = resolve_overlaps(sorted(kept, key=lambda e: e["start"]))
+            # The upstream feed stops supplying Tivibu at some point each
+            # evening, so by the small hours these channels had nothing
+            # covering "now" and a player showed four blank rows. A blank
+            # row reads as a dead channel; say it out loud instead.
+            per[xid] = close_channel_gaps(
+                rows, min(rows[0]["start"], now), max(rows[-1]["stop"], now),
+                NOTHING_ANNOUNCED)
         log(f"  {_names[0]:16} feed={len(fresh.get(xid, [])):4} "
             f"carried={len(carried.get(xid, [])):4} -> {len(per.get(xid, [])):4}")
     return per
