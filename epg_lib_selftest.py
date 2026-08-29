@@ -220,10 +220,24 @@ def main() -> int:
     check("no block outlasts the time it counts down, over 30 hours",
           not too_long, f"first bad offset: {too_long[:3]}")
 
-    near = max(int(L.countdown_step(timedelta(minutes=m)).total_seconds() // 60)
-               for m in range(1, 16))
-    check("inside the last quarter hour a block is at most 2 minutes",
-          near <= 2, f"largest block is {near} minutes")
+    # The old rule here demanded two-minute blocks in the last quarter
+    # hour. It bought an exact number and cost the guide its shape: 93% of
+    # every published row was countdown, which is what a viewer sees when
+    # they scroll. Rows are the scarce thing, not minutes.
+    #
+    # What still has to hold is the ceiling on the whole run: three hours
+    # out, a countdown must not need more than a handful of blocks.
+    blocks, left = 0, 180
+    while left > 0:
+        left -= int(L.countdown_step(timedelta(minutes=left)
+                                     ).total_seconds() // 60)
+        blocks += 1
+    check("a countdown from the horizon costs at most 6 rows",
+          blocks <= 6, f"{blocks} rows per kickoff")
+
+    check("and no block is longer than an hour",
+          max(int(L.countdown_step(timedelta(minutes=m)).total_seconds() // 60)
+              for m in range(1, 60 * 30)) <= 60, "a block runs over an hour")
 
     check("every unit is a whole word, so a number cannot drift from it",
           L.countdown_label(0) == "أقل من دقيقة"

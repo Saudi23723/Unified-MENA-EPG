@@ -435,6 +435,12 @@ def gate_one_club_across_two_scripts() -> None:
         ("Roma", "روما"), ("Real Madrid", "ريال مدريد"),
         ("Liverpool", "ليفربول"), ("Porto", "بورتو"), ("Ajax", "أياكس"),
         ("Al Ahly", "الأهلي"), ("RB Leipzig", "لايبزيج"),
+        # The affix sits at either end: "FC Köln" but "Hamburger SV",
+        # and stripping only the front left this pair as two clubs while
+        # the guide printed the match twice.
+        ("Hamburger SV", "هامبورج"), ("Borussia Dortmund", "بوروسيا دورتموند"),
+        ("Werder Bremen", "فيردر بريمن"), ("Augsburg", "أوجسبورج"),
+        ("Freiburg", "فرايبورج"),
     ]
     missed = [(a, b) for a, b in same if not same_club(a, b)]
     if missed:
@@ -458,7 +464,9 @@ def gate_one_club_across_two_scripts() -> None:
         ("Manchester United", "مانشستر سيتي"),
         ("Al Sahel", "الساحل الثاني"), ("Napoli", "نابولي الثاني"),
         ("Leipzig", "لايبزيا الثاني"), ("Genoa", "جنوى يونايتد"),
-        ("Juventus", "يوفنتوس الثاني"),
+        ("Juventus", "يوفنتوس الثاني"), ("Freiburg", "فرايبورج الثاني"),
+        ("Augsburg", "أوجسبورج الثاني"), ("Hamburger SV", "هامبورج الثاني"),
+        ("Werder Bremen", "بريمن سيتي"), ("Dortmund", "دورتموند الثاني"),
         ("Verona", "فيرونتينا"), ("Lecce", "ليتشي الثاني"),
     ]
     merged = [(a, b) for a, b in different if same_club(a, b)]

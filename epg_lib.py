@@ -583,9 +583,14 @@ _SOUND_DIGRAPHS = (("tsch", "s"), ("sch", "s"), ("ch", "s"), ("sh", "s"),
 _SOUND_SINGLES = (("c", "k"), ("q", "k"), ("x", "ks"), ("v", "f"),
                   ("z", "s"), ("p", "b"), ("j", "y"))
 
-# Corporate furniture that one source prints and another does not.
-_CLUB_PREFIX = re.compile(
-    r"^(?:rb|ac|as|ss|ssc|sc|fc|cf|afc|cd|ca|us|vfb|vfl|tsg|fsv|sv)\b", re.I)
+# Corporate furniture that one source prints and another does not. It sits
+# at either end depending on the club — "FC Köln" but "Hamburger SV" — and
+# stripping it only from the front left "Hamburger SV" as "hambargarsf"
+# against "هامبورج"'s "hambarg", which scored 0.78 and stayed two clubs.
+_CLUB_AFFIX = (r"rb|ac|as|ss|ssc|sc|fc|cf|afc|cd|ca|us|vfb|vfl|tsg|fsv|sv"
+               r"|fk|sk|bk|if|ff|bsc|tsv|spvgg|kv|rc|ogc|psg")
+_CLUB_PREFIX = re.compile(rf"^(?:{_CLUB_AFFIX})\b", re.I)
+_CLUB_SUFFIX = re.compile(rf"\b(?:{_CLUB_AFFIX})$", re.I)
 
 # The definite article, stripped from the RAW text on purpose: "الهلال"
 # carries it, "إلفيرسبيرج" begins with a hamza and does not. Folding first
@@ -596,8 +601,9 @@ _CLUB_ARTICLE = re.compile(r"^(?:al|el)[\s-]+|^ال(?=.)", re.I)
 
 def club_skeleton(value: str) -> str:
     """A club name reduced to the sounds both scripts agree on."""
-    value = _CLUB_ARTICLE.sub("", _CLUB_PREFIX.sub("", (value or "").strip())
-                             .strip())
+    value = (value or "").strip()
+    value = _CLUB_SUFFIX.sub("", _CLUB_PREFIX.sub("", value).strip()).strip()
+    value = _CLUB_ARTICLE.sub("", value).strip()
     value = unicodedata.normalize("NFKD", value)
     value = "".join(c for c in value if not unicodedata.combining(c)).lower()
     if ARABIC_LETTER.search(value):
@@ -619,7 +625,12 @@ def club_skeleton(value: str) -> str:
 # five letters "Torino" and "Toronto" score 0.92. Short names still match,
 # but only on an exact skeleton.
 CLUB_SKELETON_FLOOR = 7
-CLUB_SIMILARITY = 0.88
+# Measured, not chosen. Over 25 real cross-script pairs and 35 pairs of
+# genuinely different clubs written one in each script, every threshold
+# from 0.90 down to 0.84 merged none of the 35; 0.85 is the loosest that
+# still catches "Hamburger SV" against "هامبورج", which scored 0.875 and
+# stayed two clubs while the guide printed the match twice.
+CLUB_SIMILARITY = 0.85
 
 
 def same_club(first: str, second: str) -> bool:
@@ -842,24 +853,28 @@ def countdown_step(remaining: timedelta) -> timedelta:
     shows the block covering "now", so the number stays correct without the
     file being re-downloaded.
 
-    The one rule that matters: a block may never be longer than the time
-    it is counting down. At ten-minute blocks inside the last hour, a
-    viewer sitting in front of the guide two minutes before kickoff was
-    being shown "بعد 12 د" — the coarsest reading at the moment it matters
-    most, and wrong in the direction that makes someone miss the start.
+    The length of a block IS the largest error in the number it shows: a
+    thirty-minute block still says "بعد 30 دقيقة" in its final minute. So
+    the step is the whole trade between an exact number and a readable
+    guide, and rows are not cheap after all — chasing two-minute accuracy
+    filled 93% of a guide with countdown, which is what a viewer sees when
+    they scroll it.
 
-    So the step shortens as kickoff nears, and never exceeds a third of
-    what is left. The cost is rows, which are cheap; the gain is that the
-    figure is never out by more than one step, and near kickoff that step
-    is two minutes.
+    An hour out, nobody minds whether it says 55 or 60 minutes. So: an
+    hour at a time, half an hour inside the last hour, and a quarter of an
+    hour inside the last quarter — that last step only because "بعد 30
+    دقيقة" one minute before kickoff is not a rounding, it is wrong in the
+    direction that makes someone miss the start.
+
+    Four or five blocks now cover what took twenty-five.
+
+    The one rule that still holds absolutely: a block may never be longer
+    than the time it is counting down, which is what the min() below is
+    for.
     """
     if remaining <= timedelta(minutes=15):
-        step = timedelta(minutes=2)
-    elif remaining <= timedelta(hours=1):
-        step = timedelta(minutes=5)
-    elif remaining <= timedelta(hours=3):
         step = timedelta(minutes=15)
-    elif remaining <= timedelta(hours=12):
+    elif remaining <= timedelta(hours=1):
         step = timedelta(minutes=30)
     else:
         step = timedelta(hours=1)
