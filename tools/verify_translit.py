@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Build Shahid and Shasha for real and check no match is printed twice.
 
+Re-run after reading ج as g.
+
 The duplicate only appears when two sources disagree on script, so it
 cannot be reproduced offline — it needs the live pages.
 """
