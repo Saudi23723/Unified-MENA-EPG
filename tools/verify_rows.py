@@ -10,6 +10,10 @@ import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from epg_lib import same_fixture  # noqa: E402
 
 GUIDES = [("Shahid", "update_shahid_sports_epg.py", "shahid_sports_epg.xml", 261),
           ("Shasha", "update_shasha_epg.py", "shasha_epg.xml", 550)]
@@ -33,7 +37,6 @@ def main() -> int:
         print(f"\n{name}: {before} rows -> {len(titles)}   "
               f"{real} matches + {len(wait)} wait + {len(cnt)} countdown "
               f"({filler}% filler)")
-        from epg_lib import same_fixture
         for t in titles:
             body = re.sub(r"·.*$", "", re.sub(r"^⏰\s*", "", t))
             body = re.sub(r"‎?• Live.*", "", body)
