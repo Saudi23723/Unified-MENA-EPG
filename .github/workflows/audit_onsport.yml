@@ -1,0 +1,21 @@
+name: Audit ON Sport sources
+on:
+  push:
+    paths:
+      - "tools/audit_onsport_sources.py"
+      - ".github/workflows/audit_onsport.yml"
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -u tools/audit_onsport_sources.py
+      - run: python -u update_onsport_epg.py
+      - run: python -u health_check.py --structure-only
