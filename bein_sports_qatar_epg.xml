@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260828143600 +0000" stop="20260828162000 +0000" channel="beIN4K.qa">
-    <title lang="en">Hull City vs. Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Hull City are winless in all 10 Premier League meetings with Manchester United, the joint-most they’ve faced a side without winning along with Chelsea. The Red Devils have only faced Charlton, QPR  and Birmingham  more often without losing. Manchester United have never lost in the top-flight when facing a newly promoted team in their first game of</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260828162000 +0000" stop="20260828185400 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -1055,12 +1049,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">The Vancouver is the five round of the World Triathlon T100 Championship series leading up to the Final in QATAR next December amidst fierce competition in both the men’s and women’s categories</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
-  </programme>
-  <programme start="20260828133000 +0000" stop="20260828163000 +0000" channel="beINSports1.qa">
-    <title lang="en">Barcelona vs Athletic Club - Spanish LaLiga 2026/2027 - Week 1</title>
-    <desc lang="en">Barcelona are unbeaten in their last 13 LaLiga matches against Athletic Club, keeping eight clean sheets in their last nine such games; they have not had a longer unbeaten run against the Basque side in the competition since 2013. Barcelona are unbeaten in their last 24 home LaLiga games against Athletic Club, winning the last seven; this is their</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260828163000 +0000" stop="20260828170000 +0000" channel="beINSports1.qa">
     <title lang="en">ATP Tour - Magazine 2026</title>
@@ -1996,6 +1984,14 @@ Arsenal are the defending Champions.</desc>
   </programme>
   <programme start="20260904160000 +0000" stop="20260904163000 +0000" channel="beINSports1.qa">
     <title lang="en">Liverpool vs Nottingham Forest - English Premier League 2026/2027 - Week 2</title>
+    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
+The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
+Arsenal are the defending Champions.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260904163000 +0000" stop="20260904170000 +0000" channel="beINSports1.qa">
+    <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
     <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
 The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
 Arsenal are the defending Champions.</desc>
@@ -3402,6 +3398,12 @@ Diyarbakir Stadyumu Stadium</desc>
   <programme start="20260904144500 +0000" stop="20260904163000 +0000" channel="beINSports3.qa">
     <title lang="en">Real Sociedad vs Espanyol - Spanish LaLiga 2026/2027 - Week 3</title>
     <desc lang="en">Real Sociedad are unbeaten in their last seven LaLiga matches against Espanyol, although they have drawn the last two. On only one previous occasion have Real Sociedad and Espanyol drawn three consecutive matches in the competition: three between February 1986 and January 1987. Real Sociedad have not won any of their last four home games in LaLiga,</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260904163000 +0000" stop="20260904183000 +0000" channel="beINSports3.qa">
+    <title lang="en">Celta de Vigo vs Athletic Club - Spanish LaLiga 2026/2027 - Week 3</title>
+    <desc lang="en">Celta de Vigo have picked up points in each of their last two LaLiga matches against Athletic Club, and they have not gone three games unbeaten against the Bilbao side since a run of four between October 2019 and March 2021. Celta de Vigo have won four of their last seven home games against Basque opponents in LaLiga. They lost the last one 3-4 aga</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
@@ -5122,12 +5124,6 @@ Diyarbakir Stadyumu Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260828144500 +0000" stop="20260828163500 +0000" channel="beINSports6.qa">
-    <title lang="en">Saudi Arabia vs Japan - FIBA Asian Qualifiers - 2027</title>
-    <desc lang="en">Qualification Match for the 2027 FIBA Basketball World Cup that will be hosted in Qatar August 27th – 12th September 2027. It will be the first FIBA Basketball World Cup to be held in the Arab World.</desc>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-  </programme>
   <programme start="20260828163500 +0000" stop="20260828183000 +0000" channel="beINSports6.qa">
     <title lang="en">DPR Korea (PRK) vs Uzbekistan (UZB) - AFC Women's Asian Cup Australia 2026 - MD1</title>
     <desc lang="en">AFC Women's Asian Cup Australia 2026 - MD1</desc>
@@ -6390,12 +6386,6 @@ Tüpras Stadyumu Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260828151800 +0000" stop="20260828162500 +0000" channel="beINSports8.qa">
-    <title lang="en">Main Race - Moto GP -  Great Britain  2026</title>
-    <desc lang="en">MotoGP is the premier class of the FIM Grand Prix World Championship, featuring the world’s fastest and most advanced prototype motorcycles. The 2026 season features 22 Grands Prix across five continents, with the world’s leading riders and manufacturers competing for the Riders’, Teams’ and Constructors’ Championships. The series combines extreme</desc>
-    <category lang="ar">بطولة العالم للدراجات النارية</category>
-    <category lang="en">Moto GP - World Championship</category>
   </programme>
   <programme start="20260828162500 +0000" stop="20260828183500 +0000" channel="beINSports8.qa">
     <title lang="en">Main Race - F1 Hungarian Grand Prix - 2026</title>
@@ -7676,6 +7666,12 @@ RAMS Park Stadium</desc>
     <title lang="en">Longines Global Champions Tour - Valkenswaard  Jumping - Round 2 Competition Team ‎• Live 🔵‎</title>
     <category lang="ar">الفروسية</category>
     <category lang="en">Live</category>
+    <category lang="en">Equestrian</category>
+  </programme>
+  <programme start="20260904163000 +0000" stop="20260904170000 +0000" channel="beINSports9.qa">
+    <title lang="en">HL H.H.the Father Amirs prix 2026 -Faults &amp; time  1.40 - Week 4</title>
+    <desc lang="en">A major international championship with 240 male and female riders from elite levels, representing 32 countries.</desc>
+    <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260828133000 +0000" stop="20260828164500 +0000" channel="beINSportsEn1.qa">
@@ -11679,12 +11675,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260828161500 +0000" stop="20260828163000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">FIFA World Cup 2026 - Biggest disappointments</title>
-    <desc lang="en">In each World Cup, prominent teams participate with aspirations of securing the championship. However, many are eliminated, resulting in profound disappointment and numerous strategic considerations as they prepare for the 2030 tournament.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260828163000 +0000" stop="20260828164500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Interview  - 28/08/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
@@ -13520,6 +13510,12 @@ This tournament promises to be a monumental event, with over five million fans e
   <programme start="20260904161500 +0000" stop="20260904163000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Stats - 4/09/26</title>
     <desc lang="en">An in depth look at the statistics that have emerged from the latest sporting events. All the data and facts for an even deeper understanding of the sporting world</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260904163000 +0000" stop="20260904164500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Interview  - 4/09/26</title>
+    <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
