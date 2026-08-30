@@ -1558,6 +1558,8 @@
   </programme>
   <programme start="20260829090000 +0000" stop="20260829092000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829092000 +0000" stop="20260829113000 +0000" channel="TabiiSpor6.tr">
@@ -1614,12 +1616,18 @@
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260830090000 +0000" stop="20260830120000 +0000" channel="TabiiSpor6.tr">
+    <title lang="en">Türkiye - Kosova ‎• Live 🔵‎</title>
+    <category lang="en">Spor</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260830120000 +0000" stop="20260830143500 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260830120000 +0000" stop="20260830150000 +0000" channel="TabiiSpor6.tr">
-    <title lang="ar">PPV — حسب المباراة</title>
+  <programme start="20260830143500 +0000" stop="20260830150000 +0000" channel="TabiiSpor6.tr">
+    <title lang="en">Cezayir - Türkiye ‎• Live 🔵‎</title>
     <category lang="en">Spor</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260830150000 +0000" stop="20260830160000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
