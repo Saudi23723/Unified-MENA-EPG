@@ -1095,15 +1095,6 @@
     <display-name lang="ar">ثمانية | Guide</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/thmanyah_guide.png" />
   </channel>
-  <programme start="20260829185400 +0000" stop="20260829212800 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Dutch Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260829212800 +0000" stop="20260829232600 +0000" channel="beIN4K.qa">
     <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
     <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
@@ -12052,13 +12043,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260829210000 +0000" stop="20260829211500 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Jawla  - Live Studio @00:00 ‎• Live 🔵‎</title>
-    <desc lang="en">Al Jawla covers the latest news and stories from sporting events across the planet. Including latest results and latest scores from the most recent games taking place. This daily look at the latest stories provides a fast paced update to sporting events.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260829211500 +0000" stop="20260829213000 +0000" channel="beINSportsNews.qa">
     <title lang="en">FIFA World Cup 2026 - Biggest disappointments</title>
     <desc lang="en">In each World Cup, prominent teams participate with aspirations of securing the championship. However, many are eliminated, resulting in profound disappointment and numerous strategic considerations as they prepare for the 2030 tournament.</desc>
@@ -22965,52 +22949,69 @@ Allianz Riviera Stadium</desc>
     <title lang="en">Samsunspor - Fenerbahçe</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260830203000 +0000" stop="20260831061500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Süper Lig</title>
+  <programme start="20260830220000 +0000" stop="20260830233100 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio (26-27) 3.hafta - Pazar / Canlı ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260830233100 +0000" stop="20260831011500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Samsunspor - Fenerbahce - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831061500 +0000" stop="20260831073100 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Süper Lig</title>
+  <programme start="20260831011500 +0000" stop="20260831030000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Eyupspor - Alanyaspor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831073100 +0000" stop="20260831090000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trio</title>
+  <programme start="20260831030000 +0000" stop="20260831044500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Basaksehir - Kasimpasa - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831044500 +0000" stop="20260831050000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">1 Yıldız 10 Gol - Gekas</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831050000 +0000" stop="20260831060000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.hafta - Pazar / Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831060000 +0000" stop="20260831073000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Bein Süper Lig Maç Sonu (26-27) 03.hafta Pazar / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831073000 +0000" stop="20260831090000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio (26-27) 3.hafta - Pazar / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831090000 +0000" stop="20260831103000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Elazığspor - Galatasaray</title>
+    <title lang="en">Yozgat - Galatasaray (01-02) 17.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831103000 +0000" stop="20260831111500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">TFF 1. Lig Maç Özetleri</title>
+  <programme start="20260831103000 +0000" stop="20260831110000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Tff 1.lig Maç Özetleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831111500 +0000" stop="20260831130000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Göztepe - Gençlerbirliği</title>
+  <programme start="20260831110000 +0000" stop="20260831124500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Eyupspor - Alanyaspor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831130000 +0000" stop="20260831144500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trabzonspor - Başakşehir FK</title>
+  <programme start="20260831124500 +0000" stop="20260831143000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Basaksehir - Kasimpasa - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831144500 +0000" stop="20260831145000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">C. Alanyaspor - Beşiktaş</title>
+  <programme start="20260831143000 +0000" stop="20260831161500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Samsunspor - Fenerbahce - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831145000 +0000" stop="20260831163300 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">C. Alanyaspor - Beşiktaş</title>
+  <programme start="20260831161500 +0000" stop="20260831163000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">1 Yıldız 10 Gol - Dzeko</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831163300 +0000" stop="20260831173000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Maç Özetler</title>
+  <programme start="20260831163000 +0000" stop="20260831173000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.hafta - Pazar / Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831173000 +0000" stop="20260831183000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Süper Lig</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831183000 +0000" stop="20260831203000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Kocaelispor - Amed SF ‎• Live 🔵‎</title>
+  <programme start="20260831173000 +0000" stop="20260831190000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Bein Süper Lig Maç Önü (26-27) 03.hafta Pazartesi / Canlı ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <category lang="en">Live</category>
   </programme>
@@ -23278,54 +23279,101 @@ Allianz Riviera Stadium</desc>
     <title lang="en">E. Erokspor - Igdır FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260830183000 +0000" stop="20260831040000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Başakşehir FK - Kasımpaşa</title>
+  <programme start="20260830210000 +0000" stop="20260830224500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Super Lig (26-27) 3. Hafta Samsunspor - Fenerbahce - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831040000 +0000" stop="20260831054500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Vanspor FK - İstanbulspor</title>
+  <programme start="20260830224500 +0000" stop="20260830230000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">1 Yıldız 10 Gol - Stoch</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831054500 +0000" stop="20260831073000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">F. Karagümrük - Bursaspor</title>
+  <programme start="20260830230000 +0000" stop="20260831004500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Esenler Erokspor - Igdir Fk - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831073000 +0000" stop="20260831091500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Ümraniyespor - E. Erokspor</title>
+  <programme start="20260831004500 +0000" stop="20260831010000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig Haftanın Golleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831091500 +0000" stop="20260831110000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Igdır FK - Kayserispor</title>
+  <programme start="20260831010000 +0000" stop="20260831024500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Manisa Fk - Bodrumspor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831110000 +0000" stop="20260831124500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - A. Keçiörengücü</title>
+  <programme start="20260831024500 +0000" stop="20260831030000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig Haftanın Golleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831124500 +0000" stop="20260831143000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Boluspor - Mardin 1969</title>
+  <programme start="20260831030000 +0000" stop="20260831044500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Pendikspor - Bandirmaspor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831143000 +0000" stop="20260831161500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sarıyer - Batman P.</title>
+  <programme start="20260831044500 +0000" stop="20260831050000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig Haftanın Golleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831161500 +0000" stop="20260831180000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Vanspor FK - İstanbulspor</title>
+  <programme start="20260831050000 +0000" stop="20260831064500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Keciorengucu - Umraniyespor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831180000 +0000" stop="20260831181000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">1 Yıldız 10 Gol</title>
+  <programme start="20260831064500 +0000" stop="20260831070000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig Haftanın Golleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831181000 +0000" stop="20260831183000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Maç Başlıyor</title>
+  <programme start="20260831070000 +0000" stop="20260831084500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Antalyaspor - Sariyer - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831183000 +0000" stop="20260901044500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sivasspor - Manisa FK ‎• Live 🔵‎</title>
+  <programme start="20260831084500 +0000" stop="20260831090000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig Haftanın Golleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
-    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260831090000 +0000" stop="20260831104500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Muglaspor - Boluspor - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831104500 +0000" stop="20260831123000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Istanbulspor - Fatih Karagumruk - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831123000 +0000" stop="20260831141500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Kayserispor - Bursaspor - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831141500 +0000" stop="20260831160000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Esenler Erokspor - Igdir Fk - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831160000 +0000" stop="20260831174500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig (26-27) 4. Hafta Manisa Fk - Bodrumspor - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831174500 +0000" stop="20260831191500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Tff 1.lig Haftanın Golleri (26-27) 04.hafta</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">SUPER LIG (26-27) 3. HAFTA AMEDSPOR - TRABZONSPOR - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901004500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 4. HAFTA ESENLER EROKSPOR - IGDIR FK - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260901004500 +0000" stop="20260901010000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 04.Hafta</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260901010000 +0000" stop="20260901024500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 4. HAFTA MANISA FK - BODRUMSPOR - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260901024500 +0000" stop="20260901030000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 04.Hafta</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260901030000 +0000" stop="20260901044500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 4. HAFTA PENDIKSPOR - BANDIRMASPOR - BANT -</title>
+    <category lang="en">Sports</category>
   </programme>
   <programme start="20260901044500 +0000" stop="20260901050000 +0000" channel="beINSPORTS2.tr">
     <title lang="en">TFF 1.Lig Haftanın Golleri</title>
@@ -23543,64 +23591,88 @@ Allianz Riviera Stadium</desc>
     <title lang="en">Premier League National Pride</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260830204500 +0000" stop="20260831044500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Under The Skin</title>
+  <programme start="20260830210000 +0000" stop="20260830224500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League (26-27) 2. Hafta Chelsea - Brighton - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260830224500 +0000" stop="20260830230000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride 1.bölüm</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260830230000 +0000" stop="20260831004500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League (26-27) 2. Hafta Man Utd - Ipswich - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831004500 +0000" stop="20260831010000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride 2.bölüm</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831010000 +0000" stop="20260831024500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League (26-27) 2. Hafta Sunderland - Fulham - Bant -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831024500 +0000" stop="20260831030000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride 3.bölüm</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831030000 +0000" stop="20260831044500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League (26-27) 2. Hafta Leeds - Brentford - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831044500 +0000" stop="20260831050000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 4.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831050000 +0000" stop="20260831064500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Hull City - Man Utd</title>
+    <title lang="en">Premier League (26-27) 2. Hafta Palace - Man City - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831064500 +0000" stop="20260831070000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 5.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831070000 +0000" stop="20260831084500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Everton - C. Palace</title>
+    <title lang="en">Premier League (26-27) 2. Hafta Liverpool - Forest - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831084500 +0000" stop="20260831090000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 1.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831090000 +0000" stop="20260831104500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Nott'm Forest - Leeds</title>
+    <title lang="en">Premier League (26-27) 2. Hafta Coventry - Hull - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831104500 +0000" stop="20260831110000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 2.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831110000 +0000" stop="20260831124500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Ipswich - Sunderland</title>
+    <title lang="en">Premier League (26-27) 2. Hafta Sunderland - Fulham - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831124500 +0000" stop="20260831130000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 3.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831130000 +0000" stop="20260831144500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Man City - Bournemouth</title>
+    <title lang="en">Premier League (26-27) 2. Hafta Leeds - Brentford - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831144500 +0000" stop="20260831150000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 4.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831150000 +0000" stop="20260831164600 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Brighton - Aston Villa</title>
+  <programme start="20260831150000 +0000" stop="20260831164500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League (26-27) 2. Hafta Chelsea - Brighton - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831164600 +0000" stop="20260831170000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+  <programme start="20260831164500 +0000" stop="20260831170000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride 5.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831170000 +0000" stop="20260831185000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Newcastle - Liverpool</title>
+  <programme start="20260831170000 +0000" stop="20260831183000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League (26-27) 2. Hafta Man Utd - Ipswich - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831185000 +0000" stop="20260831190000 +0000" channel="beINSPORTS3.tr">
@@ -24253,43 +24325,43 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260830210000 +0000" stop="20260830230000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260830230000 +0000" stop="20260831010000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831010000 +0000" stop="20260831030000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831030000 +0000" stop="20260831050000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831050000 +0000" stop="20260831070000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831070000 +0000" stop="20260831090000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831090000 +0000" stop="20260831110000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831110000 +0000" stop="20260831130000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831130000 +0000" stop="20260831150000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831150000 +0000" stop="20260831210000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+  <programme start="20260831150000 +0000" stop="20260831163000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">Bein Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSPORTSMAX1.tr">
@@ -24353,47 +24425,47 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260830210000 +0000" stop="20260830230000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260830230000 +0000" stop="20260831010000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831010000 +0000" stop="20260831030000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831030000 +0000" stop="20260831050000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831050000 +0000" stop="20260831070000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831070000 +0000" stop="20260831090000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831090000 +0000" stop="20260831110000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831110000 +0000" stop="20260831130000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831130000 +0000" stop="20260831150000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831150000 +0000" stop="20260831170000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831170000 +0000" stop="20260831210000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+  <programme start="20260831170000 +0000" stop="20260831183000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">Bein Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSPORTSMAX2.tr">
@@ -24532,108 +24604,98 @@ Allianz Riviera Stadium</desc>
     <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260830220000 +0000" stop="20260831000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
+  <programme start="20260830220000 +0000" stop="20260830230000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi 55 Dk / Canlı ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260830230000 +0000" stop="20260831003000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831000000 +0000" stop="20260831010000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+  <programme start="20260831003000 +0000" stop="20260831013000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi 55 Dk / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831010000 +0000" stop="20260831030000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
+  <programme start="20260831013000 +0000" stop="20260831030000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831030000 +0000" stop="20260831034500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Surf League</title>
+  <programme start="20260831030000 +0000" stop="20260831040000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.hafta - Pazar / Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831034500 +0000" stop="20260831041500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Formula 1</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831041500 +0000" stop="20260831050000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Maç Özetleri</title>
+  <programme start="20260831040000 +0000" stop="20260831050000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Maç Özetleri (26-27) 02.hafta - Haber / Pazar</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831050000 +0000" stop="20260831060000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri</title>
+    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.hafta - Pazar / Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831060000 +0000" stop="20260831063000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Haber</title>
+  <programme start="20260831060000 +0000" stop="20260831073000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bein Sabah / Canlı ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260831073000 +0000" stop="20260831080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Tff 1.lig Maç Özetleri (26-27) 04.hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831063000 +0000" stop="20260831070000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
+  <programme start="20260831080000 +0000" stop="20260831090000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bein Manşet / Canlı ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831070000 +0000" stop="20260831090000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Sabah</title>
-    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260831090000 +0000" stop="20260831100000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.hafta - Pazar / Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831100000 +0000" stop="20260831113000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Gün Ortası</title>
+  <programme start="20260831100000 +0000" stop="20260831140000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Gün Ortası / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831113000 +0000" stop="20260831114500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Futbol: Lig 2</title>
+  <programme start="20260831140000 +0000" stop="20260831150000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bein Tenis (26-27) 4.bölüm / Canlı ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831114500 +0000" stop="20260831120000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831120000 +0000" stop="20260831130000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831130000 +0000" stop="20260831133000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Haber</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831133000 +0000" stop="20260831143000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831143000 +0000" stop="20260831150000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260831150000 +0000" stop="20260831160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri</title>
+    <title lang="en">Haber 56 Dk - Canlı ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260831160000 +0000" stop="20260831170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ana Haber</title>
+    <title lang="en">Premier League Maç Özetleri (26-27) 02.hafta - Haber / Pazar</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831170000 +0000" stop="20260831180000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
+  <programme start="20260831170000 +0000" stop="20260831173000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">This Is Paris (26-27) 03.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831180000 +0000" stop="20260831181500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Keşfet</title>
+  <programme start="20260831173000 +0000" stop="20260831190000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Maç Zamanı / Canlı ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260831191500 +0000" stop="20260831200000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">World Surf League</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831181500 +0000" stop="20260831184500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831184500 +0000" stop="20260831203000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260831200000 +0000" stop="20260831203000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831203000 +0000" stop="20260831220000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260831203000 +0000" stop="20260831210000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi 55 DK / Canlı</title>
+  <programme start="20260831210000 +0000" stop="20260831213000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260831213000 +0000" stop="20260831230000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="beINSPORTSHABER.tr">
@@ -25036,6 +25098,10 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260830211224 +0000" stop="20260830212931 +0000" channel="TivibuSpor1.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260829211004 +0000" stop="20260829213003 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
@@ -25261,6 +25327,10 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260830205221 +0000" stop="20260830211224 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830211224 +0000" stop="20260830212931 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25492,6 +25562,10 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260830211224 +0000" stop="20260830212931 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260829211004 +0000" stop="20260829213003 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
@@ -25717,6 +25791,10 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260830205221 +0000" stop="20260830211224 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260830211224 +0000" stop="20260830212931 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
@@ -59768,7 +59846,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829230000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260829213000 +0000" stop="20260829230000 +0000" channel="Starz_admnadsports1">
     <title lang="en">ADNOC Pro League 2026-2027</title>
     <desc lang="en">ADNOC Pro League 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -60044,7 +60122,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829220000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260829213000 +0000" stop="20260829220000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Inside City 2026-2027</title>
     <desc lang="en">Inside City 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -60278,14 +60356,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829211500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Studio</title>
-    <title lang="ar">استوديو</title>
-    <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-3175b25b-19a4-4124-af40-e8b6715a3fd2.jpg" />
-  </programme>
-  <programme start="20260829211500 +0000" stop="20260829230000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260829213000 +0000" stop="20260829230000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Roma x Fiorentina - Serie A</title>
     <title lang="ar">روما × فيورنتينا - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -60942,14 +61013,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829211500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Studio</title>
-    <title lang="ar">استوديو</title>
-    <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-3175b25b-19a4-4124-af40-e8b6715a3fd2.jpg" />
-  </programme>
-  <programme start="20260829211500 +0000" stop="20260829230000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260829213000 +0000" stop="20260829230000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Atalanta X Sassuolo - Serie A</title>
     <title lang="ar">أتالانتا × ساسولو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -61599,7 +61663,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829214000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260829213000 +0000" stop="20260829214000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">UFC: The Ultimate Fighter</title>
     <title lang="ar">بطولة القتال النهائي: المقاتل النهائي</title>
     <desc lang="en">Stay tuned to UFC: The Ultimate Fighter.</desc>
@@ -62145,7 +62209,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829230700 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260829213000 +0000" stop="20260829230700 +0000" channel="Starz_starzplayrugby">
     <title lang="en">South Africa vs. Scotland - Nations Championship 2026</title>
     <desc lang="en">South Africa vs. Scotland - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -62421,7 +62485,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/GNLZZGG003HWZ8Q.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260830013000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260829213000 +0000" stop="20260830013000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu</title>
     <title lang="ar">بطولة أبوظبي غراند سلام للجيو جيتسو</title>
     <desc lang="en">Catch all the action from the Abu Dhabi Grand Slam Jiu Jitsu championship.</desc>
@@ -62995,14 +63059,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829211700 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Jamaica Kingsmen v St. Kitts &amp; Nevis Patriots, 10th Match - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260829211700 +0000" stop="20260829214200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260829213000 +0000" stop="20260829214200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">3rd T20I: West Indies vs. Sri Lanka - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -63317,7 +63374,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829225000 +0000" channel="Starz_wedosports">
+  <programme start="20260829213000 +0000" stop="20260829225000 +0000" channel="Starz_wedosports">
     <title lang="en">Scottish Championship Soccer - LIVE</title>
     <desc lang="en">Scottish Championship Soccer - LIVE</desc>
     <category lang="en">Sport</category>
@@ -63663,7 +63720,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829223200 +0000" channel="Starz_unbeatensports">
+  <programme start="20260829213000 +0000" stop="20260829223200 +0000" channel="Starz_unbeatensports">
     <title lang="en">AA Baseball</title>
     <desc lang="en">Chicago Dogs take on Fargo Moorhead Redhawks in AA Baseball action</desc>
     <category lang="en">Sport</category>
@@ -64143,13 +64200,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829212200 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's T20 World Cup 2014: India vs South Africa - Kick-Off Classics</title>
-    <desc lang="en">ICC Men's T20 World Cup 2014: India vs South Africa - Kick-Off Classics</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260829212200 +0000" stop="20260829215200 +0000" channel="Starz_criclife1">
+  <programme start="20260829213000 +0000" stop="20260829215200 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's T20 World Cup 2022: Australia vs Ireland - Kick-Off Classics</title>
     <desc lang="en">ICC Men's T20 World Cup 2022: Australia vs Ireland - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
@@ -64795,14 +64846,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829212200 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Washington Freedom vs. Texas Super Kings - Major League Cricket Match Highlights</title>
-    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
-    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260829212200 +0000" stop="20260829214600 +0000" channel="Starz_criclife3">
+  <programme start="20260829213000 +0000" stop="20260829214600 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Antigua And Barbuda Falcons vs Trinbago Knight Riders, 14th Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -65378,7 +65422,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829220300 +0000" channel="Starz_golflife">
+  <programme start="20260829213000 +0000" stop="20260829220300 +0000" channel="Starz_golflife">
     <title lang="en">Third Round - 2026 TOUR Championship - LIVE</title>
     <desc lang="en">Third Round - 2026 TOUR Championship - LIVE</desc>
     <category lang="en">Sport</category>
@@ -65732,7 +65776,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260830030000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260829213000 +0000" stop="20260830030000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Endurance Race</title>
     <title lang="ar">سباق القدرة</title>
     <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
@@ -66264,7 +66308,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829220000 +0000" channel="Starz_awsn">
+  <programme start="20260829213000 +0000" stop="20260829220000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -66558,7 +66602,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829220000 +0000" channel="Starz_redbulltv">
+  <programme start="20260829213000 +0000" stop="20260829220000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -67140,7 +67184,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260830000000 +0000" channel="Starz_daznringside">
+  <programme start="20260829213000 +0000" stop="20260830000000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -67338,7 +67382,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829225000 +0000" channel="Starz_fifaplus">
+  <programme start="20260829213000 +0000" stop="20260829225000 +0000" channel="Starz_fifaplus">
     <title lang="en">Spain v Netherlands | Quarter-final | FIFA Women's World Cup 2023 | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Spain and Netherlands played at Wellington Regional Stadium, Wellington / Te Whanganui-a-tara on Friday, August 11, 2023 at 1:00 PM (local time).</desc>
     <category lang="en">Sport</category>
@@ -67691,13 +67735,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">Watch the full match replay between England and Scotland played at Stade de Nice, Nice on Sunday, 09 June 2019 at 18:00.</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/69718.jpg" />
-  </programme>
-  <programme start="20260829211000 +0000" stop="20260829213000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Australia v Bangladesh - ICC Women's Cricket World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
-    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
   <programme start="20260829213000 +0000" stop="20260829215700 +0000" channel="Starz_criclifewoman">
     <title lang="en">2024: England vs. Scotland - ICC Women's T20 World Cup Highlights</title>
@@ -68464,7 +68501,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829230000 +0000" channel="Starz_admnyastv">
+  <programme start="20260829213000 +0000" stop="20260829230000 +0000" channel="Starz_admnyastv">
     <title lang="en">Sail GP 2026</title>
     <desc lang="en">Sail GP 2026</desc>
     <category lang="en">Sport</category>
@@ -68692,13 +68729,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902113000 +0000" stop="20260902211000 +0000" channel="Starz_admnyastv">
+  <programme start="20260902113000 +0000" stop="20260903112959 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260829211000 +0000" stop="20260829223000 +0000" channel="Starz_adfight">
+  <programme start="20260829213000 +0000" stop="20260829223000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -68800,7 +68837,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260901185300 +0000" stop="20260902211000 +0000" channel="Starz_adfight">
+  <programme start="20260901185300 +0000" stop="20260902213000 +0000" channel="Starz_adfight">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
@@ -72073,50 +72110,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor2.tr">
@@ -72345,50 +72366,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor3.tr">
@@ -72667,50 +72672,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor4.tr">
@@ -72954,50 +72943,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor5.tr">
@@ -73228,50 +73201,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor6.tr">
@@ -73511,50 +73468,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor7.tr">
@@ -73788,50 +73729,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor8.tr">
@@ -74060,50 +73985,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor9.tr">
@@ -74332,50 +74241,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260829210000 +0000" stop="20260830000000 +0000" channel="TabiiSpor10.tr">
@@ -74604,50 +74497,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260905210000 +0000" stop="20260906000000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906030000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906090000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906090000 +0000" stop="20260906120000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906120000 +0000" stop="20260906150000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906150000 +0000" stop="20260906180000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
-    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
-تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260830190500 +0300" stop="20260830205000 +0300" channel="ThmanyahGuide">
