@@ -1095,12 +1095,6 @@
     <display-name lang="ar">ثمانية | Guide</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/thmanyah_guide.png" />
   </channel>
-  <programme start="20260830133600 +0000" stop="20260830152800 +0000" channel="beIN4K.qa">
-    <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
-    <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260830152800 +0000" stop="20260830181600 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027 ‎• Live 🔵‎</title>
     <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
@@ -1535,12 +1529,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="en">Live</category>
     <category lang="en">Formula One World Championship</category>
   </programme>
-  <programme start="20260830075000 +0000" stop="20260830152700 +0000" channel="beINSports.qa">
-    <title lang="en">Athletics UTMB World Series 2026 - 100 km - Day 2</title>
-    <desc lang="en">Athletics UTMB World Series 2026, is a world series for trail run racing between the famous cities around the world, top stars are among the participants.</desc>
-    <category lang="ar">ألعاب القوى</category>
-    <category lang="en">Athletics</category>
-  </programme>
   <programme start="20260830152700 +0000" stop="20260830194700 +0000" channel="beINSports.qa">
     <title lang="en">Athletics UTMB World Series 2026 - 100 km - Day 2</title>
     <desc lang="en">Athletics UTMB World Series 2026, is a world series for trail run racing between the famous cities around the world, top stars are among the participants.</desc>
@@ -1833,13 +1821,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">كرة اليد</category>
     <category lang="en">Live</category>
     <category lang="en">Handball</category>
-  </programme>
-  <programme start="20260830123000 +0000" stop="20260830152800 +0000" channel="beINSports1.qa">
-    <title lang="en">Chelsea vs Brighton - English Premier League 2026/2027 - Week 2 ‎• Live 🔵‎</title>
-    <desc lang="en">Having been unbeaten in their first 10 Premier League games against Brighton, Chelsea have now lost five of their last eight against the Seagulls. Brighton have won their last three Premier League games against Chelsea, netting exactly three goals each time. The last team to score 3+ goals in four consecutive league games against the Blues were Wes</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">Live</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260830152800 +0000" stop="20260830183300 +0000" channel="beINSports1.qa">
     <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2 ‎• Live 🔵‎</title>
@@ -5676,12 +5657,6 @@ First Leg Result: Gangwon 0-0 Machida Zelvia</desc>
     <category lang="en">Live</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260830134500 +0000" stop="20260830153000 +0000" channel="beINSports6.qa">
-    <title lang="en">New Zealand vs Syria - FIBA Asian Qualifiers - 2027</title>
-    <desc lang="en">Qualification Match for the 2027 FIBA Basketball World Cup that will be hosted in Qatar August 27th – 12th September 2027. It will be the first FIBA Basketball World Cup to be held in the Arab World.</desc>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-  </programme>
   <programme start="20260830153000 +0000" stop="20260830171500 +0000" channel="beINSports6.qa">
     <title lang="en">Australia vs Jordan  - FIBA Asian Qualifiers - 2027</title>
     <desc lang="en">Qualification Match for the 2027 FIBA Basketball World Cup that will be hosted in Qatar August 27th – 12th September 2027. It will be the first FIBA Basketball World Cup to be held in the Arab World.</desc>
@@ -6207,6 +6182,13 @@ San Mamés Stadium</desc>
   </programme>
   <programme start="20260906140000 +0000" stop="20260906153000 +0000" channel="beINSports6.qa">
     <title lang="en">Match 1 -Women - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
+    <category lang="ar">باديل</category>
+    <category lang="en">Live</category>
+    <category lang="en">Padel</category>
+  </programme>
+  <programme start="20260906153000 +0000" stop="20260906205959 +0000" channel="beINSports6.qa">
+    <title lang="en">Match 2 - Men -Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
@@ -9016,6 +8998,17 @@ At 6-9-2026, MECCA 16:00, GMT 13:00
 Premier League
 Season 2026/2027
 Hill Dickinson Stadium Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">Live</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260906153000 +0000" stop="20260906183500 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Arsenal vs Chelsea - English Premier League 2026/2027 - Week 3 ‎• Live 🔵‎</title>
+    <desc lang="en">Arsenal vs Chelsea
+At 6-9-2026, MECCA 18:30, GMT 15:30
+Premier League
+Season 2026/2027
+Emirates Stadium Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
@@ -15453,6 +15446,18 @@ Allianz Riviera Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260906152000 +0000" stop="20260906153000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260906153000 +0000" stop="20260906154500 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260830150000 +0000" stop="20260830160000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -16442,6 +16447,18 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260906151000 +0000" stop="20260906152000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260906152000 +0000" stop="20260906153000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260906153000 +0000" stop="20260906154500 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17461,6 +17478,13 @@ Allianz Riviera Stadium</desc>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260906152500 +0000" stop="20260906162000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="en">Race 4 - Imola Round - Formula 4 Italy - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The Italian Formula 4 Championship is a leading entry-level single-seater series and an important first step in the FIA driver development pathway. The 2026 season features seven events and 21 races, with young drivers competing in identical Tatuus F4-T421 cars. The championship focuses on developing speed, consistency, race skills and technical ex</desc>
+    <category lang="ar">رياضة السيارات</category>
+    <category lang="en">Live</category>
+    <category lang="en">MotorSports</category>
   </programme>
   <programme start="20260830150000 +0000" stop="20260830160000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -24456,10 +24480,6 @@ Allianz Riviera Stadium</desc>
     <title lang="en">beIN Akşam</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260830150241 +0000" stop="20260830152242 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260830152242 +0000" stop="20260830154241 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
@@ -24664,7 +24684,7 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260830150241 +0000" stop="20260830152242 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260831151855 +0000" stop="20260831153855 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
@@ -24872,7 +24892,7 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260830150241 +0000" stop="20260830152242 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260831151855 +0000" stop="20260831153855 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25080,7 +25100,7 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260830150241 +0000" stop="20260830152242 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260831151855 +0000" stop="20260831153855 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25285,6 +25305,10 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260831145857 +0000" stop="20260831151855 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260831151855 +0000" stop="20260831153855 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
   </programme>
@@ -64004,66 +64028,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sport">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sports">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sport_hd">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sport_sd">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sport_4k">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sport_raw">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sports_hd">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sports_sd">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sports_4k">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan1_sports_raw">
-    <title lang="ar">مان يونايتد - إيبسويتش ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
   <programme start="20260830214500 +0300" stop="20260830234000 +0300" channel="Alwan1_sport">
     <title lang="ar">موناكو - مارسيليا ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -64604,66 +64568,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">القناة: Alwan Sport 3
 المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sport">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sports">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sport_hd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sport_sd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sport_4k">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sport_raw">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sports_hd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sports_sd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sports_4k">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan4_sports_raw">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
   <programme start="20260830214500 +0300" stop="20260830234000 +0300" channel="Alwan4_sport">
     <title lang="ar">لاتسيو - جنوى ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -64782,66 +64686,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">أوساسونا - خيتافي ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">القناة: Alwan Sport 4
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sport">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sports">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sport_hd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sport_sd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sport_4k">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sport_raw">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sports_hd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sports_sd">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sports_4k">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
-المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260830183000 +0300" stop="20260830202500 +0300" channel="Alwan5_sports_raw">
-    <title lang="ar">أوجسبورغ - شالكه ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 5
 المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
   <programme start="20260830213000 +0300" stop="20260830232500 +0300" channel="Alwan5_sport">
@@ -70488,7 +70332,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830155500 +0000" channel="Starz_admnadsports1">
+  <programme start="20260830154000 +0000" stop="20260830155500 +0000" channel="Starz_admnadsports1">
     <title lang="en">ADNOC Pro League 2026-2027</title>
     <desc lang="en">ADNOC Pro League 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -70788,7 +70632,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260830154000 +0000" stop="20260830160000 +0000" channel="Starz_admnadsports2">
     <title lang="en">City TV - Manchester City Football Club Match 2026</title>
     <desc lang="en">City TV - Manchester City Football Club Match 2026 - 2027</desc>
     <category lang="en">Sport</category>
@@ -71022,9 +70866,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902160000 +0000" stop="20260903140000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260902160000 +0000" stop="20260902190000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Max Power 2026</title>
     <desc lang="en">Max Power 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902190000 +0000" stop="20260903140000 +0000" channel="Starz_admnadsports2">
+    <title lang="en">UCI Pro Series 2026 : Lidl Deutschland Tour Final</title>
+    <desc lang="en">UCI Pro Series 2026 : Lidl Deutschland Tour Final Program</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
@@ -71034,14 +70884,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830153000 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Round 2 - Serie A Preview Show Magazine</title>
-    <title lang="ar">الجولة 2 - مجلة الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG198608_landscape10-55b0588c-cae3-4a65-b9f1-879533b10f00.jpg" />
-  </programme>
-  <programme start="20260830153000 +0000" stop="20260830163000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260830154000 +0000" stop="20260830163000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Studio</title>
     <title lang="ar">استوديو</title>
     <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
@@ -71718,14 +71561,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830153000 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Serie A Highlights</title>
-    <title lang="ar">مقتطفات من الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG98671_landscape10-6e4f7ed7-7c20-45f1-9da6-0d13d750b2df.jpg" />
-  </programme>
-  <programme start="20260830153000 +0000" stop="20260830163000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260830154000 +0000" stop="20260830163000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Studio</title>
     <title lang="ar">استوديو</title>
     <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
@@ -72338,7 +72174,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830210000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260830154000 +0000" stop="20260830210000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW Full Gear</title>
     <title lang="ar">ايه إي دبليو فل قير</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -72849,7 +72685,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830154400 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260830154000 +0000" stop="20260830154400 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Vodacom Bulls vs. Maori All Blacks - Rugby Union</title>
     <desc lang="en">Vodacom Bulls vs. Maori All Blacks - Rugby Union</desc>
     <category lang="en">Sport</category>
@@ -73107,7 +72943,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830163000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260830154000 +0000" stop="20260830163000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Shka. Fatima Women GCC Basketball Cup</title>
     <title lang="ar">كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
     <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
@@ -73240,187 +73076,145 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG429545_landscape10_MASTER831896.jpg" />
   </programme>
-  <programme start="20260831200000 +0000" stop="20260831210000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260831200000 +0000" stop="20260831221500 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Goodwood Festival of Speed</title>
+    <title lang="ar">غوودوود فيستيفال أوف سبييد</title>
+    <desc lang="en">Follow the excitement and action of the latest cars races of the Goodwood Festival Of Speed.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG54972_landscape10_MASTER286212.jpg" />
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831220000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260831221500 +0000" stop="20260901013000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Goodwood Festival of Speed</title>
+    <title lang="ar">غوودوود فيستيفال أوف سبييد</title>
+    <desc lang="en">Follow the excitement and action of the latest cars races of the Goodwood Festival Of Speed.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG54972_landscape10_MASTER286212.jpg" />
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901013000 +0000" stop="20260901020000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Sport Confidential</title>
+    <title lang="ar">أسرار الرياضة</title>
+    <desc lang="en">Follow this special program that features sports secrets you've never known before.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG240877_landscape10-59c10fa6-b0ad-41b7-9c6d-1bf4a36964cd.jpg" />
   </programme>
-  <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901020000 +0000" stop="20260901040000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">SV Hemelingen X Hannover - German Cup</title>
+    <title lang="ar">إس في هيميلينغ × هانوفر - الكأس الالماني</title>
+    <desc lang="en">Don't miss watching the German Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG629270_landscape10-40d9ca54-4df6-402f-b0b9-d6516530f5b2.jpg" />
   </programme>
-  <programme start="20260901000000 +0000" stop="20260901010000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901040000 +0000" stop="20260901043000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">FIBA World of Basketball</title>
+    <title lang="ar">بطولة الاتحاد الدولي لكرة السلة</title>
+    <desc lang="en">An international basketball competition contested by the national teams of the members of the International Basketball Federation.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG138117_landscape10_MASTER289258.jpeg" />
   </programme>
-  <programme start="20260901010000 +0000" stop="20260901020000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901043000 +0000" stop="20260901061500 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Thailand X UAE - AFC U20 Asian Cup Qualifiers</title>
+    <title lang="ar">تايلاند × الإمارات - تصفيات  كأس آسيا تحت 20 سنة</title>
+    <desc lang="en">Stay tuned to AFC U20 Asian Cup Qualifiers.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG609584_landscape10-de196f54-ba37-4bb2-a688-780a32a7b198.jpg" />
   </programme>
-  <programme start="20260901020000 +0000" stop="20260901030000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901061500 +0000" stop="20260901071500 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Head Coach</title>
+    <title lang="ar">المدير الفني</title>
+    <desc lang="en">Shining the spotlight on the careers of the coaches of football teams.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG429545_landscape10_MASTER831896.jpg" />
   </programme>
-  <programme start="20260901030000 +0000" stop="20260901040000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901071500 +0000" stop="20260901074500 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Motor Sport Mundial</title>
+    <title lang="ar">مونديال السيارات الرياضية</title>
+    <desc lang="en">Follow the latest races from the Motor Sports Mundial.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG265419_landscape10-47812221-6f8a-4487-92a8-5e0f2da2631d.jpg" />
   </programme>
-  <programme start="20260901040000 +0000" stop="20260901050000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901074500 +0000" stop="20260901083000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">UCI MTB World Championships</title>
+    <title lang="ar">بطولة العالم للدراجات الجبلية</title>
+    <desc lang="en">A global mountain bike championship featuring elite riders in thrilling races that test speed, skill, and endurance.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG115283_landscape10-1c0cf612-21b2-4605-a033-46cfccd2ff4c.jpg" />
   </programme>
-  <programme start="20260901050000 +0000" stop="20260901060000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901083000 +0000" stop="20260901100000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">UCI MTB World Championships</title>
+    <title lang="ar">بطولة العالم للدراجات الجبلية</title>
+    <desc lang="en">A global mountain bike championship featuring elite riders in thrilling races that test speed, skill, and endurance.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG115283_landscape10-1c0cf612-21b2-4605-a033-46cfccd2ff4c.jpg" />
   </programme>
-  <programme start="20260901060000 +0000" stop="20260901070000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901100000 +0000" stop="20260901103000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Sport Confidential</title>
+    <title lang="ar">أسرار الرياضة</title>
+    <desc lang="en">Follow this special program that features sports secrets you've never known before.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG240877_landscape10-59c10fa6-b0ad-41b7-9c6d-1bf4a36964cd.jpg" />
   </programme>
-  <programme start="20260901070000 +0000" stop="20260901080000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901103000 +0000" stop="20260901110000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">FIBA World of Basketball</title>
+    <title lang="ar">بطولة الاتحاد الدولي لكرة السلة</title>
+    <desc lang="en">An international basketball competition contested by the national teams of the members of the International Basketball Federation.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG138117_landscape10_MASTER289258.jpeg" />
   </programme>
-  <programme start="20260901080000 +0000" stop="20260901090000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901110000 +0000" stop="20260901124500 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">AFC U20 Asian Cup Qualifiers</title>
+    <title lang="ar">تصفيات  كأس آسيا تحت 20 سنة</title>
+    <desc lang="en">Stay tuned to AFC U20 Asian Cup Qualifiers.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG609584_landscape10-de196f54-ba37-4bb2-a688-780a32a7b198.jpg" />
   </programme>
-  <programme start="20260901090000 +0000" stop="20260901100000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901124500 +0000" stop="20260901134500 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Max Power</title>
+    <title lang="ar">ماكس باور</title>
+    <desc lang="en">This program features highlights and up-to-the-minute news from international motorsport events.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG202614_landscape10_MASTER293380.jpg" />
   </programme>
-  <programme start="20260901100000 +0000" stop="20260901110000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901134500 +0000" stop="20260901153000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Weiss Essen X FC St. Pauli - German Cup</title>
+    <title lang="ar">فايس إيسن × إف سي سانت باولي - الكأس الالماني</title>
+    <desc lang="en">Don't miss watching the German Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG629270_landscape10-40d9ca54-4df6-402f-b0b9-d6516530f5b2.jpg" />
   </programme>
-  <programme start="20260901110000 +0000" stop="20260901120000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901153000 +0000" stop="20260901160000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Footballiga</title>
+    <title lang="ar">فُتبوليغا</title>
+    <desc lang="en">Tune in for insightful analysis and commentary on South American football.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG412714_landscape10-8bf6ab87-cf31-4cc0-98c0-af80ea922722.jpg" />
   </programme>
-  <programme start="20260901120000 +0000" stop="20260901130000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901160000 +0000" stop="20260901173000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Shka. Fatima Women GCC Basketball Cup</title>
+    <title lang="ar">كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
+    <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG607364_landscape10-eba22527-2b2c-44ab-81c9-200e3c7002c9.jpg" />
   </programme>
-  <programme start="20260901130000 +0000" stop="20260901140000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901173000 +0000" stop="20260901190000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Shka. Fatima Women GCC Basketball Cup</title>
+    <title lang="ar">كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
+    <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
-  </programme>
-  <programme start="20260901140000 +0000" stop="20260901150000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
-  </programme>
-  <programme start="20260901150000 +0000" stop="20260901160000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
-  </programme>
-  <programme start="20260901160000 +0000" stop="20260901170000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
-  </programme>
-  <programme start="20260901170000 +0000" stop="20260901180000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
-  </programme>
-  <programme start="20260901180000 +0000" stop="20260901190000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG607364_landscape10-eba22527-2b2c-44ab-81c9-200e3c7002c9.jpg" />
   </programme>
   <programme start="20260901190000 +0000" stop="20260901200000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+    <title lang="en">Final Score</title>
+    <title lang="ar">فاينل سكور</title>
+    <desc lang="en">This is your ultimate guide to the fixture, decisions and match schedules of the much-awaited ADNOC Premiere League, don't miss it!</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG533810_landscape10-fd64984f-5c5f-4fa7-9a9a-bbb6d005fedc.jpg" />
   </programme>
-  <programme start="20260901200000 +0000" stop="20260901210000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901200000 +0000" stop="20260901220000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">90 Minutes</title>
+    <title lang="ar">90 دقيقة</title>
+    <desc lang="en">Stay tuned to this program (90 Minutes).</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
-  </programme>
-  <programme start="20260901210000 +0000" stop="20260901220000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Abu Dhabi Sports Asia 1</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG626869_landscape10-f170fa2e-f3d8-4c53-9237-83b15d5501da.jpg" />
   </programme>
   <programme start="20260901220000 +0000" stop="20260901230000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Abu Dhabi Sports Asia 1</title>
@@ -73716,7 +73510,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830171700 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260830154000 +0000" stop="20260830171700 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Edinburgh Castle Rockers vs. Dublin Guardians - ETPL - LIVE</title>
     <desc lang="en">Edinburgh Castle Rockers vs. Dublin Guardians - ETPL - LIVE</desc>
     <category lang="en">Sport</category>
@@ -74548,7 +74342,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33837247_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160900 +0000" channel="Starz_wedosports">
+  <programme start="20260830154000 +0000" stop="20260830160900 +0000" channel="Starz_wedosports">
     <title lang="en">Aberdeen v Rangers - Scottish Premier League Football</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز</title>
     <desc lang="en">Aberdeen v Rangers - Scottish Premier League Football</desc>
@@ -74888,7 +74682,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830224400 +0000" channel="Starz_unbeatensports">
+  <programme start="20260830154000 +0000" stop="20260830224400 +0000" channel="Starz_unbeatensports">
     <title lang="en">LIVE: WT Debrecen - Finals</title>
     <desc lang="en">F3X3 World Tour 2026 reaches Debrecen for the finals, with top teams competing</desc>
     <category lang="en">Sport</category>
@@ -75296,13 +75090,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830153000 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's T20 World Cup 2012: India vs Pakistan - Flashback</title>
-    <desc lang="en">ICC Men's T20 World Cup 2012: India vs Pakistan - Flashback</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260830153000 +0000" stop="20260830160000 +0000" channel="Starz_criclife1">
+  <programme start="20260830154000 +0000" stop="20260830160000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's T20 World Cup 2012: India vs Pakistan - Flashback</title>
     <desc lang="en">ICC Men's T20 World Cup 2012: India vs Pakistan - Flashback</desc>
     <category lang="en">Sport</category>
@@ -75803,7 +75591,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830170000 +0000" channel="Starz_criclife3">
+  <programme start="20260830154000 +0000" stop="20260830170000 +0000" channel="Starz_criclife3">
     <title lang="en">2nd Test, Day 4: England vs. Pakistan - Test Cricket - LIVE</title>
     <title lang="ar">تست كريكيت - مباشر</title>
     <desc lang="en">Professional players from two cricket teams compete against each other to emerge victorious in a Test match to win the title.</desc>
@@ -76896,7 +76684,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160000 +0000" channel="Starz_golflife">
+  <programme start="20260830154000 +0000" stop="20260830160000 +0000" channel="Starz_golflife">
     <title lang="en">Rogers Charity Classic Highlights - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E191 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -77278,7 +77066,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260830154000 +0000" stop="20260830160000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Ghantoot International Polo Championship</title>
     <title lang="ar">بطولة غنتوت الدولية للبولو</title>
     <desc lang="en">The Ghantoot International Polo Championship is held at Ghantoot Polo Club in the UAE, bringing together top international polo teams to compete in exciting matches that showcase skill, sportsmanship, and the spirit of the sport.</desc>
@@ -77397,175 +77185,133 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-3175b25b-19a4-4124-af40-e8b6715a3fd2.jpg" />
   </programme>
-  <programme start="20260831200000 +0000" stop="20260831210000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260831200000 +0000" stop="20260901013000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Endurance Race</title>
+    <title lang="ar">سباق القدرة</title>
+    <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG278998_landscape10_MASTER298708.jpg" />
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831220000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901013000 +0000" stop="20260901023000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Abu Dhabi Hunting &amp; Equestrian Exhibition</title>
+    <title lang="ar">معرض أبوظبي للصيد والفروسية</title>
+    <desc lang="en">Follow the latest from the Abu Dhabi Hunting and Equestrian Exhibition.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG196282_landscape10_MASTER292956.jpg" />
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901023000 +0000" stop="20260901030000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">The Boat Show</title>
+    <title lang="ar">عالم القوارب</title>
+    <desc lang="en">Experience the latest and finest collection of super yachts and boats from across the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG27317_landscape10-7d276c99-7737-4b83-acc7-3f96c4560ef1.jpg" />
   </programme>
-  <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901030000 +0000" stop="20260901051500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Al-Ain Camel Race Festival</title>
+    <title lang="ar">مهرجان العين لسباقات الهجن</title>
+    <desc lang="en">Stay tuned to Al-Ain Camel Race Festival.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG624022_landscape10-f823dacb-61e3-428a-85d1-9d62ac150537.jpg" />
   </programme>
-  <programme start="20260901000000 +0000" stop="20260901010000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901051500 +0000" stop="20260901061500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE Horse Show Jumping Champion</title>
+    <title lang="ar">بطولة الإمارات لسباق قفز الحواجز</title>
+    <desc lang="en">Follow UAE Horse Show Jumping Champion.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG184925_landscape10-c30c4f50-920d-4a7a-a859-5f1f4004fb97.jpg" />
   </programme>
-  <programme start="20260901010000 +0000" stop="20260901020000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901061500 +0000" stop="20260901071500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE President Cup Flat Races - Studio</title>
+    <title lang="ar">سباقات كأس رئيس دولة الإمارات للفروسية - استوديو</title>
+    <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-3175b25b-19a4-4124-af40-e8b6715a3fd2.jpg" />
   </programme>
-  <programme start="20260901020000 +0000" stop="20260901030000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901071500 +0000" stop="20260901084500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE National Arabian Horse Beauty Pageants</title>
+    <title lang="ar">بطولة الإمارات لجمال الخيول</title>
+    <desc lang="en">Follow the most important Pageant for the origional Arabian horses of differnt ages.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG281043_landscape10-c6c98623-edad-4a19-bad8-7a82064046c0.jpg" />
   </programme>
-  <programme start="20260901030000 +0000" stop="20260901040000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901084500 +0000" stop="20260901101500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Sail Grand Prix</title>
+    <title lang="ar">سباق الجائزة الكبرى للشراع</title>
+    <desc lang="en">Special coverage of the Sail Grand Prix.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG518592_landscape10-c2893686-a0ce-4b56-ab97-818553489df7.jpg" />
   </programme>
-  <programme start="20260901040000 +0000" stop="20260901050000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901101500 +0000" stop="20260901114500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Ghantoot International Polo Championship</title>
+    <title lang="ar">بطولة غنتوت الدولية للبولو</title>
+    <desc lang="en">The Ghantoot International Polo Championship is held at Ghantoot Polo Club in the UAE, bringing together top international polo teams to compete in exciting matches that showcase skill, sportsmanship, and the spirit of the sport.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG635481_landscape10-f9b91cfd-c355-4d58-a0f1-db865a58364e.jpg" />
   </programme>
-  <programme start="20260901050000 +0000" stop="20260901060000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901114500 +0000" stop="20260901130000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Documentary</title>
+    <title lang="ar">برنامج وثائقي</title>
+    <desc lang="en">An in-depth look into wide-ranging topics history and civilization, to politics, sports, science and technology.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901060000 +0000" stop="20260901070000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901070000 +0000" stop="20260901080000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901080000 +0000" stop="20260901090000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901090000 +0000" stop="20260901100000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901100000 +0000" stop="20260901110000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901110000 +0000" stop="20260901120000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
-  </programme>
-  <programme start="20260901120000 +0000" stop="20260901130000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG40357_landscape10-94e26ac4-6f2b-42b0-b384-1a95980c6691.jpg" />
   </programme>
   <programme start="20260901130000 +0000" stop="20260901140000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+    <title lang="en">Abu Dhabi Hunting &amp; Equestrian Exhibition</title>
+    <title lang="ar">معرض أبوظبي للصيد والفروسية</title>
+    <desc lang="en">Follow the latest from the Abu Dhabi Hunting and Equestrian Exhibition.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG196282_landscape10_MASTER292956.jpg" />
   </programme>
-  <programme start="20260901140000 +0000" stop="20260901150000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901140000 +0000" stop="20260901143000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">The Boat Show</title>
+    <title lang="ar">عالم القوارب</title>
+    <desc lang="en">Experience the latest and finest collection of super yachts and boats from across the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG27317_landscape10-7d276c99-7737-4b83-acc7-3f96c4560ef1.jpg" />
   </programme>
-  <programme start="20260901150000 +0000" stop="20260901160000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901143000 +0000" stop="20260901150500 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE President Cup Flat Races - Studio</title>
+    <title lang="ar">سباقات كأس رئيس دولة الإمارات للفروسية - استوديو</title>
+    <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-3175b25b-19a4-4124-af40-e8b6715a3fd2.jpg" />
   </programme>
-  <programme start="20260901160000 +0000" stop="20260901170000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901150500 +0000" stop="20260901153000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE President Cup - Flat Races</title>
+    <title lang="ar">كأس رئيس الدولة للخيول العربية الأصيلة</title>
+    <desc lang="en">Stay tuned to the latest events from UAE President Cup - Flat Races.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG598862_landscape10-e7838ea3-0048-429c-bcb9-700c5d1735dc.jpg" />
   </programme>
-  <programme start="20260901170000 +0000" stop="20260901180000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901153000 +0000" stop="20260901160000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE President Cup Flat Races - Studio</title>
+    <title lang="ar">سباقات كأس رئيس دولة الإمارات للفروسية - استوديو</title>
+    <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-3175b25b-19a4-4124-af40-e8b6715a3fd2.jpg" />
   </programme>
-  <programme start="20260901180000 +0000" stop="20260901190000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901160000 +0000" stop="20260901163000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Doc: FEI Endurance World Championship</title>
+    <title lang="ar">وثائقي: بطولة العالم للقدرة الفروسية</title>
+    <desc lang="en">A documentary about the Endurance World Championship for Young Riders and Juniors, showcasing behind the scenes moments, the riders' preparations, and the journey they undertook to reach the finish line. An experience that captures the spirit of challenge and the passion for equestrian sport.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG627880_landscape10-1ade98c2-733c-4b3b-bd34-92a3c542af0c.jpg" />
   </programme>
-  <programme start="20260901190000 +0000" stop="20260901200000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Abu Dhabi Sports Asia 2</title>
-    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
-    <desc lang="en">Sports coverage from around the globe.</desc>
+  <programme start="20260901163000 +0000" stop="20260901183000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Sailing Race</title>
+    <title lang="ar">سباق القوارب الشراعية</title>
+    <desc lang="en">Follow the latest actions of the Sailing Races from around the world.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG201261_landscape10_MASTER293233.jpg" />
   </programme>
-  <programme start="20260901200000 +0000" stop="20260901210000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260901183000 +0000" stop="20260901203000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">UAE National Arabian Horse Beauty Pageants</title>
+    <title lang="ar">بطولة الإمارات لجمال الخيول</title>
+    <desc lang="en">Follow the most important Pageant for the origional Arabian horses of differnt ages.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG281043_landscape10-c6c98623-edad-4a19-bad8-7a82064046c0.jpg" />
+  </programme>
+  <programme start="20260901203000 +0000" stop="20260901210000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Abu Dhabi Sports Asia 2</title>
     <title lang="ar">أبوظبي الرياضية آسيا 2</title>
     <desc lang="en">Sports coverage from around the globe.</desc>
@@ -77873,7 +77619,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160000 +0000" channel="Starz_awsn">
+  <programme start="20260830154000 +0000" stop="20260830160000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -78167,7 +77913,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160000 +0000" channel="Starz_redbulltv">
+  <programme start="20260830154000 +0000" stop="20260830160000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -78749,7 +78495,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830180000 +0000" channel="Starz_daznringside">
+  <programme start="20260830154000 +0000" stop="20260830180000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -78947,7 +78693,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830160834 +0000" channel="Starz_fifaplus">
+  <programme start="20260830154000 +0000" stop="20260830160834 +0000" channel="Starz_fifaplus">
     <title lang="en">Brazil v Germany | Semi-finals | 2014 FIFA World Cup Brazil™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay from the match between Brazil and Germany played at Estádio Mineirão, Belo Horizonte on Tuesday, 08 July 2014.</desc>
     <category lang="en">Sport</category>
@@ -79313,7 +79059,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/119707.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830173000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260903152810 +0000" stop="20260903171904 +0000" channel="Starz_fifaplus">
+    <title lang="en">Japan v New Zealand | Group B | FIFA Women's World Cup Germany 2011™ | Full Match Replay</title>
+    <desc lang="en">Watch the full match replay between Japan and New Zealand played at FIFA Women's World Cup Stadium , Bochum on Monday, 27 June 2011 at 15:00.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/75522.jpg" />
+  </programme>
+  <programme start="20260830154000 +0000" stop="20260830173000 +0000" channel="Starz_criclifewoman">
     <title lang="en">India vs. Thailand - 2026 Women's Asia Cup Cricket - LIVE</title>
     <desc lang="en">India vs. Thailand - 2026 Women's Asia Cup Cricket - LIVE</desc>
     <category lang="en">Sport</category>
@@ -79954,7 +79706,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830170000 +0000" channel="Starz_admnyastv">
+  <programme start="20260830154000 +0000" stop="20260830170000 +0000" channel="Starz_admnyastv">
     <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
     <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
     <category lang="en">Sport</category>
@@ -80176,19 +79928,121 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260901190000 +0000" stop="20260902113000 +0000" channel="Starz_admnyastv">
+  <programme start="20260901190000 +0000" stop="20260901200000 +0000" channel="Starz_admnyastv">
     <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
     <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902113000 +0000" stop="20260903152000 +0000" channel="Starz_admnyastv">
+  <programme start="20260901200000 +0000" stop="20260901213000 +0000" channel="Starz_admnyastv">
+    <title lang="en">Sail GP 2026</title>
+    <desc lang="en">Sail GP 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260901213000 +0000" stop="20260902003000 +0000" channel="Starz_admnyastv">
+    <title lang="en">Studio: Qatar Goodwood Festival 2026</title>
+    <desc lang="en">Studio: Qatar Goodwood Festival 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902003000 +0000" stop="20260902023000 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260830152000 +0000" stop="20260830173500 +0000" channel="Starz_adfight">
+  <programme start="20260902023000 +0000" stop="20260902030000 +0000" channel="Starz_admnyastv">
+    <title lang="en">UAE Flat Race Highlights 2025-2026</title>
+    <desc lang="en">Highlights of each of the UAE Flat Races for the season 2025 - 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902030000 +0000" stop="20260902033000 +0000" channel="Starz_admnyastv">
+    <title lang="en">The Boat Show (Ar) 2026</title>
+    <desc lang="en">The Boat Show (Ar) 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902033000 +0000" stop="20260902050000 +0000" channel="Starz_admnyastv">
+    <title lang="en">UAE Horse Beauty 2026 Highlights</title>
+    <desc lang="en">UAE Horse Beauty 2026 Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902050000 +0000" stop="20260902060000 +0000" channel="Starz_admnyastv">
+    <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
+    <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902060000 +0000" stop="20260902073000 +0000" channel="Starz_admnyastv">
+    <title lang="en">UAE President Cup Flat Races 2026</title>
+    <desc lang="en">UAE President Cup Flat Races 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902073000 +0000" stop="20260902084500 +0000" channel="Starz_admnyastv">
+    <title lang="en">UIM F1H2O World Championship 2026</title>
+    <desc lang="en">UIM F1H2O World Championship 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902084500 +0000" stop="20260902103000 +0000" channel="Starz_admnyastv">
+    <title lang="en">UAE Show Jumping 2026 Highlights</title>
+    <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902103000 +0000" stop="20260902113000 +0000" channel="Starz_admnyastv">
+    <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
+    <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902113000 +0000" stop="20260902144500 +0000" channel="Starz_admnyastv">
+    <title lang="en">UAE Sailing 2026 Highlights</title>
+    <desc lang="en">UAE Sailing 2026 Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902144500 +0000" stop="20260902150000 +0000" channel="Starz_admnyastv">
+    <title lang="en">International Flat Race Highlights 2026</title>
+    <desc lang="en">International Flat Race Highlights 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902150000 +0000" stop="20260902160000 +0000" channel="Starz_admnyastv">
+    <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
+    <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902160000 +0000" stop="20260902170000 +0000" channel="Starz_admnyastv">
+    <title lang="en">UAE Horse Beauty 2026 Highlights</title>
+    <desc lang="en">UAE Horse Beauty 2026 Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902170000 +0000" stop="20260902181500 +0000" channel="Starz_admnyastv">
+    <title lang="en">UIM F1H2O World Championship 2026</title>
+    <desc lang="en">UIM F1H2O World Championship 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902181500 +0000" stop="20260902190000 +0000" channel="Starz_admnyastv">
+    <title lang="en">International Flat Race Highlights 2026</title>
+    <desc lang="en">International Flat Race Highlights 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260902190000 +0000" stop="20260903185959 +0000" channel="Starz_admnyastv">
+    <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
+    <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260830154000 +0000" stop="20260830173500 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -83835,6 +83689,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260830150000 +0000" stop="20260830153500 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260830153500 +0000" stop="20260830155000 +0000" channel="TabiiSpor3.tr">
