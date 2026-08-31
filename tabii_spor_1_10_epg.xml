@@ -55,8 +55,20 @@
     <display-name lang="ar">تابي سبور 10</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii10.png" />
   </channel>
-  <programme start="20260830210000 +0000" stop="20260830223000 +0000" channel="TabiiSpor.tr">
+  <programme start="20260830210000 +0000" stop="20260831063000 +0000" channel="TabiiSpor.tr">
     <title lang="en">TRT Spor Yıldız Ortak Yayın</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260831063000 +0000" stop="20260831065500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Futbolun En Büyük Sahnesi</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260831065500 +0000" stop="20260831085500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Elmas Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260831085500 +0000" stop="20260831093000 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Rüya Takımlar (Dream Teams)</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260831093000 +0000" stop="20260831095500 +0000" channel="TabiiSpor.tr">
