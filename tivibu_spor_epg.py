@@ -80,11 +80,9 @@ CHANNELS = [
     ("TivibuSpor.tr", "TİVİBU.SPOR.tr", [
         "Tivibu Spor", "TİVİBU SPOR", "TIVIBU SPOR", "Tivibu Sport",
         "تيفيبو سبور"]),
-    # Tivibu Spor 1 is deliberately absent: today_matches_epg publishes
-    # under that id now. Its feed had stopped carrying real programming and
-    # the channel was showing nothing but a row saying so, while the
-    # today's-matches guide had no id any playlist would recognise. One
-    # file must own an id, so this one gives it up.
+    ("TivibuSpor1.tr", "TİVİBU.SPOR.1.tr", [
+        "Tivibu Spor 1", "TİVİBU SPOR 1", "TIVIBU SPOR 1", "Tivibu Sport 1",
+        "تيفيبو سبور 1", "تيفيبو سبور ١"]),
     ("TivibuSpor2.tr", "TİVİBU.SPOR.2.tr", [
         "Tivibu Spor 2", "TİVİBU SPOR 2", "TIVIBU SPOR 2", "Tivibu Sport 2",
         "تيفيبو سبور 2", "تيفيبو سبور ٢"]),
