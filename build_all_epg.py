@@ -90,6 +90,8 @@ import subprocess
 import sys
 import time
 import xml.etree.ElementTree as ET
+
+import epg_lib
 from datetime import datetime, timedelta, timezone
 
 UTC = timezone.utc
@@ -265,6 +267,57 @@ def committed(path: str) -> tuple[int, int, int]:
         return count(ET.fromstring(done.stdout))
     except Exception:
         return 0, 0, 0
+
+
+def close_gaps_in(label: str, path: str) -> str | None:
+    """Give every channel in a freshly built file something to show.
+
+    Seven of the thirteen generators write their own file instead of going
+    through write_xml_atomic, so the gap-closing that lives there reaches
+    barely half the guides. Rewriting those seven to use the shared writer
+    would touch guides that are working, and the ones that work are the
+    ones not to touch.
+
+    So the guarantee is applied here instead, to the finished file, where
+    it does not care which code wrote it. Every guide gets it, including
+    any added later by someone who never opens epg_lib — and no working
+    generator is altered to get it.
+
+    Returns a note when it changed something, so the pass can say so.
+    """
+    if not os.path.exists(path):
+        return None
+    try:
+        tree = ET.parse(path)
+    except Exception as exc:
+        print(f"::warning::{label}: {path} could not be re-read to close its "
+              f"gaps ({exc}) — published as its generator wrote it")
+        return None
+
+    root = tree.getroot()
+    try:
+        filled = epg_lib.close_every_gap(root)
+    except Exception as exc:
+        print(f"::warning::{label}: could not close gaps ({exc}) — published "
+              f"as its generator wrote it")
+        return None
+    if not filled:
+        return None
+
+    try:
+        epg_lib.order_for_xmltv(root)
+        tmp = f"{path}.gaps"
+        ET.ElementTree(root).write(tmp, encoding="utf-8",
+                                   xml_declaration=True)
+        # Parse it back before it replaces anything: a guide that is merely
+        # missing filler is far better than one that is malformed.
+        ET.parse(tmp)
+        os.replace(tmp, path)
+    except Exception as exc:
+        print(f"::warning::{label}: gap-filled file was not valid ({exc}) — "
+              f"kept the generator's own file")
+        return None
+    return f"closed {filled} gap(s)"
 
 
 def keep_published_if_collapsed(label: str, path: str,
@@ -472,6 +525,12 @@ def build_once() -> bool:
                 collapsed = keep_published_if_collapsed(label, output, ceilings)
                 if collapsed:
                     outcome = collapsed
+                else:
+                    # Only on a file this pass is actually publishing: a
+                    # restored file is already whole and must not be touched.
+                    note = close_gaps_in(label, output)
+                    if note:
+                        outcome = f"ok, {note}"
         rows.append((label, outcome, seconds, "", "", ""))
 
     # Every file is measured after the whole set has run, so the table

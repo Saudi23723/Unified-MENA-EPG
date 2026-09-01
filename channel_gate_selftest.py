@@ -568,13 +568,60 @@ def gate_a_fact_survives_its_source() -> None:
           "competition" not in top and "channels" not in top, True)
 
 
+def gate_every_guide_is_covered() -> None:
+    """Every generator's output must pass through the guarantee.
+
+    Seven of the thirteen generators write their own file rather than
+    going through write_xml_atomic, so the gap-closing that lives there
+    reached barely half the guides — which is why holes kept turning up in
+    channels nobody had touched. Rewriting those seven would mean editing
+    guides that work, and the ones that work are the ones not to touch.
+
+    The guarantee is applied by the orchestrator instead, to each finished
+    file. This holds it there: every guide build_all_epg knows about must
+    be one it also closes the gaps in, so a guide added later cannot
+    quietly arrive without the protection.
+    """
+    print("\nEvery guide is covered — build_all_epg")
+    import build_all_epg as B
+    import inspect
+
+    source = inspect.getsource(B.build_once)
+    check("COVERAGE", "each generator's file has its gaps closed",
+          "close_gaps_in(" in source, True)
+    check("COVERAGE", "and only when this pass is really publishing it",
+          "collapsed" in source and "else:" in source, True)
+
+    # The function has to survive a file it cannot help, rather than
+    # damaging it: a guide missing filler beats a guide that is malformed.
+    import tempfile
+    import os as _os
+    with tempfile.TemporaryDirectory() as tmp:
+        broken = _os.path.join(tmp, "broken.xml")
+        with open(broken, "w", encoding="utf-8") as handle:
+            handle.write("<tv><channel id='a'><programme")
+        check("COVERAGE", "an unparsable file is left exactly as it was",
+              B.close_gaps_in("x", broken) is None
+              and open(broken, encoding="utf-8").read().endswith("<programme"),
+              True)
+        check("COVERAGE", "a missing file is not invented",
+              B.close_gaps_in("x", _os.path.join(tmp, "nope.xml")) is None,
+              True)
+
+    # And every generator it lists must actually name a file.
+    missing = [output for _, _, output in B.GENERATORS if not output.endswith(".xml")]
+    check("COVERAGE", f"all {len(B.GENERATORS)} generators name an xml file",
+          not missing, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
                  gate_channel_is_never_a_team,
                  gate_one_match_one_row,
                  gate_one_club_across_two_scripts,
-                 gate_a_fact_survives_its_source):
+                 gate_a_fact_survives_its_source,
+                 gate_every_guide_is_covered):
         try:
             gate()
         except Exception as exc:
