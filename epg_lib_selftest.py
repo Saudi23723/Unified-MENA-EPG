@@ -269,13 +269,15 @@ def main() -> int:
     # screen "⏰ Fiorentina - Frosinone + Monza - Udinese · بعد15 ساعة و"
     # came out as one unbroken run, the countdown drifting from its number.
     # That is a direction problem, not a wording one — see isolate().
-    dot = L.isolate("·")
+    def bare(value):
+        return re.sub(r"[\u2066-\u2069\u200e\u200f]", "", value)
+
     title = L.countdown_title("A - B", 95)
     check("one wording, marked as a wait rather than a broadcast",
-          title == f"{L.COUNTDOWN_MARK} A - B {dot} بعد ساعة و35 دقيقة"
-          and L.countdown_title("A - B", 3)
-          == f"{L.COUNTDOWN_MARK} A - B {dot} بعد 3 دقائق",
-          title)
+          bare(title) == f"{L.COUNTDOWN_MARK} A - B · بعد ساعة و35 دقيقة"
+          and bare(L.countdown_title("A - B", 3))
+          == f"{L.COUNTDOWN_MARK} A - B · بعد 3 دقائق",
+          bare(title))
 
     # ---------------------------------------------------- label_fixtures
     print("\nlabel_fixtures — several matches in one row")
@@ -290,9 +292,32 @@ def main() -> int:
           L.label_fixtures(["Milan - Venezia"]) == L.isolate("Milan - Venezia"),
           L.label_fixtures(["Milan - Venezia"]))
     check("nothing in, nothing out", L.label_fixtures([]) == "", "!")
+
+    # Isolating each name fixed the names and reversed their order: an
+    # isolate hides its contents, so the first strong character left was
+    # the Arabic of "بعد", the line went right-to-left, and a television
+    # showed "C) Sassuolo … B) Monza … A) Fiorentina". Each name correct,
+    # the sequence backwards.
+    import unicodedata as U
+
+    def opens(title):
+        return next((U.bidirectional(c) for c in title
+                     if U.bidirectional(c) in ("L", "R", "AL", "LRI", "RLI")),
+                    None)
+
+    latin = L.countdown_title(three, 930)
+    arabic = L.countdown_title(
+        L.label_fixtures(["الفتح - الاتحاد", "الهلال - النصر"]), 120)
+    check("a line of Latin names is laid out left to right",
+          opens(latin) == "LRI", opens(latin))
+    check("a line of Arabic names is laid out right to left",
+          opens(arabic) == "RLI", opens(arabic))
+    check("and every isolate is closed, in both",
+          all(t.count(L.LRI) + t.count(L.RLI) + t.count(L.FSI) == t.count(L.PDI)
+              for t in (latin, arabic)), "unbalanced")
     check("every isolate opened is closed, in the finished title",
-          (lambda t: t.count(L.FSI) == t.count(L.PDI))(
-              L.countdown_title(three, 930)), "unbalanced")
+          (lambda t: t.count(L.FSI) + t.count(L.LRI) + t.count(L.RLI)
+           == t.count(L.PDI))(L.countdown_title(three, 930)), "unbalanced")
 
     # -------------------------------------------------------- fill_wait
     #
@@ -319,7 +344,7 @@ def main() -> int:
                     lambda m: kickoff if kickoff >= m else None,
                     lambda k: "A - B", emit, "nothing")
 
-    waits = [r for r in rows if r[2].startswith(f"{L.COUNTDOWN_MARK} المباراة القادمة")]
+    waits = [r for r in rows if "المباراة القادمة" in r[2]]
     counts = [r for r in rows if "بعد" in r[2]]
     check("a five-day wait is one row a day, not one an hour",
           len(waits) == 6, f"{len(waits)} wait rows over six days")
@@ -335,7 +360,7 @@ def main() -> int:
     check("every row ends after it starts",
           all(a < b for a, b, _ in rows), "a row ends before it starts")
     check("the wait row names the match without a clock in the title",
-          waits and "A - B" in waits[0][2]
+          bool(waits) and "A - B" in waits[0][2]
           and not re.search(r"\d{1,2}:\d{2}", waits[0][2]),
           waits[0][2] if waits else "no wait row")
 

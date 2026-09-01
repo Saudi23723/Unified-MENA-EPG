@@ -173,11 +173,35 @@ def add_programme(
     return p
 
 
+# How far past "now" every channel must have something to say.
+#
+# A source that publishes to the end of its own day leaves the channel
+# blank the moment that day runs out, and a player renders a blank as a
+# dead channel. Four Tivibu channels did exactly this: sixty rows, no
+# holes at all, and the last one ended fifteen minutes ago.
+NEVER_BLANK_FOR = timedelta(hours=8)
+
+# What a channel says when the guide genuinely does not know. Both scripts
+# because these files are read on Arabic and Turkish televisions alike.
+NOTHING_KNOWN = "لم يُعلن البث — No listing published"
+
+
 def existing_programme_count(path: str) -> int:
+    """Real programmes in a published file — the filler does not count.
+
+    close_every_gap writes a row wherever a channel would otherwise show a
+    blank. Counting those would have the regression guard compare this
+    run's real programmes against the last run's real programmes PLUS its
+    filler, so a guide that had not changed at all could look like it had
+    collapsed. Both sides have to be the same measurement.
+    """
     try:
         if not os.path.exists(path):
             return 0
-        return len(ET.parse(path).getroot().findall("programme"))
+        return sum(1 for programme in ET.parse(path).getroot()
+                   .findall("programme")
+                   if (programme.findtext("title") or "").strip()
+                   != NOTHING_KNOWN)
     except Exception:
         return 0
 
@@ -269,6 +293,70 @@ def order_for_xmltv(root: ET.Element) -> int:
     return blocks
 
 
+def close_every_gap(root: ET.Element, now=None) -> int:
+    """Give every channel in this file something to show at every minute.
+
+    Gap-filling was first bolted onto the two readers whose holes had been
+    noticed. That was the wrong altitude and it showed: the next check
+    found holes in three more channels nobody had thought about, and one
+    reader's fill stopped at its last row, so the channel went blank again
+    fifteen minutes later.
+
+    A guide should not be able to publish a blank row at all. This runs on
+    the finished tree, so it holds for every channel of every guide,
+    including ones added later by someone who never read this comment.
+
+    Real programmes are never moved, shortened or dropped — filler only
+    occupies time nothing else claims, between the first row and
+    NEVER_BLANK_FOR past now.
+    """
+    now = now or datetime.now(timezone.utc)
+    horizon = now + NEVER_BLANK_FOR
+
+    def when(raw):
+        raw = (raw or "").strip()
+        for shape in ("%Y%m%d%H%M%S %z", "%Y%m%d%H%M%S"):
+            try:
+                value = datetime.strptime(raw, shape)
+                return (value if value.tzinfo
+                        else value.replace(tzinfo=timezone.utc))
+            except ValueError:
+                continue
+        return None
+
+    spans: dict[str, list] = {}
+    for programme in root.findall("programme"):
+        start, stop = when(programme.get("start")), when(programme.get("stop"))
+        if start and stop and stop > start:
+            spans.setdefault(programme.get("channel"), []).append((start, stop))
+
+    added = 0
+    for channel in root.findall("channel"):
+        cid = channel.get("id")
+        rows = sorted(spans.get(cid, []))
+        if not rows:
+            # A declared channel with no programmes at all is worse than
+            # one with a stand-in: the player shows a dead row all day.
+            add_programme(root, cid, now - timedelta(hours=1), horizon,
+                          NOTHING_KNOWN)
+            added += 1
+            continue
+
+        cursor = min(rows[0][0], now)
+        for start, stop in rows:
+            if start > cursor:
+                add_programme(root, cid, cursor, start, NOTHING_KNOWN)
+                added += 1
+            cursor = max(cursor, stop)
+        if cursor < horizon:
+            add_programme(root, cid, cursor, horizon, NOTHING_KNOWN)
+            added += 1
+
+    if added:
+        log(f"filled {added} gap(s) so no channel shows a blank row")
+    return added
+
+
 def write_xml_atomic(
     root: ET.Element,
     output_path: str,
@@ -293,6 +381,7 @@ def write_xml_atomic(
     meaningless once the size has legitimately changed, but an absolute
     floor still catches a source that half-answers.
     """
+    # Before anything is measured or written: no channel may have a hole.
     blocks = order_for_xmltv(root)
     if blocks > 1:
         log(f"{output_path}: {blocks} channel blocks were interleaved with "
@@ -334,6 +423,13 @@ def write_xml_atomic(
         ET.indent(root, space="  ")
     except AttributeError:
         pass
+
+    # Only now, once the guards above have judged the real content: no
+    # channel may be left with a hole. Filling before they ran would have
+    # padded a collapsed run back up to a healthy-looking count and walked
+    # it straight past the guard that exists to catch exactly that.
+    close_every_gap(root)
+    order_for_xmltv(root)
 
     tmp_path = f"{output_path}.tmp"
     ET.ElementTree(root).write(tmp_path, encoding="utf-8", xml_declaration=True)
@@ -906,7 +1002,9 @@ COUNTDOWN_HORIZON = timedelta(hours=3)
 
 def waiting_title(what: str) -> str:
     """The title of the single row that covers a long wait."""
-    return f"{COUNTDOWN_MARK} المباراة القادمة {isolate('·')} {what}"
+    return in_reading_order(
+        f"{COUNTDOWN_MARK} المباراة القادمة {isolate('·')} {what}",
+        names=what)
 
 
 def close_channel_gaps(rows, window_start, window_end, title: str):
@@ -1008,7 +1106,9 @@ def fill_wait(gap_start, gap_stop, next_kickoff_after, title_at, emit,
 # right to left. It is not a wording problem — it is a direction problem,
 # and it needs direction marks, not different words.
 FSI = "\u2068"      # first-strong isolate: open a run, let it pick its own way
-PDI = "\u2069"      # pop directional isolate: close it
+LRI = "\u2066"      # left-to-right isolate: and lay this one out left to right
+RLI = "\u2067"      # right-to-left isolate
+PDI = "\u2069"      # pop directional isolate: close any of them
 LRM = "\u200e"      # a left-to-right anchor, for renderers too old for FSI
 
 # The letters that number the matches sharing one slot. A viewer scanning a
@@ -1022,6 +1122,38 @@ def isolate(value: str) -> str:
     """Wrap a run so its direction is decided by itself, not its neighbours."""
     value = (value or "").strip()
     return f"{FSI}{value}{PDI}" if value else ""
+
+
+def in_reading_order(line: str, names: str | None = None) -> str:
+    """Force the whole line to run the way its match names read.
+
+    Isolating each name fixed the names and broke their order. An isolate
+    hides its contents from the line's own direction, so with every name
+    isolated the first strong character left is the Arabic of "بعد" — the
+    line becomes right-to-left, and A) B) C) come out on screen as
+
+        C) Sassuolo - B) Monza - Udinese A) Fiorentina - Frosinone
+
+    which is what a television showed. Each name was correct and the
+    sequence was reversed.
+
+    So the line is wrapped once more, in an isolate that states the
+    direction outright: left-to-right when the matches are in Latin,
+    right-to-left when they are in Arabic. The names keep their own order
+    either way; only the order of the list follows the script it is
+    written in.
+    """
+    line = (line or "").strip()
+    if not line:
+        return ""
+    # Judged on `names` when given — the countdown tail is always Arabic,
+    # so weighing the whole line would send "A - B · بعد ساعة" right to
+    # left and reverse two Latin names for the sake of four Arabic words.
+    bare = re.sub(r"[\u2066-\u2069\u200e\u200f]", "",
+                  names if names is not None else line)
+    latin = len(re.findall(r"[A-Za-z]", bare))
+    arabic = len(ARABIC_LETTER.findall(bare))
+    return f"{RLI if arabic > latin else LRI}{line}{PDI}"
 
 
 def label_fixtures(titles) -> str:
@@ -1051,8 +1183,9 @@ def countdown_title(what: str, minutes) -> str:
     """
     # The Arabic tail is isolated from the names in front of it, so the
     # number and its unit stay together whatever the names are made of.
-    return (f"{COUNTDOWN_MARK} {what} "
-            f"{isolate('·')} بعد {countdown_label(minutes)}")
+    return in_reading_order(
+        f"{COUNTDOWN_MARK} {what} {isolate('·')} بعد {countdown_label(minutes)}",
+        names=what)
 
 
 def group_concurrent(events: list[dict], key="start") -> dict:

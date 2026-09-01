@@ -142,7 +142,8 @@ COLLAPSE_FLOOR = 0.5
 # still under it, is the same failure wearing a different shape.
 CEILINGS_FILE = "guide_ceilings.json"
 STANDIN_TITLE = re.compile(
-    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|Tanıtım|24/7",
+    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|لم يُعلن البث"
+    r"|No listing published|PPV — حسب المباراة|Tanıtım|24/7",
     re.I)
 
 # Rows that fill the space between broadcasts rather than announcing one:
@@ -227,7 +228,8 @@ def count(root) -> tuple[int, int, int]:
         title = (programme.findtext("title") or "").strip()
         slot = per.setdefault(programme.get("channel"), [0, 0, set(), 0])
         slot[0] += 1
-        slot[2].add(title)
+        if not STANDIN_TITLE.search(title):
+            slot[2].add(title)
         if STANDIN_TITLE.search(title):
             slot[1] += 1
         elif not FILLER_TITLE.search(title):
@@ -235,7 +237,7 @@ def count(root) -> tuple[int, int, int]:
     for slot in per.values():
         # A channel saying one single thing all day is saying nothing,
         # whatever that thing is.
-        if slot[0] >= 4 and len(slot[2]) == 1:
+        if slot[0] >= 4 and len(slot[2]) <= 1:
             slot[1] = slot[0]
             slot[3] = 0
     return (sum(v[0] for v in per.values()),

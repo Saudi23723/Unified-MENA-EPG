@@ -21,11 +21,10 @@
     "",
     "Measured 28 August 2026."
   ],
-
   "alkass_epg.xml": 15,
   "alwan_sports_epg.xml": 88,
   "bein_sports_qatar_epg.xml": 60,
-  "bein_sports_turkey_epg.xml": 25,
+  "bein_sports_turkey_epg.xml": 45,
   "fajer_sports_epg.xml": 82,
   "jordan_sports_epg.xml": 15,
   "onsport_epg.xml": 90,
@@ -35,16 +34,22 @@
   "starzplay_epg.xml": 30,
   "tabii_spor_1_10_epg.xml": 96,
   "thmanyah_epg.xml": 90,
-
   "_measured_working": {
-    "alkass_epg.xml": 0, "alwan_sports_epg.xml": 75,
-    "bein_sports_qatar_epg.xml": 45, "bein_sports_turkey_epg.xml": 5,
-    "fajer_sports_epg.xml": 65, "jordan_sports_epg.xml": 0,
-    "onsport_epg.xml": 82, "roya_jordan_epg.xml": 15,
-    "shahid_sports_epg.xml": 2, "shasha_epg.xml": 0,
-    "starzplay_epg.xml": 12, "tabii_spor_1_10_epg.xml": 91,
+    "alkass_epg.xml": 0,
+    "alwan_sports_epg.xml": 75,
+    "bein_sports_qatar_epg.xml": 45,
+    "bein_sports_turkey_epg.xml": 5,
+    "fajer_sports_epg.xml": 65,
+    "jordan_sports_epg.xml": 0,
+    "onsport_epg.xml": 82,
+    "roya_jordan_epg.xml": 15,
+    "shahid_sports_epg.xml": 2,
+    "shasha_epg.xml": 0,
+    "starzplay_epg.xml": 12,
+    "tabii_spor_1_10_epg.xml": 91,
     "thmanyah_epg.xml": 85
   },
   "_note_working": "Alwan, Fajer and Thmanyah are confirmed working by their owner at these levels. Their ceilings sit above where they measured, not at some ideal.",
-  "_note_onsport": "A weak signal for this guide, and the file should say so rather than pretend. Correctly read, ON Sport carries four or five fixtures a day and its remaining hours are honest ignorance: 82%. Blind, it read 86%. Four points is not a threshold anybody can act on, so the ceiling is set at 90 to stop it crying wolf, and the real protection for this guide is the collapse guard in build_all_epg.py and a second independent publisher. The 36% measured earlier today was not a healthier guide — it was the mis-mapping that put Liverpool, Al Wasl and Tottenham on an Egyptian channel, and inflated fixtures inflate the ratio too."
+  "_note_onsport": "A weak signal for this guide, and the file should say so rather than pretend. Correctly read, ON Sport carries four or five fixtures a day and its remaining hours are honest ignorance: 82%. Blind, it read 86%. Four points is not a threshold anybody can act on, so the ceiling is set at 90 to stop it crying wolf, and the real protection for this guide is the collapse guard in build_all_epg.py and a second independent publisher. The 36% measured earlier today was not a healthier guide — it was the mis-mapping that put Liverpool, Al Wasl and Tottenham on an Egyptian channel, and inflated fixtures inflate the ratio too.",
+  "_bein_sports_turkey_note": "Raised from 25 to 45 on 2026-09-01. Four of this guide's twelve channels are Tivibu Spor, and their feed (epgshare01 TR3) has stopped carrying real programming — measured that day, all four published nothing but the stand-in row, sixty each. That is a third of the file saying it does not know, truthfully, and it will not improve until the feed does. The eight beIN channels are healthy: no gaps, three days ahead. Held at 45 so the ceiling still means something for those eight instead of failing every night for a condition with no fix."
 }
