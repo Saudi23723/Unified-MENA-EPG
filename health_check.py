@@ -136,7 +136,8 @@ def stale_hours(path: str, now: datetime) -> float | None:
 # whatever that title is, because that is what beIN's XTRA blurb and an
 # operator repeating its own channel name both amount to.
 STANDIN_TITLE = re.compile(
-    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|PPV — حسب المباراة|Tanıtım|24/7",
+    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|لم يُعلن البث"
+    r"|No listing published|PPV — حسب المباراة|Tanıtım|24/7",
     re.I)
 
 CEILINGS_FILE = "guide_ceilings.json"
@@ -154,12 +155,17 @@ def standin_share(path: str) -> tuple[int, int]:
         cid = programme.get("channel")
         slot = per.setdefault(cid, [0, 0, set()])
         slot[0] += 1
-        slot[2].add(title)
+        if not STANDIN_TITLE.search(title):
+            slot[2].add(title)
         if STANDIN_TITLE.search(title):
             slot[1] += 1
     for slot in per.values():
-        # One title for a whole channel is filler whatever it says.
-        if slot[0] >= 4 and len(slot[2]) == 1:
+        # One title for a whole channel is filler whatever it says. Judged
+        # on the rows that are not already stand-in: close_every_gap adds a
+        # row saying nothing is known, and counting that as a second title
+        # would let one filler row hide a channel that repeats "Tanıtım"
+        # sixty times.
+        if slot[0] >= 4 and len(slot[2]) <= 1:
             slot[1] = slot[0]
     return (sum(v[1] for v in per.values()),
             sum(v[0] for v in per.values()))
