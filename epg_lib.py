@@ -940,6 +940,35 @@ def countdown_label(minutes) -> str:
     return mins_word(mins)
 
 
+# A match already under way is still worth watching, and the moment it is
+# on is exactly the moment a viewer wants to know where. So the row does
+# not vanish at kickoff — it turns round and counts up.
+#
+# Deliberately "بدأت قبل ١٥ دقيقة" and not "+15": nobody here knows the
+# referee's clock. Stoppage time is not published, half time is not
+# announced, and a guide that printed "+50" through the interval would be
+# stating something it cannot know. How long ago it kicked off is always
+# true and tells a viewer the same thing — how much they missed.
+def elapsed_title(what: str, minutes) -> str:
+    minutes = max(int(minutes), 0)
+    if minutes < 1:
+        return in_reading_order(f"{what} {isolate('·')} بدأت الآن", names=what)
+    return in_reading_order(
+        f"{what} {isolate('·')} بدأت قبل {countdown_label(minutes)}",
+        names=what)
+
+
+# How long a football broadcast occupies the strip once it starts.
+#
+# Ninety minutes is playing time, not clock time. With the interval and
+# stoppage a match kicking off at 19:00 is still on air near 20:50, so a
+# row cleared at ninety would disappear while people were still watching.
+MATCH_ON_AIR = timedelta(minutes=115)
+
+# How often the "started N ago" row is rewritten while a match is on.
+ELAPSED_STEP = timedelta(minutes=15)
+
+
 def countdown_step(remaining: timedelta) -> timedelta:
     """How long the next countdown block should last.
 

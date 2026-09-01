@@ -39,9 +39,9 @@ from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, countdown_step, countdown_title, fetch, in_reading_order,
-    isolate, log, norm, resolve_overlaps, warn, with_live_badge,
-    write_xml_atomic,
+    ELAPSED_STEP, MATCH_ON_AIR, add_programme, countdown_step, countdown_title,
+    elapsed_title, fetch, in_reading_order, isolate, label_fixtures, log, norm,
+    warn, write_xml_atomic,
 )
 
 SOURCE = "https://www.livefootballtv.info/"
@@ -60,10 +60,10 @@ UTC = timezone.utc
 KEEP_BEHIND = timedelta(hours=3)
 KEEP_AHEAD = timedelta(days=2)
 
-# How long a match occupies the strip. Not a claim about the broadcast —
-# it is how long the row stays worth looking at, and the next match's row
-# cuts it short anyway.
-MATCH_MINUTES = 115
+# Matches kicking off within this of each other share one row. Without it
+# eight simultaneous kickoffs became eight rows, each cutting the last
+# short — a five-minute sliver per match, unreadable and untrue.
+SAME_SLOT = timedelta(minutes=10)
 
 # A row with more channels than this is unreadable on a television, and
 # past the tenth nobody is still counting.
@@ -162,14 +162,23 @@ def collect(html: str) -> list[dict]:
     return sorted(merged.values(), key=lambda e: e["start"])
 
 
-def strip_title(event: dict) -> str:
-    """What one match's row says: the match, then where to watch it."""
-    channels = event["channels"][:MAX_CHANNELS]
-    more = len(event["channels"]) - len(channels)
-    shown = " · ".join(channels) + (f" +{more}" if more > 0 else "")
-    return in_reading_order(
-        f"{isolate(event['title'])} {isolate('│')} {isolate(shown)}",
-        names=event["title"])
+def slot_row(events: list[dict]) -> str:
+    """One row for everything kicking off together.
+
+    A single match names its channels on the row, because that is what a
+    viewer is looking for. Several cannot — six matches with their channel
+    lists is a paragraph, not a row — so they are lettered and the channels
+    wait in the description, which is one click away.
+    """
+    if len(events) == 1:
+        event = events[0]
+        channels = event["channels"][:MAX_CHANNELS]
+        more = len(event["channels"]) - len(channels)
+        shown = " · ".join(channels) + (f" +{more}" if more > 0 else "")
+        return in_reading_order(
+            f"{isolate(event['title'])} {isolate('│')} {isolate(shown)}",
+            names=event["title"])
+    return label_fixtures([e["title"] for e in events])
 
 
 def day_list(events: list[dict], now: datetime) -> str:
@@ -218,38 +227,54 @@ def build() -> int:
                          guard_regression=False)
         return 0
 
-    # One block per match, each ending where the next begins.
-    blocks: list[dict] = []
-    for index, event in enumerate(events):
-        natural = event["start"] + timedelta(minutes=MATCH_MINUTES)
-        following = (events[index + 1]["start"] if index + 1 < len(events)
-                     else None)
-        stop = min(natural, following) if following else natural
-        if stop <= event["start"]:
-            continue
-        blocks.append({"start": event["start"], "stop": stop,
-                       "title": strip_title(event), "event": event})
+    # Matches kicking off together are one slot, not one row each.
+    slots: list[list[dict]] = []
+    for event in events:
+        if slots and event["start"] - slots[-1][0]["start"] <= SAME_SLOT:
+            slots[-1].append(event)
+        else:
+            slots.append([event])
 
-    # And a countdown filling the space before the first one, so the strip
-    # answers "what is next" at any moment rather than starting blank.
-    first = blocks[0]["start"] if blocks else None
-    if first and first > now - KEEP_BEHIND:
+    def row_for(slot):
+        return slot_row(slot)
+
+    starts = [slot[0]["start"] for slot in slots]
+
+    # Before the first kickoff: a countdown, so the strip answers "what is
+    # next" at any moment rather than starting blank.
+    if starts[0] > now - KEEP_BEHIND:
         cursor = now - KEEP_BEHIND
-        while cursor < first:
-            remaining = first - cursor
-            stop = min(cursor + countdown_step(remaining), first)
+        while cursor < starts[0]:
+            remaining = starts[0] - cursor
+            stop = min(cursor + countdown_step(remaining), starts[0])
             if stop <= cursor:
                 break
             add_programme(tv, CHANNEL_ID, cursor, stop,
-                          countdown_title(isolate(blocks[0]["event"]["title"]),
+                          countdown_title(row_for(slots[0]),
                                           remaining.total_seconds() // 60),
                           description)
             cursor = stop
 
-    for block in resolve_overlaps(blocks):
-        add_programme(tv, CHANNEL_ID, block["start"], block["stop"],
-                      with_live_badge(block["title"]), description,
-                      live_eligible=True, now=now)
+    for index, slot in enumerate(slots):
+        start = slot[0]["start"]
+        following = starts[index + 1] if index + 1 < len(slots) else None
+        # The slot holds the strip until the next kickoff, or until the
+        # broadcast is genuinely over — see MATCH_ON_AIR.
+        end = min(start + MATCH_ON_AIR, following) if following \
+            else start + MATCH_ON_AIR
+        if end <= start:
+            continue
+
+        title = row_for(slot)
+        # While it is on, the row counts up instead of standing still.
+        cursor = start
+        while cursor < end:
+            stop = min(cursor + ELAPSED_STEP, end)
+            add_programme(
+                tv, CHANNEL_ID, cursor, stop,
+                elapsed_title(title, (cursor - start).total_seconds() // 60),
+                description, live_eligible=True, now=now)
+            cursor = stop
 
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
                           guard_regression=False, min_programmes=1)
