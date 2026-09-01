@@ -115,6 +115,7 @@ GENERATORS: list[tuple[str, str, str]] = [
     ("Shahid Sports",       "update_shahid_sports_epg.py",     "shahid_sports_epg.xml"),
     ("Shasha",              "update_shasha_epg.py",            "shasha_epg.xml"),
     ("tabii Spor",          "update_tabii_epg.py",             "tabii_spor_1_10_epg.xml"),
+    ("مباريات اليوم",       "today_matches_epg.py",            "today_matches_epg.xml"),
     ("Thmanyah",            "update_thmanyah_epg.py",          "thmanyah_epg.xml"),
 ]
 

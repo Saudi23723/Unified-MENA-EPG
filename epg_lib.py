@@ -131,7 +131,7 @@ def add_programme(
     live_eligible: bool = False,
     now: datetime | None = None,
     alt_titles: list[tuple[str, str]] | None = None,
-) -> ET.Element:
+) -> ET.Element | None:
     """Append one <programme> element. When live_eligible=True the title gets
     the Live marker automatically if `now` falls inside [start, stop).
 
@@ -142,6 +142,14 @@ def add_programme(
     falling back to the first. So pass the language you want shown as
     `title`, and the other as an alt.
     """
+    # A programme that ends when it starts, or before, is not a programme.
+    # XMLTV validators reject it, players draw nothing, and the health
+    # check fails the whole guide over it — which is exactly what happened
+    # to four Tivibu channels. Refused here, at the one door every guide
+    # writes through, rather than in each guide that might create one.
+    if stop <= start:
+        return None
+
     shown_title = live_title(title, start, stop, now) if live_eligible else title
 
     p = ET.SubElement(
@@ -180,6 +188,13 @@ def add_programme(
 # dead channel. Four Tivibu channels did exactly this: sixty rows, no
 # holes at all, and the last one ended fifteen minutes ago.
 NEVER_BLANK_FOR = timedelta(hours=8)
+
+# A hole narrower than this is not a hole. Two passes closing the same gap
+# a few milliseconds apart — one in a reader, one here — left a row whose
+# start and stop rounded to the same second, which XMLTV calls invalid and
+# the health check failed the whole guide over. Nothing a viewer can see
+# lives inside a minute.
+SMALLEST_GAP = timedelta(minutes=1)
 
 # What a channel says when the guide genuinely does not know. Both scripts
 # because these files are read on Arabic and Turkish televisions alike.
@@ -344,11 +359,11 @@ def close_every_gap(root: ET.Element, now=None) -> int:
 
         cursor = min(rows[0][0], now)
         for start, stop in rows:
-            if start > cursor:
+            if start - cursor >= SMALLEST_GAP:
                 add_programme(root, cid, cursor, start, NOTHING_KNOWN)
                 added += 1
             cursor = max(cursor, stop)
-        if cursor < horizon:
+        if horizon - cursor >= SMALLEST_GAP:
             add_programme(root, cid, cursor, horizon, NOTHING_KNOWN)
             added += 1
 
@@ -938,6 +953,35 @@ def countdown_label(minutes) -> str:
     if hours:
         return hours_word(hours)
     return mins_word(mins)
+
+
+# A match already under way is still worth watching, and the moment it is
+# on is exactly the moment a viewer wants to know where. So the row does
+# not vanish at kickoff — it turns round and counts up.
+#
+# Deliberately "بدأت قبل ١٥ دقيقة" and not "+15": nobody here knows the
+# referee's clock. Stoppage time is not published, half time is not
+# announced, and a guide that printed "+50" through the interval would be
+# stating something it cannot know. How long ago it kicked off is always
+# true and tells a viewer the same thing — how much they missed.
+def elapsed_title(what: str, minutes) -> str:
+    minutes = max(int(minutes), 0)
+    if minutes < 1:
+        return in_reading_order(f"{what} {isolate('·')} بدأت الآن", names=what)
+    return in_reading_order(
+        f"{what} {isolate('·')} بدأت قبل {countdown_label(minutes)}",
+        names=what)
+
+
+# How long a football broadcast occupies the strip once it starts.
+#
+# Ninety minutes is playing time, not clock time. With the interval and
+# stoppage a match kicking off at 19:00 is still on air near 20:50, so a
+# row cleared at ninety would disappear while people were still watching.
+MATCH_ON_AIR = timedelta(minutes=115)
+
+# How often the "started N ago" row is rewritten while a match is on.
+ELAPSED_STEP = timedelta(minutes=15)
 
 
 def countdown_step(remaining: timedelta) -> timedelta:
