@@ -35,6 +35,7 @@ SOURCE_FILES = [
     "shahid_sports_epg.xml",
     "shasha_epg.xml",
     "tabii_spor_1_10_epg.xml",
+    "today_matches_epg.xml",
     "thmanyah_epg.xml",
 ]
 
