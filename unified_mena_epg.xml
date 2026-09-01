@@ -1067,7 +1067,7 @@
     <display-name lang="ar">تابي سبور 10</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii10.png" />
   </channel>
-  <channel id="TivibuSpor1.tr">
+  <channel id="TodayMatches">
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/today_matches.png" />
     <display-name lang="ar">مباريات اليوم</display-name>
     <display-name lang="en">Today's Matches</display-name>
@@ -1448,12 +1448,6 @@ Emirates Stadium Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831223500 +0000" channel="beINSports.qa">
-    <title lang="en">Nimes vs Saint-Raphael - LNH Division 1 - French Handball Starligue</title>
-    <desc lang="en">Dive into the excitement of French handball with Liqui Moly Starligue, formerly LNH Division 1. Established in 1952, this premier league event features 16 top teams battling for glory. With Montpellier’s  14 Handball titles and Paris Saint-Germain's 11 wins, the competition is fierce. Champions earn spots in the EHF Champions League, while cup winn</desc>
-    <category lang="ar">الدوري الفرنسي لكرة اليد</category>
-    <category lang="en">Handball - French Handball League</category>
-  </programme>
   <programme start="20260831223500 +0000" stop="20260901000000 +0000" channel="beINSports.qa">
     <title lang="en">Paris vs Aix - LNH Division 1 - French Handball Starligue</title>
     <desc lang="en">Dive into the excitement of French handball with Liqui Moly Starligue, formerly LNH Division 1. Established in 1952, this premier league event features 16 top teams battling for glory. With Montpellier’s  14 Handball titles and Paris Saint-Germain's 11 wins, the competition is fierce. Champions earn spots in the EHF Champions League, while cup winn</desc>
@@ -1681,14 +1675,6 @@ Emirates Stadium Stadium</desc>
     <category lang="ar">كرة اليد</category>
     <category lang="en">Live</category>
     <category lang="en">Handball</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831223000 +0000" channel="beINSports1.qa">
-    <title lang="en">Liverpool vs Nottingham Forest - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260831223000 +0000" stop="20260901001600 +0000" channel="beINSports1.qa">
     <title lang="en">Aston Villa vs Arsenal - English Premier League 2026/2027 - Week 2</title>
@@ -3799,12 +3785,6 @@ Emirates Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">French League - Ligue 2</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831225500 +0000" channel="beINSports3.qa">
-    <title lang="en">Sabadell vs Almeria - LaLiga Hypermotion 2026/2027</title>
-    <desc lang="en">La Liga 2 is the men's second professional association football division of the Spanish football league system. It is contested by 22 teams, with the top two teams plus the winner of a play-off promoted to La Liga and replaced by the three lowest-placed teams in that division.</desc>
-    <category lang="ar">الدوري الأسباني للدرجة الثانية</category>
-    <category lang="en">Spanish League - Segunda Division</category>
-  </programme>
   <programme start="20260831225500 +0000" stop="20260901004500 +0000" channel="beINSports3.qa">
     <title lang="en">Girona vs Las Palmas - LaLiga Hypermotion 2026/2027</title>
     <desc lang="en">La Liga 2 is the men's second professional association football division of the Spanish football league system. It is contested by 22 teams, with the top two teams plus the winner of a play-off promoted to La Liga and replaced by the three lowest-placed teams in that division.</desc>
@@ -4310,12 +4290,6 @@ La Rosaleda Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831210000 +0000" stop="20260831225000 +0000" channel="beINSports4.qa">
-    <title lang="en">Monaco vs Olympique Marseille - French Ligue 1 2026/2027 - Week 2</title>
-    <desc lang="en">Monaco have won nine of their 13 Ligue 1 home games against Marseille since returning to the top-flight in 2013-14 ; only against Nantes  have they won more home matches at Stade Louis-II in that period. Monaco could win their opening two matches of a Ligue 1 season for the third time in the last four campaigns, as many as they managed in their pre</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260831225000 +0000" stop="20260901003700 +0000" channel="beINSports4.qa">
     <title lang="en">Dijon vs St-etienne - French Ligue 2 - 2026/2027</title>
@@ -5128,17 +5102,6 @@ Orange Vélodrome Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الدرجة الثالثة</category>
     <category lang="en">Live</category>
     <category lang="en">English League - League Two</category>
-  </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSports5.qa">
-    <title lang="en">Vissel Kobe (JPN) vs FC Seoul (KOR) -AFC Champions League Elite 2025/2026 - East MD7</title>
-    <desc lang="en">Vissel Kobe vs Seoul
-AFC Champions League Elite
-Season 2025/2026
-Qualifier Round
-Group East
-Noevir Stadium Kobe Stadium</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260901005000 +0000" channel="beINSports5.qa">
     <title lang="en">Sanfrecce Hiroshima (JPN) vs Johor Darul Ta’zim FC (MAS) - AFC Champions League Elite 2025/2026 - Ea</title>
@@ -6006,12 +5969,6 @@ All games are live and exclusive only on be</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831224500 +0000" channel="beINSports6.qa">
-    <title lang="en">Korea vs Saudi Arabia  - FIBA Asian Qualifiers - 2027</title>
-    <desc lang="en">Qualification Match for the 2027 FIBA Basketball World Cup that will be hosted in Qatar August 27th – 12th September 2027. It will be the first FIBA Basketball World Cup to be held in the Arab World.</desc>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-  </programme>
   <programme start="20260831224500 +0000" stop="20260901003000 +0000" channel="beINSports6.qa">
     <title lang="en">Japan vs Qatar - FIBA Asian Qualifiers - 2027</title>
     <desc lang="en">Qualification Match for the 2027 FIBA Basketball World Cup that will be hosted in Qatar August 27th – 12th September 2027. It will be the first FIBA Basketball World Cup to be held in the Arab World.</desc>
@@ -6131,25 +6088,19 @@ Tüpras Stadyumu Stadium</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20260902004200 +0000" stop="20260902023000 +0000" channel="beINSports6.qa">
+  <programme start="20260902004200 +0000" stop="20260902024500 +0000" channel="beINSports6.qa">
     <title lang="en">Jose Antonio Diestro ESP Marc Sintes Villalonga ESP vs Leonel Daniel Aguirre ARG Pablo Garcia Rodrig</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20260902023000 +0000" stop="20260902031800 +0000" channel="beINSports6.qa">
-    <title lang="en">Beatriz Caldera Sanchez ESP Carmen Goenaga Garcia ESP vs Daiara Agustina Valenzuela ARG Lea Godallie</title>
-    <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
-    <category lang="ar">باديل</category>
-    <category lang="en">Padel</category>
-  </programme>
-  <programme start="20260902031800 +0000" stop="20260902054600 +0000" channel="beINSports6.qa">
+  <programme start="20260902024500 +0000" stop="20260902053000 +0000" channel="beINSports6.qa">
     <title lang="en">Hugo Garcia Martinez ESP Carlos Del Pico Torres ESP vs Miguel Deus POR Nuno Deus POR – Men - Premier</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20260902054600 +0000" stop="20260902070000 +0000" channel="beINSports6.qa">
+  <programme start="20260902053000 +0000" stop="20260902070000 +0000" channel="beINSports6.qa">
     <title lang="en">Guillermo Collado Losada ESP Pol Hernandez Alvarez ESP vs Gonzalo Alfonso ARG Valentino Libaak ARG –</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
@@ -6457,18 +6408,6 @@ San Mamés Stadium</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831223000 +0000" channel="beINSports7.qa">
-    <title lang="en">Daniil Medvedev vs Hugo Gaston (FRA) - Men’s Singles - Mini Matches - Tennis US Open 2026</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831223000 +0000" stop="20260831230000 +0000" channel="beINSports7.qa">
-    <title lang="en">Mariano Navone (ARG) vs Novak Djokovic (SRB) - Men’s Singles - Mini Matches - Tennis US Open 2026</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSports7.qa">
     <title lang="en">Ben Shelton (USA) vs Tallon Griekspoor (NED) - Men's Singles - Arthur Ashe Court - Tennis US Open 20 ‎• Live 🔵‎</title>
@@ -6976,12 +6915,6 @@ San Mamés Stadium</desc>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831195500 +0000" stop="20260831230000 +0000" channel="beINSports8.qa">
-    <title lang="en">Stefanos Tsitsipas (GRE) vs Arthur Fils (FRA) - Men's Singles - Louis Armstrong Court - Tennis US Op</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSports8.qa">
@@ -7849,19 +7782,6 @@ San Mamés Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831223000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260831223000 +0000" stop="20260831230000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN This is Paris 2026/27 | E3</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260831233000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN UCL Magazine 2026/27 | E1</title>
@@ -9076,12 +8996,16 @@ Mestalla Stadium</desc>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">World Feed - Tennis US Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
+  <programme start="20260907223000 +0000" stop="20260907230000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">EN This is Paris 2026/27 | E4</title>
+    <category lang="ar">مسلسلات</category>
+    <category lang="en">Series</category>
+  </programme>
+  <programme start="20260907230000 +0000" stop="20260907233000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Manchester City vs Coventry City - English Premier League 2026/2027 - Week 3</title>
+    <desc lang="en">This is the first meeting in any competition between Manchester City and Coventry City since March 2002 in the second tier, won 4-2 at Maine Road by the Citizens under Kevin Keegan. The last season Man City and Coventry met in the Premier League was 2000-01, when both sides were relegated. The Citizens are winless in their last eight top-flight gam</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026 ‎• Live 🔵‎</title>
@@ -9732,10 +9656,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Lille vs PSG - Ligue 1 - J02 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
+  <programme start="20260907230000 +0000" stop="20260908010000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">World Feed - Tennis US Open 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260901040000 +0000" channel="beINSportsFr1.qa">
@@ -10270,12 +10195,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -10481,12 +10400,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260903190000 +0000" stop="20260903205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10702,12 +10615,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -10913,12 +10820,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260903190000 +0000" stop="20260903205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11134,12 +11035,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -11345,12 +11240,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260903190000 +0000" stop="20260903205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11565,13 +11454,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassad ‎• Live 🔵‎</title>
-    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260831230000 +0000" stop="20260831233000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin ‎• Live 🔵‎</title>
@@ -13290,12 +13172,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -14234,12 +14110,6 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907200000 +0000" stop="20260907205959 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15233,12 +15103,6 @@ Allianz Riviera Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -16216,12 +16080,6 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907200000 +0000" stop="20260907205959 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17249,12 +17107,6 @@ Allianz Riviera Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -18216,12 +18068,6 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907200000 +0000" stop="20260907205959 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19202,12 +19048,6 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907200000 +0000" stop="20260907205959 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20209,12 +20049,6 @@ Allianz Riviera Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -21206,12 +21040,6 @@ Allianz Riviera Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907200000 +0000" stop="20260907205959 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260831220000 +0000" stop="20260831230000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -22213,10 +22041,6 @@ Allianz Riviera Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260831230000 +0000" stop="20260901004500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 3. HAFTA BESIKTAS - CORUM FK - BANT -</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260901004500 +0000" stop="20260901010000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Süper Lig Haftanın Golleri (26-27) 3.Hafta</title>
     <category lang="en">Sports</category>
@@ -22538,14 +22362,6 @@ Allianz Riviera Stadium</desc>
     <title lang="en">Başakşehir FK - Galatasaray</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831224500 +0000" stop="20260831230000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 04.Hafta</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831230000 +0000" stop="20260901004500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 4. HAFTA ESENLER EROKSPOR - IGDIR FK - BANT -</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260901004500 +0000" stop="20260901010000 +0000" channel="beINSPORTS2.tr">
     <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 04.Hafta</title>
     <category lang="en">Sports</category>
@@ -22848,14 +22664,6 @@ Allianz Riviera Stadium</desc>
   </programme>
   <programme start="20260904185900 +0000" stop="20260904190500 +0000" channel="beINSPORTS2.tr">
     <title lang="en">Maç Önü</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831224500 +0000" stop="20260831230000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride 4.Bölüm</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831230000 +0000" stop="20260901004500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA VILLA - ARSENAL - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260901004500 +0000" stop="20260901010000 +0000" channel="beINSPORTS3.tr">
@@ -23658,10 +23466,6 @@ Allianz Riviera Stadium</desc>
     <title lang="en">Türkiye Sigorta 25-26 BSL 21.Hafta Bahçeşehir Koleji-Bursaspor Basketbol Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260901010000 +0000" stop="20260901030000 +0000" channel="beINSPORTSMAX1.tr">
     <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
@@ -23755,10 +23559,6 @@ Allianz Riviera Stadium</desc>
     <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260901010000 +0000" stop="20260901030000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="en">beIN Sports Max 2</title>
     <category lang="en">Sports</category>
@@ -23849,10 +23649,6 @@ Allianz Riviera Stadium</desc>
   </programme>
   <programme start="20260903010000 +0000" stop="20260903030000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="en">beIN Sports Max 2</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260901000000 +0000" stop="20260901013000 +0000" channel="beINSPORTSHABER.tr">
@@ -24156,14 +23952,6 @@ Allianz Riviera Stadium</desc>
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260831220543 +0000" stop="20260831222545 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260831222545 +0000" stop="20260831224541 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260831224541 +0000" stop="20260831230543 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
     <category lang="en">Spor</category>
@@ -24400,12 +24188,8 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260831220543 +0000" stop="20260831222545 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260831222545 +0000" stop="20260831224541 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+  <programme start="20260902055850 +0000" stop="20260902061025 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260831224541 +0000" stop="20260831230543 +0000" channel="TivibuSpor3.tr">
@@ -24644,12 +24428,8 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260831220543 +0000" stop="20260831222545 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260831222545 +0000" stop="20260831224541 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+  <programme start="20260902055850 +0000" stop="20260902061025 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260831224541 +0000" stop="20260831230543 +0000" channel="TivibuSpor4.tr">
@@ -24888,6 +24668,10 @@ Allianz Riviera Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260902055850 +0000" stop="20260902061025 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260901204500 +0000" stop="20260901210000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -24924,13 +24708,13 @@ Allianz Riviera Stadium</desc>
   <programme start="20260904040000 +0000" stop="20260904043000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260902055850 +0000" stop="20260902061025 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260902061025 +0000" stop="20260902070355 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260902055850 +0000" stop="20260902061025 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260902061025 +0000" stop="20260902070355 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260902055850 +0000" stop="20260902061025 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260902061025 +0000" stop="20260902070355 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260901210000 +0000" stop="20260901213000 +0000" channel="Roya_RoyaTV">
@@ -43614,11 +43398,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نشرة الأخبار الليلية</title>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20260831210000 +0000" stop="20260831230000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
@@ -48644,7 +48423,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260902205847 +0000" stop="20260902210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260901211046 +0000" stop="20260902061046 +0000" channel="Roya_Ch22">
+  <programme start="20260901220427 +0000" stop="20260902070427 +0000" channel="Roya_Ch22">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260831210000 +0000" stop="20260901140000 +0000" channel="JordanSports">
@@ -55278,13 +55057,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260902025500 +0000" stop="20260902030000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831223000 +0000" channel="Starz_admnadsports1">
-    <title lang="en">Sport Confidential (Ar) 2026</title>
-    <desc lang="en">Sport Confidential (Ar) 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260831223000 +0000" stop="20260901003000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260831230000 +0000" stop="20260901003000 +0000" channel="Starz_admnadsports1">
     <title lang="en">AFC U20 Asian Cup Qualifiers 2027</title>
     <desc lang="en">AFC U20 Asian Cup Qualifiers 2027</desc>
     <category lang="en">Sport</category>
@@ -55554,7 +55327,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901043000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260831230000 +0000" stop="20260901043000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</title>
     <desc lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</desc>
     <category lang="en">Sport</category>
@@ -55746,20 +55519,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903180000 +0000" stop="20260904221000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260903180000 +0000" stop="20260904230000 +0000" channel="Starz_admnadsports2">
     <title lang="en">German Cup Highlights 2026-2027</title>
     <desc lang="en">German Cup Highlights 2026-2027</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831221500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Cagliari x Inter Milan - Serie A</title>
-    <title lang="ar">كالياري × إنترميلان - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260831221500 +0000" stop="20260901000000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Lazio x Genoa - Serie A</title>
     <title lang="ar">لاتسيو × جنوى - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -56401,28 +56167,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831221500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Fiorentina x Frosinone - Serie A</title>
-    <title lang="ar">فيورنتينا × فروزينوني - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="Starz_starzplaysports1">
+    <title lang="en">StarzPLAY Sports 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260831221500 +0000" stop="20260831222500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Round 1 - Serie A Highlights</title>
-    <title lang="ar">الجولة 1 - مقتطفات من الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG98671_landscape10-6e4f7ed7-7c20-45f1-9da6-0d13d750b2df.jpg" />
-  </programme>
-  <programme start="20260831222500 +0000" stop="20260831223000 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Roma X Fiorentina - Serie A Highlights</title>
-    <title lang="ar">روما × فيورنتينا - مقتطفات من الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG98671_landscape10-6e4f7ed7-7c20-45f1-9da6-0d13d750b2df.jpg" />
-  </programme>
-  <programme start="20260831223000 +0000" stop="20260901001500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260831230000 +0000" stop="20260901001500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Juventus x Parma - Serie A</title>
     <title lang="ar">يوفنتوس × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -56967,7 +56718,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831232000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="Starz_starzplaysports2">
+    <title lang="en">StarzPLAY Sports 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260831232000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -57506,7 +57263,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901001100 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="Starz_starzplaysport1">
+    <title lang="en">Starzplay Sports 3</title>
+    <title lang="ar">ستارزبلاي سبورتس 3</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901001100 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Argentina U20 vs. England U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">Argentina U20 vs. England U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -57782,14 +57546,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831221500 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Goodwood Festival of Speed</title>
-    <title lang="ar">غوودوود فيستيفال أوف سبييد</title>
-    <desc lang="en">Follow the excitement and action of the latest cars races of the Goodwood Festival Of Speed.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG54972_landscape10_MASTER286212.jpg" />
-  </programme>
-  <programme start="20260831221500 +0000" stop="20260901013000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260831230000 +0000" stop="20260901013000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Goodwood Festival of Speed</title>
     <title lang="ar">غوودوود فيستيفال أوف سبييد</title>
     <desc lang="en">Follow the excitement and action of the latest cars races of the Goodwood Festival Of Speed.</desc>
@@ -58440,7 +58197,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901010200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Abu Dhabi Sports Asia 1</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901010200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Trinbago Knight Riders vs. Guyana Amazon Warriors - CPL T20 Cricket - LIVE</title>
     <title lang="ar">سي بي إل تي٢٠ كريكيت - مباشر</title>
     <desc lang="en">Trinbago Knight Riders vs. Guyana Amazon Warriors - CPL T20 Cricket - LIVE</desc>
@@ -59266,13 +59030,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831224700 +0000" channel="Starz_wedosports">
-    <title lang="en">France, Race 2 - FIA TCR World Tour - LIVE</title>
-    <desc lang="en">France, Race 2 - FIA TCR World Tour - LIVE</desc>
+  <programme start="20260904223000 +0000" stop="20260905030200 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Guyana Amazon Warriors vs. Jamaica Kingsmen - CPL T20 Cricket - LIVE</title>
+    <title lang="ar">سي بي إل تي٢٠ كريكيت - مباشر</title>
+    <desc lang="en">Guyana Amazon Warriors vs. Jamaica Kingsmen - CPL T20 Cricket - LIVE</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25439127_b_h10_ab.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p14393243_b_h10_ad.jpg" />
   </programme>
-  <programme start="20260831224700 +0000" stop="20260831231700 +0000" channel="Starz_wedosports">
+  <programme start="20260831230000 +0000" stop="20260831231700 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلبلاند</title>
     <desc lang="en">Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
@@ -59742,7 +59507,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p17735984_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901010000 +0000" channel="Starz_unbeatensports">
+  <programme start="20260904225000 +0000" stop="20260904231700 +0000" channel="Starz_wedosports">
+    <title lang="en">Clubland</title>
+    <title lang="ar">كلوبلاند</title>
+    <desc lang="en">S1 , E32 : A look at the biggest leagues and their traditions, rivalries, villains and heroes that make supporters love their sport and their champions so much.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p17735984_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901010000 +0000" channel="Starz_unbeatensports">
     <title lang="en">SFT Combat</title>
     <desc lang="en">SFT Combat 63 delivers elite Brazilian MMA action with a featherweight title fight headlining the main card.</desc>
     <category lang="en">Sport</category>
@@ -60150,19 +59922,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831221400 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's T20 World Cup 2022: England vs New Zealand - Kick-Off Classics</title>
-    <desc lang="en">ICC Men's T20 World Cup 2022: England vs New Zealand - Kick-Off Classics</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260831221400 +0000" stop="20260831224400 +0000" channel="Starz_criclife1">
-    <title lang="en">Chennai Super Kings vs. Lucknow Super Giants - Tata IPL Rewinds</title>
-    <desc lang="en">S2024 , Ep.Chennai Super Kings vs. Lucknow Super Giants :</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260831224400 +0000" stop="20260831231400 +0000" channel="Starz_criclife1">
+  <programme start="20260831230000 +0000" stop="20260831231400 +0000" channel="Starz_criclife1">
     <title lang="en">Delhi Capitals vs Sunrisers Hyderabad - Tata IPL Rewinds</title>
     <desc lang="en">S2024 , Ep.Delhi Capitals vs Sunrisers Hyderabad :</desc>
     <category lang="en">Sport</category>
@@ -60790,21 +60550,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831221600 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Washington Freedom vs. Texas Super Kings - Major League Cricket Match Highlights</title>
-    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
-    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260831221600 +0000" stop="20260831224000 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Antigua And Barbuda Falcons vs Trinbago Knight Riders, 14th Match - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260831224000 +0000" stop="20260831230100 +0000" channel="Starz_criclife3">
+  <programme start="20260831230000 +0000" stop="20260831230100 +0000" channel="Starz_criclife3">
     <title lang="en">Birmingham Phoenix vs. Welsh Fire - Men's The Hundred</title>
     <title lang="ar">منز ذا هاندرد</title>
     <desc lang="en">S2026 , Ep.Birmingham Phoenix vs. Welsh Fire : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
@@ -61934,19 +61680,19 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831222800 +0000" channel="Starz_golflife">
-    <title lang="en">PGA Tour - The Cut</title>
-    <title lang="ar">ذا كت</title>
-    <desc lang="en">S2026 , E28 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
+  <programme start="20260904222900 +0000" stop="20260904225700 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Seattle Orcas vs. San Francisco Unicorns - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h8_ah.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260831222800 +0000" stop="20260831230000 +0000" channel="Starz_golflife">
-    <title lang="en">Rogers Charity Classic Highlights - PGA Tour Highlights</title>
-    <title lang="ar">بي جي إيه تور</title>
-    <desc lang="en">S2026 , E191 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+  <programme start="20260904225700 +0000" stop="20260904232200 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: MI New York vs. Washington Freedom - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
   </programme>
   <programme start="20260831230000 +0000" stop="20260901005500 +0000" channel="Starz_golflife">
     <title lang="en">Husqvarna British Masters, First Round - DP World Tour Golf</title>
@@ -62244,7 +61990,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901013000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260904230000 +0000" stop="20260905020000 +0000" channel="Starz_golflife">
+    <title lang="en">Sports Programme</title>
+    <title lang="ar">سبورتس بروغرام</title>
+    <desc lang="en">Sports Programme</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901013000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Endurance Race</title>
     <title lang="ar">سباق القدرة</title>
     <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
@@ -62825,7 +62578,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901000000 +0000" channel="Starz_awsn">
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Abu Dhabi Sports Asia 2</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -63118,12 +62878,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
-  </programme>
-  <programme start="20260831221000 +0000" stop="20260831230000 +0000" channel="Starz_redbulltv">
-    <title lang="en">Red Bull TV</title>
-    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
   <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
@@ -63701,7 +63455,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901000000 +0000" channel="Starz_daznringside">
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="Starz_redbulltv">
+    <title lang="en">Red Bull TV</title>
+    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+  </programme>
+  <programme start="20260831230000 +0000" stop="20260901000000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -63899,7 +63659,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831230233 +0000" channel="Starz_fifaplus">
+  <programme start="20260831230000 +0000" stop="20260831230233 +0000" channel="Starz_fifaplus">
     <title lang="en">Argentina v England | Group F | 2002 FIFA World Cup Korea/Japan™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Argentina and England played at Sapporo Dome, Sapporo on Friday, 07 June 2002.</desc>
     <category lang="en">Sport</category>
@@ -64277,21 +64037,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/81356.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831221900 +0000" channel="Starz_criclifewoman">
-    <title lang="en">South Africa v Sri Lanka - ICC Women's Cricket World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
-    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
-  </programme>
-  <programme start="20260831221900 +0000" stop="20260831224600 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2024: Australia vs. India, Match 18 - ICC Women's T20 World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
-    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260831224600 +0000" stop="20260831233900 +0000" channel="Starz_criclifewoman">
+  <programme start="20260831230000 +0000" stop="20260831233900 +0000" channel="Starz_criclifewoman">
     <title lang="en">India v England - ICC Women's Cricket World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
     <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
@@ -65004,12 +64750,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260831230000 +0000" channel="Starz_admnyastv">
-    <title lang="en">Studio: Qatar Goodwood Festival 2026</title>
-    <desc lang="en">Studio: Qatar Goodwood Festival 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
-  </programme>
   <programme start="20260831230000 +0000" stop="20260901003000 +0000" channel="Starz_admnyastv">
     <title lang="en">Sail GP 2026</title>
     <desc lang="en">Sail GP 2026</desc>
@@ -65460,7 +65200,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260831221000 +0000" stop="20260901021000 +0000" channel="Starz_adfight">
+  <programme start="20260831230000 +0000" stop="20260901021000 +0000" channel="Starz_adfight">
     <title lang="en">UAE Warriors 2026</title>
     <desc lang="en">UAE Warriors 2026</desc>
     <category lang="en">Sport</category>
@@ -65577,6 +65317,18 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260904143000 +0000" stop="20260904222000 +0000" channel="Starz_adfight">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</title>
     <desc lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260904222000 +0000" stop="20260904225000 +0000" channel="Starz_adfight">
+    <title lang="en">Total Combat 2026</title>
+    <desc lang="en">Total Combat 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260904225000 +0000" stop="20260905032000 +0000" channel="Starz_adfight">
+    <title lang="en">IMMAF Youth MMA Championship 2026</title>
+    <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
@@ -71124,8 +70876,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260902083500 +0000" stop="20260902093000 +0000" channel="TabiiSpor.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260901191312 +0000" stop="20260901201312 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 4 ساعات و46 دقيقة⁩</title>
+  <programme start="20260901200642 +0000" stop="20260901210642 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 3 ساعات و53 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
 00:00  Defence Force - Club Sando   │ CONCACAF YouTube
@@ -71173,10 +70925,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260901201312 +0000" stop="20260901211312 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 3 ساعات و46 دقيقة⁩</title>
+  <programme start="20260901210642 +0000" stop="20260901220642 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد ساعتين و53 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
 00:00  Defence Force - Club Sando   │ CONCACAF YouTube
@@ -71224,10 +70977,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260901211312 +0000" stop="20260901221312 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد ساعتين و46 دقيقة⁩</title>
+  <programme start="20260901220642 +0000" stop="20260901230642 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد ساعة و53 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
 00:00  Defence Force - Club Sando   │ CONCACAF YouTube
@@ -71275,10 +71029,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260901221312 +0000" stop="20260901231312 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد ساعة و46 دقيقة⁩</title>
+  <programme start="20260901230642 +0000" stop="20260901233642 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 53 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
 00:00  Defence Force - Club Sando   │ CONCACAF YouTube
@@ -71326,10 +71081,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260901231312 +0000" stop="20260901234312 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 46 دقيقة⁩</title>
+  <programme start="20260901233642 +0000" stop="20260902000000 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 23 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
 00:00  Defence Force - Club Sando   │ CONCACAF YouTube
@@ -71377,60 +71133,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260901234312 +0000" stop="20260902000000 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">⁦⏰ ⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بعد 16 دقيقة⁩</title>
-    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
-
-00:00  Defence Force - Club Sando   │ CONCACAF YouTube
-00:30  Inter Miami CF II - New York City 2   │ OneFootball
-01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
-14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
-15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
-16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
-17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
-17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
-17:00  Udinese - Venezia   │ MBC Shahid Sports
-17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
-17:30  Austria Vienna - Tirol   │ OneFootball PPV
-18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
-18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
-18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
-19:00  Independiente Reserva - Platense Reserva   │ LPF Play
-19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
-19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
-19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
-19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
-19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
-19:30  Salzburg - SK Rapid   │ OneFootball PPV
-19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
-20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
-20:00  Falkirk FC - Rangers   │ Sharjah Sports
-23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
-23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
-00:00  Colegiales - Midland   │ LPF Play
-01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
-01:30  Santos - Palmeiras   │ OneFootball PPV
-01:30  Vitória - Vasco   │ OneFootball PPV
-02:00  Toluca - Club León   │ Apple TV
-04:30  América - Monterrey   │ Apple TV
-16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
-17:00  Palermo - Mantova   │ MBC Shahid Sports
-17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
-19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
-19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
-19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
-19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
-19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
-19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
-19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
-19:45  Hibernian - Hearts   │ Sharjah Sports
-20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
-20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
-  </programme>
-  <programme start="20260902000000 +0000" stop="20260902001500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902000000 +0000" stop="20260902001500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71479,9 +71185,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902001500 +0000" stop="20260902003000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902001500 +0000" stop="20260902003000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Defence Force - Club Sando⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71530,9 +71237,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902003000 +0000" stop="20260902004500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902003000 +0000" stop="20260902004500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Inter Miami CF II - New York City 2⁩ ⁨│⁩ ⁨OneFootball⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71581,9 +71289,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902004500 +0000" stop="20260902010000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902004500 +0000" stop="20260902010000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Inter Miami CF II - New York City 2⁩ ⁨│⁩ ⁨OneFootball⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71632,9 +71341,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902010000 +0000" stop="20260902011500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902010000 +0000" stop="20260902011500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71683,9 +71393,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902011500 +0000" stop="20260902013000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902011500 +0000" stop="20260902013000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71734,9 +71445,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902013000 +0000" stop="20260902014500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902013000 +0000" stop="20260902014500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71785,9 +71497,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902014500 +0000" stop="20260902020000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902014500 +0000" stop="20260902020000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71836,9 +71549,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902020000 +0000" stop="20260902021500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902020000 +0000" stop="20260902021500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71887,9 +71601,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902021500 +0000" stop="20260902023000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902021500 +0000" stop="20260902023000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71938,9 +71653,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902023000 +0000" stop="20260902024500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902023000 +0000" stop="20260902024500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -71989,9 +71705,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902024500 +0000" stop="20260902025500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902024500 +0000" stop="20260902025500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Atletico-MG - Cruzeiro⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل ساعة و45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72040,9 +71757,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902140000 +0000" stop="20260902141500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902140000 +0000" stop="20260902141500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Sassuolo - Frosinone⁩ ⁨│⁩ ⁨MBC Shahid Sports⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72091,9 +71809,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902141500 +0000" stop="20260902143000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902141500 +0000" stop="20260902143000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Sassuolo - Frosinone⁩ ⁨│⁩ ⁨MBC Shahid Sports⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72142,9 +71861,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902143000 +0000" stop="20260902144500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902143000 +0000" stop="20260902144500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Sassuolo - Frosinone⁩ ⁨│⁩ ⁨MBC Shahid Sports⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72193,9 +71913,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902144500 +0000" stop="20260902150000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902144500 +0000" stop="20260902150000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Sassuolo - Frosinone⁩ ⁨│⁩ ⁨MBC Shahid Sports⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72244,9 +71965,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902150000 +0000" stop="20260902151500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902150000 +0000" stop="20260902151500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72295,9 +72017,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902151500 +0000" stop="20260902153000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902151500 +0000" stop="20260902153000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72346,9 +72069,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902153000 +0000" stop="20260902154500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902153000 +0000" stop="20260902154500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72397,9 +72121,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902154500 +0000" stop="20260902160000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902154500 +0000" stop="20260902160000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72448,9 +72173,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902160000 +0000" stop="20260902161500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902160000 +0000" stop="20260902161500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72499,9 +72225,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902161500 +0000" stop="20260902163000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902161500 +0000" stop="20260902163000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72550,9 +72277,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902163000 +0000" stop="20260902164000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902163000 +0000" stop="20260902164000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨El Gouna FC - El-Mokawloon⁩ ⁨│⁩ ⁨On Sport Plus⁩⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72601,9 +72329,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902164000 +0000" stop="20260902165500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902164000 +0000" stop="20260902165500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Hajer FC - Al-Anwar Club⁩ ⁨│⁩ ⁨Thmanyah App · Thmanyah 2 HD⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72652,9 +72381,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902165500 +0000" stop="20260902170000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902165500 +0000" stop="20260902170000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Hajer FC - Al-Anwar Club⁩ ⁨│⁩ ⁨Thmanyah App · Thmanyah 2 HD⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72703,9 +72433,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902170000 +0000" stop="20260902171500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902170000 +0000" stop="20260902171500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) East Riffa - Sitra Club⁩  ⁨B) Malkiya Club - Al Najma⁩  ⁨C) Udinese - Venezia⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72754,9 +72485,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902171500 +0000" stop="20260902173000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902171500 +0000" stop="20260902173000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Al Wehda FC - Damac FC⁩ ⁨│⁩ ⁨Thmanyah App · Thmanyah 1 HD⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72805,9 +72537,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902174500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902173000 +0000" stop="20260902174500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Austria Vienna - Tirol⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72856,9 +72589,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902174500 +0000" stop="20260902180000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902174500 +0000" stop="20260902180000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Austria Vienna - Tirol⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72907,9 +72641,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902180000 +0000" stop="20260902181500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902180000 +0000" stop="20260902181500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Ceramica Cleopatra FC - Future FC⁩  ⁨B) Abu Qair Semad - Al Ittihad Alexandria⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -72958,9 +72693,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902181500 +0000" stop="20260902183000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902181500 +0000" stop="20260902183000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Ceramica Cleopatra FC - Future FC⁩  ⁨B) Abu Qair Semad - Al Ittihad Alexandria⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73009,9 +72745,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902183000 +0000" stop="20260902184000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902183000 +0000" stop="20260902184000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Ceramica Cleopatra FC - Future FC⁩  ⁨B) Abu Qair Semad - Al Ittihad Alexandria⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73060,9 +72797,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902184000 +0000" stop="20260902185500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902184000 +0000" stop="20260902185500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Al-Ula FC - Al Raed FC⁩ ⁨│⁩ ⁨Thmanyah App · Thmanyah 3 HD⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73111,9 +72849,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902185500 +0000" stop="20260902190000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902185500 +0000" stop="20260902190000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Al-Ula FC - Al Raed FC⁩ ⁨│⁩ ⁨Thmanyah App · Thmanyah 3 HD⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73162,9 +72901,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902190000 +0000" stop="20260902191500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902190000 +0000" stop="20260902191500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Independiente Reserva - Platense Reserva⁩  ⁨B) Godoy Cruz Reserva - Tigre Reserva⁩  ⁨C) Atlético Tucumán Reserva - San Lorenzo Reserva⁩  ⁨D) Newell's Old Boys Reserva - Deportivo Riestra Reserva⁩  ⁨E) Ferro Carril Oeste Reserva - Estudiantes LP Reserva⁩  ⁨F) Estudiantes RC Reserva - San Martín SJ Reserva⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73213,9 +72953,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902191500 +0000" stop="20260902193000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902191500 +0000" stop="20260902193000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Independiente Reserva - Platense Reserva⁩  ⁨B) Godoy Cruz Reserva - Tigre Reserva⁩  ⁨C) Atlético Tucumán Reserva - San Lorenzo Reserva⁩  ⁨D) Newell's Old Boys Reserva - Deportivo Riestra Reserva⁩  ⁨E) Ferro Carril Oeste Reserva - Estudiantes LP Reserva⁩  ⁨F) Estudiantes RC Reserva - San Martín SJ Reserva⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73264,9 +73005,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902193000 +0000" stop="20260902194500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902193000 +0000" stop="20260902194500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Salzburg - SK Rapid⁩ ⁨│⁩ ⁨OneFootball PPV⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73315,9 +73057,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902194500 +0000" stop="20260902200000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902194500 +0000" stop="20260902200000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨VfL Osnabruck - Bayern Munich⁩ ⁨│⁩ ⁨AD Sports 1⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73366,9 +73109,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902200000 +0000" stop="20260902201500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902200000 +0000" stop="20260902201500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73417,9 +73161,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902201500 +0000" stop="20260902203000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902201500 +0000" stop="20260902203000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73468,9 +73213,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902203000 +0000" stop="20260902204500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902203000 +0000" stop="20260902204500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73519,9 +73265,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902204500 +0000" stop="20260902210000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902204500 +0000" stop="20260902210000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73570,9 +73317,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902210000 +0000" stop="20260902211500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902210000 +0000" stop="20260902211500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73621,9 +73369,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902211500 +0000" stop="20260902213000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902211500 +0000" stop="20260902213000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73672,9 +73421,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902213000 +0000" stop="20260902214500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902213000 +0000" stop="20260902214500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73723,9 +73473,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902214500 +0000" stop="20260902215500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902214500 +0000" stop="20260902215500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Burnley - Middlesbrough⁩  ⁨B) Falkirk FC - Rangers⁩ ⁨·⁩ بدأت قبل ساعة و45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73774,9 +73525,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902230000 +0000" stop="20260902231500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902230000 +0000" stop="20260902231500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) SV Broki - Delfines del Este⁩  ⁨B) Talleres Córdoba Reserva - Instituto Reserva⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73825,9 +73577,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902231500 +0000" stop="20260902233000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902231500 +0000" stop="20260902233000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) SV Broki - Delfines del Este⁩  ⁨B) Talleres Córdoba Reserva - Instituto Reserva⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73876,9 +73629,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902233000 +0000" stop="20260902234500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902233000 +0000" stop="20260902234500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) SV Broki - Delfines del Este⁩  ⁨B) Talleres Córdoba Reserva - Instituto Reserva⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73927,9 +73681,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902234500 +0000" stop="20260903000000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902234500 +0000" stop="20260903000000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) SV Broki - Delfines del Este⁩  ⁨B) Talleres Córdoba Reserva - Instituto Reserva⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -73978,9 +73733,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903000000 +0000" stop="20260903001500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903000000 +0000" stop="20260903001500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Colegiales - Midland⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74029,9 +73785,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903001500 +0000" stop="20260903003000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903001500 +0000" stop="20260903003000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Colegiales - Midland⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74080,9 +73837,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903003000 +0000" stop="20260903004500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903003000 +0000" stop="20260903004500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Colegiales - Midland⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74131,9 +73889,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903004500 +0000" stop="20260903010000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903004500 +0000" stop="20260903010000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Colegiales - Midland⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74182,9 +73941,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903010000 +0000" stop="20260903011500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903010000 +0000" stop="20260903011500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Salcedo Fútbol Club - Mount Pleasant FA⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74233,9 +73993,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903011500 +0000" stop="20260903013000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903011500 +0000" stop="20260903013000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Salcedo Fútbol Club - Mount Pleasant FA⁩ ⁨│⁩ ⁨CONCACAF YouTube⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74284,9 +74045,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903013000 +0000" stop="20260903014500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903013000 +0000" stop="20260903014500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Santos - Palmeiras⁩  ⁨B) Vitória - Vasco⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74335,9 +74097,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903014500 +0000" stop="20260903020000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903014500 +0000" stop="20260903020000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Santos - Palmeiras⁩  ⁨B) Vitória - Vasco⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74386,9 +74149,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903020000 +0000" stop="20260903021500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903020000 +0000" stop="20260903021500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74437,9 +74201,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903021500 +0000" stop="20260903023000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903021500 +0000" stop="20260903023000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74488,9 +74253,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903023000 +0000" stop="20260903024500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903023000 +0000" stop="20260903024500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74539,9 +74305,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903024500 +0000" stop="20260903030000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903024500 +0000" stop="20260903030000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74590,9 +74357,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903030000 +0000" stop="20260903031500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903030000 +0000" stop="20260903031500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74641,9 +74409,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903031500 +0000" stop="20260903033000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903031500 +0000" stop="20260903033000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74692,9 +74461,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903033000 +0000" stop="20260903034500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903033000 +0000" stop="20260903034500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74743,9 +74513,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903034500 +0000" stop="20260903035500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903034500 +0000" stop="20260903035500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨Toluca - Club León⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة و45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74794,9 +74565,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903043000 +0000" stop="20260903044500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903043000 +0000" stop="20260903044500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74845,9 +74617,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903044500 +0000" stop="20260903050000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903044500 +0000" stop="20260903050000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74896,9 +74669,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903050000 +0000" stop="20260903051500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903050000 +0000" stop="20260903051500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74947,9 +74721,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903051500 +0000" stop="20260903053000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903051500 +0000" stop="20260903053000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -74998,9 +74773,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903053000 +0000" stop="20260903054500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903053000 +0000" stop="20260903054500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75049,9 +74825,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75100,9 +74877,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903060000 +0000" stop="20260903061500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903060000 +0000" stop="20260903061500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75151,9 +74929,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903061500 +0000" stop="20260903062500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903061500 +0000" stop="20260903062500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨América - Monterrey⁩ ⁨│⁩ ⁨Apple TV⁩⁩ ⁨·⁩ بدأت قبل ساعة و45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75202,9 +74981,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903165500 +0000" stop="20260903171000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903165500 +0000" stop="20260903171000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Al-Fayha FC - Al Kholood⁩  ⁨B) Palermo - Mantova⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75253,9 +75033,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903171000 +0000" stop="20260903172500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903171000 +0000" stop="20260903172500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Al-Fayha FC - Al Kholood⁩  ⁨B) Palermo - Mantova⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75304,9 +75085,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903172500 +0000" stop="20260903173000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903172500 +0000" stop="20260903173000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Al-Fayha FC - Al Kholood⁩  ⁨B) Palermo - Mantova⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75355,9 +75137,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903173000 +0000" stop="20260903174500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903173000 +0000" stop="20260903174500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨NEOM SC - Khaleej FC⁩ ⁨│⁩ ⁨Thmanyah Channels · Thmanyah App⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75406,9 +75189,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903174500 +0000" stop="20260903180000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903174500 +0000" stop="20260903180000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨NEOM SC - Khaleej FC⁩ ⁨│⁩ ⁨Thmanyah Channels · Thmanyah App⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75457,9 +75241,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903180000 +0000" stop="20260903181500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903180000 +0000" stop="20260903181500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨NEOM SC - Khaleej FC⁩ ⁨│⁩ ⁨Thmanyah Channels · Thmanyah App⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75508,9 +75293,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903181500 +0000" stop="20260903183000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903181500 +0000" stop="20260903183000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨NEOM SC - Khaleej FC⁩ ⁨│⁩ ⁨Thmanyah Channels · Thmanyah App⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75559,9 +75345,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903183000 +0000" stop="20260903184500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903183000 +0000" stop="20260903184500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨NEOM SC - Khaleej FC⁩ ⁨│⁩ ⁨Thmanyah Channels · Thmanyah App⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75610,9 +75397,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903184500 +0000" stop="20260903190000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903184500 +0000" stop="20260903190000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨NEOM SC - Khaleej FC⁩ ⁨│⁩ ⁨Thmanyah Channels · Thmanyah App⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75661,9 +75449,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903190000 +0000" stop="20260903191500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903190000 +0000" stop="20260903191500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Al Draih - Al Qadisiya⁩  ⁨B) ES Setif - ES Ben Aknoun⁩  ⁨C) Barracas Central Reserva - Banfield Reserva⁩  ⁨D) Defensa y Justicia Reserva - Independiente Rivadavia Reserva⁩  ⁨E) CA Huracán Reserva - Central Córdoba Reserva⁩  ⁨F) Gimnasia Mendoza Reserva - Rosario Central Reserva⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75712,9 +75501,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903191500 +0000" stop="20260903193000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903191500 +0000" stop="20260903193000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Al Draih - Al Qadisiya⁩  ⁨B) ES Setif - ES Ben Aknoun⁩  ⁨C) Barracas Central Reserva - Banfield Reserva⁩  ⁨D) Defensa y Justicia Reserva - Independiente Rivadavia Reserva⁩  ⁨E) CA Huracán Reserva - Central Córdoba Reserva⁩  ⁨F) Gimnasia Mendoza Reserva - Rosario Central Reserva⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75763,9 +75553,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903193000 +0000" stop="20260903194500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903193000 +0000" stop="20260903194500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Al Draih - Al Qadisiya⁩  ⁨B) ES Setif - ES Ben Aknoun⁩  ⁨C) Barracas Central Reserva - Banfield Reserva⁩  ⁨D) Defensa y Justicia Reserva - Independiente Rivadavia Reserva⁩  ⁨E) CA Huracán Reserva - Central Córdoba Reserva⁩  ⁨F) Gimnasia Mendoza Reserva - Rosario Central Reserva⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75814,9 +75605,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903194500 +0000" stop="20260903200000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903194500 +0000" stop="20260903200000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Toulouse - Lille⁩  ⁨B) Hibernian - Hearts⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75865,9 +75657,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903200000 +0000" stop="20260903201500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903200000 +0000" stop="20260903201500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Real Sociedad - Celta Vigo⁩  ⁨B) Cagliari - Verona⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75916,9 +75709,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903201500 +0000" stop="20260903203000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903201500 +0000" stop="20260903203000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Real Sociedad - Celta Vigo⁩  ⁨B) Cagliari - Verona⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -75967,9 +75761,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903203000 +0000" stop="20260903204500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903203000 +0000" stop="20260903204500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Real Sociedad - Celta Vigo⁩  ⁨B) Cagliari - Verona⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76018,9 +75813,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903204500 +0000" stop="20260903210000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903204500 +0000" stop="20260903210000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁨A) Real Sociedad - Celta Vigo⁩  ⁨B) Cagliari - Verona⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76069,9 +75865,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260903211500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903210000 +0000" stop="20260903211500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76120,9 +75917,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903211500 +0000" stop="20260903213000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903211500 +0000" stop="20260903213000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76171,9 +75969,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903213000 +0000" stop="20260903214500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903213000 +0000" stop="20260903214500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76222,9 +76021,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903214500 +0000" stop="20260903220000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903214500 +0000" stop="20260903220000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76273,9 +76073,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903220000 +0000" stop="20260903221500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903220000 +0000" stop="20260903221500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76324,9 +76125,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903221500 +0000" stop="20260903223000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903221500 +0000" stop="20260903223000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76375,9 +76177,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903223000 +0000" stop="20260903224500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903223000 +0000" stop="20260903224500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76426,9 +76229,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260903224500 +0000" stop="20260903225500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903224500 +0000" stop="20260903225500 +0000" channel="TodayMatches">
     <title lang="ar">⁦⁦⁨JS El Biar - Olympique Akbou⁩ ⁨│⁩ ⁨TV4 Algerian · TV1 Algerian⁩⁩ ⁨·⁩ بدأت قبل ساعة و45 دقيقة⁩</title>
     <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
 
@@ -76477,18 +76281,438 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 19:45  Hibernian - Hearts   │ Sharjah Sports
 20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
 20:00  Cagliari - Verona   │ MBC Shahid Sports
-21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian</desc>
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
   </programme>
-  <programme start="20260902025500 +0000" stop="20260902140000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903230000 +0000" stop="20260903231500 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت الآن⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260903231500 +0000" stop="20260903233000 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل 15 دقيقة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260903233000 +0000" stop="20260903234500 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل 30 دقيقة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260903234500 +0000" stop="20260904000000 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل 45 دقيقة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260904000000 +0000" stop="20260904001500 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل ساعة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260904001500 +0000" stop="20260904003000 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل ساعة و15 دقيقة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260904003000 +0000" stop="20260904004500 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل ساعة و30 دقيقة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260904004500 +0000" stop="20260904005500 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⁦⁨Boca Juniors Reserva - Quilmes Reserva⁩ ⁨│⁩ ⁨LPF Play⁩⁩ ⁨·⁩ بدأت قبل ساعة و45 دقيقة⁩</title>
+    <desc lang="ar">مباريات اليوم — 2026-09-01 UTC
+
+00:00  Defence Force - Club Sando   │ CONCACAF YouTube
+00:30  Inter Miami CF II - New York City 2   │ OneFootball
+01:00  Atletico-MG - Cruzeiro   │ OneFootball PPV
+14:00  Sassuolo - Frosinone   │ MBC Shahid Sports
+15:00  El Gouna FC - El-Mokawloon   │ On Sport Plus
+16:40  Hajer FC - Al-Anwar Club   │ Thmanyah App · Thmanyah 2 HD
+17:00  East Riffa - Sitra Club   │ Bahraini Federation YouTube
+17:00  Malkiya Club - Al Najma   │ Bahraini Federation YouTube
+17:00  Udinese - Venezia   │ MBC Shahid Sports
+17:15  Al Wehda FC - Damac FC   │ Thmanyah App · Thmanyah 1 HD
+17:30  Austria Vienna - Tirol   │ OneFootball PPV
+18:00  Ceramica Cleopatra FC - Future FC   │ On Sport Max
+18:00  Abu Qair Semad - Al Ittihad Alexandria   │ ON Sport
+18:40  Al-Ula FC - Al Raed FC   │ Thmanyah App · Thmanyah 3 HD
+19:00  Independiente Reserva - Platense Reserva   │ LPF Play
+19:00  Godoy Cruz Reserva - Tigre Reserva   │ LPF Play
+19:00  Atlético Tucumán Reserva - San Lorenzo Reserva   │ LPF Play
+19:00  Newell's Old Boys Reserva - Deportivo Riestra Reserva   │ LPF Play
+19:00  Ferro Carril Oeste Reserva - Estudiantes LP Reserva   │ LPF Play
+19:00  Estudiantes RC Reserva - San Martín SJ Reserva   │ LPF Play
+19:30  Salzburg - SK Rapid   │ OneFootball PPV
+19:45  VfL Osnabruck - Bayern Munich   │ AD Sports 1
+20:00  Burnley - Middlesbrough   │ beIN SPORTS Xtra 1 · beIN SPORTS 1 EN · beIN SPORTS 1
+20:00  Falkirk FC - Rangers   │ Sharjah Sports
+23:00  SV Broki - Delfines del Este   │ CONCACAF YouTube
+23:00  Talleres Córdoba Reserva - Instituto Reserva   │ LPF Play
+00:00  Colegiales - Midland   │ LPF Play
+01:00  Salcedo Fútbol Club - Mount Pleasant FA   │ CONCACAF YouTube
+01:30  Santos - Palmeiras   │ OneFootball PPV
+01:30  Vitória - Vasco   │ OneFootball PPV
+02:00  Toluca - Club León   │ Apple TV
+04:30  América - Monterrey   │ Apple TV
+16:55  Al-Fayha FC - Al Kholood   │ Thmanyah Channels · Thmanyah App
+17:00  Palermo - Mantova   │ MBC Shahid Sports
+17:30  NEOM SC - Khaleej FC   │ Thmanyah Channels · Thmanyah App
+19:00  Al Draih - Al Qadisiya   │ OneFootball · Thmanyah Channels · Thmanyah App
+19:00  ES Setif - ES Ben Aknoun   │ TV6 Algerian
+19:00  Barracas Central Reserva - Banfield Reserva   │ LPF Play
+19:00  Defensa y Justicia Reserva - Independiente Rivadavia Reserva   │ LPF Play
+19:00  CA Huracán Reserva - Central Córdoba Reserva   │ LPF Play
+19:00  Gimnasia Mendoza Reserva - Rosario Central Reserva   │ LPF Play
+19:45  Toulouse - Lille   │ beIN SPORTS Xtra 1 · beIN SPORTS 1
+19:45  Hibernian - Hearts   │ Sharjah Sports
+20:00  Real Sociedad - Celta Vigo   │ beIN SPORTS 2
+20:00  Cagliari - Verona   │ MBC Shahid Sports
+21:00  JS El Biar - Olympique Akbou   │ TV4 Algerian · TV1 Algerian
+23:00  Boca Juniors Reserva - Quilmes Reserva   │ LPF Play</desc>
+  </programme>
+  <programme start="20260902025500 +0000" stop="20260902140000 +0000" channel="TodayMatches">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260902215500 +0000" stop="20260902230000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260902215500 +0000" stop="20260902230000 +0000" channel="TodayMatches">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903035500 +0000" stop="20260903043000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903035500 +0000" stop="20260903043000 +0000" channel="TodayMatches">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903062500 +0000" stop="20260903165500 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903062500 +0000" stop="20260903165500 +0000" channel="TodayMatches">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260903225500 +0000" stop="20260903230000 +0000" channel="TodayMatches">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260902184000 +0300" stop="20260902191500 +0300" channel="ThmanyahGuide">
@@ -82992,4 +83216,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260902061025 +0000" stop="20260902061335 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260902061025 +0000" stop="20260902061335 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260902061025 +0000" stop="20260902061335 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260902061046 +0000" stop="20260902061335 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260902070355 +0000" stop="20260902070730 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260902070355 +0000" stop="20260902070730 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260902070355 +0000" stop="20260902070730 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260902070427 +0000" stop="20260902070730 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
