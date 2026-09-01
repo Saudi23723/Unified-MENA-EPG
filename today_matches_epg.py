@@ -46,7 +46,18 @@ from epg_lib import (
 
 SOURCE = "https://www.livefootballtv.info/"
 OUTPUT = "today_matches_epg.xml"
-CHANNEL_ID = "TodayMatches"
+# Published under Tivibu Spor 1's id rather than an id of its own.
+#
+# A guide only reaches a television if the viewer's playlist already
+# carries a channel with that id, and this playlist is not ours to edit.
+# Tivibu Spor 1 is already in it and is the one channel here that costs
+# nothing to take: its feed stopped carrying real programming, and for
+# days it published nothing but a row saying so. A dead channel that a
+# viewer already receives is worth more as this guide than as itself.
+#
+# tivibu_spor_epg no longer declares it, so exactly one file owns the id —
+# two would collide in the merge and the health check would say so.
+CHANNEL_ID = "TivibuSpor1.tr"
 CHANNEL_AR = "مباريات اليوم"
 CHANNEL_EN = "Today's Matches"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
