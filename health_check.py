@@ -49,6 +49,7 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 import re
 import sys
 import xml.etree.ElementTree as ET
@@ -371,8 +372,22 @@ def main() -> int:
     print(f"{'file':34} {'ch':>4} {'prog':>6} {'ahead':>6} {'days':>5}")
     for path in files:
         if not os.path.exists(path):
-            fail(f"{path}: named in merge_epg.py but missing from the repository")
-            print(f"{path:34}   MISSING")
+            # A guide that has never published is new; a guide that has
+            # published before and is now gone has lost its file. Only the
+            # second is a failure — telling them apart is what git history
+            # is for, and conflating them means either a false alarm on
+            # every new guide or silence when a real one disappears.
+            ever = subprocess.run(
+                ["git", "log", "--oneline", "-1", "--", path],
+                capture_output=True, text=True, check=False)
+            if ever.returncode == 0 and ever.stdout.strip():
+                fail(f"{path}: named in merge_epg.py, published before, and "
+                     f"now missing from the repository")
+                print(f"{path:34}   MISSING")
+            else:
+                note(f"{path}: newly registered and not built yet — it "
+                     f"appears after its first scheduled run")
+                print(f"{path:34}   not built yet")
             continue
         info = check_file(path, now)
         days = 0
