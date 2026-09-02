@@ -16,8 +16,30 @@ name: Build today's matches
 
 on:
   workflow_dispatch:
+
+  # Six times an hour, written as six hourly entries rather than one
+  # ten-minute one — because the ten-minute one never fired. Measured, not
+  # supposed: in the four and a half hours after this workflow was added,
+  # "3,13,23,33,43,53 * * * *" produced ZERO scheduled runs, while the
+  # full build's plain hourly crons in the same repository produced
+  # forty-five. GitHub drops sub-hourly schedules first when it is busy,
+  # and this repository is evidently on the wrong side of that. The
+  # cadence is unchanged; only the way it is asked for is.
   schedule:
-    - cron: "3,13,23,33,43,53 * * * *"
+    - cron: "3 * * * *"
+    - cron: "13 * * * *"
+    - cron: "23 * * * *"
+    - cron: "33 * * * *"
+    - cron: "43 * * * *"
+    - cron: "53 * * * *"
+
+  # And a belt for the braces: the full build's schedule demonstrably
+  # fires, so the screen is refreshed after every one of its passes too.
+  # Even if every cron above is dropped, the day on the television is
+  # never more than half an hour old.
+  workflow_run:
+    workflows: ["Build every EPG"]
+    types: [completed]
 
 # Never two at once, and never racing the full build's push.
 concurrency:
