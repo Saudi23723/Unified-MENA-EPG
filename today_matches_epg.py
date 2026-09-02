@@ -173,11 +173,17 @@ ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخ�
 # arithmetic fault. A day that gets a board must get the whole of that day.
 DAYS_AHEAD = 2
 
-# One channel per match. The page has to fit on a television screen in one
-# go, and every extra name pushes a line into wrapping onto a second — so
-# the list costs two lines for one match and the day stops fitting. The
-# first channel named is the one the source lists first.
-MAX_CHANNELS = 1
+# Two channels per match. One was chosen when a match rarely had a second
+# to show, and it hid the work of every source added since: a row read
+# "Ipswich - Liverpool · beIN SPORTS 1 EN +5" with five channels
+# collected, named, and printed as a digit. A viewer who cannot get the
+# first channel is told nothing about the other five.
+#
+# Two is where it stops. The line has to fit a television screen without
+# wrapping, and the drawn board gives a row two pills of space. Beyond the
+# second name the count goes back to "+N", which is honest about there
+# being more without spending a line on it.
+MAX_CHANNELS = 2
 
 # How wide a line may get before a television wraps it onto a second one.
 # Simultaneous kickoffs share a line only while they stay inside this:
@@ -1088,6 +1094,35 @@ def say_what_was_dropped(everything: list[dict], days: list[date]) -> None:
             f"{listed}" + (f", and {rest} more" if rest else ""))
 
 
+def say_which_rows_are_thin(events: list[dict]) -> None:
+    """Name the matches that ended with fewer than two channels.
+
+    A reader asked for two channels on every row, and whether that
+    happens is not a thing anybody can settle by adding a source and
+    hoping. Some matches have two, some have one, some have none, and
+    which is which changes every hour as broadcasters publish.
+
+    Counting them is how the next source gets chosen: a run that says
+    "9 of 30 name one channel, 2 name none" points at the gap, and the
+    fixtures it lists say which competition to go looking for. The
+    alternative is what happened before — a photograph from the sofa.
+    """
+    thin = [event for event in events
+            if len(real_channels(event["channels"])) < 2]
+    none_at_all = [event for event in thin
+                   if not real_channels(event["channels"])]
+    if not thin:
+        log(f"  every one of {len(events)} match(es) names two channels")
+        return
+    log(f"  {len(events) - len(thin)} of {len(events)} match(es) name two "
+        f"channels; {len(thin) - len(none_at_all)} name one and "
+        f"{len(none_at_all)} name none")
+    for event in thin[:12]:
+        named = real_channels(event["channels"])
+        log(f"    thin  {event['start']:%m-%d %H:%M}Z  {event['title']}"
+            f"   │ {event['competition']} │ {', '.join(named) or '—'}")
+
+
 def build() -> int:
     now = datetime.now(UTC)
     session = requests.Session()
@@ -1148,6 +1183,11 @@ def build() -> int:
         "Spor Ekranı": spor_ekrani.broadcasts(session),
         "livesoccertv": live_soccer_tv.broadcasts(session),
     })
+
+    # Counted before the placeholder goes in, because "لم تُعلن القناة"
+    # is a sentence and not a channel, and a row wearing it has none.
+    say_which_rows_are_thin(events)
+
     for event in events:
         if not event["channels"]:
             event["channels"] = [CHANNEL_UNANNOUNCED]

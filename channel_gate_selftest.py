@@ -1197,6 +1197,11 @@ def gate_our_own_guides_name_the_channel() -> None:
            ("Alwan Sport 1 HD", "Alwan Sports 1", "Alwan Sport 1 4K",
             "Alwan Sport 1 RAW")],
           ["Alwan Sport 1"] * 4)
+    # ...but not so far that the name stops being a channel. "beIN 4K" is
+    # Doha's own feed and folding it printed "beIN", which is nothing a
+    # viewer can turn to.
+    check("OWN", "a channel whose 4K IS its name keeps it",
+          own_guides.one_channel("beIN 4K"), "beIN 4K")
 
     # One club is enough, at an agreed minute, because a club plays once.
     check("OWN", "بيرنلي is Burnley",
@@ -1261,8 +1266,16 @@ def gate_our_own_guides_name_the_channel() -> None:
              {"start": when, "title": "Mainz - Werder Bremen",
               "channels": ["beIN SPORTS 2"]}]
     own_guides.add_channels(board)
+    # Doha shows this one too — beIN SPORTS 5 there, beIN SPORTS 1 in
+    # Istanbul, at 16:50 for a 17:00 kick. Both are right and they are
+    # different channels, which is exactly what the mark is for: a row
+    # naming "beIN SPORTS 1" and "beIN SPORTS 5" unmarked would send a
+    # viewer in Doha to the wrong one.
     check("OWN", "Istanbul's beIN is marked TR",
-          board[0]["channels"], ["beIN SPORTS 1 TR"])
+          "beIN SPORTS 1 TR" in board[0]["channels"], True)
+    check("OWN", "and Doha's, on the same match, is not",
+          [name for name in board[0]["channels"]
+           if name.endswith(" TR")] != board[0]["channels"], True)
     check("OWN", "and a match none of our channels carry is left alone",
           board[1]["channels"], ["beIN SPORTS 2"])
 
@@ -1357,6 +1370,142 @@ def gate_the_american_channel_is_named() -> None:
           len(board), 1)
 
 
+def gate_a_grid_title_is_read_the_way_that_grid_writes_it() -> None:
+    """Doha's beIN, and the club whose name contained a marker.
+
+    Three of this repository's own guides are read for channel names now,
+    and the third writes its titles differently from the other two. Alwan
+    and beIN Turkey put a dash between the clubs; Doha writes
+    "Ipswich Town v Liverpool - English Premier League 2026/2027", where
+    the dash belongs to the COMPETITION. Split that on the dash and the
+    fixture is "Ipswich Town v Liverpool" against "English Premier
+    League" — two things that are not clubs, matching nothing. 350 of
+    Doha's titles are that shape.
+
+    And the bug this found. Markers were stripped without word
+    boundaries, so "LIVE" matched inside "Liverpool" and the club came
+    out as "rpool". The most broadcast club in the world could not be
+    matched by any guide published here, and nothing showed it: a club
+    that fails to match only ever costs a channel name, never a wrong
+    one, so the hole was silent. Every marker is a whole word now.
+
+    What is NOT a fixture is the other half. Doha's grid carries
+    "Preview - US Open 2026" and "Ligue 1 Weekly Review - 2026/2027"
+    beside the football, and Alwan says "التالي: بيرنلي - ميدلزبره" —
+    real clubs, on a row whose time belongs to the programme now showing
+    rather than to their match. Taking that hands a channel to whatever
+    else falls inside the two-hour window; the same match is published
+    again at its own time, so nothing is lost by refusing it.
+    """
+    print("\nA grid title is read the way that grid writes it")
+    import own_guides
+
+    check("GRID", "Doha's 'vs.' separates the clubs, its dash does not",
+          own_guides.fixture_in(
+              "Liverpool vs. Nottingham Forest - English Premier League "
+              "2026/2027"),
+          ("Liverpool", "Nottingham Forest"))
+    check("GRID", "and a bare 'v' does the same",
+          own_guides.fixture_in(
+              "Ipswich Town v Liverpool - English Premier League "
+              "2026/2027 \u200e\u2022 Live \U0001f535\u200e"),
+          ("Ipswich Town", "Liverpool"))
+    check("GRID", "LIVE is a marker, not the first four letters of a club",
+          own_guides.fixture_in("Liverpool - Everton"),
+          ("Liverpool", "Everton"))
+    check("GRID", "a dash-written grid is unchanged",
+          own_guides.fixture_in("\u0628\u064a\u0631\u0646\u0644\u064a - "
+                                "\u0645\u064a\u062f\u0644\u0632\u0628"
+                                "\u0631\u0647 \u200e\U0001f534 LIVE\u200e"),
+          ("\u0628\u064a\u0631\u0646\u0644\u064a",
+           "\u0645\u064a\u062f\u0644\u0632\u0628\u0631\u0647"))
+
+    for title, why in (
+            ("Ligue 1 Weekly Review - 2026/2027", "a review"),
+            ("Preview - US Open 2026", "a preview"),
+            ("Round 1 - Serie A Highlights", "highlights"),
+            ("\u0627\u0644\u062a\u0627\u0644\u064a: "
+             "\u0628\u064a\u0631\u0646\u0644\u064a - "
+             "\u0645\u064a\u062f\u0644\u0632\u0628\u0631\u0647",
+             "what comes next, at the wrong time"),
+            ("\u062d\u0643\u064a \u0633\u064a\u0627\u0633\u064a - "
+             "\u0627\u0644\u0645\u0648\u0633\u0645 "
+             "\u0627\u0644\u062b\u0627\u0644\u062b",
+             "a drama serial's season")):
+        check("GRID", f"not a fixture: {why}",
+              own_guides.fixture_in(title), ("", ""))
+
+    # Doha carries no mark and Istanbul carries one, which is the whole
+    # reason the mark exists.
+    marks = dict((path, mark) for path, mark in own_guides.GUIDES)
+    check("GRID", "Doha's beIN is wired in, unmarked",
+          marks.get("bein_sports_qatar_epg.xml"), "")
+    check("GRID", "Istanbul's is wired in, marked TR",
+          marks.get("bein_sports_turkey_epg.xml"), " TR")
+    check("GRID", "and no general channel's grid is read for football",
+          [path for path in marks if "roya" in path or "jordan" in path], [])
+
+
+def gate_a_row_names_two_channels() -> None:
+    """A viewer who cannot get the first channel is told the second.
+
+    One channel per row was chosen when a match rarely had a second, and
+    it went on hiding every source added since. A real row read
+    "Ipswich - Liverpool · beIN SPORTS 1 EN +5": five channels collected,
+    named, and printed as a digit.
+
+    Two is where it stops — the line has to fit a television screen and
+    the drawn board gives a row two pills — so beyond the second the
+    count returns, honest about there being more without spending a line.
+    """
+    print("\nA row names two channels")
+    import inspect
+    from datetime import datetime, timezone
+
+    import today_matches_epg as today
+
+    check("TWO", "two channels are printed, not one and a digit",
+          today.channels_of({"channels": ["beIN SPORTS 1", "USA Network"]}),
+          "beIN SPORTS 1 \u00b7 USA Network")
+    check("TWO", "a third is counted, not dropped",
+          today.channels_of({"channels": ["beIN SPORTS 1", "USA Network",
+                                          "Fox Sports 1", "DAZN"]}),
+          "beIN SPORTS 1 \u00b7 USA Network +2")
+    check("TWO", "one channel is still one channel",
+          today.channels_of({"channels": ["DAZN"]}), "DAZN")
+    check("TWO", "and the app the reader asked to stop seeing is not one",
+          today.channels_of({"channels": ["OneFootball", "beIN SPORTS 1"]}),
+          "beIN SPORTS 1")
+
+    # The drawn board gives a row two pills, so the picture and the line
+    # agree on how many a viewer is shown.
+    check("TWO", "the board draws as many as the line prints",
+          today.MAX_CHANNELS, 2)
+
+    # And the build says out loud which rows still fall short, because
+    # that is what picks the next source.
+    when = datetime(2026, 9, 4, 17, 0, tzinfo=timezone.utc)
+    rows = [{"start": when, "title": "A - B", "competition": "x",
+             "channels": ["beIN SPORTS 1", "Fox Sports 1"]},
+            {"start": when, "title": "C - D", "competition": "x",
+             "channels": ["DAZN"]},
+            {"start": when, "title": "E - F", "competition": "x",
+             "channels": []}]
+    today.say_which_rows_are_thin(rows)      # must not raise
+
+    # "لم تُعلن القناة" is a sentence, and real_channels() has no reason
+    # to know that — it refuses apps and shops, not Arabic. So the count
+    # is taken BEFORE the placeholder is written in, and if that order
+    # ever reverses every unannounced row starts reporting as answered.
+    check("TWO", "the placeholder would pass for a channel if it got there",
+          today.real_channels([today.CHANNEL_UNANNOUNCED]),
+          [today.CHANNEL_UNANNOUNCED])
+    source = inspect.getsource(today.build)
+    check("TWO", "so the thin rows are counted before it is written in",
+          source.index("say_which_rows_are_thin")
+          < source.index("CHANNEL_UNANNOUNCED"), True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1372,7 +1521,9 @@ def main() -> int:
                  gate_a_day_drawn_is_a_day_collected,
                  gate_the_third_page_fills_the_gap,
                  gate_our_own_guides_name_the_channel,
-                 gate_the_american_channel_is_named):
+                 gate_the_american_channel_is_named,
+                 gate_a_grid_title_is_read_the_way_that_grid_writes_it,
+                 gate_a_row_names_two_channels):
         try:
             gate()
         except Exception as exc:

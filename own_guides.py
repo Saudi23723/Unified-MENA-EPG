@@ -41,8 +41,23 @@ from epg_lib import club_skeleton, log, norm, same_club
 
 # Each guide, and the mark its channels carry. An empty mark is the Gulf,
 # which is this reader's default and says nothing.
+# Which of this repository's own guides are read for a channel name.
+#
+# Only guides whose grid is FOOTBALL, and that is a decision made HERE
+# rather than one the title reader can make. roya_jordan_epg.xml publishes
+# 5832 programmes of which 1728 still read as a plain "A - B" —
+# "مطبخ رؤيا - سلطات" is a cookery show and there is nothing in the words
+# to say so. Only the club rule stops those, and one guard is not enough
+# for a source that is 1728 wrong guesses deep. A general channel's
+# listings do not go in this tuple.
+#
+# Doha's beIN carries no mark and Istanbul's carries " TR", which is the
+# whole reason the mark exists: beIN SPORTS 1 is two different channels
+# showing two different matches, and a viewer told the wrong one turns to
+# the wrong football.
 GUIDES = (
     ("alwan_sports_epg.xml", ""),
+    ("bein_sports_qatar_epg.xml", ""),
     ("bein_sports_turkey_epg.xml", " TR"),
 )
 
@@ -63,17 +78,41 @@ SLACK = timedelta(hours=2)
 XMLTV_TIME = "%Y%m%d%H%M%S %z"
 
 # Markers a grid adds to a title that are not part of the fixture.
-NOISE = re.compile(r"[‎‏‎‏]|🔴|🔵|•\s*LIVE|LIVE|Bant|Tekrar", re.I)
+# Every marker bolted onto a grid title, and NONE of the letters inside a
+# club's name. "LIVE" without a word boundary is a substring of
+# "Liverpool", which this stripped to "rpool" — so the most broadcast club
+# in the world could not be matched by any guide published here, and the
+# hole was invisible because a missing club only ever costs a channel
+# name. A marker is a whole word.
+NOISE = re.compile(r"[‎‏‎‏]|🔴|🔵|•\s*\bLIVE\b|\bLIVE\b"
+                   r"|\bBant\b|\bTekrar\b", re.I)
 
-# A title that says nothing was scheduled is not a fixture.
-NOT_A_FIXTURE = ("لا توجد", "لم يُعلن", "no listing", "no match")
+# A title that says nothing was scheduled is not a fixture, and neither
+# is a programme ABOUT football. beIN Qatar's grid carries "Preview - US
+# Open 2026" and "Ligue 1 Weekly Review - 2026/2027" beside the matches;
+# both are a plain "A - B" once the markers come off, and both would be
+# read as a fixture between two clubs that do not exist.
+NOT_A_FIXTURE = ("لا توجد", "لم يُعلن", "no listing", "no match",
+                 "preview", "review", "highlights", "magazine",
+                 "weekly", "classic", "best of", "top 10")
 
 # A grid also carries last season's football. beIN Turkey lists
 # "Beşiktaş - Adanaspor (00-01) 21.hafta" — a match from 2000 — and a
 # round number or a season in parentheses is what marks those. A repeat
 # given a live match's channel is worse than a match with no channel.
 A_REPEAT = re.compile(r"\(\d{2}[-–]\d{2}\)|\bhafta\b|\bözet\b|\bozet\b"
-                      r"|\bmaç özetleri\b|\bhaber\b", re.I)
+                      r"|\bmaç özetleri\b|\bhaber\b"
+                      # "التالي: بيرنلي - ميدلزبره" is Alwan saying what
+                      # comes AFTER the programme now on. The clubs are
+                      # real and the time on the row is not theirs, so
+                      # taking it hands a channel to whatever else falls
+                      # inside the two-hour window. The same match is
+                      # published again at its own time.
+                      r"|التالي|\bnext\s*:"
+                      # A season, a part or an episode belongs to a
+                      # series, not to a match.
+                      r"|الموسم|الجزء|الحلقة|\bseason\b|\bepisode\b"
+                      r"|\bround\s*\d|\bجولة\b", re.I)
 
 # One channel written eight ways. Alwan publishes Sport/Sports, HD, SD, 4K
 # and RAW as separate channels, and a match on all of them would fill the
@@ -82,24 +121,71 @@ QUALITY = re.compile(r"\s*\b(?:HD|SD|FHD|UHD|4K|RAW|8K)\b", re.I)
 
 
 def one_channel(name: str) -> str:
-    """A channel name with its quality variants folded into one."""
-    return norm(QUALITY.sub("", name).replace("Sports", "Sport"))
+    """A channel name with its quality variants folded into one.
+
+    The fold exists because Alwan publishes Sport/Sports, HD, SD, 4K and
+    RAW as separate channels and a match on all of them would fill the
+    row with one name eight times. It must not run so far that the name
+    stops being a channel: "beIN 4K" is Doha's own feed, and folding it
+    to "beIN" printed a row telling a viewer to turn to a channel that
+    does not exist under that name anywhere in the guide.
+
+    So a quality word comes off only while something still identifies
+    what is left — a number, or more than one word. "Alwan Sport 1 HD"
+    keeps "Alwan Sport 1"; "beIN 4K" keeps its 4K, because 4K is the
+    whole of what distinguishes it.
+    """
+    folded = norm(QUALITY.sub("", name).replace("Sports", "Sport"))
+    if not folded:
+        return norm(name)
+    identified = any(ch.isdigit() for ch in folded) or len(folded.split()) > 1
+    return folded if identified else norm(name)
+
+
+# The word a grid puts between two clubs. Alwan and beIN Turkey write a
+# dash; beIN Qatar writes "vs", "vs." or "v" and then names the
+# competition after a dash — "Ipswich Town v Liverpool - English Premier
+# League 2026/2027". Split that on the dash and the fixture becomes
+# "Ipswich Town v Liverpool" against "English Premier League", which is
+# not two clubs and matches nothing. Where one of these words is present
+# it is the separator, and the dash is the competition's.
+VERSUS = re.compile(r"\s+(?:vs\.?|v|x)\s+", re.I)
+
+
+def two_sides(clean: str) -> list[str]:
+    """The title split where this grid actually separates its clubs."""
+    if VERSUS.search(clean):
+        sides = VERSUS.split(clean, maxsplit=1)
+        # Whatever follows the away club's name is the competition.
+        if len(sides) == 2:
+            sides[1] = sides[1].split(" - ")[0]
+        return [norm(side) for side in sides]
+    return [norm(side) for side in clean.split(" - ")]
 
 
 def fixture_in(title: str) -> tuple[str, str]:
     """The two clubs in a grid title, or a pair of empty strings.
 
-    Deliberately unambitious. A title has to be a plain "A - B" once its
-    markers are stripped; anything carrying a competition prefix or a
-    round in the middle is left alone rather than guessed at, because the
-    cost of guessing wrongly is a channel on the wrong match.
+    Deliberately unambitious. A title has to reduce to two club names once
+    its markers are stripped; anything carrying a round in the middle is
+    left alone rather than guessed at, because the cost of guessing
+    wrongly is a channel on the wrong match.
+
+    A season, a part or an episode is not a fixture. A general channel's
+    grid is full of "حكي سياسي - الموسم الثالث" and "مطبخ رؤيا - حلويات
+    غربية", which are a plain "A - B" and nothing to do with football —
+    2711 of them in one guide published here. None can currently reach the
+    board, because a club still has to match; the reason they must be
+    refused anyway is that the club rule is the LAST line, not the first,
+    and a source is one edit away from being wired in by someone who read
+    the fixture count and not this comment.
     """
     clean = norm(NOISE.sub(" ", title or ""))
     if any(word in clean.casefold() for word in NOT_A_FIXTURE):
         return "", ""
     if A_REPEAT.search(clean):
         return "", ""
-    sides = [norm(side) for side in clean.split(" - ")]
+    sides = two_sides(clean)
     if len(sides) != 2 or not all(sides):
         return "", ""
     if any(len(side) < 2 or len(side) > 40 for side in sides):
