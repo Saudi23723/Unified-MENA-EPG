@@ -163,6 +163,10 @@ WANTED_EXACT = {
     "ligue 1", "laliga", "la liga", "bundesliga", "champions league",
     "europa league", "conference league",
     "turkish süper lig", "süper lig", "super lig",
+    # Asked for by name after they were seen missing. "Championship" is
+    # England's second tier and has to be matched exactly, or "Caribbean
+    # Club Championship" and "ASEAN Club Championship" come with it.
+    "championship", "egyptian premier league",
 }
 
 # Matched anywhere in the name, for families whose members all belong:
