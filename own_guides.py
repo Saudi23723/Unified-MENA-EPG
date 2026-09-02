@@ -177,22 +177,36 @@ def broadcasts(path: str, mark: str) -> list[dict]:
     return kept
 
 
-def add_channels(events: list[dict]) -> int:
-    """Name, on each event, any of this reader's channels carrying it."""
+def attach(events: list[dict], rows: list[dict], label: str) -> int:
+    """Put each broadcast's channel on the board row it belongs to."""
+    found = 0
+    for row in rows:
+        for event in events:
+            if abs(event["start"] - row["start"]) > SLACK:
+                continue
+            if not one_club_matches(event["title"], row["title"]):
+                continue
+            if row["channel"] not in event["channels"]:
+                event["channels"].append(row["channel"])
+                found += 1
+    log(f"  {label}: {len(rows)} broadcast(s) named, "
+        f"{found} channel(s) added to the board")
+    return found
+
+
+def add_channels(events: list[dict], extra: list[dict] | None = None) -> int:
+    """Name, on each event, any of this reader's channels carrying it.
+
+    `extra` is for a broadcaster's listing read over the network — Spor
+    Ekranı — which arrives in the same {start, title, channel} shape. It
+    goes through the same matching as the guides published here, because
+    the rule that makes this safe is the matching, not where the rows
+    came from.
+    """
     added = 0
     for path, mark in GUIDES:
-        rows = broadcasts(path, mark)
-        found = 0
-        for row in rows:
-            for event in events:
-                if abs(event["start"] - row["start"]) > SLACK:
-                    continue
-                if not one_club_matches(event["title"], row["title"]):
-                    continue
-                if row["channel"] not in event["channels"]:
-                    event["channels"].append(row["channel"])
-                    found += 1
-        added += found
-        log(f"  {os.path.basename(path)}: {len(rows)} fixture(s) named, "
-            f"{found} channel(s) added to the board")
+        added += attach(events, broadcasts(path, mark),
+                        os.path.basename(path))
+    if extra:
+        added += attach(events, extra, "Spor Ekranı")
     return added

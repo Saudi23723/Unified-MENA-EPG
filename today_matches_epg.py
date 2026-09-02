@@ -61,6 +61,7 @@ import xml.etree.ElementTree as ET
 
 import live_football_on_tv
 import own_guides
+import spor_ekrani
 import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
@@ -1142,7 +1143,7 @@ def build() -> int:
     # Applied after the filtering, because a guide of ours is not evidence
     # that a match belongs on the channel; it is evidence of where to
     # watch one that already does.
-    own_guides.add_channels(events)
+    own_guides.add_channels(events, spor_ekrani.broadcasts(session))
     for event in events:
         if not event["channels"]:
             event["channels"] = [CHANNEL_UNANNOUNCED]
