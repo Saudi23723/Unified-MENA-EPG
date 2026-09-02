@@ -1507,11 +1507,37 @@ def gate_a_row_names_two_channels() -> None:
           today.channels_of({"channels": ["Premier Sports 1",
                                           "MBC Shahid Sports"]}),
           "MBC Shahid Sports \u00b7 Premier Sports 1")
+    # The second slot is not spent on more of the first. Sorting alone
+    # gave "beIN SPORTS 3 · beIN SPORTS 2" — one broadcaster twice — with
+    # the Fox that was collected for that match behind the "+6". Two
+    # slots and Arabic ranked first meant the American channels this
+    # guide went and found could almost never be seen.
+    check("TWO", "the second slot goes somewhere the first is not",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
+                                          "USA Network", "beIN SPORTS 1 TR",
+                                          "Sky Sports+"]}),
+          "beIN SPORTS 3 · USA Network +3")
+    check("TWO", "and still in the reader's order: American before Turkish",
+          today.in_the_readers_order(["beIN SPORTS 3", "beIN SPORTS 1 TR",
+                                      "Fox Sports 1"])[1], "Fox Sports 1")
+    check("TWO", "a row that is all one kind is left exactly as it was",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
+                                          "beIN SPORTS 5"]}),
+          "beIN SPORTS 3 · beIN SPORTS 2 +1")
+    check("TWO", "nothing is dropped by the promotion",
+          sorted(today.in_the_readers_order(
+              ["Sky Sports+", "beIN SPORTS 3", "Fox Sports 1"])),
+          ["Fox Sports 1", "Sky Sports+", "beIN SPORTS 3"])
+    # Promotion moves one channel and re-orders nothing else: within a
+    # tier the source's own order still stands, so a source that lists
+    # the channel most likely to carry the match first keeps that.
+    ranked = today.in_the_readers_order(["beIN SPORTS 5", "beIN SPORTS 1",
+                                         "Fox Sports 1", "beIN SPORTS 2"])
+    check("TWO", "the promoted channel takes the second slot",
+          ranked[:2], ["beIN SPORTS 5", "Fox Sports 1"])
     check("TWO", "and within one tier the source's own order is kept",
-          today.in_the_readers_order(["beIN SPORTS 5", "beIN SPORTS 1",
-                                      "Fox Sports 1", "beIN SPORTS 2"]),
-          ["beIN SPORTS 5", "beIN SPORTS 1", "beIN SPORTS 2",
-           "Fox Sports 1"])
+          [name for name in ranked if today.where_from(name) == 0],
+          ["beIN SPORTS 5", "beIN SPORTS 1", "beIN SPORTS 2"])
 
     # And the build says out loud which rows still fall short, because
     # that is what picks the next source.
@@ -1537,6 +1563,56 @@ def gate_a_row_names_two_channels() -> None:
           < source.index("CHANNEL_UNANNOUNCED"), True)
 
 
+def gate_a_board_says_which_day_it_is() -> None:
+    """Three boards go past, and each says which of the three it is.
+
+    The channel is called "مباريات اليوم", and that was set in 40px across
+    the top of every board — tomorrow's and the day after's included. So
+    the largest words on a Friday board said "today", and the only thing
+    that disagreed was a 21px muted weekday in a corner. A viewer could
+    not tell the boards apart, and the one thing they were told outright
+    was wrong.
+
+    The relative word answers it and now sits in the middle of the
+    header. No digits in the badge: the date is already set on the right,
+    and a number inside Arabic is the one thing that can come out
+    reversed.
+    """
+    print("\nA board says which day it is")
+    from datetime import date, datetime, timezone
+
+    import match_board
+    import today_matches_epg as today
+
+    viewer = today.VIEWER
+    # Late in the viewer's evening, where a UTC instant and the viewer's
+    # date disagree — the reading that has to be the viewer's.
+    now = datetime(2026, 9, 3, 4, 0, tzinfo=timezone.utc)
+    here = now.astimezone(viewer).date()
+    check("DAY", "the viewer's own date is the one called today",
+          match_board.day_badge(here, now, viewer, "س"), "اليوم · س")
+    check("DAY", "the next one is غداً",
+          match_board.day_badge(date(here.year, here.month, here.day + 1),
+                                now, viewer, "س"), "غداً · س")
+    check("DAY", "and the one after that is بعد غد",
+          match_board.day_badge(date(here.year, here.month, here.day + 2),
+                                now, viewer, "س"), "بعد غد · س")
+    check("DAY", "past the third day it says the weekday and guesses nothing",
+          match_board.day_badge(date(here.year, here.month, here.day + 5),
+                                now, viewer, "الاثنين"), "الاثنين")
+    check("DAY", "and no digit goes inside the Arabic, where it could reverse",
+          any(ch.isdigit()
+              for ch in match_board.day_badge(here, now, viewer, "الخميس")),
+          False)
+
+    # Every board the guide draws gets one of the three words, because the
+    # window is exactly three days long.
+    days = today.days_of(now)
+    check("DAY", "every day the guide draws has a word for itself",
+          [day for day in days
+           if not match_board.RELATIVE_DAY.get((day - here).days)], [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1554,7 +1630,8 @@ def main() -> int:
                  gate_our_own_guides_name_the_channel,
                  gate_the_american_channel_is_named,
                  gate_a_grid_title_is_read_the_way_that_grid_writes_it,
-                 gate_a_row_names_two_channels):
+                 gate_a_row_names_two_channels,
+                 gate_a_board_says_which_day_it_is):
         try:
             gate()
         except Exception as exc:

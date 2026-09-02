@@ -901,8 +901,30 @@ def where_from(name: str) -> int:
 
 
 def in_the_readers_order(channels: list[str]) -> list[str]:
-    """Sorted into those tiers, and inside a tier left exactly as found."""
-    return sorted(channels, key=where_from)
+    """Sorted into those tiers, with the second slot spent on something else.
+
+    Sorting alone put the reader's own tier first and then filled the
+    second slot with more of it: "beIN SPORTS 3 · beIN SPORTS 2" is one
+    broadcaster twice, and the Fox that was collected for that match sat
+    behind the "+6". Two slots and Arabic ranked first meant the American
+    channels this guide went and found could almost never be seen.
+
+    So the second slot goes to the best channel from a DIFFERENT tier —
+    still in the reader's order, so American beats Turkish beats the
+    rest. One from here, one from somewhere else you might have.
+
+    Nothing is dropped or hidden by this; the rest keep their order
+    behind the count. And a row whose channels are all of one kind is
+    left exactly as it was, because there is nothing else to offer.
+    """
+    ordered = sorted(channels, key=where_from)
+    if len(ordered) < 3:
+        return ordered
+    elsewhere = next((index for index, name in enumerate(ordered[1:], 1)
+                      if where_from(name) != where_from(ordered[0])), None)
+    if elsewhere is not None:
+        ordered.insert(1, ordered.pop(elsewhere))
+    return ordered
 
 
 def channels_of(event: dict) -> str:
