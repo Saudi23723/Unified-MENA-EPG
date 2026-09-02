@@ -165,9 +165,15 @@ def write_playlist(segments: list[str], out: str) -> int:
 
 def main() -> int:
     if not shutil.which("ffmpeg"):
-        warn("ffmpeg is not installed — the screen channel is not rebuilt "
-             "this pass and the published one stays as it is")
-        return 0
+        # Not a shrug. This shrugged once, and the cost was a television
+        # showing a hand-encoded picture for hours: ubuntu-latest carries
+        # no ffmpeg, so every ten-minute pass drew fresh boards, skipped
+        # the encode, and published the pair out of step. Carrying on
+        # without an encoder is precisely the failure, so it is one.
+        warn("ffmpeg is not installed — the screen cannot be re-encoded, "
+             "and publishing boards it does not show is the fault this "
+             "refuses to repeat")
+        return 1
     reel = boards()
     if not reel:
         warn(f"no board has been drawn in {BOARD_DIR}/ — nothing to encode")
@@ -187,7 +193,9 @@ def main() -> int:
     for board in reel:
         segment = segment_of(board)
         if not encode_segment(board, segment):
-            return 0        # keep whatever is already published
+            # Same reasoning: what is published stays, and this pass says
+            # it failed so nothing is committed on top of it.
+            return 1
         segments.append(segment)
 
     cycles = write_playlist(segments, OUT)

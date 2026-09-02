@@ -695,6 +695,255 @@ def gate_the_screen_cannot_go_stale() -> None:
           unversioned, [])
 
 
+def gate_two_pages_make_one_row() -> None:
+    """A match on both pages is one row, and a wrong pair is never one row.
+
+    مباريات اليوم now reads two listings pages. They spell clubs
+    differently — one writes "West Brom" where the other writes "West
+    Bromwich Albion", one writes "QPR" where the other writes "Queens Park
+    Rangers" — so a merge that only compares strings prints every shared
+    match twice, and a board that holds nine rows loses half its day to
+    duplicates.
+
+    The dangerous fix is a similarity score. Measured inside one script it
+    cannot be made safe: "Mainz"/"Monza" and "Al Nassr"/"Al Nasar" score
+    above every threshold that still catches a real pair. So the merge does
+    not score anything — it asks whether one name is the other abbreviated,
+    at a kickoff both pages agree on, on both sides of the fixture.
+
+    This gate holds both halves at once: the abbreviations must join, and
+    the near-misses must not. Widening the first without checking the
+    second is exactly how a wrong pair gets merged, and a merged wrong pair
+    deletes a real match from the board.
+    """
+    print("\nTwo pages, one row — the merge joins abbreviations, not lookalikes")
+    import today_matches_epg as today
+
+    # One club, written short on one page and long on the other.
+    for short, long in (("West Brom", "West Bromwich Albion"),
+                        ("QPR", "Queens Park Rangers"),
+                        ("Wolves", "Wolverhampton Wanderers"),
+                        ("Man Utd", "Manchester United"),
+                        ("Tottenham", "Tottenham Hotspur"),
+                        ("Newcastle", "Newcastle United")):
+        check("MERGE", f"{short!r} is {long!r} shortened",
+              today.same_side(short, long), True)
+
+    # Two clubs that are not one club, however alike they read.
+    for first, second in (("Mainz", "Monza"),
+                          ("Al Nassr", "Al Nasar"),
+                          ("Real Madrid", "Real Sociedad"),
+                          ("Manchester United", "Manchester City"),
+                          ("Nottingham Forest", "Norwich City"),
+                          ("Inter", "Inter Miami"),
+                          ("AC Milan", "Ajaccio")):
+        check("MERGE", f"{first!r} is not {second!r}",
+              today.same_side(first, second), False)
+
+    # A fixture needs both sides. One side agreeing is a coincidence.
+    check("MERGE", "both sides must agree before it is one match",
+          today.same_match("QPR - Cardiff City",
+                           "Queens Park Rangers - Cardiff City"), True)
+    check("MERGE", "one side agreeing is not enough",
+          today.same_match("QPR - Cardiff City",
+                           "Queens Park Rangers - Swansea City"), False)
+
+    # And the whole of it, end to end: two pages in, one list out.
+    from datetime import datetime, timedelta, timezone
+    kick = datetime(2026, 9, 2, 18, 45, tzinfo=timezone.utc)
+    primary = [
+        {"start": kick, "title": "QPR - Cardiff City",
+         "channels": ["beIN Sports 1"], "competition": ""},
+        {"start": kick, "title": "Mainz - Werder Bremen",
+         "channels": ["Thmanyah 2"], "competition": "Bundesliga"},
+    ]
+    secondary = [
+        {"start": kick, "title": "Queens Park Rangers - Cardiff City",
+         "channels": ["Sky Sports+"], "competition": "Championship"},
+        {"start": kick, "title": "Monza - Como",
+         "channels": ["TNT Sports 1"], "competition": "Serie A"},
+        {"start": kick, "title": "Millwall - Wrexham",
+         "channels": ["Sky Sports+"], "competition": "Championship"},
+    ]
+    merged = today.unify(primary, secondary)
+    check("MERGE", "five rows in, four out", len(merged), 4)
+
+    by_title = {event["title"]: event for event in merged}
+    check("MERGE", "the shared match keeps the first page's spelling",
+          "QPR - Cardiff City" in by_title, True)
+    joined = by_title.get("QPR - Cardiff City", {"channels": [],
+                                                 "competition": ""})
+    check("MERGE", "and names both pages' channels, the tunable one first",
+          joined["channels"], ["beIN Sports 1", "Sky Sports+"])
+    check("MERGE", "and borrows the competition the first page left blank",
+          joined["competition"], "Championship")
+    check("MERGE", "Mainz did not swallow Monza",
+          "Monza - Como" in by_title, True)
+    check("MERGE", "a match only the second page saw is still a match",
+          "Millwall - Wrexham" in by_title, True)
+
+    # A shop is not a channel, and the rule that decides which matches
+    # belong has to be the rule that decides what they say. It was applied
+    # to the first and not the second, and a match kept because beIN
+    # carried it reached a television labelled "OneFootball".
+    for shop in ("OneFootball", "Thmanyah App", "LaLiga PPV",
+                 "Flamengo TV YouTube", "Federation Official Site"):
+        check("MERGE", f"{shop!r} is not somebody's television",
+              today.real_channels([shop]), [])
+    check("MERGE", "and one real name among them is what gets shown",
+          today.channels_of({"channels": ["OneFootball", "beIN Sports 1",
+                                          "Thmanyah App"]}),
+          "beIN Sports 1")
+
+    # The merge must not reach across kickoffs. Two different matches can
+    # share both club names across a season; only one of them is tonight.
+    apart = today.unify(
+        primary[:1],
+        [{"start": kick + timedelta(hours=3),
+          "title": "Queens Park Rangers - Cardiff City",
+          "channels": ["Sky Sports+"], "competition": "Championship"}])
+    check("MERGE", "the same fixture at another hour is another match",
+          len(apart), 2)
+
+
+def gate_a_day_divider_is_not_a_container() -> None:
+    """Each fixture takes the date of the divider above it, not the page's.
+
+    live-footballontv writes 1896 fixtures inside TWO div.fixture-group
+    elements. The day is a div.fixture-date divider written BETWEEN the
+    fixtures, not a box around them — and the first reader treated a group
+    as a day, took the first date it found in it, and stamped 1876
+    fixtures with it. Every one of those fixtures was real; the whole
+    autumn simply arrived on tomorrow's board, Champions League league
+    phase and all. A probe of the merged output is what caught it, and
+    nothing in the code could have.
+
+    So the shape itself is held here, in the page's own markup: two
+    dividers, fixtures under each, and pills for the channels. If a
+    fixture ever takes a date from anywhere but the divider above it, this
+    goes red before anything reaches a screen.
+    """
+    print("\nA day divider is a divider — live-footballontv")
+    from datetime import datetime, timedelta, timezone
+
+    import live_football_on_tv as second
+
+    page = """
+    <div class="fixture-group">
+      <div class="fixture-date">Wednesday 2nd September 2026</div>
+      <div class="fixture">
+        <div class="fixture__time">01:00</div>
+        <div class="fixture__teams">Atletico Mineiro v Cruzeiro  </div>
+        <div class="fixture__competition">Copa do Brasil</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">Premier Sports 2</span>
+        </div></div>
+      </div>
+      <div class="fixture-date">Thursday 3rd September 2026</div>
+      <div class="fixture">
+        <div class="fixture__time">19:45</div>
+        <div class="fixture__teams">Millwall v Wrexham  </div>
+        <div class="fixture__competition">Championship</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">Sky Sports+</span>
+          <span class="channel-pill">TNT Sports 1</span>
+          <span class="channel-pill">TBC</span>
+        </div></div>
+      </div>
+      <div class="fixture">
+        <div class="fixture__time">TBC</div>
+        <div class="fixture__teams">Arsenal v Real Madrid  </div>
+        <div class="fixture__competition">Champions League</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">TBC</span>
+        </div></div>
+      </div>
+    </div>
+    """
+    now = datetime(2026, 9, 2, 8, 0, tzinfo=timezone.utc)
+    floor = datetime(2026, 9, 2, 0, 0, tzinfo=timezone.utc)
+    read = second.collect(page, now, timedelta(days=2), floor)
+
+    check("SOURCE2", "a fixture with no kickoff is not a fixture",
+          len(read), 2)
+    by_title = {event["title"]: event for event in read}
+
+    check("SOURCE2", "the first fixture keeps the first divider's day",
+          f"{by_title['Atletico Mineiro - Cruzeiro']['start']:%Y-%m-%d %H:%M}",
+          "2026-09-02 00:00")
+    check("SOURCE2", "and the second takes the SECOND divider's day",
+          f"{by_title['Millwall - Wrexham']['start']:%Y-%m-%d %H:%M}",
+          "2026-09-03 18:45")
+
+    check("SOURCE2", "each channel pill is read on its own",
+          by_title["Millwall - Wrexham"]["channels"],
+          ["Sky Sports+", "TNT Sports 1"])
+    check("SOURCE2", "and the page saying it does not know is not a channel",
+          any("TBC" in name
+              for event in read for name in event["channels"]), False)
+
+    # The fault itself, stated as a number: everything on one day is what
+    # going wrong looked like.
+    check("SOURCE2", "the fixtures did not all land on one day",
+          len({event["start"].date() for event in read}), 2)
+
+
+def gate_the_printed_clock_is_the_kickoff() -> None:
+    """The hour a match starts comes from the cell, not from the markup.
+
+    livefootballtv publishes a schema.org startDate that is one hour fast:
+    it prints the Gulf clock its readers want and derives the markup by
+    subtracting two hours, as though the Gulf were UTC+2 rather than +3.
+    Reading the markup as the instant put every match on this channel an
+    hour late — and that was then "fixed" by moving the reader's own clock
+    back an hour, which printed the right digits in September and would
+    have been wrong all winter.
+
+    Settled by British football, whose kickoff times are not opinion: the
+    markup puts Burnley v Middlesbrough on Sky at 21:00 UK, and the
+    Championship does not kick off at 21:00. The rows below are real ones
+    taken off the page, with the last two chosen because their printed
+    clock is past midnight and the markup's date is not — which is where a
+    naive combination of the two puts a match a day out.
+    """
+    print("\nThe printed clock is the kickoff — livefootballtv")
+    from bs4 import BeautifulSoup
+
+    import today_matches_epg as today
+
+    def row_of(printed: str, markup: str):
+        return BeautifulSoup(
+            f'<table><tr><td class="hora">{printed}</td>'
+            f'<td class="canales"><meta itemprop="startDate" '
+            f'content="{markup}"/></td></tr></table>',
+            "html.parser").find("tr")
+
+    for printed, markup, expected in (
+            # Sky's Championship game: 20:00 UK, not the markup's 21:00.
+            ("22:00", "2026-09-02T20:00:00", "2026-09-02 19:00"),
+            # A Coppa Italia tie at 18:00 in Italy.
+            ("19:00", "2026-09-02T17:00:00", "2026-09-02 16:00"),
+            # Printed after midnight, markup still on the day before.
+            ("02:00", "2026-09-02T00:00:00", "2026-09-01 23:00"),
+            ("03:00", "2026-09-02T01:00:00", "2026-09-02 00:00")):
+        struck = today.kickoff_of(row_of(printed, markup))
+        check("CLOCK", f"printed {printed} with markup {markup[11:16]}",
+              f"{struck:%Y-%m-%d %H:%M}" if struck else None, expected)
+
+    # No printed clock at all: the markup, with its hour taken back off.
+    bare = BeautifulSoup(
+        '<table><tr><td class="canales"><meta itemprop="startDate" '
+        'content="2026-09-02T20:00:00"/></td></tr></table>',
+        "html.parser").find("tr")
+    check("CLOCK", "and with no printed clock, the markup less its hour",
+          f"{today.kickoff_of(bare):%Y-%m-%d %H:%M}", "2026-09-02 19:00")
+
+    # The reader's zone is the other half of the same fault. A fixed
+    # offset was the shape of the mistake, not a detail of it.
+    check("CLOCK", "the reader is on a real zone, not a frozen offset",
+          today.VIEWER.key, "America/Los_Angeles")
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -703,7 +952,10 @@ def main() -> int:
                  gate_one_club_across_two_scripts,
                  gate_a_fact_survives_its_source,
                  gate_every_guide_is_covered,
-                 gate_the_screen_cannot_go_stale):
+                 gate_the_screen_cannot_go_stale,
+                 gate_two_pages_make_one_row,
+                 gate_a_day_divider_is_not_a_container,
+                 gate_the_printed_clock_is_the_kickoff):
         try:
             gate()
         except Exception as exc:

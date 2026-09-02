@@ -36,8 +36,19 @@ jobs:
 
       # The board sets Arabic type, and a runner ships no Arabic face.
       # Without this the drawing fails and the day publishes as text only.
-      - name: Install the fonts the board is drawn with
-        run: sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+      #
+      # ffmpeg is here for a worse reason. ubuntu-latest is 24.04 and does
+      # not carry it, and the encoder shrugged and carried on when it was
+      # missing — so every pass published new boards and left the video
+      # exactly as it was. The television showed a hand-encoded picture for
+      # hours while the repository filled with boards nobody was watching.
+      # Installed here, and no longer allowed to be optional below.
+      - name: Install the fonts the board is drawn with, and ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            fonts-freefont-ttf fonts-dejavu-core ffmpeg
+          ffmpeg -version | head -1
 
       - name: Identify the committer
         run: |
@@ -55,9 +66,7 @@ jobs:
       # The board as video, so tuning to the channel puts it on the
       # screen. Re-encoded only when the board itself changed.
       - name: Encode the screen channel
-        run: |
-          python -u match_screen_video.py || \
-            echo "::warning::the screen channel did not rebuild this pass"
+        run: python -u match_screen_video.py
 
       # The same day, written as a playlist. A player renders a playlist
       # group as a full screen list of rows, which is the shape an EPG
@@ -66,6 +75,16 @@ jobs:
         run: |
           python -u sports_dashboard_m3u.py || \
             echo "::warning::the playlist did not rebuild this pass — the published one is unchanged"
+
+      # A board and the segment encoded from it are one thing in two
+      # files. Publishing one without the other is what left a television
+      # showing yesterday, so the check that proves they agree runs BEFORE
+      # anything is committed rather than after — a failing step stops the
+      # job, and nothing reaches the repository at all. A stale screen that
+      # matches its boards is recoverable; a screen that disagrees with
+      # them cannot even be diagnosed from the outside.
+      - name: Refuse to publish boards the screen does not show
+        run: python -u channel_gate_selftest.py
 
       - name: Publish it if it changed
         run: |
