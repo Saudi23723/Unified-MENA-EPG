@@ -1492,8 +1492,8 @@ def gate_a_row_names_two_channels() -> None:
     # America can open, while the Fox that WAS collected sat behind "+1".
     check("TWO", "Arabic comes first, then British, then American",
           today.channels_of({"channels": ["MBC Shahid Sports", "Fox Sports 1",
-                                          "BBC iPlayer"]}),
-          "MBC Shahid · BBC iPlayer · Fox Sports 1")
+                                          "TNT Sports 1"]}),
+          "MBC Shahid · TNT 1 · Fox Sports 1")
     check("TWO", "and the tiers run Arabic, British, American, Turkish, rest",
           [today.where_from(name) for name in
            ("beIN SPORTS 3", "Sky Sports+", "Fox Sports 1",
@@ -1505,16 +1505,17 @@ def gate_a_row_names_two_channels() -> None:
     # in the second slot ahead of the Fox a viewer here could open.
     check("TWO", "TNT and BBC are British",
           [today.where_from(name)
-           for name in ("TNT Sports 1", "BBC iPlayer", "Premier Player")],
+           for name in ("TNT Sports 1", "Sky Sports Main Event",
+                        "Premier Sports 1")],
           [1, 1, 1])
-    check("TWO", "beIN's English commentary is Doha's, not England's",
-          today.where_from("beIN SPORTS 1 EN"), 0)
+    check("TWO", "beIN's English commentary is Doha's, but ranked last",
+          today.where_from("beIN SPORTS 1 EN"), 5)
     check("TWO", "and Canada rides with America",
           [today.where_from(name)
            for name in ("TSN 4", "Sportsnet One", "CBC", "RDS")],
           [2, 2, 2, 2])
-    check("TWO", "while beIN's French feed is neither Doha's nor anyone's here",
-          today.where_from("beIN SPORTS FR 2"), 4)
+    check("TWO", "while beIN's French feed goes below everywhere else",
+          today.where_from("beIN SPORTS FR 2"), 5)
     check("TWO", "Doha's unmarked beIN is the Arabic one",
           today.where_from("beIN SPORTS 1"), 0)
     check("TWO", "an Arabic name needs no list to be recognised",
@@ -1591,13 +1592,41 @@ def gate_a_row_names_two_channels() -> None:
     # S Sport is Turkish, and "S" on its own is not a channel — the same
     # reason Premier keeps its Sports. It is safe because the list holds
     # brands rather than initials, and this is what holds it there.
-    # A page is not something a television can be turned to. "BBC Sport
-    # Website" reached the board and took one of three slots from a
-    # broadcaster that is.
+    # beIN's own feeds in another language rank below everywhere else, so
+    # a TNT or a TSN takes the slot instead — which is what was asked for.
+    check("TWO", "a TNT takes the slot beIN's English feed had",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 1 EN",
+                                          "TNT Sports 1", "USA Network"]}),
+          "beIN 3 · TNT 1 · USA Network +1")
+    check("TWO", "and so does a TSN",
+          today.channels_of({"channels": ["beIN SPORTS 4", "beIN SPORTS FR 2",
+                                          "TSN 4"]}),
+          "beIN 4 · TSN 4 · beIN FR 2")
+    check("TWO", "they rank below even the rest of the world",
+          [today.where_from(name) for name in
+           ("Ligue1+", "beIN SPORTS 1 EN", "beIN SPORTS FR 2")],
+          [4, 5, 5])
+    # Ranked last, NOT deleted. 268 of the 1001 fixtures in Doha's guide
+    # name beIN SPORTS EN 1 and nothing else — Manchester United,
+    # Liverpool, Arsenal, Barcelona. Deleting would turn every one of
+    # those from a channel that works into "لم تُعلن القناة".
+    check("TWO", "a match that has only that feed still names it",
+          today.channels_of({"channels": ["beIN SPORTS 1 EN"]}), "beIN 1 EN")
+    check("TWO", "and it is still a real channel, not junk",
+          today.real_channels(["beIN SPORTS 1 EN"]), ["beIN SPORTS 1 EN"])
+
+    # A page is not something a television can be turned to, and neither
+    # is a player. "BBC Sport Website" reached the board and took one of
+    # three slots from a broadcaster that is; BBC iPlayer and Premier
+    # Player are the same page with a different name on it.
+    check("TWO", "a player is not a channel either",
+          today.real_channels(["BBC iPlayer", "Premier Player",
+                               "TNT Sports 1"]),
+          ["TNT Sports 1"])
     check("TWO", "a website is not a channel",
-          today.channels_of({"channels": ["MBC Shahid Sports", "BBC iPlayer",
+          today.channels_of({"channels": ["MBC Shahid Sports", "TNT Sports 1",
                                           "BBC Sport Website"]}),
-          "MBC Shahid · BBC iPlayer")
+          "MBC Shahid · TNT 1")
     check("TWO", "nor is an address",
           today.real_channels(["fuboTV.com", "skysports.co.uk", "beIN SPORTS 1"]),
           ["beIN SPORTS 1"])

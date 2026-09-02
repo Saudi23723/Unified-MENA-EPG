@@ -312,9 +312,24 @@ NOT_A_CHANNEL = (
     "federation", "official site", "club tv",
     # "BBC Sport Website" reached the board as a channel. A page is not
     # something a television can be turned to, and it took one of three
-    # slots from a broadcaster that is.
-    "website", ".com", ".co.uk",
+    # slots from a broadcaster that is. Neither is a player: BBC iPlayer
+    # and Premier Player are the same page with a different name on it.
+    "website", ".com", ".co.uk", "player",
 )
+
+# beIN's own feeds in another language, ranked BELOW everywhere else.
+#
+# The reader asked for these to go, and to see a TNT or a TSN in their
+# place. Deleted outright they would take real football with them: 268
+# of the 1001 fixtures in Doha's guide name beIN SPORTS EN 1 and nothing
+# else — Manchester United, Liverpool, Arsenal, Barcelona, Real Madrid —
+# and every one of those rows would have gone from a channel that works
+# to "لم تُعلن القناة", which is worse than the complaint.
+#
+# Ranked last they cannot take a slot from anything, which was the whole
+# of the complaint, and a row that has nothing else still tells a viewer
+# where the match is.
+ANOTHER_LANGUAGE = re.compile(r"\bbein\b.*\b(?:EN|FR)\b", re.I)
 
 # The page labels the Austrian Bundesliga with exactly the word it uses for
 # the German one, so "Bundesliga" alone let Austria Vienna, Tirol, Salzburg
@@ -954,6 +969,8 @@ def where_from(name: str) -> int:
     is America's, beIN SPORTS FR 2 is France's, and beIN SPORTS 1 with no
     mark at all is Doha's.
     """
+    if ANOTHER_LANGUAGE.search(name):
+        return 5
     if TURKISH.search(name):
         return 3
     if AMERICAN.search(name):
