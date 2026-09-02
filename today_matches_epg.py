@@ -314,7 +314,7 @@ def fixture_of(event: dict) -> str:
     return f"{event['title']} · {channels}" if channels else event["title"]
 
 
-def when(start: datetime, now: datetime) -> str:
+def when(start: datetime, now: datetime, lead_in: bool = True) -> str:
     """How long until this kicks off, rather than the hour it kicks off at.
 
     Asked for outright: a viewer glancing at the page wants "in forty
@@ -337,10 +337,26 @@ def when(start: datetime, now: datetime) -> str:
     if start <= now:
         return "الآن"
     minutes = (start - now).total_seconds() // 60
+    lead = "بعد " if lead_in else ""
     for step in NEAR_STEPS:
         if minutes <= step:
-            return f"بعد أقل من {countdown_label(step)}"
-    return f"بعد {countdown_label(minutes)}"
+            return f"{lead}أقل من {countdown_label(step)}"
+    return f"{lead}{countdown_label(minutes)}"
+
+
+def clock_and_wait(start: datetime, now: datetime) -> str:
+    """The hour AND the wait, which answer different questions.
+
+    The countdown is what a viewer wants at a glance, but it is written
+    once and read later, so it can only ever be as fresh as the last
+    build. The clock cannot go stale at all. Carrying both means the line
+    always holds one number that is certainly right, and one that is
+    easier to act on.
+    """
+    # No "بعد" here: the clock in front of it already says these are two
+    # readings of the same kickoff, and every character spent is a
+    # character of club or channel name the panel truncates instead.
+    return f"{start.astimezone(VIEWER):%H:%M} {when(start, now, lead_in=False)}"
 
 
 def day_bounds(day: date) -> tuple[datetime, datetime]:
@@ -422,7 +438,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
             mark = NEXT_MARK
         else:
             mark = "  "
-        opening = f"{mark} {when(slot[0]['start'], now)}  "
+        opening = f"{mark} {clock_and_wait(slot[0]['start'], now)}  "
         line = opening
         for event in slot:
             fixture = fixture_of(event)
