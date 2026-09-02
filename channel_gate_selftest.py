@@ -808,7 +808,7 @@ def gate_two_pages_make_one_row() -> None:
     check("MERGE", "and one real name among them is what gets shown",
           today.channels_of({"channels": ["OneFootball", "beIN Sports 1",
                                           "Thmanyah App"]}),
-          "beIN Sports 1")
+          "beIN 1")
 
     # The merge must not reach across kickoffs. Two different matches can
     # share both club names across a season; only one of them is tonight.
@@ -1467,16 +1467,16 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "three channels are printed, not one and a digit",
           today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
                                           "Fox Sports 1"]}),
-          "beIN SPORTS 1 · Sky Sports+ · Fox Sports 1")
+          "beIN 1 · Sky+ · Fox Sports 1")
     check("TWO", "a fourth is counted, not dropped",
           today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
                                           "Fox Sports 1", "DAZN"]}),
-          "beIN SPORTS 1 · Sky Sports+ · Fox Sports 1 +1")
+          "beIN 1 · Sky+ · Fox Sports 1 +1")
     check("TWO", "one channel is still one channel",
           today.channels_of({"channels": ["DAZN"]}), "DAZN")
     check("TWO", "and the app the reader asked to stop seeing is not one",
           today.channels_of({"channels": ["OneFootball", "beIN SPORTS 1"]}),
-          "beIN SPORTS 1")
+          "beIN 1")
 
     # The drawn board gives a row three pills, so the picture and the
     # line agree on how many a viewer is shown. Three was refused once on
@@ -1493,7 +1493,7 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "Arabic comes first, then British, then American",
           today.channels_of({"channels": ["MBC Shahid Sports", "Fox Sports 1",
                                           "BBC iPlayer"]}),
-          "MBC Shahid Sports · BBC iPlayer · Fox Sports 1")
+          "MBC Shahid · BBC iPlayer · Fox Sports 1")
     check("TWO", "and the tiers run Arabic, British, American, Turkish, rest",
           [today.where_from(name) for name in
            ("beIN SPORTS 3", "Sky Sports+", "Fox Sports 1",
@@ -1525,7 +1525,7 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "a British channel is not hidden, only ranked",
           today.channels_of({"channels": ["Premier Sports 1",
                                           "MBC Shahid Sports"]}),
-          "MBC Shahid Sports \u00b7 Premier Sports 1")
+          "MBC Shahid \u00b7 Premier Sports 1")
     # The second slot is not spent on more of the first. Sorting alone
     # gave "beIN SPORTS 3 · beIN SPORTS 2" — one broadcaster twice — with
     # the Fox that was collected for that match behind the "+6". Two
@@ -1535,19 +1535,19 @@ def gate_a_row_names_two_channels() -> None:
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 TR",
                                           "Sky Sports+"]}),
-          "beIN SPORTS 3 · Sky Sports+ · USA Network +2")
+          "beIN 3 · Sky+ · USA Network +2")
     check("TWO", "Arabic, British, American — the three a viewer can open",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 EN",
                                           "beIN SPORTS 1 TR", "Sky Sports+"]}),
-          "beIN SPORTS 3 · Sky Sports+ · USA Network +3")
+          "beIN 3 · Sky+ · USA Network +3")
     check("TWO", "and still in the reader's order: American before Turkish",
           today.in_the_readers_order(["beIN SPORTS 3", "beIN SPORTS 1 TR",
                                       "Fox Sports 1"])[1], "Fox Sports 1")
     check("TWO", "a row that is all one kind keeps the source's order",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "beIN SPORTS 5"]}),
-          "beIN SPORTS 3 · beIN SPORTS 2 · beIN SPORTS 5")
+          "beIN 3 · beIN 2 · beIN 5")
     check("TWO", "nothing is dropped by the promotion",
           sorted(today.in_the_readers_order(
               ["Sky Sports+", "beIN SPORTS 3", "Fox Sports 1"])),
@@ -1562,6 +1562,40 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "and within one tier the source's own order is kept",
           [name for name in ranked if today.where_from(name) == 0],
           ["beIN SPORTS 5", "beIN SPORTS 1", "beIN SPORTS 2"])
+
+    # SPORTS says nothing. A photograph of the screen settled it:
+    # "Burnley - Middles…" clipped, because "beIN SPORTS Xtra 1" and
+    # "beIN SPORTS 1" had eaten the row. The word is on nearly every
+    # channel here and tells one from another nowhere.
+    check("TWO", "beIN keeps its number and loses its Sports",
+          [today.shorter(name) for name in
+           ("beIN SPORTS 1", "beIN SPORTS 3 TR", "beIN SPORTS Xtra 2",
+            "beIN SPORTS 1 EN", "beIN SPORTS US")],
+          ["beIN 1", "beIN 3 TR", "beIN Xtra 2", "beIN 1 EN", "beIN US"])
+    check("TWO", "and so do Sky, MBC Shahid, Thmanyah, TNT and Alwan",
+          [today.shorter(name) for name in
+           ("Sky Sports Main Event", "MBC Shahid Sports",
+            "Thmanyah Channels", "TNT Sports 1", "Alwan Sport 1")],
+          ["Sky Main Event", "MBC Shahid", "Thmanyah", "TNT 1", "Alwan 1"])
+    # Premier is not a channel. Neither is ON on its own, and Sportsnet
+    # only contains the letters — the cost of guessing wrong here is a
+    # viewer sent to a name that exists nowhere.
+    check("TWO", "Premier keeps its Sports, because Premier 1 is nothing",
+          [today.shorter(name) for name in
+           ("Premier Sports 1", "Premier Player", "ON Sport",
+            "Sportsnet One", "Fox Sports 1")],
+          ["Premier Sports 1", "Premier Player", "ON Sport",
+           "Sportsnet One", "Fox Sports 1"])
+    check("TWO", "a name that is nothing BUT the generic word survives",
+          today.shorter("beIN SPORTS"), "beIN")
+    # Shortening runs after the ordering and must not disturb it.
+    check("TWO", "a shortened name still lands in its own tier",
+          [today.where_from(today.shorter(name)) for name in
+           ("beIN SPORTS 1", "Sky Sports+", "beIN SPORTS US",
+            "beIN SPORTS 3 TR", "Thmanyah Channels")],
+          [0, 1, 2, 3, 0])
+    check("TWO", "and shortening an already short name changes nothing",
+          today.shorter(today.shorter("beIN SPORTS Xtra 2")), "beIN Xtra 2")
 
     # And the build says out loud which rows still fall short, because
     # that is what picks the next source.
