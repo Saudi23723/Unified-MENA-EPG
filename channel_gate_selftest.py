@@ -614,6 +614,87 @@ def gate_every_guide_is_covered() -> None:
           not missing, True)
 
 
+def gate_the_screen_cannot_go_stale() -> None:
+    """What the screen plays must be what the boards say, provably.
+
+    A television showed yesterday's fixtures for hours after they were
+    removed and the new boards published. Nothing was wrong with the
+    boards. The segment file names had not changed, so every cache between
+    the repository and the screen went on serving what it already held,
+    and from the outside the two were indistinguishable.
+
+    The fix was to name each segment after eight characters of its board's
+    own hash, so a board that changes cannot produce a name any cache has
+    seen. This gate is what stops that fix being undone by accident: it
+    recomputes the hashes off the published boards and demands the
+    published playlist agree with them.
+
+    It is deliberately checked against the FILES, not against the code
+    that wrote them. A guard that only reads the source proves the
+    intention; this proves the result.
+    """
+    print("\nThe screen cannot go stale — boards, segments, playlist")
+    import hashlib
+    import os as _os
+    import re as _re
+
+    boards_dir, stream_dir = "boards", "stream"
+    playlist = _os.path.join(stream_dir, "screen.m3u8")
+
+    if not _os.path.isdir(boards_dir) or not _os.path.exists(playlist):
+        # Nothing published yet is not a failure: a fresh clone has no
+        # screen until the first build makes one.
+        check("SCREEN", "nothing published yet, nothing to contradict",
+              True, True)
+        return
+
+    boards = sorted(name for name in _os.listdir(boards_dir)
+                    if name.startswith("today_matches_")
+                    and name.endswith(".png"))
+    with open(playlist, encoding="utf-8") as handle:
+        referenced = [line.strip() for line in handle
+                      if line.strip().endswith(".ts")]
+    distinct = sorted(set(referenced))
+
+    check("SCREEN", "the playlist names one segment per board",
+          len(distinct), len(boards))
+
+    # Every reference resolves to a file that is actually published.
+    missing = [name for name in distinct
+               if not _os.path.exists(_os.path.join(stream_dir, name))]
+    check("SCREEN", "every segment the playlist names exists",
+          missing, [])
+
+    # Nothing published that no playlist points at — the deletion pass has
+    # to keep working or the repository grows a few files a day forever.
+    on_disk = {name for name in _os.listdir(stream_dir)
+               if name.endswith(".ts")}
+    check("SCREEN", "and nothing is published that it does not name",
+          sorted(on_disk - set(distinct)), [])
+
+    # The heart of it: the name has to be the fingerprint of the picture.
+    wrong = []
+    for board in boards:
+        with open(_os.path.join(boards_dir, board), "rb") as handle:
+            body = handle.read()
+        running = hashlib.sha256()
+        running.update(_os.path.join(boards_dir, board).encode())
+        running.update(body)
+        stem = _os.path.splitext(board)[0]
+        expected = f"{stem}.{running.hexdigest()[:8]}.ts"
+        if expected not in distinct:
+            wrong.append(f"{board} -> expected {expected}")
+    check("SCREEN", "each segment is named after the board it shows",
+          wrong, [])
+
+    # And the names must not be the old fixed ones, which is the shape the
+    # bug had: a name that cannot change when the picture does.
+    unversioned = [name for name in distinct
+                   if _re.fullmatch(r"today_matches_\d+\.ts", name)]
+    check("SCREEN", "no segment carries a name a cache could reuse",
+          unversioned, [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -621,7 +702,8 @@ def main() -> int:
                  gate_one_match_one_row,
                  gate_one_club_across_two_scripts,
                  gate_a_fact_survives_its_source,
-                 gate_every_guide_is_covered):
+                 gate_every_guide_is_covered,
+                 gate_the_screen_cannot_go_stale):
         try:
             gate()
         except Exception as exc:
