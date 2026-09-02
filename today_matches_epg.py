@@ -95,6 +95,10 @@ MAX_CHANNELS = 1
 # when it actually removes a line.
 LINE_BUDGET = 60
 
+# Inside an hour a printed countdown is stale enough to mislead, so it is
+# rounded up to one of these and stated as a bound rather than a fact.
+NEAR_STEPS = (15, 30, 45, 60)
+
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
 
@@ -313,20 +317,30 @@ def fixture_of(event: dict) -> str:
 def when(start: datetime, now: datetime) -> str:
     """How long until this kicks off, rather than the hour it kicks off at.
 
-    Asked for outright: a viewer glancing at a strip wants "in forty
+    Asked for outright: a viewer glancing at the page wants "in forty
     minutes", not a clock they then have to subtract from. The words are
     spelled out rather than abbreviated for the reason countdown_label
     exists — single letters drift away from their numbers on a line that
     also carries Latin club names, and "19 س و30 د" was read three
     different ways on a television.
 
-    It is computed when the guide is built, so it is as fresh as the last
-    build and no fresher. The clock time it replaces never went stale;
-    this is the cost of the form that was asked for.
+    A printed countdown is frozen the moment the file is written, and the
+    file is read minutes or tens of minutes later, so a precise number is
+    a number that is wrong. Near kickoff, where being wrong matters, this
+    states an upper bound instead: the time left only ever shrinks, so
+    "less than an hour" written at fifty minutes is still true at five.
+    Coarser, and never a lie.
+
+    Further out the bound is pointless — the gap between the build and the
+    reading is nothing beside three hours — so the exact wording stands.
     """
     if start <= now:
         return "الآن"
-    return f"بعد {countdown_label((start - now).total_seconds() // 60)}"
+    minutes = (start - now).total_seconds() // 60
+    for step in NEAR_STEPS:
+        if minutes <= step:
+            return f"بعد أقل من {countdown_label(step)}"
+    return f"بعد {countdown_label(minutes)}"
 
 
 def day_bounds(day: date) -> tuple[datetime, datetime]:

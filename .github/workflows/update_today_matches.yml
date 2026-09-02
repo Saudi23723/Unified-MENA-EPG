@@ -1,0 +1,68 @@
+# مباريات اليوم on its own, ten minutes at a time.
+#
+# The page prints a countdown, and a countdown printed into a static file
+# is only as true as the moment the file was written. The full build runs
+# twice an hour because it rebuilds fourteen guides and takes four
+# minutes; this one guide takes eight seconds, so it can run six times an
+# hour and cut the error from half an hour to ten minutes.
+#
+# It writes today_matches_epg.xml and nothing else. The merged link is
+# deliberately left to the full build: rewriting a thirteen-thousand-row
+# file every ten minutes would add a hundred and forty commits a day of
+# several megabytes each, to keep one channel fresh.
+name: Build today's matches
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "3,13,23,33,43,53 * * * *"
+
+# Never two at once, and never racing the full build's push.
+concurrency:
+  group: today-matches
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+
+      - name: Identify the committer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # A source that does not answer is not a failure worth an email: the
+      # generator leaves the published file untouched and says so, and the
+      # next pass is ten minutes away.
+      - name: Rebuild the guide
+        run: |
+          python -u today_matches_epg.py || \
+            echo "::warning::today's matches did not rebuild this pass — the published file is unchanged"
+
+      - name: Publish it if it changed
+        run: |
+          git add -- today_matches_epg.xml
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "Update today's matches"
+          for attempt in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            git merge --abort 2>/dev/null || true
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              echo "Pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected, retrying ($attempt/5)..."
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          echo "Failed to push after 5 attempts"
+          exit 1
