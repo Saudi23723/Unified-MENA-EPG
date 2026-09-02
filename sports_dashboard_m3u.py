@@ -73,6 +73,14 @@ OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
 STREAM_MAP = "stream_map.json"
 
+# The screen channel: the day's board encoded as video, so tuning to it
+# puts the board on the television at full size. It is the one entry here
+# that plays without any URL of yours, because it is ours.
+SCREEN_FILE = "stream/today_matches.mp4"
+SCREEN_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+              "main/stream/today_matches.mp4")
+SCREEN_NAME = "📺 مباريات اليوم — الشاشة"
+
 # Every entry must have a URL or a player drops the row. This one is
 # deliberately unplayable rather than pointing anywhere real.
 PLACEHOLDER_URL = "http://0.0.0.0/no-stream-configured"
@@ -180,6 +188,20 @@ def build() -> int:
     mapping = stream_map()
 
     lines = ["#EXTM3U"]
+
+    # First, and in a group of its own, so it is never buried under the
+    # day's fixtures.
+    if os.path.exists(SCREEN_FILE):
+        lines += [
+            f'#EXTINF:-1 tvg-id="TodayMatches" '
+            f'tvg-name="{attribute(CHANNEL_AR)}" tvg-logo="{LOGO}" '
+            f'group-title="{attribute(GROUP)}",{display(SCREEN_NAME)}',
+            SCREEN_URL,
+        ]
+    else:
+        warn(f"{SCREEN_FILE} has not been encoded — the playlist goes out "
+             f"without the screen channel")
+
     mapped = 0
     for event in sorted(events, key=lambda e: e["start"]):
         rows, was_mapped = entry(event, mapping, now)
