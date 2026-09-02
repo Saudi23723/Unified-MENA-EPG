@@ -1170,7 +1170,8 @@ def gate_our_own_guides_name_the_channel() -> None:
     And Istanbul is marked. beIN SPORTS 1 in Istanbul and beIN SPORTS 1 in
     Doha are different channels showing different football.
     """
-    print("\nOur own guides name the channel — Alwan and beIN Turkey")
+    print("\nOur own guides name the channel — Alwan, beIN Turkey, Spor Ekranı")
+    import json
     from datetime import datetime, timezone
 
     import own_guides
@@ -1210,6 +1211,38 @@ def gate_our_own_guides_name_the_channel() -> None:
     check("OWN", "and two unrelated fixtures do not match",
           own_guides.one_club_matches("Burnley - Middlesbrough",
                                       "الهلال - الأهلي"), False)
+
+    # Spor Ekranı arrives in the same shape, over the network, and goes
+    # through the same matching. Its ld+json gives a real instant, so
+    # there is no clock to place in a timezone — the fault that cost this
+    # guide a day and then an hour.
+    import spor_ekrani
+    page = ("""<script type="application/ld+json">""" + json.dumps([
+        {"@type": "BroadcastEvent", "isLiveBroadcast": True,
+         "publishedOn": [{"@type": "TelevisionChannel",
+                          "name": "Bein Sports 1"},
+                         {"@type": "TelevisionChannel",
+                          "name": "Yayın Yok"}],
+         "broadcastOfEvent": {
+             "name": "İstanbul Başakşehir - Galatasaray",
+             "startDate": "2026-09-04T17:00:00Z",
+             "homeTeam": {"name": "İstanbul Başakşehir"},
+             "awayTeam": {"name": "Galatasaray"}}},
+        {"@type": "BroadcastEvent",
+         "broadcastOfEvent": {"name": "Bir Program",
+                              "startDate": "2026-09-04T17:00:00Z"}},
+    ], ensure_ascii=False) + "</script>")
+    read = spor_ekrani.collect(page)
+    check("OWN", "the teams it names outright are the fixture",
+          [r["title"] for r in read],
+          ["İstanbul Başakşehir - Galatasaray"])
+    check("OWN", "its channel is marked TR",
+          [r["channel"] for r in read], ["Bein Sports 1 TR"])
+    check("OWN", "and 'Yayın Yok' is not a channel",
+          any("Yayın" in r["channel"] for r in read), False)
+    check("OWN", "the instant needs no timezone guessed",
+          f"{read[0]['start']:%Y-%m-%d %H:%M %Z}" if read else None,
+          "2026-09-04 17:00 UTC")
 
     # A grid gives the PROGRAMME, a listings page gives the KICKOFF, and
     # they are not the same instant: beIN Turkey opens Başakşehir v
