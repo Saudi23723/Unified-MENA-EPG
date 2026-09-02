@@ -82,22 +82,52 @@ A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|الناشئين|الأشبال|ال
                            r"|تحت\s?\d{2}", re.I)
 
 
-def a_day_and_a_clock(row) -> datetime | None:
-    """The kickoff, from the date and the time this row prints.
+def its_own_block(team_row):
+    """The element holding this ONE fixture — its clubs and its time.
 
-    Read from the ROW's whole text rather than span by span. The
-    federation puts both inside one span.haly1 — "2026-09-03" and
-    "|\u00a017:00" are separate text nodes of the same element — and
-    code that took the first span as the date and the NEXT as the time
-    found a date, never found a clock, and threw the row away. Ten of the
-    ten upcoming fixtures were lost that way, silently, because a fixture
-    that fails to parse looks exactly like a fixture that is not there.
+    The federation does not put the whole fixture in one <tr>. The clubs
+    sit in a row of their own — "عمان FC | VS | الكرمل" and nothing else
+    — while the date, the clock and the competition sit outside it. So
+    the reader has to climb.
 
-    A row's text cannot confuse the two: a date here has no colon and a
-    clock has nothing else that looks like one — a score is written
-    "1 - 0".
+    Climbing is the dangerous part. Go one element too far and you reach
+    the block holding EVERY fixture, take the first time in it, and give
+    all ten matches the same kickoff — which is precisely the fault that
+    once stamped 1876 fixtures with a single date. A length limit would
+    not save it; that is a guess about how much text a page uses.
+
+    A structural fact does. This fixture's own container is the smallest
+    ancestor that holds a time AND exactly one pair of clubs. The moment
+    a second pair appears, the climb has left this match and is looking
+    at the list, so it stops and the row is refused rather than dated
+    from a neighbour.
     """
-    text = row.get_text(" ", strip=True)
+    node = team_row
+    for _ in range(8):
+        node = node.parent
+        if node is None or getattr(node, "name", None) in (None, "body",
+                                                           "html"):
+            return None
+        if len(node.select("span.team1")) > 1:
+            return None
+        if node.select("span.haly1"):
+            return node
+    return None
+
+
+def a_day_and_a_clock(block) -> datetime | None:
+    """The kickoff, read from this fixture's own block.
+
+    The date and the clock can share one span — "2026-09-03" and
+    "|\u00a017:00" as two text nodes of the same element — so both are
+    searched for in the text rather than taken span by span. Reading them
+    positionally found a date, never found a clock, and threw away ten of
+    ten fixtures in silence.
+
+    Nothing here can be confused for the other: a date carries no colon,
+    and a score is written "1 - 0".
+    """
+    text = block.get_text(" ", strip=True)
     day, clock = A_DATE.search(text), A_CLOCK.search(text)
     if day is None or clock is None:
         return None
@@ -109,18 +139,23 @@ def a_day_and_a_clock(row) -> datetime | None:
         return None
 
 
-def competition_of(row) -> str:
-    """The competition, which the federation prints in the row's first cell."""
-    cells = row.find_all("td")
-    for cell in cells[:2]:
-        text = norm(cell.get_text(" ", strip=True))
-        if text and not A_DATE.search(text) and not A_CLOCK.search(text):
-            return text
-    return ""
+def competition_of(block) -> str:
+    """The competition this fixture's own block names."""
+    text = block.get_text(" ", strip=True)
+    text = A_DATE.sub(" ", text)
+    text = A_CLOCK.sub(" ", text)
+    for span in block.select("span.team1, span.team2, span.rrresult"):
+        text = text.replace(norm(span.get_text(" ", strip=True)), " ")
+    return norm(re.sub(r"[|\s]+", " ", text))
 
 
 def wanted_here(competition: str) -> bool:
-    """Senior football only — the under-16 league is not what a board is for."""
+    """Senior football only — the under-16 league is not what a board is for.
+
+    The federation publishes its schools competitions beside the senior
+    ones and there is more of them, so a board that fits twelve rows
+    would spend them on under-16s.
+    """
     if A_YOUTH_GRADE.search(competition):
         return False
     return bool(SENIOR.search(competition))
@@ -133,24 +168,33 @@ def collect(html: str) -> list[dict]:
         tag.decompose()
 
     out: list[dict] = []
+    seen: set[tuple] = set()
     rows = [row for row in soup.find_all("tr")
-            if row.select_one("span.team1") and row.select_one("span.team2")]
-    played, youth = 0, 0
+            if row.select_one("span.team1") and row.select_one("span.team2")
+            and len(row.select("span.team1")) == 1]
+    played = adrift = unwanted = 0
     for row in rows:
         verdict = row.select_one("span.rrresult")
         if verdict is None or not NOT_PLAYED_YET.match(
                 norm(verdict.get_text(" ", strip=True))):
             played += 1
             continue
-        start = a_day_and_a_clock(row)
+        block = its_own_block(row)
+        start = a_day_and_a_clock(block) if block is not None else None
         home = norm(row.select_one("span.team1").get_text(" ", strip=True))
         away = norm(row.select_one("span.team2").get_text(" ", strip=True))
         if start is None or not home or not away:
+            adrift += 1
             continue
-        competition = competition_of(row)
+        competition = competition_of(block)
         if not wanted_here(competition):
-            youth += 1
+            unwanted += 1
             continue
+        # A nested table gives the same fixture twice.
+        key = (start, home, away)
+        if key in seen:
+            continue
+        seen.add(key)
         out.append({
             "start": start,
             "title": f"{home} - {away}",
@@ -159,7 +203,8 @@ def collect(html: str) -> list[dict]:
         })
 
     log(f"  jfa.jo: {len(rows)} row(s), {played} already played, "
-        f"{youth} youth, {len(out)} fixture(s) to show")
+        f"{adrift} with no time of their own, {unwanted} not senior, "
+        f"{len(out)} fixture(s) to show")
     return out
 
 
