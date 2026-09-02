@@ -1769,6 +1769,90 @@ def gate_a_board_says_which_day_it_is() -> None:
            if not match_board.RELATIVE_DAY.get((day - here).days)], [])
 
 
+def gate_the_jordanian_league_is_read() -> None:
+    """The league that is in none of the other sources, from its federation.
+
+    Measured before anything was built: livefootballtv offered 97
+    fixtures, live-footballontv 54, yallakora 36, livesoccertv 79 and
+    kooora 6 — 272 between them and not one Jordanian, matched on the
+    CLUBS and not only on the competition. This repository's own
+    jordan_sports_epg.xml holds 31 programmes and no fixture at all.
+
+    Two things here would each put something false on the screen.
+
+    A FINISHED MATCH IS NOT A FIXTURE. The federation prints played and
+    upcoming matches in the same markup, telling them apart only by what
+    sits between the clubs: "VS" before, a score afterwards. Read
+    carelessly, a match played yesterday goes on the board as tonight's.
+
+    AND THE UNDER-16 LEAGUE IS NOT WHAT A BOARD IS FOR. It is published
+    beside the senior one, more of it than of the league anybody asked
+    for, and a board that fits twelve rows would spend them on schools.
+
+    The date needs no inference at all — the page writes 2026-09-03. The
+    clock is Amman's, which is this file's one assumption, and a narrow
+    one: a national federation publishing its own domestic league in its
+    own country's time.
+    """
+    print("\nThe Jordanian league is read — jfa.jo")
+    from datetime import timezone
+
+    import jordan_football
+    import today_matches_epg as today
+
+    # Rows in the federation's own shape, taken from the live page.
+    def row(comp, day, clock, home, verdict, away):
+        return (f'<tr><td>{comp}</td>'
+                f'<td><span class="haly1">{day}</span></td>'
+                f'<td><span class="haly1">|\u00a0{clock}</span></td>'
+                f'<td><span class="team1">{home}</span></td>'
+                f'<td><span class="rrresult">{verdict}</span></td>'
+                f'<td><span class="team2">{away}</span></td></tr>')
+
+    page = "<table>" + "".join([
+        row("الدوري الأردني للمحترفين - CFI", "2026-09-03", "19:00",
+            "البقعة", "VS", "دوقرة"),
+        row("كأس الأردن CFI", "2026-09-03", "18:00", "عمان FC", "VS",
+            "الكرمل"),
+        # Played already — the same markup, a score instead of VS.
+        row("الدوري الأردني للمحترفين - CFI", "2026-09-01", "17:00",
+            "اتحاد الرمثا", "1 - 0", "شباب العقبة"),
+        # Schools.
+        row("دوري الناشئين ت16", "2026-09-03", "17:00",
+            "المدرسة الانجليزية", "VS", "الجزيرة"),
+    ]) + "</table>"
+
+    read = jordan_football.collect(page)
+    check("JOR", "the professional league is read",
+          [event["title"] for event in read],
+          ["البقعة - دوقرة", "عمان FC - الكرمل"])
+    check("JOR", "a match already played is not a fixture",
+          any("الرمثا" in event["title"] for event in read), False)
+    check("JOR", "and the under-16 league is not on a board of twelve rows",
+          any("المدرسة" in event["title"] for event in read), False)
+    check("JOR", "the day is read, never inferred from an ordering",
+          f"{read[0]['start']:%Y-%m-%d}", "2026-09-03")
+    check("JOR", "19:00 in Amman is 16:00 UTC",
+          f"{read[0]['start'].astimezone(timezone.utc):%Y-%m-%d %H:%M}",
+          "2026-09-03 16:00")
+    check("JOR", "the competition comes through in Arabic",
+          read[0]["competition"], "الدوري الأردني للمحترفين - CFI")
+
+    # It names no channel, and the guide keeps it anyway — the rule the
+    # reader asked for, so a Jordanian match is on the screen with
+    # "لم تُعلن القناة" beside it rather than missing altogether.
+    check("JOR", "it names no channel, and is kept regardless",
+          [event["channels"] for event in read], [[], []])
+    check("JOR", "the guide wants it",
+          [today.wanted(event) for event in read], [True, True])
+    check("JOR", "and a row with no channel is still a row",
+          today.channels_of({"channels": []}), "")
+
+    # A page that answers with nothing must cost nothing.
+    check("JOR", "an empty page is not an error",
+          jordan_football.collect("<table></table>"), [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1787,7 +1871,8 @@ def main() -> int:
                  gate_the_american_channel_is_named,
                  gate_a_grid_title_is_read_the_way_that_grid_writes_it,
                  gate_a_row_names_two_channels,
-                 gate_a_board_says_which_day_it_is):
+                 gate_a_board_says_which_day_it_is,
+                 gate_the_jordanian_league_is_read):
         try:
             gate()
         except Exception as exc:

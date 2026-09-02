@@ -59,6 +59,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import xml.etree.ElementTree as ET
 
+import jordan_football
 import live_football_on_tv
 import live_soccer_tv
 import own_guides
@@ -1335,6 +1336,18 @@ def build() -> int:
     log(f"  yallakora: {len(asked)} in the competitions asked for, "
         f"{len(fresh)} the board did not already have")
     everything = unify(everything, fresh)
+
+    # And the Jordanian league, which is in NONE of the pages above. That
+    # is measured, not assumed: 272 fixtures were offered between them
+    # and not one was Jordanian, matched on the clubs and not only on the
+    # competition, because a competition can be renamed and الفيصلي
+    # cannot. The federation publishes its own, so it is asked directly.
+    #
+    # It names no channel, and that is no longer a reason to refuse a
+    # source: the match reaches the board with "لم تُعلن القناة" beside
+    # it and picks up a channel from any later pass that learns one.
+    everything = unify(everything,
+                       jordan_football.fetch_events(session, floor, ceiling))
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not
