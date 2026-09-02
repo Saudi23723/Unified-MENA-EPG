@@ -127,6 +127,22 @@ def draw_mark(pen, x: int, y: int, size: int) -> None:
     pen.arc(ring, start=-90, end=170, fill=ACCENT, width=max(3, size // 12))
 
 
+# اليوم, غداً, بعد غد — and nothing beyond that, because the guide is
+# only ever drawn three days out and a fourth word would be a guess.
+RELATIVE_DAY = {0: "اليوم", 1: "غداً", 2: "بعد غد"}
+
+
+def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
+    """Which of the three days this board is, said in words.
+
+    No digits: the date is already set on the right, and a number inside
+    Arabic is the one thing that can come out reversed.
+    """
+    away = (day - now.astimezone(viewer).date()).days
+    relative = RELATIVE_DAY.get(away, "")
+    return f"{relative} · {weekday}" if relative else weekday
+
+
 def draw_board(day: date, events: list[dict], now: datetime, viewer,
                live_for, *, title: str, subtitle: str, weekday: str,
                page: int = 1, pages: int = 1) -> Image.Image:
@@ -147,7 +163,29 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
 
     right = W - PAD
     draw_text(pen, (right, PAD - 2), f"{day:%d.%m.%Y}", 27, WHITE, anchor="ra")
-    draw_text(pen, (right, PAD + 36), weekday, 21, MUTED, anchor="ra")
+
+    # WHICH day this board is, in the middle where it cannot be missed.
+    #
+    # The name of the channel is "مباريات اليوم", and it was set in 40px
+    # across the top of every board — including tomorrow's and the day
+    # after's. So the largest words on a Friday board said "today", and
+    # the only thing that disagreed was a 21px muted weekday in a corner.
+    # A viewer watching three boards go past could not tell which was
+    # which, and the one thing they were told outright was wrong.
+    #
+    # The relative word is the one that answers it — اليوم, غداً, بعد غد
+    # — and the weekday is what it means. No digits in this badge: the
+    # date is already set on the right, and a number inside Arabic is the
+    # one thing that can come out reversed.
+    badge = day_badge(day, now, viewer, weekday)
+    badge_size = 27
+    wide = width_of(badge, badge_size) + 56
+    middle_x = W // 2
+    pen.rounded_rectangle(
+        [middle_x - wide // 2, PAD - 6, middle_x + wide // 2, PAD + 40],
+        radius=23, fill=PANEL)
+    draw_text(pen, (middle_x, PAD + 17), badge, badge_size, ACCENT,
+              anchor="mm")
     count = (arabic_count(len(events), "مباراة", "مباراتان", "مباريات",
                           "مباراة") if events else "لا توجد مباراة")
     # A day too long for one screen is drawn over several, and a viewer
@@ -193,8 +231,14 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # Channels sit on the right, so the name gets whatever is left.
         channel_x = W - PAD
         pill_size = max(15, size - 6)
+        # Measured against the names this guide actually carries, at the
+        # size a full-height row draws them: Thmanyah Channels needs 252
+        # pixels, beIN SPORTS Xtra 1 needs 243, MBC Shahid Sports 235,
+        # beIN SPORTS 2 TR 226. The cap was 230, so more than half of
+        # them were being clipped to "beIN SPORTS Xtra…" — which loses
+        # exactly the number that says which channel it is.
         for channel in reversed(event["channels"][:2]):
-            label = clipped(channel, pill_size, 230, thin=True)
+            label = clipped(channel, pill_size, 280, thin=True)
             wide = width_of(label, pill_size, thin=True) + 26
             pen.rounded_rectangle(
                 [channel_x - wide, middle - pill_size, channel_x,
