@@ -317,19 +317,29 @@ NOT_A_CHANNEL = (
     "website", ".com", ".co.uk", "player",
 )
 
-# beIN's own feeds in another language, ranked BELOW everywhere else.
+# Australia and New Zealand, ranked above everywhere else. They are named
+# only by an explicit marker, never by the brand: "Sky Sport NZ" carries
+# Sky and is not Britain's, "Fox Sports Australia" carries Fox and is not
+# America's, and reading either by its brand would put a channel on the
+# row that the wrong half of the world can watch.
+DOWN_UNDER = re.compile(r"\baustralia\b|\baustralian\b|\bfoxtel\b|\boptus\b"
+                        r"|\bstan sport\b|\bkayo\b|\bnew zealand\b"
+                        r"|\bNZ\b|\bAUS?\b|\bsky sport now\b", re.I)
+
+# beIN's overflow and its other-language feeds, ranked BELOW everywhere
+# else — never a first choice, always still there when nothing else is.
 #
-# The reader asked for these to go, and to see a TNT or a TSN in their
-# place. Deleted outright they would take real football with them: 268
-# of the 1001 fixtures in Doha's guide name beIN SPORTS EN 1 and nothing
-# else — Manchester United, Liverpool, Arsenal, Barcelona, Real Madrid —
-# and every one of those rows would have gone from a channel that works
-# to "لم تُعلن القناة", which is worse than the complaint.
+# Xtra is the same match beIN is already showing on an extra channel, and
+# EN and FR are it again in another language. The reader put all three
+# behind Sportsnet, behind Australia and New Zealand, behind even V Sport
+# and Denmark's channels.
 #
-# Ranked last they cannot take a slot from anything, which was the whole
-# of the complaint, and a row that has nothing else still tells a viewer
-# where the match is.
-ANOTHER_LANGUAGE = re.compile(r"\bbein\b.*\b(?:EN|FR)\b", re.I)
+# Ranked, not deleted, and that part is measured: 268 of the 1001
+# fixtures in Doha's guide name beIN SPORTS EN 1 and NOTHING else —
+# Manchester United, Liverpool, Arsenal, Barcelona, Real Madrid. Deleting
+# would turn every one of those rows from a channel that works into
+# "لم تُعلن القناة", which is worse than the complaint.
+LAST_RESORT = re.compile(r"\bbein\b.*\b(?:xtra|EN|FR)\b", re.I)
 
 # The page labels the Austrian Bundesliga with exactly the word it uses for
 # the German one, so "Bundesliga" alone let Austria Vienna, Tirol, Salzburg
@@ -918,10 +928,6 @@ AMERICAN = re.compile(r"\bUS\b|\bfox\b|\bnbc\b|\bcbs\b|\bespn\b"
 # for broadcasters a viewer here cannot get.
 TURKISH = re.compile(r"\bTR\b|\btabii\b|\btrt\b|\bs sports?\b", re.I)
 
-# beIN writes its French feed FR, and that is France's channel however
-# much of the brand it shares with Doha's.
-FOREIGN_BEIN = re.compile(r"\bFR\b", re.I)
-
 # The names a Gulf or Levantine viewer actually has. beIN written without
 # any of the marks above is Doha's, which is the whole point of marking
 # the others — including "beIN SPORTS 1 EN", which is Doha's English
@@ -969,19 +975,20 @@ def where_from(name: str) -> int:
     is America's, beIN SPORTS FR 2 is France's, and beIN SPORTS 1 with no
     mark at all is Doha's.
     """
-    if ANOTHER_LANGUAGE.search(name):
-        return 5
+    if LAST_RESORT.search(name):
+        return 6
+    # Before the brands, because these carry Sky's name and Fox's.
+    if DOWN_UNDER.search(name):
+        return 4
     if TURKISH.search(name):
         return 3
     if AMERICAN.search(name):
         return 2
     if BRITISH.search(name):
         return 1
-    if FOREIGN_BEIN.search(name):
-        return 4
     if ARABIC_LETTERS.search(name) or ARAB_CHANNEL.search(name):
         return 0
-    return 4
+    return 5
 
 
 def in_the_readers_order(channels: list[str]) -> list[str]:
