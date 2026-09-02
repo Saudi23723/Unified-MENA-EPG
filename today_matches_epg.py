@@ -859,6 +859,52 @@ def unify(primary: list[dict], secondary: list[dict]) -> list[dict]:
     return sorted(merged, key=lambda event: event["start"])
 
 
+# Which two of a row's channels a viewer is shown, in the order a reader
+# asked for: Arabic, English, American, Turkish, then everywhere else.
+#
+# It was source order, and source order is the order a British listings
+# page happens to print its pills in. So four of the seven rows that had
+# two channels spent the second on something neither the region nor
+# America can open — "MBC Shahid Sports · BBC iPlayer",
+# "MBC Shahid Sports · Premier Sports 1" — while the Fox or the beIN that
+# WAS collected sat behind the "+1".
+#
+# Ordering only decides which names win the two slots. A row holding
+# nothing but an Arabic channel and a British one still shows both; this
+# changes what a row does with its third and fourth.
+ARABIC_LETTERS = re.compile(r"[؀-ۿݐ-ݿ]")
+ENGLISH_FEED = re.compile(r"\bEN\b", re.I)
+AMERICAN = re.compile(r"\bUS\b|\bfox\b|\bnbc\b|\bcbs\b|\bespn\b"
+                      r"|\busa network\b|\bparamount\b|\bpeacock\b"
+                      r"|\btelemundo\b|\btudn\b|\bunivision\b", re.I)
+TURKISH = re.compile(r"\bTR\b|\btabii\b|\btrt\b|\bs sport\b", re.I)
+# The names a Gulf or Levantine viewer actually has. beIN written without
+# a mark is Doha's, which is the whole point of marking the other two.
+ARAB_CHANNEL = re.compile(r"\bbein\b|\balwan\b|\bthmanyah\b|\bon sport\b"
+                          r"|\bon time\b|\bshahid\b|\bmbc\b|\bssc\b"
+                          r"|\balkass\b|\bal kass\b|\bad sports\b"
+                          r"|\bdubai\b|\bshasha\b|\bstarzplay\b"
+                          r"|\brotana\b|\bsaudi\b|\bjordan\b", re.I)
+
+
+def where_from(name: str) -> int:
+    """The reader's order, as a number that sorts."""
+    if TURKISH.search(name):
+        return 3
+    if AMERICAN.search(name):
+        return 2
+    if ENGLISH_FEED.search(name):
+        return 1
+    if ARABIC_LETTERS.search(name) or ARAB_CHANNEL.search(name):
+        return 0
+    return 4
+
+
+def in_the_readers_order(channels: list[str]) -> list[str]:
+    """Sorted into those tiers, and inside a tier left exactly as found."""
+    return sorted(channels, key=where_from)
+
+
 def channels_of(event: dict) -> str:
     """The channel a viewer is told to turn to — a real one, or none.
 
@@ -869,7 +915,7 @@ def channels_of(event: dict) -> str:
     supposedly removed. What is shown is now filtered by the same rule
     that decided the match belonged here at all.
     """
-    real = real_channels(event["channels"])
+    real = in_the_readers_order(real_channels(event["channels"]))
     shown = real[:MAX_CHANNELS]
     more = len(real) - len(shown)
     return " · ".join(shown) + (f" +{more}" if more > 0 else "")
@@ -1187,6 +1233,12 @@ def build() -> int:
     # Counted before the placeholder goes in, because "لم تُعلن القناة"
     # is a sentence and not a channel, and a row wearing it has none.
     say_which_rows_are_thin(events)
+
+    # Sorted once, here, so the printed line and the drawn board show the
+    # same two names — they each take the first two and would otherwise
+    # disagree about which those are.
+    for event in events:
+        event["channels"] = in_the_readers_order(event["channels"])
 
     for event in events:
         if not event["channels"]:
