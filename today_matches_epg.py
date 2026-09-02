@@ -128,6 +128,22 @@ WANTED_PARTS = (
 # would drop exactly the matches that were asked for.
 WANTED_TEAMS = ("manchester united", "man united", "man utd", "manchester utd")
 
+# The page labels the Austrian Bundesliga with exactly the word it uses for
+# the German one, so "Bundesliga" alone let Austria Vienna, Tirol, Salzburg
+# and SK Rapid onto the channel on the first day this ran.
+#
+# The clubs are the only thing that separates them, and it is Austria's
+# twelve that are listed rather than Germany's eighteen — deliberately. A
+# list of the wanted side would drop a promoted German club the season it
+# came up, which is losing a match somebody asked for; a list of the
+# unwanted side lets a promoted Austrian club through, which is one extra
+# row nobody minds. When in doubt, keep the match.
+AUSTRIAN_BUNDESLIGA = (
+    "salzburg", "sturm graz", "rapid", "austria vienna", "austria wien",
+    "lask", "wolfsberger", "hartberg", "blau-weiß linz", "blau-weiss linz",
+    "tirol", "klagenfurt", "altach", "grazer ak",
+)
+
 # Worded so the build's own honesty measure counts it: a day with nothing
 # on it is the guide saying it has nothing, not a broadcast.
 NOTHING_TODAY = "لا توجد مباراة معلنة — No matches listed"
@@ -181,12 +197,19 @@ def competition_of(row) -> str:
 def wanted(event: dict) -> bool:
     """Is this a competition — or a club — that was actually asked for?"""
     competition = event["competition"].casefold()
+    teams_folded = event["title"].casefold()
+
+    # Austria borrows Germany's word for its league; the clubs are the only
+    # thing that tells the two apart.
+    if competition == "bundesliga" and any(club in teams_folded
+                                           for club in AUSTRIAN_BUNDESLIGA):
+        return False
+
     if competition in WANTED_EXACT:
         return True
     if any(part in competition for part in WANTED_PARTS):
         return True
-    teams = event["title"].casefold()
-    return any(club in teams for club in WANTED_TEAMS)
+    return any(club in teams_folded for club in WANTED_TEAMS)
 
 
 def collect(html: str, now: datetime) -> list[dict]:
