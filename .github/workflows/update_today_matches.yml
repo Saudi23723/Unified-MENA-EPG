@@ -33,6 +33,11 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
 
+      # The board sets Arabic type, and a runner ships no Arabic face.
+      # Without this the drawing fails and the day publishes as text only.
+      - name: Install the fonts the board is drawn with
+        run: sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+
       - name: Identify the committer
         run: |
           git config user.name "github-actions[bot]"
@@ -48,7 +53,10 @@ jobs:
 
       - name: Publish it if it changed
         run: |
-          git add -- today_matches_epg.xml boards
+          git add -- today_matches_epg.xml
+          # Never name a directory that may not exist: git add fails the
+          # whole command on a pathspec that matches nothing.
+          [ -d boards ] && git add -- boards || true
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

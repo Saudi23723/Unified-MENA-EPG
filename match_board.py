@@ -19,16 +19,45 @@ answers "how long until the next one".
 """
 from __future__ import annotations
 
+import os
 import re
 from datetime import date, datetime
 
 from epg_lib import arabic_count
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, features
 
-AR_FONT = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf"   # shapes Arabic
-EN_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-EN_THIN = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+# Faces are looked up rather than named, because the machine that draws
+# this is not the machine it was written on: a GitHub runner ships DejaVu
+# and no Arabic face at all, and the first pass on one drew nothing but
+# "cannot open resource". Each list is tried in order and the first file
+# that exists wins, so installing a package is enough to change the answer
+# and a missing one degrades to no board rather than to a broken build.
+AR_FACES = (
+    "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",   # no Arabic; a floor
+)
+EN_FACES = (
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
+)
+EN_THIN_FACES = (
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    "/usr/share/fonts/truetype/freefont/FreeSans.ttf",
+)
+
+
+def first_face(faces) -> str:
+    for face in faces:
+        if os.path.exists(face):
+            return face
+    raise FileNotFoundError(f"none of these fonts is installed: {faces}")
+
+
+def has_arabic_face() -> bool:
+    """Whether anything here can actually shape Arabic."""
+    return (features.check("raqm")
+            and os.path.exists(AR_FACES[0]))
 
 W, H = 1280, 720
 PAD = 48
@@ -49,8 +78,9 @@ ARABIC = re.compile(r"[؀-ۿݐ-ݿ]")
 def font_for(text: str, size: int, *, thin: bool = False):
     """FreeSerif carries Arabic; DejaVu is the better face for Latin."""
     if ARABIC.search(text or ""):
-        return ImageFont.truetype(AR_FONT, size)
-    return ImageFont.truetype(EN_THIN if thin else EN_FONT, size)
+        return ImageFont.truetype(first_face(AR_FACES), size)
+    return ImageFont.truetype(
+        first_face(EN_THIN_FACES if thin else EN_FACES), size)
 
 
 def draw_text(pen, xy, text, size, fill, *, anchor="la", thin=False):

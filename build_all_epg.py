@@ -140,6 +140,17 @@ COLLAPSE_FLOOR = 0.5
 # Pictures a guide's programmes point at, published beside the guides.
 BOARDS = "boards"
 
+
+def staged_paths() -> list[str]:
+    """What to hand `git add`, leaving out what is not there.
+
+    git add fails the whole command on a pathspec that matches nothing, so
+    naming a directory that has not been written yet would stage no guide
+    at all — the boards are an addition to this build and must never be
+    able to stop it publishing.
+    """
+    return ["*.xml"] + ([BOARDS] if os.path.isdir(BOARDS) else [])
+
 # ON Sport did not collapse to nothing when FilGoal died. It collapsed to
 # placeholder: ten real events and sixty-two rows saying it did not know,
 # which is a full file by any count of rows. So the share of rows that say
@@ -442,8 +453,7 @@ def publish() -> bool:
     same branch; only this one pushes guides now, but a merge landing at
     the same moment would still reject the push.
     """
-    subprocess.run(["git", "add", "--", "*.xml", BOARDS],
-                   check=False)
+    subprocess.run(["git", "add", "--"] + staged_paths(), check=False)
     staged = subprocess.run(["git", "diff", "--cached", "--quiet"],
                             check=False).returncode
     if staged == 0:
@@ -497,8 +507,7 @@ def publish() -> bool:
         for path, blob in built.items():
             with open(path, "wb") as handle:
                 handle.write(blob)
-        subprocess.run(["git", "add", "--", "*.xml", BOARDS],
-                   check=False)
+        subprocess.run(["git", "add", "--"] + staged_paths(), check=False)
         if subprocess.run(["git", "diff", "--cached", "--quiet"],
                           check=False).returncode == 0:
             print("the branch already carries these guides")
