@@ -60,6 +60,7 @@ from PIL import Image
 import xml.etree.ElementTree as ET
 
 import live_football_on_tv
+import own_guides
 import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
@@ -1130,9 +1131,21 @@ def build() -> int:
     # one place and still on the television. Filtering here, once, is what
     # makes it true everywhere: the board, the panel and the playlist all
     # read this list and none of them can now forget.
-    events = [dict(event, channels=real_channels(event["channels"])
-                   or [CHANNEL_UNANNOUNCED])
+    events = [dict(event, channels=real_channels(event["channels"]))
               for event in everything if wanted(event)]
+
+    # And the channels this repository already publishes for itself. They
+    # know something no listings page does — which of THIS reader's
+    # channels is carrying a match — and beIN SPORTS 1 in Istanbul is
+    # marked TR so it is not mistaken for beIN SPORTS 1 in Doha.
+    #
+    # Applied after the filtering, because a guide of ours is not evidence
+    # that a match belongs on the channel; it is evidence of where to
+    # watch one that already does.
+    own_guides.add_channels(events)
+    for event in events:
+        if not event["channels"]:
+            event["channels"] = [CHANNEL_UNANNOUNCED]
     log(f"  {len(everything)} match(es) in the window, "
         f"{len(events)} in a competition worth showing")
     for event in events[:12]:
