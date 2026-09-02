@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: where did Al Ahly - Smouha and the Jordanian league go?
+"""Temporary probe: can an Arabic page give a kickoff AND a channel?
 
-Four fixtures were shown missing from the board: three in Jordan's Premier
-League and Al Ahly v Smouha in Egypt's. None of them are in this
-repository's own guides — checked first, because that was free. So either
-the two listings pages never mention them, or they mention them without a
-broadcaster and this guide drops anything it cannot tell you where to
-watch.
+Settled already: neither listings page mentions Smouha, Al Ramtha, Al
+Buqaa or Al Wehdat at all, and not one row was dropped for lacking a
+broadcaster. The gap is coverage of Arab domestic leagues, not a filter.
 
-Those need opposite fixes, so the difference is worth one measurement:
-  * never mentioned  -> a source that covers Arab domestic leagues
-  * mentioned, no channel -> show it anyway, without a channel
-
-It also counts how many fixtures a day are dropped for that reason alone,
-and asks four Arabic sports pages whether they carry the same fixtures.
+kooora carries those club names in plain HTML. The only question that
+matters now is the one asked of every candidate before: how many
+innermost blocks hold a CLOCK and a CHANNEL together? Names on a page
+and a channel in a row are different things, and a page that lists
+matches without saying where to watch them is not usable here.
 
 Delete once read.
 """
@@ -22,75 +18,65 @@ from __future__ import annotations
 
 import re
 import sys
-from collections import Counter
-from datetime import datetime, timezone
 
 from bs4 import BeautifulSoup
 
-import live_football_on_tv as second
-import today_matches_epg as today
 from epg_lib import fetch, new_session, norm
 
-WANTED = ("Smouha", "سموحة", "Ahly", "الأهلي", "Ramtha", "الرمثا",
-          "Wehdat", "الوحدات", "Buqaa", "البقعة", "Faisaly", "الفيصلي")
+CLOCK = re.compile(r"\b([01]?\d|2[0-3]):([0-5]\d)\b")
+CHANNEL = re.compile(
+    r"bein|بي ?ان|بين سبورت|ssc|الكأس|alkass|on ?sport|أون ?سبورت|"
+    r"ثمانية|thmanyah|ad ?sports|أبوظبي|dubai|دبي|الأردن|شاشة|sky|رياضية",
+    re.I)
 
-ARABIC_PAGES = ("https://www.kooora.com/", "https://www.filgoal.com/",
-                "https://www.yallakora.com/", "https://elgoal.net/")
+PAGES = ("https://www.kooora.com/",
+         "https://www.kooora.com/?m=1",
+         "https://www.yallakora.com/match-center/",
+         "https://www.filgoal.com/matches/")
 
 
-def mentions(label: str, html: str) -> None:
+def look(session, url: str) -> None:
+    try:
+        html = fetch(session, url).text
+    except Exception as exc:
+        print(f"\n### {url}\n  unreachable — {type(exc).__name__}: {exc}")
+        return
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
-    text = norm(soup.get_text(" ", strip=True))
-    found = [w for w in WANTED if w.lower() in text.lower()]
-    print(f"  {label:34s} {len(text):8d} chars  names: {found or 'none'}")
+
+    both = []
+    for node in soup.find_all(True):
+        if node.find(True):
+            continue                      # innermost blocks only
+        pass
+    # A block is any element whose OWN text holds a clock; then ask whether
+    # a channel name sits within the same small container.
+    for node in soup.find_all(True):
+        text = norm(node.get_text(" ", strip=True))
+        if not text or len(text) > 400 or not CLOCK.search(text):
+            continue
+        if CHANNEL.search(text) and not node.find(
+                lambda kid: kid is not node
+                and CLOCK.search(norm(kid.get_text(" ", strip=True) or ""))
+                and CHANNEL.search(norm(kid.get_text(" ", strip=True) or ""))):
+            both.append((node.name, node.get("class"), text[:150]))
+
+    clocks = sum(1 for n in soup.find_all(True)
+                 if CLOCK.search(norm(n.get_text(" ", strip=True) or ""))
+                 and not n.find(True))
+    print(f"\n### {url}")
+    print(f"  {len(norm(soup.get_text(' ', strip=True)))} chars of text, "
+          f"{clocks} innermost blocks hold a clock, "
+          f"{len(both)} hold a clock AND a channel")
+    for name, klass, text in both[:6]:
+        print(f"    <{name} class={klass}>  {text}")
 
 
 def main() -> int:
-    now = datetime.now(timezone.utc)
     session = new_session()
-    floor, ceiling = today.window_floor(now), today.window_ceiling(now)
-
-    print("=== do the two pages mention them at all? ===")
-    primary_html = fetch(session, today.SOURCE).text
-    mentions("livefootballtv", primary_html)
-    try:
-        mentions("live-footballontv", fetch(session, second.SOURCE).text)
-    except Exception as exc:
-        print(f"  live-footballontv unreachable: {exc}")
-
-    print("\n=== how many rows does the first page drop for having no channel? ===")
-    soup = BeautifulSoup(primary_html, "html.parser")
-    for tag in soup(["script", "style", "noscript", "svg"]):
-        tag.decompose()
-    no_channel: Counter = Counter()
-    named = 0
-    for row in soup.find_all("tr"):
-        if not today.is_match(row):
-            continue
-        start = today.kickoff_of(row)
-        if start is None or not (floor <= start < ceiling):
-            continue
-        if today.sources_of(row):
-            named += 1
-            continue
-        home = today.team_in(row.find("td", class_="local"))
-        away = today.team_in(row.find("td", class_="visitante"))
-        day = start.astimezone(today.VIEWER).date()
-        no_channel[day] += 1
-        if re.search("|".join(WANTED), f"{home} {away}", re.I):
-            print(f"  *** {start:%m-%d %H:%M}Z  {home} - {away}  "
-                  f"({today.competition_of(row)})  NO CHANNEL")
-    print(f"  {named} row(s) name a channel; dropped for naming none, by day: "
-          f"{dict(no_channel)}")
-
-    print("\n=== do Arabic pages carry them, in plain HTML? ===")
-    for url in ARABIC_PAGES:
-        try:
-            mentions(url, fetch(session, url).text)
-        except Exception as exc:
-            print(f"  {url:34s} unreachable — {type(exc).__name__}")
+    for url in PAGES:
+        look(session, url)
     return 0
 
 
