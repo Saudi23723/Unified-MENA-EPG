@@ -876,13 +876,34 @@ def unify(primary: list[dict], secondary: list[dict]) -> list[dict]:
 # nothing but an Arabic channel and a British one still shows both; this
 # changes what a row does with its third and fourth.
 ARABIC_LETTERS = re.compile(r"[؀-ۿݐ-ݿ]")
-ENGLISH_FEED = re.compile(r"\bEN\b", re.I)
+
+# BRITISH. Sky and TNT are what "English" means here — the channels that
+# carry English football in England — not a beIN feed with English
+# commentary, which is Doha's channel and belongs with the Arabic ones.
+BRITISH = re.compile(r"\bsky\b|\btnt\b|\bbbc\b|\bitv\b|\bpremier sports\b"
+                     r"|\bpremier player\b|\bchannel 4\b|\bchannel 5\b"
+                     r"|\bs4c\b|\bbt sport\b|\biplayer\b", re.I)
+
+# AMERICAN, and Canada with it — one continent, one tier, because a
+# viewer who can get Fox can usually get TSN and neither is any use to
+# somebody in the Gulf.
 AMERICAN = re.compile(r"\bUS\b|\bfox\b|\bnbc\b|\bcbs\b|\bespn\b"
                       r"|\busa network\b|\bparamount\b|\bpeacock\b"
-                      r"|\btelemundo\b|\btudn\b|\bunivision\b", re.I)
+                      r"|\btelemundo\b|\btudn\b|\bunivision\b"
+                      # Canada
+                      r"|\btsn\b|\bsportsnet\b|\bcbc\b|\brds\b"
+                      r"|\bonesoccer\b|\btva sports\b", re.I)
+
 TURKISH = re.compile(r"\bTR\b|\btabii\b|\btrt\b|\bs sport\b", re.I)
+
+# beIN writes its French feed FR, and that is France's channel however
+# much of the brand it shares with Doha's.
+FOREIGN_BEIN = re.compile(r"\bFR\b", re.I)
+
 # The names a Gulf or Levantine viewer actually has. beIN written without
-# a mark is Doha's, which is the whole point of marking the other two.
+# any of the marks above is Doha's, which is the whole point of marking
+# the others — including "beIN SPORTS 1 EN", which is Doha's English
+# commentary and not a British channel.
 ARAB_CHANNEL = re.compile(r"\bbein\b|\balwan\b|\bthmanyah\b|\bon sport\b"
                           r"|\bon time\b|\bshahid\b|\bmbc\b|\bssc\b"
                           r"|\balkass\b|\bal kass\b|\bad sports\b"
@@ -891,13 +912,21 @@ ARAB_CHANNEL = re.compile(r"\bbein\b|\balwan\b|\bthmanyah\b|\bon sport\b"
 
 
 def where_from(name: str) -> int:
-    """The reader's order, as a number that sorts."""
+    """The reader's order, as a number that sorts.
+
+    The marks are read before the brand, because a mark is what says
+    WHOSE channel this is: beIN SPORTS 1 TR is Istanbul's, beIN SPORTS US
+    is America's, beIN SPORTS FR 2 is France's, and beIN SPORTS 1 with no
+    mark at all is Doha's.
+    """
     if TURKISH.search(name):
         return 3
     if AMERICAN.search(name):
         return 2
-    if ENGLISH_FEED.search(name):
+    if BRITISH.search(name):
         return 1
+    if FOREIGN_BEIN.search(name):
+        return 4
     if ARABIC_LETTERS.search(name) or ARAB_CHANNEL.search(name):
         return 0
     return 4

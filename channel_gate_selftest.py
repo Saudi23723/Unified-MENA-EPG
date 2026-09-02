@@ -1465,13 +1465,13 @@ def gate_a_row_names_two_channels() -> None:
     import today_matches_epg as today
 
     check("TWO", "three channels are printed, not one and a digit",
-          today.channels_of({"channels": ["beIN SPORTS 1", "beIN SPORTS 1 EN",
-                                          "USA Network"]}),
-          "beIN SPORTS 1 · beIN SPORTS 1 EN · USA Network")
+          today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
+                                          "Fox Sports 1"]}),
+          "beIN SPORTS 1 · Sky Sports+ · Fox Sports 1")
     check("TWO", "a fourth is counted, not dropped",
-          today.channels_of({"channels": ["beIN SPORTS 1", "beIN SPORTS 1 EN",
-                                          "USA Network", "DAZN"]}),
-          "beIN SPORTS 1 · beIN SPORTS 1 EN · USA Network +1")
+          today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
+                                          "Fox Sports 1", "DAZN"]}),
+          "beIN SPORTS 1 · Sky Sports+ · Fox Sports 1 +1")
     check("TWO", "one channel is still one channel",
           today.channels_of({"channels": ["DAZN"]}), "DAZN")
     check("TWO", "and the app the reader asked to stop seeing is not one",
@@ -1490,15 +1490,31 @@ def gate_a_row_names_two_channels() -> None:
     # happens to print its pills — so four of the seven rows that had two
     # channels spent the second on something neither the region nor
     # America can open, while the Fox that WAS collected sat behind "+1".
-    check("TWO", "Arabic comes before American, and both before British",
-          today.channels_of({"channels": ["MBC Shahid Sports", "BBC iPlayer",
-                                          "Fox Sports 1"]}),
-          "MBC Shahid Sports · Fox Sports 1 · BBC iPlayer")
-    check("TWO", "and the tiers run Arabic, English, American, Turkish",
+    check("TWO", "Arabic comes first, then British, then American",
+          today.channels_of({"channels": ["MBC Shahid Sports", "Fox Sports 1",
+                                          "BBC iPlayer"]}),
+          "MBC Shahid Sports · BBC iPlayer · Fox Sports 1")
+    check("TWO", "and the tiers run Arabic, British, American, Turkish, rest",
           [today.where_from(name) for name in
-           ("beIN SPORTS 3", "beIN SPORTS 1 EN", "Fox Sports 1",
-            "beIN SPORTS 1 TR", "Sky Sports+")],
+           ("beIN SPORTS 3", "Sky Sports+", "Fox Sports 1",
+            "beIN SPORTS 1 TR", "Ligue1+")],
           [0, 1, 2, 3, 4])
+    # "English" is Sky and TNT — the channels that carry English football
+    # in England. A beIN feed with English commentary is Doha's channel
+    # and belongs with the Arabic ones, and reading it as British put it
+    # in the second slot ahead of the Fox a viewer here could open.
+    check("TWO", "TNT and BBC are British",
+          [today.where_from(name)
+           for name in ("TNT Sports 1", "BBC iPlayer", "Premier Player")],
+          [1, 1, 1])
+    check("TWO", "beIN's English commentary is Doha's, not England's",
+          today.where_from("beIN SPORTS 1 EN"), 0)
+    check("TWO", "and Canada rides with America",
+          [today.where_from(name)
+           for name in ("TSN 4", "Sportsnet One", "CBC", "RDS")],
+          [2, 2, 2, 2])
+    check("TWO", "while beIN's French feed is neither Doha's nor anyone's here",
+          today.where_from("beIN SPORTS FR 2"), 4)
     check("TWO", "Doha's unmarked beIN is the Arabic one",
           today.where_from("beIN SPORTS 1"), 0)
     check("TWO", "an Arabic name needs no list to be recognised",
@@ -1519,12 +1535,12 @@ def gate_a_row_names_two_channels() -> None:
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 TR",
                                           "Sky Sports+"]}),
-          "beIN SPORTS 3 · USA Network · beIN SPORTS 1 TR +2")
-    check("TWO", "Arabic, English, American — the three a viewer can open",
+          "beIN SPORTS 3 · Sky Sports+ · USA Network +2")
+    check("TWO", "Arabic, British, American — the three a viewer can open",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 EN",
                                           "beIN SPORTS 1 TR", "Sky Sports+"]}),
-          "beIN SPORTS 3 · beIN SPORTS 1 EN · USA Network +3")
+          "beIN SPORTS 3 · Sky Sports+ · USA Network +3")
     check("TWO", "and still in the reader's order: American before Turkish",
           today.in_the_readers_order(["beIN SPORTS 3", "beIN SPORTS 1 TR",
                                       "Fox Sports 1"])[1], "Fox Sports 1")
