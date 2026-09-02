@@ -1267,6 +1267,96 @@ def gate_our_own_guides_name_the_channel() -> None:
           board[1]["channels"], ["beIN SPORTS 2"])
 
 
+def gate_the_american_channel_is_named() -> None:
+    """Fox, NBC, CBS and the rest, from the one US page that answers in HTML.
+
+    Of thirty matches on the board, not one named an American broadcaster.
+    They were not hidden behind the "+5" — no source here had ever seen
+    them. livesoccertv's /schedules/ has them: 68 blocks with a clock, 17
+    with a clock and a US channel, where Fox's own site, ESPN's and NBC's
+    give none between them.
+
+    The trap this page sets is the one the first source set. It publishes
+    the kickoff TWICE and the two disagree by four hours: data-ko is the
+    site's Eastern wall clock, span.ts[dv] is a true epoch. Reading the
+    printed one put every match on this channel an hour late once already,
+    and would put these four hours early. dv is read; data-ko is not, and
+    this gate holds it there.
+
+    Marking is the mirror of Istanbul's. beIN is the one brand this page
+    shares with the Gulf feeds, so beIN gets " US" and nothing else does:
+    Fox Sports 1 is nobody else's name, and a mark on an unambiguous one
+    is noise on a row with little space.
+
+    Like every listings reader here it NAMES channels and never adds
+    fixtures.
+    """
+    print("\nThe American channel is named — livesoccertv")
+    import live_soccer_tv
+
+    # 1788397200000 is 2026-09-03 01:00 UTC. The same row prints
+    # data-ko="2026-09-02 21:00:00" — Eastern, four hours behind.
+    page = """
+    <table>
+      <tr class="matchrow" data-ko="2026-09-02 21:00:00" id="5773791">
+        <td><span class="ts" df="h:MMtt" dv="1788397200000">9:00pm</span></td>
+        <td class="matchcol"><a href="/match/x" title="Toluca vs Le&#243;n">x</a></td>
+        <td><div class="mchannels">
+          <a title="Fox Sports 1">Fox Sports 1</a>,
+          <a title="beIN SPORTS">beIN SPORTS</a>,
+          <a title="fuboTV.com">fuboTV.com</a>,
+          <a title="YouTube">YouTube</a>
+        </div></td>
+      </tr>
+      <tr class="matchrow" data-ko="2026-09-02 15:00:00" id="5773792">
+        <td><span class="ts" dv="1788361200000">3:00pm</span></td>
+        <td class="matchcol"><a href="/match/y" title="Arsenal vs Chelsea">y</a></td>
+        <td><div class="mchannels"><a title="NBC">NBC</a>,
+          <a title="CBS Sports">CBS Sports</a></div></td>
+      </tr>
+      <tr class="matchrow" id="5773793">
+        <td class="matchcol"><a href="/match/z" title="A vs B">z</a></td>
+        <td><div class="mchannels"><a title="Paramount+">Paramount+</a></div></td>
+      </tr>
+    </table>"""
+    read = live_soccer_tv.collect(page)
+
+    check("USA", "the published instant is read, not the Eastern clock",
+          f"{read[0]['start']:%Y-%m-%d %H:%M %Z}", "2026-09-03 01:00 UTC")
+    check("USA", "and never 21:00, which is what the page prints",
+          any(r["start"].hour == 21 for r in read), False)
+    check("USA", "'Toluca vs Le\u00f3n' is a fixture of two clubs",
+          read[0]["title"], "Toluca - Le\u00f3n")
+    check("USA", "Fox is left exactly as the page writes it",
+          [r["channel"] for r in read if "Fox" in r["channel"]],
+          ["Fox Sports 1"])
+    check("USA", "beIN is marked US, because Doha has that name too",
+          [r["channel"] for r in read if "beIN" in r["channel"]],
+          ["beIN SPORTS US"])
+    check("USA", "NBC and CBS come through unmarked",
+          sorted(r["channel"] for r in read
+                 if r["channel"] in ("NBC", "CBS Sports")),
+          ["CBS Sports", "NBC"])
+    check("USA", "a stream and a shop are not channels",
+          any(word in r["channel"].lower()
+              for r in read for word in ("youtube", "fubotv")), False)
+    check("USA", "a row with no clock is dropped, not guessed at",
+          any(r["title"] == "A - B" for r in read), False)
+
+    # End to end: it names a channel on a match already on the board, and
+    # adds none of its own.
+    from datetime import datetime, timezone
+
+    import own_guides
+    board = [{"start": datetime(2026, 9, 3, 1, 0, tzinfo=timezone.utc),
+              "title": "Toluca - Le\u00f3n", "channels": []}]
+    own_guides.add_channels(board, {"livesoccertv": read})
+    check("USA", "the American channel reaches the board",
+          "Fox Sports 1" in board[0]["channels"], True)
+    check("USA", "and the board gains no fixtures from a listings page",
+          len(board), 1)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1281,7 +1371,8 @@ def main() -> int:
                  gate_the_printed_clock_is_the_kickoff,
                  gate_a_day_drawn_is_a_day_collected,
                  gate_the_third_page_fills_the_gap,
-                 gate_our_own_guides_name_the_channel):
+                 gate_our_own_guides_name_the_channel,
+                 gate_the_american_channel_is_named):
         try:
             gate()
         except Exception as exc:

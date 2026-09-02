@@ -60,6 +60,7 @@ from PIL import Image
 import xml.etree.ElementTree as ET
 
 import live_football_on_tv
+import live_soccer_tv
 import own_guides
 import spor_ekrani
 import yallakora
@@ -1143,7 +1144,10 @@ def build() -> int:
     # Applied after the filtering, because a guide of ours is not evidence
     # that a match belongs on the channel; it is evidence of where to
     # watch one that already does.
-    own_guides.add_channels(events, spor_ekrani.broadcasts(session))
+    own_guides.add_channels(events, {
+        "Spor Ekranı": spor_ekrani.broadcasts(session),
+        "livesoccertv": live_soccer_tv.broadcasts(session),
+    })
     for event in events:
         if not event["channels"]:
             event["channels"] = [CHANNEL_UNANNOUNCED]

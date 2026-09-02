@@ -194,12 +194,14 @@ def attach(events: list[dict], rows: list[dict], label: str) -> int:
     return found
 
 
-def add_channels(events: list[dict], extra: list[dict] | None = None) -> int:
+def add_channels(events: list[dict],
+                 extra: dict[str, list[dict]] | None = None) -> int:
     """Name, on each event, any of this reader's channels carrying it.
 
-    `extra` is for a broadcaster's listing read over the network — Spor
-    Ekranı — which arrives in the same {start, title, channel} shape. It
-    goes through the same matching as the guides published here, because
+    `extra` is for listings read over the network — Spor Ekranı, and
+    livesoccertv for the American broadcasters — each named by its
+    source and arriving in the same {start, title, channel} shape. They
+    go through the same matching as the guides published here, because
     the rule that makes this safe is the matching, not where the rows
     came from.
     """
@@ -207,6 +209,7 @@ def add_channels(events: list[dict], extra: list[dict] | None = None) -> int:
     for path, mark in GUIDES:
         added += attach(events, broadcasts(path, mark),
                         os.path.basename(path))
-    if extra:
-        added += attach(events, extra, "Spor Ekranı")
+    for name, rows in (extra or {}).items():
+        if rows:
+            added += attach(events, rows, name)
     return added
