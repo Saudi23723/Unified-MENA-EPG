@@ -46,8 +46,19 @@ GUIDES = (
     ("bein_sports_turkey_epg.xml", " TR"),
 )
 
-# The guide and the board have to agree on the minute.
-SLACK = timedelta(minutes=1)
+# How far a broadcast may sit from the kickoff and still be that match.
+#
+# Not a minute. A listings page gives the KICKOFF; a television grid gives
+# the PROGRAMME, which starts with the studio build-up — beIN Turkey opens
+# Başakşehir v Galatasaray at 16:15 for a 17:00 kick, and at a minute's
+# tolerance the Turkish channel never reached the Turkish match.
+#
+# Wide is safe here only because of what else is required: one club has to
+# match exactly. A club does not play two matches inside two hours, so an
+# exact club match in this window is that club's match. Without the club
+# test this window would be reckless; with it, a tighter one only loses
+# broadcasts.
+SLACK = timedelta(hours=2)
 
 XMLTV_TIME = "%Y%m%d%H%M%S %z"
 
