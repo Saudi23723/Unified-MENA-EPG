@@ -1800,68 +1800,83 @@ def gate_the_jordanian_league_is_read() -> None:
     import jordan_football
     import today_matches_epg as today
 
-    # The federation's own shape, read off the live page: the clubs sit
-    # in a row of their OWN — "عمان FC | VS | الكرمل" and nothing else —
-    # while the date, the clock and the competition sit outside it.
-    def block(comp, day, clock, home, verdict, away):
-        return (f'<div class="tabledivlejan"><div>{comp}</div>'
-                f'<table><tr><td><span class="haly1">{day}<br/>'
-                f'|\u00a0{clock}</span></td></tr></table>'
-                f'<table><tr><td><span class="team1">{home}</span></td>'
-                f'<td><span class="rrresult">{verdict}</span></td>'
-                f'<td><span class="team2">{away}</span></td>'
-                f'</tr></table></div>')
+    # The federation's shape, copied verbatim from the served page — a
+    # header row carrying the competition and the time, then a row of
+    # clubs, then a rule, repeating. Four guesses were made about this
+    # markup before it was simply printed and read.
+    def head(comp, grade, day, clock):
+        extra = f'<span class="haly2">{grade}</span>' if grade else ""
+        return (f'<tr><td colspan="5" height="22">'
+                f'<span class="haly">{comp}</span>{extra}'
+                f'<span class="haly1">{day}  '
+                f'<i aria-hidden="true" class="fa fa-calendar"></i> '
+                f'| {clock} <i aria-hidden="true" class="fa fa-clock-o">'
+                f'</i></span></td></tr>')
 
-    page = ('<div class="result2">'
-            + block("الدوري الأردني للمحترفين - CFI", "2026-09-03", "19:00",
-                    "البقعة", "VS", "دوقرة")
-            + block("كأس الأردن CFI", "2026-09-04", "18:00",
-                    "عمان FC", "VS", "الكرمل")
-            # Played already — the same markup, a score instead of VS.
-            + block("الدوري الأردني للمحترفين - CFI", "2026-09-01", "17:00",
-                    "اتحاد الرمثا", "1 - 0", "شباب العقبة")
-            # Schools.
-            + block("دوري الناشئين ت16", "2026-09-03", "17:00",
-                    "المدرسة الانجليزية", "VS", "الجزيرة")
-            + '</div>')
+    def clubs(home, verdict, away):
+        return (f'<tr><td align="left" height="80" width="25%">'
+                f'<span class="team1">{home}</span></td>'
+                f'<td align="center" class="plogo1"><img class="logo1"/></td>'
+                f'<td align="center"><span class="rrresult">{verdict}'
+                f'</span></td>'
+                f'<td align="center" class="plogo2"><img class="logo2"/></td>'
+                f'<td align="right" width="25%">'
+                f'<span class="team2">{away}</span></td></tr>'
+                f'<tr><td bgcolor="#c6c3c3" colspan="5" height="2">'
+                f'</td></tr>')
+
+    page = "<table>" + "".join([
+        head("دوري الناشئين ت16", "", "2026-09-03", "17:00"),
+        clubs("المدرسة الانجليزية", "VS", "الجزيرة"),
+        head("كأس الأردن CFI", "", "2026-09-03", "18:00"),
+        clubs("كفرسوم", "VS", "جرش"),
+        head("الدوري الأردني للمحترفين - CFI", "", "2026-09-03", "19:00"),
+        clubs("البقعة", "VS", "دوقرة"),
+        # The national team, but the under-20s: the age grade is in a
+        # SECOND span, so reading only the first would take it for a
+        # senior qualifier.
+        head("تصفيات كأس آسيا", "منتخب الشباب ت20", "2026-09-03", "20:30"),
+        clubs("الأردن", "VS", "البحرين"),
+        # Played already — the same markup, a score instead of VS.
+        head("الدوري الأردني للمحترفين - CFI", "", "2026-09-01", "20:00"),
+        clubs("الوحدات", "1 - 0", "الفيصلي"),
+    ]) + "</table>"
 
     read = jordan_football.collect(page)
-    check("JOR", "the professional league is read",
+    check("JOR", "the professional league and the cup are read",
           [event["title"] for event in read],
-          ["البقعة - دوقرة", "عمان FC - الكرمل"])
+          ["كفرسوم - جرش", "البقعة - دوقرة"])
     check("JOR", "a match already played is not a fixture",
-          any("الرمثا" in event["title"] for event in read), False)
-    check("JOR", "and the under-16 league is not on a board of twelve rows",
+          any("الوحدات" in event["title"] for event in read), False)
+    check("JOR", "the under-16 league is not on a board of twelve rows",
           any("المدرسة" in event["title"] for event in read), False)
+    check("JOR", "and the age grade in a SECOND span still counts",
+          any("البحرين" in event["title"] for event in read), False)
 
-    # THE ONE THAT MATTERS. The clubs and the time are in different
-    # elements, so the reader climbs — and one element too far reaches
-    # the block holding EVERY fixture, takes the first time in it, and
-    # gives all of them the same kickoff. That is exactly the fault that
-    # stamped 1876 fixtures with a single date. Two matches, two times.
-    check("JOR", "each fixture keeps its OWN time, not the block's first",
+    # THE ONE THAT MATTERS. The header and the clubs are separate rows,
+    # so the pairing is by POSITION — the arrangement that once stamped
+    # 1876 fixtures with a single date. Two matches, two times.
+    check("JOR", "each fixture keeps its OWN time, not the one above",
           [f"{event['start']:%Y-%m-%d %H:%M}" for event in read],
-          ["2026-09-03 19:00", "2026-09-04 18:00"])
+          ["2026-09-03 18:00", "2026-09-03 19:00"])
     check("JOR", "the day is read, never inferred from an ordering",
           f"{read[0]['start']:%Y-%m-%d}", "2026-09-03")
     check("JOR", "19:00 in Amman is 16:00 UTC",
-          f"{read[0]['start'].astimezone(timezone.utc):%Y-%m-%d %H:%M}",
+          f"{read[1]['start'].astimezone(timezone.utc):%Y-%m-%d %H:%M}",
           "2026-09-03 16:00")
     check("JOR", "the competition comes through in Arabic",
-          read[0]["competition"], "الدوري الأردني للمحترفين - CFI")
+          read[1]["competition"], "الدوري الأردني للمحترفين - CFI")
 
-    # A fixture with no time of its own is refused, not dated from a
-    # neighbour — the same rule seen from the other side.
-    orphan = ('<div class="result2">'
-              + block("كأس الأردن CFI", "2026-09-04", "18:00",
-                      "عمان FC", "VS", "الكرمل")
-              + '<table><tr><td><span class="team1">البقعة</span></td>'
-              + '<td><span class="rrresult">VS</span></td>'
-              + '<td><span class="team2">دوقرة</span></td></tr></table>'
-              + '</div>')
-    check("JOR", "a fixture with no time of its own is refused",
+    # A header is CONSUMED by the clubs that follow it, so a row of clubs
+    # with none of its own can never inherit the match above's time.
+    orphan = ("<table>"
+              + head("كأس الأردن CFI", "", "2026-09-03", "18:00")
+              + clubs("كفرسوم", "VS", "جرش")
+              + clubs("البقعة", "VS", "دوقرة")
+              + "</table>")
+    check("JOR", "a fixture with no header of its own is refused",
           [event["title"] for event in jordan_football.collect(orphan)],
-          ["عمان FC - الكرمل"])
+          ["كفرسوم - جرش"])
 
     # It names no channel, and the guide keeps it anyway — the rule the
     # reader asked for, so a Jordanian match is on the screen with
@@ -1872,23 +1887,6 @@ def gate_the_jordanian_league_is_read() -> None:
           [today.wanted(event) for event in read], [True, True])
     check("JOR", "and a row with no channel is still a row",
           today.channels_of({"channels": []}), "")
-
-    # The federation puts the date and the clock inside ONE span, as two
-    # text nodes, and code that took the first span as the date and the
-    # next as the time found a date, never found a clock, and threw the
-    # row away. Ten of ten upcoming fixtures were lost that way — and
-    # silently, because a fixture that fails to parse looks exactly like
-    # a fixture that is not there. Both layouts are held here.
-    one_span = ('<table><tr><td>كأس الأردن CFI</td>'
-                '<td><span class="haly1">2026-09-04<br/>|\u00a018:00</span>'
-                '</td><td><span class="team1">عمان FC</span></td>'
-                '<td><span class="rrresult">VS</span></td>'
-                '<td><span class="team2">الكرمل</span></td></tr></table>')
-    both = jordan_football.collect(one_span)
-    check("JOR", "one span holding the date AND the clock is read",
-          [(event["title"], f"{event['start']:%Y-%m-%d %H:%M}")
-           for event in both],
-          [("عمان FC - الكرمل", "2026-09-04 18:00")])
 
     # A page that answers with nothing must cost nothing.
     check("JOR", "an empty page is not an error",
