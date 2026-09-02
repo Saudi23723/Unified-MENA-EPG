@@ -137,19 +137,27 @@ MERGED = "unified_mena_epg.xml"
 # Combined pipeline before it was retired — were far past it.
 COLLAPSE_FLOOR = 0.5
 
-# Pictures a guide's programmes point at, published beside the guides.
+# Pictures a guide's programmes point at. This build DRAWS them, because
+# it runs today_matches_epg.py like every other generator — and it must
+# not PUBLISH them. That is not fussiness, it is the fix to a real fault
+# found by the screen gate: a board and the video segment encoded from it
+# are one thing in two files, and whoever publishes the first has to
+# publish the second in the same commit or the television goes on showing
+# the old picture. This build has no encoder and no ffmpeg. The ten-minute
+# workflow has both, redraws the same boards from the same source, and
+# publishes board and segment together — so the boards are left to it, and
+# what is on disk here is simply not staged.
 BOARDS = "boards"
 
 
 def staged_paths() -> list[str]:
-    """What to hand `git add`, leaving out what is not there.
+    """What to hand `git add`: the guides, and nothing that has a partner.
 
     git add fails the whole command on a pathspec that matches nothing, so
-    naming a directory that has not been written yet would stage no guide
-    at all — the boards are an addition to this build and must never be
-    able to stop it publishing.
+    this stays a list of patterns that always match something — naming a
+    directory that has not been written yet would stage no guide at all.
     """
-    return ["*.xml"] + ([BOARDS] if os.path.isdir(BOARDS) else [])
+    return ["*.xml"]
 
 # ON Sport did not collapse to nothing when FilGoal died. It collapsed to
 # placeholder: ten real events and sixty-two rows saying it did not know,
@@ -479,13 +487,9 @@ def publish() -> bool:
     built = {path: open(path, "rb").read()
              for _, _, path in GENERATORS + [("", "", MERGED)]
              if os.path.exists(path)}
-    # The day boards a guide's <icon> points at travel with it: reset
-    # --hard would throw them away and publish a guide whose picture 404s.
-    if os.path.isdir(BOARDS):
-        for name in sorted(os.listdir(BOARDS)):
-            board = os.path.join(BOARDS, name)
-            if os.path.isfile(board):
-                built[board] = open(board, "rb").read()
+    # The boards are deliberately absent here — see BOARDS above. They are
+    # already published, by the pass that also encoded the screen from
+    # them, and a reset --hard restores exactly that published pair.
 
     for attempt in range(1, 6):
         if subprocess.run(["git", "push", "origin", f"HEAD:{branch}"],

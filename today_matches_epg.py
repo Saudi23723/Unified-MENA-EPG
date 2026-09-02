@@ -23,9 +23,14 @@ file and invisible on the screen — all of the cost, none of the benefit.
 It is now one row a day, and the counter rides at the FRONT of that row's
 title where truncation cannot reach it.
 
-Source — livefootballtv's front page, which lists every match of the day
-with every channel carrying it, worldwide. It is the only source here that
-publishes the channel list, which is the whole point of this guide.
+Two sources, because one was demonstrably not enough. livefootballtv's
+front page lists the day's matches with the channels carrying them
+worldwide, and it is the Gulf half of the answer — beIN, Thmanyah, SSC.
+But a scores app showed three Championship matches it had never listed, so
+live-footballontv.com was measured and added beside it: a British listings
+page that names Sky Sports, TNT and Premier Sports against the same
+fixtures. Neither page is asked to be complete on its own. A match on both
+is one row naming what both said; a match on one is still a row.
 
 On its clock, learned the hard way: each row carries both a displayed time
 in td.hora and a schema.org startDate in the markup. Measured across 567
@@ -41,6 +46,7 @@ be added later without touching what is here.
 from __future__ import annotations
 
 import os
+import re
 import sys
 from datetime import date, datetime, time, timedelta, timezone
 
@@ -51,9 +57,10 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import xml.etree.ElementTree as ET
 
+import live_football_on_tv
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, countdown_label, fetch,
-    in_reading_order, isolate, log, norm, warn, write_xml_atomic,
+    MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
+    fetch, in_reading_order, isolate, log, norm, warn, write_xml_atomic,
 )
 
 SOURCE = "https://www.livefootballtv.info/"
@@ -303,16 +310,32 @@ def wanted(event: dict) -> bool:
     return any(club in teams_folded for club in WANTED_TEAMS)
 
 
+def window_floor(now: datetime) -> datetime:
+    """Where the guide starts reading: the top of the viewer's today.
+
+    The whole of their today, however much of it has already been played —
+    the page is a list of the day, not of what is left of it. Both sources
+    are held to this same edge, or a match would appear on one board and
+    not the other purely by which page it came off.
+    """
+    return datetime.combine(now.astimezone(VIEWER).date(), time(0, 0),
+                            VIEWER).astimezone(UTC)
+
+
 def collect(html: str, now: datetime) -> list[dict]:
-    """Every match worth showing, with its kickoff, channels and competition."""
+    """Every match on the page, with its kickoff, channels and competition.
+
+    Nothing is filtered here, deliberately. A source is asked for what it
+    saw, not for what is wanted — the two sources are merged first, so a
+    match the first page labelled with nothing can still be recognised by
+    the competition the second page gave it. Judging each page on its own
+    would throw that match away before the other page could speak.
+    """
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
 
-    # The whole of the viewer's today, however much of it has already been
-    # played — the description is a list of the day, not of what is left.
-    floor = datetime.combine(now.astimezone(VIEWER).date(), time(0, 0),
-                             VIEWER).astimezone(UTC)
+    floor = window_floor(now)
 
     events: list[dict] = []
     no_time = no_channel = 0
@@ -374,10 +397,191 @@ def collect(html: str, now: datetime) -> list[dict]:
             merged[key] = event
 
     everything = sorted(merged.values(), key=lambda e: e["start"])
-    keep = [event for event in everything if wanted(event)]
-    log(f"  {len(everything)} match(es) in the window, "
-        f"{len(keep)} in a competition worth showing")
-    return keep
+    log(f"  livefootballtv: {len(everything)} match(es) in the window")
+    return everything
+
+
+# Two pages, two spellings, one match.
+#
+# epg_lib.same_fixture answers this across scripts and refuses to answer
+# within one, for a measured reason: inside Latin, "Mainz"/"Monza" and
+# "Al Nassr"/"Al Nasar" score at or above every similarity threshold that
+# still catches a real pair. Both pages here write Latin, so that door is
+# shut and it stays shut. Nothing below scores anything.
+#
+# What actually differs between the two pages is words: one prints
+# "West Bromwich Albion" where the other prints "West Brom", one prints
+# "Queens Park Rangers" where the other prints "QPR". So the comparison is
+# made word by word, and a shortened word only counts as evidence when
+# there is enough of it left to be sure — a rule reached by measurement,
+# not by taste. The first draft compared whole names by their beginnings,
+# and the gate caught it merging Mainz into Monza while failing to merge
+# Man Utd into Manchester United. Both faults came from the same mistake:
+# treating a name as one string when the pages differ in its words.
+MERGE_SLACK = timedelta(minutes=1)
+
+# Nicknames and contractions no structural rule can reach: nothing in the
+# letters of "Wolves" leads to "Wolverhampton Wanderers". Written out
+# rather than guessed at, and only where the pages were seen to disagree.
+ALIASES = {
+    "man utd": "manchester united",
+    "man united": "manchester united",
+    "man city": "manchester city",
+    "wolves": "wolverhampton wanderers",
+    "spurs": "tottenham hotspur",
+    "west brom": "west bromwich albion",
+    "west bromwich": "west bromwich albion",
+    "brighton": "brighton and hove albion",
+    "nott'm forest": "nottingham forest",
+    "notts forest": "nottingham forest",
+    "sheff utd": "sheffield united",
+    "sheff wed": "sheffield wednesday",
+    "qpr": "queens park rangers",
+    "psg": "paris saint-germain",
+    "inter": "inter milan",
+    "internazionale": "inter milan",
+    "atletico madrid": "atletico de madrid",
+    "bayern": "bayern munich",
+    "dortmund": "borussia dortmund",
+}
+
+# One word written two ways, which is not a nickname and so does not
+# belong in the table above: every page that writes "Utd" means "United".
+WORD_ALIASES = {"utd": "united", "utd.": "united", "atl": "atletico",
+                "st": "saint", "st.": "saint"}
+
+# Words that hang off the end of a club's name and that a listings page
+# may or may not bother to print. A trailing word outside this list is
+# part of the club, not furniture: dropping "Miami" turns Inter Miami into
+# Inter, which is a different club in a different hemisphere.
+#
+# Held as skeletons, because that is what they are compared against —
+# "united" is "anatad" by the time the comparison happens, and a set of
+# plain words would quietly never match anything.
+CLUB_TAIL = {"united", "city", "town", "county", "athletic", "albion",
+             "wanderers", "rovers", "hotspur", "hotspurs", "club", "calcio"}
+
+# A shortened word is evidence only with this much of it written, and this
+# much of the full word left over. "Brom" against "Bromwich" is four
+# letters written and four dropped. "Manz" against "Manza" is one letter
+# apart, which is Mainz and Monza, and is not evidence of anything.
+WORD_FLOOR = 3
+
+
+def expand(name: str) -> str:
+    """A club's name with a nickname or contraction written out in full."""
+    return ALIASES.get(norm(name).casefold().replace(".", ""), name)
+
+
+def words_of(name: str) -> list[str]:
+    """The name broken into words, each reduced to its skeleton."""
+    words = [word for word in
+             re.split(r"[^0-9A-Za-z\u00C0-\u024F]+", name) if word]
+    skeletons = [club_skeleton(WORD_ALIASES.get(word.casefold(), word))
+                 for word in words]
+    return [skeleton for skeleton in skeletons if skeleton]
+
+
+# Built once, from the words above, so the two can never drift apart.
+TAIL_SKELETONS = {club_skeleton(word) for word in CLUB_TAIL}
+
+
+def initials_of(name: str) -> str:
+    """The first letter of every word, which is what an initialism is."""
+    return "".join(word[0] for word in re.split(r"[^A-Za-z]+", name)
+                   if word).casefold()
+
+
+def written_as_initials(name: str) -> str:
+    """The letters of a name written the way QPR and PSG are written.
+
+    Capitals only, three or four of them. A name in mixed case is a name,
+    and two capitals are too few to be evidence — "AC" opens Milan,
+    Ajaccio and a dozen others.
+    """
+    letters = re.sub(r"[^A-Za-z]", "", name)
+    return letters.casefold() if letters.isupper() and 3 <= len(letters) <= 4 \
+        else ""
+
+
+def same_word(short: str, long: str) -> bool:
+    """One word against another, the first possibly written shorter."""
+    if short == long:
+        return True
+    return (long.startswith(short) and len(short) >= WORD_FLOOR
+            and len(long) - len(short) >= WORD_FLOOR)
+
+
+def same_side(first: str, second: str) -> bool:
+    """Whether two Latin spellings name one club, one of them shortened."""
+    for short, long in ((first, second), (second, first)):
+        as_initials = written_as_initials(short)
+        if as_initials and as_initials == initials_of(long):
+            return True
+
+    first, second = expand(first), expand(second)
+    left, right = words_of(first), words_of(second)
+    if not left or not right:
+        return False
+    if left == right:
+        return True
+
+    short, long = (left, right) if len(left) <= len(right) else (right, left)
+    # Word for word, as far as the shorter name goes.
+    if not all(same_word(word, long[at]) for at, word in enumerate(short)):
+        return False
+    # Whatever the shorter name left off has to be furniture, not a club.
+    return all(word in TAIL_SKELETONS for word in long[len(short):])
+
+
+def same_match(first: str, second: str) -> bool:
+    """Whether two "A - B" titles name one fixture. Both sides must agree.
+
+    One side agreeing is a coincidence — Real Madrid plays somebody every
+    week. Two sides agreeing at one kickoff minute is one match written
+    twice.
+    """
+    left = [side.strip() for side in (first or "").split(" - ")]
+    right = [side.strip() for side in (second or "").split(" - ")]
+    if len(left) != 2 or len(right) != 2 or not all(left) or not all(right):
+        return False
+    return same_side(left[0], right[0]) and same_side(left[1], right[1])
+
+
+def absorb(into: dict, extra: dict) -> None:
+    """Add what the second page knew and the first one did not."""
+    for channel in extra["channels"]:
+        if channel not in into["channels"]:
+            into["channels"].append(channel)
+    if not into["competition"]:
+        into["competition"] = extra["competition"]
+
+
+def unify(primary: list[dict], secondary: list[dict]) -> list[dict]:
+    """One list of matches from two pages, each match appearing once.
+
+    The first page leads: where both name a match, its title and its first
+    channel are the ones a viewer sees, and the second page's channels are
+    appended behind them. That ordering is not cosmetic — only one channel
+    fits on a row, and the viewer asked for the one they can actually
+    tune to.
+    """
+    merged = [dict(event, channels=list(event["channels"]))
+              for event in primary]
+    joined = added = 0
+    for event in secondary:
+        for already in merged:
+            if abs(already["start"] - event["start"]) <= MERGE_SLACK and \
+                    same_match(already["title"], event["title"]):
+                absorb(already, event)
+                joined += 1
+                break
+        else:
+            merged.append(dict(event, channels=list(event["channels"])))
+            added += 1
+    log(f"  merge: {joined} match(es) on both pages, "
+        f"{added} the second page had alone")
+    return sorted(merged, key=lambda event: event["start"])
 
 
 def channels_of(event: dict) -> str:
@@ -589,7 +793,12 @@ def build() -> int:
              f"stays exactly as it is")
         return 1
 
-    events = collect(html, now)
+    everything = unify(collect(html, now),
+                       live_football_on_tv.fetch_events(
+                           session, now, KEEP_AHEAD, window_floor(now)))
+    events = [event for event in everything if wanted(event)]
+    log(f"  {len(everything)} match(es) in the window, "
+        f"{len(events)} in a competition worth showing")
     for event in events[:12]:
         log(f"  {event['start']:%m-%d %H:%M}Z  {event['title']}"
             f"   │ {event['competition']}")

@@ -695,6 +695,104 @@ def gate_the_screen_cannot_go_stale() -> None:
           unversioned, [])
 
 
+def gate_two_pages_make_one_row() -> None:
+    """A match on both pages is one row, and a wrong pair is never one row.
+
+    مباريات اليوم now reads two listings pages. They spell clubs
+    differently — one writes "West Brom" where the other writes "West
+    Bromwich Albion", one writes "QPR" where the other writes "Queens Park
+    Rangers" — so a merge that only compares strings prints every shared
+    match twice, and a board that holds nine rows loses half its day to
+    duplicates.
+
+    The dangerous fix is a similarity score. Measured inside one script it
+    cannot be made safe: "Mainz"/"Monza" and "Al Nassr"/"Al Nasar" score
+    above every threshold that still catches a real pair. So the merge does
+    not score anything — it asks whether one name is the other abbreviated,
+    at a kickoff both pages agree on, on both sides of the fixture.
+
+    This gate holds both halves at once: the abbreviations must join, and
+    the near-misses must not. Widening the first without checking the
+    second is exactly how a wrong pair gets merged, and a merged wrong pair
+    deletes a real match from the board.
+    """
+    print("\nTwo pages, one row — the merge joins abbreviations, not lookalikes")
+    import today_matches_epg as today
+
+    # One club, written short on one page and long on the other.
+    for short, long in (("West Brom", "West Bromwich Albion"),
+                        ("QPR", "Queens Park Rangers"),
+                        ("Wolves", "Wolverhampton Wanderers"),
+                        ("Man Utd", "Manchester United"),
+                        ("Tottenham", "Tottenham Hotspur"),
+                        ("Newcastle", "Newcastle United")):
+        check("MERGE", f"{short!r} is {long!r} shortened",
+              today.same_side(short, long), True)
+
+    # Two clubs that are not one club, however alike they read.
+    for first, second in (("Mainz", "Monza"),
+                          ("Al Nassr", "Al Nasar"),
+                          ("Real Madrid", "Real Sociedad"),
+                          ("Manchester United", "Manchester City"),
+                          ("Nottingham Forest", "Norwich City"),
+                          ("Inter", "Inter Miami"),
+                          ("AC Milan", "Ajaccio")):
+        check("MERGE", f"{first!r} is not {second!r}",
+              today.same_side(first, second), False)
+
+    # A fixture needs both sides. One side agreeing is a coincidence.
+    check("MERGE", "both sides must agree before it is one match",
+          today.same_match("QPR - Cardiff City",
+                           "Queens Park Rangers - Cardiff City"), True)
+    check("MERGE", "one side agreeing is not enough",
+          today.same_match("QPR - Cardiff City",
+                           "Queens Park Rangers - Swansea City"), False)
+
+    # And the whole of it, end to end: two pages in, one list out.
+    from datetime import datetime, timedelta, timezone
+    kick = datetime(2026, 9, 2, 18, 45, tzinfo=timezone.utc)
+    primary = [
+        {"start": kick, "title": "QPR - Cardiff City",
+         "channels": ["beIN Sports 1"], "competition": ""},
+        {"start": kick, "title": "Mainz - Werder Bremen",
+         "channels": ["Thmanyah 2"], "competition": "Bundesliga"},
+    ]
+    secondary = [
+        {"start": kick, "title": "Queens Park Rangers - Cardiff City",
+         "channels": ["Sky Sports+"], "competition": "Championship"},
+        {"start": kick, "title": "Monza - Como",
+         "channels": ["TNT Sports 1"], "competition": "Serie A"},
+        {"start": kick, "title": "Millwall - Wrexham",
+         "channels": ["Sky Sports+"], "competition": "Championship"},
+    ]
+    merged = today.unify(primary, secondary)
+    check("MERGE", "five rows in, four out", len(merged), 4)
+
+    by_title = {event["title"]: event for event in merged}
+    check("MERGE", "the shared match keeps the first page's spelling",
+          "QPR - Cardiff City" in by_title, True)
+    joined = by_title.get("QPR - Cardiff City", {"channels": [],
+                                                 "competition": ""})
+    check("MERGE", "and names both pages' channels, the tunable one first",
+          joined["channels"], ["beIN Sports 1", "Sky Sports+"])
+    check("MERGE", "and borrows the competition the first page left blank",
+          joined["competition"], "Championship")
+    check("MERGE", "Mainz did not swallow Monza",
+          "Monza - Como" in by_title, True)
+    check("MERGE", "a match only the second page saw is still a match",
+          "Millwall - Wrexham" in by_title, True)
+
+    # The merge must not reach across kickoffs. Two different matches can
+    # share both club names across a season; only one of them is tonight.
+    apart = today.unify(
+        primary[:1],
+        [{"start": kick + timedelta(hours=3),
+          "title": "Queens Park Rangers - Cardiff City",
+          "channels": ["Sky Sports+"], "competition": "Championship"}])
+    check("MERGE", "the same fixture at another hour is another match",
+          len(apart), 2)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -703,7 +801,8 @@ def main() -> int:
                  gate_one_club_across_two_scripts,
                  gate_a_fact_survives_its_source,
                  gate_every_guide_is_covered,
-                 gate_the_screen_cannot_go_stale):
+                 gate_the_screen_cannot_go_stale,
+                 gate_two_pages_make_one_row):
         try:
             gate()
         except Exception as exc:

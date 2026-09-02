@@ -1,10 +1,10 @@
-name: Probe btolat coverage
+name: Probe the merged sources
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'tools/probe_btolat.py'
-      - '.github/workflows/probe_btolat.yml'
+      - 'tools/probe_merge.py'
+      - '.github/workflows/probe_merge.yml'
 jobs:
   probe:
     runs-on: ubuntu-latest
@@ -14,6 +14,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
-      - run: python -u tools/probe_btolat.py
+      - run: python -u tools/probe_merge.py
         env:
           PYTHONPATH: .
