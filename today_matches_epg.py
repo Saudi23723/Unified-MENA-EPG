@@ -561,6 +561,20 @@ WORD_ALIASES = {"utd": "united", "utd.": "united", "atl": "atletico",
 CLUB_TAIL = {"united", "city", "town", "county", "athletic", "albion",
              "wanderers", "rovers", "hotspur", "hotspurs", "club", "calcio"}
 
+# Words a club's name can START with that a listings page may leave off.
+#
+# The comparison lines names up from the left, so a page writing "Betis"
+# where the other writes "Real Betis" had nothing to line up: the first
+# word of one was the second word of the other, and Betis v Real Madrid
+# was published twice on one board. Spanish football is full of this —
+# Real Betis, Real Sociedad, Real Valladolid — so it is worth a rule
+# rather than an entry in the table above.
+#
+# Kept to honorifics, deliberately. "Atletico" is not here: dropping it
+# would make "Atletico Madrid" and "Real Madrid" both into "Madrid", and
+# they are not the same club playing itself.
+CLUB_LEAD = {"real", "club"}
+
 # A shortened word is evidence only with this much of it written, and this
 # much of the full word left over. "Brom" against "Bromwich" is four
 # letters written and four dropped. "Manz" against "Manza" is one letter
@@ -584,6 +598,7 @@ def words_of(name: str) -> list[str]:
 
 # Built once, from the words above, so the two can never drift apart.
 TAIL_SKELETONS = {club_skeleton(word) for word in CLUB_TAIL}
+LEAD_SKELETONS = {club_skeleton(word) for word in CLUB_LEAD}
 
 
 def initials_of(name: str) -> str:
@@ -626,6 +641,25 @@ def same_side(first: str, second: str) -> bool:
     if left == right:
         return True
 
+    if lines_up(left, right):
+        return True
+    # And again with an honorific dropped from the front of either — see
+    # CLUB_LEAD. Tried second so a name that already matches is never
+    # shortened, and only ever ONE step, so nothing is whittled down to
+    # its last word.
+    return lines_up(without_lead(left), without_lead(right))
+
+
+def without_lead(words: list[str]) -> list[str]:
+    """The name with a leading honorific removed, if it has one to spare."""
+    return words[1:] if len(words) > 1 and words[0] in LEAD_SKELETONS \
+        else words
+
+
+def lines_up(left: list[str], right: list[str]) -> bool:
+    """Whether one list of words is the other with words left off the end."""
+    if not left or not right:
+        return False
     short, long = (left, right) if len(left) <= len(right) else (right, left)
     # Word for word, as far as the shorter name goes.
     if not all(same_word(word, long[at]) for at, word in enumerate(short)):
