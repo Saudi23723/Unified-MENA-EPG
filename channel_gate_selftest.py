@@ -1464,23 +1464,26 @@ def gate_a_row_names_two_channels() -> None:
 
     import today_matches_epg as today
 
-    check("TWO", "two channels are printed, not one and a digit",
-          today.channels_of({"channels": ["beIN SPORTS 1", "USA Network"]}),
-          "beIN SPORTS 1 \u00b7 USA Network")
-    check("TWO", "a third is counted, not dropped",
-          today.channels_of({"channels": ["beIN SPORTS 1", "USA Network",
-                                          "Fox Sports 1", "DAZN"]}),
-          "beIN SPORTS 1 \u00b7 USA Network +2")
+    check("TWO", "three channels are printed, not one and a digit",
+          today.channels_of({"channels": ["beIN SPORTS 1", "beIN SPORTS 1 EN",
+                                          "USA Network"]}),
+          "beIN SPORTS 1 · beIN SPORTS 1 EN · USA Network")
+    check("TWO", "a fourth is counted, not dropped",
+          today.channels_of({"channels": ["beIN SPORTS 1", "beIN SPORTS 1 EN",
+                                          "USA Network", "DAZN"]}),
+          "beIN SPORTS 1 · beIN SPORTS 1 EN · USA Network +1")
     check("TWO", "one channel is still one channel",
           today.channels_of({"channels": ["DAZN"]}), "DAZN")
     check("TWO", "and the app the reader asked to stop seeing is not one",
           today.channels_of({"channels": ["OneFootball", "beIN SPORTS 1"]}),
           "beIN SPORTS 1")
 
-    # The drawn board gives a row two pills, so the picture and the line
-    # agree on how many a viewer is shown.
+    # The drawn board gives a row three pills, so the picture and the
+    # line agree on how many a viewer is shown. Three was refused once on
+    # an unmeasured claim that a twelve-match day could not fit them; it
+    # can, because a crowded row draws its pills smaller too.
     check("TWO", "the board draws as many as the line prints",
-          today.MAX_CHANNELS, 2)
+          today.MAX_CHANNELS, 3)
 
     # The reader's order: Arabic, English, American, Turkish, the rest.
     # It was source order, which is the order a British listings page
@@ -1490,7 +1493,7 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "Arabic comes before American, and both before British",
           today.channels_of({"channels": ["MBC Shahid Sports", "BBC iPlayer",
                                           "Fox Sports 1"]}),
-          "MBC Shahid Sports \u00b7 Fox Sports 1 +1")
+          "MBC Shahid Sports · Fox Sports 1 · BBC iPlayer")
     check("TWO", "and the tiers run Arabic, English, American, Turkish",
           [today.where_from(name) for name in
            ("beIN SPORTS 3", "beIN SPORTS 1 EN", "Fox Sports 1",
@@ -1512,18 +1515,23 @@ def gate_a_row_names_two_channels() -> None:
     # the Fox that was collected for that match behind the "+6". Two
     # slots and Arabic ranked first meant the American channels this
     # guide went and found could almost never be seen.
-    check("TWO", "the second slot goes somewhere the first is not",
+    check("TWO", "each slot goes somewhere the ones before it are not",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 TR",
                                           "Sky Sports+"]}),
-          "beIN SPORTS 3 · USA Network +3")
+          "beIN SPORTS 3 · USA Network · beIN SPORTS 1 TR +2")
+    check("TWO", "Arabic, English, American — the three a viewer can open",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
+                                          "USA Network", "beIN SPORTS 1 EN",
+                                          "beIN SPORTS 1 TR", "Sky Sports+"]}),
+          "beIN SPORTS 3 · beIN SPORTS 1 EN · USA Network +3")
     check("TWO", "and still in the reader's order: American before Turkish",
           today.in_the_readers_order(["beIN SPORTS 3", "beIN SPORTS 1 TR",
                                       "Fox Sports 1"])[1], "Fox Sports 1")
-    check("TWO", "a row that is all one kind is left exactly as it was",
+    check("TWO", "a row that is all one kind keeps the source's order",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "beIN SPORTS 5"]}),
-          "beIN SPORTS 3 · beIN SPORTS 2 +1")
+          "beIN SPORTS 3 · beIN SPORTS 2 · beIN SPORTS 5")
     check("TWO", "nothing is dropped by the promotion",
           sorted(today.in_the_readers_order(
               ["Sky Sports+", "beIN SPORTS 3", "Fox Sports 1"])),
