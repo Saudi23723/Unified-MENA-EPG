@@ -48,6 +48,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+from collections import Counter, defaultdict
 from datetime import date, datetime, time, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -150,9 +151,22 @@ VIEWER_NAME = "بتوقيتك"
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
               "الجمعة", "السبت", "الأحد")
 
-# How far forward to publish. The page carries a couple of days and a
-# viewer scrolling ahead should find them.
-KEEP_AHEAD = timedelta(days=2)
+# How many days past today the guide draws a board for.
+#
+# Counted in the READER'S days, not in hours from now, and that distinction
+# is the whole of a bug that made the last board permanently empty. It used
+# to be `timedelta(days=2)` measured from the moment the build ran: the
+# board list was built from that instant's DATE — giving three days — while
+# the matches were filtered against the instant itself. So the last day was
+# only ever admitted up to the clock time of the build. At 14:36 UTC that
+# let in 7.6 of Friday's 24 hours, all of them before dawn in Los Angeles,
+# and every Friday evening kickoff in Europe fell outside by hours.
+#
+# The board was drawn regardless and said "لا توجد مباراة معلنة" — a full
+# Friday of football reported as nothing, every single day, and it read
+# like a guide that had stopped updating rather than one with an
+# arithmetic fault. A day that gets a board must get the whole of that day.
+DAYS_AHEAD = 2
 
 # One channel per match. The page has to fit on a television screen in one
 # go, and every extra name pushes a line into wrapping onto a second — so
@@ -376,6 +390,11 @@ def kickoff_of(row) -> datetime | None:
                key=lambda instant: abs(instant - corrected))
 
 
+def start_of_day(day: date) -> datetime:
+    """Midnight at the start of that day, in the reader's zone, as UTC."""
+    return datetime.combine(day, time(0, 0), VIEWER).astimezone(UTC)
+
+
 def window_floor(now: datetime) -> datetime:
     """Where the guide starts reading: the top of the viewer's today.
 
@@ -384,11 +403,33 @@ def window_floor(now: datetime) -> datetime:
     are held to this same edge, or a match would appear on one board and
     not the other purely by which page it came off.
     """
-    return datetime.combine(now.astimezone(VIEWER).date(), time(0, 0),
-                            VIEWER).astimezone(UTC)
+    return start_of_day(now.astimezone(VIEWER).date())
 
 
-def collect(html: str, now: datetime) -> list[dict]:
+def window_ceiling(now: datetime) -> datetime:
+    """Where the guide stops reading: the END of the last day it draws.
+
+    Not "two days from now". The last board covers a whole day of the
+    reader's, so the window has to reach the end of that day or the board
+    is drawn with only part of its own day available to fill it — which is
+    exactly how a full Friday came to be published as an empty one.
+    """
+    return start_of_day(now.astimezone(VIEWER).date()
+                        + timedelta(days=DAYS_AHEAD + 1))
+
+
+def days_of(now: datetime) -> list[date]:
+    """Every day the guide draws a board for, today first.
+
+    The single place that decides this, so that what is drawn and what is
+    collected cannot drift apart the way they did.
+    """
+    first = now.astimezone(VIEWER).date()
+    return [first + timedelta(days=step) for step in range(DAYS_AHEAD + 1)]
+
+
+def collect(html: str, now: datetime, floor: datetime,
+            ceiling: datetime) -> list[dict]:
     """Every match on the page, with its kickoff, channels and competition.
 
     Nothing is filtered here, deliberately. A source is asked for what it
@@ -400,8 +441,6 @@ def collect(html: str, now: datetime) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
-
-    floor = window_floor(now)
 
     events: list[dict] = []
     no_time = no_channel = 0
@@ -420,7 +459,7 @@ def collect(html: str, now: datetime) -> list[dict]:
             no_time += 1
             continue
 
-        if not (floor <= start <= now + KEEP_AHEAD):
+        if not (floor <= start < ceiling):
             continue
 
         channels = sources_of(row)
@@ -872,6 +911,37 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     return f"{BOARD_URL}/{name}"
 
 
+def say_what_was_dropped(everything: list[dict], days: list[date]) -> None:
+    """Name, day by day, the competitions collected and not shown.
+
+    A reader asked why Thursday looked thin and Friday looked empty, and
+    answering it took a purpose-built probe and a trip to a runner —
+    because the build said only how many matches it kept, never what it
+    threw away. Those are different questions with the same symptom: a
+    short list. A source that has stopped answering and a filter that is
+    quietly eating a whole league look identical from the sofa.
+
+    So the build now says both. It costs a few lines in a log nobody reads
+    until something is wrong, which is exactly when this is the first
+    thing anybody wants.
+    """
+    dropped: dict[date, Counter] = defaultdict(Counter)
+    for event in everything:
+        if not wanted(event):
+            day = event["start"].astimezone(VIEWER).date()
+            dropped[day][event["competition"] or "(unnamed competition)"] += 1
+
+    for day in days:
+        names = dropped.get(day)
+        if not names:
+            continue
+        listed = ", ".join(f"{name} ×{count}"
+                           for name, count in names.most_common(8))
+        rest = len(names) - min(len(names), 8)
+        log(f"  {day}: {sum(names.values())} collected and not shown — "
+            f"{listed}" + (f", and {rest} more" if rest else ""))
+
+
 def build() -> int:
     now = datetime.now(UTC)
     session = requests.Session()
@@ -887,9 +957,13 @@ def build() -> int:
              f"stays exactly as it is")
         return 1
 
-    everything = unify(collect(html, now),
+    # One window, computed once, handed to both pages and to the board
+    # list alike. Two places deciding this independently is what put an
+    # empty board on the screen for a full day of football.
+    floor, ceiling = window_floor(now), window_ceiling(now)
+    everything = unify(collect(html, now, floor, ceiling),
                        live_football_on_tv.fetch_events(
-                           session, now, KEEP_AHEAD, window_floor(now)))
+                           session, floor, ceiling))
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not
@@ -906,6 +980,9 @@ def build() -> int:
         log(f"  {event['start']:%m-%d %H:%M}Z  {event['title']}"
             f"   │ {event['competition']}")
 
+    days = days_of(now)
+    say_what_was_dropped(everything, days)
+
     tv = ET.Element("tv", {"generator-info-name": "Today's Matches"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
     ET.SubElement(channel, "icon", {"src": LOGO})
@@ -914,14 +991,6 @@ def build() -> int:
 
     # Today first, then every further day the page reached, so a viewer
     # scrolling forward finds tomorrow rather than the end of the guide.
-    today = now.astimezone(VIEWER).date()
-    last = (now + KEEP_AHEAD).astimezone(VIEWER).date()
-    days: list[date] = []
-    day = today
-    while day <= last:
-        days.append(day)
-        day += timedelta(days=1)
-
     by_day: dict[date, list[dict]] = {day: [] for day in days}
     for event in events:
         day = event["start"].astimezone(VIEWER).date()

@@ -824,7 +824,7 @@ def gate_a_day_divider_is_not_a_container() -> None:
     goes red before anything reaches a screen.
     """
     print("\nA day divider is a divider — live-footballontv")
-    from datetime import datetime, timedelta, timezone
+    from datetime import datetime, timezone
 
     import live_football_on_tv as second
 
@@ -860,9 +860,9 @@ def gate_a_day_divider_is_not_a_container() -> None:
       </div>
     </div>
     """
-    now = datetime(2026, 9, 2, 8, 0, tzinfo=timezone.utc)
     floor = datetime(2026, 9, 2, 0, 0, tzinfo=timezone.utc)
-    read = second.collect(page, now, timedelta(days=2), floor)
+    ceiling = datetime(2026, 9, 5, 0, 0, tzinfo=timezone.utc)
+    read = second.collect(page, floor, ceiling)
 
     check("SOURCE2", "a fixture with no kickoff is not a fixture",
           len(read), 2)
@@ -944,6 +944,72 @@ def gate_the_printed_clock_is_the_kickoff() -> None:
           today.VIEWER.key, "America/Los_Angeles")
 
 
+def gate_a_day_drawn_is_a_day_collected() -> None:
+    """Every board gets the whole of its own day to fill itself from.
+
+    The board list was built from a DATE and the matches were filtered
+    against an INSTANT, and the two disagreed about the last day. The
+    guide drew a board for Friday and then admitted only the hours of
+    Friday that fell before the clock time of the build — 7.6 of 24 at
+    14:36 UTC, all of them before dawn in Los Angeles. Every Friday
+    evening kickoff in Europe was hours outside it.
+
+    So a full Friday of football was published as "لا توجد مباراة معلنة",
+    every single day, and from the sofa it looked like a channel that had
+    stopped updating rather than one with an arithmetic fault. Nothing was
+    wrong with either source.
+
+    This is the invariant that was missing, and it is checked at every
+    hour of the clock rather than at the one the build happened to run
+    at — the fault was invisible at 00:00 and total at 23:00. It is also
+    checked across the night the clocks go back, because a "day" is 25
+    hours long that night and arithmetic in fixed offsets quietly loses an
+    hour of it.
+    """
+    print("\nA day drawn is a day collected — مباريات اليوم")
+    from datetime import datetime, timedelta, timezone
+
+    import today_matches_epg as today
+
+    def whole_days_covered(now):
+        floor, ceiling = today.window_floor(now), today.window_ceiling(now)
+        for day in today.days_of(now):
+            if today.start_of_day(day) < floor:
+                return f"{day} starts before the window does"
+            if today.start_of_day(day + timedelta(days=1)) > ceiling:
+                return f"{day} ends after the window does"
+        return ""
+
+    # Every hour of an ordinary day.
+    broken = [f"{hour:02d}:00Z {why}" for hour in range(24)
+              if (why := whole_days_covered(
+                  datetime(2026, 9, 2, hour, 36, tzinfo=timezone.utc)))]
+    check("WINDOW", "every board's day is inside the window, at every hour",
+          broken, [])
+
+    # The night Los Angeles puts its clocks back: one day is 25 hours.
+    autumn = [f"{hour:02d}:00Z {why}" for hour in range(24)
+              if (why := whole_days_covered(
+                  datetime(2026, 11, 1, hour, 36, tzinfo=timezone.utc)))]
+    check("WINDOW", "and still inside it the night the clocks go back",
+          autumn, [])
+
+    # The exact match that was being dropped, named.
+    now = datetime(2026, 9, 2, 14, 36, tzinfo=timezone.utc)
+    friday_night = datetime(2026, 9, 4, 18, 45, tzinfo=timezone.utc)
+    check("WINDOW", "a Ligue 1 Friday 20:45 CEST is inside the window",
+          today.window_floor(now) <= friday_night < today.window_ceiling(now),
+          True)
+    check("WINDOW", "and it lands on the Friday board, not tomorrow's",
+          friday_night.astimezone(today.VIEWER).date(),
+          today.days_of(now)[-1])
+
+    # The board list and the window must be the same length of time.
+    check("WINDOW", "the window is exactly as long as the boards it fills",
+          today.window_ceiling(now) - today.window_floor(now),
+          timedelta(days=today.DAYS_AHEAD + 1))
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -955,7 +1021,8 @@ def main() -> int:
                  gate_the_screen_cannot_go_stale,
                  gate_two_pages_make_one_row,
                  gate_a_day_divider_is_not_a_container,
-                 gate_the_printed_clock_is_the_kickoff):
+                 gate_the_printed_clock_is_the_kickoff,
+                 gate_a_day_drawn_is_a_day_collected):
         try:
             gate()
         except Exception as exc:
