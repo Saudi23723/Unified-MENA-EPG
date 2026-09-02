@@ -128,8 +128,8 @@ def draw_mark(pen, x: int, y: int, size: int) -> None:
 
 
 def draw_board(day: date, events: list[dict], now: datetime, viewer,
-               live_for, *, title: str, subtitle: str,
-               weekday: str) -> Image.Image:
+               live_for, *, title: str, subtitle: str, weekday: str,
+               page: int = 1, pages: int = 1) -> Image.Image:
     """The whole board: header, then a ruled row for each match.
 
     `events` are dicts with start / title / channels, already filtered and
@@ -150,6 +150,10 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     draw_text(pen, (right, PAD + 36), weekday, 21, MUTED, anchor="ra")
     count = (arabic_count(len(events), "مباراة", "مباراتان", "مباريات",
                           "مباراة") if events else "لا توجد مباراة")
+    # A day too long for one screen is drawn over several, and a viewer
+    # watching them go past should be told which of them this is.
+    if pages > 1:
+        count = f"{count} — {page}/{pages}"
     draw_text(pen, (right, PAD + 66), count, 21, ACCENT, anchor="ra")
 
     top = PAD + 106
