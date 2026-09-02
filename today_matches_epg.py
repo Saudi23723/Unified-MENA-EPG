@@ -32,13 +32,13 @@ page that names Sky Sports, TNT and Premier Sports against the same
 fixtures. Neither page is asked to be complete on its own. A match on both
 is one row naming what both said; a match on one is still a row.
 
-On its clock, learned the hard way: each row carries both a displayed time
-in td.hora and a schema.org startDate in the markup. Measured across 567
-rows on one page, the displayed time is exactly two hours ahead of the
-markup, flat — the site prints its own local wall clock. So the markup is
-the UTC instant and it is what this reads. Deriving the time from the
-visible cell means guessing which timezone the site is in today, and that
-guess is what put a guide three hours out once already.
+On the clock, learned twice: each row carries a displayed time in td.hora
+and a schema.org startDate in the markup, and the displayed time is
+exactly two hours ahead of the markup, flat. The first reading of that
+took the markup for the UTC instant. It is not — the displayed clock is
+the Gulf's, the Gulf is three hours ahead rather than two, and the markup
+is an hour fast. See GULF below for how that was settled, and what it
+cost: the reader's own clock was moved an hour to hide it.
 
 Football only, for now. The page covers other sports thinly and they can
 be added later without touching what is here.
@@ -49,6 +49,7 @@ import os
 import re
 import sys
 from datetime import date, datetime, time, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import io
 
@@ -97,26 +98,53 @@ BOARD_COLOURS = 64      # flat interface art: 88 KB truecolour, 27 KB here
 
 UTC = timezone.utc
 
-# The clock the list is printed in — the reader's own, and measured.
+# The zone the source prints its clock in, and the hour its markup is out.
+#
+# Every row carries two times: a clock in td.hora that its readers see,
+# and a schema.org startDate in the markup. Measured across a page, the
+# printed clock is exactly two hours ahead of the markup, flat — and the
+# printed clock is the Gulf's. The site lists beIN, Thmanyah, SSC and ON
+# Sport; for a Saudi league match it prints the hour Saudi Arabia kicks
+# off at. So it publishes its Gulf clock minus two hours, as though the
+# Gulf were two ahead of UTC, when it is three. Its markup is an hour fast.
+#
+# That is not an inference from one match. A second listings page was read
+# for its own reasons, and on all twelve fixtures the two pages share, the
+# gap is exactly sixty minutes with this page later — no spread at all.
+# What settles which of them is right is British football, whose kickoff
+# times are not a matter of opinion: this page puts Burnley v
+# Middlesbrough on Sky at 21:00 UK and Hibernian v Hearts at 20:45, and
+# nothing kicks off at either. The other page says 20:00 and 19:45, which
+# is what the Championship and the Premiership actually play at.
+#
+# The Gulf keeps no summer time, so the error is a flat hour all year —
+# but the printed clock is read directly rather than the markup corrected,
+# because the printed clock is the one the site maintains and shows. If
+# they ever repair the startDate, this keeps working.
+GULF = ZoneInfo("Asia/Riyadh")
+MARKUP_IS_FAST_BY = timedelta(hours=1)
+
+# The clock the list is printed in — the reader's own.
 #
 # A player converts the programme times it positions rows by, but not one
 # character of the text inside a description or drawn onto a board, so
-# those have to be written in the reader's own clock or they are useless.
+# those have to be written in the reader's clock or they are useless.
 #
-# This began as ZoneInfo("America/Los_Angeles") and was an hour ahead of
-# the reader's screen for three Saudi league matches on one day. What
-# settled it was a probe of the source rather than an argument about it:
-# the page's markup carries no timezone, and treating it as UTC prints
-# exactly the clock the page shows in Madrid — so the instant is right and
-# the fault was on this side. Against that instant, a scores app on the
-# reader's device showed 08:55 for a match at 16:55 UTC. Eight hours, in
-# September, when Los Angeles is seven: the device does not keep summer
-# time, so neither does this.
+# This has moved twice, and the second move undid the first for a reason
+# worth writing down. It began here, went to a fixed −08:00 because three
+# Saudi matches came out an hour ahead of the reader's screen, and has
+# come back — because the hour was never on this side. The source's
+# machine-readable startDate runs an hour fast (see kickoff_of), and
+# forcing the reader's clock back by an hour hid that rather than fixing
+# it: right in September, an hour wrong every winter, for no reason
+# anybody would have found later.
 #
-# A fixed offset is therefore the accurate answer here and not the lazy
-# one. If the reader's clock ever moves an hour on its own, this is the
-# line that has to change.
-VIEWER = timezone(timedelta(hours=-8))
+# With the source's own hour corrected, the reader's report lands exactly
+# on this zone: a match whose true kickoff is 15:55 UTC showed 08:55 on
+# their device, which is seven hours, which is Los Angeles in September.
+# Two errors of an hour each, in opposite directions, printing the right
+# digits on the one day they were compared.
+VIEWER = ZoneInfo("America/Los_Angeles")
 VIEWER_NAME = "بتوقيتك"
 
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
@@ -310,6 +338,44 @@ def wanted(event: dict) -> bool:
     return any(club in teams_folded for club in WANTED_TEAMS)
 
 
+PRINTED_CLOCK = re.compile(r"\b([01]?\d|2[0-3]):([0-5]\d)\b")
+
+
+def kickoff_of(row) -> datetime | None:
+    """When this match actually starts — see GULF above for why not both.
+
+    The markup gives the date and an hour that is one too many; the
+    printed cell gives the right hour and no date at all. So the date
+    comes from the markup and the hour from the cell, and the day is
+    chosen as whichever of yesterday, today and tomorrow puts the two
+    closest together — which is what makes a kickoff printed as 00:30,
+    after the markup's midnight, land on the right side of it.
+    """
+    cell = row.find("td", class_="canales")
+    meta = cell.find("meta", attrs={"itemprop": "startDate"}) if cell else None
+    try:
+        published = datetime.fromisoformat((meta.get("content") or "")
+                                           if meta else "")
+    except (ValueError, AttributeError):
+        return None
+    if published.tzinfo is None:
+        published = published.replace(tzinfo=UTC)
+    corrected = published.astimezone(UTC) - MARKUP_IS_FAST_BY
+
+    clock = row.find("td", class_="hora")
+    struck = PRINTED_CLOCK.search(norm(clock.get_text(" ", strip=True))) \
+        if clock else None
+    if not struck:
+        return corrected            # no printed clock: the markup, corrected
+
+    printed = time(int(struck.group(1)), int(struck.group(2)))
+    around = corrected.astimezone(GULF).date()
+    return min((datetime.combine(around + timedelta(days=step), printed,
+                                 GULF).astimezone(UTC)
+                for step in (-1, 0, 1)),
+               key=lambda instant: abs(instant - corrected))
+
+
 def window_floor(now: datetime) -> datetime:
     """Where the guide starts reading: the top of the viewer's today.
 
@@ -349,18 +415,10 @@ def collect(html: str, now: datetime) -> list[dict]:
         if not home or not away:
             continue
 
-        # The markup instant, not the printed clock — see the module note.
-        meta = row.find("td", class_="canales").find(
-            "meta", attrs={"itemprop": "startDate"})
-        raw = (meta.get("content") if meta else "") or ""
-        try:
-            start = datetime.fromisoformat(raw)
-        except ValueError:
+        start = kickoff_of(row)
+        if start is None:
             no_time += 1
             continue
-        if start.tzinfo is None:
-            start = start.replace(tzinfo=UTC)
-        start = start.astimezone(UTC)
 
         if not (floor <= start <= now + KEEP_AHEAD):
             continue
@@ -419,6 +477,9 @@ def collect(html: str, now: datetime) -> list[dict]:
 # Man Utd into Manchester United. Both faults came from the same mistake:
 # treating a name as one string when the pages differ in its words.
 MERGE_SLACK = timedelta(minutes=1)
+# Far enough apart to be a different kickoff, close enough to be the same
+# match with one page's clock wrong. Used only to notice that.
+DRIFT_WINDOW = timedelta(hours=6)
 
 # Nicknames and contractions no structural rule can reach: nothing in the
 # letters of "Wolves" leads to "Wolverhampton Wanderers". Written out
@@ -569,24 +630,57 @@ def unify(primary: list[dict], secondary: list[dict]) -> list[dict]:
     merged = [dict(event, channels=list(event["channels"]))
               for event in primary]
     joined = added = 0
+    drifted: list[int] = []
+
     for event in secondary:
+        found = None
         for already in merged:
-            if abs(already["start"] - event["start"]) <= MERGE_SLACK and \
-                    same_match(already["title"], event["title"]):
-                absorb(already, event)
-                joined += 1
+            if not same_match(already["title"], event["title"]):
+                continue
+            gap = already["start"] - event["start"]
+            if abs(gap) <= MERGE_SLACK:
+                found = already
                 break
+            if abs(gap) <= DRIFT_WINDOW:
+                # The same fixture, at two different times. One page's
+                # clock has moved; both cannot be right.
+                drifted.append(round(gap.total_seconds() / 60))
+        if found is not None:
+            absorb(found, event)
+            joined += 1
         else:
             merged.append(dict(event, channels=list(event["channels"])))
             added += 1
+
     log(f"  merge: {joined} match(es) on both pages, "
         f"{added} the second page had alone")
+
+    # Two pages naming the same fixtures at times that never coincide is
+    # exactly what a source silently changing its clock looks like, and it
+    # is the fault that cost this channel an hour twice over. It is worth
+    # saying out loud the moment it happens rather than after a reader
+    # notices their match is over.
+    if drifted and len(drifted) > joined:
+        drifted.sort()
+        log(f"  WARN the pages name {len(drifted)} of the same fixture(s) "
+            f"at different times, median {drifted[len(drifted) // 2]:+d} "
+            f"min apart, and agree on only {joined} — one clock has moved")
     return sorted(merged, key=lambda event: event["start"])
 
 
 def channels_of(event: dict) -> str:
-    shown = event["channels"][:MAX_CHANNELS]
-    more = len(event["channels"]) - len(shown)
+    """The channel a viewer is told to turn to — a real one, or none.
+
+    real_channels() was applied when deciding whether to KEEP a match and
+    then not applied to what is printed, so a match kept because beIN
+    carries it could still be labelled "OneFootball" — the pay-per-view
+    app the reader asked to stop seeing, still on the screen after it was
+    supposedly removed. What is shown is now filtered by the same rule
+    that decided the match belonged here at all.
+    """
+    real = real_channels(event["channels"])
+    shown = real[:MAX_CHANNELS]
+    more = len(real) - len(shown)
     return " · ".join(shown) + (f" +{more}" if more > 0 else "")
 
 
@@ -796,7 +890,16 @@ def build() -> int:
     everything = unify(collect(html, now),
                        live_football_on_tv.fetch_events(
                            session, now, KEEP_AHEAD, window_floor(now)))
-    events = [event for event in everything if wanted(event)]
+    # Kept, and stripped of what is not a channel in the same breath.
+    #
+    # real_channels() decided which matches belonged here and was then not
+    # applied to what those matches SAY, so a match kept because beIN
+    # carries it went to the screen labelled "OneFootball" — removed in
+    # one place and still on the television. Filtering here, once, is what
+    # makes it true everywhere: the board, the panel and the playlist all
+    # read this list and none of them can now forget.
+    events = [dict(event, channels=real_channels(event["channels"]))
+              for event in everything if wanted(event)]
     log(f"  {len(everything)} match(es) in the window, "
         f"{len(events)} in a competition worth showing")
     for event in events[:12]:

@@ -782,6 +782,19 @@ def gate_two_pages_make_one_row() -> None:
     check("MERGE", "a match only the second page saw is still a match",
           "Millwall - Wrexham" in by_title, True)
 
+    # A shop is not a channel, and the rule that decides which matches
+    # belong has to be the rule that decides what they say. It was applied
+    # to the first and not the second, and a match kept because beIN
+    # carried it reached a television labelled "OneFootball".
+    for shop in ("OneFootball", "Thmanyah App", "LaLiga PPV",
+                 "Flamengo TV YouTube", "Federation Official Site"):
+        check("MERGE", f"{shop!r} is not somebody's television",
+              today.real_channels([shop]), [])
+    check("MERGE", "and one real name among them is what gets shown",
+          today.channels_of({"channels": ["OneFootball", "beIN Sports 1",
+                                          "Thmanyah App"]}),
+          "beIN Sports 1")
+
     # The merge must not reach across kickoffs. Two different matches can
     # share both club names across a season; only one of them is tonight.
     apart = today.unify(
@@ -875,6 +888,62 @@ def gate_a_day_divider_is_not_a_container() -> None:
           len({event["start"].date() for event in read}), 2)
 
 
+def gate_the_printed_clock_is_the_kickoff() -> None:
+    """The hour a match starts comes from the cell, not from the markup.
+
+    livefootballtv publishes a schema.org startDate that is one hour fast:
+    it prints the Gulf clock its readers want and derives the markup by
+    subtracting two hours, as though the Gulf were UTC+2 rather than +3.
+    Reading the markup as the instant put every match on this channel an
+    hour late — and that was then "fixed" by moving the reader's own clock
+    back an hour, which printed the right digits in September and would
+    have been wrong all winter.
+
+    Settled by British football, whose kickoff times are not opinion: the
+    markup puts Burnley v Middlesbrough on Sky at 21:00 UK, and the
+    Championship does not kick off at 21:00. The rows below are real ones
+    taken off the page, with the last two chosen because their printed
+    clock is past midnight and the markup's date is not — which is where a
+    naive combination of the two puts a match a day out.
+    """
+    print("\nThe printed clock is the kickoff — livefootballtv")
+    from bs4 import BeautifulSoup
+
+    import today_matches_epg as today
+
+    def row_of(printed: str, markup: str):
+        return BeautifulSoup(
+            f'<table><tr><td class="hora">{printed}</td>'
+            f'<td class="canales"><meta itemprop="startDate" '
+            f'content="{markup}"/></td></tr></table>',
+            "html.parser").find("tr")
+
+    for printed, markup, expected in (
+            # Sky's Championship game: 20:00 UK, not the markup's 21:00.
+            ("22:00", "2026-09-02T20:00:00", "2026-09-02 19:00"),
+            # A Coppa Italia tie at 18:00 in Italy.
+            ("19:00", "2026-09-02T17:00:00", "2026-09-02 16:00"),
+            # Printed after midnight, markup still on the day before.
+            ("02:00", "2026-09-02T00:00:00", "2026-09-01 23:00"),
+            ("03:00", "2026-09-02T01:00:00", "2026-09-02 00:00")):
+        struck = today.kickoff_of(row_of(printed, markup))
+        check("CLOCK", f"printed {printed} with markup {markup[11:16]}",
+              f"{struck:%Y-%m-%d %H:%M}" if struck else None, expected)
+
+    # No printed clock at all: the markup, with its hour taken back off.
+    bare = BeautifulSoup(
+        '<table><tr><td class="canales"><meta itemprop="startDate" '
+        'content="2026-09-02T20:00:00"/></td></tr></table>',
+        "html.parser").find("tr")
+    check("CLOCK", "and with no printed clock, the markup less its hour",
+          f"{today.kickoff_of(bare):%Y-%m-%d %H:%M}", "2026-09-02 19:00")
+
+    # The reader's zone is the other half of the same fault. A fixed
+    # offset was the shape of the mistake, not a detail of it.
+    check("CLOCK", "the reader is on a real zone, not a frozen offset",
+          today.VIEWER.key, "America/Los_Angeles")
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -885,7 +954,8 @@ def main() -> int:
                  gate_every_guide_is_covered,
                  gate_the_screen_cannot_go_stale,
                  gate_two_pages_make_one_row,
-                 gate_a_day_divider_is_not_a_container):
+                 gate_a_day_divider_is_not_a_container,
+                 gate_the_printed_clock_is_the_kickoff):
         try:
             gate()
         except Exception as exc:
