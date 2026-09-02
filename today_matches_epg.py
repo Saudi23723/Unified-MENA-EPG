@@ -43,7 +43,6 @@ from __future__ import annotations
 import os
 import sys
 from datetime import date, datetime, time, timedelta, timezone
-from zoneinfo import ZoneInfo
 
 import io
 
@@ -91,17 +90,27 @@ BOARD_COLOURS = 64      # flat interface art: 88 KB truecolour, 27 KB here
 
 UTC = timezone.utc
 
-# The clock the list is printed in — Las Vegas, where this is read.
+# The clock the list is printed in — the reader's own, and measured.
 #
 # A player converts the programme times it positions rows by, but not one
 # character of the text inside a description or drawn onto a board, so
 # those have to be written in the reader's own clock or they are useless.
 #
-# The zone rather than a fixed offset, because Las Vegas keeps summer
-# time: it is UTC-7 for two thirds of the year and UTC-8 for the rest,
-# and a hard-coded number would be an hour wrong every winter.
-VIEWER = ZoneInfo("America/Los_Angeles")
-VIEWER_NAME = "بتوقيت لاس فيغاس"
+# This began as ZoneInfo("America/Los_Angeles") and was an hour ahead of
+# the reader's screen for three Saudi league matches on one day. What
+# settled it was a probe of the source rather than an argument about it:
+# the page's markup carries no timezone, and treating it as UTC prints
+# exactly the clock the page shows in Madrid — so the instant is right and
+# the fault was on this side. Against that instant, a scores app on the
+# reader's device showed 08:55 for a match at 16:55 UTC. Eight hours, in
+# September, when Los Angeles is seven: the device does not keep summer
+# time, so neither does this.
+#
+# A fixed offset is therefore the accurate answer here and not the lazy
+# one. If the reader's clock ever moves an hour on its own, this is the
+# line that has to change.
+VIEWER = timezone(timedelta(hours=-8))
+VIEWER_NAME = "بتوقيتك"
 
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
               "الجمعة", "السبت", "الأحد")
@@ -127,6 +136,12 @@ LINE_BUDGET = 60
 # rounded up to one of these and stated as a bound rather than a fact.
 NEAR_STEPS = (15, 30, 45, 60)
 
+# A board holds this many rows before the day spills onto a second one.
+# Nine fit at a readable size on a 720-line screen; past that the rows
+# shrink toward the point where the screen is full of text nobody across
+# a room can read, which is the opposite of what the board is for.
+MAX_ON_BOARD = 9
+
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
 
@@ -140,15 +155,18 @@ NEXT_MARK = "⏳"
 #
 # Matched exactly, because a substring would swallow the wrong thing:
 # "Premier League" is also how Egypt, Bahrain, Iceland and Ukraine are
-# labelled, none of which was asked for. Italy and Brazil are both wanted
-# and are distinguished the same way — the page writes one "Serie A" and
-# the other "Brazilian Serie A", so an exact match keeps them apart from
-# each other and from "Italian Serie B".
+# labelled, and "Serie A" is also Brazil's — which is now the reason the
+# exact match matters in the other direction, Brazil having been asked
+# for and then asked to go.
 WANTED_EXACT = {
-    "saudi pro league", "premier league", "serie a", "brazilian serie a",
+    "saudi pro league", "premier league", "serie a",
     "ligue 1", "laliga", "la liga", "bundesliga", "champions league",
     "europa league", "conference league",
     "turkish süper lig", "süper lig", "super lig",
+    # Asked for by name after they were seen missing. "Championship" is
+    # England's second tier and has to be matched exactly, or "Caribbean
+    # Club Championship" and "ASEAN Club Championship" come with it.
+    "championship", "egyptian premier league",
 }
 
 # Matched anywhere in the name, for families whose members all belong:
@@ -157,10 +175,19 @@ WANTED_EXACT = {
 WANTED_PARTS = (
     "fifa", "world cup", "uefa", "nations league",
     "caf ", "africa cup", "afcon", "afc ", "asian cup",
-    "gulf cup", "arabian gulf", "jordan",
-    "king cup", "coppa italia", "copa del rey", "coupe de france",
-    "copa do brasil", "brasileir",
-    "dfb", "fa cup", "efl cup", "carabao", "turkish cup",
+    "gulf cup", "arabian gulf",
+    # Jordan, league and cup alike: one word covers every competition the
+    # page can name for it, which is why it was already here.
+    "jordan",
+    # Egypt beyond the league — the cup and the super cup.
+    "egypt",
+    # England's cups. "efl" catches the League Cup whatever sponsor's name
+    # is on it this season, which is what "carabao" alone would miss the
+    # moment the sponsor changes.
+    "fa cup", "efl", "carabao", "community shield",
+    # Turkey's cup, in both the spellings the page might use.
+    "turkish cup", "kupası", "kupasi",
+    "king cup", "coppa italia", "copa del rey", "coupe de france", "dfb",
 )
 
 # Clubs that belong here whatever they are playing in. Asked for by name,
@@ -168,6 +195,19 @@ WANTED_PARTS = (
 # has no blanket rule against "Reserva", "Femenino" or "U19" — such a rule
 # would drop exactly the matches that were asked for.
 WANTED_TEAMS = ("manchester united", "man united", "man utd", "manchester utd")
+
+# Not a television channel, whatever the source calls it.
+#
+# A club's own YouTube feed, a pay-per-view app, a federation stream: the
+# page lists them beside beIN and Sky as though they were the same kind of
+# thing, and a guide whose whole purpose is "where do I watch this" should
+# not answer with a shop. A match is dropped when EVERY name against it is
+# one of these; one real channel is enough to keep it, and the real one is
+# what gets shown.
+NOT_A_CHANNEL = (
+    "onefootball", "ppv", "youtube", "app", "tv+", "plus tv",
+    "federation", "official site", "club tv",
+)
 
 # The page labels the Austrian Bundesliga with exactly the word it uses for
 # the German one, so "Bundesliga" alone let Austria Vienna, Tirol, Salzburg
@@ -235,8 +275,18 @@ def competition_of(row) -> str:
     return ""
 
 
+def real_channels(channels: list[str]) -> list[str]:
+    """The names among these that are actually somebody's television."""
+    return [c for c in channels
+            if not any(word in c.casefold() for word in NOT_A_CHANNEL)]
+
+
 def wanted(event: dict) -> bool:
     """Is this a competition — or a club — that was actually asked for?"""
+    # Nowhere real to watch it is the same as not being on.
+    if not real_channels(event["channels"]):
+        return False
+
     competition = event["competition"].casefold()
     teams_folded = event["title"].casefold()
 
@@ -489,8 +539,8 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     return "\n".join(lines)
 
 
-def publish_board(index: int, day: date, events: list[dict],
-                  now: datetime) -> str | None:
+def publish_board(index: int, day: date, events: list[dict], now: datetime,
+                  *, page: int = 1, pages: int = 1) -> str | None:
     """Draw the day's board, keep it only if it differs, return its URL.
 
     Rewriting an identical picture every ten minutes would commit a fresh
@@ -505,7 +555,7 @@ def publish_board(index: int, day: date, events: list[dict],
         board = draw_board(
             day, events, now, VIEWER, MATCH_ON_AIR,
             title=CHANNEL_AR, subtitle=f"بث اليوم المباشر · {VIEWER_NAME}",
-            weekday=ARABIC_DAY[day.weekday()])
+            weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages)
         drawn = io.BytesIO()
         board.convert("RGB").convert(
             "P", palette=Image.ADAPTIVE, colors=BOARD_COLOURS).save(
@@ -566,13 +616,28 @@ def build() -> int:
         if day in by_day:
             by_day[day].append(event)
 
-    for index, day in enumerate(days):
+    # A day with more matches than a screen holds is drawn over as many
+    # boards as it takes, numbered straight through, so the slideshow runs
+    # them in order without knowing anything about days.
+    board_no = 0
+    for day in days:
+        events_today = by_day[day]
+        chunks = [events_today[at:at + MAX_ON_BOARD]
+                  for at in range(0, len(events_today), MAX_ON_BOARD)] or [[]]
+        first_board = None
+        for page, chunk in enumerate(chunks, start=1):
+            url = publish_board(board_no, day, chunk, now,
+                                page=page, pages=len(chunks))
+            first_board = first_board or url
+            board_no += 1
+
         opens, closes = day_bounds(day)
         add_programme(tv, CHANNEL_ID, opens, closes,
-                      day_title(day, by_day[day], now),
-                      day_page(day, by_day[day], now),
-                      icon=publish_board(index, day, by_day[day], now))
-        log(f"  {day} -> {len(by_day[day])} match(es) on one page")
+                      day_title(day, events_today, now),
+                      day_page(day, events_today, now),
+                      icon=first_board)
+        log(f"  {day} -> {len(events_today)} match(es) over "
+            f"{len(chunks)} board(s)")
 
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
                           guard_regression=False, min_programmes=1)

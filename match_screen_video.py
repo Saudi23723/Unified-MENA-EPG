@@ -8,7 +8,7 @@ hoped: a description panel shows text and nothing else, and the programme
 Tune to the channel and the board is on the screen, full size, because it
 IS the picture being played.
 
-It is a slideshow: today, then tomorrow, then the day after, fifteen
+It is a slideshow: today, then tomorrow, then the day after, twenty
 seconds each, round and round. A single board held on screen showed the
 day and hid the two behind it; a viewer who waits a quarter of a minute
 now sees all of them.
@@ -34,7 +34,7 @@ WHAT IT COSTS
 =============
 Almost nothing, because H.264 spends bits on change and a still picture
 has none. The whole cost is the cuts between boards, which is why they are
-fifteen seconds apart and not two. A silent mono track rides along, since
+twenty seconds apart and not two. A silent mono track rides along, since
 players built for live television are happier with one than without.
 
 The encode only runs when a board actually changed. The boards carry clock
@@ -58,10 +58,10 @@ OUT = os.path.join(OUT_DIR, "screen.m3u8")
 STAMP = os.path.join(OUT_DIR, "board.sha256")
 
 HOURS = 12              # how long the playlist keeps the picture running
-HOLD = 15               # seconds a board stays up before the next one
+HOLD = 20               # seconds a board stays up before the next one
 
 # Every segment opens on a keyframe, which a segment must, and needs no
-# other: it is the same picture for fifteen seconds.
+# other: it is the same picture for twenty seconds.
 KEYFRAME_EVERY = HOLD
 
 

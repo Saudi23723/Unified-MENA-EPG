@@ -1,92 +1,48 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""AI Sports Dashboard — today's matches as a PLAYLIST, not as a guide.
+"""AI Sports Dashboard — one group, one channel.
 
-Why this exists, after everything else was tried.
+This file has been three things, and the television decided each time.
 
-A guide file cannot lay anything out. It hands a player text and the
-player decides what that looks like, which is why the day ended up as
-lines in a description panel instead of the ruled board a viewer pictures.
-The board was drawn and hung on the programme's <icon>; TiviMate ignored
-it. That is the ceiling of an EPG, and no amount of work moves it.
+First it was one entry per match: a playlist group renders as a full
+screen list of rows, which was the shape asked for and an EPG could never
+give. Then the day moved out of the row names and into group titles,
+because an Arabic word at the head of a line of Latin club names turned
+the whole row round and put the clock at its far end.
 
-A playlist is different. A player renders a playlist group as a full
-screen list of rows — which is exactly the shape that was asked for. So
-the day is written as a group of "channels", one per match, named with the
-kickoff, the fixture and the broadcaster:
+And then the group titles were the problem: four headings — the dashboard,
+today, tomorrow, the day after — for one list, which is three more than
+anybody wants to scroll past. What settled it is that the rows were never
+playable. Their URLs are placeholders, because a real one carries a
+username and password and this repository is public. A list of channels
+that do not play, sitting under four headings, is clutter wearing the
+costume of a feature.
 
-    AI Sports Dashboard
-      19:00 · Real Madrid - Barcelona · beIN SPORTS 1
-      21:45 · Al Hilal - Al Nassr · Thmanyah 1
-      23:00 · Flamengo - Palmeiras · OneFootball
+So: one group, one channel, and that channel is the screen — the day's
+boards encoded as video and listed round and round for half a day. It
+plays, it needs no URL of anyone's, and it says everything the rows said,
+in a form built to be looked at from across a room.
 
-WHERE YOUR STREAM URLS GO
-=========================
-Every entry needs a URL to play. This file does not know yours and must
-never hold them: a playlist URL carries your username and password, and
-this repository is public.
-
-So the mapping lives in a file of your own, next to this one:
-
-    stream_map.json          <- yours, git-ignored, never committed
-
-        {
-          "beIN SPORTS 1": "http://your-provider/live/USER/PASS/1234.ts",
-          "Thmanyah 1":    "http://your-provider/live/USER/PASS/5678.ts"
-        }
-
-The key is the broadcaster exactly as the guide names it; the value is the
-URL of that channel in your own playlist. Copy it out of your m3u file —
-the line under the #EXTINF for that channel.
-
-A match whose broadcaster is not in the map still gets a row, pointing at
-PLACEHOLDER_URL, so the day is complete and you can see what is missing
-rather than wondering why a match vanished.
-
-WHAT MAKES IT SAFE FOR TIVIMATE
-===============================
-  * #EXTM3U first, one #EXTINF per entry, URL on the very next line.
-  * Attribute values are quoted and any quote inside them is stripped,
-    because a stray " ends the attribute and swallows the rest of the line.
-  * The display name after the comma carries no comma of its own — a comma
-    there is what splits a name in half in some players.
-  * Newlines and tabs are flattened out of every name.
-  * Written UTF-8 without a BOM. A BOM before #EXTM3U makes a player
-    reject the whole file as not a playlist.
+The matches themselves still publish, in the guide, as text: مباريات اليوم
+in today_matches_epg.xml. Nothing was lost by taking the rows out.
 """
 from __future__ import annotations
 
-import json
 import os
 import re
 import sys
-from datetime import datetime
 
-import requests
-
-from epg_lib import fetch, log, warn
-from today_matches_epg import (
-    ARABIC_DAY, CHANNEL_AR, LOGO, MATCH_ON_AIR, SOURCE, UTC, VIEWER, collect,
-)
+from epg_lib import log, warn
+from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
-STREAM_MAP = "stream_map.json"
 
-# The screen channel: the days' boards encoded as video and listed round
-# and round for twelve hours, so tuning to it puts them on the television
-# at full size and keeps them there. It is the one entry here that plays
-# without any URL of yours, because it is ours.
+# The screen channel: the days' boards as video, listed round and round.
 SCREEN_FILE = "stream/screen.m3u8"
 SCREEN_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
               "main/stream/screen.m3u8")
-SCREEN_NAME = "📺 مباريات اليوم — الشاشة"
-
-# Every entry must have a URL or a player drops the row. This one is
-# deliberately unplayable rather than pointing anywhere real.
-PLACEHOLDER_URL = "http://0.0.0.0/no-stream-configured"
-
-LIVE_MARK = "🔴"
+SCREEN_NAME = "📺 مباريات اليوم"
 
 
 def clean(value: str) -> str:
@@ -95,7 +51,12 @@ def clean(value: str) -> str:
 
 
 def attribute(value: str) -> str:
-    """A value safe to put inside double quotes in an #EXTINF line."""
+    """A value safe to put inside double quotes in an #EXTINF line.
+
+    The quote goes because a stray one ends the attribute and swallows the
+    rest of the line; the comma goes because the display name begins at
+    the first comma, and one here would start it early.
+    """
     return clean(value).replace(",", " ")
 
 
@@ -104,120 +65,26 @@ def display(value: str) -> str:
     return clean(value).replace(",", " ·")
 
 
-def group_for(local: datetime, now: datetime) -> str:
-    """Which day's group this match belongs in.
-
-    The day used to sit in front of the name, and a television showed why
-    that was wrong twice over. A channel row is narrow, so the name is cut
-    from the end and the fixture — the only part anyone is reading for —
-    was what got cut. And an Arabic word at the head of a line of Latin
-    club names turns the whole row around, so the clock came out at the
-    far end of it.
-
-    The day is a group instead. The player prints it once, as a heading,
-    and every name under it starts with its clock in digits that cannot
-    reorder anything.
-    """
-    if local.date() == now.astimezone(VIEWER).date():
-        return f"{GROUP} · اليوم"
-    return f"{GROUP} · {ARABIC_DAY[local.weekday()]}"
-
-
-def stream_map() -> dict[str, str]:
-    """Your own broadcaster -> URL mapping, if you have written one."""
-    if not os.path.exists(STREAM_MAP):
-        warn(f"{STREAM_MAP} not found — every row will carry the "
-             f"placeholder URL. See the note at the top of this file.")
-        return {}
-    try:
-        with open(STREAM_MAP, encoding="utf-8") as handle:
-            mapping = json.load(handle)
-    except Exception as exc:
-        warn(f"{STREAM_MAP} could not be read ({exc}) — placeholders only")
-        return {}
-    return {clean(k).casefold(): v for k, v in mapping.items() if v}
-
-
-def url_for(event: dict, mapping: dict[str, str]) -> tuple[str, bool]:
-    """The first broadcaster of this match that you have a URL for."""
-    for channel in event["channels"]:
-        found = mapping.get(clean(channel).casefold())
-        if found:
-            return found, True
-    return PLACEHOLDER_URL, False
-
-
-def entry(event: dict, mapping: dict[str, str],
-          now: datetime) -> tuple[list[str], bool]:
-    """One #EXTINF and its URL, as the two lines a player expects."""
-    local = event["start"].astimezone(VIEWER)
-    clock = local.strftime("%H:%M")
-    live = event["start"] <= now < event["start"] + MATCH_ON_AIR
-    channels = " · ".join(event["channels"][:2])
-
-    name = f"{clock} · {event['title']}"
-    if channels:
-        name += f" · {channels}"
-    if live:
-        name = f"{LIVE_MARK} {name}"
-
-    url, mapped = url_for(event, mapping)
-    return [
-        f'#EXTINF:-1 tvg-id="" tvg-name="{attribute(event["title"])}" '
-        f'tvg-logo="{LOGO}" group-title="{attribute(group_for(local, now))}",'
-        f"{display(name)}",
-        url,
-    ], mapped
-
-
 def build() -> int:
-    now = datetime.now(UTC)
-    session = requests.Session()
-    session.headers.update({
-        "User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
-        "Accept-Language": "ar,en;q=0.8,tr;q=0.6",
-    })
-    try:
-        html = fetch(session, SOURCE).text
-    except Exception as exc:
-        warn(f"livefootballtv is unreachable ({exc}) — the published "
-             f"playlist stays exactly as it is")
+    if not os.path.exists(SCREEN_FILE):
+        warn(f"{SCREEN_FILE} has not been encoded — the playlist is left "
+             f"exactly as it was published")
         return 1
 
-    events = collect(html, now)
-    mapping = stream_map()
+    lines = [
+        "#EXTM3U",
+        f'#EXTINF:-1 tvg-id="{attribute(CHANNEL_ID)}" '
+        f'tvg-name="{attribute(CHANNEL_AR)}" tvg-logo="{LOGO}" '
+        f'group-title="{attribute(GROUP)}",{display(SCREEN_NAME)}',
+        SCREEN_URL,
+    ]
 
-    lines = ["#EXTM3U"]
-
-    # First, and in a group of its own, so it is never buried under the
-    # day's fixtures.
-    if os.path.exists(SCREEN_FILE):
-        lines += [
-            f'#EXTINF:-1 tvg-id="TodayMatches" '
-            f'tvg-name="{attribute(CHANNEL_AR)}" tvg-logo="{LOGO}" '
-            f'group-title="{attribute(GROUP)}",{display(SCREEN_NAME)}',
-            SCREEN_URL,
-        ]
-    else:
-        warn(f"{SCREEN_FILE} has not been encoded — the playlist goes out "
-             f"without the screen channel")
-
-    mapped = 0
-    for event in sorted(events, key=lambda e: e["start"]):
-        rows, was_mapped = entry(event, mapping, now)
-        lines.extend(rows)
-        mapped += 1 if was_mapped else 0
-
-    # Written without a BOM: a byte-order mark in front of #EXTM3U makes a
-    # player refuse the file outright.
+    # No BOM: a byte-order mark in front of #EXTM3U makes a player refuse
+    # the file outright.
     with open(OUTPUT, "w", encoding="utf-8", newline="\n") as out:
         out.write("\n".join(lines) + "\n")
 
-    log(f"{OUTPUT}: {len(events)} match(es) under “{GROUP}”, "
-        f"{mapped} with a stream of yours, {len(events) - mapped} on the "
-        f"placeholder")
-    log(f"the guide {CHANNEL_AR} still publishes alongside this, unchanged")
+    log(f"{OUTPUT}: one channel under “{GROUP}”, pointing at the screen")
     return 0
 
 
