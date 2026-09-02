@@ -95,6 +95,25 @@ def display(value: str) -> str:
     return clean(value).replace(",", " ·")
 
 
+def group_for(local: datetime, now: datetime) -> str:
+    """Which day's group this match belongs in.
+
+    The day used to sit in front of the name, and a television showed why
+    that was wrong twice over. A channel row is narrow, so the name is cut
+    from the end and the fixture — the only part anyone is reading for —
+    was what got cut. And an Arabic word at the head of a line of Latin
+    club names turns the whole row around, so the clock came out at the
+    far end of it.
+
+    The day is a group instead. The player prints it once, as a heading,
+    and every name under it starts with its clock in digits that cannot
+    reorder anything.
+    """
+    if local.date() == now.astimezone(VIEWER).date():
+        return f"{GROUP} · اليوم"
+    return f"{GROUP} · {ARABIC_DAY[local.weekday()]}"
+
+
 def stream_map() -> dict[str, str]:
     """Your own broadcaster -> URL mapping, if you have written one."""
     if not os.path.exists(STREAM_MAP):
@@ -124,12 +143,6 @@ def entry(event: dict, mapping: dict[str, str],
     """One #EXTINF and its URL, as the two lines a player expects."""
     local = event["start"].astimezone(VIEWER)
     clock = local.strftime("%H:%M")
-
-    # The rows run in true order, but a list that crosses midnight shows
-    # 18:00 then 07:00 and reads as though it were shuffled. Anything not
-    # on today's date says which day it is, so the order explains itself.
-    if local.date() != now.astimezone(VIEWER).date():
-        clock = f"{ARABIC_DAY[local.weekday()]} {clock}"
     live = event["start"] <= now < event["start"] + MATCH_ON_AIR
     channels = " · ".join(event["channels"][:2])
 
@@ -142,7 +155,7 @@ def entry(event: dict, mapping: dict[str, str],
     url, mapped = url_for(event, mapping)
     return [
         f'#EXTINF:-1 tvg-id="" tvg-name="{attribute(event["title"])}" '
-        f'tvg-logo="{LOGO}" group-title="{attribute(GROUP)}",'
+        f'tvg-logo="{LOGO}" group-title="{attribute(group_for(local, now))}",'
         f"{display(name)}",
         url,
     ], mapped
