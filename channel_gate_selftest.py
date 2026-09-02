@@ -1211,8 +1211,18 @@ def gate_our_own_guides_name_the_channel() -> None:
           own_guides.one_club_matches("Burnley - Middlesbrough",
                                       "الهلال - الأهلي"), False)
 
+    # A grid gives the PROGRAMME, a listings page gives the KICKOFF, and
+    # they are not the same instant: beIN Turkey opens Başakşehir v
+    # Galatasaray at 16:15 for a 17:00 kick. At a minute's tolerance the
+    # Turkish channel never reached the Turkish match. Wide is safe only
+    # because one club must still match exactly — a club does not play
+    # twice inside two hours.
+    from datetime import timedelta
+    check("OWN", "a broadcast may open before the kickoff",
+          own_guides.SLACK >= timedelta(minutes=45), True)
+
     # End to end, on a board.
-    when = datetime(2026, 9, 2, 19, 0, tzinfo=timezone.utc)
+    when = datetime(2026, 9, 4, 17, 0, tzinfo=timezone.utc)
     board = [{"start": when, "title": "إسطنبول باشاكشهير - جالاتا سراي",
               "channels": []},
              {"start": when, "title": "Mainz - Werder Bremen",
