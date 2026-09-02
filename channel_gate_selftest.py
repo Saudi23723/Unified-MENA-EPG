@@ -1482,6 +1482,37 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "the board draws as many as the line prints",
           today.MAX_CHANNELS, 2)
 
+    # The reader's order: Arabic, English, American, Turkish, the rest.
+    # It was source order, which is the order a British listings page
+    # happens to print its pills — so four of the seven rows that had two
+    # channels spent the second on something neither the region nor
+    # America can open, while the Fox that WAS collected sat behind "+1".
+    check("TWO", "Arabic comes before American, and both before British",
+          today.channels_of({"channels": ["MBC Shahid Sports", "BBC iPlayer",
+                                          "Fox Sports 1"]}),
+          "MBC Shahid Sports \u00b7 Fox Sports 1 +1")
+    check("TWO", "and the tiers run Arabic, English, American, Turkish",
+          [today.where_from(name) for name in
+           ("beIN SPORTS 3", "beIN SPORTS 1 EN", "Fox Sports 1",
+            "beIN SPORTS 1 TR", "Sky Sports+")],
+          [0, 1, 2, 3, 4])
+    check("TWO", "Doha's unmarked beIN is the Arabic one",
+          today.where_from("beIN SPORTS 1"), 0)
+    check("TWO", "an Arabic name needs no list to be recognised",
+          today.where_from("\u0642\u0646\u0627\u0629 \u0627\u0644\u0643"
+                           "\u0623\u0633"), 0)
+    # Ordering decides which names win the two slots, and nothing else. A
+    # row holding one Arabic channel and one British still shows both.
+    check("TWO", "a British channel is not hidden, only ranked",
+          today.channels_of({"channels": ["Premier Sports 1",
+                                          "MBC Shahid Sports"]}),
+          "MBC Shahid Sports \u00b7 Premier Sports 1")
+    check("TWO", "and within one tier the source's own order is kept",
+          today.in_the_readers_order(["beIN SPORTS 5", "beIN SPORTS 1",
+                                      "Fox Sports 1", "beIN SPORTS 2"]),
+          ["beIN SPORTS 5", "beIN SPORTS 1", "beIN SPORTS 2",
+           "Fox Sports 1"])
+
     # And the build says out loud which rows still fall short, because
     # that is what picks the next source.
     when = datetime(2026, 9, 4, 17, 0, tzinfo=timezone.utc)
