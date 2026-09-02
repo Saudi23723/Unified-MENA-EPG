@@ -911,6 +911,34 @@ ARAB_CHANNEL = re.compile(r"\bbein\b|\balwan\b|\bthmanyah\b|\bon sport\b"
                           r"|\brotana\b|\bsaudi\b|\bjordan\b", re.I)
 
 
+# The word a broadcaster puts in its name that carries no information,
+# and the brands that are still a channel without it.
+#
+# A photograph of the screen settled this: "Burnley - Middles…" clipped,
+# because "beIN SPORTS Xtra 1" and "beIN SPORTS 1" had eaten the row. The
+# word SPORTS appears on nearly every channel here and distinguishes none
+# of them from each other — it is seven characters of the fixture's space
+# spent saying that a sports channel shows sport.
+#
+# It comes off only where what is left still names the channel. beIN, Sky,
+# MBC Shahid, Thmanyah, Alwan and TNT are all names on their own. Premier
+# is NOT: "Premier 1" is nothing, so Premier Sports keeps its Sports —
+# and so does every broadcaster not on this list, because the cost of
+# guessing wrong is a viewer told to turn to a channel that does not
+# exist under the name they were given.
+GENERIC_WORD = re.compile(r"\s*\b(?:sports?|channels?)\b", re.I)
+STANDS_ALONE = re.compile(r"^(?:beIN|Sky|MBC|Shahid|Thmanyah|Alwan|TNT)\b",
+                          re.I)
+
+
+def shorter(name: str) -> str:
+    """A channel's name without the word that says nothing about it."""
+    if not STANDS_ALONE.match(name):
+        return name
+    trimmed = norm(GENERIC_WORD.sub("", name))
+    return trimmed if any(ch.isalpha() for ch in trimmed) else name
+
+
 def where_from(name: str) -> int:
     """The reader's order, as a number that sorts.
 
@@ -972,7 +1000,8 @@ def channels_of(event: dict) -> str:
     supposedly removed. What is shown is now filtered by the same rule
     that decided the match belonged here at all.
     """
-    real = in_the_readers_order(real_channels(event["channels"]))
+    real = [shorter(name)
+            for name in in_the_readers_order(real_channels(event["channels"]))]
     shown = real[:MAX_CHANNELS]
     more = len(real) - len(shown)
     return " · ".join(shown) + (f" +{more}" if more > 0 else "")
@@ -1295,7 +1324,8 @@ def build() -> int:
     # same two names — they each take the first two and would otherwise
     # disagree about which those are.
     for event in events:
-        event["channels"] = in_the_readers_order(event["channels"])
+        event["channels"] = [shorter(name) for name in
+                             in_the_readers_order(event["channels"])]
 
     for event in events:
         if not event["channels"]:
