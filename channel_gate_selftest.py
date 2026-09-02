@@ -1591,6 +1591,16 @@ def gate_a_row_names_two_channels() -> None:
     # S Sport is Turkish, and "S" on its own is not a channel — the same
     # reason Premier keeps its Sports. It is safe because the list holds
     # brands rather than initials, and this is what holds it there.
+    # A page is not something a television can be turned to. "BBC Sport
+    # Website" reached the board and took one of three slots from a
+    # broadcaster that is.
+    check("TWO", "a website is not a channel",
+          today.channels_of({"channels": ["MBC Shahid Sports", "BBC iPlayer",
+                                          "BBC Sport Website"]}),
+          "MBC Shahid · BBC iPlayer")
+    check("TWO", "nor is an address",
+          today.real_channels(["fuboTV.com", "skysports.co.uk", "beIN SPORTS 1"]),
+          ["beIN SPORTS 1"])
     check("TWO", "S Sport keeps its Sport, in every spelling",
           [today.shorter(name) for name in
            ("S Sport", "S Sport 2", "S Sport Plus", "S Sports 1")],
