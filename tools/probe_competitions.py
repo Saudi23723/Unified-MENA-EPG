@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: does livefootballtv name the competition of each match?
+"""Temporary probe: read the competition heading above each match row.
 
-today_matches_epg reads the team names, the kickoff and the channels out of
-each <tr>, and nothing else. Before promising a competition filter, find out
-whether the page says which competition a row belongs to, and in what shape.
+The first pass proved the page names competitions, but walking back over
+every element caught channel and team names out of the previous match row.
+Competitions are heading rows in the same table, so walk back over <tr>
+only and take the first one that is not itself a match.
 
 Delete this file and its workflow once the question is answered.
 """
@@ -12,6 +13,7 @@ from __future__ import annotations
 
 import re
 import sys
+from collections import Counter
 
 from bs4 import BeautifulSoup
 
@@ -24,59 +26,57 @@ def text(node) -> str:
     return re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip()
 
 
+def is_match(row) -> bool:
+    return bool(row.find("td", class_="local")
+                and row.find("td", class_="visitante")
+                and row.find("td", class_="canales"))
+
+
+def competition_of(row) -> str:
+    for previous in row.find_all_previous("tr"):
+        if is_match(previous):
+            continue
+        head = text(previous)
+        if 2 < len(head) < 90:
+            return head
+    return ""
+
+
 def main() -> int:
-    html = fetch(new_session(), SOURCE).text
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(fetch(new_session(), SOURCE).text, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
 
-    rows = [r for r in soup.find_all("tr")
-            if r.find("td", class_="local")
-            and r.find("td", class_="visitante")
-            and r.find("td", class_="canales")]
-    print(f"match rows found: {len(rows)}")
+    rows = [r for r in soup.find_all("tr") if is_match(r)]
+    print(f"match rows: {len(rows)}")
 
-    # 1. Anything on the row itself that could name a competition?
-    print("\n=== classes and attributes on a match row ===")
-    for r in rows[:3]:
-        print("  tr attrs:", dict(r.attrs))
-        for td in r.find_all("td"):
-            print("     td", dict(td.attrs), "|", text(td)[:70])
-        print("   ---")
+    # What does a heading row actually look like?
+    print("\n=== the first three heading rows, raw ===")
+    shown = 0
+    for r in soup.find_all("tr"):
+        if is_match(r) or shown >= 3:
+            continue
+        if 2 < len(text(r)) < 90:
+            print("  tr attrs:", dict(r.attrs), "|", text(r)[:70])
+            for td in r.find_all(["td", "th"]):
+                print("     ", td.name, dict(td.attrs), "|", text(td)[:60])
+            shown += 1
 
-    # 2. The nearest thing above the row that is not a match row.
-    print("\n=== nearest heading above each of the first 25 match rows ===")
-    seen = {}
-    for r in rows[:25]:
-        head = ""
-        node = r
-        for _ in range(60):
-            node = node.find_previous(["tr", "h1", "h2", "h3", "h4",
-                                       "div", "caption", "thead", "a"])
-            if node is None:
-                break
-            if node.name == "tr" and node.find("td", class_="local"):
-                continue
-            candidate = text(node)
-            if 2 < len(candidate) < 90:
-                head = candidate
-                break
+    tally = Counter()
+    print("\n=== first 30 matches with the competition above them ===")
+    for r in rows[:30]:
+        comp = competition_of(r)
+        tally[comp] += 1
         home = text(r.find("td", class_="local"))
         away = text(r.find("td", class_="visitante"))
-        print(f"  {head[:55]:<55} | {home} - {away}"[:130])
-        seen[head] = seen.get(head, 0) + 1
+        print(f"  {comp[:42]:<42} | {home} - {away}"[:120])
 
-    print("\n=== distinct headings seen ===")
-    for head, n in sorted(seen.items(), key=lambda kv: -kv[1]):
-        print(f"  {n:3}  {head[:100]}")
+    for r in rows[30:]:
+        tally[competition_of(r)] += 1
 
-    # 3. Does any itemprop or microdata name a competition?
-    print("\n=== itemprop values anywhere on the page ===")
-    props = {}
-    for node in soup.find_all(attrs={"itemprop": True}):
-        props[node["itemprop"]] = props.get(node["itemprop"], 0) + 1
-    print(" ", props)
-
+    print(f"\n=== every competition on the page today ({len(tally)}) ===")
+    for comp, n in sorted(tally.items(), key=lambda kv: (-kv[1], kv[0])):
+        print(f"  {n:3}  {comp[:90]}")
     return 0
 
 
