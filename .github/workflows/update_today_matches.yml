@@ -168,6 +168,16 @@ jobs:
               fi
             done
 
+            # stream/ has to be reconciled as a whole, not path by path.
+            # Restoring only the paths THIS pass touched leaves behind a
+            # segment some other pass published while we were working —
+            # ours is not in our own diff, so nothing removes it, and the
+            # screen gate goes red on a segment no playlist names. The
+            # encoder sweeps exactly that, and re-running it here is free:
+            # the fingerprint is unchanged so it does not re-encode.
+            python -u match_screen_video.py || true
+            [ -d stream ] && git add -A -- stream || true
+
             if git diff --cached --quiet; then
               echo "Main already carries this pass."
               exit 0
