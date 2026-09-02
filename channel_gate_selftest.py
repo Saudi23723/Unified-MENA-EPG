@@ -1516,6 +1516,30 @@ def gate_a_row_names_two_channels() -> None:
     # in England. A beIN feed with English commentary is Doha's channel
     # and belongs with the Arabic ones, and reading it as British put it
     # in the second slot ahead of the Fox a viewer here could open.
+    # A digit glued to the brand is how a listings page writes these, and
+    # a word boundary after the brand matched none of them: ITV1 — which
+    # carries England and the FA Cup — was ranked below a Danish channel,
+    # and fifteen of fifty-four real spellings sat in the wrong tier for
+    # this one reason.
+    check("TWO", "ITV is British however the number is attached",
+          [today.where_from(name) for name in
+           ("ITV", "ITV 1", "ITV1", "ITV4", "ITVX", "STV")],
+          [1, 1, 1, 1, 1, 1])
+    check("TWO", "and so are BBC1 and Channel4 written closed up",
+          [today.where_from(name) for name in
+           ("BBC One", "BBC1", "BBC2", "Channel 4", "Channel4", "C4")],
+          [1, 1, 1, 1, 1, 1])
+    check("TWO", "an American abbreviation is still American",
+          [today.where_from(name) for name in
+           ("FS1", "FS2", "ESPN2", "NBCSN", "CBSSN", "TSN1")],
+          [2, 2, 2, 2, 2, 2])
+    # "fox" begins Foxtel and "sky" begins Sky Sport NZ. Both are safe
+    # ONLY because Australia is tested before Britain and America.
+    check("TWO", "Foxtel is still Australian, not American",
+          [today.where_from(name) for name in
+           ("Foxtel", "Fox Sports Australia", "Sky Sport NZ",
+            "Sky Sport 1 NZ")],
+          [4, 4, 4, 4])
     check("TWO", "TNT and BBC are British",
           [today.where_from(name)
            for name in ("TNT Sports 1", "Sky Sports Main Event",

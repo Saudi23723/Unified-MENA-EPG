@@ -909,23 +909,35 @@ ARABIC_LETTERS = re.compile(r"[؀-ۿݐ-ݿ]")
 # BRITISH. Sky and TNT are what "English" means here — the channels that
 # carry English football in England — not a beIN feed with English
 # commentary, which is Doha's channel and belongs with the Arabic ones.
-BRITISH = re.compile(r"\bsky\b|\btnt\b|\bbbc\b|\bitv\b|\bpremier sports\b"
-                     r"|\bpremier player\b|\bchannel 4\b|\bchannel 5\b"
-                     r"|\bs4c\b|\bbt sport\b|\biplayer\b", re.I)
+#
+# Every brand here lets what follows be glued straight on, because that
+# is how a listings page writes them: ITV1, ITV4, ITVX, BBC1, FS1,
+# ESPN2, NBCSN, TSN1. A word boundary after the brand matched none of
+# those and dropped them into "everywhere else" — ITV1, which carries
+# England and the FA Cup, was ranked below a Danish channel. Fifteen of
+# fifty-four real spellings sat in the wrong tier for this one reason.
+BRITISH = re.compile(r"\bsky\w*|\btnt\w*|\bbbc\w*|\bitv\w*|\bstv\b"
+                     r"|\bpremier sports\b|\bchannel\s?4\b|\bc4\b"
+                     r"|\bchannel\s?5\b|\bs4c\b|\bbt sport\b", re.I)
 
 # AMERICAN, and Canada with it — one continent, one tier, because a
 # viewer who can get Fox can usually get TSN and neither is any use to
 # somebody in the Gulf.
-AMERICAN = re.compile(r"\bUS\b|\bfox\b|\bnbc\b|\bcbs\b|\bespn\b"
-                      r"|\busa network\b|\bparamount\b|\bpeacock\b"
-                      r"|\btelemundo\b|\btudn\b|\bunivision\b"
+#
+# "fox" also begins Foxtel, which is Australian, and "sky" begins Sky
+# Sport NZ. Both are safe only because Australia and New Zealand are
+# tested BEFORE these two. Keep that order.
+AMERICAN = re.compile(r"\bUS\b|\bfox\w*|\bnbc\w*|\bcbs\w*|\bespn\w*"
+                      r"|\bfs[12]\b|\busa network\b|\bparamount\b"
+                      r"|\bpeacock\b|\btelemundo\b|\btudn\b"
+                      r"|\bunivision\b"
                       # Canada
-                      r"|\btsn\b|\bsportsnet\b|\bcbc\b|\brds\b"
+                      r"|\btsn\w*|\bsportsnet\w*|\bcbc\w*|\brds\b"
                       r"|\bonesoccer\b|\btva sports\b", re.I)
 
 # "S Sports" as well as "S Sport": the singular alone left the Turkish
-# channel written the other way in "everywhere else", which is the tier
-# for broadcasters a viewer here cannot get.
+# channel written the other way in "everywhere else", the tier for
+# broadcasters a viewer here cannot get.
 TURKISH = re.compile(r"\bTR\b|\btabii\b|\btrt\b|\bs sports?\b", re.I)
 
 # The names a Gulf or Levantine viewer actually has. beIN written without
