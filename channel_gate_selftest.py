@@ -1494,11 +1494,24 @@ def gate_a_row_names_two_channels() -> None:
           today.channels_of({"channels": ["MBC Shahid Sports", "Fox Sports 1",
                                           "TNT Sports 1"]}),
           "MBC Shahid · TNT 1 · Fox Sports 1")
-    check("TWO", "and the tiers run Arabic, British, American, Turkish, rest",
+    check("TWO", "the tiers run Arabic, British, American, Turkish, ANZ, rest",
           [today.where_from(name) for name in
            ("beIN SPORTS 3", "Sky Sports+", "Fox Sports 1",
-            "beIN SPORTS 1 TR", "Ligue1+")],
-          [0, 1, 2, 3, 4])
+            "beIN SPORTS 1 TR", "Optus Sport", "Ligue1+")],
+          [0, 1, 2, 3, 4, 5])
+    # Australia and New Zealand are named by an explicit marker, never by
+    # the brand: "Sky Sport NZ" carries Sky and is not Britain's, "Fox
+    # Sports Australia" carries Fox and is not America's, and reading
+    # either by its brand puts a channel on the row that the wrong half
+    # of the world can watch.
+    check("TWO", "a Sky and a Fox from the other side of the world",
+          [today.where_from(name) for name in
+           ("Sky Sport NZ", "Fox Sports Australia", "Stan Sport", "Kayo")],
+          [4, 4, 4, 4])
+    check("TWO", "and they outrank Scandinavia and Denmark",
+          today.channels_of({"channels": ["beIN SPORTS 2", "V Sport 1",
+                                          "Optus Sport", "TV2 Denmark"]}),
+          "beIN 2 · Optus Sport · V Sport 1 +1")
     # "English" is Sky and TNT — the channels that carry English football
     # in England. A beIN feed with English commentary is Doha's channel
     # and belongs with the Arabic ones, and reading it as British put it
@@ -1509,13 +1522,23 @@ def gate_a_row_names_two_channels() -> None:
                         "Premier Sports 1")],
           [1, 1, 1])
     check("TWO", "beIN's English commentary is Doha's, but ranked last",
-          today.where_from("beIN SPORTS 1 EN"), 5)
+          today.where_from("beIN SPORTS 1 EN"), 6)
     check("TWO", "and Canada rides with America",
           [today.where_from(name)
            for name in ("TSN 4", "Sportsnet One", "CBC", "RDS")],
           [2, 2, 2, 2])
     check("TWO", "while beIN's French feed goes below everywhere else",
-          today.where_from("beIN SPORTS FR 2"), 5)
+          today.where_from("beIN SPORTS FR 2"), 6)
+    # And Xtra with them: it is the same match beIN is already showing,
+    # on an extra channel.
+    check("TWO", "beIN Xtra is never a first choice",
+          today.channels_of({"channels": ["beIN SPORTS Xtra 1",
+                                          "beIN SPORTS 4 TR", "Ligue1+",
+                                          "Sportsnet One"]}),
+          "Sportsnet One · beIN 4 TR · Ligue1+ +1")
+    check("TWO", "but a match that has only Xtra still names it",
+          today.channels_of({"channels": ["beIN SPORTS Xtra 1"]}),
+          "beIN Xtra 1")
     check("TWO", "Doha's unmarked beIN is the Arabic one",
           today.where_from("beIN SPORTS 1"), 0)
     check("TWO", "an Arabic name needs no list to be recognised",
@@ -1604,8 +1627,9 @@ def gate_a_row_names_two_channels() -> None:
           "beIN 4 · TSN 4 · beIN FR 2")
     check("TWO", "they rank below even the rest of the world",
           [today.where_from(name) for name in
-           ("Ligue1+", "beIN SPORTS 1 EN", "beIN SPORTS FR 2")],
-          [4, 5, 5])
+           ("Ligue1+", "beIN SPORTS Xtra 1", "beIN SPORTS 1 EN",
+            "beIN SPORTS FR 2")],
+          [5, 6, 6, 6])
     # Ranked last, NOT deleted. 268 of the 1001 fixtures in Doha's guide
     # name beIN SPORTS EN 1 and nothing else — Manchester United,
     # Liverpool, Arsenal, Barcelona. Deleting would turn every one of
