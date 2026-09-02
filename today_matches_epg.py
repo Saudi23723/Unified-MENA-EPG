@@ -99,11 +99,15 @@ NEXT_MARK = "⏳"
 #
 # Matched exactly, because a substring would swallow the wrong thing:
 # "Premier League" is also how Egypt, Bahrain, Iceland and Ukraine are
-# labelled, and "Serie A" is also Brazil's.
+# labelled, none of which was asked for. Italy and Brazil are both wanted
+# and are distinguished the same way — the page writes one "Serie A" and
+# the other "Brazilian Serie A", so an exact match keeps them apart from
+# each other and from "Italian Serie B".
 WANTED_EXACT = {
-    "saudi pro league", "premier league", "serie a", "ligue 1", "laliga",
-    "la liga", "bundesliga", "champions league", "europa league",
-    "conference league", "turkish süper lig", "süper lig", "super lig",
+    "saudi pro league", "premier league", "serie a", "brazilian serie a",
+    "ligue 1", "laliga", "la liga", "bundesliga", "champions league",
+    "europa league", "conference league",
+    "turkish süper lig", "süper lig", "super lig",
 }
 
 # Matched anywhere in the name, for families whose members all belong:
@@ -114,6 +118,7 @@ WANTED_PARTS = (
     "caf ", "africa cup", "afcon", "afc ", "asian cup",
     "gulf cup", "arabian gulf", "jordan",
     "king cup", "coppa italia", "copa del rey", "coupe de france",
+    "copa do brasil", "brasileir",
     "dfb", "fa cup", "efl cup", "carabao", "turkish cup",
 )
 
