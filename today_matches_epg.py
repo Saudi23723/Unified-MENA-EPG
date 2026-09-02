@@ -48,6 +48,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+from collections import Counter, defaultdict
 from datetime import date, datetime, time, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -910,6 +911,37 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     return f"{BOARD_URL}/{name}"
 
 
+def say_what_was_dropped(everything: list[dict], days: list[date]) -> None:
+    """Name, day by day, the competitions collected and not shown.
+
+    A reader asked why Thursday looked thin and Friday looked empty, and
+    answering it took a purpose-built probe and a trip to a runner —
+    because the build said only how many matches it kept, never what it
+    threw away. Those are different questions with the same symptom: a
+    short list. A source that has stopped answering and a filter that is
+    quietly eating a whole league look identical from the sofa.
+
+    So the build now says both. It costs a few lines in a log nobody reads
+    until something is wrong, which is exactly when this is the first
+    thing anybody wants.
+    """
+    dropped: dict[date, Counter] = defaultdict(Counter)
+    for event in everything:
+        if not wanted(event):
+            day = event["start"].astimezone(VIEWER).date()
+            dropped[day][event["competition"] or "(unnamed competition)"] += 1
+
+    for day in days:
+        names = dropped.get(day)
+        if not names:
+            continue
+        listed = ", ".join(f"{name} ×{count}"
+                           for name, count in names.most_common(8))
+        rest = len(names) - min(len(names), 8)
+        log(f"  {day}: {sum(names.values())} collected and not shown — "
+            f"{listed}" + (f", and {rest} more" if rest else ""))
+
+
 def build() -> int:
     now = datetime.now(UTC)
     session = requests.Session()
@@ -948,6 +980,9 @@ def build() -> int:
         log(f"  {event['start']:%m-%d %H:%M}Z  {event['title']}"
             f"   │ {event['competition']}")
 
+    days = days_of(now)
+    say_what_was_dropped(everything, days)
+
     tv = ET.Element("tv", {"generator-info-name": "Today's Matches"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
     ET.SubElement(channel, "icon", {"src": LOGO})
@@ -956,8 +991,6 @@ def build() -> int:
 
     # Today first, then every further day the page reached, so a viewer
     # scrolling forward finds tomorrow rather than the end of the guide.
-    days = days_of(now)
-
     by_day: dict[date, list[dict]] = {day: [] for day in days}
     for event in events:
         day = event["start"].astimezone(VIEWER).date()
