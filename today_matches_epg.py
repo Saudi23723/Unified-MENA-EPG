@@ -60,9 +60,11 @@ from PIL import Image
 import xml.etree.ElementTree as ET
 
 import live_football_on_tv
+import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
-    fetch, in_reading_order, isolate, log, norm, warn, write_xml_atomic,
+    fetch, in_reading_order, isolate, log, norm, same_club, warn,
+    write_xml_atomic,
 )
 
 SOURCE = "https://www.livefootballtv.info/"
@@ -191,6 +193,11 @@ NEAR_STEPS = (15, 30, 45, 60)
 # a room can read, which is the opposite of what the board is for.
 MAX_ON_BOARD = 9
 
+# What a row says when the fixture is real and the broadcaster is not yet
+# named. wanted() guarantees this only ever replaces an empty list, never
+# a list of shops.
+CHANNEL_UNANNOUNCED = "لم تُعلن القناة"
+
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
 
@@ -237,6 +244,41 @@ WANTED_PARTS = (
     # Turkey's cup, in both the spellings the page might use.
     "turkish cup", "kupası", "kupasi",
     "king cup", "coppa italia", "copa del rey", "coupe de france", "dfb",
+)
+
+# What the third page is asked for, and nothing else.
+#
+# Every one of these is a competition the other two pages were measured
+# not to carry, and each is here because a reader photographed a fixture
+# missing from it: Jordan's league, Egypt's league — الأهلي v سموحة was
+# on neither page — and Turkey's, where Başakşehir v Galatasaray was
+# missing too. Outside these it would be adding European football both
+# other pages already have, in Arabic, with no safe way to tell it is the
+# same match. Widen this only against a measurement.
+YALLAKORA_ONLY = (
+    "الدوري المصري", "كأس مصر", "السوبر المصري",
+    "الدوري الأردني", "كأس الأردن", "درع الاتحاد الأردني",
+    "الدوري التركي", "كأس تركيا",
+)
+
+# The same families as WANTED_PARTS, as the third page names them.
+#
+# yallakora heads each block with the competition in Arabic and, in the
+# heading image's enname, in English — and the English one is not always a
+# form anything here recognises ("Ligue1" is not "ligue 1"). The Arabic is,
+# so the Arabic is what is matched, and both are carried on the event.
+#
+# "الدوري المصري" is exact enough to leave "دوري القسم الثاني-أ" — Egypt's
+# second tier, eight of which turned up on one day — where it belongs.
+WANTED_ARABIC = (
+    "الدوري المصري", "الدوري الإنجليزي", "الدوري الإسباني",
+    "الدوري الإيطالي", "الدوري الألماني", "الدوري الفرنسي",
+    "الدوري التركي", "الدوري السعودي", "دوري روشن",
+    "دوري أبطال أوروبا", "الدوري الأوروبي", "دوري المؤتمر",
+    "دوري أبطال أفريقيا", "دوري أبطال آسيا", "كأس العالم",
+    "الدوري الأردني", "كأس الأردن", "كأس مصر", "السوبر المصري",
+    "كأس تركيا", "كأس الملك", "كأس إنجلترا", "كأس ألمانيا",
+    "كأس إيطاليا", "كأس إسبانيا", "كأس فرنسا",
 )
 
 # Clubs that belong here whatever they are playing in. Asked for by name,
@@ -332,8 +374,18 @@ def real_channels(channels: list[str]) -> list[str]:
 
 def wanted(event: dict) -> bool:
     """Is this a competition — or a club — that was actually asked for?"""
-    # Nowhere real to watch it is the same as not being on.
-    if not real_channels(event["channels"]):
+    # A shop is not a channel — a match whose every name is a pay-per-view
+    # app, a club's YouTube feed or a federation stream is still dropped,
+    # because a guide answering "where do I watch this" should not answer
+    # with a shop.
+    #
+    # But a match that names NO channel at all is a different thing, and
+    # it used to be dropped with the same line. That cost real fixtures:
+    # yallakora lists Başakşehir v Galatasaray in Turkey's league with no
+    # broadcaster yet, and a reader comparing against a scores app sees a
+    # missing match, not a missing channel. It is shown, and says the
+    # channel has not been announced.
+    if event["channels"] and not real_channels(event["channels"]):
         return False
 
     competition = event["competition"].casefold()
@@ -348,6 +400,8 @@ def wanted(event: dict) -> bool:
     if competition in WANTED_EXACT:
         return True
     if any(part in competition for part in WANTED_PARTS):
+        return True
+    if any(part in event["competition"] for part in WANTED_ARABIC):
         return True
     return any(club in teams_folded for club in WANTED_TEAMS)
 
@@ -647,7 +701,13 @@ def same_side(first: str, second: str) -> bool:
     # CLUB_LEAD. Tried second so a name that already matches is never
     # shortened, and only ever ONE step, so nothing is whittled down to
     # its last word.
-    return lines_up(without_lead(left), without_lead(right))
+    if lines_up(without_lead(left), without_lead(right)):
+        return True
+    # And across the scripts. The third page writes its clubs in Arabic,
+    # and epg_lib answers that question properly — measured thresholds,
+    # cross-script only, and it refuses within one script, which is why
+    # everything above exists at all.
+    return same_club_across_scripts(first, second)
 
 
 def without_lead(words: list[str]) -> list[str]:
@@ -666,6 +726,25 @@ def lines_up(left: list[str], right: list[str]) -> bool:
         return False
     # Whatever the shorter name left off has to be furniture, not a club.
     return all(word in TAIL_SKELETONS for word in long[len(short):])
+
+
+def same_club_across_scripts(first: str, second: str) -> bool:
+    """One club written in Arabic and in Latin — epg_lib's own answer.
+
+    Strictly epg_lib's, and it stays that way. The obvious next move was
+    to loosen it here, where a kickoff minute is already agreed and could
+    carry a weaker name test — so the thresholds were measured over
+    thirteen real cross-script pairs and ten false ones before writing
+    any. They overlap, badly: تولوز against Toulon scores 0.800 while
+    باشاكشهير against Basaksehir scores 0.640, and الهلال against Al Ahly
+    reaches 0.750. No ratio separates them, which is precisely what
+    epg_lib says in its own comments.
+
+    So this catches only what an exact skeleton catches — الأهلي/Al Ahly,
+    كولن/Koln, موناكو/Monaco — and the third page is kept to competitions
+    the other two do not carry, where there is nothing to collide with.
+    """
+    return same_club(first, second)
 
 
 def same_match(first: str, second: str) -> bool:
@@ -998,6 +1077,13 @@ def build() -> int:
     everything = unify(collect(html, now, floor, ceiling),
                        live_football_on_tv.fetch_events(
                            session, floor, ceiling))
+    # The third page last, and narrowed to what the other two do not
+    # carry — see YALLAKORA_ONLY. Its clubs are written in Arabic and no
+    # measurable threshold tells تولوز from Toulon, so it is given nothing
+    # to collide with rather than a rule that would guess.
+    everything = unify(everything, [
+        event for event in yallakora.fetch_events(session, floor, ceiling)
+        if any(name in event["competition"] for name in YALLAKORA_ONLY)])
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not
@@ -1006,7 +1092,8 @@ def build() -> int:
     # one place and still on the television. Filtering here, once, is what
     # makes it true everywhere: the board, the panel and the playlist all
     # read this list and none of them can now forget.
-    events = [dict(event, channels=real_channels(event["channels"]))
+    events = [dict(event, channels=real_channels(event["channels"])
+                   or [CHANNEL_UNANNOUNCED])
               for event in everything if wanted(event)]
     log(f"  {len(everything)} match(es) in the window, "
         f"{len(events)} in a competition worth showing")

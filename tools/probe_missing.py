@@ -1,54 +1,72 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: the exact shape of one yallakora match block.
+"""Temporary probe: one whole Spor Ekranı broadcast record.
 
-The date parameter is MM/DD/YYYY and ?date=09/03/2026 carries the very
-fixture that was missing — الأهلي v سموحة on ON Sport at 20:00 Cairo,
-which is 10:00 on the reader's clock, the figure their own app showed.
-Its Cairo clock also agrees with this guide's corrected times: it puts
-Toulouse v Lille at 21:45, which is 18:45 UTC, exactly what the board now
-says.
+The repository already reads this page in update_tabii_epg — it publishes
+ld+json, with the channel in publishedOn[].name, the fixture in
+broadcastOfEvent.name and a real timestamp in startDate. That is better
+structured than any of the three HTML pages.
 
-What is NOT known is the markup inside div.allData, and guessing that is
-the mistake that stamped 1876 fixtures with one date last time. So this
-prints the raw HTML of two blocks and their child classes. Delete once
-read.
+What is not known is where it names the COMPETITION, and a source whose
+competition cannot be read is a source whose matches all get filtered out.
+So one record is printed whole. Delete once read.
 """
 from __future__ import annotations
 
+import json
+import re
 import sys
+from collections import Counter
 
-from bs4 import BeautifulSoup
+from epg_lib import fetch, new_session
 
-from epg_lib import fetch, new_session, norm
-
-URL = "https://www.yallakora.com/match-center/?date=09/03/2026"
+URL = "https://www.sporekrani.com/"
+LD_JSON = re.compile(
+    r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+    re.S)
 
 
 def main() -> int:
-    soup = BeautifulSoup(fetch(new_session(), URL).text, "html.parser")
-    for tag in soup(["script", "style", "noscript", "svg"]):
-        tag.decompose()
+    page = fetch(new_session(), URL).text
+    blocks = LD_JSON.findall(page)
+    print(f"{len(blocks)} ld+json block(s)")
 
-    blocks = soup.find_all("div", class_="allData")
-    print(f"{len(blocks)} block(s)\n")
+    events = []
+    for block in blocks:
+        try:
+            payload = json.loads(block)
+        except Exception:
+            continue
+        for event in (payload if isinstance(payload, list) else [payload]):
+            if isinstance(event, dict) and event.get("broadcastOfEvent"):
+                events.append(event)
+    print(f"{len(events)} broadcast record(s)\n")
 
-    for block in blocks[:2]:
-        print("=" * 70)
-        print(str(block)[:1800].replace("\n", " "))
-        print("\n-- every descendant with a class, in order --")
-        for kid in block.find_all(True):
-            klass = kid.get("class")
-            if not klass:
-                continue
-            own = norm(kid.get_text(" ", strip=True))
-            if own:
-                print(f"   <{kid.name} class={klass}>  {own[:60]!r}")
+    print("=== two whole records ===")
+    for event in events[:2]:
+        print(json.dumps(event, ensure_ascii=False, indent=2)[:1600])
+        print("-" * 60)
 
-    print("\n-- the heading each block sits under --")
-    for block in blocks[:4]:
-        head = block.find_previous(class_="tourTitle")
-        print(f"   {str(head)[:220] if head else 'none'}")
+    print("\n=== which keys ever appear ===")
+    outer, inner = Counter(), Counter()
+    for event in events:
+        outer.update(event.keys())
+        slot = event.get("broadcastOfEvent")
+        if isinstance(slot, dict):
+            inner.update(slot.keys())
+    print(f"  outer: {dict(outer)}")
+    print(f"  broadcastOfEvent: {dict(inner)}")
+
+    print("\n=== the channels it names ===")
+    chans = Counter()
+    for event in events:
+        published = event.get("publishedOn")
+        for entry in (published if isinstance(published, list)
+                      else [published] if published else []):
+            if isinstance(entry, dict):
+                chans[entry.get("name") or "?"] += 1
+    for name, n in chans.most_common(15):
+        print(f"   {n:4d}  {name}")
     return 0
 
 
