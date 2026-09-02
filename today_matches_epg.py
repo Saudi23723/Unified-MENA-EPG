@@ -310,6 +310,25 @@ def fixture_of(event: dict) -> str:
     return f"{event['title']} · {channels}" if channels else event["title"]
 
 
+def when(start: datetime, now: datetime) -> str:
+    """How long until this kicks off, rather than the hour it kicks off at.
+
+    Asked for outright: a viewer glancing at a strip wants "in forty
+    minutes", not a clock they then have to subtract from. The words are
+    spelled out rather than abbreviated for the reason countdown_label
+    exists — single letters drift away from their numbers on a line that
+    also carries Latin club names, and "19 س و30 د" was read three
+    different ways on a television.
+
+    It is computed when the guide is built, so it is as fresh as the last
+    build and no fresher. The clock time it replaces never went stale;
+    this is the cost of the form that was asked for.
+    """
+    if start <= now:
+        return "الآن"
+    return f"بعد {countdown_label((start - now).total_seconds() // 60)}"
+
+
 def day_bounds(day: date) -> tuple[datetime, datetime]:
     """Midnight to midnight in the viewer's clock, expressed in UTC."""
     opens = datetime.combine(day, time(0, 0), VIEWER).astimezone(UTC)
@@ -389,8 +408,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
             mark = NEXT_MARK
         else:
             mark = "  "
-        clock = slot[0]["start"].astimezone(VIEWER).strftime("%H:%M")
-        opening = f"{mark} {clock}  "
+        opening = f"{mark} {when(slot[0]['start'], now)}  "
         line = opening
         for event in slot:
             fixture = fixture_of(event)
