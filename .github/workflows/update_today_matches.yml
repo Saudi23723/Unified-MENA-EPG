@@ -6,7 +6,8 @@
 # minutes; this one guide takes eight seconds, so it can run six times an
 # hour and cut the error from half an hour to ten minutes.
 #
-# It writes today_matches_epg.xml and nothing else. The merged link is
+# It writes today_matches_epg.xml and the day boards it points at. The
+# merged link is
 # deliberately left to the full build: rewriting a thirteen-thousand-row
 # file every ten minutes would add a hundred and forty commits a day of
 # several megabytes each, to keep one channel fresh.
@@ -47,7 +48,7 @@ jobs:
 
       - name: Publish it if it changed
         run: |
-          git add -- today_matches_epg.xml
+          git add -- today_matches_epg.xml boards
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

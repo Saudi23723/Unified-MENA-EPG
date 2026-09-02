@@ -40,11 +40,15 @@ be added later without touching what is here.
 """
 from __future__ import annotations
 
+import os
 import sys
 from datetime import date, datetime, time, timedelta, timezone
 
+import io
+
 import requests
 from bs4 import BeautifulSoup
+from PIL import Image
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
@@ -66,6 +70,23 @@ CHANNEL_AR = "مباريات اليوم"
 CHANNEL_EN = "Today's Matches"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_matches.png")
+
+# The day drawn as a board, for players that show programme artwork.
+#
+# A guide file cannot lay anything out — it hands a player text and the
+# player decides what that looks like. The one opening XMLTV leaves is the
+# programme <icon>, so the page is also drawn as a picture and attached
+# there. A player that shows it gets a ruled board; one that does not
+# still has the text, which loses nothing.
+#
+# The board carries clock times and no countdown: a countdown would
+# change every pass and commit a fresh copy of the image every ten
+# minutes. It is written only when it actually differs from the one
+# already published.
+BOARD_DIR = "boards"
+BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             "main/boards")
+BOARD_COLOURS = 64      # flat interface art: 88 KB truecolour, 27 KB here
 
 UTC = timezone.utc
 
@@ -452,6 +473,41 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     return "\n".join(lines)
 
 
+def publish_board(index: int, day: date, events: list[dict],
+                  now: datetime) -> str | None:
+    """Draw the day's board, keep it only if it differs, return its URL.
+
+    Rewriting an identical picture every ten minutes would commit a fresh
+    copy of it every ten minutes, so the bytes are compared before
+    anything is written.
+    """
+    name = f"today_matches_{index}.png"
+    path = os.path.join(BOARD_DIR, name)
+    try:
+        from match_board import draw_board
+
+        board = draw_board(
+            day, events, now, VIEWER, MATCH_ON_AIR,
+            title=CHANNEL_AR, subtitle="بث اليوم المباشر",
+            weekday=ARABIC_DAY[day.weekday()])
+        drawn = io.BytesIO()
+        board.convert("RGB").convert(
+            "P", palette=Image.ADAPTIVE, colors=BOARD_COLOURS).save(
+                drawn, format="PNG", optimize=True)
+        fresh = drawn.getvalue()
+    except Exception as exc:
+        warn(f"the board for {day} could not be drawn ({exc}) — the day "
+             f"still publishes as text")
+        return BOARD_URL + "/" + name if os.path.exists(path) else None
+
+    os.makedirs(BOARD_DIR, exist_ok=True)
+    if not os.path.exists(path) or open(path, "rb").read() != fresh:
+        with open(path, "wb") as out:
+            out.write(fresh)
+        log(f"  board {name} redrawn ({len(fresh) // 1024} KB)")
+    return f"{BOARD_URL}/{name}"
+
+
 def build() -> int:
     now = datetime.now(UTC)
     session = requests.Session()
@@ -494,11 +550,12 @@ def build() -> int:
         if day in by_day:
             by_day[day].append(event)
 
-    for day in days:
+    for index, day in enumerate(days):
         opens, closes = day_bounds(day)
         add_programme(tv, CHANNEL_ID, opens, closes,
                       day_title(day, by_day[day], now),
-                      day_page(day, by_day[day], now))
+                      day_page(day, by_day[day], now),
+                      icon=publish_board(index, day, by_day[day], now))
         log(f"  {day} -> {len(by_day[day])} match(es) on one page")
 
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
