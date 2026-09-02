@@ -1878,11 +1878,25 @@ def gate_the_jordanian_league_is_read() -> None:
           [event["title"] for event in jordan_football.collect(orphan)],
           ["كفرسوم - جرش"])
 
-    # It names no channel, and the guide keeps it anyway — the rule the
-    # reader asked for, so a Jordanian match is on the screen with
-    # "لم تُعلن القناة" beside it rather than missing altogether.
-    check("JOR", "it names no channel, and is kept regardless",
-          [event["channels"] for event in read], [[], []])
+    # jfa.jo prints no channel, but one IS known: the Jordan Radio and
+    # Television Corporation's channel holds the domestic game
+    # exclusively — league, cup, super cup — so "لم تُعلن القناة" beside
+    # those was under-reporting something settled. The name is the one
+    # this repository already publishes in jordan_sports_epg.xml, so the
+    # board and the guide agree.
+    check("JOR", "the domestic game names the channel that carries it",
+          [event["channels"] for event in read],
+          [["الأردن الرياضية"], ["الأردن الرياضية"]])
+    check("JOR", "and it is an Arabic channel, printed whole",
+          today.channels_of({"channels": ["الأردن الرياضية"]}),
+          "الأردن الرياضية")
+    # The national team is NOT included: its qualifiers are sold
+    # competition by competition and land on beIN or elsewhere, so those
+    # keep the placeholder until a listings page says otherwise.
+    check("JOR", "a national-team qualifier is not assumed onto it",
+          [jordan_football.carried_by(name) for name in
+           ("تصفيات كأس آسيا", "كأس العرب", "تصفيات كأس العالم")],
+          [[], [], []])
     check("JOR", "the guide wants it",
           [today.wanted(event) for event in read], [True, True])
     check("JOR", "and a row with no channel is still a row",

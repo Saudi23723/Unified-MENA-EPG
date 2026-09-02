@@ -82,6 +82,31 @@ A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|الناشئين|الأشبال|ال
                            r"|تحت\s?\d{2}", re.I)
 
 
+# Who actually carries these. The Jordan Radio and Television
+# Corporation's channel is the exclusive rights holder for the country's
+# domestic football — the professional league, the cup, the super cup —
+# so a fixture in one of them has a channel even though jfa.jo never
+# prints one, and "لم تُعلن القناة" beside it was under-reporting a
+# thing that IS known.
+#
+# The name is the one this repository already publishes for that channel
+# in jordan_sports_epg.xml, so the board and the guide agree.
+#
+# NOT the national team. Its qualifiers are sold competition by
+# competition and land on beIN or elsewhere, so those keep the
+# placeholder until a listings page says otherwise.
+JORDAN_SPORT = "الأردن الرياضية"
+CARRIED_BY_JORDAN_SPORT = re.compile(r"محترفين|كأس الأردن|درع الاتحاد"
+                                     r"|سوبر", re.I)
+
+
+def carried_by(competition: str) -> list[str]:
+    """The channel a Jordanian competition is known to be on, if any."""
+    if CARRIED_BY_JORDAN_SPORT.search(competition):
+        return [JORDAN_SPORT]
+    return []
+
+
 def a_day_and_a_clock(header) -> datetime | None:
     """The kickoff, from the header row that introduces a fixture.
 
@@ -195,7 +220,7 @@ def collect(html: str) -> list[dict]:
             "start": start,
             "title": f"{home_name} - {away_name}",
             "competition": competition,
-            "channels": [],
+            "channels": carried_by(competition),
         })
 
     log(f"  jfa.jo: {played} already played, {adrift} with no header of "
