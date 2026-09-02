@@ -1848,6 +1848,23 @@ def gate_the_jordanian_league_is_read() -> None:
     check("JOR", "and a row with no channel is still a row",
           today.channels_of({"channels": []}), "")
 
+    # The federation puts the date and the clock inside ONE span, as two
+    # text nodes, and code that took the first span as the date and the
+    # next as the time found a date, never found a clock, and threw the
+    # row away. Ten of ten upcoming fixtures were lost that way — and
+    # silently, because a fixture that fails to parse looks exactly like
+    # a fixture that is not there. Both layouts are held here.
+    one_span = ('<table><tr><td>كأس الأردن CFI</td>'
+                '<td><span class="haly1">2026-09-04<br/>|\u00a018:00</span>'
+                '</td><td><span class="team1">عمان FC</span></td>'
+                '<td><span class="rrresult">VS</span></td>'
+                '<td><span class="team2">الكرمل</span></td></tr></table>')
+    both = jordan_football.collect(one_span)
+    check("JOR", "one span holding the date AND the clock is read",
+          [(event["title"], f"{event['start']:%Y-%m-%d %H:%M}")
+           for event in both],
+          [("عمان FC - الكرمل", "2026-09-04 18:00")])
+
     # A page that answers with nothing must cost nothing.
     check("JOR", "an empty page is not an error",
           jordan_football.collect("<table></table>"), [])

@@ -83,19 +83,22 @@ A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|الناشئين|الأشبال|ال
 
 
 def a_day_and_a_clock(row) -> datetime | None:
-    """The kickoff, from the date and the time this row prints separately.
+    """The kickoff, from the date and the time this row prints.
 
-    Both sit in span.haly1 — one holds 2026-09-03, the other |&nbsp;19:00
-    — so they are told apart by what they contain rather than by which
-    comes first, which is a thing a page is free to change.
+    Read from the ROW's whole text rather than span by span. The
+    federation puts both inside one span.haly1 — "2026-09-03" and
+    "|\u00a017:00" are separate text nodes of the same element — and
+    code that took the first span as the date and the NEXT as the time
+    found a date, never found a clock, and threw the row away. Ten of the
+    ten upcoming fixtures were lost that way, silently, because a fixture
+    that fails to parse looks exactly like a fixture that is not there.
+
+    A row's text cannot confuse the two: a date here has no colon and a
+    clock has nothing else that looks like one — a score is written
+    "1 - 0".
     """
-    day = clock = None
-    for span in row.select("span.haly1"):
-        text = norm(span.get_text(" ", strip=True))
-        if day is None and A_DATE.search(text):
-            day = A_DATE.search(text)
-        elif clock is None and A_CLOCK.search(text):
-            clock = A_CLOCK.search(text)
+    text = row.get_text(" ", strip=True)
+    day, clock = A_DATE.search(text), A_CLOCK.search(text)
     if day is None or clock is None:
         return None
     try:
