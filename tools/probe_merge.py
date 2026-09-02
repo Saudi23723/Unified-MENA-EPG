@@ -1,72 +1,58 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: is a fixture-group nested inside another one?
-
-The first merge probe stamped hundreds of Champions League league-phase
-fixtures with one date and put them all on tomorrow's board. Every one of
-them is a real fixture; the date is what is wrong. The suspicion is that
-div.fixture-group nests — an outer group holding the day headings of every
-later day — so walking a group's descendants collects the whole page under
-the first date found. This answers it rather than assuming it.
-
-Delete once read.
-"""
+"""Temporary probe: what the two pages give once merged. Delete once read."""
 from __future__ import annotations
 
 import sys
-
-from bs4 import BeautifulSoup
-
-from epg_lib import fetch, new_session, norm
+from collections import Counter
+from datetime import datetime, timezone
 
 import live_football_on_tv as second
+import today_matches_epg as today
+from epg_lib import fetch, new_session
 
 
 def main() -> int:
-    html = fetch(new_session(), second.SOURCE).text
-    soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script", "style", "noscript", "svg"]):
-        tag.decompose()
+    now = datetime.now(timezone.utc)
+    session = new_session()
+    floor = today.window_floor(now)
 
-    groups = soup.find_all("div", class_="fixture-group")
-    fixtures = soup.find_all("div", class_="fixture")
-    print(f"groups {len(groups)} | fixtures anywhere {len(fixtures)}")
+    primary = today.collect(fetch(session, today.SOURCE).text, now)
+    secondary = second.fetch_events(session, now, today.KEEP_AHEAD, floor)
+    print(f"\nprimary {len(primary)} | secondary {len(secondary)}")
 
-    nested = sum(1 for g in groups
-                 if g.find("div", class_="fixture-group") is not None)
-    print(f"groups holding another group: {nested}")
+    print("\n-- days the second page put in the window --")
+    for day, count in sorted(Counter(
+            e["start"].date() for e in secondary).items()):
+        print(f"  {day}  x{count}")
 
-    print("\n-- first eight groups: heading, own date, fixtures inside --")
-    for group in groups[:8]:
-        heading = norm(group.get_text(" ", strip=True))[:70]
-        inside = group.find_all("div", class_="fixture")
-        print(f"  {second.day_of(group)}  x{len(inside):4d}  {heading!r}")
+    print("\n-- competitions the second page named, and the verdict --")
+    kept = dropped = 0
+    for name, count in Counter(
+            e["competition"] for e in secondary).most_common():
+        keep = today.wanted({"competition": name, "title": "",
+                             "channels": ["Sky Sports"], "start": now})
+        kept += count if keep else 0
+        dropped += 0 if keep else count
+        if keep:
+            print(f"  {count:4d}  KEEP  {name!r}")
+    print(f"  ... and {dropped} fixture(s) in competitions not asked for")
 
-    print("\n-- what a fixture's own ancestors look like --")
-    if fixtures:
-        node = fixtures[0]
-        for step in range(6):
-            node = node.parent
-            if node is None:
-                break
-            print(f"  up {step + 1}: <{node.name} class={node.get('class')}>")
+    print("\n-- same minute on both pages --")
+    for a in primary:
+        for b in secondary:
+            if abs(a["start"] - b["start"]) > today.MERGE_SLACK:
+                continue
+            if today.same_match(a["title"], b["title"]):
+                print(f"  JOIN  {a['start']:%m-%d %H:%M}Z  "
+                      f"{a['title']!r} + {b['title']!r}")
 
-    print("\n-- the raw HTML of the first two fixtures --")
-    for fixture in fixtures[:2]:
-        print("  " + str(fixture)[:600].replace("\n", " "))
-
-    print("\n-- and of whatever sits just before the first fixture --")
-    if fixtures:
-        seen = 0
-        for sibling in fixtures[0].previous_siblings:
-            text = norm(getattr(sibling, "get_text", lambda *_, **__: str(sibling))(" ", strip=True))
-            if text:
-                print(f"  <{getattr(sibling, 'name', 'text')} "
-                      f"class={getattr(sibling, 'get', lambda _: None)('class')}>"
-                      f"  {text[:80]!r}")
-                seen += 1
-            if seen >= 4:
-                break
+    everything = today.unify(primary, secondary)
+    keep = [e for e in everything if today.wanted(e)]
+    print(f"\n-- the board: {len(keep)} of {len(everything)} --")
+    for e in keep:
+        print(f"  {e['start']:%m-%d %H:%M}Z  {e['title']}"
+              f"  | {e['competition']}  | {e['channels'][:3]}")
     return 0
 
 

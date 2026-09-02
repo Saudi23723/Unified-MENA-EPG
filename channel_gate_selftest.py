@@ -793,6 +793,88 @@ def gate_two_pages_make_one_row() -> None:
           len(apart), 2)
 
 
+def gate_a_day_divider_is_not_a_container() -> None:
+    """Each fixture takes the date of the divider above it, not the page's.
+
+    live-footballontv writes 1896 fixtures inside TWO div.fixture-group
+    elements. The day is a div.fixture-date divider written BETWEEN the
+    fixtures, not a box around them — and the first reader treated a group
+    as a day, took the first date it found in it, and stamped 1876
+    fixtures with it. Every one of those fixtures was real; the whole
+    autumn simply arrived on tomorrow's board, Champions League league
+    phase and all. A probe of the merged output is what caught it, and
+    nothing in the code could have.
+
+    So the shape itself is held here, in the page's own markup: two
+    dividers, fixtures under each, and pills for the channels. If a
+    fixture ever takes a date from anywhere but the divider above it, this
+    goes red before anything reaches a screen.
+    """
+    print("\nA day divider is a divider — live-footballontv")
+    from datetime import datetime, timedelta, timezone
+
+    import live_football_on_tv as second
+
+    page = """
+    <div class="fixture-group">
+      <div class="fixture-date">Wednesday 2nd September 2026</div>
+      <div class="fixture">
+        <div class="fixture__time">01:00</div>
+        <div class="fixture__teams">Atletico Mineiro v Cruzeiro  </div>
+        <div class="fixture__competition">Copa do Brasil</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">Premier Sports 2</span>
+        </div></div>
+      </div>
+      <div class="fixture-date">Thursday 3rd September 2026</div>
+      <div class="fixture">
+        <div class="fixture__time">19:45</div>
+        <div class="fixture__teams">Millwall v Wrexham  </div>
+        <div class="fixture__competition">Championship</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">Sky Sports+</span>
+          <span class="channel-pill">TNT Sports 1</span>
+          <span class="channel-pill">TBC</span>
+        </div></div>
+      </div>
+      <div class="fixture">
+        <div class="fixture__time">TBC</div>
+        <div class="fixture__teams">Arsenal v Real Madrid  </div>
+        <div class="fixture__competition">Champions League</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">TBC</span>
+        </div></div>
+      </div>
+    </div>
+    """
+    now = datetime(2026, 9, 2, 8, 0, tzinfo=timezone.utc)
+    floor = datetime(2026, 9, 2, 0, 0, tzinfo=timezone.utc)
+    read = second.collect(page, now, timedelta(days=2), floor)
+
+    check("SOURCE2", "a fixture with no kickoff is not a fixture",
+          len(read), 2)
+    by_title = {event["title"]: event for event in read}
+
+    check("SOURCE2", "the first fixture keeps the first divider's day",
+          f"{by_title['Atletico Mineiro - Cruzeiro']['start']:%Y-%m-%d %H:%M}",
+          "2026-09-02 00:00")
+    check("SOURCE2", "and the second takes the SECOND divider's day",
+          f"{by_title['Millwall - Wrexham']['start']:%Y-%m-%d %H:%M}",
+          "2026-09-03 18:45")
+
+    check("SOURCE2", "each channel pill is read on its own",
+          by_title["Millwall - Wrexham"]["channels"],
+          ["Sky Sports+", "TNT Sports 1"])
+    check("SOURCE2", "and the page saying it does not know is not a channel",
+          any("TBC" in name
+              for event in read for name in event["channels"]), False)
+
+    # The fault itself, stated as a number: everything on one day is what
+    # going wrong looked like.
+    check("SOURCE2", "the fixtures did not all land on one day",
+          len({event["start"].date() for event in read}), 2)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -802,7 +884,8 @@ def main() -> int:
                  gate_a_fact_survives_its_source,
                  gate_every_guide_is_covered,
                  gate_the_screen_cannot_go_stale,
-                 gate_two_pages_make_one_row):
+                 gate_two_pages_make_one_row,
+                 gate_a_day_divider_is_not_a_container):
         try:
             gate()
         except Exception as exc:
