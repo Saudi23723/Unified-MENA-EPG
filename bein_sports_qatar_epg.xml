@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260901093600 +0000" stop="20260901112100 +0000" channel="beIN4K.qa">
-    <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
-    <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260901112100 +0000" stop="20260901130800 +0000" channel="beIN4K.qa">
     <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
     <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
@@ -1970,6 +1964,12 @@ Mestalla Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260908113000 +0000" stop="20260908120000 +0000" channel="beINSports1.qa">
+    <title lang="en">Everton vs Manchester United - English Premier League 2026/2027 - Week 3</title>
+    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260901110000 +0000" stop="20260901124500 +0000" channel="beINSports2.qa">
     <title lang="en">Tottenham Hotspur vs Newcastle United - English Premier League 2026/2027 - Week 2</title>
     <desc lang="en">Tottenham Hotspur have lost six of their last eight Premier League games against Newcastle, and haven’t kept a clean sheet in any of their last 14 against the Magpies. Newcastle have won more Premier League away against Spurs than at any other opponent, winning three of their last four visits to the Tottenham Hotspur Stadium.</desc>
@@ -2798,6 +2798,12 @@ Mestalla Stadium</desc>
   <programme start="20260908093000 +0000" stop="20260908111500 +0000" channel="beINSports2.qa">
     <title lang="en">Arsenal vs Chelsea - English Premier League 2026/2027 - Week 3</title>
     <desc lang="en">Arsenal are unbeaten in their last nine Premier League matches against Chelsea, their best unbeaten run against the Blues since a run of 19 between 1995 and 2005. Chelsea have lost their last four away Premier League games against Arsenal by an aggregate score of 11-2. Their last win there was in August 2021, a 2-0 victory.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260908111500 +0000" stop="20260908121500 +0000" channel="beINSports2.qa">
+    <title lang="en">EPL Weekly Review - 2026/2027 - EP 3</title>
+    <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -4101,17 +4107,6 @@ Stadium de Toulouse Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260901090700 +0000" stop="20260901111500 +0000" channel="beINSports5.qa">
-    <title lang="en">Vissel Kobe (JPN) vs FC Seoul (KOR) -AFC Champions League Elite 2025/2026 - East MD7</title>
-    <desc lang="en">Vissel Kobe vs Seoul
-AFC Champions League Elite
-Season 2025/2026
-Qualifier Round
-Group East
-Noevir Stadium Kobe Stadium</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
   <programme start="20260901111500 +0000" stop="20260901132000 +0000" channel="beINSports5.qa">
     <title lang="en">Amed Sportif Faaliyetler vs Trabzonspor - Turkish Super League 2027 - MD3</title>
     <desc lang="en">Amedspor vs Trabzonspor
@@ -4969,13 +4964,6 @@ First Leg Result: Gamba Osaka 1-1 Ratchaburi</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260901100000 +0000" stop="20260901113000 +0000" channel="beINSports6.qa">
-    <title lang="en">Javier Collantes Guijo ESP Asier Martinez Lopez ESP vs Antonio Fernandez ESP Mario Del Castillo ESP ‎• Live 🔵‎</title>
-    <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
-    <category lang="ar">باديل</category>
-    <category lang="en">Live</category>
-    <category lang="en">Padel</category>
-  </programme>
   <programme start="20260901113000 +0000" stop="20260901130000 +0000" channel="beINSports6.qa">
     <title lang="en">Jose Antonio Diestro ESP Marc Sintes Villalonga ESP vs Leonel Daniel Aguirre ARG Pablo Garcia Rodrig ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
@@ -5358,6 +5346,13 @@ San Mamés Stadium</desc>
   </programme>
   <programme start="20260908100000 +0000" stop="20260908113000 +0000" channel="beINSports6.qa">
     <title lang="en">Match 1 - Women - Premier Padel - Paris Major - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">Premier Padel Majors represent the pinnacle of professional padel, attracting the sport’s biggest stars to four iconic events in Qatar, Italy, France and Mexico. Offering the highest ranking rewards on the Premier Padel Tour, the Majors are among the most coveted titles of the season and showcase the sport at its highest level.</desc>
+    <category lang="ar">باديل</category>
+    <category lang="en">Live</category>
+    <category lang="en">Padel</category>
+  </programme>
+  <programme start="20260908113000 +0000" stop="20260908130000 +0000" channel="beINSports6.qa">
+    <title lang="en">Match 2 – Women - Premier Padel - Paris Major - 2026 ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel Majors represent the pinnacle of professional padel, attracting the sport’s biggest stars to four iconic events in Qatar, Italy, France and Mexico. Offering the highest ranking rewards on the Premier Padel Tour, the Majors are among the most coveted titles of the season and showcase the sport at its highest level.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
@@ -8121,6 +8116,12 @@ Mestalla Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260908113000 +0000" stop="20260908120000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Everton vs Manchester United - English Premier League 2026/2027 - Week 3</title>
+    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260901100000 +0000" stop="20260901121500 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -8773,12 +8774,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260908110000 +0000" stop="20260908130000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260901080000 +0000" stop="20260901113000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">PSG vs Arsenal - Champions League - F - FOOTBALL 2025-2026</title>
-    <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -11205,12 +11200,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260901110000 +0000" stop="20260901113000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260901113000 +0000" stop="20260901120000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassila   - 1/09/26</title>
     <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
@@ -12915,6 +12904,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260908110000 +0000" stop="20260908113000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908113000 +0000" stop="20260908120000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassila   - 8/09/26</title>
+    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
