@@ -73,12 +73,13 @@ OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
 STREAM_MAP = "stream_map.json"
 
-# The screen channel: the day's board encoded as video, so tuning to it
-# puts the board on the television at full size. It is the one entry here
-# that plays without any URL of yours, because it is ours.
-SCREEN_FILE = "stream/today_matches.mp4"
+# The screen channel: the days' boards encoded as video and listed round
+# and round for twelve hours, so tuning to it puts them on the television
+# at full size and keeps them there. It is the one entry here that plays
+# without any URL of yours, because it is ours.
+SCREEN_FILE = "stream/screen.m3u8"
 SCREEN_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-              "main/stream/today_matches.mp4")
+              "main/stream/screen.m3u8")
 SCREEN_NAME = "📺 مباريات اليوم — الشاشة"
 
 # Every entry must have a URL or a player drops the row. This one is

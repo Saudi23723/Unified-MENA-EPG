@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Turn today's board into a channel you can actually tune to.
+"""Turn today's boards into a channel you can actually tune to.
 
 Everything before this put the day somewhere a player might show it and
 hoped: a description panel shows text and nothing else, and the programme
@@ -9,25 +9,38 @@ Tune to the channel and the board is on the screen, full size, because it
 IS the picture being played.
 
 It is a slideshow: today, then tomorrow, then the day after, fifteen
-seconds each, round and round for twenty minutes. One still board held for
-half an hour showed the day and hid the two behind it; a viewer who tunes
-in and waits a quarter of a minute now sees all of them.
+seconds each, round and round. A single board held on screen showed the
+day and hid the two behind it; a viewer who waits a quarter of a minute
+now sees all of them.
 
-It costs almost nothing, because H.264 spends bits on change and a still
-picture has none — the whole cost here is the cuts between boards, which
-is why they are fifteen seconds apart and not two. A silent mono track
-rides along, since players built for live television are happier with one
-than without.
+WHY THIS IS HLS AND NOT ONE LONG FILE
+=====================================
+A file has an end and a channel does not, and "it stops after a quarter of
+an hour" is a fair thing to refuse. Half a day as one MP4 would be some
+seventy megabytes committed every time a fixture moves, which is not a
+price worth paying either.
 
-The encode only runs when the board itself changed. The board carries
-clock times and no countdown precisely so that it changes when the day's
-fixtures change and not every ten minutes, and the video inherits that:
+An HLS playlist settles it, because a playlist may name the same segment
+as many times as it likes. Three segments are encoded — one per day — and
+the playlist lists them round and round for twelve hours. The bytes on
+disk are three short clips; the length is a text file. Twelve hours of
+picture costs about half a megabyte in total.
+
+Each repeat is preceded by EXT-X-DISCONTINUITY, which is the tag that
+exists for precisely this: it tells the player the timestamps are about to
+start over, which they are, because it is the same clip again.
+
+WHAT IT COSTS
+=============
+Almost nothing, because H.264 spends bits on change and a still picture
+has none. The whole cost is the cuts between boards, which is why they are
+fifteen seconds apart and not two. A silent mono track rides along, since
+players built for live television are happier with one than without.
+
+The encode only runs when a board actually changed. The boards carry clock
+times and no countdown precisely so that they change when the day's
+fixtures change and not every ten minutes, and the screen inherits that:
 a handful of files a day rather than a hundred and forty.
-
-When the half hour runs out the picture stops, because a file has an end
-and a real channel does not. Making it endless needs a machine holding a
-stream open, which is a server, which is not free — so the honest shape
-here is a long file that is redrawn whenever the day moves on.
 """
 from __future__ import annotations
 
@@ -36,23 +49,20 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 
 from epg_lib import log, warn
 
 BOARD_DIR = "boards"
 OUT_DIR = "stream"
-OUT = os.path.join(OUT_DIR, "today_matches.mp4")
+OUT = os.path.join(OUT_DIR, "screen.m3u8")
 STAMP = os.path.join(OUT_DIR, "board.sha256")
 
-MINUTES = 15
+HOURS = 12              # how long the playlist keeps the picture running
 HOLD = 15               # seconds a board stays up before the next one
 
-# A keyframe every second is what turned ten minutes of nothing into 1379
-# KB the first time this was measured; at one every five minutes the same
-# ten minutes is 75 KB. The cuts between boards force their own keyframes
-# regardless, which is the whole real cost of a slideshow.
-KEYFRAME_EVERY = 300
+# Every segment opens on a keyframe, which a segment must, and needs no
+# other: it is the same picture for fifteen seconds.
+KEYFRAME_EVERY = HOLD
 
 
 def boards() -> list[str]:
@@ -74,33 +84,17 @@ def digest(paths: list[str]) -> str:
     return running.hexdigest()
 
 
-def reel_text(paths: list[str]) -> str:
-    """The concat list ffmpeg reads: each board, and how long it stays up.
-
-    The last file is named twice because the concat demuxer reads a
-    duration as the gap before the NEXT entry, so without a repeat the
-    final board flashes past in a single frame.
-    """
-    lines = []
-    for path in paths:
-        lines.append(f"file '{os.path.abspath(path)}'")
-        lines.append(f"duration {HOLD}")
-    lines.append(f"file '{os.path.abspath(paths[-1])}'")
-    return "\n".join(lines) + "\n"
+def segment_of(board: str) -> str:
+    """The .ts file a given board is encoded into."""
+    stem = os.path.splitext(os.path.basename(board))[0]
+    return os.path.join(OUT_DIR, f"{stem}.ts")
 
 
-def encode(paths: list[str], out: str) -> bool:
-    # The reel is scaffolding, not output: it holds absolute paths from
-    # whichever machine ran the encode and has no business in the
-    # repository beside the video it built.
-    handle, reel = tempfile.mkstemp(suffix=".txt", text=True)
-    with os.fdopen(handle, "w", encoding="utf-8") as out_handle:
-        out_handle.write(reel_text(paths))
-
+def encode_segment(board: str, out: str) -> bool:
+    """One board, fifteen seconds of it, as a transport stream segment."""
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
-        # Round and round until the running time is up.
-        "-stream_loop", "-1", "-f", "concat", "-safe", "0", "-i", reel,
+        "-loop", "1", "-framerate", "1", "-i", board,
         # Silent audio: a live-television player with no audio track at all
         # will sometimes sit on a black screen rather than show the video.
         "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=16000",
@@ -108,22 +102,42 @@ def encode(paths: list[str], out: str) -> bool:
         "-vf", "fps=1", "-pix_fmt", "yuv420p",
         "-g", str(KEYFRAME_EVERY), "-crf", "32",
         "-c:a", "aac", "-b:a", "8k", "-ac", "1",
-        "-shortest", "-t", str(MINUTES * 60),
-        # The header goes first, so a player can start without fetching
-        # the whole file.
-        "-movflags", "+faststart",
-        out,
+        "-shortest", "-t", str(HOLD), "-muxdelay", "0",
+        "-f", "mpegts", out,
     ]
-    try:
-        done = subprocess.run(command, check=False, capture_output=True,
-                              text=True)
-    finally:
-        os.unlink(reel)
+    done = subprocess.run(command, check=False, capture_output=True, text=True)
     if done.returncode != 0:
-        warn(f"ffmpeg refused to encode the screen: "
+        warn(f"ffmpeg refused to encode {out}: "
              f"{(done.stderr or '').strip()[:300]}")
         return False
     return True
+
+
+def write_playlist(segments: list[str], out: str) -> int:
+    """The playlist that turns three short clips into half a day of picture.
+
+    A playlist may name the same segment as often as it likes, so the
+    length here is text rather than bytes. EXT-X-DISCONTINUITY goes before
+    every entry because the timestamps really do start over each time —
+    it is the same clip again — and that tag is what tells a player so.
+    """
+    cycles = max(1, (HOURS * 3600) // (HOLD * len(segments)))
+    lines = [
+        "#EXTM3U",
+        "#EXT-X-VERSION:3",
+        f"#EXT-X-TARGETDURATION:{HOLD}",
+        "#EXT-X-MEDIA-SEQUENCE:0",
+        "#EXT-X-PLAYLIST-TYPE:VOD",
+    ]
+    for _ in range(cycles):
+        for segment in segments:
+            lines += ["#EXT-X-DISCONTINUITY",
+                      f"#EXTINF:{HOLD}.0,",
+                      os.path.basename(segment)]
+    lines.append("#EXT-X-ENDLIST")
+    with open(out, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write("\n".join(lines) + "\n")
+    return cycles
 
 
 def main() -> int:
@@ -146,14 +160,22 @@ def main() -> int:
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
-    if not encode(reel, OUT):
-        return 0            # keep whatever is already published
+    segments = []
+    for board in reel:
+        segment = segment_of(board)
+        if not encode_segment(board, segment):
+            return 0        # keep whatever is already published
+        segments.append(segment)
+
+    cycles = write_playlist(segments, OUT)
 
     with open(STAMP, "w", encoding="utf-8") as handle:
         handle.write(fingerprint + "\n")
-    log(f"screen channel re-encoded: {OUT} "
-        f"({os.path.getsize(OUT) // 1024} KB, {MINUTES} minutes, "
-        f"{len(reel)} board(s) at {HOLD}s each)")
+    bytes_on_disk = os.path.getsize(OUT) + sum(os.path.getsize(s)
+                                               for s in segments)
+    log(f"screen channel re-encoded: {len(segments)} segment(s) at {HOLD}s, "
+        f"played {cycles} times over = {HOURS}h of picture, "
+        f"{bytes_on_disk // 1024} KB on disk in total")
     return 0
 
 
