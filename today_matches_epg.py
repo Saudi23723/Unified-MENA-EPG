@@ -310,6 +310,10 @@ WANTED_TEAMS = ("manchester united", "man united", "man utd", "manchester utd")
 NOT_A_CHANNEL = (
     "onefootball", "ppv", "youtube", "app", "tv+", "plus tv",
     "federation", "official site", "club tv",
+    # "BBC Sport Website" reached the board as a channel. A page is not
+    # something a television can be turned to, and it took one of three
+    # slots from a broadcaster that is.
+    "website", ".com", ".co.uk",
 )
 
 # The page labels the Austrian Bundesliga with exactly the word it uses for
