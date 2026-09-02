@@ -1588,6 +1588,17 @@ def gate_a_row_names_two_channels() -> None:
            "Sportsnet One", "Fox Sports 1"])
     check("TWO", "a name that is nothing BUT the generic word survives",
           today.shorter("beIN SPORTS"), "beIN")
+    # S Sport is Turkish, and "S" on its own is not a channel — the same
+    # reason Premier keeps its Sports. It is safe because the list holds
+    # brands rather than initials, and this is what holds it there.
+    check("TWO", "S Sport keeps its Sport, in every spelling",
+          [today.shorter(name) for name in
+           ("S Sport", "S Sport 2", "S Sport Plus", "S Sports 1")],
+          ["S Sport", "S Sport 2", "S Sport Plus", "S Sports 1"])
+    check("TWO", "and S Sport is Turkish however it is written",
+          [today.where_from(name) for name in
+           ("S Sport", "S Sport 2", "S Sports 1", "S Sport Plus")],
+          [3, 3, 3, 3])
     # Shortening runs after the ordering and must not disturb it.
     check("TWO", "a shortened name still lands in its own tier",
           [today.where_from(today.shorter(name)) for name in

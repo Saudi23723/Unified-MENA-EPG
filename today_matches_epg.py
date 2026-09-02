@@ -894,7 +894,10 @@ AMERICAN = re.compile(r"\bUS\b|\bfox\b|\bnbc\b|\bcbs\b|\bespn\b"
                       r"|\btsn\b|\bsportsnet\b|\bcbc\b|\brds\b"
                       r"|\bonesoccer\b|\btva sports\b", re.I)
 
-TURKISH = re.compile(r"\bTR\b|\btabii\b|\btrt\b|\bs sport\b", re.I)
+# "S Sports" as well as "S Sport": the singular alone left the Turkish
+# channel written the other way in "everywhere else", which is the tier
+# for broadcasters a viewer here cannot get.
+TURKISH = re.compile(r"\bTR\b|\btabii\b|\btrt\b|\bs sports?\b", re.I)
 
 # beIN writes its French feed FR, and that is France's channel however
 # much of the brand it shares with Doha's.
