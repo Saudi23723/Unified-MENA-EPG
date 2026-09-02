@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: are the American channels already here, just hidden?
+"""Temporary probe: which American page names a channel with a match?
 
-Every row on the board shows ONE channel and then "+5". If Fox, NBC, CBS
-or USA Network are among those five, nothing needs finding — the guide
-already knows and is simply not saying. That is a different fix from
-adding a source, so it gets measured first.
+Settled: of thirty matches on the board, not one names an American
+channel. The whole census is Gulf, British, French and Turkish. Fox, NBC,
+CBS and USA Network are not hidden behind the "+5" — no source here has
+ever seen them.
 
-Prints, for every match in the window, the WHOLE channel list from every
-source, and counts how often an American broadcaster is named.
+So the candidates get the measurement every candidate gets: how many
+innermost blocks hold a CLOCK and a CHANNEL together, where "channel"
+means an American broadcaster by name. A page that lists fixtures without
+a broadcaster is still worth knowing about — that rule changed — so the
+clock count is reported separately.
 
 Delete once read.
 """
@@ -16,56 +19,66 @@ from __future__ import annotations
 
 import re
 import sys
-from collections import Counter
-from datetime import datetime, timezone
 
-import live_football_on_tv
-import own_guides
-import spor_ekrani
-import today_matches_epg as today
-import yallakora
-from epg_lib import fetch, new_session
+from bs4 import BeautifulSoup
 
-AMERICAN = re.compile(
-    r"\bfox\b|fs1|fs2|\bnbc\b|peacock|\bcbs\b|paramount|\bespn\b|"
-    r"\busa network\b|\btelemundo\b|univision|tudn|\btnt\b|truTV|"
-    r"\bcbc\b|sportsnet|\btsn\b|apple tv|amazon", re.I)
+from epg_lib import fetch, new_session, norm
+
+CLOCK = re.compile(r"\b(\d{1,2}):([0-5]\d)\s*(?:am|pm|AM|PM)?\b")
+US = re.compile(
+    r"\bfox\b|fs1|fs2|\bnbc\b|peacock|\bcbs\b|paramount\+?|\bespn\b|espn\+|"
+    r"\busa network\b|telemundo|univision|tudn|\btnt\b|trutv|\bhbo\b|"
+    r"sportsnet|\btsn\b|apple tv|amazon prime|max\b", re.I)
+
+PAGES = (
+    "https://worldsoccertalk.com/tv-schedules/",
+    "https://www.livesoccertv.com/schedules/",
+    "https://www.foxsports.com/soccer/scores",
+    "https://www.espn.com/soccer/schedule",
+    "https://www.nbcsports.com/soccer/premier-league/schedule",
+    "https://www.livesportsontv.com/",
+)
+
+
+def look(session, url: str) -> None:
+    try:
+        html = fetch(session, url).text
+    except Exception as exc:
+        print(f"  {url:58s} -> {type(exc).__name__}")
+        return
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    innermost = [n for n in soup.find_all(True) if not n.find(True)]
+    clocks = [n for n in innermost
+              if CLOCK.search(norm(n.get_text(" ", strip=True) or ""))]
+
+    both = []
+    for node in soup.find_all(True):
+        text = norm(node.get_text(" ", strip=True))
+        if not text or len(text) > 300 or not CLOCK.search(text):
+            continue
+        if US.search(text) and not any(
+                CLOCK.search(norm(kid.get_text(" ", strip=True) or ""))
+                and US.search(norm(kid.get_text(" ", strip=True) or ""))
+                for kid in node.find_all(True)):
+            both.append(text[:130])
+
+    text = norm(soup.get_text(" ", strip=True))
+    names = sorted({m.group(0) for m in US.finditer(text)})[:10]
+    print(f"\n  {url}")
+    print(f"    {len(text)} chars | {len(clocks)} block(s) with a clock | "
+          f"{len(both)} with a clock AND a US channel")
+    print(f"    US names anywhere: {names or 'none'}")
+    for line in both[:4]:
+        print(f"      {line}")
 
 
 def main() -> int:
-    now = datetime.now(timezone.utc)
     session = new_session()
-    floor, ceiling = today.window_floor(now), today.window_ceiling(now)
-
-    everything = today.unify(
-        today.collect(fetch(session, today.SOURCE).text, now, floor, ceiling),
-        live_football_on_tv.fetch_events(session, floor, ceiling))
-    asked = [e for e in yallakora.fetch_events(session, floor, ceiling)
-             if any(n in e["competition"] for n in today.YALLAKORA_ONLY)]
-    everything = today.unify(
-        everything, [e for e in asked if not today.already_on_air(e, everything)])
-
-    events = [dict(e, channels=today.real_channels(e["channels"]))
-              for e in everything if today.wanted(e)]
-    own_guides.add_channels(events, spor_ekrani.broadcasts(session))
-
-    print(f"\n=== every channel on every kept match ({len(events)}) ===")
-    seen: Counter = Counter()
-    american = 0
-    for e in events:
-        marks = [f"**{c}**" if AMERICAN.search(c) else c for c in e["channels"]]
-        if any(AMERICAN.search(c) for c in e["channels"]):
-            american += 1
-        for c in e["channels"]:
-            seen[c] += 1
-        print(f"  {e['start']:%m-%d %H:%M}Z  {e['title'][:34]:34} "
-              f"| {', '.join(marks) if marks else '—'}")
-
-    print(f"\n{american} of {len(events)} match(es) name an American channel")
-    print("\n=== every distinct channel name, by how often ===")
-    for name, n in seen.most_common(60):
-        mark = "  <-- US" if AMERICAN.search(name) else ""
-        print(f"   {n:3d}  {name}{mark}")
+    for url in PAGES:
+        look(session, url)
     return 0
 
 
