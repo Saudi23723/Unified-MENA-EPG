@@ -66,7 +66,7 @@ import requests
 
 from epg_lib import fetch, log, warn
 from today_matches_epg import (
-    CHANNEL_AR, LOGO, MATCH_ON_AIR, SOURCE, UTC, VIEWER, collect,
+    ARABIC_DAY, CHANNEL_AR, LOGO, MATCH_ON_AIR, SOURCE, UTC, VIEWER, collect,
 )
 
 OUTPUT = "ai_sports_dashboard.m3u"
@@ -122,7 +122,14 @@ def url_for(event: dict, mapping: dict[str, str]) -> tuple[str, bool]:
 def entry(event: dict, mapping: dict[str, str],
           now: datetime) -> tuple[list[str], bool]:
     """One #EXTINF and its URL, as the two lines a player expects."""
-    clock = event["start"].astimezone(VIEWER).strftime("%H:%M")
+    local = event["start"].astimezone(VIEWER)
+    clock = local.strftime("%H:%M")
+
+    # The rows run in true order, but a list that crosses midnight shows
+    # 18:00 then 07:00 and reads as though it were shuffled. Anything not
+    # on today's date says which day it is, so the order explains itself.
+    if local.date() != now.astimezone(VIEWER).date():
+        clock = f"{ARABIC_DAY[local.weekday()]} {clock}"
     live = event["start"] <= now < event["start"] + MATCH_ON_AIR
     channels = " · ".join(event["channels"][:2])
 
