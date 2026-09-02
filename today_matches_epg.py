@@ -175,9 +175,19 @@ WANTED_EXACT = {
 WANTED_PARTS = (
     "fifa", "world cup", "uefa", "nations league",
     "caf ", "africa cup", "afcon", "afc ", "asian cup",
-    "gulf cup", "arabian gulf", "jordan",
-    "king cup", "coppa italia", "copa del rey", "coupe de france",
-    "dfb", "fa cup", "efl cup", "carabao", "turkish cup",
+    "gulf cup", "arabian gulf",
+    # Jordan, league and cup alike: one word covers every competition the
+    # page can name for it, which is why it was already here.
+    "jordan",
+    # Egypt beyond the league — the cup and the super cup.
+    "egypt",
+    # England's cups. "efl" catches the League Cup whatever sponsor's name
+    # is on it this season, which is what "carabao" alone would miss the
+    # moment the sponsor changes.
+    "fa cup", "efl", "carabao", "community shield",
+    # Turkey's cup, in both the spellings the page might use.
+    "turkish cup", "kupası", "kupasi",
+    "king cup", "coppa italia", "copa del rey", "coupe de france", "dfb",
 )
 
 # Clubs that belong here whatever they are playing in. Asked for by name,
