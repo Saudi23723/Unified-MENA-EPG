@@ -237,7 +237,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # beIN SPORTS 2 TR 226. The cap was 230, so more than half of
         # them were being clipped to "beIN SPORTS Xtra…" — which loses
         # exactly the number that says which channel it is.
-        for channel in reversed(event["channels"][:2]):
+        for channel in reversed(event["channels"][:3]):
             label = clipped(channel, pill_size, 280, thin=True)
             wide = width_of(label, pill_size, thin=True) + 26
             pen.rounded_rectangle(

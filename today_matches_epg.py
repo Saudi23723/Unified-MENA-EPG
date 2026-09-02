@@ -173,17 +173,20 @@ ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخ�
 # arithmetic fault. A day that gets a board must get the whole of that day.
 DAYS_AHEAD = 2
 
-# Two channels per match. One was chosen when a match rarely had a second
-# to show, and it hid the work of every source added since: a row read
-# "Ipswich - Liverpool · beIN SPORTS 1 EN +5" with five channels
-# collected, named, and printed as a digit. A viewer who cannot get the
-# first channel is told nothing about the other five.
+# Three channels per match — Arabic, English, American, which is the
+# whole of what a viewer here is likely to be able to open.
 #
-# Two is where it stops. The line has to fit a television screen without
-# wrapping, and the drawn board gives a row two pills of space. Beyond the
-# second name the count goes back to "+N", which is honest about there
-# being more without spending a line on it.
-MAX_CHANNELS = 2
+# One was chosen when a match rarely had a second to show. Two was chosen
+# next, and three was REFUSED on the grounds that a twelve-match day
+# draws 38px rows and could not fit them. That was asserted and never
+# measured, and it was wrong: drawn at twelve rows with the longest
+# fixture the board carries — "Wolverhampton Wanderers - Nottingham
+# Forest" — three full pills clear the title with room to spare, because
+# a crowded row draws its pills smaller too.
+#
+# Beyond the third the count returns, honest about there being more
+# without spending a line on it.
+MAX_CHANNELS = 3
 
 # How wide a line may get before a television wraps it onto a second one.
 # Simultaneous kickoffs share a line only while they stay inside this:
@@ -918,13 +921,16 @@ def in_the_readers_order(channels: list[str]) -> list[str]:
     left exactly as it was, because there is nothing else to offer.
     """
     ordered = sorted(channels, key=where_from)
-    if len(ordered) < 3:
-        return ordered
-    elsewhere = next((index for index, name in enumerate(ordered[1:], 1)
-                      if where_from(name) != where_from(ordered[0])), None)
-    if elsewhere is not None:
-        ordered.insert(1, ordered.pop(elsewhere))
-    return ordered
+    taken, tiers = [], set()
+    for index, name in enumerate(ordered):
+        if len(taken) == MAX_CHANNELS:
+            break
+        if where_from(name) not in tiers:
+            taken.append(index)
+            tiers.add(where_from(name))
+    shown = [ordered[index] for index in taken]
+    rest = [name for index, name in enumerate(ordered) if index not in taken]
+    return shown + rest
 
 
 def channels_of(event: dict) -> str:
