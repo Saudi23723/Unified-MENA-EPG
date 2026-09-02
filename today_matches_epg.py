@@ -770,6 +770,36 @@ def absorb(into: dict, extra: dict) -> None:
         into["competition"] = extra["competition"]
 
 
+def screen_key(name: str) -> str:
+    """A channel name reduced to what two pages would spell the same."""
+    return re.sub(r"[^a-z0-9\u0600-\u06ff]", "", name.casefold())
+
+
+def already_on_air(event: dict, collected: list[dict]) -> bool:
+    """Is this fixture already on the board, under another spelling?
+
+    Decided on the broadcaster and the minute, never on the club names.
+    A channel showing two different matches at one minute is not a thing
+    that happens, so a match already listed at that minute on that channel
+    is this match — however the two pages spell its teams.
+
+    Used only for the third page, and deliberately. Within the other two,
+    a channel name is sometimes a bouquet rather than a channel —
+    "Thmanyah Channels" carries Al Shabab and Al Ahli at the same minute —
+    and this rule would fold two real matches into one. The third page
+    names single channels.
+    """
+    keys = {screen_key(name) for name in event["channels"] if screen_key(name)}
+    if not keys:
+        return False                # nothing to compare; keep the fixture
+    for other in collected:
+        if abs(other["start"] - event["start"]) > MERGE_SLACK:
+            continue
+        if keys & {screen_key(name) for name in other["channels"]}:
+            return True
+    return False
+
+
 def unify(primary: list[dict], secondary: list[dict]) -> list[dict]:
     """One list of matches from two pages, each match appearing once.
 
@@ -1077,13 +1107,21 @@ def build() -> int:
     everything = unify(collect(html, now, floor, ceiling),
                        live_football_on_tv.fetch_events(
                            session, floor, ceiling))
-    # The third page last, and narrowed to what the other two do not
-    # carry — see YALLAKORA_ONLY. Its clubs are written in Arabic and no
-    # measurable threshold tells تولوز from Toulon, so it is given nothing
-    # to collide with rather than a rule that would guess.
-    everything = unify(everything, [
-        event for event in yallakora.fetch_events(session, floor, ceiling)
-        if any(name in event["competition"] for name in YALLAKORA_ONLY)])
+    # The third page last, narrowed to what it is for — and then to what
+    # is not already on the board.
+    #
+    # "Nothing to collide with" was wrong: the first page does carry some
+    # of Egypt's league, so الجونة - المقاولون العرب arrived beside
+    # El Gouna FC - El-Mokawloon and Wednesday showed both. The names
+    # cannot settle it — no threshold separates تولوز from Toulon — but
+    # something else can, and it is a fact rather than a guess: one channel
+    # cannot show two matches at the same minute.
+    asked = [event for event in yallakora.fetch_events(session, floor, ceiling)
+             if any(name in event["competition"] for name in YALLAKORA_ONLY)]
+    fresh = [event for event in asked if not already_on_air(event, everything)]
+    log(f"  yallakora: {len(asked)} in the competitions asked for, "
+        f"{len(fresh)} the board did not already have")
+    everything = unify(everything, fresh)
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not

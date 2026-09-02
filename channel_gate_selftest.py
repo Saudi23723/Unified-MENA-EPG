@@ -1124,6 +1124,23 @@ def gate_the_third_page_fills_the_gap() -> None:
     check("SOURCE3", "and the guide keeps it rather than hiding the match",
           today.wanted({"competition": "الدوري التركي", "title": "A - B",
                         "channels": [], "start": None}), True)
+    # The duplicate this page caused when it was first switched on, and
+    # the fact that settles it without touching the club names.
+    from datetime import timedelta
+    when = datetime(2026, 9, 2, 14, 0, tzinfo=timezone.utc)
+    board = [{"start": when, "title": "El Gouna FC - El-Mokawloon",
+              "channels": ["On Sport Plus"], "competition": ""},
+             {"start": when, "title": "Abu Qair - Al Ittihad",
+              "channels": ["ON Sport"], "competition": ""}]
+    for channels, start, already, why in (
+            (["ON Sport PLUS"], when, True, "same minute, same channel"),
+            (["ON Sport MAX"], when, False, "MAX is another channel"),
+            (["ON Sport"], when + timedelta(hours=3), False, "another hour"),
+            ([], when, False, "nothing to compare")):
+        check("SOURCE3", f"already on the board? {why}",
+              today.already_on_air({"start": start, "title": "أ - ب",
+                                    "channels": channels}, board), already)
+
     check("SOURCE3", "while a match that is only a shop stays out",
           today.wanted({"competition": "الدوري التركي", "title": "A - B",
                         "channels": ["OneFootball"], "start": None}), False)
