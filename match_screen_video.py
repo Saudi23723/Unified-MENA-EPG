@@ -85,9 +85,32 @@ def digest(paths: list[str]) -> str:
 
 
 def segment_of(board: str) -> str:
-    """The .ts file a given board is encoded into."""
+    """The .ts file a given board is encoded into, named after its content.
+
+    The name carries eight characters of the board's own hash, so a board
+    that changes produces a segment nobody has seen before. Without that
+    the file name stayed put while the picture underneath it moved, and
+    every cache between here and the television went on serving what it
+    already had — a viewer watched yesterday's fixtures on today's channel
+    and there was no way to tell them apart from the outside.
+    """
     stem = os.path.splitext(os.path.basename(board))[0]
-    return os.path.join(OUT_DIR, f"{stem}.ts")
+    return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
+
+
+def forget_old_segments(keep: list[str]) -> int:
+    """Delete segments no playlist points at any more.
+
+    Content-addressed names mean a new board leaves its predecessor behind,
+    and left alone they would pile up a few files a day forever.
+    """
+    wanted = {os.path.basename(path) for path in keep}
+    gone = 0
+    for name in sorted(os.listdir(OUT_DIR)):
+        if name.endswith(".ts") and name not in wanted:
+            os.remove(os.path.join(OUT_DIR, name))
+            gone += 1
+    return gone
 
 
 def encode_segment(board: str, out: str) -> bool:
@@ -168,6 +191,9 @@ def main() -> int:
         segments.append(segment)
 
     cycles = write_playlist(segments, OUT)
+    dropped = forget_old_segments(segments)
+    if dropped:
+        log(f"  {dropped} segment(s) nothing points at any more, removed")
 
     with open(STAMP, "w", encoding="utf-8") as handle:
         handle.write(fingerprint + "\n")
