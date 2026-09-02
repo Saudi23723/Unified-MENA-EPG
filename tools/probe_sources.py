@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporary probe: can a second and third source give what the first misses?
+"""Temporary probe: which of these pages actually names the channel?
 
-livefootballtv missed three Championship matches a scores app had, so the
-gap is real. Two candidates are already proved inside this repository —
-LiveSoccerTV, read by the Shahid guide, and Spor Ekranı, read by the tabii
-guide — but both are read there through channel-specific pages that do not
-carry a broadcaster list. The general schedule pages are a different shape
-and nobody here has looked at them.
+livefootballtv missed three Championship matches a scores app carried, so
+a second source is wanted — and the requirement is narrower than "a
+fixtures site". A source with kickoffs and no broadcasters is no use here:
+the guide drops such a match by its own rule.
 
-The only question that matters for this guide: does a page give, for each
-match, a kickoff AND the names of the channels showing it? A source with
-times and no channels is no use — the guide drops such a match by its own
-rule.
+Two things sink a candidate, and both are invisible from the outside:
+the page may be built in the browser, so the HTML a fetch returns holds
+no matches at all; or it may list matches and simply not say where to
+watch them.
 
-Delete once it has answered.
+So each candidate is asked three questions: does it answer at all, does
+its HTML contain clock times, and does it contain the name of a channel
+anyone would recognise. Delete once it has answered.
 """
 from __future__ import annotations
 
@@ -25,63 +25,57 @@ from bs4 import BeautifulSoup
 
 from epg_lib import fetch, new_session, norm
 
-PAGES = [
-    ("LiveSoccerTV schedule", "https://www.livesoccertv.com/schedules/"),
-    ("Spor Ekranı", "https://www.sporekrani.com/"),
+CANDIDATES = [
+    ("livesportsontv — all sports", "https://www.livesportsontv.com/"),
+    ("livesportsontv — football",   "https://www.livesportsontv.com/sport/football"),
+    ("btolat (بطولات)",             "https://www.btolat.com/match-score"),
+    ("365scores where-to-watch",    "https://www.365scores.com/ar/where-to-watch"),
+    ("basrawe (بصراوي)",            "https://basrawe.com/matches-today/"),
+    ("jdwel (جدول)",                "https://jdwel.com/today/"),
+    ("livesoccertv schedule",       "https://www.livesoccertv.com/schedules/"),
 ]
 
 TIME = re.compile(r"\b([01]?\d|2[0-3])[:.]([0-5]\d)\b")
 
+# Channels a reader here would recognise. Finding one in the HTML is the
+# whole test: it means the page says where to watch, not merely when.
+KNOWN = ("bein", "ssc", "thmanyah", "ثمانية", "shahid", "شاهد", "sky",
+         "espn", "fox sports", "tnt", "canal+", "dazn", "on sport",
+         "abu dhabi", "أبوظبي", "alkass", "الكأس", "starzplay", "tod")
 
-def describe(name: str, url: str) -> None:
-    print(f"\n{'=' * 70}\n{name}  {url}\n{'=' * 70}")
+
+def look(name: str, url: str) -> None:
+    print(f"\n{'─' * 72}\n{name}\n  {url}")
     try:
         html = fetch(new_session(), url).text
     except Exception as exc:
-        print(f"  unreachable: {exc}")
+        print(f"  ✗ unreachable: {str(exc)[:90]}")
         return
-    print(f"  fetched {len(html) // 1024} KB")
 
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
+    text = norm(soup.get_text(" ", strip=True))
 
-    # What kind of container holds a row here?
-    rows = soup.find_all("tr")
-    print(f"  <tr> count: {len(rows)}")
-    with_time = [r for r in rows if TIME.search(norm(r.get_text(" ", strip=True)))]
-    print(f"  <tr> carrying a clock: {len(with_time)}")
+    clocks = TIME.findall(text)
+    found = sorted({k for k in KNOWN if k in text.lower()})
+    print(f"  fetched {len(html) // 1024:>4} KB | visible text "
+          f"{len(text):>6} chars | clocks {len(clocks):>3}")
+    print(f"  channels recognised: {', '.join(found) if found else '— none —'}")
 
-    print("\n  -- first rows that carry a clock, with their cell classes --")
-    for row in with_time[:6]:
-        cells = row.find_all(["td", "th"])
-        print(f"    row class={row.get('class')}")
-        for cell in cells:
-            text = norm(cell.get_text(" ", strip=True))
-            links = [norm(a.get_text(' ', strip=True))
-                     for a in cell.find_all("a")][:4]
-            print(f"       td class={cell.get('class')} | {text[:60]!r}"
-                  + (f" | links={links}" if links else ""))
-        print("       ---")
-
-    # Anything that looks like a channel list?
-    print("\n  -- classes whose name mentions channel/broadcast/kanal --")
-    seen = set()
-    for node in soup.find_all(attrs={"class": True}):
-        for name in node.get("class"):
-            low = name.lower()
-            if any(w in low for w in ("channel", "broadcast", "kanal", "tv",
-                                      "canal")) and name not in seen:
-                seen.add(name)
-                print(f"     .{name}  e.g. "
-                      f"{norm(node.get_text(' ', strip=True))[:70]!r}")
-            if len(seen) >= 12:
-                return
+    if clocks and found:
+        # Show a little of it, so the shape is visible and not just a score.
+        window = text.lower().find(found[0])
+        print(f"  around the first one: …{text[max(0, window - 120):window + 90]}…")
+    verdict = ("USABLE" if clocks and found
+               else "times but no channels" if clocks
+               else "nothing readable — probably built in the browser")
+    print(f"  -> {verdict}")
 
 
 def main() -> int:
-    for name, url in PAGES:
-        describe(name, url)
+    for name, url in CANDIDATES:
+        look(name, url)
     return 0
 
 
