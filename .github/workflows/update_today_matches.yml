@@ -108,29 +108,71 @@ jobs:
       - name: Refuse to publish boards the screen does not show
         run: python -u channel_gate_selftest.py
 
+      # Publishing a GENERATED file must never rebase it.
+      #
+      # This step rebased, and it failed the moment the two schedules
+      # overlapped: the full build writes today_matches_epg.xml too — it
+      # runs this generator like the other thirteen — so both workflows
+      # push the same file, and git tried to merge one generated version
+      # into another. It conflicts every single time, and because the step
+      # runs under `bash -e` the failing `git pull --rebase` killed the
+      # job outright: the loop below never got a second attempt, and the
+      # pass published nothing at all.
+      #
+      # build_all_epg.publish() already had the answer written down —
+      # nothing here needs merging, because these files are written whole
+      # by the pass that just ran. So on a rejection: take main as it now
+      # stands, put THIS pass's files back on top of it, commit that. The
+      # files are restored one path at a time from our own commit, and a
+      # path our pass removed (an old segment) is removed again rather
+      # than resurrected — no directory is ever deleted wholesale, which
+      # is how published work gets lost by accident.
       - name: Publish it if it changed
         run: |
-          git add -- today_matches_epg.xml
-          # Never name a path that may not exist yet: git add fails the
-          # whole command on a pathspec that matches nothing, and on the
-          # first pass neither the boards nor the playlist are there.
-          [ -d boards ] && git add -- boards || true
-          [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
-          [ -d stream ] && git add -- stream || true
+          stage() {
+            git add -- today_matches_epg.xml
+            # Never name a path that may not exist yet: git add fails the
+            # whole command on a pathspec that matches nothing, and on the
+            # first pass neither the boards nor the playlist are there.
+            [ -d boards ] && git add -- boards || true
+            [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
+            [ -d stream ] && git add -- stream || true
+          }
+
+          stage
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
           fi
           git commit -m "Update today's matches"
+
           for attempt in 1 2 3 4 5; do
-            git rebase --abort 2>/dev/null || true
-            git merge --abort 2>/dev/null || true
-            git pull --rebase origin main
             if git push origin HEAD:main; then
               echo "Pushed on attempt $attempt"
               exit 0
             fi
-            echo "Push rejected, retrying ($attempt/5)..."
+            echo "Push rejected, rebuilding on top of main ($attempt/5)"
+
+            ours=$(git rev-parse HEAD)
+            changed=$(git diff --name-only "${ours}^" "$ours")
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Our version of each path this pass touched, and only those.
+            printf '%s\n' "$changed" | while IFS= read -r path; do
+              [ -n "$path" ] || continue
+              if git cat-file -e "$ours:$path" 2>/dev/null; then
+                git checkout "$ours" -- "$path"
+              else
+                git rm -f --quiet --ignore-unmatch -- "$path"
+              fi
+            done
+
+            if git diff --cached --quiet; then
+              echo "Main already carries this pass."
+              exit 0
+            fi
+            git commit -m "Update today's matches"
             sleep $(( (RANDOM % 5) + 2 ))
           done
           echo "Failed to push after 5 attempts"
