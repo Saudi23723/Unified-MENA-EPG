@@ -443,6 +443,14 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     not fit in one screenful is not one page. So: matches already over are
     dropped, kickoffs that share a time share a line, one channel is named
     per match, and there is no blank line under the header.
+
+    Each line is then wrapped in an isolate that states its direction, for
+    the same reason the title is. The header is Arabic, so a player lays
+    the whole block out right to left, and a line that reads
+    "07:00 in three hours  Sassuolo - Frosinone" came out on a television
+    with the clock at the far end — the club names dragged the line one
+    way and the countdown the other. Fixing the title alone left every
+    line under it reversed.
     """
     header = f"مباريات {day_name(day)} — {VIEWER_NAME}"
     left = [e for e in events if e["start"] + MATCH_ON_AIR > now]
@@ -467,16 +475,17 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
         else:
             mark = "  "
         opening = f"{mark} {clock_and_wait(slot[0]['start'], now)}  "
-        line = opening
+        line, named = opening, []
         for event in slot:
             fixture = fixture_of(event)
             if line != opening and len(line) + 3 + len(fixture) > LINE_BUDGET:
-                lines.append(line)
+                lines.append(in_reading_order(line, names=" ".join(named)))
                 # A continuation of the same kickoff: the time is already
                 # on the line above, and repeating it reads as two slots.
-                line = "        "
+                line, named = "        ", []
             line += ("" if line in (opening, "        ") else " ، ") + fixture
-        lines.append(line)
+            named.append(event["title"])
+        lines.append(in_reading_order(line, names=" ".join(named)))
     return "\n".join(lines)
 
 
