@@ -111,7 +111,7 @@ jobs:
       - name: Push anything the script left behind
         if: always()
         run: |
-          git add -- '*.xml'
+          git add -- '*.xml' boards
           if git diff --cached --quiet; then
             echo "Nothing left uncommitted."
             exit 0

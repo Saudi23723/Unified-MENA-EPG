@@ -137,6 +137,9 @@ MERGED = "unified_mena_epg.xml"
 # Combined pipeline before it was retired — were far past it.
 COLLAPSE_FLOOR = 0.5
 
+# Pictures a guide's programmes point at, published beside the guides.
+BOARDS = "boards"
+
 # ON Sport did not collapse to nothing when FilGoal died. It collapsed to
 # placeholder: ten real events and sixty-two rows saying it did not know,
 # which is a full file by any count of rows. So the share of rows that say
@@ -439,7 +442,8 @@ def publish() -> bool:
     same branch; only this one pushes guides now, but a merge landing at
     the same moment would still reject the push.
     """
-    subprocess.run(["git", "add", "--", "*.xml"], check=False)
+    subprocess.run(["git", "add", "--", "*.xml", BOARDS],
+                   check=False)
     staged = subprocess.run(["git", "diff", "--cached", "--quiet"],
                             check=False).returncode
     if staged == 0:
@@ -465,6 +469,13 @@ def publish() -> bool:
     built = {path: open(path, "rb").read()
              for _, _, path in GENERATORS + [("", "", MERGED)]
              if os.path.exists(path)}
+    # The day boards a guide's <icon> points at travel with it: reset
+    # --hard would throw them away and publish a guide whose picture 404s.
+    if os.path.isdir(BOARDS):
+        for name in sorted(os.listdir(BOARDS)):
+            board = os.path.join(BOARDS, name)
+            if os.path.isfile(board):
+                built[board] = open(board, "rb").read()
 
     for attempt in range(1, 6):
         if subprocess.run(["git", "push", "origin", f"HEAD:{branch}"],
@@ -486,7 +497,8 @@ def publish() -> bool:
         for path, blob in built.items():
             with open(path, "wb") as handle:
                 handle.write(blob)
-        subprocess.run(["git", "add", "--", "*.xml"], check=False)
+        subprocess.run(["git", "add", "--", "*.xml", BOARDS],
+                   check=False)
         if subprocess.run(["git", "diff", "--cached", "--quiet"],
                           check=False).returncode == 0:
             print("the branch already carries these guides")
