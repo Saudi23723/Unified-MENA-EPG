@@ -185,6 +185,15 @@ def main() -> int:
         with open(STAMP, encoding="utf-8") as handle:
             was = handle.read().strip()
     if was == fingerprint and os.path.exists(OUT):
+        # Sweep even when nothing is re-encoded. The sweep used to run only
+        # after an encode, so a segment orphaned any other way stayed
+        # forever: two scheduled passes failed to push, left main holding
+        # segments for boards that had moved on, and every pass after them
+        # matched the fingerprint, returned here, and never looked. The
+        # screen gate found them days later.
+        dropped = forget_old_segments([segment_of(b) for b in reel])
+        if dropped:
+            log(f"  {dropped} segment(s) nothing points at any more, removed")
         log("the screen already shows these boards — not re-encoded")
         return 0
 

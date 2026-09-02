@@ -1036,6 +1036,99 @@ def gate_a_day_drawn_is_a_day_collected() -> None:
           timedelta(days=today.DAYS_AHEAD + 1))
 
 
+def gate_the_third_page_fills_the_gap() -> None:
+    """yallakora, read off its own markup, and kept to what it is for.
+
+    A reader photographed four fixtures missing from the board — three in
+    Jordan's league and الأهلي v سموحة in Egypt's — and then a fifth,
+    Başakşehir v Galatasaray in Turkey's. Measured: of 42,924 characters
+    on the first page and 142,697 on the second, not one names those
+    clubs, and not a single row was dropped for lacking a broadcaster. The
+    gap was coverage of Arab and Turkish domestic football.
+
+    Of four Arabic pages asked how many blocks hold a clock AND a channel,
+    kooora managed 0 of 93 and this one holds channel, teams, competition
+    and kickoff inside a single element — and takes a date.
+
+    Its clubs are written in Arabic, and no threshold merges those safely:
+    measured over thirteen real cross-script pairs and ten false ones,
+    تولوز against Toulon scores 0.800 while باشاكشهير against Basaksehir
+    scores 0.640. So it is kept to competitions the other two pages do not
+    carry, where there is nothing to collide with. That narrowing is the
+    safety, and this gate holds it.
+    """
+    print("\nThe third page fills the gap — yallakora")
+    from datetime import datetime, timezone
+
+    import today_matches_epg as today
+    import yallakora
+
+    page = """
+    <a class="tourTitle"><div class="imgCntnr">
+      <img alt="الدوري المصري" enname="Egyptian-league"/></div></a>
+    <div class="allData">
+      <div class="channel icon-channel">ON Sport</div>
+      <div class="topData"><div class="matchStatus"><span>لم تبدأ</span></div></div>
+      <div class="teamCntnr"><div class="teamsData">
+        <div class="teams teamA"><img alt="الأهلي"/><p>الأهلي</p></div>
+        <div class="MResult"><span class="score">-</span>
+          <span class="time">20:00</span></div>
+        <div class="teams teamB"><img alt="سموحة"/><p>سموحة</p></div>
+      </div></div>
+    </div>
+    <a class="tourTitle"><div class="imgCntnr">
+      <img alt="دوري القسم الثاني-أ" enname="Egypt-second"/></div></a>
+    <div class="allData">
+      <div class="teamCntnr"><div class="teamsData">
+        <div class="teams teamA"><p>بلدية المحلة</p></div>
+        <div class="MResult"><span class="time">16:30</span></div>
+        <div class="teams teamB"><p>نادى دلتا يونايتد</p></div>
+      </div></div>
+    </div>
+    """
+    day = datetime(2026, 9, 3).date()
+    floor = datetime(2026, 9, 2, 7, 0, tzinfo=timezone.utc)
+    ceiling = datetime(2026, 9, 5, 7, 0, tzinfo=timezone.utc)
+    read = yallakora.collect(page, day, floor, ceiling)
+
+    check("SOURCE3", "both fixtures are read", len(read), 2)
+    by_title = {event["title"]: event for event in read}
+
+    # The very fixture that was missing, at the clock its own app showed.
+    ahly = by_title.get("الأهلي - سموحة", {})
+    check("SOURCE3", "الأهلي - سموحة is there",
+          bool(ahly), True)
+    check("SOURCE3", "at 20:00 Cairo, which is 17:00 UTC",
+          f"{ahly['start']:%Y-%m-%d %H:%M}" if ahly else None,
+          "2026-09-03 17:00")
+    check("SOURCE3", "with the Arabic channel a reader can tune to",
+          ahly.get("channels"), ["ON Sport"])
+    check("SOURCE3", "and the competition in both scripts",
+          ahly.get("competition"), "Egyptian league | الدوري المصري")
+    check("SOURCE3", "the crest's alt does not double the club's name",
+          ahly.get("title"), "الأهلي - سموحة")
+
+    # The narrowing: Egypt's top flight is asked for, its second tier is not.
+    check("SOURCE3", "Egypt's league is what this page is here for",
+          any(name in ahly.get("competition", "")
+              for name in today.YALLAKORA_ONLY), True)
+    second = by_title.get("بلدية المحلة - نادى دلتا يونايتد", {})
+    check("SOURCE3", "Egypt's second tier is not",
+          any(name in second.get("competition", "")
+              for name in today.YALLAKORA_ONLY), False)
+
+    # A block with no channel is still a real fixture. Başakşehir v
+    # Galatasaray had none, and used to be dropped for it.
+    check("SOURCE3", "a fixture with no broadcaster named is still read",
+          second.get("channels"), [])
+    check("SOURCE3", "and the guide keeps it rather than hiding the match",
+          today.wanted({"competition": "الدوري التركي", "title": "A - B",
+                        "channels": [], "start": None}), True)
+    check("SOURCE3", "while a match that is only a shop stays out",
+          today.wanted({"competition": "الدوري التركي", "title": "A - B",
+                        "channels": ["OneFootball"], "start": None}), False)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1048,7 +1141,8 @@ def main() -> int:
                  gate_two_pages_make_one_row,
                  gate_a_day_divider_is_not_a_container,
                  gate_the_printed_clock_is_the_kickoff,
-                 gate_a_day_drawn_is_a_day_collected):
+                 gate_a_day_drawn_is_a_day_collected,
+                 gate_the_third_page_fills_the_gap):
         try:
             gate()
         except Exception as exc:
