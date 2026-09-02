@@ -95,6 +95,10 @@ MAX_CHANNELS = 1
 # when it actually removes a line.
 LINE_BUDGET = 60
 
+# Inside an hour a printed countdown is stale enough to mislead, so it is
+# rounded up to one of these and stated as a bound rather than a fact.
+NEAR_STEPS = (15, 30, 45, 60)
+
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
 
@@ -310,23 +314,49 @@ def fixture_of(event: dict) -> str:
     return f"{event['title']} · {channels}" if channels else event["title"]
 
 
-def when(start: datetime, now: datetime) -> str:
+def when(start: datetime, now: datetime, lead_in: bool = True) -> str:
     """How long until this kicks off, rather than the hour it kicks off at.
 
-    Asked for outright: a viewer glancing at a strip wants "in forty
+    Asked for outright: a viewer glancing at the page wants "in forty
     minutes", not a clock they then have to subtract from. The words are
     spelled out rather than abbreviated for the reason countdown_label
     exists — single letters drift away from their numbers on a line that
     also carries Latin club names, and "19 س و30 د" was read three
     different ways on a television.
 
-    It is computed when the guide is built, so it is as fresh as the last
-    build and no fresher. The clock time it replaces never went stale;
-    this is the cost of the form that was asked for.
+    A printed countdown is frozen the moment the file is written, and the
+    file is read minutes or tens of minutes later, so a precise number is
+    a number that is wrong. Near kickoff, where being wrong matters, this
+    states an upper bound instead: the time left only ever shrinks, so
+    "less than an hour" written at fifty minutes is still true at five.
+    Coarser, and never a lie.
+
+    Further out the bound is pointless — the gap between the build and the
+    reading is nothing beside three hours — so the exact wording stands.
     """
     if start <= now:
         return "الآن"
-    return f"بعد {countdown_label((start - now).total_seconds() // 60)}"
+    minutes = (start - now).total_seconds() // 60
+    lead = "بعد " if lead_in else ""
+    for step in NEAR_STEPS:
+        if minutes <= step:
+            return f"{lead}أقل من {countdown_label(step)}"
+    return f"{lead}{countdown_label(minutes)}"
+
+
+def clock_and_wait(start: datetime, now: datetime) -> str:
+    """The hour AND the wait, which answer different questions.
+
+    The countdown is what a viewer wants at a glance, but it is written
+    once and read later, so it can only ever be as fresh as the last
+    build. The clock cannot go stale at all. Carrying both means the line
+    always holds one number that is certainly right, and one that is
+    easier to act on.
+    """
+    # No "بعد" here: the clock in front of it already says these are two
+    # readings of the same kickoff, and every character spent is a
+    # character of club or channel name the panel truncates instead.
+    return f"{start.astimezone(VIEWER):%H:%M} {when(start, now, lead_in=False)}"
 
 
 def day_bounds(day: date) -> tuple[datetime, datetime]:
@@ -408,7 +438,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
             mark = NEXT_MARK
         else:
             mark = "  "
-        opening = f"{mark} {when(slot[0]['start'], now)}  "
+        opening = f"{mark} {clock_and_wait(slot[0]['start'], now)}  "
         line = opening
         for event in slot:
             fixture = fixture_of(event)
