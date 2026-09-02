@@ -57,7 +57,7 @@ coming from the first source. A match on both is one row naming both.
 from __future__ import annotations
 
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
 from bs4 import BeautifulSoup
@@ -118,8 +118,7 @@ def is_a(tag, name: str) -> bool:
     return tag.name == "div" and name in (tag.get("class") or [])
 
 
-def collect(html: str, now: datetime, keep_ahead: timedelta,
-            floor: datetime) -> list[dict]:
+def collect(html: str, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every fixture on the page, in the same shape the first source gives."""
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
@@ -157,7 +156,7 @@ def collect(html: str, now: datetime, keep_ahead: timedelta,
         start = day.replace(hour=int(struck.group(1)),
                             minute=int(struck.group(2))).astimezone(
                                 timezone.utc)
-        if not (floor <= start <= now + keep_ahead):
+        if not (floor <= start < ceiling):
             continue
 
         channels = channels_of(fixture)
@@ -177,8 +176,7 @@ def collect(html: str, now: datetime, keep_ahead: timedelta,
     return events
 
 
-def fetch_events(session, now: datetime, keep_ahead: timedelta,
-                 floor: datetime) -> list[dict]:
+def fetch_events(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Read the page, and treat a bad day there as no reason to fail here."""
     from epg_lib import fetch
     try:
@@ -188,7 +186,7 @@ def fetch_events(session, now: datetime, keep_ahead: timedelta,
              f"built from the first source alone this pass")
         return []
     try:
-        return collect(html, now, keep_ahead, floor)
+        return collect(html, floor, ceiling)
     except Exception as exc:
         warn(f"live-footballontv could not be read ({exc}) — the guide is "
              f"built from the first source alone this pass")
