@@ -21,3 +21,7 @@ channels2.json
 starzplay.html
 epg_channels.json
 epg_dump.json
+
+# Your own broadcaster -> stream URL mapping. It carries the username and
+# password in your playlist URLs and must never be committed.
+stream_map.json

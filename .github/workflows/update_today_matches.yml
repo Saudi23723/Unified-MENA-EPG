@@ -6,8 +6,8 @@
 # minutes; this one guide takes eight seconds, so it can run six times an
 # hour and cut the error from half an hour to ten minutes.
 #
-# It writes today_matches_epg.xml and the day boards it points at. The
-# merged link is
+# It writes today_matches_epg.xml, the day boards it points at, and the
+# playlist of the same day. The merged link is
 # deliberately left to the full build: rewriting a thirteen-thousand-row
 # file every ten minutes would add a hundred and forty commits a day of
 # several megabytes each, to keep one channel fresh.
@@ -51,12 +51,22 @@ jobs:
           python -u today_matches_epg.py || \
             echo "::warning::today's matches did not rebuild this pass — the published file is unchanged"
 
+      # The same day, written as a playlist. A player renders a playlist
+      # group as a full screen list of rows, which is the shape an EPG
+      # description panel could never give.
+      - name: Write the day as a playlist too
+        run: |
+          python -u sports_dashboard_m3u.py || \
+            echo "::warning::the playlist did not rebuild this pass — the published one is unchanged"
+
       - name: Publish it if it changed
         run: |
           git add -- today_matches_epg.xml
-          # Never name a directory that may not exist: git add fails the
-          # whole command on a pathspec that matches nothing.
+          # Never name a path that may not exist yet: git add fails the
+          # whole command on a pathspec that matches nothing, and on the
+          # first pass neither the boards nor the playlist are there.
           [ -d boards ] && git add -- boards || true
+          [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
