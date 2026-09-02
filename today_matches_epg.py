@@ -43,6 +43,7 @@ from __future__ import annotations
 import os
 import sys
 from datetime import date, datetime, time, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import io
 
@@ -90,11 +91,17 @@ BOARD_COLOURS = 64      # flat interface art: 88 KB truecolour, 27 KB here
 
 UTC = timezone.utc
 
-# The clock the list is printed in. Every reader of this guide is in the
-# Gulf or the Levant, and a list of kickoffs is useless in a timezone the
-# reader has to convert out of: the programme times a player positions the
-# row by are converted for them, but the text inside a description is not.
-VIEWER = timezone(timedelta(hours=3))
+# The clock the list is printed in — Las Vegas, where this is read.
+#
+# A player converts the programme times it positions rows by, but not one
+# character of the text inside a description or drawn onto a board, so
+# those have to be written in the reader's own clock or they are useless.
+#
+# The zone rather than a fixed offset, because Las Vegas keeps summer
+# time: it is UTC-7 for two thirds of the year and UTC-8 for the rest,
+# and a hard-coded number would be an hour wrong every winter.
+VIEWER = ZoneInfo("America/Los_Angeles")
+VIEWER_NAME = "بتوقيت لاس فيغاس"
 
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
               "الجمعة", "السبت", "الأحد")
@@ -437,7 +444,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     dropped, kickoffs that share a time share a line, one channel is named
     per match, and there is no blank line under the header.
     """
-    header = f"مباريات {day_name(day)} — بتوقيت +03:00"
+    header = f"مباريات {day_name(day)} — {VIEWER_NAME}"
     left = [e for e in events if e["start"] + MATCH_ON_AIR > now]
     if not left:
         return f"{header}\n{'انتهت مباريات اليوم' if events else NOTHING_TODAY}"
@@ -488,7 +495,7 @@ def publish_board(index: int, day: date, events: list[dict],
 
         board = draw_board(
             day, events, now, VIEWER, MATCH_ON_AIR,
-            title=CHANNEL_AR, subtitle="بث اليوم المباشر",
+            title=CHANNEL_AR, subtitle=f"بث اليوم المباشر · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()])
         drawn = io.BytesIO()
         board.convert("RGB").convert(
