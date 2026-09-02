@@ -89,6 +89,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # The board sets Arabic type, and a runner ships no Arabic face.
+      # Without this the drawing fails and the day publishes as text only.
+      - name: Install the fonts the board is drawn with
+        run: sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+
       - name: Identify the committer
         run: |
           git config user.name "github-actions[bot]"
