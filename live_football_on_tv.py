@@ -108,9 +108,33 @@ def channels_of(fixture) -> list[str]:
         # One pill can still hold two, written with a separator.
         for name in re.split(r",|/|\bor\b", part):
             name = norm(name)
+            name = mended(name)
             if name and name.casefold() not in UNKNOWN and name not in names:
                 names.append(name)
     return names
+
+
+def mended(text: str) -> str:
+    """Undo one round of UTF-8 read as Latin-1, where that is what happened.
+
+    The page reached the board as "VfB Stuttgart - FC KÃ¶ln", which is
+    "Köln" written in UTF-8 and then read a byte at a time. It cost more
+    than an ugly row: the same fixture off the other page says "FC Koln",
+    and two spellings that differ by mojibake are two clubs to any
+    comparison, so the match was published twice.
+
+    Guarded twice over, because a repair that fires on good text is worse
+    than the damage. It runs only on strings carrying the marks this
+    specific damage leaves, and only keeps the result if the round trip
+    actually completes — "Liga 1 Perú" raises on the way back and is
+    handed over untouched, and Arabic cannot even be encoded as Latin-1.
+    """
+    if not any(mark in text for mark in ("Ã", "Â", "â€")):
+        return text
+    try:
+        return text.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return text
 
 
 def is_a(tag, name: str) -> bool:
@@ -148,7 +172,7 @@ def collect(html: str, floor: datetime, ceiling: datetime) -> list[dict]:
         struck = CLOCK.match(norm(clock.get_text(" ", strip=True)))
         if not struck:
             continue                        # "TBC", "Postponed", and the like
-        sides = [norm(side) for side in
+        sides = [mended(norm(side)) for side in
                  re.split(r"\s+v\s+", norm(teams.get_text(" ", strip=True)))]
         if len(sides) != 2 or not all(sides):
             continue
@@ -167,8 +191,8 @@ def collect(html: str, floor: datetime, ceiling: datetime) -> list[dict]:
             "start": start,
             "title": f"{sides[0]} - {sides[1]}",
             "channels": channels,
-            "competition": norm(competition.get_text(" ", strip=True))
-            if competition else "",
+            "competition": mended(norm(
+                competition.get_text(" ", strip=True))) if competition else "",
         })
 
     log(f"  live-footballontv: {days} day(s) on the page, "

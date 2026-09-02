@@ -740,6 +740,21 @@ def gate_two_pages_make_one_row() -> None:
         check("MERGE", f"{first!r} is not {second!r}",
               today.same_side(first, second), False)
 
+    # An honorific the other page left off. Spanish football is full of
+    # these, and left-aligned words had nothing to line up: Betis v Real
+    # Madrid went onto one board twice.
+    for short, long in (("Betis", "Real Betis"),
+                        ("Sociedad", "Real Sociedad"),
+                        ("Valladolid", "Real Valladolid")):
+        check("MERGE", f"{short!r} is {long!r} without its honorific",
+              today.same_side(short, long), True)
+    # And dropping it must not make different clubs the same one.
+    for first, second in (("Real Madrid", "Atletico Madrid"),
+                          ("Real Madrid", "Real Sociedad"),
+                          ("Real Betis", "Real Sociedad")):
+        check("MERGE", f"{first!r} is still not {second!r}",
+              today.same_side(first, second), False)
+
     # A fixture needs both sides. One side agreeing is a coincidence.
     check("MERGE", "both sides must agree before it is one match",
           today.same_match("QPR - Cardiff City",
@@ -886,6 +901,17 @@ def gate_a_day_divider_is_not_a_container() -> None:
     # going wrong looked like.
     check("SOURCE2", "the fixtures did not all land on one day",
           len({event["start"].date() for event in read}), 2)
+
+    # UTF-8 read a byte at a time. "FC KÃ¶ln" reached the television, and
+    # it cost more than an ugly row: the other page writes "FC Koln", and
+    # two spellings differing by mojibake are two clubs to the merge, so
+    # the fixture was published twice.
+    check("SOURCE2", "mojibake is mended", second.mended("FC KÃ¶ln"),
+          "FC Köln")
+    check("SOURCE2", "and the repair leaves good text alone",
+          [second.mended(name) for name in
+           ("Liga 1 Perú", "Virslīga", "الهلال", "Beşiktaş", "FC Köln")],
+          ["Liga 1 Perú", "Virslīga", "الهلال", "Beşiktaş", "FC Köln"])
 
 
 def gate_the_printed_clock_is_the_kickoff() -> None:
