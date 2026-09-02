@@ -103,12 +103,6 @@
     <display-name lang="ar">أبوظبي فايت</display-name>
     <icon src="https://starzplay-img-prod-ssl.akamaized.net/prd-peg-data/default/images/logos/live/v2/adfight/active/148e429d490678b682f11eb5046f99ca.png" />
   </channel>
-  <programme start="20260901182500 +0000" stop="20260901184500 +0000" channel="Starz_admnadsports1">
-    <title lang="en">Program : 90 Minutes 2026-2027</title>
-    <desc lang="en">Program : 90 Minutes 2026-2027</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
   <programme start="20260901184500 +0000" stop="20260901204500 +0000" channel="Starz_admnadsports1">
     <title lang="en">German Cup 2026-2027</title>
     <desc lang="en">German Cup 2026-2027</desc>
@@ -481,7 +475,13 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901190000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260905184500 +0000" stop="20260905204500 +0000" channel="Starz_admnadsports1">
+    <title lang="en">Program: Full Time 2026-2027</title>
+    <desc lang="en">Program: Full Time 2026-2027</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260901184500 +0000" stop="20260901190000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI MTB World Championship 2026</title>
     <desc lang="en">UCI MTB World Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -727,7 +727,7 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901191500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260901184500 +0000" stop="20260901191500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Atalanta x Bologna - Serie A</title>
     <title lang="ar">أتالانتا × بولونيا - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -1324,7 +1324,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901200000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260901184500 +0000" stop="20260901200000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Lecce X Roma - Serie A</title>
     <title lang="ar">ليتشي × روما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -1894,7 +1894,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901195500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260901184500 +0000" stop="20260901195500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Chimaev X Strickland - UFC Reloaded</title>
     <title lang="ar">شيماييف × ستريكلاند - يو إف سي ريلوديد</title>
     <desc lang="en">Join us for a mano-a-mano extravaganza as we take a look back at the biggest and most memorable UFC events in history.</desc>
@@ -2461,7 +2461,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901191500 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260901184500 +0000" stop="20260901191500 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Fiji vs. Scotland - Nations Championship 2026</title>
     <desc lang="en">Fiji vs. Scotland - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -2713,7 +2713,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901190000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260901184500 +0000" stop="20260901190000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Shka. Fatima Women GCC Basketball Cup</title>
     <title lang="ar">كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
     <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
@@ -3392,14 +3392,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901183500 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2nd T20: Ireland vs. India - T20 Cricket</title>
-    <title lang="ar">تي٢٠ كريكيت</title>
-    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260901183500 +0000" stop="20260901190200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260901184500 +0000" stop="20260901190200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Birmingham Phoenix vs. MI London - Men's The Hundred</title>
     <title lang="ar">منز ذا هاندرد</title>
     <desc lang="en">S2026 , Ep.Birmingham Phoenix vs. MI London : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
@@ -4192,13 +4185,13 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901182600 +0000" channel="Starz_wedosports">
-    <title lang="en">Falkirk v St. Mirren - Scottish Premiership Football - LIVE</title>
-    <desc lang="en">Falkirk v St. Mirren - Scottish Premiership Football - LIVE</desc>
+  <programme start="20260905183000 +0000" stop="20260905230000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Barbados Tridents vs. Trinbago Knight Riders - Women's CPL T20 Cricket - LIVE</title>
+    <desc lang="en">Barbados Tridents vs. Trinbago Knight Riders - Women's CPL T20 Cricket - LIVE</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p10144660_b_h8_ah.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260901182600 +0000" stop="20260901195900 +0000" channel="Starz_wedosports">
+  <programme start="20260901184500 +0000" stop="20260901195900 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلبلاند</title>
     <desc lang="en">Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
@@ -4657,7 +4650,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901205826 +0000" channel="Starz_unbeatensports">
+  <programme start="20260901184500 +0000" stop="20260901205826 +0000" channel="Starz_unbeatensports">
     <title lang="en">SFT Combat</title>
     <desc lang="en">SFT Combat 63 delivers elite Brazilian MMA action with a featherweight title fight headlining the main card.</desc>
     <category lang="en">Sport</category>
@@ -5071,7 +5064,13 @@
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901185100 +0000" channel="Starz_criclife1">
+  <programme start="20260905184000 +0000" stop="20260905204200 +0000" channel="Starz_unbeatensports">
+    <title lang="en">UIPM Modern Pentathlon</title>
+    <desc lang="en">Junior women compete in semi final A at championships</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
+  </programme>
+  <programme start="20260901184500 +0000" stop="20260901185100 +0000" channel="Starz_criclife1">
     <title lang="en">TATA IPL 2026: Rajasthan Royals vs. Mumbai Indians - Prime Time Smash</title>
     <desc lang="en">TATA IPL 2026: Rajasthan Royals vs. Mumbai Indians - Prime Time Smash</desc>
     <category lang="en">Sport</category>
@@ -5543,7 +5542,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901200000 +0000" channel="Starz_criclife3">
+  <programme start="20260901184500 +0000" stop="20260901200000 +0000" channel="Starz_criclife3">
     <title lang="en">1st ODI: England vs. Ireland - Women's One-Day International Cricket - LIVE</title>
     <title lang="ar">وومنز ون-داي إنترناشونال كريكت - مباشر</title>
     <desc lang="en">Professional cricket teams battle it out on the field in a bid to win the title at the Women's One-Day International cricket matches.</desc>
@@ -6783,7 +6782,14 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901185700 +0000" channel="Starz_golflife">
+  <programme start="20260905183400 +0000" stop="20260905200000 +0000" channel="Starz_criclife3">
+    <title lang="en">2nd Test: England vs Pakistan - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260901184500 +0000" stop="20260901185700 +0000" channel="Starz_golflife">
     <title lang="en">Portugal Invitationa - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E174 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -7100,14 +7106,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901183000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Sailing Race</title>
-    <title lang="ar">سباق القوارب الشراعية</title>
-    <desc lang="en">Follow the latest actions of the Sailing Races from around the world.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG201261_landscape10_MASTER293233.jpg" />
-  </programme>
-  <programme start="20260901183000 +0000" stop="20260901200000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260901184500 +0000" stop="20260901200000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">UAE National Arabian Horse Beauty Pageants</title>
     <title lang="ar">بطولة الإمارات لجمال الخيول</title>
     <desc lang="en">Follow the most important Pageant for the origional Arabian horses of differnt ages.</desc>
@@ -7709,7 +7708,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901200000 +0000" channel="Starz_awsn">
+  <programme start="20260901184500 +0000" stop="20260901200000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -8003,7 +8002,7 @@
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901190000 +0000" channel="Starz_redbulltv">
+  <programme start="20260901184500 +0000" stop="20260901190000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -8585,7 +8584,7 @@
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901210000 +0000" channel="Starz_daznringside">
+  <programme start="20260901184500 +0000" stop="20260901210000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -8783,7 +8782,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901201023 +0000" channel="Starz_fifaplus">
+  <programme start="20260901184500 +0000" stop="20260901201023 +0000" channel="Starz_fifaplus">
     <title lang="en">Paris Saint-Germain v Real Madrid C.F. | Semi-finals | FIFA Club World Cup 2025™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Paris Saint-Germain and Real Madrid C.F. played at MetLife Stadium, New York on Wednesday, 9 July 2025 at 15:00 (local time).</desc>
     <category lang="en">Sport</category>
@@ -9125,7 +9124,7 @@
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123219.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901190600 +0000" channel="Starz_criclifewoman">
+  <programme start="20260901184500 +0000" stop="20260901190600 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Sri Lanka vs UAE - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
@@ -9876,7 +9875,14 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901190000 +0000" channel="Starz_admnyastv">
+  <programme start="20260905183000 +0000" stop="20260905203000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">Sports Programme</title>
+    <title lang="ar">سبورتس بروغرام</title>
+    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260901184500 +0000" stop="20260901190000 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE President Cup Flat Races 2026</title>
     <desc lang="en">UAE President Cup Flat Races 2026</desc>
     <category lang="en">Sport</category>
@@ -10332,7 +10338,7 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260901182500 +0000" stop="20260901203000 +0000" channel="Starz_adfight">
+  <programme start="20260901184500 +0000" stop="20260901203000 +0000" channel="Starz_adfight">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</title>
     <desc lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</desc>
     <category lang="en">Sport</category>
