@@ -82,9 +82,18 @@ ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخ�
 # viewer scrolling ahead should find them.
 KEEP_AHEAD = timedelta(days=2)
 
-# A row with more channels than this is unreadable on a television, and
-# past the tenth nobody is still counting.
-MAX_CHANNELS = 4
+# One channel per match. The page has to fit on a television screen in one
+# go, and every extra name pushes a line into wrapping onto a second — so
+# the list costs two lines for one match and the day stops fitting. The
+# first channel named is the one the source lists first.
+MAX_CHANNELS = 1
+
+# How wide a line may get before a television wraps it onto a second one.
+# Simultaneous kickoffs share a line only while they stay inside this:
+# measured, two full fixtures came to 92 characters and wrapped, which
+# spends the line the merge was meant to save. Merging is only worth doing
+# when it actually removes a line.
+LINE_BUDGET = 60
 
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
@@ -352,22 +361,46 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     This is the guide. The grid row above it only says which match is next;
     everything a viewer came for is here, and highlighting the channel is
     enough to see it.
+
+    Every line here is a line of a television screen, and a page that does
+    not fit in one screenful is not one page. So: matches already over are
+    dropped, kickoffs that share a time share a line, one channel is named
+    per match, and there is no blank line under the header.
     """
     header = f"مباريات {day_name(day)} — بتوقيت +03:00"
-    if not events:
-        return f"{header}\n\n{NOTHING_TODAY}"
+    left = [e for e in events if e["start"] + MATCH_ON_AIR > now]
+    if not left:
+        return f"{header}\n{'انتهت مباريات اليوم' if events else NOTHING_TODAY}"
 
-    lines = [header, ""]
-    for event in events:
-        if event["start"] <= now < event["start"] + MATCH_ON_AIR:
+    # Kickoffs at the same minute are one entry, not one each.
+    slots: list[list[dict]] = []
+    for event in left:
+        if slots and event["start"] == slots[-1][0]["start"]:
+            slots[-1].append(event)
+        else:
+            slots.append([event])
+
+    coming = next((e for e in left if e["start"] > now), None)
+    lines = [header]
+    for slot in slots:
+        if any(e["start"] <= now for e in slot):
             mark = LIVE_MARK
-        elif event["start"] > now:
-            mark = NEXT_MARK if event is next(
-                (e for e in events if e["start"] > now), None) else "  "
+        elif coming in slot:
+            mark = NEXT_MARK
         else:
             mark = "  "
-        clock = event["start"].astimezone(VIEWER).strftime("%H:%M")
-        lines.append(f"{mark} {clock}  {fixture_of(event)}")
+        clock = slot[0]["start"].astimezone(VIEWER).strftime("%H:%M")
+        opening = f"{mark} {clock}  "
+        line = opening
+        for event in slot:
+            fixture = fixture_of(event)
+            if line != opening and len(line) + 3 + len(fixture) > LINE_BUDGET:
+                lines.append(line)
+                # A continuation of the same kickoff: the time is already
+                # on the line above, and repeating it reads as two slots.
+                line = "        "
+            line += ("" if line in (opening, "        ") else " ، ") + fixture
+        lines.append(line)
     return "\n".join(lines)
 
 
