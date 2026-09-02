@@ -43,7 +43,6 @@ from __future__ import annotations
 import os
 import sys
 from datetime import date, datetime, time, timedelta, timezone
-from zoneinfo import ZoneInfo
 
 import io
 
@@ -91,17 +90,27 @@ BOARD_COLOURS = 64      # flat interface art: 88 KB truecolour, 27 KB here
 
 UTC = timezone.utc
 
-# The clock the list is printed in — Las Vegas, where this is read.
+# The clock the list is printed in — the reader's own, and measured.
 #
 # A player converts the programme times it positions rows by, but not one
 # character of the text inside a description or drawn onto a board, so
 # those have to be written in the reader's own clock or they are useless.
 #
-# The zone rather than a fixed offset, because Las Vegas keeps summer
-# time: it is UTC-7 for two thirds of the year and UTC-8 for the rest,
-# and a hard-coded number would be an hour wrong every winter.
-VIEWER = ZoneInfo("America/Los_Angeles")
-VIEWER_NAME = "بتوقيت لاس فيغاس"
+# This began as ZoneInfo("America/Los_Angeles") and was an hour ahead of
+# the reader's screen for three Saudi league matches on one day. What
+# settled it was a probe of the source rather than an argument about it:
+# the page's markup carries no timezone, and treating it as UTC prints
+# exactly the clock the page shows in Madrid — so the instant is right and
+# the fault was on this side. Against that instant, a scores app on the
+# reader's device showed 08:55 for a match at 16:55 UTC. Eight hours, in
+# September, when Los Angeles is seven: the device does not keep summer
+# time, so neither does this.
+#
+# A fixed offset is therefore the accurate answer here and not the lazy
+# one. If the reader's clock ever moves an hour on its own, this is the
+# line that has to change.
+VIEWER = timezone(timedelta(hours=-8))
+VIEWER_NAME = "بتوقيتك"
 
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
               "الجمعة", "السبت", "الأحد")
