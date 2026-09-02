@@ -1,21 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""مباريات اليوم — one channel whose timeline IS the day's football.
+"""مباريات اليوم — one channel that answers the day on a single page.
 
-Every other guide in this repository answers "what is on THIS channel".
-This one answers the question a viewer actually starts with: what is on
-today, and where do I watch it. One channel, and scrolling it left to
-right walks through the day:
+Every other guide here answers "what is on THIS channel". This one answers
+the question a viewer starts with: what is on today, and where do I watch
+it — and it answers it without the viewer pressing anything. Highlighting
+the channel is enough, because the whole day lives in the description:
 
-    17:45 - 19:00   ⏰ بعد ساعة و15 دقيقة · Greece - Spain
-    19:00 - 19:30      Greece - Spain        │ S Sport · S Sport Plus
-    19:30 - 20:30      Lecce - Roma          │ S Sport 2 · S Sport Plus
-    20:30 - 21:30      Osasuna - Getafe      │ S Sport Plus
+    ⏳ بعد 45 دقيقة · Flamengo RJ - Mirassol        <- what the grid shows
+    ------------------------------------------------------------------
+    مباريات الأربعاء 02/09 — بتوقيت +03:00          <- what the panel shows
+      🔴  19:00  Colegiales - Midland · LPF Play
+      ⏳  19:30  Flamengo RJ - Mirassol · Flamengo TV YouTube
+          21:00  Al Wehda FC - Damac FC · Thmanyah 1 HD
+
+One programme per day, not one per match, and emphatically not one per
+countdown step. The first shape published 119 rows for a dozen matches:
+a single match owned eight consecutive fifteen-minute blocks that differed
+only in an Arabic tail, and a television truncates titles from the right,
+so all eight rendered as the same cut-off name. The counter was in the
+file and invisible on the screen — all of the cost, none of the benefit.
+It is now one row a day, and the counter rides at the FRONT of that row's
+title where truncation cannot reach it.
 
 Source — livefootballtv's front page, which lists every match of the day
 with every channel carrying it, worldwide. It is the only source here that
-publishes the channel list, which is the whole point of this guide, and it
-is already read (and already understood) by two other generators.
+publishes the channel list, which is the whole point of this guide.
 
 On its clock, learned the hard way: each row carries both a displayed time
 in td.hora and a schema.org startDate in the markup. Measured across 567
@@ -30,18 +40,16 @@ be added later without touching what is here.
 """
 from __future__ import annotations
 
-import re
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 
 import requests
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    ELAPSED_STEP, MATCH_ON_AIR, add_programme, countdown_step, countdown_title,
-    elapsed_title, fetch, in_reading_order, isolate, label_fixtures, log, norm,
-    warn, write_xml_atomic,
+    MATCH_ON_AIR, add_programme, arabic_count, countdown_label, fetch,
+    in_reading_order, isolate, log, norm, warn, write_xml_atomic,
 )
 
 SOURCE = "https://www.livefootballtv.info/"
@@ -61,22 +69,68 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 
 UTC = timezone.utc
 
-# How much of the day to carry. Behind, so a match that kicked off an hour
-# ago is still on the strip; ahead, because the page publishes a couple of
-# days and a viewer scrolling forward should find them.
-KEEP_BEHIND = timedelta(hours=3)
-KEEP_AHEAD = timedelta(days=2)
+# The clock the list is printed in. Every reader of this guide is in the
+# Gulf or the Levant, and a list of kickoffs is useless in a timezone the
+# reader has to convert out of: the programme times a player positions the
+# row by are converted for them, but the text inside a description is not.
+VIEWER = timezone(timedelta(hours=3))
 
-# Matches kicking off within this of each other share one row. Without it
-# eight simultaneous kickoffs became eight rows, each cutting the last
-# short — a five-minute sliver per match, unreadable and untrue.
-SAME_SLOT = timedelta(minutes=10)
+ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
+              "الجمعة", "السبت", "الأحد")
+
+# How far forward to publish. The page carries a couple of days and a
+# viewer scrolling ahead should find them.
+KEEP_AHEAD = timedelta(days=2)
 
 # A row with more channels than this is unreadable on a television, and
 # past the tenth nobody is still counting.
-MAX_CHANNELS = 8
+MAX_CHANNELS = 4
 
-NOTHING_TODAY = "لا توجد مباريات معلنة اليوم — No matches listed today"
+LIVE_MARK = "🔴"
+NEXT_MARK = "⏳"
+
+# Competitions worth a place on this channel, as the source names them.
+#
+# The source labels every match with its competition in a heading row
+# (tr.cabeceraCompericion), so this is a list of real names read off the
+# page, not a guess at club names. 539 matches across 46 competitions came
+# down the wire on the day this was written; almost all of them are
+# reserve, youth and third-tier football nobody asked to see.
+#
+# Matched exactly, because a substring would swallow the wrong thing:
+# "Premier League" is also how Egypt, Bahrain, Iceland and Ukraine are
+# labelled, none of which was asked for. Italy and Brazil are both wanted
+# and are distinguished the same way — the page writes one "Serie A" and
+# the other "Brazilian Serie A", so an exact match keeps them apart from
+# each other and from "Italian Serie B".
+WANTED_EXACT = {
+    "saudi pro league", "premier league", "serie a", "brazilian serie a",
+    "ligue 1", "laliga", "la liga", "bundesliga", "champions league",
+    "europa league", "conference league",
+    "turkish süper lig", "süper lig", "super lig",
+}
+
+# Matched anywhere in the name, for families whose members all belong:
+# every FIFA and UEFA competition, the African and Asian confederations,
+# the Gulf cups, Jordan, and the domestic cups of the leagues above.
+WANTED_PARTS = (
+    "fifa", "world cup", "uefa", "nations league",
+    "caf ", "africa cup", "afcon", "afc ", "asian cup",
+    "gulf cup", "arabian gulf", "jordan",
+    "king cup", "coppa italia", "copa del rey", "coupe de france",
+    "copa do brasil", "brasileir",
+    "dfb", "fa cup", "efl cup", "carabao", "turkish cup",
+)
+
+# Clubs that belong here whatever they are playing in. Asked for by name,
+# including the age groups and the women's side, which is why this guide
+# has no blanket rule against "Reserva", "Femenino" or "U19" — such a rule
+# would drop exactly the matches that were asked for.
+WANTED_TEAMS = ("manchester united", "man united", "man utd", "manchester utd")
+
+# Worded so the build's own honesty measure counts it: a day with nothing
+# on it is the guide saying it has nothing, not a broadcast.
+NOTHING_TODAY = "لا توجد مباراة معلنة — No matches listed"
 
 
 def sources_of(row) -> list[str]:
@@ -101,29 +155,66 @@ def team_in(cell) -> str:
     return norm(cell.get_text(" ", strip=True)) if cell else ""
 
 
-def collect(html: str) -> list[dict]:
-    """Every match on the page, with its kickoff and its channels."""
+def is_match(row) -> bool:
+    return bool(row.find("td", class_="local")
+                and row.find("td", class_="visitante")
+                and row.find("td", class_="canales"))
+
+
+def competition_of(row) -> str:
+    """The competition heading standing above this match row.
+
+    The page groups matches under tr.cabeceraCompericion headings, so the
+    nearest <tr> above that is not itself a match is the competition. It
+    has to be restricted to rows: walking back over every element instead
+    lands inside the previous match and returns a channel or a club name.
+    """
+    for previous in row.find_all_previous("tr"):
+        if is_match(previous):
+            continue
+        head = norm(previous.get_text(" ", strip=True))
+        if 2 < len(head) < 90:
+            return head
+    return ""
+
+
+def wanted(event: dict) -> bool:
+    """Is this a competition — or a club — that was actually asked for?"""
+    competition = event["competition"].casefold()
+    if competition in WANTED_EXACT:
+        return True
+    if any(part in competition for part in WANTED_PARTS):
+        return True
+    teams = event["title"].casefold()
+    return any(club in teams for club in WANTED_TEAMS)
+
+
+def collect(html: str, now: datetime) -> list[dict]:
+    """Every match worth showing, with its kickoff, channels and competition."""
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
 
-    now = datetime.now(UTC)
+    # The whole of the viewer's today, however much of it has already been
+    # played — the description is a list of the day, not of what is left.
+    floor = datetime.combine(now.astimezone(VIEWER).date(), time(0, 0),
+                             VIEWER).astimezone(UTC)
+
     events: list[dict] = []
     no_time = no_channel = 0
 
     for row in soup.find_all("tr"):
-        local = row.find("td", class_="local")
-        visit = row.find("td", class_="visitante")
-        canales = row.find("td", class_="canales")
-        if not (local and visit and canales):
+        if not is_match(row):
             continue
 
-        home, away = team_in(local), team_in(visit)
+        home = team_in(row.find("td", class_="local"))
+        away = team_in(row.find("td", class_="visitante"))
         if not home or not away:
             continue
 
         # The markup instant, not the printed clock — see the module note.
-        meta = canales.find("meta", attrs={"itemprop": "startDate"})
+        meta = row.find("td", class_="canales").find(
+            "meta", attrs={"itemprop": "startDate"})
         raw = (meta.get("content") if meta else "") or ""
         try:
             start = datetime.fromisoformat(raw)
@@ -134,7 +225,7 @@ def collect(html: str) -> list[dict]:
             start = start.replace(tzinfo=UTC)
         start = start.astimezone(UTC)
 
-        if not (now - KEEP_BEHIND <= start <= now + KEEP_AHEAD):
+        if not (floor <= start <= now + KEEP_AHEAD):
             continue
 
         channels = sources_of(row)
@@ -148,6 +239,7 @@ def collect(html: str) -> list[dict]:
             "start": start,
             "title": f"{home} - {away}",
             "channels": channels,
+            "competition": competition_of(row),
         })
 
     if no_time:
@@ -166,36 +258,94 @@ def collect(html: str) -> list[dict]:
                     merged[key]["channels"].append(channel)
         else:
             merged[key] = event
-    return sorted(merged.values(), key=lambda e: e["start"])
+
+    everything = sorted(merged.values(), key=lambda e: e["start"])
+    keep = [event for event in everything if wanted(event)]
+    log(f"  {len(everything)} match(es) in the window, "
+        f"{len(keep)} in a competition worth showing")
+    return keep
 
 
-def slot_row(events: list[dict]) -> str:
-    """One row for everything kicking off together.
+def channels_of(event: dict) -> str:
+    shown = event["channels"][:MAX_CHANNELS]
+    more = len(event["channels"]) - len(shown)
+    return " · ".join(shown) + (f" +{more}" if more > 0 else "")
 
-    A single match names its channels on the row, because that is what a
-    viewer is looking for. Several cannot — six matches with their channel
-    lists is a paragraph, not a row — so they are lettered and the channels
-    wait in the description, which is one click away.
+
+def fixture_of(event: dict) -> str:
+    """The one line a viewer is actually after: who, and on what."""
+    channels = channels_of(event)
+    return f"{event['title']} · {channels}" if channels else event["title"]
+
+
+def day_bounds(day: date) -> tuple[datetime, datetime]:
+    """Midnight to midnight in the viewer's clock, expressed in UTC."""
+    opens = datetime.combine(day, time(0, 0), VIEWER).astimezone(UTC)
+    return opens, opens + timedelta(days=1)
+
+
+def day_name(day: date) -> str:
+    return f"{ARABIC_DAY[day.weekday()]} {day:%d/%m}"
+
+
+def day_title(day: date, events: list[dict], now: datetime) -> str:
+    """What the grid shows for this day, on one line.
+
+    The status rides at the FRONT. A television truncates a title from the
+    right, so anything put after the names is thrown away before a viewer
+    ever sees it — which is exactly how the previous shape lost every one
+    of its countdowns.
     """
-    if len(events) == 1:
-        event = events[0]
-        channels = event["channels"][:MAX_CHANNELS]
-        more = len(event["channels"]) - len(channels)
-        shown = " · ".join(channels) + (f" +{more}" if more > 0 else "")
+    if not events:
+        return in_reading_order(f"{day_name(day)} — {NOTHING_TODAY}")
+
+    live = [e for e in events if e["start"] <= now < e["start"] + MATCH_ON_AIR]
+    if live:
+        event = live[-1]
         return in_reading_order(
-            f"{isolate(event['title'])} {isolate('│')} {isolate(shown)}",
+            f"{LIVE_MARK} مباشر {isolate('·')} {isolate(fixture_of(event))}",
             names=event["title"])
-    return label_fixtures([e["title"] for e in events])
+
+    ahead = [e for e in events if e["start"] > now]
+    if ahead:
+        event = ahead[0]
+        minutes = (event["start"] - now).total_seconds() // 60
+        return in_reading_order(
+            f"{NEXT_MARK} بعد {countdown_label(minutes)} {isolate('·')} "
+            f"{isolate(fixture_of(event))}",
+            names=event["title"])
+
+    # arabic_count carries the number itself — "مباراتان", "3 مباريات" —
+    # so putting a numeral in front of it would say the count twice.
+    count = arabic_count(len(events), "مباراة", "مباراتان", "مباريات", "مباراة")
+    if day == now.astimezone(VIEWER).date():
+        return in_reading_order(f"انتهت مباريات اليوم — {count}")
+    return in_reading_order(f"مباريات {day_name(day)} — {count}")
 
 
-def day_list(events: list[dict], now: datetime) -> str:
-    """The whole day in the description, the way the photo showed it."""
-    lines = [f"مباريات اليوم — {now:%Y-%m-%d} UTC", ""]
+def day_page(day: date, events: list[dict], now: datetime) -> str:
+    """The whole day on one page — what a viewer sees without pressing.
+
+    This is the guide. The grid row above it only says which match is next;
+    everything a viewer came for is here, and highlighting the channel is
+    enough to see it.
+    """
+    header = f"مباريات {day_name(day)} — بتوقيت +03:00"
+    if not events:
+        return f"{header}\n\n{NOTHING_TODAY}"
+
+    lines = [header, ""]
     for event in events:
-        channels = " · ".join(event["channels"][:MAX_CHANNELS])
-        lines.append(f"{event['start']:%H:%M}  {event['title']}"
-                     + (f"   │ {channels}" if channels else ""))
-    return "\n".join(lines) if len(lines) > 2 else NOTHING_TODAY
+        if event["start"] <= now < event["start"] + MATCH_ON_AIR:
+            mark = LIVE_MARK
+        elif event["start"] > now:
+            mark = NEXT_MARK if event is next(
+                (e for e in events if e["start"] > now), None) else "  "
+        else:
+            mark = "  "
+        clock = event["start"].astimezone(VIEWER).strftime("%H:%M")
+        lines.append(f"{mark} {clock}  {fixture_of(event)}")
+    return "\n".join(lines)
 
 
 def build() -> int:
@@ -213,11 +363,10 @@ def build() -> int:
              f"stays exactly as it is")
         return 1
 
-    events = collect(html)
-    log(f"today's matches with a named channel: {len(events)}")
+    events = collect(html, now)
     for event in events[:12]:
         log(f"  {event['start']:%m-%d %H:%M}Z  {event['title']}"
-            f"   │ {' · '.join(event['channels'][:4])}")
+            f"   │ {event['competition']}")
 
     tv = ET.Element("tv", {"generator-info-name": "Today's Matches"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
@@ -225,63 +374,28 @@ def build() -> int:
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
     ET.SubElement(channel, "display-name", {"lang": "en"}).text = CHANNEL_EN
 
-    description = day_list(events, now)
+    # Today first, then every further day the page reached, so a viewer
+    # scrolling forward finds tomorrow rather than the end of the guide.
+    today = now.astimezone(VIEWER).date()
+    last = (now + KEEP_AHEAD).astimezone(VIEWER).date()
+    days: list[date] = []
+    day = today
+    while day <= last:
+        days.append(day)
+        day += timedelta(days=1)
 
-    if not events:
-        add_programme(tv, CHANNEL_ID, now - KEEP_BEHIND, now + timedelta(hours=8),
-                      NOTHING_TODAY, description)
-        write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
-                         guard_regression=False)
-        return 0
-
-    # Matches kicking off together are one slot, not one row each.
-    slots: list[list[dict]] = []
+    by_day: dict[date, list[dict]] = {day: [] for day in days}
     for event in events:
-        if slots and event["start"] - slots[-1][0]["start"] <= SAME_SLOT:
-            slots[-1].append(event)
-        else:
-            slots.append([event])
+        day = event["start"].astimezone(VIEWER).date()
+        if day in by_day:
+            by_day[day].append(event)
 
-    def row_for(slot):
-        return slot_row(slot)
-
-    starts = [slot[0]["start"] for slot in slots]
-
-    # Before the first kickoff: a countdown, so the strip answers "what is
-    # next" at any moment rather than starting blank.
-    if starts[0] > now - KEEP_BEHIND:
-        cursor = now - KEEP_BEHIND
-        while cursor < starts[0]:
-            remaining = starts[0] - cursor
-            stop = min(cursor + countdown_step(remaining), starts[0])
-            if stop <= cursor:
-                break
-            add_programme(tv, CHANNEL_ID, cursor, stop,
-                          countdown_title(row_for(slots[0]),
-                                          remaining.total_seconds() // 60),
-                          description)
-            cursor = stop
-
-    for index, slot in enumerate(slots):
-        start = slot[0]["start"]
-        following = starts[index + 1] if index + 1 < len(slots) else None
-        # The slot holds the strip until the next kickoff, or until the
-        # broadcast is genuinely over — see MATCH_ON_AIR.
-        end = min(start + MATCH_ON_AIR, following) if following \
-            else start + MATCH_ON_AIR
-        if end <= start:
-            continue
-
-        title = row_for(slot)
-        # While it is on, the row counts up instead of standing still.
-        cursor = start
-        while cursor < end:
-            stop = min(cursor + ELAPSED_STEP, end)
-            add_programme(
-                tv, CHANNEL_ID, cursor, stop,
-                elapsed_title(title, (cursor - start).total_seconds() // 60),
-                description, live_eligible=True, now=now)
-            cursor = stop
+    for day in days:
+        opens, closes = day_bounds(day)
+        add_programme(tv, CHANNEL_ID, opens, closes,
+                      day_title(day, by_day[day], now),
+                      day_page(day, by_day[day], now))
+        log(f"  {day} -> {len(by_day[day])} match(es) on one page")
 
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
                           guard_regression=False, min_programmes=1)
