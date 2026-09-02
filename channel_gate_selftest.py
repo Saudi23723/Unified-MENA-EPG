@@ -1146,6 +1146,84 @@ def gate_the_third_page_fills_the_gap() -> None:
                         "channels": ["OneFootball"], "start": None}), False)
 
 
+def gate_our_own_guides_name_the_channel() -> None:
+    """This repository's guides say which of the reader's channels has it.
+
+    Asked for directly, and they know something no listings page does. They
+    are used to NAME channels and never to add fixtures, because their
+    titles are written for a television grid: beIN Turkey writes
+    "Super Lig (26-27) 3. Hafta Gaziantep Fk - Rizespor - Bant -", where
+    "Bant" means it is a repeat, and it also carries matches from the year
+    2000. A title read wrongly that only fails to name a channel costs
+    nothing; one that ADDS a fixture puts a match on the screen that is
+    not being played.
+
+    Matching is the same cross-script problem as everywhere, answered the
+    same way: never a similarity score. The minute must agree and one club
+    must match — epg_lib's strict rule across the scripts, plain skeleton
+    equality within one. ONE side is enough here and only here, because a
+    club cannot play two matches at once. Measured over the nine fixtures
+    Alwan published on the day this was written, one side reaches all
+    nine where both sides reach six: ميدلزبره and Middlesbrough do not
+    reduce to the same skeleton, and بيرنلي and Burnley do.
+
+    And Istanbul is marked. beIN SPORTS 1 in Istanbul and beIN SPORTS 1 in
+    Doha are different channels showing different football.
+    """
+    print("\nOur own guides name the channel — Alwan and beIN Turkey")
+    from datetime import datetime, timezone
+
+    import own_guides
+
+    # A grid title that is a fixture, and the several that are not.
+    check("OWN", "a plain fixture is read",
+          own_guides.fixture_in("الهلال - الأهلي ‎🔴 LIVE‎"),
+          ("الهلال", "الأهلي"))
+    for title, why in (
+            ("لا توجد مباراة مجدولة", "nothing scheduled"),
+            ("لم يُعلن البث — No listing published", "no listing"),
+            ("Beşiktaş - Adanaspor (00-01) 21.hafta", "a match from 2000"),
+            ("Tff 1. Lig Maç Özetleri (26-27) 05. Hafta - Haber / Salı",
+             "a highlights programme"),
+            ("Super Lig (26-27) 3. Hafta Gaziantep Fk - Rizespor - Bant -",
+             "a repeat with a competition prefix")):
+        check("OWN", f"not a fixture: {why}",
+              own_guides.fixture_in(title), ("", ""))
+
+    # Eight spellings of one channel are one channel.
+    check("OWN", "quality variants fold into one channel",
+          [own_guides.one_channel(name) for name in
+           ("Alwan Sport 1 HD", "Alwan Sports 1", "Alwan Sport 1 4K",
+            "Alwan Sport 1 RAW")],
+          ["Alwan Sport 1"] * 4)
+
+    # One club is enough, at an agreed minute, because a club plays once.
+    check("OWN", "بيرنلي is Burnley",
+          own_guides.one_club("بيرنلي", "Burnley"), True)
+    check("OWN", "and one side carries the fixture ميدلزبره cannot",
+          own_guides.one_club_matches("Burnley - Middlesbrough",
+                                      "بيرنلي - ميدلزبره"), True)
+    check("OWN", "Galatasaray matches itself, within one script",
+          own_guides.one_club("Galatasaray", "Galatasaray"), True)
+    check("OWN", "Mainz is still not Monza, within one script",
+          own_guides.one_club("Mainz", "Monza"), False)
+    check("OWN", "and two unrelated fixtures do not match",
+          own_guides.one_club_matches("Burnley - Middlesbrough",
+                                      "الهلال - الأهلي"), False)
+
+    # End to end, on a board.
+    when = datetime(2026, 9, 2, 19, 0, tzinfo=timezone.utc)
+    board = [{"start": when, "title": "إسطنبول باشاكشهير - جالاتا سراي",
+              "channels": []},
+             {"start": when, "title": "Mainz - Werder Bremen",
+              "channels": ["beIN SPORTS 2"]}]
+    own_guides.add_channels(board)
+    check("OWN", "Istanbul's beIN is marked TR",
+          board[0]["channels"], ["beIN SPORTS 1 TR"])
+    check("OWN", "and a match none of our channels carry is left alone",
+          board[1]["channels"], ["beIN SPORTS 2"])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1159,7 +1237,8 @@ def main() -> int:
                  gate_a_day_divider_is_not_a_container,
                  gate_the_printed_clock_is_the_kickoff,
                  gate_a_day_drawn_is_a_day_collected,
-                 gate_the_third_page_fills_the_gap):
+                 gate_the_third_page_fills_the_gap,
+                 gate_our_own_guides_name_the_channel):
         try:
             gate()
         except Exception as exc:
