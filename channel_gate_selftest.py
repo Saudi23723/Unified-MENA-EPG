@@ -3940,6 +3940,103 @@ def gate_alwan_reaches_the_board() -> None:
     check("ALWAN", "and its Toulouse - Lille can now find the board's",
           reachable, ["تولوز - ليل"])
 
+def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
+    """"check fo duplicated games" — and reading Sky created new ones.
+
+    The card split arrived and the board printed this, measured from the
+    guide it actually published:
+
+        10:00  UFC Fight Night Prelims                            TNT 1
+        12:00  UFC Fight Night Dan Hooker vs Salahdine Parnasse   TNT 1 · HBO Max
+        12:00  UFC Fight Night                                    TNT 1
+
+    The last two are one broadcast described twice — once by a listings
+    page that names the fighters, once by Sky, which does not. The first
+    is a different broadcast that must survive, and that is what makes
+    this hard: "UFC Fight Night" and "UFC Fight Night Prelims" are more
+    alike as strings than either is to the row it belongs with. A
+    similarity score folds the prelim away and deletes the thing a
+    reader asked for three times.
+
+    So the rule is structural and every part of it must hold: the same
+    start to the minute, a channel in common, one bare title a prefix of
+    the other, the same part of the card, the same sport. Checked here
+    from both directions — the duplicate goes, the prelim stays.
+    """
+    print("\nTwo sources naming one broadcast — one row, and the prelim lives")
+    from datetime import datetime, timedelta, timezone
+
+    import other_sports_epg as board
+
+    main = datetime(2026, 9, 5, 19, 0, tzinfo=timezone.utc)
+    prelim = datetime(2026, 9, 5, 17, 0, tzinfo=timezone.utc)
+    early = datetime(2026, 9, 5, 15, 30, tzinfo=timezone.utc)
+
+    def row(start, title, channels, sport="MMA"):
+        return {"start": start, "title": title, "sport": sport,
+                "channels": list(channels), "competition": "UFC"}
+
+    out = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Dan Hooker vs Salahdine Parnasse",
+            ["TNT 1", "HBO Max"]),
+        row(main, "UFC Fight Night", ["TNT 1"]),
+        row(prelim, "UFC Fight Night Prelims", ["TNT 1"]),
+        row(early, "UFC Fight Night Early Prelims", ["TNT 1"]),
+    ])
+    at = {event["start"]: event for event in out}
+
+    check("ONEROW", "the night is three rows, not four", len(out), 3)
+    check("ONEROW", "and the main card is named once",
+          sum(1 for e in out if e["start"] == main), 1)
+    check("ONEROW", "keeping the title that names the fighters",
+          at[main]["title"],
+          "UFC Fight Night Dan Hooker vs Salahdine Parnasse")
+    check("ONEROW", "and every channel either source gave it",
+          at[main]["channels"], ["TNT 1", "HBO Max"])
+    check("ONEROW", "THE PRELIM SURVIVES", prelim in at, True)
+    check("ONEROW", "spelled as its broadcaster spelled it",
+          at[prelim]["title"], "UFC Fight Night Prelims")
+    check("ONEROW", "and so does the early prelim", early in at, True)
+
+    # The parts that must each be able to refuse a merge on their own.
+    apart = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main + timedelta(minutes=1), "UFC Fight Night", ["TNT 1"]),
+    ])
+    check("ONEROW", "a minute apart is not the same broadcast", len(apart), 2)
+
+    elsewhere = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC Fight Night", ["DAZN"]),
+    ])
+    check("ONEROW", "and neither is one with no channel in common",
+          len(elsewhere), 2)
+
+    unlike = board.one_row_per_broadcast([
+        row(main, "Boxing: De Los Santos v Valenzuela", ["Sky Mix"],
+            sport="Boxing"),
+        row(main, "Boxing: O. Jones v E. Carranza", ["Sky Mix"],
+            sport="Boxing"),
+    ])
+    check("ONEROW", "two different fights at one minute stay two rows",
+          len(unlike), 2)
+
+    crossed = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC Fight Night", ["TNT 1"], sport="Boxing"),
+    ])
+    check("ONEROW", "and a row filed under another sport is left alone",
+          len(crossed), 2)
+
+    # And the segment reader itself, since the whole guard rests on it.
+    for title, segment in (("UFC Fight Night Prelims", "prelims"),
+                           ("UFC Fight Night Early Prelims", "early prelims"),
+                           ("UFC 331 Main Card", "main card"),
+                           ("UFC Fight Night", "")):
+        check("ONEROW", f"'{title}' is the {segment or 'whole night'}",
+              board.a_card_segment(title), segment)
+
+
 def gate_the_card_is_split_by_the_broadcaster() -> None:
     """The prelims, as programmes, from the guide that actually has them.
 
@@ -4144,7 +4241,8 @@ def main() -> int:
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
                  gate_alwan_reaches_the_board,
-                 gate_the_card_is_split_by_the_broadcaster):
+                 gate_the_card_is_split_by_the_broadcaster,
+                 gate_two_sources_naming_one_broadcast_is_one_row):
         try:
             gate()
         except Exception as exc:
