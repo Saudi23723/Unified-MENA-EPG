@@ -48,12 +48,40 @@ from epg_lib import fetch, log, norm, warn
 SERVICES = "https://awk.epgsky.com/hawk/linear/services/4101/1"
 SCHEDULE = "https://awk.epgsky.com/hawk/linear/schedule/{day}/{sid}"
 
-# The channels a fight is on. Named by what Sky calls them, matched
-# loosely because Sky writes "TNTSports1 HD" and "Sky Sports Action HD"
-# with the spacing it feels like.
+# HOW SKY ACTUALLY WRITES ITS SPORT CHANNELS, printed from its own
+# service list on a runner rather than assumed. It does not write "Sky
+# Sports" at all — it writes "SkySp", and abbreviates what follows:
+#
+#     4002  SkySpMainEvHD     4022  SkySp ActionHD
+#     1035  SkySpBoxOffHD     4090  SkySp Mix HD
+#     3940  SkySp+ HD         4010  SkySp PL HD
+#     3939  SkySp F'ball HD   3835  SkySp F1 HD
+#
+# The first filter written here named "Sky Sports Action" and matched
+# NONE of them: six channels came back and every one was TNT, so the
+# boxing was missing while the MMA arrived. There is also no Sky Sports
+# Arena in the list any more — it was named here and does not exist.
+#
+# So this is written from what came back. The channels kept are the ones
+# that carry a fight: Main Event, Action, Mix, Box Office (the pay-per-
+# view) and Sky Sports+. Golf, cricket, F1, tennis, racing, the football
+# channels and Sky Sports News are not fight channels and every day of
+# each of them would be a request for nothing.
 A_FIGHT_CHANNEL = re.compile(
-    r"tnt\s*sports?\s*[1-5]|tnt\s*s?\s*box\s*off|sky\s*sports?\s*(?:action|arena|"
-    r"main\s*event|mix)", re.I)
+    r"tnt\s*sports?\s*[1-5]|tnt\s*s?\s*box\s*off"
+    r"|sky\s*sp(?:orts?)?\s*(?:main\s*ev|action|mix|box\s*off|\+)", re.I)
+
+# Sky's shorthand, expanded — measured from the same list. A name is
+# matched after its quality suffix is off and its spaces are squashed,
+# so "SkySp ActionHD", "SkySpActionHD" and "Sky Sports Action" are one
+# entry. Longest first: "boxoff2" must be tried before "boxoff".
+SHORTHAND = (
+    ("skyspmainev", "Sky Sports Main Event"),
+    ("skyspboxoff", "Sky Sports Box Office"),
+    ("skyspaction", "Sky Sports Action"),
+    ("skyspmix", "Sky Sports Mix"),
+    ("skysp+", "Sky Sports+"),
+)
 
 # What counts as a fight, in the title Sky prints. Deliberately about the
 # EVENT and not about the word "prelim": a prelim is kept because it is a
@@ -90,6 +118,14 @@ def a_channel(name: str) -> str:
     # "TNTSports1 HD" and "TNTSBoxOffHD" are the same habit.
     name = re.sub(r"(?i)\s*\b(?:HD|SD|UHD|\+1)\b\s*$", "", name)
     name = re.sub(r"(?i)(?<=[a-z0-9])(?:HD|SD|UHD)$", "", name)
+
+    # Sky's own abbreviations, expanded from the measured list before any
+    # spacing rule runs — "SkySpMainEv" has no boundary a regex could
+    # find, and guessing at one is how "Sky Sports s Action" happened.
+    squashed = re.sub(r"[^a-z0-9+]", "", name.lower())
+    for short, full in SHORTHAND:
+        if squashed == short:
+            return full
 
     name = re.sub(
         r"(?i)^TNTS?\s*Box\s*Off(?:ice)?\s*(\d?)\s*$",

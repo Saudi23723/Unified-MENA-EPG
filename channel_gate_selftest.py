@@ -3970,22 +3970,45 @@ def gate_the_card_is_split_by_the_broadcaster() -> None:
 
     import sky_epg
 
-    # Sky's names, written the way this board writes a channel. Every one
-    # of these is a real string from the printed services list.
+    # Sky's names, written the way this board writes a channel. EVERY ONE
+    # OF THESE IS A REAL STRING, printed from Sky's own service list on a
+    # runner. The first version of this gate used "Sky Sports Action HD"
+    # and "Sky SportsArena HD", which are names nobody publishes: Sky
+    # writes "SkySp ActionHD", and its Arena does not exist any more.
+    # The gate passed and the reader still found no Sky channel at all.
     for sky, ours in (("TNTSports1 HD", "TNT Sports 1"),
                       ("TNTSports4 HD", "TNT Sports 4"),
                       ("TNTSBoxOffHD", "TNT Sports Box Office"),
                       ("TNTSBoxOff2HD", "TNT Sports Box Office 2"),
-                      ("Sky Sports Action HD", "Sky Sports Action"),
-                      ("Sky SportsMain Event HD", "Sky Sports Main Event"),
-                      ("Sky SportsArena HD", "Sky Sports Arena")):
+                      ("SkySp ActionHD", "Sky Sports Action"),
+                      ("SkySpMainEvHD", "Sky Sports Main Event"),
+                      ("SkySpBoxOffHD", "Sky Sports Box Office"),
+                      ("SkySp Mix HD", "Sky Sports Mix"),
+                      ("SkySp+ HD", "Sky Sports+")):
         check("CARD", f"'{sky}' is {ours}", sky_epg.a_channel(sky), ours)
 
-    # The one that bit: with a case-insensitive lookahead, "Sky Sports
-    # Action" backtracks to "Sky Sport" + "s" and comes out "Sky Sports
-    # s Action". It must survive untouched.
+    # AND THE FILTER ACCEPTS THEM, which is the part that was wrong: a
+    # name can be spelled perfectly and never be asked for. Six channels
+    # came back from a live run and every one was TNT, so the MMA arrived
+    # and the boxing did not.
+    for sky in ("SkySpMainEvHD", "SkySp ActionHD", "SkySpBoxOffHD",
+                "SkySp Mix HD", "SkySp+ HD", "TNTSports1 HD",
+                "TNTSBoxOffHD"):
+        check("CARD", f"and the filter asks for '{sky}'",
+              bool(sky_epg.A_FIGHT_CHANNEL.search(sky)), True)
+
+    # While the ones that carry no fight are not fetched ten days deep
+    # for nothing.
+    for quiet in ("SkySp News HD", "SkySp PL HD", "SkySp Golf HD",
+                  "SkySp F1 HD", "SkySpCricket HD", "talkSPORT"):
+        check("CARD", f"and leaves '{quiet}' alone",
+              bool(sky_epg.A_FIGHT_CHANNEL.search(quiet)), False)
+
+    # The one that bit first: with a case-insensitive lookahead, "Sky
+    # Sports Action" backtracks to "Sky Sport" + "s" and comes out "Sky
+    # Sports s Action". A name already spaced must survive untouched.
     check("CARD", "a name Sky already spaced is left alone",
-          sky_epg.a_channel("Sky Sports Arena"), "Sky Sports Arena")
+          sky_epg.a_channel("Sky Sports Action"), "Sky Sports Action")
 
     # And the board's own manners still apply to what comes out.
     import today_matches_epg as today
