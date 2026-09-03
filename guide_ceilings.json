@@ -24,7 +24,7 @@
   "alkass_epg.xml": 15,
   "alwan_sports_epg.xml": 88,
   "bein_sports_qatar_epg.xml": 60,
-  "bein_sports_turkey_epg.xml": 45,
+  "bein_sports_turkey_epg.xml": 25,
   "fajer_sports_epg.xml": 82,
   "jordan_sports_epg.xml": 15,
   "onsport_epg.xml": 90,
@@ -51,7 +51,16 @@
   },
   "_note_working": "Alwan, Fajer and Thmanyah are confirmed working by their owner at these levels. Their ceilings sit above where they measured, not at some ideal.",
   "_note_onsport": "A weak signal for this guide, and the file should say so rather than pretend. Correctly read, ON Sport carries four or five fixtures a day and its remaining hours are honest ignorance: 82%. Blind, it read 86%. Four points is not a threshold anybody can act on, so the ceiling is set at 90 to stop it crying wolf, and the real protection for this guide is the collapse guard in build_all_epg.py and a second independent publisher. The 36% measured earlier today was not a healthier guide — it was the mis-mapping that put Liverpool, Al Wasl and Tottenham on an Egyptian channel, and inflated fixtures inflate the ratio too.",
-  "_bein_sports_turkey_note": "Raised from 25 to 45 on 2026-09-01. Four of this guide's twelve channels are Tivibu Spor, and their feed (epgshare01 TR3) has stopped carrying real programming — measured that day, all four published nothing but the stand-in row, sixty each. That is a third of the file saying it does not know, truthfully, and it will not improve until the feed does. The eight beIN channels are healthy: no gaps, three days ahead. Held at 45 so the ceiling still means something for those eight instead of failing every night for a condition with no fix.",
+  "_bein_sports_turkey_note": "Back to 25 on 2026-09-03, where it was before. It had been raised to 45 on 1 September to accommodate the four sourceless Tivibu Spor channels, and it went over anyway — 47% — because that share is not a constant: those channels published sixty stand-in rows each on the 1st and eighty-three each on the 3rd, since a guide reaching further ahead has more empty hours to fill. A ceiling cannot be calibrated against a number that grows on its own. With those four left out of the ratio the file reads 5%, which is exactly what it measured while known to be working, so 25 means something again for the eight beIN channels instead of being a number chosen to stop a red run.",
   "today_matches_epg.xml": 70,
-  "_today_matches_note": "Raised from 25 to 70 on 2026-09-02, when the guide stopped publishing one row per countdown step and started publishing one row per day. A percentage of rows means something different at three rows than at a hundred and twenty: one day with nothing on it is now a third of the file, and two quiet days two thirds, without anything having gone wrong. The real protection for this guide is not a share of rows but the source itself — if livefootballtv stops answering, build() returns early and the published file is left untouched."
+  "_today_matches_note": "Raised from 25 to 70 on 2026-09-02, when the guide stopped publishing one row per countdown step and started publishing one row per day. A percentage of rows means something different at three rows than at a hundred and twenty: one day with nothing on it is now a third of the file, and two quiet days two thirds, without anything having gone wrong. The real protection for this guide is not a share of rows but the source itself — if livefootballtv stops answering, build() returns early and the published file is left untouched.",
+  "_no_source": {
+    "bein_sports_turkey_epg.xml": [
+      "TivibuSpor1.tr",
+      "TivibuSpor2.tr",
+      "TivibuSpor3.tr",
+      "TivibuSpor4.tr"
+    ]
+  },
+  "_note_no_source": "Channels their own source declares and never schedules. Measured on 2026-09-03 by fetching epgshare01's TR3 feed directly: it lists TİVİBU.SPOR.1.tr through .4.tr and gives each of them zero programmes, while other channels in the same file carry 37 to 70. So the ids are right and the feed is alive — those four channels simply have nothing in it, and the module's docstring records that every alternative source was already asked and none carries them. Their rows are reported every run and left out of the ratio, because a permanent known-empty channel is not a degradation signal and counting it drowns the eight channels that are. Removing them from the published guide would be visible to every viewer whose player is mapped to them, so that is a decision for the guide's owner, not a side effect of a health check."
 }
