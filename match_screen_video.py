@@ -120,18 +120,11 @@ SCREENS = {
 # double the price, on a box that is already the weak link.
 WINDOW_MINUTES = 2 * 60
 
-# HOW FAR BACK FROM LIVE THE PLAYER OPENS, and therefore how much runway
-# it has before it needs a rebuild. Thirty minutes: long enough to ride
-# out any build outage this repository has actually seen, and a position
-# a television treats as ordinary rather than as a twelve-hour seek.
-#
-# The window only has to be longer than this, so it is two hours rather
-# than twelve — and that is a saving, not a compromise. The whole
-# playlist is re-fetched once per target duration, so a 12-hour window
-# spent 91 KB on every poll, 13% of the video's own bandwidth, forever.
-# Two hours costs 15 KB and 2%. The overhead was buying runway the
-# player was never going to use.
-START_BACK = 30 * 60
+# The window only has to outlast the gap between builds now — see
+# write_playlist for why EXT-X-START is not written and what that costs.
+# Two hours against a ten-minute build is margin; twelve hours was 91 KB
+# re-fetched on every poll, 13% of the video's own bandwidth, buying
+# runway no player was reaching.
 
 # HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
 # guide draws.
@@ -564,30 +557,37 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
-        # WHERE THE PLAYER STARTS, AND HOW MUCH RUNWAY THAT LEAVES IT.
+        # NO EXT-X-START, AND THIS IS THE SECOND TIME IT HAS BEEN
+        # REMOVED IN AN HOUR.
         #
-        # RFC 8216 §6.3.3: on a live playlist a client begins about three
-        # target durations back from the END. From the end — not the
-        # start. So a viewer opening this channel joined SIXTY SECONDS
-        # from the end of it, and sixty seconds was the whole runway
-        # however long the window behind them was. That is why
-        # lengthening the window alone fixed nothing.
+        # The reasoning that put it here still holds: RFC 8216 §6.3.3
+        # starts a live client about three target durations back from the
+        # END, so a viewer joining had sixty seconds of runway however
+        # long the window behind them was, and lengthening the window
+        # alone fixed nothing.
         #
-        # THE FIRST ATTEMPT AT THIS SAID TIME-OFFSET:0, AND IT TOOK BOTH
-        # CHANNELS OFF THE AIR. A positive offset is measured from the
-        # START of the playlist (§4.3.5.2), so 0 asks the player to begin
-        # twelve hours behind live. It is legal and it is what the tag
-        # literally means, and a television will not do it: it either
-        # refuses the position or spends its time trying to catch up.
-        # "The window is the runway" was right about the arithmetic and
-        # wrong about the player.
+        # BUT THE TAG TOOK ALL THREE CHANNELS OFF THE AIR. First as
+        # TIME-OFFSET:0, which is measured from the START of the playlist
+        # (§4.3.5.2) and so asked a television to open twelve hours
+        # behind live. Corrected to -1800, it came back as
         #
-        # A NEGATIVE offset is measured back from the end, which is the
-        # ordinary way to say "start near live". So the channel starts
-        # where every live channel starts, half an hour back — thirty
-        # times the sixty seconds it had, and a position no player has to
-        # be talked into.
-        f"#EXT-X-START:TIME-OFFSET:-{START_BACK},PRECISE=YES",
+        #     An error occurred: ParserException
+        #
+        # photographed off the screen. ffmpeg parses the same file
+        # without complaint, so this is the player's own reading of an
+        # OPTIONAL tag, and no amount of being right about the spec makes
+        # a channel play.
+        #
+        # So it is gone, and what is left is exactly the playlist that
+        # played all day. The runway is back to sixty seconds, which is
+        # a real loss and is written down rather than glossed: the
+        # channel now depends on builds arriving, as it did before. What
+        # protects it is the ten-minute build and the hourly watch that
+        # dispatches one when GitHub drops the schedule — the same thing
+        # that caught the outage this all started with.
+        #
+        # DO NOT ADD THIS TAG BACK without a way to test it on the
+        # television it has now broken twice.
     ]
     # A break only where the reel really starts over, which is the one
     # place the timeline goes backwards — the segments carry their place
