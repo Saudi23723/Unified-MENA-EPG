@@ -111,6 +111,25 @@ def clipped(text: str, size: int, room: int, *, thin=False) -> str:
     return (cut.rstrip() + "…") if cut else ""
 
 
+def size_that_fits(text: str, size: int, floor: int, room: int) -> int:
+    """The largest size at or under `size` that fits, never below `floor`.
+
+    A name cut short is a name that says nothing. "US Open Men's &
+    Women's Singles 3rd Round and Women's Doubles 1st Round" came out as
+    "US Open…", which is every tennis row on the board and tells a
+    viewer which of them apart from none. Two or three points smaller and
+    the whole of it fits.
+
+    The floor is the line underneath it, because a name smaller than its
+    own subtitle reads as a mistake rather than as a fit. Below that the
+    caller clips, and what is left is a name longer than a whole board,
+    where something has to give.
+    """
+    while size > floor and width_of(text or "", size) > room:
+        size -= 1
+    return size
+
+
 def norm_line(value) -> str:
     """One line of text, or nothing. A competition may be missing."""
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -254,30 +273,11 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         size = (max(17, min(25, height - 30)) if two
                 else max(19, min(28, height - 26)))
         under = max(13, size - 7)
-        head_y = middle - (under // 2) - 1 if two else middle
+        head_y = middle - (under // 2) - 2 if two else middle
+        sub_y = middle + (size // 2) + 2
 
         clock = event["start"].astimezone(viewer).strftime("%H:%M")
         draw_text(pen, (time_x, middle), clock, size, ACCENT, anchor="rm")
-
-        # Channels sit on the right, so the name gets whatever is left.
-        channel_x = W - PAD
-        pill_size = max(15, size - 6)
-        # Measured against the names this guide actually carries, at the
-        # size a full-height row draws them: Thmanyah Channels needs 252
-        # pixels, beIN SPORTS Xtra 1 needs 243, MBC Shahid Sports 235,
-        # beIN SPORTS 2 TR 226. The cap was 230, so more than half of
-        # them were being clipped to "beIN SPORTS Xtra…" — which loses
-        # exactly the number that says which channel it is.
-        for channel in reversed(event["channels"][:3]):
-            label = clipped(channel, pill_size, 280, thin=True)
-            wide = width_of(label, pill_size, thin=True) + 26
-            pen.rounded_rectangle(
-                [channel_x - wide, middle - pill_size, channel_x,
-                 middle + pill_size],
-                radius=(pill_size + 4), fill=PILL)
-            draw_text(pen, (channel_x - wide // 2, middle), label,
-                      pill_size, PILL_INK, anchor="mm", thin=True)
-            channel_x -= wide + 10
 
         if live:
             pen.ellipse([name_x, head_y - 6, name_x + 12, head_y + 6],
@@ -285,16 +285,61 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             head = name_x + 24
         else:
             head = name_x
-        room_for_name = channel_x - head - 24
+
+        # The channels sit on whichever line has room for them: beside
+        # the name when there is only one, and under it when there are
+        # two — which is the whole point of two.
+        pill_y = sub_y if two else middle
+        pill_size = max(15, (under if two else size) - 2)
+        channel_x = W - PAD
+        for channel in reversed(event["channels"][:3]):
+            label = clipped(channel, pill_size, 280, thin=True)
+            wide = width_of(label, pill_size, thin=True) + 26
+            pen.rounded_rectangle(
+                [channel_x - wide, pill_y - pill_size, channel_x,
+                 pill_y + pill_size],
+                radius=(pill_size + 4), fill=PILL)
+            draw_text(pen, (channel_x - wide // 2, pill_y), label,
+                      pill_size, PILL_INK, anchor="mm", thin=True)
+            channel_x -= wide + 10
+
+        # THE NAME GETS THE WHOLE LINE. It used to end where the channel
+        # pills began, which on a busy row was less than half the board —
+        # "US Open Men's & Women's Singles 3rd Round and Women's Doubles
+        # 1st Round" came out as "US Open…" and said nothing at all.
+        #
+        # With the pills moved down, nothing is beside the name any more,
+        # so it runs edge to edge and the events that actually need the
+        # room are the ones that get it. It is still clipped if it is
+        # longer than a whole board, because something has to give — but
+        # that is now a genuinely enormous name rather than an ordinary
+        # one competing with three channel pills.
+        room_for_name = (W - PAD - head) if two else (channel_x - head - 24)
+
+        # SHRINK BEFORE CUTTING. A name cut short is a name that says
+        # nothing — "US Open Men's & Women's Singles 3rd Round and
+        # Women's Doubles 1st Round" became "US Open…", which is every
+        # tennis row on the board and tells a viewer which of them apart
+        # from none. Two or three points smaller and the whole of it
+        # fits, and a viewer can read the whole of it.
+        #
+        # It only goes down as far as the competition line under it,
+        # because a name smaller than its own subtitle reads as a
+        # mistake. Past that, and only past that, it is clipped — and
+        # what is left over is a name longer than a whole board, where
+        # something has to give.
+        fitted = size_that_fits(event["title"], size,
+                                under if two else max(15, size - 6),
+                                room_for_name)
         draw_text(pen, (head, head_y),
-                  clipped(event["title"], size, room_for_name),
-                  size, WHITE, anchor="lm")
+                  clipped(event["title"], fitted, room_for_name),
+                  fitted, WHITE, anchor="lm")
+
         if two:
-            # Under the name and in the muted ink, so it reads as the
-            # answer to "what is this" rather than competing with the
-            # fixture for the eye.
-            draw_text(pen, (head, middle + (size // 2) + 2),
-                      clipped(beneath, under, room_for_name, thin=True),
+            # And the competition takes what the pills left on their line.
+            draw_text(pen, (head, sub_y),
+                      clipped(beneath, under, channel_x - head - 20,
+                              thin=True),
                       under, MUTED, anchor="lm", thin=True)
         y += height
 

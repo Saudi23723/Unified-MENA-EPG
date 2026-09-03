@@ -204,7 +204,22 @@ NEAR_STEPS = (15, 30, 45, 60)
 # Nine fit at a readable size on a 720-line screen; past that the rows
 # shrink toward the point where the screen is full of text nobody across
 # a room can read, which is the opposite of what the board is for.
-MAX_ON_BOARD = 9
+# EIGHT ROWS, and a day with more of them becomes two boards, or three.
+#
+# Asked for outright — "ما تعجق الصورة … بتنقسم على صفحتين ورا بعض عادي".
+# It was twelve here and nine on the football board, and both were chosen
+# when a row was one line. A row is two now: the event's name across the
+# whole width, and its competition and channels underneath. Twelve of
+# those in 720 pixels leaves each 43px, which is under the 46 a
+# comfortable pair needs — so the board that was asked to say MORE was
+# quietly saying it smaller.
+#
+# Eight leaves every row its full 62px, which is the height the drawing
+# was designed around, so no row is ever squeezed and no name is ever
+# shrunk for want of a page. The cost is another board in the loop —
+# twenty seconds more before a viewer sees a given match come round — and
+# that is the trade that was asked for, in those words.
+MAX_ON_BOARD = 8
 
 # What a row says when the fixture is real and the broadcaster is not yet
 # named. wanted() guarantees this only ever replaces an empty list, never
