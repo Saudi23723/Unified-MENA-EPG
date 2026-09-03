@@ -3608,6 +3608,88 @@ def gate_the_channel_plays_the_days_in_order() -> None:
     check("ORDER", "and it starts at the first board, which is today",
           video.ON_SCREEN >= 1, True)
 
+def gate_a_day_that_is_over_leaves_the_screen() -> None:
+    """Midnight, and the board that has no day any more.
+
+    NOTHING EVER DELETED A BOARD. A build writes board 0 upwards for the
+    days it has, and at midnight the window rolls — yesterday goes, a new
+    day arrives at the far end — so the count can fall: a quiet day needs
+    one board where a busy one needed three. Every board the new build
+    did not write stayed on disk from the old one, and the reel picks up
+    every board it finds. A day that was over went on playing, in a slot
+    the new build no longer knew about, until some later day happened to
+    be busy enough to overwrite it.
+
+    AND WHAT IS PLAYED IS NOW RED. A board carries the whole day, so by
+    the evening most of it has been played — and every one of those rows
+    printed its clock in the same green as the match that has not started
+    yet. Green is this board's colour for "coming". A match that is
+    finished is not coming, and a viewer scanning for what is next was
+    being made to read every line to find out.
+    """
+    print("\nA day that is over leaves the screen — match_board")
+    import tempfile as _tf
+    from datetime import date, datetime, timedelta, timezone
+
+    import match_board
+
+    # The sweep, on the exact shape the build makes.
+    with _tf.TemporaryDirectory() as tmp:
+        for number in range(9):
+            open(os.path.join(tmp, f"scr_{number}.png"), "wb").close()
+        # The other screen shares the directory and must be left alone.
+        open(os.path.join(tmp, "other_0.png"), "wb").close()
+        gone = match_board.forget_boards_past("scr_", 5, tmp)
+        left = sorted(os.listdir(tmp))
+
+    check("MIDNIGHT", "the boards past the end of this build are deleted",
+          gone, 4)
+    check("MIDNIGHT", "the ones it wrote are kept",
+          [n for n in left if n.startswith("scr_")],
+          [f"scr_{n}.png" for n in range(5)])
+    check("MIDNIGHT", "and the other screen's board is untouched",
+          "other_0.png" in left, True)
+    with _tf.TemporaryDirectory() as tmp:
+        check("MIDNIGHT", "an empty directory is not an error",
+              match_board.forget_boards_past("scr_", 3, tmp), 0)
+    check("MIDNIGHT", "and neither is a directory that is not there",
+          match_board.forget_boards_past("scr_", 3, "no/such/place"), 0)
+
+    # Both generators must actually call it, or none of that ever runs.
+    import inspect
+    import other_sports_epg as sports
+    import today_matches_epg as today
+    for module, who in ((today, "the football board"),
+                        (sports, "the sports board")):
+        check("MIDNIGHT", f"{who} sweeps its own stale boards",
+              "forget_boards_past" in inspect.getsource(module.build), True)
+
+    if not match_board.has_arabic_face():
+        return
+
+    # And the colour. Held on the drawing, because the point is what a
+    # viewer sees: the same three rows an hour later must not look the
+    # same.
+    viewer = timezone.utc
+
+    def board(at):
+        rows = [{"start": datetime(2026, 9, 5, hour, 0, tzinfo=timezone.utc),
+                 "title": f"Match at {hour}", "competition": "LaLiga",
+                 "channels": ["beIN 1"]} for hour in (10, 17, 22)]
+        return match_board.draw_board(
+            date(2026, 9, 5), rows, at, viewer, timedelta(hours=2),
+            title="مباريات اليوم", subtitle="س",
+            weekday="السبت").tobytes()
+
+    morning = board(datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc))
+    evening = board(datetime(2026, 9, 5, 23, 0, tzinfo=timezone.utc))
+    check("MIDNIGHT", "the same rows look different once they are played",
+          morning != evening, True)
+    check("MIDNIGHT", "and red is not the green it used to be",
+          match_board.OVER != match_board.ACCENT, True)
+    check("MIDNIGHT", "red is red",
+          (match_board.OVER[0] > 200 and match_board.OVER[1] < 140), True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3645,7 +3727,8 @@ def main() -> int:
                  gate_no_guide_reads_a_stranger,
                  gate_a_row_says_which_competition_it_is,
                  gate_our_own_guides_carry_fights_nobody_lists,
-                 gate_the_channel_plays_the_days_in_order):
+                 gate_the_channel_plays_the_days_in_order,
+                 gate_a_day_that_is_over_leaves_the_screen):
         try:
             gate()
         except Exception as exc:

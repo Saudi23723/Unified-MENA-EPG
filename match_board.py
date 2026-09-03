@@ -67,7 +67,8 @@ PANEL = (18, 29, 45, 255)        # a row's own shade, every other one
 RULE = (35, 51, 74, 255)         # hairlines
 WHITE = (243, 247, 252, 255)
 MUTED = (139, 158, 184, 255)
-ACCENT = (56, 214, 111, 255)     # the clock, and the mark on a live row
+ACCENT = (56, 214, 111, 255)     # the clock of a match still to come
+OVER = (232, 93, 93, 255)        # and of one that has already been played
 LIVE_BG = (18, 52, 38, 255)
 PILL = (30, 45, 66, 255)
 PILL_INK = (176, 199, 227, 255)
@@ -128,6 +129,36 @@ def size_that_fits(text: str, size: int, floor: int, room: int) -> int:
     while size > floor and width_of(text or "", size) > room:
         size -= 1
     return size
+
+
+def forget_boards_past(prefix: str, kept: int, folder: str = "boards") -> int:
+    """Delete this screen's boards numbered at or beyond `kept`.
+
+    NOTHING EVER DELETED A BOARD, and at midnight that shows.
+
+    A build writes board 0 upwards for the days it has. When a day ends
+    the window rolls: yesterday is gone, a new day arrives at the far
+    end, and the count can fall — a quiet day needs one board where a
+    busy one needed three. The boards the new build did not write stayed
+    on disk from the old one, and the reel picks up every board it finds.
+    So a day that was over went on playing, in a slot the new build no
+    longer knew about, until some later day happened to be busy enough to
+    overwrite it.
+
+    That is the whole of "at midnight, delete the day's page": a board
+    numbered past the end of this build is not a page any more.
+    """
+    if not os.path.isdir(folder):
+        return 0
+    gone = 0
+    for name in sorted(os.listdir(folder)):
+        if not (name.startswith(prefix) and name.endswith(".png")):
+            continue
+        number = re.search(r"_(\d+)\.png$", name)
+        if number and int(number.group(1)) >= kept:
+            os.remove(os.path.join(folder, name))
+            gone += 1
+    return gone
 
 
 def norm_line(value) -> str:
@@ -240,6 +271,14 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     y = top + 6
     for index, event in enumerate(rows):
         live = event["start"] <= now < event["start"] + live_for
+        # OVER, AND SAID SO IN RED. Asked for outright. A board carries
+        # the whole day, so by the evening most of it has been played —
+        # and every one of those rows was printing its clock in the same
+        # green as the match that has not started yet. Green is the
+        # colour this board uses for "coming"; a match that is finished
+        # is not coming, and a viewer scanning for what is next was being
+        # made to read every line to find out.
+        over = event["start"] + live_for <= now
         band = [PAD - 12, y, W - PAD + 12, y + height - 6]
         if live:
             pen.rounded_rectangle(band, radius=10, fill=LIVE_BG)
@@ -277,7 +316,8 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         sub_y = middle + (size // 2) + 2
 
         clock = event["start"].astimezone(viewer).strftime("%H:%M")
-        draw_text(pen, (time_x, middle), clock, size, ACCENT, anchor="rm")
+        draw_text(pen, (time_x, middle), clock, size,
+                  OVER if over else ACCENT, anchor="rm")
 
         if live:
             pen.ellipse([name_x, head_y - 6, name_x + 12, head_y + 6],
