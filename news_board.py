@@ -35,8 +35,9 @@ from datetime import datetime
 from PIL import Image, ImageDraw
 
 from match_board import (
-    ACCENT, H, INK, MUTED, PAD, PANEL, PILL, PILL_INK, W, WHITE,
-    draw_text, font_for, norm_line, size_that_fits,
+    ACCENT, ARABIC, H, INK, MUTED, PAD, PANEL, PILL, PILL_INK, W, WHITE,
+    clipped, draw_text, norm_line, size_that_fits,
+    width_of,
 )
 
 # A fresh story is worth pointing at. Measured against the reader's own
@@ -45,6 +46,28 @@ from match_board import (
 FRESH_MINUTES = 60
 
 REGION_INK = (150, 176, 208, 255)
+
+
+# ARABIC IS DRAWN SMALLER THAN LATIN AT THE SAME NOMINAL SIZE, and on a
+# board read from across a room that is the difference between a
+# headline and a smudge. Reported in as many words: "العربي مش واضح
+# منيح".
+#
+# It is not a rendering fault to correct — it is what the two faces are.
+# FreeSerif is the only face on the build image that shapes Arabic, and
+# its cap height at 27px sits well below DejaVu's; measured on this
+# board, an Arabic headline needs about a fifth more to read as the same
+# size as the English one beside it.
+#
+# So Arabic gets that fifth. Everything else about the row is unchanged,
+# and the shrink-to-fit below still has the last word, so a long Arabic
+# headline gives the size back rather than running off the board.
+ARABIC_LIFT = 1.22
+
+
+def for_script(text: str, size: int) -> int:
+    """The size this text needs to LOOK like `size` on this board."""
+    return int(round(size * ARABIC_LIFT)) if ARABIC.search(text or "") else size
 
 
 def draw_mark(pen, x: int, y: int, size: int) -> None:
@@ -109,33 +132,47 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
         # Jordan should find it without reading a headline first.
         draw_text(pen, (PAD + 4, y + 14), published.strftime("%H:%M"), 23,
                   ACCENT if fresh else MUTED)
-        draw_text(pen, (PAD + 4, y + 44), story.get("region_name", ""), 16,
+        region = story.get("region_name", "")
+        draw_text(pen, (PAD + 4, y + 44), region, for_script(region, 16),
                   REGION_INK, thin=True)
 
         head_x = PAD + 108
         room_for_head = W - PAD - head_x - 12
 
+        # THE SOURCE IS MEASURED FIRST, because the line under the
+        # headline has to stop before it. It did not, and the summary ran
+        # straight under the pill on every row long enough to reach it —
+        # visible on the published board, where Jordan News covered the
+        # end of its own story twice.
+        outlet = norm_line(story.get("outlet"))
+        pill_wide = 0
+        if outlet:
+            pill_wide = width_of(outlet, for_script(outlet, 16)) + 34
+
         headline = norm_line(story["title"])
-        size = size_that_fits(headline, 27, 19, room_for_head)
+        size = size_that_fits(headline, for_script(headline, 27),
+                              for_script(headline, 19), room_for_head)
         draw_text(pen, (head_x, y + 10), headline, size, WHITE)
 
         # The explanation, which is the whole point of the second line.
         beneath = norm_line(story.get("summary"))
         if beneath and height >= 78:
-            under = size_that_fits(beneath, 17, 14, room_for_head - 150)
+            room_for_line = room_for_head - pill_wide - 16
+            under = size_that_fits(beneath, for_script(beneath, 18),
+                                   for_script(beneath, 15), room_for_line)
+            beneath = clipped(beneath, under, room_for_line)
             draw_text(pen, (head_x, y + 12 + size + 8), beneath, under,
                       MUTED, thin=True)
 
         # And where it came from, so nothing on this board is unattributed.
-        outlet = norm_line(story.get("outlet"))
         if outlet:
-            font = font_for(outlet, 16)
-            wide = pen.textlength(outlet, font=font)
+            at = for_script(outlet, 16)
+            wide = width_of(outlet, at)
             pill_y = y + height - 34
             pen.rounded_rectangle(
                 [W - PAD - wide - 26, pill_y, W - PAD - 4, pill_y + 24],
                 radius=12, fill=PILL)
-            draw_text(pen, (W - PAD - 15, pill_y + 12), outlet, 16, PILL_INK,
+            draw_text(pen, (W - PAD - 15, pill_y + 12), outlet, at, PILL_INK,
                       anchor="rm")
 
         y += height

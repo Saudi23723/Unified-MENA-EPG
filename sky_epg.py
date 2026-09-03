@@ -112,6 +112,35 @@ A_BOXING = re.compile(r"\bboxing\b|title fight|undisputed", re.I)
 # mark; the channel's own name is not part of a programme's name.
 A_PREFIX = re.compile(r"^(?:live:\s*|new:\s*)+", re.I)
 
+# AND IT IS THE ONLY THING THAT SAYS SO. Reported: "ال UFC مكتوب اليوم
+# بس هو السبت تبع ال Live". It was — and Sky said so plainly, in the
+# titles this used to strip before looking:
+#
+#   09-05 17:00 TNT Sports 1  Live: UFC Fight Night Prelims
+#   09-05 19:00 TNT Sports 1  Live: UFC Fight Night
+#   09-03 20:00 TNT Sports 4  UFC Fight Night
+#      "Action from UFC Fight Night at the SPD Bank Oriental Sports
+#       Center" — Shanghai, and over
+#   09-07 01:00 TNT Sports 2  UFC Fight Night
+#      "...at Accor Arena in Paris" — the same card again, twice more
+#
+# The live airings carry the prefix and the replays do not. Stripping it
+# first threw away the one signal that told them apart, so a card fought
+# weeks ago in Shanghai was announced as tonight's.
+#
+# A_REPEAT catches what a repeat is CALLED — Reloaded, Hlts, Classic —
+# and it caught "UFC Reloaded" three hours later on the same channel.
+# It cannot catch a replay Sky simply titles "UFC Fight Night", because
+# nothing in that name is wrong. Only the missing prefix is.
+#
+# So the prefix is now required. This is the rule own_guides already
+# lives by for beIN, whose own titles mark a live airing and whose
+# eighteen repeats of four fixtures are refused by exactly this test.
+# The cost is a real broadcast Sky forgets to mark, and it is the right
+# way round: a guide that invents a broadcast is worse than one that
+# admits it does not know.
+A_LIVE_AIRING = re.compile(r"^\s*live\b", re.I)
+
 
 def a_channel(name: str) -> str:
     """Sky's name for a channel, written the way this board writes one.
@@ -181,7 +210,11 @@ def a_day(session, sid: str, channel: str, day: str) -> list[dict]:
     out: list[dict] = []
     for block in page.get("schedule") or []:
         for event in block.get("events") or []:
-            title = a_programme(event.get("t", ""))
+            raw = event.get("t", "") or ""
+            # Read BEFORE the prefix is stripped — it is the whole signal.
+            if not A_LIVE_AIRING.match(raw):
+                continue
+            title = a_programme(raw)
             if not title or not A_FIGHT.search(title):
                 continue
             if A_REPEAT.search(title):

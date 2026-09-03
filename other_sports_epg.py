@@ -448,6 +448,7 @@ def build() -> int:
             f"them, not drawn")
 
     board_no = 0
+    per_day: list[int] = []
     for day in with_something:
         today = by_day[day]
         chunks = [today[at:at + MAX_ON_BOARD]
@@ -458,6 +459,7 @@ def build() -> int:
                                 page=page, pages=len(chunks))
             first_board = first_board or url
             board_no += 1
+        per_day.append(len(chunks))
 
         opens, closes = day_bounds(day)
         add_programme(tv, CHANNEL_ID, opens, closes,
@@ -470,6 +472,17 @@ def build() -> int:
     # the count can fall, so a board the old build wrote and this one did
     # not was still on disk and still in the reel, playing a day that was
     # over.
+    # HOW MANY BOARDS EACH DAY TOOK, for the same reason as the first
+    # board and with the same fault waiting if it is missing: without
+    # this the reel counts boards, and a day whose card runs past the end
+    # of the lap is played half-way and cut. This board is more exposed
+    # to it, not less — it reaches fourteen days, and a Saturday of UFC
+    # and boxing takes several boards where a quiet Tuesday takes one.
+    with open(os.path.join(BOARD_DIR, "other_sports_days.txt"), "w",
+              encoding="utf-8") as handle:
+        handle.write("\n".join(str(count) for count in per_day) + "\n")
+    log(f"  boards per day: {per_day} (written for the encoder)")
+
     from match_board import forget_boards_past
     stale = forget_boards_past("other_sports_", board_no, BOARD_DIR)
     if stale:

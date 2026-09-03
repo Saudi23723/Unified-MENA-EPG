@@ -49,8 +49,15 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards/today_news_{n}.png")
 
+# HOW MUCH IS SHOWN. "اعمل الصفحات اكثر شوي 5 - 6 صفحات" — so six
+# pages of six, thirty-six headlines against the eighteen before.
+#
+# On the fixtures boards more pages is a cost: a viewer waiting for
+# today has to sit through the rest of the week first. A bulletin is the
+# other way round — every page is current, so a longer lap is more news
+# rather than a longer wait for the page that matters.
 ON_PAGE = 6
-MAX_PAGES = 3
+MAX_PAGES = 6
 
 # How long each programme in the guide runs. An hour, because that is
 # what "ساعة بساعة" means and because a player showing "now" wants a
@@ -93,18 +100,39 @@ def in_the_readers_order(stories: list[dict]) -> list[dict]:
 
 
 def pages_of(stories: list[dict]) -> list[list[dict]]:
-    """Pages that each carry the whole world, read newest-first inside.
+    """The news first, and the sport alone on the last page.
 
-    The chunking follows the round-robin, so page one takes one story
-    from every region before any region gets a second. Only THEN does
-    the clock order what is on a page, so it still reads newest-first
-    without a busy newsroom being able to fill it.
+    "في أشياء هبله محطوطة" — and there were. The board led with a
+    Richarlison team-sheet and a transfer-spending table while a strike
+    on Gaza sat below them, because the only thing ordering the page was
+    the clock and a transfer story is posted as often as a war.
+
+    "خلي اخبار الرياضة بس لحال اخر صفحة", so sport is not thrown away —
+    this channel's viewer has two sport channels beside it and clearly
+    wants the scores too. It is SEPARATED: the news pages are news, and
+    the sport has a page of its own at the end where somebody looking
+    for it knows to find it.
+
+    Within each half the ordering is unchanged and for the same reason:
+    the chunking follows the round-robin, so page one takes a story from
+    every region before any region gets a second, and only then does the
+    clock order what is on a page.
     """
-    chosen = in_the_readers_order(stories)[:ON_PAGE * MAX_PAGES]
+    news = [one for one in stories if not news_reader.is_sport(one)]
+    sport = [one for one in stories if news_reader.is_sport(one)]
+
+    # The sport page is one page, so the news gets the rest.
+    room = ON_PAGE * (MAX_PAGES - 1) if sport else ON_PAGE * MAX_PAGES
+    chosen = in_the_readers_order(news)[:room]
     pages = [chosen[at:at + ON_PAGE]
              for at in range(0, len(chosen), ON_PAGE)] or [[]]
-    return [sorted(page, key=lambda one: one["start"], reverse=True)
-            for page in pages]
+    pages = [sorted(page, key=lambda one: one["start"], reverse=True)
+             for page in pages]
+
+    if sport:
+        last = in_the_readers_order(sport)[:ON_PAGE]
+        pages.append(sorted(last, key=lambda one: one["start"], reverse=True))
+    return pages
 
 
 def named(story: dict) -> dict:
@@ -116,10 +144,12 @@ def named(story: dict) -> dict:
 def draw_pages(pages: list[list[dict]], now: datetime) -> int:
     os.makedirs(BOARD_DIR, exist_ok=True)
     for number, page in enumerate(pages):
+        sport = bool(page) and all(news_reader.is_sport(one) for one in page)
         board = news_board.draw_board(
             [named(one) for one in page], now, VIEWER,
             title=CHANNEL_AR,
-            subtitle=f"نشرة مستمرة · الأردن والعالم · {VIEWER_NAME}",
+            subtitle=("رياضة · آخر الأخبار" if sport
+                      else f"نشرة مستمرة · الأردن والعالم · {VIEWER_NAME}"),
             page=number + 1, pages=len(pages))
         board.convert("RGB").save(
             os.path.join(BOARD_DIR, f"today_news_{number}.png"))

@@ -10,6 +10,7 @@ on:
     branches: [claude/arabic-channels-epg-99099k]
     paths:
       - "probes/probe_onsport.py"
+      - "probes/probe_onsport_sources.py"
       - ".github/workflows/probe_onsport.yml"
 
 jobs:
@@ -23,3 +24,7 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
       - run: python -u probes/probe_onsport.py
+      # A full build ran with the added source and the guide did
+      # not change. So which reader actually names ON Sport is
+      # asked rather than deduced a second time.
+      - run: python -u probes/probe_onsport_sources.py
