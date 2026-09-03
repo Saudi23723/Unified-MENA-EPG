@@ -1979,6 +1979,58 @@ def gate_a_guide_repeating_its_own_name_is_measured() -> None:
           (True, True, False))
 
 
+def gate_a_long_wait_says_how_long() -> None:
+    """Seven identical rows in a grid read as seven broadcasts.
+
+    Reported from a television, and the guide was not wrong about the
+    football: ON Sport 1 held the two legs of a CAF tie eight days apart,
+    and every day between them carried one row saying
+    "⏰ التالي: الزمالك - AS Port". One row a day rather than one an hour
+    is the right shape for a wait. Seven copies of the same sentence is
+    not — down a grid it reads as the same match being shown every day at
+    the same hour, which is exactly how it was reported.
+
+    The wait now carries the one thing that differs between those days.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    import update_onsport_epg as onsport
+
+    tie = {"home": "الزمالك", "away": "AS Port",
+           "start": datetime(2026, 9, 12, 17, 0, tzinfo=timezone.utc)}
+    days = [onsport.filler_title(
+                tie, datetime(2026, 9, 9, 12, 0, tzinfo=timezone.utc)
+                     + timedelta(days=n))
+            for n in range(4)]
+
+    check("WAIT", "no two waiting days say the same thing",
+          len(set(days)), len(days))
+    check("WAIT", "and each says how long is left",
+          days,
+          ["⏰ التالي بعد 3 أيام · الزمالك - AS Port",
+           "⏰ التالي بعد يومين · الزمالك - AS Port",
+           "⏰ التالي غداً · الزمالك - AS Port",
+           "⏰ التالي اليوم · الزمالك - AS Port"])
+
+    # Arabic counts in threes, and a guide that writes "بعد 2 أيام" reads
+    # as machinery. 11 and up take the singular accusative.
+    check("WAIT", "the number is the one Arabic uses",
+          [onsport.how_far_off(n) for n in (0, 1, 2, 3, 10, 11)],
+          ["اليوم", "غداً", "بعد يومين", "بعد 3 أيام", "بعد 10 أيام",
+           "بعد 11 يوماً"])
+
+    # Still a countdown, never a stand-in: it exists only because a real
+    # fixture was found, and health_check counts on that distinction.
+    import health_check
+    check("WAIT", "a wait is not counted as the guide knowing nothing",
+          bool(health_check.STANDIN_TITLE.search(days[0])), False)
+    check("WAIT", "while nothing announced at all still is",
+          bool(health_check.STANDIN_TITLE.search(
+              onsport.filler_title(
+                  None, datetime(2026, 9, 9, 12, 0, tzinfo=timezone.utc)))),
+          True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -1999,7 +2051,8 @@ def main() -> int:
                  gate_a_row_names_two_channels,
                  gate_a_board_says_which_day_it_is,
                  gate_the_jordanian_league_is_read,
-                 gate_a_guide_repeating_its_own_name_is_measured):
+                 gate_a_guide_repeating_its_own_name_is_measured,
+                 gate_a_long_wait_says_how_long):
         try:
             gate()
         except Exception as exc:
