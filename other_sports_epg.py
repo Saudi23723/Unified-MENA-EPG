@@ -56,6 +56,13 @@ OUTPUT = "other_sports_epg.xml"
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
 
+# The same picture the playlist already hands this channel. A channel
+# with no icon is a blank tile in a guide beside a board that has one,
+# and the two files disagreeing about a channel's logo is worse than
+# them sharing one — health_check said so by name.
+LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+        "main/logos/today_matches.png")
+
 BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards")
@@ -200,6 +207,7 @@ def build() -> int:
     tv = ET.Element("tv", {"generator-info-name": "Today's Other Sports"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
+    ET.SubElement(channel, "icon", {"src": LOGO})
 
     by_day: dict[date, list[dict]] = {day: [] for day in days}
     for event in events:

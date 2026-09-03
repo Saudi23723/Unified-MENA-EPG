@@ -412,9 +412,28 @@ def competition_of(row) -> str:
 
 
 def real_channels(channels: list[str]) -> list[str]:
-    """The names among these that are actually somebody's television."""
-    return [c for c in channels
-            if not any(word in c.casefold() for word in NOT_A_CHANNEL)]
+    """The names among these that are actually somebody's television.
+
+    Spelled the way this repository spells them. A channel written two
+    ways is one channel — see SAME_CHANNEL below — and once the two
+    spellings are known to be one, printing whichever page happened to
+    win the merge is a coin toss the reader loses: قناة الأردن الرياضية
+    reached a television reading "Jordan Sports", in Latin, on an Arabic
+    board that sorts Arabic first. The canonical spelling is the one this
+    repository already publishes for that channel elsewhere, so the board
+    and the guide agree rather than carrying two names for one screen.
+
+    Deduped afterwards, because two spellings collapsing into one name
+    would otherwise print it twice.
+    """
+    out: list[str] = []
+    for name in channels:
+        if any(word in name.casefold() for word in NOT_A_CHANNEL):
+            continue
+        spelling = canonical_channel(name)
+        if spelling not in out:
+            out.append(spelling)
+    return out
 
 
 def wanted(event: dict) -> bool:
@@ -852,11 +871,21 @@ def _bare(name: str) -> str:
 SAME_CHANNEL = {_bare(other): _bare(canonical)
                 for canonical, other in SAME_CHANNEL_PAIRS}
 
+# And the spelling to print, from the same pairs: the first one written.
+CANONICAL_CHANNEL = {_bare(spelling): canonical
+                     for canonical, other in SAME_CHANNEL_PAIRS
+                     for spelling in (canonical, other)}
+
 
 def screen_key(name: str) -> str:
     """A channel name reduced to what two pages would spell the same."""
     key = _bare(name)
     return SAME_CHANNEL.get(key, key)
+
+
+def canonical_channel(name: str) -> str:
+    """One channel's name, spelled the way this repository spells it."""
+    return CANONICAL_CHANNEL.get(_bare(name), name)
 
 
 def already_on_air(event: dict, collected: list[dict]) -> bool:

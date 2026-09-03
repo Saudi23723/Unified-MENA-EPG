@@ -2670,6 +2670,21 @@ def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
     check("ONECHANNEL", "a fixture naming no channel is never dropped by "
           "this", today.already_on_air(blind, board), False)
 
+    # And the row that survives says the channel's name the way this
+    # repository says it. Whichever page wins the merge is a coin toss,
+    # and the reader lost it once already: قناة الأردن الرياضية reached a
+    # television reading "Jordan Sports", in Latin, on a board that sorts
+    # Arabic first.
+    check("ONECHANNEL", "the surviving row names the channel in Arabic",
+          today.real_channels(["Jordan Sports"]), ["الأردن الرياضية"])
+    check("ONECHANNEL", "and both spellings at once are still one name",
+          today.real_channels(["Jordan Sports", "الأردن الرياضية",
+                               "beIN 1"]),
+          ["الأردن الرياضية", "beIN 1"])
+    check("ONECHANNEL", "every other channel is left exactly as it came",
+          today.real_channels(["beIN 1", "Sky Sports F1", "TRT Spor"]),
+          ["beIN 1", "Sky Sports F1", "TRT Spor"])
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
