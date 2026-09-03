@@ -33,16 +33,28 @@ import re
 import sys
 
 from epg_lib import log, warn
+from other_sports_epg import CHANNEL_AR as SPORTS_AR
+from other_sports_epg import CHANNEL_ID as SPORTS_ID
 from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
+RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 
-# The screen channel: the days' boards as video, listed round and round.
-SCREEN_FILE = "stream/screen.m3u8"
-SCREEN_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-              "main/stream/screen.m3u8")
-SCREEN_NAME = "📺 مباريات اليوم"
+# Two channels, ONE playlist, because that is the whole point of it: the
+# reader pastes one link into a player and the second screen appears
+# beside the first without touching anything.
+#
+# Each is its own encoded screen — its own boards, its own segments, its
+# own live playlist — and they share only this file and the group they
+# sit under.
+SCREENS = (
+    # (id, guide name, file that must exist, url, what the player shows)
+    (CHANNEL_ID, CHANNEL_AR, "stream/screen.m3u8",
+     f"{RAW}/stream/screen.m3u8", "📺 مباريات اليوم"),
+    (SPORTS_ID, SPORTS_AR, "stream/sports.m3u8",
+     f"{RAW}/stream/sports.m3u8", "🏁 رياضات اليوم"),
+)
 
 
 def clean(value: str) -> str:
@@ -66,25 +78,35 @@ def display(value: str) -> str:
 
 
 def build() -> int:
-    if not os.path.exists(SCREEN_FILE):
-        warn(f"{SCREEN_FILE} has not been encoded — the playlist is left "
-             f"exactly as it was published")
-        return 1
+    lines = ["#EXTM3U"]
+    written = 0
+    for channel_id, guide_name, path, url, shown in SCREENS:
+        if not os.path.exists(path):
+            # A channel whose screen has not been encoded is left OUT
+            # rather than written pointing at nothing: a row in a playlist
+            # that plays nothing is worse than a row that is not there,
+            # because the first looks like a fault in the television.
+            warn(f"{path} has not been encoded — {guide_name} is left out "
+                 f"of the playlist this pass")
+            continue
+        lines.append(
+            f'#EXTINF:-1 tvg-id="{attribute(channel_id)}" '
+            f'tvg-name="{attribute(guide_name)}" tvg-logo="{LOGO}" '
+            f'group-title="{attribute(GROUP)}",{display(shown)}')
+        lines.append(url)
+        written += 1
 
-    lines = [
-        "#EXTM3U",
-        f'#EXTINF:-1 tvg-id="{attribute(CHANNEL_ID)}" '
-        f'tvg-name="{attribute(CHANNEL_AR)}" tvg-logo="{LOGO}" '
-        f'group-title="{attribute(GROUP)}",{display(SCREEN_NAME)}',
-        SCREEN_URL,
-    ]
+    if not written:
+        warn("no screen has been encoded — the playlist is left exactly "
+             "as it was published")
+        return 1
 
     # No BOM: a byte-order mark in front of #EXTM3U makes a player refuse
     # the file outright.
     with open(OUTPUT, "w", encoding="utf-8", newline="\n") as out:
         out.write("\n".join(lines) + "\n")
 
-    log(f"{OUTPUT}: one channel under “{GROUP}”, pointing at the screen")
+    log(f"{OUTPUT}: {written} channel(s) under “{GROUP}”")
     return 0
 
 

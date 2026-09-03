@@ -258,6 +258,101 @@ def the_clubs_belong(competition: str, home: str, away: str) -> bool:
     return in_the_league(home) and in_the_league(away)
 
 
+# The league's own page, which carries the whole round. The homepage
+# carries only the nearest handful — sixteen rows of which one was a
+# professional fixture — and a reader photographed الوحدات - الفيصلي on
+# the federation's app while this file was saying the federation did not
+# publish it. It does; that page does not.
+#
+#   the homepage                16 club rows, 1 still to play
+#   tourn.php?id=1              8 club rows, 4 still to play
+#
+# Four is the round: البقعة-دوقرة, شباب الأردن-الرمثا, الوحدات-الفيصلي,
+# العربي-السلط.
+TOURNAMENTS = (
+    ("https://jfa.jo/tourn.php?id=1&idcat=6&idsubcat=16",
+     "الدوري الأردني للمحترفين - CFI"),
+)
+
+A_STADIUM_LINE = re.compile(r"(\d{4})-(\d{2})-(\d{2})\s*-?\s*\|?\s*"
+                            r"(\d{1,2}):(\d{2})")
+
+
+def collect_tournament(html: str, competition: str) -> list[dict]:
+    """One page of one competition, where a fixture is its own <table>.
+
+    A different shape from the homepage and a safer one. There, a header
+    row and a clubs row are separate <tr>s paired BY POSITION, which is
+    the arrangement that once stamped 1876 fixtures with a single date.
+    Here each fixture is a table of its own:
+
+        <table>
+          <tr> الوحدات | VS | الفيصلي </tr>
+          <tr><td> ستاد عمان الدولي - 2026-09-04 - 20:30 </td></tr>
+        </table>
+
+    So the clubs and their kickoff are in the same container by the
+    page's own construction, and nothing has to be inferred from order.
+
+    The guard is the same one in a new place: a table holding a SECOND
+    pair of clubs is not one fixture's table, it is a list, and taking a
+    time out of it would hand every match in it the same kickoff. Such a
+    table is refused rather than read.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+
+    out: list[dict] = []
+    played = timeless = crowded = 0
+
+    for table in soup.find_all("table"):
+        homes = table.select("span.team1")
+        aways = table.select("span.team2")
+        if len(homes) != 1 or len(aways) != 1:
+            if homes and aways:
+                crowded += 1
+            continue
+
+        verdict = table.select_one("span.rrresult")
+        if verdict is None or not NOT_PLAYED_YET.match(
+                norm(verdict.get_text(" ", strip=True))):
+            played += 1
+            continue
+
+        when = A_STADIUM_LINE.search(norm(table.get_text(" | ", strip=True)))
+        if when is None:
+            # No kickoff of its own. Refused, never dated from the page.
+            timeless += 1
+            continue
+
+        year, month, day, hour, minute = (int(part) for part in when.groups())
+        # Amman, the same as the homepage's rows — one federation, one
+        # country, one clock. Kept in that zone rather than converted so
+        # that the two pages' fixtures are the same kind of object and a
+        # fixture on both dedupes on sight.
+        start = datetime(year, month, day, hour, minute, tzinfo=AMMAN)
+
+        home_name = norm(homes[0].get_text(" ", strip=True))
+        away_name = norm(aways[0].get_text(" ", strip=True))
+        if not home_name or not away_name:
+            continue
+        if not the_clubs_belong(competition, home_name, away_name):
+            continue
+
+        out.append({
+            "start": start,
+            "title": f"{home_name} - {away_name}",
+            "competition": competition,
+            "channels": carried_by(competition),
+        })
+
+    log(f"  jfa.jo {competition}: {played} already played, {timeless} with "
+        f"no kickoff of their own, {crowded} table(s) holding more than one "
+        f"fixture, {len(out)} to show")
+    return out
+
+
 def collect(html: str) -> list[dict]:
     """Every upcoming Jordanian fixture the federation publishes.
 
@@ -346,14 +441,42 @@ def collect(html: str) -> list[dict]:
 
 
 def fetch_events(session, floor: datetime, ceiling: datetime) -> list[dict]:
-    """The fixtures inside the guide's window, or none if the site is down."""
+    """The fixtures inside the guide's window, from every page that has any.
+
+    TWO pages, because one is not enough and that was found the hard way.
+    The homepage lists the nearest handful — one professional fixture out
+    of sixteen rows — and the league's own page lists the round. A reader
+    photographed الوحدات - الفيصلي on the federation's app while this file
+    was reporting the federation did not publish it.
+
+    Merged on the clubs and the kickoff, so a fixture on both pages is one
+    row rather than two.
+    """
+    everything: list[dict] = []
     try:
-        everything = collect(fetch(session, SOURCE).text)
+        everything += collect(fetch(session, SOURCE).text)
     except Exception as exc:                                  # noqa: BLE001
         warn(f"jfa.jo is unreachable ({exc}) — the board keeps the "
              f"fixtures the other sources gave it")
-        return []
-    inside = [event for event in everything
-              if floor <= event["start"] < ceiling]
+
+    for url, competition in TOURNAMENTS:
+        try:
+            everything += collect_tournament(fetch(session, url).text,
+                                             competition)
+        except Exception as exc:                              # noqa: BLE001
+            warn(f"jfa.jo {competition} is unreachable ({exc}) — the round "
+                 f"is missing from this pass")
+
+    seen: set[tuple] = set()
+    inside: list[dict] = []
+    for event in everything:
+        if not (floor <= event["start"] < ceiling):
+            continue
+        key = (event["start"], event["title"])
+        if key in seen:
+            continue
+        seen.add(key)
+        inside.append(event)
+
     log(f"  jfa.jo: {len(inside)} inside the window")
-    return inside
+    return sorted(inside, key=lambda one: one["start"])

@@ -683,37 +683,50 @@ def gate_the_screen_cannot_go_stale() -> None:
           sequence(after) - sequence(live), 600 // screen.HOLD)
 
     boards_dir, stream_dir = "boards", "stream"
-    playlist = _os.path.join(stream_dir, "screen.m3u8")
+    # BOTH screens, because there are two now and the second can go out
+    # of step exactly as the first did. A gate that checks one of them
+    # proves nothing about the other, and they publish into the same
+    # directory from the same pass.
+    for prefix, name in (("today_matches_", "screen.m3u8"),
+                         ("other_sports_", "sports.m3u8")):
+        one_screen(boards_dir, stream_dir, prefix, name, hashlib, _os, _re)
+
+
+def one_screen(boards_dir, stream_dir, prefix, playlist_name,
+               hashlib, _os, _re) -> None:
+    """The boards, the segments and the playlist of ONE screen, agreeing."""
+    playlist = _os.path.join(stream_dir, playlist_name)
 
     if not _os.path.isdir(boards_dir) or not _os.path.exists(playlist):
         # Nothing published yet is not a failure: a fresh clone has no
-        # screen until the first build makes one.
-        check("SCREEN", "nothing published yet, nothing to contradict",
-              True, True)
+        # screen until the first build makes one, and the second screen
+        # has none until its first pass.
+        check("SCREEN", f"{prefix} nothing published yet, nothing to "
+                        f"contradict", True, True)
         return
 
     boards = sorted(name for name in _os.listdir(boards_dir)
-                    if name.startswith("today_matches_")
-                    and name.endswith(".png"))
+                    if name.startswith(prefix) and name.endswith(".png"))
     with open(playlist, encoding="utf-8") as handle:
         referenced = [line.strip() for line in handle
                       if line.strip().endswith(".ts")]
     distinct = sorted(set(referenced))
 
-    check("SCREEN", "the playlist names one segment per board",
+    check("SCREEN", f"{prefix} the playlist names one segment per board",
           len(distinct), len(boards))
 
     # Every reference resolves to a file that is actually published.
     missing = [name for name in distinct
                if not _os.path.exists(_os.path.join(stream_dir, name))]
-    check("SCREEN", "every segment the playlist names exists",
+    check("SCREEN", f"{prefix} every segment the playlist names exists",
           missing, [])
 
-    # Nothing published that no playlist points at — the deletion pass has
-    # to keep working or the repository grows a few files a day forever.
+    # Nothing of THIS screen's published that its playlist does not point
+    # at. Only its own segments are considered: the two screens share
+    # stream/, and each one's sweep must leave the other's alone.
     on_disk = {name for name in _os.listdir(stream_dir)
-               if name.endswith(".ts")}
-    check("SCREEN", "and nothing is published that it does not name",
+               if name.endswith(".ts") and name.startswith(prefix)}
+    check("SCREEN", f"{prefix} and nothing is published that it does not name",
           sorted(on_disk - set(distinct)), [])
 
     # The heart of it: the name has to be the fingerprint of the picture.
@@ -728,14 +741,14 @@ def gate_the_screen_cannot_go_stale() -> None:
         expected = f"{stem}.{running.hexdigest()[:8]}.ts"
         if expected not in distinct:
             wrong.append(f"{board} -> expected {expected}")
-    check("SCREEN", "each segment is named after the board it shows",
+    check("SCREEN", f"{prefix} each segment is named after the board it shows",
           wrong, [])
 
     # And the names must not be the old fixed ones, which is the shape the
     # bug had: a name that cannot change when the picture does.
     unversioned = [name for name in distinct
-                   if _re.fullmatch(r"today_matches_\d+\.ts", name)]
-    check("SCREEN", "no segment carries a name a cache could reuse",
+                   if _re.fullmatch(prefix + r"\d+\.ts", name)]
+    check("SCREEN", f"{prefix} no segment carries a name a cache could reuse",
           unversioned, [])
 
 
@@ -2289,6 +2302,33 @@ def gate_the_other_sports_name_a_real_channel() -> None:
     check("WORLD", "an empty page is not an error",
           world.collect("<html></html>", "F1", *rules("F1")), [])
 
+    # BASKETBALL, wired before the season so that it starts on its own.
+    # The NBA opens in October: this page reads NOTHING today, and that
+    # is the source being right rather than broken — which is why the
+    # empty-page check above sits next to these two.
+    basketball = ("<table>"
+                  + row("Lakers v Celtics", "2026-10-21T00:30:00+01:00",
+                        "NBA Regular Season", ["Sky Sports Main Event"],
+                        "Lakers", "Celtics")
+                  + row("Germany v Turkey", "2026-09-14T19:00:00+01:00",
+                        "FIBA EuroBasket", ["Sky Sports Action"],
+                        "Germany", "Turkey")
+                  + row("Sheffield Sharks v London Lions",
+                        "2026-09-19T19:30:00+01:00",
+                        "British Basketball League", ["Sky Sports Arena"],
+                        "Sheffield Sharks", "London Lions")
+                  + "</table>")
+    check("WORLD", "the NBA game is kept and the British league is not",
+          [event["title"] for event in
+           world.collect(basketball, "NBA", *rules("NBA"))],
+          ["Lakers - Celtics"])
+    check("WORLD", "EuroBasket is FIBA, and the NBA is not FIBA",
+          [event["title"] for event in
+           world.collect(basketball, "FIBA", *rules("FIBA"))],
+          ["Germany - Turkey"])
+    check("WORLD", "an off-season basketball page is empty, not broken",
+          world.collect("<table></table>", "NBA", *rules("NBA")), [])
+
 
 def gate_the_american_game_names_its_network() -> None:
     """"This one is on NBC" — asked for in those words, and hard to get.
@@ -2357,6 +2397,177 @@ def gate_the_american_game_names_its_network() -> None:
           american.collect("<html></html>"), [])
 
 
+def gate_the_second_board_keeps_the_readers_order() -> None:
+    """The second board, and the two things it must never do.
+
+    The reader named the sports and put them in an order — F1, darts with
+    the Premier League first, boxing, MMA, MotoGP, tennis, NFL, NBA,
+    FIBA, golf, the Rugby World Cup, padel — so that order is the order
+    rows appear in, not a sorting by clock. Inside one sport the clock
+    decides, because two bouts on a Saturday are read as they happen.
+
+    A SPORT NOT ASKED FOR CANNOT REACH THE BOARD. The sources carry
+    cricket, snooker, horse racing, speedway, baseball, Aussie rules and
+    a dozen more; none was asked for and none appears.
+
+    AN EVENT WITH NO PUBLISHED CHANNEL DOES NOT APPEAR EITHER, and that
+    is the rule every board here obeys. The one thing this screen must
+    never do is send a viewer to a channel that is not carrying it.
+    """
+    from datetime import datetime, timezone
+
+    import other_sports_epg as board
+
+    def event(sport, title, hour, channels):
+        return {"sport": sport, "title": title, "channels": channels,
+                "competition": sport,
+                "start": datetime(2026, 9, 4, hour, 0, tzinfo=timezone.utc)}
+
+    offered = [
+        event("NFL", "Patriots - Seahawks", 0, ["NBC"]),
+        event("Boxing", "Canelo - Mbilli", 17, ["DAZN"]),
+        event("Boxing", "Taylor - Pili", 9, ["DAZN"]),
+        event("F1", "Italian GP - Race", 13, ["Sky Sports F1"]),
+        event("Tennis", "Alcaraz - Sinner", 20, ["Sky Sports Tennis"]),
+        event("Darts", "Premier League Night 12", 19, ["Sky Sports"]),
+        # Asked for, and nobody has said where it is. It waits.
+        event("Golf", "The Open - Round 2", 11, []),
+        # Never asked for, and on the same pages as the ones that were.
+        event("Cricket", "England - Ireland", 12, ["Sky Sports Cricket"]),
+        event("Snooker", "English Open", 10, ["TNT Sports 1"]),
+    ]
+    kept = board.in_the_readers_order(
+        [one for one in offered if board.wanted(one)])
+
+    check("BOARD2", "the reader's order of sports, not the clock's",
+          [one["sport"] for one in kept],
+          ["F1", "Darts", "Boxing", "Boxing", "Tennis", "NFL"])
+    check("BOARD2", "and inside one sport, the clock",
+          [f"{one['start']:%H:%M}" for one in kept
+           if one["sport"] == "Boxing"],
+          ["09:00", "17:00"])
+    check("BOARD2", "a sport nobody asked for cannot reach the board",
+          [one["title"] for one in kept
+           if one["sport"] in ("Cricket", "Snooker")], [])
+    check("BOARD2", "and nor can an event with no channel named",
+          [one["title"] for one in kept if one["sport"] == "Golf"], [])
+    check("BOARD2", "every row wears its sport's mark",
+          board.row_title(kept[0]), "🏁 Italian GP - Race")
+
+
+def gate_the_round_is_read_from_the_leagues_own_page() -> None:
+    """الوحدات - الفيصلي, which the homepage does not have and the app does.
+
+    A reader photographed that fixture inside the federation's own app
+    while this file was reporting that the federation does not publish
+    it. Both were true of different pages: the homepage lists the
+    nearest handful of matches — sixteen club rows, one of them
+    professional — and the league's own page lists the round. Counted,
+    not assumed:
+
+        the homepage       16 club rows, 1 still to play
+        tourn.php?id=1      8 club rows, 4 still to play
+
+    The second page has a DIFFERENT SHAPE and a safer one. On the
+    homepage a header row and a clubs row are separate <tr>s paired by
+    position — the arrangement that once handed 1876 fixtures a single
+    date. Here each fixture is a table of its own, with its kickoff in a
+    row underneath it, so nothing is inferred from order.
+
+    That safety is only real while a table holds ONE fixture. A table
+    holding two pairs of clubs is a list, and a time lifted out of it
+    would be stamped on every match in it — the same fault in a new
+    place. Such a table is refused, and so is a fixture with no kickoff
+    of its own: an undated match is dropped, never dated from the page
+    around it.
+    """
+    print("\nThe round is read from the league's own page — jfa.jo")
+    from datetime import datetime, timezone
+
+    import jordan_football
+
+    def fixture(home, verdict, away, stadium_line):
+        line = (f'<tr><td colspan="5">{stadium_line}</td></tr>'
+                if stadium_line else "")
+        return (f'<table><tr>'
+                f'<td><span class="team1">{home}</span></td>'
+                f'<td><span class="rrresult">{verdict}</span></td>'
+                f'<td><span class="team2">{away}</span></td></tr>'
+                f'{line}</table>')
+
+    LEAGUE = "الدوري الأردني للمحترفين - CFI"
+    amman = "ستاد عمان الدولي - | 2026-09-04 - | 20:30"
+
+    read = jordan_football.collect_tournament(
+        fixture("الوحدات", "VS", "الفيصلي", amman), LEAGUE)
+    check("JFA", "الوحدات - الفيصلي is read from the league's own page",
+          [event["title"] for event in read], ["الوحدات - الفيصلي"])
+    check("JFA", "with the kickoff printed beside it, in Amman",
+          f"{read[0]['start']:%Y-%m-%d %H:%M %z}", "2026-09-04 20:30 +0300")
+    check("JFA", "and the channel the reader asked for a million times",
+          read[0]["channels"], [jordan_football.JORDAN_SPORT])
+
+    # A table holding a SECOND pair of clubs. One time in it, two
+    # matches: reading it would give الرمثا the same kickoff as البقعة.
+    crowded = ('<table>'
+               '<tr><td><span class="team1">البقعة</span></td>'
+               '<td><span class="rrresult">VS</span></td>'
+               '<td><span class="team2">دوقرة</span></td></tr>'
+               '<tr><td><span class="team1">شباب الأردن</span></td>'
+               '<td><span class="rrresult">VS</span></td>'
+               '<td><span class="team2">الرمثا</span></td></tr>'
+               '<tr><td>ستاد الأمير محمد - | 2026-09-05 - | 18:00</td></tr>'
+               '</table>')
+    check("JFA", "a table holding two fixtures gives its time to neither",
+          jordan_football.collect_tournament(crowded, LEAGUE), [])
+
+    check("JFA", "a fixture with no kickoff of its own is dropped, not dated",
+          jordan_football.collect_tournament(
+              fixture("العربي", "VS", "السلط", ""), LEAGUE), [])
+
+    check("JFA", "a played match is still a score and still refused",
+          jordan_football.collect_tournament(
+              fixture("الوحدات", "2 - 1", "الفيصلي", amman), LEAGUE), [])
+
+    # The heading lies on this page as well: the professional league's
+    # own page carried عمان FC - الكرمل, and neither club is in the ten.
+    check("JFA", "and the roster still decides, not the heading",
+          jordan_football.collect_tournament(
+              fixture("عمان FC", "VS", "الكرمل", amman), LEAGUE), [])
+
+    # Both pages reach fetch_events, and the fixture the app showed is on
+    # both. One row, not two — and the homepage's Amman kickoff and the
+    # tournament page's Amman kickoff are the same instant, so they
+    # collapse on sight.
+    homepage = ('<table>'
+                '<tr><td colspan="5" height="22">'
+                f'<span class="haly">{LEAGUE}</span>'
+                '<span class="haly1">2026-09-04 | 20:30</span></td></tr>'
+                '<tr><td><span class="team1">الوحدات</span></td>'
+                '<td><span class="rrresult">VS</span></td>'
+                '<td><span class="team2">الفيصلي</span></td></tr>'
+                '</table>')
+    tournament = (fixture("الوحدات", "VS", "الفيصلي", amman)
+                  + fixture("العربي", "VS", "السلط",
+                            "ستاد الحسن - | 2026-09-05 - | 18:00"))
+
+    class OnePageEach:
+        def request(self, method, url, **kw):
+            class Answer:
+                text = tournament if "tourn.php" in url else homepage
+                status_code = 200
+
+                def raise_for_status(self):
+                    return None
+            return Answer()
+
+    floor = datetime(2026, 9, 1, tzinfo=timezone.utc)
+    ceiling = datetime(2026, 9, 30, tzinfo=timezone.utc)
+    both = jordan_football.fetch_events(OnePageEach(), floor, ceiling)
+    check("JFA", "a fixture on both pages reaches the board once",
+          [event["title"] for event in both],
+          ["الوحدات - الفيصلي", "العربي - السلط"])
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2381,7 +2592,9 @@ def main() -> int:
                  gate_a_long_wait_says_how_long,
                  gate_turkeys_own_league_is_read,
                  gate_the_other_sports_name_a_real_channel,
-                 gate_the_american_game_names_its_network):
+                 gate_the_american_game_names_its_network,
+                 gate_the_second_board_keeps_the_readers_order,
+                 gate_the_round_is_read_from_the_leagues_own_page):
         try:
             gate()
         except Exception as exc:
