@@ -137,6 +137,30 @@ CANDIDATES = (
     "https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard",
     "https://www.tapology.com/fightcenter_events",
     "https://api.sherdog.com/events",
+
+    # THE BROADCASTERS THEMSELVES, asked for by name: TNT, Sky and DAZN
+    # for the boxing and the MMA. They are the ones carrying the card, so
+    # they are the ones whose own schedule would split it — "Prelims" and
+    # "Main Card" are PROGRAMMES on their channels, with their own start
+    # times, which is exactly the thing wheresthematch does not have.
+    #
+    # Sky publishes an EPG service openly, which is the most promising
+    # thing in this list: a channel list and then a day's schedule per
+    # channel, as JSON. If it answers, a UFC prelim is a programme title
+    # on Sky Sports Action with a start of its own and nothing has to be
+    # inferred at all.
+    "https://awk.epgsky.com/hawk/linear/services/4101/1",
+    "https://awk.epgsky.com/hawk/linear/schedule/20260905/4090",
+    "https://www.skysports.com/watch/tv-guide",
+    "https://www.skysports.com/boxing/fixtures-results",
+    "https://www.skysports.com/mma",
+
+    "https://www.tntsports.co.uk/tv-schedule/",
+    "https://www.tntsports.co.uk/boxing/",
+    "https://www.tntsports.co.uk/mma/",
+
+    "https://www.dazn.com/en-GB/schedule",
+    "https://www.dazn.com/en-GB/sport/boxing",
     "https://www.tapology.com/fightcenter",
     "https://www.sherdog.com/events",
     "https://www.espn.com/mma/schedule",
@@ -165,6 +189,11 @@ def probe_candidates(session) -> None:
         print(f"        broadcaster mentions: {len(hits)}  {distinct[:8]}")
         print(f"        <time datetime=: {text.count('<time datetime=')}, "
               f"ld+json: {text.count('application/ld+json')}")
+        cards = {word: len(re.findall(word, text, re.I))
+                 for word in ("early prelim", "prelim", "main card",
+                              "main event", "undercard")}
+        if any(cards.values()):
+            print(f"        THE CARD: {cards}")
 
 
 def prelims(session) -> None:
