@@ -32,13 +32,38 @@ on:
   # forty-five. GitHub drops sub-hourly schedules first when it is busy,
   # and this repository is evidently on the wrong side of that. The
   # cadence is unchanged; only the way it is asked for is.
+  # TWELVE, not six, and the extra six are a response to a measurement
+  # rather than a hope. On 3 September the six above produced this:
+  #
+  #   06:15 · 05:54 · 05:10 · 04:17 · 04:09 · 01:26 · 01:22 · 01:15
+  #   and then nothing at all between 07:16 and 08:18
+  #
+  # One or two an hour where six were asked for, and a clear hour with
+  # none — a reader noticed before any check did, because a screen an
+  # hour old looks exactly like a screen that is broken.
+  #
+  # There is nothing to fix at this end: GitHub drops scheduled runs when
+  # it is busy and says nothing. What can be done is ask more often, so
+  # that what survives the dropping is still frequent. Two runs an hour
+  # out of twelve asked is the same board a reader sees; out of six it
+  # was the gap they noticed.
+  #
+  # It costs nothing when they do all fire: the concurrency group below
+  # already refuses to run two at once, and a pass that finds nothing
+  # changed commits nothing.
   schedule:
     - cron: "3 * * * *"
+    - cron: "8 * * * *"
     - cron: "13 * * * *"
+    - cron: "18 * * * *"
     - cron: "23 * * * *"
+    - cron: "28 * * * *"
     - cron: "33 * * * *"
+    - cron: "38 * * * *"
     - cron: "43 * * * *"
+    - cron: "48 * * * *"
     - cron: "53 * * * *"
+    - cron: "58 * * * *"
 
   # And a belt for the braces: the full build's schedule demonstrably
   # fires, so the screen is refreshed after every one of its passes too.
