@@ -98,6 +98,43 @@ def one_page(session, name: str, url: str, show: int) -> None:
     for row in hits[:4]:
         print(f"      >> {row[:170]}")
 
+    # WHICH DAY EACH ROW BELONGS TO, which the rows alone do not say: the
+    # date is its own row and every fixture under it belongs to it. This
+    # is the whole question — a page full of LAST week's fixtures cannot
+    # put tonight's match on a guide, and a page that has tonight and is
+    # being mis-parsed is a different fault entirely.
+    A_DAY = re.compile(r"^\s*(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s*"
+                       r"(\d{2}/\d{2}/\d{4})", re.I)
+    today = datetime.now(timezone.utc).strftime("%d/%m/%Y")
+    day, per_day = None, {}
+    for row in rows:
+        found = A_DAY.match(row)
+        if found:
+            day = found.group(2)
+            per_day.setdefault(day, [])
+        elif day and len(row) > 20 and "adsbygoogle" not in row:
+            per_day[day].append(row)
+
+    def as_date(text):
+        d, m, y = (int(part) for part in text.split("/"))
+        return (y, m, d)
+
+    days = sorted(per_day, key=as_date)
+    if not days:
+        print("   NO DATE HEADINGS FOUND — the rows carry no day at all")
+        return
+    now_key = as_date(today)
+    ahead = [d for d in days if as_date(d) >= now_key]
+    print(f"   days on this page: {days[0]} .. {days[-1]}  "
+          f"({len(days)} of them)")
+    tail = ("  ->  " + ", ".join(ahead[:6]) if ahead
+            else "   <- NONE. This page is an ARCHIVE of past fixtures.")
+    print(f"   TODAY IS {today}; days at or after it: {len(ahead)}{tail}")
+    for one in ahead[:3]:
+        print(f"      {one}:")
+        for row in per_day[one][:6]:
+            print(f"         | {row[:140]}")
+
 
 def main() -> int:
     session = requests.Session()
