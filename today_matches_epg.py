@@ -333,6 +333,11 @@ WANTED_ARABIC = (
     "الدوري الأردني", "كأس الأردن", "كأس مصر", "السوبر المصري",
     "كأس تركيا", "كأس الملك", "كأس إنجلترا", "كأس ألمانيا",
     "كأس إيطاليا", "كأس إسبانيا", "كأس فرنسا",
+    # England's two cups as beIN's own guide has them named here. The
+    # Latin forms are already in WANTED_PARTS — "fa cup", "efl",
+    # "carabao" — and these are the same competitions arriving in Arabic
+    # from beIN's guide rather than in English from a listings page.
+    "كأس الاتحاد الإنجليزي", "كأس الرابطة الإنجليزية",
 )
 
 # Clubs that belong here whatever they are playing in. Asked for by name,

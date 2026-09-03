@@ -4130,6 +4130,49 @@ def gate_the_broadcaster_is_the_source_for_its_own_matches() -> None:
     check("OURS", "  and the Champions League",
           "دوري أبطال أوروبا" in names, True)
 
+    # THE WHOLE EFL AND THE TWO CUPS, asked for by name: "efl,
+    # championship, fa cup كلهم هدول beIN qatar بتبثها كمان خليه مرجع
+    # قوي الهم". Named here AND wanted by the board's own filter, which
+    # are two different things and were once out of step.
+    import today_matches_epg as today
+    for competition in ("الدوري الإنجليزي الدرجة الأولى",
+                        "الدوري الإنجليزي الدرجة الثانية",
+                        "الدوري الإنجليزي الدرجة الثالثة",
+                        "كأس الرابطة الإنجليزية",
+                        "كأس الاتحاد الإنجليزي"):
+        check("OURS", f"beIN's guide is read for {competition}",
+              competition in names, True)
+        check("OURS", f"  and the board wants it",
+              today.wanted({"competition": competition, "title": "A - B",
+                            "channels": ["beIN SPORTS 1"]}), True)
+
+    # A ROUND IS A CUP ROUND WHEN THE TITLE NAMES TWO CLUBS, and a
+    # session of something when it does not. All twenty-two "Round N"
+    # titles in beIN's guide used to be refused together, and three of
+    # them are the League Cup.
+    home, away = own_guides.fixture_in(
+        "Millwall vs Newcastle - Carabao Cup 2026 / 2027 - Round 3 • Live")
+    check("OURS", "a cup round with two clubs is a fixture",
+          (home, away), ("Millwall", "Newcastle"))
+    for title in ("Longines Global Champions Tour - London Jumping - "
+                  "Round 1 Competition Team",
+                  "EN Carabao Cup Highlights 2026/27 | Round 2"):
+        check("OURS", f"but not: {title[:44]}",
+              own_guides.fixture_in(title), ("", ""))
+
+    # AND "Championship" IS ANCHORED ON THE EFL, not on the word. beIN
+    # puts it on three motor-racing series and an athletics meeting.
+    efl = next(row for row in own_guides.OUR_OWN_FIXTURES
+               if row[3] == "الدوري الإنجليزي الدرجة الأولى")[2]
+    check("OURS", "the Championship pattern reads the EFL's own wording",
+          bool(efl.search("EFL - English Football League SkyBet - "
+                          "Championship 2026/2027")), True)
+    for other in ("Monza Round - FIA Formula 3 Championship",
+                  "Imola Round - Formula Regional European Championship 2026",
+                  "Day Session - World Athletics U20 Championships - Oregon"):
+        check("OURS", f"  and not {other[:40]}",
+              bool(efl.search(other)), False)
+
     # A grid title that is not a fixture.
     for title in ("Bein Champions - UEFA Champions League 2026-2027 • Live",
                   "Avant Match Reims vs Guingamp - Ligue 2 • Live",
