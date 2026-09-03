@@ -90,6 +90,27 @@ PAGES = (
     # season. Asked for in those words.
     ("/live-rugby-union-on-tv/", "Rugby",
      re.compile(r"world cup", re.I), None),
+
+    # BASKETBALL, and it is wired now on purpose so that it starts on its
+    # own. The NBA season opens in October: this page reads zero rows
+    # today, which is the source being right rather than broken, and the
+    # day the season starts the games appear with no further work.
+    #
+    # The channels here are BRITISH, because this source is: an NBA game
+    # comes back on Sky Sports or TNT rather than on ABC or ESPN. That is
+    # a real limit and not a temporary one.
+    #
+    # The American networks would come from a schedule page with a
+    # network column, the way the NFL's does — and that CANNOT be read
+    # yet for a reason worth writing down rather than forgetting: an
+    # off-season page has no games in it, so there is no markup to
+    # measure. Reading it now would be guessing at a shape, which on this
+    # project has never once been cheaper than waiting for the real thing.
+    ("/live-basketball-on-tv/", "NBA",
+     re.compile(r"\bNBA\b", re.I), None),
+
+    ("/live-basketball-on-tv/", "FIBA",
+     re.compile(r"\bFIBA\b|eurobasket|basketball world cup", re.I), None),
 )
 
 # A row says it does not know yet. It is not a channel and never reaches
