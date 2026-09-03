@@ -2968,11 +2968,16 @@ def gate_the_window_keeps_moving() -> None:
         # must carry more than an hour with room to spare, and a number
         # chosen from what the build is SUPPOSED to do is not allowed
         # back.
-        AN_OUTAGE = 60 * 60
-        check("WINDOW", "IT OUTLASTS AN HOUR WITH NO BUILD AT ALL",
-              video.WINDOW_MINUTES * 60 > AN_OUTAGE * 2, True)
-        check("WINDOW", "and carries a whole night of one",
-              video.WINDOW_MINUTES * 60 >= 12 * 3600, True)
+        # The window must outlast a build outage — but the runway a
+        # player actually gets is the START POSITION, not the window, and
+        # buying window past that is bandwidth spent on every poll for
+        # nothing. Two hours of window against thirty minutes of runway
+        # is margin; twelve hours was 91 KB a poll for runway no player
+        # was ever going to use.
+        check("WINDOW", "the window has room to spare over the runway",
+              video.WINDOW_MINUTES * 60 >= 2 * video.START_BACK, True)
+        check("WINDOW", "without paying for hours nobody reaches",
+              video.WINDOW_MINUTES * 60 <= 4 * 3600, True)
 
         # AND THE PLAYER IS TOLD TO USE IT. This is the half that was
         # missing when the window was lengthened the first time, and
@@ -2982,15 +2987,27 @@ def gate_the_window_keeps_moving() -> None:
         # minute of window is decoration until this tag says otherwise.
         start = [line for line in second.splitlines()
                  if line.startswith("#EXT-X-START:")]
-        check("WINDOW", "THE PLAYER IS SENT TO THE FRONT OF THE WINDOW",
-              len(start), 1)
-        check("WINDOW", "at offset zero, so the runway is the whole thing",
-              "TIME-OFFSET:0" in start[0], True)
+        check("WINDOW", "the player is told where to start", len(start), 1)
 
-        # A window is only worth its length if a player actually gets it.
+        # AND THE OFFSET IS NEGATIVE, which is the whole lesson of this
+        # gate. A POSITIVE offset is measured from the START of the
+        # playlist (RFC 8216 §4.3.5.2), so TIME-OFFSET:0 asks a player to
+        # open twelve hours behind live — legal, literal, and it took
+        # both channels off the air, because a television will not do it.
+        # A negative offset is measured back from the end, which is the
+        # ordinary way to say "start near live".
+        offset = float(re.search(r"TIME-OFFSET:(-?[\d.]+)",
+                                 start[0]).group(1))
+        check("WINDOW", "AND IT IS NEGATIVE — measured back from LIVE",
+              offset < 0, True)
+        check("WINDOW", "half an hour of runway, not the old sixty seconds",
+              f"{-offset / 60:.0f} min vs {3 * video.HOLD}s", "30 min vs 60s")
+
+        # The window has to be longer than the start position or the
+        # player is asked to begin before the playlist does.
         runway = second.count("#EXTINF") * video.HOLD
-        check("WINDOW", "so the runway is hours, not the old sixty seconds",
-              f"{runway / 3600:.0f}h vs {3 * video.HOLD}s", "12h vs 60s")
+        check("WINDOW", "and the window is longer than that start position",
+              runway > -offset, True)
 
         # RFC 8216 §6.2.2: a window that slides past an EXT-X-DISCONTINUITY
         # must say how many have gone, or a player cannot line up the
