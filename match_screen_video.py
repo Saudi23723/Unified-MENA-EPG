@@ -45,6 +45,7 @@ a handful of files a day rather than a hundred and forty.
 from __future__ import annotations
 
 import hashlib
+import math
 import os
 import re
 import shutil
@@ -92,11 +93,31 @@ SCREENS = {
 # already knows and works around everywhere else.
 #
 # So the window is no longer sized by what the build is SUPPOSED to do.
-# Six hours is longer than any outage yet seen, longer than the hourly
-# watch takes to notice a dropped schedule and dispatch one by hand, and
-# still only about fifty kilobytes of text. The channel now survives a
-# missed build instead of dying on it.
-WINDOW_MINUTES = 6 * 60
+#
+# AND ON ITS OWN IT FIXED NOTHING, which is worth writing down because
+# it was shipped believing otherwise. A live player does not start at
+# the front of the window — RFC 8216 §6.3.3 puts it three target
+# durations back from the END — so the runway was sixty seconds whether
+# this said thirty minutes or six hours. EXT-X-START, written into the
+# playlist, is what turns this number into runway at all; without it
+# the window is decoration. Neither is any use without the other.
+#
+# TWELVE HOURS, and the length is a real trade rather than a free lunch:
+# the whole playlist is re-fetched once per target duration, so every
+# hour of window is bandwidth spent on every poll, forever. Measured
+# against a 700 KB segment every twenty seconds:
+#
+#        2 h    15 KB     2% of the video
+#        6 h    45 KB     6%
+#       12 h    91 KB    13%
+#       24 h   181 KB    26%   <- enough overhead to cause the fault
+#                               it is meant to prevent
+#
+# Twelve carries a whole night of Actions being down — far past the
+# hour the watch needs to notice a dropped schedule — for an eighth of
+# what the pictures already cost. Twenty-four buys one more night at
+# double the price, on a box that is already the weak link.
+WINDOW_MINUTES = 12 * 60
 
 # HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
 # guide draws.
@@ -174,7 +195,7 @@ def boards(prefix: str) -> list[str]:
 #      overlap the one after it
 #   4  twelve frames a second with a keyframe every two, instead of one
 #      frame a second, no declared rate at all and one keyframe
-ENCODER_REVISION = 4
+ENCODER_REVISION = 5
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -306,7 +327,42 @@ def forget_old_segments(keep: list[str], prefix: str) -> int:
     return gone
 
 
-def encode_segment(board: str, out: str, place: int = 0) -> bool:
+# THE STEP BETWEEN BOARDS ON THE TIMELINE, and why it is not HOLD.
+#
+# A segment is not HOLD seconds long. Measured on the six actually on
+# air, every one is 20.032 — and the shape of the excess is not a rule
+# that could be worked out, it is a property of the encoder:
+#
+#     rate 16000   starts 0.064 early, runs 0.096 long
+#     rate 32000   starts 0.032 early, runs 0.032 long
+#     rate 48000   starts 0.021 early, runs 0.032 long
+#
+# So it is measured rather than calculated. Placing board k at k x HOLD
+# when the media is longer than HOLD made every board OVERLAP the next
+# by 32 milliseconds — six overlaps a lap, every lap, all day, and an
+# overlap is a timeline that disagrees with its own media, which a
+# player answers by re-syncing. Measured on the published reel:
+#
+#     other_sports_1   19.968 -> 40.000   -0.032 s  OVERLAP
+#     other_sports_2   39.968 -> 60.000   -0.032 s  OVERLAP     ... all six
+#
+# Stepping by the measured length instead closes them exactly:
+#
+#     p1  40.0320 -> 60.0640   +0.0000 s  CLEAN
+#     p2  60.0640 -> 80.0960   +0.0000 s  CLEAN
+#
+# AND THE FIRST BOARD STARTS A STEP IN, not at zero. The audio begins
+# before the nominal start, so an offset of zero asks the muxer for a
+# negative timestamp; it clamps instead, the segment lands 0.167 late,
+# and that one boundary overlaps while every other is clean. One step of
+# headroom costs nothing and removes the special case.
+def step_of(segment: str) -> float:
+    """The real length of an encoded segment, which is the timeline step."""
+    return seconds_of(segment)
+
+
+def encode_segment(board: str, out: str, place: int = 0,
+                   step: float | None = None) -> bool:
     """One board as a transport stream segment, at its place in the reel.
 
     THE PLACE IS WHY THIS TAKES AN INDEX, and it is the difference between
@@ -336,13 +392,22 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
         "-loop", "1", "-framerate", str(FPS), "-i", board,
         # Silent audio: a live-television player with no audio track at all
         # will sometimes sit on a black screen rather than show the video.
-        # 32000 and not 16000, measured rather than chosen. AAC codes 1024
-        # samples to a frame, so a segment's audio is only exactly HOLD
-        # seconds long when HOLD x rate divides by 1024: 20 x 16000 gives
-        # 312.5 frames and a segment 96ms too long, 20 x 32000 gives 625
-        # exactly. Those spare milliseconds are an overlap with the next
-        # segment on a timeline that is supposed to be continuous, and a
-        # player answers an overlap by re-syncing.
+        # 32000 and not 16000, measured rather than chosen: 20 x 16000
+        # runs 96 ms long, 20 x 32000 runs 32 ms long.
+        #
+        # THE ARITHMETIC HERE USED TO SAY 32000 CAME OUT EXACT — 625
+        # frames of 1024 samples is 20.000 — and the files say otherwise.
+        # Every one of the six on air measures 20.032, which is 626
+        # frames: the encoder emits one past the count, and neither
+        # -shortest, -t, -frames:a nor an atrim filter removes it. Only
+        # dropping the audio does, and a player with no audio track will
+        # sometimes show black, so the audio stays.
+        #
+        # The excess is not worth fighting, and it is not a rule that
+        # could be derived either — 16000 starts 0.064 early and runs
+        # 0.096 long, 48000 starts 0.021 early and runs 0.032 long. So
+        # it is MEASURED, and every board is placed by the measured
+        # length rather than by HOLD, which is what closes the overlap.
         "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
         "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
@@ -358,7 +423,9 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
         "-muxpreload", "0",
         # Where this board sits in the reel, so the reel is one timeline.
-        "-output_ts_offset", str(place * HOLD),
+        # Measured step, and a step of headroom so board zero is not
+        # asked for a negative timestamp and silently clamped.
+        "-output_ts_offset", f"{(place + 1) * (step or HOLD):.6f}",
         "-f", "mpegts", out,
     ]
     done = subprocess.run(command, check=False, capture_output=True, text=True)
@@ -367,6 +434,35 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
              f"{(done.stderr or '').strip()[:300]}")
         return False
     return True
+
+
+def seconds_of(segment: str) -> float:
+    """How long the segment REALLY is, asked of the file.
+
+    The playlist used to declare HOLD for every entry because that is
+    what the encoder was told to make. Measured, they are 20.032 —
+    ffmpeg's AAC encoder emits one frame more than the arithmetic says,
+    and 626 frames of 1024 samples at 32000 is 20.032 seconds.
+
+    Thirty-two milliseconds sounds like nothing. It is an OVERLAP: the
+    playlist tells the player each board ends at a moment the media says
+    it is still going, and a player answers a timeline that disagrees
+    with its own media by re-syncing. Six boards a lap, every lap, all
+    day.
+
+    So the file is asked rather than assumed. A segment that cannot be
+    measured — the gate writes playlists for names that were never
+    encoded — falls back to HOLD, which is what it was before.
+    """
+    try:
+        done = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=nw=1:nk=1", segment],
+            check=False, capture_output=True, text=True)
+        found = float(done.stdout.strip())
+        return found if 0 < found < HOLD * 3 else float(HOLD)
+    except (ValueError, OSError):
+        return float(HOLD)
 
 
 def write_playlist(segments: list[str], out: str, now=None) -> int:
@@ -439,15 +535,42 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     # wraps are behind it.
     breaks_gone = opens_at // reel
 
+    # Measured once per board, not once per entry: the same six files
+    # are named hundreds of times in one window.
+    real = [seconds_of(one) for one in segments]
+
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
-        f"#EXT-X-TARGETDURATION:{HOLD}",
+        # At least the longest segment, rounded up, which the spec
+        # requires and which 20.032 breaks if this stays at 20.
+        f"#EXT-X-TARGETDURATION:{max(HOLD, math.ceil(max(real)))}",
         f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
         f"#EXT-X-DISCONTINUITY-SEQUENCE:{breaks_gone}",
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
+        # WHERE THE PLAYER STARTS, AND THE REASON THE WINDOW MEANS
+        # ANYTHING AT ALL.
+        #
+        # RFC 8216 §6.3.3: on a live playlist a client SHOULD begin at
+        # least three target durations back from the END. Not from the
+        # start — from the end. So a viewer opening this channel joined
+        # SIXTY SECONDS from the end of it, and sixty seconds is all the
+        # runway they had, whether the window behind them held half an
+        # hour or half a day.
+        #
+        # That is why lengthening the window on its own fixed nothing:
+        # six hours of playlist and a minute of runway. Once that minute
+        # ran out the player had to wait for a rebuild to append more,
+        # and every rebuild that came late was a stall — which is the
+        # buffering, reported over and over.
+        #
+        # This says: start at the beginning. The reel is the same two
+        # minutes of boards wherever it is entered, so nothing is lost
+        # by joining at the front — and the whole window becomes real
+        # runway instead of decoration.
+        "#EXT-X-START:TIME-OFFSET:0,PRECISE=YES",
     ]
     # A break only where the reel really starts over, which is the one
     # place the timeline goes backwards — the segments carry their place
@@ -456,7 +579,7 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         place = (opens_at + step) % reel
         if place == 0:
             lines.append("#EXT-X-DISCONTINUITY")
-        lines += [f"#EXTINF:{HOLD}.0,",
+        lines += [f"#EXTINF:{real[place]:.3f},",
                   os.path.basename(segments[place])]
     cycles = long_enough / reel
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
@@ -530,10 +653,31 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
+
+    # THE STEP IS MEASURED BEFORE ANYTHING IS PLACED. The first board is
+    # encoded on its own, its real length read off the file, and every
+    # board after it is placed by that. Guessing the step is what put a
+    # 32 ms overlap on every boundary; the encoder is the only thing that
+    # knows, so it is asked.
+    first = segment_of(reel[0])
+    if not encode_segment(reel[0], first, 0, HOLD):
+        return 1
+    step = step_of(first)
+    if abs(step - HOLD) > 0.001:
+        log(f"  a board measures {step:.3f}s, not {HOLD}s — placing every "
+            f"board by the measured length so no boundary overlaps")
+    # Re-placed with the step now known, so board zero sits on the same
+    # timeline as the rest.
+    if not encode_segment(reel[0], first, 0, step):
+        return 1
+
     segments = []
     for place, board in enumerate(reel):
         segment = segment_of(board)
-        if not encode_segment(board, segment, place):
+        if place == 0:
+            segments.append(segment)
+            continue
+        if not encode_segment(board, segment, place, step):
             # Same reasoning: what is published stays, and this pass says
             # it failed so nothing is committed on top of it.
             return 1

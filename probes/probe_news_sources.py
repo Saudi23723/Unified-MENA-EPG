@@ -41,23 +41,24 @@ import requests
 # The outlets, by the regions asked for. Each is the newsroom's own feed.
 SOURCES = (
     # ── الأردن ─────────────────────────────────────────────────────
-    ("JO", "رؤيا", "ar", "https://royanews.tv/rss/latest_news"),
-    ("JO", "المملكة", "ar", "https://www.almamlakatv.com/rss"),
-    ("JO", "عمون", "ar", "https://www.ammonnews.net/rss"),
-    ("JO", "بترا", "ar", "https://petra.gov.jo/RSS/1"),
+    # المملكة links this in its body; عمون answers 403 even to a browser,
+    # so it is a real block on datacentre addresses and not a header.
+    ("JO", "المملكة", "ar", "https://www.almamlakatv.com/rss.xml"),
     ("JO", "Jordan News", "en", "https://www.jordannews.jo/rss"),
     # ── عربي ───────────────────────────────────────────────────────
-    ("AR", "الجزيرة", "ar", "https://www.aljazeera.net/xml/rss/all.xml"),
-    ("AR", "سكاي عربية", "ar", "https://www.skynewsarabia.com/web/rss/full.xml"),
+    # BOTH OF THESE ARE THE SITE'S OWN DECLARATION, read out of its head
+    # rather than guessed. The guess for الجزيرة ended ...bfa02f8bd0e0 and
+    # 404'd; what it actually publishes ends ...bfdff8b8cab9.
+    ("AR", "الجزيرة", "ar",
+     "https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-"
+     "a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9"),
+    ("AR", "سكاي عربية", "ar", "https://www.skynewsarabia.com/rss.xml"),
     ("AR", "BBC عربي", "ar", "https://feeds.bbci.co.uk/arabic/rss.xml"),
-    ("AR", "العربية", "ar", "https://www.alarabiya.net/.mrss/ar.xml"),
     ("AR", "CNN عربية", "ar", "https://arabic.cnn.com/api/v1/rss/rss.xml"),
     ("AR", "France24 عربي", "ar",
      "https://www.france24.com/ar/rss"),
     # ── أمريكا ─────────────────────────────────────────────────────
     ("US", "NPR", "en", "https://feeds.npr.org/1001/rss.xml"),
-    ("US", "AP", "en", "https://apnews.com/index.rss"),
-    ("US", "CNN", "en", "http://rss.cnn.com/rss/edition.rss"),
     ("US", "NYT", "en",
      "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"),
     ("US", "CBS", "en", "https://www.cbsnews.com/latest/rss/main"),
@@ -73,7 +74,7 @@ SOURCES = (
     ("TR", "Anadolu", "tr", "https://www.aa.com.tr/tr/rss/default?cat=guncel"),
     ("TR", "Daily Sabah", "en", "https://www.dailysabah.com/rssFeed/homepage"),
     ("TR", "Hürriyet", "tr", "https://www.hurriyet.com.tr/rss/anasayfa"),
-    ("TR", "TRT World", "en", "https://www.trtworld.com/rss"),
+    ("TR", "TRT World", "en", "https://www.trtworld.com/feed/rss.xml"),
 )
 
 ARABIC = re.compile(r"[؀-ۿ]")
@@ -179,12 +180,48 @@ def one(session, region, outlet, tongue, url) -> None:
         print(f"          summary {len(summary):>4} chars: {summary[:78]}")
 
 
+def trt_haber(session) -> None:
+    """TRT Haber writes its own shape, so it is read on its own terms.
+
+    Not RSS: <haberler><haber> with <haber_manset> for the headline,
+    <haber_aciklama> for the summary and <haber_tarihi> for the time.
+    Whether that time is usable is the whole question, so it is printed
+    unparsed beside the clock.
+    """
+    url = "https://www.trthaber.com/xml_mobile.php?tur=xml_genel"
+    print(f"\n── TR  TRT Haber  (tr)  — its own shape, not RSS")
+    print(f"   {url}")
+    try:
+        page = session.get(url, timeout=25, headers={
+            "User-Agent": "Mozilla/5.0 (compatible; UnifiedMENAEPG/1.0)"})
+        root = ET.fromstring(page.content)
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"   UNREACHABLE  {str(exc)[:90]}")
+        return
+
+    stories = root.findall(".//haber")
+    dated = [one for one in stories if a_text(one.find("haber_tarihi"))]
+    print(f"   {len(stories)} <haber>, {len(dated)} carrying <haber_tarihi>")
+    if not dated:
+        print("   NO DATE ON ANY STORY — cannot be placed on an hourly board")
+        return
+    print(f"   now is {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC")
+    for one in dated[:4]:
+        raw = a_text(one.find("haber_tarihi"))
+        title = a_text(one.find("haber_manset"))
+        summary = a_text(one.find("haber_aciklama"))
+        print(f"      date {raw!r}")
+        print(f"           {title[:66]}")
+        print(f"           summary {len(summary):>4} chars")
+
+
 def main() -> int:
     session = requests.Session()
     print(f"asked at {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC, "
           f"{len(SOURCES)} source(s), every one an outlet's own feed\n")
     for row in SOURCES:
         one(session, *row)
+    trt_haber(session)
     print("\nDone. Nothing was written; the reader is written against what "
           "this printed.")
     return 0
