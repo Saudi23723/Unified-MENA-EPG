@@ -108,7 +108,9 @@ def boards(prefix: str) -> list[str]:
 #
 #   1  the original: every segment starts at zero
 #   2  each board stamped with its place in the reel
-ENCODER_REVISION = 2
+#   3  audio at 32kHz, so a segment is exactly HOLD seconds and does not
+#      overlap the one after it
+ENCODER_REVISION = 3
 
 
 def digest(paths: list[str]) -> str:
@@ -141,8 +143,17 @@ def segment_of(board: str) -> str:
     return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
 
 
+def still_wanted(prefix: str) -> set[str]:
+    """The segments the PREVIOUS pass published, which are not rubbish yet."""
+    path = os.path.join(OUT_DIR, f"{prefix}previous.txt")
+    if not os.path.exists(path):
+        return set()
+    with open(path, encoding="utf-8") as handle:
+        return {line.strip() for line in handle if line.strip()}
+
+
 def forget_old_segments(keep: list[str], prefix: str) -> int:
-    """Delete THIS screen's segments that no playlist points at any more.
+    """Delete this screen's segments that nothing points at ANY MORE.
 
     Content-addressed names mean a new board leaves its predecessor
     behind, and left alone they would pile up a few files a day forever.
@@ -150,16 +161,56 @@ def forget_old_segments(keep: list[str], prefix: str) -> int:
     Only this screen's own segments are considered, and that is the whole
     point of the prefix: both screens publish into stream/, and a sweep
     that deleted everything it did not recognise would take the other
-    screen's segments with it every pass — leaving a live playlist
-    naming files that are gone.
+    screen's segments with it every pass.
+
+    ONE GENERATION IS KEPT, and that is the buffering.
+
+    A board changes every pass, because it prints a countdown. Its bytes
+    change, so its name changes, so every ten minutes every segment is a
+    new file and every old one was deleted the same minute. Meanwhile a
+    television is holding the PREVIOUS playlist — raw.githubusercontent
+    serves it with a five-minute cache, so it holds it for up to five
+    minutes after we replaced it — and it is still working through the
+    names on it. Every one of those files has just been deleted. It asks
+    for the next, gets a 404, and shows a spinner.
+
+    That is not a corner case: it happened on every pass, to every viewer
+    who was watching, which is exactly what a reader kept photographing.
+    A live server never deletes a segment the moment it leaves the
+    playlist; it drops it from the window and keeps the file a while
+    longer. This keeps the last generation — one pass, ten minutes, twice
+    the cache it has to outlive — and deletes the one before that.
     """
     wanted = {os.path.basename(path) for path in keep}
+    spared = still_wanted(prefix) - wanted
     gone = 0
     for name in sorted(os.listdir(OUT_DIR)):
         if (name.startswith(prefix) and name.endswith(".ts")
-                and name not in wanted):
+                and name not in wanted and name not in spared):
             os.remove(os.path.join(OUT_DIR, name))
             gone += 1
+
+    # TWO RECORDS, because the sweep and the gate need different facts
+    # and writing one for both is how this went wrong the first time.
+    #
+    #   previous.txt  what THIS pass published. The next pass reads it to
+    #                 know what to spare.
+    #   keeping.txt   what this pass SPARED. It is on disk and the
+    #                 playlist does not name it, which is exactly what
+    #                 the screen gate is built to catch — so the gate is
+    #                 told, by name, which files are there on purpose.
+    #
+    # Writing the current set to both looked equivalent and is not: the
+    # gate then reads "what is current" where it needed "what is kept",
+    # sees a spared segment it was never told about, and stops the build.
+    for name, names in ((f"{prefix}previous.txt", sorted(wanted)),
+                        (f"{prefix}keeping.txt", sorted(spared))):
+        with open(os.path.join(OUT_DIR, name), "w",
+                  encoding="utf-8", newline="\n") as handle:
+            handle.write("\n".join(names) + ("\n" if names else ""))
+    if spared:
+        log(f"  {len(spared)} segment(s) kept one more pass, so a "
+            f"television on the old playlist does not hit a 404")
     return gone
 
 
@@ -193,12 +244,20 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
         "-loop", "1", "-framerate", "1", "-i", board,
         # Silent audio: a live-television player with no audio track at all
         # will sometimes sit on a black screen rather than show the video.
-        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=16000",
+        # 32000 and not 16000, measured rather than chosen. AAC codes 1024
+        # samples to a frame, so a segment's audio is only exactly HOLD
+        # seconds long when HOLD x rate divides by 1024: 20 x 16000 gives
+        # 312.5 frames and a segment 96ms too long, 20 x 32000 gives 625
+        # exactly. Those spare milliseconds are an overlap with the next
+        # segment on a timeline that is supposed to be continuous, and a
+        # player answers an overlap by re-syncing.
+        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
         "-vf", "fps=1", "-pix_fmt", "yuv420p",
         "-g", str(KEYFRAME_EVERY), "-crf", "32",
         "-c:a", "aac", "-b:a", "8k", "-ac", "1",
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
+        "-muxpreload", "0",
         # Where this board sits in the reel, so the reel is one timeline.
         "-output_ts_offset", str(place * HOLD),
         "-f", "mpegts", out,
@@ -244,34 +303,52 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     that long. Ten-minute builds live with it comfortably.
     """
     now = now or time.time()
-    per_cycle = max(1, len(segments))
-    cycles = max(1, (WINDOW_MINUTES * 60) // (HOLD * per_cycle))
+    reel = max(1, len(segments))
+    long_enough = max(reel, (WINDOW_MINUTES * 60) // HOLD)
+
+    # A WINDOW THAT ACTUALLY SLIDES.
+    #
+    # This is the second half of the frozen-screen fix, and getting the
+    # first half alone was worse than getting neither. MEDIA-SEQUENCE
+    # numbers the FIRST segment in the window, and a player uses it to
+    # work out what happened while it was away: the sequence went up by
+    # thirty, so thirty segments have left the front, so what I was
+    # playing is now thirty places further back.
+    #
+    # The first fix moved the number every pass and left the list
+    # identical. A player was therefore told thirty segments had been
+    # dropped from a list that had not changed at all — so it could not
+    # find where it was, gave up, and re-synced. Every ten minutes, on
+    # both channels. That is the buffering.
+    #
+    # So the list moves with the number. The reel repeats forever, the
+    # window is half an hour of it, and where the window sits is decided
+    # by the clock: at whole-HOLD tick T the window opens at reel
+    # position T mod (length of reel). A pass ten minutes later opens
+    # thirty positions further along — which is exactly what the sequence
+    # number says, and now it is true. A player away for less than the
+    # window's own length finds its place still in it and plays straight
+    # on.
+    opens_at = int(now // HOLD)
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{HOLD}",
-        f"#EXT-X-MEDIA-SEQUENCE:{int(now // HOLD)}",
+        f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
     ]
-    # ONE DISCONTINUITY PER CYCLE, not one per board.
-    #
-    # It used to be one per board, and that is what a reader photographed:
-    # a spinner between one board and the next, on both channels. A
-    # discontinuity tells a player the clock is about to start over, and a
-    # player answers by tearing its decoder down and building it again —
-    # every twenty seconds, all day.
-    #
-    # The segments now carry their place in the reel (see encode_segment),
-    # so a cycle is one continuous timeline and needs no break inside it.
-    # The reel does start over when it reaches the end, and that is a real
-    # discontinuity, so it is still declared — once, at the top of each
-    # cycle, instead of fourteen times inside it.
-    for _ in range(cycles):
-        lines.append("#EXT-X-DISCONTINUITY")
-        for segment in segments:
-            lines += [f"#EXTINF:{HOLD}.0,", os.path.basename(segment)]
+    # A break only where the reel really starts over, which is the one
+    # place the timeline goes backwards — the segments carry their place
+    # in the reel, so everything between two wraps is continuous.
+    for step in range(long_enough):
+        place = (opens_at + step) % reel
+        if place == 0:
+            lines.append("#EXT-X-DISCONTINUITY")
+        lines += [f"#EXTINF:{HOLD}.0,",
+                  os.path.basename(segments[place])]
+    cycles = long_enough / reel
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
     return cycles

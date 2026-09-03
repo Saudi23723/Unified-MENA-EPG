@@ -299,3 +299,144 @@ def add_channels(events: list[dict],
         if rows:
             added += attach(events, rows, name)
     return added
+
+
+# ─── The second board: events that are not two clubs ────────────────────
+#
+# A grand prix has no home and away, and neither has a UFC card, so
+# nothing above can match them: fixture_in() wants "A - B" and returns
+# nothing for "Italian Grand Prix Practice 1".
+#
+# The rule underneath is the same one, though, and it is the reason this
+# is safe: TWO INDEPENDENT ANCHORS. There it is the kickoff minute and a
+# club; here it is the start minute and a phrase that names the event.
+# One alone is a coincidence — beIN shows something at 10:30 every day —
+# and both together is the same broadcast written twice.
+#
+# WHERE THE FACT COMES FROM MATTERS MORE THAN THE MATCHING. A reader
+# named beIN for Formula One and STARZPLAY for the UFC and was right, and
+# it was still the wrong way to know it: a hand-written rights table is a
+# claim that goes stale silently the season it stops being true. These
+# guides are the broadcasters' own feeds, rebuilt every hour, and they
+# say it themselves —
+#
+#   bein_sports_qatar_epg.xml   63 F1 programmes, 294 tennis
+#   starzplay_epg.xml           14 UFC, among them Dana White's
+#                               Contender Series and The Ultimate Fighter
+#
+# — so nothing here asserts who carries what. It reads it. The day beIN
+# loses Formula One, its feed stops carrying it and this stops saying it,
+# with nobody editing a line.
+#
+# The phrase is what stops one grand prix being mistaken for another, and
+# it earns its place: STARZPLAY's guide carries "Emirates Great Britain
+# Grand Prix - SailGP", which is sailing. "Italian Grand Prix" does not
+# appear in it, and that is the whole test.
+A_GRAND_PRIX = re.compile(r"([A-Z][\w’'-]*(?:\s+[A-Z][\w’'-]*)*\s+Grand\s+Prix)")
+A_MAJOR = re.compile(r"(us open|wimbledon|australian open|roland garros"
+                     r"|french open)", re.I)
+A_SESSION = re.compile(r"(practice\s*\d|qualifying|sprint|\brace\b)", re.I)
+
+
+def what_names_it(event: dict) -> list[str]:
+    """The phrases a guide would have to print to be showing THIS event.
+
+    Every one of them must appear, so a longer list is a stricter match.
+    An event this cannot name returns nothing and is left alone — which
+    is most of them, and is correct: a board may not put a channel on an
+    event nobody published.
+    """
+    title = event.get("title", "") or ""
+    sport = event.get("sport", "")
+
+    if sport == "F1":
+        prix = A_GRAND_PRIX.search(title)
+        if not prix:
+            return []
+        wanted = [prix.group(1)]
+        session = A_SESSION.search(title)
+        if session:
+            # Practice 1 is not Practice 2 and neither is the race.
+            wanted.append(session.group(1))
+        return wanted
+
+    if sport == "Tennis":
+        major = A_MAJOR.search(title)
+        return [major.group(1)] if major else []
+
+    if sport == "MMA":
+        return ["UFC"] if re.search(r"\bUFC\b", title) else []
+
+    return []
+
+
+def says_all_of(title: str, phrases: list[str]) -> bool:
+    low = norm(title).casefold()
+    return all(phrase.casefold() in low for phrase in phrases)
+
+
+def programmes(path: str, mark: str) -> list[dict]:
+    """Every programme one guide publishes, with the channel showing it.
+
+    Unlike broadcasts() above this parses no fixture out of the title —
+    the events it is for have no two sides — so the title is kept whole
+    and matched against by phrase.
+    """
+    if not os.path.exists(path):
+        return []
+    try:
+        guide = ET.parse(path).getroot()
+    except Exception:                                         # noqa: BLE001
+        return []
+
+    named = {}
+    for channel in guide.findall("channel"):
+        label = channel.find("display-name")
+        named[channel.get("id")] = norm(
+            label.text if label is not None and label.text
+            else channel.get("id"))
+
+    out = []
+    for programme in guide.findall("programme"):
+        title = programme.find("title")
+        text = norm(title.text if title is not None and title.text else "")
+        if not text:
+            continue
+        try:
+            start = datetime.strptime(programme.get("start", ""), XMLTV_TIME)
+        except ValueError:
+            continue
+        channel = one_channel(named.get(programme.get("channel"), ""))
+        if not channel:
+            continue
+        out.append({"start": start, "title": text,
+                    "channel": f"{channel}{mark}"})
+    return out
+
+
+def add_channels_by_name(events: list[dict]) -> int:
+    """Name, on each event, the channel this reader's own guides show it on."""
+    named = 0
+    asked = [(event, what_names_it(event)) for event in events]
+    for path, mark in GUIDES:
+        rows = programmes(path, mark)
+        if not rows:
+            continue
+        found = 0
+        for event, phrases in asked:
+            if not phrases:
+                continue
+            for row in rows:
+                if abs(event["start"] - row["start"]) > SLACK:
+                    continue
+                if not says_all_of(row["title"], phrases):
+                    continue
+                if row["channel"] not in event["channels"]:
+                    event["channels"].append(row["channel"])
+                    found += 1
+                break
+        if found:
+            log(f"  {os.path.basename(path)}: {found} channel(s) named "
+                f"from this reader's own guide")
+        named += found
+    return named

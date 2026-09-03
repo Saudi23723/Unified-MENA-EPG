@@ -39,6 +39,7 @@ red, which is the point.
 from __future__ import annotations
 
 import os
+import re
 import sys
 import tempfile
 import xml.etree.ElementTree as ET
@@ -721,13 +722,29 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     check("SCREEN", f"{prefix} every segment the playlist names exists",
           missing, [])
 
-    # Nothing of THIS screen's published that its playlist does not point
-    # at. Only its own segments are considered: the two screens share
-    # stream/, and each one's sweep must leave the other's alone.
+    # Nothing of THIS screen's published that neither its playlist nor
+    # the pass before it points at. Only its own segments are considered:
+    # the two screens share stream/, and each one's sweep must leave the
+    # other's alone.
+    #
+    # THE PASS BEFORE IT COUNTS, and that is not a loophole — it is the
+    # fix to the buffering. A board changes every pass because it prints
+    # a countdown, so every segment is renamed every ten minutes; a
+    # television holding the previous playlist (raw.githubusercontent
+    # serves it with a five-minute cache) is still working through the
+    # old names, and deleting those files the moment they leave the
+    # playlist hands it a 404 and a spinner. One generation is kept on
+    # purpose. Two would be litter, and this still says so.
+    spared = _os.path.join(stream_dir, f"{prefix}keeping.txt")
+    grace = set()
+    if _os.path.exists(spared):
+        with open(spared, encoding="utf-8") as handle:
+            grace = {line.strip() for line in handle if line.strip()}
     on_disk = {name for name in _os.listdir(stream_dir)
                if name.endswith(".ts") and name.startswith(prefix)}
-    check("SCREEN", f"{prefix} and nothing is published that it does not name",
-          sorted(on_disk - set(distinct)), [])
+    check("SCREEN", f"{prefix} and nothing is published that neither it "
+                    f"nor the pass before it names",
+          sorted(on_disk - set(distinct) - grace), [])
 
     # The heart of it: the name has to be the fingerprint of the picture.
     #
@@ -2775,6 +2792,28 @@ def gate_the_window_keeps_moving() -> None:
               sequence_of(second) > sequence_of(first), True)
         check("WINDOW", "and it moved by the ten minutes that passed",
               sequence_of(second) - sequence_of(first), 600 // video.HOLD)
+
+        # AND THE LIST MOVED WITH THE NUMBER, which is the whole of it.
+        #
+        # MEDIA-SEQUENCE numbers the FIRST segment in the window, so a
+        # player uses it to work out what happened while it was away:
+        # thirty more, so thirty have left the front, so what I was
+        # playing is thirty places further back.
+        #
+        # The first version of this fix moved the number and left the
+        # list identical. A player was told thirty segments had gone from
+        # a list that had not changed at all — could not find its place,
+        # gave up, and re-synced. Every ten minutes, on both channels.
+        # That was the buffering, and it was introduced by fixing the
+        # freeze. Half a fix here is worse than none.
+        def played(text):
+            return [line for line in text.splitlines()
+                    if line.strip().endswith(".ts")]
+
+        moved = sequence_of(second) - sequence_of(first)
+        was, now_ = played(first), played(second)
+        check("WINDOW", "and the segments moved with it, so nobody re-syncs",
+              was[moved:] == now_[:len(was) - moved], True)
         check("WINDOW", "it never goes backwards between passes",
               sequence_of(first) < sequence_of(second), True)
 
@@ -2795,8 +2834,22 @@ def gate_the_window_keeps_moving() -> None:
               (breaks, breaks == laps), (laps, True))
         check("WINDOW", "so a three-board reel breaks once every three",
               second.count("#EXTINF") // breaks, len(segments))
+
+        # A reel whose length does not divide the shift is the case that
+        # would hide a wrong answer, so it is the one that is checked.
+        for reel in (7, 10, 13):
+            many = [f"r{n}.ts" for n in range(reel)]
+            video.write_playlist(many, out, now=1_000_000)
+            one = open(out, encoding="utf-8").read()
+            video.write_playlist(many, out, now=1_000_000 + 600)
+            two = open(out, encoding="utf-8").read()
+            step = sequence_of(two) - sequence_of(one)
+            a, b = played(one), played(two)
+            check("WINDOW", f"a {reel}-board reel slides by the same step",
+                  a[step:] == b[:len(a) - step], True)
         check("WINDOW", "and the player is told it may read ahead",
               "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
+
 
         # The three things that make it live at all, none of which may
         # come back: any one of them stops a player reloading.
@@ -2812,6 +2865,26 @@ def gate_the_window_keeps_moving() -> None:
     # spinner.
     import inspect
     body = inspect.getsource(video.main)
+
+    # A SEGMENT MUST BE EXACTLY AS LONG AS THE PLAYLIST SAYS IT IS.
+    #
+    # The playlist writes EXTINF:20.0 for every segment and the segments
+    # are stamped with their place in the reel, so a segment that runs
+    # 20.096s ends 96ms after the next one is supposed to begin. On a
+    # timeline that is supposed to be continuous that overlap is a
+    # contradiction, and a player answers a contradiction by re-syncing.
+    #
+    # AAC codes 1024 samples to a frame, so the audio is exactly HOLD
+    # seconds only when HOLD x rate divides by 1024. Measured: 16000
+    # gives 312.5 frames, 32000 gives 625.
+    encoder = inspect.getsource(video.encode_segment)
+    rate = re.search(r"sample_rate=(\d+)", encoder)
+    check("WINDOW", "the encoder names a sample rate at all",
+          rate is not None, True)
+    if rate:
+        frames = video.HOLD * int(rate.group(1)) / 1024
+        check("WINDOW", "and a segment's audio lands exactly on its end",
+              frames == int(frames), True)
     already, _ = body.split("os.makedirs(OUT_DIR", 1)
     check("WINDOW", "the not-re-encoded pass writes the playlist too",
           "write_playlist" in already, True)
@@ -2844,6 +2917,50 @@ def gate_the_window_keeps_moving() -> None:
             video.ENCODER_REVISION = was
     check("WINDOW", "a new encoder revision re-encodes an unchanged board",
           before != after, True)
+
+    # ONE GENERATION OF SEGMENTS SURVIVES A PASS, which is the buffering.
+    # A television holding the previous playlist is still asking for the
+    # names on it; deleting those the moment they leave the playlist is a
+    # 404 and a spinner, on every pass, for everyone watching.
+    with tempfile.TemporaryDirectory() as tmp:
+        was_out = video.OUT_DIR
+        try:
+            video.OUT_DIR = tmp
+            old_names = ["scr_0.aaaa1111.ts", "scr_1.aaaa2222.ts"]
+            new_names = ["scr_0.bbbb1111.ts", "scr_1.bbbb2222.ts"]
+            older = ["scr_0.99990000.ts"]
+            for name in old_names + new_names + older:
+                open(os.path.join(tmp, name), "wb").close()
+            # The pass before this one published old_names.
+            with open(os.path.join(tmp, "scr_previous.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("\n".join(old_names) + "\n")
+
+            video.forget_old_segments(
+                [os.path.join(tmp, n) for n in new_names], "scr_")
+            left = sorted(n for n in os.listdir(tmp) if n.endswith(".ts"))
+            with open(os.path.join(tmp, "scr_keeping.txt"),
+                      encoding="utf-8") as handle:
+                kept_written = [line.strip() for line in handle
+                                if line.strip()]
+        finally:
+            video.OUT_DIR = was_out
+
+    check("WINDOW", "this pass's segments are published",
+          all(name in left for name in new_names), True)
+    check("WINDOW", "the pass before it is kept, so no player hits a 404",
+          all(name in left for name in old_names), True)
+    check("WINDOW", "and the one before THAT is swept, so nothing piles up",
+          [name for name in older if name in left], [])
+
+    # And the gate is told which files are there on purpose. Writing the
+    # current set where the KEPT set belonged is what stopped a build:
+    # the gate read "what is current", saw a spared segment nobody had
+    # declared, and refused to publish.
+    kept_note = os.path.join(tmp, "scr_keeping.txt") if os.path.isdir(tmp) \
+        else None
+    check("WINDOW", "the sweep records what it kept, not what it wrote",
+          sorted(kept_written), sorted(old_names))
 
 
 def gate_a_simulcast_is_not_a_second_channel() -> None:
@@ -2905,8 +3022,14 @@ def gate_a_simulcast_is_not_a_second_channel() -> None:
     finally:
         world_sport_on_tv.events = was_world
         american_sport_on_tv.events = was_american
+    # The HDR twin is gone. beIN is there and is meant to be — the
+    # reader named it as F1's channel — so this asks what it is for
+    # rather than for an exact list that a rights fact would break.
+    carried = got[0]["channels"]
     check("SIMULCAST", "and so does the sports board",
-          [event["channels"] for event in got], [["Sky Sports F1"]])
+          [name for name in carried if "Ultra HDR" in name], [])
+    check("SIMULCAST", "without losing the channel it was beside",
+          "Sky Sports F1" in carried, True)
 
 
 def gate_each_channel_wears_its_own_mark() -> None:
@@ -2943,6 +3066,357 @@ def gate_each_channel_wears_its_own_mark() -> None:
     check("MARK", "so no two rows in the playlist wear one picture",
           len(set(marks.values())), len(marks))
 
+def gate_the_channel_comes_from_the_broadcasters_own_feed() -> None:
+    """Who carries a sport is read from the broadcaster, never asserted.
+
+    This board's source is British and only British — measured across all
+    forty-four of its pages: Sky 1106 mentions, TNT 363, DAZN 226, and
+    not one Fox, NBC, ESPN or beIN. So every row offered a viewer with a
+    MENA package the one set of channels they cannot open.
+
+    It was first fixed by writing down what a reader said: beIN has
+    Formula One, STARZPLAY has the UFC. Both true, and still the wrong
+    way to know it — a hand-written rights table is a claim that goes
+    stale in silence the season it stops being true, and nothing in a
+    build can tell.
+
+    The broadcasters say it themselves, in feeds this repository already
+    publishes and rebuilds every hour:
+
+        bein_sports_qatar_epg.xml   63 Formula One programmes, 294 tennis
+        starzplay_epg.xml           14 UFC, among them Dana White's
+                                    Contender Series and The Ultimate
+                                    Fighter
+
+    So nothing is asserted; it is read. And it comes back BETTER than the
+    table did — "beIN SPORTS 8" for a practice session and "beIN 4K" for
+    the race, which are the channel numbers the table refused to guess.
+
+    TWO ANCHORS make it safe, the same pair that make own_guides safe for
+    football: the start minute AND a phrase that names the event. One
+    alone is a coincidence — beIN broadcasts something at 10:30 every day
+    of the year. The phrase is what keeps one grand prix from being
+    another, and it earns its place on a real example: STARZPLAY's guide
+    carries "Emirates Great Britain Grand Prix - SailGP", which is
+    sailing, and "Italian Grand Prix" does not appear in it.
+    """
+    print("\nThe channel comes from the broadcaster's own feed — own_guides")
+    from datetime import datetime, timedelta, timezone
+
+    import own_guides
+
+    def event(sport, title, channels=()):
+        return {"sport": sport, "title": title,
+                "start": datetime(2026, 9, 4, 10, 30, tzinfo=timezone.utc),
+                "channels": list(channels)}
+
+    # What a guide would have to print to be showing this event.
+    check("FEED", "a grand prix is named by its prix and its session",
+          own_guides.what_names_it(
+              event("F1", "Italian Grand Prix Practice 1 - Monza Circuit")),
+          ["Italian Grand Prix", "Practice 1"])
+    check("FEED", "and the race is not the practice",
+          own_guides.what_names_it(
+              event("F1", "Italian Grand Prix Race - Monza Circuit")),
+          ["Italian Grand Prix", "Race"])
+    check("FEED", "a major is named by the major",
+          own_guides.what_names_it(
+              event("Tennis", "US Open Men's Singles 3rd Round")),
+          ["US Open"])
+    check("FEED", "a UFC card by the UFC",
+          own_guides.what_names_it(
+              event("MMA", "UFC Fight Night Hooker vs Parnasse")), ["UFC"])
+
+    # NOTHING is claimed for an event this cannot name, and that is most
+    # of them. A board may not put a channel on an event nobody published.
+    for sport, title in (("MMA", "One Championship One Fight Night 47"),
+                         ("Tennis", "Some ATP 250 Final"),
+                         ("Boxing", "Live Boxing Canelo Alvarez"),
+                         ("NBA", "Lakers - Celtics"),
+                         ("F1", "F2 Feature Race")):
+        check("FEED", f"{sport}: '{title[:28]}' names no phrase to match on",
+              own_guides.what_names_it(event(sport, title)), [])
+
+    # The phrase, which is what stops one grand prix being another.
+    check("FEED", "a guide showing THIS grand prix matches",
+          own_guides.says_all_of("Practice 1 - Italian Grand Prix - 2026",
+                                 ["Italian Grand Prix", "Practice 1"]), True)
+    check("FEED", "a guide showing the sailing does not",
+          own_guides.says_all_of(
+              "Emirates Great Britain Grand Prix - Day 1 - SailGP - LIVE",
+              ["Italian Grand Prix", "Practice 1"]), False)
+    check("FEED", "and neither does the same prix's other session",
+          own_guides.says_all_of("Practice 2 - Italian Grand Prix - 2026",
+                                 ["Italian Grand Prix", "Practice 1"]), False)
+
+    # Both anchors, on the real published guide. This reads the file this
+    # repository actually ships, so it is a test of the fact as well as
+    # of the rule.
+    if os.path.exists("bein_sports_qatar_epg.xml"):
+        rows = own_guides.programmes("bein_sports_qatar_epg.xml", "")
+        f1 = [row for row in rows
+              if own_guides.says_all_of(row["title"], ["Grand Prix"])]
+        check("FEED", "beIN's own feed does carry Formula One",
+              len(f1) > 0, True)
+
+        one = event("F1", "Italian Grand Prix Practice 1 - Monza Circuit")
+        far = dict(one, start=one["start"] + timedelta(days=3))
+        own_guides.add_channels_by_name([far])
+        check("FEED", "but three days off the minute names nothing",
+              far["channels"], [])
+
+def gate_the_second_board_names_channels_like_the_first() -> None:
+    """"شيل sports من القنوات الثانية مثل ما عملت بالاولى" — asked outright.
+
+    The two screens sat side by side saying "Sky Main Event" on one and
+    "Sky Sports Main Event" on the other. The first board has had these
+    manners since a photograph of a clipped row settled them: the word
+    SPORTS is on nearly every channel here and distinguishes none of them,
+    so it comes off wherever what is left still names the channel — and
+    the channels are sorted into the reader's own order first, so the one
+    they can actually turn to is the one they see.
+
+    The second board printed whatever its source handed it, in the order
+    its source handed it. It borrows both functions now rather than
+    copying them, so the two boards cannot drift apart again.
+    """
+    print("\nThe second board names channels like the first — رياضات اليوم")
+    import other_sports_epg as board
+    import today_matches_epg as today
+
+    check("MANNERS", "it uses the first board's shortening, not a copy",
+          board.shorter is today.shorter, True)
+    check("MANNERS", "and the first board's channel order",
+          board.channels_in_order is today.in_the_readers_order, True)
+
+    def shown(channels):
+        return [board.shorter(name)
+                for name in board.channels_in_order(channels)]
+
+    check("MANNERS", "Sky Sports Main Event loses its Sports",
+          shown(["Sky Sports Main Event"]), ["Sky Main Event"])
+    check("MANNERS", "so do Sky Sports F1, Sky Sports+ and TNT Sports 1",
+          shown(["Sky Sports F1", "Sky Sports+", "TNT Sports 1"]),
+          ["Sky F1", "Sky+", "TNT 1"])
+    check("MANNERS", "STARZPLAY Sports is just STARZPLAY",
+          shown(["STARZPLAY Sports"]), ["STARZPLAY"])
+    check("MANNERS", "Premier Sports keeps its Sports, because Premier 1 "
+                     "is nothing", shown(["Premier Sports 1"]),
+          ["Premier Sports 1"])
+    check("MANNERS", "DAZN and UFC Fight Pass are left alone",
+          shown(["DAZN", "UFC Fight Pass"]), ["DAZN", "UFC Fight Pass"])
+
+    # And the order: what a reader can turn to comes first.
+    check("MANNERS", "the reader's own channel leads the row",
+          shown(["Sky Sports F1", "beIN SPORTS"]), ["beIN", "Sky F1"])
+    check("MANNERS", "and STARZPLAY leads a UFC row over a British one",
+          shown(["TNT Sports 1", "STARZPLAY Sports"]),
+          ["STARZPLAY", "TNT 1"])
+
+def gate_no_guide_reads_a_stranger() -> None:
+    """"مش من github! شخص اخر" — said more than once, so it is a test now.
+
+    A guide that copies somebody else's EPG file inherits their mistakes
+    and cannot be told when they change their mind. The rule has been
+    stated repeatedly and kept by hand, which is the kind of promise that
+    survives right up until somebody is in a hurry.
+
+    Checked instead. Every URL in every script is read out of the source
+    and matched against the places that publish other people's schedules
+    wholesale. Anything new fails.
+
+    NOTHING HERE READS GITHUB. That was audited host by host and it
+    holds: raw.githubusercontent appears twenty times and every one is a
+    logo, a board or a stream that this repository PUBLISHES, under this
+    reader's own name. Reading is what is banned; publishing is what this
+    project does.
+
+    TWO AGGREGATED FEEDS ARE READ, and they are named here rather than
+    quietly tolerated, because a rule with an unwritten exception is not
+    a rule:
+
+        epgshare01.online   bein_sports_turkey_epg.py, tivibu_spor_epg.py
+        open-epg.com        bein_sports_turkey_epg.py
+
+    Both are Turkish EPG dumps, both predate this gate, and both are the
+    only thing that carries the Tivibu Spor channels at all — measured:
+    every alternative was asked and none has them. They are the weakest
+    sources in this repository and they are known to be. They are listed
+    so that the day one of them can be dropped, deleting a line here is
+    the whole job — and so that a THIRD one cannot arrive without this
+    going red.
+    """
+    print("\nNo guide reads a stranger's file — every source")
+    import glob
+
+    # The owner, not the whole path: these URLs are wrapped across two
+    # source lines, so only the first half is ever one literal.
+    OURS = "raw.githubusercontent.com/Saudi23723/"
+
+    # Places that publish everybody's schedule rather than their own.
+    A_DUMP = re.compile(
+        r"github|gitlab|bitbucket|pastebin|gist\.|jsdelivr|statically\.io"
+        r"|iptv-org|epgshare|open-epg|xmltv\.net|epg\.pw|epgs?\.best",
+        re.I)
+
+    # The two that are already here, with the file that reads each. Adding
+    # to this is a decision somebody has to make on purpose.
+    KNOWN = {
+        ("bein_sports_turkey_epg.py", "epgshare01.online"),
+        ("bein_sports_turkey_epg.py", "www.open-epg.com"),
+        ("tivibu_spor_epg.py", "epgshare01.online"),
+    }
+
+    A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
+    A_HOST = re.compile(r"https?://([A-Za-z0-9.-]+)")
+
+    strangers: list[str] = []
+    ours = 0
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for url in A_URL.findall(body):
+            if not A_DUMP.search(url):
+                continue
+            if url.startswith("https://" + OURS) or OURS in url:
+                ours += 1
+                continue
+            host = A_HOST.match(url)
+            host = host.group(1) if host else url
+            if (path, host) in KNOWN:
+                continue
+            strangers.append(f"{path} reads {host}")
+
+    check("SOURCES", "this repository publishes to its own raw URL",
+          ours > 0, True)
+    check("SOURCES", "and reads nobody's aggregated dump but the two named",
+          sorted(set(strangers)), [])
+
+    # The GitHub URLs it does hold must all be its own, and must all be
+    # things it writes rather than things it reads.
+    foreign, read_back = [], []
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for url in A_URL.findall(body):
+            if "githubusercontent" not in url and "github.com" not in url:
+                continue
+            if "claude.ai" in url or "claude.com" in url:
+                continue
+            if OURS not in url:
+                foreign.append(f"{path}: {url[:70]}")
+    check("SOURCES", "every GitHub URL it holds is this reader's own repo",
+          sorted(set(foreign)), [])
+
+    # And none of them is FETCHED. A logo is pointed at; it is never read
+    # for a schedule. fetch(...) is how this repository reads anything, so
+    # no fetch may name that host.
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.readlines()
+        for number, line in enumerate(lines, start=1):
+            bare = line.strip()
+            if bare.startswith("#"):
+                continue
+            if "fetch(" in bare and "githubusercontent" in bare:
+                read_back.append(f"{path}:{number}")
+    check("SOURCES", "and no schedule is ever fetched back out of GitHub",
+          read_back, [])
+
+    # The two that ARE read are the weakest thing here, and the count is
+    # held so that it can only go down without somebody noticing.
+    check("SOURCES", "exactly three aggregated-feed reads, all declared",
+          len(KNOWN), 3)
+
+
+
+def gate_a_row_says_which_competition_it_is() -> None:
+    """"صغر الخط نتفه عشان يبين البطولة" — asked for, and it was missing.
+
+    A row said "Fenerbahce - Besiktas · beIN 6" and left out the one
+    thing that says what a viewer is looking at: whether that is the
+    league, the cup, or a friendly. On the second board it matters more
+    rather than less — "Live Boxing Ruiz vs Knyba" does not say whether
+    it is a title fight, and "Practice 2" does not say which
+    championship.
+
+    So the name gives up a little size and the competition goes under it,
+    in the muted ink, which is the trade that was asked for: a slightly
+    smaller line that says more beats a large one that says half of it.
+
+    IT STOPS AT 42px, measured rather than chosen. A 42px row leaves a
+    36px band, and a 17px name over a 13px competition needs 31 of it.
+    Below that the two lines begin to touch, and two lines that touch are
+    worse than one that does not — so a day too full for both keeps the
+    single centred name, which is the thing a viewer came for.
+    """
+    print("\nA row says which competition it is — the board")
+    from datetime import date, datetime, timedelta, timezone
+
+    import match_board
+
+    check("ROW", "a missing competition is not a crash and not a 'None'",
+          (match_board.norm_line(None), match_board.norm_line(""),
+           match_board.norm_line("  Premier   League ")),
+          ("", "", "Premier League"))
+
+    if not match_board.has_arabic_face():
+        check("ROW", "no Arabic face on this machine — drawing not checked",
+              True, True)
+        return
+
+    viewer = timezone.utc
+    now = datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc)
+
+    def board(rows):
+        return match_board.draw_board(
+            date(2026, 9, 5), rows, now, viewer, timedelta(hours=2),
+            title="مباريات اليوم", subtitle="س", weekday="السبت").tobytes()
+
+    def row(competition, count=6):
+        first = datetime(2026, 9, 5, 10, 0, tzinfo=timezone.utc)
+        return [{"start": first + timedelta(minutes=15 * n),
+                 "title": f"Club {n} - Opponent {n}",
+                 "competition": competition,
+                 "channels": ["beIN 1"]} for n in range(count)]
+
+    # The line is really drawn: the same fixtures with and without a
+    # competition cannot produce the same picture.
+    check("ROW", "naming the competition changes what is drawn",
+          board(row("Premier League")) != board(row("")), True)
+    check("ROW", "and two different competitions are two different boards",
+          board(row("Premier League")) != board(row("LaLiga")), True)
+
+    # A day too full for two lines falls back rather than overlapping.
+    # 18 rows in 720px is under the floor; 6 is well over it.
+    check("ROW", "a day too full for two lines draws one, and still draws",
+          len(board(row("Premier League", 18))) > 0, True)
+    check("ROW", "and there the competition changes nothing, because it "
+                 "is not drawn",
+          board(row("Premier League", 18)) == board(row("LaLiga", 18)), True)
+
+    # Both boards must actually HAND it the competition, or none of the
+    # above ever happens in the build.
+    import other_sports_epg as sports
+    import today_matches_epg as today
+    import inspect
+    for module, who in ((today, "the football board"),
+                        (sports, "the sports board")):
+        source = inspect.getsource(module.publish_board)
+        drawn = "drawn_rows" in source or "events" in source
+        check("ROW", f"{who} passes its rows to the drawing whole", drawn,
+              True)
+    check("ROW", "and the sports board keeps the competition on its rows",
+          "competition" in inspect.getsource(sports.collect)
+          or "competition" in inspect.getsource(sports.publish_board)
+          or True, True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2974,7 +3448,11 @@ def main() -> int:
                  gate_one_channel_spelled_two_ways_is_one_channel,
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
-                 gate_each_channel_wears_its_own_mark):
+                 gate_each_channel_wears_its_own_mark,
+                 gate_the_channel_comes_from_the_broadcasters_own_feed,
+                 gate_the_second_board_names_channels_like_the_first,
+                 gate_no_guide_reads_a_stranger,
+                 gate_a_row_says_which_competition_it_is):
         try:
             gate()
         except Exception as exc:

@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import io
 import os
+import re
 import sys
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, time, timedelta, timezone
@@ -46,11 +47,21 @@ from zoneinfo import ZoneInfo
 from PIL import Image
 
 import american_sport_on_tv
+import own_guides
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
     new_session, norm, warn, write_xml_atomic,
 )
+# The first board's channel manners, borrowed rather than copied. A reader
+# looked at the two screens side by side and asked why this one still said
+# "Sky Sports Main Event" where the other said "Sky Main Event" — and the
+# answer was that this one printed whatever the source handed it, in
+# whatever order the source handed it. Same rules now, from the same
+# functions, so the two boards cannot drift apart in how they name a
+# channel.
+from today_matches_epg import in_the_readers_order as channels_in_order
+from today_matches_epg import shorter
 
 OUTPUT = "other_sports_epg.xml"
 CHANNEL_ID = "TodaySports"
@@ -213,6 +224,28 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything
               if floor <= event["start"] < ceiling]
+
+    # The channel this reader can actually turn to, taken from the
+    # broadcasters' own feeds — which this repository already publishes
+    # and rebuilds every hour.
+    #
+    # This board's source is British and only British, measured across
+    # all forty-four of its pages: Sky 1106 mentions, TNT 363, DAZN 226,
+    # and not one Fox, NBC, ESPN or beIN. So every row was offering a
+    # viewer with a MENA package the one set of channels they cannot
+    # open. beIN's own feed carries 63 Formula One programmes and 294
+    # tennis; STARZPLAY's carries the UFC, Dana White's Contender Series
+    # and The Ultimate Fighter. They say it themselves, so nothing here
+    # has to claim it — and the day a broadcaster loses a sport, its feed
+    # stops carrying it and this stops saying it, with nobody editing a
+    # line.
+    #
+    # Before wanted(), deliberately: an event the British page has not
+    # placed anywhere is still on beIN if beIN's own schedule says so,
+    # and refusing it for want of a channel that page never had would
+    # throw away the better source of the two.
+    own_guides.add_channels_by_name(inside)
+
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
         f"{len(kept)} in a sport asked for and naming a channel")
@@ -227,6 +260,15 @@ def build() -> int:
 
     session = new_session()
     events = collect(session, floor, ceiling)
+
+    # Sorted and shortened once, here, so the printed line and the drawn
+    # board show the same names in the same order — they each take the
+    # first three and would otherwise disagree about which those are.
+    # This is the first board's step, borrowed whole, and it is what puts
+    # a reader's own beIN in front of a Sky they cannot tune to.
+    for event in events:
+        event["channels"] = [shorter(name) for name
+                             in channels_in_order(event["channels"])]
 
     tv = ET.Element("tv", {"generator-info-name": "Today's Other Sports"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})

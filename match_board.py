@@ -111,6 +111,11 @@ def clipped(text: str, size: int, room: int, *, thin=False) -> str:
     return (cut.rstrip() + "…") if cut else ""
 
 
+def norm_line(value) -> str:
+    """One line of text, or nothing. A competition may be missing."""
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
 def draw_mark(pen, x: int, y: int, size: int) -> None:
     """The channel's mark, drawn rather than shrunk.
 
@@ -223,7 +228,33 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             pen.rounded_rectangle(band, radius=10, fill=PANEL)
 
         middle = y + (height - 6) // 2
-        size = max(19, min(28, height - 26))
+
+        # TWO LINES WHERE THERE IS ROOM FOR TWO, and the second one is
+        # the competition.
+        #
+        # A row said "Fenerbahce - Besiktas · beIN 6" and left out the one
+        # thing that tells a viewer what they are looking at — whether
+        # that is the league, the cup, or a pre-season friendly. On the
+        # second board it matters more, not less: "Live Boxing Ruiz vs
+        # Knyba" says nothing about whether it is a title fight, and
+        # "Practice 1" says nothing about which championship.
+        #
+        # The name gives up a little size to make room, which is the
+        # trade asked for outright — a slightly smaller line that says
+        # more beats a large one that says half of it.
+        #
+        # 42 is where it stops, and it is measured rather than chosen: a
+        # 42px row leaves a 36px band, and a 17px name over a 13px
+        # competition needs 31 of it. Below that the two lines start
+        # touching, and two lines that touch are worse than one that
+        # does not — so a day too full for both keeps the single centred
+        # name, which is the thing a viewer came for.
+        beneath = norm_line(event.get("competition"))
+        two = bool(beneath) and height >= 42
+        size = (max(17, min(25, height - 30)) if two
+                else max(19, min(28, height - 26)))
+        under = max(13, size - 7)
+        head_y = middle - (under // 2) - 1 if two else middle
 
         clock = event["start"].astimezone(viewer).strftime("%H:%M")
         draw_text(pen, (time_x, middle), clock, size, ACCENT, anchor="rm")
@@ -249,14 +280,22 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             channel_x -= wide + 10
 
         if live:
-            pen.ellipse([name_x, middle - 6, name_x + 12, middle + 6],
+            pen.ellipse([name_x, head_y - 6, name_x + 12, head_y + 6],
                         fill=ACCENT)
             head = name_x + 24
         else:
             head = name_x
-        draw_text(pen, (head, middle),
-                  clipped(event["title"], size, channel_x - head - 24, ),
+        room_for_name = channel_x - head - 24
+        draw_text(pen, (head, head_y),
+                  clipped(event["title"], size, room_for_name),
                   size, WHITE, anchor="lm")
+        if two:
+            # Under the name and in the muted ink, so it reads as the
+            # answer to "what is this" rather than competing with the
+            # fixture for the eye.
+            draw_text(pen, (head, middle + (size // 2) + 2),
+                      clipped(beneath, under, room_for_name, thin=True),
+                      under, MUTED, anchor="lm", thin=True)
         y += height
 
     left_out = len(events) - len(rows)
