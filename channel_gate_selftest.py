@@ -39,6 +39,7 @@ red, which is the point.
 from __future__ import annotations
 
 import os
+import re
 import sys
 import tempfile
 import xml.etree.ElementTree as ET
@@ -2905,8 +2906,14 @@ def gate_a_simulcast_is_not_a_second_channel() -> None:
     finally:
         world_sport_on_tv.events = was_world
         american_sport_on_tv.events = was_american
+    # The HDR twin is gone. beIN is there and is meant to be — the
+    # reader named it as F1's channel — so this asks what it is for
+    # rather than for an exact list that a rights fact would break.
+    carried = got[0]["channels"]
     check("SIMULCAST", "and so does the sports board",
-          [event["channels"] for event in got], [["Sky Sports F1"]])
+          [name for name in carried if "Ultra HDR" in name], [])
+    check("SIMULCAST", "without losing the channel it was beside",
+          "Sky Sports F1" in carried, True)
 
 
 def gate_each_channel_wears_its_own_mark() -> None:
@@ -2943,6 +2950,133 @@ def gate_each_channel_wears_its_own_mark() -> None:
     check("MARK", "so no two rows in the playlist wear one picture",
           len(set(marks.values())), len(marks))
 
+def gate_a_named_right_is_added_and_never_assumed() -> None:
+    """"beIN بتبث F1، Starzplay بتبث UFC" — a reader's own facts.
+
+    This board's source is British and only British, and that was
+    measured across all forty-four of its pages: Sky 1106 mentions, TNT
+    363, DAZN 226, and not one Fox, NBC, ESPN or beIN. Every row was
+    therefore offering a viewer with a MENA package the one set of
+    channels they cannot turn to. The reader supplied what they can get,
+    and it is written down as a stated fact rather than scraped.
+
+    That is a dangerous kind of entry and this repository knows it, so
+    the same three rules that let الأردن الرياضية be written down for
+    Jordan's league hold here, and this gate is all three.
+
+    IT ADDS, NEVER REPLACES — what the page published survives beside it.
+
+    IT IS NARROW — the UFC page also lists One Championship, and nobody
+    said STARZPLAY carries that; the tennis rule is the majors, which is
+    what was named. A wide rule here is a wrong channel on a screen,
+    which is the one failure every board in this repository refuses.
+
+    IT NAMES NO NUMBER — "beIN", not "beIN 3". Which of beIN's numbers a
+    session lands on changes week to week and nobody said. Sending a
+    viewer to beIN is true; sending them to beIN 3 is a guess dressed as
+    a fact.
+    """
+    print("\nA named right is added, never assumed — رياضات اليوم")
+    from datetime import datetime, timezone
+
+    import other_sports_epg as board
+
+    def event(sport, title, channels, competition=""):
+        return {"start": datetime(2026, 9, 5, tzinfo=timezone.utc),
+                "sport": sport, "title": title, "competition": competition,
+                "channels": list(channels)}
+
+    f1 = event("F1", "Italian Grand Prix Practice 2", ["Sky Sports F1"])
+    check("RIGHTS", "the reader's own channel is added to the grand prix",
+          board.also_carried_by(f1), ["beIN SPORTS"])
+    check("RIGHTS", "and what the page published is untouched",
+          f1["channels"], ["Sky Sports F1"])
+
+    ufc = event("MMA", "UFC Fight Night Hooker vs Parnasse",
+                ["TNT Sports 1"], "Ultimate Fighting Championship")
+    check("RIGHTS", "the UFC card names STARZPLAY",
+          board.also_carried_by(ufc), ["STARZPLAY Sports"])
+    contender = event("MMA", "MMA Colton Loud vs Frank da Silva Castro",
+                      ["UFC Fight Pass"], "Contender Series 2026")
+    check("RIGHTS", "and so does the Contender Series",
+          board.also_carried_by(contender), ["STARZPLAY Sports"])
+
+    # THE NARROWNESS, which is the whole safety of this.
+    one = event("MMA", "One Championship One Fight Night 47",
+                ["Sky Sports Action"], "Mixed Martial Arts")
+    check("RIGHTS", "but One Championship is not the UFC and gets nothing",
+          board.also_carried_by(one), [])
+    small = event("Tennis", "Some ATP 250 Final", ["Sky Sports Tennis"])
+    check("RIGHTS", "and a tournament nobody named gets nothing either",
+          board.also_carried_by(small), [])
+    major = event("Tennis", "US Open Men's Singles 3rd Round",
+                  ["Sky Sports Tennis"])
+    check("RIGHTS", "while the majors, which were named, get beIN",
+          board.also_carried_by(major), ["beIN SPORTS"])
+    boxing = event("Boxing", "Live Boxing Canelo Alvarez", ["DAZN"])
+    check("RIGHTS", "a sport with no stated right is left entirely alone",
+          board.also_carried_by(boxing), [])
+
+    # Never twice, however many ways a rule could match.
+    already = event("F1", "Italian Grand Prix Race", ["beIN SPORTS"])
+    check("RIGHTS", "a channel already on the row is not added again",
+          board.also_carried_by(already), [])
+
+    # No number invented, on any entry, ever.
+    numbered = [channel for _, _, channel in board.ALSO_CARRIED_BY
+                if re.search(r"\d", channel)]
+    check("RIGHTS", "no stated right names a channel number",
+          numbered, [])
+
+
+def gate_the_second_board_names_channels_like_the_first() -> None:
+    """"شيل sports من القنوات الثانية مثل ما عملت بالاولى" — asked outright.
+
+    The two screens sat side by side saying "Sky Main Event" on one and
+    "Sky Sports Main Event" on the other. The first board has had these
+    manners since a photograph of a clipped row settled them: the word
+    SPORTS is on nearly every channel here and distinguishes none of them,
+    so it comes off wherever what is left still names the channel — and
+    the channels are sorted into the reader's own order first, so the one
+    they can actually turn to is the one they see.
+
+    The second board printed whatever its source handed it, in the order
+    its source handed it. It borrows both functions now rather than
+    copying them, so the two boards cannot drift apart again.
+    """
+    print("\nThe second board names channels like the first — رياضات اليوم")
+    import other_sports_epg as board
+    import today_matches_epg as today
+
+    check("MANNERS", "it uses the first board's shortening, not a copy",
+          board.shorter is today.shorter, True)
+    check("MANNERS", "and the first board's channel order",
+          board.channels_in_order is today.in_the_readers_order, True)
+
+    def shown(channels):
+        return [board.shorter(name)
+                for name in board.channels_in_order(channels)]
+
+    check("MANNERS", "Sky Sports Main Event loses its Sports",
+          shown(["Sky Sports Main Event"]), ["Sky Main Event"])
+    check("MANNERS", "so do Sky Sports F1, Sky Sports+ and TNT Sports 1",
+          shown(["Sky Sports F1", "Sky Sports+", "TNT Sports 1"]),
+          ["Sky F1", "Sky+", "TNT 1"])
+    check("MANNERS", "STARZPLAY Sports is just STARZPLAY",
+          shown(["STARZPLAY Sports"]), ["STARZPLAY"])
+    check("MANNERS", "Premier Sports keeps its Sports, because Premier 1 "
+                     "is nothing", shown(["Premier Sports 1"]),
+          ["Premier Sports 1"])
+    check("MANNERS", "DAZN and UFC Fight Pass are left alone",
+          shown(["DAZN", "UFC Fight Pass"]), ["DAZN", "UFC Fight Pass"])
+
+    # And the order: what a reader can turn to comes first.
+    check("MANNERS", "the reader's own channel leads the row",
+          shown(["Sky Sports F1", "beIN SPORTS"]), ["beIN", "Sky F1"])
+    check("MANNERS", "and STARZPLAY leads a UFC row over a British one",
+          shown(["TNT Sports 1", "STARZPLAY Sports"]),
+          ["STARZPLAY", "TNT 1"])
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2974,7 +3108,9 @@ def main() -> int:
                  gate_one_channel_spelled_two_ways_is_one_channel,
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
-                 gate_each_channel_wears_its_own_mark):
+                 gate_each_channel_wears_its_own_mark,
+                 gate_a_named_right_is_added_and_never_assumed,
+                 gate_the_second_board_names_channels_like_the_first):
         try:
             gate()
         except Exception as exc:

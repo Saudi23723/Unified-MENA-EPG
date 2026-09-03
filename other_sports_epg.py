@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import io
 import os
+import re
 import sys
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, time, timedelta, timezone
@@ -51,6 +52,15 @@ from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
     new_session, norm, warn, write_xml_atomic,
 )
+# The first board's channel manners, borrowed rather than copied. A reader
+# looked at the two screens side by side and asked why this one still said
+# "Sky Sports Main Event" where the other said "Sky Main Event" — and the
+# answer was that this one printed whatever the source handed it, in
+# whatever order the source handed it. Same rules now, from the same
+# functions, so the two boards cannot drift apart in how they name a
+# channel.
+from today_matches_epg import in_the_readers_order as channels_in_order
+from today_matches_epg import shorter
 
 OUTPUT = "other_sports_epg.xml"
 CHANNEL_ID = "TodaySports"
@@ -99,6 +109,65 @@ IN_ORDER = (
     "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
+
+
+# WHO ELSE CARRIES IT, from the reader rather than from a listings page.
+#
+# This board's source is British and only British — measured across all
+# 44 of its pages: Sky 1106 mentions, TNT 363, DAZN 226, and not one Fox,
+# NBC, ESPN or beIN. So a viewer with a MENA package was being shown, on
+# every row, the one set of channels they cannot turn to.
+#
+# The reader supplied what they can: beIN carries Formula One and the
+# tennis majors, STARZPLAY carries the UFC. That is a rights fact and it
+# is written down as one — named here, not scraped, and this comment is
+# the citation.
+#
+# THREE RULES KEEP IT HONEST, and they are the same three that let
+# الأردن الرياضية be written down for Jordan's league.
+#
+#   IT ADDS, IT NEVER REPLACES. Whatever the page published stays; this
+#   goes beside it. If the two disagree, the reader sees both and can
+#   judge, rather than one of them being silently deleted.
+#
+#   IT IS NARROW. Not "MMA" — the same page carries One Championship, and
+#   nobody said STARZPLAY has that. Not "tennis" — the majors, which is
+#   what was named. A wide rule here is a wrong channel on a screen.
+#
+#   IT NAMES A NUMBERLESS CHANNEL ON PURPOSE. "beIN" and not "beIN 3":
+#   which of beIN's numbers a session lands on changes week to week and
+#   nobody said. Sending a viewer to beIN is true; sending them to beIN 3
+#   would be a guess wearing the clothes of a fact.
+#
+# Add a line only for a fact somebody stated in those terms. An event
+# nobody has placed anywhere still shows no channel — that has not
+# changed and is not going to.
+ALSO_CARRIED_BY = (
+    # (sport, what it must be called — or None for all of that sport,
+    #  the channel)
+    ("F1", None, "beIN SPORTS"),
+    ("Tennis", re.compile(r"us open|wimbledon|australian open|roland"
+                          r"|french open", re.I), "beIN SPORTS"),
+    # The UFC, and what the UFC runs — not everything on a page called
+    # "live UFC on TV", which also lists One Championship.
+    ("MMA", re.compile(r"\bUFC\b|ultimate fighting|contender series"
+                       r"|dana white|ultimate fighter", re.I),
+     "STARZPLAY Sports"),
+)
+
+
+def also_carried_by(event: dict) -> list[str]:
+    """The stated rights that apply to this event, beside what was read."""
+    extra: list[str] = []
+    subject = f"{event.get('competition', '')} {event.get('title', '')}"
+    for sport, must_say, channel in ALSO_CARRIED_BY:
+        if event.get("sport") != sport:
+            continue
+        if must_say is not None and not must_say.search(subject):
+            continue
+        if channel not in event["channels"] and channel not in extra:
+            extra.append(channel)
+    return extra
 
 
 def start_of_day(day: date) -> datetime:
@@ -213,6 +282,20 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything
               if floor <= event["start"] < ceiling]
+
+    # Before wanted(), deliberately. A UFC card the British page has not
+    # placed anywhere is still on STARZPLAY, and refusing it for want of a
+    # channel the page never had would be throwing away the one fact the
+    # reader supplied.
+    added = 0
+    for event in inside:
+        extra = also_carried_by(event)
+        if extra:
+            event["channels"] = event["channels"] + extra
+            added += 1
+    if added:
+        log(f"  {added} event(s) given the channel a reader named for them")
+
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
         f"{len(kept)} in a sport asked for and naming a channel")
@@ -227,6 +310,15 @@ def build() -> int:
 
     session = new_session()
     events = collect(session, floor, ceiling)
+
+    # Sorted and shortened once, here, so the printed line and the drawn
+    # board show the same names in the same order — they each take the
+    # first three and would otherwise disagree about which those are.
+    # This is the first board's step, borrowed whole, and it is what puts
+    # a reader's own beIN in front of a Sky they cannot tune to.
+    for event in events:
+        event["channels"] = [shorter(name) for name
+                             in channels_in_order(event["channels"])]
 
     tv = ET.Element("tv", {"generator-info-name": "Today's Other Sports"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})

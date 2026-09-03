@@ -1042,8 +1042,12 @@ ARAB_CHANNEL = re.compile(r"\bbein\b|\balwan\b|\bthmanyah\b|\bon sport\b"
 # guessing wrong is a viewer told to turn to a channel that does not
 # exist under the name they were given.
 GENERIC_WORD = re.compile(r"\s*\b(?:sports?|channels?)\b", re.I)
-STANDS_ALONE = re.compile(r"^(?:beIN|Sky|MBC|Shahid|Thmanyah|Alwan|TNT)\b",
-                          re.I)
+#
+# STARZPLAY joins them for the second board, which puts it on every UFC
+# card: "STARZPLAY Sports" is two words where one says the same thing,
+# and STARZPLAY is unmistakably a channel on its own.
+STANDS_ALONE = re.compile(
+    r"^(?:beIN|Sky|MBC|Shahid|Thmanyah|Alwan|TNT|STARZPLAY)\b", re.I)
 
 
 def shorter(name: str) -> str:
