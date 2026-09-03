@@ -48,6 +48,7 @@ from PIL import Image
 
 import american_sport_on_tv
 import own_guides
+import sky_epg
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
@@ -264,6 +265,24 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # is already built here every hour and it has the event, at the
     # minute the promotion's own announcement gave.
     everything += own_guides.fights_our_guides_have(floor, ceiling)
+
+    # AND THE CARD, SPLIT, from the broadcaster's own programme guide.
+    #
+    # A UFC night is early prelims, then prelims, then the main card,
+    # each with its own start — asked for more than once, and no listings
+    # page here had them: wheresthematch's UFC page was printed row by
+    # row and carries six rows, one per event.
+    #
+    # Sky publishes its guide openly and has them as PROGRAMMES:
+    #
+    #     TNTSports1 HD · 2026-09-05
+    #        1788627600  Live: UFC Fight Night Prelims   19:00 UTC
+    #        1788634800  Live: UFC Fight Night           21:00 UTC
+    #
+    # It also recovers TNT, whose own site answers 403 to every request
+    # from a runner — schedule, boxing and MMA pages alike — so the
+    # channel carrying the UFC in Britain could not be read from itself.
+    everything += sky_epg.events(session, floor, ceiling)
 
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything
