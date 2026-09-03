@@ -36,6 +36,13 @@ SOURCE_FILES = [
     "shasha_epg.xml",
     "tabii_spor_1_10_epg.xml",
     "today_matches_epg.xml",
+    # The second board — رياضات اليوم. Written by the ten-minute
+    # workflow rather than by the full build, exactly like the first
+    # board's guide above, and merged here for the same reason: this
+    # is the file a player actually loads, so a channel missing from
+    # it is a channel with no programmes on the television however
+    # well its own guide was built.
+    "other_sports_epg.xml",
     "thmanyah_epg.xml",
 ]
 

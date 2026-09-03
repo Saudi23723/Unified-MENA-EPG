@@ -2568,6 +2568,50 @@ def gate_the_round_is_read_from_the_leagues_own_page() -> None:
           [event["title"] for event in both],
           ["الوحدات - الفيصلي", "العربي - السلط"])
 
+def gate_a_board_that_is_built_is_a_board_that_is_published() -> None:
+    """A channel is only on the television if it is in the file that loads.
+
+    The second board built, drew, encoded and reached the playlist, and it
+    still would not have shown a single programme — because a player does
+    not load other_sports_epg.xml. It loads the MERGED file, and
+    merge_epg.SOURCE_FILES is a hand-written list that the new guide was
+    simply not on. Everything upstream of that list was right, which is
+    exactly what makes it worth a gate: nothing else in the build would
+    ever have gone red.
+
+    So the rule is stated once, here, for the whole repository: every
+    channel this project generates must reach the merged file. Both boards
+    are checked by NAME rather than by counting, because a list of the
+    right length can still be the wrong list.
+
+    The playlist is the same fact in the other direction — a guide with no
+    channel to tune to is as invisible as a channel with no guide — so the
+    two are proved together.
+    """
+    print("\nA board that is built is a board that is published — merge_epg")
+    import merge_epg
+    import other_sports_epg
+    import today_matches_epg
+    import sports_dashboard_m3u
+
+    for guide, channel in ((today_matches_epg, "the first board"),
+                           (other_sports_epg, "the second board")):
+        check("PUBLISH", f"{channel}'s guide is in the merged file",
+              guide.OUTPUT in merge_epg.SOURCE_FILES, True)
+
+    named = [row[0] for row in sports_dashboard_m3u.SCREENS]
+    check("PUBLISH", "and both boards are channels the playlist can tune to",
+          (today_matches_epg.CHANNEL_ID in named
+           and other_sports_epg.CHANNEL_ID in named), True)
+
+    # And the ceiling file knows about it, so a board that fills up with
+    # stand-in is caught rather than ignored for want of a number.
+    import json
+    ceilings = json.load(open("guide_ceilings.json", encoding="utf-8"))
+    check("PUBLISH", "the second board is held to a stand-in ceiling",
+          isinstance(ceilings.get(other_sports_epg.OUTPUT), (int, float)),
+          True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2594,7 +2638,8 @@ def main() -> int:
                  gate_the_other_sports_name_a_real_channel,
                  gate_the_american_game_names_its_network,
                  gate_the_second_board_keeps_the_readers_order,
-                 gate_the_round_is_read_from_the_leagues_own_page):
+                 gate_the_round_is_read_from_the_leagues_own_page,
+                 gate_a_board_that_is_built_is_a_board_that_is_published):
         try:
             gate()
         except Exception as exc:
