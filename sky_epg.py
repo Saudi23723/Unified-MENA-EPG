@@ -94,9 +94,16 @@ A_FIGHT = re.compile(
 
 # Sky marks a live broadcast in the title. A repeat of last week's card
 # is not tonight's, and this is the only thing that tells them apart.
+# SKY ABBREVIATES IN THE TITLE TOO, and this was measured, not guessed:
+# a live run put "MVP Boxing: Mayer v Cameron Hlts" on the board three
+# times over four days. "Hlts" is how Sky writes Highlights when the
+# title is long, and a highlights show is last week's fight, not one to
+# tell somebody about. The spelled-out words were already refused; the
+# short forms were what got through.
 A_REPEAT = re.compile(r"\brepeat\b|\bhighlights\b|\breplay\b|\bclassic\b"
                       r"|\bbest of\b|\breview\b|\bpreview\b|\breloaded\b"
-                      r"|\bcountdown\b|\bembedded\b", re.I)
+                      r"|\bcountdown\b|\bembedded\b"
+                      r"|\bhlts\b|\bhghlts\b|\bhi-?lites\b|\brpt\b", re.I)
 
 # Which board row this is. Boxing and MMA are ranked separately there.
 A_BOXING = re.compile(r"\bboxing\b|title fight|undisputed", re.I)

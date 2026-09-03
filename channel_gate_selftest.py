@@ -4050,6 +4050,20 @@ def gate_the_card_is_split_by_the_broadcaster() -> None:
     check("CARD", "and so does the main card, separately",
           "UFC Fight Night" in names, True)
     check("CARD", "and the boxing", "Boxing" in names, True)
+    # AND THE ABBREVIATED ONE. A live run put "MVP Boxing: Mayer v
+    # Cameron Hlts" on the board three times: Sky writes Highlights as
+    # "Hlts" when the title is long, and the spelled-out word was the
+    # only one being refused.
+    for shown in ("MVP Boxing: Mayer v Cameron Hlts", "UFC 331 Hghlts",
+                  "Boxing Rpt", "UFC Fight Night Highlights"):
+        check("CARD", f"'{shown}' is last week's fight, not a row",
+              bool(sky_epg.A_REPEAT.search(shown)), True)
+    for real in ("UFC Fight Night Prelims", "Live MMA One Fight Night",
+                 "Boxing: De Los Santos v Valenzuela",
+                 "UFC Fight Night Early Prelims"):
+        check("CARD", f"while '{real}' is a broadcast",
+              bool(sky_epg.A_REPEAT.search(real)), False)
+
     check("CARD", "a highlights show is not a fight",
           "UFC Fight Night Highlights" in names, False)
     check("CARD", "and neither is the football",
