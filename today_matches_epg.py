@@ -963,6 +963,39 @@ def already_on_air(event: dict, collected: list[dict]) -> bool:
 MIDNIGHT_IS_NOT_A_KICKOFF = 3
 
 
+# Turkey's clubs come from Spor Ekranı and from this reader's own guides
+# — beIN Qatar and Alwan — and not from a general listings page. Asked
+# for by name, more than once, and this is where it is enforced.
+#
+# The listings page is why. livefootballtv gave four Süper Lig fixtures
+# ONE time, 2026-09-06 00:00 UTC, and beIN's own feed had every one of
+# them on a different day, on the right channel, MARKED LIVE in beIN's
+# own title. A page that gets four fixtures wrong in one block is not a
+# source for that league while a broadcaster's own schedule is sitting
+# in this repository.
+#
+# It is refused by COMPETITION, at the page, so nothing downstream has to
+# know: whatever livefootballtv says about the Süper Lig does not reach
+# the merge at all, and what Spor Ekranı and beIN say does.
+A_TURKISH_LEAGUE = re.compile(
+    r"turkish\s+s(?:ü|u)per\s+lig|s(?:ü|u)per\s+lig|turkish\s+super\s+league"
+    r"|tff\s*1\.?\s*lig|turkey.*(?:cup|kupa)|kupas[ıi]", re.I)
+
+
+def not_from_the_listings_page(events: list[dict]) -> list[dict]:
+    """Drop Turkish fixtures the listings page had no business dating."""
+    kept, dropped = [], 0
+    for event in events:
+        if A_TURKISH_LEAGUE.search(event.get("competition", "") or ""):
+            dropped += 1
+            continue
+        kept.append(event)
+    if dropped:
+        log(f"  {dropped} Turkish fixture(s) left to Spor Ekranı and beIN, "
+            f"which is where they were asked to come from")
+    return kept
+
+
 def refuse_a_defaulted_midnight(events: list[dict]) -> list[dict]:
     """Drop fixtures dumped on midnight because their time was not read."""
     at_midnight = [event for event in events
@@ -1472,7 +1505,8 @@ def build() -> int:
     # empty board on the screen for a full day of football.
     floor, ceiling = window_floor(now), window_ceiling(now)
     everything = unify(
-        refuse_a_defaulted_midnight(collect(html, now, floor, ceiling)),
+        not_from_the_listings_page(
+            refuse_a_defaulted_midnight(collect(html, now, floor, ceiling))),
         live_football_on_tv.fetch_events(session, floor, ceiling))
     # The third page last, narrowed to what it is for — and then to what
     # is not already on the board.
@@ -1527,6 +1561,13 @@ def build() -> int:
     turkish = [event for event in spor_ekrani.fixtures(session)
                if floor <= event["start"] < ceiling]
     everything = unify(everything, turkish)
+
+    # And beIN's own schedule, which marks its live airing in its own
+    # title and so needs nothing inferred. Four Süper Lig fixtures on
+    # four days, on the channel beIN names, against eighteen repeats of
+    # the same four that it does not mark — the mark is the whole rule.
+    everything = unify(everything,
+                       own_guides.fixtures_our_guides_have(floor, ceiling))
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not
