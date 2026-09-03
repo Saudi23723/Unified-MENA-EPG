@@ -94,9 +94,32 @@ def boards(prefix: str) -> list[str]:
             if name.startswith(prefix) and name.endswith(".png")]
 
 
+# Bumped whenever the SEGMENTS THEMSELVES would come out different for
+# the same board — a codec setting, a duration, the timestamp offset that
+# makes the reel one timeline. It goes into the fingerprint, so changing
+# how a segment is made re-encodes every segment.
+#
+# Without it a change like that ships half-applied and is worse than not
+# shipping at all: the playlist stops declaring a break between boards
+# because the segments are supposed to be continuous, the fingerprint
+# still matches so nothing is re-encoded, and the television is handed a
+# continuous playlist over segments that all still start at zero. That is
+# every stall back, with the tag that used to cover for it removed.
+#
+#   1  the original: every segment starts at zero
+#   2  each board stamped with its place in the reel
+ENCODER_REVISION = 2
+
+
 def digest(paths: list[str]) -> str:
-    """One fingerprint for the whole reel, so any board changing re-encodes."""
+    """One fingerprint for the whole reel, so any board changing re-encodes.
+
+    The encoder's own revision is folded in, because a segment is made of
+    two things — the picture, and how the picture is encoded — and only
+    one of them used to be counted.
+    """
     running = hashlib.sha256()
+    running.update(f"encoder:{ENCODER_REVISION}\n".encode())
     for path in paths:
         running.update(path.encode())
         with open(path, "rb") as handle:
@@ -140,8 +163,31 @@ def forget_old_segments(keep: list[str], prefix: str) -> int:
     return gone
 
 
-def encode_segment(board: str, out: str) -> bool:
-    """One board, fifteen seconds of it, as a transport stream segment."""
+def encode_segment(board: str, out: str, place: int = 0) -> bool:
+    """One board as a transport stream segment, at its place in the reel.
+
+    THE PLACE IS WHY THIS TAKES AN INDEX, and it is the difference between
+    a channel that plays and one that stalls every twenty seconds.
+
+    Each board used to be encoded on its own, so every segment's clock
+    started at zero. Twenty seconds of stream whose timestamps run 0→20,
+    then another twenty that also run 0→20: that is not one stream, it is
+    fourteen recordings in a row, and a playlist has to say so with
+    EXT-X-DISCONTINUITY before each of them. A discontinuity is not a
+    formality — a player tears its decoder down and builds it again — and
+    a reader photographed exactly that, a spinner between one board and
+    the next, on both channels.
+
+    So a board's segment is stamped with where it sits: board 0 starts at
+    zero, board 1 at twenty, board 2 at forty. The reel becomes ONE
+    continuous timeline, the playlist needs no discontinuity inside a
+    cycle, and the player runs from board to board without stopping.
+
+    The place is safe to derive and stays put: a board's own file name
+    carries its index — other_sports_2.png is always the third board —
+    so the same picture at the same place always encodes to the same
+    bytes, and nothing is re-encoded for having been given an offset.
+    """
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
         "-loop", "1", "-framerate", "1", "-i", board,
@@ -153,6 +199,8 @@ def encode_segment(board: str, out: str) -> bool:
         "-g", str(KEYFRAME_EVERY), "-crf", "32",
         "-c:a", "aac", "-b:a", "8k", "-ac", "1",
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
+        # Where this board sits in the reel, so the reel is one timeline.
+        "-output_ts_offset", str(place * HOLD),
         "-f", "mpegts", out,
     ]
     done = subprocess.run(command, check=False, capture_output=True, text=True)
@@ -203,12 +251,27 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{HOLD}",
         f"#EXT-X-MEDIA-SEQUENCE:{int(now // HOLD)}",
+        # Every segment opens on a keyframe, which is what lets a player
+        # read ahead instead of fetching one segment at a time.
+        "#EXT-X-INDEPENDENT-SEGMENTS",
     ]
+    # ONE DISCONTINUITY PER CYCLE, not one per board.
+    #
+    # It used to be one per board, and that is what a reader photographed:
+    # a spinner between one board and the next, on both channels. A
+    # discontinuity tells a player the clock is about to start over, and a
+    # player answers by tearing its decoder down and building it again —
+    # every twenty seconds, all day.
+    #
+    # The segments now carry their place in the reel (see encode_segment),
+    # so a cycle is one continuous timeline and needs no break inside it.
+    # The reel does start over when it reaches the end, and that is a real
+    # discontinuity, so it is still declared — once, at the top of each
+    # cycle, instead of fourteen times inside it.
     for _ in range(cycles):
+        lines.append("#EXT-X-DISCONTINUITY")
         for segment in segments:
-            lines += ["#EXT-X-DISCONTINUITY",
-                      f"#EXTINF:{HOLD}.0,",
-                      os.path.basename(segment)]
+            lines += [f"#EXTINF:{HOLD}.0,", os.path.basename(segment)]
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
     return cycles
@@ -250,18 +313,40 @@ def main(argv: list[str] | None = None) -> int:
         # segments for boards that had moved on, and every pass after them
         # matched the fingerprint, returned here, and never looked. The
         # screen gate found them days later.
-        dropped = forget_old_segments([segment_of(b) for b in reel], prefix)
+        segments = [segment_of(board) for board in reel]
+        dropped = forget_old_segments(segments, prefix)
         if dropped:
             log(f"  {dropped} segment(s) nothing points at any more, removed")
-        log(f"{which}: the screen already shows these boards — "
-            f"not re-encoded")
+
+        # AND REWRITE THE PLAYLIST ANYWAY, which is the whole difference
+        # between a channel that keeps playing and one that stops with a
+        # spinner on the last board.
+        #
+        # A live playlist is a WINDOW, and a player only keeps playing
+        # while the window keeps moving. This one holds thirty minutes of
+        # content; MEDIA-SEQUENCE is what says where that window sits.
+        # Written only on a re-encode, it froze the moment the boards
+        # stopped changing — so a viewer played through the thirty
+        # minutes, asked for the next segment, and was handed a playlist
+        # that said the window had not moved since. There is nothing more
+        # to play in it, so the player waits. That wait is the loading
+        # circle on the last page, and it never resolves on its own.
+        #
+        # Rewriting it every pass costs nothing — the segments are
+        # identical and none is re-encoded — and moves the window forward
+        # by the ten minutes that passed, which is exactly what the
+        # player is asking to be told.
+        cycles = write_playlist(segments, out)
+        log(f"{which}: the screen already shows these boards — not "
+            f"re-encoded, and the playlist window moved on ({cycles} "
+            f"cycles, {WINDOW_MINUTES} minutes)")
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
     segments = []
-    for board in reel:
+    for place, board in enumerate(reel):
         segment = segment_of(board)
-        if not encode_segment(board, segment):
+        if not encode_segment(board, segment, place):
             # Same reasoning: what is published stays, and this pass says
             # it failed so nothing is committed on top of it.
             return 1

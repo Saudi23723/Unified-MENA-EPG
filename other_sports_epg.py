@@ -48,20 +48,21 @@ from PIL import Image
 import american_sport_on_tv
 import world_sport_on_tv
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, log, new_session, norm, warn,
-    write_xml_atomic,
+    MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
+    new_session, norm, warn, write_xml_atomic,
 )
 
 OUTPUT = "other_sports_epg.xml"
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
 
-# The same picture the playlist already hands this channel. A channel
-# with no icon is a blank tile in a guide beside a board that has one,
-# and the two files disagreeing about a channel's logo is worse than
-# them sharing one — health_check said so by name.
+# Its OWN mark, which it did not have. It wore the first board's for one
+# afternoon and a reader saw the same picture on two channels — a logo is
+# how a channel is found in a list, so two channels wearing one is two
+# channels nobody can tell apart. Same shape as the first, so they read
+# as a pair; its own name and its own colour, so they are not each other.
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-        "main/logos/today_matches.png")
+        "main/logos/other_sports.png")
 
 BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
@@ -75,27 +76,29 @@ VIEWER_NAME = "بتوقيتك"
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
               "الجمعة", "السبت", "الأحد")
 
-DAYS_AHEAD = 3
+# FOURTEEN DAYS, not three, and the number is the whole reason the
+# events a reader asked for were missing.
+#
+# Three days is right for football, where every day has a card. It is the
+# wrong shape for this board entirely: a grand prix is a weekend, a UFC
+# card is a Saturday, a title fight is announced a month out. The source
+# was measured and it HAD everything asked for — UFC Fight Night on the
+# 5th and the 12th, UFC 331 on the 20th, Contender Series on the 9th,
+# Canelo on the 12th — and the window ended before any of it. Nothing was
+# being filtered out. It was never being looked at.
+#
+# A day with nothing on it is not drawn (see build), so fourteen days is
+# fourteen days of REACH, not fourteen empty boards.
+DAYS_AHEAD = 14
 
 # The reader's order, and the mark each sport wears on the board. A sport
 # absent from here cannot reach the board at all, which is what "the big
 # competitions only" means in practice.
 IN_ORDER = (
-    ("F1",     "🏁"),
-    ("Darts",  "🎯"),
-    ("Boxing", "🥊"),
-    ("MMA",    "🥋"),
-    ("MotoGP", "🏍"),
-    ("Tennis", "🎾"),
-    ("NFL",    "🏈"),
-    ("NBA",    "🏀"),
-    ("FIBA",   "🏀"),
-    ("Golf",   "⛳"),
-    ("Rugby",  "🏉"),
-    ("Padel",  "🎾"),
+    "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
+    "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
 )
-RANK = {sport: place for place, (sport, _) in enumerate(IN_ORDER)}
-MARK = dict(IN_ORDER)
+RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
 
 def start_of_day(day: date) -> datetime:
@@ -127,9 +130,29 @@ def in_the_readers_order(events: list[dict]) -> list[dict]:
 
 
 def row_title(event: dict) -> str:
-    """What one row says, with the sport's mark in front of it."""
-    mark = MARK.get(event["sport"], "")
-    return norm(f"{mark} {event['title']}".strip())
+    """What one row says. No emoji, and that is the point.
+
+    Each row used to open with its sport as an emoji — 🏁 for F1, 🥊 for
+    boxing, 🏀 for basketball. A reader photographed the result: every
+    row on the television began with an empty rectangle, because the
+    player's font carries no glyph for any of them and draws the
+    missing-character box instead. Twelve rows, twelve boxes.
+
+    This is not fixable from here. What a player prints is chosen by the
+    player's own font, on the reader's own device, and this guide hands
+    it text. An emoji is a bet that the far end has a face for it, and
+    that bet was lost — visibly, on every row at once.
+
+    So the rows say their event and nothing else. Nothing is lost: the
+    board is already ordered by sport, so the sports arrive in blocks,
+    and every title names its own — "Italian Grand Prix Practice 2",
+    "Live Boxing Ruiz vs Knyba", "US Open Men's Singles". The mark was
+    decoration standing where the name already was.
+
+    IN_ORDER still holds the reader's order of sports. That was always
+    its real job; the emoji were only ever riding along with it.
+    """
+    return norm(event["title"])
 
 
 def day_title(day: date, events: list[dict], now: datetime) -> str:
@@ -187,7 +210,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     everything = world_sport_on_tv.events(session)
     everything += american_sport_on_tv.events(session)
 
-    inside = [event for event in everything
+    inside = [dict(event, channels=drop_simulcasts(event["channels"]))
+              for event in everything
               if floor <= event["start"] < ceiling]
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
@@ -215,8 +239,22 @@ def build() -> int:
         if day in by_day:
             by_day[day].append(event)
 
+    # A DAY WITH NOTHING ON IT IS NOT A BOARD. The window reaches two
+    # weeks now, and most of those days have no fight and no race — a
+    # screen that spends eleven of its fourteen boards saying "لا يوجد
+    # حدث" is worse than a shorter one, and every empty board is another
+    # twenty seconds a viewer waits to see the next real thing.
+    #
+    # Today is the exception and is always drawn. A viewer tuning in
+    # wants to be told there is nothing on today; being shown next
+    # Saturday with no word about this evening reads as a fault.
+    with_something = [day for day in days if by_day[day] or day == days[0]]
+    if len(with_something) < len(days):
+        log(f"  {len(days) - len(with_something)} day(s) with nothing on "
+            f"them, not drawn")
+
     board_no = 0
-    for day in days:
+    for day in with_something:
         today = by_day[day]
         chunks = [today[at:at + MAX_ON_BOARD]
                   for at in range(0, len(today), MAX_ON_BOARD)] or [[]]
