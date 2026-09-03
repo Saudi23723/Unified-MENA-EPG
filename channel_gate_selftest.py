@@ -2875,6 +2875,37 @@ def gate_the_window_keeps_moving() -> None:
     import inspect
     body = inspect.getsource(video.main)
 
+    # THE STREAM MUST TELL THE TELEVISION ITS FRAME RATE, AND GIVE IT
+    # SOMEWHERE TO START MORE THAN ONCE A SEGMENT.
+    #
+    # It ran at one frame a second, and measured against alternatives:
+    #
+    #     fps   size/20s   rate declared   keyframes in 20s
+    #      1     221 KB    NONE — 0/0             1
+    #     12     455 KB    12/1                  10
+    #
+    # Both of those are things a player answers by buffering. With no
+    # declared rate a television infers every frame's timing from
+    # timestamps alone; with one keyframe in twenty seconds there is
+    # exactly one instant per segment where it can begin or recover, and
+    # missing it means waiting out the segment.
+    #
+    # A still picture costs almost nothing to run faster — every frame
+    # after the first is identical — so this is about 180 kbit/s for a
+    # rate stated outright and a keyframe every two seconds.
+    check("WINDOW", "the stream runs at a rate a decoder expects",
+          video.FPS >= 10, True)
+    check("WINDOW", "and starts a new keyframe every couple of seconds",
+          video.KEYFRAME_SECONDS <= 2, True)
+    encoder_flags = inspect.getsource(video.encode_segment)
+    check("WINDOW", "the rate is DECLARED, not left to be inferred",
+          '"-r", str(FPS)' in encoder_flags, True)
+    check("WINDOW", "and the keyframe interval is forced, not suggested",
+          ('"-keyint_min"' in encoder_flags
+           and '"-sc_threshold", "0"' in encoder_flags), True)
+    check("WINDOW", "so a twenty-second segment has ten places to start, "
+                    "not one", (video.HOLD // video.KEYFRAME_SECONDS), 10)
+
     # A SEGMENT MUST BE EXACTLY AS LONG AS THE PLAYLIST SAYS IT IS.
     #
     # The playlist writes EXTINF:20.0 for every segment and the segments

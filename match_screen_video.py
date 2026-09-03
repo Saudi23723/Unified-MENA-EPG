@@ -100,7 +100,6 @@ HOLD = 20               # seconds a board stays up before the next one
 
 # Every segment opens on a keyframe, which a segment must, and needs no
 # other: it is the same picture for twenty seconds.
-KEYFRAME_EVERY = HOLD
 
 
 A_BOARD_NUMBER = re.compile(r"_(\d+)\.png$")
@@ -155,7 +154,37 @@ def boards(prefix: str) -> list[str]:
 #   2  each board stamped with its place in the reel
 #   3  audio at 32kHz, so a segment is exactly HOLD seconds and does not
 #      overlap the one after it
-ENCODER_REVISION = 3
+#   4  twelve frames a second with a keyframe every two, instead of one
+#      frame a second, no declared rate at all and one keyframe
+ENCODER_REVISION = 4
+
+# TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
+#
+# It was one frame a second, and the measurement is the argument:
+#
+#     fps   size/20s   rate the stream declares   keyframes in 20s
+#      1     221 KB    NONE — 0/0                        1
+#     12     455 KB    12/1                             10
+#     25     470 KB    25/1                             10
+#
+# Two things were wrong and both are what a player complains about by
+# buffering. The stream declared NO FRAME RATE, so a television had to
+# infer every frame's timing from timestamps alone. And it carried ONE
+# KEYFRAME in twenty seconds, so there was exactly one instant in each
+# segment where a player could begin, or recover after any hiccup — miss
+# it and there is nothing to do but wait for the next segment.
+#
+# A still picture costs almost nothing to run faster: every frame after
+# the first is identical, so they code to nearly zero bytes. Twelve
+# frames a second doubles a segment from 221 KB to 455 KB, which is
+# about 180 kbit/s, and buys a rate the decoder is told outright and a
+# keyframe every two seconds.
+#
+# Twelve rather than twenty-five because the extra fifteen frames buy
+# nothing on a page of text that never moves, and 12 is a rate every
+# decoder handles without thinking.
+FPS = 12
+KEYFRAME_SECONDS = 2
 
 
 def digest(paths: list[str]) -> str:
@@ -286,7 +315,7 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
     """
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
-        "-loop", "1", "-framerate", "1", "-i", board,
+        "-loop", "1", "-framerate", str(FPS), "-i", board,
         # Silent audio: a live-television player with no audio track at all
         # will sometimes sit on a black screen rather than show the video.
         # 32000 and not 16000, measured rather than chosen. AAC codes 1024
@@ -298,8 +327,15 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
         # player answers an overlap by re-syncing.
         "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
-        "-vf", "fps=1", "-pix_fmt", "yuv420p",
-        "-g", str(KEYFRAME_EVERY), "-crf", "32",
+        "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
+        # -r as well as the filter, because it is -r that makes the
+        # stream DECLARE its rate. Without it ffprobe reads 0/0 and so
+        # does the television.
+        "-r", str(FPS),
+        "-g", str(FPS * KEYFRAME_SECONDS),
+        "-keyint_min", str(FPS * KEYFRAME_SECONDS),
+        "-sc_threshold", "0",
+        "-crf", "32",
         "-c:a", "aac", "-b:a", "8k", "-ac", "1",
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
         "-muxpreload", "0",
