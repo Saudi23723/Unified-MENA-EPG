@@ -46,6 +46,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -78,20 +79,63 @@ SCREENS = {
 # so thirty is three times the room it needs and still a five-kilobyte
 # file instead of a hundred-and-thirty.
 WINDOW_MINUTES = 30
+
+# HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
+# guide draws.
+#
+# The guide reaches fourteen days now, and at eight rows a board that is
+# sixteen boards — a five-and-a-half-minute lap. Every one of them is
+# worth having in the GUIDE, where a viewer scrolls to what they want.
+# On a channel they cannot: whatever is on when they tune in is what
+# they get, and five minutes of lap means most arrivals land on a day
+# next week and have to wait out the rest to see tonight.
+#
+# Six is two minutes, which is short enough that today comes round while
+# somebody is still looking at the screen, and long enough to carry
+# today, tomorrow and the day after even when one of them needs two
+# pages. The days past that are not lost — they are in the guide, in
+# full, with their own boards drawn and pointed at.
+ON_SCREEN = 6
 HOLD = 20               # seconds a board stays up before the next one
 
 # Every segment opens on a keyframe, which a segment must, and needs no
 # other: it is the same picture for twenty seconds.
-KEYFRAME_EVERY = HOLD
+
+
+A_BOARD_NUMBER = re.compile(r"_(\d+)\.png$")
 
 
 def boards(prefix: str) -> list[str]:
-    """This screen's boards, in the order of the days."""
+    """This screen's boards, in the order of the days.
+
+    SORTED BY THEIR NUMBER, and it has to be said out loud because the
+    obvious way is wrong and was wrong here for a day.
+
+    sorted() on the file names compares them as text, and as text "10"
+    comes before "2". So a screen with more than ten boards played:
+
+        0, 1, 10, 11, 12, 13, 14, 15, 2, 3, 4 …
+
+    Board 0 and 1 are today. Then it jumps to board 10 — a week and a
+    half ahead — and stays there for six boards before coming back to
+    tomorrow. A reader watching it said the channel "starts from the
+    6th", and that is precisely what it did: today went past in forty
+    seconds and did not come round again for two minutes.
+
+    It only appeared when the boards crossed ten, which is why it hid for
+    so long: the second screen crossed it when its window went to
+    fourteen days, and the first when eight rows a board turned three
+    days into ten pages. Both crossed within an hour of each other.
+
+    The number in the name is the order. Nothing else is.
+    """
     if not os.path.isdir(BOARD_DIR):
         return []
-    return [os.path.join(BOARD_DIR, name)
-            for name in sorted(os.listdir(BOARD_DIR))
-            if name.startswith(prefix) and name.endswith(".png")]
+    mine = [name for name in os.listdir(BOARD_DIR)
+            if name.startswith(prefix) and name.endswith(".png")
+            and A_BOARD_NUMBER.search(name)]
+    mine.sort(key=lambda name: int(A_BOARD_NUMBER.search(name).group(1)))
+    return [os.path.join(BOARD_DIR, name) for name in mine]
 
 
 # Bumped whenever the SEGMENTS THEMSELVES would come out different for
@@ -110,7 +154,37 @@ def boards(prefix: str) -> list[str]:
 #   2  each board stamped with its place in the reel
 #   3  audio at 32kHz, so a segment is exactly HOLD seconds and does not
 #      overlap the one after it
-ENCODER_REVISION = 3
+#   4  twelve frames a second with a keyframe every two, instead of one
+#      frame a second, no declared rate at all and one keyframe
+ENCODER_REVISION = 4
+
+# TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
+#
+# It was one frame a second, and the measurement is the argument:
+#
+#     fps   size/20s   rate the stream declares   keyframes in 20s
+#      1     221 KB    NONE — 0/0                        1
+#     12     455 KB    12/1                             10
+#     25     470 KB    25/1                             10
+#
+# Two things were wrong and both are what a player complains about by
+# buffering. The stream declared NO FRAME RATE, so a television had to
+# infer every frame's timing from timestamps alone. And it carried ONE
+# KEYFRAME in twenty seconds, so there was exactly one instant in each
+# segment where a player could begin, or recover after any hiccup — miss
+# it and there is nothing to do but wait for the next segment.
+#
+# A still picture costs almost nothing to run faster: every frame after
+# the first is identical, so they code to nearly zero bytes. Twelve
+# frames a second doubles a segment from 221 KB to 455 KB, which is
+# about 180 kbit/s, and buys a rate the decoder is told outright and a
+# keyframe every two seconds.
+#
+# Twelve rather than twenty-five because the extra fifteen frames buy
+# nothing on a page of text that never moves, and 12 is a rate every
+# decoder handles without thinking.
+FPS = 12
+KEYFRAME_SECONDS = 2
 
 
 def digest(paths: list[str]) -> str:
@@ -241,7 +315,7 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
     """
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
-        "-loop", "1", "-framerate", "1", "-i", board,
+        "-loop", "1", "-framerate", str(FPS), "-i", board,
         # Silent audio: a live-television player with no audio track at all
         # will sometimes sit on a black screen rather than show the video.
         # 32000 and not 16000, measured rather than chosen. AAC codes 1024
@@ -253,8 +327,15 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
         # player answers an overlap by re-syncing.
         "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
-        "-vf", "fps=1", "-pix_fmt", "yuv420p",
-        "-g", str(KEYFRAME_EVERY), "-crf", "32",
+        "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
+        # -r as well as the filter, because it is -r that makes the
+        # stream DECLARE its rate. Without it ffprobe reads 0/0 and so
+        # does the television.
+        "-r", str(FPS),
+        "-g", str(FPS * KEYFRAME_SECONDS),
+        "-keyint_min", str(FPS * KEYFRAME_SECONDS),
+        "-sc_threshold", "0",
+        "-crf", "32",
         "-c:a", "aac", "-b:a", "8k", "-ac", "1",
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
         "-muxpreload", "0",
@@ -373,7 +454,7 @@ def main(argv: list[str] | None = None) -> int:
              "and publishing boards it does not show is the fault this "
              "refuses to repeat")
         return 1
-    reel = boards(prefix)
+    reel = boards(prefix)[:ON_SCREEN]
     if not reel:
         warn(f"no board has been drawn for {which} — nothing to encode")
         return 0
