@@ -151,8 +151,30 @@ def wanted(event: dict) -> bool:
 
 
 def in_the_readers_order(events: list[dict]) -> list[dict]:
-    """The reader's order of sports, and the clock inside each."""
-    return sorted(events, key=lambda e: (RANK[e["sport"]], e["start"]))
+    """A day, in the order a day happens: by the clock.
+
+    It used to sort by SPORT first — F1, then darts, then boxing, then
+    MMA — and a reader photographed what that reaches a screen as:
+
+        03:30  Italian Grand Prix Practice 1
+        07:00  Italian Grand Prix Practice 2
+        17:00  Live Boxing Ruiz vs Knyba
+        10:30  بطولة RFC
+        18:00  One Championship One Fight Night 47
+        08:00  US Open 3rd Round
+
+    Three-thirty, seven, five in the afternoon, half past ten in the
+    morning. Every row correct and the list unreadable, because a board
+    of a DAY is read down the clock and nothing else.
+
+    The order of sports was asked for and it still decides — but it
+    decides what this board CARRIES, which is what RANK is for: a sport
+    not in it never arrives. Inside a day the clock rules, and the sport
+    breaks a tie only when two things start on the same minute, so that
+    at 16:00 the grand prix comes before the tennis rather than landing
+    in whichever order the source happened to hand them over.
+    """
+    return sorted(events, key=lambda e: (e["start"], RANK[e["sport"]]))
 
 
 def row_title(event: dict) -> str:

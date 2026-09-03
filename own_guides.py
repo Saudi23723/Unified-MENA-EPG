@@ -508,3 +508,91 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
         seen.add(key)
         kept.append(event)
     return kept
+
+
+# ─── Turkish football, from the sources asked for by name ───────────────
+#
+# Asked for repeatedly and not done, so it is written down here: the
+# Turkish clubs come from Spor Ekranı and from this reader's OWN guides —
+# beIN Qatar and Alwan — and not from a general listings page.
+#
+# The listings page is why. livefootballtv gave four Süper Lig fixtures
+# ONE time, 2026-09-06 00:00 UTC, and beIN's own feed had every one of
+# them on a different day. And beIN does not merely have them: it MARKS
+# THE LIVE AIRING, in its own title, so there is nothing to infer —
+#
+#   2026-09-04 16:50  beIN 5  • Live   İstanbul Başakşehir vs Galatasaray
+#   2026-09-05 16:50  beIN 5  • Live   Fenerbahçe vs Beşiktaş
+#   2026-09-06 16:50  beIN 5  • Live   Trabzonspor vs Gençlerbirliği
+#   2026-09-07 16:50  beIN 3  • Live   Göztepe vs Gaziantep
+#
+# — against eighteen further entries for the same four matches, which are
+# repeats. THE LIVE MARK IS THE WHOLE RULE. Without it the earliest
+# airing looks like the kickoff and is often yesterday's match shown
+# again at breakfast; with it there is no judgement to make.
+#
+# The time is beIN's own start, ten minutes before the kickoff, because
+# that is when a viewer should turn it on and because inventing the
+# kickoff from it would be inventing something.
+A_LIVE_AIRING = re.compile(r"•\s*Live|\bLIVE\b")
+
+# What a broadcaster's grid puts after a club's name and a board should
+# not: the company form. Turkish clubs are joint-stock companies and beIN
+# writes them that way — "Fenerbahçe A.Ş." — which is correct and is not
+# what anybody calls them.
+A_COMPANY = re.compile(
+    r"\s+(?:A\.?Ş\.?|AS|FK|Fk|SK|Futbol\s+Kulübü(?:\s+A\.?Ş\.?)?)\.?$",
+    re.I)
+
+OUR_OWN_FIXTURES = (
+    # (guide, mark, the competition in the guide's own words, what to
+    #  call it on the board)
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"Turkish Super League", re.I), "الدوري التركي الممتاز"),
+)
+
+
+def a_club(name: str) -> str:
+    """A club's name without the company form a TV grid prints after it."""
+    was = None
+    while was != name:
+        was = name
+        name = A_COMPANY.sub("", norm(name)).strip()
+    return name
+
+
+def fixtures_our_guides_have(floor=None, ceiling=None) -> list[dict]:
+    """Fixtures from this reader's own guides, live airings only."""
+    out: list[dict] = []
+    for path, mark, names_it, competition in OUR_OWN_FIXTURES:
+        found = repeats = 0
+        for row in programmes(path, mark):
+            if not names_it.search(row["title"]):
+                continue
+            if not A_LIVE_AIRING.search(row["title"]):
+                repeats += 1
+                continue
+            home, away = fixture_in(row["title"])
+            home, away = a_club(home), a_club(away)
+            if not home or not away:
+                continue
+            if floor is not None and not (floor <= row["start"] < ceiling):
+                continue
+            out.append({
+                "start": row["start"],
+                "title": f"{home} - {away}",
+                "competition": competition,
+                "channels": [row["channel"]],
+            })
+            found += 1
+        if found or repeats:
+            log(f"  {os.path.basename(path)}: {found} live {competition}, "
+                f"{repeats} repeat(s) of them ignored")
+
+    seen, kept = set(), []
+    for event in sorted(out, key=lambda one: one["start"]):
+        key = (event["start"], event["title"])
+        if key not in seen:
+            seen.add(key)
+            kept.append(event)
+    return kept

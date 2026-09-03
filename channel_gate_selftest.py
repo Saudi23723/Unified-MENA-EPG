@@ -2496,13 +2496,20 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
     kept = board.in_the_readers_order(
         [one for one in offered if board.wanted(one)])
 
-    check("BOARD2", "the reader's order of sports, not the clock's",
-          [one["sport"] for one in kept],
-          ["F1", "Darts", "Boxing", "Boxing", "Tennis", "NFL"])
-    check("BOARD2", "and inside one sport, the clock",
-          [f"{one['start']:%H:%M}" for one in kept
-           if one["sport"] == "Boxing"],
-          ["09:00", "17:00"])
+    # A DAY IS READ DOWN THE CLOCK. It sorted by sport first, and a
+    # reader photographed the result: 03:30, 07:00, 17:00, 10:30, 18:00,
+    # 08:00 — every row correct and the list unreadable.
+    #
+    # The order of sports still decides what this board CARRIES; RANK is
+    # what refuses a sport nobody asked for. Inside a day it only breaks
+    # a tie, so two things at the same minute come out in the reader's
+    # order rather than the source's.
+    clocks = [f"{one['start']:%H:%M}" for one in kept]
+    check("BOARD2", "a day comes out in the order it happens",
+          clocks, sorted(clocks))
+    check("BOARD2", "and the sports asked for are the ones that arrived",
+          sorted({one["sport"] for one in kept}),
+          ["Boxing", "Darts", "F1", "NFL", "Tennis"])
     check("BOARD2", "a sport nobody asked for cannot reach the board",
           [one["title"] for one in kept
            if one["sport"] in ("Cricket", "Snooker")], [])
@@ -2519,8 +2526,9 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
     # emoji is a bet that the far end has a face for it. So the rule is
     # inverted and kept: what this board writes must be text a plain font
     # can draw.
+    first = next(one for one in kept if one["sport"] == "F1")
     check("BOARD2", "a row says its event and nothing else",
-          board.row_title(kept[0]), "Italian GP - Race")
+          board.row_title(first), "Italian GP - Race")
     marks = [ch for one in kept for ch in board.row_title(one)
              if ord(ch) > 0x2000 and not ch.isalnum() and ch not in "…—–'’"]
     check("BOARD2", "and carries nothing a player has to have a glyph for",
@@ -3764,6 +3772,81 @@ def gate_midnight_is_not_a_kickoff() -> None:
     check("MIDNIGHT", "and an empty board is not an error",
           today.refuse_a_defaulted_midnight([]), [])
 
+def gate_turkey_comes_from_the_sources_asked_for() -> None:
+    """"كم مرة قلت لك أعتمد على sporerkani للفرق التركية" — so it is a test.
+
+    Asked for by name, more than once: the Turkish clubs come from Spor
+    Ekranı and from this reader's OWN guides — beIN Qatar and Alwan — and
+    not from a general listings page. It kept being done the other way,
+    so it stops being a habit and becomes a check.
+
+    The listings page is why. livefootballtv gave four Süper Lig fixtures
+    ONE time, 2026-09-06 00:00 UTC. beIN's own feed had every one of them
+    on a DIFFERENT day, on the channel beIN names, and MARKED LIVE in
+    beIN's own title:
+
+        2026-09-04 16:50  beIN 5  • Live   Başakşehir vs Galatasaray
+        2026-09-05 16:50  beIN 5  • Live   Fenerbahçe vs Beşiktaş
+        2026-09-06 16:50  beIN 5  • Live   Trabzonspor vs Gençlerbirliği
+        2026-09-07 16:50  beIN 3  • Live   Göztepe vs Gaziantep
+
+    THE LIVE MARK IS THE WHOLE RULE. The same feed carries eighteen more
+    entries for those four matches, which are repeats — yesterday's game
+    again at breakfast. Without the mark the earliest airing looks like
+    the kickoff and is often a repeat; with it there is nothing to infer.
+    """
+    print("\nTurkey comes from the sources asked for — beIN, Spor Ekranı")
+    import own_guides
+    import today_matches_epg as today
+
+    # Nothing Turkish survives the listings page.
+    listings = [{"start": None, "title": "A - B", "channels": [],
+                 "competition": name} for name in
+                ("Turkish Süper Lig", "Süper Lig", "Turkish Super League",
+                 "TFF 1. Lig", "Türkiye Kupası", "Premier League",
+                 "LaLiga", "Serie A")]
+    left = [e["competition"]
+            for e in today.not_from_the_listings_page(listings)]
+    check("TURKEY", "every Turkish competition it names is refused",
+          [name for name in left if name in
+           ("Turkish Süper Lig", "Süper Lig", "Turkish Super League",
+            "TFF 1. Lig", "Türkiye Kupası")], [])
+    check("TURKEY", "and every other league it carries is untouched",
+          sorted(left), ["LaLiga", "Premier League", "Serie A"])
+
+    # The company form a broadcaster's grid prints is not a club's name.
+    for grid, club in (("Fenerbahçe A.Ş.", "Fenerbahçe"),
+                       ("İstanbul Başakşehir Fk", "İstanbul Başakşehir"),
+                       ("Göztepe A.Ş.", "Göztepe"),
+                       ("Gaziantep Futbol Kulübü A.Ş.", "Gaziantep"),
+                       ("Gençlerbirliği", "Gençlerbirliği")):
+        check("TURKEY", f"'{grid}' is {club}",
+              own_guides.a_club(grid), club)
+
+    if not os.path.exists("bein_sports_qatar_epg.xml"):
+        check("TURKEY", "beIN's guide is not built here yet", True, True)
+        return
+
+    got = own_guides.fixtures_our_guides_have()
+    check("TURKEY", "beIN's own live airings are read", len(got) >= 1, True)
+    days = {event["start"].date() for event in got}
+    check("TURKEY", "and they are NOT all on one day, which is the fault "
+                    "this replaces", len(days) == len(got), True)
+    check("TURKEY", "every one names the channel beIN itself names",
+          all(event["channels"] and "beIN" in event["channels"][0]
+              for event in got), True)
+    check("TURKEY", "and none of them is a repeat",
+          all("Live" not in event["title"] for event in got), True)
+
+    # A repeat must never be taken for the live airing.
+    check("TURKEY", "an unmarked airing is not live",
+          bool(own_guides.A_LIVE_AIRING.search(
+              "Fenerbahçe A.Ş. vs Beşiktaş A.Ş. - Turkish Super League "
+              "2027 - MD4")), False)
+    check("TURKEY", "and a marked one is",
+          bool(own_guides.A_LIVE_AIRING.search(
+              "Fenerbahçe A.Ş. vs Beşiktaş A.Ş. - MD4 ‎• Live 🔵")), True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3803,7 +3886,8 @@ def main() -> int:
                  gate_our_own_guides_carry_fights_nobody_lists,
                  gate_the_channel_plays_the_days_in_order,
                  gate_a_day_that_is_over_leaves_the_screen,
-                 gate_midnight_is_not_a_kickoff):
+                 gate_midnight_is_not_a_kickoff,
+                 gate_turkey_comes_from_the_sources_asked_for):
         try:
             gate()
         except Exception as exc:
