@@ -165,8 +165,56 @@ def boxing(session) -> None:
             print(f"\n   around '{word}':\n     …{flat[max(0, at - 180):at + 90]}…")
 
 
+def the_reader_itself(session) -> None:
+    """The reader as the build runs it, printed row by row.
+
+    The board published nine NFL games and none of them took a channel
+    after the reader was wired in. Reasoning about why is exactly what
+    this repository does not do, so it is printed: what the reader
+    fetches, what it parses, and what the board rows it is trying to
+    reach actually look like.
+    """
+    print("\n══ sports_media_watch, as the build runs it")
+    import xml.etree.ElementTree as ET
+    from datetime import datetime, timezone
+
+    import sports_media_watch as smw
+    from epg_lib import new_session
+
+    rows = smw.broadcasts(new_session())
+    print(f"   {len(rows)} broadcast row(s)")
+    for row in rows[:10]:
+        print(f"     {row['start']}  {row['home']:12} "
+              f"{sorted(row['away'])}  {row['channel']}")
+    if not rows:
+        print("   NOTHING — the fetch or the parse is where it stops")
+        return
+
+    # And the board rows it has to reach, from what is published.
+    print("\n   the NFL rows on the board, with their instants:")
+    try:
+        guide = ET.parse("other_sports_epg.xml").getroot()
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"   the board is not built here ({exc})")
+        return
+    seen = 0
+    for programme in guide.findall("programme"):
+        title = (programme.findtext("title") or "")
+        for one in rows:
+            if one["home"] in title.casefold():
+                start = programme.get("start", "")
+                print(f"     {start}  {title[:60]}")
+                seen += 1
+                break
+        if seen >= 8:
+            break
+    if not seen:
+        print("     none of the reader's clubs appears in a programme title")
+
+
 def main() -> int:
     session = requests.Session()
+    the_reader_itself(session)
     nfl(session)
     boxing(session)
     print("\nNothing is wired. This prints the SHAPE so a reader is "
