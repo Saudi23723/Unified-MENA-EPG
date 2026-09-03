@@ -4159,6 +4159,80 @@ def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
               board.a_card_segment(title), segment)
 
 
+def gate_alwan_carries_more_than_football() -> None:
+    """"الوان ما قرأ جميع مباريات اليوم" — and it was not the depth.
+
+    Alwan's guide sat at "لا توجد مباراة مجدولة" on channels 6, 8 and 9
+    while it was broadcasting. Three explanations were possible and all
+    three were measured on a runner before anything was changed:
+
+        depth          ten pages against the builder's three yielded
+                       "FIXTURES THE BUILDER'S DEPTH NEVER SEES: 0"
+        block splitter no post was cut short
+        line parser    every football line it met, it read
+
+    NONE OF THEM. What those channels were carrying is not football, and
+    Alwan announces it in a shape that has no "A - B" in it at all:
+
+        تشاهدون اليوم الحدث المباشر ل WWE NIGHT OF CHAMPIONS … 6
+        … السباق النهائي لجائزة موناكو الكبرى للفورميلا 1 … 9
+        … نهائي بطولة رولان غاروس … 8
+        … WBC World Heavyweight Championship … 6
+
+    Every one of those yielded ZERO rows, because parse_post requires a
+    fixture and a wrestling night has no two sides. Raising the page
+    count would have changed nothing and hidden the real fault.
+
+    So a named single broadcast is read now — and only with the channel,
+    the clock AND a phrase saying the post is announcing something. Two
+    anchors were never enough here: a number and a time appear in plenty
+    of sentences that are not broadcasts.
+    """
+    print("\nAlwan carries more than football, and its guide now says so")
+    import update_alwan_epg as alwan
+
+    REAL = (
+        ("تشاهدون اليوم في تمام الساعة 4:00 مساءً السباق النهائي لجائزة "
+         "موناكو الكبرى للفورميلا 1 على الوان الرياضية 9",
+         "السباق النهائي لجائزة موناكو الكبرى للفورميلا 1"),
+        ("تشاهدون اليوم في تمام الساعة 4:00 مساءً نهائي بطولة رولان غاروس "
+         "على الوان الرياضية 8", "نهائي بطولة رولان غاروس"),
+        ("تشاهدون اليوم في تمام الساعة 11:59 مساءً الحدث المباشر WBC World "
+         "Heavyweight Championship على الوان الرياضية 6",
+         "WBC World Heavyweight Championship"),
+        ("تشاهدون اليوم الحدث المباشر ل WWE NIGHT OF CHAMPIONS على الوان "
+         "الرياضية 6", "WWE NIGHT OF CHAMPIONS"),
+    )
+    for said, name in REAL:
+        check("ALWAN", f"'{name[:34]}' is read as a broadcast",
+              alwan.event_from_block(said), name)
+        check("ALWAN", "   and the channel it named comes with it",
+              alwan.channel_from_block(said) is not None, True)
+        check("ALWAN", "   and the clock, where the post gave one",
+              alwan.time_from_block(said) is not None,
+              "الساعة" in said)
+
+    # NOTHING INVENTED. Each of these has a channel and most have a
+    # clock, and not one of them is a broadcast.
+    for empty in ("الوان الرياضية 3",
+                  "تشاهدون اليوم على الوان الرياضية 5",
+                  "الساعة 9:00 مساءً على الوان الرياضية 2",
+                  "الوان الرياضية 7 HD"):
+        check("ALWAN", f"'{empty[:38]}' names nothing, so it is nothing",
+              alwan.event_from_block(empty), None)
+
+    # A football line still reads as football, and never reaches this.
+    fixture = "9:00 مساءً باليرمو - مانتوفا على الوان الرياضية 3"
+    check("ALWAN", "a real fixture is still read as a fixture",
+          bool(alwan.fixture_from_block(fixture)), True)
+
+    # And an announcement without the announcing phrase is refused, which
+    # is the anchor that stops a stray sentence becoming a programme.
+    check("ALWAN", "no announcing phrase, no broadcast",
+          alwan.event_from_block(
+              "بطولة العالم للملاكمة على الوان الرياضية 6"), None)
+
+
 def gate_the_card_is_split_by_the_broadcaster() -> None:
     """The prelims, as programmes, from the guide that actually has them.
 
@@ -4363,6 +4437,7 @@ def main() -> int:
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
                  gate_alwan_reaches_the_board,
+                 gate_alwan_carries_more_than_football,
                  gate_the_card_is_split_by_the_broadcaster,
                  gate_two_sources_naming_one_broadcast_is_one_row):
         try:

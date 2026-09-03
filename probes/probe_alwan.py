@@ -88,14 +88,24 @@ def main() -> int:
     print("\n" + "=" * 70)
     print("EVERY POST MENTIONING TODAY, AND WHAT WAS READ FROM IT")
     print("=" * 70)
-    stamp = now.strftime("%d/%m")
-    other = now.strftime("%-d/%-m") if hasattr(now, "strftime") else stamp
-    today_words = {stamp, other, now.strftime("%Y-%m-%d"), "اليوم"}
+    # BY THE POST'S OWN DATE, not by the word "اليوم" in it. The first
+    # run of this filtered on the word and duly printed four posts from
+    # May and June — a Monaco grand prix and a Roland Garros final — as
+    # though they were tonight's. Every one of them says "تشاهدون
+    # اليوم", because that is what it meant on the day it was posted.
+    #
+    # A post is about today if Alwan posted it today or yesterday (its
+    # "جدول مباريات الغد" carries tomorrow's card), or if the text names
+    # today's date outright.
+    stamp = f"{now.day}-{now.month}-{now.year}"
+    padded = now.strftime("%d-%m-%Y")
 
     shown = 0
     for post in posts:
         text = alwan.post_text(post) or ""
-        if not any(word in text for word in today_words):
+        posted = alwan.telegram_post_date(post)
+        near = posted is not None and 0 <= (now.date() - posted).days <= 1
+        if not (near or stamp in text or padded in text):
             continue
         shown += 1
         if shown > 4:
