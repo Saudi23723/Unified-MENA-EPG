@@ -126,6 +126,16 @@ jobs:
           python -u other_sports_epg.py || \
             echo "::warning::the other sports did not rebuild this pass — the published file is unchanged"
 
+      # The third channel: a rolling bulletin rather than a schedule —
+      # Jordan, the Arab world, America, Britain and Turkey, from
+      # nineteen newsrooms' own feeds. Same reasoning again: a newsroom
+      # that does not answer leaves the published file alone, and with
+      # nineteen of them the others still make a bulletin.
+      - name: Rebuild the news
+        run: |
+          python -u news_epg.py || \
+            echo "::warning::the news did not rebuild this pass — the published file is unchanged"
+
       # The board as video, so tuning to the channel puts it on the
       # screen. Re-encoded only when the board itself changed.
       - name: Encode the screen channel
@@ -133,6 +143,9 @@ jobs:
 
       - name: Encode the other sports screen
         run: python -u match_screen_video.py other_sports
+
+      - name: Encode the news screen
+        run: python -u match_screen_video.py today_news
 
       # The same day, written as a playlist. A player renders a playlist
       # group as a full screen list of rows, which is the shape an EPG
@@ -180,6 +193,7 @@ jobs:
             # first pass neither the boards nor the playlist are there —
             # nor, until it has built once, the second board's guide.
             [ -f other_sports_epg.xml ] && git add -- other_sports_epg.xml || true
+            [ -f news_epg.xml ] && git add -- news_epg.xml || true
             [ -d boards ] && git add -- boards || true
             [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
             [ -d stream ] && git add -- stream || true
@@ -231,6 +245,7 @@ jobs:
             # prefix, so both have to be made.
             python -u match_screen_video.py today_matches || true
             python -u match_screen_video.py other_sports || true
+            python -u match_screen_video.py today_news || true
             [ -d stream ] && git add -A -- stream || true
 
             if git diff --cached --quiet; then

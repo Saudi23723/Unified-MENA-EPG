@@ -45,6 +45,14 @@ MARKS = (
      "T O D A Y ' S   S P O R T S",
      (28, 22, 46, 255), (58, 48, 86, 255),
      (245, 158, 11, 255), (253, 214, 138, 255)),
+    # THREE NOW. Same shape as its two neighbours so they read as a set,
+    # and its own name and its own colour so nobody has to open a channel
+    # to find out which of the three it is. Blue, because green and amber
+    # are taken and a bulletin is not a scoreboard.
+    ("logos/today_news.png", "أخبار اليوم",
+     "T O D A Y ' S   N E W S",
+     (12, 27, 48, 255), (28, 55, 92, 255),
+     (56, 152, 236, 255), (150, 200, 248, 255)),
 )
 
 # FreeSerif is the one font on the build image that carries Arabic.

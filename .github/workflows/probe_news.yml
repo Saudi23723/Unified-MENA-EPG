@@ -18,6 +18,8 @@ on:
     paths:
       - "probes/probe_news_sources.py"
       - "probes/probe_news_discovery.py"
+      - "news_reader.py"
+      - "news_epg.py"
       - ".github/workflows/probe_news.yml"
 
 jobs:
@@ -34,3 +36,10 @@ jobs:
       # Eleven refused. A site declares its own feed in its
       # head, so that is read rather than another URL guessed.
       - run: python -u probes/probe_news_discovery.py
+      # And the channel itself, built against the live feeds:
+      # a source answering 200 is not a bulletin on a board.
+      - run: python -u news_epg.py
+      - run: |
+          echo '--- what reached the guide ---'
+          head -c 2600 news_epg.xml
+          echo; ls -la boards/today_news_*.png

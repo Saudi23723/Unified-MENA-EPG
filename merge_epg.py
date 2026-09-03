@@ -43,6 +43,10 @@ SOURCE_FILES = [
     # it is a channel with no programmes on the television however
     # well its own guide was built.
     "other_sports_epg.xml",
+    # The third channel — أخبار اليوم. A rolling bulletin rather than
+    # a schedule, written by the same ten-minute workflow as the two
+    # boards beside it.
+    "news_epg.xml",
     "thmanyah_epg.xml",
 ]
 

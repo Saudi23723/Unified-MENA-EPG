@@ -70,6 +70,7 @@ OUT_DIR = "stream"
 SCREENS = {
     "today_matches": ("today_matches_", "screen.m3u8", "board.sha256"),
     "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256"),
+    "today_news": ("today_news_", "news.m3u8", "news.sha256"),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
