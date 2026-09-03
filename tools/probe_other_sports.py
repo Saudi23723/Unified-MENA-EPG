@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""How livesportsontv lays a game out, printed rather than guessed at.
+"""Four more for the American half, after the first four were all shut.
 
-Canada's own broadcasters are shut to us and it is worth writing down:
-tsn.ca answers 200 with 144 KB and names only the word "TSN"; sportsnet.ca
-answers with an 18 KB shell; cbc.ca/sports/live is a 404. All three build
-their schedule in the browser, so there is nothing to read from a runner.
+Written down so none of them is tried twice:
 
-livesportsontv is not shut. Its visible text on /league/nfl names ABC,
-ESPN, NBC, Peacock, Prime Video and Amazon — the American channels asked
-for are there. What failed was my row detector, which wanted ONE
-container holding both a clock and a channel, and this page evidently
-does not put them together.
+  livesportsontv /league/nfl and /league/nba  200, 913 and 940 KB, and
+      NOTHING that holds a channel sits under anything holding a clock.
+      ABC, ESPN, NBC and Peacock are in the page and not attached to a
+      game: the schedule is assembled in the browser.
+  tsn.ca            200, 144 KB, names only the word "TSN".
+  sportsnet.ca      200, an 18 KB shell.
+  cbc.ca/sports/live  404.
+  nba.com/schedule  ships __NEXT_DATA__ and shows no channel at all.
 
-So this stops guessing at the shape and prints it: the containers that
-hold a channel, what sits beside them, and the whole of one game as the
-page writes it.
+All of them build the schedule in a browser, so a runner sees furniture.
+
+These four are chosen because a schedule PAGE with a network COLUMN is a
+different thing from a schedule app: ESPN and CBS have printed the
+broadcaster beside each game for twenty years, and the league's own site
+has to say where to watch. Whether any still renders it server-side is
+the question, and it is asked rather than assumed.
 """
 from __future__ import annotations
 
@@ -28,20 +32,26 @@ from bs4 import BeautifulSoup                                  # noqa: E402
 from epg_lib import new_session, norm                          # noqa: E402
 
 PAGES = [
-    ("NFL", "https://www.livesportsontv.com/league/nfl"),
-    ("NBA", "https://www.livesportsontv.com/league/nba"),
+    ("ESPN NFL schedule",  "https://www.espn.com/nfl/schedule"),
+    ("ESPN NBA schedule",  "https://www.espn.com/nba/schedule"),
+    ("NFL.com schedules",  "https://www.nfl.com/schedules/"),
+    ("CBS Sports NFL",     "https://www.cbssports.com/nfl/schedule/"),
 ]
 
 CHANNELS = re.compile(
-    r"\bABC\b|\bESPN\d?\b|\bNBC\b|Peacock|\bFOX\b|FS1|\bCBS\b|Paramount"
-    r"|\bTSN\d?\b|Sportsnet|Prime Video|Amazon|\bNFL Network\b|NBA TV"
-    r"|\bTNT\b|\bDAZN\b|\bCBC\b|\bRDS\b", re.I)
+    r"\bABC\b|\bESPN\d?\b|ESPN\+|\bNBC\b|Peacock|\bFOX\b|\bFS1\b|\bCBS\b"
+    r"|Paramount|\bTSN\d?\b|Sportsnet|Prime Video|Amazon|NFL Network"
+    r"|\bNBA TV\b|\bTNT\b|\bDAZN\b|Netflix", re.I)
 A_CLOCK = re.compile(r"\b\d{1,2}:\d{2}\s?(?:[AP]M)?\b", re.I)
 
 
 def look(name: str, url: str, session) -> None:
     print(f"\n=== {name} — {url}")
-    reply = session.get(url, timeout=30)
+    try:
+        reply = session.get(url, timeout=30)
+    except Exception as exc:
+        print(f"  SHUT — {type(exc).__name__}: {str(exc)[:110]}")
+        return
     print(f"  {reply.status_code} — {len(reply.text)} bytes")
     if reply.status_code != 200:
         return
@@ -50,46 +60,36 @@ def look(name: str, url: str, session) -> None:
     for tag in soup(["script", "style", "noscript"]):
         tag.decompose()
 
-    # Find the smallest node that NAMES A CHANNEL, then climb until the
-    # ancestor also holds a clock. That ancestor is the game's own block,
-    # and it is found rather than assumed — the same climb, and the same
-    # stopping rule, that reading jfa.jo eventually needed.
+    # Climb from a channel until an ancestor also holds a clock, and stop
+    # there. Found rather than assumed, and the stop is what keeps it from
+    # climbing to the whole page.
     printed = 0
     for node in soup.find_all(string=CHANNELS):
         holder = node.parent
-        climbed = 0
-        while holder is not None and climbed < 8:
+        for _ in range(8):
+            if holder is None:
+                break
             text = norm(holder.get_text(" | ", strip=True))
             if A_CLOCK.search(text) and len(text) < 400:
-                print(f"\n  --- a game, {climbed} step(s) up from the "
-                      f"channel: <{holder.name} class="
-                      f"{' '.join(holder.get('class') or []) or '-'}> ---")
-                print(f"    {text[:340]}")
-                for kid in holder.find_all(recursive=False):
-                    label = " ".join(kid.get("class") or []) or kid.name
-                    print(f"      [{label[:32]:32}] "
-                          f"{norm(kid.get_text(' ', strip=True))[:90]}")
-                for stamp in holder.find_all("time"):
-                    print(f"      <time datetime="
-                          f"{stamp.get('datetime')!r}>")
+                print(f"    <{holder.name} class="
+                      f"{' '.join(holder.get('class') or []) or '-'}> "
+                      f"{text[:230]}")
                 printed += 1
                 break
             holder = holder.parent
-            climbed += 1
-        if printed >= 3:
+        if printed >= 4:
             break
     if not printed:
-        print("  nothing that holds a channel sits under anything with a "
-              "clock — the page does not pair them in the markup")
+        seen = sorted({hit.upper() for hit in CHANNELS.findall(
+            norm(soup.get_text(" ", strip=True)))})
+        print("    no game pairs a channel with a clock in the markup"
+              f" | channels loose in the text: {seen[:10] or '— none —'}")
 
 
 def main() -> int:
     session = new_session()
     for name, url in PAGES:
-        try:
-            look(name, url, session)
-        except Exception as exc:
-            print(f"  {name} failed: {type(exc).__name__}: {str(exc)[:140]}")
+        look(name, url, session)
     return 0
 
 
