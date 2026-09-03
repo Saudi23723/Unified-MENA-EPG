@@ -1832,7 +1832,12 @@ def gate_the_jordanian_league_is_read() -> None:
         head("دوري الناشئين ت16", "", "2026-09-03", "17:00"),
         clubs("المدرسة الانجليزية", "VS", "الجزيرة"),
         head("كأس الأردن CFI", "", "2026-09-03", "18:00"),
-        clubs("كفرسوم", "VS", "جرش"),
+        clubs("الوحدات", "VS", "معان"),
+        # A youth match published UNDER a professional heading. The
+        # reader photographed exactly this — "عمان FC - الكرمل" on the
+        # board as league football — and neither club plays the league.
+        head("الدوري الأردني للمحترفين - CFI", "", "2026-09-03", "18:30"),
+        clubs("عمان FC", "VS", "الكرمل"),
         head("الدوري الأردني للمحترفين - CFI", "", "2026-09-03", "19:00"),
         clubs("البقعة", "VS", "دوقرة"),
         # The national team, but the under-20s: the age grade is in a
@@ -1848,9 +1853,33 @@ def gate_the_jordanian_league_is_read() -> None:
     read = jordan_football.collect(page)
     check("JOR", "the professional league and the cup are read",
           [event["title"] for event in read],
-          ["كفرسوم - جرش", "البقعة - دوقرة"])
+          ["الوحدات - معان", "البقعة - دوقرة"])
     check("JOR", "a match already played is not a fixture",
-          any("الوحدات" in event["title"] for event in read), False)
+          any("الفيصلي" in event["title"] for event in read), False)
+
+    # THE HEADING LIES, and a reader caught it on a television. "عمان FC
+    # - الكرمل" was published under الدوري الأردني للمحترفين and both of
+    # those are youth sides. A filter that reads only the heading believes
+    # it, so the clubs are asked as well: ten clubs play this league and
+    # no eleventh can appear in it.
+    check("JOR", "a youth match under a professional heading is refused",
+          [e["title"] for e in read if "الكرمل" in e["title"]], [])
+    check("JOR", "the ten clubs of the league are known from its table",
+          [jordan_football.in_the_league(name) for name in
+           ("الرمثا", "الجزيرة", "الحسين", "الوحدات", "العربي",
+            "الفيصلي", "شباب الأردن", "البقعة", "السلط", "دوقرة")],
+          [True] * 10)
+    check("JOR", "and nobody else is",
+          [jordan_football.in_the_league(name) for name in
+           ("عمان FC", "الكرمل", "كفرسوم", "جرش", "معان")],
+          [False] * 5)
+    # The cup is the one that legitimately draws lower clubs in, so ONE
+    # professional side is enough there — which still refuses the
+    # preliminary round this channel does not televise.
+    check("JOR", "the cup keeps a real tie and refuses an amateur one",
+          [jordan_football.the_clubs_belong("كأس الأردن", *pair) for pair in
+           (("الوحدات", "معان"), ("كفرسوم", "جرش"))],
+          [True, False])
     check("JOR", "the under-16 league is not on a board of twelve rows",
           any("المدرسة" in event["title"] for event in read), False)
     check("JOR", "and the age grade in a SECOND span still counts",
@@ -1874,12 +1903,12 @@ def gate_the_jordanian_league_is_read() -> None:
     # with none of its own can never inherit the match above's time.
     orphan = ("<table>"
               + head("كأس الأردن CFI", "", "2026-09-03", "18:00")
-              + clubs("كفرسوم", "VS", "جرش")
+              + clubs("الوحدات", "VS", "معان")
               + clubs("البقعة", "VS", "دوقرة")
               + "</table>")
     check("JOR", "a fixture with no header of its own is refused",
           [event["title"] for event in jordan_football.collect(orphan)],
-          ["كفرسوم - جرش"])
+          ["الوحدات - معان"])
 
     # jfa.jo prints no channel, but one IS known: the Jordan Radio and
     # Television Corporation's channel holds the domestic game
