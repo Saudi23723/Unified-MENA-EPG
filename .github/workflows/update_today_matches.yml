@@ -196,7 +196,16 @@ jobs:
             # screen gate goes red on a segment no playlist names. The
             # encoder sweeps exactly that, and re-running it here is free:
             # the fingerprint is unchanged so it does not re-encode.
-            python -u match_screen_video.py || true
+            #
+            # BOTH screens, named. The encoder takes a screen argument
+            # now and defaults to today_matches, so the bare call that
+            # used to reconcile everything reconciles half of it: an
+            # orphaned other_sports_ segment would survive every retry
+            # and turn the gate red on the NEXT pass, before that pass
+            # had committed anything. Each call sweeps only its own
+            # prefix, so both have to be made.
+            python -u match_screen_video.py today_matches || true
+            python -u match_screen_video.py other_sports || true
             [ -d stream ] && git add -A -- stream || true
 
             if git diff --cached --quiet; then

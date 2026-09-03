@@ -2568,6 +2568,108 @@ def gate_the_round_is_read_from_the_leagues_own_page() -> None:
           [event["title"] for event in both],
           ["الوحدات - الفيصلي", "العربي - السلط"])
 
+def gate_a_board_that_is_built_is_a_board_that_is_published() -> None:
+    """A channel is only on the television if it is in the file that loads.
+
+    The second board built, drew, encoded and reached the playlist, and it
+    still would not have shown a single programme — because a player does
+    not load other_sports_epg.xml. It loads the MERGED file, and
+    merge_epg.SOURCE_FILES is a hand-written list that the new guide was
+    simply not on. Everything upstream of that list was right, which is
+    exactly what makes it worth a gate: nothing else in the build would
+    ever have gone red.
+
+    So the rule is stated once, here, for the whole repository: every
+    channel this project generates must reach the merged file. Both boards
+    are checked by NAME rather than by counting, because a list of the
+    right length can still be the wrong list.
+
+    The playlist is the same fact in the other direction — a guide with no
+    channel to tune to is as invisible as a channel with no guide — so the
+    two are proved together.
+    """
+    print("\nA board that is built is a board that is published — merge_epg")
+    import merge_epg
+    import other_sports_epg
+    import today_matches_epg
+    import sports_dashboard_m3u
+
+    for guide, channel in ((today_matches_epg, "the first board"),
+                           (other_sports_epg, "the second board")):
+        check("PUBLISH", f"{channel}'s guide is in the merged file",
+              guide.OUTPUT in merge_epg.SOURCE_FILES, True)
+
+    named = [row[0] for row in sports_dashboard_m3u.SCREENS]
+    check("PUBLISH", "and both boards are channels the playlist can tune to",
+          (today_matches_epg.CHANNEL_ID in named
+           and other_sports_epg.CHANNEL_ID in named), True)
+
+    # And the ceiling file knows about it, so a board that fills up with
+    # stand-in is caught rather than ignored for want of a number.
+    import json
+    ceilings = json.load(open("guide_ceilings.json", encoding="utf-8"))
+    check("PUBLISH", "the second board is held to a stand-in ceiling",
+          isinstance(ceilings.get(other_sports_epg.OUTPUT), (int, float)),
+          True)
+
+def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
+    """الوحدات - الفيصلي, printed twice at one kickoff, in two scripts.
+
+    The reader asked for this fixture and it arrived — and then arrived
+    again, because the fact underneath the code had changed. "The
+    Jordanian league is in none of the other pages" was MEASURED: 272
+    fixtures offered between five sources and not one Jordanian. It is
+    no longer true. livefootballtv now carries it as "Al Wehdat - Al
+    Faisaly · Jordan Sports", the federation carries it as "الوحدات -
+    الفيصلي · الأردن الرياضية", and the board printed both, one under the
+    other, at 10:30.
+
+    The club names cannot settle it, and this is measured rather than
+    assumed: الفيصلي reduces to "fasla" and Al Faisaly to "fasala" — one
+    letter apart and both shorter than the seven at which epg_lib lets
+    resemblance decide anything. Loosening that is exactly how "Mainz"
+    becomes "Monza", so it stays shut.
+
+    The CHANNEL settles it, on the structural fact already_on_air was
+    built on: a channel shows one match at a time. الأردن الرياضية and
+    Jordan Sports are one channel, so a fixture at that minute on that
+    channel is that fixture, however the two pages spell its clubs.
+    """
+    print("\nOne channel spelled two ways is one channel — today_matches")
+    from datetime import datetime, timedelta, timezone
+
+    import today_matches_epg as today
+
+    check("ONECHANNEL", "الأردن الرياضية and Jordan Sports are one channel",
+          today.screen_key("الأردن الرياضية")
+          == today.screen_key("Jordan Sports"), True)
+    check("ONECHANNEL", "and two beIN numbers are still two channels",
+          today.screen_key("beIN 1") == today.screen_key("beIN 2"), False)
+
+    kickoff = datetime(2026, 9, 4, 17, 30, tzinfo=timezone.utc)
+    board = [{"start": kickoff, "title": "Al Wehdat - Al Faisaly",
+              "competition": "Jordan League", "channels": ["Jordan Sports"]}]
+
+    same = {"start": kickoff, "title": "الوحدات - الفيصلي",
+            "competition": "الدوري الأردني للمحترفين",
+            "channels": ["الأردن الرياضية"]}
+    check("ONECHANNEL", "so the federation's copy is not printed a second "
+          "time", today.already_on_air(same, board), True)
+
+    # The guard has to stay narrow in both directions, or it starts
+    # eating real football.
+    later = dict(same, start=kickoff + timedelta(hours=2))
+    check("ONECHANNEL", "the next match on the same channel still reaches "
+          "the board", today.already_on_air(later, board), False)
+
+    elsewhere = dict(same, channels=["beIN 1"])
+    check("ONECHANNEL", "and another channel's match at the same minute "
+          "does too", today.already_on_air(elsewhere, board), False)
+
+    blind = dict(same, channels=[])
+    check("ONECHANNEL", "a fixture naming no channel is never dropped by "
+          "this", today.already_on_air(blind, board), False)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2594,7 +2696,9 @@ def main() -> int:
                  gate_the_other_sports_name_a_real_channel,
                  gate_the_american_game_names_its_network,
                  gate_the_second_board_keeps_the_readers_order,
-                 gate_the_round_is_read_from_the_leagues_own_page):
+                 gate_the_round_is_read_from_the_leagues_own_page,
+                 gate_a_board_that_is_built_is_a_board_that_is_published,
+                 gate_one_channel_spelled_two_ways_is_one_channel):
         try:
             gate()
         except Exception as exc:

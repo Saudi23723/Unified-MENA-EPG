@@ -815,9 +815,48 @@ def absorb(into: dict, extra: dict) -> None:
         into["competition"] = extra["competition"]
 
 
+# One channel written in two scripts, which no structural rule can reach:
+# nothing in the letters of "الأردن الرياضية" leads to "Jordan Sports".
+#
+# It is needed because the measurement underneath the third and fourth
+# pages has changed. "The Jordanian league is in none of the pages above"
+# was true when it was measured — 272 fixtures offered and not one
+# Jordanian — and it is not true any more: livefootballtv now carries
+# الوحدات - الفيصلي as "Al Wehdat - Al Faisaly · Jordan Sports", and the
+# federation carries the same fixture in Arabic on الأردن الرياضية. The
+# board printed both, one under the other, at one kickoff.
+#
+# The club names cannot settle it and that is measured too: الفيصلي
+# against Al Faisaly reduces to "fasla" and "fasala", a letter apart and
+# both under the length at which resemblance is allowed to decide
+# anything — and loosening that is how "Mainz" becomes "Monza". The
+# CHANNEL settles it instead, on the same structural fact already_on_air
+# is built on: الأردن الرياضية shows one match at a time.
+#
+# Written out, one pair, because it is a fact about a channel rather than
+# a rule about names. Add a pair only where two pages were SEEN to spell
+# one channel two ways.
+SAME_CHANNEL_PAIRS = (
+    ("الأردن الرياضية", "Jordan Sports"),
+    ("الأردن الرياضية", "Jordan Sport"),
+    ("الأردن الرياضية", "Jordan TV Sports"),
+)
+
+
+def _bare(name: str) -> str:
+    return re.sub(r"[^a-z0-9\u0600-\u06ff]", "", name.casefold())
+
+
+# Built from the pairs above so the two can never drift apart: every
+# spelling points at the first one written.
+SAME_CHANNEL = {_bare(other): _bare(canonical)
+                for canonical, other in SAME_CHANNEL_PAIRS}
+
+
 def screen_key(name: str) -> str:
     """A channel name reduced to what two pages would spell the same."""
-    return re.sub(r"[^a-z0-9\u0600-\u06ff]", "", name.casefold())
+    key = _bare(name)
+    return SAME_CHANNEL.get(key, key)
 
 
 def already_on_air(event: dict, collected: list[dict]) -> bool:
@@ -1349,8 +1388,23 @@ def build() -> int:
     # It names no channel, and that is no longer a reason to refuse a
     # source: the match reaches the board with "لم تُعلن القناة" beside
     # it and picks up a channel from any later pass that learns one.
-    everything = unify(everything,
-                       jordan_football.fetch_events(session, floor, ceiling))
+    #
+    # And it is put through the same "is this already on the board" test
+    # as the page above, for the reason that test was written for. The
+    # sentence above is no longer true: livefootballtv has begun carrying
+    # some of this league, so الوحدات - الفيصلي arrived beside Al Wehdat -
+    # Al Faisaly and the board showed both at one kickoff. The names
+    # cannot separate them — الفيصلي and Al Faisaly are a letter apart in
+    # skeleton and too short for resemblance to be allowed to decide — and
+    # the channel can: الأردن الرياضية shows one match at a time, and it
+    # is the same channel however a page spells it.
+    jordanian = jordan_football.fetch_events(session, floor, ceiling)
+    unseen = [event for event in jordanian
+              if not already_on_air(event, everything)]
+    if len(unseen) != len(jordanian):
+        log(f"  jfa.jo: {len(jordanian) - len(unseen)} already on the board "
+            f"from another page, under another spelling")
+    everything = unify(everything, unseen)
 
     # And Turkey's own second tier, which is in none of them either. The
     # reader photographed Iğdırspor - Manisa FK, Bodrumspor - Esenler
