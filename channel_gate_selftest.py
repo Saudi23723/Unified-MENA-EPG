@@ -730,11 +730,23 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
           sorted(on_disk - set(distinct)), [])
 
     # The heart of it: the name has to be the fingerprint of the picture.
+    #
+    # The hashing is written out here rather than imported, deliberately —
+    # a gate that calls the very function it is checking proves only that
+    # the function agrees with itself. But there is ONE thing it cannot
+    # re-derive and must be told, and forgetting that is what turned this
+    # gate red on a change that was correct: a segment is made of the
+    # picture AND of how the picture is encoded, so the encoder carries a
+    # revision number that goes into the name. The number is read from
+    # the module; the algorithm is still this file's own.
+    import match_screen_video as video
+
     wrong = []
     for board in boards:
         with open(_os.path.join(boards_dir, board), "rb") as handle:
             body = handle.read()
         running = hashlib.sha256()
+        running.update(f"encoder:{video.ENCODER_REVISION}\n".encode())
         running.update(_os.path.join(boards_dir, board).encode())
         running.update(body)
         stem = _os.path.splitext(board)[0]
@@ -750,6 +762,25 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
                    if _re.fullmatch(prefix + r"\d+\.ts", name)]
     check("SCREEN", f"{prefix} no segment carries a name a cache could reuse",
           unversioned, [])
+
+    # And this file's own hashing must land where the encoder's does. The
+    # two are written separately on purpose, and a gate that disagrees
+    # with a correct encoder is a gate that stops a good build — which is
+    # exactly what happened the first time the encoder's revision moved
+    # and this copy did not know about it.
+    if boards:
+        one = _os.path.join(boards_dir, boards[0])
+        with open(one, "rb") as handle:
+            body = handle.read()
+        running = hashlib.sha256()
+        running.update(f"encoder:{video.ENCODER_REVISION}\n".encode())
+        running.update(one.encode())
+        running.update(body)
+        stem = _os.path.splitext(boards[0])[0]
+        check("SCREEN", f"{prefix} this gate and the encoder name a "
+                        f"segment the same way",
+              f"{stem}.{running.hexdigest()[:8]}.ts",
+              _os.path.basename(video.segment_of(one)))
 
 
 def gate_two_pages_make_one_row() -> None:
