@@ -47,13 +47,13 @@ def main() -> int:
         return 0
 
     raw = (gzip.decompress(answer.content)
-           if answer.content[:2] == b"\\x1f\\x8b" else answer.content)
+           if answer.content[:2] == b"\x1f\x8b" else answer.content)
     root = ET.fromstring(raw)
     channels = {c.get("id"): (c.findtext("display-name") or "")
                 for c in root.findall("channel")}
     counts = Counter(p.get("channel") for p in root.findall("programme"))
     print(f"feed: {len(channels)} channel(s), "
-          f"{sum(counts.values())} programme(s)\\n")
+          f"{sum(counts.values())} programme(s)\n")
 
     hits = {cid: name for cid, name in channels.items()
             if INTERESTING.search(f"{cid} {name}")}
@@ -66,7 +66,7 @@ def main() -> int:
     wanted = [v for k, v in vars(tv).items()
               if isinstance(v, (list, tuple, dict, set))
               and any("ivibu" in str(item) for item in v)]
-    print(f"\\nwhat the module looks for: {str(wanted)[:900]}")
+    print(f"\nwhat the module looks for: {str(wanted)[:900]}")
     return 0
 
 
