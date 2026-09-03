@@ -4200,6 +4200,11 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
 
     check("NEWS", "a story published ten minutes ago is a row",
           story(10) is not None, True)
+    # And "live" inside a headline is not a live blog — the anchor is the
+    # END of the title, so real news that mentions it survives.
+    check("NEWS", "a story that merely mentions live is still news",
+          story(10, title="Erdogan speech shown live on state television")
+          is not None, True)
     check("NEWS", "AND A STORY WITH NO INSTANT IS NOT",
           news_reader.a_story("عنوان", "شرح", None, "AR", "الجزيرة", now),
           None)
@@ -4249,7 +4254,16 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     # out the rows that are.
     for junk in ("Ukraine war live blog: latest updates",
                  "Wordle today: hints for puzzle 1234",
-                 "Cryptic crossword No 29,876"):
+                 "Cryptic crossword No 29,876",
+                 # The one that got through on the live build and took a
+                 # row on the front page. The Guardian names its live
+                 # blogs by ending the title in "– live" and never says
+                 # the word "blog", so a rule looking for "blog" missed
+                 # every one of them.
+                 "England beat Ireland by six wickets: second women's "
+                 "cricket one-day international – live",
+                 "US Open 2026: Osaka, Swiatek in action - live",
+                 "Ukraine war live updates"):
         check("NEWS", f"'{junk[:34]}' is not a bulletin row",
               story(5, title=junk), None)
 

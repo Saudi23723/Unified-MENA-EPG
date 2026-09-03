@@ -108,6 +108,19 @@ TAGS = re.compile(r"<[^>]+>")
 NOT_NEWS = re.compile(
     r"\blive\b.*\bblog\b|\bcrossword\b|\bwordle\b|\bhoroscope\b|\bquiz\b"
     r"|\bpodcast\b|\brecipe\b|\bsudoku\b|\bcartoon\b"
+    r"|minute-by-minute|as it happened"
+    # A LIVE BLOG ENDING IN "– live", which is the Guardian's own naming
+    # and which the first version of this missed: it required the word
+    # "blog" and the title never says it. Measured on the live build —
+    #
+    #   England beat Ireland by six wickets: second women's cricket
+    #   one-day international – live
+    #
+    # took one of six rows on the front page, and a rolling sports
+    # commentary is not the breaking news this channel promises. Anchored
+    # on the END of the title, so a story that merely contains the word
+    # live — "shown live on state television" — is untouched.
+    r"|[–\-—]\s*live\s*$|\blive\s+updates?\s*$"
     r"|كلمات\s*متقاطعة|الأبراج|وصفة", re.I)
 
 # How far back a story may be and still be news. A board that says "hour
