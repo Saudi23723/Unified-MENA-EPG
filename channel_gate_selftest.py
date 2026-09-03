@@ -774,13 +774,18 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # television holding the previous playlist (raw.githubusercontent
     # serves it with a five-minute cache) is still working through the
     # old names, and deleting those files the moment they leave the
-    # playlist hands it a 404 and a spinner. One generation is kept on
-    # purpose. Two would be litter, and this still says so.
+    # playlist hands it a 404 and a spinner. Half an hour is kept on
+    # purpose — a CLOCK, not a count of passes, because three passes have
+    # landed inside seven minutes. Litter is bounded by that clock and by
+    # GRACE_LAPS, and this still says what is there on purpose.
+    #
+    # The ledger carries "name stamp" now, so the name is the first
+    # field.
     spared = _os.path.join(stream_dir, f"{prefix}keeping.txt")
     grace = set()
     if _os.path.exists(spared):
         with open(spared, encoding="utf-8") as handle:
-            grace = {line.strip() for line in handle if line.strip()}
+            grace = {line.split()[0] for line in handle if line.split()}
     on_disk = {name for name in _os.listdir(stream_dir)
                if name.endswith(".ts") and name.startswith(prefix)}
     check("SCREEN", f"{prefix} and nothing is published that neither it "
@@ -3165,31 +3170,54 @@ def gate_the_window_keeps_moving() -> None:
     check("WINDOW", "a new encoder revision re-encodes an unchanged board",
           before != after, True)
 
-    # ONE GENERATION OF SEGMENTS SURVIVES A PASS, which is the buffering.
-    # A television holding the previous playlist is still asking for the
-    # names on it; deleting those the moment they leave the playlist is a
-    # 404 and a spinner, on every pass, for everyone watching.
+    # A SEGMENT OUTLIVES THE PLAYLIST BY A CLOCK, NOT BY A PASS.
+    #
+    # It used to be "one pass", reasoned as "ten minutes, twice the cache
+    # it has to outlive". Three passes landed inside seven minutes —
+    # the ten-minute schedule, the hourly full build and a dispatch all
+    # push — and the news board, which printed the build minute into its
+    # own picture, was renamed on every one of them:
+    #
+    #     20:04 renamed · 20:07 renamed · 20:10 renamed · 20:13 renamed
+    #
+    # raw.githubusercontent serves the playlist with a five-minute cache,
+    # so a television reading the 20:07 playlist asked 20:10 for files it
+    # had already deleted:
+    #
+    #     An error occurred: code 404     photographed at 20:09 UTC
+    #
+    # Half an hour, stamped in the ledger rather than read off the
+    # filesystem, because every build starts from a fresh clone where
+    # every file carries the checkout's mtime.
+    import time as _time
     with tempfile.TemporaryDirectory() as tmp:
         was_out = video.OUT_DIR
         try:
             video.OUT_DIR = tmp
+            now = _time.time()
             old_names = ["scr_0.aaaa1111.ts", "scr_1.aaaa2222.ts"]
             new_names = ["scr_0.bbbb1111.ts", "scr_1.bbbb2222.ts"]
-            older = ["scr_0.99990000.ts"]
-            for name in old_names + new_names + older:
+            ancient = ["scr_0.99990000.ts"]
+            for name in old_names + new_names + ancient:
                 open(os.path.join(tmp, name), "wb").close()
-            # The pass before this one published old_names.
+            # The pass before this one published old_names, a minute ago.
             with open(os.path.join(tmp, "scr_previous.txt"), "w",
                       encoding="utf-8") as handle:
-                handle.write("\n".join(old_names) + "\n")
+                handle.write("".join(f"{n} {now - 60:.0f}\n"
+                                     for n in old_names))
+            # And this one left the playlist longer ago than the grace.
+            with open(os.path.join(tmp, "scr_keeping.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("".join(
+                    f"{n} {now - video.GRACE_SECONDS - 60:.0f}\n"
+                    for n in ancient))
 
             video.forget_old_segments(
                 [os.path.join(tmp, n) for n in new_names], "scr_")
             left = sorted(n for n in os.listdir(tmp) if n.endswith(".ts"))
             with open(os.path.join(tmp, "scr_keeping.txt"),
                       encoding="utf-8") as handle:
-                kept_written = [line.strip() for line in handle
-                                if line.strip()]
+                ledger = [line.split() for line in handle if line.split()]
         finally:
             video.OUT_DIR = was_out
 
@@ -3197,17 +3225,124 @@ def gate_the_window_keeps_moving() -> None:
           all(name in left for name in new_names), True)
     check("WINDOW", "the pass before it is kept, so no player hits a 404",
           all(name in left for name in old_names), True)
-    check("WINDOW", "and the one before THAT is swept, so nothing piles up",
-          [name for name in older if name in left], [])
+    check("WINDOW", "and one past the grace is swept, so nothing piles up",
+          [name for name in ancient if name in left], [])
 
     # And the gate is told which files are there on purpose. Writing the
     # current set where the KEPT set belonged is what stopped a build:
     # the gate read "what is current", saw a spared segment nobody had
     # declared, and refused to publish.
-    kept_note = os.path.join(tmp, "scr_keeping.txt") if os.path.isdir(tmp) \
-        else None
     check("WINDOW", "the sweep records what it kept, not what it wrote",
-          sorted(kept_written), sorted(old_names))
+          sorted(row[0] for row in ledger), sorted(old_names))
+
+    # THE STAMP IS CARRIED FORWARD, NOT REFRESHED. Restamping a segment
+    # every pass renews its grace for ever, and half an hour that never
+    # expires is a repository that fills up.
+    stamps = {row[0]: float(row[1]) for row in ledger}
+    check("WINDOW", "and the stamp is when it LEFT, not when it was seen",
+          all(_time.time() - when > 30 for when in stamps.values()), True)
+    check("WINDOW", "the grace is a clock, long enough to outlive the cache",
+          video.GRACE_SECONDS >= 15 * 60, True)
+    check("WINDOW", "and it is bounded, so churn cannot fill the repository",
+          1 <= video.GRACE_LAPS <= 5, True)
+
+
+def gate_a_board_changes_only_when_its_content_does() -> None:
+    """A clock drawn into a picture is a channel that goes off the air.
+
+        An error occurred: code 404      photographed at 20:09 UTC
+
+    A segment is named after the hash of its board, so a board whose
+    BYTES change is a segment renamed and its predecessor swept. The news
+    board printed the minute the build ran — "آخر تحديث 12:20" — and was
+    therefore renamed on every pass:
+
+        20:04 renamed · 20:07 renamed · 20:10 renamed · 20:13 renamed
+
+    while the two fixtures boards, which carry kickoff times and no
+    countdown, went hours without changing. raw.githubusercontent serves
+    the playlist with a five-minute cache, so a television reading the
+    20:07 playlist asked 20:10 for files it had already deleted.
+
+    The grace is a clock now and covers half an hour of it, but the grace
+    is the second line of defence. THIS is the first: a board must be the
+    same picture when nothing it shows has changed, however much later it
+    is drawn.
+    """
+    print("\nA board changes when its content does, not when the clock does")
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
+    import match_board
+    import news_board
+
+    viewer = ZoneInfo("America/Los_Angeles")
+    at = datetime(2026, 9, 3, 20, 4, tzinfo=timezone.utc)
+    # Far enough apart to cross a minute, an hour boundary and a lap of
+    # every build cadence this repository runs.
+    later = at + timedelta(minutes=47)
+
+    def same(one, two):
+        return one.convert("RGB").tobytes() == two.convert("RGB").tobytes()
+
+    # THE NEWS BOARD, which is the one that did it. The stories are held
+    # far enough from the freshness line that neither drawing is inside
+    # the hour, so nothing about the CONTENT differs between the two.
+    stories = [
+        {"start": at - timedelta(hours=5 + n), "region": "JO",
+         "region_name": "الأردن", "outlet": "Jordan News",
+         "title": f"A headline that has not changed {n}",
+         "summary": "One sentence explaining it."}
+        for n in range(6)]
+    check("PICTURE", "the news board is the same picture 47 minutes later",
+          same(news_board.draw_board(stories, at, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6),
+               news_board.draw_board(stories, later, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6)), True)
+
+    # AND THE TWO FIXTURES BOARDS, which have always been right and are
+    # checked so they stay right.
+    day = at.date() + timedelta(days=1)
+    events = [{"start": at + timedelta(days=1, hours=n),
+               "title": f"Club {n} - Club {n + 1}",
+               "channels": ["beIN SPORTS 1"],
+               "competition": "Premier League"} for n in range(6)]
+    check("PICTURE", "and the fixtures board is too",
+          same(match_board.draw_board(day, events, at, viewer,
+                                      timedelta(hours=2),
+                                      title="مباريات اليوم", subtitle="بث",
+                                      weekday="الجمعة", page=1, pages=3),
+               match_board.draw_board(day, events, later, viewer,
+                                      timedelta(hours=2),
+                                      title="مباريات اليوم", subtitle="بث",
+                                      weekday="الجمعة", page=1, pages=3)),
+          True)
+
+    # AND THE PICTURE STILL CHANGES WHEN THE CONTENT DOES, or the check
+    # above would pass on a blank page.
+    moved = [dict(stories[0], title="A headline that HAS changed")] + \
+        stories[1:]
+    check("PICTURE", "but a changed headline is a different picture",
+          same(news_board.draw_board(stories, at, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6),
+               news_board.draw_board(moved, at, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6)), False)
+
+    # And nothing draws a minute into a board. Proved on the source,
+    # because a board that happens not to differ today can start
+    # differing tomorrow.
+    import inspect
+    for module in (news_board, match_board):
+        body = inspect.getsource(module)
+        printed = [line.strip() for line in body.splitlines()
+                   if "%H:%M" in line and "now" in line
+                   and not line.strip().startswith("#")]
+        check("PICTURE", f"{module.__name__} draws no build clock",
+              printed, [])
 
 
 def gate_a_simulcast_is_not_a_second_channel() -> None:
@@ -4145,6 +4280,29 @@ def gate_the_broadcaster_is_the_source_for_its_own_matches() -> None:
         check("OURS", f"  and the board wants it",
               today.wanted({"competition": competition, "title": "A - B",
                             "channels": ["beIN SPORTS 1"]}), True)
+
+    # A MATCHWEEK IS NOTATION, AND THE LIVE MARK OVERRIDES IT. beIN
+    # Turkey started writing the live Süper Lig match the same way it
+    # writes its recordings — a season in parentheses and a matchweek —
+    # and the rule that refused the recordings refused the match with
+    # them. The grid says which is which in its own words:
+    for title, want in (
+            ("Super Lig (26-27) 04. Hafta Basaksehir - Galatasaray "
+             "- Canli ‎• Live 🔵‎", ("Basaksehir", "Galatasaray")),
+            ("Super Lig (26-27) 3. Hafta Basaksehir - Kasimpasa - Bant -",
+             ("", "")),
+            ("Arşiv Süper Lig (26-27) 4.hafta Başakşehir Fk - Galatasaray",
+             ("", "")),
+            ("Süper Lig Haftanın Golleri (26-27) 3.hafta", ("", "")),
+            # A match from the 2000-01 season, unmarked. The season in
+            # parentheses is still what refuses it.
+            ("Beşiktaş - Adanaspor (00-01) 21.hafta", ("", "")),
+            # And Alwan saying what comes NEXT is refused even carrying
+            # the live mark, because "التالي" is not notation — it is a
+            # statement that the row is not this programme.
+            ("التالي: بيرنلي - ميدلزبره ‎🔴 LIVE‎", ("", ""))):
+        check("OURS", f"beIN Turkey: {title[:46]}",
+              own_guides.fixture_in(title), want)
 
     # A ROUND IS A CUP ROUND WHEN THE TITLE NAMES TWO CLUBS, and a
     # session of something when it does not. All twenty-two "Round N"
@@ -5131,6 +5289,7 @@ def main() -> int:
                  gate_one_channel_spelled_two_ways_is_one_channel,
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
+                 gate_a_board_changes_only_when_its_content_does,
                  gate_each_channel_wears_its_own_mark,
                  gate_the_channel_comes_from_the_broadcasters_own_feed,
                  gate_the_second_board_names_channels_like_the_first,

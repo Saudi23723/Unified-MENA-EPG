@@ -344,13 +344,60 @@ def segment_of(board: str) -> str:
     return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
 
 
-def still_wanted(prefix: str) -> set[str]:
-    """The segments the PREVIOUS pass published, which are not rubbish yet."""
-    path = os.path.join(OUT_DIR, f"{prefix}previous.txt")
-    if not os.path.exists(path):
-        return set()
-    with open(path, encoding="utf-8") as handle:
-        return {line.strip() for line in handle if line.strip()}
+# HOW LONG A SEGMENT LIVES AFTER IT LEAVES THE PLAYLIST.
+#
+# THIS USED TO BE "ONE PASS" AND ONE PASS IS NOT A LENGTH OF TIME. It was
+# reasoned as "one pass, ten minutes, twice the cache it has to outlive",
+# and the arithmetic only holds while builds are ten minutes apart. They
+# are not: the ten-minute schedule and the full hourly build both push,
+# and a manual dispatch pushes too, so three landed inside seven minutes:
+#
+#     20:04  news renamed        20:10  news renamed
+#     20:07  news renamed        20:13  news renamed
+#
+# raw.githubusercontent serves the playlist with a FIVE-MINUTE cache, so
+# a television was reading a playlist from 20:07 whose segments 20:10 had
+# already deleted:
+#
+#     An error occurred: code 404     photographed at 13:09 PT = 20:09 UTC
+#
+# So the grace is a CLOCK now, not a counter. Half an hour outlives the
+# cache six times over and does not care how fast builds land.
+#
+# It is stamped in a file rather than read off the filesystem, because
+# every build starts from a fresh clone and every file in it has the same
+# mtime — the checkout's.
+GRACE_SECONDS = 30 * 60
+
+# And a ceiling, so a day of churn cannot fill the repository: at most
+# this many laps of segments are ever kept behind the playlist. The
+# oldest go first.
+GRACE_LAPS = 3
+
+
+def still_wanted(prefix: str) -> dict[str, float]:
+    """Segments kept behind the playlist, and when each left it.
+
+    Read from the ledger the last pass wrote. A missing or unreadable
+    ledger is not a failure — it means the next pass stamps everything it
+    finds with now, which costs one extra grace period and nothing else.
+    """
+    out: dict[str, float] = {}
+    for name in (f"{prefix}keeping.txt", f"{prefix}previous.txt"):
+        path = os.path.join(OUT_DIR, name)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            for line in handle:
+                parts = line.split()
+                if not parts:
+                    continue
+                try:
+                    when = float(parts[1])
+                except (IndexError, ValueError):
+                    continue
+                out.setdefault(parts[0], when)
+    return out
 
 
 def forget_old_segments(keep: list[str], prefix: str) -> int:
@@ -379,40 +426,69 @@ def forget_old_segments(keep: list[str], prefix: str) -> int:
     who was watching, which is exactly what a reader kept photographing.
     A live server never deletes a segment the moment it leaves the
     playlist; it drops it from the window and keeps the file a while
-    longer. This keeps the last generation — one pass, ten minutes, twice
-    the cache it has to outlive — and deletes the one before that.
+    longer. HOW LONG IS A CLOCK AND NOT A COUNT OF PASSES — see
+    GRACE_SECONDS for the 404 that taught it.
     """
+    now = time.time()
     wanted = {os.path.basename(path) for path in keep}
-    spared = still_wanted(prefix) - wanted
-    gone = 0
+    left_at = still_wanted(prefix)
+
+    spared: dict[str, float] = {}
+    stale: list[tuple[float, str]] = []
     for name in sorted(os.listdir(OUT_DIR)):
-        if (name.startswith(prefix) and name.endswith(".ts")
-                and name not in wanted and name not in spared):
-            os.remove(os.path.join(OUT_DIR, name))
-            gone += 1
+        if not (name.startswith(prefix) and name.endswith(".ts")):
+            continue
+        if name in wanted:
+            continue
+        # First seen leaving the playlist now, unless a pass before this
+        # one already stamped it.
+        when = left_at.get(name, now)
+        if now - when <= GRACE_SECONDS:
+            spared[name] = when
+        else:
+            stale.append((when, name))
+
+    # THE CEILING, oldest first, so a day of churn cannot fill the
+    # repository however fast the boards change.
+    room = max(len(wanted), 1) * GRACE_LAPS
+    if len(spared) > room:
+        for when, name in sorted((w, n) for n, w in spared.items())[:-room]:
+            stale.append((when, name))
+            del spared[name]
+
+    for _, name in stale:
+        os.remove(os.path.join(OUT_DIR, name))
 
     # TWO RECORDS, because the sweep and the gate need different facts
     # and writing one for both is how this went wrong the first time.
     #
-    #   previous.txt  what THIS pass published. The next pass reads it to
-    #                 know what to spare.
-    #   keeping.txt   what this pass SPARED. It is on disk and the
+    #   previous.txt  what THIS pass published, each stamped with now.
+    #                 The next pass reads it to learn when a segment it
+    #                 no longer names was last on the air.
+    #   keeping.txt   what this pass SPARED, each with the moment it LEFT
+    #                 the playlist — carried forward, not restamped, or
+    #                 the grace would never expire. It is on disk and the
     #                 playlist does not name it, which is exactly what
-    #                 the screen gate is built to catch — so the gate is
-    #                 told, by name, which files are there on purpose.
+    #                 the screen gate is built to catch, so the gate is
+    #                 told by name which files are there on purpose.
     #
     # Writing the current set to both looked equivalent and is not: the
     # gate then reads "what is current" where it needed "what is kept",
     # sees a spared segment it was never told about, and stops the build.
-    for name, names in ((f"{prefix}previous.txt", sorted(wanted)),
-                        (f"{prefix}keeping.txt", sorted(spared))):
+    records = (
+        (f"{prefix}previous.txt", [(name, now) for name in sorted(wanted)]),
+        (f"{prefix}keeping.txt", sorted(spared.items())),
+    )
+    for name, rows in records:
         with open(os.path.join(OUT_DIR, name), "w",
                   encoding="utf-8", newline="\n") as handle:
-            handle.write("\n".join(names) + ("\n" if names else ""))
+            handle.write("".join(f"{one} {when:.0f}\n" for one, when in rows))
     if spared:
-        log(f"  {len(spared)} segment(s) kept one more pass, so a "
-            f"television on the old playlist does not hit a 404")
-    return gone
+        oldest = min(spared.values())
+        log(f"  {len(spared)} segment(s) kept behind the playlist, the "
+            f"oldest for {int(now - oldest) // 60} min, so a television "
+            f"on a cached playlist does not hit a 404")
+    return len(stale)
 
 
 # THE STEP BETWEEN BOARDS ON THE TIMELINE, and why it is not HOLD.

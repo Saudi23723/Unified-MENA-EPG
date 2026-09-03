@@ -102,15 +102,39 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     draw_text(pen, (x, PAD + 46), subtitle, 21, MUTED, thin=True)
 
     right = W - PAD
-    # THE HOUR THIS WAS BUILT, not the date. A newspaper carries a date
-    # because it is printed once a day; this is rebuilt every few
-    # minutes, and the thing a reader needs to know is how old what they
-    # are looking at is.
+    # NO CLOCK IS DRAWN HERE, AND THAT IS NOT A STYLE CHOICE. IT TOOK THE
+    # CHANNEL OFF THE AIR.
+    #
+    # This printed the minute the build ran — "آخر تحديث 12:20" — so the
+    # picture's BYTES changed on every pass. A segment is named after the
+    # hash of its board, so every pass renamed all six segments and swept
+    # the ones before them. Measured on what was published:
+    #
+    #     20:04  news renamed      20:10  news renamed
+    #     20:07  news renamed      20:13  news renamed
+    #
+    # — every three minutes, while the two fixtures boards went hours
+    # without changing. raw.githubusercontent serves the playlist with a
+    # five-minute cache, so a television was still working through a
+    # playlist whose segments had been deleted two passes ago:
+    #
+    #     An error occurred: code 404      photographed at 13:09 PT,
+    #                                      which is 20:09 UTC
+    #
+    # The fixtures boards have known this since they were written — they
+    # carry kickoff times and no countdown precisely so that they change
+    # when the football changes and not when the clock ticks — and this
+    # board was drawn without the rule.
+    #
+    # A DATE IS SAFE AND A MINUTE IS NOT, because a date changes once a
+    # day. What the reader needs is not when the build ran; it is how old
+    # the stories are, and every row already says that by lighting its
+    # region when the story is inside the hour.
     draw_text(pen, (right, PAD - 2),
-              now.astimezone(viewer).strftime("%H:%M"), 30, WHITE,
+              now.astimezone(viewer).strftime("%d.%m.%Y"), 30, WHITE,
               anchor="ra")
     draw_text(pen, (right, PAD + 40),
-              f"آخر تحديث · {page}/{pages}" if pages > 1 else "آخر تحديث",
+              f"نشرة اليوم · {page}/{pages}" if pages > 1 else "نشرة اليوم",
               19, MUTED, anchor="ra", thin=True)
 
     top = PAD + 92
