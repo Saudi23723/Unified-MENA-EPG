@@ -767,18 +767,45 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # the module; the algorithm is still this file's own.
     import match_screen_video as video
 
-    wrong = []
-    for board in boards:
-        with open(_os.path.join(boards_dir, board), "rb") as handle:
-            body = handle.read()
-        running = hashlib.sha256()
-        running.update(f"encoder:{video.ENCODER_REVISION}\n".encode())
-        running.update(_os.path.join(boards_dir, board).encode())
-        running.update(body)
-        stem = _os.path.splitext(board)[0]
-        expected = f"{stem}.{running.hexdigest()[:8]}.ts"
-        if expected not in distinct:
-            wrong.append(f"{board} -> expected {expected}")
+    def named_under(revision):
+        """What every board's segment would be called at that revision."""
+        out = {}
+        for board in boards:
+            with open(_os.path.join(boards_dir, board), "rb") as handle:
+                body = handle.read()
+            running = hashlib.sha256()
+            running.update(f"encoder:{revision}\n".encode())
+            running.update(_os.path.join(boards_dir, board).encode())
+            running.update(body)
+            stem = _os.path.splitext(board)[0]
+            out[board] = f"{stem}.{running.hexdigest()[:8]}.ts"
+        return out
+
+    now_named = named_under(video.ENCODER_REVISION)
+    wrong = [f"{board} -> expected {name}"
+             for board, name in now_named.items() if name not in distinct]
+
+    # ONE REVISION OF GRACE, and only a WHOLESALE one.
+    #
+    # The published stream is built by a workflow that runs on main after
+    # a merge, so between changing the encoder and that build the repo
+    # holds segments named under the PREVIOUS revision. That is not a
+    # fault — it is the ordinary state of a correct change in flight, and
+    # failing it here means an encoder fix can never go green and so can
+    # never merge.
+    #
+    # It is only forgiven when EVERY board matches the previous revision.
+    # A mixture is the thing this gate exists to catch: some segments
+    # re-encoded and some not is a stream showing two different encoders
+    # at once, and no build produces that.
+    if wrong and video.ENCODER_REVISION > 0:
+        before = named_under(video.ENCODER_REVISION - 1)
+        if all(name in distinct for name in before.values()):
+            print(f"  note {prefix} every segment is named under encoder "
+                  f"{video.ENCODER_REVISION - 1}, not {video.ENCODER_REVISION}"
+                  f" — the encoder was revised and the build that republishes"
+                  f" them has not run yet")
+            wrong = []
     check("SCREEN", f"{prefix} each segment is named after the board it shows",
           wrong, [])
 
