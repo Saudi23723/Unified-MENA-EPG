@@ -722,13 +722,29 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     check("SCREEN", f"{prefix} every segment the playlist names exists",
           missing, [])
 
-    # Nothing of THIS screen's published that its playlist does not point
-    # at. Only its own segments are considered: the two screens share
-    # stream/, and each one's sweep must leave the other's alone.
+    # Nothing of THIS screen's published that neither its playlist nor
+    # the pass before it points at. Only its own segments are considered:
+    # the two screens share stream/, and each one's sweep must leave the
+    # other's alone.
+    #
+    # THE PASS BEFORE IT COUNTS, and that is not a loophole — it is the
+    # fix to the buffering. A board changes every pass because it prints
+    # a countdown, so every segment is renamed every ten minutes; a
+    # television holding the previous playlist (raw.githubusercontent
+    # serves it with a five-minute cache) is still working through the
+    # old names, and deleting those files the moment they leave the
+    # playlist hands it a 404 and a spinner. One generation is kept on
+    # purpose. Two would be litter, and this still says so.
+    spared = _os.path.join(stream_dir, f"{prefix}previous.txt")
+    grace = set()
+    if _os.path.exists(spared):
+        with open(spared, encoding="utf-8") as handle:
+            grace = {line.strip() for line in handle if line.strip()}
     on_disk = {name for name in _os.listdir(stream_dir)
                if name.endswith(".ts") and name.startswith(prefix)}
-    check("SCREEN", f"{prefix} and nothing is published that it does not name",
-          sorted(on_disk - set(distinct)), [])
+    check("SCREEN", f"{prefix} and nothing is published that neither it "
+                    f"nor the pass before it names",
+          sorted(on_disk - set(distinct) - grace), [])
 
     # The heart of it: the name has to be the fingerprint of the picture.
     #
@@ -2799,6 +2815,7 @@ def gate_the_window_keeps_moving() -> None:
         check("WINDOW", "and the player is told it may read ahead",
               "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
 
+
         # The three things that make it live at all, none of which may
         # come back: any one of them stops a player reloading.
         for tag in ("#EXT-X-ENDLIST", "PLAYLIST-TYPE:VOD"):
@@ -2813,6 +2830,26 @@ def gate_the_window_keeps_moving() -> None:
     # spinner.
     import inspect
     body = inspect.getsource(video.main)
+
+    # A SEGMENT MUST BE EXACTLY AS LONG AS THE PLAYLIST SAYS IT IS.
+    #
+    # The playlist writes EXTINF:20.0 for every segment and the segments
+    # are stamped with their place in the reel, so a segment that runs
+    # 20.096s ends 96ms after the next one is supposed to begin. On a
+    # timeline that is supposed to be continuous that overlap is a
+    # contradiction, and a player answers a contradiction by re-syncing.
+    #
+    # AAC codes 1024 samples to a frame, so the audio is exactly HOLD
+    # seconds only when HOLD x rate divides by 1024. Measured: 16000
+    # gives 312.5 frames, 32000 gives 625.
+    encoder = inspect.getsource(video.encode_segment)
+    rate = re.search(r"sample_rate=(\d+)", encoder)
+    check("WINDOW", "the encoder names a sample rate at all",
+          rate is not None, True)
+    if rate:
+        frames = video.HOLD * int(rate.group(1)) / 1024
+        check("WINDOW", "and a segment's audio lands exactly on its end",
+              frames == int(frames), True)
     already, _ = body.split("os.makedirs(OUT_DIR", 1)
     check("WINDOW", "the not-re-encoded pass writes the playlist too",
           "write_playlist" in already, True)
@@ -2845,6 +2882,37 @@ def gate_the_window_keeps_moving() -> None:
             video.ENCODER_REVISION = was
     check("WINDOW", "a new encoder revision re-encodes an unchanged board",
           before != after, True)
+
+    # ONE GENERATION OF SEGMENTS SURVIVES A PASS, which is the buffering.
+    # A television holding the previous playlist is still asking for the
+    # names on it; deleting those the moment they leave the playlist is a
+    # 404 and a spinner, on every pass, for everyone watching.
+    with tempfile.TemporaryDirectory() as tmp:
+        was_out = video.OUT_DIR
+        try:
+            video.OUT_DIR = tmp
+            old_names = ["scr_0.aaaa1111.ts", "scr_1.aaaa2222.ts"]
+            new_names = ["scr_0.bbbb1111.ts", "scr_1.bbbb2222.ts"]
+            older = ["scr_0.99990000.ts"]
+            for name in old_names + new_names + older:
+                open(os.path.join(tmp, name), "wb").close()
+            # The pass before this one published old_names.
+            with open(os.path.join(tmp, "scr_previous.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("\n".join(old_names) + "\n")
+
+            video.forget_old_segments(
+                [os.path.join(tmp, n) for n in new_names], "scr_")
+            left = sorted(n for n in os.listdir(tmp) if n.endswith(".ts"))
+        finally:
+            video.OUT_DIR = was_out
+
+    check("WINDOW", "this pass's segments are published",
+          all(name in left for name in new_names), True)
+    check("WINDOW", "the pass before it is kept, so no player hits a 404",
+          all(name in left for name in old_names), True)
+    check("WINDOW", "and the one before THAT is swept, so nothing piles up",
+          [name for name in older if name in left], [])
 
 
 def gate_a_simulcast_is_not_a_second_channel() -> None:
@@ -2950,84 +3018,104 @@ def gate_each_channel_wears_its_own_mark() -> None:
     check("MARK", "so no two rows in the playlist wear one picture",
           len(set(marks.values())), len(marks))
 
-def gate_a_named_right_is_added_and_never_assumed() -> None:
-    """"beIN بتبث F1، Starzplay بتبث UFC" — a reader's own facts.
+def gate_the_channel_comes_from_the_broadcasters_own_feed() -> None:
+    """Who carries a sport is read from the broadcaster, never asserted.
 
-    This board's source is British and only British, and that was
-    measured across all forty-four of its pages: Sky 1106 mentions, TNT
-    363, DAZN 226, and not one Fox, NBC, ESPN or beIN. Every row was
-    therefore offering a viewer with a MENA package the one set of
-    channels they cannot turn to. The reader supplied what they can get,
-    and it is written down as a stated fact rather than scraped.
+    This board's source is British and only British — measured across all
+    forty-four of its pages: Sky 1106 mentions, TNT 363, DAZN 226, and
+    not one Fox, NBC, ESPN or beIN. So every row offered a viewer with a
+    MENA package the one set of channels they cannot open.
 
-    That is a dangerous kind of entry and this repository knows it, so
-    the same three rules that let الأردن الرياضية be written down for
-    Jordan's league hold here, and this gate is all three.
+    It was first fixed by writing down what a reader said: beIN has
+    Formula One, STARZPLAY has the UFC. Both true, and still the wrong
+    way to know it — a hand-written rights table is a claim that goes
+    stale in silence the season it stops being true, and nothing in a
+    build can tell.
 
-    IT ADDS, NEVER REPLACES — what the page published survives beside it.
+    The broadcasters say it themselves, in feeds this repository already
+    publishes and rebuilds every hour:
 
-    IT IS NARROW — the UFC page also lists One Championship, and nobody
-    said STARZPLAY carries that; the tennis rule is the majors, which is
-    what was named. A wide rule here is a wrong channel on a screen,
-    which is the one failure every board in this repository refuses.
+        bein_sports_qatar_epg.xml   63 Formula One programmes, 294 tennis
+        starzplay_epg.xml           14 UFC, among them Dana White's
+                                    Contender Series and The Ultimate
+                                    Fighter
 
-    IT NAMES NO NUMBER — "beIN", not "beIN 3". Which of beIN's numbers a
-    session lands on changes week to week and nobody said. Sending a
-    viewer to beIN is true; sending them to beIN 3 is a guess dressed as
-    a fact.
+    So nothing is asserted; it is read. And it comes back BETTER than the
+    table did — "beIN SPORTS 8" for a practice session and "beIN 4K" for
+    the race, which are the channel numbers the table refused to guess.
+
+    TWO ANCHORS make it safe, the same pair that make own_guides safe for
+    football: the start minute AND a phrase that names the event. One
+    alone is a coincidence — beIN broadcasts something at 10:30 every day
+    of the year. The phrase is what keeps one grand prix from being
+    another, and it earns its place on a real example: STARZPLAY's guide
+    carries "Emirates Great Britain Grand Prix - SailGP", which is
+    sailing, and "Italian Grand Prix" does not appear in it.
     """
-    print("\nA named right is added, never assumed — رياضات اليوم")
-    from datetime import datetime, timezone
+    print("\nThe channel comes from the broadcaster's own feed — own_guides")
+    from datetime import datetime, timedelta, timezone
 
-    import other_sports_epg as board
+    import own_guides
 
-    def event(sport, title, channels, competition=""):
-        return {"start": datetime(2026, 9, 5, tzinfo=timezone.utc),
-                "sport": sport, "title": title, "competition": competition,
+    def event(sport, title, channels=()):
+        return {"sport": sport, "title": title,
+                "start": datetime(2026, 9, 4, 10, 30, tzinfo=timezone.utc),
                 "channels": list(channels)}
 
-    f1 = event("F1", "Italian Grand Prix Practice 2", ["Sky Sports F1"])
-    check("RIGHTS", "the reader's own channel is added to the grand prix",
-          board.also_carried_by(f1), ["beIN SPORTS"])
-    check("RIGHTS", "and what the page published is untouched",
-          f1["channels"], ["Sky Sports F1"])
+    # What a guide would have to print to be showing this event.
+    check("FEED", "a grand prix is named by its prix and its session",
+          own_guides.what_names_it(
+              event("F1", "Italian Grand Prix Practice 1 - Monza Circuit")),
+          ["Italian Grand Prix", "Practice 1"])
+    check("FEED", "and the race is not the practice",
+          own_guides.what_names_it(
+              event("F1", "Italian Grand Prix Race - Monza Circuit")),
+          ["Italian Grand Prix", "Race"])
+    check("FEED", "a major is named by the major",
+          own_guides.what_names_it(
+              event("Tennis", "US Open Men's Singles 3rd Round")),
+          ["US Open"])
+    check("FEED", "a UFC card by the UFC",
+          own_guides.what_names_it(
+              event("MMA", "UFC Fight Night Hooker vs Parnasse")), ["UFC"])
 
-    ufc = event("MMA", "UFC Fight Night Hooker vs Parnasse",
-                ["TNT Sports 1"], "Ultimate Fighting Championship")
-    check("RIGHTS", "the UFC card names STARZPLAY",
-          board.also_carried_by(ufc), ["STARZPLAY Sports"])
-    contender = event("MMA", "MMA Colton Loud vs Frank da Silva Castro",
-                      ["UFC Fight Pass"], "Contender Series 2026")
-    check("RIGHTS", "and so does the Contender Series",
-          board.also_carried_by(contender), ["STARZPLAY Sports"])
+    # NOTHING is claimed for an event this cannot name, and that is most
+    # of them. A board may not put a channel on an event nobody published.
+    for sport, title in (("MMA", "One Championship One Fight Night 47"),
+                         ("Tennis", "Some ATP 250 Final"),
+                         ("Boxing", "Live Boxing Canelo Alvarez"),
+                         ("NBA", "Lakers - Celtics"),
+                         ("F1", "F2 Feature Race")):
+        check("FEED", f"{sport}: '{title[:28]}' names no phrase to match on",
+              own_guides.what_names_it(event(sport, title)), [])
 
-    # THE NARROWNESS, which is the whole safety of this.
-    one = event("MMA", "One Championship One Fight Night 47",
-                ["Sky Sports Action"], "Mixed Martial Arts")
-    check("RIGHTS", "but One Championship is not the UFC and gets nothing",
-          board.also_carried_by(one), [])
-    small = event("Tennis", "Some ATP 250 Final", ["Sky Sports Tennis"])
-    check("RIGHTS", "and a tournament nobody named gets nothing either",
-          board.also_carried_by(small), [])
-    major = event("Tennis", "US Open Men's Singles 3rd Round",
-                  ["Sky Sports Tennis"])
-    check("RIGHTS", "while the majors, which were named, get beIN",
-          board.also_carried_by(major), ["beIN SPORTS"])
-    boxing = event("Boxing", "Live Boxing Canelo Alvarez", ["DAZN"])
-    check("RIGHTS", "a sport with no stated right is left entirely alone",
-          board.also_carried_by(boxing), [])
+    # The phrase, which is what stops one grand prix being another.
+    check("FEED", "a guide showing THIS grand prix matches",
+          own_guides.says_all_of("Practice 1 - Italian Grand Prix - 2026",
+                                 ["Italian Grand Prix", "Practice 1"]), True)
+    check("FEED", "a guide showing the sailing does not",
+          own_guides.says_all_of(
+              "Emirates Great Britain Grand Prix - Day 1 - SailGP - LIVE",
+              ["Italian Grand Prix", "Practice 1"]), False)
+    check("FEED", "and neither does the same prix's other session",
+          own_guides.says_all_of("Practice 2 - Italian Grand Prix - 2026",
+                                 ["Italian Grand Prix", "Practice 1"]), False)
 
-    # Never twice, however many ways a rule could match.
-    already = event("F1", "Italian Grand Prix Race", ["beIN SPORTS"])
-    check("RIGHTS", "a channel already on the row is not added again",
-          board.also_carried_by(already), [])
+    # Both anchors, on the real published guide. This reads the file this
+    # repository actually ships, so it is a test of the fact as well as
+    # of the rule.
+    if os.path.exists("bein_sports_qatar_epg.xml"):
+        rows = own_guides.programmes("bein_sports_qatar_epg.xml", "")
+        f1 = [row for row in rows
+              if own_guides.says_all_of(row["title"], ["Grand Prix"])]
+        check("FEED", "beIN's own feed does carry Formula One",
+              len(f1) > 0, True)
 
-    # No number invented, on any entry, ever.
-    numbered = [channel for _, _, channel in board.ALSO_CARRIED_BY
-                if re.search(r"\d", channel)]
-    check("RIGHTS", "no stated right names a channel number",
-          numbered, [])
-
+        one = event("F1", "Italian Grand Prix Practice 1 - Monza Circuit")
+        far = dict(one, start=one["start"] + timedelta(days=3))
+        own_guides.add_channels_by_name([far])
+        check("FEED", "but three days off the minute names nothing",
+              far["channels"], [])
 
 def gate_the_second_board_names_channels_like_the_first() -> None:
     """"شيل sports من القنوات الثانية مثل ما عملت بالاولى" — asked outright.
@@ -3109,7 +3197,7 @@ def main() -> int:
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
                  gate_each_channel_wears_its_own_mark,
-                 gate_a_named_right_is_added_and_never_assumed,
+                 gate_the_channel_comes_from_the_broadcasters_own_feed,
                  gate_the_second_board_names_channels_like_the_first):
         try:
             gate()

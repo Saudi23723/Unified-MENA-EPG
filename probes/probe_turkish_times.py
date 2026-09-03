@@ -77,6 +77,49 @@ def show(where: str, events) -> None:
         print("  no two Turkish fixtures share an instant here")
 
 
+def raw_rows(session) -> None:
+    """The markup of the four rows, printed, before anything is changed.
+
+    Four different matches on one instant, and that instant exactly
+    midnight UTC, is not a schedule — it is a time that was never read.
+    Which of the two places a time can come from failed, and what the
+    page actually says there, is a fact about the markup, so it is
+    printed rather than reasoned about.
+    """
+    from bs4 import BeautifulSoup
+
+    from epg_lib import fetch, norm
+    import today_matches_epg as today
+
+    print("\n=== the four rows as livefootballtv writes them " + "=" * 12)
+    try:
+        html = fetch(session, today.SOURCE).text
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  SHUT: {exc}")
+        return
+    soup = BeautifulSoup(html, "html.parser")
+    shown = 0
+    for row in soup.find_all("tr"):
+        text = norm(row.get_text(" ", strip=True))
+        if not is_turkish(text):
+            continue
+        clock = row.find("td", class_="hora")
+        cell = row.find("td", class_="canales")
+        meta = cell.find("meta", attrs={"itemprop": "startDate"}) if cell else None
+        print(f"    {text[:66]}")
+        print(f"        td.hora        : "
+              f"{norm(clock.get_text(' ', strip=True)) if clock else 'MISSING'!r}")
+        print(f"        meta startDate : "
+              f"{(meta.get('content') if meta else 'MISSING')!r}")
+        print(f"        PRINTED_CLOCK matches: "
+              f"{bool(today.PRINTED_CLOCK.search(norm(clock.get_text(' ', strip=True)))) if clock else False}")
+        shown += 1
+        if shown >= 8:
+            break
+    if not shown:
+        print("    no Turkish row found in the page this pass")
+
+
 def main() -> int:
     session = new_session()
     now = datetime.now(timezone.utc)
@@ -111,13 +154,7 @@ def main() -> int:
     except Exception as exc:                                  # noqa: BLE001
         print(f"yallakora shut: {exc}")
 
-    import live_soccer_tv
-    try:
-        show("livesoccertv", live_soccer_tv.fetch_events(session, floor,
-                                                         ceiling))
-    except Exception as exc:                                  # noqa: BLE001
-        print(f"livesoccertv shut: {exc}")
-
+    raw_rows(session)
     return 0
 
 

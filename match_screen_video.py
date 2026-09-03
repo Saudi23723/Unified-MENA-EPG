@@ -108,7 +108,9 @@ def boards(prefix: str) -> list[str]:
 #
 #   1  the original: every segment starts at zero
 #   2  each board stamped with its place in the reel
-ENCODER_REVISION = 2
+#   3  audio at 32kHz, so a segment is exactly HOLD seconds and does not
+#      overlap the one after it
+ENCODER_REVISION = 3
 
 
 def digest(paths: list[str]) -> str:
@@ -141,8 +143,17 @@ def segment_of(board: str) -> str:
     return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
 
 
+def still_wanted(prefix: str) -> set[str]:
+    """The segments the PREVIOUS pass published, which are not rubbish yet."""
+    path = os.path.join(OUT_DIR, f"{prefix}previous.txt")
+    if not os.path.exists(path):
+        return set()
+    with open(path, encoding="utf-8") as handle:
+        return {line.strip() for line in handle if line.strip()}
+
+
 def forget_old_segments(keep: list[str], prefix: str) -> int:
-    """Delete THIS screen's segments that no playlist points at any more.
+    """Delete this screen's segments that nothing points at ANY MORE.
 
     Content-addressed names mean a new board leaves its predecessor
     behind, and left alone they would pile up a few files a day forever.
@@ -150,16 +161,42 @@ def forget_old_segments(keep: list[str], prefix: str) -> int:
     Only this screen's own segments are considered, and that is the whole
     point of the prefix: both screens publish into stream/, and a sweep
     that deleted everything it did not recognise would take the other
-    screen's segments with it every pass — leaving a live playlist
-    naming files that are gone.
+    screen's segments with it every pass.
+
+    ONE GENERATION IS KEPT, and that is the buffering.
+
+    A board changes every pass, because it prints a countdown. Its bytes
+    change, so its name changes, so every ten minutes every segment is a
+    new file and every old one was deleted the same minute. Meanwhile a
+    television is holding the PREVIOUS playlist — raw.githubusercontent
+    serves it with a five-minute cache, so it holds it for up to five
+    minutes after we replaced it — and it is still working through the
+    names on it. Every one of those files has just been deleted. It asks
+    for the next, gets a 404, and shows a spinner.
+
+    That is not a corner case: it happened on every pass, to every viewer
+    who was watching, which is exactly what a reader kept photographing.
+    A live server never deletes a segment the moment it leaves the
+    playlist; it drops it from the window and keeps the file a while
+    longer. This keeps the last generation — one pass, ten minutes, twice
+    the cache it has to outlive — and deletes the one before that.
     """
     wanted = {os.path.basename(path) for path in keep}
+    spared = still_wanted(prefix) - wanted
     gone = 0
     for name in sorted(os.listdir(OUT_DIR)):
         if (name.startswith(prefix) and name.endswith(".ts")
-                and name not in wanted):
+                and name not in wanted and name not in spared):
             os.remove(os.path.join(OUT_DIR, name))
             gone += 1
+
+    # What this pass published becomes next pass's grace.
+    with open(os.path.join(OUT_DIR, f"{prefix}previous.txt"), "w",
+              encoding="utf-8", newline="\n") as handle:
+        handle.write("\n".join(sorted(wanted)) + "\n")
+    if spared:
+        log(f"  {len(spared)} segment(s) kept one more pass, so a "
+            f"television on the old playlist does not hit a 404")
     return gone
 
 
@@ -193,12 +230,20 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
         "-loop", "1", "-framerate", "1", "-i", board,
         # Silent audio: a live-television player with no audio track at all
         # will sometimes sit on a black screen rather than show the video.
-        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=16000",
+        # 32000 and not 16000, measured rather than chosen. AAC codes 1024
+        # samples to a frame, so a segment's audio is only exactly HOLD
+        # seconds long when HOLD x rate divides by 1024: 20 x 16000 gives
+        # 312.5 frames and a segment 96ms too long, 20 x 32000 gives 625
+        # exactly. Those spare milliseconds are an overlap with the next
+        # segment on a timeline that is supposed to be continuous, and a
+        # player answers an overlap by re-syncing.
+        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
         "-vf", "fps=1", "-pix_fmt", "yuv420p",
         "-g", str(KEYFRAME_EVERY), "-crf", "32",
         "-c:a", "aac", "-b:a", "8k", "-ac", "1",
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
+        "-muxpreload", "0",
         # Where this board sits in the reel, so the reel is one timeline.
         "-output_ts_offset", str(place * HOLD),
         "-f", "mpegts", out,
