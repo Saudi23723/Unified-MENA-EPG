@@ -1,31 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Where the FULL Jordanian fixture list is, since the homepage is shallow.
+"""The league's OWN page, which has the round the homepage does not.
 
-Printing the whole of jfa.jo's "المباريات القادمة" block settled why
-الوحدات and الفيصلي are not on the board, and it was not the filter:
+The reader photographed الوحدات - الفيصلي on the federation's app and it
+is real: 04-09-2026 at 20:30, ستاد عمان الدولي. I had said the federation
+was not publishing it, and that was wrong — it was true only of the one
+page I was reading.
 
-    the whole table            16 club rows
-      6 already played
-      7 under-16 and youth national team
-      2 youth ties published under "كأس الأردن"
-      1 left:  البقعة - دوقرة
+Reading the site's own links found the page that has it:
 
-    الفيصلي   0 mentions ANYWHERE on the page
-    الوحدات   1 mention, and it is an under-16 row
-    السلط 0   العربي 0
+    jfa.jo/tourn.php?id=1&idcat=6&idsubcat=16   8 club rows, 4 to play
+    the homepage                                16 club rows, 1 to play
 
-They never reached the reader. The homepage block shows the nearest
-handful of fixtures, and a ten-club league plays five matches a round, so
-the round is not on that page at all.
+Four is exactly the round the reader photographed: البقعة-دوقرة,
+شباب الأردن-الرمثا, الوحدات-الفيصلي, العربي-السلط.
 
-So this looks for the page that has the whole thing, by reading the
-site's own links rather than guessing at urls — guessing is what cost
-five builds on this very site.
+But the screenshot shows the date and time BELOW each fixture — "ملعب
+البترا - 03-09-2026 - 19:00" — where the homepage puts a header ABOVE
+it, and collect() refuses any row whose header does not come first. So
+the shape has to be printed before a line is written against it. Guessing
+this page's arrangement is the exact habit that cost five builds.
 """
 from __future__ import annotations
 
-import re
 import sys
 
 sys.path.insert(0, ".")
@@ -35,64 +32,34 @@ from bs4 import BeautifulSoup                                  # noqa: E402
 import jordan_football as jfa                                  # noqa: E402
 from epg_lib import fetch, new_session, norm                   # noqa: E402
 
-# A page of fixtures says so in its own words, in Arabic or in a slug.
-LOOKS_LIKE_FIXTURES = re.compile(
-    r"مباريات|جدول|الدوري|نتائج|ترتيب|match|fixture|schedule|league|result",
-    re.I)
-
-
-def rows_on(page: str) -> tuple[int, int]:
-    """(club rows, rows still to be played) — the only two numbers that count."""
-    soup = BeautifulSoup(page, "html.parser")
-    clubs = upcoming = 0
-    for row in soup.find_all("tr"):
-        if row.select_one("span.team1") and row.select_one("span.team2"):
-            clubs += 1
-            verdict = row.select_one("span.rrresult")
-            if verdict and jfa.NOT_PLAYED_YET.match(
-                    norm(verdict.get_text(" ", strip=True))):
-                upcoming += 1
-    return clubs, upcoming
+LEAGUE = ("https://jfa.jo/tourn.php?id=1&idcat=6&idsubcat=16"
+          "&title=%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A")
 
 
 def main() -> int:
-    session = new_session()
-    home = fetch(session, jfa.SOURCE).text
-    soup = BeautifulSoup(home, "html.parser")
+    page = fetch(new_session(), LEAGUE).text
+    print(f"the league's own page — {len(page)} bytes\n")
 
-    links, seen = [], set()
-    for anchor in soup.find_all("a", href=True):
-        href = anchor["href"].split("#")[0].strip()
-        label = norm(anchor.get_text(" ", strip=True))
-        if not href or href.startswith(("mailto:", "javascript:", "tel:")):
-            continue
-        if href.startswith("http") and "jfa.jo" not in href:
-            continue
-        if not (LOOKS_LIKE_FIXTURES.search(href)
-                or LOOKS_LIKE_FIXTURES.search(label)):
-            continue
-        full = href if href.startswith("http") else \
-            jfa.SOURCE.rstrip("/") + "/" + href.lstrip("/")
-        if full not in seen:
-            seen.add(full)
-            links.append((full, label))
+    soup = BeautifulSoup(page, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
 
-    print(f"the homepage links to {len(links)} page(s) that name fixtures, "
-          f"a schedule or the league\n")
-    for url, label in links[:28]:
-        try:
-            reply = session.get(url, timeout=25)
-        except Exception as exc:
-            print(f"  SHUT  {url}  ({type(exc).__name__})")
+    print("=== EVERY <tr>, IN ORDER, AS THE PAGE WRITES THEM ===")
+    for at, row in enumerate(soup.find_all("tr")):
+        text = norm(row.get_text(" | ", strip=True))
+        if not text:
             continue
-        if reply.status_code != 200:
-            print(f"  {reply.status_code}   {url}")
-            continue
-        clubs, upcoming = rows_on(reply.text)
-        flag = "  <== MORE THAN THE HOMEPAGE" if clubs > 16 else ""
-        print(f"  200  {len(reply.text):>7}b  {clubs:>3} club row(s), "
-              f"{upcoming:>3} still to play   {url}"
-              f"\n           “{label[:60]}”{flag}")
+        marks = []
+        for css in ("span.haly", "span.haly1", "span.haly2",
+                    "span.team1", "span.team2", "span.rrresult"):
+            if row.select_one(css):
+                marks.append(css.split(".")[1])
+        print(f"  [{at:>3}] {'+'.join(marks) or '-':38} {text[:130]}")
+
+    print("\n=== WHAT THE READER MAKES OF IT AS IT STANDS ===")
+    for event in jfa.collect(page):
+        print(f"    {event['start'].astimezone(jfa.AMMAN):%Y-%m-%d %H:%M} "
+              f"| {event['title']} | {event['competition']}")
     return 0
 
 
