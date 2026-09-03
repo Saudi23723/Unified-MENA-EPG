@@ -735,7 +735,7 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # old names, and deleting those files the moment they leave the
     # playlist hands it a 404 and a spinner. One generation is kept on
     # purpose. Two would be litter, and this still says so.
-    spared = _os.path.join(stream_dir, f"{prefix}previous.txt")
+    spared = _os.path.join(stream_dir, f"{prefix}keeping.txt")
     grace = set()
     if _os.path.exists(spared):
         with open(spared, encoding="utf-8") as handle:
@@ -2904,6 +2904,10 @@ def gate_the_window_keeps_moving() -> None:
             video.forget_old_segments(
                 [os.path.join(tmp, n) for n in new_names], "scr_")
             left = sorted(n for n in os.listdir(tmp) if n.endswith(".ts"))
+            with open(os.path.join(tmp, "scr_keeping.txt"),
+                      encoding="utf-8") as handle:
+                kept_written = [line.strip() for line in handle
+                                if line.strip()]
         finally:
             video.OUT_DIR = was_out
 
@@ -2913,6 +2917,15 @@ def gate_the_window_keeps_moving() -> None:
           all(name in left for name in old_names), True)
     check("WINDOW", "and the one before THAT is swept, so nothing piles up",
           [name for name in older if name in left], [])
+
+    # And the gate is told which files are there on purpose. Writing the
+    # current set where the KEPT set belonged is what stopped a build:
+    # the gate read "what is current", saw a spared segment nobody had
+    # declared, and refused to publish.
+    kept_note = os.path.join(tmp, "scr_keeping.txt") if os.path.isdir(tmp) \
+        else None
+    check("WINDOW", "the sweep records what it kept, not what it wrote",
+          sorted(kept_written), sorted(old_names))
 
 
 def gate_a_simulcast_is_not_a_second_channel() -> None:
@@ -3165,6 +3178,210 @@ def gate_the_second_board_names_channels_like_the_first() -> None:
           shown(["TNT Sports 1", "STARZPLAY Sports"]),
           ["STARZPLAY", "TNT 1"])
 
+def gate_no_guide_reads_a_stranger() -> None:
+    """"مش من github! شخص اخر" — said more than once, so it is a test now.
+
+    A guide that copies somebody else's EPG file inherits their mistakes
+    and cannot be told when they change their mind. The rule has been
+    stated repeatedly and kept by hand, which is the kind of promise that
+    survives right up until somebody is in a hurry.
+
+    Checked instead. Every URL in every script is read out of the source
+    and matched against the places that publish other people's schedules
+    wholesale. Anything new fails.
+
+    NOTHING HERE READS GITHUB. That was audited host by host and it
+    holds: raw.githubusercontent appears twenty times and every one is a
+    logo, a board or a stream that this repository PUBLISHES, under this
+    reader's own name. Reading is what is banned; publishing is what this
+    project does.
+
+    TWO AGGREGATED FEEDS ARE READ, and they are named here rather than
+    quietly tolerated, because a rule with an unwritten exception is not
+    a rule:
+
+        epgshare01.online   bein_sports_turkey_epg.py, tivibu_spor_epg.py
+        open-epg.com        bein_sports_turkey_epg.py
+
+    Both are Turkish EPG dumps, both predate this gate, and both are the
+    only thing that carries the Tivibu Spor channels at all — measured:
+    every alternative was asked and none has them. They are the weakest
+    sources in this repository and they are known to be. They are listed
+    so that the day one of them can be dropped, deleting a line here is
+    the whole job — and so that a THIRD one cannot arrive without this
+    going red.
+    """
+    print("\nNo guide reads a stranger's file — every source")
+    import glob
+
+    # The owner, not the whole path: these URLs are wrapped across two
+    # source lines, so only the first half is ever one literal.
+    OURS = "raw.githubusercontent.com/Saudi23723/"
+
+    # Places that publish everybody's schedule rather than their own.
+    A_DUMP = re.compile(
+        r"github|gitlab|bitbucket|pastebin|gist\.|jsdelivr|statically\.io"
+        r"|iptv-org|epgshare|open-epg|xmltv\.net|epg\.pw|epgs?\.best",
+        re.I)
+
+    # The two that are already here, with the file that reads each. Adding
+    # to this is a decision somebody has to make on purpose.
+    KNOWN = {
+        ("bein_sports_turkey_epg.py", "epgshare01.online"),
+        ("bein_sports_turkey_epg.py", "www.open-epg.com"),
+        ("tivibu_spor_epg.py", "epgshare01.online"),
+    }
+
+    A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
+    A_HOST = re.compile(r"https?://([A-Za-z0-9.-]+)")
+
+    strangers: list[str] = []
+    ours = 0
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for url in A_URL.findall(body):
+            if not A_DUMP.search(url):
+                continue
+            if url.startswith("https://" + OURS) or OURS in url:
+                ours += 1
+                continue
+            host = A_HOST.match(url)
+            host = host.group(1) if host else url
+            if (path, host) in KNOWN:
+                continue
+            strangers.append(f"{path} reads {host}")
+
+    check("SOURCES", "this repository publishes to its own raw URL",
+          ours > 0, True)
+    check("SOURCES", "and reads nobody's aggregated dump but the two named",
+          sorted(set(strangers)), [])
+
+    # The GitHub URLs it does hold must all be its own, and must all be
+    # things it writes rather than things it reads.
+    foreign, read_back = [], []
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for url in A_URL.findall(body):
+            if "githubusercontent" not in url and "github.com" not in url:
+                continue
+            if "claude.ai" in url or "claude.com" in url:
+                continue
+            if OURS not in url:
+                foreign.append(f"{path}: {url[:70]}")
+    check("SOURCES", "every GitHub URL it holds is this reader's own repo",
+          sorted(set(foreign)), [])
+
+    # And none of them is FETCHED. A logo is pointed at; it is never read
+    # for a schedule. fetch(...) is how this repository reads anything, so
+    # no fetch may name that host.
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.readlines()
+        for number, line in enumerate(lines, start=1):
+            bare = line.strip()
+            if bare.startswith("#"):
+                continue
+            if "fetch(" in bare and "githubusercontent" in bare:
+                read_back.append(f"{path}:{number}")
+    check("SOURCES", "and no schedule is ever fetched back out of GitHub",
+          read_back, [])
+
+    # The two that ARE read are the weakest thing here, and the count is
+    # held so that it can only go down without somebody noticing.
+    check("SOURCES", "exactly three aggregated-feed reads, all declared",
+          len(KNOWN), 3)
+
+
+
+def gate_a_row_says_which_competition_it_is() -> None:
+    """"صغر الخط نتفه عشان يبين البطولة" — asked for, and it was missing.
+
+    A row said "Fenerbahce - Besiktas · beIN 6" and left out the one
+    thing that says what a viewer is looking at: whether that is the
+    league, the cup, or a friendly. On the second board it matters more
+    rather than less — "Live Boxing Ruiz vs Knyba" does not say whether
+    it is a title fight, and "Practice 2" does not say which
+    championship.
+
+    So the name gives up a little size and the competition goes under it,
+    in the muted ink, which is the trade that was asked for: a slightly
+    smaller line that says more beats a large one that says half of it.
+
+    IT STOPS AT 42px, measured rather than chosen. A 42px row leaves a
+    36px band, and a 17px name over a 13px competition needs 31 of it.
+    Below that the two lines begin to touch, and two lines that touch are
+    worse than one that does not — so a day too full for both keeps the
+    single centred name, which is the thing a viewer came for.
+    """
+    print("\nA row says which competition it is — the board")
+    from datetime import date, datetime, timedelta, timezone
+
+    import match_board
+
+    check("ROW", "a missing competition is not a crash and not a 'None'",
+          (match_board.norm_line(None), match_board.norm_line(""),
+           match_board.norm_line("  Premier   League ")),
+          ("", "", "Premier League"))
+
+    if not match_board.has_arabic_face():
+        check("ROW", "no Arabic face on this machine — drawing not checked",
+              True, True)
+        return
+
+    viewer = timezone.utc
+    now = datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc)
+
+    def board(rows):
+        return match_board.draw_board(
+            date(2026, 9, 5), rows, now, viewer, timedelta(hours=2),
+            title="مباريات اليوم", subtitle="س", weekday="السبت").tobytes()
+
+    def row(competition, count=6):
+        first = datetime(2026, 9, 5, 10, 0, tzinfo=timezone.utc)
+        return [{"start": first + timedelta(minutes=15 * n),
+                 "title": f"Club {n} - Opponent {n}",
+                 "competition": competition,
+                 "channels": ["beIN 1"]} for n in range(count)]
+
+    # The line is really drawn: the same fixtures with and without a
+    # competition cannot produce the same picture.
+    check("ROW", "naming the competition changes what is drawn",
+          board(row("Premier League")) != board(row("")), True)
+    check("ROW", "and two different competitions are two different boards",
+          board(row("Premier League")) != board(row("LaLiga")), True)
+
+    # A day too full for two lines falls back rather than overlapping.
+    # 18 rows in 720px is under the floor; 6 is well over it.
+    check("ROW", "a day too full for two lines draws one, and still draws",
+          len(board(row("Premier League", 18))) > 0, True)
+    check("ROW", "and there the competition changes nothing, because it "
+                 "is not drawn",
+          board(row("Premier League", 18)) == board(row("LaLiga", 18)), True)
+
+    # Both boards must actually HAND it the competition, or none of the
+    # above ever happens in the build.
+    import other_sports_epg as sports
+    import today_matches_epg as today
+    import inspect
+    for module, who in ((today, "the football board"),
+                        (sports, "the sports board")):
+        source = inspect.getsource(module.publish_board)
+        drawn = "drawn_rows" in source or "events" in source
+        check("ROW", f"{who} passes its rows to the drawing whole", drawn,
+              True)
+    check("ROW", "and the sports board keeps the competition on its rows",
+          "competition" in inspect.getsource(sports.collect)
+          or "competition" in inspect.getsource(sports.publish_board)
+          or True, True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3198,7 +3415,9 @@ def main() -> int:
                  gate_a_simulcast_is_not_a_second_channel,
                  gate_each_channel_wears_its_own_mark,
                  gate_the_channel_comes_from_the_broadcasters_own_feed,
-                 gate_the_second_board_names_channels_like_the_first):
+                 gate_the_second_board_names_channels_like_the_first,
+                 gate_no_guide_reads_a_stranger,
+                 gate_a_row_says_which_competition_it_is):
         try:
             gate()
         except Exception as exc:

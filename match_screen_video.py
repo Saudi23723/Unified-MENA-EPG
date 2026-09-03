@@ -190,10 +190,24 @@ def forget_old_segments(keep: list[str], prefix: str) -> int:
             os.remove(os.path.join(OUT_DIR, name))
             gone += 1
 
-    # What this pass published becomes next pass's grace.
-    with open(os.path.join(OUT_DIR, f"{prefix}previous.txt"), "w",
-              encoding="utf-8", newline="\n") as handle:
-        handle.write("\n".join(sorted(wanted)) + "\n")
+    # TWO RECORDS, because the sweep and the gate need different facts
+    # and writing one for both is how this went wrong the first time.
+    #
+    #   previous.txt  what THIS pass published. The next pass reads it to
+    #                 know what to spare.
+    #   keeping.txt   what this pass SPARED. It is on disk and the
+    #                 playlist does not name it, which is exactly what
+    #                 the screen gate is built to catch — so the gate is
+    #                 told, by name, which files are there on purpose.
+    #
+    # Writing the current set to both looked equivalent and is not: the
+    # gate then reads "what is current" where it needed "what is kept",
+    # sees a spared segment it was never told about, and stops the build.
+    for name, names in ((f"{prefix}previous.txt", sorted(wanted)),
+                        (f"{prefix}keeping.txt", sorted(spared))):
+        with open(os.path.join(OUT_DIR, name), "w",
+                  encoding="utf-8", newline="\n") as handle:
+            handle.write("\n".join(names) + ("\n" if names else ""))
     if spared:
         log(f"  {len(spared)} segment(s) kept one more pass, so a "
             f"television on the old playlist does not hit a 404")
