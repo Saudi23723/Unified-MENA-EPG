@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""The American and Canadian half, since the British source has neither.
+"""How livesportsontv lays a game out, printed rather than guessed at.
 
-wheresthematch is settled and read, and measured over all 44 of its
-pages it names Sky Sports 1106 times, TNT 363, DAZN 226, BBC 80, Premier
-Sports 74, ITV 2 — and Fox, NBC, ABC, CBS, ESPN, TSN, Sportsnet,
-Paramount and Stan not once. It has no NFL page at all.
+Canada's own broadcasters are shut to us and it is worth writing down:
+tsn.ca answers 200 with 144 KB and names only the word "TSN"; sportsnet.ca
+answers with an 18 KB shell; cbc.ca/sports/live is a 404. All three build
+their schedule in the browser, so there is nothing to read from a runner.
 
-So this asks who publishes NFL, NBA and the North American channels with
-the broadcaster beside them. livesportsontv files them under /league/nfl
-and /league/nba — read off its own links, after two urls guessed from the
-outside answered 404 — and Canada's own broadcasters publish schedules of
-their own.
+livesportsontv is not shut. Its visible text on /league/nfl names ABC,
+ESPN, NBC, Peacock, Prime Video and Amazon — the American channels asked
+for are there. What failed was my row detector, which wanted ONE
+container holding both a clock and a channel, and this page evidently
+does not put them together.
 
-The same three questions as before, and the same refusal: an event with
-no published broadcaster is no use here however complete the calendar is.
+So this stops guessing at the shape and prints it: the containers that
+hold a channel, what sits beside them, and the whole of one game as the
+page writes it.
 """
 from __future__ import annotations
 
-import json
 import re
 import sys
 
@@ -27,89 +27,69 @@ sys.path.insert(0, ".")
 from bs4 import BeautifulSoup                                  # noqa: E402
 from epg_lib import new_session, norm                          # noqa: E402
 
-CANDIDATES = [
-    ("livesportsontv NFL", "https://www.livesportsontv.com/league/nfl"),
-    ("livesportsontv NBA", "https://www.livesportsontv.com/league/nba"),
-    ("TSN schedule",       "https://www.tsn.ca/schedule"),
-    ("Sportsnet schedule", "https://www.sportsnet.ca/schedule/"),
-    ("CBC Sports",         "https://www.cbc.ca/sports/live"),
-    ("NBA on its own site", "https://www.nba.com/schedule"),
+PAGES = [
+    ("NFL", "https://www.livesportsontv.com/league/nfl"),
+    ("NBA", "https://www.livesportsontv.com/league/nba"),
 ]
 
 CHANNELS = re.compile(
-    r"sky sports?|tnt sports?|\bTSN\d?\b|sportsnet|\bfox\b|fs1|\bnbc\b"
-    r"|peacock|\babc\b|\bcbc\b|\bespn\b|\bcbs\b|paramount|\bitv\b|\bbbc\b"
-    r"|\bbein\b|dazn|stan sport|kayo|foxtel|prime video|netflix|amazon"
-    r"|\brds\b|citytv|\btva\b", re.I)
-A_CLOCK = re.compile(r"\b([01]?\d|2[0-3])[:.][0-5]\d\b|\b\d{1,2}\s?[ap]m\b",
-                     re.I)
+    r"\bABC\b|\bESPN\d?\b|\bNBC\b|Peacock|\bFOX\b|FS1|\bCBS\b|Paramount"
+    r"|\bTSN\d?\b|Sportsnet|Prime Video|Amazon|\bNFL Network\b|NBA TV"
+    r"|\bTNT\b|\bDAZN\b|\bCBC\b|\bRDS\b", re.I)
+A_CLOCK = re.compile(r"\b\d{1,2}:\d{2}\s?(?:[AP]M)?\b", re.I)
 
 
 def look(name: str, url: str, session) -> None:
     print(f"\n=== {name} — {url}")
-    try:
-        reply = session.get(url, timeout=30)
-    except Exception as exc:
-        print(f"  SHUT — {type(exc).__name__}: {str(exc)[:110]}")
-        return
-    page = reply.text
-    print(f"  {reply.status_code} — {len(page)} bytes")
+    reply = session.get(url, timeout=30)
+    print(f"  {reply.status_code} — {len(reply.text)} bytes")
     if reply.status_code != 200:
         return
 
-    # Is the schedule shipped as JSON the page carries?
-    for tag in ("__NEXT_DATA__", "__NUXT_DATA__", "__remixContext"):
-        if f'id="{tag}"' in page:
-            print(f"  ships {tag}")
-    blocks = re.findall(
-        r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', page, re.S)
-    kinds: dict[str, int] = {}
-    for raw in blocks:
-        try:
-            blob = json.loads(raw)
-        except Exception:
-            continue
-        stack = [blob]
-        while stack:
-            item = stack.pop()
-            if isinstance(item, list):
-                stack.extend(item)
-            elif isinstance(item, dict):
-                kind = str(item.get("@type", ""))
-                if kind:
-                    kinds[kind] = kinds.get(kind, 0) + 1
-                stack.extend(v for v in item.values()
-                             if isinstance(v, (dict, list)))
-    print(f"  ld+json @types: {dict(sorted(kinds.items(), key=lambda x: -x[1])[:8]) or '— none —'}")
-
-    soup = BeautifulSoup(page, "html.parser")
+    soup = BeautifulSoup(reply.text, "html.parser")
     for tag in soup(["script", "style", "noscript"]):
         tag.decompose()
 
-    rows = []
-    for node in soup.find_all(["tr", "li", "article", "div", "section"]):
-        text = norm(node.get_text(" ", strip=True))
-        if not text or len(text) > 300:
-            continue
-        if A_CLOCK.search(text) and CHANNELS.search(text):
-            rows.append((node.name,
-                         " ".join(node.get("class") or []) or "-", text))
-    print(f"  {len(rows)} container(s) holding a clock AND a channel")
-    for tag, classes, text in rows[:5]:
-        print(f"    <{tag} class={classes[:34]}> {text[:180]}")
-
-    named: list[str] = []
-    whole = norm(soup.get_text(" ", strip=True))
-    for hit in CHANNELS.findall(whole):
-        if hit.casefold() not in [x.casefold() for x in named]:
-            named.append(hit)
-    print(f"  channels in the visible text: {named[:14] or '— none —'}")
+    # Find the smallest node that NAMES A CHANNEL, then climb until the
+    # ancestor also holds a clock. That ancestor is the game's own block,
+    # and it is found rather than assumed — the same climb, and the same
+    # stopping rule, that reading jfa.jo eventually needed.
+    printed = 0
+    for node in soup.find_all(string=CHANNELS):
+        holder = node.parent
+        climbed = 0
+        while holder is not None and climbed < 8:
+            text = norm(holder.get_text(" | ", strip=True))
+            if A_CLOCK.search(text) and len(text) < 400:
+                print(f"\n  --- a game, {climbed} step(s) up from the "
+                      f"channel: <{holder.name} class="
+                      f"{' '.join(holder.get('class') or []) or '-'}> ---")
+                print(f"    {text[:340]}")
+                for kid in holder.find_all(recursive=False):
+                    label = " ".join(kid.get("class") or []) or kid.name
+                    print(f"      [{label[:32]:32}] "
+                          f"{norm(kid.get_text(' ', strip=True))[:90]}")
+                for stamp in holder.find_all("time"):
+                    print(f"      <time datetime="
+                          f"{stamp.get('datetime')!r}>")
+                printed += 1
+                break
+            holder = holder.parent
+            climbed += 1
+        if printed >= 3:
+            break
+    if not printed:
+        print("  nothing that holds a channel sits under anything with a "
+              "clock — the page does not pair them in the markup")
 
 
 def main() -> int:
     session = new_session()
-    for name, url in CANDIDATES:
-        look(name, url, session)
+    for name, url in PAGES:
+        try:
+            look(name, url, session)
+        except Exception as exc:
+            print(f"  {name} failed: {type(exc).__name__}: {str(exc)[:140]}")
     return 0
 
 
