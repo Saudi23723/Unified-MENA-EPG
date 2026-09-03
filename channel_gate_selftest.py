@@ -38,7 +38,10 @@ red, which is the point.
 
 from __future__ import annotations
 
+import os
 import sys
+import tempfile
+import xml.etree.ElementTree as ET
 
 FAILURES: list[str] = []
 
@@ -1906,6 +1909,148 @@ def gate_the_jordanian_league_is_read() -> None:
     check("JOR", "an empty page is not an error",
           jordan_football.collect("<table></table>"), [])
 
+    # The age grades, refused where the CHANNEL is decided and not only
+    # where the board picks its fixtures.
+    #
+    # Youth football has no regular television at all: the federation's
+    # own YouTube carries selected ties and this channel takes a final or
+    # a title decider. "كأس الأردن للناشئين" matched the cup's name and
+    # was handed the channel; nothing but the board's own youth filter
+    # running first kept it off the screen, and an ordering is not a
+    # guarantee.
+    check("JOR", "a youth tie is not handed the senior channel",
+          [jordan_football.carried_by(name) for name in
+           ("كأس الأردن للناشئين تحت 19", "دوري الناشئين ت16",
+            "كأس الأردن للأشبال", "دوري أندية النخبة للناشئين ت17")],
+          [[], [], [], []])
+    check("JOR", "while the senior competitions still name it",
+          [jordan_football.carried_by(name) for name in
+           ("الدوري الأردني للمحترفين - CFI", "كأس الأردن",
+            "درع الاتحاد", "كأس السوبر الأردني")],
+          [["الأردن الرياضية"]] * 4)
+
+    # The board carries the professional game and the national team, and
+    # the reader drew that line himself: "خلي المحترفين و مباريات الاردن
+    # المنتخب و بس". The first division is not professional football and
+    # this channel does not carry it, so those fixtures used to sit on the
+    # board with "لم تُعلن القناة" beside them, taking rows from the
+    # matches somebody opened it to find.
+    check("JOR", "the professional game and the national team are shown",
+          [jordan_football.wanted_here(name) for name in
+           ("الدوري الأردني للمحترفين - CFI", "كأس الأردن", "درع الاتحاد",
+            "كأس السوبر الأردني", "تصفيات كأس العالم", "كأس العرب")],
+          [True] * 6)
+    check("JOR", "and nothing else the federation publishes beside them",
+          [jordan_football.wanted_here(name) for name in
+           ("دوري الدرجة الأولى", "دوري الدرجة الثانية",
+            "دوري الناشئين ت16", "كأس الأردن للأشبال")],
+          [False] * 4)
+    check("JOR", "the national team is shown but never assumed onto it",
+          [jordan_football.carried_by(name) for name in
+           ("تصفيات كأس العالم", "كأس العرب")],
+          [[], []])
+
+
+def gate_a_guide_repeating_its_own_name_is_measured() -> None:
+    """A row whose title is the channel's name is the guide saying nothing.
+
+    jordan_sports_epg.xml is the worked example and it is the exact
+    blindness health_check exists to prevent: twenty-six of its
+    twenty-nine rows read "الأردن الرياضية" and the other three were one
+    talk show — a Jordan Sports guide with no Jordanian football in it —
+    and it measured 0% stand-in against a 15% ceiling, run after run.
+
+    The rule above it, one-title-for-a-whole-channel, stops seeing this
+    the moment a single real programme joins in. So the channel's own
+    name is read from the file's own <display-name>, both halves of it,
+    because the filler writes only the Arabic half of "Jordan Sport |
+    الأردن الرياضية".
+    """
+    import health_check
+
+    guide = (
+        '<tv>'
+        '  <channel id="C"><display-name>Jordan Sport | الأردن الرياضية'
+        '</display-name></channel>'
+        '  <programme channel="C" start="20260903000000 +0000" '
+        'stop="20260903120000 +0000"><title>الأردن الرياضية</title></programme>'
+        '  <programme channel="C" start="20260903120000 +0000" '
+        'stop="20260903180000 +0000"><title>الأردن الرياضية</title></programme>'
+        '  <programme channel="C" start="20260903180000 +0000" '
+        'stop="20260903200000 +0000"><title>رياضة كافيه</title></programme>'
+        '  <programme channel="C" start="20260903200000 +0000" '
+        'stop="20260903220000 +0000"><title>الوحدات - الفيصلي</title></programme>'
+        '</tv>')
+    here = os.path.join(tempfile.gettempdir(), "gate_own_name_epg.xml")
+    with open(here, "w", encoding="utf-8") as handle:
+        handle.write(guide)
+
+    check("NAME", "the channel's own name counts as filler",
+          health_check.standin_share(here), (2, 4))
+    check("NAME", "and a real fixture beside it still counts as content",
+          health_check.standin_share(here)[0] < 4, True)
+
+    # Both halves of a two-language display-name, and nothing else.
+    names = health_check.channel_names(
+        ET.fromstring(guide))["C"]
+    check("NAME", "both halves of the name are known",
+          (health_check.folded("الأردن الرياضية") in names,
+           health_check.folded("Jordan Sport") in names,
+           health_check.folded("رياضة كافيه") in names),
+          (True, True, False))
+
+
+def gate_a_long_wait_says_how_long() -> None:
+    """Seven identical rows in a grid read as seven broadcasts.
+
+    Reported from a television, and the guide was not wrong about the
+    football: ON Sport 1 held the two legs of a CAF tie eight days apart,
+    and every day between them carried one row saying
+    "⏰ التالي: الزمالك - AS Port". One row a day rather than one an hour
+    is the right shape for a wait. Seven copies of the same sentence is
+    not — down a grid it reads as the same match being shown every day at
+    the same hour, which is exactly how it was reported.
+
+    The wait now carries the one thing that differs between those days.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    import update_onsport_epg as onsport
+
+    tie = {"home": "الزمالك", "away": "AS Port",
+           "start": datetime(2026, 9, 12, 17, 0, tzinfo=timezone.utc)}
+    days = [onsport.filler_title(
+                tie, datetime(2026, 9, 9, 12, 0, tzinfo=timezone.utc)
+                     + timedelta(days=n))
+            for n in range(4)]
+
+    check("WAIT", "no two waiting days say the same thing",
+          len(set(days)), len(days))
+    check("WAIT", "and each says how long is left",
+          days,
+          ["⏰ التالي بعد 3 أيام · الزمالك - AS Port",
+           "⏰ التالي بعد يومين · الزمالك - AS Port",
+           "⏰ التالي غداً · الزمالك - AS Port",
+           "⏰ التالي اليوم · الزمالك - AS Port"])
+
+    # Arabic counts in threes, and a guide that writes "بعد 2 أيام" reads
+    # as machinery. 11 and up take the singular accusative.
+    check("WAIT", "the number is the one Arabic uses",
+          [onsport.how_far_off(n) for n in (0, 1, 2, 3, 10, 11)],
+          ["اليوم", "غداً", "بعد يومين", "بعد 3 أيام", "بعد 10 أيام",
+           "بعد 11 يوماً"])
+
+    # Still a countdown, never a stand-in: it exists only because a real
+    # fixture was found, and health_check counts on that distinction.
+    import health_check
+    check("WAIT", "a wait is not counted as the guide knowing nothing",
+          bool(health_check.STANDIN_TITLE.search(days[0])), False)
+    check("WAIT", "while nothing announced at all still is",
+          bool(health_check.STANDIN_TITLE.search(
+              onsport.filler_title(
+                  None, datetime(2026, 9, 9, 12, 0, tzinfo=timezone.utc)))),
+          True)
+
 
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
@@ -1926,7 +2071,9 @@ def main() -> int:
                  gate_a_grid_title_is_read_the_way_that_grid_writes_it,
                  gate_a_row_names_two_channels,
                  gate_a_board_says_which_day_it_is,
-                 gate_the_jordanian_league_is_read):
+                 gate_the_jordanian_league_is_read,
+                 gate_a_guide_repeating_its_own_name_is_measured,
+                 gate_a_long_wait_says_how_long):
         try:
             gate()
         except Exception as exc:

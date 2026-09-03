@@ -1206,12 +1206,48 @@ def next_event_after(channel_events: list[dict], moment_utc: datetime) -> dict |
     return None
 
 
+def how_far_off(days: int) -> str:
+    """How long the wait is, in the number Arabic actually uses."""
+    if days <= 0:
+        return "اليوم"
+    if days == 1:
+        return "غداً"
+    if days == 2:
+        return "بعد يومين"
+    if days <= 10:
+        return f"بعد {days} أيام"
+    return f"بعد {days} يوماً"
+
+
 def filler_title(nxt: dict | None, gap_start_utc: datetime) -> str:
+    """What a channel shows on a day it is not carrying a match.
+
+    The wait says HOW LONG, and that is the whole of this function.
+
+    A viewer reported the guide as duplicated, and what he was looking at
+    was correct: ON Sport 1 had the two legs of a CAF tie eight days
+    apart, and the seven days between them each carried one row reading
+    "⏰ التالي: الزمالك - AS Port". One row a day rather than one an hour
+    is the right shape — it is the countdown collapsing a long wait — but
+    seven rows with the same words in a grid do not read as a wait. They
+    read as the same match being broadcast every day, at 14:00, all week.
+
+    So the row now carries the one thing that changes between those days.
+    "بعد 5 أيام" on Sunday and "بعد 4 أيام" on Monday cannot be mistaken
+    for a repeat, and it puts the answer where the viewer's question is:
+    not today, and here is when.
+
+    It stays a countdown and not a stand-in, deliberately — it exists
+    only because a real fixture was found, which is the distinction
+    health_check's STANDIN_TITLE is built on.
+    """
     if nxt is None:
         return "لا توجد مباراة مجدولة"
 
     teams = f"{display_team(nxt['home'])} - {display_team(nxt['away'])}"
-    return f"⏰ التالي: {teams}"
+    waiting_since = gap_start_utc.astimezone(SOURCE_TZ).date()
+    kickoff = nxt["start"].astimezone(SOURCE_TZ).date()
+    return f"⏰ التالي {how_far_off((kickoff - waiting_since).days)} · {teams}"
 
 
 def write_xml(events: list[dict]) -> None:
