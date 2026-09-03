@@ -3940,6 +3940,168 @@ def gate_alwan_reaches_the_board() -> None:
     check("ALWAN", "and its Toulouse - Lille can now find the board's",
           reachable, ["تولوز - ليل"])
 
+def gate_the_card_is_split_by_the_broadcaster() -> None:
+    """The prelims, as programmes, from the guide that actually has them.
+
+    A UFC night is three broadcasts — early prelims, prelims, main card —
+    each with a start of its own, and the reader asked for all three more
+    than once. No listings page here had them: wheresthematch's UFC page
+    was printed row by row and carries six rows, one per event, and the
+    words "prelims" and "main card" that DO appear in it are in its own
+    navigation. Counting a word in a page is not finding a row.
+
+    Sky publishes its programme guide openly and has them:
+
+        TNTSports1 HD · 2026-09-05
+           1788627600  Live: UFC Fight Night Prelims     19:00 UTC
+           1788634800  Live: UFC Fight Night             21:00 UTC
+
+    `st` is a unix instant, so there is no printed clock to place in a
+    timezone — the fault this project has paid for most cannot happen
+    here at all.
+
+    IT ALSO RECOVERS TNT. tntsports.co.uk answers 403 to every request
+    from a runner, so the channel carrying the UFC in Britain could not
+    be read from its own site; Sky's guide carries TNT's schedule.
+    """
+    print("\nThe card is split by the broadcaster — Sky's own guide")
+    import json as _json
+    from datetime import datetime, timezone
+
+    import sky_epg
+
+    # Sky's names, written the way this board writes a channel. EVERY ONE
+    # OF THESE IS A REAL STRING, printed from Sky's own service list on a
+    # runner. The first version of this gate used "Sky Sports Action HD"
+    # and "Sky SportsArena HD", which are names nobody publishes: Sky
+    # writes "SkySp ActionHD", and its Arena does not exist any more.
+    # The gate passed and the reader still found no Sky channel at all.
+    for sky, ours in (("TNTSports1 HD", "TNT Sports 1"),
+                      ("TNTSports4 HD", "TNT Sports 4"),
+                      ("TNTSBoxOffHD", "TNT Sports Box Office"),
+                      ("TNTSBoxOff2HD", "TNT Sports Box Office 2"),
+                      ("SkySp ActionHD", "Sky Sports Action"),
+                      ("SkySpMainEvHD", "Sky Sports Main Event"),
+                      ("SkySpBoxOffHD", "Sky Sports Box Office"),
+                      ("SkySp Mix HD", "Sky Sports Mix"),
+                      ("SkySp+ HD", "Sky Sports+")):
+        check("CARD", f"'{sky}' is {ours}", sky_epg.a_channel(sky), ours)
+
+    # AND THE FILTER ACCEPTS THEM, which is the part that was wrong: a
+    # name can be spelled perfectly and never be asked for. Six channels
+    # came back from a live run and every one was TNT, so the MMA arrived
+    # and the boxing did not.
+    for sky in ("SkySpMainEvHD", "SkySp ActionHD", "SkySpBoxOffHD",
+                "SkySp Mix HD", "SkySp+ HD", "TNTSports1 HD",
+                "TNTSBoxOffHD"):
+        check("CARD", f"and the filter asks for '{sky}'",
+              bool(sky_epg.A_FIGHT_CHANNEL.search(sky)), True)
+
+    # While the ones that carry no fight are not fetched ten days deep
+    # for nothing.
+    for quiet in ("SkySp News HD", "SkySp PL HD", "SkySp Golf HD",
+                  "SkySp F1 HD", "SkySpCricket HD", "talkSPORT"):
+        check("CARD", f"and leaves '{quiet}' alone",
+              bool(sky_epg.A_FIGHT_CHANNEL.search(quiet)), False)
+
+    # The one that bit first: with a case-insensitive lookahead, "Sky
+    # Sports Action" backtracks to "Sky Sport" + "s" and comes out "Sky
+    # Sports s Action". A name already spaced must survive untouched.
+    check("CARD", "a name Sky already spaced is left alone",
+          sky_epg.a_channel("Sky Sports Action"), "Sky Sports Action")
+
+    # And the board's own manners still apply to what comes out.
+    import today_matches_epg as today
+    check("CARD", "which the board then shortens and ranks as British",
+          (today.shorter("TNT Sports 1"), today.where_from("TNT Sports 1")),
+          ("TNT 1", 1))
+
+    # A day of Sky's schedule, in the shape the probe printed.
+    day = _json.dumps({"schedule": [{"events": [
+        {"st": 1788627600, "d": 3600, "t": "Live: UFC Fight Night Prelims",
+         "sy": "Action from the octagon."},
+        {"st": 1788634800, "d": 12600, "t": "Live: UFC Fight Night",
+         "sy": "Dan Hooker takes on Salahdine Parnasse."},
+        {"st": 1788620000, "d": 3600, "t": "UFC Fight Night Highlights",
+         "sy": "The best of the action."},
+        {"st": 1788600000, "d": 1800, "t": "Football Tonight",
+         "sy": "The day's football."},
+        {"st": 1788700000, "d": 7200, "t": "Live: Boxing",
+         "sy": "Ringside for the title fight."},
+        {"st": None, "d": 3600, "t": "Live: UFC 331",
+         "sy": "No instant on this one."},
+    ]}]})
+
+    class OneDay:
+        def request(self, method, url, **kw):
+            class Answer:
+                text = day
+                status_code = 200
+
+                def raise_for_status(self):
+                    return None
+            return Answer()
+
+    got = sky_epg.a_day(OneDay(), "3625", "TNT Sports 1", "20260905")
+    names = [event["title"] for event in got]
+
+    check("CARD", "THE PRELIMS ARRIVE, as a row of their own",
+          "UFC Fight Night Prelims" in names, True)
+    check("CARD", "and so does the main card, separately",
+          "UFC Fight Night" in names, True)
+    check("CARD", "and the boxing", "Boxing" in names, True)
+    # AND THE ABBREVIATED ONE. A live run put "MVP Boxing: Mayer v
+    # Cameron Hlts" on the board three times: Sky writes Highlights as
+    # "Hlts" when the title is long, and the spelled-out word was the
+    # only one being refused.
+    for shown in ("MVP Boxing: Mayer v Cameron Hlts", "UFC 331 Hghlts",
+                  "Boxing Rpt", "UFC Fight Night Highlights"):
+        check("CARD", f"'{shown}' is last week's fight, not a row",
+              bool(sky_epg.A_REPEAT.search(shown)), True)
+    for real in ("UFC Fight Night Prelims", "Live MMA One Fight Night",
+                 "Boxing: De Los Santos v Valenzuela",
+                 "UFC Fight Night Early Prelims"):
+        check("CARD", f"while '{real}' is a broadcast",
+              bool(sky_epg.A_REPEAT.search(real)), False)
+
+    check("CARD", "a highlights show is not a fight",
+          "UFC Fight Night Highlights" in names, False)
+    check("CARD", "and neither is the football",
+          "Football Tonight" in names, False)
+    check("CARD", "a programme with no instant is refused, never dated",
+          "UFC 331" in names, False)
+
+    prelim = next(e for e in got if e["title"] == "UFC Fight Night Prelims")
+    check("CARD", "the prelims start when Sky says, to the minute",
+          f"{prelim['start']:%Y-%m-%d %H:%M} UTC",
+          f"{datetime.fromtimestamp(1788627600, timezone.utc):%Y-%m-%d %H:%M} UTC")
+    check("CARD", "on the channel actually carrying it",
+          prelim["channels"], ["TNT Sports 1"])
+    check("CARD", "and the board files it under MMA", prelim["sport"], "MMA")
+    check("CARD", "while the boxing is filed as boxing",
+          next(e for e in got if e["title"] == "Boxing")["sport"], "Boxing")
+
+    # The prelims are kept because they are a UFC programme, not because
+    # of the word — so an early prelim arrives by the same rule.
+    early = _json.dumps({"schedule": [{"events": [
+        {"st": 1788624000, "d": 3600,
+         "t": "Live: UFC Fight Night Early Prelims", "sy": "First up."}]}]})
+
+    class EarlyDay(OneDay):
+        def request(self, method, url, **kw):
+            class Answer:
+                text = early
+                status_code = 200
+
+                def raise_for_status(self):
+                    return None
+            return Answer()
+
+    check("CARD", "and an EARLY prelim arrives by the same rule",
+          [e["title"] for e in
+           sky_epg.a_day(EarlyDay(), "3625", "TNT Sports 1", "20260905")],
+          ["UFC Fight Night Early Prelims"])
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3981,7 +4143,8 @@ def main() -> int:
                  gate_a_day_that_is_over_leaves_the_screen,
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
-                 gate_alwan_reaches_the_board):
+                 gate_alwan_reaches_the_board,
+                 gate_the_card_is_split_by_the_broadcaster):
         try:
             gate()
         except Exception as exc:

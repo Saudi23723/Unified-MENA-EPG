@@ -18,6 +18,9 @@ on:
     branches: [claude/arabic-channels-epg-99099k]
     paths:
       - "probes/probe_fight_sports.py"
+      - "probes/probe_the_card.py"
+      - "probes/probe_sky_reader.py"
+      - "sky_epg.py"
       - ".github/workflows/probe_fight_sports.yml"
 
 jobs:
@@ -29,4 +32,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
-      - run: python -u probes/probe_fight_sports.py
+      - run: python -u probes/probe_the_card.py
+      # The feed answering 200 is not the reader working. This runs
+      # sky_epg.events() itself, in the window the board builds.
+      - run: python -u probes/probe_sky_reader.py
