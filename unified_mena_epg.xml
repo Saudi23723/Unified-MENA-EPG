@@ -1084,6 +1084,11 @@
     <display-name lang="ar">رياضات اليوم</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/other_sports.png" />
   </channel>
+  <channel id="TodayNews">
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/today_news.png" />
+    <display-name lang="ar">أخبار اليوم</display-name>
+    <display-name lang="en">Today's News</display-name>
+  </channel>
   <channel id="Thmanyah1.sa">
     <display-name lang="en">Thmanyah 1</display-name>
     <display-name lang="ar">ثمانية 1</display-name>
@@ -24556,6 +24561,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor1.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260902164454 +0000" stop="20260902175357 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -24921,6 +24930,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904010308 +0000" stop="20260904011810 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25292,6 +25305,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260902164454 +0000" stop="20260902175357 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -25660,6 +25677,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260903183000 +0000" stop="20260903190000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -25687,16 +25708,16 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260905210000 +0000" stop="20260906050000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904013101 +0000" stop="20260904013906 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904013101 +0000" stop="20260904013906 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904013101 +0000" stop="20260904013906 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904013101 +0000" stop="20260904013906 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260902210000 +0000" stop="20260902213000 +0000" channel="Roya_RoyaTV">
@@ -65527,6 +65548,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
+  <programme start="20260904011915 +0000" stop="20260904013210 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
   <programme start="20260901210000 +0000" stop="20260902000000 +0000" channel="Maraya.shahid">
     <title lang="en">Program 24/7</title>
     <desc lang="ar">مرايا ياسر العظمة — بث مستمر ٢٤/٧.
@@ -70342,7 +70367,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260907205847 +0000" stop="20260907210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904011915 +0000" stop="20260904013210 +0000" channel="AlJazeera.qa">
+  <programme start="20260904013210 +0000" stop="20260904014007 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260901210000 +0000" stop="20260902210000 +0000" channel="JordanSports">
@@ -71288,66 +71313,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan1_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
   <programme start="20260902214500 +0300" stop="20260902234000 +0300" channel="Alwan1_sport">
     <title lang="ar">أسنابروك - بايرن ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -71407,66 +71372,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">القناة: Alwan Sport 1
 المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260902204000 +0300" stop="20260902214500 +0300" channel="Alwan2_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
   </programme>
   <programme start="20260902214500 +0300" stop="20260902234000 +0300" channel="Alwan2_sport">
     <title lang="ar">بيرنلي - ميدلزبره ‎🔴 LIVE‎</title>
@@ -77148,34 +77053,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassOne.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassOne.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassTwo.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassTwo.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassThree.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260903023000 +0000" stop="20260903024500 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassFour.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassFive.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassSix.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassSeven.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260904013235 +0000" channel="AlkassEight.qa">
+  <programme start="20260903210000 +0000" stop="20260904014028 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Program : Scudeto 2026-2027</title>
     <desc lang="en">Program : Scudeto 2026-2027: Ep   3</desc>
     <category lang="en">Sport</category>
@@ -77583,7 +77488,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902181500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260902174000 +0000" stop="20260902181500 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI MTB World Championship 2026</title>
     <desc lang="en">UCI MTB World Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -77853,7 +77758,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Scudetto</title>
     <title lang="ar">سكوديتو</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -78444,7 +78349,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Scudetto</title>
     <title lang="ar">سكوديتو</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -79049,14 +78954,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902173500 +0000" channel="Starz_starzplaysport1">
-    <title lang="en">All In - AEW Full Gear</title>
-    <title lang="ar">أول إن - ايه إي دبليو فل قير</title>
-    <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG631079_landscape10-27a96747-05b8-4a8f-89f6-bbbd557680a0.jpg" />
-  </programme>
-  <programme start="20260902173500 +0000" stop="20260902180500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260902174000 +0000" stop="20260902180500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">The power of opportunity - Sail GP Racing on the Edge</title>
     <title lang="ar">قوة الفرصة - سَيل جي بي: سباق على الحافة</title>
     <desc lang="en">Stay tuned for Sail GP Racing on the Edge.</desc>
@@ -79651,7 +79549,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902184300 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260902174000 +0000" stop="20260902184300 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Vodacom Bulls vs. Maori All Blacks - Rugby Union</title>
     <desc lang="en">Vodacom Bulls vs. Maori All Blacks - Rugby Union</desc>
     <category lang="en">Sport</category>
@@ -79867,14 +79765,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902173500 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Salwa Al Sabah X 6 October - Shka. Fatima Women GCC Basketball Cup</title>
-    <title lang="ar">سلوى الصباح × 6 أكتوبر - كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
-    <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG607364_landscape10-eba22527-2b2c-44ab-81c9-200e3c7002c9.jpg" />
-  </programme>
-  <programme start="20260902173500 +0000" stop="20260902180000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Sport Confidential</title>
     <title lang="ar">أسرار الرياضة</title>
     <desc lang="en">Follow this special program that features sports secrets you've never known before.</desc>
@@ -80476,7 +80367,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902174100 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260902174000 +0000" stop="20260902174100 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2026: St Kitts &amp; Nevis Patriots vs Barbados Tridents, 23rd Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -81266,7 +81157,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180100 +0000" channel="Starz_wedosports">
+  <programme start="20260902174000 +0000" stop="20260902180100 +0000" channel="Starz_wedosports">
     <title lang="en">Kilmarnock v Celtic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Kilmarnock v Celtic - Scottish Premier League Football - LIVE</desc>
@@ -81644,7 +81535,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902192800 +0000" channel="Starz_unbeatensports">
+  <programme start="20260902174000 +0000" stop="20260902192800 +0000" channel="Starz_unbeatensports">
     <title lang="en">World Rowing</title>
     <desc lang="en">European Championships rowing finals from Lake Varese</desc>
     <category lang="en">Sport</category>
@@ -82064,7 +81955,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_criclife1">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's T20 World Cup: England vs Scotland - Prime Time Smash</title>
     <desc lang="en">ICC Men's T20 World Cup: England vs Scotland - Prime Time Smash</desc>
     <category lang="en">Sport</category>
@@ -82554,7 +82445,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902174400 +0000" channel="Starz_criclife3">
+  <programme start="20260902174000 +0000" stop="20260902174400 +0000" channel="Starz_criclife3">
     <title lang="en">London Spirit vs. Birmingham Phoenix - Men's The Hundred</title>
     <title lang="ar">منز ذا هاندرد</title>
     <desc lang="en">S2026 , Ep.London Spirit vs. Birmingham Phoenix : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
@@ -83691,7 +83582,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902212600 +0000" channel="Starz_golflife">
+  <programme start="20260902174000 +0000" stop="20260902212600 +0000" channel="Starz_golflife">
     <title lang="en">Final Round - 2026 TOUR Championship</title>
     <desc lang="en">Final Round - 2026 TOUR Championship</desc>
     <category lang="en">Sport</category>
@@ -84198,7 +84089,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902191500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260902174000 +0000" stop="20260902191500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Al Yasat Dhow Sailing Race 60FT - Sailing Race</title>
     <title lang="ar">سباق الياسات للإبحار الشراعي 60 قدمًا - سباق القوارب الشراعية</title>
     <desc lang="en">Follow the latest actions of the Sailing Races from around the world.</desc>
@@ -84786,7 +84677,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_awsn">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -85080,7 +84971,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_redbulltv">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -85662,7 +85553,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180000 +0000" channel="Starz_daznringside">
+  <programme start="20260902174000 +0000" stop="20260902180000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -85860,13 +85751,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902173734 +0000" channel="Starz_fifaplus">
-    <title lang="en">Spain v Sweden | Semi-finals | FIFA Women's World Cup Australia &amp; New Zealand 2023™ | Full Match Replay</title>
-    <desc lang="en">Watch the full match replay between Spain and Sweden played at Eden Park, Auckland / Tāmaki Makaurau on Tuesday, August 15, 2023 at 8:00 PM (local time).</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/116394.jpg" />
-  </programme>
-  <programme start="20260902173734 +0000" stop="20260902193443 +0000" channel="Starz_fifaplus">
+  <programme start="20260902174000 +0000" stop="20260902193443 +0000" channel="Starz_fifaplus">
     <title lang="en">USA v Netherlands | Final | FIFA Women's World Cup France 2019™ | Full Match Replay</title>
     <desc lang="en">Watch the full replay from the match between USA and Netherlands played at Stade de Lyon, Lyon on Sunday, 07 July 2019.</desc>
     <category lang="en">Sport</category>
@@ -86196,7 +86081,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/5bJzS3JTN2yxSugTf8mGu9.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902180200 +0000" channel="Starz_criclifewoman">
+  <programme start="20260902174000 +0000" stop="20260902180200 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Pakistan vs Thailand - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
@@ -86815,7 +86700,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902181500 +0000" channel="Starz_admnyastv">
+  <programme start="20260902174000 +0000" stop="20260902181500 +0000" channel="Starz_admnyastv">
     <title lang="en">UIM F1H2O World Championship 2026</title>
     <desc lang="en">UIM F1H2O World Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -87295,7 +87180,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902173000 +0000" stop="20260902174500 +0000" channel="Starz_adfight">
+  <programme start="20260902174000 +0000" stop="20260902174500 +0000" channel="Starz_adfight">
     <title lang="en">Hexagone MMA 2026</title>
     <desc lang="en">Hexagone MMA 2026</desc>
     <category lang="en">Sport</category>
@@ -92541,21 +92426,21 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Bursaspor - İstanbulspor · TRT Spor TR · Bein 2 TR⁩
 ⁦Bodrumspor - Esenler Erokspor · TRT Türk TR · Bein Max 1 TR⁩
 ⁦⏳ 11:00 أقل من 30 دقيقة  Al Draih - Al Qadisiya · Thmanyah · Fox Soccer Plus · fuboTV +4⁩
-⁦11:45 ساعة و10 دقائق  Toulouse - Lille · beIN 1 · beIN 4 TR · Ligue1+ +3⁩
-⁦12:00 ساعة و25 دقيقة  Real Sociedad - Celta Vigo · beIN 2 · Premier Sports 2 · ESPN+ +6⁩
+⁦11:45 ساعة و3 دقائق  Toulouse - Lille · beIN 1 · beIN 4 TR · Ligue1+ +3⁩
+⁦12:00 ساعة و18 دقيقة  Real Sociedad - Celta Vigo · beIN 2 · Premier Sports 2 · ESPN+ +6⁩
 ⁦Cagliari - Verona · MBC Shahid · Paramount+ · TRT Spor TR +5⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 21 ساعة و25 دقيقة ⁨·⁩ ⁨Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 21 ساعة و18 دقيقة ⁨·⁩ ⁨Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 04/09 — بتوقيتك
-⁦⏳ 08:00 21 ساعة و25 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
-⁦09:00 22 ساعة و25 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
-⁦09:50 23 ساعة و15 دقيقة  İstanbul Başakşehir - Galatasaray · beIN 5 · beIN 1 TR⁩
-⁦10:00 23 ساعة و25 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+⁩
+⁦⏳ 08:00 21 ساعة و18 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
+⁦09:00 22 ساعة و18 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
+⁦09:50 23 ساعة و8 دقائق  İstanbul Başakşehir - Galatasaray · beIN 5 · beIN 1 TR⁩
+⁦10:00 23 ساعة و18 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+⁩
 ⁦AS Port - Zamalek SC · ON Sport⁩
 ⁧إسطنبول باشاكشهير - جالاتا سراي · beIN 5 · beIN 1 TR⁩
-⁦10:30 23 ساعة و55 دقيقة  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
+⁦10:30 23 ساعة و48 دقيقة  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
 ⁦11:00 يوم  Al Shabab FC - Al Hilal · Thmanyah · Thmanyah 1 HD⁩
 ⁦Al Ahli - Al-Riyadh SC · Thmanyah · Thmanyah 3 HD⁩
 ⁦London City Lionesses - Manchester United Women · Sky Main Event · Sky Football · Sky One +1⁩
@@ -92852,6 +92737,369 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 17:15  Broncos - Chiefs
         ESPN</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_17.png" />
+  </programme>
+  <programme start="20260903170000 +0000" stop="20260903180000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم · Ankara'da 3,9 büyüklüğünde deprem</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:35 — بتوقيتك
+
+10:30  Ankara'da 3,9 büyüklüğünde deprem
+        Ankara'nın Kalecik ilçesinde saat 20.11'de 3,9 büyüklüğünde deprem meydana geldi.
+        تركيا · الأناضول
+10:28  Manchester City’s Vivianne Miedema could miss rest of year with knee injury
+        Arsenal poised to land PSG’s Élisa De Almeida New United coach Olid promises attacking style Manchester City could be without Vivianne Miedema for at…
+        بريطانيا · Guardian
+10:27  Suspect in downtown Minneapolis mass shooting was facing eviction
+        The man suspected of killing two people and injuring six others in a mass shooting at a downtown Minneapolis apartment complex Wednesday was facing…
+        أمريكا · CBS
+10:09  الهلال السعودي يعلن التعاقد مع مارتينيلي.. فمن تكفّل بالصفقة وكم مدة العقد؟
+        أعلن الهلال السعودي التوقيع مع الجناح البرازيلي غابرييل مارتينيلي قادمًا من نادي أرسنال بعقد يمتد لـ4 سنوات ومنحه الرقم "7"
+        عربي · CNN عربية
+10:00  Five-Year-Old Child Dies After Being Left on School Bus
+        The Public Security Directorate’s media spokesperson said a report was received by the Zarqa Police Directorate at midday Thursday regarding a…
+        الأردن · Jordan News
+09:30  Qatamin Discusses Social Security for App-Based Workers
+        Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
+        الأردن · Jordan News
+10:26  MAGA Is Feeding a Separatist Surge in Canada
+        Drawing inspiration from MAGA, separatists in Alberta are pushing for a break away from Canada.
+        أمريكا · NYT
+10:26  Gabriel Martinelli leaves Arsenal for Saudi Arabian club Al-Hilal in £60m deal
+        Forward follows Gabriel Jesus out of champions Richarlison not in Tottenham’s Premier League squad Arsenal have confirmed Gabriel Martinelli has…
+        بريطانيا · Guardian
+10:20  Silivri açıklarında iki geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı
+        Silivri açıklarında iki Türk bayraklı ticari geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı.
+        تركيا · الأناضول
+09:41  بعد الإفراج عن أحدهم، ماذا نعرف عن المحتجزين اللبنانيين في إسرائيل؟
+        تسلم لبنان يوم الخميس، أحد المواطنين الذين احتجزتهم إسرائيل لديها، فيما يتبقى أربعة آخرين تأجل الإفراج عنهم
+        عربي · BBC عربي
+09:37  أول تعليق أمريكي على عزم إسرائيل الإفراج عن 5 لبنانيين: "نواصل تيسير المحادثات"
+        أشادت الولايات المتحدة بالحكومتين الإسرائيلية واللبنانية "لإظهارهما حسن النية من خلال الخطوات الأولية"
+        عربي · CNN عربية
+09:23  Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
+10:26  Wong stars as England thump Ireland to seal series
+        Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.
+        بريطانيا · BBC
+10:24  Bessent Blames Ukraine for High Energy Prices
+        After meeting with Russia’s finance minister, the Treasury secretary said Ukraine’s attacks on Russian oil infrastructure were contributing to a…
+        أمريكا · NYT
+10:22  Sean Parnell emerges as Hegseth's top Army secretary pick, sources say
+        Sources say Defense Secretary Pete Hegseth favors Sean Parnell for Secretary of the Army, but it's unclear who President Trump wants
+        أمريكا · CBS
+10:15  Cumhurbaşkanı Yardımcısı Yılmaz: Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldı
+        Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldığını, vefat edenlerin sayısının 10'a…
+        تركيا · الأناضول
+09:34  اتهام الولايات المتحدة بقصف حفل زفاف في إيران.. ما الذي تكشف عنه الصور؟
+        في الليلة الفاصلة بين يومي 1 و 2 أيلول/سبتمبر، ضربت صواريخ وطائرات مسيرة انتحارية أمريكية قرية صغيرة في جنوب إيران
+        عربي · فرانس 24
+09:21  Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
+        Formula 1 world champion Lando Norris has co-founded a new team aimed at helping young drivers make their way through the various development…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260903180000 +0000" stop="20260903190000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:35 — بتوقيتك
+
+10:30  Ankara'da 3,9 büyüklüğünde deprem
+        Ankara'nın Kalecik ilçesinde saat 20.11'de 3,9 büyüklüğünde deprem meydana geldi.
+        تركيا · الأناضول
+10:28  Manchester City’s Vivianne Miedema could miss rest of year with knee injury
+        Arsenal poised to land PSG’s Élisa De Almeida New United coach Olid promises attacking style Manchester City could be without Vivianne Miedema for at…
+        بريطانيا · Guardian
+10:27  Suspect in downtown Minneapolis mass shooting was facing eviction
+        The man suspected of killing two people and injuring six others in a mass shooting at a downtown Minneapolis apartment complex Wednesday was facing…
+        أمريكا · CBS
+10:09  الهلال السعودي يعلن التعاقد مع مارتينيلي.. فمن تكفّل بالصفقة وكم مدة العقد؟
+        أعلن الهلال السعودي التوقيع مع الجناح البرازيلي غابرييل مارتينيلي قادمًا من نادي أرسنال بعقد يمتد لـ4 سنوات ومنحه الرقم "7"
+        عربي · CNN عربية
+10:00  Five-Year-Old Child Dies After Being Left on School Bus
+        The Public Security Directorate’s media spokesperson said a report was received by the Zarqa Police Directorate at midday Thursday regarding a…
+        الأردن · Jordan News
+09:30  Qatamin Discusses Social Security for App-Based Workers
+        Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
+        الأردن · Jordan News
+10:26  MAGA Is Feeding a Separatist Surge in Canada
+        Drawing inspiration from MAGA, separatists in Alberta are pushing for a break away from Canada.
+        أمريكا · NYT
+10:26  Gabriel Martinelli leaves Arsenal for Saudi Arabian club Al-Hilal in £60m deal
+        Forward follows Gabriel Jesus out of champions Richarlison not in Tottenham’s Premier League squad Arsenal have confirmed Gabriel Martinelli has…
+        بريطانيا · Guardian
+10:20  Silivri açıklarında iki geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı
+        Silivri açıklarında iki Türk bayraklı ticari geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı.
+        تركيا · الأناضول
+09:41  بعد الإفراج عن أحدهم، ماذا نعرف عن المحتجزين اللبنانيين في إسرائيل؟
+        تسلم لبنان يوم الخميس، أحد المواطنين الذين احتجزتهم إسرائيل لديها، فيما يتبقى أربعة آخرين تأجل الإفراج عنهم
+        عربي · BBC عربي
+09:37  أول تعليق أمريكي على عزم إسرائيل الإفراج عن 5 لبنانيين: "نواصل تيسير المحادثات"
+        أشادت الولايات المتحدة بالحكومتين الإسرائيلية واللبنانية "لإظهارهما حسن النية من خلال الخطوات الأولية"
+        عربي · CNN عربية
+09:23  Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
+10:26  Wong stars as England thump Ireland to seal series
+        Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.
+        بريطانيا · BBC
+10:24  Bessent Blames Ukraine for High Energy Prices
+        After meeting with Russia’s finance minister, the Treasury secretary said Ukraine’s attacks on Russian oil infrastructure were contributing to a…
+        أمريكا · NYT
+10:22  Sean Parnell emerges as Hegseth's top Army secretary pick, sources say
+        Sources say Defense Secretary Pete Hegseth favors Sean Parnell for Secretary of the Army, but it's unclear who President Trump wants
+        أمريكا · CBS
+10:15  Cumhurbaşkanı Yardımcısı Yılmaz: Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldı
+        Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldığını, vefat edenlerin sayısının 10'a…
+        تركيا · الأناضول
+09:34  اتهام الولايات المتحدة بقصف حفل زفاف في إيران.. ما الذي تكشف عنه الصور؟
+        في الليلة الفاصلة بين يومي 1 و 2 أيلول/سبتمبر، ضربت صواريخ وطائرات مسيرة انتحارية أمريكية قرية صغيرة في جنوب إيران
+        عربي · فرانس 24
+09:21  Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
+        Formula 1 world champion Lando Norris has co-founded a new team aimed at helping young drivers make their way through the various development…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260903190000 +0000" stop="20260903200000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:35 — بتوقيتك
+
+10:30  Ankara'da 3,9 büyüklüğünde deprem
+        Ankara'nın Kalecik ilçesinde saat 20.11'de 3,9 büyüklüğünde deprem meydana geldi.
+        تركيا · الأناضول
+10:28  Manchester City’s Vivianne Miedema could miss rest of year with knee injury
+        Arsenal poised to land PSG’s Élisa De Almeida New United coach Olid promises attacking style Manchester City could be without Vivianne Miedema for at…
+        بريطانيا · Guardian
+10:27  Suspect in downtown Minneapolis mass shooting was facing eviction
+        The man suspected of killing two people and injuring six others in a mass shooting at a downtown Minneapolis apartment complex Wednesday was facing…
+        أمريكا · CBS
+10:09  الهلال السعودي يعلن التعاقد مع مارتينيلي.. فمن تكفّل بالصفقة وكم مدة العقد؟
+        أعلن الهلال السعودي التوقيع مع الجناح البرازيلي غابرييل مارتينيلي قادمًا من نادي أرسنال بعقد يمتد لـ4 سنوات ومنحه الرقم "7"
+        عربي · CNN عربية
+10:00  Five-Year-Old Child Dies After Being Left on School Bus
+        The Public Security Directorate’s media spokesperson said a report was received by the Zarqa Police Directorate at midday Thursday regarding a…
+        الأردن · Jordan News
+09:30  Qatamin Discusses Social Security for App-Based Workers
+        Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
+        الأردن · Jordan News
+10:26  MAGA Is Feeding a Separatist Surge in Canada
+        Drawing inspiration from MAGA, separatists in Alberta are pushing for a break away from Canada.
+        أمريكا · NYT
+10:26  Gabriel Martinelli leaves Arsenal for Saudi Arabian club Al-Hilal in £60m deal
+        Forward follows Gabriel Jesus out of champions Richarlison not in Tottenham’s Premier League squad Arsenal have confirmed Gabriel Martinelli has…
+        بريطانيا · Guardian
+10:20  Silivri açıklarında iki geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı
+        Silivri açıklarında iki Türk bayraklı ticari geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı.
+        تركيا · الأناضول
+09:41  بعد الإفراج عن أحدهم، ماذا نعرف عن المحتجزين اللبنانيين في إسرائيل؟
+        تسلم لبنان يوم الخميس، أحد المواطنين الذين احتجزتهم إسرائيل لديها، فيما يتبقى أربعة آخرين تأجل الإفراج عنهم
+        عربي · BBC عربي
+09:37  أول تعليق أمريكي على عزم إسرائيل الإفراج عن 5 لبنانيين: "نواصل تيسير المحادثات"
+        أشادت الولايات المتحدة بالحكومتين الإسرائيلية واللبنانية "لإظهارهما حسن النية من خلال الخطوات الأولية"
+        عربي · CNN عربية
+09:23  Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
+10:26  Wong stars as England thump Ireland to seal series
+        Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.
+        بريطانيا · BBC
+10:24  Bessent Blames Ukraine for High Energy Prices
+        After meeting with Russia’s finance minister, the Treasury secretary said Ukraine’s attacks on Russian oil infrastructure were contributing to a…
+        أمريكا · NYT
+10:22  Sean Parnell emerges as Hegseth's top Army secretary pick, sources say
+        Sources say Defense Secretary Pete Hegseth favors Sean Parnell for Secretary of the Army, but it's unclear who President Trump wants
+        أمريكا · CBS
+10:15  Cumhurbaşkanı Yardımcısı Yılmaz: Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldı
+        Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldığını, vefat edenlerin sayısının 10'a…
+        تركيا · الأناضول
+09:34  اتهام الولايات المتحدة بقصف حفل زفاف في إيران.. ما الذي تكشف عنه الصور؟
+        في الليلة الفاصلة بين يومي 1 و 2 أيلول/سبتمبر، ضربت صواريخ وطائرات مسيرة انتحارية أمريكية قرية صغيرة في جنوب إيران
+        عربي · فرانس 24
+09:21  Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
+        Formula 1 world champion Lando Norris has co-founded a new team aimed at helping young drivers make their way through the various development…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260903200000 +0000" stop="20260903210000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:35 — بتوقيتك
+
+10:30  Ankara'da 3,9 büyüklüğünde deprem
+        Ankara'nın Kalecik ilçesinde saat 20.11'de 3,9 büyüklüğünde deprem meydana geldi.
+        تركيا · الأناضول
+10:28  Manchester City’s Vivianne Miedema could miss rest of year with knee injury
+        Arsenal poised to land PSG’s Élisa De Almeida New United coach Olid promises attacking style Manchester City could be without Vivianne Miedema for at…
+        بريطانيا · Guardian
+10:27  Suspect in downtown Minneapolis mass shooting was facing eviction
+        The man suspected of killing two people and injuring six others in a mass shooting at a downtown Minneapolis apartment complex Wednesday was facing…
+        أمريكا · CBS
+10:09  الهلال السعودي يعلن التعاقد مع مارتينيلي.. فمن تكفّل بالصفقة وكم مدة العقد؟
+        أعلن الهلال السعودي التوقيع مع الجناح البرازيلي غابرييل مارتينيلي قادمًا من نادي أرسنال بعقد يمتد لـ4 سنوات ومنحه الرقم "7"
+        عربي · CNN عربية
+10:00  Five-Year-Old Child Dies After Being Left on School Bus
+        The Public Security Directorate’s media spokesperson said a report was received by the Zarqa Police Directorate at midday Thursday regarding a…
+        الأردن · Jordan News
+09:30  Qatamin Discusses Social Security for App-Based Workers
+        Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
+        الأردن · Jordan News
+10:26  MAGA Is Feeding a Separatist Surge in Canada
+        Drawing inspiration from MAGA, separatists in Alberta are pushing for a break away from Canada.
+        أمريكا · NYT
+10:26  Gabriel Martinelli leaves Arsenal for Saudi Arabian club Al-Hilal in £60m deal
+        Forward follows Gabriel Jesus out of champions Richarlison not in Tottenham’s Premier League squad Arsenal have confirmed Gabriel Martinelli has…
+        بريطانيا · Guardian
+10:20  Silivri açıklarında iki geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı
+        Silivri açıklarında iki Türk bayraklı ticari geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı.
+        تركيا · الأناضول
+09:41  بعد الإفراج عن أحدهم، ماذا نعرف عن المحتجزين اللبنانيين في إسرائيل؟
+        تسلم لبنان يوم الخميس، أحد المواطنين الذين احتجزتهم إسرائيل لديها، فيما يتبقى أربعة آخرين تأجل الإفراج عنهم
+        عربي · BBC عربي
+09:37  أول تعليق أمريكي على عزم إسرائيل الإفراج عن 5 لبنانيين: "نواصل تيسير المحادثات"
+        أشادت الولايات المتحدة بالحكومتين الإسرائيلية واللبنانية "لإظهارهما حسن النية من خلال الخطوات الأولية"
+        عربي · CNN عربية
+09:23  Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
+10:26  Wong stars as England thump Ireland to seal series
+        Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.
+        بريطانيا · BBC
+10:24  Bessent Blames Ukraine for High Energy Prices
+        After meeting with Russia’s finance minister, the Treasury secretary said Ukraine’s attacks on Russian oil infrastructure were contributing to a…
+        أمريكا · NYT
+10:22  Sean Parnell emerges as Hegseth's top Army secretary pick, sources say
+        Sources say Defense Secretary Pete Hegseth favors Sean Parnell for Secretary of the Army, but it's unclear who President Trump wants
+        أمريكا · CBS
+10:15  Cumhurbaşkanı Yardımcısı Yılmaz: Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldı
+        Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldığını, vefat edenlerin sayısının 10'a…
+        تركيا · الأناضول
+09:34  اتهام الولايات المتحدة بقصف حفل زفاف في إيران.. ما الذي تكشف عنه الصور؟
+        في الليلة الفاصلة بين يومي 1 و 2 أيلول/سبتمبر، ضربت صواريخ وطائرات مسيرة انتحارية أمريكية قرية صغيرة في جنوب إيران
+        عربي · فرانس 24
+09:21  Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
+        Formula 1 world champion Lando Norris has co-founded a new team aimed at helping young drivers make their way through the various development…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260903210000 +0000" stop="20260903220000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:35 — بتوقيتك
+
+10:30  Ankara'da 3,9 büyüklüğünde deprem
+        Ankara'nın Kalecik ilçesinde saat 20.11'de 3,9 büyüklüğünde deprem meydana geldi.
+        تركيا · الأناضول
+10:28  Manchester City’s Vivianne Miedema could miss rest of year with knee injury
+        Arsenal poised to land PSG’s Élisa De Almeida New United coach Olid promises attacking style Manchester City could be without Vivianne Miedema for at…
+        بريطانيا · Guardian
+10:27  Suspect in downtown Minneapolis mass shooting was facing eviction
+        The man suspected of killing two people and injuring six others in a mass shooting at a downtown Minneapolis apartment complex Wednesday was facing…
+        أمريكا · CBS
+10:09  الهلال السعودي يعلن التعاقد مع مارتينيلي.. فمن تكفّل بالصفقة وكم مدة العقد؟
+        أعلن الهلال السعودي التوقيع مع الجناح البرازيلي غابرييل مارتينيلي قادمًا من نادي أرسنال بعقد يمتد لـ4 سنوات ومنحه الرقم "7"
+        عربي · CNN عربية
+10:00  Five-Year-Old Child Dies After Being Left on School Bus
+        The Public Security Directorate’s media spokesperson said a report was received by the Zarqa Police Directorate at midday Thursday regarding a…
+        الأردن · Jordan News
+09:30  Qatamin Discusses Social Security for App-Based Workers
+        Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
+        الأردن · Jordan News
+10:26  MAGA Is Feeding a Separatist Surge in Canada
+        Drawing inspiration from MAGA, separatists in Alberta are pushing for a break away from Canada.
+        أمريكا · NYT
+10:26  Gabriel Martinelli leaves Arsenal for Saudi Arabian club Al-Hilal in £60m deal
+        Forward follows Gabriel Jesus out of champions Richarlison not in Tottenham’s Premier League squad Arsenal have confirmed Gabriel Martinelli has…
+        بريطانيا · Guardian
+10:20  Silivri açıklarında iki geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı
+        Silivri açıklarında iki Türk bayraklı ticari geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı.
+        تركيا · الأناضول
+09:41  بعد الإفراج عن أحدهم، ماذا نعرف عن المحتجزين اللبنانيين في إسرائيل؟
+        تسلم لبنان يوم الخميس، أحد المواطنين الذين احتجزتهم إسرائيل لديها، فيما يتبقى أربعة آخرين تأجل الإفراج عنهم
+        عربي · BBC عربي
+09:37  أول تعليق أمريكي على عزم إسرائيل الإفراج عن 5 لبنانيين: "نواصل تيسير المحادثات"
+        أشادت الولايات المتحدة بالحكومتين الإسرائيلية واللبنانية "لإظهارهما حسن النية من خلال الخطوات الأولية"
+        عربي · CNN عربية
+09:23  Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
+10:26  Wong stars as England thump Ireland to seal series
+        Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.
+        بريطانيا · BBC
+10:24  Bessent Blames Ukraine for High Energy Prices
+        After meeting with Russia’s finance minister, the Treasury secretary said Ukraine’s attacks on Russian oil infrastructure were contributing to a…
+        أمريكا · NYT
+10:22  Sean Parnell emerges as Hegseth's top Army secretary pick, sources say
+        Sources say Defense Secretary Pete Hegseth favors Sean Parnell for Secretary of the Army, but it's unclear who President Trump wants
+        أمريكا · CBS
+10:15  Cumhurbaşkanı Yardımcısı Yılmaz: Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldı
+        Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldığını, vefat edenlerin sayısının 10'a…
+        تركيا · الأناضول
+09:34  اتهام الولايات المتحدة بقصف حفل زفاف في إيران.. ما الذي تكشف عنه الصور؟
+        في الليلة الفاصلة بين يومي 1 و 2 أيلول/سبتمبر، ضربت صواريخ وطائرات مسيرة انتحارية أمريكية قرية صغيرة في جنوب إيران
+        عربي · فرانس 24
+09:21  Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
+        Formula 1 world champion Lando Norris has co-founded a new team aimed at helping young drivers make their way through the various development…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260903220000 +0000" stop="20260903230000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:35 — بتوقيتك
+
+10:30  Ankara'da 3,9 büyüklüğünde deprem
+        Ankara'nın Kalecik ilçesinde saat 20.11'de 3,9 büyüklüğünde deprem meydana geldi.
+        تركيا · الأناضول
+10:28  Manchester City’s Vivianne Miedema could miss rest of year with knee injury
+        Arsenal poised to land PSG’s Élisa De Almeida New United coach Olid promises attacking style Manchester City could be without Vivianne Miedema for at…
+        بريطانيا · Guardian
+10:27  Suspect in downtown Minneapolis mass shooting was facing eviction
+        The man suspected of killing two people and injuring six others in a mass shooting at a downtown Minneapolis apartment complex Wednesday was facing…
+        أمريكا · CBS
+10:09  الهلال السعودي يعلن التعاقد مع مارتينيلي.. فمن تكفّل بالصفقة وكم مدة العقد؟
+        أعلن الهلال السعودي التوقيع مع الجناح البرازيلي غابرييل مارتينيلي قادمًا من نادي أرسنال بعقد يمتد لـ4 سنوات ومنحه الرقم "7"
+        عربي · CNN عربية
+10:00  Five-Year-Old Child Dies After Being Left on School Bus
+        The Public Security Directorate’s media spokesperson said a report was received by the Zarqa Police Directorate at midday Thursday regarding a…
+        الأردن · Jordan News
+09:30  Qatamin Discusses Social Security for App-Based Workers
+        Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
+        الأردن · Jordan News
+10:26  MAGA Is Feeding a Separatist Surge in Canada
+        Drawing inspiration from MAGA, separatists in Alberta are pushing for a break away from Canada.
+        أمريكا · NYT
+10:26  Gabriel Martinelli leaves Arsenal for Saudi Arabian club Al-Hilal in £60m deal
+        Forward follows Gabriel Jesus out of champions Richarlison not in Tottenham’s Premier League squad Arsenal have confirmed Gabriel Martinelli has…
+        بريطانيا · Guardian
+10:20  Silivri açıklarında iki geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı
+        Silivri açıklarında iki Türk bayraklı ticari geminin çarpıştığı kazaya ilişkin ön bilirkişi raporu hazırlandı.
+        تركيا · الأناضول
+09:41  بعد الإفراج عن أحدهم، ماذا نعرف عن المحتجزين اللبنانيين في إسرائيل؟
+        تسلم لبنان يوم الخميس، أحد المواطنين الذين احتجزتهم إسرائيل لديها، فيما يتبقى أربعة آخرين تأجل الإفراج عنهم
+        عربي · BBC عربي
+09:37  أول تعليق أمريكي على عزم إسرائيل الإفراج عن 5 لبنانيين: "نواصل تيسير المحادثات"
+        أشادت الولايات المتحدة بالحكومتين الإسرائيلية واللبنانية "لإظهارهما حسن النية من خلال الخطوات الأولية"
+        عربي · CNN عربية
+09:23  Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
+10:26  Wong stars as England thump Ireland to seal series
+        Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.
+        بريطانيا · BBC
+10:24  Bessent Blames Ukraine for High Energy Prices
+        After meeting with Russia’s finance minister, the Treasury secretary said Ukraine’s attacks on Russian oil infrastructure were contributing to a…
+        أمريكا · NYT
+10:22  Sean Parnell emerges as Hegseth's top Army secretary pick, sources say
+        Sources say Defense Secretary Pete Hegseth favors Sean Parnell for Secretary of the Army, but it's unclear who President Trump wants
+        أمريكا · CBS
+10:15  Cumhurbaşkanı Yardımcısı Yılmaz: Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldı
+        Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, Girne açıklarında batan yolcu gemisinde 1 kişinin daha naaşına ulaşıldığını, vefat edenlerin sayısının 10'a…
+        تركيا · الأناضول
+09:34  اتهام الولايات المتحدة بقصف حفل زفاف في إيران.. ما الذي تكشف عنه الصور؟
+        في الليلة الفاصلة بين يومي 1 و 2 أيلول/سبتمبر، ضربت صواريخ وطائرات مسيرة انتحارية أمريكية قرية صغيرة في جنوب إيران
+        عربي · فرانس 24
+09:21  Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
+        Formula 1 world champion Lando Norris has co-founded a new team aimed at helping young drivers make their way through the various development…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260903230000 +0000" stop="20260904013625 +0000" channel="TodayNews">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260903185500 +0300" stop="20260903193000 +0300" channel="ThmanyahGuide">
     <title lang="ar">الفيحاء - الخلود ‎• Live 🟢‎</title>
@@ -99316,4 +99564,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260904013101 +0000" stop="20260904013443 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013101 +0000" stop="20260904013443 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013101 +0000" stop="20260904013443 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013101 +0000" stop="20260904013443 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013210 +0000" stop="20260904013443 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013235 +0000" stop="20260904013443 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260904013906 +0000" stop="20260904014238 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013906 +0000" stop="20260904014238 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013906 +0000" stop="20260904014238 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013906 +0000" stop="20260904014238 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014007 +0000" stop="20260904014238 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904014028 +0000" stop="20260904014238 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904013625 +0000" stop="20260904014238 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
