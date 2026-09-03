@@ -641,6 +641,47 @@ def gate_the_screen_cannot_go_stale() -> None:
     import os as _os
     import re as _re
 
+    # AND THE PLAYLIST MUST BE LIVE, which is a different failure with the
+    # same symptom and it was live on a television for weeks.
+    #
+    # The names were being changed correctly and the guide rebuilt every
+    # ten minutes, and the screen still showed one moment's board for half
+    # a day. The playlist said PLAYLIST-TYPE:VOD, kept MEDIA-SEQUENCE at 0
+    # and ended with EXT-X-ENDLIST — a complete recording. RFC 8216 says
+    # what a player does with one: it loads it ONCE and never asks again.
+    # So the cache was not the problem the second time; the television was
+    # never told to look.
+    import match_screen_video as screen
+    import tempfile as _tempfile
+
+    drawn = ["/x/today_matches_0.aaaaaaaa.ts", "/x/today_matches_1.bbbbbbbb.ts"]
+    written = _os.path.join(_tempfile.gettempdir(), "gate_screen.m3u8")
+    screen.write_playlist(drawn, written, now=1788400000)
+    live = open(written, encoding="utf-8").read()
+
+    check("SCREEN", "no ENDLIST — that tag alone stops a player reloading",
+          "EXT-X-ENDLIST" in live, False)
+    check("SCREEN", "and it is not declared a finished recording",
+          "PLAYLIST-TYPE:VOD" in live, False)
+
+    # A window has to outlast the gap between builds or a player runs off
+    # the end of it and waits on a blank screen.
+    spans = live.count("#EXTINF:") * screen.HOLD
+    check("SCREEN", "the window outlasts the ten minutes between builds",
+          spans >= 20 * 60, True)
+
+    # The sequence numbers the first segment of the window, and a player
+    # uses it to tell a new window from the one it already has. Fixed at
+    # zero, every rebuild looks like the last.
+    screen.write_playlist(drawn, written, now=1788400000 + 600)
+    after = open(written, encoding="utf-8").read()
+
+    def sequence(text):
+        return int(_re.search(r"MEDIA-SEQUENCE:(\d+)", text).group(1))
+
+    check("SCREEN", "the sequence moves forward with the clock",
+          sequence(after) - sequence(live), 600 // screen.HOLD)
+
     boards_dir, stream_dir = "boards", "stream"
     playlist = _os.path.join(stream_dir, "screen.m3u8")
 
