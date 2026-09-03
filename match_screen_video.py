@@ -49,6 +49,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 
 from epg_lib import log, warn
 
@@ -57,7 +58,14 @@ OUT_DIR = "stream"
 OUT = os.path.join(OUT_DIR, "screen.m3u8")
 STAMP = os.path.join(OUT_DIR, "board.sha256")
 
-HOURS = 12              # how long the playlist keeps the picture running
+# How far ahead the playlist reaches. It is a WINDOW, not a running time:
+# the channel is live and the window rolls forward with each build.
+#
+# It has to outlast the gap between builds or a player reaches the end and
+# waits on a blank screen. The board rebuilds every ten minutes at worst,
+# so thirty is three times the room it needs and still a five-kilobyte
+# file instead of a hundred-and-thirty.
+WINDOW_MINUTES = 30
 HOLD = 20               # seconds a board stays up before the next one
 
 # Every segment opens on a keyframe, which a segment must, and needs no
@@ -136,28 +144,52 @@ def encode_segment(board: str, out: str) -> bool:
     return True
 
 
-def write_playlist(segments: list[str], out: str) -> int:
-    """The playlist that turns three short clips into half a day of picture.
+def write_playlist(segments: list[str], out: str, now=None) -> int:
+    """A LIVE playlist, which is the whole reason the television updates.
 
-    A playlist may name the same segment as often as it likes, so the
-    length here is text rather than bytes. EXT-X-DISCONTINUITY goes before
-    every entry because the timestamps really do start over each time —
-    it is the same clip again — and that tag is what tells a player so.
+    It used to be VOD: PLAYLIST-TYPE:VOD, MEDIA-SEQUENCE fixed at 0, and
+    EXT-X-ENDLIST under twelve hours of segments. That is a complete,
+    finished recording, and RFC 8216 is explicit about what a player does
+    with one — it loads the playlist ONCE and never asks again. So a
+    viewer opened the channel, got whatever the board said at that moment,
+    and watched it for twelve hours while the guide rebuilt every ten
+    minutes behind them. The build was never the problem: the picture was
+    reaching the repository and the television was never told to look.
+
+    Three things make it live, and all three are needed:
+
+      NO ENDLIST. That tag alone says the recording is complete, and a
+      player that sees it stops reloading.
+      NO PLAYLIST-TYPE:VOD, for the same reason at the top of the file.
+      A MEDIA-SEQUENCE THAT MOVES. It numbers the first segment in the
+      window, and a player uses it to tell an unchanged playlist from a
+      new one. Left at 0 forever, a fresh window looks like the old one.
+
+    Counted in whole HOLDs since the epoch, so it advances on its own with
+    the clock and cannot go backwards between builds.
+
+    EXT-X-DISCONTINUITY still goes before every entry: the timestamps do
+    start over each time, because it is the same clip again.
+
+    One thing outside our hands, written down rather than discovered
+    twice: raw.githubusercontent serves with a five-minute cache, so a
+    player polling every twenty seconds may sit on a stale copy for up to
+    that long. Ten-minute builds live with it comfortably.
     """
-    cycles = max(1, (HOURS * 3600) // (HOLD * len(segments)))
+    now = now or time.time()
+    per_cycle = max(1, len(segments))
+    cycles = max(1, (WINDOW_MINUTES * 60) // (HOLD * per_cycle))
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{HOLD}",
-        "#EXT-X-MEDIA-SEQUENCE:0",
-        "#EXT-X-PLAYLIST-TYPE:VOD",
+        f"#EXT-X-MEDIA-SEQUENCE:{int(now // HOLD)}",
     ]
     for _ in range(cycles):
         for segment in segments:
             lines += ["#EXT-X-DISCONTINUITY",
                       f"#EXTINF:{HOLD}.0,",
                       os.path.basename(segment)]
-    lines.append("#EXT-X-ENDLIST")
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
     return cycles
@@ -217,7 +249,8 @@ def main() -> int:
     bytes_on_disk = os.path.getsize(OUT) + sum(os.path.getsize(s)
                                                for s in segments)
     log(f"screen channel re-encoded: {len(segments)} segment(s) at {HOLD}s, "
-        f"played {cycles} times over = {HOURS}h of picture, "
+        f"played {cycles} times over = a {WINDOW_MINUTES}-minute "
+        f"live window, "
         f"{bytes_on_disk // 1024} KB on disk in total")
     return 0
 

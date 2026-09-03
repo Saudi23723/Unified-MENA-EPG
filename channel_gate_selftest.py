@@ -641,6 +641,47 @@ def gate_the_screen_cannot_go_stale() -> None:
     import os as _os
     import re as _re
 
+    # AND THE PLAYLIST MUST BE LIVE, which is a different failure with the
+    # same symptom and it was live on a television for weeks.
+    #
+    # The names were being changed correctly and the guide rebuilt every
+    # ten minutes, and the screen still showed one moment's board for half
+    # a day. The playlist said PLAYLIST-TYPE:VOD, kept MEDIA-SEQUENCE at 0
+    # and ended with EXT-X-ENDLIST — a complete recording. RFC 8216 says
+    # what a player does with one: it loads it ONCE and never asks again.
+    # So the cache was not the problem the second time; the television was
+    # never told to look.
+    import match_screen_video as screen
+    import tempfile as _tempfile
+
+    drawn = ["/x/today_matches_0.aaaaaaaa.ts", "/x/today_matches_1.bbbbbbbb.ts"]
+    written = _os.path.join(_tempfile.gettempdir(), "gate_screen.m3u8")
+    screen.write_playlist(drawn, written, now=1788400000)
+    live = open(written, encoding="utf-8").read()
+
+    check("SCREEN", "no ENDLIST — that tag alone stops a player reloading",
+          "EXT-X-ENDLIST" in live, False)
+    check("SCREEN", "and it is not declared a finished recording",
+          "PLAYLIST-TYPE:VOD" in live, False)
+
+    # A window has to outlast the gap between builds or a player runs off
+    # the end of it and waits on a blank screen.
+    spans = live.count("#EXTINF:") * screen.HOLD
+    check("SCREEN", "the window outlasts the ten minutes between builds",
+          spans >= 20 * 60, True)
+
+    # The sequence numbers the first segment of the window, and a player
+    # uses it to tell a new window from the one it already has. Fixed at
+    # zero, every rebuild looks like the last.
+    screen.write_playlist(drawn, written, now=1788400000 + 600)
+    after = open(written, encoding="utf-8").read()
+
+    def sequence(text):
+        return int(_re.search(r"MEDIA-SEQUENCE:(\d+)", text).group(1))
+
+    check("SCREEN", "the sequence moves forward with the clock",
+          sequence(after) - sequence(live), 600 // screen.HOLD)
+
     boards_dir, stream_dir = "boards", "stream"
     playlist = _os.path.join(stream_dir, "screen.m3u8")
 
@@ -2157,6 +2198,165 @@ def gate_turkeys_own_league_is_read() -> None:
           spor_ekrani.collect_fixtures("<html></html>"), [])
 
 
+def gate_the_other_sports_name_a_real_channel() -> None:
+    """The second board's source, and the two traps it walks past.
+
+    Eight pages were asked for F1, darts, boxing, MMA, MotoGP, tennis,
+    golf and the Rugby World Cup. Six are no use, and the instructive
+    pair are the ones that looked perfect: pdc.tv lists 45 darts events
+    and motogp.com 878 MotoGP ones, and NEITHER NAMES A BROADCASTER. A
+    calendar is not a listing, and no board here may put a channel on an
+    event unless somebody published it.
+
+    wheresthematch does, in a row that carries everything at once — and
+    the time is an INSTANT, <time datetime="...+01:00">, not a printed
+    clock to be placed in a timezone. That distinction has cost this
+    project a day and then an hour on two other sources.
+    """
+    import world_sport_on_tv as world
+
+    def row(fixture, iso, competition, channels, home="", away=""):
+        marks = "".join(f'<a href="#">{c}</a>' for c in channels)
+        return (f'<tr><td class="home-team">{home}</td>'
+                f'<td class="fixture-details">{fixture}</td>'
+                f'<td class="away-team">{away}</td>'
+                f'<td class="start-details">'
+                f'<time datetime="{iso}">clock</time></td>'
+                f'<td class="competition-name">{competition}</td>'
+                f'<td class="channel-details">{marks}</td></tr>')
+
+    def rules(name):
+        return [page[2:] for page in world.PAGES if page[1] == name][0]
+
+    f1 = world.collect(
+        "<table>" + row("Italian Grand Prix Practice 1 - Monza",
+                        "2026-09-04T11:30:00+01:00", "F1 2026 season",
+                        ["Sky Sports F1", "Sky Sports Main Event"])
+        + "</table>", "F1", *rules("F1"))
+    check("WORLD", "the grand prix is read with every channel named",
+          (f1[0]["title"], f1[0]["channels"]),
+          ("Italian Grand Prix Practice 1 - Monza",
+           ["Sky Sports F1", "Sky Sports Main Event"]))
+    check("WORLD", "and 11:30 in London is 10:30 UTC, from the attribute",
+          f"{f1[0]['start']:%Y-%m-%d %H:%M}", "2026-09-04 10:30")
+
+    # THE HEADING LIES HERE TOO, and it is the Jordanian youth cup again
+    # in another language: every row on the MotoGP page today reads "FIM
+    # JuniorGP World Championship" and is filed under the competition
+    # "MotoGP 2026 season". Reading the page would put schoolboy racing
+    # on a board asked for MotoGP.
+    moto = world.collect(
+        "<table>"
+        + row("FIM JuniorGP World Championship Moto3 Race 1",
+              "2026-09-06T09:45:00+01:00", "MotoGP 2026 season",
+              ["TNT Sports 7"])
+        + row("San Marino Grand Prix Race - Misano",
+              "2026-09-13T13:00:00+01:00", "MotoGP 2026 season",
+              ["TNT Sports 2"])
+        + "</table>", "MotoGP", *rules("MotoGP"))
+    check("WORLD", "a junior championship is not MotoGP",
+          [event["title"] for event in moto],
+          ["San Marino Grand Prix Race - Misano"])
+
+    # The reader asked for the Rugby WORLD CUP, not the rugby season.
+    rugby = world.collect(
+        "<table>"
+        + row("England v Wales", "2026-09-20T15:00:00+01:00",
+              "Premiership Rugby Cup", ["TNT Sports 1"], "England", "Wales")
+        + row("South Africa v New Zealand", "2026-10-01T16:00:00+01:00",
+              "Rugby World Cup", ["ITV1"], "South Africa", "New Zealand")
+        + "</table>", "Rugby", *rules("Rugby"))
+    check("WORLD", "the World Cup is kept and the league season is not",
+          [event["title"] for event in rugby],
+          ["South Africa - New Zealand"])
+
+    # A row with no instant is refused rather than dated from the page,
+    # and a row that says the channel is not known yet names none.
+    blind = world.collect(
+        '<table><tr><td class="fixture-details">Some Fight</td>'
+        '<td class="start-details">Saturday</td>'
+        '<td class="competition-name">Boxing</td>'
+        '<td class="channel-details"><a>TBC</a></td></tr></table>',
+        "Boxing", None, None)
+    check("WORLD", "a row with no instant is refused, never guessed at",
+          blind, [])
+    tbc = world.collect(
+        "<table>" + row("Some Fight", "2026-09-20T20:00:00+01:00",
+                        "Boxing", ["TBC"]) + "</table>",
+        "Boxing", None, None)
+    check("WORLD", "and 'TBC' is not a channel", tbc[0]["channels"], [])
+
+    check("WORLD", "an empty page is not an error",
+          world.collect("<html></html>", "F1", *rules("F1")), [])
+
+
+def gate_the_american_game_names_its_network() -> None:
+    """"This one is on NBC" — asked for in those words, and hard to get.
+
+    Nine listings pages were asked and every one is shut: livesportsontv
+    answers 200 with 913 KB and NOTHING holding a channel under anything
+    holding a clock; tsn.ca names only the word TSN; sportsnet.ca is an
+    18 KB shell; cbc.ca is a 404; nba.com ships __NEXT_DATA__ and no
+    channel; livesportontv, pdc.tv and motogp.com have the events and no
+    broadcaster at all. They assemble their schedules in a browser.
+
+    The league's own site does not. It writes each game as one complete
+    line in its SCREEN-READER text — the most stable part of any page,
+    because accessibility labels are the last thing anybody rewrites —
+    beside a real UTC instant:
+
+        <time datetime="2026-09-10T00:20:00Z">
+        Patriots at Seahawks, Wednesday, September 9th, 8:20 PM, NBC
+
+    That instant is why this source is safe. "8:20 PM" names no zone, and
+    reading a printed clock is the fault this project has paid for most.
+    """
+    import american_sport_on_tv as american
+
+    page = ("<ul>"
+            '<li><div><time datetime="2026-09-10T00:20:00Z">8:20 PM</time>'
+            '<span class="sr-only">Patriots at Seahawks, Wednesday, '
+            'September 9th, 8:20 PM, NBC</span></div></li>'
+            '<li><div><time datetime="2026-09-11T00:35:00.000Z">8:35 PM'
+            '</time><span class="sr-only">49ers at Rams, Thursday, '
+            'September 10th, 8:35 PM, NETFLIX</span></div></li>'
+            # No instant of its own — and it sits in a list whose FIRST
+            # game has one. The first run of this reader gave it 00:20Z,
+            # the Patriots' kickoff.
+            '<li><div><span class="sr-only">Jets at Bills, Sunday, '
+            'September 20th, 1:00 PM, CBS</span></div></li>'
+            '<li><div><time datetime="2026-09-21T17:00:00Z">1:00 PM</time>'
+            '<span class="sr-only">Colts at Titans, Sunday, September '
+            '20th, 1:00 PM, TBD</span></div></li>'
+            "</ul>")
+    read = american.collect(page)
+
+    check("USA", "the game names the network showing it",
+          [(event["title"], event["channels"]) for event in read[:2]],
+          [("Patriots - Seahawks", ["NBC"]), ("49ers - Rams", ["NETFLIX"])])
+    check("USA", "and the kickoff is the instant, not the printed clock",
+          f"{read[0]['start']:%Y-%m-%d %H:%M}", "2026-09-10 00:20")
+
+    # ONE STEP TOO FAR REACHES THE WHOLE LIST. A game with no instant of
+    # its own must be refused, never dated from its neighbour — the fault
+    # that once stamped 1876 fixtures with a single date, and it happened
+    # here on the first run.
+    check("USA", "a game with no instant of its own is refused",
+          [event["title"] for event in read if "Jets" in event["title"]], [])
+    check("USA", "and nobody inherits a neighbour's kickoff",
+          sorted({f"{event['start']:%H:%M}" for event in read}),
+          ["00:20", "00:35", "17:00"])
+
+    # "TBD" is not a network. The row still shows — the game is real —
+    # and it shows with no channel rather than a made-up one.
+    tbd = [event for event in read if "Colts" in event["title"]]
+    check("USA", "TBD is not a network, and the game is still a game",
+          (len(tbd), tbd[0]["channels"] if tbd else None), (1, []))
+
+    check("USA", "an empty page is not an error",
+          american.collect("<html></html>"), [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2179,7 +2379,9 @@ def main() -> int:
                  gate_the_jordanian_league_is_read,
                  gate_a_guide_repeating_its_own_name_is_measured,
                  gate_a_long_wait_says_how_long,
-                 gate_turkeys_own_league_is_read):
+                 gate_turkeys_own_league_is_read,
+                 gate_the_other_sports_name_a_real_channel,
+                 gate_the_american_game_names_its_network):
         try:
             gate()
         except Exception as exc:
