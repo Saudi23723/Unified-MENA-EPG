@@ -1,0 +1,36 @@
+# Ask the newsrooms what they publish, before a line of reader is written.
+#
+# A third channel was asked for — breaking news, hour by hour, from
+# Jordan, the Arab world, America, Britain and Turkey. Not one newsroom
+# is read anywhere in this repository, so every source is new and every
+# one is an unknown: which answer a runner, in what shape, and above all
+# HOW FRESH what they hand back is. A feed whose newest item is two days
+# old cannot be "ساعة بساعة" however good the outlet.
+#
+# It commits nothing and publishes nothing. Read the log, write the
+# reader against what it says, delete this when the answer is in code.
+name: Probe the news sources
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_news_sources.py"
+      - "probes/probe_news_discovery.py"
+      - ".github/workflows/probe_news.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_news_sources.py
+      # Eleven refused. A site declares its own feed in its
+      # head, so that is read rather than another URL guessed.
+      - run: python -u probes/probe_news_discovery.py
