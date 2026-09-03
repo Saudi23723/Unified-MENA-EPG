@@ -1,20 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Every row jfa.jo publishes, accepted and refused, with the reason.
+"""Where the FULL Jordanian fixture list is, since the homepage is shallow.
 
-The reader asks why الوحدات and الفيصلي are not on the board. There are
-only three possible answers and this tells them apart instead of
-guessing: the federation is not listing them, or it is listing them and
-something here refuses them, or they are outside the three days the board
-covers.
+Printing the whole of jfa.jo's "المباريات القادمة" block settled why
+الوحدات and الفيصلي are not on the board, and it was not the filter:
 
-So this prints the WHOLE upcoming table — every row, whether it was kept
-or dropped and why — rather than the summary the build already logs.
+    the whole table            16 club rows
+      6 already played
+      7 under-16 and youth national team
+      2 youth ties published under "كأس الأردن"
+      1 left:  البقعة - دوقرة
+
+    الفيصلي   0 mentions ANYWHERE on the page
+    الوحدات   1 mention, and it is an under-16 row
+    السلط 0   العربي 0
+
+They never reached the reader. The homepage block shows the nearest
+handful of fixtures, and a ten-club league plays five matches a round, so
+the round is not on that page at all.
+
+So this looks for the page that has the whole thing, by reading the
+site's own links rather than guessing at urls — guessing is what cost
+five builds on this very site.
 """
 from __future__ import annotations
 
+import re
 import sys
-from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, ".")
 
@@ -23,69 +35,64 @@ from bs4 import BeautifulSoup                                  # noqa: E402
 import jordan_football as jfa                                  # noqa: E402
 from epg_lib import fetch, new_session, norm                   # noqa: E402
 
+# A page of fixtures says so in its own words, in Arabic or in a slug.
+LOOKS_LIKE_FIXTURES = re.compile(
+    r"مباريات|جدول|الدوري|نتائج|ترتيب|match|fixture|schedule|league|result",
+    re.I)
+
+
+def rows_on(page: str) -> tuple[int, int]:
+    """(club rows, rows still to be played) — the only two numbers that count."""
+    soup = BeautifulSoup(page, "html.parser")
+    clubs = upcoming = 0
+    for row in soup.find_all("tr"):
+        if row.select_one("span.team1") and row.select_one("span.team2"):
+            clubs += 1
+            verdict = row.select_one("span.rrresult")
+            if verdict and jfa.NOT_PLAYED_YET.match(
+                    norm(verdict.get_text(" ", strip=True))):
+                upcoming += 1
+    return clubs, upcoming
+
 
 def main() -> int:
-    page = fetch(new_session(), jfa.SOURCE).text
-    soup = BeautifulSoup(page, "html.parser")
-    for tag in soup(["script", "style", "noscript"]):
-        tag.decompose()
+    session = new_session()
+    home = fetch(session, jfa.SOURCE).text
+    soup = BeautifulSoup(home, "html.parser")
 
-    print(f"jfa.jo — {len(page)} bytes\n")
-    print("=== EVERY ROW, AND WHAT HAPPENS TO IT ===")
-    waiting = None
-    rows = kept = 0
-    for row in soup.find_all("tr"):
-        if row.select_one("span.haly1"):
-            start = jfa.a_day_and_a_clock(row)
-            competition = jfa.competition_of(row)
-            waiting = (competition, start) if start is not None else None
-            print(f"\n  header: {competition}  |  "
-                  f"{start.astimezone(jfa.AMMAN):%Y-%m-%d %H:%M} Amman"
-                  if start else f"\n  header: {competition}  |  NO TIME")
+    links, seen = [], set()
+    for anchor in soup.find_all("a", href=True):
+        href = anchor["href"].split("#")[0].strip()
+        label = norm(anchor.get_text(" ", strip=True))
+        if not href or href.startswith(("mailto:", "javascript:", "tel:")):
             continue
-
-        home = row.select_one("span.team1")
-        away = row.select_one("span.team2")
-        if home is None or away is None:
+        if href.startswith("http") and "jfa.jo" not in href:
             continue
-        rows += 1
-        header, waiting = waiting, None
-        verdict = row.select_one("span.rrresult")
-        mark = norm(verdict.get_text(" ", strip=True)) if verdict else "—"
-        home_name = norm(home.get_text(" ", strip=True))
-        away_name = norm(away.get_text(" ", strip=True))
+        if not (LOOKS_LIKE_FIXTURES.search(href)
+                or LOOKS_LIKE_FIXTURES.search(label)):
+            continue
+        full = href if href.startswith("http") else \
+            jfa.SOURCE.rstrip("/") + "/" + href.lstrip("/")
+        if full not in seen:
+            seen.add(full)
+            links.append((full, label))
 
-        why = ""
-        if verdict is None or not jfa.NOT_PLAYED_YET.match(mark):
-            why = f"already played ({mark})"
-        elif header is None:
-            why = "no header of its own"
-        elif not jfa.wanted_here(header[0]):
-            why = f"not professional or national ({header[0]})"
-        elif not jfa.the_clubs_belong(header[0], home_name, away_name):
-            why = "these clubs do not play that competition"
-        else:
-            kept += 1
-        print(f"    {'KEPT ' if not why else 'drop '} "
-              f"{home_name} - {away_name}"
-              + (f"   <- {why}" if why else
-                 f"   -> {jfa.carried_by(header[0]) or 'no channel'}"))
-
-    print(f"\n{rows} club row(s), {kept} kept")
-
-    print("\n=== AND WHAT THE BOARD'S THREE-DAY WINDOW WOULD TAKE ===")
-    now = datetime.now(timezone.utc)
-    inside = jfa.fetch_events(new_session(), now - timedelta(days=1),
-                              now + timedelta(days=3))
-    for event in inside:
-        print(f"    {event['start'].astimezone(jfa.AMMAN):%Y-%m-%d %H:%M} "
-              f"| {event['title']} | {event['competition']}")
-
-    print("\n=== IS EITHER CLUB ANYWHERE ON THE PAGE AT ALL ===")
-    whole = norm(soup.get_text(" ", strip=True))
-    for club in ("الوحدات", "الفيصلي", "الرمثا", "الحسين", "الجزيرة",
-                 "العربي", "شباب الأردن", "السلط"):
-        print(f"    {club}: {whole.count(club)} mention(s)")
+    print(f"the homepage links to {len(links)} page(s) that name fixtures, "
+          f"a schedule or the league\n")
+    for url, label in links[:28]:
+        try:
+            reply = session.get(url, timeout=25)
+        except Exception as exc:
+            print(f"  SHUT  {url}  ({type(exc).__name__})")
+            continue
+        if reply.status_code != 200:
+            print(f"  {reply.status_code}   {url}")
+            continue
+        clubs, upcoming = rows_on(reply.text)
+        flag = "  <== MORE THAN THE HOMEPAGE" if clubs > 16 else ""
+        print(f"  200  {len(reply.text):>7}b  {clubs:>3} club row(s), "
+              f"{upcoming:>3} still to play   {url}"
+              f"\n           “{label[:60]}”{flag}")
     return 0
 
 
