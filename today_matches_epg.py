@@ -1551,6 +1551,16 @@ def build() -> int:
         log(f"  {day} -> {len(events_today)} match(es) over "
             f"{len(chunks)} board(s)")
 
+    # And the boards this pass did NOT write. The window rolls at
+    # midnight — yesterday goes, a new day arrives at the far end — and
+    # the count can fall, so a board the old build wrote and this one
+    # did not was still on disk and still in the reel, playing a day
+    # that was over.
+    from match_board import forget_boards_past
+    stale = forget_boards_past("today_matches_", board_no, BOARD_DIR)
+    if stale:
+        log(f"  {stale} board(s) for days that have gone, deleted")
+
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
                           guard_regression=False, min_programmes=1)
     return 0 if ok else 1
