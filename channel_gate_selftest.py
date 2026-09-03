@@ -683,37 +683,50 @@ def gate_the_screen_cannot_go_stale() -> None:
           sequence(after) - sequence(live), 600 // screen.HOLD)
 
     boards_dir, stream_dir = "boards", "stream"
-    playlist = _os.path.join(stream_dir, "screen.m3u8")
+    # BOTH screens, because there are two now and the second can go out
+    # of step exactly as the first did. A gate that checks one of them
+    # proves nothing about the other, and they publish into the same
+    # directory from the same pass.
+    for prefix, name in (("today_matches_", "screen.m3u8"),
+                         ("other_sports_", "sports.m3u8")):
+        one_screen(boards_dir, stream_dir, prefix, name, hashlib, _os, _re)
+
+
+def one_screen(boards_dir, stream_dir, prefix, playlist_name,
+               hashlib, _os, _re) -> None:
+    """The boards, the segments and the playlist of ONE screen, agreeing."""
+    playlist = _os.path.join(stream_dir, playlist_name)
 
     if not _os.path.isdir(boards_dir) or not _os.path.exists(playlist):
         # Nothing published yet is not a failure: a fresh clone has no
-        # screen until the first build makes one.
-        check("SCREEN", "nothing published yet, nothing to contradict",
-              True, True)
+        # screen until the first build makes one, and the second screen
+        # has none until its first pass.
+        check("SCREEN", f"{prefix} nothing published yet, nothing to "
+                        f"contradict", True, True)
         return
 
     boards = sorted(name for name in _os.listdir(boards_dir)
-                    if name.startswith("today_matches_")
-                    and name.endswith(".png"))
+                    if name.startswith(prefix) and name.endswith(".png"))
     with open(playlist, encoding="utf-8") as handle:
         referenced = [line.strip() for line in handle
                       if line.strip().endswith(".ts")]
     distinct = sorted(set(referenced))
 
-    check("SCREEN", "the playlist names one segment per board",
+    check("SCREEN", f"{prefix} the playlist names one segment per board",
           len(distinct), len(boards))
 
     # Every reference resolves to a file that is actually published.
     missing = [name for name in distinct
                if not _os.path.exists(_os.path.join(stream_dir, name))]
-    check("SCREEN", "every segment the playlist names exists",
+    check("SCREEN", f"{prefix} every segment the playlist names exists",
           missing, [])
 
-    # Nothing published that no playlist points at — the deletion pass has
-    # to keep working or the repository grows a few files a day forever.
+    # Nothing of THIS screen's published that its playlist does not point
+    # at. Only its own segments are considered: the two screens share
+    # stream/, and each one's sweep must leave the other's alone.
     on_disk = {name for name in _os.listdir(stream_dir)
-               if name.endswith(".ts")}
-    check("SCREEN", "and nothing is published that it does not name",
+               if name.endswith(".ts") and name.startswith(prefix)}
+    check("SCREEN", f"{prefix} and nothing is published that it does not name",
           sorted(on_disk - set(distinct)), [])
 
     # The heart of it: the name has to be the fingerprint of the picture.
@@ -728,14 +741,14 @@ def gate_the_screen_cannot_go_stale() -> None:
         expected = f"{stem}.{running.hexdigest()[:8]}.ts"
         if expected not in distinct:
             wrong.append(f"{board} -> expected {expected}")
-    check("SCREEN", "each segment is named after the board it shows",
+    check("SCREEN", f"{prefix} each segment is named after the board it shows",
           wrong, [])
 
     # And the names must not be the old fixed ones, which is the shape the
     # bug had: a name that cannot change when the picture does.
     unversioned = [name for name in distinct
-                   if _re.fullmatch(r"today_matches_\d+\.ts", name)]
-    check("SCREEN", "no segment carries a name a cache could reuse",
+                   if _re.fullmatch(prefix + r"\d+\.ts", name)]
+    check("SCREEN", f"{prefix} no segment carries a name a cache could reuse",
           unversioned, [])
 
 

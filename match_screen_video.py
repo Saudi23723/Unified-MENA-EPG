@@ -55,8 +55,20 @@ from epg_lib import log, warn
 
 BOARD_DIR = "boards"
 OUT_DIR = "stream"
-OUT = os.path.join(OUT_DIR, "screen.m3u8")
-STAMP = os.path.join(OUT_DIR, "board.sha256")
+
+# One encoder, two screens. The second board draws the same way and is
+# encoded the same way, so it takes the same routine with a different
+# prefix rather than a copy of this file that would drift out of step.
+#
+# Each screen owns the segments whose names begin with its prefix, and
+# NOTHING ELSE MAY TOUCH THEM. That is not tidiness: forget_old_segments
+# deletes every .ts it does not recognise, so without the prefix each
+# screen would sweep away the other's segments on every pass, and the
+# gate would find a playlist naming files that no longer exist.
+SCREENS = {
+    "today_matches": ("today_matches_", "screen.m3u8", "board.sha256"),
+    "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256"),
+}
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
 # the channel is live and the window rolls forward with each build.
@@ -73,13 +85,13 @@ HOLD = 20               # seconds a board stays up before the next one
 KEYFRAME_EVERY = HOLD
 
 
-def boards() -> list[str]:
-    """Every day's board that has been drawn, in the order of the days."""
+def boards(prefix: str) -> list[str]:
+    """This screen's boards, in the order of the days."""
     if not os.path.isdir(BOARD_DIR):
         return []
     return [os.path.join(BOARD_DIR, name)
             for name in sorted(os.listdir(BOARD_DIR))
-            if name.startswith("today_matches_") and name.endswith(".png")]
+            if name.startswith(prefix) and name.endswith(".png")]
 
 
 def digest(paths: list[str]) -> str:
@@ -106,16 +118,23 @@ def segment_of(board: str) -> str:
     return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
 
 
-def forget_old_segments(keep: list[str]) -> int:
-    """Delete segments no playlist points at any more.
+def forget_old_segments(keep: list[str], prefix: str) -> int:
+    """Delete THIS screen's segments that no playlist points at any more.
 
-    Content-addressed names mean a new board leaves its predecessor behind,
-    and left alone they would pile up a few files a day forever.
+    Content-addressed names mean a new board leaves its predecessor
+    behind, and left alone they would pile up a few files a day forever.
+
+    Only this screen's own segments are considered, and that is the whole
+    point of the prefix: both screens publish into stream/, and a sweep
+    that deleted everything it did not recognise would take the other
+    screen's segments with it every pass — leaving a live playlist
+    naming files that are gone.
     """
     wanted = {os.path.basename(path) for path in keep}
     gone = 0
     for name in sorted(os.listdir(OUT_DIR)):
-        if name.endswith(".ts") and name not in wanted:
+        if (name.startswith(prefix) and name.endswith(".ts")
+                and name not in wanted):
             os.remove(os.path.join(OUT_DIR, name))
             gone += 1
     return gone
@@ -195,7 +214,15 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     return cycles
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    which = (argv or sys.argv[1:] or ["today_matches"])[0]
+    if which not in SCREENS:
+        warn(f"no screen called {which!r} — known: {', '.join(SCREENS)}")
+        return 1
+    prefix, playlist, stamp_name = SCREENS[which]
+    out = os.path.join(OUT_DIR, playlist)
+    stamp = os.path.join(OUT_DIR, stamp_name)
+
     if not shutil.which("ffmpeg"):
         # Not a shrug. This shrugged once, and the cost was a television
         # showing a hand-encoded picture for hours: ubuntu-latest carries
@@ -206,27 +233,28 @@ def main() -> int:
              "and publishing boards it does not show is the fault this "
              "refuses to repeat")
         return 1
-    reel = boards()
+    reel = boards(prefix)
     if not reel:
-        warn(f"no board has been drawn in {BOARD_DIR}/ — nothing to encode")
+        warn(f"no board has been drawn for {which} — nothing to encode")
         return 0
 
     fingerprint = digest(reel)
     was = ""
-    if os.path.exists(STAMP):
-        with open(STAMP, encoding="utf-8") as handle:
+    if os.path.exists(stamp):
+        with open(stamp, encoding="utf-8") as handle:
             was = handle.read().strip()
-    if was == fingerprint and os.path.exists(OUT):
+    if was == fingerprint and os.path.exists(out):
         # Sweep even when nothing is re-encoded. The sweep used to run only
         # after an encode, so a segment orphaned any other way stayed
         # forever: two scheduled passes failed to push, left main holding
         # segments for boards that had moved on, and every pass after them
         # matched the fingerprint, returned here, and never looked. The
         # screen gate found them days later.
-        dropped = forget_old_segments([segment_of(b) for b in reel])
+        dropped = forget_old_segments([segment_of(b) for b in reel], prefix)
         if dropped:
             log(f"  {dropped} segment(s) nothing points at any more, removed")
-        log("the screen already shows these boards — not re-encoded")
+        log(f"{which}: the screen already shows these boards — "
+            f"not re-encoded")
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -239,16 +267,16 @@ def main() -> int:
             return 1
         segments.append(segment)
 
-    cycles = write_playlist(segments, OUT)
-    dropped = forget_old_segments(segments)
+    cycles = write_playlist(segments, out)
+    dropped = forget_old_segments(segments, prefix)
     if dropped:
         log(f"  {dropped} segment(s) nothing points at any more, removed")
 
-    with open(STAMP, "w", encoding="utf-8") as handle:
+    with open(stamp, "w", encoding="utf-8") as handle:
         handle.write(fingerprint + "\n")
-    bytes_on_disk = os.path.getsize(OUT) + sum(os.path.getsize(s)
+    bytes_on_disk = os.path.getsize(out) + sum(os.path.getsize(s)
                                                for s in segments)
-    log(f"screen channel re-encoded: {len(segments)} segment(s) at {HOLD}s, "
+    log(f"{which} re-encoded: {len(segments)} segment(s) at {HOLD}s, "
         f"played {cycles} times over = a {WINDOW_MINUTES}-minute "
         f"live window, "
         f"{bytes_on_disk // 1024} KB on disk in total")
