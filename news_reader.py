@@ -75,7 +75,10 @@ SOURCES = (
     ("AR", "الجزيرة",
      "https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-"
      "a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9"),
-    ("AR", "سكاي عربية", "https://www.skynewsarabia.com/rss.xml"),
+    # سكاي عربية answered 404 on the last two passes and is out until
+    # it answers again. الشرق الأوسط replaces it: 300 items, newest
+    # six minutes old when measured.
+    ("AR", "الشرق الأوسط", "https://aawsat.com/feed"),
     ("AR", "BBC عربي", "https://feeds.bbci.co.uk/arabic/rss.xml"),
     ("AR", "CNN عربية", "https://arabic.cnn.com/api/v1/rss/rss.xml"),
     ("AR", "فرانس 24", "https://www.france24.com/ar/rss"),
@@ -89,17 +92,23 @@ SOURCES = (
     ("GB", "Independent", "https://www.independent.co.uk/news/uk/rss"),
     ("GB", "Sky News", "https://feeds.skynews.com/feeds/rss/home.xml"),
 
-    ("TR", "الأناضول", "https://www.aa.com.tr/tr/rss/default?cat=guncel"),
-    ("TR", "حرييت", "https://www.hurriyet.com.tr/rss/anasayfa"),
-    ("TR", "Daily Sabah", "https://www.dailysabah.com/rssFeed/homepage"),
-    ("TR", "TRT World", "https://www.trtworld.com/feed/rss.xml"),
+    # TURKEY, IN ARABIC. "المصادر باللغة التركية شيلها ... بس خلي كل
+    # الأخبار التركية و الشرق الأوسط بالعربي" — so الأناضول's Turkish
+    # feed, حرييت and TRT Haber are gone, and the same newsrooms are read
+    # in Arabic instead. Measured before the swap, not after:
+    #
+    #   TRT عربي        200 · 100 items · newest 34 min · 41 name Turkey
+    #   الأناضول عربي    200 ·  30 items · newest 25 min
+    #
+    # TRT's Arabic service is the same broadcaster whose Turkish feed was
+    # dropped, so nothing is lost but the language.
+    ("TR", "TRT عربي", "https://www.trtarabi.com/feed/rss.xml"),
+    ("TR", "الأناضول", "https://www.aa.com.tr/ar/rss/default?cat=guncel"),
 )
 
-# TRT Haber is not RSS at all. Its shape was printed verbatim and read
-# from that: <haberler><haber> with <haber_manset> for the headline,
-# <haber_aciklama> for the summary and <haber_tarihi> for the time.
-TRT_HABER = ("TR", "TRT Haber",
-             "https://www.trthaber.com/xml_mobile.php?tur=xml_genel")
+# TRT Haber is gone with the rest of the Turkish-language sources, and
+# with it the only reader here that was not RSS. Its shape was measured
+# and read correctly; it is dropped for its language, not its markup.
 
 TAGS = re.compile(r"<[^>]+>")
 
@@ -222,37 +231,20 @@ def from_rss(body: bytes, region: str, outlet: str,
     return out
 
 
-def from_trt_haber(body: bytes, region: str, outlet: str,
-                   now: datetime) -> list[dict]:
-    """TRT Haber's own shape, read on its own terms rather than forced."""
-    root = ET.fromstring(body)
-    out = []
-    for story in root.findall(".//haber"):
-        made = a_story(a_text(story.find("haber_manset")),
-                       a_text(story.find("haber_aciklama")),
-                       a_time(a_text(story.find("haber_tarihi"))),
-                       region, outlet, now)
-        if made:
-            out.append(made)
-    return out
-
-
 def stories(session, now: datetime | None = None) -> list[dict]:
     """Every story every newsroom has, that can be placed in time."""
     now = now or datetime.now(UTC)
     found: list[dict] = []
     reached = 0
 
-    for region, outlet, url in SOURCES + (TRT_HABER,):
+    for region, outlet, url in SOURCES:
         try:
             body = fetch(session, url).content
         except Exception as exc:                              # noqa: BLE001
             warn(f"{outlet} is unreachable ({str(exc)[:70]})")
             continue
         try:
-            mine = (from_trt_haber(body, region, outlet, now)
-                    if outlet == "TRT Haber"
-                    else from_rss(body, region, outlet, now))
+            mine = from_rss(body, region, outlet, now)
         except ET.ParseError as exc:
             warn(f"{outlet} could not be read ({str(exc)[:60]})")
             continue
@@ -280,3 +272,46 @@ def stories(session, now: datetime | None = None) -> list[dict]:
     log(f"  news: {reached}/{len(SOURCES) + 1} source(s) answered, "
         f"{len(found)} story(ies), {len(kept)} after de-duplication")
     return kept
+
+# SPORT IS NEWS, BUT NOT THE NEWS THIS CHANNEL LEADS WITH.
+#
+# "في أشياء هبله محطوطة" — and there were. The board led with "Spurs
+# omit Richarlison from Premier League squad" and "أندية كروية أنفقت
+# أكبر مبالغ" while a strike on Gaza sat below them, because the only
+# thing ordering the page was the clock and a transfer story is posted
+# as often as a war.
+#
+# Measured on the sources themselves: the three newest items from
+# الشرق الأوسط were Hamilton at Monza, Germany's Olympic bid and a Hilal
+# signing; the three newest from الجزيرة were all sport too.
+#
+# It is NOT thrown away — "خلي اخبار الرياضة بس لحال اخر صفحة". It goes
+# to the last page, on its own, and the pages before it are the news.
+A_SPORT = re.compile(
+    r"\b(?:football|soccer|premier\s*league|la\s*liga|serie\s*a|"
+    r"bundesliga|champions\s*league|transfer|striker|midfielder|goalkeeper|"
+    r"fixture|kick-?off|f1|formula\s*1|grand\s*prix|nba|nfl|mlb|ufc|"
+    r"boxing|cricket|tennis|golf|olympic|athletics|wicket|touchdown|"
+    r"manager|coach|squad|dressing\s*room)\b"
+    r"|كرة\s*القدم|الدوري|دوري\s|مباراة|مباريات|المنتخب|النادي|نادي\s|"
+    r"لاعب|اللاعب|صفقة|انتقالات|هدف|أهداف|تشكيلة|المدرب|بطولة\s*العالم|"
+    r"الفورمولا|أولمبي|أولمبياد|ملاكمة|تنس|كأس\s"
+    # "هاميلتون يخوض جائزة إيطاليا الكبرى" names no sport at all —
+    # a grand prix in Arabic is "الجائزة الكبرى", and a reader knows
+    # what it is from the driver. So the phrase itself is a sport.
+    # "هاميلتون يخوض جائزة إيطاليا الكبرى" names no sport at all — a
+    # grand prix in Arabic is "جائزة <country> الكبرى", with the
+    # country in the middle, so the two words are not adjacent.
+    #
+    # And a bare "سباق" is NOT a sport: "سباق التسلح النووي" is an
+    # arms race, and it was matched by the first version of this.
+    # Only the phrases that can be nothing else are here.
+    r"|جائزة\s+\S+\s+الكبرى|سباق\s+الجائزة|سائق\s+(?:فيراري|مرسيدس)"
+    r"|الدوري\s*الإنجليزي|الدوري\s*الإسباني|دوري\s*أبطال", re.I)
+
+
+def is_sport(story: dict) -> bool:
+    """Whether a story belongs on the sport page rather than the news."""
+    return bool(A_SPORT.search(story["title"])
+                or A_SPORT.search(story.get("summary") or ""))
+

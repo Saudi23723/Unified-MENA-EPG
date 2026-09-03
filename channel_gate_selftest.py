@@ -4352,6 +4352,51 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
           [one["start"] for one in pages[0]]
           == sorted((one["start"] for one in pages[0]), reverse=True), True)
 
+    # SPORT IS NOT THROWN AWAY, IT IS SEPARATED. The board led with a
+    # Richarlison team-sheet and a transfer-spending table while a strike
+    # on Gaza sat below them — "في أشياء هبله محطوطة" — because the only
+    # thing ordering the page was the clock, and a transfer story is
+    # posted as often as a war.
+    mixed = []
+    for place, (region, title) in enumerate((
+            ("AR", "غارات على غزة توقع عشرات الضحايا"),
+            ("JO", "الملك يفتتح الدورة العادية لمجلس الأمة"),
+            ("US", "Nvidia Buys Hugging Face in $12.9 Billion Deal"),
+            ("GB", "Spurs omit Richarlison from Premier League squad"),
+            ("TR", "سوريا تبدأ تدمير أسلحة كيميائية"),
+            ("AR", "هاميلتون يخوض جائزة إيطاليا الكبرى"),
+            ("AR", "تعلن صفقة مارتينيلي للهلال"),
+            ("GB", "UK inflation falls to 2.1 percent"))):
+        mixed.append({"start": now - timedelta(minutes=place + 1),
+                      "title": title, "summary": "", "region": region,
+                      "outlet": "x"})
+    laid_out = news_epg.pages_of(mixed)
+    on_last = laid_out[-1]
+    check("NEWS", "THE SPORT IS ALL ON THE LAST PAGE",
+          all(news_reader.is_sport(one) for one in on_last), True)
+    check("NEWS", "and all three of them are there", len(on_last), 3)
+    check("NEWS", "while no news page carries any of it",
+          any(news_reader.is_sport(one)
+              for page in laid_out[:-1] for one in page), False)
+    check("NEWS", "and the news still leads with the news",
+          laid_out[0][0]["title"], "غارات على غزة توقع عشرات الضحايا")
+
+    # What counts as sport, both ways. A bare "سباق" is NOT one — "سباق
+    # التسلح النووي" is an arms race, and the first version of this
+    # filed it under football.
+    for said in ("Spurs omit Richarlison from Premier League squad",
+                 "هاميلتون يخوض جائزة إيطاليا الكبرى بأناقة",
+                 "أندية كروية أنفقت أكبر مبالغ خلال فترة انتقالات",
+                 "«هلالاً في سماء المجد»... تعلن صفقة مارتينيلي للهلال"):
+        check("NEWS", f"'{said[:34]}' is sport",
+              news_reader.is_sport({"title": said, "summary": ""}), True)
+    for said in ("سباق التسلح النووي يعود بين القوى الكبرى",
+                 "إسرائيل تعلن الإفراج عن 5 لبنانيين",
+                 "Nvidia Buys Hugging Face in $12.9 Billion Deal",
+                 "للمرة الأولى.. سوريا تبدأ تدمير أسلحة كيميائية"):
+        check("NEWS", f"'{said[:34]}' is not",
+              news_reader.is_sport({"title": said, "summary": ""}), False)
+
     # A live blog and a crossword are not breaking news, and they crowd
     # out the rows that are.
     for junk in ("Ukraine war live blog: latest updates",
@@ -4372,7 +4417,7 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     # EVERY SOURCE IS A NEWSROOM'S OWN FEED, which is the rule this
     # repository has been held to throughout.
     hosts = []
-    for _, _, url in news_reader.SOURCES + (news_reader.TRT_HABER,):
+    for _, _, url in news_reader.SOURCES:
         hosts.append(re.sub(r"^https?://([^/]+).*$", r"\1", url))
     A_DUMP = re.compile(
         r"github|gitlab|pastebin|jsdelivr|iptv-org|epgshare|open-epg"
@@ -4382,6 +4427,20 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
           strangers, [])
     check("NEWS", "and there are enough of them to lose a few",
           len(hosts) >= 15, True)
+
+    # AND NOT ONE OF THEM PUBLISHES IN TURKISH. Asked for outright:
+    # "المصادر باللغة التركية شيلها ... بس خلي كل الأخبار التركية و
+    # الشرق الأوسط بالعربي". Turkey is still covered — by TRT's own
+    # Arabic service and الأناضول's Arabic feed, which is the same
+    # newsroom in the language that was asked for.
+    for gone in ("hurriyet.com.tr", "trthaber.com", "dailysabah.com",
+                 "trtworld.com"):
+        check("NEWS", f"{gone} is not read any more",
+              any(gone in host for host in hosts), False)
+    turkey = [outlet for region, outlet, _ in news_reader.SOURCES
+              if region == "TR"]
+    check("NEWS", "and Turkey is still covered, in Arabic",
+          turkey, ["TRT عربي", "الأناضول"])
 
     # The three closed doors stay shut rather than being retried forever.
     for closed in ("ammonnews.net", "alarabiya.net", "apnews.com"):
@@ -4588,6 +4647,27 @@ def gate_the_card_is_split_by_the_broadcaster() -> None:
                  "UFC Fight Night Early Prelims"):
         check("CARD", f"while '{real}' is a broadcast",
               bool(sky_epg.A_REPEAT.search(real)), False)
+
+    # ONLY WHAT SKY MARKS LIVE. "ال UFC مكتوب اليوم بس هو السبت تبع ال
+    # Live" — and Sky said so in the titles this used to strip before
+    # looking:
+    #
+    #   Live: UFC Fight Night Prelims     the card being fought
+    #   UFC Fight Night                   "Action from ... Shanghai" — over
+    #   UFC Fight Night                   "...Accor Arena in Paris", twice more
+    #
+    # A_REPEAT catches what a repeat is CALLED. It cannot catch a replay
+    # Sky simply titles "UFC Fight Night", because nothing in that name
+    # is wrong — only the missing prefix is.
+    for said in ("Live: UFC Fight Night Prelims", "Live: UFC Fight Night",
+                 "Live: Boxing: De Los Santos v Valenzuela"):
+        check("CARD", f"'{said[:36]}' is the live airing",
+              bool(sky_epg.A_LIVE_AIRING.match(said)), True)
+    for said in ("UFC Fight Night", "UFC Reloaded",
+                 "MVP Boxing: Mayer v Cameron Hlts",
+                 "Boxing: De Los Santos v Valenzuela"):
+        check("CARD", f"'{said[:36]}' is not marked live, so it is not a row",
+              bool(sky_epg.A_LIVE_AIRING.match(said)), False)
 
     check("CARD", "a highlights show is not a fight",
           "UFC Fight Night Highlights" in names, False)
