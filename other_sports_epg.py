@@ -254,6 +254,91 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     return f"{BOARD_URL}/{name}"
 
 
+# WHICH PART OF A CARD A ROW IS. An early prelim, a prelim and a main
+# card are three broadcasts of one night and a reader asked for all
+# three by name, so two rows are never folded together when one names a
+# segment the other does not — however alike their titles look.
+A_CARD_SEGMENT = re.compile(r"early\s*prelims?|\bprelims?\b|main\s*card", re.I)
+
+
+def a_bare_title(title: str) -> str:
+    """A title with only what two sources would spell the same way left."""
+    return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", " ", title.lower())).strip()
+
+
+def a_card_segment(title: str) -> str:
+    """"prelims", "main card" or "" — which broadcast of the night."""
+    found = A_CARD_SEGMENT.search(title)
+    return re.sub(r"\s+", " ", found.group(0).lower()) if found else ""
+
+
+def one_row_per_broadcast(events: list[dict]) -> list[dict]:
+    """Two sources naming one broadcast become one row.
+
+    Reading Sky's guide beside a listings page means both now carry the
+    same UFC night, and the board printed it twice:
+
+        12:00  UFC Fight Night Dan Hooker vs Salahdine Parnasse  TNT 1 · HBO Max
+        12:00  UFC Fight Night                                   TNT 1
+
+    Board one merges by title similarity. That is the wrong tool here:
+    "UFC Fight Night" and "UFC Fight Night Prelims" are more alike than
+    either is to the row it belongs with, and folding those two together
+    would delete the prelim a reader asked for three times over.
+
+    So the test is structural, and every part of it has to hold:
+
+        the same start, to the minute — not a window
+        at least one channel in common
+        one bare title a prefix of the other
+        the same part of the card, or neither naming one
+        the same sport
+
+    A prelim and a main card cannot start at the same minute, and the
+    segment rule refuses them even if a source ever said they did.
+
+    The longer title wins, because it is the one that names the fighters,
+    and the channels are unioned in the order they arrived.
+    """
+    kept: list[dict] = []
+    folded = 0
+
+    for event in sorted(events, key=lambda one: (one["start"],
+                                                 -len(one["title"]))):
+        bare = a_bare_title(event["title"])
+        segment = a_card_segment(event["title"])
+        into = None
+
+        for already in kept:
+            if already["start"] != event["start"]:
+                continue
+            if already.get("sport") != event.get("sport"):
+                continue
+            if not set(already["channels"]) & set(event["channels"]):
+                continue
+            mine = a_bare_title(already["title"])
+            if not (mine.startswith(bare) or bare.startswith(mine)):
+                continue
+            if a_card_segment(already["title"]) != segment:
+                continue
+            into = already
+            break
+
+        if into is None:
+            kept.append(dict(event, channels=list(event["channels"])))
+            continue
+
+        # The longer title led the sort, so it is already the one kept.
+        for channel in event["channels"]:
+            if channel not in into["channels"]:
+                into["channels"].append(channel)
+        folded += 1
+
+    if folded:
+        log(f"  {folded} broadcast(s) two sources both had, now one row each")
+    return kept
+
+
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every event both sources have, inside the window, that names a channel."""
     everything = world_sport_on_tv.events(session)
@@ -308,6 +393,10 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # and refusing it for want of a channel that page never had would
     # throw away the better source of the two.
     own_guides.add_channels_by_name(inside)
+
+    # Two sources, one broadcast, one row — after the channels are in, so
+    # a row folded away leaves its channel behind on the row that stays.
+    inside = one_row_per_broadcast(inside)
 
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
