@@ -1929,6 +1929,27 @@ def gate_the_jordanian_league_is_read() -> None:
             "درع الاتحاد", "كأس السوبر الأردني")],
           [["الأردن الرياضية"]] * 4)
 
+    # The board carries the professional game and the national team, and
+    # the reader drew that line himself: "خلي المحترفين و مباريات الاردن
+    # المنتخب و بس". The first division is not professional football and
+    # this channel does not carry it, so those fixtures used to sit on the
+    # board with "لم تُعلن القناة" beside them, taking rows from the
+    # matches somebody opened it to find.
+    check("JOR", "the professional game and the national team are shown",
+          [jordan_football.wanted_here(name) for name in
+           ("الدوري الأردني للمحترفين - CFI", "كأس الأردن", "درع الاتحاد",
+            "كأس السوبر الأردني", "تصفيات كأس العالم", "كأس العرب")],
+          [True] * 6)
+    check("JOR", "and nothing else the federation publishes beside them",
+          [jordan_football.wanted_here(name) for name in
+           ("دوري الدرجة الأولى", "دوري الدرجة الثانية",
+            "دوري الناشئين ت16", "كأس الأردن للأشبال")],
+          [False] * 4)
+    check("JOR", "the national team is shown but never assumed onto it",
+          [jordan_football.carried_by(name) for name in
+           ("تصفيات كأس العالم", "كأس العرب")],
+          [[], []])
+
 
 def gate_a_guide_repeating_its_own_name_is_measured() -> None:
     """A row whose title is the channel's name is the guide saying nothing.

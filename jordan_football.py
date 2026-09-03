@@ -68,16 +68,29 @@ A_CLOCK = re.compile(r"(\d{1,2}):(\d{2})")
 # been played. Anything else in that cell is a score.
 NOT_PLAYED_YET = re.compile(r"^\s*(?:VS|vs\.?|ضد)\s*$", re.I)
 
-# Which of its competitions belong on a guide of today's football. The
-# federation publishes its under-16 league beside the senior one, and a
-# board that fits twelve rows should not spend them on schools.
+# Which of its competitions belong on the board, and the reader drew the
+# line himself: "خلي المحترفين و مباريات الاردن المنتخب و بس".
+#
+# So two things and nothing else — the professional club game, and the
+# national team. The federation publishes far more than that on the same
+# page: the under-16s, the youth grades, and the first division, which is
+# not professional football and which this channel does not carry. Those
+# used to reach the board and sit there with "لم تُعلن القناة" beside
+# them, taking rows from the matches somebody is actually looking for.
+#
+# PROFESSIONAL is the club game this channel holds the rights to — the
+# league, the cup, the shield, the super cup. NATIONAL is the country's
+# team, kept because the reader asked for it, and it deliberately gets NO
+# channel: those qualifiers are sold competition by competition and land
+# on beIN or elsewhere.
+#
 # Written WITHOUT the definite article, because Arabic puts a prefix in
 # front of it: the federation writes "الدوري الأردني للمحترفين", and
 # "المحترفين" is not inside "للمحترفين" — the ل joins the word and the
 # match fails. The professional league, the one thing this file exists
 # for, was silently dropped by that one letter.
-SENIOR = re.compile(r"محترفين|كأس الأردن|درع الاتحاد|درجة الأولى"
-                    r"|سوبر|كأس آسيا|كأس العرب|تصفيات", re.I)
+PROFESSIONAL = re.compile(r"محترفين|كأس الأردن|درع الاتحاد|سوبر", re.I)
+NATIONAL = re.compile(r"تصفيات|كأس آسيا|كأس العرب|كأس العالم|منتخب", re.I)
 # No definite article in any stem, and that is not a style choice. Arabic
 # glues its prefixes: the page writes "كأس الأردن للأشبال", and "الأشبال"
 # is not inside "للأشبال" — ل + ل + أشبال. The same trap had already cost
@@ -161,15 +174,19 @@ def competition_of(header) -> str:
 
 
 def wanted_here(competition: str) -> bool:
-    """Senior football only — the under-16 league is not what a board is for.
+    """The professional game and the national team. Nothing else.
 
-    The federation publishes its schools competitions beside the senior
-    ones and there are more of them, so a board that fits twelve rows
-    would spend them on under-16s.
+    Asked for in those words, and the reason is what the rest of the page
+    is: the age grades have no regular television at all, and the first
+    division is not the professional league. Both used to reach the board
+    — the first division with no channel beside it, because this channel
+    does not carry it — and there are more of those fixtures than of the
+    ones anybody opened the board to find.
     """
     if A_YOUTH_GRADE.search(competition):
         return False
-    return bool(SENIOR.search(competition))
+    return bool(PROFESSIONAL.search(competition)
+                or NATIONAL.search(competition))
 
 
 def collect(html: str) -> list[dict]:
@@ -245,7 +262,8 @@ def collect(html: str) -> list[dict]:
         })
 
     log(f"  jfa.jo: {played} already played, {adrift} with no header of "
-        f"their own, {unwanted} not senior, {len(out)} fixture(s) to show")
+        f"their own, {unwanted} not professional or national, "
+        f"{len(out)} fixture(s) to show")
     return out
 
 
