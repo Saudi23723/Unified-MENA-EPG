@@ -4183,6 +4183,66 @@ def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
               board.a_card_segment(title), segment)
 
 
+def gate_on_sport_reads_the_source_that_names_it() -> None:
+    """The fix that was deduced, and the measurement that overturned it.
+
+    ON Sport's guide had no Al-Ahly match while the television was
+    showing one. Its four per-channel pages are archives whose newest
+    fixture is YESTERDAY — measured day by day — so no parser could have
+    found tonight's there.
+
+    THE FIRST FIX ADDED live-footballontv.com, on the reasoning that it
+    was the one source the BOARD reads that this guide did not, and the
+    board had the fixture. A full build ran with it and the guide did not
+    change by a single row.
+
+    So both readers were run and every channel label each produces was
+    printed:
+
+        live-footballontv   152 fixture(s), all naming a channel
+                            labels mentioning ON Sport: 0
+                            commonest: DAZN, Apple TV, BBC iPlayer
+        yallakora            labels mentioning ON Sport: 1
+                            'ON Sport' x2 -> ONSport1
+
+    A British listings site never names an Egyptian channel. The
+    deduction was sound and wrong, which is the difference between
+    reasoning about a source and asking it.
+
+    What this holds is the part that can silently rot: the spelling
+    yallakora actually uses must keep mapping to a channel, and the name
+    must stay the gate.
+    """
+    print("\nON Sport reads the source that names it")
+    import update_onsport_epg as onsport
+
+    # The exact string yallakora publishes, measured on a runner.
+    check("ONSPORT", "'ON Sport' is the spelling yallakora uses",
+          onsport.onsport_channel_from_label("ON Sport"), "ONSport1")
+    for said, expected in (("ON Sport 1", "ONSport1"),
+                           ("ON Sport 2", "ONSport2"),
+                           ("ON Sport MAX", "ONSportMAX"),
+                           ("ON Sport Plus", "ONSportPLUS")):
+        check("ONSPORT", f"and '{said}' still maps to {expected}",
+              onsport.onsport_channel_from_label(said), expected)
+
+    # THE NAME IS STILL THE GATE. These carry a number and are not ON
+    # Sport, and three matches were once published on an Egyptian
+    # channel because a reader looked at the number first.
+    for stranger in ("beIN Sports 1", "TNT Sports 1", "AD Sports 1",
+                     "Sky Sports Plus", "DAZN", "Apple TV", "BBC iPlayer"):
+        check("ONSPORT", f"'{stranger}' is not an ON Sport channel",
+              onsport.onsport_channel_from_label(stranger), None)
+
+    # And the source that gave nothing is not still being fetched.
+    import inspect
+    body = inspect.getsource(onsport)
+    check("ONSPORT", "yallakora is the source this guide reads",
+          "yallakora.fetch_events" in body, True)
+    check("ONSPORT", "and live-footballontv is not fetched any more",
+          "live_football_on_tv.fetch_events" in body, False)
+
+
 def gate_a_day_is_shown_whole_or_not_at_all() -> None:
     """"ما عم بكمل جدول السبت ... و بقطع اشياء لحاله" — and it was doing
     exactly that.
@@ -4749,6 +4809,7 @@ def main() -> int:
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
                  gate_alwan_reaches_the_board,
+                 gate_on_sport_reads_the_source_that_names_it,
                  gate_a_day_is_shown_whole_or_not_at_all,
                  gate_the_news_channel_says_only_what_a_newsroom_published,
                  gate_alwan_carries_more_than_football,

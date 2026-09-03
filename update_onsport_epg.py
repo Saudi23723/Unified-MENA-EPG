@@ -454,7 +454,7 @@ SOURCE_PRIORITY = {
     # the details of an Egyptian match, and it does not: where two
     # sources have the same fixture, the higher one keeps the kick-off,
     # the spelling and the commentator, and this one changes nothing.
-    "live-footballontv": 90,
+    "yallakora": 90,
 }
 
 
@@ -1161,54 +1161,61 @@ def collect_lftv_events() -> list[dict]:
     return dedupe(events)
 
 
-def collect_live_footballontv_events() -> list[dict]:
-    """The one source the board has and this guide did not.
+def collect_yallakora_events() -> list[dict]:
+    """The Egyptian source that actually names ON Sport.
 
     Reported: this guide had no Al-Ahly match while the television was
-    showing one, live, on ON Sport. Confirmed — onsport_epg.xml said
-    "التالي غداً · AS Port - الزمالك" and the words الأهلي and سموحة
-    appeared in none of its 72 programmes, while the board carried
-
-        10:00  الأهلي - سموحة · ON Sport
+    showing one, live, on ON Sport.
 
     THE FOUR PER-CHANNEL PAGES CANNOT SUPPLY TODAY. Measured on a runner,
-    every one of them is an archive:
+    every one is an archive whose newest fixture is YESTERDAY:
 
         ON Sport 2     05/03 .. 11/04    days at or after today: 0
         ON Sport MAX   25/04 .. 02/09    days at or after today: 0
         ON Sport PLUS  05/03 .. 02/09    days at or after today: 0
 
-    The newest fixture across all four is YESTERDAY. No parser can find
-    tonight's match in pages that stop before it, so this is not a
-    reading fault and cannot be fixed by reading better.
+    The front page does not have it either — its days ran 05/09 .. 17/09,
+    having already dropped today and tomorrow as they passed.
 
-    The front page does not have it either — measured at the same
-    moment, its days ran 05/09 .. 17/09, having already dropped today
-    and tomorrow.
+    THE FIRST FIX ADDED THE WRONG SOURCE, and a full build proved it: the
+    guide did not change by a single row. live-footballontv.com was
+    chosen because it was the one source the BOARD reads that this guide
+    did not, and the board had the missing fixture. That was a deduction,
+    not a measurement, and it was wrong. Both readers were then run and
+    every channel label each produces was printed:
 
-    So what the board has and this did not is the OTHER source it reads:
-    live-footballontv.com. It is already fetched, already parsed and
-    already trusted for the same fixtures on the same channels a few
-    files away; it was simply never offered to this guide.
+        live-footballontv   152 fixture(s), all naming a channel
+                            labels mentioning ON Sport: 0
+                            commonest: DAZN x25, Apple TV x18,
+                            BBC iPlayer x11, Sky Sports+ x10
+        yallakora            99 fixture(s)
+                            labels mentioning ON Sport: 1
+                            'ON Sport' x2 -> ONSport1
 
-    Its channel labels go through onsport_channel_from_label like every
-    other source, so the name is still the gate: nothing becomes an ON
-    Sport channel for having a number in it. That guard was written
-    because beIN Sports 1 and TNT Sports 1 once became ON Sport 1 and
-    put three matches on a channel that carries none of them.
+    live-footballontv is a British listings site and never names an
+    Egyptian channel. yallakora is Egyptian, reads a channel out of every
+    block, and names ON Sport in the exact spelling the name gate below
+    already accepts. So it is the source, and the other is removed rather
+    than left costing a fetch for nothing.
+
+    Every label still goes through onsport_channel_from_label, so the
+    NAME remains the gate: nothing becomes an ON Sport channel for having
+    a number in it. That guard exists because beIN Sports 1 and TNT
+    Sports 1 once became ON Sport 1 and published three matches on a
+    channel that carries none of them.
     """
     try:
-        import live_football_on_tv
+        import yallakora
         from epg_lib import new_session
     except Exception as exc:                                  # noqa: BLE001
-        warn(f"live-footballontv is unavailable to this guide: {exc}")
+        warn(f"yallakora is unavailable to this guide: {exc}")
         return []
 
     floor, ceiling = window_bounds()
     try:
-        found = live_football_on_tv.fetch_events(new_session(), floor, ceiling)
+        found = yallakora.fetch_events(new_session(), floor, ceiling)
     except Exception as exc:                                  # noqa: BLE001
-        warn(f"live-footballontv failed: {exc}")
+        warn(f"yallakora failed: {exc}")
         return []
 
     events: list[dict] = []
@@ -1229,15 +1236,15 @@ def collect_live_footballontv_events() -> list[dict]:
                 "home": norm(sides[0]),
                 "away": norm(sides[1]),
                 "competition": norm(one.get("competition") or ""),
-                "source_name": "live-footballontv",
-                "source": live_football_on_tv.SOURCE,
+                "source_name": "yallakora",
+                "source": yallakora.SOURCE,
                 "commentator": "",
             })
 
     per: dict[str, int] = {}
     for ev in events:
         per[ev["channel_name"]] = per.get(ev["channel_name"], 0) + 1
-    log(f"live-footballontv fixtures on ON Sport channels: {len(events)} "
+    log(f"yallakora fixtures on ON Sport channels: {len(events)} "
         f"{per if per else ''}")
     return dedupe(events)
 
@@ -1657,10 +1664,10 @@ def main():
     lftv = collect_lftv_events()
     lftv_home = collect_lftv_home_events()
 
-    footballontv = collect_live_footballontv_events()
+    egyptian = collect_yallakora_events()
 
     events = drop_channel_clashes(
-        dedupe(filgoal + lftv_home + lftv + footballontv))
+        dedupe(filgoal + lftv_home + lftv + egyptian))
 
     log(f"ON Sport total verified football events: {len(events)}")
     for ev in sorted(events, key=lambda x: x["start"]):
