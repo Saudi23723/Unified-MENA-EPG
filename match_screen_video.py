@@ -67,10 +67,17 @@ OUT_DIR = "stream"
 # deletes every .ts it does not recognise, so without the prefix each
 # screen would sweep away the other's segments on every pass, and the
 # gate would find a playlist naming files that no longer exist.
+#
+# THE LAST NUMBER IS HOW LONG A PAGE STAYS UP, and it is per screen
+# because a page of fixtures and a page of news are not read at the same
+# speed. "الصفحة زيد وقتها فقط ل قناة الأخبار": a fixtures row is a
+# clock, two club names and a channel, taken in at a glance; a news row
+# is a headline and a sentence explaining it, and six of those cannot be
+# read in twenty seconds.
 SCREENS = {
-    "today_matches": ("today_matches_", "screen.m3u8", "board.sha256"),
-    "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256"),
-    "today_news": ("today_news_", "news.m3u8", "news.sha256"),
+    "today_matches": ("today_matches_", "screen.m3u8", "board.sha256", 20),
+    "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256", 20),
+    "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -126,7 +133,7 @@ WINDOW_MINUTES = 2 * 60
 # re-fetched on every poll, 13% of the video's own bandwidth, buying
 # runway no player was reaching.
 
-# HOW MUCH OF THE GUIDE THE CHANNEL ACTUALLY PLAYS.
+# HOW MUCH OF THE GUIDE THE CHANNEL ACTUALLY PLAYS: ALL OF IT.
 #
 # THIS USED TO BE "THE FIRST SIX BOARDS" AND THAT WAS THE FAULT:
 #
@@ -134,25 +141,34 @@ WINDOW_MINUTES = 2 * 60
 #
 # Six boards is not six days. Thursday took two, Friday took two, and
 # Saturday took SIX of its own — so the channel played Thursday, Friday,
-# and the first third of Saturday, then went back to the top. A day cut
-# in half, mid-list, with nothing on the screen to say it had been.
+# and the first third of Saturday, then went back to the top.
 #
-# A REEL IS MADE OF WHOLE DAYS NOW. The builder writes how many boards
-# each day took (today_matches_days.txt) because it is the only thing
-# that knows; this adds days one at a time and stops before the one that
-# would not fit. A day is shown completely or it is not shown at all.
+# The first answer was a ceiling on the LAP: whole days, but only as
+# many as fit four minutes. It cut less and IT STILL CUT, measured on
+# what was actually on air:
 #
-# TODAY IS ALWAYS IN, whatever it costs. It is the day the channel is
-# named after, and a lap that skipped it to stay short would be fast at
-# doing the wrong thing.
+#     other_sports   18 boards written · 12 in the reel
+#                    three days drawn, published, and never once shown
 #
-# The ceiling is on the LAP, not on the board count, because a lap is
-# what a viewer actually waits: four minutes is long enough for three
-# full days at eight rows a board and short enough that today comes
-# round while somebody is still in the room. The days past it are not
-# lost — they are in the guide, in full, with their own boards drawn.
-MAX_LAP_SECONDS = 4 * 60
+# reported back as "لسى عم يشطب صفحات", and rightly.
+#
+# SO THE CEILING IS GONE. What made it seem necessary was that a viewer
+# landed at whatever board the clock happened to be on, so a long lap
+# meant a long wait for today; the answer was to shorten the lap, and
+# the price was days nobody ever saw.
+#
+# write_playlist now opens the window on the FIRST board of the lap, so
+# a viewer tuning in starts at today and walks forward through the days
+# in order. Nobody is dropped into the middle any more, which is what
+# the ceiling was paying for — so there is nothing left to buy, and
+# every day that has a board gets played.
 HOLD = 20               # seconds a board stays up before the next one
+
+# HOW FAR BACK FROM THE END OF A LIVE PLAYLIST A PLAYER BEGINS. RFC 8216
+# §6.3.3: "the client SHOULD NOT choose a segment that starts less than
+# three target durations from the end". Three entries, then — and it is
+# a constant here because write_playlist sizes the window around it.
+JOIN_BACK = 3
 
 # Every segment opens on a keyframe, which a segment must, and needs no
 # other: it is the same picture for twenty seconds.
@@ -212,7 +228,13 @@ def boards(prefix: str) -> list[str]:
 #      overlap the one after it
 #   4  twelve frames a second with a keyframe every two, instead of one
 #      frame a second, no declared rate at all and one keyframe
-ENCODER_REVISION = 5
+#   5  each board placed by the MEASURED length of a segment, closing a
+#      32 ms overlap on every boundary
+#   6  how long a board stays up is per screen, and is folded into the
+#      fingerprint below — the news pages hold for 35 seconds and the
+#      fixtures pages for 20, so the same picture on two screens is not
+#      the same segment
+ENCODER_REVISION = 6
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -263,34 +285,33 @@ def days_of(prefix: str) -> list[int]:
 
 
 def whole_days(prefix: str, every: list[str]) -> list[str]:
-    """As many COMPLETE days as fit the lap, and never half of one."""
+    """Every board the builder drew, in the order of the days.
+
+    IT DROPS NOTHING. The manifest is still read, because it is the only
+    thing that knows where one day ends and the next begins, but it is
+    read to CHECK the reel rather than to cut it: a day counted in the
+    manifest and missing from the folder is worth saying out loud, and a
+    board in the folder that no day claims is still a board somebody
+    drew and is still played.
+    """
     counts = days_of(prefix)
     if not counts:
-        # No manifest: the old behaviour, a fixed number of boards. It
-        # can still cut a day in half, which is why the manifest exists,
-        # but it is better than playing nothing.
-        fits = max(1, MAX_LAP_SECONDS // HOLD)
-        return every[:fits]
+        log(f"  no day manifest — playing all {len(every)} board(s) in "
+            f"the order they were drawn, {len(every) * HOLD}s a lap")
+        return every
 
-    reel: list[str] = []
-    at = 0
-    for place, count in enumerate(counts):
-        day = every[at:at + count]
-        at += count
-        if not day:
-            break
-        # Today goes in whatever it costs; every other day has to fit
-        # whole or the reel stops here.
-        if place and (len(reel) + len(day)) * HOLD > MAX_LAP_SECONDS:
-            log(f"  {len(counts) - place} day(s) left out of the reel: the "
-                f"next needs {len(day)} board(s) and the lap is already "
-                f"{len(reel) * HOLD}s of {MAX_LAP_SECONDS}s")
-            break
-        reel += day
+    covered = sum(counts)
+    if covered != len(every):
+        # The two disagree: a build wrote one and not the other, or a day
+        # left the window between them. THE FOLDER WINS, because it is
+        # what exists — dropping a drawn board on the strength of a stale
+        # count is the fault this whole function was rewritten to end.
+        warn(f"{prefix}days.txt accounts for {covered} board(s) and the "
+             f"folder holds {len(every)} — playing every board there is")
 
-    log(f"  the reel is {len(reel)} board(s) — "
-        f"{len(reel) * HOLD}s a lap, whole days only")
-    return reel or every[:1]
+    log(f"  the reel is {len(every)} board(s) over {len(counts)} day(s) — "
+        f"{len(every) * HOLD}s a lap, nothing left out")
+    return every
 
 
 def digest(paths: list[str]) -> str:
@@ -301,7 +322,7 @@ def digest(paths: list[str]) -> str:
     one of them used to be counted.
     """
     running = hashlib.sha256()
-    running.update(f"encoder:{ENCODER_REVISION}\n".encode())
+    running.update(f"encoder:{ENCODER_REVISION} hold:{HOLD}\n".encode())
     for path in paths:
         running.update(path.encode())
         with open(path, "rb") as handle:
@@ -566,7 +587,48 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     """
     now = now or time.time()
     reel = max(1, len(segments))
-    long_enough = max(reel, (WINDOW_MINUTES * 60) // HOLD)
+
+    # THE WINDOW OPENS AND CLOSES ON A WHOLE LAP, so that whichever end
+    # a player joins at, it joins at BOARD ZERO.
+    #
+    #     "خليهم دائما لما افتح اي قناة يبدا من الاول عشان ما بخربط"
+    #
+    # A viewer opened the channel and got page four, then page five, then
+    # the wrap — which reads as a channel that skips, and is impossible
+    # to tell apart from one that does.
+    #
+    # THE TAG FOR THIS IS EXT-X-START AND IT MAY NOT BE USED. It took all
+    # three channels off the air twice in an hour; see the note where it
+    # would go, below. So the start point is chosen the only other way
+    # there is: by choosing what is AT the two places a player begins.
+    #
+    # There are exactly two, and this repository has argued for both
+    # without being able to test either on the television in question:
+    #
+    #   THE FRONT of the window. What the outage arithmetic pointed at —
+    #   the channel ran dry exactly one window-length after the last
+    #   build, which only happens if a player worked through the whole
+    #   window from its first segment.
+    #   THREE TARGET DURATIONS BACK FROM THE END, which is what RFC 8216
+    #   §6.3.3 tells a live client to do.
+    #
+    # Both are satisfied at once and neither has to be guessed:
+    #
+    #   the front  is board zero because the window opens on a multiple
+    #              of the reel length
+    #   the end    is board zero because the window is a whole number of
+    #              laps PLUS the three entries a live client hangs back
+    #              from
+    #
+    # A player that hangs back four rather than three lands on the last
+    # board of the previous lap and reaches board zero twenty seconds
+    # later, which is the worst this can do.
+    ticks = int(now // HOLD)
+    opens_at = (ticks // reel) * reel
+
+    least = max(reel, (WINDOW_MINUTES * 60) // HOLD)
+    laps = max(1, -(-(least - JOIN_BACK) // reel))
+    long_enough = laps * reel + JOIN_BACK
 
     # A WINDOW THAT ACTUALLY SLIDES.
     #
@@ -583,15 +645,19 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     # find where it was, gave up, and re-synced. Every ten minutes, on
     # both channels. That is the buffering.
     #
-    # So the list moves with the number. The reel repeats forever, the
-    # window is half an hour of it, and where the window sits is decided
-    # by the clock: at whole-HOLD tick T the window opens at reel
-    # position T mod (length of reel). A pass ten minutes later opens
-    # thirty positions further along — which is exactly what the sequence
-    # number says, and now it is true. A player away for less than the
-    # window's own length finds its place still in it and plays straight
-    # on.
-    opens_at = int(now // HOLD)
+    # So the list moves with the number, and it moves A WHOLE LAP AT A
+    # TIME: the window opens at the last lap boundary at or before the
+    # clock, so the sequence advances by however many complete laps have
+    # gone by since the last pass. The list at the front is the reel from
+    # its first board, every time, which is the alignment above. A player
+    # away for less than the window's own length finds its place still in
+    # it and plays straight on, because what left the front left it in
+    # whole laps and the entries behind it did not move.
+    #
+    # Two passes inside one lap therefore write the SAME number and the
+    # SAME list, which is correct and is the thing that must not be
+    # confused with the fault above: the fault was a number that moved
+    # while the list stood still.
 
     # HOW MANY BREAKS HAVE ALREADY SCROLLED PAST, which RFC 8216 §6.2.2
     # requires of any sliding window that drops a segment carrying an
@@ -669,7 +735,17 @@ def main(argv: list[str] | None = None) -> int:
     if which not in SCREENS:
         warn(f"no screen called {which!r} — known: {', '.join(SCREENS)}")
         return 1
-    prefix, playlist, stamp_name = SCREENS[which]
+    prefix, playlist, stamp_name, seconds = SCREENS[which]
+
+    # HOW LONG A PAGE STAYS UP, set once for this screen before anything
+    # is measured, encoded or written. Everything below reads HOLD — the
+    # encoder's -t, the playlist's window and target duration, the
+    # timeline step — so there is one place it can be wrong, and it is
+    # folded into the fingerprint so a change to it re-encodes rather
+    # than leaving a playlist declaring a length its segments do not
+    # have.
+    global HOLD                                            # noqa: PLW0603
+    HOLD = seconds
     out = os.path.join(OUT_DIR, playlist)
     stamp = os.path.join(OUT_DIR, stamp_name)
 

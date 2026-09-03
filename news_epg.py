@@ -33,7 +33,7 @@ from zoneinfo import ZoneInfo
 import news_board
 import news_reader
 from epg_lib import add_programme, log, new_session, norm, write_xml_atomic
-from match_board import forget_boards_past
+from match_board import ARABIC, forget_boards_past
 
 UTC = timezone.utc
 VIEWER = ZoneInfo("America/Los_Angeles")
@@ -99,6 +99,33 @@ def in_the_readers_order(stories: list[dict]) -> list[dict]:
     return out
 
 
+def one_script_then_the_other(page: list[dict]) -> list[dict]:
+    """Arabic at the top of the page, then all the English beneath it.
+
+        "العربي فوق و بعده كل الانجليزية … يعني ترتيب يكون جميل"
+
+    A page mixed line by line reads as a mistake rather than as a mix:
+    the eye starts a row on the right, finds the next one starts on the
+    left, and every headline costs a moment before it is read. Grouped,
+    it crosses the page once.
+
+    THE MIX ITSELF IS UNTOUCHED, which is the whole reason this sorts a
+    page rather than choosing what goes on one. Which stories reach a
+    page is still the round-robin above — a story from every region
+    before any region gets a second — so an Arabic-first page is not an
+    Arabic-only page. This decides where a story sits, never whether it
+    is there.
+
+    Inside each half the newest is first, which is what the clock is for
+    now that it is not drawn.
+    """
+    newest = lambda group: sorted(  # noqa: E731
+        group, key=lambda one: one["start"], reverse=True)
+    arabic = [one for one in page if ARABIC.search(one.get("title") or "")]
+    latin = [one for one in page if not ARABIC.search(one.get("title") or "")]
+    return newest(arabic) + newest(latin)
+
+
 def pages_of(stories: list[dict]) -> list[list[dict]]:
     """The news first, and the sport alone on the last page.
 
@@ -126,12 +153,11 @@ def pages_of(stories: list[dict]) -> list[list[dict]]:
     chosen = in_the_readers_order(news)[:room]
     pages = [chosen[at:at + ON_PAGE]
              for at in range(0, len(chosen), ON_PAGE)] or [[]]
-    pages = [sorted(page, key=lambda one: one["start"], reverse=True)
-             for page in pages]
+    pages = [one_script_then_the_other(page) for page in pages]
 
     if sport:
         last = in_the_readers_order(sport)[:ON_PAGE]
-        pages.append(sorted(last, key=lambda one: one["start"], reverse=True))
+        pages.append(one_script_then_the_other(last))
     return pages
 
 
@@ -158,8 +184,10 @@ def draw_pages(pages: list[list[dict]], now: datetime) -> int:
 
 
 def a_line(story: dict, viewer) -> str:
-    when = story["start"].astimezone(viewer).strftime("%H:%M")
-    head = f"{when}  {norm(story['title'])}"
+    # No hour here either, for the reason the board has none: it is read
+    # to order and to date the story, and it is not what a reader is
+    # looking at the line for.
+    head = norm(story["title"])
     where = f"        {news_reader.REGION_AR.get(story['region'], '')}"
     if story.get("outlet"):
         where += f" · {story['outlet']}"

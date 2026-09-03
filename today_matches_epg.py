@@ -286,10 +286,33 @@ WANTED_PARTS = (
 # missing too. Outside these it would be adding European football both
 # other pages already have, in Arabic, with no safe way to tell it is the
 # same match. Widen this only against a measurement.
+#
+# AND TURKEY IS NOT ON THIS LIST ANY MORE, which it was, and the screen
+# is what took it off:
+#
+#     09:50   Fenerbahçe - Beşiktaş     الدوري التركي الممتاز   beIN 5
+#     10:00   فنربخشة - بشكتاش          الدوري التركي           لم تُعلن القناة
+#
+# One match, twice, ten minutes apart, in two scripts —
+# "شو هاد بتسميه؟", photographed off the television.
+#
+# Nothing downstream could have caught it. already_on_air settles a
+# duplicate on the CHANNEL, and the second row names no channel at all;
+# the names cannot settle it either, because فنربخشة against Fenerbahçe
+# is a transliteration and no threshold that joins them leaves Toulon and
+# تولوز apart. And the two clocks disagree by ten minutes, so nothing
+# keyed on the minute sees one fixture.
+#
+# The rule that DOES settle it was already written, one page over:
+# Turkey's fixtures come from Spor Ekranı and from this repository's own
+# guides — beIN Qatar, beIN Turkey, Alwan — and not from a general
+# listings page. yallakora is a general listings page. It was let in here
+# because Başakşehir v Galatasaray was missing when this was measured,
+# and it is not missing now: beIN's own feed carries the Süper Lig with
+# the channel named and the live airing marked in beIN's own title.
 YALLAKORA_ONLY = (
     "الدوري المصري", "كأس مصر", "السوبر المصري",
     "الدوري الأردني", "كأس الأردن", "درع الاتحاد الأردني",
-    "الدوري التركي", "كأس تركيا",
 )
 
 # The same families as WANTED_PARTS, as the third page names them.
@@ -684,6 +707,12 @@ ALIASES = {
 # One word written two ways, which is not a nickname and so does not
 # belong in the table above: every page that writes "Utd" means "United".
 WORD_ALIASES = {"utd": "united", "utd.": "united", "atl": "atletico",
+                # "Ath Bilbao" is how a listings page writes Athletic
+                # Bilbao, and three letters is under the floor at which a
+                # shortened word is allowed to be evidence on its own —
+                # so it is written out here rather than the floor lowered
+                # for every three-letter word in football.
+                "ath": "athletic", "ath.": "athletic",
                 "st": "saint", "st.": "saint"}
 
 # Words that hang off the end of a club's name and that a listings page
@@ -827,6 +856,63 @@ def same_club_across_scripts(first: str, second: str) -> bool:
     the other two do not carry, where there is nothing to collide with.
     """
     return same_club(first, second)
+
+
+def one_side_agrees(first: str, second: str) -> bool:
+    """Whether two "A - B" titles agree about EITHER club.
+
+    Weaker than same_match on purpose, and only ever used where a kickoff
+    minute is already agreed — a club plays one match in two hours, so one
+    club and one minute is the fixture.
+
+    It exists because a BROADCASTER'S GRID and a LISTINGS PAGE do not
+    write clubs the same way, and same_match is built for two listings
+    pages that do. Measured on one Saturday, over the fifteen matches
+    beIN's guide and the board both carried:
+
+        Nottingham - Tottenham       Nottingham Forest - Tottenham Hotspur
+        Brighton - Leeds             Brighton & Hove Albion - Leeds United
+        Ath Bilbao - Atl. Madrid     Athletic Bilbao - Atletico Madrid
+        Lyon - Auxerre               Olympique Lyonnais - AJ Auxerre
+
+    same_match joins eleven of the fifteen. Every one of the four it
+    misses has ONE side that lines up cleanly — Tottenham/Tottenham
+    Hotspur, Leeds/Leeds United, Atl. Madrid/Atletico Madrid,
+    Auxerre/AJ Auxerre — and four misses is four matches on the board
+    twice.
+
+    epg_lib's exact cross-script answer is asked as well, because a grid
+    and a page can also disagree about the SCRIPT.
+    """
+    left = [side.strip() for side in (first or "").split(" - ")]
+    right = [side.strip() for side in (second or "").split(" - ")]
+    if len(left) != 2 or len(right) != 2 or not all(left) or not all(right):
+        return False
+    return (same_side(left[0], right[0]) or same_side(left[1], right[1])
+            or own_guides.one_club_matches(first, second))
+
+
+def not_already_on_the_board(ours: list[dict],
+                             board: list[dict]) -> list[dict]:
+    """Our own broadcasters' fixtures, minus the ones the board has.
+
+    The window is the one attach() already trusts to decide which row a
+    beIN channel belongs on — two hours, wide because a grid opens with a
+    studio — and the name test is one_side_agrees above. If a rule is
+    good enough to put a channel ON a fixture it is good enough to say
+    the fixture is that one.
+    """
+    unseen = []
+    for event in ours:
+        if any(abs(event["start"] - already["start"]) <= own_guides.SLACK
+               and one_side_agrees(event["title"], already["title"])
+               for already in board):
+            continue
+        unseen.append(event)
+    if len(unseen) != len(ours):
+        log(f"  our own guides: {len(ours) - len(unseen)} fixture(s) the "
+            f"board already had, {len(unseen)} it did not")
+    return unseen
 
 
 def same_match(first: str, second: str) -> bool:
@@ -977,9 +1063,16 @@ MIDNIGHT_IS_NOT_A_KICKOFF = 3
 # It is refused by COMPETITION, at the page, so nothing downstream has to
 # know: whatever livefootballtv says about the Süper Lig does not reach
 # the merge at all, and what Spor Ekranı and beIN say does.
+#
+# IN BOTH SCRIPTS, because the pages this now guards write in both. The
+# Arabic half was added the day the board carried Fenerbahçe - Beşiktaş
+# beside فنربخشة - بشكتاش: yallakora heads its blocks "الدوري التركي",
+# and a Latin-only pattern let every one of them straight through.
 A_TURKISH_LEAGUE = re.compile(
     r"turkish\s+s(?:ü|u)per\s+lig|s(?:ü|u)per\s+lig|turkish\s+super\s+league"
-    r"|tff\s*1\.?\s*lig|turkey.*(?:cup|kupa)|kupas[ıi]", re.I)
+    r"|tff\s*1\.?\s*lig|turkey.*(?:cup|kupa)|kupas[ıi]"
+    r"|الدوري\s*التركي|كأس\s*تركيا|السوبر\s*التركي|الدرجة\s*الأولى\s*التركية",
+    re.I)
 
 
 def not_from_the_listings_page(events: list[dict]) -> list[dict]:
@@ -1517,7 +1610,14 @@ def build() -> int:
     # cannot settle it — no threshold separates تولوز from Toulon — but
     # something else can, and it is a fact rather than a guess: one channel
     # cannot show two matches at the same minute.
-    asked = [event for event in yallakora.fetch_events(session, floor, ceiling)
+    # AND THROUGH THE SAME TURKISH FILTER AS THE FIRST PAGE. It is a
+    # general listings page too, and Turkey was asked for by name to come
+    # from Spor Ekranı and this repository's own guides. Belt and braces
+    # on purpose: the competition list above no longer asks for Turkey,
+    # and this refuses it even if some future block is headed differently.
+    asked = [event for event in
+             not_from_the_listings_page(
+                 yallakora.fetch_events(session, floor, ceiling))
              if any(name in event["competition"] for name in YALLAKORA_ONLY)]
     fresh = [event for event in asked if not already_on_air(event, everything)]
     log(f"  yallakora: {len(asked)} in the competitions asked for, "
@@ -1566,8 +1666,21 @@ def build() -> int:
     # title and so needs nothing inferred. Four Süper Lig fixtures on
     # four days, on the channel beIN names, against eighteen repeats of
     # the same four that it does not mark — the mark is the whole rule.
+    #
+    # AND EVERY OTHER COMPETITION BEIN MARKS LIVE, which this read four of
+    # and now reads ninety-eight. "لما احكيلك استخدم مصدر bein sports
+    # qatar و تروح تستخدم مصدر اخر شو بكون مشكلتك؟" — and the answer was
+    # that beIN's guide was lending channels to rows a listings page had
+    # created, and creating none of its own outside Turkey.
+    #
+    # What is added is only what nothing else had. The test is the one
+    # already trusted to decide which row a beIN channel belongs on — one
+    # club, exactly, inside two hours — because the board's own fixture
+    # test misses four of fifteen real pairs when a broadcaster's grid
+    # writes "Nottingham Forest" for a page's "Nottingham".
+    ours = own_guides.fixtures_our_guides_have(floor, ceiling)
     everything = unify(everything,
-                       own_guides.fixtures_our_guides_have(floor, ceiling))
+                       not_already_on_the_board(ours, everything))
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not
