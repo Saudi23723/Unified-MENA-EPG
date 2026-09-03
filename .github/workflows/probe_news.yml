@@ -17,6 +17,7 @@ on:
     branches: [claude/arabic-channels-epg-99099k]
     paths:
       - "probes/probe_news_sources.py"
+      - "probes/probe_news_discovery.py"
       - ".github/workflows/probe_news.yml"
 
 jobs:
@@ -30,3 +31,6 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
       - run: python -u probes/probe_news_sources.py
+      # Eleven refused. A site declares its own feed in its
+      # head, so that is read rather than another URL guessed.
+      - run: python -u probes/probe_news_discovery.py
