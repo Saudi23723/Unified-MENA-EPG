@@ -75,6 +75,13 @@ GUIDES = (
 # broadcasts.
 SLACK = timedelta(hours=2)
 
+# Two clubs do not meet twice in a day, in one competition. Beyond the
+# build-up window above, a second live-marked airing of one fixture is a
+# repeat that kept its mark — which beIN's own guide publishes — and not
+# a second match. A day is the window because it is longer than any
+# build-up and shorter than the gap between two legs of a tie.
+ONE_FIXTURE_A_DAY = timedelta(hours=24)
+
 XMLTV_TIME = "%Y%m%d%H%M%S %z"
 
 # Markers a grid adds to a title that are not part of the fixture.
@@ -92,9 +99,19 @@ NOISE = re.compile(r"[‎‏‎‏]|🔴|🔵|•\s*\bLIVE\b|\bLIVE\b"
 # Open 2026" and "Ligue 1 Weekly Review - 2026/2027" beside the matches;
 # both are a plain "A - B" once the markers come off, and both would be
 # read as a fixture between two clubs that do not exist.
+#
+# AND THE FRENCH FEED'S BUILD-UP AND WRAP, which are the same programme
+# in another language: "Avant Match Reims vs Guingamp" and "Apres Match
+# St Etienne vs Montpellier" are a studio hour either side of a match
+# that is also in the guide at its own time. They read as a fixture —
+# two real clubs, a "vs" between them — and each would have put a second
+# row on the board for a match already there, an hour out.
 NOT_A_FIXTURE = ("لا توجد", "لم يُعلن", "no listing", "no match",
                  "preview", "review", "highlights", "magazine",
-                 "weekly", "classic", "best of", "top 10")
+                 "weekly", "classic", "best of", "top 10",
+                 "avant match", "avant-match", "apres match",
+                 "apres-match", "après match", "après-match",
+                 "multiligue", "live studio")
 
 # A grid also carries last season's football. beIN Turkey lists
 # "Beşiktaş - Adanaspor (00-01) 21.hafta" — a match from 2000 — and a
@@ -544,11 +561,73 @@ A_COMPANY = re.compile(
     r"\s+(?:A\.?Ş\.?|AS|FK|Fk|SK|Futbol\s+Kulübü(?:\s+A\.?Ş\.?)?)\.?$",
     re.I)
 
+# EVERY FOOTBALL COMPETITION beIN's OWN GUIDE MARKS LIVE, and not one
+# league of it.
+#
+# This carried a single line — the Turkish league — and everything else
+# beIN broadcasts reached the board only if some listings page happened
+# to list it first. Said plainly, twice:
+#
+#     "لما احكيلك استخدم مصدر bein sports qatar و تروح تستخدم مصدر اخر
+#      شو بكون مشكلتك؟"
+#
+# and the measurement agreed: beIN's guide carries 403 live-marked
+# programmes, of which this read four.
+#
+# The competitions below are the football ones beIN actually marks live,
+# counted off its own guide rather than guessed at:
+#
+#     16  English Premier League          10  French Ligue 1
+#     10  Spanish LaLiga                   9  UEFA Champions League
+#      6  EFL Championship                 4  Turkish Super League
+#      4  Ligue 2                          3  UEFA Youth League
+#      3  LaLiga Hypermotion              20  FIFA Women's World Cup
+#
+# and what is NOT here is as measured: 43 tennis, 4 baseball, 3 handball,
+# a padel and seven studio hours all carry "vs" in a title and none of
+# them is a fixture between two clubs. They are excluded by never being
+# named, which is why this is a list of competitions and not a rule about
+# titles.
+#
+# The board's own filter still has the last word — a competition nobody
+# asked for is dropped by wanted() exactly as it is from every other
+# source — so the Arabic names here are what that filter reads, and they
+# are written to say what the competition IS rather than to get it past
+# anything. Measured against the filter as it stands:
+#
+#   kept     the Premier League, LaLiga, Ligue 1, the Champions League,
+#            the Championship, the Süper Lig, the Women's World Cup
+#   refused  LaLiga Hypermotion, Ligue 2 and League Two, exactly as they
+#            are refused from every listings page, because second and
+#            fourth tiers were never asked for. They are listed anyway:
+#            what beIN broadcasts is a fact about beIN, and the day one
+#            of them is wanted it is wanted in ONE place, not here.
+_BEIN = "bein_sports_qatar_epg.xml"
 OUR_OWN_FIXTURES = (
     # (guide, mark, the competition in the guide's own words, what to
     #  call it on the board)
-    ("bein_sports_qatar_epg.xml", "",
-     re.compile(r"Turkish Super League", re.I), "الدوري التركي الممتاز"),
+    (_BEIN, "", re.compile(r"English Premier League", re.I),
+     "الدوري الإنجليزي الممتاز"),
+    # Before the plain LaLiga line, which is a substring of this one.
+    (_BEIN, "", re.compile(r"LaLiga Hypermotion", re.I),
+     "دوري الدرجة الثانية الإسباني"),
+    (_BEIN, "", re.compile(r"Spanish LaLiga|\bLiga\s*-\s*J\d+\s*-\s*FOOTBALL",
+                           re.I), "الدوري الإسباني"),
+    (_BEIN, "", re.compile(r"\bLigue\s*2\b", re.I),
+     "دوري الدرجة الثانية الفرنسي"),
+    (_BEIN, "", re.compile(r"\bLigue\s*1\b", re.I), "الدوري الفرنسي"),
+    (_BEIN, "", re.compile(r"UEFA Youth League", re.I),
+     "دوري أبطال أوروبا للشباب"),
+    (_BEIN, "", re.compile(r"UEFA Champions League", re.I),
+     "دوري أبطال أوروبا"),
+    (_BEIN, "", re.compile(r"\bChampionship\b", re.I),
+     "الدوري الإنجليزي الدرجة الأولى"),
+    (_BEIN, "", re.compile(r"\bLeague\s+Two\b", re.I),
+     "دوري الدرجة الرابعة الإنجليزي"),
+    (_BEIN, "", re.compile(r"Turkish Super League|Championnat de Turquie",
+                           re.I), "الدوري التركي الممتاز"),
+    (_BEIN, "", re.compile(r"Fifa Women World Cup", re.I),
+     "كأس العالم للسيدات"),
 )
 
 
@@ -572,6 +651,24 @@ def fixtures_our_guides_have(floor=None, ceiling=None) -> list[dict]:
             if not A_LIVE_AIRING.search(row["title"]):
                 repeats += 1
                 continue
+            # EXACTLY ONE SEPARATOR, because beIN Qatar writes every
+            # fixture as "A vs B - Competition" and a title that does not
+            # is not a fixture in that grid. Two of the day's live-marked
+            # titles prove both directions:
+            #
+            #   "Bein Champions - UEFA Champions League 2026-2027"
+            #        no "vs" at all — a studio hour, read as a fixture
+            #        between a club called Bein Champions and one called
+            #        UEFA Champions League
+            #   "Olympique Lyonnais vs Lyon vs Auxerre - French Ligue 1"
+            #        two of them — beIN's own slip, and no way to know
+            #        which two of the three names are the clubs
+            #
+            # A row that reaches the board is a row a viewer is told to
+            # turn to a channel for, so an ambiguous one is refused
+            # rather than guessed at.
+            if len(VERSUS.findall(f" {norm(NOISE.sub(' ', row['title']))} ")) != 1:
+                continue
             home, away = fixture_in(row["title"])
             home, away = a_club(home), a_club(away)
             if not home or not away:
@@ -589,10 +686,54 @@ def fixtures_our_guides_have(floor=None, ceiling=None) -> list[dict]:
             log(f"  {os.path.basename(path)}: {found} live {competition}, "
                 f"{repeats} repeat(s) of them ignored")
 
-    seen, kept = set(), []
+    return one_row_per_fixture(out)
+
+
+def one_row_per_fixture(out: list[dict]) -> list[dict]:
+    """One row per match, however many of beIN's own feeds carry it.
+
+    beIN shows a match on its Arabic channel, its English one, its French
+    one and sometimes in 4K, each as its own programme starting at its own
+    minute. Counted on one Saturday: Manchester City v Coventry on beIN 1
+    at 13:45 and beIN EN 1 at 14:00, Real Madrid v Inter on beIN 1 at
+    18:30 and beIN EN 1 at 19:00, Arsenal v Chelsea on two. Left alone
+    they are two rows for one match, which is the fault this week began
+    with, arriving from a new direction.
+
+    They are folded on the same two anchors used everywhere else here —
+    ONE CLUB, EXACTLY, and the competition — inside the window a grid's
+    build-up can occupy. A club plays one match in two hours, so two rows
+    of one competition sharing a club inside that window are one match.
+
+    THE LATEST START WINS, and that is not arbitrary. The build-up is what
+    makes the starts differ: the Arabic feed opens with a studio and the
+    English one joins at the whistle, so the later of the two is the one
+    nearer the kickoff.
+    """
+    kept: list[dict] = []
     for event in sorted(out, key=lambda one: one["start"]):
-        key = (event["start"], event["title"])
-        if key not in seen:
-            seen.add(key)
-            kept.append(event)
-    return kept
+        for already in kept:
+            if already["competition"] != event["competition"]:
+                continue
+            if abs(already["start"] - event["start"]) > ONE_FIXTURE_A_DAY:
+                continue
+            if not one_club_matches(already["title"], event["title"]):
+                continue
+            if abs(already["start"] - event["start"]) <= SLACK:
+                # One match on several of beIN's feeds. The later start is
+                # nearer the kickoff — the earlier one opened with a
+                # studio — and every feed carrying it is a place to watch.
+                already["start"] = max(already["start"], event["start"])
+                for channel in event["channels"]:
+                    if channel not in already["channels"]:
+                        already["channels"].append(channel)
+            # Further out it is a REPEAT THAT KEPT THE LIVE MARK, which
+            # beIN's own guide does: Burnley v Bristol City is marked live
+            # on beIN XTRA 4 at 13:50 and again on beIN EN 1 twelve hours
+            # later. The first is the match. The second is neither a
+            # second row nor a channel to send anybody to at 13:50, so it
+            # is dropped whole.
+            break
+        else:
+            kept.append(dict(event, channels=list(event["channels"])))
+    return sorted(kept, key=lambda one: one["start"])

@@ -47,6 +47,12 @@ FRESH_MINUTES = 60
 
 REGION_INK = (150, 176, 208, 255)
 
+# The width the region gets on the left of a row. It was 108 with a clock
+# above the region and the region shrunk to 16px underneath it; the clock
+# is gone, so the region has the whole column and the headline starts in
+# the same place it always did.
+REGION_COLUMN = 108
+
 
 # ARABIC IS DRAWN SMALLER THAN LATIN AT THE SAME NOMINAL SIZE, and on a
 # board read from across a room that is the difference between a
@@ -124,19 +130,33 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
         if index % 2 == 0:
             pen.rounded_rectangle(band, radius=12, fill=PANEL)
 
-        published = story["start"].astimezone(viewer)
         age = (now - story["start"]).total_seconds() / 60
         fresh = age <= FRESH_MINUTES
 
-        # The hour, and the region beneath it: a reader scanning for
-        # Jordan should find it without reading a headline first.
-        draw_text(pen, (PAD + 4, y + 14), published.strftime("%H:%M"), 23,
-                  ACCENT if fresh else MUTED)
+        # THE HOUR IS NOT DRAWN ANY MORE. "شيل الوقت بس يكون مخفي" — and
+        # it earns its removal twice over. On a fixtures board a clock is
+        # the point: it says when to be back. On a bulletin every story
+        # has already happened, so a column of six times said nothing a
+        # reader could act on and took the width the region needed.
+        #
+        # It is still READ, and that is the "مخفي" half: the hour orders
+        # the page, decides what is fresh enough to point at, and is what
+        # the reader refuses a story for not having. It is simply not
+        # something the eye has to step over on its way to the headline.
+        #
+        # What is left in that column is the region, which is what a
+        # reader scanning for Jordan is actually looking for, at the size
+        # the clock used to take and lit when the story is inside the
+        # hour.
         region = story.get("region_name", "")
-        draw_text(pen, (PAD + 4, y + 44), region, for_script(region, 16),
-                  REGION_INK, thin=True)
+        if region:
+            at = size_that_fits(region, for_script(region, 21),
+                                for_script(region, 14), REGION_COLUMN - 12)
+            draw_text(pen, (PAD + 4, y + (height - 8) // 2), region, at,
+                      ACCENT if fresh else REGION_INK,
+                      anchor="lm", thin=not fresh)
 
-        head_x = PAD + 108
+        head_x = PAD + REGION_COLUMN
         room_for_head = W - PAD - head_x - 12
 
         # THE SOURCE IS MEASURED FIRST, because the line under the
