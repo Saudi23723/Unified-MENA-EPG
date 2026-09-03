@@ -2198,6 +2198,98 @@ def gate_turkeys_own_league_is_read() -> None:
           spor_ekrani.collect_fixtures("<html></html>"), [])
 
 
+def gate_the_other_sports_name_a_real_channel() -> None:
+    """The second board's source, and the two traps it walks past.
+
+    Eight pages were asked for F1, darts, boxing, MMA, MotoGP, tennis,
+    golf and the Rugby World Cup. Six are no use, and the instructive
+    pair are the ones that looked perfect: pdc.tv lists 45 darts events
+    and motogp.com 878 MotoGP ones, and NEITHER NAMES A BROADCASTER. A
+    calendar is not a listing, and no board here may put a channel on an
+    event unless somebody published it.
+
+    wheresthematch does, in a row that carries everything at once — and
+    the time is an INSTANT, <time datetime="...+01:00">, not a printed
+    clock to be placed in a timezone. That distinction has cost this
+    project a day and then an hour on two other sources.
+    """
+    import world_sport_on_tv as world
+
+    def row(fixture, iso, competition, channels, home="", away=""):
+        marks = "".join(f'<a href="#">{c}</a>' for c in channels)
+        return (f'<tr><td class="home-team">{home}</td>'
+                f'<td class="fixture-details">{fixture}</td>'
+                f'<td class="away-team">{away}</td>'
+                f'<td class="start-details">'
+                f'<time datetime="{iso}">clock</time></td>'
+                f'<td class="competition-name">{competition}</td>'
+                f'<td class="channel-details">{marks}</td></tr>')
+
+    def rules(name):
+        return [page[2:] for page in world.PAGES if page[1] == name][0]
+
+    f1 = world.collect(
+        "<table>" + row("Italian Grand Prix Practice 1 - Monza",
+                        "2026-09-04T11:30:00+01:00", "F1 2026 season",
+                        ["Sky Sports F1", "Sky Sports Main Event"])
+        + "</table>", "F1", *rules("F1"))
+    check("WORLD", "the grand prix is read with every channel named",
+          (f1[0]["title"], f1[0]["channels"]),
+          ("Italian Grand Prix Practice 1 - Monza",
+           ["Sky Sports F1", "Sky Sports Main Event"]))
+    check("WORLD", "and 11:30 in London is 10:30 UTC, from the attribute",
+          f"{f1[0]['start']:%Y-%m-%d %H:%M}", "2026-09-04 10:30")
+
+    # THE HEADING LIES HERE TOO, and it is the Jordanian youth cup again
+    # in another language: every row on the MotoGP page today reads "FIM
+    # JuniorGP World Championship" and is filed under the competition
+    # "MotoGP 2026 season". Reading the page would put schoolboy racing
+    # on a board asked for MotoGP.
+    moto = world.collect(
+        "<table>"
+        + row("FIM JuniorGP World Championship Moto3 Race 1",
+              "2026-09-06T09:45:00+01:00", "MotoGP 2026 season",
+              ["TNT Sports 7"])
+        + row("San Marino Grand Prix Race - Misano",
+              "2026-09-13T13:00:00+01:00", "MotoGP 2026 season",
+              ["TNT Sports 2"])
+        + "</table>", "MotoGP", *rules("MotoGP"))
+    check("WORLD", "a junior championship is not MotoGP",
+          [event["title"] for event in moto],
+          ["San Marino Grand Prix Race - Misano"])
+
+    # The reader asked for the Rugby WORLD CUP, not the rugby season.
+    rugby = world.collect(
+        "<table>"
+        + row("England v Wales", "2026-09-20T15:00:00+01:00",
+              "Premiership Rugby Cup", ["TNT Sports 1"], "England", "Wales")
+        + row("South Africa v New Zealand", "2026-10-01T16:00:00+01:00",
+              "Rugby World Cup", ["ITV1"], "South Africa", "New Zealand")
+        + "</table>", "Rugby", *rules("Rugby"))
+    check("WORLD", "the World Cup is kept and the league season is not",
+          [event["title"] for event in rugby],
+          ["South Africa - New Zealand"])
+
+    # A row with no instant is refused rather than dated from the page,
+    # and a row that says the channel is not known yet names none.
+    blind = world.collect(
+        '<table><tr><td class="fixture-details">Some Fight</td>'
+        '<td class="start-details">Saturday</td>'
+        '<td class="competition-name">Boxing</td>'
+        '<td class="channel-details"><a>TBC</a></td></tr></table>',
+        "Boxing", None, None)
+    check("WORLD", "a row with no instant is refused, never guessed at",
+          blind, [])
+    tbc = world.collect(
+        "<table>" + row("Some Fight", "2026-09-20T20:00:00+01:00",
+                        "Boxing", ["TBC"]) + "</table>",
+        "Boxing", None, None)
+    check("WORLD", "and 'TBC' is not a channel", tbc[0]["channels"], [])
+
+    check("WORLD", "an empty page is not an error",
+          world.collect("<html></html>", "F1", *rules("F1")), [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2220,7 +2312,8 @@ def main() -> int:
                  gate_the_jordanian_league_is_read,
                  gate_a_guide_repeating_its_own_name_is_measured,
                  gate_a_long_wait_says_how_long,
-                 gate_turkeys_own_league_is_read):
+                 gate_turkeys_own_league_is_read,
+                 gate_the_other_sports_name_a_real_channel):
         try:
             gate()
         except Exception as exc:
