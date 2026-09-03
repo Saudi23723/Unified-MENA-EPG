@@ -49,6 +49,7 @@ from PIL import Image
 import american_sport_on_tv
 import own_guides
 import sky_epg
+import sports_media_watch
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
@@ -393,6 +394,20 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # and refusing it for want of a channel that page never had would
     # throw away the better source of the two.
     own_guides.add_channels_by_name(inside)
+
+    # AND THE NETWORK ON EVERY NFL ROW, which none of them had.
+    #
+    #     17:20  Patriots - Seahawks          (no channel)
+    #     10:00  Falcons - Steelers           (no channel)   … seven of seven
+    #
+    # The games are here because the league's own site is read for them
+    # and gives a real UTC instant. The network that used to sit in its
+    # screen-reader text is not reaching the row any more, so seven games
+    # sat on a board whose whole purpose is answering where to watch one.
+    #
+    # It names no game of its own — every row it returns is a channel
+    # looking for a game the league already put here.
+    sports_media_watch.add_channels(session, inside)
 
     # Two sources, one broadcast, one row — after the channels are in, so
     # a row folded away leaves its channel behind on the row that stays.

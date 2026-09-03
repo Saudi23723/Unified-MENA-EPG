@@ -3247,6 +3247,101 @@ def gate_the_window_keeps_moving() -> None:
           1 <= video.GRACE_LAPS <= 5, True)
 
 
+def gate_every_american_game_names_its_network() -> None:
+    """Seven NFL games on the board and not one said where to watch it.
+
+        17:20  Patriots - Seahawks          (no channel)
+        17:35  49ers - Rams                 (no channel)
+        10:00  Falcons - Steelers           (no channel)   … seven of seven
+
+    They are on the board because the LEAGUE'S OWN SITE is read for them
+    and gives a real UTC instant. What it used to give as well — the
+    network, in its screen-reader text — stopped reaching the row, so
+    seven games sat on a board whose whole purpose is answering "where do
+    I watch this".
+
+    sportsmediawatch prints one game per row with the networks beside the
+    teams AND AN INSTANT INSIDE THE ROW, which is the only thing that
+    made it usable: counting instants on a page proves nothing about
+    which game each belongs to.
+
+    ITS TIMEZONE IS NEVER DECIDED, and that is the point of the twelve
+    hours. Two NFL teams do not meet twice in half a day, so a row whose
+    clubs match a board row inside that window is that game whatever zone
+    the page writes in. If the page switched zones nothing moves; if it
+    switched by more than half a day the channel would fail to attach,
+    which is the safe direction.
+    """
+    print("\nEvery American game names its network — NFL")
+    from datetime import datetime, timedelta, timezone
+
+    import sports_media_watch as smw
+
+    # THE FOUR SHAPES THE PAGE ACTUALLY PRINTS, copied off it.
+    measured = (
+        ("NFL Kickoff Game New England Patriots vs Seattle Seahawks NBC, "
+         "Peacock , NFL+, Telemundo | TSN1/3/4, TSN+",
+         "patriots", "seahawks", ["NBC", "Peacock", "NFL+", "Telemundo"]),
+        ("Atlanta Falcons vs Pittsburgh Steelers FOX, FOX One",
+         "falcons", "steelers", ["FOX", "FOX One"]),
+        ("Thursday Night Football Detroit Lions vs Buffalo Bills Prime "
+         "Video , NFL+ | A tbd | H tbd",
+         "lions", "bills", ["Prime Video", "NFL+"]),
+        # THE ONE THAT BROKE THE FIRST ATTEMPT: an international game
+        # prints the VENUE after the away club, so the last word before
+        # the network is "Australia".
+        ("NFL International Series San Francisco 49ers vs Los Angeles Rams "
+         "Melbourne, Australia Netflix, NFL+ | A tbd | H tbd | TSN1/4, TSN+",
+         "49ers", "rams", ["Netflix", "NFL+"]),
+    )
+    for cell, home, away, networks in measured:
+        got_home, got_away, got_channels = smw.a_game(cell)
+        check("NFL", f"home is {home}", got_home, home)
+        check("NFL", f"  and {away} is in the away side", away in got_away,
+              True)
+        check("NFL", f"  and it names {networks[0]}",
+              [one for one in networks if one in got_channels], networks)
+
+    # A heading row is not a game.
+    check("NFL", "a heading row names nobody",
+          smw.a_game("Time Game / TV"), ("", set(), []))
+
+    # END TO END, on rows shaped like the board's.
+    when = datetime(2026, 9, 10, 0, 20, tzinfo=timezone.utc)
+    board = [{"start": when, "title": "Patriots - Seahawks", "channels": []},
+             {"start": when, "title": "49ers - Rams", "channels": []},
+             # A week later, same clubs. It must NOT take the channel.
+             {"start": when + timedelta(days=7),
+              "title": "Patriots - Seahawks", "channels": []}]
+    rows = [{"start": when, "home": "patriots",
+             "away": {"seattle", "seahawks"}, "channel": "NBC"},
+            {"start": when, "home": "49ers",
+             "away": {"los", "angeles", "rams", "melbourne", "australia"},
+             "channel": "Netflix"}]
+    was = smw.broadcasts
+    try:
+        smw.broadcasts = lambda session: rows
+        smw.add_channels(None, board)
+    finally:
+        smw.broadcasts = was
+
+    check("NFL", "the game gets the network the page named",
+          board[0]["channels"], ["NBC"])
+    check("NFL", "and the venue does not stop the away club matching",
+          board[1]["channels"], ["Netflix"])
+    check("NFL", "and the same clubs a WEEK later take nothing",
+          board[2]["channels"], [])
+    check("NFL", "two clubs do not meet twice in half a day",
+          smw.SAME_GAME <= timedelta(hours=12), True)
+
+    # AND IT NAMES NO GAME OF ITS OWN. A page that could invent a fixture
+    # could invent one wrongly; this one only ever answers "where".
+    import inspect
+    body = inspect.getsource(smw)
+    check("NFL", "it only ever adds channels, never rows",
+          "def events(" in body or "fetch_events" in body, False)
+
+
 def gate_a_board_changes_only_when_its_content_does() -> None:
     """A clock drawn into a picture is a channel that goes off the air.
 
@@ -5290,6 +5385,7 @@ def main() -> int:
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
                  gate_a_board_changes_only_when_its_content_does,
+                 gate_every_american_game_names_its_network,
                  gate_each_channel_wears_its_own_mark,
                  gate_the_channel_comes_from_the_broadcasters_own_feed,
                  gate_the_second_board_names_channels_like_the_first,
