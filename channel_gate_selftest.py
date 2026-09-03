@@ -2870,7 +2870,16 @@ def gate_the_window_keeps_moving() -> None:
         # one continuous timeline with nothing to declare inside it. The
         # reel really does start over at the end, so that break stays —
         # once per lap.
-        breaks = second.count("#EXT-X-DISCONTINUITY")
+        # COUNTED AS WHOLE LINES, not as a substring. "#EXT-X-
+        # DISCONTINUITY" is a prefix of "#EXT-X-DISCONTINUITY-SEQUENCE",
+        # so a substring count reads the header that declares how many
+        # breaks have scrolled past as though it were a break itself —
+        # and this gate duly failed by exactly one the day that header
+        # was added. Counting a word in a file is not finding a tag in
+        # it, which is a lesson this repository has already paid for
+        # once on a listings page.
+        breaks = sum(1 for line in second.splitlines()
+                     if line.strip() == "#EXT-X-DISCONTINUITY")
         laps = second.count("#EXTINF") // len(segments)
         check("WINDOW", "one break per lap of the reel, not one per board",
               (breaks, breaks == laps), (laps, True))
@@ -2897,9 +2906,64 @@ def gate_the_window_keeps_moving() -> None:
         # come back: any one of them stops a player reloading.
         for tag in ("#EXT-X-ENDLIST", "PLAYLIST-TYPE:VOD"):
             check("WINDOW", f"{tag} never appears", tag in second, False)
-        check("WINDOW", "and the window is really thirty minutes long",
+        check("WINDOW", "and the window is as long as it claims",
               second.count("#EXTINF") * video.HOLD,
               video.WINDOW_MINUTES * 60)
+
+        # THE WINDOW MUST OUTLAST A MISSED BUILD, which is the fault that
+        # actually took both channels off the air:
+        #
+        #     last build 15:32 · reported black at 16:23 · 56 minutes
+        #     the window covered 30 · so it ran dry at 16:02
+        #
+        # Nothing had broken. The guide had today, the boards were drawn
+        # for today, and every segment the playlist named was present and
+        # probed clean. GitHub had simply dropped the schedule again —
+        # which it does, which this repository knows, and which the
+        # window was sized as though it did not.
+        #
+        # An hour is the longest a dropped schedule goes unnoticed here,
+        # because the watch that catches it runs hourly. So the window
+        # must carry more than an hour with room to spare, and a number
+        # chosen from what the build is SUPPOSED to do is not allowed
+        # back.
+        AN_OUTAGE = 60 * 60
+        check("WINDOW", "IT OUTLASTS AN HOUR WITH NO BUILD AT ALL",
+              video.WINDOW_MINUTES * 60 > AN_OUTAGE * 2, True)
+        check("WINDOW", "with this much runway left after that hour",
+              f"{(video.WINDOW_MINUTES * 60 - AN_OUTAGE) / 3600:.0f}h",
+              "5h")
+
+        # RFC 8216 §6.2.2: a window that slides past an EXT-X-DISCONTINUITY
+        # must say how many have gone, or a player cannot line up the
+        # breaks it has already seen with the ones it is being handed.
+        check("WINDOW", "the breaks that scrolled off are counted",
+              any(line.startswith("#EXT-X-DISCONTINUITY-SEQUENCE:")
+                  for line in second.splitlines()), True)
+
+    # And that count moves with the window rather than sitting still.
+    with tempfile.TemporaryDirectory() as room:
+        out = os.path.join(room, "count.m3u8")
+        reel = [f"other_sports_{n}.aa{n}.ts" for n in range(6)]
+
+        def sequences(at):
+            video.write_playlist(reel, out, now=at)
+            lines = open(out, encoding="utf-8").read().splitlines()
+            grab = lambda tag: int(next(  # noqa: E731
+                one.split(":")[1] for one in lines if one.startswith(tag)))
+            return (grab("#EXT-X-MEDIA-SEQUENCE"),
+                    grab("#EXT-X-DISCONTINUITY-SEQUENCE"))
+
+        base = 1788449520
+        first_media, first_breaks = sequences(base)
+        later_media, later_breaks = sequences(base + 3600)
+
+        check("WINDOW", "an hour on, the window has moved 180 segments",
+              later_media - first_media, 180)
+        check("WINDOW", "and exactly 30 reel wraps went with it",
+              later_breaks - first_breaks, 180 // len(reel))
+        check("WINDOW", "a break count never goes backwards",
+              later_breaks >= first_breaks, True)
 
     # The pass that encodes nothing must still write it. Proved on the
     # source, because reaching this path needs an ffmpeg and a reel: the

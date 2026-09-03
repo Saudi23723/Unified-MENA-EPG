@@ -74,11 +74,29 @@ SCREENS = {
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
 # the channel is live and the window rolls forward with each build.
 #
-# It has to outlast the gap between builds or a player reaches the end and
-# waits on a blank screen. The board rebuilds every ten minutes at worst,
-# so thirty is three times the room it needs and still a five-kilobyte
-# file instead of a hundred-and-thirty.
-WINDOW_MINUTES = 30
+# IT HAS TO OUTLAST THE GAP BETWEEN BUILDS. A player that reaches the end
+# of the window and finds the file unchanged has nothing left to play,
+# and that is a black screen — not buffering, not a stale board, nothing.
+#
+# This said thirty, on the reasoning that "the board rebuilds every ten
+# minutes at worst, so thirty is three times the room it needs". THAT
+# ASSUMPTION WAS WRONG AND THE CHANNEL DIED OF IT:
+#
+#     last build 15:32 · reported black at 16:23 · 56 minutes
+#     the window covered 30 · so it ran dry at 16:02
+#
+# Nothing had failed. The guide had today, the boards were drawn for
+# today, every segment the playlist named was present and probed clean —
+# 1280x720, 12 fps, h264 and AAC. The build simply had not run, because
+# GitHub drops sub-hourly schedules, which is a thing this repository
+# already knows and works around everywhere else.
+#
+# So the window is no longer sized by what the build is SUPPOSED to do.
+# Six hours is longer than any outage yet seen, longer than the hourly
+# watch takes to notice a dropped schedule and dispatch one by hand, and
+# still only about fifty kilobytes of text. The channel now survives a
+# missed build instead of dying on it.
+WINDOW_MINUTES = 6 * 60
 
 # HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
 # guide draws.
@@ -411,11 +429,22 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     # window's own length finds its place still in it and plays straight
     # on.
     opens_at = int(now // HOLD)
+
+    # HOW MANY BREAKS HAVE ALREADY SCROLLED PAST, which RFC 8216 §6.2.2
+    # requires of any sliding window that drops a segment carrying an
+    # EXT-X-DISCONTINUITY: without it a player cannot line up the breaks
+    # it has seen with the ones the new window is describing, and some
+    # re-sync rather than guess. The reel wraps once every `reel`
+    # segments and the window opens at `opens_at`, so exactly this many
+    # wraps are behind it.
+    breaks_gone = opens_at // reel
+
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{HOLD}",
         f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
+        f"#EXT-X-DISCONTINUITY-SEQUENCE:{breaks_gone}",
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
