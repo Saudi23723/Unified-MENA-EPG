@@ -2290,6 +2290,73 @@ def gate_the_other_sports_name_a_real_channel() -> None:
           world.collect("<html></html>", "F1", *rules("F1")), [])
 
 
+def gate_the_american_game_names_its_network() -> None:
+    """"This one is on NBC" — asked for in those words, and hard to get.
+
+    Nine listings pages were asked and every one is shut: livesportsontv
+    answers 200 with 913 KB and NOTHING holding a channel under anything
+    holding a clock; tsn.ca names only the word TSN; sportsnet.ca is an
+    18 KB shell; cbc.ca is a 404; nba.com ships __NEXT_DATA__ and no
+    channel; livesportontv, pdc.tv and motogp.com have the events and no
+    broadcaster at all. They assemble their schedules in a browser.
+
+    The league's own site does not. It writes each game as one complete
+    line in its SCREEN-READER text — the most stable part of any page,
+    because accessibility labels are the last thing anybody rewrites —
+    beside a real UTC instant:
+
+        <time datetime="2026-09-10T00:20:00Z">
+        Patriots at Seahawks, Wednesday, September 9th, 8:20 PM, NBC
+
+    That instant is why this source is safe. "8:20 PM" names no zone, and
+    reading a printed clock is the fault this project has paid for most.
+    """
+    import american_sport_on_tv as american
+
+    page = ("<ul>"
+            '<li><div><time datetime="2026-09-10T00:20:00Z">8:20 PM</time>'
+            '<span class="sr-only">Patriots at Seahawks, Wednesday, '
+            'September 9th, 8:20 PM, NBC</span></div></li>'
+            '<li><div><time datetime="2026-09-11T00:35:00.000Z">8:35 PM'
+            '</time><span class="sr-only">49ers at Rams, Thursday, '
+            'September 10th, 8:35 PM, NETFLIX</span></div></li>'
+            # No instant of its own — and it sits in a list whose FIRST
+            # game has one. The first run of this reader gave it 00:20Z,
+            # the Patriots' kickoff.
+            '<li><div><span class="sr-only">Jets at Bills, Sunday, '
+            'September 20th, 1:00 PM, CBS</span></div></li>'
+            '<li><div><time datetime="2026-09-21T17:00:00Z">1:00 PM</time>'
+            '<span class="sr-only">Colts at Titans, Sunday, September '
+            '20th, 1:00 PM, TBD</span></div></li>'
+            "</ul>")
+    read = american.collect(page)
+
+    check("USA", "the game names the network showing it",
+          [(event["title"], event["channels"]) for event in read[:2]],
+          [("Patriots - Seahawks", ["NBC"]), ("49ers - Rams", ["NETFLIX"])])
+    check("USA", "and the kickoff is the instant, not the printed clock",
+          f"{read[0]['start']:%Y-%m-%d %H:%M}", "2026-09-10 00:20")
+
+    # ONE STEP TOO FAR REACHES THE WHOLE LIST. A game with no instant of
+    # its own must be refused, never dated from its neighbour — the fault
+    # that once stamped 1876 fixtures with a single date, and it happened
+    # here on the first run.
+    check("USA", "a game with no instant of its own is refused",
+          [event["title"] for event in read if "Jets" in event["title"]], [])
+    check("USA", "and nobody inherits a neighbour's kickoff",
+          sorted({f"{event['start']:%H:%M}" for event in read}),
+          ["00:20", "00:35", "17:00"])
+
+    # "TBD" is not a network. The row still shows — the game is real —
+    # and it shows with no channel rather than a made-up one.
+    tbd = [event for event in read if "Colts" in event["title"]]
+    check("USA", "TBD is not a network, and the game is still a game",
+          (len(tbd), tbd[0]["channels"] if tbd else None), (1, []))
+
+    check("USA", "an empty page is not an error",
+          american.collect("<html></html>"), [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2313,7 +2380,8 @@ def main() -> int:
                  gate_a_guide_repeating_its_own_name_is_measured,
                  gate_a_long_wait_says_how_long,
                  gate_turkeys_own_league_is_read,
-                 gate_the_other_sports_name_a_real_channel):
+                 gate_the_other_sports_name_a_real_channel,
+                 gate_the_american_game_names_its_network):
         try:
             gate()
         except Exception as exc:
