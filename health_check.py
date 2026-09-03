@@ -144,8 +144,31 @@ STANDIN_TITLE = re.compile(
 CEILINGS_FILE = "guide_ceilings.json"
 
 
-def standin_share(path: str) -> tuple[int, int]:
-    """(stand-in rows, total rows) for one published guide."""
+def standin_share(path: str, sourceless: tuple[str, ...] = ()) -> tuple[int, int]:
+    """(stand-in rows, total rows) for one published guide.
+
+    `sourceless` names channels whose upstream declares them and schedules
+    NOTHING for them — a permanent state, not a failing one. They are left
+    out of the ratio because including them measures the wrong thing.
+
+    beIN Türkiye is the worked example. Four of its twelve channels are
+    Tivibu Spor, and epgshare01's TR3 feed lists all four and gives them
+    zero programmes; every row this guide publishes for them is honest
+    ignorance. Counting those rows made the file read 47% while the eight
+    beIN channels — the ones anybody watches — sat between 0% and 13%. The
+    ceiling had already been raised 25 → 45 to accommodate it, and it went
+    over anyway, because the dead share is not a constant: it was sixty
+    rows per channel on 1 September and eighty-three on the 3rd, since a
+    guide that reaches further ahead has more empty hours to fill. A
+    ceiling cannot be calibrated against a number that grows on its own.
+
+    Left out, the same file reads 5% — which is exactly what it measured
+    when it was known to be working. That is the number the ceiling was
+    always meant to be watching.
+
+    They are named in guide_ceilings.json rather than here, so adding one
+    is a reviewable decision, and they are still reported every run.
+    """
     try:
         root = ET.parse(path).getroot()
     except Exception:
@@ -154,6 +177,8 @@ def standin_share(path: str) -> tuple[int, int]:
     for programme in root.findall("programme"):
         title = (programme.findtext("title") or "").strip()
         cid = programme.get("channel")
+        if cid in sourceless:
+            continue
         slot = per.setdefault(cid, [0, 0, set()])
         slot[0] += 1
         if not STANDIN_TITLE.search(title):
@@ -244,13 +269,23 @@ def check_ceilings(now: datetime) -> None:
         fail(f"{CEILINGS_FILE} is unreadable: {exc}")
         return
 
+    # Channels their own source declares and never schedules. Reported,
+    # never counted — see standin_share for why counting them measures
+    # the wrong thing.
+    no_source = ceilings.get("_no_source", {})
+    for path, channels in sorted(no_source.items()):
+        for cid in channels:
+            note(f"{path}: {cid} has no source — its feed lists the "
+                 f"channel and schedules nothing for it, so its rows are "
+                 f"left out of the stand-in ratio")
+
     print(f"\n{'file':34} {'stand-in':>9} {'ceiling':>8}")
     for path, ceiling in sorted(ceilings.items()):
         if not path.endswith(".xml") or not isinstance(ceiling, (int, float)):
             continue
         if not os.path.exists(path):
             continue
-        standin, total = standin_share(path)
+        standin, total = standin_share(path, tuple(no_source.get(path, ())))
         if not total:
             continue
         share = round(100 * standin / total)
