@@ -2792,6 +2792,28 @@ def gate_the_window_keeps_moving() -> None:
               sequence_of(second) > sequence_of(first), True)
         check("WINDOW", "and it moved by the ten minutes that passed",
               sequence_of(second) - sequence_of(first), 600 // video.HOLD)
+
+        # AND THE LIST MOVED WITH THE NUMBER, which is the whole of it.
+        #
+        # MEDIA-SEQUENCE numbers the FIRST segment in the window, so a
+        # player uses it to work out what happened while it was away:
+        # thirty more, so thirty have left the front, so what I was
+        # playing is thirty places further back.
+        #
+        # The first version of this fix moved the number and left the
+        # list identical. A player was told thirty segments had gone from
+        # a list that had not changed at all — could not find its place,
+        # gave up, and re-synced. Every ten minutes, on both channels.
+        # That was the buffering, and it was introduced by fixing the
+        # freeze. Half a fix here is worse than none.
+        def played(text):
+            return [line for line in text.splitlines()
+                    if line.strip().endswith(".ts")]
+
+        moved = sequence_of(second) - sequence_of(first)
+        was, now_ = played(first), played(second)
+        check("WINDOW", "and the segments moved with it, so nobody re-syncs",
+              was[moved:] == now_[:len(was) - moved], True)
         check("WINDOW", "it never goes backwards between passes",
               sequence_of(first) < sequence_of(second), True)
 
@@ -2812,6 +2834,19 @@ def gate_the_window_keeps_moving() -> None:
               (breaks, breaks == laps), (laps, True))
         check("WINDOW", "so a three-board reel breaks once every three",
               second.count("#EXTINF") // breaks, len(segments))
+
+        # A reel whose length does not divide the shift is the case that
+        # would hide a wrong answer, so it is the one that is checked.
+        for reel in (7, 10, 13):
+            many = [f"r{n}.ts" for n in range(reel)]
+            video.write_playlist(many, out, now=1_000_000)
+            one = open(out, encoding="utf-8").read()
+            video.write_playlist(many, out, now=1_000_000 + 600)
+            two = open(out, encoding="utf-8").read()
+            step = sequence_of(two) - sequence_of(one)
+            a, b = played(one), played(two)
+            check("WINDOW", f"a {reel}-board reel slides by the same step",
+                  a[step:] == b[:len(a) - step], True)
         check("WINDOW", "and the player is told it may read ahead",
               "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
 

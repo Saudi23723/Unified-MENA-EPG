@@ -303,34 +303,52 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     that long. Ten-minute builds live with it comfortably.
     """
     now = now or time.time()
-    per_cycle = max(1, len(segments))
-    cycles = max(1, (WINDOW_MINUTES * 60) // (HOLD * per_cycle))
+    reel = max(1, len(segments))
+    long_enough = max(reel, (WINDOW_MINUTES * 60) // HOLD)
+
+    # A WINDOW THAT ACTUALLY SLIDES.
+    #
+    # This is the second half of the frozen-screen fix, and getting the
+    # first half alone was worse than getting neither. MEDIA-SEQUENCE
+    # numbers the FIRST segment in the window, and a player uses it to
+    # work out what happened while it was away: the sequence went up by
+    # thirty, so thirty segments have left the front, so what I was
+    # playing is now thirty places further back.
+    #
+    # The first fix moved the number every pass and left the list
+    # identical. A player was therefore told thirty segments had been
+    # dropped from a list that had not changed at all — so it could not
+    # find where it was, gave up, and re-synced. Every ten minutes, on
+    # both channels. That is the buffering.
+    #
+    # So the list moves with the number. The reel repeats forever, the
+    # window is half an hour of it, and where the window sits is decided
+    # by the clock: at whole-HOLD tick T the window opens at reel
+    # position T mod (length of reel). A pass ten minutes later opens
+    # thirty positions further along — which is exactly what the sequence
+    # number says, and now it is true. A player away for less than the
+    # window's own length finds its place still in it and plays straight
+    # on.
+    opens_at = int(now // HOLD)
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{HOLD}",
-        f"#EXT-X-MEDIA-SEQUENCE:{int(now // HOLD)}",
+        f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
     ]
-    # ONE DISCONTINUITY PER CYCLE, not one per board.
-    #
-    # It used to be one per board, and that is what a reader photographed:
-    # a spinner between one board and the next, on both channels. A
-    # discontinuity tells a player the clock is about to start over, and a
-    # player answers by tearing its decoder down and building it again —
-    # every twenty seconds, all day.
-    #
-    # The segments now carry their place in the reel (see encode_segment),
-    # so a cycle is one continuous timeline and needs no break inside it.
-    # The reel does start over when it reaches the end, and that is a real
-    # discontinuity, so it is still declared — once, at the top of each
-    # cycle, instead of fourteen times inside it.
-    for _ in range(cycles):
-        lines.append("#EXT-X-DISCONTINUITY")
-        for segment in segments:
-            lines += [f"#EXTINF:{HOLD}.0,", os.path.basename(segment)]
+    # A break only where the reel really starts over, which is the one
+    # place the timeline goes backwards — the segments carry their place
+    # in the reel, so everything between two wraps is continuous.
+    for step in range(long_enough):
+        place = (opens_at + step) % reel
+        if place == 0:
+            lines.append("#EXT-X-DISCONTINUITY")
+        lines += [f"#EXTINF:{HOLD}.0,",
+                  os.path.basename(segments[place])]
+    cycles = long_enough / reel
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
     return cycles

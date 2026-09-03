@@ -1,15 +1,8 @@
 #EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-TARGETDURATION:20
-#EXT-X-MEDIA-SEQUENCE:89421137
+#EXT-X-MEDIA-SEQUENCE:89421153
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-DISCONTINUITY
-#EXTINF:20.0,
-today_matches_0.9082be13.ts
-#EXTINF:20.0,
-today_matches_1.800f456d.ts
-#EXTINF:20.0,
-today_matches_2.aa223c9b.ts
 #EXTINF:20.0,
 today_matches_3.e825bcf4.ts
 #EXTINF:20.0,
@@ -192,3 +185,10 @@ today_matches_7.d39bee8a.ts
 today_matches_8.7eee40a4.ts
 #EXTINF:20.0,
 today_matches_9.2029d15b.ts
+#EXT-X-DISCONTINUITY
+#EXTINF:20.0,
+today_matches_0.9082be13.ts
+#EXTINF:20.0,
+today_matches_1.800f456d.ts
+#EXTINF:20.0,
+today_matches_2.aa223c9b.ts
