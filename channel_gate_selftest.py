@@ -2357,6 +2357,64 @@ def gate_the_american_game_names_its_network() -> None:
           american.collect("<html></html>"), [])
 
 
+def gate_the_second_board_keeps_the_readers_order() -> None:
+    """The second board, and the two things it must never do.
+
+    The reader named the sports and put them in an order — F1, darts with
+    the Premier League first, boxing, MMA, MotoGP, tennis, NFL, NBA,
+    FIBA, golf, the Rugby World Cup, padel — so that order is the order
+    rows appear in, not a sorting by clock. Inside one sport the clock
+    decides, because two bouts on a Saturday are read as they happen.
+
+    A SPORT NOT ASKED FOR CANNOT REACH THE BOARD. The sources carry
+    cricket, snooker, horse racing, speedway, baseball, Aussie rules and
+    a dozen more; none was asked for and none appears.
+
+    AN EVENT WITH NO PUBLISHED CHANNEL DOES NOT APPEAR EITHER, and that
+    is the rule every board here obeys. The one thing this screen must
+    never do is send a viewer to a channel that is not carrying it.
+    """
+    from datetime import datetime, timezone
+
+    import other_sports_epg as board
+
+    def event(sport, title, hour, channels):
+        return {"sport": sport, "title": title, "channels": channels,
+                "competition": sport,
+                "start": datetime(2026, 9, 4, hour, 0, tzinfo=timezone.utc)}
+
+    offered = [
+        event("NFL", "Patriots - Seahawks", 0, ["NBC"]),
+        event("Boxing", "Canelo - Mbilli", 17, ["DAZN"]),
+        event("Boxing", "Taylor - Pili", 9, ["DAZN"]),
+        event("F1", "Italian GP - Race", 13, ["Sky Sports F1"]),
+        event("Tennis", "Alcaraz - Sinner", 20, ["Sky Sports Tennis"]),
+        event("Darts", "Premier League Night 12", 19, ["Sky Sports"]),
+        # Asked for, and nobody has said where it is. It waits.
+        event("Golf", "The Open - Round 2", 11, []),
+        # Never asked for, and on the same pages as the ones that were.
+        event("Cricket", "England - Ireland", 12, ["Sky Sports Cricket"]),
+        event("Snooker", "English Open", 10, ["TNT Sports 1"]),
+    ]
+    kept = board.in_the_readers_order(
+        [one for one in offered if board.wanted(one)])
+
+    check("BOARD2", "the reader's order of sports, not the clock's",
+          [one["sport"] for one in kept],
+          ["F1", "Darts", "Boxing", "Boxing", "Tennis", "NFL"])
+    check("BOARD2", "and inside one sport, the clock",
+          [f"{one['start']:%H:%M}" for one in kept
+           if one["sport"] == "Boxing"],
+          ["09:00", "17:00"])
+    check("BOARD2", "a sport nobody asked for cannot reach the board",
+          [one["title"] for one in kept
+           if one["sport"] in ("Cricket", "Snooker")], [])
+    check("BOARD2", "and nor can an event with no channel named",
+          [one["title"] for one in kept if one["sport"] == "Golf"], [])
+    check("BOARD2", "every row wears its sport's mark",
+          board.row_title(kept[0]), "🏁 Italian GP - Race")
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2381,7 +2439,8 @@ def main() -> int:
                  gate_a_long_wait_says_how_long,
                  gate_turkeys_own_league_is_read,
                  gate_the_other_sports_name_a_real_channel,
-                 gate_the_american_game_names_its_network):
+                 gate_the_american_game_names_its_network,
+                 gate_the_second_board_keeps_the_readers_order):
         try:
             gate()
         except Exception as exc:
