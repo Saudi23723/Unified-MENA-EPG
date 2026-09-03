@@ -931,6 +931,66 @@ def already_on_air(event: dict, collected: list[dict]) -> bool:
     return False
 
 
+# A clock nobody set, wearing a kickoff's clothes.
+#
+# livefootballtv gave four Turkish fixtures ONE instant — 2026-09-06
+# 00:00 UTC — and beIN's own schedule, which this repository builds every
+# hour from beIN's feed, puts them on four different days:
+#
+#     Fenerbahçe vs Beşiktaş         Sat 05-09  19:50 Istanbul
+#     Başakşehir vs Galatasaray      Fri 04-09  19:50
+#     Trabzonspor vs Gençlerbirliği  Sun 06-09  19:50
+#     Göztepe vs Gaziantep           Mon 07-09  19:50
+#
+# Several fixtures on one instant is not by itself wrong — a Saturday
+# board legitimately carries six at 15:00 in London, five at 15:30 in
+# Berlin and eight in the NFL's one o'clock window. Measured on the same
+# board that carried the Turkish four:
+#
+#     11:30 UTC  x6      13:00 UTC  x4      13:30 UTC  x5
+#     14:00 UTC  x7      16:00 UTC  x5      00:00 UTC  x4   <-- this one
+#
+# What separates them is MIDNIGHT. A time that was never read defaults to
+# the start of a day, and that is what 00:00:00 on the dot is: not a
+# kickoff several clubs happen to share, but the absence of one, repeated.
+# No league on this board kicks off at exactly midnight UTC, and none of
+# the five real blocks above comes near it.
+#
+# So a cluster there is refused rather than published. It is the narrow
+# rule and not the general one — one fixture alone at midnight is left
+# alone, because that could be a real late kickoff somewhere; it takes a
+# CROWD at midnight to prove nobody set the clock.
+MIDNIGHT_IS_NOT_A_KICKOFF = 3
+
+
+def refuse_a_defaulted_midnight(events: list[dict]) -> list[dict]:
+    """Drop fixtures dumped on midnight because their time was not read."""
+    at_midnight = [event for event in events
+                   if event["start"].astimezone(UTC).hour == 0
+                   and event["start"].astimezone(UTC).minute == 0
+                   and event["start"].astimezone(UTC).second == 0]
+    if len(at_midnight) < MIDNIGHT_IS_NOT_A_KICKOFF:
+        return events
+
+    together: dict = {}
+    for event in at_midnight:
+        together.setdefault(event["start"], []).append(event)
+    doomed = {id(event) for crowd in together.values()
+              if len(crowd) >= MIDNIGHT_IS_NOT_A_KICKOFF
+              for event in crowd}
+    if not doomed:
+        return events
+
+    for crowd in together.values():
+        if len(crowd) >= MIDNIGHT_IS_NOT_A_KICKOFF:
+            log(f"  WARN {len(crowd)} fixture(s) all on "
+                f"{crowd[0]['start']:%Y-%m-%d} 00:00 UTC — a time nobody "
+                f"set, so none of them is published:")
+            for event in crowd:
+                log(f"    dropped: {event['title']}  │ {event['competition']}")
+    return [event for event in events if id(event) not in doomed]
+
+
 def unify(primary: list[dict], secondary: list[dict]) -> list[dict]:
     """One list of matches from two pages, each match appearing once.
 
@@ -1411,9 +1471,9 @@ def build() -> int:
     # list alike. Two places deciding this independently is what put an
     # empty board on the screen for a full day of football.
     floor, ceiling = window_floor(now), window_ceiling(now)
-    everything = unify(collect(html, now, floor, ceiling),
-                       live_football_on_tv.fetch_events(
-                           session, floor, ceiling))
+    everything = unify(
+        refuse_a_defaulted_midnight(collect(html, now, floor, ceiling)),
+        live_football_on_tv.fetch_events(session, floor, ceiling))
     # The third page last, narrowed to what it is for — and then to what
     # is not already on the board.
     #

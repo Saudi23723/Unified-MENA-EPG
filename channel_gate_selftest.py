@@ -3690,6 +3690,80 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
     check("MIDNIGHT", "red is red",
           (match_board.OVER[0] > 200 and match_board.OVER[1] < 140), True)
 
+def gate_midnight_is_not_a_kickoff() -> None:
+    """Four Turkish matches on one instant, and that instant was midnight.
+
+    livefootballtv gave Fenerbahçe - Beşiktaş, Trabzonspor -
+    Gençlerbirliği, Başakşehir - Galatasaray and Göztepe - Gaziantep ONE
+    time: 2026-09-06 00:00 UTC. beIN's own schedule — built here every
+    hour from beIN's own feed — puts them on four different days:
+
+        Fenerbahçe vs Beşiktaş         Sat 05-09  19:50 Istanbul
+        Başakşehir vs Galatasaray      Fri 04-09  19:50
+        Trabzonspor vs Gençlerbirliği  Sun 06-09  19:50
+        Göztepe vs Gaziantep           Mon 07-09  19:50
+
+    SEVERAL FIXTURES ON ONE INSTANT IS NOT WRONG BY ITSELF, and that is
+    the whole difficulty. The same board legitimately carried, on the
+    same Saturday:
+
+        11:30 UTC  x6   the English three o'clock
+        13:00 UTC  x4   internationals
+        13:30 UTC  x5   the Bundesliga half past three
+        14:00 UTC  x7   more English football
+        16:00 UTC  x5   and more
+        00:00 UTC  x4   <- the Turkish four
+
+    What separates the last one is MIDNIGHT. A time that was never read
+    defaults to the start of a day, and 00:00:00 on the dot is not a
+    kickoff several clubs happen to share — it is the absence of one,
+    repeated. None of the five real blocks comes near it.
+
+    So the rule is narrow on purpose: a CROWD at exactly midnight UTC is
+    refused; one fixture alone there is not, because that can be a real
+    late kickoff in the Americas.
+    """
+    print("\nMidnight is not a kickoff — livefootballtv")
+    from datetime import datetime, timezone
+
+    import today_matches_epg as today
+
+    def at(day, hour, minute, title, competition):
+        return {"start": datetime(2026, 9, day, hour, minute,
+                                  tzinfo=timezone.utc),
+                "title": title, "competition": competition,
+                "channels": ["beIN 6"]}
+
+    turkish = [at(6, 0, 0, name, "Turkish Super League") for name in
+               ("Fenerbahce - Besiktas", "Trabzonspor - Genclerbirligi",
+                "Basaksehir - Galatasaray", "Goztepe SK - Gaziantep")]
+    three = [at(5, 14, 0, f"Club {n} - Rival {n}", "Premier League")
+             for n in range(7)]
+    german = [at(5, 13, 30, f"German {n} - Rival {n}", "Bundesliga")
+              for n in range(5)]
+    lone = [at(8, 0, 0, "Flamengo - Palmeiras", "Copa Libertadores")]
+    pair = [at(9, 0, 0, "A - B", "Liga MX"), at(9, 0, 0, "C - D", "Liga MX")]
+
+    kept = today.refuse_a_defaulted_midnight(
+        turkish + three + german + lone + pair)
+    names = [event["title"] for event in kept]
+
+    check("MIDNIGHT", "the crowd dumped on midnight is refused",
+          [n for n in names if n.startswith(("Fenerbahce", "Trabzon",
+                                             "Basaksehir", "Goztepe"))], [])
+    check("MIDNIGHT", "the English three o'clock is untouched",
+          sum(1 for e in kept if e["competition"] == "Premier League"), 7)
+    check("MIDNIGHT", "and so is the Bundesliga's half past three",
+          sum(1 for e in kept if e["competition"] == "Bundesliga"), 5)
+    check("MIDNIGHT", "a lone late kickoff at midnight is left alone",
+          "Flamengo - Palmeiras" in names, True)
+    check("MIDNIGHT", "and two together are still under the threshold",
+          sum(1 for n in names if n in ("A - B", "C - D")), 2)
+    check("MIDNIGHT", "a board with nothing at midnight is unchanged",
+          len(today.refuse_a_defaulted_midnight(three)), 7)
+    check("MIDNIGHT", "and an empty board is not an error",
+          today.refuse_a_defaulted_midnight([]), [])
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3728,7 +3802,8 @@ def main() -> int:
                  gate_a_row_says_which_competition_it_is,
                  gate_our_own_guides_carry_fights_nobody_lists,
                  gate_the_channel_plays_the_days_in_order,
-                 gate_a_day_that_is_over_leaves_the_screen):
+                 gate_a_day_that_is_over_leaves_the_screen,
+                 gate_midnight_is_not_a_kickoff):
         try:
             gate()
         except Exception as exc:
