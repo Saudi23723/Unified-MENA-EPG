@@ -2910,6 +2910,20 @@ def gate_the_window_keeps_moving() -> None:
               second.count("#EXTINF") * video.HOLD,
               video.WINDOW_MINUTES * 60)
 
+        # THE PLAYLIST MUST NOT LIE ABOUT HOW LONG A BOARD IS. Declared
+        # 20.0 and measured 20.032, the playlist says a board ends while
+        # its own media says it is still running — an overlap, six a lap,
+        # and a player answers a timeline that disagrees with its media
+        # by re-syncing. That is buffering nobody could see the cause of.
+        import inspect as _inspect
+        writer = _inspect.getsource(video.write_playlist)
+        check("WINDOW", "each entry declares the length it MEASURED",
+              "real[place]" in writer, True)
+        check("WINDOW", "measured off the file, not off the constant",
+              "seconds_of" in writer, True)
+        check("WINDOW", "and TARGETDURATION covers the longest of them",
+              "math.ceil(max(real))" in writer, True)
+
         # THE WINDOW MUST OUTLAST A MISSED BUILD, which is the fault that
         # actually took both channels off the air:
         #
@@ -2930,9 +2944,26 @@ def gate_the_window_keeps_moving() -> None:
         AN_OUTAGE = 60 * 60
         check("WINDOW", "IT OUTLASTS AN HOUR WITH NO BUILD AT ALL",
               video.WINDOW_MINUTES * 60 > AN_OUTAGE * 2, True)
-        check("WINDOW", "with this much runway left after that hour",
-              f"{(video.WINDOW_MINUTES * 60 - AN_OUTAGE) / 3600:.0f}h",
-              "5h")
+        check("WINDOW", "and carries a whole night of one",
+              video.WINDOW_MINUTES * 60 >= 12 * 3600, True)
+
+        # AND THE PLAYER IS TOLD TO USE IT. This is the half that was
+        # missing when the window was lengthened the first time, and
+        # without it the length means nothing at all: RFC 8216 §6.3.3
+        # starts a live client three target durations from the END, so
+        # the runway was sixty seconds behind a six-hour playlist. Every
+        # minute of window is decoration until this tag says otherwise.
+        start = [line for line in second.splitlines()
+                 if line.startswith("#EXT-X-START:")]
+        check("WINDOW", "THE PLAYER IS SENT TO THE FRONT OF THE WINDOW",
+              len(start), 1)
+        check("WINDOW", "at offset zero, so the runway is the whole thing",
+              "TIME-OFFSET:0" in start[0], True)
+
+        # A window is only worth its length if a player actually gets it.
+        runway = second.count("#EXTINF") * video.HOLD
+        check("WINDOW", "so the runway is hours, not the old sixty seconds",
+              f"{runway / 3600:.0f}h vs {3 * video.HOLD}s", "12h vs 60s")
 
         # RFC 8216 §6.2.2: a window that slides past an EXT-X-DISCONTINUITY
         # must say how many have gone, or a player cannot line up the

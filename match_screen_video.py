@@ -45,6 +45,7 @@ a handful of files a day rather than a hundred and forty.
 from __future__ import annotations
 
 import hashlib
+import math
 import os
 import re
 import shutil
@@ -92,11 +93,31 @@ SCREENS = {
 # already knows and works around everywhere else.
 #
 # So the window is no longer sized by what the build is SUPPOSED to do.
-# Six hours is longer than any outage yet seen, longer than the hourly
-# watch takes to notice a dropped schedule and dispatch one by hand, and
-# still only about fifty kilobytes of text. The channel now survives a
-# missed build instead of dying on it.
-WINDOW_MINUTES = 6 * 60
+#
+# AND ON ITS OWN IT FIXED NOTHING, which is worth writing down because
+# it was shipped believing otherwise. A live player does not start at
+# the front of the window — RFC 8216 §6.3.3 puts it three target
+# durations back from the END — so the runway was sixty seconds whether
+# this said thirty minutes or six hours. EXT-X-START, written into the
+# playlist, is what turns this number into runway at all; without it
+# the window is decoration. Neither is any use without the other.
+#
+# TWELVE HOURS, and the length is a real trade rather than a free lunch:
+# the whole playlist is re-fetched once per target duration, so every
+# hour of window is bandwidth spent on every poll, forever. Measured
+# against a 700 KB segment every twenty seconds:
+#
+#        2 h    15 KB     2% of the video
+#        6 h    45 KB     6%
+#       12 h    91 KB    13%
+#       24 h   181 KB    26%   <- enough overhead to cause the fault
+#                               it is meant to prevent
+#
+# Twelve carries a whole night of Actions being down — far past the
+# hour the watch needs to notice a dropped schedule — for an eighth of
+# what the pictures already cost. Twenty-four buys one more night at
+# double the price, on a box that is already the weak link.
+WINDOW_MINUTES = 12 * 60
 
 # HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
 # guide draws.
@@ -369,6 +390,35 @@ def encode_segment(board: str, out: str, place: int = 0) -> bool:
     return True
 
 
+def seconds_of(segment: str) -> float:
+    """How long the segment REALLY is, asked of the file.
+
+    The playlist used to declare HOLD for every entry because that is
+    what the encoder was told to make. Measured, they are 20.032 —
+    ffmpeg's AAC encoder emits one frame more than the arithmetic says,
+    and 626 frames of 1024 samples at 32000 is 20.032 seconds.
+
+    Thirty-two milliseconds sounds like nothing. It is an OVERLAP: the
+    playlist tells the player each board ends at a moment the media says
+    it is still going, and a player answers a timeline that disagrees
+    with its own media by re-syncing. Six boards a lap, every lap, all
+    day.
+
+    So the file is asked rather than assumed. A segment that cannot be
+    measured — the gate writes playlists for names that were never
+    encoded — falls back to HOLD, which is what it was before.
+    """
+    try:
+        done = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=nw=1:nk=1", segment],
+            check=False, capture_output=True, text=True)
+        found = float(done.stdout.strip())
+        return found if 0 < found < HOLD * 3 else float(HOLD)
+    except (ValueError, OSError):
+        return float(HOLD)
+
+
 def write_playlist(segments: list[str], out: str, now=None) -> int:
     """A LIVE playlist, which is the whole reason the television updates.
 
@@ -439,15 +489,42 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     # wraps are behind it.
     breaks_gone = opens_at // reel
 
+    # Measured once per board, not once per entry: the same six files
+    # are named hundreds of times in one window.
+    real = [seconds_of(one) for one in segments]
+
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
-        f"#EXT-X-TARGETDURATION:{HOLD}",
+        # At least the longest segment, rounded up, which the spec
+        # requires and which 20.032 breaks if this stays at 20.
+        f"#EXT-X-TARGETDURATION:{max(HOLD, math.ceil(max(real)))}",
         f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
         f"#EXT-X-DISCONTINUITY-SEQUENCE:{breaks_gone}",
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
+        # WHERE THE PLAYER STARTS, AND THE REASON THE WINDOW MEANS
+        # ANYTHING AT ALL.
+        #
+        # RFC 8216 §6.3.3: on a live playlist a client SHOULD begin at
+        # least three target durations back from the END. Not from the
+        # start — from the end. So a viewer opening this channel joined
+        # SIXTY SECONDS from the end of it, and sixty seconds is all the
+        # runway they had, whether the window behind them held half an
+        # hour or half a day.
+        #
+        # That is why lengthening the window on its own fixed nothing:
+        # six hours of playlist and a minute of runway. Once that minute
+        # ran out the player had to wait for a rebuild to append more,
+        # and every rebuild that came late was a stall — which is the
+        # buffering, reported over and over.
+        #
+        # This says: start at the beginning. The reel is the same two
+        # minutes of boards wherever it is entered, so nothing is lost
+        # by joining at the front — and the whole window becomes real
+        # runway instead of decoration.
+        "#EXT-X-START:TIME-OFFSET:0,PRECISE=YES",
     ]
     # A break only where the reel really starts over, which is the one
     # place the timeline goes backwards — the segments carry their place
@@ -456,7 +533,7 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         place = (opens_at + step) % reel
         if place == 0:
             lines.append("#EXT-X-DISCONTINUITY")
-        lines += [f"#EXTINF:{HOLD}.0,",
+        lines += [f"#EXTINF:{real[place]:.3f},",
                   os.path.basename(segments[place])]
     cycles = long_enough / reel
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
