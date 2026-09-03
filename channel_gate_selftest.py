@@ -3872,6 +3872,74 @@ def gate_turkey_comes_from_the_sources_asked_for() -> None:
           bool(own_guides.A_LIVE_AIRING.search(
               "Fenerbahçe A.Ş. vs Beşiktaş A.Ş. - MD4 ‎• Live 🔵")), True)
 
+def gate_alwan_reaches_the_board() -> None:
+    """"ليش مش مبينه قنوات ألوان؟" — because of one trailing vowel.
+
+    Alwan publishes its own listings and this repository builds them
+    every hour. On the day this was asked it had six real fixtures for
+    that evening, and not one of them was naming a channel on the board.
+
+    The reason was not the parsing. fixture_in reads Alwan's titles
+    correctly and correctly refuses its filler — "التالي: تولوز - ليل"
+    and "لا توجد مباراة مجدولة" both come back empty. It was the
+    cross-script club match:
+
+        تولوز   Toulouse    talas  / talasa   one letter, at the end
+        ليل     Lille       lal    / lala     one letter, at the end
+
+    Arabic writes long vowels only, so a name ending in a vowel loses it.
+    Both skeletons are under the seven at which resemblance may decide
+    anything, so both were refused, and Alwan's channel never reached a
+    row it was carrying.
+
+    THE FLOOR IS FIVE AND THE CORPUS CHOSE IT. Against the 34 pairs of
+    genuinely different clubs this file already keeps:
+
+        floor 3   MERGES Mainz/مونزا and Monza/ماينتس   catches تولوز, ليل
+        floor 4   MERGES Mainz/مونزا and Monza/ماينتس   catches تولوز
+        floor 5   merges none                            catches تولوز
+        floor 6   merges none                            catches nothing
+
+    Mainz and Monza reduce to "mans" and "mansa" — the trap this project
+    has fought since the beginning — and a floor of four walks into it.
+    Lille stays refused, and that is the right answer rather than a
+    shortfall: at three letters this rule cannot tell a spelling from a
+    different club.
+    """
+    print("\nAlwan reaches the board — own_guides")
+    from epg_lib import same_club
+
+    import own_guides
+
+    check("ALWAN", "Toulouse is تولوز, which it was not",
+          same_club("تولوز", "Toulouse"), True)
+    check("ALWAN", "and Mainz is still not Monza, in either direction",
+          (same_club("Mainz", "مونزا"), same_club("Monza", "ماينتس")),
+          (False, False))
+    check("ALWAN", "Lille stays refused at three letters, on purpose",
+          same_club("ليل", "Lille"), False)
+    check("ALWAN", "and nothing that already worked is disturbed",
+          (same_club("فيرونا", "Verona"), same_club("بيرنلي", "Burnley"),
+           same_club("الهلال", "Al Ahly")), (True, True, False))
+
+    # Alwan's own filler is not a fixture, whatever else changes.
+    for filler in ("التالي: تولوز - ليل ‎⏰‎", "لا توجد مباراة مجدولة",
+                   "لم يُعلن البث — No listing published ‎🔴 LIVE‎"):
+        check("ALWAN", f"'{filler[:26]}' is not a fixture",
+              own_guides.fixture_in(filler), ("", ""))
+
+    if not os.path.exists("alwan_sports_epg.xml"):
+        check("ALWAN", "Alwan's guide is not built here yet", True, True)
+        return
+
+    rows = own_guides.broadcasts("alwan_sports_epg.xml", "")
+    check("ALWAN", "Alwan's listings are read at all", len(rows) > 0, True)
+    reachable = [row["title"] for row in rows
+                 if own_guides.one_club_matches("Toulouse - Lille",
+                                                row["title"])]
+    check("ALWAN", "and its Toulouse - Lille can now find the board's",
+          reachable, ["تولوز - ليل"])
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3912,7 +3980,8 @@ def main() -> int:
                  gate_the_channel_plays_the_days_in_order,
                  gate_a_day_that_is_over_leaves_the_screen,
                  gate_midnight_is_not_a_kickoff,
-                 gate_turkey_comes_from_the_sources_asked_for):
+                 gate_turkey_comes_from_the_sources_asked_for,
+                 gate_alwan_reaches_the_board):
         try:
             gate()
         except Exception as exc:
