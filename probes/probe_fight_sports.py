@@ -123,8 +123,20 @@ def list_fight_pages(session) -> None:
 #
 # This prints every row of the UFC page WHOLE — not just the fields the
 # reader parses — so the answer is a fact rather than a conclusion.
+# UFC.com's own events page answers 200 with 329 KB and NO <time
+# datetime> and NO ld+json — its schedule is not in the HTML. So the
+# card split the reader photographed (Main Card / Preliminary Card, with
+# their own times) is rendered by script, and these are the endpoints
+# that would carry it as data. Measured, not guessed at.
 CANDIDATES = (
     "https://www.ufc.com/events",
+    "https://d29dxerjsp82wz.cloudfront.net/api/v3/event/live/1.json",
+    "https://www.ufc.com/api/events",
+    "https://dapi.ufc.com/api/v3/event/live",
+    "https://www.espn.com/mma/fightcenter",
+    "https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard",
+    "https://www.tapology.com/fightcenter_events",
+    "https://api.sherdog.com/events",
     "https://www.tapology.com/fightcenter",
     "https://www.sherdog.com/events",
     "https://www.espn.com/mma/schedule",

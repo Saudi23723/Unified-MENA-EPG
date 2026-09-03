@@ -2359,6 +2359,31 @@ def gate_the_other_sports_name_a_real_channel() -> None:
     check("WORLD", "an empty page is not an error",
           world.collect("<html></html>", "F1", *rules("F1")), [])
 
+    # A PRELIM IS A ROW LIKE ANY OTHER, and this holds the door open.
+    #
+    # A UFC card is three broadcasts — early prelims, prelims, main card
+    # — each with its own start, and the reader asked for all three. This
+    # source does not split them: its UFC page was printed row by row and
+    # carries six, one per card. The words "prelims" and "main card" are
+    # in the page, twice and four times, and both are in its navigation
+    # rather than in a row; counting a word in a page is not finding one.
+    #
+    # Nothing can be written against rows that do not exist. What CAN be
+    # done is make sure that the day they exist they are not thrown away
+    # — so the MMA and boxing pages filter on nothing at all, and this
+    # proves it with rows named the way a card names them.
+    for card in ("UFC Fight Night Early Prelims",
+                 "UFC 331 Prelims - Van vs Pantoja 2",
+                 "Live Boxing Prelims Canelo vs Mabilli"):
+        sport = "Boxing" if "Boxing" in card else "MMA"
+        got = world.collect(
+            "<table>" + row(card, "2026-09-20T00:00:00+01:00",
+                            "Ultimate Fighting Championship",
+                            ["TNT Sports 1"]) + "</table>",
+            sport, *rules(sport))
+        check("WORLD", f"'{card[:34]}' reaches the board",
+              [event["title"] for event in got], [card])
+
     # BASKETBALL, wired before the season so that it starts on its own.
     # The NBA opens in October: this page reads NOTHING today, and that
     # is the source being right rather than broken — which is why the
