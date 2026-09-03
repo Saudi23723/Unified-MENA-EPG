@@ -128,8 +128,24 @@ A_REPEAT = re.compile(r"\(\d{2}[-–]\d{2}\)|\bhafta\b|\bözet\b|\bozet\b"
                       r"|التالي|\bnext\s*:"
                       # A season, a part or an episode belongs to a
                       # series, not to a match.
-                      r"|الموسم|الجزء|الحلقة|\bseason\b|\bepisode\b"
-                      r"|\bround\s*\d|\bجولة\b", re.I)
+                      r"|الموسم|الجزء|الحلقة|\bseason\b|\bepisode\b", re.I)
+
+# A ROUND IS A SERIES EPISODE IN ONE TITLE AND A CUP ROUND IN ANOTHER,
+# and the two cannot be told apart by the words alone:
+#
+#     Longines Global Champions Tour - London Jumping - Round 1 …   ×16
+#     EN Carabao Cup Highlights 2026/27 | Round 2                   × 3
+#     Millwall vs Newcastle - Carabao Cup 2026 / 2027 - Round 3     × 3
+#
+# This lived in A_REPEAT, where it refused all twenty-two — and the last
+# three are the League Cup, asked for by name. What separates them is
+# not the round: it is that a fixture NAMES TWO CLUBS with the word this
+# grid puts between them. A round in a title that has no "vs" in it is a
+# session of something, so it is still refused; a round in one that does
+# is which round of the cup this is.
+#
+# The highlights are refused anyway, one line up, for being highlights.
+A_SERIES_ROUND = re.compile(r"\bround\s*\d|\bجولة\b", re.I)
 
 # One channel written eight ways. Alwan publishes Sport/Sports, HD, SD, 4K
 # and RAW as separate channels, and a match on all of them would fill the
@@ -201,6 +217,8 @@ def fixture_in(title: str) -> tuple[str, str]:
     if any(word in clean.casefold() for word in NOT_A_FIXTURE):
         return "", ""
     if A_REPEAT.search(clean):
+        return "", ""
+    if A_SERIES_ROUND.search(clean) and not VERSUS.search(clean):
         return "", ""
     sides = two_sides(clean)
     if len(sides) != 2 or not all(sides):
@@ -596,12 +614,14 @@ A_COMPANY = re.compile(
 # anything. Measured against the filter as it stands:
 #
 #   kept     the Premier League, LaLiga, Ligue 1, the Champions League,
-#            the Championship, the Süper Lig, the Women's World Cup
-#   refused  LaLiga Hypermotion, Ligue 2 and League Two, exactly as they
-#            are refused from every listings page, because second and
-#            fourth tiers were never asked for. They are listed anyway:
-#            what beIN broadcasts is a fact about beIN, and the day one
-#            of them is wanted it is wanted in ONE place, not here.
+#            the Süper Lig, the Women's World Cup, and the whole EFL —
+#            the Championship, League One, League Two, the League Cup and
+#            the FA Cup, asked for by name
+#   refused  LaLiga Hypermotion and Ligue 2, exactly as they are refused
+#            from every listings page, because nobody asked for Spain's
+#            or France's second tier. They are listed anyway: what beIN
+#            broadcasts is a fact about beIN, and the day one of them is
+#            wanted it is wanted in ONE place, not here.
 _BEIN = "bein_sports_qatar_epg.xml"
 OUR_OWN_FIXTURES = (
     # (guide, mark, the competition in the guide's own words, what to
@@ -620,10 +640,37 @@ OUR_OWN_FIXTURES = (
      "دوري أبطال أوروبا للشباب"),
     (_BEIN, "", re.compile(r"UEFA Champions League", re.I),
      "دوري أبطال أوروبا"),
-    (_BEIN, "", re.compile(r"\bChampionship\b", re.I),
+    # THE EFL, ALL OF IT, AND THE LEAGUE CUP WITH IT. Asked for by name —
+    # "efl , championship, fa cup كلهم هدول beIN qatar بتبثها كمان خليه
+    # مرجع قوي الهم زيادة على sky sports" — and beIN's guide answers:
+    #
+    #     EFL - English Football League SkyBet - Championship   10 live
+    #     EFL - English Football League SkyBet - League Two      2 live
+    #     Carabao Cup 2026 / 2027 - Round 3                      3 live
+    #     FA Cup - FOOTBALL                                      0 live
+    #
+    # The FA Cup is listed with none showing, and that is the point of
+    # listing it: beIN carries last season's rounds in the same guide, so
+    # the wording is known, and the day this season's reach the grid they
+    # are read without another change.
+    #
+    # ANCHORED ON THE EFL's OWN PREFIX rather than on the word
+    # "Championship", which beIN also puts on the FIA Formula 3
+    # Championship, the Formula Regional European Championship and the
+    # World Athletics U20 Championships — nineteen programmes, six of
+    # them marked live. None can become a fixture, because none has a
+    # "vs" in it, but a pattern that matches them is one edit away from
+    # a motor race on the football board.
+    (_BEIN, "", re.compile(r"SkyBet\s*-\s*Championship", re.I),
      "الدوري الإنجليزي الدرجة الأولى"),
-    (_BEIN, "", re.compile(r"\bLeague\s+Two\b", re.I),
-     "دوري الدرجة الرابعة الإنجليزي"),
+    (_BEIN, "", re.compile(r"SkyBet\s*-\s*League\s+One", re.I),
+     "الدوري الإنجليزي الدرجة الثانية"),
+    (_BEIN, "", re.compile(r"SkyBet\s*-\s*League\s+Two", re.I),
+     "الدوري الإنجليزي الدرجة الثالثة"),
+    (_BEIN, "", re.compile(r"Carabao\s+Cup|EFL\s+Cup", re.I),
+     "كأس الرابطة الإنجليزية"),
+    (_BEIN, "", re.compile(r"\bFA\s+Cup\b|Emirates\s+FA\s+Cup", re.I),
+     "كأس الاتحاد الإنجليزي"),
     (_BEIN, "", re.compile(r"Turkish Super League|Championnat de Turquie",
                            re.I), "الدوري التركي الممتاز"),
     (_BEIN, "", re.compile(r"Fifa Women World Cup", re.I),
