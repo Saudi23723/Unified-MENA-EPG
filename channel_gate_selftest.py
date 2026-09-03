@@ -3444,6 +3444,66 @@ def gate_a_row_says_which_competition_it_is() -> None:
           or "competition" in inspect.getsource(sports.publish_board)
           or True, True)
 
+def gate_our_own_guides_carry_fights_nobody_lists() -> None:
+    """RFC in Amman, which no listings page on earth has.
+
+    A reader photographed the promotion's own announcement — RFC, mixed
+    martial arts, live on Roya TV, Friday 8:30pm Jordan — and it needed
+    nothing to be written down. Roya's own feed is built in this
+    repository every hour and it already had it, at the minute the
+    announcement gave:
+
+        roya_jordan_epg.xml   بطولة RFC   2026-09-04 17:30 UTC
+        the announcement      الجمعة 8:30 مساءً (+3 GMT) = 17:30 UTC
+
+    So it is read, not asserted — which is the rule this repository has
+    been asked for repeatedly and now keeps by machine.
+
+    WHAT MAKES IT SAFE IS THAT A COMPETITION IS NAMED, NOT A CHANNEL.
+    Roya is a general channel: 4151 programmes, mostly news and drama,
+    and own_guides' FOOTBALL matcher refuses to read it at all because
+    1728 of its titles parse as "A - B" and "مطبخ رؤيا - سلطات" is a
+    cookery show. Matching a named competition cannot make that mistake,
+    because no cookery show is called RFC — and this gate holds that
+    line, so the next entry has to be a name of its own too.
+    """
+    print("\nOur own guides carry fights nobody lists — own_guides")
+    import own_guides
+
+    if not os.path.exists("roya_jordan_epg.xml"):
+        check("OURFIGHTS", "Roya's guide is not built here yet", True, True)
+        return
+
+    got = own_guides.fights_our_guides_have()
+    rfc = [event for event in got if event["competition"] == "RFC"]
+    check("OURFIGHTS", "RFC is read out of Roya's own feed",
+          len(rfc) >= 1, True)
+    if rfc:
+        one = rfc[0]
+        check("OURFIGHTS", "with the channel Roya's own guide names",
+              one["channels"], ["Roya TV"])
+        check("OURFIGHTS", "and it is an MMA event, so the board wants it",
+              one["sport"], "MMA")
+        import other_sports_epg as board
+        check("OURFIGHTS", "the board's own filter accepts it",
+              board.wanted(one), True)
+
+    # THE NARROWNESS. Roya's cookery, news and drama must not come with
+    # it — and the pattern is the only thing standing between them.
+    for path, mark, names_it, sport, competition in own_guides.OUR_OWN_FIGHTS:
+        for innocent in ("مطبخ رؤيا - سلطات", "نشرة الأخبار",
+                         "مسلسل الاختيار", "Real Madrid - Barcelona"):
+            check("OURFIGHTS", f"{competition} does not match "
+                               f"'{innocent[:22]}'",
+                  bool(names_it.search(innocent)), False)
+
+    # And no line here may name a channel: the channel comes from the
+    # guide, which is the whole difference between reading and asserting.
+    import inspect
+    source = inspect.getsource(own_guides.fights_our_guides_have)
+    check("OURFIGHTS", "the channel comes from the guide, never from here",
+          'row["channel"]' in source, True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3479,7 +3539,8 @@ def main() -> int:
                  gate_the_channel_comes_from_the_broadcasters_own_feed,
                  gate_the_second_board_names_channels_like_the_first,
                  gate_no_guide_reads_a_stranger,
-                 gate_a_row_says_which_competition_it_is):
+                 gate_a_row_says_which_competition_it_is,
+                 gate_our_own_guides_carry_fights_nobody_lists):
         try:
             gate()
         except Exception as exc:

@@ -79,7 +79,22 @@ BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards")
 BOARD_COLOURS = 64
-MAX_ON_BOARD = 12
+# EIGHT ROWS, and a day with more of them becomes two boards, or three.
+#
+# Asked for outright — "ما تعجق الصورة … بتنقسم على صفحتين ورا بعض عادي".
+# It was twelve here and nine on the football board, and both were chosen
+# when a row was one line. A row is two now: the event's name across the
+# whole width, and its competition and channels underneath. Twelve of
+# those in 720 pixels leaves each 43px, which is under the 46 a
+# comfortable pair needs — so the board that was asked to say MORE was
+# quietly saying it smaller.
+#
+# Eight leaves every row its full 62px, which is the height the drawing
+# was designed around, so no row is ever squeezed and no name is ever
+# shrunk for want of a page. The cost is another board in the loop —
+# twenty seconds more before a viewer sees a given match come round — and
+# that is the trade that was asked for, in those words.
+MAX_ON_BOARD = 8
 
 UTC = timezone.utc
 VIEWER = ZoneInfo("America/Los_Angeles")
@@ -220,6 +235,13 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every event both sources have, inside the window, that names a channel."""
     everything = world_sport_on_tv.events(session)
     everything += american_sport_on_tv.events(session)
+
+    # And the fights this repository's OWN guides have, which no listings
+    # page anywhere carries. A reader asked for RFC — an MMA promotion in
+    # Amman — and it needed nothing to be written down: Roya's own feed
+    # is already built here every hour and it has the event, at the
+    # minute the promotion's own announcement gave.
+    everything += own_guides.fights_our_guides_have(floor, ceiling)
 
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything

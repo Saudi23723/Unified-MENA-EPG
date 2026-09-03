@@ -440,3 +440,71 @@ def add_channels_by_name(events: list[dict]) -> int:
                 f"from this reader's own guide")
         named += found
     return named
+
+
+# ─── Fights our own guides have and no listings page does ───────────────
+#
+# A reader photographed RFC — an MMA promotion in Amman — announced live
+# on Roya TV, and asked for it. It needed no assertion at all: Roya's own
+# feed is already built here every hour, and it has the event, at the
+# minute the announcement gave.
+#
+#     roya_jordan_epg.xml   بطولة RFC   2026-09-04 17:30 UTC
+#     the announcement      الجمعة 8:30 مساءً  (+3 GMT) = 17:30 UTC
+#
+# So this reads it rather than being told it. The rule that makes it safe
+# is that a COMPETITION is named, not a channel: a line here says "this
+# guide, that competition, that sport", and the channel comes from
+# whichever of the guide's own channels is showing it. Nobody writes down
+# who carries what.
+#
+# WHY IT IS SO NARROW. Roya is a general channel — 4151 programmes, most
+# of them news and drama — and that is exactly why own_guides' football
+# matcher refuses to read it at all: 1728 of its titles parse as "A - B"
+# and "مطبخ رؤيا - سلطات" is a cookery show. Matching a NAMED competition
+# cannot make that mistake, because no cookery show is called RFC. Add a
+# line only for a competition whose name is its own.
+OUR_OWN_FIGHTS = (
+    # (guide, mark, what the title must say, the sport, what to call it)
+    ("roya_jordan_epg.xml", "",
+     re.compile(r"\bRFC\b", re.I), "MMA", "RFC"),
+)
+
+
+def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
+    """Events from this repository's own guides, in the board's shape.
+
+    Not channels for events somebody else listed — the EVENTS, from a
+    broadcaster's own schedule, because for some competitions there is no
+    listings page anywhere and the broadcaster is the only one who says
+    it is happening at all.
+    """
+    out: list[dict] = []
+    for path, mark, names_it, sport, competition in OUR_OWN_FIGHTS:
+        found = 0
+        for row in programmes(path, mark):
+            if not names_it.search(row["title"]):
+                continue
+            if floor is not None and not (floor <= row["start"] < ceiling):
+                continue
+            out.append({
+                "start": row["start"],
+                "title": norm(row["title"]),
+                "competition": competition,
+                "sport": sport,
+                "channels": [row["channel"]],
+            })
+            found += 1
+        if found:
+            log(f"  {os.path.basename(path)}: {found} {competition} "
+                f"event(s) this repository already had")
+
+    # One programme, however many of a broadcaster's channels carry it.
+    seen, kept = set(), []
+    for event in sorted(out, key=lambda one: one["start"]):
+        key = (event["start"], event["title"])
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(event)
+    return kept
