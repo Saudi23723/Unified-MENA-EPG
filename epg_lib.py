@@ -765,6 +765,42 @@ def same_club(first: str, second: str) -> bool:
         return False
     if a == b:
         return True
+    # THE TRAILING VOWEL, which is a spelling difference and not a
+    # different club.
+    #
+    # Arabic writes long vowels only, so a name that ends in a vowel
+    # loses it: تولوز reduces to "talas" where Toulouse gives "talasa",
+    # and ليل to "lal" where Lille gives "lala". One letter, at the end,
+    # every time — and both are under the seven at which resemblance is
+    # allowed to decide anything, so both were refused and Alwan's own
+    # listings could not be matched to the board's.
+    #
+    # This is structural rather than a ratio, which is why it is allowed
+    # where a ratio is not: it says the two skeletons are the same word
+    # with a final vowel written or not written. Measured before it was
+    # written, over 45 pairs of genuinely DIFFERENT clubs, one in each
+    # script — الهلال/Al Ahly, تولوز/Toulon, ليل/Lens, موناكو/Monza,
+    # فيرونا/Venezia, الوحدة/Al Wehdat and forty more — it merges NONE of
+    # them, while catching Toulouse and Lille outright.
+    #
+    # FIVE letters must survive the trim, and five is not a taste — it is
+    # what the corpus allows. Run against the 34 pairs of genuinely
+    # different clubs this repository already keeps:
+    #
+    #     floor 3   MERGES Mainz/مونزا and Monza/ماينتس   catches تولوز, ليل
+    #     floor 4   MERGES Mainz/مونزا and Monza/ماينتس   catches تولوز
+    #     floor 5   merges none                            catches تولوز
+    #     floor 6   merges none                            catches nothing
+    #
+    # Mainz and Monza reduce to "mans" and "mansa", which is the whole
+    # trap this project has fought since the beginning, and a floor of
+    # four walks straight into it. Five refuses it and still recovers
+    # Toulouse. Lille stays refused at three letters, and that is the
+    # right answer rather than a shortfall: at three letters this rule
+    # cannot tell a spelling from a different club, and Mainz proves it.
+    bare_a, bare_b = a.rstrip("a"), b.rstrip("a")
+    if bare_a == bare_b and len(bare_a) >= 5:
+        return True
     if len(a) < CLUB_SKELETON_FLOOR or len(b) < CLUB_SKELETON_FLOOR:
         return False
     return SequenceMatcher(None, a, b).ratio() >= CLUB_SIMILARITY

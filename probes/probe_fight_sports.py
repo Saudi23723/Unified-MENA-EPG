@@ -114,7 +114,29 @@ def list_fight_pages(session) -> None:
 # answer, how big, and does a broadcaster's name appear in it at all. A
 # page that names no broadcaster cannot be a source here however complete
 # its calendar is — that is what sank pdc.tv and motogp.com.
+# The reader asked for the prelims and the early prelims to be written —
+# a UFC card is three broadcasts, not one, and their own screenshot of
+# UFC.com shows the preliminary card at 9:00 AM Pacific against a main
+# card later. wheresthematch gives ONE row per event, so either it
+# carries the split somewhere this reader has not looked, or it does
+# not carry it at all and the card has to come from elsewhere.
+#
+# This prints every row of the UFC page WHOLE — not just the fields the
+# reader parses — so the answer is a fact rather than a conclusion.
+# UFC.com's own events page answers 200 with 329 KB and NO <time
+# datetime> and NO ld+json — its schedule is not in the HTML. So the
+# card split the reader photographed (Main Card / Preliminary Card, with
+# their own times) is rendered by script, and these are the endpoints
+# that would carry it as data. Measured, not guessed at.
 CANDIDATES = (
+    "https://www.ufc.com/events",
+    "https://d29dxerjsp82wz.cloudfront.net/api/v3/event/live/1.json",
+    "https://www.ufc.com/api/events",
+    "https://dapi.ufc.com/api/v3/event/live",
+    "https://www.espn.com/mma/fightcenter",
+    "https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard",
+    "https://www.tapology.com/fightcenter_events",
+    "https://api.sherdog.com/events",
     "https://www.tapology.com/fightcenter",
     "https://www.sherdog.com/events",
     "https://www.espn.com/mma/schedule",
@@ -145,8 +167,36 @@ def probe_candidates(session) -> None:
               f"ld+json: {text.count('application/ld+json')}")
 
 
+def prelims(session) -> None:
+    """Every row of the UFC page, whole, and what it says about prelims."""
+    from bs4 import BeautifulSoup
+
+    from epg_lib import fetch, norm
+
+    print("\n=== the UFC page, every row printed whole " + "=" * 18)
+    try:
+        html = fetch(session, WTM + "/live-ufc-on-tv/").text
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  SHUT: {exc}")
+        return
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+    for number, row in enumerate(soup.find_all("tr"), start=1):
+        text = norm(row.get_text(" | ", strip=True))
+        if not text or len(text) < 12:
+            continue
+        print(f"  {number:>3}  {text[:190]}")
+    print("\n  -- every mention of a card, anywhere in the page --")
+    for word in ("early prelim", "prelims", "prelim", "main card",
+                 "main event", "preliminary"):
+        hits = len(re.findall(word, html, re.I))
+        print(f"     {word:<14} {hits}")
+
+
 def main() -> int:
     session = new_session()
+    prelims(session)
     list_fight_pages(session)
     for path in ("/live-ufc-on-tv/", "/live-boxing-on-tv/",
                  "/live-mma-on-tv/", "/live-wrestling-on-tv/"):

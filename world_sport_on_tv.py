@@ -68,6 +68,21 @@ PAGES = (
 
     ("/live-boxing-on-tv/", "Boxing", None, None),
 
+    # No filter at all, deliberately, and that is not laziness — it is
+    # what makes the prelims arrive the day anybody publishes them.
+    #
+    # A UFC card is three broadcasts: early prelims, prelims, main card,
+    # each with its own start. Asked for by name. This source does NOT
+    # split them — its UFC page was printed row by row and carries six
+    # rows, one per card, with no prelim among them; the words "prelims"
+    # and "main card" appear in the page twice and four times and both
+    # are in its own navigation, not in a row. Counting a word in a page
+    # is not finding a row, which this project has been caught by before.
+    #
+    # So there is nothing to keep and nothing to refuse here, and a
+    # refusal would be the thing that hurt: the moment a row says
+    # "Prelims" or "Early Prelims", it is kept, because nothing here
+    # asks what a row is called.
     ("/live-ufc-on-tv/", "MMA", None, None),
 
     ("/live-motogp-on-tv/", "MotoGP",
