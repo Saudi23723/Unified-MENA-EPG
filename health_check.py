@@ -144,6 +144,43 @@ STANDIN_TITLE = re.compile(
 CEILINGS_FILE = "guide_ceilings.json"
 
 
+def folded(text: str) -> str:
+    """One spelling for comparing a title against a channel's own name."""
+    return " ".join((text or "").split()).casefold()
+
+
+def channel_names(root) -> dict[str, set[str]]:
+    """Every spelling a file gives each of its channels.
+
+    A row whose title is just the channel's own name is filler — the
+    guide is saying "this is Alkass" where it should be saying what is
+    on — and the rule above it, one-title-for-a-whole-channel, does not
+    catch it as soon as a single real programme joins in.
+
+    jordan_sports_epg.xml is the worked example, and it is exactly the
+    blindness this whole file exists to prevent. Twenty-six of its
+    twenty-nine rows read "الأردن الرياضية" and the other three are one
+    talk show: a guide with no fixture in it at all, measuring 0%
+    stand-in against a 15% ceiling, passing every run.
+
+    A display-name is often two names in one — "Jordan Sport | الأردن
+    الرياضية" — so each side is kept as well as the whole, because the
+    filler writes only the Arabic half.
+    """
+    names: dict[str, set[str]] = {}
+    for channel in root.findall("channel"):
+        bag = names.setdefault(channel.get("id"), set())
+        for name in channel.findall("display-name"):
+            whole = folded(name.text)
+            if not whole:
+                continue
+            bag.add(whole)
+            for half in whole.split("|"):
+                if half.strip():
+                    bag.add(half.strip())
+    return names
+
+
 def standin_share(path: str, sourceless: tuple[str, ...] = ()) -> tuple[int, int]:
     """(stand-in rows, total rows) for one published guide.
 
@@ -173,6 +210,7 @@ def standin_share(path: str, sourceless: tuple[str, ...] = ()) -> tuple[int, int
         root = ET.parse(path).getroot()
     except Exception:
         return 0, 0
+    own_name = channel_names(root)
     per: dict[str, list] = {}
     for programme in root.findall("programme"):
         title = (programme.findtext("title") or "").strip()
@@ -181,10 +219,11 @@ def standin_share(path: str, sourceless: tuple[str, ...] = ()) -> tuple[int, int
             continue
         slot = per.setdefault(cid, [0, 0, set()])
         slot[0] += 1
-        if not STANDIN_TITLE.search(title):
-            slot[2].add(title)
-        if STANDIN_TITLE.search(title):
+        if (STANDIN_TITLE.search(title)
+                or folded(title) in own_name.get(cid, ())):
             slot[1] += 1
+        else:
+            slot[2].add(title)
     for slot in per.values():
         # One title for a whole channel is filler whatever it says. Judged
         # on the rows that are not already stand-in: close_every_gap adds a

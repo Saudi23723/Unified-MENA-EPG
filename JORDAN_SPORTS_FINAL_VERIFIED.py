@@ -12,6 +12,9 @@ import xml.etree.ElementTree as ET
 import requests
 from bs4 import BeautifulSoup
 
+import epg_lib
+import jordan_football
+
 
 OUTPUT = "jordan_sports_epg.xml"
 
@@ -57,6 +60,21 @@ JRTV_HOME = "https://www.jrtv.gov.jo/"
 # Channel-specific football listing. It is intentionally used only when the
 # match row explicitly belongs to Jordan Sports.
 LFTV_JORDAN_SPORTS = "https://www.livefootballtv.info/channel/jordan-sports"
+
+# And the federation's own fixture table, read by jordan_football.py.
+#
+# This guide had been publishing no football at all. Twenty-six of its
+# twenty-nine rows were the channel's own name filling empty hours and the
+# other three were one talk show — a Jordan Sports guide with not a single
+# Jordanian fixture in it, for as long as anyone has looked. The two
+# sources above are why: livefootballtv's channel page lists this channel
+# and schedules nothing on it, and the Super Cup is one match a year.
+#
+# jfa.jo publishes the league, the cup and the shield, and the channel is
+# their exclusive rights holder, so those fixtures belong here. Only the
+# competitions jordan_football.carried_by() names for THIS channel are
+# taken: a national-team qualifier is sold separately and lands on beIN or
+# elsewhere, and the age grades have no regular television at all.
 
 JFA_SUPER_CUP = (
     "https://jfa.jo/tourn.php?id=10&idcat=6&idsubcat=34&"
@@ -951,6 +969,32 @@ def collect_events() -> list[dict]:
         events.extend(jfa_confirmed)
     except Exception as exc:
         warn(f"JFA/Sport24 cross-confirmation failed: {exc}")
+
+    # The federation's own fixtures, for the competitions this channel holds.
+    try:
+        floor, ceiling = window_bounds()
+        fixtures = jordan_football.fetch_events(
+            epg_lib.new_session(), floor, ceiling)
+        carried = [ev for ev in fixtures
+                   if jordan_football.JORDAN_SPORT in ev["channels"]]
+        log(f"JFA fixtures carried by this channel: {len(carried)} "
+            f"of {len(fixtures)} in the window")
+        for ev in carried:
+            am = ev["start"].astimezone(AMMAN)
+            log(f"  JFA | {am:%Y-%m-%d %H:%M} Amman | {ev['title']} | "
+                f"{ev['competition']}")
+            events.append({
+                "start": ev["start"],
+                "date": am.date(),
+                "title": ev["title"],
+                "category": ev["competition"],
+                "source_name": "JFAOfficial",
+                "source": jordan_football.SOURCE,
+                "duration_minutes": 135,
+                "priority": 340,
+            })
+    except Exception as exc:
+        warn(f"JFA fixture table failed: {exc}")
 
     # Confirmed football matches from LiveFootballTV
     try:

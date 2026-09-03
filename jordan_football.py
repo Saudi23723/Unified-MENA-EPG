@@ -78,7 +78,13 @@ NOT_PLAYED_YET = re.compile(r"^\s*(?:VS|vs\.?|ضد)\s*$", re.I)
 # for, was silently dropped by that one letter.
 SENIOR = re.compile(r"محترفين|كأس الأردن|درع الاتحاد|درجة الأولى"
                     r"|سوبر|كأس آسيا|كأس العرب|تصفيات", re.I)
-A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|الناشئين|الأشبال|البراعم"
+# No definite article in any stem, and that is not a style choice. Arabic
+# glues its prefixes: the page writes "كأس الأردن للأشبال", and "الأشبال"
+# is not inside "للأشبال" — ل + ل + أشبال. The same trap had already cost
+# a build once, when "المحترفين" never matched "للمحترفين" and the league
+# read as empty. Here it was worse than empty: the youth cup passed as
+# senior football and was handed this channel.
+A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|ناشئين|أشبال|براعم"
                            r"|تحت\s?\d{2}", re.I)
 
 
@@ -101,7 +107,22 @@ CARRIED_BY_JORDAN_SPORT = re.compile(r"محترفين|كأس الأردن|درع
 
 
 def carried_by(competition: str) -> list[str]:
-    """The channel a Jordanian competition is known to be on, if any."""
+    """The channel a Jordanian competition is known to be on, if any.
+
+    An age grade is refused HERE, and not only by wanted_here, because
+    the fact belongs beside the channel rather than beside the board's
+    taste in fixtures. Youth football has no regular television at all:
+    the federation's own YouTube carries selected ties, and this channel
+    takes a final or a title decider and nothing else. So "كأس الأردن
+    للناشئين" is not "كأس الأردن" with a suffix — it is a different
+    broadcast arrangement, and matching the tournament's name alone put
+    this channel on it. The only thing keeping that off the screen was
+    wanted_here happening to run first, which is an ordering, not a
+    guarantee: loosen the board's filter once to show a youth final and
+    the wrong channel is printed the same day.
+    """
+    if A_YOUTH_GRADE.search(competition):
+        return []
     if CARRIED_BY_JORDAN_SPORT.search(competition):
         return [JORDAN_SPORT]
     return []
