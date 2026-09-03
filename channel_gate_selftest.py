@@ -2451,8 +2451,23 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
            if one["sport"] in ("Cricket", "Snooker")], [])
     check("BOARD2", "and nor can an event with no channel named",
           [one["title"] for one in kept if one["sport"] == "Golf"], [])
-    check("BOARD2", "every row wears its sport's mark",
-          board.row_title(kept[0]), "🏁 Italian GP - Race")
+    # AND NO ROW WEARS AN EMOJI. This gate used to require one — every
+    # row opened with its sport as 🏁, 🥊, 🏀 — and a reader photographed
+    # what that reached the television as: twelve rows each beginning
+    # with an empty rectangle, because the player's font has no glyph for
+    # any of them and draws the missing-character box instead.
+    #
+    # It cannot be fixed from this end. A player prints with its own
+    # font, on the reader's own device, and this guide hands it text; an
+    # emoji is a bet that the far end has a face for it. So the rule is
+    # inverted and kept: what this board writes must be text a plain font
+    # can draw.
+    check("BOARD2", "a row says its event and nothing else",
+          board.row_title(kept[0]), "Italian GP - Race")
+    marks = [ch for one in kept for ch in board.row_title(one)
+             if ord(ch) > 0x2000 and not ch.isalnum() and ch not in "…—–'’"]
+    check("BOARD2", "and carries nothing a player has to have a glyph for",
+          marks, [])
 
 
 def gate_the_round_is_read_from_the_leagues_own_page() -> None:
@@ -2732,6 +2747,26 @@ def gate_the_window_keeps_moving() -> None:
         check("WINDOW", "it never goes backwards between passes",
               sequence_of(first) < sequence_of(second), True)
 
+        # AND ONE BREAK PER CYCLE, NOT ONE PER BOARD. A reader
+        # photographed a spinner between one board and the next, on both
+        # channels. EXT-X-DISCONTINUITY is why: it tells a player the
+        # clock is about to start over, and the player answers by tearing
+        # its decoder down and building it again. There was one before
+        # every segment, so that happened every twenty seconds, all day.
+        #
+        # The segments carry their place in the reel now, so a cycle is
+        # one continuous timeline with nothing to declare inside it. The
+        # reel really does start over at the end, so that break stays —
+        # once per lap.
+        breaks = second.count("#EXT-X-DISCONTINUITY")
+        laps = second.count("#EXTINF") // len(segments)
+        check("WINDOW", "one break per lap of the reel, not one per board",
+              (breaks, breaks == laps), (laps, True))
+        check("WINDOW", "so a three-board reel breaks once every three",
+              second.count("#EXTINF") // breaks, len(segments))
+        check("WINDOW", "and the player is told it may read ahead",
+              "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
+
         # The three things that make it live at all, none of which may
         # come back: any one of them stops a player reloading.
         for tag in ("#EXT-X-ENDLIST", "PLAYLIST-TYPE:VOD"):
@@ -2749,6 +2784,35 @@ def gate_the_window_keeps_moving() -> None:
     already, _ = body.split("os.makedirs(OUT_DIR", 1)
     check("WINDOW", "the not-re-encoded pass writes the playlist too",
           "write_playlist" in already, True)
+
+    # And the timeline the playlist promises is the one the segments are
+    # encoded on: a playlist with no break inside a cycle is a lie unless
+    # each board is stamped with where it sits.
+    check("WINDOW", "a board is encoded at its place in the reel",
+          "-output_ts_offset" in inspect.getsource(video.encode_segment),
+          True)
+    check("WINDOW", "and the encode loop actually passes that place",
+          "enumerate(reel)" in body, True)
+
+    # A change to HOW a segment is made must re-encode every segment.
+    # Otherwise it ships half-applied, which is worse than not shipping:
+    # the playlist stops declaring the breaks because the segments are
+    # meant to be continuous, nothing re-encodes because the pictures did
+    # not change, and the television gets a continuous playlist over
+    # segments that all still start at zero.
+    with tempfile.TemporaryDirectory() as tmp:
+        board = os.path.join(tmp, "board.png")
+        with open(board, "wb") as handle:
+            handle.write(b"not really a picture")
+        before = video.digest([board])
+        was = video.ENCODER_REVISION
+        try:
+            video.ENCODER_REVISION = was + 1
+            after = video.digest([board])
+        finally:
+            video.ENCODER_REVISION = was
+    check("WINDOW", "a new encoder revision re-encodes an unchanged board",
+          before != after, True)
 
 
 def gate_a_simulcast_is_not_a_second_channel() -> None:

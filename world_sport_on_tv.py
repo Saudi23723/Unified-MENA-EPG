@@ -117,7 +117,24 @@ PAGES = (
 # the screen as one.
 NOT_A_CHANNEL = re.compile(
     r"^(?:tbc|tba|channel tbc|not announced)$|website|\bapp\b|iplayer"
-    r"|\bplayer\b|\.com|\.co\.uk|youtube", re.I)
+    r"|\bplayer\b|\.com|\.co\.uk|youtube"
+    # The site's own paywall, which reads exactly like a channel name in
+    # the channel column and is not one. Measured on the UFC page: "UFC
+    # Fight Night Rosas Jr. vs Barcelos" came back with a single
+    # broadcaster called "Log in to view", and it would have gone to a
+    # television as the answer to "where do I watch this".
+    r"|log in|sign in|subscribe to", re.I)
+
+# "TNT Sports TBC" — the broadcaster is known and the channel number is
+# not. Measured on the UFC page, against UFC 331.
+#
+# Refusing it outright loses a true fact: TNT Sports IS showing that
+# card. Keeping it whole puts three letters on the screen that a viewer
+# will look for on their television and not find. So the unconfirmed part
+# is trimmed and the part that is known is kept — and a name that is
+# nothing BUT the unconfirmed part is refused by the rule above, which is
+# where it belongs.
+AN_UNCONFIRMED_NUMBER = re.compile(r"\s+(?:tbc|tba|tbd)\.?$", re.I)
 
 
 def when(cell) -> datetime | None:
@@ -144,16 +161,20 @@ def channels_of(cell) -> list[str]:
     """Every channel the row names, and nothing that is not one."""
     if cell is None:
         return []
-    out: list[str] = []
-    for piece in cell.find_all(["a", "span", "li"]) or []:
-        name = norm(piece.get_text(" ", strip=True))
+    def keep(name: str, out: list[str]) -> None:
+        name = norm(name)
+        if not name or NOT_A_CHANNEL.search(name):
+            return
+        name = norm(AN_UNCONFIRMED_NUMBER.sub("", name))
         if name and not NOT_A_CHANNEL.search(name) and name not in out:
             out.append(name)
+
+    out: list[str] = []
+    for piece in cell.find_all(["a", "span", "li"]) or []:
+        keep(piece.get_text(" ", strip=True), out)
     if not out:
         for name in re.split(r"\s{2,}|\n", cell.get_text("\n", strip=True)):
-            name = norm(name)
-            if name and not NOT_A_CHANNEL.search(name) and name not in out:
-                out.append(name)
+            keep(name, out)
     return out
 
 
