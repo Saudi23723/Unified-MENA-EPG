@@ -44,17 +44,56 @@ def main() -> int:
     for tag in soup(["script", "style", "noscript"]):
         tag.decompose()
 
-    print("=== EVERY <tr>, IN ORDER, AS THE PAGE WRITES THEM ===")
-    for at, row in enumerate(soup.find_all("tr")):
-        text = norm(row.get_text(" | ", strip=True))
-        if not text:
+    # The clubs are in <tr>s and the stadium-date-time line is NOT — the
+    # rows between them printed empty. So look OUTSIDE the row: at what
+    # follows it, and at the block that contains it. One of those holds
+    # "ملعب البترا - 03-09-2026 - 19:00", and until it is found the
+    # fixture has no time and is rightly refused.
+    print("=== EACH UPCOMING FIXTURE, AND WHAT SITS AROUND IT ===")
+    for row in soup.find_all("tr"):
+        home = row.select_one("span.team1")
+        away = row.select_one("span.team2")
+        verdict = row.select_one("span.rrresult")
+        if home is None or away is None or verdict is None:
             continue
-        marks = []
-        for css in ("span.haly", "span.haly1", "span.haly2",
-                    "span.team1", "span.team2", "span.rrresult"):
-            if row.select_one(css):
-                marks.append(css.split(".")[1])
-        print(f"  [{at:>3}] {'+'.join(marks) or '-':38} {text[:130]}")
+        if not jfa.NOT_PLAYED_YET.match(norm(verdict.get_text(" ", strip=True))):
+            continue
+        print(f"\n  ── {norm(home.get_text())} vs {norm(away.get_text())}")
+
+        after = []
+        node = row
+        for _ in range(4):
+            node = node.find_next_sibling()
+            if node is None:
+                break
+            after.append(f"<{node.name} class="
+                         f"{' '.join(node.get('class') or []) or '-'}> "
+                         f"{norm(node.get_text(' | ', strip=True))[:140]}")
+        print("     next siblings:")
+        for line in after:
+            print(f"       {line}")
+
+        holder = row.parent
+        for step in range(3):
+            if holder is None:
+                break
+            text = norm(holder.get_text(" | ", strip=True))
+            print(f"     {step} up <{holder.name} class="
+                  f"{' '.join(holder.get('class') or []) or '-'}>: "
+                  f"{text[:200]}")
+            holder = holder.parent
+
+        for stamp in (row.find_all("time")
+                      + (row.parent.find_all("time") if row.parent else [])):
+            print(f"     <time datetime={stamp.get('datetime')!r}>")
+
+    print("\n=== ANY DATE ANYWHERE IN THE PAGE TEXT ===")
+    import re as _re
+    whole = norm(soup.get_text(" ", strip=True))
+    for hit in _re.findall(r"[^|]{0,40}\d{2}-\d{2}-\d{4}[^|]{0,30}", whole)[:8]:
+        print(f"    {norm(hit)}")
+    for hit in _re.findall(r"[^|]{0,30}\d{4}-\d{2}-\d{2}[^|]{0,30}", whole)[:8]:
+        print(f"    {norm(hit)}")
 
     print("\n=== WHAT THE READER MAKES OF IT AS IT STANDS ===")
     for event in jfa.collect(page):
