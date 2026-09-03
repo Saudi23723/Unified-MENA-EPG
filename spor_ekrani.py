@@ -120,6 +120,99 @@ def collect(page: str) -> list[dict]:
     return out
 
 
+# Turkey's own competitions, by the slug the page files each under.
+#
+# Only "trendyol-1.-lig" is measured: it is the one the reader
+# photographed — Iğdırspor - Manisa FK, Bodrumspor - Esenler Erokspor and
+# Bursaspor - İstanbulspor, all on TRT Spor — and it was on the page when
+# this was written. The other two follow the same site's naming, and a
+# wrong guess there costs nothing: a slug that never matches adds no
+# fixture, so nothing false can reach the screen from a miss.
+TURKISH_FOOTBALL = {
+    "trendyol-1.-lig": "TFF 1. Lig",
+    "trendyol-super-lig": "Süper Lig",
+    "ziraat-turkiye-kupasi": "Türkiye Kupası",
+}
+
+
+def competition_slug(slot: dict) -> str:
+    """Which competition this is, as the page's own league slug."""
+    organizer = slot.get("organizer")
+    url = organizer.get("url") if isinstance(organizer, dict) else ""
+    return str(url or "").rstrip("/").rsplit("/", 1)[-1].casefold()
+
+
+def collect_fixtures(page: str) -> list[dict]:
+    """Turkey's own football, which no other page this board reads offers.
+
+    The reader photographed three TFF 1. Lig matches on TRT Spor that the
+    board did not have, and the board's own report says it was not a
+    filter that dropped them: livefootballtv's list of competitions
+    collected and not shown that day named eight, and no Turkish second
+    tier among them. They were never offered. This page has them.
+
+    Two structural facts make them safe to add, and neither is a list of
+    words anybody has to maintain:
+
+    A FIXTURE HAS TWO SIDES. Of 75 broadcastOfEvent objects on the page,
+    25 carry homeTeam and awayTeam. The other 50 are television — "beIN
+    Ana Haber", "Spor Merkezi", "Trendyol Süper Lig" the highlights show —
+    and horse racing meetings: Saratoga, Del Mar, Lingfield Park. Reading
+    a name alone would put all of them on a board of football.
+
+    A COMPETITION IS A SLUG, NOT A SENTENCE. organizer.url ends in
+    "/home/league/trendyol-1.-lig", so which competition a match belongs
+    to is read rather than inferred from the clubs — and only the
+    competitions named above are taken, so the page's padel, tennis and
+    basketball stay off a football board.
+    """
+    out: list[dict] = []
+    fixtures_seen = 0
+    for block in LD_JSON.findall(page):
+        try:
+            payload = json.loads(block)
+        except Exception:
+            continue
+        for event in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(event, dict):
+                continue
+            slot = event.get("broadcastOfEvent")
+            if not isinstance(slot, dict):
+                continue
+            if not slot.get("homeTeam") or not slot.get("awayTeam"):
+                continue
+            fixtures_seen += 1
+
+            competition = TURKISH_FOOTBALL.get(competition_slug(slot))
+            if not competition:
+                continue
+            start = instant(slot.get("startDate"))
+            title = fixture_of(slot)
+            if not start or " - " not in title:
+                continue
+            out.append({
+                "start": start,
+                "title": title,
+                "competition": competition,
+                "channels": [f"{name}{MARK}" for name in channels_of(event)],
+            })
+
+    log(f"  Spor Ekranı: {fixtures_seen} fixture(s) with two sides, "
+        f"{len(out)} in a Turkish competition")
+    return out
+
+
+def fixtures(session) -> list[dict]:
+    """Turkey's own football, or none if the page is having a bad day."""
+    from epg_lib import fetch
+    try:
+        return collect_fixtures(fetch(session, SOURCE).text)
+    except Exception as exc:
+        warn(f"Spor Ekranı is unreachable ({exc}) — the board keeps the "
+             f"fixtures the other sources gave it")
+        return []
+
+
 def broadcasts(session) -> list[dict]:
     """Read the page, and treat a bad day there as no reason to fail here."""
     from epg_lib import fetch

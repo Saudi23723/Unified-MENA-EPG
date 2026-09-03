@@ -90,6 +90,7 @@ NOT_PLAYED_YET = re.compile(r"^\s*(?:VS|vs\.?|ضد)\s*$", re.I)
 # match fails. The professional league, the one thing this file exists
 # for, was silently dropped by that one letter.
 PROFESSIONAL = re.compile(r"محترفين|كأس الأردن|درع الاتحاد|سوبر", re.I)
+A_CUP = re.compile(r"كأس الأردن", re.I)
 NATIONAL = re.compile(r"تصفيات|كأس آسيا|كأس العرب|كأس العالم|منتخب", re.I)
 # No definite article in any stem, and that is not a style choice. Arabic
 # glues its prefixes: the page writes "كأس الأردن للأشبال", and "الأشبال"
@@ -114,6 +115,47 @@ A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|ناشئين|أشبال|براعم"
 # NOT the national team. Its qualifiers are sold competition by
 # competition and land on beIN or elsewhere, so those keep the
 # placeholder until a listings page says otherwise.
+# The ten clubs of the professional league, read off its own standings
+# table, 2026/27.
+#
+# This exists because the competition heading LIES, and a reader caught it
+# on a television: "عمان FC - الكرمل" was published as a professional
+# league match and both of those are youth sides. So was "كفرسوم - جرش".
+# Neither club is in the league, and neither match belonged anywhere near
+# a board of professional football — but the heading above them on the
+# federation's page said محترفين, and a filter that reads only the heading
+# believes it.
+#
+# A LEAGUE HAS A FIXED MEMBERSHIP. That is the structural fact here, and
+# it is the same kind of fact this repository leans on everywhere else: a
+# channel shows one match at a time, a club plays one match at a time.
+# Ten clubs play this league and no eleventh can appear in it, so a
+# fixture claiming it between two clubs that are not in it is refused
+# whatever its heading says.
+#
+# Written in the shape club_key() folds names into, so a prefix, an alef
+# and a ta marbuta cannot break the match the way "للمحترفين" once did.
+PRO_LEAGUE_CLUBS = (
+    "رمثا", "جزيره", "حسين", "وحدات", "عربي",
+    "فيصلي", "شباب الاردن", "بقعه", "سلط", "دوقره",
+)
+
+
+def club_key(name: str) -> str:
+    """A club's name folded so two spellings of it are one string."""
+    name = norm(name).casefold()
+    name = (name.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+                .replace("ة", "ه").replace("ى", "ي"))
+    name = re.sub(r"^ال", "", name)
+    return norm(re.sub(r"\s+", " ", name))
+
+
+def in_the_league(name: str) -> bool:
+    """Is this one of the ten clubs that play the professional league?"""
+    key = club_key(name)
+    return any(club in key or key in club for club in PRO_LEAGUE_CLUBS)
+
+
 JORDAN_SPORT = "الأردن الرياضية"
 CARRIED_BY_JORDAN_SPORT = re.compile(r"محترفين|كأس الأردن|درع الاتحاد"
                                      r"|سوبر", re.I)
@@ -189,6 +231,33 @@ def wanted_here(competition: str) -> bool:
                 or NATIONAL.search(competition))
 
 
+def the_clubs_belong(competition: str, home: str, away: str) -> bool:
+    """Do these two clubs actually play the competition claimed above them?
+
+    The heading is not evidence on its own — that is what a reader
+    photographing a youth match published as professional football taught
+    this file. So the clubs are asked as well, and the two questions are
+    different competitions:
+
+    THE LEAGUE, THE SHIELD AND THE SUPER CUP are contested by the ten
+    professional clubs and nobody else, so BOTH sides must be among them.
+
+    THE CUP is not: it draws first-division and amateur clubs in with the
+    professionals, and a tie like الوحدات against a lower side is real,
+    televised, and exactly what a board should carry. So ONE professional
+    club is enough — which still refuses a preliminary tie between two
+    clubs from outside, the round this channel does not televise.
+
+    The national team is judged on its competition alone; it has no club
+    roster to be in.
+    """
+    if NATIONAL.search(competition) and not PROFESSIONAL.search(competition):
+        return True
+    if A_CUP.search(competition):
+        return in_the_league(home) or in_the_league(away)
+    return in_the_league(home) and in_the_league(away)
+
+
 def collect(html: str) -> list[dict]:
     """Every upcoming Jordanian fixture the federation publishes.
 
@@ -220,7 +289,7 @@ def collect(html: str) -> list[dict]:
 
     out: list[dict] = []
     waiting: tuple[str, datetime] | None = None
-    played = adrift = unwanted = 0
+    played = adrift = unwanted = impostors = 0
 
     for row in soup.find_all("tr"):
         if row.select_one("span.haly1"):
@@ -254,6 +323,14 @@ def collect(html: str) -> list[dict]:
         if not home_name or not away_name:
             adrift += 1
             continue
+        if not the_clubs_belong(competition, home_name, away_name):
+            # Named, with the heading that claimed them, because this is
+            # the heading lying and the next run should say so out loud
+            # rather than leaving it to a photograph of a television.
+            impostors += 1
+            log(f"    not the professional game: {home_name} - {away_name}"
+                f"  │ published under: {competition}")
+            continue
         out.append({
             "start": start,
             "title": f"{home_name} - {away_name}",
@@ -263,6 +340,7 @@ def collect(html: str) -> list[dict]:
 
     log(f"  jfa.jo: {played} already played, {adrift} with no header of "
         f"their own, {unwanted} not professional or national, "
+        f"{impostors} between clubs that do not play it, "
         f"{len(out)} fixture(s) to show")
     return out
 

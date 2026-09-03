@@ -236,6 +236,9 @@ WANTED_EXACT = {
     # England's second tier and has to be matched exactly, or "Caribbean
     # Club Championship" and "ASEAN Club Championship" come with it.
     "championship", "egyptian premier league",
+    # Turkey's second tier, asked for after three of its matches were
+    # photographed on TRT Spor and found to be on no page this board read.
+    "tff 1. lig", "trendyol 1. lig", "1. lig",
 }
 
 # Matched anywhere in the name, for families whose members all belong:
@@ -1348,6 +1351,17 @@ def build() -> int:
     # it and picks up a channel from any later pass that learns one.
     everything = unify(everything,
                        jordan_football.fetch_events(session, floor, ceiling))
+
+    # And Turkey's own second tier, which is in none of them either. The
+    # reader photographed Iğdırspor - Manisa FK, Bodrumspor - Esenler
+    # Erokspor and Bursaspor - İstanbulspor on TRT Spor; the day's
+    # dropped-competitions report named eight competitions and no Turkish
+    # league among them, so nothing filtered them out — they were never
+    # offered. Spor Ekranı has them, with the channel named in structured
+    # JSON rather than picked out of a Turkish sentence.
+    turkish = [event for event in spor_ekrani.fixtures(session)
+               if floor <= event["start"] < ceiling]
+    everything = unify(everything, turkish)
     # Kept, and stripped of what is not a channel in the same breath.
     #
     # real_channels() decided which matches belonged here and was then not
