@@ -1082,7 +1082,7 @@
   </channel>
   <channel id="TodaySports">
     <display-name lang="ar">رياضات اليوم</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/today_matches.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/other_sports.png" />
   </channel>
   <channel id="Thmanyah1.sa">
     <display-name lang="en">Thmanyah 1</display-name>
@@ -1104,12 +1104,6 @@
     <display-name lang="ar">ثمانية | Guide</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/thmanyah_guide.png" />
   </channel>
-  <programme start="20260902054800 +0000" stop="20260902073200 +0000" channel="beIN4K.qa">
-    <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
-    <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260902073200 +0000" stop="20260902091900 +0000" channel="beIN4K.qa">
     <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
@@ -1336,12 +1330,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">Arsenal are unbeaten in their last nine Premier League matches against Chelsea, their best unbeaten run against the Blues since a run of 19 between 1995 and 2005. Chelsea have lost their last four away Premier League games against Arsenal by an aggregate score of 11-2. Their last win there was in August 2021, a 2-0 victory.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260902033500 +0000" stop="20260902074500 +0000" channel="beINSports.qa">
-    <title lang="en">Day 3 - Evening Session - World Athletics U20 Championships - Oregon 26</title>
-    <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
-    <category lang="ar">ألعاب القوى</category>
-    <category lang="en">Athletics</category>
   </programme>
   <programme start="20260902074500 +0000" stop="20260902102300 +0000" channel="beINSports.qa">
     <title lang="en">Al Sadd vs Al Gharafa - Qatar Cup 2026</title>
@@ -1663,15 +1651,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">Athletics UTMB World Series 2026, is a world series for trail run racing between the famous cities around the world, top stars are among the participants.</desc>
     <category lang="ar">ألعاب القوى</category>
     <category lang="en">Athletics</category>
-  </programme>
-  <programme start="20260902061000 +0000" stop="20260902080300 +0000" channel="beINSports1.qa">
-    <title lang="en">Amed Sportif Faaliyetler vs Trabzonspor - Turkish Super League 2027 - MD3</title>
-    <desc lang="en">Amedspor vs Trabzonspor
-Turkish Super Lig
-Season 2026/2027
-Diyarbakir Stadyumu Stadium</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260902080300 +0000" stop="20260902083000 +0000" channel="beINSports1.qa">
     <title lang="en">UEFA UCL  Magazine 2026/2027-Play-off Review / USC Review/Draw Review</title>
@@ -2824,6 +2803,13 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260909080000 +0000" stop="20260909110000 +0000" channel="beINSports1.qa">
+    <title lang="en">Club Brugge vs Aston Villa  - Match 1 - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260902064500 +0000" stop="20260902083500 +0000" channel="beINSports2.qa">
     <title lang="en">Chelsea vs Brighton - English Premier League 2026/2027 - Week 2</title>
@@ -3994,12 +3980,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="en">Live</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260902060000 +0000" stop="20260902074700 +0000" channel="beINSports4.qa">
-    <title lang="en">Olympique Lyonnais vs Le Havre - French Ligue 1 2026/2027 - Week 2</title>
-    <desc lang="en">Lyon have won five of their last six home Ligue 1 matches against Le Havre, one more victory than they managed in their first 12 such meetings. Two of the last three teams to participate in the Champions League qualifying rounds won their opening home Ligue 1 match of the season: Marseille in 2023 and Lille in 2024, with Nice losing against Toulous</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
   <programme start="20260902074700 +0000" stop="20260902093000 +0000" channel="beINSports4.qa">
     <title lang="en">Lorient vs Troyes - French Ligue 1 2026/2027 - Week 2</title>
     <desc lang="en">Lorient have won their last three matches in all competitions against Troyes - without conceding a goal - and could set their longest winning streak against the club in all competitions, having previously won three in a row between 1996 and 1998. Lorient have won only two of their last 13 Ligue 1 home games against newly promoted sides, failing to</desc>
@@ -4691,17 +4671,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <title lang="en">Brazil vs Canada - Fifa Women World Cup - 2026</title>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">FIFA World Cup (Women)</category>
-  </programme>
-  <programme start="20260902053000 +0000" stop="20260902072600 +0000" channel="beINSports5.qa">
-    <title lang="en">Johor Darul Ta’zim FC (MAS) vs Vissel Kobe (JPN) - AFC Champions League Elite 2025/2026 - East MD8</title>
-    <desc lang="en">Johor Darul Ta'zim vs Vissel Kobe
-AFC Champions League Elite
-Season 2025/2026
-Qualifier Round
-Group East
-Sultan Ibrahim Stadium Stadium</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
   </programme>
   <programme start="20260902072600 +0000" stop="20260902091500 +0000" channel="beINSports5.qa">
     <title lang="en">FC Machida Zelvia (JPN) vs Chengdu Rongcheng FC - AFC Champions League Elite 2025/2026 - East MD8</title>
@@ -5666,62 +5635,62 @@ All games are live and exclusive only on be</desc>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903070000 +0000" stop="20260903083000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 1 - Women - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Gemma Triay Pons ESP Delfina Brea Senesi ARG vs Nuria Rodriguez Camacho ESP Giulia Dal Pozzo ITA - W ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903083000 +0000" stop="20260903100000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 2 - Women - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Lorena Rufo Ortiz ESP Victoria Iglesias Segador ESP vs Alejandra Salazar Bengoechea ESP Aranzazu Oso ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903100000 +0000" stop="20260903113000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 3 - Men - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Franco Stupaczuk ARG Jon Sanz ESP vs Jose Jimenez Casas ESP Alejandro Arroyo ESP - Men - Premier Pad ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903113000 +0000" stop="20260903130000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 1 - Women - Premier Padel - Madrid P1 - 2026</title>
+    <title lang="en">Gemma Triay Pons ESP Delfina Brea Senesi ARG vs Nuria Rodriguez Camacho ESP Giulia Dal Pozzo ITA - W</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903130000 +0000" stop="20260903143000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 4 – Men - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Alix Collombon FRA Ksenia Sharifova vs Paula Josemaria Martin ESP Beatriz Gonzalez Fernandez ESP – W ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903143000 +0000" stop="20260903160000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 5 – Women - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Juanlu Esbri ESP Carlos Daniel Gutierrez ARG vs Alejandro Galan ESP Federico Chingotto ARG – Men - P ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903160000 +0000" stop="20260903173000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 6 - Men - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Arturo Coello ESP Agustin Tapia ARG vs Maximiliano Arce Simo ARG Juan Tello ARG - Men - Premier Pade ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903173000 +0000" stop="20260903191500 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 7 – Men - Premier Padel - Madrid P1 - 2026 ‎• Live 🔵‎</title>
+    <title lang="en">Gonzalo Alfonso ARG Valentino Libaak ARG vs Leandro Roman Augsburger ARG Juan Lebron ESP – Men - Pre ‎• Live 🔵‎</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
   <programme start="20260903191500 +0000" stop="20260903210000 +0000" channel="beINSports6.qa">
-    <title lang="en">Match 1 - Women - Premier Padel - Madrid P1 - 2026</title>
+    <title lang="en">Gemma Triay Pons ESP Delfina Brea Senesi ARG vs Nuria Rodriguez Camacho ESP Giulia Dal Pozzo ITA - W</title>
     <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
@@ -6234,12 +6203,6 @@ Estadio Ontime Butarque Stadium</desc>
     <desc lang="en">Premier Padel Majors represent the pinnacle of professional padel, attracting the sport’s biggest stars to four iconic events in Qatar, Italy, France and Mexico. Offering the highest ranking rewards on the Premier Padel Tour, the Majors are among the most coveted titles of the season and showcase the sport at its highest level.</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
-  </programme>
-  <programme start="20260902060200 +0000" stop="20260902080000 +0000" channel="beINSports7.qa">
-    <title lang="en">Taylor Fritz (USA) vs Darwin Blanch (USA) - Men’s Singles - Arthur Ashe Court - Tennis US Open 2026</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260902080000 +0000" stop="20260902095500 +0000" channel="beINSports7.qa">
     <title lang="en">Madison Keys (USA) vs Alina Korneeva - Women’s Singles - Arthur Ashe Court - Tennis US Open 2026</title>
@@ -6887,8 +6850,8 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902031500 +0000" stop="20260902074700 +0000" channel="beINSports8.qa">
-    <title lang="en">Francisco Comesana (ARG) vs Flavio Cobolli (ITA) - Men’s Singles - Louis Armstrong Court - Tennis US</title>
+  <programme start="20260909080000 +0000" stop="20260909100000 +0000" channel="beINSports7.qa">
+    <title lang="en">Day 10 - Arthur Ashe Court - Tennis US Open 2026 - Women's Singles QF</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -8056,20 +8019,6 @@ Estadio Ontime Butarque Stadium</desc>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260902070000 +0000" stop="20260902073000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Real Madrid vs Málaga - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Real Madrid are unbeaten in their last 11 LaLiga matches against Málaga  since a 3-2 defeat in December 2012, which is their only loss against them in the competition's history. Real Madrid are unbeaten in their 17 home LaLiga matches against Málaga ; only against Las Palmas, Elche, CD Málaga  and Real Murcia  have they played more home games in th</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
-  <programme start="20260902073000 +0000" stop="20260902080000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260902080000 +0000" stop="20260902083000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EFL Highlights 2026/27 | E3</title>
@@ -9906,12 +9855,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902060000 +0000" stop="20260902080000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">St Etienne vs Dijon - Ligue 2 - J04 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260902080000 +0000" stop="20260902100500 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Marseille vs Toulouse - Coupe de France Hommes - 1/4 FINALES - FOOTBALL 2025-2026</title>
     <desc lang="en">Sport.</desc>
@@ -10347,12 +10290,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260907020000 +0000" stop="20260907205959 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Metz vs Rodez - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260902060500 +0000" stop="20260902080000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Besiktas vs Corum - Championnat de Turquie - J03 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -12269,11 +12206,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902060000 +0000" stop="20260902080000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Mercato Special Coverage</title>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260902080000 +0000" stop="20260902083000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
@@ -13964,9 +13896,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الأخبار الرياضية</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -14921,7 +14853,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15927,7 +15859,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16927,7 +16859,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17967,7 +17899,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18951,7 +18883,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19949,7 +19881,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20747,7 +20679,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -21545,7 +21477,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -22343,6 +22275,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260909080000 +0000" stop="20260909090000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260902210000 +0000" stop="20260902220000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Muhabir Masası (26-27) 4.bölüm / Bant</title>
     <category lang="en">Sports</category>
@@ -23124,8 +23062,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903184500 +0000" stop="20260904024500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Toulouse - Lille</title>
+    <title lang="en">Toulouse - Lille ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
+    <category lang="en">Live</category>
   </programme>
   <programme start="20260904024500 +0000" stop="20260904030000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Ligue 1 Haftanın Golleri</title>
@@ -24033,22 +23972,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260902070355 +0000" stop="20260902071244 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902071244 +0000" stop="20260902073246 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902073246 +0000" stop="20260902075243 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902075243 +0000" stop="20260902081241 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260902081241 +0000" stop="20260902083022 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -24405,19 +24328,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260902070355 +0000" stop="20260902071244 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902071244 +0000" stop="20260902073246 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902073246 +0000" stop="20260902075243 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902075243 +0000" stop="20260902081241 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -24777,19 +24688,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260902070355 +0000" stop="20260902071244 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902071244 +0000" stop="20260902073246 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902073246 +0000" stop="20260902075243 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902075243 +0000" stop="20260902081241 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25149,19 +25048,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260902070355 +0000" stop="20260902071244 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902071244 +0000" stop="20260902073246 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902073246 +0000" stop="20260902075243 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902075243 +0000" stop="20260902081241 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25521,6 +25408,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260903183000 +0000" stop="20260903190000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -25554,16 +25445,16 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260905210000 +0000" stop="20260906050000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903151123 +0000" stop="20260903161443 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260903151123 +0000" stop="20260903161443 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260903151123 +0000" stop="20260903161443 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903150301 +0000" stop="20260903151123 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260903151123 +0000" stop="20260903161443 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260902210000 +0000" stop="20260902213000 +0000" channel="Roya_RoyaTV">
@@ -40897,18 +40788,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الثعلب المخترع يبتكر اختراعات يومياً له ولأصدقائه الحيوانات في الحي، ويعيشون قصصاً ومغامرات ممتعة وتعليمية.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1407/9FyFmXj926WsS8u.webp" />
   </programme>
-  <programme start="20260902053000 +0000" stop="20260902073000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">صباح اليوم</title>
-    <category lang="ar">منوعات</category>
-  </programme>
-  <programme start="20260902073000 +0000" stop="20260902074000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">موجز الساعة 10:30 صباحاً</title>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20260902074000 +0000" stop="20260902080000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">برامج الجديد — لم تُعلن التفاصيل</title>
-    <category lang="ar">منوعات</category>
-  </programme>
   <programme start="20260902080000 +0000" stop="20260902090000 +0000" channel="AlJadeed.lb">
     <title lang="ar">الحدث</title>
     <category lang="ar">منوعات</category>
@@ -41643,11 +41522,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260908203000 +0000" stop="20260908205900 +0000" channel="AlJadeed.lb">
     <title lang="ar">نشرة الأخبار الليلية</title>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20260902070000 +0000" stop="20260902080000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20260902080000 +0000" stop="20260902110000 +0000" channel="AlJazeera.qa">
@@ -53761,13 +53635,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260903023000 +0000" stop="20260903024500 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902073000 +0000" channel="Starz_admnadsports1">
-    <title lang="en">ADNOC Pro League Magazine 2026-2027</title>
-    <desc lang="en">ADNOC Pro League Magazine 2026-2027</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260902073000 +0000" stop="20260902083000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260902081500 +0000" stop="20260902083000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Final Score 2026-2027</title>
     <desc lang="en">Final Score 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -54109,7 +53977,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902090000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260902081500 +0000" stop="20260902090000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -54325,14 +54193,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902071500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Round 2 - Serie A Highlights</title>
-    <title lang="ar">الجولة 2 - مقتطفات من الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG98671_landscape10-6e4f7ed7-7c20-45f1-9da6-0d13d750b2df.jpg" />
-  </programme>
-  <programme start="20260902071500 +0000" stop="20260902090000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260902081500 +0000" stop="20260902090000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Napoli x Como - Serie A</title>
     <title lang="ar">نابولي × كومو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -54909,21 +54770,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902073000 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Fiorentina x Frosinone - Serie A</title>
-    <title lang="ar">فيورنتينا × فروزينوني - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="Starz_starzplaysports1">
+    <title lang="en">StarzPLAY Sports 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260902073000 +0000" stop="20260902080000 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Round 2 - Serie A Highlights</title>
-    <title lang="ar">الجولة 2 - مقتطفات من الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG98671_landscape10-6e4f7ed7-7c20-45f1-9da6-0d13d750b2df.jpg" />
-  </programme>
-  <programme start="20260902080000 +0000" stop="20260902094500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260902081500 +0000" stop="20260902094500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Juventus x Parma - Serie A</title>
     <title lang="ar">يوفنتوس × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -55501,14 +55354,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902075500 +0000" channel="Starz_starzplaysport1">
-    <title lang="en">Chimaev X Strickland - UFC Reloaded</title>
-    <title lang="ar">شيماييف × ستريكلاند - يو إف سي ريلوديد</title>
-    <desc lang="en">Join us for a mano-a-mano extravaganza as we take a look back at the biggest and most memorable UFC events in history.</desc>
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="Starz_starzplaysports2">
+    <title lang="en">StarzPLAY Sports 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG317306_landscape10_MASTER304190.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260902075500 +0000" stop="20260902093500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260902081500 +0000" stop="20260902093500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -56110,13 +55962,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902080400 +0000" channel="Starz_starzplayrugby">
-    <title lang="en">Australia vs. Japan - Rugby Union Internationals</title>
-    <desc lang="en">Australia vs. Japan - Rugby Union Internationals</desc>
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="Starz_starzplaysport1">
+    <title lang="en">Starzplay Sports 3</title>
+    <title lang="ar">ستارزبلاي سبورتس 3</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/GNLZZGG003FSTHL.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260902080400 +0000" stop="20260902091800 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260902081500 +0000" stop="20260902091800 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Vodacom Bulls vs. Maori All Blacks - Rugby Union</title>
     <desc lang="en">Vodacom Bulls vs. Maori All Blacks - Rugby Union</desc>
     <category lang="en">Sport</category>
@@ -56344,14 +56197,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902080000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Salwa Al Sabah X 6 October - Shka. Fatima Women GCC Basketball Cup</title>
-    <title lang="ar">سلوى الصباح × 6 أكتوبر - كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
-    <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG607364_landscape10-eba22527-2b2c-44ab-81c9-200e3c7002c9.jpg" />
-  </programme>
-  <programme start="20260902080000 +0000" stop="20260902083000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260902081500 +0000" stop="20260902083000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Sport Confidential</title>
     <title lang="ar">أسرار الرياضة</title>
     <desc lang="en">Follow this special program that features sports secrets you've never known before.</desc>
@@ -57016,21 +56862,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902071800 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2nd Test: Sri Lanka vs. India - Test Cricket</title>
-    <title lang="ar">تست كريكيت</title>
-    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Abu Dhabi Sports Asia 1</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260902071800 +0000" stop="20260902075600 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">3rd ODI: England v India - One-Day International Cricket</title>
-    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
-    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260902075600 +0000" stop="20260902082000 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260902081500 +0000" stop="20260902082000 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2026: St Kitts &amp; Nevis Patriots vs Barbados Tridents, 23rd Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -57770,13 +57609,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902080000 +0000" channel="Starz_wedosports">
-    <title lang="en">Valencia, Qualifying - FIA TCR World Tour - LIVE</title>
-    <desc lang="en">Valencia, Qualifying - FIA TCR World Tour - LIVE</desc>
+  <programme start="20260906072800 +0000" stop="20260906091600 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd Test: Sri Lanka vs. India - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25439127_b_h10_ab.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260902080000 +0000" stop="20260902101800 +0000" channel="Starz_wedosports">
+  <programme start="20260902081500 +0000" stop="20260902101800 +0000" channel="Starz_wedosports">
     <title lang="en">Kilmarnock v Celtic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Kilmarnock v Celtic - Scottish Premier League Football - LIVE</desc>
@@ -58182,7 +58022,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902085826 +0000" channel="Starz_unbeatensports">
+  <programme start="20260902081500 +0000" stop="20260902085826 +0000" channel="Starz_unbeatensports">
     <title lang="en">SFT Combat</title>
     <desc lang="en">SFT Combat 63 delivers elite Brazilian MMA action with a featherweight title fight headlining the main card.</desc>
     <category lang="en">Sport</category>
@@ -58254,13 +58094,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903000000 +0000" stop="20260903030000 +0000" channel="Starz_unbeatensports">
-    <title lang="en">LiveSegment_e7961259-6c20-43b2-8bc3-1ab85216f5ed</title>
-    <desc lang="en">LiveSegment_e7961259-6c20-43b2-8bc3-1ab85216f5ed</desc>
+  <programme start="20260903000000 +0000" stop="20260903032900 +0000" channel="Starz_unbeatensports">
+    <title lang="en">LIVE: Winnipeg v Fargo-Moorhead</title>
+    <desc lang="en">Winnipeg takes on Fargo-Moorhead in an exciting AA Baseball matchup in the 2026 season</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903030000 +0000" stop="20260903040000 +0000" channel="Starz_unbeatensports">
+  <programme start="20260903032900 +0000" stop="20260903040000 +0000" channel="Starz_unbeatensports">
     <title lang="en">Fantasy Life Show</title>
     <desc lang="en">Kendall Valenzuela and Peter Overzet break down their final top-48 RB rankings for 2026 fantasy football.</desc>
     <category lang="en">Sport</category>
@@ -58290,21 +58130,21 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903100000 +0000" stop="20260903110200 +0000" channel="Starz_unbeatensports">
+  <programme start="20260903100000 +0000" stop="20260903110000 +0000" channel="Starz_unbeatensports">
     <title lang="en">Fantasy Life Show</title>
-    <desc lang="en">Dwain McFarland joins Pete &amp; Kendall to talk 2026 fantasy football WR tiers 5-13.</desc>
+    <desc lang="en">Kendall, Dwain and Peter break down the top 48 WRs before the 2026 fantasy season.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903110200 +0000" stop="20260903120000 +0000" channel="Starz_unbeatensports">
-    <title lang="en">FIBA World Basketball</title>
-    <desc lang="en">Santi Aldama is at the forefront for Spain as a talented generation breaks in ahead of FIBA World Cup 2027.</desc>
+  <programme start="20260903110000 +0000" stop="20260903120000 +0000" channel="Starz_unbeatensports">
+    <title lang="en">ISG Baseball</title>
+    <desc lang="en">Enes Kanter Freedom, Tatum's Dad doubts Celtics, Klay Thompson, Jonathan Kuminga, DeMar DeRozan, Blake Griffin</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
   <programme start="20260903120000 +0000" stop="20260903134500 +0000" channel="Starz_unbeatensports">
-    <title lang="en">LIVE: Guiyang Obstacle World Champs</title>
-    <desc lang="en">Top athletes battle for glory at the Obstacle World Championships in Guiyang</desc>
+    <title lang="en">LiveSegment_e7961259-6c20-43b2-8bc3-1ab85216f5ed</title>
+    <desc lang="en">LiveSegment_e7961259-6c20-43b2-8bc3-1ab85216f5ed</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
@@ -58350,15 +58190,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260904023000 +0000" stop="20260904030200 +0000" channel="Starz_unbeatensports">
-    <title lang="en">FIBA World Basketball</title>
-    <desc lang="en">Santi Aldama is at the forefront for Spain as a talented generation breaks in ahead of FIBA World Cup 2027.</desc>
+  <programme start="20260904023000 +0000" stop="20260904033200 +0000" channel="Starz_unbeatensports">
+    <title lang="en">Fantasy Life Show</title>
+    <desc lang="en">Kendall, Dwain and Peter break down the top 48 WRs before the 2026 fantasy season.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260904030200 +0000" stop="20260904040000 +0000" channel="Starz_unbeatensports">
-    <title lang="en">The Inside Line</title>
-    <desc lang="en">Alex Albon has nailed his colours to Williams’ mast, win or lose</desc>
+  <programme start="20260904033200 +0000" stop="20260904040000 +0000" channel="Starz_unbeatensports">
+    <title lang="en">Mediterranean Games</title>
+    <desc lang="en">Experience the thrill the Mediterranean Games, celebrating unity and spirit</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
@@ -58602,19 +58442,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902073000 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's T20 World Cup 2022: Pakistan vs South Africa - Kick-Off Classics</title>
-    <desc lang="en">ICC Men's T20 World Cup 2022: Pakistan vs South Africa - Kick-Off Classics</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260902073000 +0000" stop="20260902080000 +0000" channel="Starz_criclife1">
-    <title lang="en">2024: Delhi Capitals vs. Gujarat Titans - Tata IPL Rewinds</title>
-    <desc lang="en">S2024 , Ep.2024: Delhi Capitals vs. Gujarat Titans :</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260902080000 +0000" stop="20260902083000 +0000" channel="Starz_criclife1">
+  <programme start="20260902081500 +0000" stop="20260902083000 +0000" channel="Starz_criclife1">
     <title lang="en">2024: Sunrisers Hyderabad vs. Royal Challengers Bengaluru - Tata IPL Rewinds</title>
     <desc lang="en">S2024 , Ep.2024: Sunrisers Hyderabad vs. Royal Challengers Bengaluru :</desc>
     <category lang="en">Sport</category>
@@ -59175,27 +59003,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902071700 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Trinbago Knight Riders vs Barbados Royals, 19th Match - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+  <programme start="20260906080000 +0000" stop="20260906110000 +0000" channel="Starz_criclife1">
+    <title lang="en">STARZPLAY Cricket</title>
+    <title lang="ar">ستارزبلاي كريكيت</title>
+    <desc lang="en">STARZPLAY Cricket</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260902071700 +0000" stop="20260902074300 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Pakistan Super League - Best Of The T20Is</title>
-    <title lang="ar">بست أوف ذا تي٢٠ إنترناشونالز</title>
-    <desc lang="en">Top plays and exciting moments from T20 cricket matches played between national cricket teams from around the world.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260902074300 +0000" stop="20260902080700 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Amsterdam Flames vs Belfast Wolves - ETPL Highlights</title>
-    <desc lang="en">2026: Amsterdam Flames vs Belfast Wolves - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260902080700 +0000" stop="20260902083200 +0000" channel="Starz_criclife3">
+  <programme start="20260902081500 +0000" stop="20260902083200 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Jamaica Kingsmen v St. Kitts &amp; Nevis Patriots, 10th Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -60402,7 +60217,26 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902083400 +0000" channel="Starz_golflife">
+  <programme start="20260906071700 +0000" stop="20260906073700 +0000" channel="Starz_criclife3">
+    <title lang="en">Best Of MLC 2026</title>
+    <desc lang="en">Best Of MLC 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260906073700 +0000" stop="20260906075800 +0000" channel="Starz_criclife3">
+    <title lang="en">Best Of MLC 2026</title>
+    <desc lang="en">Best Of MLC 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260906075800 +0000" stop="20260906083200 +0000" channel="Starz_criclife3">
+    <title lang="en">2nd ODI: England v Ireland - Women's One-Day International Cricket</title>
+    <title lang="ar">سكند أو دي آي: أستراليا فيرسز إنديا</title>
+    <desc lang="en">Women's national cricket teams compete against each other in a one-day international in a bid to emerge victorious and win the title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p11931627_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260902081500 +0000" stop="20260902083400 +0000" channel="Starz_golflife">
     <title lang="en">Second Round - 2026 TOUR Championship</title>
     <desc lang="en">Second Round - 2026 TOUR Championship</desc>
     <category lang="en">Sport</category>
@@ -60713,19 +60547,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902074500 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Al-Ain Camel Race Festival</title>
-    <title lang="ar">مهرجان العين لسباقات الهجن</title>
-    <desc lang="en">Stay tuned to Al-Ain Camel Race Festival.</desc>
+  <programme start="20260906080000 +0000" stop="20260906110000 +0000" channel="Starz_golflife">
+    <title lang="en">Sports Programme</title>
+    <title lang="ar">سبورتس بروغرام</title>
+    <desc lang="en">Sports Programme</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG624022_landscape10-f823dacb-61e3-428a-85d1-9d62ac150537.jpg" />
-  </programme>
-  <programme start="20260902074500 +0000" stop="20260902081500 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">The Boat Show</title>
-    <title lang="ar">عالم القوارب</title>
-    <desc lang="en">Experience the latest and finest collection of super yachts and boats from across the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG27317_landscape10-7d276c99-7737-4b83-acc7-3f96c4560ef1.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
   <programme start="20260902081500 +0000" stop="20260902094500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">One-Year-Old Fillies Category - UAE National Arabian Horse Beauty Pageants</title>
@@ -61315,13 +61142,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902080000 +0000" channel="Starz_awsn">
-    <title lang="en">AWSN+</title>
-    <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Abu Dhabi Sports Asia 2</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260902080000 +0000" stop="20260902100000 +0000" channel="Starz_awsn">
+  <programme start="20260902081500 +0000" stop="20260902100000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -61609,13 +61437,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902080000 +0000" channel="Starz_redbulltv">
-    <title lang="en">Red Bull TV</title>
-    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+  <programme start="20260906080000 +0000" stop="20260906100000 +0000" channel="Starz_awsn">
+    <title lang="en">AWSN+</title>
+    <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+    <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260902080000 +0000" stop="20260902090000 +0000" channel="Starz_redbulltv">
+  <programme start="20260902081500 +0000" stop="20260902090000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -62191,7 +62019,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902090000 +0000" channel="Starz_daznringside">
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="Starz_redbulltv">
+    <title lang="en">Red Bull TV</title>
+    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+  </programme>
+  <programme start="20260902081500 +0000" stop="20260902090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -62389,7 +62223,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902091747 +0000" channel="Starz_fifaplus">
+  <programme start="20260902081500 +0000" stop="20260902091747 +0000" channel="Starz_fifaplus">
     <title lang="en">Argentina v South Africa | Group G | FIFA Women's World Cup Australia &amp; New Zealand 2023™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Argentina and South Africa played at Dunedin Stadium, Dunedin / Ōtepoti on Friday, July 28, 2023 at 12:00 PM (local time).</desc>
     <category lang="en">Sport</category>
@@ -62731,14 +62565,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/6_pbfoHCgkKDwOONgL5s2g.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902073700 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Semi-Final: India v Australia - ICC Women's Cricket World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
-    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
-  </programme>
-  <programme start="20260902073700 +0000" stop="20260902090800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260902081500 +0000" stop="20260902090800 +0000" channel="Starz_criclifewoman">
     <title lang="en">2025: Final India vs South Africa - ICC Women's Cricket World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
     <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
@@ -63393,13 +63220,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902073000 +0000" channel="Starz_admnyastv">
-    <title lang="en">UAE President Cup Flat Races 2026</title>
-    <desc lang="en">UAE President Cup Flat Races 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260902073000 +0000" stop="20260902084500 +0000" channel="Starz_admnyastv">
+  <programme start="20260902081500 +0000" stop="20260902084500 +0000" channel="Starz_admnyastv">
     <title lang="en">UIM F1H2O World Championship 2026</title>
     <desc lang="en">UIM F1H2O World Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -63843,7 +63664,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260902071000 +0000" stop="20260902092000 +0000" channel="Starz_adfight">
+  <programme start="20260902081500 +0000" stop="20260902092000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -63963,7 +63784,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260905231000 +0000" stop="20260906071000 +0000" channel="Starz_adfight">
+  <programme start="20260905231000 +0000" stop="20260906081500 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -67419,14 +67240,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260902060000 +0000" stop="20260902075000 +0000" channel="TabiiSpor5.tr">
+  <programme start="20260902060000 +0000" stop="20260902080500 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260902075000 +0000" stop="20260902080500 +0000" channel="TabiiSpor5.tr">
-    <title lang="en">Tekvando - Erkekler 84kg/Hasan Arslan ‎• Live 🔵‎</title>
-    <category lang="en">Spor</category>
-    <category lang="en">Live</category>
   </programme>
   <programme start="20260902080500 +0000" stop="20260902090000 +0000" channel="TabiiSpor5.tr">
     <title lang="en">Tekvando - Erkekler 84kg/Uğur Aktaş ‎• Live 🔵‎</title>
@@ -68075,6 +67893,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260902060000 +0000" stop="20260902080000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260902080000 +0000" stop="20260902090000 +0000" channel="TabiiSpor7.tr">
@@ -69122,133 +68942,101 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260903070000 +0000" stop="20260904070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 6 ساعات و45 دقيقة ⁨·⁩ ⁨Iğdırspor - Manisa FK · TRT Spor TR · Bein 2 TR⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 5 ساعات و42 دقيقة ⁨·⁩ ⁨Iğdırspor - Manisa FK · TRT Spor TR · Bein 2 TR⁩⁩</title>
     <desc lang="ar">مباريات الخميس 03/09 — بتوقيتك
-⁦⏳ 07:00 6 ساعات و45 دقيقة  Iğdırspor - Manisa FK · TRT Spor TR · Bein 2 TR⁩
-⁦08:55 8 ساعات و40 دقيقة  Al-Fayha FC - Al Kholood · Thmanyah · Thmanyah 2 HD⁩
-⁦09:00 8 ساعات و45 دقيقة  Palermo - Mantova · MBC Shahid · Premier Sports 1 · Alwan 3⁩
+⁦⏳ 07:00 5 ساعات و42 دقيقة  Iğdırspor - Manisa FK · TRT Spor TR · Bein 2 TR⁩
+⁦08:55 7 ساعات و37 دقيقة  Al-Fayha FC - Al Kholood · Thmanyah · Thmanyah 2 HD⁩
+⁦09:00 7 ساعات و42 دقيقة  Palermo - Mantova · MBC Shahid · Premier Sports 1 · Alwan 3⁩
 ⁦Al Buqa'a Club - Doqarah Club · الأردن الرياضية⁩
-⁦09:30 9 ساعات و15 دقيقة  NEOM SC - Khaleej FC · Thmanyah · Thmanyah 3 HD⁩
-⁧10:00 9 ساعات و45 دقيقة  الأهلي - سموحة · ON Sport⁩
+⁦09:30 8 ساعات و12 دقيقة  NEOM SC - Khaleej FC · Thmanyah · Sky+ · BandSports +2⁩
+⁧10:00 8 ساعات و42 دقيقة  الأهلي - سموحة · ON Sport⁩
 ⁦Bursaspor - İstanbulspor · TRT Spor TR · Bein 2 TR⁩
 ⁦Bodrumspor - Esenler Erokspor · TRT Türk TR · Bein Max 1 TR⁩
-⁦11:00 10 ساعات و45 دقيقة  Al Draih - Al Qadisiya · Thmanyah · Thmanyah 1 HD⁩
-⁦11:45 11 ساعة و30 دقيقة  Toulouse - Lille · beIN 1 · beIN 4 TR · Ligue1+ +2⁩
-⁦12:00 11 ساعة و45 دقيقة  Real Sociedad - Celta Vigo · beIN 2 · Premier Sports 2 · S Sport TR +5⁩
-⁦Cagliari - Verona · MBC Shahid · TRT Spor TR · DAZN Germany +5⁩</desc>
+⁦11:00 9 ساعات و42 دقيقة  Al Draih - Al Qadisiya · Thmanyah · Fox Soccer Plus · fuboTV +4⁩
+⁦11:45 10 ساعات و27 دقيقة  Toulouse - Lille · beIN 1 · beIN 4 TR · Ligue1+ +2⁩
+⁦12:00 10 ساعات و42 دقيقة  Real Sociedad - Celta Vigo · beIN 2 · Premier Sports 2 · ESPN+ +6⁩
+⁦Cagliari - Verona · MBC Shahid · Paramount+ · TRT Spor TR +5⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد يوم و7 ساعات ⁨·⁩ ⁨Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد يوم و6 ساعات ⁨·⁩ ⁨Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 04/09 — بتوقيتك
-⁦⏳ 08:00 يوم و7 ساعات  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
-⁦09:00 يوم و8 ساعات  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
-⁦10:00 يوم و9 ساعات  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+⁩
+⁦⏳ 08:00 يوم و6 ساعات  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
+⁦09:00 يوم و7 ساعات  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
+⁦10:00 يوم و8 ساعات  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+⁩
 ⁦AS Port - Zamalek SC · ON Sport⁩
 ⁧إسطنبول باشاكشهير - جالاتا سراي · beIN 5 · beIN 1 TR⁩
-⁦10:30 يوم و10 ساعات  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
-⁦11:00 يوم و10 ساعات  Al Shabab FC - Al Hilal · Thmanyah · Thmanyah 1 HD⁩
+⁦10:30 يوم و9 ساعات  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
+⁦11:00 يوم و9 ساعات  Al Shabab FC - Al Hilal · Thmanyah · Thmanyah 1 HD⁩
 ⁦Al Ahli - Al-Riyadh SC · Thmanyah · Thmanyah 3 HD⁩
 ⁦London City Lionesses - Manchester United Women · Sky Main Event · Sky Football · Sky One +1⁩
-⁦11:30 يوم و11 ساعة  Stuttgart - FC Koln · MBC Shahid · MBC Action⁩
-⁦11:45 يوم و11 ساعة  Genoa - Como · DAZN⁩
-⁦12:00 يوم و11 ساعة  Ipswich - Liverpool · beIN 3 · Sky Main Event · beIN 3 TR +5⁩
+⁦11:30 يوم و10 ساعات  Stuttgart - FC Koln · MBC Shahid · MBC Action⁩
+⁦11:45 يوم و10 ساعات  Genoa - Como · DAZN⁩
+⁦12:00 يوم و10 ساعات  Ipswich - Liverpool · beIN 3 · Sky Main Event · beIN 3 TR +5⁩
 ⁦Betis - Real Madrid · beIN 1 · Premier Sports 1 · beIN FR 2 +1⁩
-⁦12:05 يوم و11 ساعة  PSG - Monaco · beIN 2 · beIN 2 TR · Ligue1+ +3⁩</desc>
+⁦12:05 يوم و10 ساعات  PSG - Monaco · beIN 2 · beIN 2 TR · Ligue1+ +3⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_2.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد يومين و3 ساعات ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد يومين وساعتين ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
     <desc lang="ar">مباريات السبت 05/09 — بتوقيتك
-⁦⏳ 04:00 يومين و3 ساعات  Manchester United U18 - Middlesbrough U18 · MUTV⁩
-⁦04:30 يومين و4 ساعات  Newcastle - Bournemouth · beIN 1 · TNT 1 · beIN 3 TR +5⁩
+⁦⏳ 04:00 يومين وساعتين  Manchester United U18 - Middlesbrough U18 · MUTV⁩
+⁦04:30 يومين و3 ساعات  Newcastle - Bournemouth · beIN 1 · TNT 1 · beIN 3 TR +5⁩
 ⁦Preston - Blackburn · beIN 2⁩
 ⁦Lincoln City - Southampton · Sky+⁩
 ⁦Preston North End - Blackburn Rovers · beIN 2 · Sky Main Event · Sky Football⁩
 ⁦Stoke City - Charlton Athletic · Sky+⁩
 ⁦Knowle - Worcester City · BBC Red Button⁩
-⁦06:00 يومين و5 ساعات  Brazil - Tanzania · beIN Xtra 6⁩
+⁦06:00 يومين و4 ساعات  Brazil - Tanzania · beIN Xtra 6⁩
 ⁦Poland - Argentina · beIN⁩
 ⁦Brazil Women U20 - Tanzania Women U20 · DAZN⁩
 ⁦Poland Women U20 - Argentina Women U20 · DAZN⁩
-⁦06:30 يومين و6 ساعات  Bayer Leverkusen - Union Berlin · MBC Shahid⁩
+⁦06:30 يومين و5 ساعات  Bayer Leverkusen - Union Berlin · MBC Shahid⁩
 ⁦Hoffenheim - Dortmund · MBC Shahid⁩
 ⁦B. Monchengladbach - Elversberg · MBC Shahid⁩
 ⁦Werder Bremen - RB Leipzig · MBC Shahid⁩
 ⁦Paderborn - Freiburg · MBC Shahid⁩
-⁦07:00 يومين و6 ساعات  Manchester City - Coventry · beIN 1 · beIN 3 TR · beIN Xtra 1 +2⁩
+⁦07:00 يومين و5 ساعات  Manchester City - Coventry · beIN 1 · beIN 3 TR · beIN Xtra 1 +2⁩
 ⁦Fulham - Crystal Palace · beIN 4⁩
 ⁦Brighton - Leeds · beIN 3⁩
 ⁦Nottingham - Tottenham · beIN 2⁩
 ⁦Brentford - Sunderland · beIN 5⁩
 ⁦Burnley - Bristol City · beIN Xtra 4 · beIN 1 EN · beIN XTRA 4⁩
 ⁧إيرزوروم سبور - قونيا سبور · beIN 2 TR⁩
-⁦07:15 يومين و7 ساعات  Ath Bilbao - Atl. Madrid · beIN 6 · beIN FR 1⁩
+⁦07:15 يومين و5 ساعات  Ath Bilbao - Atl. Madrid · beIN 6 · beIN FR 1⁩
 ⁦Athletic Bilbao - Atlético Madrid · beIN 6 · LALIGATV · beIN FR 1⁩
-⁦08:00 يومين و7 ساعات  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
-⁦08:15 يومين و8 ساعات  Lens - Lorient · beIN Xtra 1 · beIN XTRA 1⁩
-⁦08:50 يومين و8 ساعات  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
-⁦08:55 يومين و8 ساعات  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
-⁦09:00 يومين و8 ساعات  Mexico - Benin · beIN Xtra 5⁩
+⁦08:00 يومين و6 ساعات  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
+⁦08:15 يومين و6 ساعات  Lens - Lorient · beIN Xtra 1 · beIN XTRA 1⁩
+⁦08:50 يومين و7 ساعات  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
+⁦08:55 يومين و7 ساعات  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
+⁦09:00 يومين و7 ساعات  Mexico - Benin · beIN Xtra 5⁩
 ⁦Canada - England · beIN Xtra 5 · beIN XTRA 5⁩
 ⁦Canada Women U20 - England Women U20 · DAZN⁩
 ⁦Mexico Women U20 - Benin Women U20 · DAZN⁩
 ⁦Inter Milan - Napoli (joins match in progress) · TNT 2 · DAZN · HBO Max⁩
-⁦09:30 يومين و9 ساعات  Hull City - Aston Villa · beIN 1 · Sky Main Event · beIN 3 TR +4⁩
+⁦09:30 يومين و8 ساعات  Hull City - Aston Villa · beIN 1 · Sky Main Event · beIN 3 TR +4⁩
 ⁦Rayo Vallecano - Racing Santander · beIN 2 · LALIGATV⁩
 ⁦Schalke - Bayern Munich · MBC Shahid · Sky Football⁩
-⁧10:00 يومين و9 ساعات  فنربخشة - بشكتاش · لم تُعلن القناة⁩
-⁦10:30 يومين و10 ساعات  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
-⁦11:00 يومين و10 ساعات  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Thmanyah 1 HD⁩
-⁦11:45 يومين و11 ساعة  Nice - Le Mans · beIN 3 · beIN 3 TR · Ligue1+⁩
+⁧10:00 يومين و8 ساعات  فنربخشة - بشكتاش · لم تُعلن القناة⁩
+⁦10:30 يومين و9 ساعات  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
+⁦11:00 يومين و9 ساعات  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Thmanyah 1 HD⁩
+⁦11:45 يومين و10 ساعات  Nice - Le Mans · beIN 3 · beIN 3 TR · Ligue1+⁩
 ⁦Le Havre - Brest · beIN 4 · Ligue1+⁩
 ⁦Roma - Atalanta · DAZN⁩
-⁦12:00 يومين و11 ساعة  Villarreal - Dep. La Coruna · beIN 2 · Disney+⁩
+⁦12:00 يومين و10 ساعات  Villarreal - Dep. La Coruna · beIN 2 · Disney+⁩
 ⁦Swansea - Wrexham · Sky Main Event · beIN 1 EN · beIN EN 1⁩
-⁦17:00 يومين و16 ساعة  Fenerbahce - Besiktas · beIN 6⁩
+⁦17:00 يومين و15 ساعة  Fenerbahce - Besiktas · beIN 6⁩
 ⁦Trabzonspor - Gençlerbirligi SK · beIN 5⁩
 ⁦Basaksehir - Galatasaray · beIN 5⁩
 ⁦Göztepe SK - Gaziantep · beIN 3⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_4.png" />
   </programme>
-  <programme start="20260902070000 +0000" stop="20260903070000 +0000" channel="TodaySports">
+  <programme start="20260903070000 +0000" stop="20260904070000 +0000" channel="TodaySports">
     <title lang="ar">رياضات اليوم — لا يوجد حدث</title>
-    <desc lang="ar">رياضات اليوم · الأربعاء 02.09.2026
+    <desc lang="ar">رياضات اليوم · الخميس 03.09.2026
 
 لا يوجد حدث من الرياضات المتابَعة في هذا اليوم.</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
-  </programme>
-  <programme start="20260903070000 +0000" stop="20260904070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 3 أحداث</title>
-    <desc lang="ar">رياضات اليوم · الخميس 03.09.2026
-
-15:30  🥊 Live Boxing Perez vs Mchunu
-        DAZN
-08:00  🎾 US Open Men's &amp; Women's Singles 2nd Round and Women's Doubles 1st Round
-        Sky Sports Main Event · Sky Sports Tennis · Sky Sports Ultra HDR
-16:00  🎾 US Open Men's &amp; Women's Singles 2nd Round and Women's Doubles 1st Round
-        Sky Sports Main Event · Sky Sports Tennis · Sky Sports Ultra HDR</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_1.png" />
-  </programme>
-  <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 7 أحداث</title>
-    <desc lang="ar">رياضات اليوم · الجمعة 04.09.2026
-
-03:30  🏁 Italian Grand Prix Practice 1 - Monza Circuit, Monza
-        Sky Sports F1 · Sky Sports Main Event · Sky Sports Ultra HDR
-07:00  🏁 Italian Grand Prix Practice 2 - Monza Circuit, Monza
-        Sky Sports F1 · Sky Sports Ultra HDR
-17:00  🥊 Live Boxing Ruiz vs Knyba
-        DAZN
-18:00  🥋 One Championship One Fight Night 47 - Stamp Fairtex vs Selina Flores
-        Sky Sports Action
-08:00  🎾 US Open Men's &amp; Women's Singles 3rd Round and Women's Doubles 1st Round
-        Sky Sports Main Event · Sky Sports Tennis · Sky Sports Ultra HDR
-16:00  🎾 US Open Men's &amp; Women's Singles 3rd Round
-        Sky Sports Tennis · Sky Sports+
-16:00  🎾 US Open Men's &amp; Women's Singles 3rd Round and Women's Doubles 1st Round
-        Sky Sports Main Event · Sky Sports Tennis · Sky Sports Ultra HDR</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_2.png" />
   </programme>
   <programme start="20260903185500 +0300" stop="20260903193000 +0300" channel="ThmanyahGuide">
     <title lang="ar">الفيحاء - الخلود ‎• Live 🟢‎</title>
@@ -75713,4 +75501,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260903151123 +0000" stop="20260903151455 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260903151123 +0000" stop="20260903151455 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260903151123 +0000" stop="20260903151455 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260903151123 +0000" stop="20260903151455 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260903161443 +0000" stop="20260903161840 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260903161443 +0000" stop="20260903161840 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260903161443 +0000" stop="20260903161840 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260903161443 +0000" stop="20260903161840 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
