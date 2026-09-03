@@ -126,22 +126,32 @@ WINDOW_MINUTES = 2 * 60
 # re-fetched on every poll, 13% of the video's own bandwidth, buying
 # runway no player was reaching.
 
-# HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
-# guide draws.
+# HOW MUCH OF THE GUIDE THE CHANNEL ACTUALLY PLAYS.
 #
-# The guide reaches fourteen days now, and at eight rows a board that is
-# sixteen boards — a five-and-a-half-minute lap. Every one of them is
-# worth having in the GUIDE, where a viewer scrolls to what they want.
-# On a channel they cannot: whatever is on when they tune in is what
-# they get, and five minutes of lap means most arrivals land on a day
-# next week and have to wait out the rest to see tonight.
+# THIS USED TO BE "THE FIRST SIX BOARDS" AND THAT WAS THE FAULT:
 #
-# Six is two minutes, which is short enough that today comes round while
-# somebody is still looking at the screen, and long enough to carry
-# today, tomorrow and the day after even when one of them needs two
-# pages. The days past that are not lost — they are in the guide, in
-# full, with their own boards drawn and pointed at.
-ON_SCREEN = 6
+#     "ما عم بكمل جدول السبت و لا عم يجيب الخميس و بقطع اشياء لحاله"
+#
+# Six boards is not six days. Thursday took two, Friday took two, and
+# Saturday took SIX of its own — so the channel played Thursday, Friday,
+# and the first third of Saturday, then went back to the top. A day cut
+# in half, mid-list, with nothing on the screen to say it had been.
+#
+# A REEL IS MADE OF WHOLE DAYS NOW. The builder writes how many boards
+# each day took (today_matches_days.txt) because it is the only thing
+# that knows; this adds days one at a time and stops before the one that
+# would not fit. A day is shown completely or it is not shown at all.
+#
+# TODAY IS ALWAYS IN, whatever it costs. It is the day the channel is
+# named after, and a lap that skipped it to stay short would be fast at
+# doing the wrong thing.
+#
+# The ceiling is on the LAP, not on the board count, because a lap is
+# what a viewer actually waits: four minutes is long enough for three
+# full days at eight rows a board and short enough that today comes
+# round while somebody is still in the room. The days past it are not
+# lost — they are in the guide, in full, with their own boards drawn.
+MAX_LAP_SECONDS = 4 * 60
 HOLD = 20               # seconds a board stays up before the next one
 
 # Every segment opens on a keyframe, which a segment must, and needs no
@@ -231,6 +241,56 @@ ENCODER_REVISION = 5
 # decoder handles without thinking.
 FPS = 12
 KEYFRAME_SECONDS = 2
+
+
+def days_of(prefix: str) -> list[int]:
+    """How many boards each day took, as the builder wrote it down.
+
+    Empty when there is no manifest — an older build, or the second
+    screen, which has never had one. The caller falls back to a count of
+    boards, which is what this replaced.
+    """
+    path = os.path.join(BOARD_DIR, f"{prefix}days.txt")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, encoding="utf-8") as handle:
+            return [int(line) for line in handle if line.strip()]
+    except (OSError, ValueError) as exc:
+        warn(f"{prefix}days.txt could not be read ({exc}) — falling back "
+             f"to a plain board count")
+        return []
+
+
+def whole_days(prefix: str, every: list[str]) -> list[str]:
+    """As many COMPLETE days as fit the lap, and never half of one."""
+    counts = days_of(prefix)
+    if not counts:
+        # No manifest: the old behaviour, a fixed number of boards. It
+        # can still cut a day in half, which is why the manifest exists,
+        # but it is better than playing nothing.
+        fits = max(1, MAX_LAP_SECONDS // HOLD)
+        return every[:fits]
+
+    reel: list[str] = []
+    at = 0
+    for place, count in enumerate(counts):
+        day = every[at:at + count]
+        at += count
+        if not day:
+            break
+        # Today goes in whatever it costs; every other day has to fit
+        # whole or the reel stops here.
+        if place and (len(reel) + len(day)) * HOLD > MAX_LAP_SECONDS:
+            log(f"  {len(counts) - place} day(s) left out of the reel: the "
+                f"next needs {len(day)} board(s) and the lap is already "
+                f"{len(reel) * HOLD}s of {MAX_LAP_SECONDS}s")
+            break
+        reel += day
+
+    log(f"  the reel is {len(reel)} board(s) — "
+        f"{len(reel) * HOLD}s a lap, whole days only")
+    return reel or every[:1]
 
 
 def digest(paths: list[str]) -> str:
@@ -623,7 +683,7 @@ def main(argv: list[str] | None = None) -> int:
              "and publishing boards it does not show is the fault this "
              "refuses to repeat")
         return 1
-    reel = boards(prefix)[:ON_SCREEN]
+    reel = whole_days(prefix, boards(prefix))
     if not reel:
         warn(f"no board has been drawn for {which} — nothing to encode")
         return 0

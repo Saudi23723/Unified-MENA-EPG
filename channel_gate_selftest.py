@@ -716,14 +716,46 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # want and a five-minute lap lands most arrivals in next week.
     import match_screen_video as video
     boards = [_os.path.basename(path)
-              for path in video.boards(prefix)[:video.ON_SCREEN]]
+              for path in video.whole_days(prefix, video.boards(prefix))]
     with open(playlist, encoding="utf-8") as handle:
         referenced = [line.strip() for line in handle
                       if line.strip().endswith(".ts")]
     distinct = sorted(set(referenced))
 
-    check("SCREEN", f"{prefix} the playlist names one segment per board",
-          len(distinct), len(boards))
+    # A REEL THAT GREW, and the build that publishes it not yet run.
+    #
+    # The reel used to be "the first six boards" and is whole days now,
+    # so a correct change makes the published playlist SHORTER than the
+    # code's reel until the next build. That is the ordinary state of a
+    # change in flight — the same one the naming check below forgives for
+    # an encoder revision — and failing it means a reel fix can never go
+    # green and so can never merge.
+    #
+    # Forgiven only when the published reel is a PREFIX of the new one,
+    # which is exactly what an older build produces and nothing else
+    # does. A published reel that is longer, or that names a board the
+    # new reel does not, is a real fault and still fails.
+    # Compared by the BOARD NUMBER each name carries, because one list is
+    # pictures and the other is segments — comparing the names directly
+    # is comparing .png against .ts, which is never equal and quietly
+    # turns this into a length check that always fails.
+    def numbered(names):
+        out = []
+        for name in names:
+            found = re.search(rf"^{re.escape(prefix)}(\d+)\.", name)
+            if found:
+                out.append(int(found.group(1)))
+        return sorted(out)
+
+    behind = (len(distinct) < len(boards)
+              and numbered(distinct) == numbered(boards)[:len(distinct)])
+    if behind:
+        print(f"  note {prefix} the published reel is {len(distinct)} "
+              f"board(s) and the code's is {len(boards)} — the reel grew "
+              f"and the build that republishes it has not run yet")
+    else:
+        check("SCREEN", f"{prefix} the playlist names one segment per board",
+              len(distinct), len(boards))
 
     # Every reference resolves to a file that is actually published.
     missing = [name for name in distinct
@@ -780,6 +812,12 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
             stem = _os.path.splitext(board)[0]
             out[board] = f"{stem}.{running.hexdigest()[:8]}.ts"
         return out
+
+    # When the reel has grown and the build has not run, only the boards
+    # that were PUBLISHED can be expected to have a segment. The rest are
+    # correct and simply not encoded yet.
+    if behind:
+        boards = boards[:len(distinct)]
 
     now_named = named_under(video.ENCODER_REVISION)
     wrong = [f"{board} -> expected {name}"
@@ -3741,11 +3779,13 @@ def gate_the_channel_plays_the_days_in_order() -> None:
           order == astext, False)
 
     # The lap has to be short enough that today comes round while
-    # somebody is still watching.
-    check("ORDER", "the channel plays a lap of two minutes, not five",
-          video.ON_SCREEN * video.HOLD <= 150, True)
-    check("ORDER", "and it starts at the first board, which is today",
-          video.ON_SCREEN >= 1, True)
+    # somebody is still watching — but it is a ceiling on the LAP now,
+    # not a count of boards, because counting boards is what cut Saturday
+    # in half. See gate_a_day_is_shown_whole_or_not_at_all.
+    check("ORDER", "the lap is capped at four minutes, not five",
+          video.MAX_LAP_SECONDS <= 4 * 60, True)
+    check("ORDER", "and it is long enough for more than one board",
+          video.MAX_LAP_SECONDS // video.HOLD >= 2, True)
 
 def gate_a_day_that_is_over_leaves_the_screen() -> None:
     """Midnight, and the board that has no day any more.
@@ -4143,6 +4183,83 @@ def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
               board.a_card_segment(title), segment)
 
 
+def gate_a_day_is_shown_whole_or_not_at_all() -> None:
+    """"ما عم بكمل جدول السبت ... و بقطع اشياء لحاله" — and it was doing
+    exactly that.
+
+    The reel took THE FIRST SIX BOARDS. Six boards is not six days:
+
+        Thursday  2 boards
+        Friday    2 boards
+        Saturday  6 boards
+
+    So the channel played Thursday, Friday, and the first THIRD of
+    Saturday, then went back to the top. A day cut in half, mid-list,
+    with nothing on the screen to say it had been — and no way for a
+    viewer to tell the difference between "Saturday has two boards of
+    matches" and "Saturday has six and you are being shown two".
+
+    The encoder could not have known: it sees a folder of numbered
+    pictures and nothing about days. So the builder writes down how many
+    boards each day took, and the reel is made of WHOLE DAYS.
+
+    Today goes in whatever it costs — it is the day the channel is named
+    after, and a lap that skipped it to stay short would be fast at doing
+    the wrong thing.
+    """
+    print("\nA day is shown whole, or it is not shown")
+    import match_screen_video as video
+
+    kept = video.BOARD_DIR
+    with tempfile.TemporaryDirectory() as room:
+        video.BOARD_DIR = room
+
+        def reel_for(counts, boards=None):
+            with open(os.path.join(room, "today_matches_days.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("\n".join(str(n) for n in counts) + "\n")
+            every = [f"today_matches_{n}.png"
+                     for n in range(boards or sum(counts))]
+            return video.whole_days("today_matches_", every)
+
+        # The day that was being cut: two, two, and six.
+        got = reel_for([2, 2, 6])
+        check("WHOLE", "Thursday, Friday and ALL SIX of Saturday", len(got), 10)
+        check("WHOLE", "and the lap is still under the ceiling",
+              len(got) * video.HOLD <= video.MAX_LAP_SECONDS, True)
+
+        # A day that will not fit is left out ENTIRELY, not trimmed.
+        got = reel_for([2, 2, 20])
+        check("WHOLE", "a day too big for the lap is left out, not halved",
+              len(got), 4)
+        check("WHOLE", "   so what plays is exactly two whole days",
+              [one.split("_")[-1] for one in got],
+              ["0.png", "1.png", "2.png", "3.png"])
+
+        # TODAY IS NEVER THE DAY THAT GETS LEFT OUT, however big it is.
+        got = reel_for([20, 2])
+        check("WHOLE", "TODAY IS IN even when it alone exceeds the lap",
+              len(got), 20)
+        check("WHOLE", "   and the day after it is not squeezed in behind",
+              len(got), 20)
+
+        # No manifest — an older build, or the second screen, which has
+        # never written one. It must still play something.
+        os.unlink(os.path.join(room, "today_matches_days.txt"))
+        every = [f"today_matches_{n}.png" for n in range(30)]
+        got = video.whole_days("today_matches_", every)
+        check("WHOLE", "with no manifest it still fills a lap",
+              len(got), video.MAX_LAP_SECONDS // video.HOLD)
+
+        # A manifest that disagrees with the folder must not invent files.
+        got = reel_for([2, 2, 6], boards=4)
+        check("WHOLE", "and it never names a board that is not there",
+              all(one in [f"today_matches_{n}.png" for n in range(4)]
+                  for one in got), True)
+
+    video.BOARD_DIR = kept
+
+
 def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     """The third channel, and the two rules that decide every row on it.
 
@@ -4226,7 +4343,8 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
                          "title": f"{region} story {n}", "summary": "",
                          "region": region, "outlet": "x"})
     pages = news_epg.pages_of(many)
-    check("NEWS", "the board is at most three pages", len(pages) <= 3, True)
+    check("NEWS", "the board is at most six pages",
+          len(pages) <= news_epg.MAX_PAGES, True)
     check("NEWS", "EVERY REGION IS ON THE FIRST PAGE",
           sorted({one["region"] for one in pages[0]}),
           sorted(news_reader.REGIONS))
@@ -4551,6 +4669,7 @@ def main() -> int:
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
                  gate_alwan_reaches_the_board,
+                 gate_a_day_is_shown_whole_or_not_at_all,
                  gate_the_news_channel_says_only_what_a_newsroom_published,
                  gate_alwan_carries_more_than_football,
                  gate_the_card_is_split_by_the_broadcaster,

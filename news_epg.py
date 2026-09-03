@@ -49,8 +49,15 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards/today_news_{n}.png")
 
+# HOW MUCH IS SHOWN. "اعمل الصفحات اكثر شوي 5 - 6 صفحات" — so six
+# pages of six, thirty-six headlines against the eighteen before.
+#
+# On the fixtures boards more pages is a cost: a viewer waiting for
+# today has to sit through the rest of the week first. A bulletin is the
+# other way round — every page is current, so a longer lap is more news
+# rather than a longer wait for the page that matters.
 ON_PAGE = 6
-MAX_PAGES = 3
+MAX_PAGES = 6
 
 # How long each programme in the guide runs. An hour, because that is
 # what "ساعة بساعة" means and because a player showing "now" wants a

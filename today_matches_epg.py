@@ -1633,6 +1633,7 @@ def build() -> int:
     # boards as it takes, numbered straight through, so the slideshow runs
     # them in order without knowing anything about days.
     board_no = 0
+    per_day: list[int] = []
     for day in days:
         events_today = by_day[day]
         chunks = [events_today[at:at + MAX_ON_BOARD]
@@ -1643,6 +1644,7 @@ def build() -> int:
                                 page=page, pages=len(chunks))
             first_board = first_board or url
             board_no += 1
+        per_day.append(len(chunks))
 
         opens, closes = day_bounds(day)
         add_programme(tv, CHANNEL_ID, opens, closes,
@@ -1661,6 +1663,24 @@ def build() -> int:
     stale = forget_boards_past("today_matches_", board_no, BOARD_DIR)
     if stale:
         log(f"  {stale} board(s) for days that have gone, deleted")
+
+    # HOW MANY BOARDS EACH DAY TOOK, written down for the encoder.
+    #
+    # "ما عم بكمل جدول السبت ... و بقطع اشياء لحاله". It was: the reel
+    # took the first six boards and stopped, and Saturday needed six of
+    # its own. So the channel played Thursday, Friday, and the first
+    # THIRD of Saturday, then went back to the top — a day cut in half,
+    # mid-list, with nothing to say it had been.
+    #
+    # The encoder could not have known: it sees a folder of numbered
+    # pictures and nothing about days. So the builder, which does know,
+    # says so here — one line, one number per day, in the order the
+    # boards were written. What the encoder does with it is its own
+    # decision; what it can no longer do is guess.
+    with open(os.path.join(BOARD_DIR, "today_matches_days.txt"), "w",
+              encoding="utf-8") as handle:
+        handle.write("\n".join(str(count) for count in per_day) + "\n")
+    log(f"  boards per day: {per_day} (written for the encoder)")
 
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
                           guard_regression=False, min_programmes=1)
