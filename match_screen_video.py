@@ -46,6 +46,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -78,6 +79,23 @@ SCREENS = {
 # so thirty is three times the room it needs and still a five-kilobyte
 # file instead of a hundred-and-thirty.
 WINDOW_MINUTES = 30
+
+# HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
+# guide draws.
+#
+# The guide reaches fourteen days now, and at eight rows a board that is
+# sixteen boards — a five-and-a-half-minute lap. Every one of them is
+# worth having in the GUIDE, where a viewer scrolls to what they want.
+# On a channel they cannot: whatever is on when they tune in is what
+# they get, and five minutes of lap means most arrivals land on a day
+# next week and have to wait out the rest to see tonight.
+#
+# Six is two minutes, which is short enough that today comes round while
+# somebody is still looking at the screen, and long enough to carry
+# today, tomorrow and the day after even when one of them needs two
+# pages. The days past that are not lost — they are in the guide, in
+# full, with their own boards drawn and pointed at.
+ON_SCREEN = 6
 HOLD = 20               # seconds a board stays up before the next one
 
 # Every segment opens on a keyframe, which a segment must, and needs no
@@ -85,13 +103,40 @@ HOLD = 20               # seconds a board stays up before the next one
 KEYFRAME_EVERY = HOLD
 
 
+A_BOARD_NUMBER = re.compile(r"_(\d+)\.png$")
+
+
 def boards(prefix: str) -> list[str]:
-    """This screen's boards, in the order of the days."""
+    """This screen's boards, in the order of the days.
+
+    SORTED BY THEIR NUMBER, and it has to be said out loud because the
+    obvious way is wrong and was wrong here for a day.
+
+    sorted() on the file names compares them as text, and as text "10"
+    comes before "2". So a screen with more than ten boards played:
+
+        0, 1, 10, 11, 12, 13, 14, 15, 2, 3, 4 …
+
+    Board 0 and 1 are today. Then it jumps to board 10 — a week and a
+    half ahead — and stays there for six boards before coming back to
+    tomorrow. A reader watching it said the channel "starts from the
+    6th", and that is precisely what it did: today went past in forty
+    seconds and did not come round again for two minutes.
+
+    It only appeared when the boards crossed ten, which is why it hid for
+    so long: the second screen crossed it when its window went to
+    fourteen days, and the first when eight rows a board turned three
+    days into ten pages. Both crossed within an hour of each other.
+
+    The number in the name is the order. Nothing else is.
+    """
     if not os.path.isdir(BOARD_DIR):
         return []
-    return [os.path.join(BOARD_DIR, name)
-            for name in sorted(os.listdir(BOARD_DIR))
-            if name.startswith(prefix) and name.endswith(".png")]
+    mine = [name for name in os.listdir(BOARD_DIR)
+            if name.startswith(prefix) and name.endswith(".png")
+            and A_BOARD_NUMBER.search(name)]
+    mine.sort(key=lambda name: int(A_BOARD_NUMBER.search(name).group(1)))
+    return [os.path.join(BOARD_DIR, name) for name in mine]
 
 
 # Bumped whenever the SEGMENTS THEMSELVES would come out different for
@@ -373,7 +418,7 @@ def main(argv: list[str] | None = None) -> int:
              "and publishing boards it does not show is the fault this "
              "refuses to repeat")
         return 1
-    reel = boards(prefix)
+    reel = boards(prefix)[:ON_SCREEN]
     if not reel:
         warn(f"no board has been drawn for {which} — nothing to encode")
         return 0

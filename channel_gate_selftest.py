@@ -706,8 +706,17 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
                         f"contradict", True, True)
         return
 
-    boards = sorted(name for name in _os.listdir(boards_dir)
-                    if name.startswith(prefix) and name.endswith(".png"))
+    # The boards the CHANNEL plays, in the order it plays them — which is
+    # by their number and not as text, and only as many as it carries.
+    # Sorting these as text is what once made a channel jump from today
+    # to a week and a half ahead after two boards.
+    # ...and only as many as the channel carries. The guide draws a board
+    # for every day of a fourteen-day window; the channel plays the near
+    # ones, because on a channel a viewer cannot scroll to the day they
+    # want and a five-minute lap lands most arrivals in next week.
+    import match_screen_video as video
+    boards = [_os.path.basename(path)
+              for path in video.boards(prefix)[:video.ON_SCREEN]]
     with open(playlist, encoding="utf-8") as handle:
         referenced = [line.strip() for line in handle
                       if line.strip().endswith(".ts")]
@@ -3504,6 +3513,70 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
     check("OURFIGHTS", "the channel comes from the guide, never from here",
           'row["channel"]' in source, True)
 
+def gate_the_channel_plays_the_days_in_order() -> None:
+    """"القناة الثانية بتبدا من ٦/٩" — and it did, and it was this.
+
+    The reel was sorted by file name, and as text "10" comes before "2".
+    A screen with more than ten boards therefore played:
+
+        0, 1, 10, 11, 12, 13, 14, 15, 2, 3, 4 …
+
+    Board 0 and 1 are today. Then it jumped to board 10 — a week and a
+    half ahead — and stayed there for six boards before coming back to
+    tomorrow. Today went past in forty seconds and did not come round
+    again for two minutes, which is why a reader watching it said the
+    channel starts from the 6th, and why Thursday and Friday seemed to
+    have disappeared. They had not; they were first, and then buried.
+
+    It hid for as long as it did because it needs ELEVEN boards to show
+    at all, and both screens crossed that within an hour of each other —
+    the second when its window went to fourteen days, the first when
+    eight rows a board turned three days into ten pages.
+
+    AND HOW MANY IT PLAYS, which is the same fault seen from the other
+    end. Sixteen boards is a five-and-a-half-minute lap, and on a channel
+    a viewer cannot scroll: whatever is on when they tune in is what they
+    get. The guide keeps every day; the channel carries the near ones.
+    """
+    print("\nThe channel plays the days in order — match_screen_video")
+    import match_screen_video as video
+
+    # The exact failure, reproduced: eleven boards, named as the build
+    # names them.
+    with tempfile.TemporaryDirectory() as tmp:
+        was = video.BOARD_DIR
+        try:
+            video.BOARD_DIR = tmp
+            for number in range(16):
+                open(os.path.join(tmp, f"scr_{number}.png"), "wb").close()
+            # Another screen's boards share the directory and must not
+            # come with them.
+            for number in range(3):
+                open(os.path.join(tmp, f"other_{number}.png"), "wb").close()
+            order = [os.path.basename(p) for p in video.boards("scr_")]
+        finally:
+            video.BOARD_DIR = was
+
+    check("ORDER", "eleven boards run 0,1,2… and never 0,1,10",
+          order[:12],
+          [f"scr_{n}.png" for n in range(12)])
+    check("ORDER", "the whole reel is in number order",
+          order, [f"scr_{n}.png" for n in range(16)])
+    check("ORDER", "and the other screen's boards are not in it",
+          [name for name in order if not name.startswith("scr_")], [])
+
+    # Sorting as text is the bug, so prove this is NOT that.
+    astext = sorted(f"scr_{n}.png" for n in range(16))
+    check("ORDER", "which is a different answer from sorting as text",
+          order == astext, False)
+
+    # The lap has to be short enough that today comes round while
+    # somebody is still watching.
+    check("ORDER", "the channel plays a lap of two minutes, not five",
+          video.ON_SCREEN * video.HOLD <= 150, True)
+    check("ORDER", "and it starts at the first board, which is today",
+          video.ON_SCREEN >= 1, True)
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -3540,7 +3613,8 @@ def main() -> int:
                  gate_the_second_board_names_channels_like_the_first,
                  gate_no_guide_reads_a_stranger,
                  gate_a_row_says_which_competition_it_is,
-                 gate_our_own_guides_carry_fights_nobody_lists):
+                 gate_our_own_guides_carry_fights_nobody_lists,
+                 gate_the_channel_plays_the_days_in_order):
         try:
             gate()
         except Exception as exc:
