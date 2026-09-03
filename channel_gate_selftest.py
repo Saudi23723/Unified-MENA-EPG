@@ -2685,6 +2685,169 @@ def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
           today.real_channels(["beIN 1", "Sky Sports F1", "TRT Spor"]),
           ["beIN 1", "Sky Sports F1", "TRT Spor"])
 
+def gate_the_window_keeps_moving() -> None:
+    """The loading circle on the last board, which never resolves.
+
+    A reader photographed it: the screen plays through, reaches the end,
+    and sits on a spinner instead of starting again. This is not a
+    rendering fault and not the television — it is what a live HLS
+    playlist means.
+
+    A live playlist is a WINDOW onto a stream, and MEDIA-SEQUENCE is what
+    says where that window sits. This one holds thirty minutes of boards.
+    The sequence was written only when the boards were RE-ENCODED, and the
+    boards stop changing the moment the day's fixtures settle — so the
+    playlist froze. A player worked through the thirty minutes, asked for
+    what came next, and was handed a file saying the window had not moved.
+    There is nothing further in it, so the player waits. Forever.
+
+    The fix is that every pass rewrites the playlist even when it encodes
+    nothing, so the window moves with the clock the way a live window
+    must. This gate holds it: two passes ten minutes apart must not
+    produce the same MEDIA-SEQUENCE.
+    """
+    print("\nThe live window keeps moving — match_screen_video")
+    import match_screen_video as video
+
+    def sequence_of(text):
+        for line in text.splitlines():
+            if line.startswith("#EXT-X-MEDIA-SEQUENCE:"):
+                return int(line.split(":", 1)[1])
+        return None
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        out = os.path.join(tmp, "sports.m3u8")
+        segments = ["a.ts", "b.ts", "c.ts"]
+
+        video.write_playlist(segments, out, now=1_000_000)
+        first = open(out, encoding="utf-8").read()
+        video.write_playlist(segments, out, now=1_000_000 + 600)
+        second = open(out, encoding="utf-8").read()
+
+        check("WINDOW", "ten minutes later the window has moved",
+              sequence_of(second) > sequence_of(first), True)
+        check("WINDOW", "and it moved by the ten minutes that passed",
+              sequence_of(second) - sequence_of(first), 600 // video.HOLD)
+        check("WINDOW", "it never goes backwards between passes",
+              sequence_of(first) < sequence_of(second), True)
+
+        # The three things that make it live at all, none of which may
+        # come back: any one of them stops a player reloading.
+        for tag in ("#EXT-X-ENDLIST", "PLAYLIST-TYPE:VOD"):
+            check("WINDOW", f"{tag} never appears", tag in second, False)
+        check("WINDOW", "and the window is really thirty minutes long",
+              second.count("#EXTINF") * video.HOLD,
+              video.WINDOW_MINUTES * 60)
+
+    # The pass that encodes nothing must still write it. Proved on the
+    # source, because reaching this path needs an ffmpeg and a reel: the
+    # early return used to end at a log line, and that log line was the
+    # spinner.
+    import inspect
+    body = inspect.getsource(video.main)
+    already, _ = body.split("os.makedirs(OUT_DIR", 1)
+    check("WINDOW", "the not-re-encoded pass writes the playlist too",
+          "write_playlist" in already, True)
+
+
+def gate_a_simulcast_is_not_a_second_channel() -> None:
+    """"Sky Sports F1 · Sky Sports Ultra HDR" — one channel, twice.
+
+    Ultra HDR carries whatever Main Event or F1 is carrying at that
+    moment. It is the same broadcast in a different picture, not a second
+    place to watch, and a row fits two or three names beside the event —
+    so half the row was spent saying one thing twice. Asked for by name.
+
+    It is dropped only while something else survives. A simulcast is a
+    duplicate of a channel the viewer already has; the LAST name on a row
+    is not a duplicate of anything, and removing it would turn a repeated
+    answer into no answer, which is the one thing every board here
+    refuses.
+    """
+    print("\nA simulcast is not a second channel — both boards")
+    from epg_lib import drop_simulcasts
+
+    import other_sports_epg as sports
+    import today_matches_epg as today
+
+    check("SIMULCAST", "the HDR twin goes when the real channel is there",
+          drop_simulcasts(["Sky Sports F1", "Sky Sports Ultra HDR"]),
+          ["Sky Sports F1"])
+    check("SIMULCAST", "however the page spells it",
+          drop_simulcasts(["Sky Sports Main Event", "Sky Ultra HDR",
+                           "Sky Sports+ Ultra HDR"]),
+          ["Sky Sports Main Event"])
+    check("SIMULCAST", "but a row that has only it keeps it",
+          drop_simulcasts(["Sky Sports Ultra HDR"]),
+          ["Sky Sports Ultra HDR"])
+    check("SIMULCAST", "and no other channel is touched",
+          drop_simulcasts(["beIN 1", "TNT Sports 1", "الأردن الرياضية"]),
+          ["beIN 1", "TNT Sports 1", "الأردن الرياضية"])
+
+    check("SIMULCAST", "the football board applies it",
+          today.real_channels(["Sky Sports F1", "Sky Sports Ultra HDR"]),
+          ["Sky Sports F1"])
+
+    # And the second board, where the reader saw it, through the one
+    # place its events are filtered.
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    row = {"start": now + timedelta(hours=1), "sport": "F1",
+           "title": "Italian Grand Prix Practice 1",
+           "channels": ["Sky Sports F1", "Sky Sports Ultra HDR"]}
+
+    class OneRow:
+        pass
+
+    import world_sport_on_tv
+    import american_sport_on_tv
+    was_world, was_american = world_sport_on_tv.events, american_sport_on_tv.events
+    try:
+        world_sport_on_tv.events = lambda session: [dict(row)]
+        american_sport_on_tv.events = lambda session: []
+        got = sports.collect(OneRow(), now, now + timedelta(days=1))
+    finally:
+        world_sport_on_tv.events = was_world
+        american_sport_on_tv.events = was_american
+    check("SIMULCAST", "and so does the sports board",
+          [event["channels"] for event in got], [["Sky Sports F1"]])
+
+
+def gate_each_channel_wears_its_own_mark() -> None:
+    """Two channels, one picture, and no way to tell them apart in a list.
+
+    A logo is how a channel is found. The second board was given the
+    first's for want of one of its own, so a reader opening the group saw
+    the same tile twice. Same shape is right — they are a pair — but the
+    same file is not.
+
+    Held on the FILES rather than on the drawing, because the failure was
+    never that a picture looked wrong; it was that one picture was doing
+    two jobs. And held across the guide and the playlist together, since
+    a channel whose guide and playlist disagree about its picture is the
+    same fault wearing a different hat.
+    """
+    print("\nEach channel wears its own mark — logos")
+    import other_sports_epg as sports
+    import sports_dashboard_m3u as playlist
+    import today_matches_epg as today
+
+    check("MARK", "the two guides do not share a picture",
+          today.LOGO != sports.LOGO, True)
+    for guide, who in ((today, "the football board"),
+                       (sports, "the sports board")):
+        name = guide.LOGO.rsplit("/", 1)[-1]
+        check("MARK", f"{who}'s mark is a file that exists",
+              os.path.exists(os.path.join("logos", name)), True)
+
+    marks = {row[0]: row[5] for row in playlist.SCREENS}
+    check("MARK", "the playlist gives each channel its guide's mark",
+          (marks[today.CHANNEL_ID] == today.LOGO
+           and marks[sports.CHANNEL_ID] == sports.LOGO), True)
+    check("MARK", "so no two rows in the playlist wear one picture",
+          len(set(marks.values())), len(marks))
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2713,7 +2876,10 @@ def main() -> int:
                  gate_the_second_board_keeps_the_readers_order,
                  gate_the_round_is_read_from_the_leagues_own_page,
                  gate_a_board_that_is_built_is_a_board_that_is_published,
-                 gate_one_channel_spelled_two_ways_is_one_channel):
+                 gate_one_channel_spelled_two_ways_is_one_channel,
+                 gate_the_window_keeps_moving,
+                 gate_a_simulcast_is_not_a_second_channel,
+                 gate_each_channel_wears_its_own_mark):
         try:
             gate()
         except Exception as exc:

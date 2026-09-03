@@ -35,6 +35,7 @@ import sys
 from epg_lib import log, warn
 from other_sports_epg import CHANNEL_AR as SPORTS_AR
 from other_sports_epg import CHANNEL_ID as SPORTS_ID
+from other_sports_epg import LOGO as SPORTS_LOGO
 from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
@@ -48,12 +49,19 @@ RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 # Each is its own encoded screen — its own boards, its own segments, its
 # own live playlist — and they share only this file and the group they
 # sit under.
+#
+# Each carries ITS OWN mark. They shared one for an afternoon and a reader
+# saw the same picture on both channels — a logo is how a channel is
+# found in a list, so two channels wearing one is two channels nobody can
+# tell apart. Taken from each guide rather than written here, so the
+# playlist and the guide can never disagree about a channel's picture.
 SCREENS = (
-    # (id, guide name, file that must exist, url, what the player shows)
+    # (id, guide name, file that must exist, url, what the player shows,
+    #  its mark)
     (CHANNEL_ID, CHANNEL_AR, "stream/screen.m3u8",
-     f"{RAW}/stream/screen.m3u8", "📺 مباريات اليوم"),
+     f"{RAW}/stream/screen.m3u8", "📺 مباريات اليوم", LOGO),
     (SPORTS_ID, SPORTS_AR, "stream/sports.m3u8",
-     f"{RAW}/stream/sports.m3u8", "🏁 رياضات اليوم"),
+     f"{RAW}/stream/sports.m3u8", "🏁 رياضات اليوم", SPORTS_LOGO),
 )
 
 
@@ -80,7 +88,7 @@ def display(value: str) -> str:
 def build() -> int:
     lines = ["#EXTM3U"]
     written = 0
-    for channel_id, guide_name, path, url, shown in SCREENS:
+    for channel_id, guide_name, path, url, shown, mark in SCREENS:
         if not os.path.exists(path):
             # A channel whose screen has not been encoded is left OUT
             # rather than written pointing at nothing: a row in a playlist
@@ -91,7 +99,7 @@ def build() -> int:
             continue
         lines.append(
             f'#EXTINF:-1 tvg-id="{attribute(channel_id)}" '
-            f'tvg-name="{attribute(guide_name)}" tvg-logo="{LOGO}" '
+            f'tvg-name="{attribute(guide_name)}" tvg-logo="{mark}" '
             f'group-title="{attribute(GROUP)}",{display(shown)}')
         lines.append(url)
         written += 1

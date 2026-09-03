@@ -48,20 +48,21 @@ from PIL import Image
 import american_sport_on_tv
 import world_sport_on_tv
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, log, new_session, norm, warn,
-    write_xml_atomic,
+    MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
+    new_session, norm, warn, write_xml_atomic,
 )
 
 OUTPUT = "other_sports_epg.xml"
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
 
-# The same picture the playlist already hands this channel. A channel
-# with no icon is a blank tile in a guide beside a board that has one,
-# and the two files disagreeing about a channel's logo is worse than
-# them sharing one — health_check said so by name.
+# Its OWN mark, which it did not have. It wore the first board's for one
+# afternoon and a reader saw the same picture on two channels — a logo is
+# how a channel is found in a list, so two channels wearing one is two
+# channels nobody can tell apart. Same shape as the first, so they read
+# as a pair; its own name and its own colour, so they are not each other.
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-        "main/logos/today_matches.png")
+        "main/logos/other_sports.png")
 
 BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
@@ -187,7 +188,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     everything = world_sport_on_tv.events(session)
     everything += american_sport_on_tv.events(session)
 
-    inside = [event for event in everything
+    inside = [dict(event, channels=drop_simulcasts(event["channels"]))
+              for event in everything
               if floor <= event["start"] < ceiling]
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "

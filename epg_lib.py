@@ -770,6 +770,32 @@ def same_club(first: str, second: str) -> bool:
     return SequenceMatcher(None, a, b).ratio() >= CLUB_SIMILARITY
 
 
+# A channel that is another channel again, in a different picture. Sky
+# Sports Ultra HDR carries whatever Main Event or F1 is carrying at that
+# moment — it is a simulcast, not a second place to watch — so a row
+# reading "Sky Sports F1 · Sky Sports Ultra HDR" spends half its width
+# saying one thing twice, on a board where only two or three channels fit
+# beside the event at all. Asked for by name.
+#
+# Held as a pattern rather than a name because the same feed is written
+# "Sky Sports Ultra HDR", "Sky Ultra HDR" and "Sky Sports+ Ultra HDR"
+# across the pages this repository reads.
+A_SIMULCAST = re.compile(r"ultra\s*hdr|\buhd\b", re.I)
+
+
+def drop_simulcasts(channels):
+    """The channels worth a row, with the same feed's HDR twin removed.
+
+    Only ever when something else survives. A simulcast is a duplicate of
+    a channel a viewer already has, and dropping the LAST name on a row
+    would turn a duplicate into an unanswered "where do I watch this" —
+    which is the one thing every board here refuses to do. So if Ultra HDR
+    is all a row has, it stays and the viewer is told something true.
+    """
+    kept = [name for name in channels if not A_SIMULCAST.search(name or "")]
+    return kept or list(channels)
+
+
 def same_fixture(first: str, second: str) -> bool:
     """Whether two "A - B" titles name one match across the two scripts.
 

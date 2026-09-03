@@ -67,8 +67,8 @@ import spor_ekrani
 import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
-    fetch, in_reading_order, isolate, log, norm, same_club, warn,
-    write_xml_atomic,
+    drop_simulcasts, fetch, in_reading_order, isolate, log, norm, same_club,
+    warn, write_xml_atomic,
 )
 
 SOURCE = "https://www.livefootballtv.info/"
@@ -433,7 +433,10 @@ def real_channels(channels: list[str]) -> list[str]:
         spelling = canonical_channel(name)
         if spelling not in out:
             out.append(spelling)
-    return out
+    # And the HDR twin of a channel already on the row. Two or three names
+    # fit beside a fixture; spending one of them saying "Sky Sports F1"
+    # twice is a name the viewer does not get to see.
+    return drop_simulcasts(out)
 
 
 def wanted(event: dict) -> bool:

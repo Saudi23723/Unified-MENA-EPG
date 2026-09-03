@@ -250,11 +250,33 @@ def main(argv: list[str] | None = None) -> int:
         # segments for boards that had moved on, and every pass after them
         # matched the fingerprint, returned here, and never looked. The
         # screen gate found them days later.
-        dropped = forget_old_segments([segment_of(b) for b in reel], prefix)
+        segments = [segment_of(board) for board in reel]
+        dropped = forget_old_segments(segments, prefix)
         if dropped:
             log(f"  {dropped} segment(s) nothing points at any more, removed")
-        log(f"{which}: the screen already shows these boards — "
-            f"not re-encoded")
+
+        # AND REWRITE THE PLAYLIST ANYWAY, which is the whole difference
+        # between a channel that keeps playing and one that stops with a
+        # spinner on the last board.
+        #
+        # A live playlist is a WINDOW, and a player only keeps playing
+        # while the window keeps moving. This one holds thirty minutes of
+        # content; MEDIA-SEQUENCE is what says where that window sits.
+        # Written only on a re-encode, it froze the moment the boards
+        # stopped changing — so a viewer played through the thirty
+        # minutes, asked for the next segment, and was handed a playlist
+        # that said the window had not moved since. There is nothing more
+        # to play in it, so the player waits. That wait is the loading
+        # circle on the last page, and it never resolves on its own.
+        #
+        # Rewriting it every pass costs nothing — the segments are
+        # identical and none is re-encoded — and moves the window forward
+        # by the ten minutes that passed, which is exactly what the
+        # player is asking to be told.
+        cycles = write_playlist(segments, out)
+        log(f"{which}: the screen already shows these boards — not "
+            f"re-encoded, and the playlist window moved on ({cycles} "
+            f"cycles, {WINDOW_MINUTES} minutes)")
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
