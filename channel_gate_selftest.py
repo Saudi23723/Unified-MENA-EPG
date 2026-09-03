@@ -4281,6 +4281,29 @@ def gate_the_broadcaster_is_the_source_for_its_own_matches() -> None:
               today.wanted({"competition": competition, "title": "A - B",
                             "channels": ["beIN SPORTS 1"]}), True)
 
+    # A MATCHWEEK IS NOTATION, AND THE LIVE MARK OVERRIDES IT. beIN
+    # Turkey started writing the live Süper Lig match the same way it
+    # writes its recordings — a season in parentheses and a matchweek —
+    # and the rule that refused the recordings refused the match with
+    # them. The grid says which is which in its own words:
+    for title, want in (
+            ("Super Lig (26-27) 04. Hafta Basaksehir - Galatasaray "
+             "- Canli ‎• Live 🔵‎", ("Basaksehir", "Galatasaray")),
+            ("Super Lig (26-27) 3. Hafta Basaksehir - Kasimpasa - Bant -",
+             ("", "")),
+            ("Arşiv Süper Lig (26-27) 4.hafta Başakşehir Fk - Galatasaray",
+             ("", "")),
+            ("Süper Lig Haftanın Golleri (26-27) 3.hafta", ("", "")),
+            # A match from the 2000-01 season, unmarked. The season in
+            # parentheses is still what refuses it.
+            ("Beşiktaş - Adanaspor (00-01) 21.hafta", ("", "")),
+            # And Alwan saying what comes NEXT is refused even carrying
+            # the live mark, because "التالي" is not notation — it is a
+            # statement that the row is not this programme.
+            ("التالي: بيرنلي - ميدلزبره ‎🔴 LIVE‎", ("", ""))):
+        check("OURS", f"beIN Turkey: {title[:46]}",
+              own_guides.fixture_in(title), want)
+
     # A ROUND IS A CUP ROUND WHEN THE TITLE NAMES TWO CLUBS, and a
     # session of something when it does not. All twenty-two "Round N"
     # titles in beIN's guide used to be refused together, and three of

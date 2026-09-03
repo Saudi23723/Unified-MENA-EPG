@@ -91,8 +91,12 @@ XMLTV_TIME = "%Y%m%d%H%M%S %z"
 # in the world could not be matched by any guide published here, and the
 # hole was invisible because a missing club only ever costs a channel
 # name. A marker is a whole word.
-NOISE = re.compile(r"[‎‏‎‏]|🔴|🔵|•\s*\bLIVE\b|\bLIVE\b"
-                   r"|\bBant\b|\bTekrar\b", re.I)
+# "Bant" and "Tekrar" are NOT stripped here any more. They are Turkish
+# for "recording" and "repeat", which is not a marker on a fixture — it
+# is the statement that this is not the fixture. Stripped, they vanished
+# before the repeat test could see them, and the only thing refusing
+# beIN Turkey's recordings was the matchweek in their titles.
+NOISE = re.compile(r"[‎‏‎‏]|🔴|🔵|•\s*\bLIVE\b|\bLIVE\b", re.I)
 
 # A title that says nothing was scheduled is not a fixture, and neither
 # is a programme ABOUT football. beIN Qatar's grid carries "Preview - US
@@ -117,8 +121,15 @@ NOT_A_FIXTURE = ("لا توجد", "لم يُعلن", "no listing", "no match",
 # "Beşiktaş - Adanaspor (00-01) 21.hafta" — a match from 2000 — and a
 # round number or a season in parentheses is what marks those. A repeat
 # given a live match's channel is worse than a match with no channel.
-A_REPEAT = re.compile(r"\(\d{2}[-–]\d{2}\)|\bhafta\b|\bözet\b|\bozet\b"
+A_REPEAT = re.compile(r"\bözet\b|\bozet\b"
                       r"|\bmaç özetleri\b|\bhaber\b"
+                      # A recording, a repeat and an archive, said in the
+                      # grid's own words. Measured on one night of beIN
+                      # Turkey, these are exactly the entries that are
+                      # not the match:
+                      #   "… 3. Hafta Basaksehir - Kasimpasa - Bant -"
+                      #   "Arşiv Süper Lig (26-27) 4.hafta …"
+                      r"|\bbant\b|\btekrar\b|\barşiv\b|\barsiv\b"
                       # "التالي: بيرنلي - ميدلزبره" is Alwan saying what
                       # comes AFTER the programme now on. The clubs are
                       # real and the time on the row is not theirs, so
@@ -129,6 +140,37 @@ A_REPEAT = re.compile(r"\(\d{2}[-–]\d{2}\)|\bhafta\b|\bözet\b|\bozet\b"
                       # A season, a part or an episode belongs to a
                       # series, not to a match.
                       r"|الموسم|الجزء|الحلقة|\bseason\b|\bepisode\b", re.I)
+
+# A SEASON IN PARENTHESES AND A MATCHWEEK ARE NOTATION, NOT A VERDICT.
+#
+# They lived in A_REPEAT, refused outright, and that was right for
+#
+#     "Beşiktaş - Adanaspor (00-01) 21.hafta"      a match from 2000
+#
+# and wrong the day beIN Turkey started writing the LIVE one the same
+# way. Measured the night it broke:
+#
+#     Super Lig (26-27) 3. Hafta Basaksehir - Kasimpasa - Bant -
+#     Arşiv Süper Lig (26-27) 4.hafta Başakşehir Fk - Galatasaray
+#     Super Lig (26-27) 04. Hafta Basaksehir - Galatasaray - Canli • Live
+#
+# All three carry a season and a matchweek. The third is the fixture, and
+# the grid SAYS SO — beIN marks its live airing in its own title. The
+# other two say what they are too: Bant and Arşiv, which A_REPEAT above
+# now refuses by name rather than by inference.
+#
+# So the notation is refused only when the broadcaster has NOT said the
+# airing is live. An explicit live mark beats every heuristic here, which
+# is the same rule the Turkish fixtures were already read by.
+A_MATCHWEEK = re.compile(r"\(\d{2}[-–]\d{2}\)|\bhafta\b", re.I)
+
+# And what a matchweek title wraps the fixture in, so two clubs can be
+# read out of it: a competition and a week in front, an airing word
+# behind. "Super Lig (26-27) 04. Hafta Basaksehir - Galatasaray - Canli"
+# is Basaksehir against Galatasaray and nothing else.
+A_WEEK_PREFIX = re.compile(r"^.*?\b\d{1,2}\s*\.?\s*hafta\b[\s.]*", re.I)
+A_AIRING_WORD = re.compile(r"\s*-\s*(?:canl[iı]|naklen)\s*-?\s*$", re.I)
+
 
 # A ROUND IS A SERIES EPISODE IN ONE TITLE AND A CUP ROUND IN ANOTHER,
 # and the two cannot be told apart by the words alone:
@@ -213,13 +255,20 @@ def fixture_in(title: str) -> tuple[str, str]:
     and a source is one edit away from being wired in by someone who read
     the fixture count and not this comment.
     """
+    said_live = bool(A_LIVE_AIRING.search(title or ""))
     clean = norm(NOISE.sub(" ", title or ""))
     if any(word in clean.casefold() for word in NOT_A_FIXTURE):
         return "", ""
     if A_REPEAT.search(clean):
         return "", ""
-    if A_SERIES_ROUND.search(clean) and not VERSUS.search(clean):
-        return "", ""
+    # The two NOTATION rules, which the broadcaster's own live mark
+    # overrides — see A_MATCHWEEK.
+    if not said_live:
+        if A_MATCHWEEK.search(clean):
+            return "", ""
+        if A_SERIES_ROUND.search(clean) and not VERSUS.search(clean):
+            return "", ""
+    clean = norm(A_AIRING_WORD.sub("", A_WEEK_PREFIX.sub("", clean)))
     sides = two_sides(clean)
     if len(sides) != 2 or not all(sides):
         return "", ""
