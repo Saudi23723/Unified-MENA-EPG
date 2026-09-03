@@ -118,7 +118,20 @@ SCREENS = {
 # hour the watch needs to notice a dropped schedule — for an eighth of
 # what the pictures already cost. Twenty-four buys one more night at
 # double the price, on a box that is already the weak link.
-WINDOW_MINUTES = 12 * 60
+WINDOW_MINUTES = 2 * 60
+
+# HOW FAR BACK FROM LIVE THE PLAYER OPENS, and therefore how much runway
+# it has before it needs a rebuild. Thirty minutes: long enough to ride
+# out any build outage this repository has actually seen, and a position
+# a television treats as ordinary rather than as a twelve-hour seek.
+#
+# The window only has to be longer than this, so it is two hours rather
+# than twelve — and that is a saving, not a compromise. The whole
+# playlist is re-fetched once per target duration, so a 12-hour window
+# spent 91 KB on every poll, 13% of the video's own bandwidth, forever.
+# Two hours costs 15 KB and 2%. The overhead was buying runway the
+# player was never going to use.
+START_BACK = 30 * 60
 
 # HOW MANY BOARDS THE CHANNEL ACTUALLY PLAYS, out of however many the
 # guide draws.
@@ -551,27 +564,30 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         # Every segment opens on a keyframe, which is what lets a player
         # read ahead instead of fetching one segment at a time.
         "#EXT-X-INDEPENDENT-SEGMENTS",
-        # WHERE THE PLAYER STARTS, AND THE REASON THE WINDOW MEANS
-        # ANYTHING AT ALL.
+        # WHERE THE PLAYER STARTS, AND HOW MUCH RUNWAY THAT LEAVES IT.
         #
-        # RFC 8216 §6.3.3: on a live playlist a client SHOULD begin at
-        # least three target durations back from the END. Not from the
-        # start — from the end. So a viewer opening this channel joined
-        # SIXTY SECONDS from the end of it, and sixty seconds is all the
-        # runway they had, whether the window behind them held half an
-        # hour or half a day.
+        # RFC 8216 §6.3.3: on a live playlist a client begins about three
+        # target durations back from the END. From the end — not the
+        # start. So a viewer opening this channel joined SIXTY SECONDS
+        # from the end of it, and sixty seconds was the whole runway
+        # however long the window behind them was. That is why
+        # lengthening the window alone fixed nothing.
         #
-        # That is why lengthening the window on its own fixed nothing:
-        # six hours of playlist and a minute of runway. Once that minute
-        # ran out the player had to wait for a rebuild to append more,
-        # and every rebuild that came late was a stall — which is the
-        # buffering, reported over and over.
+        # THE FIRST ATTEMPT AT THIS SAID TIME-OFFSET:0, AND IT TOOK BOTH
+        # CHANNELS OFF THE AIR. A positive offset is measured from the
+        # START of the playlist (§4.3.5.2), so 0 asks the player to begin
+        # twelve hours behind live. It is legal and it is what the tag
+        # literally means, and a television will not do it: it either
+        # refuses the position or spends its time trying to catch up.
+        # "The window is the runway" was right about the arithmetic and
+        # wrong about the player.
         #
-        # This says: start at the beginning. The reel is the same two
-        # minutes of boards wherever it is entered, so nothing is lost
-        # by joining at the front — and the whole window becomes real
-        # runway instead of decoration.
-        "#EXT-X-START:TIME-OFFSET:0,PRECISE=YES",
+        # A NEGATIVE offset is measured back from the end, which is the
+        # ordinary way to say "start near live". So the channel starts
+        # where every live channel starts, half an hour back — thirty
+        # times the sixty seconds it had, and a position no player has to
+        # be talked into.
+        f"#EXT-X-START:TIME-OFFSET:-{START_BACK},PRECISE=YES",
     ]
     # A break only where the reel really starts over, which is the one
     # place the timeline goes backwards — the segments carry their place
