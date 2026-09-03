@@ -1,0 +1,25 @@
+# Print ON Sport's own pages, row by row, because its guide is missing a
+# match the board has from the same site.
+#
+# It commits nothing and publishes nothing.
+name: Probe ON Sport
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_onsport.py"
+      - ".github/workflows/probe_onsport.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_onsport.py

@@ -447,6 +447,14 @@ SOURCE_PRIORITY = {
     # line of text, so it cannot mistake a neighbouring word for a name.
     "LiveFootballTV-home": 105,
     "LiveFootballTV": 100,
+    # Ranked BELOW both, deliberately. It is the source that finds the
+    # fixtures the others miss — the four channel pages are archives and
+    # the front page drops a day as it passes — so it must be able to ADD
+    # a match. It should not be able to overrule an Egyptian publisher on
+    # the details of an Egyptian match, and it does not: where two
+    # sources have the same fixture, the higher one keeps the kick-off,
+    # the spelling and the commentator, and this one changes nothing.
+    "live-footballontv": 90,
 }
 
 
@@ -1153,6 +1161,87 @@ def collect_lftv_events() -> list[dict]:
     return dedupe(events)
 
 
+def collect_live_footballontv_events() -> list[dict]:
+    """The one source the board has and this guide did not.
+
+    Reported: this guide had no Al-Ahly match while the television was
+    showing one, live, on ON Sport. Confirmed — onsport_epg.xml said
+    "التالي غداً · AS Port - الزمالك" and the words الأهلي and سموحة
+    appeared in none of its 72 programmes, while the board carried
+
+        10:00  الأهلي - سموحة · ON Sport
+
+    THE FOUR PER-CHANNEL PAGES CANNOT SUPPLY TODAY. Measured on a runner,
+    every one of them is an archive:
+
+        ON Sport 2     05/03 .. 11/04    days at or after today: 0
+        ON Sport MAX   25/04 .. 02/09    days at or after today: 0
+        ON Sport PLUS  05/03 .. 02/09    days at or after today: 0
+
+    The newest fixture across all four is YESTERDAY. No parser can find
+    tonight's match in pages that stop before it, so this is not a
+    reading fault and cannot be fixed by reading better.
+
+    The front page does not have it either — measured at the same
+    moment, its days ran 05/09 .. 17/09, having already dropped today
+    and tomorrow.
+
+    So what the board has and this did not is the OTHER source it reads:
+    live-footballontv.com. It is already fetched, already parsed and
+    already trusted for the same fixtures on the same channels a few
+    files away; it was simply never offered to this guide.
+
+    Its channel labels go through onsport_channel_from_label like every
+    other source, so the name is still the gate: nothing becomes an ON
+    Sport channel for having a number in it. That guard was written
+    because beIN Sports 1 and TNT Sports 1 once became ON Sport 1 and
+    put three matches on a channel that carries none of them.
+    """
+    try:
+        import live_football_on_tv
+        from epg_lib import new_session
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"live-footballontv is unavailable to this guide: {exc}")
+        return []
+
+    floor, ceiling = window_bounds()
+    try:
+        found = live_football_on_tv.fetch_events(new_session(), floor, ceiling)
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"live-footballontv failed: {exc}")
+        return []
+
+    events: list[dict] = []
+    for one in found:
+        mine = [channel for channel in (
+            onsport_channel_from_label(label) for label in one["channels"])
+            if channel]
+        if not mine:
+            continue
+        sides = [part.strip() for part in one["title"].split(" - ", 1)]
+        if len(sides) != 2 or not all(sides):
+            continue
+        for channel_id in dict.fromkeys(mine):
+            events.append({
+                "channel_id": channel_id,
+                "channel_name": CHANNELS[channel_id]["name"],
+                "start": one["start"],
+                "home": norm(sides[0]),
+                "away": norm(sides[1]),
+                "competition": norm(one.get("competition") or ""),
+                "source_name": "live-footballontv",
+                "source": live_football_on_tv.SOURCE,
+                "commentator": "",
+            })
+
+    per: dict[str, int] = {}
+    for ev in events:
+        per[ev["channel_name"]] = per.get(ev["channel_name"], 0) + 1
+    log(f"live-footballontv fixtures on ON Sport channels: {len(events)} "
+        f"{per if per else ''}")
+    return dedupe(events)
+
+
 def build_day_description(channel_name: str, d: date, events: list[dict]) -> str:
     if not events:
         return (
@@ -1568,7 +1657,10 @@ def main():
     lftv = collect_lftv_events()
     lftv_home = collect_lftv_home_events()
 
-    events = drop_channel_clashes(dedupe(filgoal + lftv_home + lftv))
+    footballontv = collect_live_footballontv_events()
+
+    events = drop_channel_clashes(
+        dedupe(filgoal + lftv_home + lftv + footballontv))
 
     log(f"ON Sport total verified football events: {len(events)}")
     for ev in sorted(events, key=lambda x: x["start"]):

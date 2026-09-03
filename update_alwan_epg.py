@@ -759,6 +759,84 @@ def time_from_block(block):
     return hour, minute
 
 
+# AN ANNOUNCEMENT THAT IS NOT A FIXTURE.
+#
+# Alwan does not only carry football. Measured on a runner, these posts
+# yield ZERO rows each, and every one of them is a real broadcast on a
+# real channel:
+#
+#   تشاهدون اليوم الحدث المباشر ل WWE NIGHT OF CHAMPIONS على الوان الرياضية 6
+#   تشاهدون اليوم في تمام الساعة 4:00 مساءً السباق النهائي لجائزة موناكو … 9
+#   تشاهدون اليوم في تمام الساعة 4:00 مساءً نهائي بطولة رولان غاروس 8
+#   تشاهدون اليوم في تمام الساعة 11:59 مساءً WBC World Heavyweight … 6
+#
+# parse_post requires a FIXTURE, a channel and a time, and refuses
+# without all three. A wrestling night, a grand prix, a tennis final and
+# a world title fight have no "A - B" in them, so fixture_from_block
+# finds nothing and the row is dropped — which is why Alwan 6, 8 and 9
+# sit at "لا توجد مباراة مجدولة" while they are broadcasting.
+#
+# THE DEPTH WAS NOT THE FAULT, and that was checked before anything was
+# changed: ten pages against the builder's three yielded exactly the
+# same fixtures — "FIXTURES THE BUILDER'S DEPTH NEVER SEES: 0". Raising
+# TELEGRAM_PAGES would have changed nothing and hidden this.
+#
+# The name is taken only when the post says it is announcing something.
+# That is the second anchor, and it is needed: channel and time alone
+# would let any sentence with a number and a clock in it become a
+# broadcast.
+AN_ANNOUNCEMENT = re.compile(
+    r"تشاهدون|شاهدوا|شاهدو|تابعوا|الحدث\s+المباشر|بث\s+مباشر|مباشرة\s+على",
+    re.I)
+
+# The words that introduce the announcement rather than name the event.
+AN_INTRO = re.compile(
+    r"^(?:\s*(?:تشاهدون|شاهدوا|شاهدو|تابعوا)\s*)?"
+    r"(?:\s*(?:اليوم|غدا|غداً|الان|الآن)\s*)?"
+    r"(?:\s*في\s*تمام\s*)?"
+    r"(?:\s*الساعة\s*[\d:.٠-٩]*\s*"
+    r"(?:مساءً|مساء|صباحاً|صباحا|ظهراً|ظهرا|am|pm)?\s*)?"
+    r"(?:\s*(?:الحدث\s+المباشر|البث\s+المباشر|مباشرة|المباشر)\s*)?"
+    r"(?:\s*(?:ل|لـ|من)\s+)?",
+    re.I)
+
+# What ends the name: the phrase that hands over to the channel.
+A_HANDOVER = re.compile(r"\s*(?:على|عبر|من\s+خلال)\s*$")
+
+
+def event_from_block(block):
+    """A single named broadcast — a fight, a race, a final — or None.
+
+    Only ever consulted when there is no fixture, so nothing that reads
+    as a football match can be reinterpreted by this.
+    """
+    text = norm(block)
+    if not AN_ANNOUNCEMENT.search(text):
+        return None
+
+    # Everything before the channel is where the name lives.
+    where = ALWAN_RE.search(text)
+    if not where:
+        return None
+    said = text[:where.start()]
+
+    # Cut the handover word off the end, then the announcement words off
+    # the front. Whatever survives is what Alwan called it.
+    said = A_HANDOVER.sub("", norm(said))
+    said = norm(AN_INTRO.sub("", said, count=1))
+    said = strip_decorations(said)
+    said = norm(re.sub(r"\s*(?:على|عبر)\s*$", "", said))
+
+    # A name has to be a name. Two words of Arabic filler, a stray
+    # number, or what is left after stripping an empty announcement are
+    # not broadcasts, and a guide that invents one is worse than a guide
+    # that admits it does not know.
+    letters = re.sub(r"[^\w\u0600-\u06FF]", "", said)
+    if len(said) < 6 or len(letters) < 5:
+        return None
+    return said
+
+
 def parse_post(post):
     text = post_text(post)
 
@@ -788,6 +866,13 @@ def parse_post(post):
             fixture = fixture or fixture_from_block(block)
             channel = channel if channel is not None else channel_from_block(block)
             time_value = time_value or time_from_block(block)
+
+        # A named single broadcast, when there is no fixture at all. The
+        # channel and the clock are still required — this only supplies
+        # the third piece, and only for a post that says it is announcing
+        # something.
+        if not fixture:
+            fixture = event_from_block(block)
 
         # We require ALL three pieces. No guessing.
         if not fixture or channel is None or time_value is None:

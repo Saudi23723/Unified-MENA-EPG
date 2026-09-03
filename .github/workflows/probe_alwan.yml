@@ -1,0 +1,24 @@
+# Print Alwan's own posts and what this repository reads from them.
+#
+# It commits nothing and publishes nothing.
+name: Probe Alwan
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_alwan.py"
+      - ".github/workflows/probe_alwan.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_alwan.py
