@@ -35,6 +35,25 @@ def main() -> int:
 
     print(f"window {floor:%Y-%m-%d} .. {ceiling:%Y-%m-%d}\n")
 
+    # SIX CHANNELS CAME BACK AND EVERY ONE IS TNT. Sky Sports carries
+    # the boxing and none of it matched, which is either "Sky does not
+    # list them in this service group" or "it lists them under a name
+    # the filter does not recognise". Those are different problems, so
+    # the raw list is printed rather than reasoned about.
+    import json as _json
+    listing = _json.loads(sky_epg.fetch(session, sky_epg.SERVICES).text)
+    services = listing.get("services", [])
+    print(f"\nevery service whose name mentions Sky, verbatim:")
+    for one in services:
+        t = str(one.get("t", ""))
+        if "sky" in t.lower():
+            print(f"    sid={str(one.get('sid')):<8} {t!r}")
+    print(f"\nevery service whose name mentions sport, verbatim:")
+    for one in services:
+        t = str(one.get("t", ""))
+        if "sp" in t.lower().replace(" ", "") and "sky" not in t.lower():
+            print(f"    sid={str(one.get('sid')):<8} {t!r}")
+
     on_air = sky_epg.channels(session)
     print(f"fight channels Sky lists: {len(on_air)}")
     for sid, name in sorted(on_air, key=lambda pair: pair[1]):
