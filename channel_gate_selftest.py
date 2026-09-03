@@ -2052,6 +2052,82 @@ def gate_a_long_wait_says_how_long() -> None:
           True)
 
 
+def gate_turkeys_own_league_is_read() -> None:
+    """Three matches on a television, on no page this board read.
+
+    Iğdırspor - Manisa FK, Bodrumspor - Esenler Erokspor and Bursaspor -
+    İstanbulspor, all on TRT Spor, all missing. Not filtered out: the
+    day's dropped-competitions report named eight competitions —
+    Reserve League, Liga FUTVE, Qatar Stars and five more — and no
+    Turkish league among them. They were never offered.
+
+    Spor Ekranı has them, and had them all along: 75 broadcasts a day,
+    every one discarded as a fixture because this source was only ever
+    asked which channel a match ALREADY on the board is on.
+
+    Two structural facts make them safe to take, and the gate holds both.
+    """
+    import spor_ekrani
+
+    page = (
+        '<script type="application/ld+json">['
+        '{"@type":"BroadcastEvent",'
+        ' "publishedOn":[{"name":"TRT Spor"},{"name":"Bein Sports 2"}],'
+        ' "broadcastOfEvent":{"name":"Iğdırspor - Manisa FK",'
+        '   "startDate":"2026-09-03T17:00:00+03:00",'
+        '   "homeTeam":{"name":"Iğdırspor"},"awayTeam":{"name":"Manisa FK"},'
+        '   "organizer":{"url":"https://www.sporekrani.com/home/league/'
+        'trendyol-1.-lig"}}},'
+        '{"@type":"BroadcastEvent","publishedOn":{"name":"Eurosport"},'
+        ' "broadcastOfEvent":{"name":"J.Faria - C.Alcaraz",'
+        '   "startDate":"2026-09-03T04:00:00+03:00",'
+        '   "homeTeam":{"name":"J.Faria"},"awayTeam":{"name":"C.Alcaraz"},'
+        '   "organizer":{"url":"https://www.sporekrani.com/home/league/'
+        'tenis-amerika-acik"}}},'
+        '{"@type":"BroadcastEvent",'
+        ' "broadcastOfEvent":{"name":"Saratoga",'
+        '   "startDate":"2026-09-03T19:55:00+03:00"}},'
+        '{"@type":"BroadcastEvent","publishedOn":{"name":"beIN Sports 1"},'
+        ' "broadcastOfEvent":{"name":"beIN Ana Haber",'
+        '   "startDate":"2026-09-03T18:00:00+03:00"}}'
+        ']</script>')
+    read = spor_ekrani.collect_fixtures(page)
+
+    check("TR", "the league nobody else offered is read",
+          [event["title"] for event in read], ["Iğdırspor - Manisa FK"])
+    check("TR", "with every channel the page names, marked Turkish",
+          read[0]["channels"], ["TRT Spor TR", "Bein Sports 2 TR"])
+    check("TR", "and the competition is read, not inferred from the clubs",
+          read[0]["competition"], "TFF 1. Lig")
+    check("TR", "17:00 in Istanbul is 14:00 UTC",
+          f"{read[0]['start']:%H:%M}", "14:00")
+
+    # A FIXTURE HAS TWO SIDES. A horse race meeting and a news bulletin
+    # are published in the same shape on the same page, and a name alone
+    # would put Saratoga and "beIN Ana Haber" on a board of football.
+    check("TR", "a race meeting is not a fixture",
+          [e["title"] for e in read if "Saratoga" in e["title"]], [])
+    check("TR", "and neither is the evening news, channel or no channel",
+          [e["title"] for e in read if "Haber" in e["title"]], [])
+
+    # The page's tennis, padel and basketball belong on the OTHER board.
+    # This one takes Turkish football and says so by slug.
+    check("TR", "the tennis on the same page stays off a football board",
+          [e["title"] for e in read if "Alcaraz" in e["title"]], [])
+
+    # And the board's own filter must recognise what comes back, or the
+    # fixtures arrive and are dropped one step later.
+    import today_matches_epg as today
+    check("TR", "the board's filter wants it",
+          today.wanted({"competition": "TFF 1. Lig",
+                        "title": "Iğdırspor - Manisa FK",
+                        "channels": ["TRT Spor TR"]}),
+          True)
+
+    check("TR", "an empty page is not an error",
+          spor_ekrani.collect_fixtures("<html></html>"), [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -2073,7 +2149,8 @@ def main() -> int:
                  gate_a_board_says_which_day_it_is,
                  gate_the_jordanian_league_is_read,
                  gate_a_guide_repeating_its_own_name_is_measured,
-                 gate_a_long_wait_says_how_long):
+                 gate_a_long_wait_says_how_long,
+                 gate_turkeys_own_league_is_read):
         try:
             gate()
         except Exception as exc:
