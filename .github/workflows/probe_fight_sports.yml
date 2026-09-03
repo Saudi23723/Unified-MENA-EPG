@@ -1,0 +1,32 @@
+# Print what the fight-sport pages carry. It never writes anything.
+#
+# The reader asked for UFC prelims and main card, Dana White's Contender
+# Series, The Ultimate Fighter, PFL, and boxing from more than one
+# source. Some of that may already be arriving — the UFC page is read
+# with no competition filter — and whether it is, is a fact about a page
+# rather than something to reason about. So it is printed and read.
+#
+# It runs on a push to the working branch rather than on main, because
+# nothing it does belongs on main: it commits nothing, publishes nothing
+# and changes no guide. Read the log, write the reader against what it
+# says, delete this when the answer is in the code.
+name: Probe the fight sports
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_fight_sports.py"
+      - ".github/workflows/probe_fight_sports.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_fight_sports.py
