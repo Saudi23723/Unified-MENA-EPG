@@ -36,6 +36,9 @@ from epg_lib import log, warn
 from other_sports_epg import CHANNEL_AR as SPORTS_AR
 from other_sports_epg import CHANNEL_ID as SPORTS_ID
 from other_sports_epg import LOGO as SPORTS_LOGO
+from news_epg import CHANNEL_AR as NEWS_AR
+from news_epg import CHANNEL_ID as NEWS_ID
+from news_epg import LOGO as NEWS_LOGO
 from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
@@ -62,6 +65,8 @@ SCREENS = (
      f"{RAW}/stream/screen.m3u8", "📺 مباريات اليوم", LOGO),
     (SPORTS_ID, SPORTS_AR, "stream/sports.m3u8",
      f"{RAW}/stream/sports.m3u8", "🏁 رياضات اليوم", SPORTS_LOGO),
+    (NEWS_ID, NEWS_AR, "stream/news.m3u8",
+     f"{RAW}/stream/news.m3u8", "📰 أخبار اليوم", NEWS_LOGO),
 )
 
 

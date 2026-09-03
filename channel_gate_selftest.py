@@ -4159,6 +4159,136 @@ def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
               board.a_card_segment(title), segment)
 
 
+def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
+    """The third channel, and the two rules that decide every row on it.
+
+    A bulletin is the easiest guide in this repository to make dishonest.
+    A fixture is wrong in a way a reader catches — they turn on the
+    television and the match is not there. A headline dated an hour off,
+    or a story that has not happened yet, or a summary this repository
+    wrote itself, all LOOK like news.
+
+    So both rules are held here, and both came from measurement rather
+    than caution:
+
+      NO INSTANT, NO ROW — never a time taken from the day a story was
+      fetched. This is the rule every guide here already lives by and it
+      matters more, not less, on a channel whose whole promise is "ساعة
+      بساعة".
+
+      NOTHING FROM THE FUTURE — Jordan News dates items ahead of the
+      clock, '17:00:00 GMT' and '16:30:00 GMT' at 16:23 GMT, because it
+      schedules posts. That is not a broken clock to correct: it is a
+      story that has not happened, and it gets no row until it has.
+
+    And every instant is converted to UTC before anything is done with
+    it, because CBS writes its own timezone and Anadolu writes +03.
+    """
+    print("\nThe news channel says only what a newsroom published")
+    from datetime import datetime, timedelta, timezone
+
+    import news_epg
+    import news_reader
+
+    now = datetime(2026, 9, 3, 17, 30, tzinfo=timezone.utc)
+
+    def story(minutes_ago, title="عنوان خبر حقيقي", summary="شرح قصير للخبر",
+              region="AR", outlet="الجزيرة"):
+        return news_reader.a_story(
+            title, summary, now - timedelta(minutes=minutes_ago),
+            region, outlet, now)
+
+    check("NEWS", "a story published ten minutes ago is a row",
+          story(10) is not None, True)
+    # And "live" inside a headline is not a live blog — the anchor is the
+    # END of the title, so real news that mentions it survives.
+    check("NEWS", "a story that merely mentions live is still news",
+          story(10, title="Erdogan speech shown live on state television")
+          is not None, True)
+    check("NEWS", "AND A STORY WITH NO INSTANT IS NOT",
+          news_reader.a_story("عنوان", "شرح", None, "AR", "الجزيرة", now),
+          None)
+    check("NEWS", "NOR ONE DATED IN THE FUTURE — it has not happened",
+          story(-37), None)
+    check("NEWS", "a couple of minutes of clock drift is still today",
+          story(-1) is not None, True)
+    check("NEWS", "and yesterday is not breaking news",
+          story(60 * news_reader.OLDEST_HOURS + 30), None)
+
+    # A summary that only repeats the headline explains nothing, and the
+    # explanation was the thing asked for.
+    same = news_reader.a_story("Nvidia Buys Hugging Face in a big deal",
+                               "Nvidia Buys Hugging Face in a big deal",
+                               now - timedelta(minutes=5), "US", "NYT", now)
+    check("NEWS", "a summary that just repeats the headline is dropped",
+          same["summary"], "")
+
+    # Every timestamp reaches the board in UTC, whatever the feed wrote.
+    for said, expected in (
+            ("Thu, 03 Sep 2026 12:20:00 -0400", "16:20"),
+            ("Thu, 03 Sep 2026 18:58:00 +0300", "15:58"),
+            ("2026-09-03T16:11:00Z", "16:11")):
+        got = news_reader.a_time(said)
+        check("NEWS", f"'{said[:30]}' is {expected} UTC",
+              got.astimezone(timezone.utc).strftime("%H:%M"), expected)
+
+    # EVERY REGION REACHES THE FIRST PAGE. Sorting eighteen headlines by
+    # the clock alone lets one busy newsroom fill the board and leave
+    # Jordan off it, which is the section that matters most here.
+    many = []
+    for place, region in enumerate(news_reader.REGIONS):
+        for n in range(6):
+            many.append({"start": now - timedelta(minutes=place * 40 + n),
+                         "title": f"{region} story {n}", "summary": "",
+                         "region": region, "outlet": "x"})
+    pages = news_epg.pages_of(many)
+    check("NEWS", "the board is at most three pages", len(pages) <= 3, True)
+    check("NEWS", "EVERY REGION IS ON THE FIRST PAGE",
+          sorted({one["region"] for one in pages[0]}),
+          sorted(news_reader.REGIONS))
+    check("NEWS", "and a page still reads newest first",
+          [one["start"] for one in pages[0]]
+          == sorted((one["start"] for one in pages[0]), reverse=True), True)
+
+    # A live blog and a crossword are not breaking news, and they crowd
+    # out the rows that are.
+    for junk in ("Ukraine war live blog: latest updates",
+                 "Wordle today: hints for puzzle 1234",
+                 "Cryptic crossword No 29,876",
+                 # The one that got through on the live build and took a
+                 # row on the front page. The Guardian names its live
+                 # blogs by ending the title in "– live" and never says
+                 # the word "blog", so a rule looking for "blog" missed
+                 # every one of them.
+                 "England beat Ireland by six wickets: second women's "
+                 "cricket one-day international – live",
+                 "US Open 2026: Osaka, Swiatek in action - live",
+                 "Ukraine war live updates"):
+        check("NEWS", f"'{junk[:34]}' is not a bulletin row",
+              story(5, title=junk), None)
+
+    # EVERY SOURCE IS A NEWSROOM'S OWN FEED, which is the rule this
+    # repository has been held to throughout.
+    hosts = []
+    for _, _, url in news_reader.SOURCES + (news_reader.TRT_HABER,):
+        hosts.append(re.sub(r"^https?://([^/]+).*$", r"\1", url))
+    A_DUMP = re.compile(
+        r"github|gitlab|pastebin|jsdelivr|iptv-org|epgshare|open-epg"
+        r"|xmltv\.net|epg\.pw|rsshub|feedburner", re.I)
+    strangers = [host for host in hosts if A_DUMP.search(host)]
+    check("NEWS", "no newsroom here is somebody else's dump of one",
+          strangers, [])
+    check("NEWS", "and there are enough of them to lose a few",
+          len(hosts) >= 15, True)
+
+    # The three closed doors stay shut rather than being retried forever.
+    for closed in ("ammonnews.net", "alarabiya.net", "apnews.com"):
+        check("NEWS", f"{closed} answers 403 to a browser too, so it is out",
+              any(closed in host for host in hosts), False)
+    check("NEWS", "and CNN's US feed, whose newest item was dated April",
+          any("rss.cnn.com" in host for host in hosts), False)
+
+
 def gate_alwan_carries_more_than_football() -> None:
     """"الوان ما قرأ جميع مباريات اليوم" — and it was not the depth.
 
@@ -4437,6 +4567,7 @@ def main() -> int:
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
                  gate_alwan_reaches_the_board,
+                 gate_the_news_channel_says_only_what_a_newsroom_published,
                  gate_alwan_carries_more_than_football,
                  gate_the_card_is_split_by_the_broadcaster,
                  gate_two_sources_naming_one_broadcast_is_one_row):
