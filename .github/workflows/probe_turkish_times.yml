@@ -1,0 +1,29 @@
+# Which source put four Turkish fixtures on one day at one time.
+#
+# A reader photographed the board with Fenerbahçe - Beşiktaş, Trabzonspor
+# - Gençlerbirliği, Başakşehir - Galatasaray and Göztepe - Gaziantep all
+# at 17:00 on Saturday. beIN's own schedule — already in this repository,
+# from beIN's own feed — puts them on the 5th, 6th, 4th and 7th.
+#
+# It prints. It writes nothing, publishes nothing and changes no guide.
+# The reader is fixed afterwards, against what this prints.
+name: Probe the Turkish times
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_turkish_times.py"
+      - ".github/workflows/probe_turkish_times.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_turkish_times.py
