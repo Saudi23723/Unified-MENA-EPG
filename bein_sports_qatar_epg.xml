@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260903114200 +0000" stop="20260903132600 +0000" channel="beIN4K.qa">
-    <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
-    <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260903132600 +0000" stop="20260903151200 +0000" channel="beIN4K.qa">
     <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
@@ -714,6 +708,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
   <programme start="20260910115500 +0000" stop="20260910134000 +0000" channel="beIN4K.qa">
     <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
     <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260910134000 +0000" stop="20260910152500 +0000" channel="beIN4K.qa">
+    <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
+    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -2101,12 +2101,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260903114500 +0000" stop="20260903133000 +0000" channel="beINSports2.qa">
-    <title lang="en">Sunderland vs Fulham - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">Sunderland haven’t won any of their last six Premier League home games against Fulham  since a 1-0 win in January 2009. Fulham have won their last three league games against Sunderland, beating them in the Championship in 2018 and completing the double over them last season. They’ve never won four in a row against the Black Cats.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260903133000 +0000" stop="20260903140000 +0000" channel="beINSports2.qa">
     <title lang="en">Liverpool vs Nottingham Forest - English Premier League 2026/2027 - Week 2</title>
@@ -4321,14 +4315,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">Live</category>
     <category lang="en">FIFA World Cup (Women)</category>
-  </programme>
-  <programme start="20260903114500 +0000" stop="20260903133000 +0000" channel="beINSports5.qa">
-    <title lang="en">Al Nassr Club (KSA) vs Al Zawraa SC (IRQ) - AFC Champions League Two 2025/2026 - West MD6</title>
-    <desc lang="en">The AFC Champions League Two is the second-tier competition of Asian club football, ranked below the AFC Champions League Elite. 
-Participation in the competition is open to clubs from the top 12 nations in the East and the West region based on the AFC club competitions ranking.
-All games are live and exclusive only on beIN.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260903133000 +0000" stop="20260903151500 +0000" channel="beINSports5.qa">
     <title lang="en">Al Hussein (JOR) vs Ahal FC (TKM) - AFC Champions League Two 2025/2026 - West MD6</title>
@@ -7576,14 +7562,6 @@ Estadio Ontime Butarque Stadium</desc>
     <title lang="en">Longines Global Champions Tour - Valkenswaard  Jumping - Grand Prix</title>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
-  </programme>
-  <programme start="20260903131100 +0000" stop="20260903133800 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Liverpool vs Nottingham Forest - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260903133800 +0000" stop="20260903140500 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Barcelona vs Rayo Vallecano - Spanish LaLiga 2026/2027 - Week 3</title>
@@ -11837,12 +11815,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903130000 +0000" stop="20260903133000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260903133000 +0000" stop="20260903134500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Interview  - 3/09/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
@@ -13689,6 +13661,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260910130000 +0000" stop="20260910133000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260910133000 +0000" stop="20260910134500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Interview  - 10/09/26</title>
+    <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
