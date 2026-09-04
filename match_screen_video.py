@@ -630,180 +630,70 @@ def seconds_of(segment: str) -> float:
 
 
 def write_playlist(segments: list[str], out: str, now=None) -> int:
-    """A LIVE playlist, which is the whole reason the television updates.
+    """A VOD playlist, so the channel ALWAYS opens on board zero.
 
-    It used to be VOD: PLAYLIST-TYPE:VOD, MEDIA-SEQUENCE fixed at 0, and
-    EXT-X-ENDLIST under twelve hours of segments. That is a complete,
-    finished recording, and RFC 8216 is explicit about what a player does
-    with one — it loads the playlist ONCE and never asks again. So a
-    viewer opened the channel, got whatever the board said at that moment,
-    and watched it for twelve hours while the guide rebuilt every ten
-    minutes behind them. The build was never the problem: the picture was
-    reaching the repository and the television was never told to look.
+    This was live for a while — a sliding window with a moving
+    MEDIA-SEQUENCE and no ENDLIST — so the television could show the next
+    day without the viewer reopening the channel. The cost was the one
+    fault asked about more than any other:
 
-    Three things make it live, and all three are needed:
+        "خليهم دائما لما افتح اي قناة يبدا من الاول عشان ما بخربط"
 
-      NO ENDLIST. That tag alone says the recording is complete, and a
-      player that sees it stops reloading.
-      NO PLAYLIST-TYPE:VOD, for the same reason at the top of the file.
-      A MEDIA-SEQUENCE THAT MOVES. It numbers the first segment in the
-      window, and a player uses it to tell an unchanged playlist from a
-      new one. Left at 0 forever, a fresh window looks like the old one.
+    A live client is free to join a window near its END (RFC 8216 §6.3.3
+    starts it about three target durations back), and EXT-X-START — the
+    one tag that pins the open point — took all three channels off the
+    air twice and cannot be used. So "always from the first page" and a
+    live window are not both achievable on the television in question,
+    and the first is what was actually asked for.
 
-    Counted in whole HOLDs since the epoch, so it advances on its own with
-    the clock and cannot go backwards between builds.
+    A VOD playlist settles it with no tag a player may refuse:
 
-    EXT-X-DISCONTINUITY still goes before every entry: the timestamps do
-    start over each time, because it is the same clip again.
+      PLAYLIST-TYPE:VOD and EXT-X-ENDLIST say the reel is complete, so
+      every player opens it at the FIRST segment and plays to the end —
+      board zero, every time, on every device.
+      MEDIA-SEQUENCE:0, fixed, because the list is the whole reel and
+      never slides.
+      ONE EXT-X-DISCONTINUITY at the top only. The segments are stamped
+      as one continuous timeline (encode_segment places each at its
+      offset), and a VOD reel does not wrap, so there is no interior
+      point where the timeline goes backwards.
 
-    One thing outside our hands, written down rather than discovered
-    twice: raw.githubusercontent serves with a five-minute cache, so a
-    player polling every twenty seconds may sit on a stale copy for up to
-    that long. Ten-minute builds live with it comfortably.
+    THE TRADE, written down rather than glossed: a viewer already
+    watching does NOT see the next day roll in on its own — the daily
+    rebuild changes these files, and the player picks the new reel up
+    the next time the channel is opened. For a board that changes once a
+    day that is the right side of the trade; a channel that reliably
+    opens on page one beats one that updates in place but opens wherever
+    it likes.
+
+    raw.githubusercontent still serves with a five-minute cache, which
+    only delays when a reopened channel sees the new reel — it does not
+    affect the open point.
     """
     now = now or time.time()
     reel = max(1, len(segments))
 
-    # THE WINDOW OPENS AND CLOSES ON A WHOLE LAP, so that whichever end
-    # a player joins at, it joins at BOARD ZERO.
-    #
-    #     "خليهم دائما لما افتح اي قناة يبدا من الاول عشان ما بخربط"
-    #
-    # A viewer opened the channel and got page four, then page five, then
-    # the wrap — which reads as a channel that skips, and is impossible
-    # to tell apart from one that does.
-    #
-    # THE TAG FOR THIS IS EXT-X-START AND IT MAY NOT BE USED. It took all
-    # three channels off the air twice in an hour; see the note where it
-    # would go, below. So the start point is chosen the only other way
-    # there is: by choosing what is AT the two places a player begins.
-    #
-    # There are exactly two, and this repository has argued for both
-    # without being able to test either on the television in question:
-    #
-    #   THE FRONT of the window. What the outage arithmetic pointed at —
-    #   the channel ran dry exactly one window-length after the last
-    #   build, which only happens if a player worked through the whole
-    #   window from its first segment.
-    #   THREE TARGET DURATIONS BACK FROM THE END, which is what RFC 8216
-    #   §6.3.3 tells a live client to do.
-    #
-    # Both are satisfied at once and neither has to be guessed:
-    #
-    #   the front  is board zero because the window opens on a multiple
-    #              of the reel length
-    #   the end    is board zero because the window is a whole number of
-    #              laps PLUS the three entries a live client hangs back
-    #              from
-    #
-    # A player that hangs back four rather than three lands on the last
-    # board of the previous lap and reaches board zero twenty seconds
-    # later, which is the worst this can do.
-    ticks = int(now // HOLD)
-    opens_at = (ticks // reel) * reel
-
-    least = max(reel, (WINDOW_MINUTES * 60) // HOLD)
-    laps = max(1, -(-(least - JOIN_BACK) // reel))
-    long_enough = laps * reel + JOIN_BACK
-
-    # A WINDOW THAT ACTUALLY SLIDES.
-    #
-    # This is the second half of the frozen-screen fix, and getting the
-    # first half alone was worse than getting neither. MEDIA-SEQUENCE
-    # numbers the FIRST segment in the window, and a player uses it to
-    # work out what happened while it was away: the sequence went up by
-    # thirty, so thirty segments have left the front, so what I was
-    # playing is now thirty places further back.
-    #
-    # The first fix moved the number every pass and left the list
-    # identical. A player was therefore told thirty segments had been
-    # dropped from a list that had not changed at all — so it could not
-    # find where it was, gave up, and re-synced. Every ten minutes, on
-    # both channels. That is the buffering.
-    #
-    # So the list moves with the number, and it moves A WHOLE LAP AT A
-    # TIME: the window opens at the last lap boundary at or before the
-    # clock, so the sequence advances by however many complete laps have
-    # gone by since the last pass. The list at the front is the reel from
-    # its first board, every time, which is the alignment above. A player
-    # away for less than the window's own length finds its place still in
-    # it and plays straight on, because what left the front left it in
-    # whole laps and the entries behind it did not move.
-    #
-    # Two passes inside one lap therefore write the SAME number and the
-    # SAME list, which is correct and is the thing that must not be
-    # confused with the fault above: the fault was a number that moved
-    # while the list stood still.
-
-    # HOW MANY BREAKS HAVE ALREADY SCROLLED PAST, which RFC 8216 §6.2.2
-    # requires of any sliding window that drops a segment carrying an
-    # EXT-X-DISCONTINUITY: without it a player cannot line up the breaks
-    # it has seen with the ones the new window is describing, and some
-    # re-sync rather than guess. The reel wraps once every `reel`
-    # segments and the window opens at `opens_at`, so exactly this many
-    # wraps are behind it.
-    breaks_gone = opens_at // reel
-
-    # Measured once per board, not once per entry: the same six files
-    # are named hundreds of times in one window.
+    # Measured once per board, not once per entry.
     real = [seconds_of(one) for one in segments]
 
     lines = [
         "#EXTM3U",
         "#EXT-X-VERSION:3",
-        # At least the longest segment, rounded up, which the spec
-        # requires and which 20.032 breaks if this stays at 20.
         f"#EXT-X-TARGETDURATION:{max(HOLD, math.ceil(max(real)))}",
-        f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
-        f"#EXT-X-DISCONTINUITY-SEQUENCE:{breaks_gone}",
-        # Every segment opens on a keyframe, which is what lets a player
-        # read ahead instead of fetching one segment at a time.
+        "#EXT-X-MEDIA-SEQUENCE:0",
+        "#EXT-X-PLAYLIST-TYPE:VOD",
         "#EXT-X-INDEPENDENT-SEGMENTS",
-        # NO EXT-X-START, AND THIS IS THE SECOND TIME IT HAS BEEN
-        # REMOVED IN AN HOUR.
-        #
-        # The reasoning that put it here still holds: RFC 8216 §6.3.3
-        # starts a live client about three target durations back from the
-        # END, so a viewer joining had sixty seconds of runway however
-        # long the window behind them was, and lengthening the window
-        # alone fixed nothing.
-        #
-        # BUT THE TAG TOOK ALL THREE CHANNELS OFF THE AIR. First as
-        # TIME-OFFSET:0, which is measured from the START of the playlist
-        # (§4.3.5.2) and so asked a television to open twelve hours
-        # behind live. Corrected to -1800, it came back as
-        #
-        #     An error occurred: ParserException
-        #
-        # photographed off the screen. ffmpeg parses the same file
-        # without complaint, so this is the player's own reading of an
-        # OPTIONAL tag, and no amount of being right about the spec makes
-        # a channel play.
-        #
-        # So it is gone, and what is left is exactly the playlist that
-        # played all day. The runway is back to sixty seconds, which is
-        # a real loss and is written down rather than glossed: the
-        # channel now depends on builds arriving, as it did before. What
-        # protects it is the ten-minute build and the hourly watch that
-        # dispatches one when GitHub drops the schedule — the same thing
-        # that caught the outage this all started with.
-        #
-        # DO NOT ADD THIS TAG BACK without a way to test it on the
-        # television it has now broken twice.
+        # One break at the head of the reel, where the timeline begins.
+        "#EXT-X-DISCONTINUITY",
     ]
-    # A break only where the reel really starts over, which is the one
-    # place the timeline goes backwards — the segments carry their place
-    # in the reel, so everything between two wraps is continuous.
-    for step in range(long_enough):
-        place = (opens_at + step) % reel
-        if place == 0:
-            lines.append("#EXT-X-DISCONTINUITY")
+    for place in range(reel):
         lines += [f"#EXTINF:{real[place]:.3f},",
                   os.path.basename(segments[place])]
-    cycles = long_enough / reel
+    lines.append("#EXT-X-ENDLIST")
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
-    return cycles
+    # One pass over the reel — a VOD playlist is exactly one cycle.
+    return 1.0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -875,10 +765,10 @@ def main(argv: list[str] | None = None) -> int:
         # identical and none is re-encoded — and moves the window forward
         # by the ten minutes that passed, which is exactly what the
         # player is asking to be told.
-        cycles = write_playlist(segments, out)
+        write_playlist(segments, out)
         log(f"{which}: the screen already shows these boards — not "
-            f"re-encoded, and the playlist window moved on ({cycles} "
-            f"cycles, {WINDOW_MINUTES} minutes)")
+            f"re-encoded, VOD playlist rewritten so the channel opens "
+            f"on board zero ({len(segments)} segment(s))")
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -912,7 +802,7 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         segments.append(segment)
 
-    cycles = write_playlist(segments, out)
+    write_playlist(segments, out)
     dropped = forget_old_segments(segments, prefix)
     if dropped:
         log(f"  {dropped} segment(s) nothing points at any more, removed")
@@ -922,8 +812,7 @@ def main(argv: list[str] | None = None) -> int:
     bytes_on_disk = os.path.getsize(out) + sum(os.path.getsize(s)
                                                for s in segments)
     log(f"{which} re-encoded: {len(segments)} segment(s) at {HOLD}s, "
-        f"played {cycles} times over = a {WINDOW_MINUTES}-minute "
-        f"live window, "
+        f"VOD reel that opens on board zero, "
         f"{bytes_on_disk // 1024} KB on disk in total")
     return 0
 
