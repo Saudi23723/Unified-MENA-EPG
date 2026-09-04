@@ -80,6 +80,13 @@ API = "https://backend.roya.tv/api/v01/channels/schedule"
 DAYS_BACK = 1
 DAYS_FORWARD = 6
 
+# The backend sometimes nests a programme collection under its own title
+# beside the real broadcast channel that carries it. Those rows belong on
+# the broadcast channel a viewer can actually tune to.
+CHANNEL_ALIASES = {
+    "RFC": "Roya TV",
+}
+
 # No Live badge on any Roya channel. Roya publishes no live marker of any
 # kind, so the only badge possible here would be "this was on air when the
 # workflow ran", read off the clock — which put Live on a cooking show and
@@ -164,15 +171,36 @@ def fetch_day(session, day_number: int) -> list[dict]:
     return channel_blocks(fetch(session, API, params={"day_number": day_number}).json())
 
 
+def canonical_channels(channels: dict[str, dict]) -> dict[str, dict]:
+    """Route known nested programme buckets back to the real channel."""
+    by_name = {meta["name"]: meta for meta in channels.values()}
+    out: dict[str, dict] = {}
+    aliased = 0
+    for site_id, meta in channels.items():
+        target = by_name.get(CHANNEL_ALIASES.get(meta["name"], ""))
+        if target is None:
+            out[site_id] = meta
+            continue
+        out[site_id] = dict(target)
+        aliased += 1
+    if aliased:
+        log(f"Roya channel aliases applied: {aliased}")
+    return out
+
+
 def build() -> int:
     log("JORDAN — ROYA TV EPG | official backend.roya.tv API | full daily schedule")
     session = new_session()
 
-    channels = discover_channels(session)
+    channels = canonical_channels(discover_channels(session))
     log(f"Roya channels discovered: {len(channels)} -> {[c['name'] for c in channels.values()]}")
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — Jordan (Roya)"})
-    for site_id, meta in channels.items():
+    written = set()
+    for meta in channels.values():
+        if meta["xmltv_id"] in written:
+            continue
+        written.add(meta["xmltv_id"])
         ch = ET.SubElement(root, "channel", id=meta["xmltv_id"])
         ET.SubElement(ch, "display-name", lang="ar").text = meta["name"]
         # Roya publishes a mark for only some of its channels; the rest take

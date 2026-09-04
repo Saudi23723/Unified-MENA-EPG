@@ -3967,7 +3967,7 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
 
     # THE NARROWNESS. Roya's cookery, news and drama must not come with
     # it — and the pattern is the only thing standing between them.
-    for path, mark, names_it, sport, competition in own_guides.OUR_OWN_FIGHTS:
+    for path, mark, names_it, sport, competition, _preferred_channel in own_guides.OUR_OWN_FIGHTS:
         for innocent in ("مطبخ رؤيا - سلطات", "نشرة الأخبار",
                          "مسلسل الاختيار", "Real Madrid - Barcelona"):
             check("OURFIGHTS", f"{competition} does not match "
@@ -3980,6 +3980,29 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
     source = inspect.getsource(own_guides.fights_our_guides_have)
     check("OURFIGHTS", "the channel comes from the guide, never from here",
           'row["channel"]' in source, True)
+
+
+def gate_roya_nested_programmes_are_mapped_back_to_their_channel() -> None:
+    """A programme shelf is not a channel of its own.
+
+    Roya's backend started handing back a nested block named RFC beside
+    Roya TV, and the guide published that title as though it were a real
+    channel. The fight itself was still there; the place to watch it was
+    not. This holds the tiny repair in isolation.
+    """
+    print("\nRoya nested programmes map back to the real channel — roya_jordan_epg")
+    import roya_jordan_epg
+
+    fixed = roya_jordan_epg.canonical_channels({
+        "1": {"xmltv_id": "Roya_RFC", "name": "RFC", "logo": "rfc.png"},
+        "2": {"xmltv_id": "Roya_RoyaTV", "name": "Roya TV", "logo": "tv.png"},
+    })
+    check("ROYA", "RFC rows are published on Roya TV",
+          (fixed["1"]["name"], fixed["1"]["xmltv_id"]),
+          ("Roya TV", "Roya_RoyaTV"))
+    check("ROYA", "and the real channel keeps its own id",
+          fixed["2"]["xmltv_id"], "Roya_RoyaTV")
+
 
 def gate_the_channel_plays_the_days_in_order() -> None:
     """"القناة الثانية بتبدا من ٦/٩" — and it did, and it was this.
@@ -5392,6 +5415,7 @@ def main() -> int:
                  gate_no_guide_reads_a_stranger,
                  gate_a_row_says_which_competition_it_is,
                  gate_our_own_guides_carry_fights_nobody_lists,
+                 gate_roya_nested_programmes_are_mapped_back_to_their_channel,
                  gate_the_channel_plays_the_days_in_order,
                  gate_a_day_that_is_over_leaves_the_screen,
                  gate_midnight_is_not_a_kickoff,

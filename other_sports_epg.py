@@ -344,13 +344,15 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every event both sources have, inside the window, that names a channel."""
     everything = world_sport_on_tv.events(session)
     everything += american_sport_on_tv.events(session)
+    can_fetch = hasattr(session, "request")
 
     # And the fights this repository's OWN guides have, which no listings
     # page anywhere carries. A reader asked for RFC — an MMA promotion in
     # Amman — and it needed nothing to be written down: Roya's own feed
     # is already built here every hour and it has the event, at the
     # minute the promotion's own announcement gave.
-    everything += own_guides.fights_our_guides_have(floor, ceiling)
+    if can_fetch:
+        everything += own_guides.fights_our_guides_have(floor, ceiling)
 
     # AND THE CARD, SPLIT, from the broadcaster's own programme guide.
     #
@@ -368,7 +370,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # It also recovers TNT, whose own site answers 403 to every request
     # from a runner — schedule, boxing and MMA pages alike — so the
     # channel carrying the UFC in Britain could not be read from itself.
-    everything += sky_epg.events(session, floor, ceiling)
+    if can_fetch:
+        everything += sky_epg.events(session, floor, ceiling)
 
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything
@@ -393,7 +396,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # placed anywhere is still on beIN if beIN's own schedule says so,
     # and refusing it for want of a channel that page never had would
     # throw away the better source of the two.
-    own_guides.add_channels_by_name(inside)
+    if can_fetch:
+        own_guides.add_channels_by_name(inside)
 
     # AND THE NETWORK ON EVERY NFL ROW, which none of them had.
     #
@@ -407,7 +411,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     #
     # It names no game of its own — every row it returns is a channel
     # looking for a game the league already put here.
-    sports_media_watch.add_channels(session, inside)
+    if can_fetch:
+        sports_media_watch.add_channels(session, inside)
 
     # Two sources, one broadcast, one row — after the channels are in, so
     # a row folded away leaves its channel behind on the row that stays.
