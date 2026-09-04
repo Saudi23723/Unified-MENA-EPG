@@ -549,9 +549,11 @@ def add_channels_by_name(events: list[dict]) -> int:
 # cannot make that mistake, because no cookery show is called RFC. Add a
 # line only for a competition whose name is its own.
 OUR_OWN_FIGHTS = (
-    # (guide, mark, what the title must say, the sport, what to call it)
+    # (guide, mark, what the title must say, the sport, what to call it,
+    #  which broadcaster name to trust when a nested programme shelf is
+    #  mislabelled as a channel)
     ("roya_jordan_epg.xml", "",
-     re.compile(r"\bRFC\b", re.I), "MMA", "RFC"),
+     re.compile(r"\bRFC\b", re.I), "MMA", "RFC", "Roya TV"),
 )
 
 
@@ -564,19 +566,22 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
     it is happening at all.
     """
     out: list[dict] = []
-    for path, mark, names_it, sport, competition in OUR_OWN_FIGHTS:
+    for path, mark, names_it, sport, competition, preferred_channel in OUR_OWN_FIGHTS:
         found = 0
         for row in programmes(path, mark):
             if not names_it.search(row["title"]):
                 continue
             if floor is not None and not (floor <= row["start"] < ceiling):
                 continue
+            channel = row["channel"]
+            if channel == competition and preferred_channel:
+                channel = preferred_channel
             out.append({
                 "start": row["start"],
                 "title": norm(row["title"]),
                 "competition": competition,
                 "sport": sport,
-                "channels": [row["channel"]],
+                "channels": [channel],
             })
             found += 1
         if found:
