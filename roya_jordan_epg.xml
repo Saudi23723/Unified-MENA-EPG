@@ -16,21 +16,21 @@
     <display-name lang="ar">Roya Comedy</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/GACtHgmN6t9X6RO.png" />
   </channel>
+  <channel id="Roya_RFC">
+    <display-name lang="ar">RFC</display-name>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/6fwbwvWruKQRDW3.png" />
+  </channel>
   <channel id="Roya_RoyaKitchen">
     <display-name lang="ar">Roya Kitchen</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/y2AB2KZz3UMXtyK.png" />
-  </channel>
-  <channel id="Roya_Ch38">
-    <display-name lang="ar">رؤيا فلسطين</display-name>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/xxfDsR7ZbjFOzp6.png" />
   </channel>
   <channel id="Roya_RoyaKids">
     <display-name lang="ar">Roya Kids</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/VSROVRDy7vqATP2.png" />
   </channel>
-  <channel id="Roya_RFC">
-    <display-name lang="ar">RFC</display-name>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/6fwbwvWruKQRDW3.png" />
+  <channel id="Roya_Ch38">
+    <display-name lang="ar">رؤيا فلسطين</display-name>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/xxfDsR7ZbjFOzp6.png" />
   </channel>
   <channel id="Roya_Ch40">
     <display-name lang="ar">إنتاجات رؤيا</display-name>
@@ -1274,6 +1274,197 @@
     <desc lang="ar">انواع سلطات مختلفة ولذيذة ضمن مطبخ رؤيا.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/181/oTaxH7HMbqlxMM6.jpg" />
   </programme>
+  <programme start="20260903210000 +0000" stop="20260903214857 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260903214857 +0000" stop="20260903215826 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260903215826 +0000" stop="20260903225734 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260903225734 +0000" stop="20260903225804 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260903225804 +0000" stop="20260903234624 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260903234624 +0000" stop="20260904000722 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904000722 +0000" stop="20260904010545 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904010545 +0000" stop="20260904022244 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260904022244 +0000" stop="20260904031108 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904031108 +0000" stop="20260904034157 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904034157 +0000" stop="20260904034227 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260904034227 +0000" stop="20260904044135 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904044135 +0000" stop="20260904044435 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - قصص</title>
+    <desc lang="ar">مجموعة من القصص التعليمية المفيدة للأطفال التي تساعد الطفل على تحويل الكلام المنقول إلى صور ذهنية خيالية، أي أنها تنمي خيال الطفل، وتساعده في تقريب المفاهيم المجردة إلى ذهن الطفل من خلال الصور.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1288/pCIEHSzo3KMkvag.webp" />
+  </programme>
+  <programme start="20260904044435 +0000" stop="20260904053332 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904053332 +0000" stop="20260904054301 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904054301 +0000" stop="20260904063121 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904063121 +0000" stop="20260904065219 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904065219 +0000" stop="20260904075042 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904075042 +0000" stop="20260904083906 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904083906 +0000" stop="20260904090955 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904090955 +0000" stop="20260904100903 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904100903 +0000" stop="20260904105800 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904105800 +0000" stop="20260904110729 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904110729 +0000" stop="20260904115549 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904115549 +0000" stop="20260904115619 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260904115619 +0000" stop="20260904121717 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904121717 +0000" stop="20260904131540 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904131540 +0000" stop="20260904143239 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260904143239 +0000" stop="20260904152103 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم الثامن</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
+  </programme>
+  <programme start="20260904152103 +0000" stop="20260904155152 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904155152 +0000" stop="20260904160121 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904160121 +0000" stop="20260904162219 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904162219 +0000" stop="20260904165308 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904165308 +0000" stop="20260904175216 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904175216 +0000" stop="20260904181314 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904181314 +0000" stop="20260904184403 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260904184403 +0000" stop="20260904194226 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904194226 +0000" stop="20260904205925 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260904205925 +0000" stop="20260904205930 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260904205930 +0000" stop="20260904210000 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
   <programme start="20260903210000 +0000" stop="20260903210401 +0000" channel="Roya_Ch38">
     <title lang="ar">كرفان - عطريقة غزة</title>
     <desc lang="ar">جولة في غزة وبين أهل غزة لنكتشف عاداتها وتقاليدها ومعالمها، وأسلوب الحياة في المدينة.</desc>
@@ -2078,197 +2269,6 @@
     <title lang="ar">ما بعد الأسر</title>
     <desc lang="ar">"برنامج ما بعد الأسر"، برنامج وثائقي يروي التفاصيل التي يتعرض لها الأسرى الفلسطينيين في سجون الاحتلال الإسرائيلي.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1336/4JVlbi9F5c8z4f8.webp" />
-  </programme>
-  <programme start="20260903210000 +0000" stop="20260903214857 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260903214857 +0000" stop="20260903215826 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260903215826 +0000" stop="20260903225734 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260903225734 +0000" stop="20260903225804 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260903225804 +0000" stop="20260903234624 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260903234624 +0000" stop="20260904000722 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904000722 +0000" stop="20260904010545 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904010545 +0000" stop="20260904022244 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260904022244 +0000" stop="20260904031108 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904031108 +0000" stop="20260904034157 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904034157 +0000" stop="20260904034227 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260904034227 +0000" stop="20260904044135 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904044135 +0000" stop="20260904044435 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - قصص</title>
-    <desc lang="ar">مجموعة من القصص التعليمية المفيدة للأطفال التي تساعد الطفل على تحويل الكلام المنقول إلى صور ذهنية خيالية، أي أنها تنمي خيال الطفل، وتساعده في تقريب المفاهيم المجردة إلى ذهن الطفل من خلال الصور.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1288/pCIEHSzo3KMkvag.webp" />
-  </programme>
-  <programme start="20260904044435 +0000" stop="20260904053332 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904053332 +0000" stop="20260904054301 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904054301 +0000" stop="20260904063121 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904063121 +0000" stop="20260904065219 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904065219 +0000" stop="20260904075042 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904075042 +0000" stop="20260904083906 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904083906 +0000" stop="20260904090955 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904090955 +0000" stop="20260904100903 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904100903 +0000" stop="20260904105800 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904105800 +0000" stop="20260904110729 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904110729 +0000" stop="20260904115549 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904115549 +0000" stop="20260904115619 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260904115619 +0000" stop="20260904121717 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904121717 +0000" stop="20260904131540 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904131540 +0000" stop="20260904143239 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260904143239 +0000" stop="20260904152103 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم الثامن</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
-  </programme>
-  <programme start="20260904152103 +0000" stop="20260904155152 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904155152 +0000" stop="20260904160121 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904160121 +0000" stop="20260904162219 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904162219 +0000" stop="20260904165308 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904165308 +0000" stop="20260904175216 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904175216 +0000" stop="20260904181314 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904181314 +0000" stop="20260904184403 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260904184403 +0000" stop="20260904194226 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904194226 +0000" stop="20260904205925 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260904205925 +0000" stop="20260904205930 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260904205930 +0000" stop="20260904210000 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
   </programme>
   <programme start="20260903210000 +0000" stop="20260903220430 +0000" channel="Roya_Ch40">
     <title lang="ar">رأيين بوجه</title>
@@ -9931,6 +9931,202 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">تختص هذه الفقرة بعرض طريقة تحضير العصائر المختلفة.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/432/ipcbHDMKYJ9hZRv.jpg" />
   </programme>
+  <programme start="20260904210000 +0000" stop="20260904213638 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
+    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
+  </programme>
+  <programme start="20260904213638 +0000" stop="20260904223501 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260904223501 +0000" stop="20260904232401 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
+    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
+ يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
+  </programme>
+  <programme start="20260904232401 +0000" stop="20260905001501 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم السادس</title>
+    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
+  </programme>
+  <programme start="20260905001501 +0000" stop="20260905013200 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260905013200 +0000" stop="20260905014129 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260905014129 +0000" stop="20260905020653 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
+    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
+  </programme>
+  <programme start="20260905020653 +0000" stop="20260905030518 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260905030518 +0000" stop="20260905034718 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
+    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
+ يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
+  </programme>
+  <programme start="20260905034718 +0000" stop="20260905043805 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم السادس</title>
+    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
+  </programme>
+  <programme start="20260905043805 +0000" stop="20260905045903 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260905045903 +0000" stop="20260905053541 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
+    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
+  </programme>
+  <programme start="20260905053541 +0000" stop="20260905063404 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260905063404 +0000" stop="20260905072304 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
+    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
+ يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
+  </programme>
+  <programme start="20260905072304 +0000" stop="20260905084003 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260905084003 +0000" stop="20260905093103 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم السادس</title>
+    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
+  </programme>
+  <programme start="20260905093103 +0000" stop="20260905094032 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260905094032 +0000" stop="20260905100556 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
+    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
+  </programme>
+  <programme start="20260905100556 +0000" stop="20260905110421 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260905110421 +0000" stop="20260905114621 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
+    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
+ يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
+  </programme>
+  <programme start="20260905114621 +0000" stop="20260905123708 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم السادس</title>
+    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
+  </programme>
+  <programme start="20260905123708 +0000" stop="20260905125806 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260905125806 +0000" stop="20260905133444 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
+    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
+  </programme>
+  <programme start="20260905133444 +0000" stop="20260905143307 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260905143307 +0000" stop="20260905152207 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
+    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
+ يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
+  </programme>
+  <programme start="20260905152207 +0000" stop="20260905161307 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم السادس</title>
+    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
+  </programme>
+  <programme start="20260905161307 +0000" stop="20260905173006 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260905173006 +0000" stop="20260905173935 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260905173935 +0000" stop="20260905180459 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
+    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
+  </programme>
+  <programme start="20260905180459 +0000" stop="20260905180504 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260905180504 +0000" stop="20260905190329 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - فيكسيز</title>
+    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
+  </programme>
+  <programme start="20260905190329 +0000" stop="20260905194529 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
+    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
+ يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
+  </programme>
+  <programme start="20260905194529 +0000" stop="20260905203616 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">الموسم السادس</title>
+    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
+  </programme>
+  <programme start="20260905203616 +0000" stop="20260905205714 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
+    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
+  </programme>
+  <programme start="20260905205714 +0000" stop="20260905205922 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - قصص</title>
+    <desc lang="ar">مجموعة من القصص التعليمية المفيدة للأطفال التي تساعد الطفل على تحويل الكلام المنقول إلى صور ذهنية خيالية، أي أنها تنمي خيال الطفل، وتساعده في تقريب المفاهيم المجردة إلى ذهن الطفل من خلال الصور.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1288/pCIEHSzo3KMkvag.webp" />
+  </programme>
+  <programme start="20260905205922 +0000" stop="20260905205952 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260905205952 +0000" stop="20260905205955 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
+  <programme start="20260905205955 +0000" stop="20260905210000 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
+    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
+  </programme>
   <programme start="20260904210000 +0000" stop="20260904210401 +0000" channel="Roya_Ch38">
     <title lang="ar">كرفان - عطريقة غزة</title>
     <desc lang="ar">جولة في غزة وبين أهل غزة لنكتشف عاداتها وتقاليدها ومعالمها، وأسلوب الحياة في المدينة.</desc>
@@ -10735,202 +10931,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">ما بعد الأسر</title>
     <desc lang="ar">"برنامج ما بعد الأسر"، برنامج وثائقي يروي التفاصيل التي يتعرض لها الأسرى الفلسطينيين في سجون الاحتلال الإسرائيلي.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1336/4JVlbi9F5c8z4f8.webp" />
-  </programme>
-  <programme start="20260904210000 +0000" stop="20260904213638 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
-    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
-  </programme>
-  <programme start="20260904213638 +0000" stop="20260904223501 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260904223501 +0000" stop="20260904232401 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
-    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
- يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
-  </programme>
-  <programme start="20260904232401 +0000" stop="20260905001501 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم السادس</title>
-    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
-  </programme>
-  <programme start="20260905001501 +0000" stop="20260905013200 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260905013200 +0000" stop="20260905014129 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260905014129 +0000" stop="20260905020653 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
-    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
-  </programme>
-  <programme start="20260905020653 +0000" stop="20260905030518 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260905030518 +0000" stop="20260905034718 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
-    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
- يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
-  </programme>
-  <programme start="20260905034718 +0000" stop="20260905043805 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم السادس</title>
-    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
-  </programme>
-  <programme start="20260905043805 +0000" stop="20260905045903 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260905045903 +0000" stop="20260905053541 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
-    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
-  </programme>
-  <programme start="20260905053541 +0000" stop="20260905063404 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260905063404 +0000" stop="20260905072304 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
-    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
- يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
-  </programme>
-  <programme start="20260905072304 +0000" stop="20260905084003 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260905084003 +0000" stop="20260905093103 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم السادس</title>
-    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
-  </programme>
-  <programme start="20260905093103 +0000" stop="20260905094032 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260905094032 +0000" stop="20260905100556 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
-    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
-  </programme>
-  <programme start="20260905100556 +0000" stop="20260905110421 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260905110421 +0000" stop="20260905114621 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
-    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
- يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
-  </programme>
-  <programme start="20260905114621 +0000" stop="20260905123708 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم السادس</title>
-    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
-  </programme>
-  <programme start="20260905123708 +0000" stop="20260905125806 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260905125806 +0000" stop="20260905133444 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
-    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
-  </programme>
-  <programme start="20260905133444 +0000" stop="20260905143307 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260905143307 +0000" stop="20260905152207 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
-    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
- يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
-  </programme>
-  <programme start="20260905152207 +0000" stop="20260905161307 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم السادس</title>
-    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
-  </programme>
-  <programme start="20260905161307 +0000" stop="20260905173006 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260905173006 +0000" stop="20260905173935 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260905173935 +0000" stop="20260905180459 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - مؤسسة شومان</title>
-    <desc lang="ar">مؤسسة عبد الحميد شومان العام (مؤسسة ثقافية)، بمبادرة غير ربحية من قِبل البنك العربي عبر تخصيص جزء من أرباحه السنوية لإنشائها، وحتى تكون ذراعه للمسؤولية الثقافية والاجتماعية، مع ارتكازها على أركان ثلاثة، هي: "الفكر القيادي، الأدب والفنون، والمنح الثقافيّة والابتكار".</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1321/rJQSJ1BW11DpZiq.webp" />
-  </programme>
-  <programme start="20260905180459 +0000" stop="20260905180504 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260905180504 +0000" stop="20260905190329 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - فيكسيز</title>
-    <desc lang="ar">Fixies هي مخلوقات صغيرة تعمل على إصلاح الأجهزة والأدوات والدوائر الكهربائية المعطلة. عندما يحصل أحد Fixies على أساور خاصة تحوله إلى وَغْل فائق القوة، فإن الأمر متروك لأصدقائه الصغار الملونين وصبي صغير وأستاذ مختبر لإنقاذ اليوم!</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1298/av5qlh25mYmbCxq.webp" />
-  </programme>
-  <programme start="20260905190329 +0000" stop="20260905194529 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - Babies And The Bear</title>
-    <desc lang="ar">طفلان صغيران (أخ وأخت) يبنيان علاقتهما وترابطهما، فهم يتعرفون على شخصيات ومشاعر بعضهم البعض.
- يتعلم الأطفال التعاون ومساعدة بعضهم في حل المشكلات. الهدف من هذه السلسلة هو إظهار العلاقات المبكرة للأطفال الصغار مع أقرانهم ، والخطوات الأولى التي يتخذونها في العالم من حولهم ، وتشجيع التطور من خلال اللعب.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1355/J6KEXsBdnfwhDq3.webp" />
-  </programme>
-  <programme start="20260905194529 +0000" stop="20260905203616 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">الموسم السادس</title>
-    <desc lang="ar">شاهدوا حلقات أهلا سمسم الموسم السادس برنامج مفيد للأطفال و العائلة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1352/ELYwTVrUUPH2J4F.webp" />
-  </programme>
-  <programme start="20260905203616 +0000" stop="20260905205714 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - هل تعلم مع لونا؟</title>
-    <desc lang="ar">شاهدوا حلقات قصيرة مفيدة للأطفال عن الفواكه و الخضروات و الحيوانات، في برنامج مخصص للأسرة والطفل.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1353/7Xbd6yeZtygqEJS.webp" />
-  </programme>
-  <programme start="20260905205714 +0000" stop="20260905205922 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - قصص</title>
-    <desc lang="ar">مجموعة من القصص التعليمية المفيدة للأطفال التي تساعد الطفل على تحويل الكلام المنقول إلى صور ذهنية خيالية، أي أنها تنمي خيال الطفل، وتساعده في تقريب المفاهيم المجردة إلى ذهن الطفل من خلال الصور.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1288/pCIEHSzo3KMkvag.webp" />
-  </programme>
-  <programme start="20260905205922 +0000" stop="20260905205952 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260905205952 +0000" stop="20260905205955 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
-  </programme>
-  <programme start="20260905205955 +0000" stop="20260905210000 +0000" channel="Roya_RoyaKids">
-    <title lang="ar">فترة الاطفال - أغاني رؤيا أطفال</title>
-    <desc lang="ar">اغاني تهدف الى تطوير ومساعدة المهارات التعليمية, التعريفية والإجتماعية لدى الطفل بالإضافة لتطوير الثقة بالنفس وتشجيع حب الاستطلاع. تقدم أغاني رؤيا كيدزعدد من النصائح الصحية والقيم التربوية بطريقة بسيطة وشيقة.</desc>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/723/4ELVoITJ2JQbSbw.webp" />
   </programme>
   <programme start="20260904210000 +0000" stop="20260904210928 +0000" channel="Roya_Ch40">
     <title lang="ar">الحب الحب</title>
@@ -35677,4 +35677,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-<programme start="20260904103641 +0000" stop="20260904193641 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904205847 +0000" stop="20260904210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905205847 +0000" stop="20260905210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260906205847 +0000" stop="20260906210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260907205847 +0000" stop="20260907210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260904105644 +0000" stop="20260904195644 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904205847 +0000" stop="20260904210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905205847 +0000" stop="20260905210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260906205847 +0000" stop="20260906210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260907205847 +0000" stop="20260907210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
