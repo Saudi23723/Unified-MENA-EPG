@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260903062600 +0000" stop="20260903081000 +0000" channel="beIN4K.qa">
-    <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
-    <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260903081000 +0000" stop="20260903095700 +0000" channel="beIN4K.qa">
     <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
@@ -714,6 +708,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260910081000 +0000" stop="20260910095500 +0000" channel="beIN4K.qa">
+    <title lang="en">Arsenal v Chelsea - English Premier League 2026/2027</title>
+    <desc lang="en">Arsenal are unbeaten in their last nine Premier League matches against Chelsea, their best unbeaten run against the Blues since a run of 19 between 1995 and 2005. Chelsea have lost their last four away Premier League games against Arsenal by an aggregate score of 11-2. Their last win there was in August 2021, a 2-0 victory.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260903060900 +0000" stop="20260903092500 +0000" channel="beINSports.qa">
     <title lang="en">Day 4 - Evening Session - World Athletics U20 Championships - Oregon 26</title>
     <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
@@ -1040,14 +1040,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">The Vancouver is the five round of the World Triathlon T100 Championship series leading up to the Final in QATAR next December amidst fierce competition in both the men’s and women’s categories</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
-  </programme>
-  <programme start="20260903073200 +0000" stop="20260903080000 +0000" channel="beINSports1.qa">
-    <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260903080000 +0000" stop="20260903090000 +0000" channel="beINSports1.qa">
     <title lang="en">EPL Weekly Review - 2026/2027 - EP 2</title>
@@ -2161,11 +2153,12 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260903055800 +0000" stop="20260903074400 +0000" channel="beINSports2.qa">
-    <title lang="en">Chelsea vs Brighton - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">Having been unbeaten in their first 10 Premier League games against Brighton, Chelsea have now lost five of their last eight against the Seagulls. Brighton have won their last three Premier League games against Chelsea, netting exactly three goals each time. The last team to score 3+ goals in four consecutive league games against the Blues were Wes</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+  <programme start="20260910080000 +0000" stop="20260910110000 +0000" channel="beINSports1.qa">
+    <title lang="en">Barcelona  vs Feyenoord - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260903074400 +0000" stop="20260903093000 +0000" channel="beINSports2.qa">
     <title lang="en">Leeds United vs Brentford - English Premier League 2026/2027 - Week 2</title>
@@ -2963,12 +2956,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260903064900 +0000" stop="20260903083500 +0000" channel="beINSports3.qa">
-    <title lang="en">Real Sociedad vs Espanyol - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Real Sociedad are unbeaten in their last seven LaLiga matches against Espanyol, although they have drawn the last two. On only one previous occasion have Real Sociedad and Espanyol drawn three consecutive matches in the competition: three between February 1986 and January 1987. Real Sociedad have not won any of their last four home games in LaLiga,</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20260903083500 +0000" stop="20260903090600 +0000" channel="beINSports3.qa">
     <title lang="en">La Liga Highlights 2026/2027 EP.3</title>
     <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
@@ -3709,12 +3696,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260903055700 +0000" stop="20260903074300 +0000" channel="beINSports4.qa">
-    <title lang="en">Dijon vs St-etienne - French Ligue 2 - 2026/2027</title>
-    <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
-    <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
-    <category lang="en">French League - Ligue 2</category>
-  </programme>
   <programme start="20260903074300 +0000" stop="20260903093000 +0000" channel="beINSports4.qa">
     <title lang="en">Guingamp vs Nantes - French Ligue 2 - 2026/2027</title>
     <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
@@ -4399,6 +4380,12 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <title lang="en">France vs Ecuador - Fifa Women World Cup - 2026</title>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">FIFA World Cup (Women)</category>
+  </programme>
+  <programme start="20260910083000 +0000" stop="20260910090000 +0000" channel="beINSports4.qa">
+    <title lang="en">PSG vs Monaco - French Ligue 1 2026/2027 - Week 3</title>
+    <desc lang="en">Paris SG have lost their last two Ligue 1 matches against Monaco; no team has beaten PSG three times in a row in the league since the QSI takeover. Since the 2020-21 season, Paris SG have lost six of their 12 Ligue 1 meetings with Monaco, at least two more defeats than they have suffered against any other side in that period.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260903073000 +0000" stop="20260903093000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Sadd SC (QAT) vs Shabab Al Ahli (UAE) - AFC Champions League Elite 2025/2026 - West MD6</title>
@@ -5193,12 +5180,12 @@ All games are live and exclusive only on beIN.</desc>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903083000 +0000" channel="beINSports6.qa">
-    <title lang="en">Gemma Triay Pons ESP Delfina Brea Senesi ARG vs Nuria Rodriguez Camacho ESP Giulia Dal Pozzo ITA - W ‎• Live 🔵‎</title>
-    <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
-    <category lang="ar">باديل</category>
-    <category lang="en">Live</category>
-    <category lang="en">Padel</category>
+  <programme start="20260910083000 +0000" stop="20260910090000 +0000" channel="beINSports5.qa">
+    <title lang="en">Al Ahli (KSA) vs FC Machida Zelvia (JPN) - AFC Champions League Elite 2025/2026 - Final</title>
+    <desc lang="en">The AFC Champions League Elite is contested by Asia's top-division football clubs. It is the most prestigious club competition in Asian football, played by the national league champions. A total of 24 clubs compete in the league stage of the competition, divided into East and West regions (12 teams each).
+All games are live and exclusive only on be</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
   </programme>
   <programme start="20260903083000 +0000" stop="20260903100000 +0000" channel="beINSports6.qa">
     <title lang="en">Lorena Rufo Ortiz ESP Victoria Iglesias Segador ESP vs Alejandra Salazar Bengoechea ESP Aranzazu Oso ‎• Live 🔵‎</title>
@@ -5864,11 +5851,11 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">باديل</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20260903040000 +0000" stop="20260903080200 +0000" channel="beINSports7.qa">
-    <title lang="en">Ben Shelton (USA) vs Hubert Hurkacz (POL) - Men’s Singles - Arthur Ashe Court - Tennis US Open 2026</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20260910081500 +0000" stop="20260910100000 +0000" channel="beINSports6.qa">
+    <title lang="en">Match 5 - Men - Premier Padel - Paris Major - 2026</title>
+    <desc lang="en">Premier Padel Majors represent the pinnacle of professional padel, attracting the sport’s biggest stars to four iconic events in Qatar, Italy, France and Mexico. Offering the highest ranking rewards on the Premier Padel Tour, the Majors are among the most coveted titles of the season and showcase the sport at its highest level.</desc>
+    <category lang="ar">باديل</category>
+    <category lang="en">Padel</category>
   </programme>
   <programme start="20260903080200 +0000" stop="20260903093000 +0000" channel="beINSports7.qa">
     <title lang="en">Aryna Sabalenka vs Polina Iatcenko - Women’s Singles - Arthur Ashe Court - Tennis US Open 2026</title>
@@ -6541,8 +6528,8 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903060000 +0000" stop="20260903075800 +0000" channel="beINSports8.qa">
-    <title lang="en">Marta Kostyuk (UKR) vs Sloane Stephens (USA) - Women’s Singles - Louis Armstrong Court - Tennis US O</title>
+  <programme start="20260910083000 +0000" stop="20260910103000 +0000" channel="beINSports7.qa">
+    <title lang="en">Day 11 - Arthur Ashe Court - Tennis US Open 2026 - Men's Singles QF</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -7664,11 +7651,10 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
   </programme>
-  <programme start="20260903073000 +0000" stop="20260903080000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Barcelona vs Rayo Vallecano - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">FC Barcelona have beaten Rayo Vallecano in four of their last five LaLiga matches  after failing to win any of the previous five. FC Barcelona are unbeaten in their last four home LaLiga matches against Rayo Vallecano, keeping a clean sheet in all four. They could keep five consecutive home clean sheets against them for the first time ever.</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
+  <programme start="20260910083000 +0000" stop="20260910102500 +0000" channel="beINSports9.qa">
+    <title lang="en">Longines Global Champions Tour - Valkenswaard  Jumping - Round 2 Competition Team</title>
+    <category lang="ar">الفروسية</category>
+    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260903080000 +0000" stop="20260903090000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Generation xG 2026/27 | E2</title>
@@ -9493,9 +9479,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903060000 +0000" stop="20260903080000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Red Star vs Reims - Ligue 2 - J04 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
+  <programme start="20260910080000 +0000" stop="20260910100000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">World Feed - Tennis US Open 2026</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -9541,20 +9527,8 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903220000 +0000" stop="20260904000000 +0000" channel="beINSportsFr1.qa">
+  <programme start="20260903220000 +0000" stop="20260904040000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Spe PSG Aston Villa - Football - Football 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260904000000 +0000" stop="20260904020000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Chelsea vs Luton - Coupe de la Ligue Anglaise - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260904020000 +0000" stop="20260904040000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Guingamp vs Nantes - Ligue 2 - J04 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -9842,7 +9816,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260906184000 +0000" stop="20260906204500 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Paris FC vs Marseille - Ligue 1 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
+    <title lang="en">Paris FC vs Marseille - Ligue 1 - J03 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
@@ -9866,14 +9840,211 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907020000 +0000" stop="20260907205959 +0000" channel="beINSportsFr1.qa">
+  <programme start="20260907020000 +0000" stop="20260907040000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Metz vs Rodez - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903060000 +0000" stop="20260903080000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Reds vs Cubs - MLB - BASEBALL 2026</title>
+  <programme start="20260907040000 +0000" stop="20260907060000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">St Etienne vs Montpellier - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907060000 +0000" stop="20260907070000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Achat - Magazine 2026</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907073000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Documentaire</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907073000 +0000" stop="20260907093000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Paris FC vs Marseille - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907093000 +0000" stop="20260907113000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">PSG vs Monaco - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907113000 +0000" stop="20260907120000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Doc Rse Environnement Sport50 Sport Face Au Climat - Documentaire</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907120000 +0000" stop="20260907143000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Betis vs Real Madrid - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907143000 +0000" stop="20260907150000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Gardien Ou Rien Du Tout - Football - Documentaire</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907150000 +0000" stop="20260907153000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Ep 4 Inside Fra - This is Paris - Football 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907153000 +0000" stop="20260907173000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Reims vs Guingamp - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907173000 +0000" stop="20260907180000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Made in England -</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907180000 +0000" stop="20260907184000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">P01 - L2 Extra - Football 2026-2027 ‎• Live 🔵‎</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907184000 +0000" stop="20260907204000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Nantes vs Nancy - Ligue 2 - J05 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907204000 +0000" stop="20260907210000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">P02 - L2 Extra - Football 2026-2027 ‎• Live 🔵‎</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907210000 +0000" stop="20260907213000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Made in England -</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907213000 +0000" stop="20260907220000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">P01 - L2 Extra - Football 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907220000 +0000" stop="20260908000000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Trabzonspor vs Genclerbirligi - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908000000 +0000" stop="20260908020000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Valence vs Barcelonne - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908020000 +0000" stop="20260908040000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">St Etienne vs Montpellier - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908040000 +0000" stop="20260908060000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Ath. Bilbao vs Atlético Madrid - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908060000 +0000" stop="20260908080000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Nantes vs Nancy - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908080000 +0000" stop="20260908100000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Betis vs Real Madrid - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908100000 +0000" stop="20260908120000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Trabzonspor vs Genclerbirligi - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908120000 +0000" stop="20260908140000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Valence vs Barcelonne - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908140000 +0000" stop="20260908160000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">PSG vs Monaco - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908160000 +0000" stop="20260908164000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Ep 4 Inside Fra - This is Paris - Football 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908164000 +0000" stop="20260908185500 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Aston Villa vs Bruges - Champions League J01 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908185500 +0000" stop="20260908210000 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Real Madrid vs Inter Milan - Champions League J01 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908210000 +0000" stop="20260908221500 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Magazine - Magazine Football Coupe du monde 2026</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908221500 +0000" stop="20260909001500 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Reims vs Guingamp - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260909001500 +0000" stop="20260909021500 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Nantes vs Nancy - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260909021500 +0000" stop="20260909031500 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Achat - Magazine 2026</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260909031500 +0000" stop="20260909205959 +0000" channel="beINSportsFr1.qa">
+    <title lang="en">Film Des Finales 2026 - Championnat De France - Volleyball 2526</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -9932,19 +10103,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903220000 +0000" stop="20260904000000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Galatasaray vs Goztepe - Championnat de Turquie - J03 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260904000000 +0000" stop="20260904020000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">FC Annecy vs Metz - Ligue 2 - J04 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260904020000 +0000" stop="20260904040000 +0000" channel="beINSportsFr2.qa">
+  <programme start="20260903220000 +0000" stop="20260904040000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Galatasaray vs Goztepe - Championnat de Turquie - J03 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10187,8 +10346,177 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907030000 +0000" stop="20260907205959 +0000" channel="beINSportsFr2.qa">
+  <programme start="20260907030000 +0000" stop="20260907040000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Terrains D'espoirs - Football - Documentaire</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907040000 +0000" stop="20260907060000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Valence vs Barcelonne - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907060000 +0000" stop="20260907080000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Ath. Bilbao vs Atlético Madrid - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907080000 +0000" stop="20260907100000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Reims vs Guingamp - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907100000 +0000" stop="20260907120000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">St Etienne vs Montpellier - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907120000 +0000" stop="20260907140000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Trabzonspor vs Genclerbirligi - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907140000 +0000" stop="20260907160000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Paris FC vs Marseille - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907160000 +0000" stop="20260907180000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">PSG vs Monaco - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907180000 +0000" stop="20260907200000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Fenerbahce vs Besiktas - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907200000 +0000" stop="20260907220000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Betis vs Real Madrid - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260907220000 +0000" stop="20260908000000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Metz vs Rodez - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908000000 +0000" stop="20260908020000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Birmingham vs Brentford - Coupe de la Ligue Anglaise - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908020000 +0000" stop="20260908030000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Passion Sous Pression - Magazine - Magazine Football 2023-2024</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908030000 +0000" stop="20260908033000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Terrains D'espoirs - Football - Documentaire</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908033000 +0000" stop="20260908040000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Gardien Ou Rien Du Tout - Football - Documentaire</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908040000 +0000" stop="20260908060000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">PSG vs Monaco - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908060000 +0000" stop="20260908080000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Fenerbahce vs Besiktas - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908080000 +0000" stop="20260908100000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Paris FC vs Marseille - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908100000 +0000" stop="20260908120000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Nantes vs Nancy - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908120000 +0000" stop="20260908140000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Betis vs Real Madrid - Liga - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908140000 +0000" stop="20260908143000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Made in England -</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908143000 +0000" stop="20260908150000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">P01 - L2 Extra - Football 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908150000 +0000" stop="20260908170000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Basaksehir vs Galatasaray - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908170000 +0000" stop="20260908185500 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Nantes vs Nancy - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908185500 +0000" stop="20260908210000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Milwall vs Newcastle - Coupe de la Ligue Anglaise - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908210000 +0000" stop="20260908230000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Paris FC vs Marseille - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260908230000 +0000" stop="20260909010000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">PSG vs Monaco - Ligue 1 - J03 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260909010000 +0000" stop="20260909030000 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Fenerbahce vs Besiktas - Championnat de Turquie - J04 - FOOTBALL 2026-2027</title>
+    <desc lang="en">Sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260909030000 +0000" stop="20260909205959 +0000" channel="beINSportsFr2.qa">
+    <title lang="en">Film Des Finales 2026 - Championnat De France - Volleyball 2526</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -11738,18 +12066,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260906190000 +0000" stop="20260906205959 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassad</title>
-    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
-  </programme>
-  <programme start="20260903080000 +0000" stop="20260903083000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -13596,11 +13912,17 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الأخبار الرياضية</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260910080000 +0000" stop="20260910083000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260910083000 +0000" stop="20260910090000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">La Liga Highlights 2026/2027 EP.4</title>
+    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260903080000 +0000" stop="20260903090000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -14554,7 +14876,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15549,7 +15871,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16528,7 +16850,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17574,7 +17896,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18558,7 +18880,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19556,7 +19878,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20354,7 +20676,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -21152,7 +21474,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903070000 +0000" stop="20260903080000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -21945,6 +22267,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260910070000 +0000" stop="20260910080000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260910080000 +0000" stop="20260910090000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
