@@ -35,9 +35,23 @@ from __future__ import annotations
 import os
 import re
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from epg_lib import club_skeleton, log, norm, same_club
+
+# The timezone the sports board reads its days in. A rolling broadcast is
+# told once per THIS day, at the moment it is on when the day opens, so
+# the row lands in the same day-bucket other_sports_epg.py draws.
+_BOARD_VIEWER = ZoneInfo("America/Los_Angeles")
+
+
+def _next_viewer_midnight(moment: datetime) -> datetime:
+    """The first instant of the next board-day after `moment` (UTC)."""
+    local = moment.astimezone(_BOARD_VIEWER)
+    nxt = datetime.combine(
+        local.date() + timedelta(days=1), time(0, 0), _BOARD_VIEWER)
+    return nxt.astimezone(timezone.utc)
 
 # Each guide, and the mark its channels carry. An empty mark is the Gulf,
 # which is this reader's default and says nothing.
@@ -493,7 +507,11 @@ def programmes(path: str, mark: str) -> list[dict]:
         channel = one_channel(named.get(programme.get("channel"), ""))
         if not channel:
             continue
-        out.append({"start": start, "title": text,
+        try:
+            stop = datetime.strptime(programme.get("stop", ""), XMLTV_TIME)
+        except ValueError:
+            stop = start
+        out.append({"start": start, "stop": stop, "title": text,
                     "channel": f"{channel}{mark}"})
     return out
 
@@ -565,36 +583,85 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
     listings page anywhere and the broadcaster is the only one who says
     it is happening at all.
     """
+    # HOW LONG A BREAK MAY BE and the airing still count as one. A
+    # rolling broadcast is published as back-to-back blocks — Roya slices
+    # RFC into ~102-minute programmes with no gap — and three hours of
+    # slack lets one short interruption pass without splitting a night in
+    # two, while still ending the airing when the channel truly moves on.
+    RUN_GAP = timedelta(hours=3)
+
     out: list[dict] = []
     for path, mark, names_it, sport, competition, preferred_channel in OUR_OWN_FIGHTS:
-        found = 0
+        # EVERY BLOCK THIS GUIDE PUBLISHES FOR THE COMPETITION, in order.
+        # A broadcaster that runs an event as a continuous loop hands it
+        # over as dozens of contiguous blocks, not one programme, and the
+        # block boundaries (00:11, 02:05, 03:59 …) are where the file was
+        # cut — not when anything starts. Printing one row per block put
+        # the same competition on the board a dozen times a day at times
+        # that mean nothing, so the blocks are stitched back into the
+        # airings they were cut from before a single row is made.
+        blocks = []
         for row in programmes(path, mark):
             if not names_it.search(row["title"]):
-                continue
-            if floor is not None and not (floor <= row["start"] < ceiling):
                 continue
             channel = row["channel"]
             if channel == competition and preferred_channel:
                 channel = preferred_channel
-            out.append({
-                "start": row["start"],
-                "title": norm(row["title"]),
-                "competition": competition,
-                "sport": sport,
-                "channels": [channel],
-            })
-            found += 1
+            blocks.append({"start": row["start"],
+                           "stop": row.get("stop", row["start"]),
+                           "channel": channel})
+        blocks.sort(key=lambda b: b["start"])
+
+        # Contiguous blocks -> one airing (start of the run to its end).
+        airings: list[dict] = []
+        for block in blocks:
+            if airings and (block["start"] - airings[-1]["stop"]) <= RUN_GAP:
+                airings[-1]["stop"] = max(airings[-1]["stop"], block["stop"])
+                if block["channel"] not in airings[-1]["channels"]:
+                    airings[-1]["channels"].append(block["channel"])
+            else:
+                airings.append({"start": block["start"], "stop": block["stop"],
+                                "channels": [block["channel"]]})
+
+        # ONE ROW PER DAY THE AIRING IS ON. A loop that spans days is a
+        # real thing to tell a viewer about on each of those days — but
+        # once per day, at the moment it is showing when the day opens
+        # (its own start on the day it begins, midnight after that), not
+        # once per block it was sliced into.
+        found = 0
+        for airing in airings:
+            if floor is not None and not (
+                    airing["start"] < ceiling and airing["stop"] > floor):
+                continue
+            span_floor = floor if floor is not None else airing["start"]
+            span_ceiling = ceiling if ceiling is not None else airing["stop"]
+            day = max(airing["start"], span_floor)
+            last = min(airing["stop"], span_ceiling)
+            while day < last:
+                nxt = _next_viewer_midnight(day)
+                out.append({
+                    "start": day,
+                    "title": competition,
+                    "competition": competition,
+                    "sport": sport,
+                    "channels": list(airing["channels"]),
+                })
+                found += 1
+                day = nxt
         if found:
             log(f"  {os.path.basename(path)}: {found} {competition} "
-                f"event(s) this repository already had")
+                f"day(s) this repository already had")
 
-    # One programme, however many of a broadcaster's channels carry it.
-    seen, kept = set(), []
+    # One row per (day, competition), whichever channels carry it.
+    seen, kept = {}, []
     for event in sorted(out, key=lambda one: one["start"]):
         key = (event["start"], event["title"])
         if key in seen:
+            for channel in event["channels"]:
+                if channel not in seen[key]["channels"]:
+                    seen[key]["channels"].append(channel)
             continue
-        seen.add(key)
+        seen[key] = event
         kept.append(event)
     return kept
 
