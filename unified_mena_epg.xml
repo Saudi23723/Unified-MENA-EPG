@@ -196,6 +196,10 @@
     <display-name lang="ar">Roya News</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/UdKZBqQO4ODgcN2.png" />
   </channel>
+  <channel id="Roya_RFC">
+    <display-name lang="ar">RFC</display-name>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/6fwbwvWruKQRDW3.png" />
+  </channel>
   <channel id="Roya_RoyaSport">
     <display-name lang="ar">Roya Sport</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/D0WIXZSSmg1BNJQ.png" />
@@ -3134,10 +3138,11 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260903034500 +0000" stop="20260903053100 +0000" channel="beINSports2.qa">
-    <title lang="en">Burnley vs Middlesbrough - EFL - English Football League  SkyBet - Championship 2026/2027</title>
-    <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
-    <category lang="en">English League - Championship</category>
+  <programme start="20260910053000 +0000" stop="20260910060000 +0000" channel="beINSports1.qa">
+    <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
+    <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260903053100 +0000" stop="20260903055800 +0000" channel="beINSports2.qa">
     <title lang="en">EPL Netbusters - 2026/2027 EP 2</title>
@@ -4690,12 +4695,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <title lang="en">Liverpool FC vs Atlético de Madrid - UEFA Youth League 2026/2027 - MD1</title>
     <category lang="ar">دوري أبطال أوروبا للشباب</category>
     <category lang="en">UEFA Youth League</category>
-  </programme>
-  <programme start="20260903034200 +0000" stop="20260903052800 +0000" channel="beINSports4.qa">
-    <title lang="en">Brest vsToulouse - French Ligue 1 2026/2027 - Week 2</title>
-    <desc lang="en">Toulouse are one of two teams, alongside Paris SG, to have won both of their Ligue 1 matches against Brest in the 2025-26 season without conceding a goal. Overall, only Paris SG, Monaco  and Lille  have more wins with a clean sheet against Brest in Ligue 1 than Toulouse. Brest lost their last home match against Toulouse  but have never lost consecu</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260903052800 +0000" stop="20260903055700 +0000" channel="beINSports4.qa">
     <title lang="en">Spirit of Sport</title>
@@ -8676,13 +8675,6 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903020000 +0000" stop="20260903053000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">STL vs LAD - MLB - 2026 /27 ‎• Live 🔵‎</title>
-    <desc lang="en">The 2026 Major League Baseball (MLB) regular season runs from March 25 through September 27, 2026, featuring all 30 MLB teams competing across a 162-game schedule.</desc>
-    <category lang="ar">كرة القاعدة</category>
-    <category lang="en">Live</category>
-    <category lang="en">Baseball</category>
-  </programme>
   <programme start="20260903053000 +0000" stop="20260903060000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Real Madrid vs Málaga - Spanish LaLiga 2026/2027 - Week 3</title>
     <desc lang="en">Real Madrid are unbeaten in their last 11 LaLiga matches against Málaga  since a 3-2 defeat in December 2012, which is their only loss against them in the competition's history. Real Madrid are unbeaten in their 17 home LaLiga matches against Málaga ; only against Las Palmas, Elche, CD Málaga  and Real Murcia  have they played more home games in th</desc>
@@ -9852,6 +9844,13 @@ Played over two ties, the winners of each tie advance to the league phase of the
   </programme>
   <programme start="20260910050000 +0000" stop="20260910053000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Napoli vs Arsenal - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260910053000 +0000" stop="20260910060000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Liverpool vs Atlético de Madrid - UEFA Champions League 2026-2027 - MD1</title>
     <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
@@ -12827,12 +12826,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903050000 +0000" stop="20260903053000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260903053000 +0000" stop="20260903060000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassila   - 3/09/26</title>
     <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
@@ -14679,6 +14672,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260910050000 +0000" stop="20260910053000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260910053000 +0000" stop="20260910060000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassila   - 10/09/26</title>
+    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -23668,10 +23667,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Formula 1 İtalya GP (2026) 1.Antrenman - Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903053000 +0000" stop="20260903071500 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">Türkiye Sigorta 25-26 BSL 21.Hafta Tofaş-Safiport Erokspor</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260903071500 +0000" stop="20260903090000 +0000" channel="beINSPORTS5.tr">
     <title lang="en">Türkiye Sigorta 25-26 BSL 21.Hafta Fenerbahçe Beko-Mersin Spor</title>
     <category lang="en">Sports</category>
@@ -24181,14 +24176,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903051346 +0000" stop="20260903053321 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260903053321 +0000" stop="20260903054124 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260903054124 +0000" stop="20260903055804 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -24533,11 +24520,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903051346 +0000" stop="20260903053321 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260903053321 +0000" stop="20260903054124 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -24885,11 +24868,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903051346 +0000" stop="20260903053321 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260903053321 +0000" stop="20260903054124 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25237,11 +25216,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903051346 +0000" stop="20260903053321 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260903053321 +0000" stop="20260903054124 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25589,6 +25564,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260904183000 +0000" stop="20260904213000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -25610,16 +25589,16 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260905033000 +0000" stop="20260909210000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904132320 +0000" stop="20260904134325 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904132320 +0000" stop="20260904134325 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904132320 +0000" stop="20260904134325 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904130323 +0000" stop="20260904132320 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904132320 +0000" stop="20260904134325 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903213000 +0000" channel="Roya_RoyaTV">
@@ -55338,10 +55317,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 جيني أسبر</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1283/BPKC5RslnnFN9ku.webp" />
   </programme>
-  <programme start="20260903043000 +0000" stop="20260903053000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">نشرة الأخبار الصباحية</title>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260903053000 +0000" stop="20260903073000 +0000" channel="AlJadeed.lb">
     <title lang="ar">صباح اليوم</title>
     <category lang="ar">منوعات</category>
@@ -61115,6 +61090,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Program 24/7</title>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260904044417 +0000" stop="20260904134417 +0000" channel="Roya_RFC">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260904205847 +0000" stop="20260904210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
@@ -68786,7 +68764,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260904154500 +0000" stop="20260904170000 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903070000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260903054500 +0000" stop="20260903070000 +0000" channel="Starz_admnadsports1">
     <title lang="en">German Cup 2026-2027</title>
     <desc lang="en">German Cup 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -69146,7 +69124,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903071500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260903054500 +0000" stop="20260903071500 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -69422,14 +69400,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903053500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Lazio x Genoa - Serie A</title>
-    <title lang="ar">لاتسيو × جنوى - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260903053500 +0000" stop="20260903060500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260903054500 +0000" stop="20260903060500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 2 - Serie A Highlights</title>
     <title lang="ar">الجولة 2 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -70015,14 +69986,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903053500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Fiorentina x Frosinone - Serie A</title>
-    <title lang="ar">فيورنتينا × فروزينوني - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260903053500 +0000" stop="20260903072000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260903054500 +0000" stop="20260903072000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Juventus x Parma - Serie A</title>
     <title lang="ar">يوفنتوس × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -70622,7 +70586,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903061000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260903054500 +0000" stop="20260903061000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">All In - AEW Full Gear</title>
     <title lang="ar">أول إن - ايه إي دبليو فل قير</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -71231,7 +71195,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903063600 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260903054500 +0000" stop="20260903063600 +0000" channel="Starz_starzplayrugby">
     <title lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -71429,7 +71393,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903071500 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260903054500 +0000" stop="20260903071500 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Al-Wasl X Shabab Al-Ahli - ADNOC Pro League</title>
     <title lang="ar">الوصل × شباب الأهلي - دوري أدنوك للمحترفين</title>
     <desc lang="en">Stay tuned to watch the best of football from the Adnoc Pro League.</desc>
@@ -72045,13 +72009,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903053300 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Dublin Guardians vs. Rotterdam Dockers - ETPL Highlights</title>
-    <desc lang="en">2026: Dublin Guardians vs. Rotterdam Dockers - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260903053300 +0000" stop="20260903055700 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260903054500 +0000" stop="20260903055700 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2026: Belfast Wolves vs. Edinburgh Castle Rockers - ETPL Highlights</title>
     <desc lang="en">2026: Belfast Wolves vs. Edinburgh Castle Rockers - ETPL Highlights</desc>
     <category lang="en">Sport</category>
@@ -72751,7 +72709,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903065600 +0000" channel="Starz_wedosports">
+  <programme start="20260903054500 +0000" stop="20260903065600 +0000" channel="Starz_wedosports">
     <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
@@ -73084,7 +73042,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903072800 +0000" channel="Starz_unbeatensports">
+  <programme start="20260903054500 +0000" stop="20260903072800 +0000" channel="Starz_unbeatensports">
     <title lang="en">World Rowing</title>
     <desc lang="en">European Championships rowing finals from Lake Varese</desc>
     <category lang="en">Sport</category>
@@ -73504,13 +73462,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903053000 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Cricket 360</title>
-    <desc lang="en">ICC Cricket 360</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260903053000 +0000" stop="20260903060000 +0000" channel="Starz_criclife1">
+  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Cricket 360</title>
     <desc lang="en">ICC Cricket 360</desc>
     <category lang="en">Sport</category>
@@ -74101,7 +74053,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903055200 +0000" channel="Starz_criclife3">
+  <programme start="20260903054500 +0000" stop="20260903055200 +0000" channel="Starz_criclife3">
     <title lang="en">Eliminator: Manchester Super Giants vs Sunrisers Leeds - Men's The Hundred</title>
     <title lang="ar">منز ذا هاندرد</title>
     <desc lang="en">S2026 , Ep.Eliminator: Manchester Super Giants vs Sunrisers Leeds : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
@@ -75102,7 +75054,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903060500 +0000" channel="Starz_golflife">
+  <programme start="20260903054500 +0000" stop="20260903060500 +0000" channel="Starz_golflife">
     <title lang="en">Wyndham Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E178 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -75557,13 +75509,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">Sports Programme</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260903052500 +0000" stop="20260903054500 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Halifax, Canada - Sail Grand Prix</title>
-    <title lang="ar">هاليفاكس، كندا - سباق الجائزة الكبرى للشراع</title>
-    <desc lang="en">Special coverage of the Sail Grand Prix.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG518592_landscape10-c2893686-a0ce-4b56-ab97-818553489df7.jpg" />
   </programme>
   <programme start="20260903054500 +0000" stop="20260903073000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Four-Star Event - UAE Horse Show Jumping Champion</title>
@@ -76188,7 +76133,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903060000 +0000" channel="Starz_awsn">
+  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -76482,7 +76427,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903060000 +0000" channel="Starz_redbulltv">
+  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -77064,7 +77009,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903060000 +0000" channel="Starz_daznringside">
+  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -77262,7 +77207,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903065828 +0000" channel="Starz_fifaplus">
+  <programme start="20260903054500 +0000" stop="20260903065828 +0000" channel="Starz_fifaplus">
     <title lang="en">Japan v New Zealand | Group B | FIFA Women's World Cup Germany 2011™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Japan and New Zealand played at FIFA Women's World Cup Stadium , Bochum on Monday, 27 June 2011 at 15:00.</desc>
     <category lang="en">Sport</category>
@@ -77592,14 +77537,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123257.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903052700 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2025: India vs Australia - ICC Women's Cricket World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
-    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
-  </programme>
-  <programme start="20260903052700 +0000" stop="20260903055400 +0000" channel="Starz_criclifewoman">
+  <programme start="20260903054500 +0000" stop="20260903055400 +0000" channel="Starz_criclifewoman">
     <title lang="en">2024: Bangladesh vs West Indies - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
@@ -78118,7 +78056,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903060000 +0000" channel="Starz_admnyastv">
+  <programme start="20260903054500 +0000" stop="20260903060000 +0000" channel="Starz_admnyastv">
     <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
     <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
     <category lang="en">Sport</category>
@@ -78586,7 +78524,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903052500 +0000" stop="20260903130000 +0000" channel="Starz_adfight">
+  <programme start="20260903054500 +0000" stop="20260903130000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -78739,6 +78677,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260907050500 +0000" stop="20260907053500 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260907053500 +0000" stop="20260907113500 +0000" channel="Starz_adfight">
+    <title lang="en">AJP Tour 2026 - Jiu-Jitsu</title>
+    <desc lang="en">AJP Tour 2026 - Jiu-Jitsu</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
@@ -83587,40 +83531,42 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 8 ساعات ودقيقتين ⁨·⁩ ⁨Ismaily SC - Al Nasr FC · On Sport Max⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 7 ساعات و42 دقيقة ⁨·⁩ ⁨Ismaily SC - Al Nasr FC · On Sport Max⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 04/09 — بتوقيتك
-⁦⏳ 06:30 8 ساعات ودقيقتين  Ismaily SC - Al Nasr FC · On Sport Max⁩
-⁦08:00 9 ساعات و32 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
-⁦09:00 10 ساعات و32 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
-⁦10:00 11 ساعة و32 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+ +2⁩
+⁦⏳ 06:30 7 ساعات و42 دقيقة  Ismaily SC - Al Nasr FC · On Sport Max⁩
+⁦08:00 9 ساعات و12 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
+⁦09:00 10 ساعات و12 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
+⁦10:00 11 ساعة و12 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+ +2⁩
+⁦Asswehly SC - KVZ SC · Libya Sports⁩
 ⁦AS Port - Zamalek SC · ON Sport⁩
 ⁦İstanbul Başakşehir - Galatasaray · beIN 5 · Bein 1 TR · beIN 1 TR⁩
-⁦10:30 12 ساعة ودقيقتين  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
-⁦11:00 12 ساعة و32 دقيقة  Al Shabab FC - Al Hilal · Thmanyah · HT Spor TR · Thmanyah 1 HD⁩
+⁦10:30 11 ساعة و42 دقيقة  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
+⁦11:00 12 ساعة و12 دقيقة  Al Shabab FC - Al Hilal · Thmanyah · HT Spor TR · Thmanyah 1 HD⁩
 ⁦Al Ahli - Al-Riyadh SC · Thmanyah · S Sport Plus TR · Thmanyah 3 HD⁩
+⁦JS Saoura - Horoya AC · TV1 Algerian⁩
 ⁦London City Lionesses - Manchester United Women · Sky Main Event · Sky Football · Sky One +1⁩
-⁦11:30 13 ساعة ودقيقتين  Stuttgart - FC Koln · MBC Shahid · S Sport Plus TR · MBC Action +1⁩
-⁦12:00 13 ساعة و32 دقيقة  Ipswich - Liverpool · beIN 3 · Sky Main Event · AzTV TR +7⁩
+⁦11:30 12 ساعة و42 دقيقة  Stuttgart - FC Koln · MBC Shahid · S Sport Plus TR · MBC Action +1⁩
+⁦12:00 13 ساعة و12 دقيقة  Ipswich - Liverpool · beIN 3 · Sky Main Event · AzTV TR +7⁩
 ⁦Betis - Real Madrid · beIN 1 · Premier Sports 1 · S Sport TR +5⁩
-⁦12:05 13 ساعة و37 دقيقة  PSG - Monaco · beIN 2 · Bein 2 TR · Ligue1+ +4⁩</desc>
+⁦12:05 13 ساعة و17 دقيقة  PSG - Monaco · beIN 2 · Bein 2 TR · Ligue1+ +4⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_1.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⏳ بعد يوم و5 ساعات ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
     <desc lang="ar">مباريات السبت 05/09 — بتوقيتك
 ⁦⏳ 04:00 يوم و5 ساعات  Manchester United U18 - Middlesbrough U18 · MUTV⁩
-⁦04:30 يوم و6 ساعات  Newcastle - Bournemouth · beIN 1 · TNT 1 · HBO Max +4⁩
+⁦04:30 يوم و5 ساعات  Newcastle - Bournemouth · beIN 1 · TNT 1 · HBO Max +4⁩
 ⁦Preston - Blackburn · beIN 2⁩
 ⁦Lincoln City - Southampton · Sky+⁩
 ⁦Preston North End - Blackburn Rovers · beIN 2 · Sky Main Event · Sky Football⁩
 ⁦Stoke City - Charlton Athletic · Sky+⁩
 ⁦Knowle - Worcester City · BBC Red Button⁩
-⁦05:45 يوم و7 ساعات  Mexico - Benin · beIN XTRA 5⁩
+⁦05:45 يوم و6 ساعات  Mexico - Benin · beIN XTRA 5⁩
 ⁦06:00 يوم و7 ساعات  Brazil - Tanzania · beIN Xtra 6⁩
 ⁦Poland - Argentina · beIN⁩
 ⁦Brazil Women U20 - Tanzania Women U20 · DAZN⁩
 ⁦Poland Women U20 - Argentina Women U20 · DAZN⁩
-⁦06:30 يوم و8 ساعات  Bayer Leverkusen - Union Berlin · MBC Shahid⁩
+⁦06:30 يوم و7 ساعات  Bayer Leverkusen - Union Berlin · MBC Shahid⁩
 ⁦Hoffenheim - Dortmund · MBC Shahid⁩
 ⁦B. Monchengladbach - Elversberg · MBC Shahid⁩
 ⁦Werder Bremen - RB Leipzig · MBC Shahid⁩
@@ -83634,7 +83580,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦07:15 يوم و8 ساعات  Ath Bilbao - Atl. Madrid · beIN 6 · LALIGATV · beIN FR 1⁩
 ⁦08:00 يوم و9 ساعات  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
 ⁦08:15 يوم و9 ساعات  Lens - Lorient · beIN Xtra 1 · beIN XTRA 1⁩
-⁦08:45 يوم و10 ساعات  Brazil - Tanzania · beIN XTRA 6⁩
+⁦08:45 يوم و9 ساعات  Brazil - Tanzania · beIN XTRA 6⁩
 ⁦08:50 يوم و10 ساعات  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
 ⁦08:55 يوم و10 ساعات  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
 ⁦09:00 يوم و10 ساعات  Mexico - Benin · beIN Xtra 5⁩
@@ -83642,13 +83588,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Canada Women U20 - England Women U20 · DAZN⁩
 ⁦Mexico Women U20 - Benin Women U20 · DAZN⁩
 ⁦Inter Milan - Napoli (joins match in progress) · TNT 2 · DAZN · HBO Max⁩
-⁦09:30 يوم و11 ساعة  Hull City - Aston Villa · beIN 4K · Sky Main Event · beIN Xtra 1 +4⁩
+⁦09:30 يوم و10 ساعات  Hull City - Aston Villa · beIN 4K · Sky Main Event · beIN Xtra 1 +4⁩
 ⁦Rayo Vallecano - Racing Santander · beIN 2 · LALIGATV⁩
 ⁦Schalke - Bayern Munich · MBC Shahid · Sky Football⁩
 ⁦09:50 يوم و11 ساعة  Fenerbahçe - Beşiktaş · beIN 5⁩
-⁦10:30 يوم و12 ساعة  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
+⁦10:30 يوم و11 ساعة  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
 ⁦11:00 يوم و12 ساعة  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Thmanyah 1 HD⁩
-⁦11:45 يوم و13 ساعة  Nice - Le Mans · beIN 3 · Ligue1+⁩
+⁦11:45 يوم و12 ساعة  Nice - Le Mans · beIN 3 · Ligue1+⁩
 ⁦Le Havre - Brest · beIN 4 · Ligue1+⁩
 ⁦12:00 يوم و13 ساعة  Villarreal - Dep. La Coruna · beIN 2 · Disney+⁩
 ⁦Swansea - Wrexham · Sky Main Event · beIN 1 EN · beIN EN 1⁩</desc>
@@ -83874,17 +83820,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_17.png" />
   </programme>
   <programme start="20260904050000 +0000" stop="20260904060000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:03 — بتوقيتك
+    <title lang="ar">أخبار اليوم · هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:07 — بتوقيتك
 
-سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
-        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
+        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
         عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-Argentine leader threatens to sanction oil firms working off Falklands
-        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+The Papers: 'Foreign donations sting' and 'Argentina threat to Falklands'
+        Reform UK alleged 'foreign donations sting' and Argentine president's looming 'threat' over Falklands are the papers' top stories.
         بريطانيا · BBC
 Maria Bartiromo Is Out at Fox News
         The dismissal came after Ms. Bartiromo shared internal Fox Business communications with the White House, a person familiar with the details confirmed.
@@ -83895,9 +83841,24 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
+سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
+        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+        عربي · CNN عربية
 شاهد.. عاصفة عنيفة تغرق حافلة وتشل الحركة في تورونتو
         ضربت عاصفة رعدية قوية مدينة تورونتو ليلة الأربعاء، مما أدى إلى إغلاق الطرق وانقطاع التيار الكهربائي عن عشرات الآلاف من السكان.
         عربي · CNN عربية
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+        تركيا · TRT عربي
+Argentine leader threatens to sanction oil firms working off Falklands
+        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+        بريطانيا · BBC
+Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
+        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
+        أمريكا · NYT
+Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
 كوريا الجنوبية تدرس «خيارات عسكرية» لدعم الملاحة في مضيق هرمز
         قال مسؤول ​في البيت الأزرق الرئاسي، اليوم، إن كوريا الجنوبية تدرس ‌الخيارات ‌العملية، بما ​في ‌ذلك ⁠الإجراءات ​العسكرية
         عربي · الشرق الأوسط
@@ -83906,21 +83867,6 @@ Qatamin Discusses Social Security for App-Based Workers
         تركيا · TRT عربي
 Three crucial questions facing Farage at Reform conference
         Can the Reform UK leader put his policies into action, and become prime minister?
-        بريطانيا · BBC
-Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
-        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
-        أمريكا · NYT
-Criminal Gang Arrested Over Plot to Kidnap Mbappé
-        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
-        الأردن · Jordan News
-نائب ترامب: دول الخليج تساعد سراً في عزل إيران
-        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
-        تركيا · TRT عربي
-Watch: Moment workers are rescued from Nepal tunnel
-        Rescuers pull two people from a hydropower tunnel more than a week after a massive flash flood devastated the Nepal-China border.
         بريطانيا · BBC
 Trump commutes former Philadelphia labor leader "Johnny Doc's" prison sentence
         President Trump agreed to commute the rest of former Philadelphia labor leader Johnny Doc's prison sentence, his lawyer says.
@@ -83931,17 +83877,17 @@ Lindsay Clancy jury leaves without verdict, defense wants juror dismissed
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
-        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
-        عربي · فرانس 24
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+نائب ترامب: دول الخليج تساعد سراً في عزل إيران
+        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
+        عربي · CNN عربية
+مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
+        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
         تركيا · TRT عربي
-New Zealand drugs regulator approves use of MDMA to treat severe PTSD
-        New Zealand decision follows Australian approval in 2023 of psychedelics to treat PTSD and treatment-resistant depression Two psychiatrists in New…
+Europe weighs solutions to curtail Russia’s growing hybrid warfare
+        Governments now moving faster to impose costs on Moscow for its increasing attacks over support for Ukraine Russia’s suspected sabotage campaign…
         بريطانيا · Guardian
-Nepal-Tibet flash flood: Two workers pulled alive from hydropower tunnel nine days after disaster
-        Officials said the workers were safely rescued from tunnels that were at a depth of 170 metres Two people have been pulled out alive from a…
+‘Capitalism is dying’: in Luton, these former car workers have a moral tale for our times | Aditya Chakrabortty
+        Abandoned by the company they worked for, let down by Labour and their unions – now they watch their friends turn to Reform for answers After…
         بريطانيا · Guardian
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
@@ -83949,16 +83895,17 @@ Vance "extremely skeptical" U.S. strike hit Iran wedding party
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-ألمانيا تحقق مع 32 شخصاً ادعوا أنهم من أحفاد ضحايا النازية للحصول على الجنسية
-        عربي · الشرق الأوسط
+ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
+        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
+        عربي · فرانس 24
+ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
+        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+        تركيا · TRT عربي
 يلماز: عمليات البحث والإنقاذ في حادث غرق العبّارة قبالة سواحل غيرنه مستمرة على مدار الساعة
         أكد نائب الرئيس التركي جودت يلماز، الخميس، استمرار عمليات البحث والإنقاذ في حادث غرق العبارة "فيلوجيت" قبالة سواحل غيرنه في جمهورية شمال قبرص…
         تركيا · TRT عربي
-قوات الأمن التركية تحيّد مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي بعد إطلاقه النار عليها بإسطنبول
-        حيّدت قوات الأمن التركية، الخميس، مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي
-        تركيا · TRT عربي
-‘This could just be the beginning’: minorities fear first far-right win in German state election
-        As polls point to victory in Saxony-Anhalt for AfD party promising deportations, people face agonising choice: stay or go As the Bible study session…
+Air pollution from ships may be more harmful than road traffic emissions, port study finds
+        Scientists say ultrafine particles in cruise ship emissions associated with reduced ability to resist common viruses More than 2.5 million cruise…
         بريطانيا · Guardian
 How OpenAI Limited the Probe of Its Bots’ Hack of Hugging Face
         A nonprofit’s study of how OpenAI’s A.I. agents were able to break into Hugging Face’s infrastructure wasn’t allowed to look at the incident’s full…
@@ -83975,9 +83922,9 @@ Al-Barbeeta Guava: The Flavor of Tafileh
 الدوري الفرنسي: البديل أويدا يهدي ليل الصدارة
         أهدى الوافد الجديد البديل الياباني أياسي أويدا فريقه ليل صدارة موقتة بتسجيله هدف الفوز الوحيد في مرمى مضيفه تولوز 1-0.
         عربي · الشرق الأوسط
-‘They’ll be finding bodies next year’: a renowned forensic scientist on Nepal’s ‘extreme challenges’
-        Prof Richard Bassed helped identify Boxing Day tsunami and victims of Australia’s catastrophic Black Saturday bushfires
-        بريطانيا · Guardian
+Kyrgios given one-month ban for positive cocaine test
+        Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
+        بريطانيا · BBC
 SEC legal battle with LSU could reshape college football and governance of all college sports
         Just days before the first week of the college football season, a judge is set to rule on whether former professional football players can return to…
         أمريكا · CBS
@@ -83988,16 +83935,16 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904060000 +0000" stop="20260904070000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:07 — بتوقيتك
 
-سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
-        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
+        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
         عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-Argentine leader threatens to sanction oil firms working off Falklands
-        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+The Papers: 'Foreign donations sting' and 'Argentina threat to Falklands'
+        Reform UK alleged 'foreign donations sting' and Argentine president's looming 'threat' over Falklands are the papers' top stories.
         بريطانيا · BBC
 Maria Bartiromo Is Out at Fox News
         The dismissal came after Ms. Bartiromo shared internal Fox Business communications with the White House, a person familiar with the details confirmed.
@@ -84008,9 +83955,24 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
+سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
+        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+        عربي · CNN عربية
 شاهد.. عاصفة عنيفة تغرق حافلة وتشل الحركة في تورونتو
         ضربت عاصفة رعدية قوية مدينة تورونتو ليلة الأربعاء، مما أدى إلى إغلاق الطرق وانقطاع التيار الكهربائي عن عشرات الآلاف من السكان.
         عربي · CNN عربية
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+        تركيا · TRT عربي
+Argentine leader threatens to sanction oil firms working off Falklands
+        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+        بريطانيا · BBC
+Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
+        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
+        أمريكا · NYT
+Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
 كوريا الجنوبية تدرس «خيارات عسكرية» لدعم الملاحة في مضيق هرمز
         قال مسؤول ​في البيت الأزرق الرئاسي، اليوم، إن كوريا الجنوبية تدرس ‌الخيارات ‌العملية، بما ​في ‌ذلك ⁠الإجراءات ​العسكرية
         عربي · الشرق الأوسط
@@ -84019,21 +83981,6 @@ Qatamin Discusses Social Security for App-Based Workers
         تركيا · TRT عربي
 Three crucial questions facing Farage at Reform conference
         Can the Reform UK leader put his policies into action, and become prime minister?
-        بريطانيا · BBC
-Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
-        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
-        أمريكا · NYT
-Criminal Gang Arrested Over Plot to Kidnap Mbappé
-        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
-        الأردن · Jordan News
-نائب ترامب: دول الخليج تساعد سراً في عزل إيران
-        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
-        تركيا · TRT عربي
-Watch: Moment workers are rescued from Nepal tunnel
-        Rescuers pull two people from a hydropower tunnel more than a week after a massive flash flood devastated the Nepal-China border.
         بريطانيا · BBC
 Trump commutes former Philadelphia labor leader "Johnny Doc's" prison sentence
         President Trump agreed to commute the rest of former Philadelphia labor leader Johnny Doc's prison sentence, his lawyer says.
@@ -84044,17 +83991,17 @@ Lindsay Clancy jury leaves without verdict, defense wants juror dismissed
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
-        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
-        عربي · فرانس 24
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+نائب ترامب: دول الخليج تساعد سراً في عزل إيران
+        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
+        عربي · CNN عربية
+مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
+        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
         تركيا · TRT عربي
-New Zealand drugs regulator approves use of MDMA to treat severe PTSD
-        New Zealand decision follows Australian approval in 2023 of psychedelics to treat PTSD and treatment-resistant depression Two psychiatrists in New…
+Europe weighs solutions to curtail Russia’s growing hybrid warfare
+        Governments now moving faster to impose costs on Moscow for its increasing attacks over support for Ukraine Russia’s suspected sabotage campaign…
         بريطانيا · Guardian
-Nepal-Tibet flash flood: Two workers pulled alive from hydropower tunnel nine days after disaster
-        Officials said the workers were safely rescued from tunnels that were at a depth of 170 metres Two people have been pulled out alive from a…
+‘Capitalism is dying’: in Luton, these former car workers have a moral tale for our times | Aditya Chakrabortty
+        Abandoned by the company they worked for, let down by Labour and their unions – now they watch their friends turn to Reform for answers After…
         بريطانيا · Guardian
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
@@ -84062,16 +84009,17 @@ Vance "extremely skeptical" U.S. strike hit Iran wedding party
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-ألمانيا تحقق مع 32 شخصاً ادعوا أنهم من أحفاد ضحايا النازية للحصول على الجنسية
-        عربي · الشرق الأوسط
+ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
+        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
+        عربي · فرانس 24
+ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
+        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+        تركيا · TRT عربي
 يلماز: عمليات البحث والإنقاذ في حادث غرق العبّارة قبالة سواحل غيرنه مستمرة على مدار الساعة
         أكد نائب الرئيس التركي جودت يلماز، الخميس، استمرار عمليات البحث والإنقاذ في حادث غرق العبارة "فيلوجيت" قبالة سواحل غيرنه في جمهورية شمال قبرص…
         تركيا · TRT عربي
-قوات الأمن التركية تحيّد مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي بعد إطلاقه النار عليها بإسطنبول
-        حيّدت قوات الأمن التركية، الخميس، مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي
-        تركيا · TRT عربي
-‘This could just be the beginning’: minorities fear first far-right win in German state election
-        As polls point to victory in Saxony-Anhalt for AfD party promising deportations, people face agonising choice: stay or go As the Bible study session…
+Air pollution from ships may be more harmful than road traffic emissions, port study finds
+        Scientists say ultrafine particles in cruise ship emissions associated with reduced ability to resist common viruses More than 2.5 million cruise…
         بريطانيا · Guardian
 How OpenAI Limited the Probe of Its Bots’ Hack of Hugging Face
         A nonprofit’s study of how OpenAI’s A.I. agents were able to break into Hugging Face’s infrastructure wasn’t allowed to look at the incident’s full…
@@ -84088,9 +84036,9 @@ Al-Barbeeta Guava: The Flavor of Tafileh
 الدوري الفرنسي: البديل أويدا يهدي ليل الصدارة
         أهدى الوافد الجديد البديل الياباني أياسي أويدا فريقه ليل صدارة موقتة بتسجيله هدف الفوز الوحيد في مرمى مضيفه تولوز 1-0.
         عربي · الشرق الأوسط
-‘They’ll be finding bodies next year’: a renowned forensic scientist on Nepal’s ‘extreme challenges’
-        Prof Richard Bassed helped identify Boxing Day tsunami and victims of Australia’s catastrophic Black Saturday bushfires
-        بريطانيا · Guardian
+Kyrgios given one-month ban for positive cocaine test
+        Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
+        بريطانيا · BBC
 SEC legal battle with LSU could reshape college football and governance of all college sports
         Just days before the first week of the college football season, a judge is set to rule on whether former professional football players can return to…
         أمريكا · CBS
@@ -84101,16 +84049,16 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904070000 +0000" stop="20260904080000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:07 — بتوقيتك
 
-سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
-        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
+        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
         عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-Argentine leader threatens to sanction oil firms working off Falklands
-        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+The Papers: 'Foreign donations sting' and 'Argentina threat to Falklands'
+        Reform UK alleged 'foreign donations sting' and Argentine president's looming 'threat' over Falklands are the papers' top stories.
         بريطانيا · BBC
 Maria Bartiromo Is Out at Fox News
         The dismissal came after Ms. Bartiromo shared internal Fox Business communications with the White House, a person familiar with the details confirmed.
@@ -84121,9 +84069,24 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
+سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
+        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+        عربي · CNN عربية
 شاهد.. عاصفة عنيفة تغرق حافلة وتشل الحركة في تورونتو
         ضربت عاصفة رعدية قوية مدينة تورونتو ليلة الأربعاء، مما أدى إلى إغلاق الطرق وانقطاع التيار الكهربائي عن عشرات الآلاف من السكان.
         عربي · CNN عربية
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+        تركيا · TRT عربي
+Argentine leader threatens to sanction oil firms working off Falklands
+        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+        بريطانيا · BBC
+Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
+        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
+        أمريكا · NYT
+Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
 كوريا الجنوبية تدرس «خيارات عسكرية» لدعم الملاحة في مضيق هرمز
         قال مسؤول ​في البيت الأزرق الرئاسي، اليوم، إن كوريا الجنوبية تدرس ‌الخيارات ‌العملية، بما ​في ‌ذلك ⁠الإجراءات ​العسكرية
         عربي · الشرق الأوسط
@@ -84132,21 +84095,6 @@ Qatamin Discusses Social Security for App-Based Workers
         تركيا · TRT عربي
 Three crucial questions facing Farage at Reform conference
         Can the Reform UK leader put his policies into action, and become prime minister?
-        بريطانيا · BBC
-Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
-        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
-        أمريكا · NYT
-Criminal Gang Arrested Over Plot to Kidnap Mbappé
-        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
-        الأردن · Jordan News
-نائب ترامب: دول الخليج تساعد سراً في عزل إيران
-        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
-        تركيا · TRT عربي
-Watch: Moment workers are rescued from Nepal tunnel
-        Rescuers pull two people from a hydropower tunnel more than a week after a massive flash flood devastated the Nepal-China border.
         بريطانيا · BBC
 Trump commutes former Philadelphia labor leader "Johnny Doc's" prison sentence
         President Trump agreed to commute the rest of former Philadelphia labor leader Johnny Doc's prison sentence, his lawyer says.
@@ -84157,17 +84105,17 @@ Lindsay Clancy jury leaves without verdict, defense wants juror dismissed
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
-        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
-        عربي · فرانس 24
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+نائب ترامب: دول الخليج تساعد سراً في عزل إيران
+        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
+        عربي · CNN عربية
+مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
+        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
         تركيا · TRT عربي
-New Zealand drugs regulator approves use of MDMA to treat severe PTSD
-        New Zealand decision follows Australian approval in 2023 of psychedelics to treat PTSD and treatment-resistant depression Two psychiatrists in New…
+Europe weighs solutions to curtail Russia’s growing hybrid warfare
+        Governments now moving faster to impose costs on Moscow for its increasing attacks over support for Ukraine Russia’s suspected sabotage campaign…
         بريطانيا · Guardian
-Nepal-Tibet flash flood: Two workers pulled alive from hydropower tunnel nine days after disaster
-        Officials said the workers were safely rescued from tunnels that were at a depth of 170 metres Two people have been pulled out alive from a…
+‘Capitalism is dying’: in Luton, these former car workers have a moral tale for our times | Aditya Chakrabortty
+        Abandoned by the company they worked for, let down by Labour and their unions – now they watch their friends turn to Reform for answers After…
         بريطانيا · Guardian
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
@@ -84175,16 +84123,17 @@ Vance "extremely skeptical" U.S. strike hit Iran wedding party
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-ألمانيا تحقق مع 32 شخصاً ادعوا أنهم من أحفاد ضحايا النازية للحصول على الجنسية
-        عربي · الشرق الأوسط
+ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
+        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
+        عربي · فرانس 24
+ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
+        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+        تركيا · TRT عربي
 يلماز: عمليات البحث والإنقاذ في حادث غرق العبّارة قبالة سواحل غيرنه مستمرة على مدار الساعة
         أكد نائب الرئيس التركي جودت يلماز، الخميس، استمرار عمليات البحث والإنقاذ في حادث غرق العبارة "فيلوجيت" قبالة سواحل غيرنه في جمهورية شمال قبرص…
         تركيا · TRT عربي
-قوات الأمن التركية تحيّد مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي بعد إطلاقه النار عليها بإسطنبول
-        حيّدت قوات الأمن التركية، الخميس، مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي
-        تركيا · TRT عربي
-‘This could just be the beginning’: minorities fear first far-right win in German state election
-        As polls point to victory in Saxony-Anhalt for AfD party promising deportations, people face agonising choice: stay or go As the Bible study session…
+Air pollution from ships may be more harmful than road traffic emissions, port study finds
+        Scientists say ultrafine particles in cruise ship emissions associated with reduced ability to resist common viruses More than 2.5 million cruise…
         بريطانيا · Guardian
 How OpenAI Limited the Probe of Its Bots’ Hack of Hugging Face
         A nonprofit’s study of how OpenAI’s A.I. agents were able to break into Hugging Face’s infrastructure wasn’t allowed to look at the incident’s full…
@@ -84201,9 +84150,9 @@ Al-Barbeeta Guava: The Flavor of Tafileh
 الدوري الفرنسي: البديل أويدا يهدي ليل الصدارة
         أهدى الوافد الجديد البديل الياباني أياسي أويدا فريقه ليل صدارة موقتة بتسجيله هدف الفوز الوحيد في مرمى مضيفه تولوز 1-0.
         عربي · الشرق الأوسط
-‘They’ll be finding bodies next year’: a renowned forensic scientist on Nepal’s ‘extreme challenges’
-        Prof Richard Bassed helped identify Boxing Day tsunami and victims of Australia’s catastrophic Black Saturday bushfires
-        بريطانيا · Guardian
+Kyrgios given one-month ban for positive cocaine test
+        Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
+        بريطانيا · BBC
 SEC legal battle with LSU could reshape college football and governance of all college sports
         Just days before the first week of the college football season, a judge is set to rule on whether former professional football players can return to…
         أمريكا · CBS
@@ -84214,16 +84163,16 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904080000 +0000" stop="20260904090000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:07 — بتوقيتك
 
-سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
-        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
+        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
         عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-Argentine leader threatens to sanction oil firms working off Falklands
-        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+The Papers: 'Foreign donations sting' and 'Argentina threat to Falklands'
+        Reform UK alleged 'foreign donations sting' and Argentine president's looming 'threat' over Falklands are the papers' top stories.
         بريطانيا · BBC
 Maria Bartiromo Is Out at Fox News
         The dismissal came after Ms. Bartiromo shared internal Fox Business communications with the White House, a person familiar with the details confirmed.
@@ -84234,9 +84183,24 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
+سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
+        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+        عربي · CNN عربية
 شاهد.. عاصفة عنيفة تغرق حافلة وتشل الحركة في تورونتو
         ضربت عاصفة رعدية قوية مدينة تورونتو ليلة الأربعاء، مما أدى إلى إغلاق الطرق وانقطاع التيار الكهربائي عن عشرات الآلاف من السكان.
         عربي · CNN عربية
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+        تركيا · TRT عربي
+Argentine leader threatens to sanction oil firms working off Falklands
+        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+        بريطانيا · BBC
+Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
+        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
+        أمريكا · NYT
+Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
 كوريا الجنوبية تدرس «خيارات عسكرية» لدعم الملاحة في مضيق هرمز
         قال مسؤول ​في البيت الأزرق الرئاسي، اليوم، إن كوريا الجنوبية تدرس ‌الخيارات ‌العملية، بما ​في ‌ذلك ⁠الإجراءات ​العسكرية
         عربي · الشرق الأوسط
@@ -84245,21 +84209,6 @@ Qatamin Discusses Social Security for App-Based Workers
         تركيا · TRT عربي
 Three crucial questions facing Farage at Reform conference
         Can the Reform UK leader put his policies into action, and become prime minister?
-        بريطانيا · BBC
-Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
-        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
-        أمريكا · NYT
-Criminal Gang Arrested Over Plot to Kidnap Mbappé
-        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
-        الأردن · Jordan News
-نائب ترامب: دول الخليج تساعد سراً في عزل إيران
-        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
-        تركيا · TRT عربي
-Watch: Moment workers are rescued from Nepal tunnel
-        Rescuers pull two people from a hydropower tunnel more than a week after a massive flash flood devastated the Nepal-China border.
         بريطانيا · BBC
 Trump commutes former Philadelphia labor leader "Johnny Doc's" prison sentence
         President Trump agreed to commute the rest of former Philadelphia labor leader Johnny Doc's prison sentence, his lawyer says.
@@ -84270,17 +84219,17 @@ Lindsay Clancy jury leaves without verdict, defense wants juror dismissed
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
-        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
-        عربي · فرانس 24
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+نائب ترامب: دول الخليج تساعد سراً في عزل إيران
+        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
+        عربي · CNN عربية
+مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
+        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
         تركيا · TRT عربي
-New Zealand drugs regulator approves use of MDMA to treat severe PTSD
-        New Zealand decision follows Australian approval in 2023 of psychedelics to treat PTSD and treatment-resistant depression Two psychiatrists in New…
+Europe weighs solutions to curtail Russia’s growing hybrid warfare
+        Governments now moving faster to impose costs on Moscow for its increasing attacks over support for Ukraine Russia’s suspected sabotage campaign…
         بريطانيا · Guardian
-Nepal-Tibet flash flood: Two workers pulled alive from hydropower tunnel nine days after disaster
-        Officials said the workers were safely rescued from tunnels that were at a depth of 170 metres Two people have been pulled out alive from a…
+‘Capitalism is dying’: in Luton, these former car workers have a moral tale for our times | Aditya Chakrabortty
+        Abandoned by the company they worked for, let down by Labour and their unions – now they watch their friends turn to Reform for answers After…
         بريطانيا · Guardian
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
@@ -84288,16 +84237,17 @@ Vance "extremely skeptical" U.S. strike hit Iran wedding party
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-ألمانيا تحقق مع 32 شخصاً ادعوا أنهم من أحفاد ضحايا النازية للحصول على الجنسية
-        عربي · الشرق الأوسط
+ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
+        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
+        عربي · فرانس 24
+ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
+        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+        تركيا · TRT عربي
 يلماز: عمليات البحث والإنقاذ في حادث غرق العبّارة قبالة سواحل غيرنه مستمرة على مدار الساعة
         أكد نائب الرئيس التركي جودت يلماز، الخميس، استمرار عمليات البحث والإنقاذ في حادث غرق العبارة "فيلوجيت" قبالة سواحل غيرنه في جمهورية شمال قبرص…
         تركيا · TRT عربي
-قوات الأمن التركية تحيّد مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي بعد إطلاقه النار عليها بإسطنبول
-        حيّدت قوات الأمن التركية، الخميس، مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي
-        تركيا · TRT عربي
-‘This could just be the beginning’: minorities fear first far-right win in German state election
-        As polls point to victory in Saxony-Anhalt for AfD party promising deportations, people face agonising choice: stay or go As the Bible study session…
+Air pollution from ships may be more harmful than road traffic emissions, port study finds
+        Scientists say ultrafine particles in cruise ship emissions associated with reduced ability to resist common viruses More than 2.5 million cruise…
         بريطانيا · Guardian
 How OpenAI Limited the Probe of Its Bots’ Hack of Hugging Face
         A nonprofit’s study of how OpenAI’s A.I. agents were able to break into Hugging Face’s infrastructure wasn’t allowed to look at the incident’s full…
@@ -84314,9 +84264,9 @@ Al-Barbeeta Guava: The Flavor of Tafileh
 الدوري الفرنسي: البديل أويدا يهدي ليل الصدارة
         أهدى الوافد الجديد البديل الياباني أياسي أويدا فريقه ليل صدارة موقتة بتسجيله هدف الفوز الوحيد في مرمى مضيفه تولوز 1-0.
         عربي · الشرق الأوسط
-‘They’ll be finding bodies next year’: a renowned forensic scientist on Nepal’s ‘extreme challenges’
-        Prof Richard Bassed helped identify Boxing Day tsunami and victims of Australia’s catastrophic Black Saturday bushfires
-        بريطانيا · Guardian
+Kyrgios given one-month ban for positive cocaine test
+        Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
+        بريطانيا · BBC
 SEC legal battle with LSU could reshape college football and governance of all college sports
         Just days before the first week of the college football season, a judge is set to rule on whether former professional football players can return to…
         أمريكا · CBS
@@ -84327,16 +84277,16 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904090000 +0000" stop="20260904100000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:07 — بتوقيتك
 
-سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
-        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
+        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
         عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-Argentine leader threatens to sanction oil firms working off Falklands
-        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+The Papers: 'Foreign donations sting' and 'Argentina threat to Falklands'
+        Reform UK alleged 'foreign donations sting' and Argentine president's looming 'threat' over Falklands are the papers' top stories.
         بريطانيا · BBC
 Maria Bartiromo Is Out at Fox News
         The dismissal came after Ms. Bartiromo shared internal Fox Business communications with the White House, a person familiar with the details confirmed.
@@ -84347,9 +84297,24 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
+سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
+        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+        عربي · CNN عربية
 شاهد.. عاصفة عنيفة تغرق حافلة وتشل الحركة في تورونتو
         ضربت عاصفة رعدية قوية مدينة تورونتو ليلة الأربعاء، مما أدى إلى إغلاق الطرق وانقطاع التيار الكهربائي عن عشرات الآلاف من السكان.
         عربي · CNN عربية
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+        تركيا · TRT عربي
+Argentine leader threatens to sanction oil firms working off Falklands
+        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+        بريطانيا · BBC
+Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
+        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
+        أمريكا · NYT
+Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
 كوريا الجنوبية تدرس «خيارات عسكرية» لدعم الملاحة في مضيق هرمز
         قال مسؤول ​في البيت الأزرق الرئاسي، اليوم، إن كوريا الجنوبية تدرس ‌الخيارات ‌العملية، بما ​في ‌ذلك ⁠الإجراءات ​العسكرية
         عربي · الشرق الأوسط
@@ -84358,21 +84323,6 @@ Qatamin Discusses Social Security for App-Based Workers
         تركيا · TRT عربي
 Three crucial questions facing Farage at Reform conference
         Can the Reform UK leader put his policies into action, and become prime minister?
-        بريطانيا · BBC
-Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
-        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
-        أمريكا · NYT
-Criminal Gang Arrested Over Plot to Kidnap Mbappé
-        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
-        الأردن · Jordan News
-نائب ترامب: دول الخليج تساعد سراً في عزل إيران
-        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
-        تركيا · TRT عربي
-Watch: Moment workers are rescued from Nepal tunnel
-        Rescuers pull two people from a hydropower tunnel more than a week after a massive flash flood devastated the Nepal-China border.
         بريطانيا · BBC
 Trump commutes former Philadelphia labor leader "Johnny Doc's" prison sentence
         President Trump agreed to commute the rest of former Philadelphia labor leader Johnny Doc's prison sentence, his lawyer says.
@@ -84383,17 +84333,17 @@ Lindsay Clancy jury leaves without verdict, defense wants juror dismissed
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
-        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
-        عربي · فرانس 24
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+نائب ترامب: دول الخليج تساعد سراً في عزل إيران
+        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
+        عربي · CNN عربية
+مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
+        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
         تركيا · TRT عربي
-New Zealand drugs regulator approves use of MDMA to treat severe PTSD
-        New Zealand decision follows Australian approval in 2023 of psychedelics to treat PTSD and treatment-resistant depression Two psychiatrists in New…
+Europe weighs solutions to curtail Russia’s growing hybrid warfare
+        Governments now moving faster to impose costs on Moscow for its increasing attacks over support for Ukraine Russia’s suspected sabotage campaign…
         بريطانيا · Guardian
-Nepal-Tibet flash flood: Two workers pulled alive from hydropower tunnel nine days after disaster
-        Officials said the workers were safely rescued from tunnels that were at a depth of 170 metres Two people have been pulled out alive from a…
+‘Capitalism is dying’: in Luton, these former car workers have a moral tale for our times | Aditya Chakrabortty
+        Abandoned by the company they worked for, let down by Labour and their unions – now they watch their friends turn to Reform for answers After…
         بريطانيا · Guardian
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
@@ -84401,16 +84351,17 @@ Vance "extremely skeptical" U.S. strike hit Iran wedding party
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-ألمانيا تحقق مع 32 شخصاً ادعوا أنهم من أحفاد ضحايا النازية للحصول على الجنسية
-        عربي · الشرق الأوسط
+ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
+        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
+        عربي · فرانس 24
+ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
+        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+        تركيا · TRT عربي
 يلماز: عمليات البحث والإنقاذ في حادث غرق العبّارة قبالة سواحل غيرنه مستمرة على مدار الساعة
         أكد نائب الرئيس التركي جودت يلماز، الخميس، استمرار عمليات البحث والإنقاذ في حادث غرق العبارة "فيلوجيت" قبالة سواحل غيرنه في جمهورية شمال قبرص…
         تركيا · TRT عربي
-قوات الأمن التركية تحيّد مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي بعد إطلاقه النار عليها بإسطنبول
-        حيّدت قوات الأمن التركية، الخميس، مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي
-        تركيا · TRT عربي
-‘This could just be the beginning’: minorities fear first far-right win in German state election
-        As polls point to victory in Saxony-Anhalt for AfD party promising deportations, people face agonising choice: stay or go As the Bible study session…
+Air pollution from ships may be more harmful than road traffic emissions, port study finds
+        Scientists say ultrafine particles in cruise ship emissions associated with reduced ability to resist common viruses More than 2.5 million cruise…
         بريطانيا · Guardian
 How OpenAI Limited the Probe of Its Bots’ Hack of Hugging Face
         A nonprofit’s study of how OpenAI’s A.I. agents were able to break into Hugging Face’s infrastructure wasn’t allowed to look at the incident’s full…
@@ -84427,9 +84378,9 @@ Al-Barbeeta Guava: The Flavor of Tafileh
 الدوري الفرنسي: البديل أويدا يهدي ليل الصدارة
         أهدى الوافد الجديد البديل الياباني أياسي أويدا فريقه ليل صدارة موقتة بتسجيله هدف الفوز الوحيد في مرمى مضيفه تولوز 1-0.
         عربي · الشرق الأوسط
-‘They’ll be finding bodies next year’: a renowned forensic scientist on Nepal’s ‘extreme challenges’
-        Prof Richard Bassed helped identify Boxing Day tsunami and victims of Australia’s catastrophic Black Saturday bushfires
-        بريطانيا · Guardian
+Kyrgios given one-month ban for positive cocaine test
+        Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
+        بريطانيا · BBC
 SEC legal battle with LSU could reshape college football and governance of all college sports
         Just days before the first week of the college football season, a judge is set to rule on whether former professional football players can return to…
         أمريكا · CBS
@@ -84440,16 +84391,16 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904100000 +0000" stop="20260904110000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:07 — بتوقيتك
 
-سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
-        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
+        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
         عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-Argentine leader threatens to sanction oil firms working off Falklands
-        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+The Papers: 'Foreign donations sting' and 'Argentina threat to Falklands'
+        Reform UK alleged 'foreign donations sting' and Argentine president's looming 'threat' over Falklands are the papers' top stories.
         بريطانيا · BBC
 Maria Bartiromo Is Out at Fox News
         The dismissal came after Ms. Bartiromo shared internal Fox Business communications with the White House, a person familiar with the details confirmed.
@@ -84460,9 +84411,24 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
+سلطان عُمان يصدر 10 مراسيم منها تعيينات وتنقلات دبلوماسية إليكم ما هي
+        أصدر سلطان عُمان، هيثم بن طارق، الخميس، 10 مراسيم سلطانية منها تعيينات لسفراء جدد للسلطنة في عدد من الدول العربية والأجنبية
+        عربي · CNN عربية
 شاهد.. عاصفة عنيفة تغرق حافلة وتشل الحركة في تورونتو
         ضربت عاصفة رعدية قوية مدينة تورونتو ليلة الأربعاء، مما أدى إلى إغلاق الطرق وانقطاع التيار الكهربائي عن عشرات الآلاف من السكان.
         عربي · CNN عربية
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
+        تركيا · TRT عربي
+Argentine leader threatens to sanction oil firms working off Falklands
+        Javier Milei reiterates his country's claim on the British overseas territory, saying the "winds of change" favour it.
+        بريطانيا · BBC
+Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
+        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
+        أمريكا · NYT
+Criminal Gang Arrested Over Plot to Kidnap Mbappé
+        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
+        الأردن · Jordan News
 كوريا الجنوبية تدرس «خيارات عسكرية» لدعم الملاحة في مضيق هرمز
         قال مسؤول ​في البيت الأزرق الرئاسي، اليوم، إن كوريا الجنوبية تدرس ‌الخيارات ‌العملية، بما ​في ‌ذلك ⁠الإجراءات ​العسكرية
         عربي · الشرق الأوسط
@@ -84471,21 +84437,6 @@ Qatamin Discusses Social Security for App-Based Workers
         تركيا · TRT عربي
 Three crucial questions facing Farage at Reform conference
         Can the Reform UK leader put his policies into action, and become prime minister?
-        بريطانيا · BBC
-Missouri Supreme Court Delivers Win for Democrats in Redistricting Case
-        The court said a map redrawn to benefit Republicans could not be used in November and said voters should decide on the new boundaries
-        أمريكا · NYT
-Criminal Gang Arrested Over Plot to Kidnap Mbappé
-        French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
-        الأردن · Jordan News
-نائب ترامب: دول الخليج تساعد سراً في عزل إيران
-        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
-        تركيا · TRT عربي
-Watch: Moment workers are rescued from Nepal tunnel
-        Rescuers pull two people from a hydropower tunnel more than a week after a massive flash flood devastated the Nepal-China border.
         بريطانيا · BBC
 Trump commutes former Philadelphia labor leader "Johnny Doc's" prison sentence
         President Trump agreed to commute the rest of former Philadelphia labor leader Johnny Doc's prison sentence, his lawyer says.
@@ -84496,17 +84447,17 @@ Lindsay Clancy jury leaves without verdict, defense wants juror dismissed
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
-        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
-        عربي · فرانس 24
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+نائب ترامب: دول الخليج تساعد سراً في عزل إيران
+        قال نائب الرئيس الأمريكي جي دي فانس إن شركاء بلاده في منطقة الخليج "يبذلون سراً جهوداً أكبر للمساعدة في عزل إيران مما يعلنون عنه للرأي العام".
+        عربي · CNN عربية
+مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
+        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
         تركيا · TRT عربي
-New Zealand drugs regulator approves use of MDMA to treat severe PTSD
-        New Zealand decision follows Australian approval in 2023 of psychedelics to treat PTSD and treatment-resistant depression Two psychiatrists in New…
+Europe weighs solutions to curtail Russia’s growing hybrid warfare
+        Governments now moving faster to impose costs on Moscow for its increasing attacks over support for Ukraine Russia’s suspected sabotage campaign…
         بريطانيا · Guardian
-Nepal-Tibet flash flood: Two workers pulled alive from hydropower tunnel nine days after disaster
-        Officials said the workers were safely rescued from tunnels that were at a depth of 170 metres Two people have been pulled out alive from a…
+‘Capitalism is dying’: in Luton, these former car workers have a moral tale for our times | Aditya Chakrabortty
+        Abandoned by the company they worked for, let down by Labour and their unions – now they watch their friends turn to Reform for answers After…
         بريطانيا · Guardian
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
@@ -84514,16 +84465,17 @@ Vance "extremely skeptical" U.S. strike hit Iran wedding party
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-ألمانيا تحقق مع 32 شخصاً ادعوا أنهم من أحفاد ضحايا النازية للحصول على الجنسية
-        عربي · الشرق الأوسط
+ورثة مالكي مبنى السفارة الفرنسية في بغداد يطالبون باريس بـ21.5 مليون يورو
+        في قضية تعود جذورها إلى أكثر من نصف قرن، يطالب ورثة مالكي مبنى السفارة الفرنسية في بغداد الدولة الفرنسية بتعويض قدره 21.5 مليون يورو
+        عربي · فرانس 24
+ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
+        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+        تركيا · TRT عربي
 يلماز: عمليات البحث والإنقاذ في حادث غرق العبّارة قبالة سواحل غيرنه مستمرة على مدار الساعة
         أكد نائب الرئيس التركي جودت يلماز، الخميس، استمرار عمليات البحث والإنقاذ في حادث غرق العبارة "فيلوجيت" قبالة سواحل غيرنه في جمهورية شمال قبرص…
         تركيا · TRT عربي
-قوات الأمن التركية تحيّد مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي بعد إطلاقه النار عليها بإسطنبول
-        حيّدت قوات الأمن التركية، الخميس، مشتبهاً بالانتماء إلى تنظيم "داعش" الإرهابي
-        تركيا · TRT عربي
-‘This could just be the beginning’: minorities fear first far-right win in German state election
-        As polls point to victory in Saxony-Anhalt for AfD party promising deportations, people face agonising choice: stay or go As the Bible study session…
+Air pollution from ships may be more harmful than road traffic emissions, port study finds
+        Scientists say ultrafine particles in cruise ship emissions associated with reduced ability to resist common viruses More than 2.5 million cruise…
         بريطانيا · Guardian
 How OpenAI Limited the Probe of Its Bots’ Hack of Hugging Face
         A nonprofit’s study of how OpenAI’s A.I. agents were able to break into Hugging Face’s infrastructure wasn’t allowed to look at the incident’s full…
@@ -84540,9 +84492,9 @@ Al-Barbeeta Guava: The Flavor of Tafileh
 الدوري الفرنسي: البديل أويدا يهدي ليل الصدارة
         أهدى الوافد الجديد البديل الياباني أياسي أويدا فريقه ليل صدارة موقتة بتسجيله هدف الفوز الوحيد في مرمى مضيفه تولوز 1-0.
         عربي · الشرق الأوسط
-‘They’ll be finding bodies next year’: a renowned forensic scientist on Nepal’s ‘extreme challenges’
-        Prof Richard Bassed helped identify Boxing Day tsunami and victims of Australia’s catastrophic Black Saturday bushfires
-        بريطانيا · Guardian
+Kyrgios given one-month ban for positive cocaine test
+        Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
+        بريطانيا · BBC
 SEC legal battle with LSU could reshape college football and governance of all college sports
         Just days before the first week of the college football season, a judge is set to rule on whether former professional football players can return to…
         أمريكا · CBS
@@ -84551,7 +84503,7 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260904110000 +0000" stop="20260904130311 +0000" channel="TodayNews">
+  <programme start="20260904110000 +0000" stop="20260904130757 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260904190000 +0300" stop="20260904210000 +0300" channel="ThmanyahGuide">
@@ -91094,4 +91046,4 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260904132320 +0000" stop="20260904132859 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904132320 +0000" stop="20260904132859 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904132320 +0000" stop="20260904132859 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904132320 +0000" stop="20260904132859 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904130311 +0000" stop="20260904132859 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260904134325 +0000" stop="20260904134915 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904134325 +0000" stop="20260904134915 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904134325 +0000" stop="20260904134915 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904134325 +0000" stop="20260904134915 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904134417 +0000" stop="20260904134915 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904130757 +0000" stop="20260904134915 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
