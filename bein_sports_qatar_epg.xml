@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260903044100 +0000" stop="20260903062600 +0000" channel="beIN4K.qa">
-    <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
-    <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260903062600 +0000" stop="20260903081000 +0000" channel="beIN4K.qa">
     <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
     <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
@@ -711,6 +705,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
   <programme start="20260910044000 +0000" stop="20260910062500 +0000" channel="beIN4K.qa">
     <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
     <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260910062500 +0000" stop="20260910081000 +0000" channel="beIN4K.qa">
+    <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
+    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -2949,12 +2949,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260903043200 +0000" stop="20260903062300 +0000" channel="beINSports3.qa">
-    <title lang="en">Levante vs Real Betis - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Levante UD have won three of their last five home games against Real Betis in LaLiga, as many victories as they managed in their previous 10 meetings against them in the competition. Real Betis have picked up points in each of their last five LaLiga matches against Levante UD, their second-best unbeaten run against them in the competition after an</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260903062300 +0000" stop="20260903064900 +0000" channel="beINSports3.qa">
     <title lang="en">Real Madrid vs Málaga - Spanish LaLiga 2026/2027 - Week 3</title>
@@ -6532,6 +6526,12 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260910063000 +0000" stop="20260910083000 +0000" channel="beINSports7.qa">
+    <title lang="en">Day 11 - Arthur Ashe Court - Tennis US Open 2026 - Men's Singles QF</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260903060000 +0000" stop="20260903075800 +0000" channel="beINSports8.qa">
     <title lang="en">Marta Kostyuk (UKR) vs Sloane Stephens (USA) - Women’s Singles - Louis Armstrong Court - Tennis US O</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -7643,14 +7643,6 @@ Estadio Ontime Butarque Stadium</desc>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260903060000 +0000" stop="20260903063000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260903063000 +0000" stop="20260903070000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Netbusters 2026/27 | E2</title>

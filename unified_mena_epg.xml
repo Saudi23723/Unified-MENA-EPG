@@ -1109,12 +1109,6 @@
     <display-name lang="ar">ثمانية | Guide</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/thmanyah_guide.png" />
   </channel>
-  <programme start="20260903044100 +0000" stop="20260903062600 +0000" channel="beIN4K.qa">
-    <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
-    <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260903062600 +0000" stop="20260903081000 +0000" channel="beIN4K.qa">
     <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
     <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
@@ -1696,6 +1690,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
   <programme start="20260910044000 +0000" stop="20260910062500 +0000" channel="beIN4K.qa">
     <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
     <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260910062500 +0000" stop="20260910081000 +0000" channel="beIN4K.qa">
+    <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
+    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -3934,12 +3934,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260903043200 +0000" stop="20260903062300 +0000" channel="beINSports3.qa">
-    <title lang="en">Levante vs Real Betis - Spanish LaLiga 2026/2027 - Week 3</title>
-    <desc lang="en">Levante UD have won three of their last five home games against Real Betis in LaLiga, as many victories as they managed in their previous 10 meetings against them in the competition. Real Betis have picked up points in each of their last five LaLiga matches against Levante UD, their second-best unbeaten run against them in the competition after an</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260903062300 +0000" stop="20260903064900 +0000" channel="beINSports3.qa">
     <title lang="en">Real Madrid vs Málaga - Spanish LaLiga 2026/2027 - Week 3</title>
@@ -7517,6 +7511,12 @@ Estadio Ontime Butarque Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260910063000 +0000" stop="20260910083000 +0000" channel="beINSports7.qa">
+    <title lang="en">Day 11 - Arthur Ashe Court - Tennis US Open 2026 - Men's Singles QF</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260903060000 +0000" stop="20260903075800 +0000" channel="beINSports8.qa">
     <title lang="en">Marta Kostyuk (UKR) vs Sloane Stephens (USA) - Women’s Singles - Louis Armstrong Court - Tennis US O</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -8628,14 +8628,6 @@ Estadio Ontime Butarque Stadium</desc>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260903060000 +0000" stop="20260903063000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260903063000 +0000" stop="20260903070000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Netbusters 2026/27 | E2</title>
@@ -22985,55 +22977,75 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260903064500 +0000" stop="20260903070000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Haftanın Golleri (26-27) 3.Hafta</title>
+    <title lang="en">Süper Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903070000 +0000" stop="20260903084500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 3. HAFTA GAZIANTEP FK - RIZESPOR - BANT -</title>
+    <title lang="en">Gaziantep FK - Ç. Rizespor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903084500 +0000" stop="20260903090000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Haftanın Golleri (26-27) 3.Hafta</title>
+    <title lang="en">Süper Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903090000 +0000" stop="20260903103000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trabzonspor - Sakaryaspor (06-07) 29.Hafta</title>
+    <title lang="en">Trabzonspor - Sakaryaspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903103000 +0000" stop="20260903110000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 05. Hafta - Haber / Çarşamba</title>
+    <title lang="en">TFF 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903110000 +0000" stop="20260903120000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Muhabir Masası (26-27) 4.Bölüm / Bant</title>
+    <title lang="en">Muhabir Masası</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903120000 +0000" stop="20260903123000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Taraftar (26-27) 4.Bölüm</title>
+    <title lang="en">Taraftar</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903123000 +0000" stop="20260903130000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Kadro Tercihi FB - BJK (26-27) 04.Hafta</title>
+    <title lang="en">Kadro Tercihi</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903130000 +0000" stop="20260903144500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 3. HAFTA BESIKTAS - CORUM FK - BANT -</title>
+    <title lang="en">Beşiktaş - A. Çorum FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903144500 +0000" stop="20260903150000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">1 Yıldız 10 Gol - Ahmed Hassan</title>
+    <title lang="en">1 Yıldız 10 Gol</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903150000 +0000" stop="20260903160000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.Hafta</title>
+    <title lang="en">Süper Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903160000 +0000" stop="20260903170000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Gamer (26-27) 4.Bölüm</title>
+    <title lang="en">Gamer</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903170000 +0000" stop="20260903210000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.Hafta</title>
+  <programme start="20260903170000 +0000" stop="20260903180000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903180000 +0000" stop="20260903190000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Garaj</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903190000 +0000" stop="20260903193100 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Fenerbahçe - Beşiktaş</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903193100 +0000" stop="20260903200000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Başakşehir FK - Galatasaray</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903200000 +0000" stop="20260903201500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trabzonspor - Gençlerbirliği</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903201500 +0000" stop="20260903203000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Erzurumspor FK - Konyaspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903220000 +0000" channel="beINSPORTS1.tr">
@@ -23134,92 +23146,160 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260904213000 +0000" stop="20260904214500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">1 Yıldız 10 Gol - Lincoln</title>
+  <programme start="20260904190000 +0000" stop="20260904203000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904214500 +0000" stop="20260904233000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 4. HAFTA BASAKSEHIR - GALATASARAY - BANT -</title>
+  <programme start="20260904203000 +0000" stop="20260905074500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904233000 +0000" stop="20260905001500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Süper Lig Maç Sonu (26-27) 04.Hafta Cuma / Bant</title>
+  <programme start="20260905074500 +0000" stop="20260905100000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Beşiktaş - A. Çorum FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905001500 +0000" stop="20260905011500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trio (26-27) 4.Hafta - Cuma / Bant</title>
+  <programme start="20260905100000 +0000" stop="20260905104500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905011500 +0000" stop="20260905013000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">1 Yıldız 10 Gol - Okocha</title>
+  <programme start="20260905104500 +0000" stop="20260905120000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905013000 +0000" stop="20260905033000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 3. HAFTA KONYASPOR - KOCAELISPOR - BANT -</title>
+  <programme start="20260905120000 +0000" stop="20260905140000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Başakşehir FK - Galatasaray</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903063000 +0000" stop="20260903081500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA BOLUSPOR - KECIORENGUCU - BANT -</title>
+  <programme start="20260905140000 +0000" stop="20260905150000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig Derbi Özel</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905150000 +0000" stop="20260905170000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905190000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Fenerbahçe - Beşiktaş</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905190000 +0000" stop="20260906070000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906070000 +0000" stop="20260906084500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Fenerbahçe - Beşiktaş</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906084500 +0000" stop="20260906110000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906110000 +0000" stop="20260906140000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906140000 +0000" stop="20260906160000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Kasımpaşa - Amed SF</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906160000 +0000" stop="20260906170000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906170000 +0000" stop="20260906190000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trabzonspor - Gençlerbirliği</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903081500 +0000" stop="20260903083000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Süper Lig Haftanın Golleri (26-27) 3.Hafta</title>
+    <title lang="en">Süper Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903083000 +0000" stop="20260903101500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA VANSPOR FK - BATMAN PETROLSPOR - BANT -</title>
+    <title lang="en">Vanspor FK - Batman P.</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903101500 +0000" stop="20260903120000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA FATIH KARAGUMRUK - KAYSERISPOR - BANT -</title>
+    <title lang="en">F. Karagümrük - Kayserispor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903120000 +0000" stop="20260903134500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA SIVASSPOR - MARDIN 1969 - BANT -</title>
+    <title lang="en">Sivasspor - Mardin 1969</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903134500 +0000" stop="20260903140000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Canlı Maç Önü 15DK</title>
+    <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903140000 +0000" stop="20260903160100 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA IGDIR FK - MANISA FK - CANLI</title>
+  <programme start="20260903140000 +0000" stop="20260903160200 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Igdır FK - Manisa FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160100 +0000" stop="20260903160400 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA BANDIRMASPOR - ANTALYASPOR - KISA OZET -</title>
+  <programme start="20260903160200 +0000" stop="20260903160600 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bandırmaspor - Antalyaspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160400 +0000" stop="20260903160700 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA UMRANIYESPOR - MUGLASPOR - KISA OZET -</title>
+  <programme start="20260903160600 +0000" stop="20260903160800 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Ümraniyespor - Muğlaspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160700 +0000" stop="20260903161100 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA SIVASSPOR - MARDIN 1969 - KISA OZET -</title>
+  <programme start="20260903160800 +0000" stop="20260903161200 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Sivasspor - Mardin 1969</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903161100 +0000" stop="20260903161500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA SARIYER - PENDIKSPOR - KISA OZET -</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903161500 +0000" stop="20260903161800 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA BOLUSPOR - KECIORENGUCU - KISA OZET -</title>
+  <programme start="20260903161200 +0000" stop="20260903161800 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Sarıyer - Pendikspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903161800 +0000" stop="20260903162100 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA VANSPOR FK - BATMAN PETROLSPOR - KISA OZET -</title>
+    <title lang="en">Boluspor - A. Keçiörengücü</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903162100 +0000" stop="20260903164000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA FATIH KARAGUMRUK - KAYSERISPOR - KISA OZET -</title>
+  <programme start="20260903162100 +0000" stop="20260903162400 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Vanspor FK - Batman P.</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903162400 +0000" stop="20260903164000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">F. Karagümrük - Kayserispor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903164000 +0000" stop="20260903170000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Maç Önü Canlı / 20 DK</title>
+    <title lang="en">Maç Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903170000 +0000" stop="20260903210000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA BURSASPOR - ISTANBULSPOR - CANLI</title>
+  <programme start="20260903170000 +0000" stop="20260903190000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bursaspor - İstanbulspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903190000 +0000" stop="20260903191600 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Maç Sonu</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903191600 +0000" stop="20260903191900 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bandırmaspor - Antalyaspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903191900 +0000" stop="20260903192200 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Ümraniyespor - Muğlaspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903192200 +0000" stop="20260903192600 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Sarıyer - Pendikspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903192600 +0000" stop="20260903192900 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Boluspor - A. Keçiörengücü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903192900 +0000" stop="20260903193400 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Vanspor FK - Batman P.</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903193400 +0000" stop="20260903193900 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Sivasspor - Mardin 1969</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903193900 +0000" stop="20260903200000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Igdır FK - Manisa FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903224500 +0000" channel="beINSPORTS2.tr">
@@ -23284,72 +23364,149 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260904211500 +0000" stop="20260904213000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">1 Yıldız 10 Gol - Yattara</title>
+  <programme start="20260904185900 +0000" stop="20260904190500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904213000 +0000" stop="20260904231500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA BOLUSPOR - KECIORENGUCU - BANT -</title>
+  <programme start="20260904190500 +0000" stop="20260905044500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">PSG - Monaco ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260905044500 +0000" stop="20260905063000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Igdır FK - Manisa FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904231500 +0000" stop="20260905010000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA VANSPOR FK - BATMAN PETROLSPOR - BANT -</title>
+  <programme start="20260905063000 +0000" stop="20260905081500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bursaspor - İstanbulspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905010000 +0000" stop="20260905030000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 5. HAFTA FATIH KARAGUMRUK - KAYSERISPOR - BANT -</title>
+  <programme start="20260905081500 +0000" stop="20260905100000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bodrum FK - E. Erokspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905100000 +0000" stop="20260905114500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bandırmaspor - Antalyaspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905114500 +0000" stop="20260905140000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Ümraniyespor - Muğlaspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905140000 +0000" stop="20260905164000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Erzurumspor FK - T.Konyaspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905164000 +0000" stop="20260905170000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Maç Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905190000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">A. Keçiörengücü - Sarıyer</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905190000 +0000" stop="20260905192500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Maç Sonu</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905192500 +0000" stop="20260905193000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905193000 +0000" stop="20260906044500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Sporting CP - Nacional</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906044500 +0000" stop="20260906063000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bursaspor - İstanbulspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906063000 +0000" stop="20260906081500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Vanspor FK - Batman P.</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906081500 +0000" stop="20260906100000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bandırmaspor - Boluspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906100000 +0000" stop="20260906114500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">A. Keçiörengücü - Sarıyer</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906114500 +0000" stop="20260906140000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Pendikspor - Ümraniyespor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906140000 +0000" stop="20260906170000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">A. Çorum FK - Eyüpspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903064500 +0000" stop="20260903070000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Premier League Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903070000 +0000" stop="20260903084500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA BOURNEMOUTH - EVERTON - BANT -</title>
+    <title lang="en">Bournemouth - Everton</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903084500 +0000" stop="20260903090000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Premier League Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903090000 +0000" stop="20260903104500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA TOTTENHAM - NEWCASTLE - BANT -</title>
+    <title lang="en">Tottenham - Newcastle</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903104500 +0000" stop="20260903110000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Premier League Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903110000 +0000" stop="20260903124500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA LEEDS - BRENTFORD - BANT -</title>
+    <title lang="en">Leeds - Brentford</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903124500 +0000" stop="20260903130000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Premier League Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903130000 +0000" stop="20260903144500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA CHELSEA - BRIGHTON - BANT -</title>
+  <programme start="20260903130000 +0000" stop="20260903144600 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Chelsea - Brighton</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903144500 +0000" stop="20260903150000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Haftanın Golleri (26-27) 02.Hafta</title>
+  <programme start="20260903144600 +0000" stop="20260903150100 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903150000 +0000" stop="20260903164500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA SUNDERLAND - FULHAM - BANT -</title>
+  <programme start="20260903150100 +0000" stop="20260903164500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Sunderland - Fulham</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903164500 +0000" stop="20260903170000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Premier League Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903170000 +0000" stop="20260903173000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA MAN UTD - IPSWICH - GENIS OZET -</title>
+    <title lang="en">Man Utd - Ipswich</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903173000 +0000" stop="20260903210000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 2. HAFTA VILLA - ARSENAL - GENIS OZET -</title>
+  <programme start="20260903173000 +0000" stop="20260903180000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Aston Villa - Arsenal</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903180000 +0000" stop="20260903183000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">C. Palace - Man City</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903183000 +0000" stop="20260903190000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Liverpool - Nott'm Forest</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903190000 +0000" stop="20260903193000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Coventry - Hull City</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903193000 +0000" stop="20260903200000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League Netbusters</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903210100 +0000" stop="20260903224500 +0000" channel="beINSPORTS3.tr">
@@ -23440,180 +23597,394 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Premier League (26-27) 2. Hafta Leeds - Brentford - Genis Ozet -</title>
     <category lang="en">Sports</category>
   </programme>
+  <programme start="20260905103000 +0000" stop="20260905112000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier Lig Hafta Sonu</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905112000 +0000" stop="20260905113000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905113000 +0000" stop="20260905135000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Newcastle - Bournemouth</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905135000 +0000" stop="20260905140000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905140000 +0000" stop="20260905162000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Man City - Coventry</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905162000 +0000" stop="20260905163000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905163000 +0000" stop="20260905183900 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Hull City - Aston Villa</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905183900 +0000" stop="20260905184500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905184500 +0000" stop="20260906125000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Nice - Le Mans</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906125000 +0000" stop="20260906130000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906130000 +0000" stop="20260906152000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Everton - Man Utd</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906152000 +0000" stop="20260906153000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
   <programme start="20260903065100 +0000" stop="20260903070200 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903070200 +0000" stop="20260903084500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA PARIS FC - NICE - BANT -</title>
+    <title lang="en">Paris FC - Nice</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903084500 +0000" stop="20260903090000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903090000 +0000" stop="20260903104500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">PORTEKIZ LIG (26-27) 4. HAFTA ACADEMICO - PORTO - BANT -</title>
+    <title lang="en">Academico - Porto</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903104500 +0000" stop="20260903110000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Liga Portugal Haftanın Golleri (26-27) 4.Hafta</title>
+    <title lang="en">Portekiz Ligi Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903110000 +0000" stop="20260903124500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 2 (26-27) 4. HAFTA GUINGAMP - NANTES - BANT -</title>
+    <title lang="en">Guingamp - Nantes</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903124500 +0000" stop="20260903130000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 2 Haftanın Golleri (26-27) 4.Hafta</title>
+    <title lang="en">Ligue 2 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903130000 +0000" stop="20260903144500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA MONACO - MARSEILLE - BANT -</title>
+    <title lang="en">Monaco - Marseille</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903144500 +0000" stop="20260903150000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903150000 +0000" stop="20260903164500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA LILLE - PARIS SG - BANT -</title>
+    <title lang="en">Lille - PSG</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903164500 +0000" stop="20260903170000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903170000 +0000" stop="20260903173000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA STRASBOURG - LENS - GENIS OZET -</title>
+    <title lang="en">Strasbourg - Lens</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903173000 +0000" stop="20260903210000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA LYON - LE HAVRE - GENIS OZET -</title>
+  <programme start="20260903173000 +0000" stop="20260903180000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Lyon - Le Havre</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260903224500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA STRASBOURG - LENS - BANT -</title>
+  <programme start="20260903180000 +0000" stop="20260903183900 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Preview</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903224500 +0000" stop="20260903230000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
+  <programme start="20260903183900 +0000" stop="20260903184500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903230000 +0000" stop="20260904004500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 3. HAFTA TOULOUSE - LILLE - BANT -</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260904004500 +0000" stop="20260904010000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260904010000 +0000" stop="20260904024500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA AUXERRE - ANGERS - BANT -</title>
+  <programme start="20260903184500 +0000" stop="20260904024500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Toulouse - Lille</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904024500 +0000" stop="20260904030000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 02.Hafta</title>
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904030000 +0000" stop="20260904044500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 2. HAFTA BREST - TOULOUSE - BANT -</title>
+    <title lang="en">Brest - Toulouse</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904044500 +0000" stop="20260904063000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 3. HAFTA TOULOUSE - LILLE - BANT -</title>
+    <title lang="en">Toulouse - Lille</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904063000 +0000" stop="20260904063500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904063500 +0000" stop="20260904075500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 3 İtalya (2026) Antrenman / Canlı</title>
+    <title lang="en">Formula 3 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904075500 +0000" stop="20260904080000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904080000 +0000" stop="20260904102500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 İtalya (2026) Antrenman / Canlı</title>
+    <title lang="en">Formula 2 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904102500 +0000" stop="20260904103000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904103000 +0000" stop="20260904115500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İtalya GP (2026) 1.Antrenman - Canlı</title>
+    <title lang="en">Formula 1 İtalya GP</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904115500 +0000" stop="20260904120000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904120000 +0000" stop="20260904125000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 3 İtalya (2026) Sıralama / Canlı</title>
+    <title lang="en">Formula 3 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904125000 +0000" stop="20260904125500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904125500 +0000" stop="20260904135500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 İtalya (2026) Sıralama / Canlı</title>
+    <title lang="en">Formula 2 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904135500 +0000" stop="20260904140000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904140000 +0000" stop="20260904152500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İtalya GP (2026) 2.Antrenman - Canlı</title>
+    <title lang="en">Formula 1 İtalya GP</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904152500 +0000" stop="20260904153000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904153000 +0000" stop="20260904163000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Porsche Mobil 1 Super Cup İtalya (2026) Antrenman - Canlı</title>
+    <title lang="en">Porsche Super Cup</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904163000 +0000" stop="20260904170000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula Regional European Championship Hungaroring - Özet</title>
+    <title lang="en">Formula Regional European</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904170000 +0000" stop="20260904171500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Monaco GP (2026) Geniş Özet</title>
+    <title lang="en">Formula 1 Monaco GP Geniş Özet</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904171500 +0000" stop="20260904211500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İtalya GP (2026) 1.Antrenman - Bant</title>
+  <programme start="20260904171500 +0000" stop="20260904191000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904211500 +0000" stop="20260904221500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Porsche Mobil 1 Super Cup İtalya (2026) Antrenman - Bant</title>
+  <programme start="20260904191000 +0000" stop="20260904191500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Maç Önü ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260904191500 +0000" stop="20260905030000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porto - Moreirense ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <category lang="en">Live</category>
+  </programme>
+  <programme start="20260905030000 +0000" stop="20260905034500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 3 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904221500 +0000" stop="20260904224500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Preview (26-27) 03.Hafta - V2</title>
+  <programme start="20260905034500 +0000" stop="20260905043000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904224500 +0000" stop="20260905000000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İtalya GP (2026) 1.Antrenman - Bant</title>
+  <programme start="20260905043000 +0000" stop="20260905061500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porto - Moreirense</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905000000 +0000" stop="20260905010000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 3 İtalya (2026) Antrenman / Bant</title>
+  <programme start="20260905061500 +0000" stop="20260905072500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905010000 +0000" stop="20260905014500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 İtalya (2026) Sıralama / Bant</title>
+  <programme start="20260905072500 +0000" stop="20260905073000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905014500 +0000" stop="20260905030000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İtalya GP (2026) 1.Antrenman - Bant</title>
+  <programme start="20260905073000 +0000" stop="20260905084500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 3 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905084500 +0000" stop="20260905085000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905085000 +0000" stop="20260905094500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porsche Super Cup</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905094500 +0000" stop="20260905102500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Belçika Yarış</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905102500 +0000" stop="20260905103000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905103000 +0000" stop="20260905121000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905121000 +0000" stop="20260905121500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905121500 +0000" stop="20260905135000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905135000 +0000" stop="20260905140000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905140000 +0000" stop="20260905151500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905151500 +0000" stop="20260905161500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 3 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905161500 +0000" stop="20260905170000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porsche Super Cup</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905171500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Hollanda</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905171500 +0000" stop="20260905173000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Avusturya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905173000 +0000" stop="20260905174500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">F1 Belçika GP Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905174500 +0000" stop="20260905180000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905180000 +0000" stop="20260905200000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Saint-Étienne - Montpellier</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905200000 +0000" stop="20260906020000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906020000 +0000" stop="20260906031500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906031500 +0000" stop="20260906043000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906043000 +0000" stop="20260906061000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Le Havre - Brest</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906061000 +0000" stop="20260906061500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906061500 +0000" stop="20260906074000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 3 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906074000 +0000" stop="20260906074500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906074500 +0000" stop="20260906090000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906090000 +0000" stop="20260906091500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Hollanda</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906091500 +0000" stop="20260906094000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">F1 Belçika GP Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906094000 +0000" stop="20260906094500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906094500 +0000" stop="20260906104500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porsche Super Cup</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906104500 +0000" stop="20260906110000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Academy Kanada</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906110000 +0000" stop="20260906111500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Avusturya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906111500 +0000" stop="20260906113000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">F1 İspanya GP Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906113000 +0000" stop="20260906125000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Start Line</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906125000 +0000" stop="20260906130000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906130000 +0000" stop="20260906151500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 İtalya GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906151500 +0000" stop="20260906164500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Finish Line</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906164500 +0000" stop="20260906180000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906180000 +0000" stop="20260906181500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Monaco GP Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906181500 +0000" stop="20260906183000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Hollanda</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906183000 +0000" stop="20260906183900 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906183900 +0000" stop="20260906184500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Maç Önü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906184500 +0000" stop="20260906204500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Marseille - Paris FC</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903071500 +0000" stop="20260903090000 +0000" channel="beINSPORTS5.tr">
@@ -23881,40 +24252,72 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">beIN Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903073000 +0000" stop="20260903080000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 05. Hafta - Haber / Çarşamba</title>
+  <programme start="20260903070000 +0000" stop="20260903071500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903080000 +0000" stop="20260903090000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Manşet / Canlı</title>
+  <programme start="20260903071500 +0000" stop="20260903073000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TSBSL Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903073000 +0000" stop="20260903080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TFF 1. Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903080000 +0000" stop="20260903083000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903090000 +0000" stop="20260903100000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.Hafta</title>
+    <title lang="en">Süper Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903100000 +0000" stop="20260903120000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Gün Ortası / Bant</title>
+  <programme start="20260903100000 +0000" stop="20260903113000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Gün Ortası</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903113000 +0000" stop="20260903120000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Muhabir Masası</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903120000 +0000" stop="20260903140000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">SUPER LIG (26-27) 3. HAFTA AMEDSPOR - TRABZONSPOR - BANT -</title>
+    <title lang="en">Amedspor - Trabzonspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903140000 +0000" stop="20260903150000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri (26-27) 02.Hafta - Haber</title>
+    <title lang="en">Premier League Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903150000 +0000" stop="20260903160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Haber 56 DK - Canlı</title>
+  <programme start="20260903150000 +0000" stop="20260903153000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ana Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160000 +0000" stop="20260903170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Süper Lig Maç Özetleri (26-27) 03.Hafta</title>
+  <programme start="20260903153000 +0000" stop="20260903160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">2. Bundesliga Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903170000 +0000" stop="20260903213000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Akşam / Canlı</title>
+  <programme start="20260903160000 +0000" stop="20260903161500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903161500 +0000" stop="20260903170000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TSBSL Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903170000 +0000" stop="20260903190000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Akşam</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903190000 +0000" stop="20260903193000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903193000 +0000" stop="20260903200000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Preview</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903200000 +0000" stop="20260903203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903213000 +0000" stop="20260903214500 +0000" channel="beINSPORTSHABER.tr">
@@ -23997,24 +24400,180 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">This Is Paris (26-27) 03.bölüm</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904213000 +0000" stop="20260904223000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor / Bant</title>
+  <programme start="20260904190000 +0000" stop="20260904200000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904223000 +0000" stop="20260905000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi / Bant</title>
+  <programme start="20260904200000 +0000" stop="20260904203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905000000 +0000" stop="20260905010000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor / Bant</title>
+  <programme start="20260904203000 +0000" stop="20260904210000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905010000 +0000" stop="20260905023000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi / Bant</title>
+  <programme start="20260904210000 +0000" stop="20260904213000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905023000 +0000" stop="20260905033000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor / Bant</title>
+  <programme start="20260904213000 +0000" stop="20260904230000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905000000 +0000" stop="20260905013000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905013000 +0000" stop="20260905023000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905023000 +0000" stop="20260905030000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905030000 +0000" stop="20260905043000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905043000 +0000" stop="20260905060000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905060000 +0000" stop="20260905063000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">BeIN SQUAD</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905063000 +0000" stop="20260905070000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">World Surf League</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905070000 +0000" stop="20260905071500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905071500 +0000" stop="20260905073000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Chasing The Dream</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905073000 +0000" stop="20260905080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TFF 1.Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905080000 +0000" stop="20260905083000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Haftasonu</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905083000 +0000" stop="20260905090000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Derbi Analiz</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905090000 +0000" stop="20260905093000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Kadro Tercihi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905093000 +0000" stop="20260905100000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bir Derbi Günü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905100000 +0000" stop="20260905110000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Geçmişten Günümüze</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905110000 +0000" stop="20260905130000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Lig Merkezi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905130000 +0000" stop="20260905150000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bandırmaspor - Boluspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905150000 +0000" stop="20260905153500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Türkiye Sigorta Basketbol Süper Ligi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905153500 +0000" stop="20260905160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ortak Yayın</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905160000 +0000" stop="20260905170000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Maç Zamanı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905170500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Maç Sonu</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905170500 +0000" stop="20260905171000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ortak Yayın</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905171000 +0000" stop="20260905171500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Tanıtım Ve Klip</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905171500 +0000" stop="20260905173000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Derbi Haftası</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905173000 +0000" stop="20260905184500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Kadro Tercihi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905184500 +0000" stop="20260905210000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906050000 +0000" stop="20260906060000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Sail GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906060000 +0000" stop="20260906070000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Sail GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906070000 +0000" stop="20260906080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Haftasonu</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906090000 +0000" stop="20260906100000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Show</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906100000 +0000" stop="20260906140000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Lig Merkezi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906140000 +0000" stop="20260906143000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Stories</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906143000 +0000" stop="20260906150000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Stories</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906150000 +0000" stop="20260906160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906160000 +0000" stop="20260906170000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Maç Zamanı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906170000 +0000" stop="20260906183000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906183000 +0000" stop="20260906203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260909210000 +0000" stop="20260909220000 +0000" channel="beINSPORTSHABER.tr">
@@ -24120,10 +24679,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260910203000 +0000" stop="20260910220000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903061806 +0000" stop="20260903063804 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
   </programme>
   <programme start="20260903063804 +0000" stop="20260903065806 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
@@ -24469,7 +25024,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903061806 +0000" stop="20260903063804 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -24817,7 +25372,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903061806 +0000" stop="20260903063804 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25165,7 +25720,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903061806 +0000" stop="20260903063804 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -25513,13 +26068,26 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904183000 +0000" stop="20260904213000 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260903203000 +0000" stop="20260903210000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904183000 +0000" stop="20260904211500 +0000" channel="beINSPORTS2.tr">
+  <programme start="20260904183000 +0000" stop="20260904190000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903210000 +0000" stop="20260903210100 +0000" channel="beINSPORTS3.tr">
+  <programme start="20260903200000 +0000" stop="20260903210000 +0000" channel="beINSPORTS2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260904183000 +0000" stop="20260904185900 +0000" channel="beINSPORTS2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260903200000 +0000" stop="20260903210100 +0000" channel="beINSPORTS3.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260904191500 +0000" stop="20260905103000 +0000" channel="beINSPORTS3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260904183000 +0000" stop="20260904210000 +0000" channel="beINSPORTSMAX1.tr">
@@ -25528,22 +26096,28 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260904183000 +0000" stop="20260904210000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904190000 +0000" stop="20260904213000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260903083000 +0000" stop="20260903090000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260905033000 +0000" stop="20260909210000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260903203000 +0000" stop="20260903213000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260905210000 +0000" stop="20260906050000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260906203000 +0000" stop="20260909210000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904142320 +0000" stop="20260904144302 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904142320 +0000" stop="20260904144302 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260904142320 +0000" stop="20260904144302 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260904142320 +0000" stop="20260904144302 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903213000 +0000" channel="Roya_RoyaTV">
@@ -68706,7 +69280,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260904154500 +0000" stop="20260904170000 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903070000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260903064000 +0000" stop="20260903070000 +0000" channel="Starz_admnadsports1">
     <title lang="en">German Cup 2026-2027</title>
     <desc lang="en">German Cup 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -69066,7 +69640,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903071500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260903064000 +0000" stop="20260903071500 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -69348,7 +69922,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903075500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260903064000 +0000" stop="20260903075500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Napoli x Como - Serie A</title>
     <title lang="ar">نابولي × كومو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -69933,7 +70507,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903072000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260903064000 +0000" stop="20260903072000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Juventus x Parma - Serie A</title>
     <title lang="ar">يوفنتوس × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -70539,7 +71113,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903081000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260903064000 +0000" stop="20260903081000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">All In - AEW Full Gear</title>
     <title lang="ar">أول إن - ايه إي دبليو فل قير</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -71148,13 +71722,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903063600 +0000" channel="Starz_starzplayrugby">
-    <title lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</title>
-    <desc lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/GNLZZGG00392CCN.jpg" />
-  </programme>
-  <programme start="20260903063600 +0000" stop="20260903090100 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260903064000 +0000" stop="20260903090100 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Fiji vs. Wales - Nations Championship 2026</title>
     <desc lang="en">Fiji vs. Wales - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -71352,7 +71920,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903071500 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260903064000 +0000" stop="20260903071500 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Al-Wasl X Shabab Al-Ahli - ADNOC Pro League</title>
     <title lang="ar">الوصل × شباب الأهلي - دوري أدنوك للمحترفين</title>
     <desc lang="en">Stay tuned to watch the best of football from the Adnoc Pro League.</desc>
@@ -71975,14 +72543,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903062100 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: St Kitts &amp; Nevis Patriots vs Barbados Tridents, 23rd Match - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260903062100 +0000" stop="20260903080900 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260903064000 +0000" stop="20260903080900 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2nd Test: Sri Lanka vs. India - Test Cricket</title>
     <title lang="ar">تست كريكيت</title>
     <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
@@ -72669,7 +73230,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903065600 +0000" channel="Starz_wedosports">
+  <programme start="20260903064000 +0000" stop="20260903065600 +0000" channel="Starz_wedosports">
     <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
@@ -73010,7 +73571,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903072800 +0000" channel="Starz_unbeatensports">
+  <programme start="20260903064000 +0000" stop="20260903072800 +0000" channel="Starz_unbeatensports">
     <title lang="en">World Rowing</title>
     <desc lang="en">European Championships rowing finals from Lake Varese</desc>
     <category lang="en">Sport</category>
@@ -73430,7 +73991,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903070000 +0000" channel="Starz_criclife1">
+  <programme start="20260903064000 +0000" stop="20260903070000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's ODI World Cup 2023: Afghanistan vs. Bangladesh - Kick-Off Classics</title>
     <desc lang="en">ICC Men's ODI World Cup 2023: Afghanistan vs. Bangladesh - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
@@ -74015,7 +74576,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903064400 +0000" channel="Starz_criclife3">
+  <programme start="20260903064000 +0000" stop="20260903064400 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Antigua &amp; Barbuda Falcons vs. St Kitts &amp; Nevis Patriots, 21st Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -75002,14 +75563,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903063100 +0000" channel="Starz_golflife">
-    <title lang="en">PGA TOUR: The CUT</title>
-    <title lang="ar">ذا كت</title>
-    <desc lang="en">S2026 , E27 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
-  </programme>
-  <programme start="20260903063100 +0000" stop="20260903065800 +0000" channel="Starz_golflife">
+  <programme start="20260903064000 +0000" stop="20260903065800 +0000" channel="Starz_golflife">
     <title lang="en">2026 Farmfoods Scottish Challenge - HotelPlannerTour Series H/L</title>
     <desc lang="en">2026 Farmfoods Scottish Challenge - HotelPlannerTour Series H/L</desc>
     <category lang="en">Sport</category>
@@ -75451,7 +76005,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903073000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260903064000 +0000" stop="20260903073000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Four-Star Event - UAE Horse Show Jumping Champion</title>
     <title lang="ar">فئة الأربع نجوم - بطولة الإمارات لسباق قفز الحواجز</title>
     <desc lang="en">Follow UAE Horse Show Jumping Champion.</desc>
@@ -76081,7 +76635,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903080000 +0000" channel="Starz_awsn">
+  <programme start="20260903064000 +0000" stop="20260903080000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -76375,7 +76929,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903070000 +0000" channel="Starz_redbulltv">
+  <programme start="20260903064000 +0000" stop="20260903070000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -76957,7 +77511,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903090000 +0000" channel="Starz_daznringside">
+  <programme start="20260903064000 +0000" stop="20260903090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -77155,7 +77709,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903065828 +0000" channel="Starz_fifaplus">
+  <programme start="20260903064000 +0000" stop="20260903065828 +0000" channel="Starz_fifaplus">
     <title lang="en">Japan v New Zealand | Group B | FIFA Women's World Cup Germany 2011™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Japan and New Zealand played at FIFA Women's World Cup Stadium , Bochum on Monday, 27 June 2011 at 15:00.</desc>
     <category lang="en">Sport</category>
@@ -77485,7 +78039,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123257.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903064600 +0000" channel="Starz_criclifewoman">
+  <programme start="20260903064000 +0000" stop="20260903064600 +0000" channel="Starz_criclifewoman">
     <title lang="en">2025: South Africa vs Bangladesh - ICC Women's Cricket World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
     <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
@@ -77997,7 +78551,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903070000 +0000" channel="Starz_admnyastv">
+  <programme start="20260907063000 +0000" stop="20260907083000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">Sports Programme</title>
+    <title lang="ar">سبورتس بروغرام</title>
+    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260903064000 +0000" stop="20260903070000 +0000" channel="Starz_admnyastv">
     <title lang="en">UIM F1H2O World Championship 2026</title>
     <desc lang="en">UIM F1H2O World Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -78465,7 +79026,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903062000 +0000" stop="20260903130000 +0000" channel="Starz_adfight">
+  <programme start="20260903064000 +0000" stop="20260903130000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -83492,47 +84053,47 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 7 ساعات و3 دقائق ⁨·⁩ ⁨Ismaily SC - Al Nasr FC · On Sport Max⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 6 ساعات و44 دقيقة ⁨·⁩ ⁨Ismaily SC - Al Nasr FC · On Sport Max⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 04/09 — بتوقيتك
-⁦⏳ 06:30 7 ساعات و3 دقائق  Ismaily SC - Al Nasr FC · On Sport Max⁩
-⁦08:00 8 ساعات و33 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
-⁦09:00 9 ساعات و33 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
-⁦10:00 10 ساعات و33 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+ +2⁩
+⁦⏳ 06:30 6 ساعات و44 دقيقة  Ismaily SC - Al Nasr FC · On Sport Max⁩
+⁦08:00 8 ساعات و14 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
+⁦09:00 9 ساعات و14 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
+⁦10:00 10 ساعات و14 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+ +2⁩
 ⁦Asswehly SC - KVZ SC · Libya Sports⁩
 ⁦AS Port - Zamalek SC · ON Sport⁩
 ⁦İstanbul Başakşehir - Galatasaray · beIN 5 · Bein 1 TR · beIN 1 TR⁩
-⁦10:30 11 ساعة و3 دقائق  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
-⁦11:00 11 ساعة و33 دقيقة  Al Shabab FC - Al Hilal · Thmanyah · HT Spor TR · Thmanyah 1 HD⁩
+⁦10:30 10 ساعات و44 دقيقة  Al Wehdat - Al Faisaly · الأردن الرياضية⁩
+⁦11:00 11 ساعة و14 دقيقة  Al Shabab FC - Al Hilal · Thmanyah · HT Spor TR · Thmanyah 1 HD⁩
 ⁦Al Ahli - Al-Riyadh SC · Thmanyah · S Sport Plus TR · Thmanyah 3 HD⁩
 ⁦JS Saoura - Horoya AC · TV1 Algerian⁩
 ⁦London City Lionesses - Manchester United Women · Sky Main Event · Sky Football · Sky One +1⁩
-⁦11:30 12 ساعة و3 دقائق  Stuttgart - FC Koln · MBC Shahid · S Sport Plus TR · MBC Action +1⁩
-⁦12:00 12 ساعة و33 دقيقة  Ipswich - Liverpool · beIN 3 · Sky Main Event · AzTV TR +7⁩
+⁦11:30 11 ساعة و44 دقيقة  Stuttgart - FC Koln · MBC Shahid · S Sport Plus TR · MBC Action +1⁩
+⁦12:00 12 ساعة و14 دقيقة  Ipswich - Liverpool · beIN 3 · Sky Main Event · AzTV TR +7⁩
 ⁦Betis - Real Madrid · beIN 1 · Premier Sports 1 · S Sport TR +5⁩
-⁦12:05 12 ساعة و38 دقيقة  PSG - Monaco · beIN 2 · Bein 2 TR · Ligue1+ +4⁩</desc>
+⁦12:05 12 ساعة و19 دقيقة  PSG - Monaco · beIN 2 · beIN 2 TR · Ligue1+ +5⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_1.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodayMatches">
     <title lang="ar">⁦⏳ بعد يوم و4 ساعات ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
     <desc lang="ar">مباريات السبت 05/09 — بتوقيتك
 ⁦⏳ 04:00 يوم و4 ساعات  Manchester United U18 - Middlesbrough U18 · MUTV⁩
-⁦04:30 يوم و5 ساعات  Newcastle - Bournemouth · beIN 1 · TNT 1 · HBO Max +4⁩
+⁦04:30 يوم و4 ساعات  Newcastle - Bournemouth · beIN 1 · TNT 1 · beIN 3 TR +5⁩
 ⁦Preston - Blackburn · beIN 2⁩
 ⁦Lincoln City - Southampton · Sky+⁩
 ⁦Preston North End - Blackburn Rovers · beIN 2 · Sky Main Event · Sky Football⁩
 ⁦Stoke City - Charlton Athletic · Sky+⁩
 ⁦Knowle - Worcester City · BBC Red Button⁩
-⁦05:45 يوم و6 ساعات  Mexico - Benin · beIN XTRA 5⁩
+⁦05:45 يوم و5 ساعات  Mexico - Benin · beIN XTRA 5⁩
 ⁦06:00 يوم و6 ساعات  Brazil - Tanzania · beIN Xtra 6⁩
 ⁦Poland - Argentina · beIN⁩
 ⁦Brazil Women U20 - Tanzania Women U20 · DAZN⁩
 ⁦Poland Women U20 - Argentina Women U20 · DAZN⁩
-⁦06:30 يوم و7 ساعات  Bayer Leverkusen - Union Berlin · MBC Shahid⁩
+⁦06:30 يوم و6 ساعات  Bayer Leverkusen - Union Berlin · MBC Shahid⁩
 ⁦Hoffenheim - Dortmund · MBC Shahid⁩
 ⁦B. Monchengladbach - Elversberg · MBC Shahid⁩
 ⁦Werder Bremen - RB Leipzig · MBC Shahid⁩
 ⁦Paderborn - Freiburg · MBC Shahid⁩
-⁦07:00 يوم و7 ساعات  Manchester City - Coventry · beIN 1 · beIN Xtra 1 · beIN 1 EN +1⁩
+⁦07:00 يوم و7 ساعات  Manchester City - Coventry · beIN 1 · beIN 3 TR · beIN Xtra 1 +2⁩
 ⁦Fulham - Crystal Palace · beIN 4⁩
 ⁦Brighton - Leeds · beIN 3⁩
 ⁦Nottingham - Tottenham · beIN 2⁩
@@ -83541,7 +84102,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦07:15 يوم و7 ساعات  Ath Bilbao - Atl. Madrid · beIN 6 · LALIGATV · beIN FR 1⁩
 ⁦08:00 يوم و8 ساعات  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
 ⁦08:15 يوم و8 ساعات  Lens - Lorient · beIN Xtra 1 · beIN XTRA 1⁩
-⁦08:45 يوم و9 ساعات  Brazil - Tanzania · beIN XTRA 6⁩
+⁦08:45 يوم و8 ساعات  Brazil - Tanzania · beIN XTRA 6⁩
 ⁦08:50 يوم و9 ساعات  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
 ⁦08:55 يوم و9 ساعات  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
 ⁦09:00 يوم و9 ساعات  Mexico - Benin · beIN Xtra 5⁩
@@ -83549,13 +84110,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Canada Women U20 - England Women U20 · DAZN⁩
 ⁦Mexico Women U20 - Benin Women U20 · DAZN⁩
 ⁦Inter Milan - Napoli (joins match in progress) · TNT 2 · DAZN · HBO Max⁩
-⁦09:30 يوم و10 ساعات  Hull City - Aston Villa · beIN 4K · Sky Main Event · beIN Xtra 1 +4⁩
+⁦09:30 يوم و9 ساعات  Hull City - Aston Villa · beIN 4K · Sky Main Event · beIN 3 TR +5⁩
 ⁦Rayo Vallecano - Racing Santander · beIN 2 · LALIGATV⁩
 ⁦Schalke - Bayern Munich · MBC Shahid · Sky Football⁩
-⁦09:50 يوم و10 ساعات  Fenerbahçe - Beşiktaş · beIN 5⁩
-⁦10:30 يوم و11 ساعة  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
+⁦09:50 يوم و10 ساعات  Fenerbahçe - Beşiktaş · beIN 5 · beIN 1 TR⁩
+⁦10:30 يوم و10 ساعات  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
 ⁦11:00 يوم و11 ساعة  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Thmanyah 1 HD⁩
-⁦11:45 يوم و12 ساعة  Nice - Le Mans · beIN 3 · Ligue1+⁩
+⁦11:45 يوم و11 ساعة  Nice - Le Mans · beIN 3 · beIN 3 TR · Ligue1+⁩
 ⁦Le Havre - Brest · beIN 4 · Ligue1+⁩
 ⁦12:00 يوم و12 ساعة  Villarreal - Dep. La Coruna · beIN 2 · Disney+⁩
 ⁦Swansea - Wrexham · Sky Main Event · beIN 1 EN · beIN EN 1⁩</desc>
@@ -83569,9 +84130,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
   </programme>
   <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 7 أحداث</title>
+    <title lang="ar">رياضات اليوم — 9 أحداث</title>
     <desc lang="ar">رياضات اليوم · الجمعة 04.09.2026
 
+03:30  Italian Grand Prix Practice 1 - Monza Circuit, Monza
+        beIN 8 · Sky F1 · Sky Main Event
+07:00  Italian Grand Prix Practice 2 - Monza Circuit, Monza
+        beIN 8 · Sky F1
 08:00  US Open Men's &amp; Women's Singles 3rd Round and Women's Doubles 1st Round
         beIN 7 · Sky Main Event · Sky Tennis
 10:30  بطولة RFC
@@ -83589,9 +84154,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_1.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 7 أحداث</title>
+    <title lang="ar">رياضات اليوم — 9 أحداث</title>
     <desc lang="ar">رياضات اليوم · السبت 05.09.2026
 
+03:30  Italian Grand Prix Practice 3 - Monza Circuit, Monza
+        beIN 8 · Sky F1
+07:00  Italian Grand Prix Qualifying - Monza Circuit, Monza
+        beIN 8 · Sky F1 · Sky Main Event
 08:00  US Open Men's &amp; Women's Singles 3rd, Round Men's Doubles 1st Round
         beIN 7 · Sky Tennis · Sky+
 09:00  Live Boxing Spomer vs Abubakari
@@ -83606,19 +84175,21 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         TNT 1 · HBO Max
 16:00  US Open Men's &amp; Women's Singles 3rd Round
         beIN 7 · Sky Main Event · Sky Tennis</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_2.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_3.png" />
   </programme>
   <programme start="20260906070000 +0000" stop="20260907070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 3 أحداث</title>
+    <title lang="ar">رياضات اليوم — 4 أحداث</title>
     <desc lang="ar">رياضات اليوم · الأحد 06.09.2026
 
+06:00  Italian Grand Prix Race - Monza Circuit, Monza
+        beIN 4K · Sky F1
 08:00  US Open Men's &amp; Women's Singles Round of 16, Men's &amp; Women's Doubles 2nd Round
         beIN 7 · Sky Tennis · Sky+
 11:00  US Open Men's &amp; Women's Singles Round of 16, Men's &amp; Women's Doubles 2nd Round
         beIN 7 · Sky Main Event · Sky Tennis
 16:00  US Open Men's &amp; Women's Singles Round of 16
         beIN 7 · Sky Main Event · Sky Tennis</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_3.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_5.png" />
   </programme>
   <programme start="20260907070000 +0000" stop="20260908070000 +0000" channel="TodaySports">
     <title lang="ar">رياضات اليوم — حدثان</title>
@@ -83628,7 +84199,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 7 · Sky Tennis · Sky Main Event
 16:00  US Open Men's &amp; Women's Singles Round of 16
         beIN 7 · Sky Main Event · Sky Tennis</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_4.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_6.png" />
   </programme>
   <programme start="20260908070000 +0000" stop="20260909070000 +0000" channel="TodaySports">
     <title lang="ar">رياضات اليوم — 3 أحداث</title>
@@ -83640,7 +84211,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 7 · Sky Tennis · Sky Main Event
 17:00  MMA Colton Loud vs Frank da Silva Castro - Meta Apex
         UFC Fight Pass</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_5.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_7.png" />
   </programme>
   <programme start="20260909070000 +0000" stop="20260910070000 +0000" channel="TodaySports">
     <title lang="ar">رياضات اليوم — 3 أحداث</title>
@@ -83652,7 +84223,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 7 · Sky Tennis · Sky Main Event
 17:20  Patriots - Seahawks
         NBC</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_6.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_8.png" />
   </programme>
   <programme start="20260910070000 +0000" stop="20260911070000 +0000" channel="TodaySports">
     <title lang="ar">رياضات اليوم — 4 أحداث</title>
@@ -83666,16 +84237,20 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         NETFLIX
 22:30  Solheim Cup Day 1 - Europe vs USA
         Sky Main Event · Sky Golf</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_7.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_9.png" />
   </programme>
   <programme start="20260911070000 +0000" stop="20260912070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 7 أحداث</title>
+    <title lang="ar">رياضات اليوم — 9 أحداث</title>
     <desc lang="ar">رياضات اليوم · الجمعة 11.09.2026
 
 00:00  MotoGP San Marino Grand Prix Free Practice Nr. 1 - Misano World Circuit Marco Simoncelli
         TNT 2 · HBO Max
 04:15  MotoGP San Marino Grand Prix Practice - Misano World Circuit Marco Simoncelli
         TNT 2 · HBO Max
+04:30  Spanish Grand Prix Practice 1 - Madring, Madrid
+        Sky F1
+08:00  Spanish Grand Prix Practice 2 - Madring, Madrid
+        Sky F1
 09:00  US Open Women's Doubles Final
         Sky Tennis · Sky+
 12:00  US Open Men's Singles Semifinal
@@ -83686,16 +84261,20 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         Sky Golf · Sky Main Event
 23:40  MotoGP San Marino Grand Prix Free Practice Nr. 2 - Misano World Circuit Marco Simoncelli
         TNT 2 · HBO Max</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_8.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_10.png" />
   </programme>
   <programme start="20260912070000 +0000" stop="20260913070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 8 أحداث</title>
+    <title lang="ar">رياضات اليوم — 10 أحداث</title>
     <desc lang="ar">رياضات اليوم · السبت 12.09.2026
 
 01:50  MotoGP San Marino Grand Prix Qualifying - Misano World Circuit Marco Simoncelli
         TNT 2 · HBO Max
+03:30  Spanish Grand Prix Practice 3 - Madring, Madrid
+        Sky F1
 06:00  MotoGP San Marino Grand Prix Tissot Sprint - Misano World Circuit Marco Simoncelli
         TNT 2 · HBO Max
+07:00  Spanish Grand Prix Qualifying - Madring, Madrid
+        Sky F1 · Sky Main Event
 09:00  Live Boxing Canelo Alvarez vs Christian Mâbilli
         DAZN
 09:00  US Open Men's Doubles Final
@@ -83708,10 +84287,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         TNT 2 · HBO Max
 17:00  Live Boxing Garcia vs Benn
         DAZN</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_9.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_12.png" />
   </programme>
   <programme start="20260913070000 +0000" stop="20260914070000 +0000" channel="TodaySports">
-    <title lang="ar">رياضات اليوم — 18 حدثاً</title>
+    <title lang="ar">رياضات اليوم — 19 حدثاً</title>
     <desc lang="ar">رياضات اليوم · الأحد 13.09.2026
 
 01:00  Solheim Cup Day 3 - Europe vs USA
@@ -83722,6 +84301,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         TNT 2 · HBO Max
 05:00  MotoGP San Marino Grand Prix MotoGP Race - Misano World Circuit Marco Simoncelli
         TNT 2 · HBO Max
+06:00  Spanish Grand Prix Race - Madring, Madrid
+        Sky F1 · Sky Main Event
 10:00  Buccaneers - Bengals
         FOX
 10:00  Falcons - Steelers
@@ -83750,7 +84331,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         CBS
 17:20  Cowboys - Giants
         NBC</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_10.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_14.png" />
   </programme>
   <programme start="20260914070000 +0000" stop="20260915070000 +0000" channel="TodaySports">
     <title lang="ar">رياضات اليوم — حدث</title>
@@ -83758,21 +84339,21 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 17:15  Broncos - Chiefs
         ESPN</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_13.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_17.png" />
   </programme>
   <programme start="20260904060000 +0000" stop="20260904070000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · «حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <title lang="ar">أخبار اليوم · بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطال</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:21 — بتوقيتك
 
-«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
-        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
-        عربي · الشرق الأوسط
-فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
-        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطاليا
+        سعيًا للسيطرة على الوضع الأمني في محيط الكولوسيوم الأثري بإيطاليا، أعلن مسؤولو روما تصنيف محيط الموقع كـ"منطقة حمراء".
+        عربي · CNN عربية
+الأجندة اليومية للنشرة العربية - الجمعة 4 سبتمبر 2026
+        تجدون فيما يلي المتابعات الإخبارية والتقارير المدرجة على أجندة النشرة العربية ليوم الجمعة 4 سبتمبر 2026
         تركيا · الأناضول
-Controversial Jackdaw gas field set to be approved in weeks, sources say
-        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
-        بريطانيا · BBC
+The Golden Hours by Louisa Young review – this continuation of the Cazalet Chronicles is a total delight
+        Elizabeth Jane Howard’s niece has picked up the thread of her much-loved family saga series, taking the story into the 1960s Elizabeth Jane Howard’s…
+        بريطانيا · Guardian
 2 trapped workers rescued from Nepal hydropower tunnel 9 days after floods
         Rescuers in Nepal pulled two workers alive from a hydropower tunnel as emergency teams continued efforts to reach others believed to be trapped…
         أمريكا · CBS
@@ -83782,87 +84363,87 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
-"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
-        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
-        عربي · CNN عربية
-مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
-        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+منظمة حقوقية تونسية تؤكد وفاة 20 سجينا على الأقل خلال موجة الحر الخانقة
+        استنادا لبيانات جُمعت من أطباء ومحامين وعائلات السجناء، قال بسام الطريفي رئيس الرابطة التونسية للدفاع عن حقوق الإنسان الخميس
+        عربي · فرانس 24
+انتشال عاملين أحياء من نفق في النيبال بعد أكثر من أسبوع على الفيضانات
+        انتشلت فرق الإنقاذ الجمعة عاملَيْن على قيد الحياة كانا محاصرين في نفق طمرته الوحول والركام في شمال النيبال بعد أكثر من أسبوع على الفيضانات التي…
         عربي · الشرق الأوسط
-حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
-        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
+كوريا الجنوبية تدرس نشر أصول عسكرية لضمان حرية الملاحة في مضيق هرمز
+        قال المكتب الرئاسي في كوريا الجنوبية الجمعة، إن سيول تدرس خيارات عدة للمساهمة في ضمان حرية الملاحة بمضيق هرمز، من بينها إجراءات عسكرية
         تركيا · TRT عربي
-Trump administration pushes to remove tax exemption for private colleges with DEI policies
-        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
-        أمريكا · NPR
-Volkswagen board approves plan to cut another 50,000 jobs
-        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
-        بريطانيا · BBC
+‘It feels like Italy with the volume turned down’: readers’ favourite (smaller) city breaks in Europe
+        You share your low-key alternatives to overcrowded hotspots, from an island city in the Med to a Norwegian art nouveau gem • Tell us about your trips…
+        بريطانيا · Guardian
+Workers Rescued From Tunnel in Nepal 9 Days After Flood
+        Rescuers pulled out two survivors as the search continued for hundreds missing inside hydropower projects that were buried in the flooding…
+        أمريكا · NYT
 Criminal Gang Arrested Over Plot to Kidnap Mbappé
         French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
         الأردن · Jordan News
-رغم الحصار الأمريكي.. وزير إيراني: صادراتنا النفطية لم تتوقف لـ"ساعة واحدة"
-        زعم وزير النفط الإيراني محسن باك نجاد، أن صادرات النفط الخام الإيرانية لم تتوقف ولو لـ"ساعة واحدة"
-        عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
-        تركيا · TRT عربي
+«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
+        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
+        عربي · الشرق الأوسط
+فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
+        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+        تركيا · الأناضول
+Vista, Saarikoski Songs, Three Preludes album review – Saariaho’s iridescent visions evocatively rendered
+        Komsi/Nyman/BBC Symphony Orchestra/Oramo (Ondine) Three works by the idiosyncratic Finnish composer who died in 2023 are recorded for the first time…
+        بريطانيا · Guardian
+Trump administration pushes to remove tax exemption for private colleges with DEI policies
+        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
+        أمريكا · NPR
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
         أمريكا · CBS
-Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
-        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
-        أمريكا · NPR
-Reform reported to police over claims of funding rules breach in undercover sting
-        Nigel Farage’s party is accused of taking payment from an American company for polling it commissioned
-        بريطانيا · Independent
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-موقع البيت الأبيض يطلق ألعابا إلكترونية تتيح للمستخدمين اعتقال المهاجرين وبناء جدار حدودي
-        أطلقت إدارة ترامب، الخميس، سلسلة من الألعاب الإلكترونية على غرار ألعاب "الأركيد" عبر الموقع الرسمي للبيت الأبيض للترويج لأولوياتها
+"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
+        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
         عربي · CNN عربية
-فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
-        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
-        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
-        أمريكا · NPR
-Be careful what you post on social media, MP warns, after tweet apology
-        Lauren Edwards said she disengaged from social media shortly after becoming an MP and does not read anything about herself.
-        بريطانيا · Independent
-Families move out of 'nightmare' new-build homes plagued by defects, damp and mould
-        Dozens have contacted BBC Your Voice as complaints to ombudsman have tripled in a year.
+Controversial Jackdaw gas field set to be approved in weeks, sources say
+        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
         بريطانيا · BBC
+Volkswagen board approves plan to cut another 50,000 jobs
+        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
+        بريطانيا · BBC
+Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
+        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
+        أمريكا · NPR
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
-        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
+مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
+        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+        عربي · الشرق الأوسط
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
         تركيا · TRT عربي
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
+        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
         تركيا · TRT عربي
-President Javier Milei says ‘winds of change’ support Argentina’s claim to Falkland Islands
-        President cites Donald Trump’s suggestion that he might reconsider US support for British sovereignty, and threatens swifter sanctions on British oil…
-        بريطانيا · Guardian
-Something Alarming Is About to Happen in Germany
-        The government is seemingly incapable of stopping the far right.
-        أمريكا · NYT
+Anger as human poo and 'maggot-infested' food left behind at beauty spot
+        A national park authority says there is "no justification" after the "worst example" of fly-tipping.
+        بريطانيا · BBC
+2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
+        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
+        أمريكا · NPR
 Al-Barbeeta Guava: The Flavor of Tafileh
         Al-Barbeeta guava stands out for its sweet taste and distinctive aroma, benefiting from the area's shafa-ghor (escarpment) terrain and natural water…
         الأردن · Jordan News
+رؤساء "الجنائية الدولية": حملة ترمب ضد المحكمة تستهدف تقويض النظام القانوني الدولي
+        حذرت الرئيسة الحالية للهيئة الإدارية للمحكمة الجنائية الدولية و7 من رؤسائها السابقين من أن الضغوط الرامية إلى عزل المحكمة دبلوماسياً تهدّد بتقويض…
+        تركيا · TRT عربي
+فانس يكشف سرّ فقدان وزنه: نظام غذائي صارم ومخلل الملفوف
+        كشف نائب الرئيس الأميركي جي دي فانس عن تفاصيل النظام الغذائي الذي يتبعه بهدف إنقاص وزنه، موضحاً أنه يعتمد بصورة أساسية على الأطعمة الغنية بالبروتين.
+        عربي · الشرق الأوسط
 هل سيستفيد الشعب الفنزويلي من الاستثمارات "الهائلة" التي تُبشّر بها صفقة النفط الأمريكية؟
         أثارت الاستثمارات الضخمة التي وعدت بها الولايات المتحدة وفنزويلا بموجب اتفاقية إنتاج النفط الجديدة تفاؤلاً حذراً بأن الفنزويليين على أعتاب حقبة جديدة…
         عربي · CNN عربية
-خبراء: حفل الزفاف الإيراني استُهدف بذخيرة أمريكية
-        قال ‌خبراء أسلحة، استنادا إلى مراجعة صور ومقاطع فيديو، إن الانفجار الذي دمر حفل زفاف في جنوب إيران، الثلاثاء الماضي وخلّف 4 قتلى و68 مصابا على الأقل
-        عربي · الجزيرة
-تركيا إلى نصف نهائي بطولة أوروبا للسيدات.. "سلطانات الشبكة" تطيح بألمانيا
-        تأهل المنتخب التركي للكرة الطائرة للسيدات، المضيف وحامل اللقب، إلى الدور نصف النهائي من بطولة أوروبا 2026
-        تركيا · TRT عربي
 Kyrgios given one-month ban for positive cocaine test
         Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
         بريطانيا · BBC
@@ -83876,17 +84457,17 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904070000 +0000" stop="20260904080000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:21 — بتوقيتك
 
-«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
-        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
-        عربي · الشرق الأوسط
-فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
-        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطاليا
+        سعيًا للسيطرة على الوضع الأمني في محيط الكولوسيوم الأثري بإيطاليا، أعلن مسؤولو روما تصنيف محيط الموقع كـ"منطقة حمراء".
+        عربي · CNN عربية
+الأجندة اليومية للنشرة العربية - الجمعة 4 سبتمبر 2026
+        تجدون فيما يلي المتابعات الإخبارية والتقارير المدرجة على أجندة النشرة العربية ليوم الجمعة 4 سبتمبر 2026
         تركيا · الأناضول
-Controversial Jackdaw gas field set to be approved in weeks, sources say
-        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
-        بريطانيا · BBC
+The Golden Hours by Louisa Young review – this continuation of the Cazalet Chronicles is a total delight
+        Elizabeth Jane Howard’s niece has picked up the thread of her much-loved family saga series, taking the story into the 1960s Elizabeth Jane Howard’s…
+        بريطانيا · Guardian
 2 trapped workers rescued from Nepal hydropower tunnel 9 days after floods
         Rescuers in Nepal pulled two workers alive from a hydropower tunnel as emergency teams continued efforts to reach others believed to be trapped…
         أمريكا · CBS
@@ -83896,87 +84477,87 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
-"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
-        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
-        عربي · CNN عربية
-مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
-        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+منظمة حقوقية تونسية تؤكد وفاة 20 سجينا على الأقل خلال موجة الحر الخانقة
+        استنادا لبيانات جُمعت من أطباء ومحامين وعائلات السجناء، قال بسام الطريفي رئيس الرابطة التونسية للدفاع عن حقوق الإنسان الخميس
+        عربي · فرانس 24
+انتشال عاملين أحياء من نفق في النيبال بعد أكثر من أسبوع على الفيضانات
+        انتشلت فرق الإنقاذ الجمعة عاملَيْن على قيد الحياة كانا محاصرين في نفق طمرته الوحول والركام في شمال النيبال بعد أكثر من أسبوع على الفيضانات التي…
         عربي · الشرق الأوسط
-حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
-        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
+كوريا الجنوبية تدرس نشر أصول عسكرية لضمان حرية الملاحة في مضيق هرمز
+        قال المكتب الرئاسي في كوريا الجنوبية الجمعة، إن سيول تدرس خيارات عدة للمساهمة في ضمان حرية الملاحة بمضيق هرمز، من بينها إجراءات عسكرية
         تركيا · TRT عربي
-Trump administration pushes to remove tax exemption for private colleges with DEI policies
-        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
-        أمريكا · NPR
-Volkswagen board approves plan to cut another 50,000 jobs
-        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
-        بريطانيا · BBC
+‘It feels like Italy with the volume turned down’: readers’ favourite (smaller) city breaks in Europe
+        You share your low-key alternatives to overcrowded hotspots, from an island city in the Med to a Norwegian art nouveau gem • Tell us about your trips…
+        بريطانيا · Guardian
+Workers Rescued From Tunnel in Nepal 9 Days After Flood
+        Rescuers pulled out two survivors as the search continued for hundreds missing inside hydropower projects that were buried in the flooding…
+        أمريكا · NYT
 Criminal Gang Arrested Over Plot to Kidnap Mbappé
         French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
         الأردن · Jordan News
-رغم الحصار الأمريكي.. وزير إيراني: صادراتنا النفطية لم تتوقف لـ"ساعة واحدة"
-        زعم وزير النفط الإيراني محسن باك نجاد، أن صادرات النفط الخام الإيرانية لم تتوقف ولو لـ"ساعة واحدة"
-        عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
-        تركيا · TRT عربي
+«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
+        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
+        عربي · الشرق الأوسط
+فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
+        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+        تركيا · الأناضول
+Vista, Saarikoski Songs, Three Preludes album review – Saariaho’s iridescent visions evocatively rendered
+        Komsi/Nyman/BBC Symphony Orchestra/Oramo (Ondine) Three works by the idiosyncratic Finnish composer who died in 2023 are recorded for the first time…
+        بريطانيا · Guardian
+Trump administration pushes to remove tax exemption for private colleges with DEI policies
+        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
+        أمريكا · NPR
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
         أمريكا · CBS
-Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
-        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
-        أمريكا · NPR
-Reform reported to police over claims of funding rules breach in undercover sting
-        Nigel Farage’s party is accused of taking payment from an American company for polling it commissioned
-        بريطانيا · Independent
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-موقع البيت الأبيض يطلق ألعابا إلكترونية تتيح للمستخدمين اعتقال المهاجرين وبناء جدار حدودي
-        أطلقت إدارة ترامب، الخميس، سلسلة من الألعاب الإلكترونية على غرار ألعاب "الأركيد" عبر الموقع الرسمي للبيت الأبيض للترويج لأولوياتها
+"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
+        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
         عربي · CNN عربية
-فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
-        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
-        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
-        أمريكا · NPR
-Be careful what you post on social media, MP warns, after tweet apology
-        Lauren Edwards said she disengaged from social media shortly after becoming an MP and does not read anything about herself.
-        بريطانيا · Independent
-Families move out of 'nightmare' new-build homes plagued by defects, damp and mould
-        Dozens have contacted BBC Your Voice as complaints to ombudsman have tripled in a year.
+Controversial Jackdaw gas field set to be approved in weeks, sources say
+        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
         بريطانيا · BBC
+Volkswagen board approves plan to cut another 50,000 jobs
+        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
+        بريطانيا · BBC
+Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
+        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
+        أمريكا · NPR
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
-        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
+مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
+        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+        عربي · الشرق الأوسط
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
         تركيا · TRT عربي
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
+        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
         تركيا · TRT عربي
-President Javier Milei says ‘winds of change’ support Argentina’s claim to Falkland Islands
-        President cites Donald Trump’s suggestion that he might reconsider US support for British sovereignty, and threatens swifter sanctions on British oil…
-        بريطانيا · Guardian
-Something Alarming Is About to Happen in Germany
-        The government is seemingly incapable of stopping the far right.
-        أمريكا · NYT
+Anger as human poo and 'maggot-infested' food left behind at beauty spot
+        A national park authority says there is "no justification" after the "worst example" of fly-tipping.
+        بريطانيا · BBC
+2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
+        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
+        أمريكا · NPR
 Al-Barbeeta Guava: The Flavor of Tafileh
         Al-Barbeeta guava stands out for its sweet taste and distinctive aroma, benefiting from the area's shafa-ghor (escarpment) terrain and natural water…
         الأردن · Jordan News
+رؤساء "الجنائية الدولية": حملة ترمب ضد المحكمة تستهدف تقويض النظام القانوني الدولي
+        حذرت الرئيسة الحالية للهيئة الإدارية للمحكمة الجنائية الدولية و7 من رؤسائها السابقين من أن الضغوط الرامية إلى عزل المحكمة دبلوماسياً تهدّد بتقويض…
+        تركيا · TRT عربي
+فانس يكشف سرّ فقدان وزنه: نظام غذائي صارم ومخلل الملفوف
+        كشف نائب الرئيس الأميركي جي دي فانس عن تفاصيل النظام الغذائي الذي يتبعه بهدف إنقاص وزنه، موضحاً أنه يعتمد بصورة أساسية على الأطعمة الغنية بالبروتين.
+        عربي · الشرق الأوسط
 هل سيستفيد الشعب الفنزويلي من الاستثمارات "الهائلة" التي تُبشّر بها صفقة النفط الأمريكية؟
         أثارت الاستثمارات الضخمة التي وعدت بها الولايات المتحدة وفنزويلا بموجب اتفاقية إنتاج النفط الجديدة تفاؤلاً حذراً بأن الفنزويليين على أعتاب حقبة جديدة…
         عربي · CNN عربية
-خبراء: حفل الزفاف الإيراني استُهدف بذخيرة أمريكية
-        قال ‌خبراء أسلحة، استنادا إلى مراجعة صور ومقاطع فيديو، إن الانفجار الذي دمر حفل زفاف في جنوب إيران، الثلاثاء الماضي وخلّف 4 قتلى و68 مصابا على الأقل
-        عربي · الجزيرة
-تركيا إلى نصف نهائي بطولة أوروبا للسيدات.. "سلطانات الشبكة" تطيح بألمانيا
-        تأهل المنتخب التركي للكرة الطائرة للسيدات، المضيف وحامل اللقب، إلى الدور نصف النهائي من بطولة أوروبا 2026
-        تركيا · TRT عربي
 Kyrgios given one-month ban for positive cocaine test
         Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
         بريطانيا · BBC
@@ -83990,17 +84571,17 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904080000 +0000" stop="20260904090000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:21 — بتوقيتك
 
-«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
-        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
-        عربي · الشرق الأوسط
-فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
-        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطاليا
+        سعيًا للسيطرة على الوضع الأمني في محيط الكولوسيوم الأثري بإيطاليا، أعلن مسؤولو روما تصنيف محيط الموقع كـ"منطقة حمراء".
+        عربي · CNN عربية
+الأجندة اليومية للنشرة العربية - الجمعة 4 سبتمبر 2026
+        تجدون فيما يلي المتابعات الإخبارية والتقارير المدرجة على أجندة النشرة العربية ليوم الجمعة 4 سبتمبر 2026
         تركيا · الأناضول
-Controversial Jackdaw gas field set to be approved in weeks, sources say
-        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
-        بريطانيا · BBC
+The Golden Hours by Louisa Young review – this continuation of the Cazalet Chronicles is a total delight
+        Elizabeth Jane Howard’s niece has picked up the thread of her much-loved family saga series, taking the story into the 1960s Elizabeth Jane Howard’s…
+        بريطانيا · Guardian
 2 trapped workers rescued from Nepal hydropower tunnel 9 days after floods
         Rescuers in Nepal pulled two workers alive from a hydropower tunnel as emergency teams continued efforts to reach others believed to be trapped…
         أمريكا · CBS
@@ -84010,87 +84591,87 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
-"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
-        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
-        عربي · CNN عربية
-مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
-        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+منظمة حقوقية تونسية تؤكد وفاة 20 سجينا على الأقل خلال موجة الحر الخانقة
+        استنادا لبيانات جُمعت من أطباء ومحامين وعائلات السجناء، قال بسام الطريفي رئيس الرابطة التونسية للدفاع عن حقوق الإنسان الخميس
+        عربي · فرانس 24
+انتشال عاملين أحياء من نفق في النيبال بعد أكثر من أسبوع على الفيضانات
+        انتشلت فرق الإنقاذ الجمعة عاملَيْن على قيد الحياة كانا محاصرين في نفق طمرته الوحول والركام في شمال النيبال بعد أكثر من أسبوع على الفيضانات التي…
         عربي · الشرق الأوسط
-حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
-        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
+كوريا الجنوبية تدرس نشر أصول عسكرية لضمان حرية الملاحة في مضيق هرمز
+        قال المكتب الرئاسي في كوريا الجنوبية الجمعة، إن سيول تدرس خيارات عدة للمساهمة في ضمان حرية الملاحة بمضيق هرمز، من بينها إجراءات عسكرية
         تركيا · TRT عربي
-Trump administration pushes to remove tax exemption for private colleges with DEI policies
-        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
-        أمريكا · NPR
-Volkswagen board approves plan to cut another 50,000 jobs
-        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
-        بريطانيا · BBC
+‘It feels like Italy with the volume turned down’: readers’ favourite (smaller) city breaks in Europe
+        You share your low-key alternatives to overcrowded hotspots, from an island city in the Med to a Norwegian art nouveau gem • Tell us about your trips…
+        بريطانيا · Guardian
+Workers Rescued From Tunnel in Nepal 9 Days After Flood
+        Rescuers pulled out two survivors as the search continued for hundreds missing inside hydropower projects that were buried in the flooding…
+        أمريكا · NYT
 Criminal Gang Arrested Over Plot to Kidnap Mbappé
         French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
         الأردن · Jordan News
-رغم الحصار الأمريكي.. وزير إيراني: صادراتنا النفطية لم تتوقف لـ"ساعة واحدة"
-        زعم وزير النفط الإيراني محسن باك نجاد، أن صادرات النفط الخام الإيرانية لم تتوقف ولو لـ"ساعة واحدة"
-        عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
-        تركيا · TRT عربي
+«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
+        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
+        عربي · الشرق الأوسط
+فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
+        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+        تركيا · الأناضول
+Vista, Saarikoski Songs, Three Preludes album review – Saariaho’s iridescent visions evocatively rendered
+        Komsi/Nyman/BBC Symphony Orchestra/Oramo (Ondine) Three works by the idiosyncratic Finnish composer who died in 2023 are recorded for the first time…
+        بريطانيا · Guardian
+Trump administration pushes to remove tax exemption for private colleges with DEI policies
+        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
+        أمريكا · NPR
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
         أمريكا · CBS
-Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
-        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
-        أمريكا · NPR
-Reform reported to police over claims of funding rules breach in undercover sting
-        Nigel Farage’s party is accused of taking payment from an American company for polling it commissioned
-        بريطانيا · Independent
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-موقع البيت الأبيض يطلق ألعابا إلكترونية تتيح للمستخدمين اعتقال المهاجرين وبناء جدار حدودي
-        أطلقت إدارة ترامب، الخميس، سلسلة من الألعاب الإلكترونية على غرار ألعاب "الأركيد" عبر الموقع الرسمي للبيت الأبيض للترويج لأولوياتها
+"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
+        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
         عربي · CNN عربية
-فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
-        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
-        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
-        أمريكا · NPR
-Be careful what you post on social media, MP warns, after tweet apology
-        Lauren Edwards said she disengaged from social media shortly after becoming an MP and does not read anything about herself.
-        بريطانيا · Independent
-Families move out of 'nightmare' new-build homes plagued by defects, damp and mould
-        Dozens have contacted BBC Your Voice as complaints to ombudsman have tripled in a year.
+Controversial Jackdaw gas field set to be approved in weeks, sources say
+        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
         بريطانيا · BBC
+Volkswagen board approves plan to cut another 50,000 jobs
+        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
+        بريطانيا · BBC
+Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
+        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
+        أمريكا · NPR
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
-        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
+مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
+        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+        عربي · الشرق الأوسط
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
         تركيا · TRT عربي
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
+        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
         تركيا · TRT عربي
-President Javier Milei says ‘winds of change’ support Argentina’s claim to Falkland Islands
-        President cites Donald Trump’s suggestion that he might reconsider US support for British sovereignty, and threatens swifter sanctions on British oil…
-        بريطانيا · Guardian
-Something Alarming Is About to Happen in Germany
-        The government is seemingly incapable of stopping the far right.
-        أمريكا · NYT
+Anger as human poo and 'maggot-infested' food left behind at beauty spot
+        A national park authority says there is "no justification" after the "worst example" of fly-tipping.
+        بريطانيا · BBC
+2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
+        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
+        أمريكا · NPR
 Al-Barbeeta Guava: The Flavor of Tafileh
         Al-Barbeeta guava stands out for its sweet taste and distinctive aroma, benefiting from the area's shafa-ghor (escarpment) terrain and natural water…
         الأردن · Jordan News
+رؤساء "الجنائية الدولية": حملة ترمب ضد المحكمة تستهدف تقويض النظام القانوني الدولي
+        حذرت الرئيسة الحالية للهيئة الإدارية للمحكمة الجنائية الدولية و7 من رؤسائها السابقين من أن الضغوط الرامية إلى عزل المحكمة دبلوماسياً تهدّد بتقويض…
+        تركيا · TRT عربي
+فانس يكشف سرّ فقدان وزنه: نظام غذائي صارم ومخلل الملفوف
+        كشف نائب الرئيس الأميركي جي دي فانس عن تفاصيل النظام الغذائي الذي يتبعه بهدف إنقاص وزنه، موضحاً أنه يعتمد بصورة أساسية على الأطعمة الغنية بالبروتين.
+        عربي · الشرق الأوسط
 هل سيستفيد الشعب الفنزويلي من الاستثمارات "الهائلة" التي تُبشّر بها صفقة النفط الأمريكية؟
         أثارت الاستثمارات الضخمة التي وعدت بها الولايات المتحدة وفنزويلا بموجب اتفاقية إنتاج النفط الجديدة تفاؤلاً حذراً بأن الفنزويليين على أعتاب حقبة جديدة…
         عربي · CNN عربية
-خبراء: حفل الزفاف الإيراني استُهدف بذخيرة أمريكية
-        قال ‌خبراء أسلحة، استنادا إلى مراجعة صور ومقاطع فيديو، إن الانفجار الذي دمر حفل زفاف في جنوب إيران، الثلاثاء الماضي وخلّف 4 قتلى و68 مصابا على الأقل
-        عربي · الجزيرة
-تركيا إلى نصف نهائي بطولة أوروبا للسيدات.. "سلطانات الشبكة" تطيح بألمانيا
-        تأهل المنتخب التركي للكرة الطائرة للسيدات، المضيف وحامل اللقب، إلى الدور نصف النهائي من بطولة أوروبا 2026
-        تركيا · TRT عربي
 Kyrgios given one-month ban for positive cocaine test
         Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
         بريطانيا · BBC
@@ -84104,17 +84685,17 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904090000 +0000" stop="20260904100000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:21 — بتوقيتك
 
-«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
-        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
-        عربي · الشرق الأوسط
-فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
-        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطاليا
+        سعيًا للسيطرة على الوضع الأمني في محيط الكولوسيوم الأثري بإيطاليا، أعلن مسؤولو روما تصنيف محيط الموقع كـ"منطقة حمراء".
+        عربي · CNN عربية
+الأجندة اليومية للنشرة العربية - الجمعة 4 سبتمبر 2026
+        تجدون فيما يلي المتابعات الإخبارية والتقارير المدرجة على أجندة النشرة العربية ليوم الجمعة 4 سبتمبر 2026
         تركيا · الأناضول
-Controversial Jackdaw gas field set to be approved in weeks, sources say
-        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
-        بريطانيا · BBC
+The Golden Hours by Louisa Young review – this continuation of the Cazalet Chronicles is a total delight
+        Elizabeth Jane Howard’s niece has picked up the thread of her much-loved family saga series, taking the story into the 1960s Elizabeth Jane Howard’s…
+        بريطانيا · Guardian
 2 trapped workers rescued from Nepal hydropower tunnel 9 days after floods
         Rescuers in Nepal pulled two workers alive from a hydropower tunnel as emergency teams continued efforts to reach others believed to be trapped…
         أمريكا · CBS
@@ -84124,87 +84705,87 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
-"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
-        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
-        عربي · CNN عربية
-مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
-        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+منظمة حقوقية تونسية تؤكد وفاة 20 سجينا على الأقل خلال موجة الحر الخانقة
+        استنادا لبيانات جُمعت من أطباء ومحامين وعائلات السجناء، قال بسام الطريفي رئيس الرابطة التونسية للدفاع عن حقوق الإنسان الخميس
+        عربي · فرانس 24
+انتشال عاملين أحياء من نفق في النيبال بعد أكثر من أسبوع على الفيضانات
+        انتشلت فرق الإنقاذ الجمعة عاملَيْن على قيد الحياة كانا محاصرين في نفق طمرته الوحول والركام في شمال النيبال بعد أكثر من أسبوع على الفيضانات التي…
         عربي · الشرق الأوسط
-حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
-        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
+كوريا الجنوبية تدرس نشر أصول عسكرية لضمان حرية الملاحة في مضيق هرمز
+        قال المكتب الرئاسي في كوريا الجنوبية الجمعة، إن سيول تدرس خيارات عدة للمساهمة في ضمان حرية الملاحة بمضيق هرمز، من بينها إجراءات عسكرية
         تركيا · TRT عربي
-Trump administration pushes to remove tax exemption for private colleges with DEI policies
-        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
-        أمريكا · NPR
-Volkswagen board approves plan to cut another 50,000 jobs
-        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
-        بريطانيا · BBC
+‘It feels like Italy with the volume turned down’: readers’ favourite (smaller) city breaks in Europe
+        You share your low-key alternatives to overcrowded hotspots, from an island city in the Med to a Norwegian art nouveau gem • Tell us about your trips…
+        بريطانيا · Guardian
+Workers Rescued From Tunnel in Nepal 9 Days After Flood
+        Rescuers pulled out two survivors as the search continued for hundreds missing inside hydropower projects that were buried in the flooding…
+        أمريكا · NYT
 Criminal Gang Arrested Over Plot to Kidnap Mbappé
         French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
         الأردن · Jordan News
-رغم الحصار الأمريكي.. وزير إيراني: صادراتنا النفطية لم تتوقف لـ"ساعة واحدة"
-        زعم وزير النفط الإيراني محسن باك نجاد، أن صادرات النفط الخام الإيرانية لم تتوقف ولو لـ"ساعة واحدة"
-        عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
-        تركيا · TRT عربي
+«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
+        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
+        عربي · الشرق الأوسط
+فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
+        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+        تركيا · الأناضول
+Vista, Saarikoski Songs, Three Preludes album review – Saariaho’s iridescent visions evocatively rendered
+        Komsi/Nyman/BBC Symphony Orchestra/Oramo (Ondine) Three works by the idiosyncratic Finnish composer who died in 2023 are recorded for the first time…
+        بريطانيا · Guardian
+Trump administration pushes to remove tax exemption for private colleges with DEI policies
+        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
+        أمريكا · NPR
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
         أمريكا · CBS
-Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
-        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
-        أمريكا · NPR
-Reform reported to police over claims of funding rules breach in undercover sting
-        Nigel Farage’s party is accused of taking payment from an American company for polling it commissioned
-        بريطانيا · Independent
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-موقع البيت الأبيض يطلق ألعابا إلكترونية تتيح للمستخدمين اعتقال المهاجرين وبناء جدار حدودي
-        أطلقت إدارة ترامب، الخميس، سلسلة من الألعاب الإلكترونية على غرار ألعاب "الأركيد" عبر الموقع الرسمي للبيت الأبيض للترويج لأولوياتها
+"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
+        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
         عربي · CNN عربية
-فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
-        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
-        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
-        أمريكا · NPR
-Be careful what you post on social media, MP warns, after tweet apology
-        Lauren Edwards said she disengaged from social media shortly after becoming an MP and does not read anything about herself.
-        بريطانيا · Independent
-Families move out of 'nightmare' new-build homes plagued by defects, damp and mould
-        Dozens have contacted BBC Your Voice as complaints to ombudsman have tripled in a year.
+Controversial Jackdaw gas field set to be approved in weeks, sources say
+        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
         بريطانيا · BBC
+Volkswagen board approves plan to cut another 50,000 jobs
+        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
+        بريطانيا · BBC
+Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
+        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
+        أمريكا · NPR
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
-        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
+مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
+        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+        عربي · الشرق الأوسط
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
         تركيا · TRT عربي
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
+        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
         تركيا · TRT عربي
-President Javier Milei says ‘winds of change’ support Argentina’s claim to Falkland Islands
-        President cites Donald Trump’s suggestion that he might reconsider US support for British sovereignty, and threatens swifter sanctions on British oil…
-        بريطانيا · Guardian
-Something Alarming Is About to Happen in Germany
-        The government is seemingly incapable of stopping the far right.
-        أمريكا · NYT
+Anger as human poo and 'maggot-infested' food left behind at beauty spot
+        A national park authority says there is "no justification" after the "worst example" of fly-tipping.
+        بريطانيا · BBC
+2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
+        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
+        أمريكا · NPR
 Al-Barbeeta Guava: The Flavor of Tafileh
         Al-Barbeeta guava stands out for its sweet taste and distinctive aroma, benefiting from the area's shafa-ghor (escarpment) terrain and natural water…
         الأردن · Jordan News
+رؤساء "الجنائية الدولية": حملة ترمب ضد المحكمة تستهدف تقويض النظام القانوني الدولي
+        حذرت الرئيسة الحالية للهيئة الإدارية للمحكمة الجنائية الدولية و7 من رؤسائها السابقين من أن الضغوط الرامية إلى عزل المحكمة دبلوماسياً تهدّد بتقويض…
+        تركيا · TRT عربي
+فانس يكشف سرّ فقدان وزنه: نظام غذائي صارم ومخلل الملفوف
+        كشف نائب الرئيس الأميركي جي دي فانس عن تفاصيل النظام الغذائي الذي يتبعه بهدف إنقاص وزنه، موضحاً أنه يعتمد بصورة أساسية على الأطعمة الغنية بالبروتين.
+        عربي · الشرق الأوسط
 هل سيستفيد الشعب الفنزويلي من الاستثمارات "الهائلة" التي تُبشّر بها صفقة النفط الأمريكية؟
         أثارت الاستثمارات الضخمة التي وعدت بها الولايات المتحدة وفنزويلا بموجب اتفاقية إنتاج النفط الجديدة تفاؤلاً حذراً بأن الفنزويليين على أعتاب حقبة جديدة…
         عربي · CNN عربية
-خبراء: حفل الزفاف الإيراني استُهدف بذخيرة أمريكية
-        قال ‌خبراء أسلحة، استنادا إلى مراجعة صور ومقاطع فيديو، إن الانفجار الذي دمر حفل زفاف في جنوب إيران، الثلاثاء الماضي وخلّف 4 قتلى و68 مصابا على الأقل
-        عربي · الجزيرة
-تركيا إلى نصف نهائي بطولة أوروبا للسيدات.. "سلطانات الشبكة" تطيح بألمانيا
-        تأهل المنتخب التركي للكرة الطائرة للسيدات، المضيف وحامل اللقب، إلى الدور نصف النهائي من بطولة أوروبا 2026
-        تركيا · TRT عربي
 Kyrgios given one-month ban for positive cocaine test
         Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
         بريطانيا · BBC
@@ -84218,17 +84799,17 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904100000 +0000" stop="20260904110000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:21 — بتوقيتك
 
-«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
-        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
-        عربي · الشرق الأوسط
-فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
-        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطاليا
+        سعيًا للسيطرة على الوضع الأمني في محيط الكولوسيوم الأثري بإيطاليا، أعلن مسؤولو روما تصنيف محيط الموقع كـ"منطقة حمراء".
+        عربي · CNN عربية
+الأجندة اليومية للنشرة العربية - الجمعة 4 سبتمبر 2026
+        تجدون فيما يلي المتابعات الإخبارية والتقارير المدرجة على أجندة النشرة العربية ليوم الجمعة 4 سبتمبر 2026
         تركيا · الأناضول
-Controversial Jackdaw gas field set to be approved in weeks, sources say
-        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
-        بريطانيا · BBC
+The Golden Hours by Louisa Young review – this continuation of the Cazalet Chronicles is a total delight
+        Elizabeth Jane Howard’s niece has picked up the thread of her much-loved family saga series, taking the story into the 1960s Elizabeth Jane Howard’s…
+        بريطانيا · Guardian
 2 trapped workers rescued from Nepal hydropower tunnel 9 days after floods
         Rescuers in Nepal pulled two workers alive from a hydropower tunnel as emergency teams continued efforts to reach others believed to be trapped…
         أمريكا · CBS
@@ -84238,87 +84819,87 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
-"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
-        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
-        عربي · CNN عربية
-مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
-        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+منظمة حقوقية تونسية تؤكد وفاة 20 سجينا على الأقل خلال موجة الحر الخانقة
+        استنادا لبيانات جُمعت من أطباء ومحامين وعائلات السجناء، قال بسام الطريفي رئيس الرابطة التونسية للدفاع عن حقوق الإنسان الخميس
+        عربي · فرانس 24
+انتشال عاملين أحياء من نفق في النيبال بعد أكثر من أسبوع على الفيضانات
+        انتشلت فرق الإنقاذ الجمعة عاملَيْن على قيد الحياة كانا محاصرين في نفق طمرته الوحول والركام في شمال النيبال بعد أكثر من أسبوع على الفيضانات التي…
         عربي · الشرق الأوسط
-حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
-        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
+كوريا الجنوبية تدرس نشر أصول عسكرية لضمان حرية الملاحة في مضيق هرمز
+        قال المكتب الرئاسي في كوريا الجنوبية الجمعة، إن سيول تدرس خيارات عدة للمساهمة في ضمان حرية الملاحة بمضيق هرمز، من بينها إجراءات عسكرية
         تركيا · TRT عربي
-Trump administration pushes to remove tax exemption for private colleges with DEI policies
-        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
-        أمريكا · NPR
-Volkswagen board approves plan to cut another 50,000 jobs
-        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
-        بريطانيا · BBC
+‘It feels like Italy with the volume turned down’: readers’ favourite (smaller) city breaks in Europe
+        You share your low-key alternatives to overcrowded hotspots, from an island city in the Med to a Norwegian art nouveau gem • Tell us about your trips…
+        بريطانيا · Guardian
+Workers Rescued From Tunnel in Nepal 9 Days After Flood
+        Rescuers pulled out two survivors as the search continued for hundreds missing inside hydropower projects that were buried in the flooding…
+        أمريكا · NYT
 Criminal Gang Arrested Over Plot to Kidnap Mbappé
         French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
         الأردن · Jordan News
-رغم الحصار الأمريكي.. وزير إيراني: صادراتنا النفطية لم تتوقف لـ"ساعة واحدة"
-        زعم وزير النفط الإيراني محسن باك نجاد، أن صادرات النفط الخام الإيرانية لم تتوقف ولو لـ"ساعة واحدة"
-        عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
-        تركيا · TRT عربي
+«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
+        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
+        عربي · الشرق الأوسط
+فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
+        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+        تركيا · الأناضول
+Vista, Saarikoski Songs, Three Preludes album review – Saariaho’s iridescent visions evocatively rendered
+        Komsi/Nyman/BBC Symphony Orchestra/Oramo (Ondine) Three works by the idiosyncratic Finnish composer who died in 2023 are recorded for the first time…
+        بريطانيا · Guardian
+Trump administration pushes to remove tax exemption for private colleges with DEI policies
+        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
+        أمريكا · NPR
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
         أمريكا · CBS
-Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
-        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
-        أمريكا · NPR
-Reform reported to police over claims of funding rules breach in undercover sting
-        Nigel Farage’s party is accused of taking payment from an American company for polling it commissioned
-        بريطانيا · Independent
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-موقع البيت الأبيض يطلق ألعابا إلكترونية تتيح للمستخدمين اعتقال المهاجرين وبناء جدار حدودي
-        أطلقت إدارة ترامب، الخميس، سلسلة من الألعاب الإلكترونية على غرار ألعاب "الأركيد" عبر الموقع الرسمي للبيت الأبيض للترويج لأولوياتها
+"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
+        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
         عربي · CNN عربية
-فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
-        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
-        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
-        أمريكا · NPR
-Be careful what you post on social media, MP warns, after tweet apology
-        Lauren Edwards said she disengaged from social media shortly after becoming an MP and does not read anything about herself.
-        بريطانيا · Independent
-Families move out of 'nightmare' new-build homes plagued by defects, damp and mould
-        Dozens have contacted BBC Your Voice as complaints to ombudsman have tripled in a year.
+Controversial Jackdaw gas field set to be approved in weeks, sources say
+        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
         بريطانيا · BBC
+Volkswagen board approves plan to cut another 50,000 jobs
+        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
+        بريطانيا · BBC
+Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
+        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
+        أمريكا · NPR
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
-        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
+مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
+        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+        عربي · الشرق الأوسط
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
         تركيا · TRT عربي
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
+        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
         تركيا · TRT عربي
-President Javier Milei says ‘winds of change’ support Argentina’s claim to Falkland Islands
-        President cites Donald Trump’s suggestion that he might reconsider US support for British sovereignty, and threatens swifter sanctions on British oil…
-        بريطانيا · Guardian
-Something Alarming Is About to Happen in Germany
-        The government is seemingly incapable of stopping the far right.
-        أمريكا · NYT
+Anger as human poo and 'maggot-infested' food left behind at beauty spot
+        A national park authority says there is "no justification" after the "worst example" of fly-tipping.
+        بريطانيا · BBC
+2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
+        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
+        أمريكا · NPR
 Al-Barbeeta Guava: The Flavor of Tafileh
         Al-Barbeeta guava stands out for its sweet taste and distinctive aroma, benefiting from the area's shafa-ghor (escarpment) terrain and natural water…
         الأردن · Jordan News
+رؤساء "الجنائية الدولية": حملة ترمب ضد المحكمة تستهدف تقويض النظام القانوني الدولي
+        حذرت الرئيسة الحالية للهيئة الإدارية للمحكمة الجنائية الدولية و7 من رؤسائها السابقين من أن الضغوط الرامية إلى عزل المحكمة دبلوماسياً تهدّد بتقويض…
+        تركيا · TRT عربي
+فانس يكشف سرّ فقدان وزنه: نظام غذائي صارم ومخلل الملفوف
+        كشف نائب الرئيس الأميركي جي دي فانس عن تفاصيل النظام الغذائي الذي يتبعه بهدف إنقاص وزنه، موضحاً أنه يعتمد بصورة أساسية على الأطعمة الغنية بالبروتين.
+        عربي · الشرق الأوسط
 هل سيستفيد الشعب الفنزويلي من الاستثمارات "الهائلة" التي تُبشّر بها صفقة النفط الأمريكية؟
         أثارت الاستثمارات الضخمة التي وعدت بها الولايات المتحدة وفنزويلا بموجب اتفاقية إنتاج النفط الجديدة تفاؤلاً حذراً بأن الفنزويليين على أعتاب حقبة جديدة…
         عربي · CNN عربية
-خبراء: حفل الزفاف الإيراني استُهدف بذخيرة أمريكية
-        قال ‌خبراء أسلحة، استنادا إلى مراجعة صور ومقاطع فيديو، إن الانفجار الذي دمر حفل زفاف في جنوب إيران، الثلاثاء الماضي وخلّف 4 قتلى و68 مصابا على الأقل
-        عربي · الجزيرة
-تركيا إلى نصف نهائي بطولة أوروبا للسيدات.. "سلطانات الشبكة" تطيح بألمانيا
-        تأهل المنتخب التركي للكرة الطائرة للسيدات، المضيف وحامل اللقب، إلى الدور نصف النهائي من بطولة أوروبا 2026
-        تركيا · TRT عربي
 Kyrgios given one-month ban for positive cocaine test
         Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
         بريطانيا · BBC
@@ -84332,17 +84913,17 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
   </programme>
   <programme start="20260904110000 +0000" stop="20260904120000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:21 — بتوقيتك
 
-«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
-        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
-        عربي · الشرق الأوسط
-فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
-        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+بسبب الجرائم العنيفة.. فرض "منطقة أمنية حمراء" حول الكولوسيوم في إيطاليا
+        سعيًا للسيطرة على الوضع الأمني في محيط الكولوسيوم الأثري بإيطاليا، أعلن مسؤولو روما تصنيف محيط الموقع كـ"منطقة حمراء".
+        عربي · CNN عربية
+الأجندة اليومية للنشرة العربية - الجمعة 4 سبتمبر 2026
+        تجدون فيما يلي المتابعات الإخبارية والتقارير المدرجة على أجندة النشرة العربية ليوم الجمعة 4 سبتمبر 2026
         تركيا · الأناضول
-Controversial Jackdaw gas field set to be approved in weeks, sources say
-        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
-        بريطانيا · BBC
+The Golden Hours by Louisa Young review – this continuation of the Cazalet Chronicles is a total delight
+        Elizabeth Jane Howard’s niece has picked up the thread of her much-loved family saga series, taking the story into the 1960s Elizabeth Jane Howard’s…
+        بريطانيا · Guardian
 2 trapped workers rescued from Nepal hydropower tunnel 9 days after floods
         Rescuers in Nepal pulled two workers alive from a hydropower tunnel as emergency teams continued efforts to reach others believed to be trapped…
         أمريكا · CBS
@@ -84352,87 +84933,87 @@ Five-Year-Old Child Dies After Being Left on School Bus
 Qatamin Discusses Social Security for App-Based Workers
         Minister of Transport Nidal Qatamin discussed with Social Security Corporation Director General Hazem Al-Rahahleh, in the presence of Land Transport…
         الأردن · Jordan News
-"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
-        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
-        عربي · CNN عربية
-مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
-        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+منظمة حقوقية تونسية تؤكد وفاة 20 سجينا على الأقل خلال موجة الحر الخانقة
+        استنادا لبيانات جُمعت من أطباء ومحامين وعائلات السجناء، قال بسام الطريفي رئيس الرابطة التونسية للدفاع عن حقوق الإنسان الخميس
+        عربي · فرانس 24
+انتشال عاملين أحياء من نفق في النيبال بعد أكثر من أسبوع على الفيضانات
+        انتشلت فرق الإنقاذ الجمعة عاملَيْن على قيد الحياة كانا محاصرين في نفق طمرته الوحول والركام في شمال النيبال بعد أكثر من أسبوع على الفيضانات التي…
         عربي · الشرق الأوسط
-حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
-        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
+كوريا الجنوبية تدرس نشر أصول عسكرية لضمان حرية الملاحة في مضيق هرمز
+        قال المكتب الرئاسي في كوريا الجنوبية الجمعة، إن سيول تدرس خيارات عدة للمساهمة في ضمان حرية الملاحة بمضيق هرمز، من بينها إجراءات عسكرية
         تركيا · TRT عربي
-Trump administration pushes to remove tax exemption for private colleges with DEI policies
-        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
-        أمريكا · NPR
-Volkswagen board approves plan to cut another 50,000 jobs
-        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
-        بريطانيا · BBC
+‘It feels like Italy with the volume turned down’: readers’ favourite (smaller) city breaks in Europe
+        You share your low-key alternatives to overcrowded hotspots, from an island city in the Med to a Norwegian art nouveau gem • Tell us about your trips…
+        بريطانيا · Guardian
+Workers Rescued From Tunnel in Nepal 9 Days After Flood
+        Rescuers pulled out two survivors as the search continued for hundreds missing inside hydropower projects that were buried in the flooding…
+        أمريكا · NYT
 Criminal Gang Arrested Over Plot to Kidnap Mbappé
         French newspaper Le Parisien has revealed shocking information about Real Madrid star Kylian Mbappé being targeted by a gang suspected of planning…
         الأردن · Jordan News
-رغم الحصار الأمريكي.. وزير إيراني: صادراتنا النفطية لم تتوقف لـ"ساعة واحدة"
-        زعم وزير النفط الإيراني محسن باك نجاد، أن صادرات النفط الخام الإيرانية لم تتوقف ولو لـ"ساعة واحدة"
-        عربي · CNN عربية
-ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
-        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
-        تركيا · TRT عربي
+«حرّاس الذاكرة» لياسمينا نيستن: كلُّ وجهٍ يحملُ غيابَه
+        حتى الأيدي تؤدّي دوراً لا يقلّ أهمية عن الوجوه. تبدو أحياناً أكثر صراحةً من العيون...
+        عربي · الشرق الأوسط
+فلسطين تدعو إلى تحويل التضامن العربي إلى شراكات اقتصادية
+        في كلمة لوزير الاقتصاد محمد العامور خلال اجتماع المجلس الاقتصادي والاجتماعي على المستوى الوزاري بمقر الجامعة العربية في القاهرة
+        تركيا · الأناضول
+Vista, Saarikoski Songs, Three Preludes album review – Saariaho’s iridescent visions evocatively rendered
+        Komsi/Nyman/BBC Symphony Orchestra/Oramo (Ondine) Three works by the idiosyncratic Finnish composer who died in 2023 are recorded for the first time…
+        بريطانيا · Guardian
+Trump administration pushes to remove tax exemption for private colleges with DEI policies
+        The Trump administration is proposing a rule that would strip private schools and colleges of their tax-exempt status if they provide targeted help…
+        أمريكا · NPR
 Vance "extremely skeptical" U.S. strike hit Iran wedding party
         Iran responded to a warning from President Trump with claims of new strikes against U.S. forces in Kuwait and the United Arab Emirates.
         أمريكا · CBS
-Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
-        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
-        أمريكا · NPR
-Reform reported to police over claims of funding rules breach in undercover sting
-        Nigel Farage’s party is accused of taking payment from an American company for polling it commissioned
-        بريطانيا · Independent
 "Darat Balqis": A Novel by Abd al-Hadi al-Madadha Traces the Transformations of Place and the Wrinkles of the Soul
         Abd al-Hadi al-Madadha's novel Darat Balqis traces the deep dramatic transformations sweeping through the Amman landscape and its heritage identity,…
         الأردن · Jordan News
-موقع البيت الأبيض يطلق ألعابا إلكترونية تتيح للمستخدمين اعتقال المهاجرين وبناء جدار حدودي
-        أطلقت إدارة ترامب، الخميس، سلسلة من الألعاب الإلكترونية على غرار ألعاب "الأركيد" عبر الموقع الرسمي للبيت الأبيض للترويج لأولوياتها
+"سوريا تُقدم نفسها كبديل لمضيق هرمز".. ترامب يستشهد بمقال صحيفة وباراك يشكر دمشق
+        استشهد الرئيس الأمريكي، دونالد ترامب، بمقال لصحيفة واشنطن بوست، لفتت فيها إلى أن سوريا "تقدم نفسها كبديل لمضيق هرمز"، وسط الحرب الأمريكية على إيران
         عربي · CNN عربية
-فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
-        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
+حين تلتقي العقوبات والصواريخ.. كيف تتسع المواجهة الأمريكية-الإيرانية؟
+        دخلت المواجهة بين الولايات المتحدة وإيران منذ 24 أغسطس/آب مرحلة جديدة، تداخل فيها الضغط الاقتصادي مع التصعيد العسكري بصورة متزايدة.
         تركيا · TRT عربي
-2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
-        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
-        أمريكا · NPR
-Be careful what you post on social media, MP warns, after tweet apology
-        Lauren Edwards said she disengaged from social media shortly after becoming an MP and does not read anything about herself.
-        بريطانيا · Independent
-Families move out of 'nightmare' new-build homes plagued by defects, damp and mould
-        Dozens have contacted BBC Your Voice as complaints to ombudsman have tripled in a year.
+Controversial Jackdaw gas field set to be approved in weeks, sources say
+        The government is set to give the go-ahead for the gas field off the coast of Aberdeen, the BBC understands.
         بريطانيا · BBC
+Volkswagen board approves plan to cut another 50,000 jobs
+        The group - which includes Audi, Porsche, Skoda as well as the VW brand - plans to cut a total of 100,000 by 2030.
+        بريطانيا · BBC
+Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions
+        Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved…
+        أمريكا · NPR
 A Concerning Gap in AI Chatbots
         A new study offers a mixed assessment of how AI-powered chatbots handle users going through mental health crises.
         الأردن · Jordan News
-هل تقترب نهاية الحرب مع إيران؟ شاهد رد فانس على سؤال CNN
-        في معرض رده على سؤال من كيتلان كولينز، مراسلة شبكة CNN عما إذا كانت الحرب مع إيران ستنتهي قبل انتخابات التجديد النصفي
-        عربي · CNN عربية
-مندوب تركيا بالأمم المتحدة يشيد بحزم سوريا بشأن ملف الأسلحة الكيميائية
-        قال مندوب تركيا الدائم لدى الأمم المتحدة أحمد يلدز، الخميس، إن الحكومة السورية أبدت حزماً وإرادة قوية للتعامل مع قضية الأسلحة الكيميائية في البلاد…
+مشروب يومي شائع قد يضاعف خطر الإصابة بسرطان المعدة
+        كشفت دراسة حديثة أن تناول المشروبات المحلاة بالسكر بصورة يومية قد يرتبط بارتفاع ملحوظ في خطر الإصابة بسرطان المعدة.
+        عربي · الشرق الأوسط
+ترمب: دمرنا 3 مواقع نووية إيرانية.. وقوة الفضاء تتابع "جبل الفأس" لحظة بلحظة
+        قال الرئيس الأمريكي دونالد ترمب، في مقابلة مع شبكة "GB News" مساء الخميس، إن الولايات المتحدة أحرزت نجاحاً كبيراً في شل القدرات العسكرية والنووية…
         تركيا · TRT عربي
-ترمب يحذر بريطانيا: "أنتم على شفا كارثة"
-        قال الرئيس الأمريكي دونالد ترمب إن بريطانيا "على شفا كارثة"، معبرا عن مخاوفه في مقابلة مع شبكة (جي.بي نيوز) بشأن ارتفاع تكاليف الطاقة في البلاد…
+فانس: جميع الخيارات مطروحة على الطاولة بشأن إيران ولا نريد حربا بلا نهاية
+        قال نائب الرئيس الأمريكي جيه دي فانس، الخميس، إن "جميع الخيارات" العسكرية والاقتصادية والدبلوماسية مطروحة على الطاولة بشأن إيران.
         تركيا · TRT عربي
-President Javier Milei says ‘winds of change’ support Argentina’s claim to Falkland Islands
-        President cites Donald Trump’s suggestion that he might reconsider US support for British sovereignty, and threatens swifter sanctions on British oil…
-        بريطانيا · Guardian
-Something Alarming Is About to Happen in Germany
-        The government is seemingly incapable of stopping the far right.
-        أمريكا · NYT
+Anger as human poo and 'maggot-infested' food left behind at beauty spot
+        A national park authority says there is "no justification" after the "worst example" of fly-tipping.
+        بريطانيا · BBC
+2 trapped workers rescued from a hydropower tunnel 9 days after Nepal floods
+        Officials say rescuers in Nepal have pulled two workers alive from a tunnel Friday during an ongoing operation
+        أمريكا · NPR
 Al-Barbeeta Guava: The Flavor of Tafileh
         Al-Barbeeta guava stands out for its sweet taste and distinctive aroma, benefiting from the area's shafa-ghor (escarpment) terrain and natural water…
         الأردن · Jordan News
+رؤساء "الجنائية الدولية": حملة ترمب ضد المحكمة تستهدف تقويض النظام القانوني الدولي
+        حذرت الرئيسة الحالية للهيئة الإدارية للمحكمة الجنائية الدولية و7 من رؤسائها السابقين من أن الضغوط الرامية إلى عزل المحكمة دبلوماسياً تهدّد بتقويض…
+        تركيا · TRT عربي
+فانس يكشف سرّ فقدان وزنه: نظام غذائي صارم ومخلل الملفوف
+        كشف نائب الرئيس الأميركي جي دي فانس عن تفاصيل النظام الغذائي الذي يتبعه بهدف إنقاص وزنه، موضحاً أنه يعتمد بصورة أساسية على الأطعمة الغنية بالبروتين.
+        عربي · الشرق الأوسط
 هل سيستفيد الشعب الفنزويلي من الاستثمارات "الهائلة" التي تُبشّر بها صفقة النفط الأمريكية؟
         أثارت الاستثمارات الضخمة التي وعدت بها الولايات المتحدة وفنزويلا بموجب اتفاقية إنتاج النفط الجديدة تفاؤلاً حذراً بأن الفنزويليين على أعتاب حقبة جديدة…
         عربي · CNN عربية
-خبراء: حفل الزفاف الإيراني استُهدف بذخيرة أمريكية
-        قال ‌خبراء أسلحة، استنادا إلى مراجعة صور ومقاطع فيديو، إن الانفجار الذي دمر حفل زفاف في جنوب إيران، الثلاثاء الماضي وخلّف 4 قتلى و68 مصابا على الأقل
-        عربي · الجزيرة
-تركيا إلى نصف نهائي بطولة أوروبا للسيدات.. "سلطانات الشبكة" تطيح بألمانيا
-        تأهل المنتخب التركي للكرة الطائرة للسيدات، المضيف وحامل اللقب، إلى الدور نصف النهائي من بطولة أوروبا 2026
-        تركيا · TRT عربي
 Kyrgios given one-month ban for positive cocaine test
         Nick Kyrgios is eligible to return to tennis after accepting a one-month ban for testing positive for cocaine.
         بريطانيا · BBC
@@ -84444,7 +85025,7 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260904120000 +0000" stop="20260904140315 +0000" channel="TodayNews">
+  <programme start="20260904120000 +0000" stop="20260904142202 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260904190000 +0300" stop="20260904210000 +0300" channel="ThmanyahGuide">
@@ -90987,4 +91568,4 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260904142320 +0000" stop="20260904142658 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904142320 +0000" stop="20260904142658 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904142320 +0000" stop="20260904142658 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904142320 +0000" stop="20260904142658 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904140315 +0000" stop="20260904142658 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260904144302 +0000" stop="20260904144639 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904144302 +0000" stop="20260904144639 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904144302 +0000" stop="20260904144639 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904144302 +0000" stop="20260904144639 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904142202 +0000" stop="20260904144639 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
