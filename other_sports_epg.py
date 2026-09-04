@@ -68,6 +68,7 @@ from today_matches_epg import shorter
 OUTPUT = "other_sports_epg.xml"
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
+CHANNEL_EN = "Today's Sports"
 
 # Its OWN mark, which it did not have. It wore the first board's for one
 # afternoon and a reader saw the same picture on two channels — a logo is
@@ -440,6 +441,7 @@ def build() -> int:
     tv = ET.Element("tv", {"generator-info-name": "Today's Other Sports"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
+    ET.SubElement(channel, "display-name", {"lang": "en"}).text = CHANNEL_EN
     ET.SubElement(channel, "icon", {"src": LOGO})
 
     by_day: dict[date, list[dict]] = {day: [] for day in days}

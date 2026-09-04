@@ -72,6 +72,9 @@ OVER = (232, 93, 93, 255)        # and of one that has already been played
 LIVE_BG = (18, 52, 38, 255)
 PILL = (30, 45, 66, 255)
 PILL_INK = (176, 199, 227, 255)
+HEADER_PANEL = (12, 24, 38, 232)
+HEADER_RULE = (74, 114, 166, 255)
+HEADER_ACCENT = (56, 214, 111, 180)
 
 ARABIC = re.compile(r"[؀-ۿݐ-ݿ]")
 
@@ -182,6 +185,17 @@ def draw_mark(pen, x: int, y: int, size: int) -> None:
     pen.arc(ring, start=-90, end=170, fill=ACCENT, width=max(3, size // 12))
 
 
+def draw_header_shell(pen) -> None:
+    """A shared header card for the three dashboard channels."""
+    top = PAD - 20
+    bottom = PAD + 88
+    pen.rounded_rectangle([PAD - 18, top, W - PAD + 18, bottom],
+                          radius=28, fill=HEADER_PANEL,
+                          outline=HEADER_RULE, width=2)
+    pen.rounded_rectangle([PAD + 20, bottom - 10, W - PAD - 20, bottom - 4],
+                          radius=3, fill=HEADER_ACCENT)
+
+
 # اليوم, غداً, بعد غد — and nothing beyond that, because the guide is
 # only ever drawn three days out and a fourth word would be a guess.
 RELATIVE_DAY = {0: "اليوم", 1: "غداً", 2: "بعد غد"}
@@ -210,6 +224,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     pen = ImageDraw.Draw(board)
 
     # ---- header ---------------------------------------------------------
+    draw_header_shell(pen)
     draw_mark(pen, PAD, PAD - 4, 72)
     x = PAD + 72 + 22
 

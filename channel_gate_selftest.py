@@ -2787,19 +2787,22 @@ def gate_a_board_that_is_built_is_a_board_that_is_published() -> None:
     """
     print("\nA board that is built is a board that is published — merge_epg")
     import merge_epg
+    import news_epg
     import other_sports_epg
-    import today_matches_epg
     import sports_dashboard_m3u
+    import today_matches_epg
 
     for guide, channel in ((today_matches_epg, "the first board"),
-                           (other_sports_epg, "the second board")):
+                           (other_sports_epg, "the second board"),
+                           (news_epg, "the third board")):
         check("PUBLISH", f"{channel}'s guide is in the merged file",
               guide.OUTPUT in merge_epg.SOURCE_FILES, True)
 
     named = [row[0] for row in sports_dashboard_m3u.SCREENS]
-    check("PUBLISH", "and both boards are channels the playlist can tune to",
+    check("PUBLISH", "and all three boards are channels the playlist can tune to",
           (today_matches_epg.CHANNEL_ID in named
-           and other_sports_epg.CHANNEL_ID in named), True)
+           and other_sports_epg.CHANNEL_ID in named
+           and news_epg.CHANNEL_ID in named), True)
 
     # And the ceiling file knows about it, so a board that fills up with
     # stand-in is caught rather than ignored for want of a number.
@@ -2808,6 +2811,29 @@ def gate_a_board_that_is_built_is_a_board_that_is_published() -> None:
     check("PUBLISH", "the second board is held to a stand-in ceiling",
           isinstance(ceilings.get(other_sports_epg.OUTPUT), (int, float)),
           True)
+
+    # THE PUBLIC PLAYLIST is what TiviMate actually reads, so its file has
+    # to carry the merged EPG, freshen the URL on open, and stay out of
+    # catchup mode.
+    import tempfile
+    was_here = os.getcwd()
+    with tempfile.TemporaryDirectory() as tmp:
+        try:
+            os.chdir(tmp)
+            os.makedirs("stream", exist_ok=True)
+            for name in ("screen.m3u8", "sports.m3u8", "news.m3u8"):
+                open(os.path.join("stream", name), "w", encoding="utf-8").close()
+            check("PUBLISH", "the playlist generator succeeds when all three "
+                  "streams exist", sports_dashboard_m3u.build(), 0)
+            written = open("ai_sports_dashboard.m3u", encoding="utf-8").read()
+        finally:
+            os.chdir(was_here)
+    check("PUBLISH", "the playlist advertises the merged EPG to TiviMate",
+          'x-tvg-url="' in written and "unified_mena_epg.xml" in written, True)
+    check("PUBLISH", "and each channel URL opens fresh rather than resuming",
+          written.count("?t=^{timestamp}") == 3, True)
+    check("PUBLISH", "while catchup metadata stays out of the way",
+          "catchup=" in written, False)
 
 def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
     """الوحدات - الفيصلي, printed twice at one kickoff, in two scripts.
@@ -3131,8 +3157,12 @@ def gate_the_window_keeps_moving() -> None:
     # gives 312.5 frames, 32000 gives 625.
     encoder = inspect.getsource(video.encode_segment)
     rate = re.search(r"sample_rate=(\d+)", encoder)
+    if rate is None:
+        rate = re.search(r"AUDIO_RATE\s*=\s*(\d+)", inspect.getsource(video))
     check("WINDOW", "the encoder names a sample rate at all",
           rate is not None, True)
+    check("WINDOW", "and the track is music rather than silence",
+          ("sine=frequency=" in encoder and "anullsrc" not in encoder), True)
     if rate:
         frames = video.HOLD * int(rate.group(1)) / 1024
         check("WINDOW", "and a segment's audio lands exactly on its end",
@@ -3502,7 +3532,8 @@ def gate_a_simulcast_is_not_a_second_channel() -> None:
     # The HDR twin is gone. beIN is there and is meant to be — the
     # reader named it as F1's channel — so this asks what it is for
     # rather than for an exact list that a rights fact would break.
-    carried = got[0]["channels"]
+    carried = next(one["channels"] for one in got
+                   if one.get("title") == row["title"])
     check("SIMULCAST", "and so does the sports board",
           [name for name in carried if "Ultra HDR" in name], [])
     check("SIMULCAST", "without losing the channel it was beside",
@@ -3524,14 +3555,16 @@ def gate_each_channel_wears_its_own_mark() -> None:
     same fault wearing a different hat.
     """
     print("\nEach channel wears its own mark — logos")
+    import news_epg
     import other_sports_epg as sports
     import sports_dashboard_m3u as playlist
     import today_matches_epg as today
 
-    check("MARK", "the two guides do not share a picture",
-          today.LOGO != sports.LOGO, True)
+    check("MARK", "the three guides do not share a picture",
+          len({today.LOGO, sports.LOGO, news_epg.LOGO}) == 3, True)
     for guide, who in ((today, "the football board"),
-                       (sports, "the sports board")):
+                       (sports, "the sports board"),
+                       (news_epg, "the news board")):
         name = guide.LOGO.rsplit("/", 1)[-1]
         check("MARK", f"{who}'s mark is a file that exists",
               os.path.exists(os.path.join("logos", name)), True)
@@ -3539,7 +3572,8 @@ def gate_each_channel_wears_its_own_mark() -> None:
     marks = {row[0]: row[5] for row in playlist.SCREENS}
     check("MARK", "the playlist gives each channel its guide's mark",
           (marks[today.CHANNEL_ID] == today.LOGO
-           and marks[sports.CHANNEL_ID] == sports.LOGO), True)
+           and marks[sports.CHANNEL_ID] == sports.LOGO
+           and marks[news_epg.CHANNEL_ID] == news_epg.LOGO), True)
     check("MARK", "so no two rows in the playlist wear one picture",
           len(set(marks.values())), len(marks))
 
@@ -3957,8 +3991,10 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
           len(rfc) >= 1, True)
     if rfc:
         one = rfc[0]
+        named = {row["channel"] for row in own_guides.programmes(
+            "roya_jordan_epg.xml", "") if "RFC" in row["title"]}
         check("OURFIGHTS", "with the channel Roya's own guide names",
-              one["channels"], ["Roya TV"])
+              len(one["channels"]) == 1 and one["channels"][0] in named, True)
         check("OURFIGHTS", "and it is an MMA event, so the board wants it",
               one["sport"], "MMA")
         import other_sports_epg as board

@@ -79,6 +79,11 @@ SCREENS = {
     "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256", 20),
     "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
 }
+AUDIO_RATE = 32000
+MUSIC_BED = (
+    "[1:a][2:a][3:a]amix=inputs=3:normalize=0,"
+    "volume=0.015[audio]"
+)
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
 # the channel is live and the window rolls forward with each build.
@@ -234,7 +239,7 @@ def boards(prefix: str) -> list[str]:
 #      fingerprint below — the news pages hold for 35 seconds and the
 #      fixtures pages for 20, so the same picture on two screens is not
 #      the same segment
-ENCODER_REVISION = 6
+ENCODER_REVISION = 7
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -554,8 +559,11 @@ def encode_segment(board: str, out: str, place: int = 0,
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
         "-loop", "1", "-framerate", str(FPS), "-i", board,
-        # Silent audio: a live-television player with no audio track at all
-        # will sometimes sit on a black screen rather than show the video.
+        # A television-grade stream still needs an audio track, but these
+        # channels were asked to carry background music rather than silence.
+        # A small built-in bed keeps the repository text-only and lets the
+        # three channels share the same low, unobtrusive loop.
+        #
         # 32000 and not 16000, measured rather than chosen: 20 x 16000
         # runs 96 ms long, 20 x 32000 runs 32 ms long.
         #
@@ -572,7 +580,15 @@ def encode_segment(board: str, out: str, place: int = 0,
         # 0.096 long, 48000 starts 0.021 early and runs 0.032 long. So
         # it is MEASURED, and every board is placed by the measured
         # length rather than by HOLD, which is what closes the overlap.
-        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
+        "-f", "lavfi", "-i",
+        f"sine=frequency=220:sample_rate={AUDIO_RATE}:duration={HOLD}",
+        "-f", "lavfi", "-i",
+        f"sine=frequency=277.18:sample_rate={AUDIO_RATE}:duration={HOLD}",
+        "-f", "lavfi", "-i",
+        f"sine=frequency=329.63:sample_rate={AUDIO_RATE}:duration={HOLD}",
+        "-filter_complex", MUSIC_BED,
+        "-map", "0:v",
+        "-map", "[audio]",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
         "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
         # -r as well as the filter, because it is -r that makes the
@@ -583,7 +599,7 @@ def encode_segment(board: str, out: str, place: int = 0,
         "-keyint_min", str(FPS * KEYFRAME_SECONDS),
         "-sc_threshold", "0",
         "-crf", "32",
-        "-c:a", "aac", "-b:a", "8k", "-ac", "1",
+        "-c:a", "aac", "-b:a", "16k", "-ac", "1",
         "-shortest", "-t", str(HOLD), "-muxdelay", "0",
         "-muxpreload", "0",
         # Where this board sits in the reel, so the reel is one timeline.

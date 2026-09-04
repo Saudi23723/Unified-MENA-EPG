@@ -36,7 +36,7 @@ from PIL import Image, ImageDraw
 
 from match_board import (
     ACCENT, ARABIC, H, INK, MUTED, PAD, PANEL, PILL, PILL_INK, W, WHITE,
-    clipped, draw_text, norm_line, size_that_fits,
+    clipped, draw_header_shell, draw_text, norm_line, size_that_fits,
     width_of,
 )
 
@@ -96,6 +96,7 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     board = Image.new("RGBA", (W, H), INK)
     pen = ImageDraw.Draw(board)
 
+    draw_header_shell(pen)
     draw_mark(pen, PAD, PAD - 4, 72)
     x = PAD + 72 + 22
     draw_text(pen, (x, PAD - 2), title, 40, WHITE)

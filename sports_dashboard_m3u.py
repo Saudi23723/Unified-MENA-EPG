@@ -44,6 +44,7 @@ from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
 RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
+EPG = f"{RAW}/unified_mena_epg.xml"
 
 # Two channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
@@ -90,8 +91,13 @@ def display(value: str) -> str:
     return clean(value).replace(",", " ·")
 
 
+def fresh(url: str) -> str:
+    """A per-open URL so players fetch a fresh reel rather than resume one."""
+    return f"{url}?t=^{{timestamp}}"
+
+
 def build() -> int:
-    lines = ["#EXTM3U"]
+    lines = [f'#EXTM3U x-tvg-url="{EPG}" update-interval="3600"']
     written = 0
     for channel_id, guide_name, path, url, shown, mark in SCREENS:
         if not os.path.exists(path):
@@ -106,7 +112,7 @@ def build() -> int:
             f'#EXTINF:-1 tvg-id="{attribute(channel_id)}" '
             f'tvg-name="{attribute(guide_name)}" tvg-logo="{mark}" '
             f'group-title="{attribute(GROUP)}",{display(shown)}')
-        lines.append(url)
+        lines.append(fresh(url))
         written += 1
 
     if not written:
