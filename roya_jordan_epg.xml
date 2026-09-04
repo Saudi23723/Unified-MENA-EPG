@@ -12,6 +12,10 @@
     <display-name lang="ar">Roya Sport</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/D0WIXZSSmg1BNJQ.png" />
   </channel>
+  <channel id="Roya_RFC">
+    <display-name lang="ar">RFC</display-name>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/6fwbwvWruKQRDW3.png" />
+  </channel>
   <channel id="Roya_RoyaComedy">
     <display-name lang="ar">Roya Comedy</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/GACtHgmN6t9X6RO.png" />
@@ -19,10 +23,6 @@
   <channel id="Roya_RoyaKitchen">
     <display-name lang="ar">Roya Kitchen</display-name>
     <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/y2AB2KZz3UMXtyK.png" />
-  </channel>
-  <channel id="Roya_RFC">
-    <display-name lang="ar">RFC</display-name>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size01Q40R927/images/channels/6fwbwvWruKQRDW3.png" />
   </channel>
   <channel id="Roya_RoyaKids">
     <display-name lang="ar">Roya Kids</display-name>
@@ -574,6 +574,71 @@
   <programme start="20260904200000 +0000" stop="20260904210000 +0000" channel="Roya_RoyaSport">
     <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+  </programme>
+  <programme start="20260903210000 +0000" stop="20260903224153 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260903224153 +0000" stop="20260904002346 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904002346 +0000" stop="20260904020539 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904020539 +0000" stop="20260904034732 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904034732 +0000" stop="20260904052925 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904052925 +0000" stop="20260904071118 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904071118 +0000" stop="20260904090522 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904090522 +0000" stop="20260904105926 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904105926 +0000" stop="20260904125330 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904125330 +0000" stop="20260904144734 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904144734 +0000" stop="20260904164138 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904164138 +0000" stop="20260904183542 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
+  </programme>
+  <programme start="20260904183542 +0000" stop="20260904202946 +0000" channel="Roya_RFC">
+    <title lang="ar">بطولة RFC</title>
+    <desc lang="ar">تُمثّل بطولة رويال فايتينغ تشامبيونشيب الانطلاقة الأولى لبطولة احترافية متكاملة في رياضة الفنون القتالية المختلطة (MMA) في الأردن، في خطوة وطنية نوعية تنقل رياضات القتال من إطار الفعاليات المتفرقة إلى منظومة دوري منظم ومستدام. وقد جاءت هذه البطولة لتكون منصة حقيقية لاكتشاف وصقل المواهب الأردنية، وتعزيز حضور المملكة إقليمياً في رياضة الـMMA، فاتحةً بذلك مرحلة جديدة عنوانها الاحتراف، وتطوير الرياضيي</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2104/R16I85RWfweoMj7.webp" />
   </programme>
   <programme start="20260903210000 +0000" stop="20260903211733 +0000" channel="Roya_RoyaComedy">
     <title lang="ar">الموسم الأول</title>
@@ -30868,6 +30933,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
+  <programme start="20260904214329 +0000" stop="20260904220358 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
   <programme start="20260902210000 +0000" stop="20260903000000 +0000" channel="Maraya.shahid">
     <title lang="en">Program 24/7</title>
     <desc lang="ar">مرايا ياسر العظمة — بث مستمر ٢٤/٧.
@@ -35668,4 +35737,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-<programme start="20260904210000 +0000" stop="20260904220358 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904130358 +0000" stop="20260904220358 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904205558 +0000" stop="20260904220358 +0000" channel="Roya_Ch13"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904210000 +0000" stop="20260904220358 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904205847 +0000" stop="20260904210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905205847 +0000" stop="20260905210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260906205847 +0000" stop="20260906210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260907205847 +0000" stop="20260907210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904214329 +0000" stop="20260904220358 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260904202946 +0000" stop="20260904222327 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904210000 +0000" stop="20260904222327 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904205558 +0000" stop="20260904222327 +0000" channel="Roya_Ch13"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904210000 +0000" stop="20260904222327 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904205847 +0000" stop="20260904210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905205847 +0000" stop="20260905210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260906205847 +0000" stop="20260906210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260907205847 +0000" stop="20260907210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904220358 +0000" stop="20260904222327 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
