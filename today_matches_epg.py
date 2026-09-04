@@ -1710,6 +1710,12 @@ def build() -> int:
         "livesoccertv": live_soccer_tv.broadcasts(session),
     })
 
+    # And where a listings page guessed a beIN channel number, let beIN's
+    # own feed overrule it: "beIN 3" for Ipswich v Liverpool becomes the
+    # "beIN SPORTS 2" beIN itself publishes. A number beIN states about
+    # its own channels is a fact; the page's is a guess.
+    own_guides.prefer_official_bein(events)
+
     # Counted before the placeholder goes in, because "لم تُعلن القناة"
     # is a sentence and not a channel, and a row wearing it has none.
     say_which_rows_are_thin(events)
