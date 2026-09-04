@@ -642,16 +642,19 @@ def gate_the_screen_cannot_go_stale() -> None:
     import os as _os
     import re as _re
 
-    # AND THE PLAYLIST MUST BE LIVE, which is a different failure with the
-    # same symptom and it was live on a television for weeks.
+    # AND THE PLAYLIST MUST BE A COMPLETE VOD REEL, which is what makes a
+    # channel open on board zero every time it is tuned in.
     #
-    # The names were being changed correctly and the guide rebuilt every
-    # ten minutes, and the screen still showed one moment's board for half
-    # a day. The playlist said PLAYLIST-TYPE:VOD, kept MEDIA-SEQUENCE at 0
-    # and ended with EXT-X-ENDLIST — a complete recording. RFC 8216 says
-    # what a player does with one: it loads it ONCE and never asks again.
-    # So the cache was not the problem the second time; the television was
-    # never told to look.
+    # It was live for a while — a sliding window with a moving
+    # MEDIA-SEQUENCE and no ENDLIST — so the television could roll into
+    # the next day without the viewer reopening the channel. The cost was
+    # the fault asked about more than any other: a live client is free to
+    # join the window near its end, so the channel opened on page four or
+    # five, read as "بشطب صفحات". EXT-X-START, the one tag that pins the
+    # open point, took all three channels off the air twice and may not be
+    # used. So the reel is published as VOD: PLAYLIST-TYPE:VOD and
+    # EXT-X-ENDLIST tell every player the recording is complete, and a
+    # complete recording is opened at its FIRST segment, every time.
     import match_screen_video as screen
     import tempfile as _tempfile
 
@@ -660,28 +663,28 @@ def gate_the_screen_cannot_go_stale() -> None:
     screen.write_playlist(drawn, written, now=1788400000)
     live = open(written, encoding="utf-8").read()
 
-    check("SCREEN", "no ENDLIST — that tag alone stops a player reloading",
-          "EXT-X-ENDLIST" in live, False)
-    check("SCREEN", "and it is not declared a finished recording",
-          "PLAYLIST-TYPE:VOD" in live, False)
+    check("SCREEN", "ENDLIST — a complete reel a player opens at the front",
+          "EXT-X-ENDLIST" in live, True)
+    check("SCREEN", "and it is declared a finished recording",
+          "PLAYLIST-TYPE:VOD" in live, True)
 
-    # A window has to outlast the gap between builds or a player runs off
-    # the end of it and waits on a blank screen.
-    spans = live.count("#EXTINF:") * screen.HOLD
-    check("SCREEN", "the window outlasts the ten minutes between builds",
-          spans >= 20 * 60, True)
+    # A VOD reel is the whole of the day's boards, once — the viewer sees
+    # board zero first and plays through to the last.
+    check("SCREEN", "the reel carries every board once",
+          live.count("#EXTINF:"), len(drawn))
 
-    # The sequence numbers the first segment of the window, and a player
-    # uses it to tell a new window from the one it already has. Fixed at
-    # zero, every rebuild looks like the last.
+    # MEDIA-SEQUENCE is fixed at zero and never slides: the list is the
+    # whole reel, not a window onto a stream, so a rebuild does not move
+    # it. The day's content changes in place; a reopened channel picks up
+    # the new reel and still opens on board zero.
     screen.write_playlist(drawn, written, now=1788400000 + 600)
     after = open(written, encoding="utf-8").read()
 
     def sequence(text):
         return int(_re.search(r"MEDIA-SEQUENCE:(\d+)", text).group(1))
 
-    check("SCREEN", "the sequence moves forward with the clock",
-          sequence(after) - sequence(live), 600 // screen.HOLD)
+    check("SCREEN", "the sequence stays pinned at zero across rebuilds",
+          (sequence(live), sequence(after)), (0, 0))
 
     boards_dir, stream_dir = "boards", "stream"
     # BOTH screens, because there are two now and the second can go out
@@ -2883,27 +2886,21 @@ def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
           ["beIN 1", "Sky Sports F1", "TRT Spor"])
 
 def gate_the_window_keeps_moving() -> None:
-    """The loading circle on the last board, which never resolves.
+    """The channel opens on board zero, and the reel is a complete VOD.
 
-    A reader photographed it: the screen plays through, reaches the end,
-    and sits on a spinner instead of starting again. This is not a
-    rendering fault and not the television — it is what a live HLS
-    playlist means.
+    A reader photographed a spinner on the last board: the screen played
+    through, reached the end, and sat on a loading circle instead of
+    starting again. That was a LIVE playlist run dry — a sliding window
+    whose MEDIA-SEQUENCE stopped moving once the boards stopped changing.
 
-    A live playlist is a WINDOW onto a stream, and MEDIA-SEQUENCE is what
-    says where that window sits. This one holds thirty minutes of boards.
-    The sequence was written only when the boards were RE-ENCODED, and the
-    boards stop changing the moment the day's fixtures settle — so the
-    playlist froze. A player worked through the thirty minutes, asked for
-    what came next, and was handed a file saying the window had not moved.
-    There is nothing further in it, so the player waits. Forever.
-
-    The fix is that every pass rewrites the playlist even when it encodes
-    nothing, so the window moves with the clock the way a live window
-    must. This gate holds it: two passes ten minutes apart must not
-    produce the same MEDIA-SEQUENCE.
+    The live window is gone. The reel is published as VOD instead:
+    PLAYLIST-TYPE:VOD, MEDIA-SEQUENCE:0 fixed, EXT-X-ENDLIST at the end.
+    A player opens a complete recording at its FIRST segment and plays it
+    to the end — board zero every time, on every device — and the daily
+    rebuild changes the files, which a reopened channel picks up. This
+    gate holds that shape and the encoder settings the boards depend on.
     """
-    print("\nThe live window keeps moving — match_screen_video")
+    print("\nThe reel is a complete VOD that opens on board zero — match_screen_video")
     import match_screen_video as video
 
     def sequence_of(text):
@@ -2922,240 +2919,119 @@ def gate_the_window_keeps_moving() -> None:
         video.write_playlist(segments, out, now=1_000_000 + 600)
         second = open(out, encoding="utf-8").read()
 
-        check("WINDOW", "ten minutes later the window has moved",
-              sequence_of(second) > sequence_of(first), True)
-        check("WINDOW", "and it moved by the ten minutes that passed",
-              sequence_of(second) - sequence_of(first), 600 // video.HOLD)
+        # A VOD reel does not slide: MEDIA-SEQUENCE is pinned at zero and
+        # a rebuild ten minutes later produces the same reel, so a player
+        # that reopens the channel still starts at board zero.
+        check("VOD", "MEDIA-SEQUENCE is pinned at zero",
+              (sequence_of(first), sequence_of(second)), (0, 0))
+        check("VOD", "and a rebuild does not move it",
+              sequence_of(second) - sequence_of(first), 0)
 
-        # AND THE LIST MOVED WITH THE NUMBER, which is the whole of it.
-        #
-        # MEDIA-SEQUENCE numbers the FIRST segment in the window, so a
-        # player uses it to work out what happened while it was away:
-        # thirty more, so thirty have left the front, so what I was
-        # playing is thirty places further back.
-        #
-        # The first version of this fix moved the number and left the
-        # list identical. A player was told thirty segments had gone from
-        # a list that had not changed at all — could not find its place,
-        # gave up, and re-synced. Every ten minutes, on both channels.
-        # That was the buffering, and it was introduced by fixing the
-        # freeze. Half a fix here is worse than none.
         def played(text):
             return [line for line in text.splitlines()
                     if line.strip().endswith(".ts")]
 
-        moved = sequence_of(second) - sequence_of(first)
-        was, now_ = played(first), played(second)
-        check("WINDOW", "and the segments moved with it, so nobody re-syncs",
-              was[moved:] == now_[:len(was) - moved], True)
-        check("WINDOW", "it never goes backwards between passes",
-              sequence_of(first) < sequence_of(second), True)
+        # The reel is the whole of the day's boards, once and in order.
+        check("VOD", "the reel carries every board exactly once, in order",
+              played(second),
+              [os.path.basename(s) for s in segments])
 
-        # AND ONE BREAK PER CYCLE, NOT ONE PER BOARD. A reader
-        # photographed a spinner between one board and the next, on both
-        # channels. EXT-X-DISCONTINUITY is why: it tells a player the
-        # clock is about to start over, and the player answers by tearing
-        # its decoder down and building it again. There was one before
-        # every segment, so that happened every twenty seconds, all day.
-        #
-        # The segments carry their place in the reel now, so a cycle is
-        # one continuous timeline with nothing to declare inside it. The
-        # reel really does start over at the end, so that break stays —
-        # once per lap.
-        # COUNTED AS WHOLE LINES, not as a substring. "#EXT-X-
-        # DISCONTINUITY" is a prefix of "#EXT-X-DISCONTINUITY-SEQUENCE",
-        # so a substring count reads the header that declares how many
-        # breaks have scrolled past as though it were a break itself —
-        # and this gate duly failed by exactly one the day that header
-        # was added. Counting a word in a file is not finding a tag in
-        # it, which is a lesson this repository has already paid for
-        # once on a listings page.
+        # ONE break, at the head of the reel, where the timeline begins.
+        # The segments carry their place in the reel (encode_segment
+        # stamps each at its offset), so a VOD reel is one continuous
+        # timeline with nothing to declare inside it — and it does not
+        # wrap, so there is no interior point going backwards.
+        # COUNTED AS WHOLE LINES, not as a substring: "#EXT-X-
+        # DISCONTINUITY" is a prefix of "#EXT-X-DISCONTINUITY-SEQUENCE".
         breaks = sum(1 for line in second.splitlines()
                      if line.strip() == "#EXT-X-DISCONTINUITY")
-        laps = second.count("#EXTINF") // len(segments)
-        check("WINDOW", "one break per lap of the reel, not one per board",
-              (breaks, breaks == laps), (laps, True))
-        check("WINDOW", "so a three-board reel breaks once every three",
-              second.count("#EXTINF") // breaks, len(segments))
+        check("VOD", "one break, at the head of the reel",
+              breaks, 1)
 
-        # A reel whose length does not divide the shift is the case that
-        # would hide a wrong answer, so it is the one that is checked.
-        for reel in (7, 10, 13):
-            many = [f"r{n}.ts" for n in range(reel)]
-            video.write_playlist(many, out, now=1_000_000)
-            one = open(out, encoding="utf-8").read()
-            video.write_playlist(many, out, now=1_000_000 + 600)
-            two = open(out, encoding="utf-8").read()
-            step = sequence_of(two) - sequence_of(one)
-            a, b = played(one), played(two)
-            check("WINDOW", f"a {reel}-board reel slides by the same step",
-                  a[step:] == b[:len(a) - step], True)
-        check("WINDOW", "and the player is told it may read ahead",
+        check("VOD", "and the player is told it may read ahead",
               "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
 
+        # THE TAGS THAT MAKE IT A COMPLETE RECORDING, so every player
+        # opens it at the front: both must be present.
+        for tag in ("#EXT-X-ENDLIST", "#EXT-X-PLAYLIST-TYPE:VOD"):
+            check("VOD", f"{tag} is present", tag in second, True)
 
-        # The three things that make it live at all, none of which may
-        # come back: any one of them stops a player reloading.
-        for tag in ("#EXT-X-ENDLIST", "PLAYLIST-TYPE:VOD"):
-            check("WINDOW", f"{tag} never appears", tag in second, False)
-        # AT LEAST as long as it claims, and a little over: the window
-        # is rounded UP to a whole number of laps plus the three entries
-        # a live client hangs back from, so that both ends of it are
-        # board zero. Never shorter than the window it promises.
-        check("WINDOW", "the window is at least as long as it claims",
-              second.count("#EXTINF") * video.HOLD
-              >= video.WINDOW_MINUTES * 60, True)
-        check("WINDOW", "and no more than one lap longer",
-              second.count("#EXTINF") * video.HOLD
-              < video.WINDOW_MINUTES * 60
-              + (len(segments) + video.JOIN_BACK) * video.HOLD, True)
+        # EXT-X-START may not come back — it took all three channels off
+        # the air twice, and a VOD reel does not need it: the front IS
+        # the open point.
+        check("VOD", "and EXT-X-START stays out of the playlist",
+              "EXT-X-START" in second, False)
+
+        # A DISCONTINUITY-SEQUENCE header belongs to a sliding window; a
+        # fixed VOD reel has no breaks scrolling off, so it must not
+        # reappear.
+        check("VOD", "no rolling-window DISCONTINUITY-SEQUENCE header",
+              any(line.startswith("#EXT-X-DISCONTINUITY-SEQUENCE:")
+                  for line in second.splitlines()), False)
 
         # THE PLAYLIST MUST NOT LIE ABOUT HOW LONG A BOARD IS. Declared
         # 20.0 and measured 20.032, the playlist says a board ends while
-        # its own media says it is still running — an overlap, six a lap,
-        # and a player answers a timeline that disagrees with its media
-        # by re-syncing. That is buffering nobody could see the cause of.
+        # its own media says it is still running — an overlap, and a
+        # player answers a timeline that disagrees with its media by
+        # re-syncing. So every entry declares the length it MEASURED.
         import inspect as _inspect
         writer = _inspect.getsource(video.write_playlist)
-        check("WINDOW", "each entry declares the length it MEASURED",
+        check("VOD", "each entry declares the length it MEASURED",
               "real[place]" in writer, True)
-        check("WINDOW", "measured off the file, not off the constant",
+        check("VOD", "measured off the file, not off the constant",
               "seconds_of" in writer, True)
-        check("WINDOW", "and TARGETDURATION covers the longest of them",
+        check("VOD", "and TARGETDURATION covers the longest of them",
               "math.ceil(max(real))" in writer, True)
 
-        # THE WINDOW MUST OUTLAST A MISSED BUILD, which is the fault that
-        # actually took both channels off the air:
-        #
-        #     last build 15:32 · reported black at 16:23 · 56 minutes
-        #     the window covered 30 · so it ran dry at 16:02
-        #
-        # Nothing had broken. The guide had today, the boards were drawn
-        # for today, and every segment the playlist named was present and
-        # probed clean. GitHub had simply dropped the schedule again —
-        # which it does, which this repository knows, and which the
-        # window was sized as though it did not.
-        #
-        # An hour is the longest a dropped schedule goes unnoticed here,
-        # because the watch that catches it runs hourly. So the window
-        # must carry more than an hour with room to spare, and a number
-        # chosen from what the build is SUPPOSED to do is not allowed
-        # back.
-        # The window still has to outlast the gap between builds, which
-        # is what a sixty-second runway now rests on: a player at the
-        # live edge needs the next build to have appended more. Two hours
-        # of window against a ten-minute build is margin; twelve hours
-        # was 91 KB re-fetched on every poll — 13% of the video's own
-        # bandwidth — for runway no player was reaching.
-        check("WINDOW", "the window outlasts several builds",
-              video.WINDOW_MINUTES >= 60, True)
-        check("WINDOW", "without paying for hours nobody reaches",
-              video.WINDOW_MINUTES * 60 <= 4 * 3600, True)
-
-        check("WINDOW", "the breaks that scrolled off are counted",
-              any(line.startswith("#EXT-X-DISCONTINUITY-SEQUENCE:")
-                  for line in second.splitlines()), True)
-
-    # And that count moves with the window rather than sitting still.
-    with tempfile.TemporaryDirectory() as room:
-        out = os.path.join(room, "count.m3u8")
-        reel = [f"other_sports_{n}.aa{n}.ts" for n in range(6)]
-
-        def sequences(at):
-            video.write_playlist(reel, out, now=at)
-            lines = open(out, encoding="utf-8").read().splitlines()
-            grab = lambda tag: int(next(  # noqa: E731
-                one.split(":")[1] for one in lines if one.startswith(tag)))
-            return (grab("#EXT-X-MEDIA-SEQUENCE"),
-                    grab("#EXT-X-DISCONTINUITY-SEQUENCE"))
-
-        base = 1788449520
-        first_media, first_breaks = sequences(base)
-        later_media, later_breaks = sequences(base + 3600)
-
-        check("WINDOW", "an hour on, the window has moved 180 segments",
-              later_media - first_media, 180)
-        check("WINDOW", "and exactly 30 reel wraps went with it",
-              later_breaks - first_breaks, 180 // len(reel))
-        check("WINDOW", "a break count never goes backwards",
-              later_breaks >= first_breaks, True)
-
-    # The pass that encodes nothing must still write it. Proved on the
-    # source, because reaching this path needs an ffmpeg and a reel: the
-    # early return used to end at a log line, and that log line was the
-    # spinner.
+    # The pass that encodes nothing must still write the playlist. Proved
+    # on the source, because reaching this path needs an ffmpeg and a
+    # reel: the early return used to end at a log line, and that log line
+    # was the spinner.
     import inspect
     body = inspect.getsource(video.main)
 
     # THE STREAM MUST TELL THE TELEVISION ITS FRAME RATE, AND GIVE IT
-    # SOMEWHERE TO START MORE THAN ONCE A SEGMENT.
-    #
-    # It ran at one frame a second, and measured against alternatives:
-    #
-    #     fps   size/20s   rate declared   keyframes in 20s
-    #      1     221 KB    NONE — 0/0             1
-    #     12     455 KB    12/1                  10
-    #
-    # Both of those are things a player answers by buffering. With no
-    # declared rate a television infers every frame's timing from
-    # timestamps alone; with one keyframe in twenty seconds there is
-    # exactly one instant per segment where it can begin or recover, and
-    # missing it means waiting out the segment.
-    #
-    # A still picture costs almost nothing to run faster — every frame
-    # after the first is identical — so this is about 180 kbit/s for a
-    # rate stated outright and a keyframe every two seconds.
-    check("WINDOW", "the stream runs at a rate a decoder expects",
+    # SOMEWHERE TO START MORE THAN ONCE A SEGMENT. It ran at one frame a
+    # second: with no declared rate a television infers timing from
+    # timestamps alone, and with one keyframe in twenty seconds there is
+    # one instant per segment where it can begin or recover.
+    check("VOD", "the stream runs at a rate a decoder expects",
           video.FPS >= 10, True)
-    check("WINDOW", "and starts a new keyframe every couple of seconds",
+    check("VOD", "and starts a new keyframe every couple of seconds",
           video.KEYFRAME_SECONDS <= 2, True)
     encoder_flags = inspect.getsource(video.encode_segment)
-    check("WINDOW", "the rate is DECLARED, not left to be inferred",
+    check("VOD", "the rate is DECLARED, not left to be inferred",
           '"-r", str(FPS)' in encoder_flags, True)
-    check("WINDOW", "and the keyframe interval is forced, not suggested",
+    check("VOD", "and the keyframe interval is forced, not suggested",
           ('"-keyint_min"' in encoder_flags
            and '"-sc_threshold", "0"' in encoder_flags), True)
-    check("WINDOW", "so a twenty-second segment has ten places to start, "
-                    "not one", (video.HOLD // video.KEYFRAME_SECONDS), 10)
+    check("VOD", "so a twenty-second segment has ten places to start, "
+                 "not one", (video.HOLD // video.KEYFRAME_SECONDS), 10)
 
-    # A SEGMENT MUST BE EXACTLY AS LONG AS THE PLAYLIST SAYS IT IS.
-    #
-    # The playlist writes EXTINF:20.0 for every segment and the segments
-    # are stamped with their place in the reel, so a segment that runs
-    # 20.096s ends 96ms after the next one is supposed to begin. On a
-    # timeline that is supposed to be continuous that overlap is a
-    # contradiction, and a player answers a contradiction by re-syncing.
-    #
-    # AAC codes 1024 samples to a frame, so the audio is exactly HOLD
-    # seconds only when HOLD x rate divides by 1024. Measured: 16000
-    # gives 312.5 frames, 32000 gives 625.
+    # A SEGMENT MUST BE EXACTLY AS LONG AS THE PLAYLIST SAYS IT IS. AAC
+    # codes 1024 samples to a frame, so the audio is exactly HOLD seconds
+    # only when HOLD x rate divides by 1024.
     encoder = inspect.getsource(video.encode_segment)
     rate = re.search(r"sample_rate=(\d+)", encoder)
-    check("WINDOW", "the encoder names a sample rate at all",
+    check("VOD", "the encoder names a sample rate at all",
           rate is not None, True)
     if rate:
         frames = video.HOLD * int(rate.group(1)) / 1024
-        check("WINDOW", "and a segment's audio lands exactly on its end",
+        check("VOD", "and a segment's audio lands exactly on its end",
               frames == int(frames), True)
     already, _ = body.split("os.makedirs(OUT_DIR", 1)
-    check("WINDOW", "the not-re-encoded pass writes the playlist too",
+    check("VOD", "the not-re-encoded pass writes the playlist too",
           "write_playlist" in already, True)
 
-    # And the timeline the playlist promises is the one the segments are
-    # encoded on: a playlist with no break inside a cycle is a lie unless
-    # each board is stamped with where it sits.
-    check("WINDOW", "a board is encoded at its place in the reel",
+    # The timeline the playlist promises is the one the segments are
+    # encoded on: each board is stamped with where it sits in the reel.
+    check("VOD", "a board is encoded at its place in the reel",
           "-output_ts_offset" in inspect.getsource(video.encode_segment),
           True)
-    check("WINDOW", "and the encode loop actually passes that place",
+    check("VOD", "and the encode loop actually passes that place",
           "enumerate(reel)" in body, True)
 
     # A change to HOW a segment is made must re-encode every segment.
-    # Otherwise it ships half-applied, which is worse than not shipping:
-    # the playlist stops declaring the breaks because the segments are
-    # meant to be continuous, nothing re-encodes because the pictures did
-    # not change, and the television gets a continuous playlist over
-    # segments that all still start at zero.
     with tempfile.TemporaryDirectory() as tmp:
         board = os.path.join(tmp, "board.png")
         with open(board, "wb") as handle:
@@ -3167,28 +3043,13 @@ def gate_the_window_keeps_moving() -> None:
             after = video.digest([board])
         finally:
             video.ENCODER_REVISION = was
-    check("WINDOW", "a new encoder revision re-encodes an unchanged board",
+    check("VOD", "a new encoder revision re-encodes an unchanged board",
           before != after, True)
 
     # A SEGMENT OUTLIVES THE PLAYLIST BY A CLOCK, NOT BY A PASS.
-    #
-    # It used to be "one pass", reasoned as "ten minutes, twice the cache
-    # it has to outlive". Three passes landed inside seven minutes —
-    # the ten-minute schedule, the hourly full build and a dispatch all
-    # push — and the news board, which printed the build minute into its
-    # own picture, was renamed on every one of them:
-    #
-    #     20:04 renamed · 20:07 renamed · 20:10 renamed · 20:13 renamed
-    #
     # raw.githubusercontent serves the playlist with a five-minute cache,
-    # so a television reading the 20:07 playlist asked 20:10 for files it
-    # had already deleted:
-    #
-    #     An error occurred: code 404     photographed at 20:09 UTC
-    #
-    # Half an hour, stamped in the ledger rather than read off the
-    # filesystem, because every build starts from a fresh clone where
-    # every file carries the checkout's mtime.
+    # so a segment the current reel no longer names must be kept long
+    # enough that a television reading a cached reel does not hit a 404.
     import time as _time
     with tempfile.TemporaryDirectory() as tmp:
         was_out = video.OUT_DIR
@@ -3200,12 +3061,10 @@ def gate_the_window_keeps_moving() -> None:
             ancient = ["scr_0.99990000.ts"]
             for name in old_names + new_names + ancient:
                 open(os.path.join(tmp, name), "wb").close()
-            # The pass before this one published old_names, a minute ago.
             with open(os.path.join(tmp, "scr_previous.txt"), "w",
                       encoding="utf-8") as handle:
                 handle.write("".join(f"{n} {now - 60:.0f}\n"
                                      for n in old_names))
-            # And this one left the playlist longer ago than the grace.
             with open(os.path.join(tmp, "scr_keeping.txt"), "w",
                       encoding="utf-8") as handle:
                 handle.write("".join(
@@ -3221,29 +3080,21 @@ def gate_the_window_keeps_moving() -> None:
         finally:
             video.OUT_DIR = was_out
 
-    check("WINDOW", "this pass's segments are published",
+    check("VOD", "this pass's segments are published",
           all(name in left for name in new_names), True)
-    check("WINDOW", "the pass before it is kept, so no player hits a 404",
+    check("VOD", "the pass before it is kept, so no player hits a 404",
           all(name in left for name in old_names), True)
-    check("WINDOW", "and one past the grace is swept, so nothing piles up",
+    check("VOD", "and one past the grace is swept, so nothing piles up",
           [name for name in ancient if name in left], [])
-
-    # And the gate is told which files are there on purpose. Writing the
-    # current set where the KEPT set belonged is what stopped a build:
-    # the gate read "what is current", saw a spared segment nobody had
-    # declared, and refused to publish.
-    check("WINDOW", "the sweep records what it kept, not what it wrote",
+    check("VOD", "the sweep records what it kept, not what it wrote",
           sorted(row[0] for row in ledger), sorted(old_names))
 
-    # THE STAMP IS CARRIED FORWARD, NOT REFRESHED. Restamping a segment
-    # every pass renews its grace for ever, and half an hour that never
-    # expires is a repository that fills up.
     stamps = {row[0]: float(row[1]) for row in ledger}
-    check("WINDOW", "and the stamp is when it LEFT, not when it was seen",
+    check("VOD", "and the stamp is when it LEFT, not when it was seen",
           all(_time.time() - when > 30 for when in stamps.values()), True)
-    check("WINDOW", "the grace is a clock, long enough to outlive the cache",
+    check("VOD", "the grace is a clock, long enough to outlive the cache",
           video.GRACE_SECONDS >= 15 * 60, True)
-    check("WINDOW", "and it is bounded, so churn cannot fill the repository",
+    check("VOD", "and it is bounded, so churn cannot fill the repository",
           1 <= video.GRACE_LAPS <= 5, True)
 
 
@@ -4858,51 +4709,54 @@ def gate_a_viewer_always_arrives_at_the_first_board() -> None:
     # The durations are stubbed, and only the durations: every segment
     # named here is a name and not a file, so the real measurement would
     # be forty thousand ffprobe calls on files that do not exist. What is
-    # under test is the GEOMETRY of the window — which board sits at each
-    # end — and that does not depend on what a board measures.
+    # under test is the GEOMETRY of the reel — which board a player opens
+    # on — and that does not depend on what a board measures.
+    #
+    # A VOD reel opens on its FIRST segment, always: PLAYLIST-TYPE:VOD
+    # and EXT-X-ENDLIST tell every player the recording is complete, and
+    # a complete recording is played from the front. There is no window
+    # to join near the end and no live edge to hang back from, so board
+    # zero is the open point on every reel length, at every tick.
     measured, video.seconds_of = video.seconds_of, lambda one: 20.032
     with tempfile.TemporaryDirectory() as room:
         out = os.path.join(room, "start.m3u8")
 
-        def ends_of(reel, at):
+        def front_of(reel, at):
             segments = [f"today_matches_{n}.aa.ts" for n in range(reel)]
             video.write_playlist(segments, out, now=at)
             played = [line.strip()
                       for line in open(out, encoding="utf-8").read().splitlines()
                       if line.strip().endswith(".ts")]
-            return played[0], played[-video.JOIN_BACK]
+            return played[0], played[-1]
 
         # Every ten minutes of a whole day, on every reel length the
-        # channels have carried — 6 and 10 and 18 are measured, the rest
-        # are the awkward ones that do not divide anything.
+        # channels have carried — the front is always board zero and the
+        # reel always ends on the last board (it does not wrap).
         base = 1788400000
         wrong = []
         for reel in (1, 2, 3, 5, 6, 7, 10, 11, 13, 18, 24, 29, 37):
             for step in range(0, 24 * 6):
-                front, joined = ends_of(reel, base + step * 600 + 7)
+                front, last = front_of(reel, base + step * 600 + 7)
                 if not front.endswith("_0.aa.ts"):
                     wrong.append(f"reel {reel} opens on {front}")
                     break
-                if not joined.endswith("_0.aa.ts"):
-                    wrong.append(f"reel {reel} live edge is {joined}")
+                if not last.endswith(f"_{reel - 1}.aa.ts"):
+                    wrong.append(f"reel {reel} ends on {last}")
                     break
-        check("START", "the window opens on board zero, and ends on it",
+        check("START", "the reel opens on board zero, and ends on the last",
               wrong, [])
 
-        # AND THE PLAYER THAT HANGS BACK ONE FURTHER lands on the last
-        # board of the previous lap, twenty seconds before board zero.
-        # That is the worst this arrangement can do and it is written
-        # down so that a change which makes it worse is visible.
+        # A COMPLETE RECORDING, so the player opens it at the front rather
+        # than being free to join a window wherever it likes.
         segments = [f"today_matches_{n}.aa.ts" for n in range(6)]
         video.write_playlist(segments, out, now=base)
-        played = [line.strip()
-                  for line in open(out, encoding="utf-8").read().splitlines()
-                  if line.strip().endswith(".ts")]
-        check("START", "one further back is the board just before it",
-              played[-video.JOIN_BACK - 1].endswith("_5.aa.ts"), True)
-
-        # THE TAG THAT WOULD HAVE DONE THIS DIRECTLY STAYS OUT.
         text = open(out, encoding="utf-8").read()
+        check("START", "the reel is declared a complete VOD recording",
+              "#EXT-X-PLAYLIST-TYPE:VOD" in text
+              and "#EXT-X-ENDLIST" in text, True)
+
+        # THE TAG THAT WOULD HAVE DONE THIS DIRECTLY STAYS OUT — it took
+        # all three channels off the air twice, and VOD does not need it.
         check("START", "and EXT-X-START is still nowhere in the playlist",
               "EXT-X-START" in text, False)
     video.seconds_of = measured
