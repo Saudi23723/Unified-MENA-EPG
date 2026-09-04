@@ -156,6 +156,13 @@
     <display-name lang="tr">beIN SPORTS HABER</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_haber.png" />
   </channel>
+  <channel id="TivibuSpor.tr">
+    <display-name lang="tr">Tivibu Spor</display-name>
+    <display-name lang="tr">TİVİBU SPOR</display-name>
+    <display-name lang="tr">TIVIBU SPOR</display-name>
+    <display-name lang="tr">Tivibu Sport</display-name>
+    <display-name lang="ar">تيفيبو سبور</display-name>
+  </channel>
   <channel id="TivibuSpor1.tr">
     <display-name lang="tr">Tivibu Spor 1</display-name>
     <display-name lang="tr">TİVİBU SPOR 1</display-name>
@@ -5334,6 +5341,13 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
+  <programme start="20260910104500 +0000" stop="20260910124500 +0000" channel="beINSports4.qa">
+    <title lang="en">Borussia Dortmund vs Villarreal - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
   <programme start="20260903093000 +0000" stop="20260903111500 +0000" channel="beINSports5.qa">
     <title lang="en">Al Ittihad Club (KSA) vs PFC Nasaf (UZB) - AFC Champions League Elite 2025/2026 - West MD6</title>
     <desc lang="en">Al Ittihad vs Nasaf
@@ -6125,6 +6139,11 @@ All games are live and exclusive only on be</desc>
   </programme>
   <programme start="20260910090000 +0000" stop="20260910104500 +0000" channel="beINSports5.qa">
     <title lang="en">Charlton Athletic vs QPR - EFL - English Football League  SkyBet - Championship 2026/2027</title>
+    <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
+    <category lang="en">English League - Championship</category>
+  </programme>
+  <programme start="20260910104500 +0000" stop="20260910124500 +0000" channel="beINSports5.qa">
+    <title lang="en">Bolton Wanderers vs  West Ham Utd - EFL - English Football League  SkyBet - Championship 2026/2027</title>
     <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
     <category lang="en">English League - Championship</category>
   </programme>
@@ -23795,58 +23814,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260903110000 +0000" stop="20260903120000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Muhabir Masası</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903120000 +0000" stop="20260903123000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Taraftar</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903123000 +0000" stop="20260903130000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Kadro Tercihi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903130000 +0000" stop="20260903144500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Beşiktaş - A. Çorum FK</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903144500 +0000" stop="20260903150000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">1 Yıldız 10 Gol</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903150000 +0000" stop="20260903160000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903160000 +0000" stop="20260903170000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Gamer</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903170000 +0000" stop="20260903180000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903180000 +0000" stop="20260903190000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Garaj</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903190000 +0000" stop="20260903193100 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Fenerbahçe - Beşiktaş</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903193100 +0000" stop="20260903200000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Başakşehir FK - Galatasaray</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903200000 +0000" stop="20260903201500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trabzonspor - Gençlerbirliği</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903201500 +0000" stop="20260903203000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Erzurumspor FK - Konyaspor</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260903210000 +0000" stop="20260903220000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Gamer (26-27) 4.bölüm</title>
     <category lang="en">Sports</category>
@@ -23997,96 +23964,64 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Trio</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906140000 +0000" stop="20260906160000 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260906140000 +0000" stop="20260906170000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Kasımpaşa - Amed SF</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260906160000 +0000" stop="20260906170000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Süper Lig</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260906170000 +0000" stop="20260906190000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Trabzonspor - Gençlerbirliği</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903120000 +0000" stop="20260903134500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sivasspor - Mardin 1969</title>
+  <programme start="20260906190000 +0000" stop="20260907060000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903134500 +0000" stop="20260903140000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Maç Önü</title>
+  <programme start="20260907060000 +0000" stop="20260907071700 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903140000 +0000" stop="20260903160200 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Igdır FK - Manisa FK</title>
+  <programme start="20260907071700 +0000" stop="20260907084500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160200 +0000" stop="20260903160600 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - Antalyaspor</title>
+  <programme start="20260907084500 +0000" stop="20260907090000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">1 Yıldız 10 Gol</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160600 +0000" stop="20260903160800 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Ümraniyespor - Muğlaspor</title>
+  <programme start="20260907090000 +0000" stop="20260907103000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Yozgatspor - Galatasaray</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903160800 +0000" stop="20260903161200 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sivasspor - Mardin 1969</title>
+  <programme start="20260907103000 +0000" stop="20260907110000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">TFF 1.Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903161200 +0000" stop="20260903161800 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sarıyer - Pendikspor</title>
+  <programme start="20260907110000 +0000" stop="20260907124500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Eyüpspor - C. Alanyaspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903161800 +0000" stop="20260903162100 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Boluspor - A. Keçiörengücü</title>
+  <programme start="20260907124500 +0000" stop="20260907143000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Başakşehir FK - Kasımpaşa</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903162100 +0000" stop="20260903162400 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Vanspor FK - Batman P.</title>
+  <programme start="20260907143000 +0000" stop="20260907161500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Samsunspor - Fenerbahçe</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903162400 +0000" stop="20260903164000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">F. Karagümrük - Kayserispor</title>
+  <programme start="20260907161500 +0000" stop="20260907163000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">1 Yıldız 10 Gol</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903164000 +0000" stop="20260903170000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Maç Başlıyor</title>
+  <programme start="20260907163000 +0000" stop="20260907173000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903170000 +0000" stop="20260903190000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bursaspor - İstanbulspor</title>
+  <programme start="20260907173000 +0000" stop="20260907183000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903190000 +0000" stop="20260903191600 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Maç Sonu</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903191600 +0000" stop="20260903191900 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - Antalyaspor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903191900 +0000" stop="20260903192200 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Ümraniyespor - Muğlaspor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903192200 +0000" stop="20260903192600 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sarıyer - Pendikspor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903192600 +0000" stop="20260903192900 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Boluspor - A. Keçiörengücü</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903192900 +0000" stop="20260903193400 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Vanspor FK - Batman P.</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903193400 +0000" stop="20260903193900 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sivasspor - Mardin 1969</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903193900 +0000" stop="20260903200000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Igdır FK - Manisa FK</title>
+  <programme start="20260907183000 +0000" stop="20260907203000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Amed SF - Trabzonspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903224500 +0000" channel="beINSPORTS2.tr">
@@ -24161,23 +24096,23 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
   </programme>
   <programme start="20260905044500 +0000" stop="20260905063000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Igdır FK - Manisa FK</title>
+    <title lang="en">Sivasspor - Mardin 1969</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905063000 +0000" stop="20260905081500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bursaspor - İstanbulspor</title>
+    <title lang="en">Igdır FK - Manisa FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905081500 +0000" stop="20260905100000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bodrum FK - E. Erokspor</title>
+    <title lang="en">Bursaspor - İstanbulspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905100000 +0000" stop="20260905114500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - Antalyaspor</title>
+    <title lang="en">Bodrum FK - E. Erokspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905114500 +0000" stop="20260905140000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Ümraniyespor - Muğlaspor</title>
+    <title lang="en">Bandırmaspor - Antalyaspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905140000 +0000" stop="20260905164000 +0000" channel="beINSPORTS2.tr">
@@ -24228,56 +24163,60 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">A. Çorum FK - Eyüpspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903104500 +0000" stop="20260903110000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+  <programme start="20260906170000 +0000" stop="20260907044500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Kocaelispor - Samsunspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903110000 +0000" stop="20260903124500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Leeds - Brentford</title>
+  <programme start="20260907044500 +0000" stop="20260907050000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903124500 +0000" stop="20260903130000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+  <programme start="20260907050000 +0000" stop="20260907064500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">A. Keçiörengücü - Ümraniyespor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903130000 +0000" stop="20260903144600 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Chelsea - Brighton</title>
+  <programme start="20260907064500 +0000" stop="20260907070000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903144600 +0000" stop="20260903150100 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+  <programme start="20260907070000 +0000" stop="20260907084500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Antalyaspor - Sarıyer</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903150100 +0000" stop="20260903164500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Sunderland - Fulham</title>
+  <programme start="20260907084500 +0000" stop="20260907090000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903164500 +0000" stop="20260903170000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+  <programme start="20260907090000 +0000" stop="20260907104500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Muğlaspor - Boluspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903170000 +0000" stop="20260903173000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Man Utd - Ipswich</title>
+  <programme start="20260907104500 +0000" stop="20260907123000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">İstanbulspor - F. Karagümrük</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903173000 +0000" stop="20260903180000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Aston Villa - Arsenal</title>
+  <programme start="20260907123000 +0000" stop="20260907141500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Kayserispor - Bursaspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903180000 +0000" stop="20260903183000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">C. Palace - Man City</title>
+  <programme start="20260907141500 +0000" stop="20260907160000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">E. Erokspor - Igdır FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903183000 +0000" stop="20260903190000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Liverpool - Nott'm Forest</title>
+  <programme start="20260907160000 +0000" stop="20260907160100 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Manisa FK - Bodrum FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903190000 +0000" stop="20260903193000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Coventry - Hull City</title>
+  <programme start="20260907160100 +0000" stop="20260907174500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Manisa FK - Bodrum FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903193000 +0000" stop="20260903200000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Netbusters</title>
+  <programme start="20260907174500 +0000" stop="20260907180100 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907180100 +0000" stop="20260907183100 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903210100 +0000" stop="20260903224500 +0000" channel="beINSPORTS3.tr">
@@ -24416,56 +24355,84 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903104500 +0000" stop="20260903110000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Portekiz Ligi Haftanın Golleri</title>
+  <programme start="20260906153000 +0000" stop="20260907044500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Arsenal - Chelsea</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903110000 +0000" stop="20260903124500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Guingamp - Nantes</title>
+  <programme start="20260907044500 +0000" stop="20260907050000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903124500 +0000" stop="20260903130000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 2 Haftanın Golleri</title>
+  <programme start="20260907050000 +0000" stop="20260907064500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">C. Palace - Man City</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903130000 +0000" stop="20260903144500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Monaco - Marseille</title>
+  <programme start="20260907064500 +0000" stop="20260907070000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903144500 +0000" stop="20260903150000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
+  <programme start="20260907070000 +0000" stop="20260907084500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Liverpool - Nott'm Forest</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903150000 +0000" stop="20260903164500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Lille - PSG</title>
+  <programme start="20260907084500 +0000" stop="20260907090000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903164500 +0000" stop="20260903170000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
+  <programme start="20260907090000 +0000" stop="20260907104500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Coventry - Hull City</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903170000 +0000" stop="20260903173000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Strasbourg - Lens</title>
+  <programme start="20260907104500 +0000" stop="20260907110000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903173000 +0000" stop="20260903180000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Lyon - Le Havre</title>
+  <programme start="20260907110000 +0000" stop="20260907124500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Sunderland - Fulham</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903180000 +0000" stop="20260903183900 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Preview</title>
+  <programme start="20260907124500 +0000" stop="20260907130000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903183900 +0000" stop="20260903184500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260907130000 +0000" stop="20260907144500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Leeds - Brentford</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907144500 +0000" stop="20260907150000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907150000 +0000" stop="20260907164500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Chelsea - Brighton</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907164500 +0000" stop="20260907170000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907185000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Man Utd - Ipswich</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907185000 +0000" stop="20260907190000 +0000" channel="beINSPORTS3.tr">
     <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903184500 +0000" stop="20260904024500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Toulouse - Lille</title>
+  <programme start="20260903210100 +0000" stop="20260903230000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 2. HAFTA STRASBOURG - LENS - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904024500 +0000" stop="20260904030000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
+  <programme start="20260903230000 +0000" stop="20260904004500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 3. HAFTA TOULOUSE - LILLE - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904004500 +0000" stop="20260904010100 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Iconic Players - Neymar</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904010100 +0000" stop="20260904030000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 2. HAFTA AUXERRE - ANGERS - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904030000 +0000" stop="20260904044500 +0000" channel="beINSPORTS4.tr">
@@ -24480,31 +24447,55 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904063500 +0000" stop="20260904075500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904063500 +0000" stop="20260904073700 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 3 İtalya</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904073700 +0000" stop="20260904075500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Chasing The Dream</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904075500 +0000" stop="20260904080000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904080000 +0000" stop="20260904102500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904080000 +0000" stop="20260904090200 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 2 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904102500 +0000" stop="20260904103000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904090200 +0000" stop="20260904091500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">DTM Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904091500 +0000" stop="20260904093100 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">DTM Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904093100 +0000" stop="20260904094600 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porsche Sixt Carrera Cup</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904094600 +0000" stop="20260904100000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Porsche Sixt Carrera Cup</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904100000 +0000" stop="20260904102600 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Hollanda GP Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904102600 +0000" stop="20260904103100 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904103000 +0000" stop="20260904115500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904103100 +0000" stop="20260904115600 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 1 İtalya GP</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904115500 +0000" stop="20260904120000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904115600 +0000" stop="20260904120100 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904120000 +0000" stop="20260904125000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904120100 +0000" stop="20260904125000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 3 İtalya</title>
     <category lang="en">Sports</category>
   </programme>
@@ -24528,28 +24519,36 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904153000 +0000" stop="20260904163000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904153000 +0000" stop="20260904163100 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Porsche Super Cup</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904163000 +0000" stop="20260904170000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904163100 +0000" stop="20260904170000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula Regional European</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260904170000 +0000" stop="20260904171500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Monaco GP Geniş Özet</title>
+    <title lang="en">F1 Belçika GP Geniş Özet</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904171500 +0000" stop="20260904191000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904171500 +0000" stop="20260904173100 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Macaristan</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904173100 +0000" stop="20260904184600 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 1 İtalya GP</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904191000 +0000" stop="20260904191500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904184600 +0000" stop="20260904191100 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Hollanda</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260904191100 +0000" stop="20260904191600 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Maç Önü ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260904191500 +0000" stop="20260905030000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260904191600 +0000" stop="20260905030000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Porto - Moreirense ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <category lang="en">Live</category>
@@ -24740,6 +24739,66 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260906184500 +0000" stop="20260906204500 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Marseille - Paris FC</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906204500 +0000" stop="20260907030000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">DTM Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907030000 +0000" stop="20260907050000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Guingamp - Nantes</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907050000 +0000" stop="20260907070000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Rio Ave - Sporting CP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907084500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Academico - Porto</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907084500 +0000" stop="20260907090000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907090000 +0000" stop="20260907104500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Lille - PSG</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907104500 +0000" stop="20260907110000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907110000 +0000" stop="20260907124500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Strasbourg - Lens</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907124500 +0000" stop="20260907130000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907130000 +0000" stop="20260907144500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Paris FC - Nice</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907144500 +0000" stop="20260907150000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907150000 +0000" stop="20260907170000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Rennes - Le Mans</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907184500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Monaco - Marseille</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907184500 +0000" stop="20260907191000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907191000 +0000" stop="20260907191500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Maç Önü</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903224500 +0000" channel="beINSPORTS5.tr">
@@ -25119,50 +25178,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">beIN Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260903113000 +0000" stop="20260903120000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Muhabir Masası</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903120000 +0000" stop="20260903140000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Amedspor - Trabzonspor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903140000 +0000" stop="20260903150000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903150000 +0000" stop="20260903153000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ana Haber</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903153000 +0000" stop="20260903160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">2. Bundesliga Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903160000 +0000" stop="20260903161500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903161500 +0000" stop="20260903170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">TSBSL Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903170000 +0000" stop="20260903190000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Akşam</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903190000 +0000" stop="20260903193000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903193000 +0000" stop="20260903200000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Preview</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260903200000 +0000" stop="20260903203000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260903213000 +0000" stop="20260903214500 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Keşfettik - 333.bölüm / Bant</title>
     <category lang="en">Sports</category>
@@ -25251,56 +25266,28 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904203000 +0000" stop="20260904210000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260904203000 +0000" stop="20260905040000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904210000 +0000" stop="20260904213000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi</title>
+  <programme start="20260905040000 +0000" stop="20260905043000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Show</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904213000 +0000" stop="20260904230000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260905043000 +0000" stop="20260905050000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260904230000 +0000" stop="20260905000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905000000 +0000" stop="20260905013000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905013000 +0000" stop="20260905023000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905023000 +0000" stop="20260905030000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905030000 +0000" stop="20260905043000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905043000 +0000" stop="20260905060000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905060000 +0000" stop="20260905063000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">BeIN SQUAD</title>
+  <programme start="20260905050000 +0000" stop="20260905060000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905063000 +0000" stop="20260905070000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">World Surf League</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905070000 +0000" stop="20260905071500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Haber</title>
+    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905071500 +0000" stop="20260905073000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Chasing The Dream</title>
+    <title lang="en">TSBSL Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905073000 +0000" stop="20260905080000 +0000" channel="beINSPORTSHABER.tr">
@@ -25308,122 +25295,130 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905080000 +0000" stop="20260905083000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Haftasonu</title>
+    <title lang="en">Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905083000 +0000" stop="20260905090000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Derbi Analiz</title>
+  <programme start="20260905090000 +0000" stop="20260905100000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig En İyi 100 Gol</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905090000 +0000" stop="20260905093000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Kadro Tercihi</title>
+  <programme start="20260905100000 +0000" stop="20260905113000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Gün Ortası</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905093000 +0000" stop="20260905100000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Bir Derbi Günü</title>
+  <programme start="20260905123000 +0000" stop="20260905124500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Özel Röportaj</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905100000 +0000" stop="20260905110000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Geçmişten Günümüze</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905110000 +0000" stop="20260905130000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Lig Merkezi</title>
+  <programme start="20260905124500 +0000" stop="20260905130000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Maç Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905130000 +0000" stop="20260905150000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Bandırmaspor - Boluspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905150000 +0000" stop="20260905153500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Türkiye Sigorta Basketbol Süper Ligi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905153500 +0000" stop="20260905160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ortak Yayın</title>
+  <programme start="20260905150000 +0000" stop="20260905160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260905160000 +0000" stop="20260905170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Maç Zamanı</title>
+    <title lang="en">beIN Maç Zamanı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905170000 +0000" stop="20260905170500 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260905170000 +0000" stop="20260905171500 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Maç Sonu</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905170500 +0000" stop="20260905171000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ortak Yayın</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905171000 +0000" stop="20260905171500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Tanıtım Ve Klip</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260905171500 +0000" stop="20260905173000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Derbi Haftası</title>
+    <title lang="en">Bundesliga Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905173000 +0000" stop="20260905184500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Kadro Tercihi</title>
+  <programme start="20260905173000 +0000" stop="20260905180000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bundesliga Weekly</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905184500 +0000" stop="20260905210000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260905180000 +0000" stop="20260905183000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905183000 +0000" stop="20260905190000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Show</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905190000 +0000" stop="20260905200000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905200000 +0000" stop="20260905203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905203000 +0000" stop="20260905210000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905210000 +0000" stop="20260905213000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260905213000 +0000" stop="20260905230000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260905213000 +0000" stop="20260905214500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 06. Hafta - Haber / Cumartesi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905214500 +0000" stop="20260905234500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor / Bant</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260905234500 +0000" stop="20260906000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 06. Hafta - Haber / Cumartesi</title>
+  <programme start="20260905230000 +0000" stop="20260906000000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260906000000 +0000" stop="20260906013000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor / Bant</title>
+    <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906013000 +0000" stop="20260906021500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri (26-27) 03.Hafta - Haber / Cumartesi</title>
+  <programme start="20260906013000 +0000" stop="20260906023000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906021500 +0000" stop="20260906031500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Maç Özetleri (26-27) 03.Hafta - Cumartesi / Haber</title>
+  <programme start="20260906023000 +0000" stop="20260906030000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906031500 +0000" stop="20260906033000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 06. Hafta - Haber / Cumartesi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260906033000 +0000" stop="20260906050000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor / Bant</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260906050000 +0000" stop="20260906060000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Sail GP</title>
+  <programme start="20260906030000 +0000" stop="20260906060000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260906060000 +0000" stop="20260906070000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Sail GP</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906070000 +0000" stop="20260906080000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Maç Özetleri</title>
+  <programme start="20260906070000 +0000" stop="20260906073000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906080000 +0000" stop="20260906090000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260906073000 +0000" stop="20260906080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">İki Yıldız</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906080000 +0000" stop="20260906083000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">beIN Haftasonu</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906090000 +0000" stop="20260906100000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Show</title>
+  <programme start="20260906083000 +0000" stop="20260906090000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Derbi Analiz</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906100000 +0000" stop="20260906140000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260906090000 +0000" stop="20260906093000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Kadro Tercihi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906093000 +0000" stop="20260906100000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bir Derbi Günü</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906100000 +0000" stop="20260906110000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Lig Merkezi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906110000 +0000" stop="20260906140000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Lig Merkezi</title>
     <category lang="en">Sports</category>
   </programme>
@@ -25435,20 +25430,112 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Premier League Stories</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906150000 +0000" stop="20260906160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Haber</title>
+  <programme start="20260906150000 +0000" stop="20260906153500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Türkiye Sigorta Basketbol Süper Ligi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906153500 +0000" stop="20260906160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ortak Yayın</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260906160000 +0000" stop="20260906170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Maç Zamanı</title>
+    <title lang="en">beIN Maç Zamanı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906170000 +0000" stop="20260906183000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260906170000 +0000" stop="20260906173000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Premier League Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260906183000 +0000" stop="20260906203000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260906173000 +0000" stop="20260906183000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Kadro Tercihi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906183000 +0000" stop="20260906184500 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906184500 +0000" stop="20260906203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260906203000 +0000" stop="20260907040000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">This Is Paris</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907040000 +0000" stop="20260907044500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907044500 +0000" stop="20260907050000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Portekiz Ligi Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907050000 +0000" stop="20260907060000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907060000 +0000" stop="20260907073000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Sabah</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907073000 +0000" stop="20260907080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TFF 1.Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907080000 +0000" stop="20260907090000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Manşet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907090000 +0000" stop="20260907094500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907094500 +0000" stop="20260907100000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907100000 +0000" stop="20260907120000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Gün Ortası</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907120000 +0000" stop="20260907134500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Galatasaray - Göztepe</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907134500 +0000" stop="20260907140000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Under The Skin</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907140000 +0000" stop="20260907150000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Tenis</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907150000 +0000" stop="20260907160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907160000 +0000" stop="20260907170000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Premier League Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907173000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">This Is Paris</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907173000 +0000" stop="20260907183000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Maç Zamanı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907183000 +0000" stop="20260907190000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Özel Röportaj</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907190000 +0000" stop="20260907191500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Keşfet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260907191500 +0000" stop="20260907200000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">World Surf League</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260909210000 +0000" stop="20260909220000 +0000" channel="beINSPORTSHABER.tr">
@@ -25554,6 +25641,306 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260910203000 +0000" stop="20260910220000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260903223000 +0000" stop="20260904001500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Ayvalıkgücü Belediyespor - Karşıyaka</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904001500 +0000" stop="20260904020000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Nev Sağlık Grubu Balıkesirspor - Eskişehirspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904020000 +0000" stop="20260904034500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Seza Çimento Elazığspor - Adana 01 FK</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904034500 +0000" stop="20260904053000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">O.J.: Made in America</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904053000 +0000" stop="20260904063000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904063000 +0000" stop="20260904070000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904070000 +0000" stop="20260904080000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904080000 +0000" stop="20260904090000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Spor Arası</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904090000 +0000" stop="20260904093000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904093000 +0000" stop="20260904103000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Almanya Bisiklet Turu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904103000 +0000" stop="20260904123000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Her Gün Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904123000 +0000" stop="20260904130000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Dünyadan Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904130000 +0000" stop="20260904140000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Lokal Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904140000 +0000" stop="20260904143000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Lokal Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904143000 +0000" stop="20260904150000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904150000 +0000" stop="20260904163000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Ana Haber</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904163000 +0000" stop="20260904170000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904170000 +0000" stop="20260904175000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Maç Anı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904175000 +0000" stop="20260904180500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904180500 +0000" stop="20260904190000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Maç Anı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904190000 +0000" stop="20260904203000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904203000 +0000" stop="20260904220000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904220000 +0000" stop="20260904233000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904233000 +0000" stop="20260905010000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905010000 +0000" stop="20260905013000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Hail Baja Rally</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905013000 +0000" stop="20260905030000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905030000 +0000" stop="20260905043000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905043000 +0000" stop="20260905050000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905050000 +0000" stop="20260905063000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905063000 +0000" stop="20260905080000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905080000 +0000" stop="20260905100000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Hafta Sonu Spor Derbi Özel</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905100000 +0000" stop="20260905110000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905110000 +0000" stop="20260905130000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Hafta Sonu Spor Derbi Özel</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905130000 +0000" stop="20260905140000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905140000 +0000" stop="20260905150000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905150000 +0000" stop="20260905170000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Karpaty-Shakhtar</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905175000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Maç Anı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905175000 +0000" stop="20260905180500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905180500 +0000" stop="20260905190000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Maç Anı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905190000 +0000" stop="20260905203000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905203000 +0000" stop="20260905220000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905220000 +0000" stop="20260905233000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905233000 +0000" stop="20260906010000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906010000 +0000" stop="20260906023000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Tommy</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906023000 +0000" stop="20260906040000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">George Best: All By Himself</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906040000 +0000" stop="20260906053000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906053000 +0000" stop="20260906070000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906070000 +0000" stop="20260906080000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Almanya Bisiklet Turu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906080000 +0000" stop="20260906093000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906093000 +0000" stop="20260906110000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906110000 +0000" stop="20260906130000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Hafta Sonu Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906130000 +0000" stop="20260906150000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">1461 Trabzon FK - Sakaryaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906150000 +0000" stop="20260906160000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Hafta Sonu Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906160000 +0000" stop="20260906180000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Eskişehirspor - Alanya 1221 Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906180000 +0000" stop="20260906190000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Maç Anı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906190000 +0000" stop="20260906203000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906203000 +0000" stop="20260906220000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906220000 +0000" stop="20260906233000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906233000 +0000" stop="20260907010000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907010000 +0000" stop="20260907023000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Slaying The Badger</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907023000 +0000" stop="20260907040000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907040000 +0000" stop="20260907053000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Forvet Hattı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907053000 +0000" stop="20260907063000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907063000 +0000" stop="20260907070000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907080000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907080000 +0000" stop="20260907093000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Spor Arası</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907093000 +0000" stop="20260907103000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Almanya Bisiklet Turu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907103000 +0000" stop="20260907123000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Her Gün Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907123000 +0000" stop="20260907130000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Dünyadan Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907130000 +0000" stop="20260907143000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Lokal Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907143000 +0000" stop="20260907150000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907150000 +0000" stop="20260907163000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Ana Haber</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907163000 +0000" stop="20260907170000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907190000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Açık Alan</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907190000 +0000" stop="20260907210000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
   </programme>
   <programme start="20260903103058 +0000" stop="20260903110441 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
@@ -25687,8 +26074,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903212820 +0000" stop="20260903213910 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903212820 +0000" stop="20260903213000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260903213000 +0000" stop="20260903213910 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Ayvalıkgücü Belediyespor - 52 Orduspor FK</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260903213910 +0000" stop="20260903224346 +0000" channel="TivibuSpor1.tr">
@@ -25699,16 +26090,24 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903230353 +0000" stop="20260903232802 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260903230353 +0000" stop="20260903232000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260903232000 +0000" stop="20260903232802 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Çorlu Spor 1947 - Malatya Yeşilyurt Spor</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260903232802 +0000" stop="20260904003630 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904003630 +0000" stop="20260904010308 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904003630 +0000" stop="20260904010000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904010000 +0000" stop="20260904010308 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türkiye-Kosova</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904010308 +0000" stop="20260904011810 +0000" channel="TivibuSpor1.tr">
@@ -25735,8 +26134,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904022033 +0000" stop="20260904025218 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904022033 +0000" stop="20260904024500 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904024500 +0000" stop="20260904025218 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904025218 +0000" stop="20260904031220 +0000" channel="TivibuSpor1.tr">
@@ -25775,8 +26178,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904063206 +0000" stop="20260904071004 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904063206 +0000" stop="20260904064500 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904064500 +0000" stop="20260904071004 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904071004 +0000" stop="20260904073002 +0000" channel="TivibuSpor1.tr">
@@ -25819,8 +26226,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904102047 +0000" stop="20260904104045 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904102047 +0000" stop="20260904103000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904103000 +0000" stop="20260904104045 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904104045 +0000" stop="20260904110048 +0000" channel="TivibuSpor1.tr">
@@ -25855,8 +26266,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904140321 +0000" stop="20260904142320 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904140321 +0000" stop="20260904141000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904141000 +0000" stop="20260904142320 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Muş Spor- Aliağa Futbol A.Ş.</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904142320 +0000" stop="20260904144302 +0000" channel="TivibuSpor1.tr">
@@ -25875,8 +26290,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904154307 +0000" stop="20260904164536 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904154307 +0000" stop="20260904164000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904164000 +0000" stop="20260904164536 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Tommy</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904164536 +0000" stop="20260904170535 +0000" channel="TivibuSpor1.tr">
@@ -25895,8 +26314,160 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904175549 +0000" stop="20260904181548 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260904175549 +0000" stop="20260904180000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904180000 +0000" stop="20260904181548 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Muğlaspor - Kızılkaya Tarım Şanlıurfaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor1.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904183549 +0000" stop="20260904194500 +0000" channel="TivibuSpor1.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904194500 +0000" stop="20260904204500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Çekya Bisiklet Turu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904204500 +0000" stop="20260904210500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904210500 +0000" stop="20260904225400 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Ayvalıkgücü Belediyespor - 52 Orduspor FK</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904225400 +0000" stop="20260905003500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Çorlu Spor 1947 - Malatya Yeşilyurt Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905003500 +0000" stop="20260905041500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905041500 +0000" stop="20260905074500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905074500 +0000" stop="20260905113000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905113000 +0000" stop="20260905130000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">George Best: All By Himself</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905130000 +0000" stop="20260905140000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Paris Maratonu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905140000 +0000" stop="20260905160000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Bursa Yıldırım - Söke 1970</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905160000 +0000" stop="20260905163000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905163000 +0000" stop="20260905183000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Mardin 1969 Spor - Muş Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905183000 +0000" stop="20260905212500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Muğlaspor - Seza Çimento Elazığspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905212500 +0000" stop="20260906004900 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906004900 +0000" stop="20260906043000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906043000 +0000" stop="20260906081500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906081500 +0000" stop="20260906101500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Mardin 1969 Spor - Muş Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906101500 +0000" stop="20260906133000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Muğlaspor - Seza Çimento Elazığspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906133000 +0000" stop="20260906153000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">KDZ. Ereğli Belediyespor - Fatsa Belediyespor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906153000 +0000" stop="20260906160000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Spartan Ultra Championship</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906160000 +0000" stop="20260906180000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">MKE Ankaragücü - Ankara Demirspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906180000 +0000" stop="20260906183000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">BarselonaMaratonu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906183000 +0000" stop="20260906201500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Bursa Yıldırım - Söke 1970</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906201500 +0000" stop="20260906220000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Hillsborough</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906220000 +0000" stop="20260907013500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907013500 +0000" stop="20260907051500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907051500 +0000" stop="20260907070000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Seza Çimento Elazığspor - Sebat SK</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907084500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Akedaş Kahramanmaraş İstiklal Spor - Beyoğlu Yeni Çarşı</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907084500 +0000" stop="20260907103000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Eskişehirspor - Alanya 1221 Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907103000 +0000" stop="20260907121500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">MKE Ankaragücü - Ankara Demirspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907121500 +0000" stop="20260907140000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Kızılkaya Tarım Şanlıurfaspor- Ankaraspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907140000 +0000" stop="20260907154500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Etimesgut - Karşıyaka</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907154500 +0000" stop="20260907173000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">1461 Trabzon FK - Sakaryaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907173000 +0000" stop="20260907191500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">KDZ. Ereğli Belediyespor - Fatsa Belediyespor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907191500 +0000" stop="20260907211500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Yozgat BLD Bozok Spor - Ejderoğlu Kırşehir Futbol</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260903103058 +0000" stop="20260903110441 +0000" channel="TivibuSpor2.tr">
@@ -26075,8 +26646,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904014740 +0000" stop="20260904022033 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904014740 +0000" stop="20260904020000 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904020000 +0000" stop="20260904022033 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904022033 +0000" stop="20260904025218 +0000" channel="TivibuSpor2.tr">
@@ -26119,8 +26694,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904063206 +0000" stop="20260904071004 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904063206 +0000" stop="20260904070000 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904070000 +0000" stop="20260904071004 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904071004 +0000" stop="20260904073002 +0000" channel="TivibuSpor2.tr">
@@ -26175,8 +26754,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904115657 +0000" stop="20260904121656 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904115657 +0000" stop="20260904120000 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904120000 +0000" stop="20260904121656 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904121656 +0000" stop="20260904123658 +0000" channel="TivibuSpor2.tr">
@@ -26223,8 +26806,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904164536 +0000" stop="20260904170535 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260904164536 +0000" stop="20260904170000 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904170000 +0000" stop="20260904170535 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904170535 +0000" stop="20260904172533 +0000" channel="TivibuSpor2.tr">
@@ -26241,6 +26828,82 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260904175549 +0000" stop="20260904181548 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904183549 +0000" stop="20260904210000 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904210000 +0000" stop="20260905020000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905020000 +0000" stop="20260905070000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905070000 +0000" stop="20260905120000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905120000 +0000" stop="20260905170000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905210000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905210000 +0000" stop="20260906020000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906020000 +0000" stop="20260906070000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906070000 +0000" stop="20260906120000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906120000 +0000" stop="20260906133000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906133000 +0000" stop="20260906160000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Etimesgut - Karşıyaka</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906160000 +0000" stop="20260906180000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Seza Çimento Elazığspor - Sebat SK</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906210000 +0000" stop="20260907020000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907020000 +0000" stop="20260907070000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907120000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907120000 +0000" stop="20260907170000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907210000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260903103058 +0000" stop="20260903110441 +0000" channel="TivibuSpor3.tr">
@@ -26419,8 +27082,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904014740 +0000" stop="20260904022033 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904014740 +0000" stop="20260904020000 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904020000 +0000" stop="20260904022033 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904022033 +0000" stop="20260904025218 +0000" channel="TivibuSpor3.tr">
@@ -26463,8 +27130,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904063206 +0000" stop="20260904071004 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904063206 +0000" stop="20260904070000 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904070000 +0000" stop="20260904071004 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904071004 +0000" stop="20260904073002 +0000" channel="TivibuSpor3.tr">
@@ -26519,8 +27190,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904115657 +0000" stop="20260904121656 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904115657 +0000" stop="20260904120000 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904120000 +0000" stop="20260904121656 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904121656 +0000" stop="20260904123658 +0000" channel="TivibuSpor3.tr">
@@ -26567,8 +27242,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904164536 +0000" stop="20260904170535 +0000" channel="TivibuSpor3.tr">
+  <programme start="20260904164536 +0000" stop="20260904170000 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904170000 +0000" stop="20260904170535 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904170535 +0000" stop="20260904172533 +0000" channel="TivibuSpor3.tr">
@@ -26585,6 +27264,78 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260904175549 +0000" stop="20260904181548 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904183549 +0000" stop="20260904210000 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904210000 +0000" stop="20260905020000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905020000 +0000" stop="20260905070000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905070000 +0000" stop="20260905120000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905120000 +0000" stop="20260905170000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905210000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905210000 +0000" stop="20260906020000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906020000 +0000" stop="20260906070000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906070000 +0000" stop="20260906120000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906120000 +0000" stop="20260906160000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906160000 +0000" stop="20260906180000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Kızılkaya Tarım Şanlıurfaspor - Ankaraspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906180000 +0000" stop="20260906210000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906210000 +0000" stop="20260907020000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907020000 +0000" stop="20260907070000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907120000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907120000 +0000" stop="20260907170000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907210000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260903103058 +0000" stop="20260903110441 +0000" channel="TivibuSpor4.tr">
@@ -26763,8 +27514,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904014740 +0000" stop="20260904022033 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904014740 +0000" stop="20260904020000 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904020000 +0000" stop="20260904022033 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904022033 +0000" stop="20260904025218 +0000" channel="TivibuSpor4.tr">
@@ -26807,8 +27562,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904063206 +0000" stop="20260904071004 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904063206 +0000" stop="20260904070000 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904070000 +0000" stop="20260904071004 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904071004 +0000" stop="20260904073002 +0000" channel="TivibuSpor4.tr">
@@ -26863,8 +27622,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904115657 +0000" stop="20260904121656 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904115657 +0000" stop="20260904120000 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904120000 +0000" stop="20260904121656 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904121656 +0000" stop="20260904123658 +0000" channel="TivibuSpor4.tr">
@@ -26911,8 +27674,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904164536 +0000" stop="20260904170535 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260904164536 +0000" stop="20260904170000 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904170000 +0000" stop="20260904170535 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904170535 +0000" stop="20260904172533 +0000" channel="TivibuSpor4.tr">
@@ -26931,19 +27698,78 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260903203000 +0000" stop="20260903210000 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904183549 +0000" stop="20260904210000 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">Yayın akışı açıklanmadı — لم يُعلن البث</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260904210000 +0000" stop="20260905020000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905020000 +0000" stop="20260905070000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905070000 +0000" stop="20260905120000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905120000 +0000" stop="20260905170000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905170000 +0000" stop="20260905210000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260905210000 +0000" stop="20260906020000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906020000 +0000" stop="20260906070000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906070000 +0000" stop="20260906120000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906120000 +0000" stop="20260906170000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906170000 +0000" stop="20260906210000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260906210000 +0000" stop="20260907020000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907020000 +0000" stop="20260907070000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907070000 +0000" stop="20260907120000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907120000 +0000" stop="20260907170000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260907170000 +0000" stop="20260907210000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
   </programme>
   <programme start="20260904183000 +0000" stop="20260904190000 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903200000 +0000" stop="20260903210000 +0000" channel="beINSPORTS2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
   <programme start="20260904183000 +0000" stop="20260904185900 +0000" channel="beINSPORTS2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260903200000 +0000" stop="20260903210100 +0000" channel="beINSPORTS3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260904191500 +0000" stop="20260905103000 +0000" channel="beINSPORTS3.tr">
@@ -26955,25 +27781,19 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260904183000 +0000" stop="20260904210000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903203000 +0000" stop="20260903213000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260905060000 +0000" stop="20260905063000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260905210000 +0000" stop="20260905213000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260905070000 +0000" stop="20260905071500 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260906203000 +0000" stop="20260909210000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260905083000 +0000" stop="20260905090000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260905113000 +0000" stop="20260905123000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260904181548 +0000" stop="20260904183549 +0000" channel="TivibuSpor4.tr">
+  <programme start="20260907200000 +0000" stop="20260909210000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260903210000 +0000" stop="20260903213000 +0000" channel="Roya_RoyaTV">
@@ -70099,7 +70919,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260904154500 +0000" stop="20260904170000 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260903105500 +0000" stop="20260903110000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Program: Dawreena + 2026-2027</title>
     <desc lang="en">Program: Dawreena + 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -70603,13 +71423,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903105000 +0000" channel="Starz_admnadsports2">
-    <title lang="en">UCI World Tour - La Vuelta a España 2026 - Daily H</title>
-    <desc lang="en">UCI World Tour - La Vuelta a España 2026 - Daily Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260903105000 +0000" stop="20260903153000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260903105500 +0000" stop="20260903153000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -70933,7 +71747,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903111000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260903105500 +0000" stop="20260903111000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Juventus x Parma - Serie A</title>
     <title lang="ar">يوفنتوس × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -71570,7 +72384,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903115500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260903105500 +0000" stop="20260903115500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Cagliari x Inter Milan - Serie A</title>
     <title lang="ar">كالياري × إنترميلان - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -72145,7 +72959,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903112000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260903105500 +0000" stop="20260903112000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Forget About Friendship - UFC: The Ultimate Fighter</title>
     <title lang="ar">فورغيت أباوت فريندشيب - بطولة القتال النهائي: المقاتل النهائي</title>
     <desc lang="en">Stay tuned to UFC: The Ultimate Fighter.</desc>
@@ -72677,7 +73491,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110800 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260903105500 +0000" stop="20260903110800 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Wales U20 vs. Georgia U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">Wales U20 vs. Georgia U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -72875,7 +73689,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260903105500 +0000" stop="20260903110000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">The Game 365</title>
     <title lang="ar">اللعبة 356</title>
     <desc lang="en">TV broadcaster and former baseball player Fran Healy interviews icons from the world of sports about their time in the sun.</desc>
@@ -73498,14 +74312,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903103800 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">3rd ODI: England v India - One-Day International Cricket</title>
-    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
-    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260903103800 +0000" stop="20260903122700 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260903105500 +0000" stop="20260903122700 +0000" channel="Starz_cricbuzz1">
     <title lang="en">1st Test: Sri Lanka vs. India - Test Cricket</title>
     <title lang="ar">تست كريكيت</title>
     <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
@@ -74157,14 +74964,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903104900 +0000" channel="Starz_wedosports">
-    <title lang="en">Clubland</title>
-    <title lang="ar">كلبلاند</title>
-    <desc lang="en">S1 , E38 : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
-  </programme>
-  <programme start="20260903104900 +0000" stop="20260903111900 +0000" channel="Starz_wedosports">
+  <programme start="20260903105500 +0000" stop="20260903111900 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلبلاند</title>
     <desc lang="en">S1 , E16 : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
@@ -74755,7 +75555,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p20258417_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110000 +0000" channel="Starz_unbeatensports">
+  <programme start="20260907103600 +0000" stop="20260907115000 +0000" channel="Starz_wedosports">
+    <title lang="en">France, Race 1 - FIA TCR World Tour - LIVE</title>
+    <desc lang="en">France, Race 1 - FIA TCR World Tour - LIVE</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25439127_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260903105500 +0000" stop="20260903110000 +0000" channel="Starz_unbeatensports">
     <title lang="en">Fantasy Life Show</title>
     <desc lang="en">Kendall, Dwain and Peter break down the top 48 WRs before the 2026 fantasy season.</desc>
     <category lang="en">Sport</category>
@@ -75151,7 +75957,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/Unbeaten%20Poster_1920%20X%201080.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110000 +0000" channel="Starz_criclife1">
+  <programme start="20260903105500 +0000" stop="20260903110000 +0000" channel="Starz_criclife1">
     <title lang="en">ACC Men's U19: Pakistan vs UAE - Future Stars Zone</title>
     <desc lang="en">ACC Men's U19: Pakistan vs UAE - Future Stars Zone</desc>
     <category lang="en">Sport</category>
@@ -75695,13 +76501,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903103600 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Rotterdam Dockers vs Amsterdam Flames - ETPL Highlights</title>
-    <desc lang="en">2026: Rotterdam Dockers vs Amsterdam Flames - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260903103600 +0000" stop="20260903110000 +0000" channel="Starz_criclife3">
+  <programme start="20260903105500 +0000" stop="20260903110000 +0000" channel="Starz_criclife3">
     <title lang="en">2026: St Kitts And Nevis Patriots vs Jamaica Kingsmen, 18th Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -76628,14 +77428,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903104800 +0000" channel="Starz_golflife">
-    <title lang="en">PGA Tour - The Cut</title>
-    <title lang="ar">ذا كت</title>
-    <desc lang="en">S2026 , E28 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h8_ah.jpg" />
-  </programme>
-  <programme start="20260903104800 +0000" stop="20260903111500 +0000" channel="Starz_golflife">
+  <programme start="20260903105500 +0000" stop="20260903111500 +0000" channel="Starz_golflife">
     <title lang="en">2026 Irish Challenge - HotelPlannerTour Series H/L</title>
     <desc lang="en">2026 Irish Challenge - HotelPlannerTour Series H/L</desc>
     <category lang="en">Sport</category>
@@ -77045,7 +77838,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903114500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260903105500 +0000" stop="20260903114500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Dubai 43-Foot Sailing Boat Race - Sailing Race</title>
     <title lang="ar">سباق دبي للقوارب الشراعية فئة 43 قدمًا - سباق القوارب الشراعية</title>
     <desc lang="en">Follow the latest actions of the Sailing Races from around the world.</desc>
@@ -77675,7 +78468,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903120000 +0000" channel="Starz_awsn">
+  <programme start="20260903105500 +0000" stop="20260903120000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -77969,7 +78762,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110000 +0000" channel="Starz_redbulltv">
+  <programme start="20260903105500 +0000" stop="20260903110000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -78551,7 +79344,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903120000 +0000" channel="Starz_daznringside">
+  <programme start="20260903105500 +0000" stop="20260903120000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -78749,7 +79542,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903110623 +0000" channel="Starz_fifaplus">
+  <programme start="20260903105500 +0000" stop="20260903110623 +0000" channel="Starz_fifaplus">
     <title lang="en">Germany v Sweden | Final | FIFA Women's World Cup USA 2003™ | Full Match Replay</title>
     <desc lang="en">Watch the full replay from the match between Germany and Sweden played at StubHub Center, Carson on Sunday, 12 October 2003.</desc>
     <category lang="en">Sport</category>
@@ -79079,14 +79872,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/69717.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903105300 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2024: India vs Sri Lanka, Match 12 - ICC Women's T20 World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
-    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260903105300 +0000" stop="20260903112000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260903105500 +0000" stop="20260903112000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2024: New Zealand vs. Pakistan, Match 19 - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
@@ -79563,7 +80349,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903113000 +0000" channel="Starz_admnyastv">
+  <programme start="20260903105500 +0000" stop="20260903113000 +0000" channel="Starz_admnyastv">
     <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
     <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
     <category lang="en">Sport</category>
@@ -80025,7 +80811,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260903103500 +0000" stop="20260903130000 +0000" channel="Starz_adfight">
+  <programme start="20260903105500 +0000" stop="20260903130000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -85075,24 +85861,24 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904070000 +0000" stop="20260905070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد ساعتين و51 دقيقة ⁨·⁩ ⁨Ismaily SC - Al Nasr FC · On Sport Max⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد ساعتين و31 دقيقة ⁨·⁩ ⁨Ismaily SC - Al Nasr FC · On Sport Max⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 04/09 — بتوقيتك
-⁦⏳ 06:30 ساعتين و51 دقيقة  Ismaily SC - Al Nasr FC · On Sport Max⁩
-⁦08:00 4 ساعات و21 دقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
-⁦09:00 5 ساعات و21 دقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
-⁦10:00 6 ساعات و21 دقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+ +2⁩
+⁦⏳ 06:30 ساعتين و31 دقيقة  Ismaily SC - Al Nasr FC · On Sport Max⁩
+⁦08:00 4 ساعات ودقيقة  Shabab Al Ordon - Ramtha SC · الأردن الرياضية⁩
+⁦09:00 5 ساعات ودقيقة  Abha Club - Al Ettifaq · Thmanyah · Thmanyah 2 HD⁩
+⁦10:00 6 ساعات ودقيقة  Lyon - Auxerre · beIN 4 · beIN 2 TR · Ligue1+ +2⁩
 ⁦Asswehly SC - KVZ SC · Libya Sports⁩
 ⁦AS Port - Zamalek SC · ON Sport⁩
 ⁦İstanbul Başakşehir - Galatasaray · beIN 5 · Bein 1 TR · beIN 1 TR⁩
-⁦10:30 6 ساعات و51 دقيقة  Al Wehdat - Al Faisaly · الأردن الرياضية · Futbolas TV⁩
-⁦11:00 7 ساعات و21 دقيقة  Al Shabab FC - Al Hilal · Thmanyah · Fox Soccer Plus · HT Spor TR +5⁩
+⁦10:30 6 ساعات و31 دقيقة  Al Wehdat - Al Faisaly · الأردن الرياضية · Futbolas TV⁩
+⁦11:00 7 ساعات ودقيقة  Al Shabab FC - Al Hilal · Thmanyah · Fox Soccer Plus · HT Spor TR +5⁩
 ⁦Al Ahli - Al-Riyadh SC · Thmanyah · S Sport Plus TR · DAZN Germany +5⁩
 ⁦JS Saoura - Horoya AC · TV1 Algerian⁩
 ⁦London City Lionesses - Manchester United Women · Sky Main Event · Sky Football · Sky One +1⁩
-⁦11:30 7 ساعات و51 دقيقة  Stuttgart - FC Koln · MBC Shahid · S Sport Plus TR · MBC Action +1⁩
-⁦12:00 8 ساعات و21 دقيقة  Ipswich - Liverpool · beIN 3 · Sky Main Event · AzTV TR +7⁩
+⁦11:30 7 ساعات و31 دقيقة  Stuttgart - FC Koln · MBC Shahid · S Sport Plus TR · MBC Action +1⁩
+⁦12:00 8 ساعات ودقيقة  Ipswich - Liverpool · beIN 3 · Sky Main Event · AzTV TR +7⁩
 ⁦Betis - Real Madrid · beIN 1 · Premier Sports 1 · S Sport TR +5⁩
-⁦12:05 8 ساعات و26 دقيقة  PSG - Monaco · beIN 2 · beIN US · beIN 2 TR +10⁩</desc>
+⁦12:05 8 ساعات و6 دقائق  PSG - Monaco · beIN 2 · beIN US · beIN 2 TR +10⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodayMatches">
@@ -85105,7 +85891,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Preston North End - Blackburn Rovers · beIN 2 · Sky Main Event · Sky Football⁩
 ⁦Stoke City - Charlton Athletic · Sky+⁩
 ⁦Knowle - Worcester City · BBC Red Button⁩
-⁦05:45 يوم وساعتين  Mexico - Benin · beIN XTRA 5⁩
+⁦05:45 يوم وساعة  Mexico - Benin · beIN XTRA 5⁩
 ⁦06:00 يوم وساعتين  Brazil - Tanzania · beIN Xtra 6⁩
 ⁦Poland - Argentina · beIN⁩
 ⁦Brazil Women U20 - Tanzania Women U20 · DAZN⁩
@@ -85124,9 +85910,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦07:15 يوم و3 ساعات  Ath Bilbao - Atl. Madrid · beIN 6 · LALIGATV · beIN FR 1⁩
 ⁦08:00 يوم و4 ساعات  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
 ⁦08:15 يوم و4 ساعات  Lens - Lorient · beIN Xtra 1 · beIN XTRA 1⁩
-⁦08:45 يوم و5 ساعات  Brazil - Tanzania · beIN XTRA 6⁩
-⁦08:50 يوم و5 ساعات  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
-⁦08:55 يوم و5 ساعات  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
+⁦08:45 يوم و4 ساعات  Brazil - Tanzania · beIN XTRA 6⁩
+⁦08:50 يوم و4 ساعات  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
+⁦08:55 يوم و4 ساعات  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
 ⁦09:00 يوم و5 ساعات  Mexico - Benin · beIN Xtra 5⁩
 ⁦Canada - England · beIN Xtra 5 · beIN XTRA 5⁩
 ⁦Canada Women U20 - England Women U20 · DAZN⁩
@@ -85135,10 +85921,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦09:30 يوم و5 ساعات  Hull City - Aston Villa · beIN 4K · Sky Main Event · beIN 3 TR +5⁩
 ⁦Rayo Vallecano - Racing Santander · beIN 2 · LALIGATV⁩
 ⁦Schalke - Bayern Munich · MBC Shahid · Sky Football⁩
-⁦09:50 يوم و6 ساعات  Fenerbahçe - Beşiktaş · beIN 5 · beIN 1 TR⁩
+⁦09:50 يوم و5 ساعات  Fenerbahçe - Beşiktaş · beIN 5 · beIN 1 TR⁩
 ⁦10:30 يوم و6 ساعات  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
 ⁦11:00 يوم و7 ساعات  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Thmanyah 1 HD⁩
-⁦11:45 يوم و8 ساعات  Nice - Le Mans · beIN 3 · beIN 3 TR · Ligue1+⁩
+⁦11:45 يوم و7 ساعات  Nice - Le Mans · beIN 3 · beIN 3 TR · Ligue1+⁩
 ⁦Le Havre - Brest · beIN 4 · Ligue1+⁩
 ⁦12:00 يوم و8 ساعات  Villarreal - Dep. La Coruna · beIN 2 · Disney+⁩
 ⁦Swansea - Wrexham · Sky Main Event · beIN 1 EN · beIN EN 1⁩</desc>
@@ -85148,7 +85934,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">⁦⏳ بعد يومين ⁨·⁩ ⁨Birmingham - Wolves · beIN 2 · Sky Football · beIN 2 EN⁩⁩</title>
     <desc lang="ar">مباريات الأحد 06/09 — بتوقيتك
 ⁦⏳ 04:00 يومين  Birmingham - Wolves · beIN 2 · Sky Football · beIN 2 EN⁩
-⁦05:45 يومين وساعتين  USA - Italy · beIN 4⁩
+⁦05:45 يومين وساعة  USA - Italy · beIN 4⁩
 ⁦06:00 يومين وساعتين  Everton - Manchester Utd · beIN 1 · Sky Main Event · beIN 3 TR +4⁩
 ⁦Troyes - Strasbourg · beIN 3 · Ligue1+⁩
 ⁦France - South Korea · beIN Xtra 2⁩
@@ -85159,9 +85945,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦06:30 يومين وساعتين  Hamburger SV - Mainz · MBC Shahid · MBC Action⁩
 ⁦07:15 يومين و3 ساعات  Valencia - Barcelona · beIN 2 · Premier Sports 2 · beIN FR 2⁩
 ⁦08:15 يومين و4 ساعات  Angers - Rennes · beIN 4 · Ligue1+⁩
-⁦08:30 يومين و4 ساعات  Arsenal - Chelsea · beIN 4K · Sky Main Event · beIN Xtra 1 +4⁩
+⁦08:30 يومين و4 ساعات  Arsenal - Chelsea · beIN 4K · Sky Main Event · beIN 3 TR +5⁩
 ⁦Eintracht Frankfurt - Augsburg · MBC Shahid · MBC Action⁩
-⁦08:45 يومين و5 ساعات  France - Korea Republic · beIN XTRA 2⁩
+⁦08:45 يومين و4 ساعات  France - Korea Republic · beIN XTRA 2⁩
 ⁦09:00 يومين و5 ساعات  Ecuador - Ghana · beIN Xtra 3 · beIN XTRA 3⁩
 ⁦USA - Italy · beIN 4⁩
 ⁦Ecuador Women U20 - Ghana Women U20 · DAZN⁩
@@ -85169,8 +85955,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Bologna - Sassuolo · BBC Alba · DAZN⁩
 ⁦09:30 يومين و5 ساعات  Malaga - Levante · beIN 3 · Premier Sports 2⁩
 ⁦Alaves - Osasuna · beIN 2 · Premier Sports 2⁩
-⁦09:55 يومين و6 ساعات  Trabzonspor - Gençlerbirliği · beIN 5 · beIN 1 TR · beIN FR 2⁩
-⁦11:45 يومين و8 ساعات  Marseille - Paris FC · beIN 4 · beIN 4 TR · Ligue1+ +3⁩
+⁦09:55 يومين و5 ساعات  Trabzonspor - Gençlerbirliği · beIN 5 · beIN 1 TR · beIN FR 2⁩
+⁦11:45 يومين و7 ساعات  Marseille - Paris FC · beIN 4 · beIN 4 TR · Ligue1+ +3⁩
 ⁦Juventus - AC Milan · TNT 1 · DAZN · HBO Max⁩
 ⁦12:00 يومين و8 ساعات  Espanyol - Sevilla · beIN 2 · LALIGATV⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_8.png" />
@@ -92625,4 +93411,4 @@ Norris Launches Ambitious Program to Support Upcoming Formula 1 Stars
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260904183549 +0000" stop="20260904183931 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904183549 +0000" stop="20260904183931 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904183549 +0000" stop="20260904183931 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904183549 +0000" stop="20260904183931 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260904175913 +0000" stop="20260904183931 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260904175913 +0000" stop="20260904185921 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
