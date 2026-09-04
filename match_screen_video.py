@@ -80,6 +80,24 @@ SCREENS = {
     "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
 }
 
+# A quiet synthetic bed for each screen, embedded in the stream itself so the
+# channel always carries audio and the player never has to fetch a sidecar
+# asset. Held low and simple on purpose: it is background, not the programme.
+AUDIO_BEDS = {
+    "today_matches_": (
+        "matches",
+        "aevalsrc=(0.010*sin(2*PI*196*t)+0.008*sin(2*PI*246.94*t)"
+        "+0.006*sin(2*PI*293.66*t))*(0.78+0.22*sin(2*PI*0.25*t))"),
+    "other_sports_": (
+        "sports",
+        "aevalsrc=(0.010*sin(2*PI*220*t)+0.008*sin(2*PI*277.18*t)"
+        "+0.006*sin(2*PI*329.63*t))*(0.76+0.24*sin(2*PI*0.22*t))"),
+    "today_news_": (
+        "news",
+        "aevalsrc=(0.009*sin(2*PI*174.61*t)+0.007*sin(2*PI*220*t)"
+        "+0.006*sin(2*PI*261.63*t))*(0.74+0.20*sin(2*PI*0.18*t))"),
+}
+
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
 # the channel is live and the window rolls forward with each build.
 #
@@ -234,7 +252,7 @@ def boards(prefix: str) -> list[str]:
 #      fingerprint below — the news pages hold for 35 seconds and the
 #      fixtures pages for 20, so the same picture on two screens is not
 #      the same segment
-ENCODER_REVISION = 6
+ENCODER_REVISION = 7
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -312,6 +330,15 @@ def whole_days(prefix: str, every: list[str]) -> list[str]:
     log(f"  the reel is {len(every)} board(s) over {len(counts)} day(s) — "
         f"{len(every) * HOLD}s a lap, nothing left out")
     return every
+
+
+def audio_bed(path: str) -> str:
+    """The embedded background bed this screen carries."""
+    name = os.path.basename(path)
+    for prefix, (_, filtergraph) in AUDIO_BEDS.items():
+        if name.startswith(prefix):
+            return filtergraph
+    return "aevalsrc=0"
 
 
 def digest(paths: list[str]) -> str:
@@ -551,11 +578,15 @@ def encode_segment(board: str, out: str, place: int = 0,
     so the same picture at the same place always encodes to the same
     bytes, and nothing is re-encoded for having been given an offset.
     """
+    sample_rate = "sample_rate=32000"
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
         "-loop", "1", "-framerate", str(FPS), "-i", board,
-        # Silent audio: a live-television player with no audio track at all
-        # will sometimes sit on a black screen rather than show the video.
+        # Embedded background music: a live-television player with no audio
+        # track at all will sometimes sit on a black screen rather than show
+        # the video, and the three channels were asked to carry music rather
+        # than silence.
+        #
         # 32000 and not 16000, measured rather than chosen: 20 x 16000
         # runs 96 ms long, 20 x 32000 runs 32 ms long.
         #
@@ -572,7 +603,8 @@ def encode_segment(board: str, out: str, place: int = 0,
         # 0.096 long, 48000 starts 0.021 early and runs 0.032 long. So
         # it is MEASURED, and every board is placed by the measured
         # length rather than by HOLD, which is what closes the overlap.
-        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
+        "-f", "lavfi", "-i",
+        f"{audio_bed(board)}:{sample_rate}:channel_layout=mono",
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
         "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
         # -r as well as the filter, because it is -r that makes the

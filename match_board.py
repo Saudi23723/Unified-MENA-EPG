@@ -72,6 +72,10 @@ OVER = (232, 93, 93, 255)        # and of one that has already been played
 LIVE_BG = (18, 52, 38, 255)
 PILL = (30, 45, 66, 255)
 PILL_INK = (176, 199, 227, 255)
+INK_TOP = (8, 16, 28, 255)
+INK_BOTTOM = (16, 33, 52, 255)
+SHEEN = (74, 130, 212, 180)
+AURA = (40, 88, 170, 68)
 
 ARABIC = re.compile(r"[؀-ۿݐ-ݿ]")
 
@@ -166,6 +170,23 @@ def norm_line(value) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
 
 
+def paint_background(board: Image.Image) -> None:
+    """A darker top and a softer lower half, so the board reads like a screen."""
+    pen = ImageDraw.Draw(board, "RGBA")
+    for y in range(H):
+        mix = y / max(H - 1, 1)
+        colour = tuple(
+            int(top + (bottom - top) * mix)
+            for top, bottom in zip(INK_TOP[:3], INK_BOTTOM[:3]))
+        pen.line([(0, y), (W, y)], fill=colour + (255,), width=1)
+    pen.ellipse([W - 420, -180, W + 120, 260], fill=AURA)
+    pen.rounded_rectangle([PAD - 18, PAD - 18, W - PAD + 18, PAD + 86],
+                          radius=28, fill=(11, 20, 34, 214),
+                          outline=SHEEN, width=2)
+    pen.line([(PAD + 20, PAD + 84), (W - PAD - 20, PAD + 84)],
+             fill=SHEEN, width=3)
+
+
 def draw_mark(pen, x: int, y: int, size: int) -> None:
     """The channel's mark, drawn rather than shrunk.
 
@@ -207,6 +228,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     in order. `live_for` is how long a match counts as under way.
     """
     board = Image.new("RGBA", (W, H), INK)
+    paint_background(board)
     pen = ImageDraw.Draw(board)
 
     # ---- header ---------------------------------------------------------

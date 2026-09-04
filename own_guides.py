@@ -565,20 +565,33 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
     """
     out: list[dict] = []
     for path, mark, names_it, sport, competition in OUR_OWN_FIGHTS:
+        picked: list[dict] = []
+        fallback: list[dict] = []
         found = 0
         for row in programmes(path, mark):
             if not names_it.search(row["title"]):
                 continue
             if floor is not None and not (floor <= row["start"] < ceiling):
                 continue
-            out.append({
+            event = {
                 "start": row["start"],
                 "title": norm(row["title"]),
                 "competition": competition,
                 "sport": sport,
                 "channels": [row["channel"]],
-            })
+            }
+            # A guide sometimes exposes a TOPIC stream beside the real
+            # broadcaster carrying that topic. On Roya's network RFC appears
+            # as a pseudo-channel literally called "RFC" all day, while the
+            # actual live airing is on Roya TV. The board needs the channel a
+            # viewer can tune to, so a row whose "channel" is just the
+            # competition name is only a fallback.
+            if norm(row["channel"]).casefold() == competition.casefold():
+                fallback.append(event)
+            else:
+                picked.append(event)
             found += 1
+        out.extend(picked or fallback)
         if found:
             log(f"  {os.path.basename(path)}: {found} {competition} "
                 f"event(s) this repository already had")

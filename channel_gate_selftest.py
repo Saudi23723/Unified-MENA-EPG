@@ -3137,6 +3137,12 @@ def gate_the_window_keeps_moving() -> None:
         frames = video.HOLD * int(rate.group(1)) / 1024
         check("WINDOW", "and a segment's audio lands exactly on its end",
               frames == int(frames), True)
+    beds = [video.audio_bed(f"boards/{prefix}0.png")
+            for prefix in ("today_matches_", "other_sports_", "today_news_")]
+    check("WINDOW", "the three channels carry an embedded music bed",
+          all("aevalsrc=" in bed for bed in beds), True)
+    check("WINDOW", "and each channel's bed is its own, not the same silence",
+          len(set(beds)), 3)
     already, _ = body.split("os.makedirs(OUT_DIR", 1)
     check("WINDOW", "the not-re-encoded pass writes the playlist too",
           "write_playlist" in already, True)
@@ -3396,6 +3402,12 @@ def gate_a_board_changes_only_when_its_content_does() -> None:
                news_board.draw_board(stories, later, viewer,
                                      title="أخبار اليوم", subtitle="نشرة",
                                      page=1, pages=6)), True)
+    painted = news_board.draw_board(stories, at, viewer,
+                                    title="أخبار اليوم", subtitle="نشرة",
+                                    page=1, pages=6)
+    check("PICTURE", "the news template is a graduated backdrop, not a flat fill",
+          painted.getpixel((match_board.W // 2, 0))
+          != painted.getpixel((match_board.W // 2, match_board.H - 1)), True)
 
     # AND THE TWO FIXTURES BOARDS, which have always been right and are
     # checked so they stay right.
@@ -3414,6 +3426,13 @@ def gate_a_board_changes_only_when_its_content_does() -> None:
                                       title="مباريات اليوم", subtitle="بث",
                                       weekday="الجمعة", page=1, pages=3)),
           True)
+    board = match_board.draw_board(day, events, at, viewer,
+                                   timedelta(hours=2),
+                                   title="مباريات اليوم", subtitle="بث",
+                                   weekday="الجمعة", page=1, pages=3)
+    check("PICTURE", "and the fixtures template is a graduated backdrop too",
+          board.getpixel((match_board.W // 2, 0))
+          != board.getpixel((match_board.W // 2, match_board.H - 1)), True)
 
     # AND THE PICTURE STILL CHANGES WHEN THE CONTENT DOES, or the check
     # above would pass on a blank page.

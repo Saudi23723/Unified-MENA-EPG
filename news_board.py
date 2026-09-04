@@ -37,7 +37,7 @@ from PIL import Image, ImageDraw
 from match_board import (
     ACCENT, ARABIC, H, INK, MUTED, PAD, PANEL, PILL, PILL_INK, W, WHITE,
     clipped, draw_text, norm_line, size_that_fits,
-    width_of,
+    width_of, paint_background,
 )
 
 # A fresh story is worth pointing at. Measured against the reader's own
@@ -94,6 +94,7 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
                pages: int = 1) -> Image.Image:
     """One page of the bulletin."""
     board = Image.new("RGBA", (W, H), INK)
+    paint_background(board)
     pen = ImageDraw.Draw(board)
 
     draw_mark(pen, PAD, PAD - 4, 72)
