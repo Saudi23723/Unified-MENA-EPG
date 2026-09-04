@@ -1596,7 +1596,7 @@ def build() -> int:
     except Exception as exc:
         warn(f"livefootballtv is unreachable ({exc}) — the previous guide "
              f"stays exactly as it is")
-        return 1
+        return 0 if os.path.exists(OUTPUT) else 1
 
     # One window, computed once, handed to both pages and to the board
     # list alike. Two places deciding this independently is what put an

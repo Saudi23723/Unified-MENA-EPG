@@ -218,6 +218,9 @@ def build() -> int:
     session = new_session()
 
     found = news_reader.stories(session, now)
+    if not found and os.path.exists(OUTPUT):
+        log("  no source answered — the previous guide stays exactly as it is")
+        return 0
     pages = pages_of(found)
     drawn = draw_pages(pages, now)
     log(f"  {len(found)} story(ies) read, "
