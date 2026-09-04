@@ -399,6 +399,78 @@ def add_channels(events: list[dict],
     return added
 
 
+# ─── beIN's own numbers win over a listings page ───────────────
+#
+# livefootballtv is a listings page and it guesses beIN's channel number:
+# it wrote "beIN 3" for Ipswich v Liverpool, which beIN's OWN feed puts on
+# beIN SPORTS 2. Both numbers reached the board and, being the same tier,
+# the one added first — the page's — showed and the true one sat behind a
+# "+3". A number beIN publishes about its own channels is a fact; a number
+# a listings page prints is a guess, so where they disagree the fact wins.
+#
+# Applied only to a fixture beIN's feed actually carries on a beIN
+# channel: a match beIN does not list is left with whatever the page said,
+# because there is nothing truer to replace it with. And among beIN's own
+# feeds the STANDARD numbered channel is shown ahead of the 4K simulcast
+# and the English/French feeds — "beIN SPORTS 2", not "beIN 4K" — because
+# the plain number is the one a viewer with a Doha box turns to.
+_A_BEIN_CHANNEL = re.compile(r"\bbein\b", re.I)
+_BEIN_SECONDARY = re.compile(r"\b(?:EN|FR|Xtra)\b", re.I)
+
+
+def _is_bein(name: str) -> bool:
+    return bool(_A_BEIN_CHANNEL.search(name or ""))
+
+
+def _bein_rank(name: str) -> int:
+    """Standard numbered beIN first, then 4K, then English/French feeds."""
+    if _BEIN_SECONDARY.search(name):
+        return 3
+    if re.search(r"\b4K\b", name, re.I):
+        return 2
+    return 1
+
+
+def prefer_official_bein(events: list[dict],
+                         feed_path: str = "bein_sports_qatar_epg.xml") -> int:
+    """Let beIN's own feed decide the beIN channel number on each row.
+
+    For every event beIN's Qatar feed carries on a beIN channel, drop any
+    beIN channel a listings page invented for that same fixture and put
+    beIN's own — standard number first — ahead of the row's other channels.
+    Returns how many rows were corrected.
+    """
+    official = broadcasts(feed_path, "")
+    corrected = 0
+    for event in events:
+        theirs = []
+        for row in official:
+            if abs(event["start"] - row["start"]) > SLACK:
+                continue
+            if not one_club_matches(event["title"], row["title"]):
+                continue
+            if _is_bein(row["channel"]) and row["channel"] not in theirs:
+                theirs.append(row["channel"])
+        if not theirs:
+            continue
+        theirs.sort(key=_bein_rank)
+        before = list(event["channels"])
+        # Keep every non-beIN channel, and of the beIN ones keep only the
+        # channels beIN's own feed names — a listings page's guess goes.
+        event["channels"] = [c for c in event["channels"]
+                             if not _is_bein(c) or c in theirs]
+        # beIN's channels lead the row, standard number first, so the two
+        # slots the board shows spend one of them on the right beIN.
+        for channel in reversed(theirs):
+            if channel in event["channels"]:
+                event["channels"].remove(channel)
+            event["channels"].insert(0, channel)
+        if event["channels"] != before:
+            corrected += 1
+    log(f"  beIN's own numbers: {corrected} row(s) corrected from beIN's feed")
+    return corrected
+
+
 # ─── The second board: events that are not two clubs ────────────────────
 #
 # A grand prix has no home and away, and neither has a UFC card, so
