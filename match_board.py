@@ -560,10 +560,16 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         else:
             head = name_x
 
-        # The channels sit on whichever line has room for them: beside
-        # the name when there is only one, and under it when there are
-        # two — which is the whole point of two.
-        pill_y = sub_y if two else middle
+        # THE CHANNELS BESIDE THE NAME, NOT UNDER IT. They used to drop
+        # to the competition line on any row tall enough for two lines,
+        # and a viewer photographing the board asked outright for them
+        # back beside the name: the pills name where the game is
+        # watched, which is the question the name asks, and a line of
+        # channels under a match reads as a second event rather than an
+        # answer. They sit at the row's middle now — the name's level on
+        # a two-line row and the whole row on a one-line one — and the
+        # competition keeps the second line to itself.
+        pill_y = middle
         # SAME SIZE ON EVERY ROW, TWO LINES OR ONE. The size used to be
         # taken from the line the pills sat on, and a single-line row
         # had a larger font than a two-line one, so its pills were
@@ -585,18 +591,15 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                       pill_size, PILL_INK, anchor="mm", thin=True)
             channel_x -= wide + 10
 
-        # THE NAME GETS THE WHOLE LINE. It used to end where the channel
-        # pills began, which on a busy row was less than half the board —
-        # "US Open Men's & Women's Singles 3rd Round and Women's Doubles
-        # 1st Round" came out as "US Open…" and said nothing at all.
-        #
-        # With the pills moved down, nothing is beside the name any more,
-        # so it runs edge to edge and the events that actually need the
-        # room are the ones that get it. It is still clipped if it is
-        # longer than a whole board, because something has to give — but
-        # that is now a genuinely enormous name rather than an ordinary
-        # one competing with three channel pills.
-        room_for_name = (W - PAD - head) if two else (channel_x - head - 24)
+        # THE NAME STOPS WHERE THE CHANNELS BEGIN, on every row. When
+        # the pills sat under the name it could run edge to edge, and
+        # the events that needed the room were the ones that got it.
+        # With the pills beside the name again — where a viewer asked
+        # for them — the name gives way, and "US Open Men's & Women's
+        # Singles 3rd Round and Women's Doubles 1st Round" is clipped
+        # rather than written over its own channels. It shrinks first
+        # and clips only past its own floor, as below.
+        room_for_name = channel_x - head - 24
 
         # SHRINK BEFORE CUTTING. A name cut short is a name that says
         # nothing — "US Open Men's & Women's Singles 3rd Round and
@@ -627,6 +630,12 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # MUTED did. The dot is the same accent the board already
             # marks "look here" with, so it reads as part of the board's
             # language rather than a new thing.
+            #
+            # The line still stops where the pills' lowest edge hangs,
+            # because the pills sit at the row's middle now and their
+            # bottom band crosses this line's height on the right — the
+            # dot leads the eye from the left and the text never runs
+            # under a channel.
             pen.ellipse([head, sub_y - 4, head + 8, sub_y + 4],
                         fill=accent)
             draw_text(pen, (head + 18, sub_y),

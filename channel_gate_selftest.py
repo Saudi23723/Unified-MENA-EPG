@@ -3893,9 +3893,8 @@ def gate_a_row_says_which_competition_it_is() -> None:
           board(row("Premier League", 18)) == board(row("LaLiga", 18)), True)
 
     # THE NAME IS SHRUNK BEFORE IT IS EVER CUT, which is the other half
-    # of the same request. With the pills moved down to the second line
-    # the name has the whole width, and where even that is not enough it
-    # loses a point or two rather than its ending.
+    # of the same request. Where the row's width is not enough it loses
+    # a point or two rather than its ending.
     #
     # The name is the 2026 redraw's length: the 2025 string was cut to
     # the old FreeSerif's metrics, and under Tajawal the whole of it
@@ -3916,16 +3915,21 @@ def gate_a_row_says_which_competition_it_is() -> None:
     check("ROW", "and it never shrinks past the line underneath it",
           match_board.size_that_fits("x" * 400, 25, 17, room), 17)
 
-    # The pills move to the second line, which is what frees the width.
-    # Held on the source, because the drawing cannot be asked where it
-    # put something.
+    # THE PILLS SIT BESIDE THE NAME AGAIN. They were moved to the second
+    # line to give the name the whole width, and a viewer photographing
+    # the board asked for them back: a line of channels under a match
+    # reads as a second event rather than as the answer to "where do I
+    # watch this", and the guide's whole purpose is that answer. They
+    # sit at the row's middle — the name's level on a two-line row —
+    # and the name gives up the width the pills take. Still held on the
+    # source, because the drawing cannot be asked where it put
+    # something.
     import inspect
     drawing = inspect.getsource(match_board.draw_board)
-    check("ROW", "the channels are drawn on the second line when there "
-                 "is one", "pill_y = sub_y if two else middle" in drawing,
-          True)
-    check("ROW", "so the name gets the width the pills used to take",
-          "room_for_name = (W - PAD - head) if two" in drawing, True)
+    check("ROW", "the channels are drawn beside the name, at the row's "
+                 "middle", "pill_y = middle" in drawing, True)
+    check("ROW", "and the name stops where the channels begin",
+          "room_for_name = channel_x - head - 24" in drawing, True)
 
     # Both boards must actually HAND it the competition, or none of the
     # above ever happens in the build.

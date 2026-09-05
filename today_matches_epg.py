@@ -738,7 +738,7 @@ def collect(html: str, now: datetime, floor: datetime,
 # and the gate caught it merging Mainz into Monza while failing to merge
 # Man Utd into Manchester United. Both faults came from the same mistake:
 # treating a name as one string when the pages differ in its words.
-MERGE_SLACK = timedelta(minutes=1)
+MERGE_SLACK = timedelta(minutes=12)
 # Far enough apart to be a different kickoff, close enough to be the same
 # match with one page's clock wrong. Used only to notice that.
 DRIFT_WINDOW = timedelta(hours=6)
@@ -766,6 +766,12 @@ ALIASES = {
     "atletico madrid": "atletico de madrid",
     "bayern": "bayern munich",
     "dortmund": "borussia dortmund",
+    # A page writes "Preston" where the other writes "Preston North End",
+    # and "north" and "end" cannot be furniture — dropping them would
+    # fold Northampton into "North" and West Ham into "End". So the one
+    # club that needs it is written out here, in the table above, where
+    # every other contraction the pages disagree on already lives.
+    "preston": "preston north end",
 }
 
 # One word written two ways, which is not a nickname and so does not
@@ -788,7 +794,13 @@ WORD_ALIASES = {"utd": "united", "utd.": "united", "atl": "atletico",
 # "united" is "anatad" by the time the comparison happens, and a set of
 # plain words would quietly never match anything.
 CLUB_TAIL = {"united", "city", "town", "county", "athletic", "albion",
-             "wanderers", "rovers", "hotspur", "hotspurs", "club", "calcio"}
+             "wanderers", "rovers", "hotspur", "hotspurs", "club", "calcio",
+             # The women's game. Sky's row says "Arsenal Women" and
+             # Sportsnet's says "Arsenal"; one club, one row, and the
+             # channels of both belong on it. "W" is how one page writes
+             # it ("Arsenal W"), "Ladies" how England's older listings
+             # did. Trailing furniture, not a different team.
+             "women", "w", "ladies"}
 
 # Words a club's name can START with that a listings page may leave off.
 #
@@ -979,16 +991,97 @@ def not_already_on_the_board(ours: list[dict],
     return unseen
 
 
+# HOW THE CANADIAN FEEDS SPELL A FIXTURE, which no listings page shares.
+# They print "A vs. B" where the pages print "A - B", and they open with
+# the league the broadcaster itself puts in the title — "MLS on TSN:
+# Vancouver vs. St. Louis", "CPL on TSN: Atletico Ottawa vs. Pacific FC".
+# same_match() below split on " - " and nothing else, so a feed row never
+# matched the listings row of the same game and the SAME match printed
+# twice, its channels split between the two rows — which is the exact
+# opposite of a guide: the reader is shown two rows and told two
+# different places to watch one game. The league lead is cut at the
+# first colon when it names the channel carrying it (" on TSN:");
+# "Vancouver vs. St. Louis" is what is left, and that IS the fixture.
+CANADIAN_LEAD = re.compile(
+    r"^\s*(?:[\w .&\'\-]{2,40}\s+on\s+[A-Z][\w\- .]*\s*:\s*"
+    r"|(?:19|20)\d{2}\s+[\w .&\'\-]{2,40}:\s*"
+    r"|[A-Z][\w\- .]*:\s*)",
+    re.I)
+
+
+def looks_like_a_fixture(remainder: str) -> bool:
+    """Whether a stripped title still holds an "A vs. B" or "A - B".
+
+    A colon can sit at the end of the SIDES ("Brazil - Tanzania:
+    FIFA Women's U20 World Cup" — a page that labels the fixture after
+    the fact) and cutting the lead there would make "Brazil - Tanzania:
+    FIFA" into a fixture and its tail into a club. The lead is only
+    cut when what follows it names two sides.
+    """
+    parts = re.split(r"\s+(?:-|vs\.?|v)\s+", remainder, maxsplit=1,
+                     flags=re.I)
+    if len(parts) == 2 and parts[0].strip() and parts[1].strip():
+        return True
+    at = re.split(r"\s+at\s+", remainder, maxsplit=1, flags=re.I)
+    return len(at) == 2 and at[0].strip() and at[1].strip()
+
+
+def fixture_sides(title: str) -> list[str]:
+    """The two clubs of a title, whichever way the source spelled it.
+
+    "A - B" from a listings page, "A vs. B" (and "A vs B", "A v B") from
+    the Canadian feeds, and the league lead cut off the front of a feed
+    title before the split. Returns two sides, or fewer when the title
+    is not a fixture at all.
+    """
+    if not title:
+        return []
+    stripped = title
+    lead = CANADIAN_LEAD.search(stripped)
+    if lead and looks_like_a_fixture(stripped[lead.end():]):
+        stripped = CANADIAN_LEAD.sub("", stripped)
+    parts = re.split(r"\s+(?:-|vs\.?|v)\s+", stripped, maxsplit=1, flags=re.I)
+    if len(parts) == 2 and parts[0].strip() and parts[1].strip():
+        return [parts[0].strip(), parts[1].strip()]
+    # One last shape: "A at B", which the NFL and MLB grids use.
+    at = re.split(r"\s+at\s+", stripped, maxsplit=1, flags=re.I)
+    if len(at) == 2 and at[0].strip() and at[1].strip():
+        return [at[0].strip(), at[1].strip()]
+    return []
+
+
+def fixture_lead_free(title: str) -> str:
+    """A feed title with its league lead taken off, for the board to wear.
+
+    The lead is real information in a feed, and noise on a board: the
+    competition line under the name already says "Canadian Premier
+    League", so a row opening "CPL on TSN: Atletico Ottawa vs. Pacific
+    FC" says the league twice and the channel once more than it needs.
+    The same CANADIAN_LEAD cut that finds the fixture strips it, and a
+    title with no lead is returned untouched.
+
+    The separator is dressed to the board's own while it is here: the
+    pages print "A - B" and the feeds "A vs. B", and a board wearing
+    both spellings looks like two publishers. The split in
+    fixture_sides() already reads either; this is only the word on the
+    screen.
+    """
+    lead = CANADIAN_LEAD.search(title or "")
+    if lead and looks_like_a_fixture(title[lead.end():]):
+        title = (title[:lead.start()] + title[lead.end():]).strip()
+    return re.sub(r"\s+(?:vs\.?|v)\s+", " - ", title or "", flags=re.I)
+
+
 def same_match(first: str, second: str) -> bool:
-    """Whether two "A - B" titles name one fixture. Both sides must agree.
+    """Whether two titles name one fixture. Both sides must agree.
 
     One side agreeing is a coincidence — Real Madrid plays somebody every
     week. Two sides agreeing at one kickoff minute is one match written
     twice.
     """
-    left = [side.strip() for side in (first or "").split(" - ")]
-    right = [side.strip() for side in (second or "").split(" - ")]
-    if len(left) != 2 or len(right) != 2 or not all(left) or not all(right):
+    left = fixture_sides(first)
+    right = fixture_sides(second)
+    if len(left) != 2 or len(right) != 2:
         return False
     return same_side(left[0], right[0]) and same_side(left[1], right[1])
 
@@ -1839,7 +1932,9 @@ def build() -> int:
                        (sportsnet.events(session, floor, ceiling,
                                          sports=("soccer",)),)):
         canadian += feed_rows
-    dressed = [dict(event, competition=canadas_competition(event))
+    dressed = [dict(event,
+                     title=fixture_lead_free(event["title"]),
+                     competition=canadas_competition(event))
                for event in canadian]
     everything = unify(everything, dressed)
     if dressed:

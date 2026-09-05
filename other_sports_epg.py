@@ -415,7 +415,27 @@ def one_row_per_broadcast(events: list[dict],
                 continue
             if already.get("sport") != event.get("sport"):
                 continue
-            if not set(already["channels"]) & set(event["channels"]):
+            # ONE FEED, TWO CHANNELS. The channel-in-common rule was
+            # written for two sources naming one broadcast, and it is
+            # the right rule for them: a listings page and a
+            # broadcaster's guide disagree about the channel because
+            # they are two opinions, and a shared channel is the fact
+            # that settles it. But a single feed that prints one
+            # programme twice — "2026 US Open Tennis: Early Round
+            # Coverage Day #7" on TSN1 and on TSN3, at the same minute —
+            # is one broadcaster saying one thing twice, and demanding a
+            # channel in common refused its own answer: the board
+            # printed two rows and split the viewer's channels between
+            # them, the one thing a guide must not do. Where both rows
+            # come from the SAME source and say the same thing at the
+            # same minute, the channels are one broadcast's, and they
+            # join on the row that stays. No cross-source fold is
+            # opened here — the rule below still holds for every pair a
+            # source does not have in common.
+            same_source = (event.get("source") and
+                           event.get("source") == already.get("source"))
+            if not same_source and not (
+                    set(already["channels"]) & set(event["channels"])):
                 continue
             mine = a_bare_title(already["title"])
             if not (mine.startswith(bare) or bare.startswith(mine)):
