@@ -3734,8 +3734,15 @@ def gate_a_row_says_which_competition_it_is() -> None:
     # of the same request. With the pills moved down to the second line
     # the name has the whole width, and where even that is not enough it
     # loses a point or two rather than its ending.
+    #
+    # The name is the 2026 redraw's length: the 2025 string was cut to
+    # the old FreeSerif's metrics, and under Tajawal the whole of it
+    # fits at 25px in 1016px of room (839px wide) — so the check passed
+    # vacuously and proved nothing. Doubles and mixed doubles added, the
+    # name is once again longer than a row and the shrink is really
+    # exercised: two points off and the whole of it is on the board.
     long_name = ("US Open Men's & Women's Singles 3rd Round and "
-                 "Women's Doubles 1st Round")
+                 "Women's Doubles 1st Round and Mixed Doubles 2nd Round")
     room = 1016                      # a real row's width on this board
     fitted = match_board.size_that_fits(long_name, 25, 13, room)
     check("ROW", "a very long name is shrunk until the whole of it fits",

@@ -236,7 +236,8 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
         board = draw_board(
             day, drawn_rows, now, VIEWER, MATCH_ON_AIR,
             title=CHANNEL_AR, subtitle=f"سباقات ونزالات وبطولات · {VIEWER_NAME}",
-            weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages)
+            weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages,
+            accent=(167, 139, 250, 255))
         buffer = io.BytesIO()
         board.convert("RGB").convert(
             "P", palette=Image.ADAPTIVE, colors=BOARD_COLOURS).save(

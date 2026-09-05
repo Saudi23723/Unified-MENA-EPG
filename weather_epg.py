@@ -52,10 +52,14 @@ from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw
 
-from epg_lib import add_programme, fetch, log, new_session, warn, write_xml_atomic
+from epg_lib import (
+    add_programme, arabic_count, fetch, log, new_session, warn,
+    write_xml_atomic,
+)
 from match_board import (
-    ACCENT, ARABIC, H, INK, MUTED, PAD, PANEL, RULE, W, WHITE,
-    draw_text, forget_boards_past, size_that_fits,
+    H, MUTED, PAD, PANEL, PANEL_ALT, RULE, W, WHITE,
+    backdrop, clipped, date_chip, draw_text, forget_boards_past, progress,
+    rule, size_that_fits, width_of,
 )
 
 UTC = timezone.utc
@@ -85,6 +89,11 @@ CACHE = "weather.json"
 # the section that matters most here, and a page order that led with
 # wherever the alphabet happens to start could leave it off the first
 # board entirely.
+#
+# AMERICA HAS SIX NOW — Las Vegas was asked for by name, with a couple
+# more of its major cities to keep the page honest, and six is exactly
+# a page: the fourth board was a relay once, and it is drawn here the
+# way the reader reads it, a city a row, six rows a page.
 CITIES = (
     ("عمّان", "الأردن", 31.9454, 35.9284),
     ("إربد", "الأردن", 32.5556, 35.85),
@@ -95,6 +104,9 @@ CITIES = (
     ("نيويورك", "أمريكا", 40.7128, -74.006),
     ("لوس أنجلوس", "أمريكا", 34.0522, -118.2437),
     ("شيكاغو", "أمريكا", 41.8781, -87.6298),
+    ("لاس فيغاس", "أمريكا", 36.1699, -115.1398),
+    ("هيوستن", "أمريكا", 29.7604, -95.3698),
+    ("سان فرانسيسكو", "أمريكا", 37.7749, -122.4194),
 )
 COUNTRY_ORDER = ("الأردن", "الإمارات", "أمريكا")
 
@@ -116,12 +128,13 @@ WMO_AR = {
 }
 
 # How many cities a page holds, and how far the guide reaches. A row is
-# a glance; five of them is a page somebody reads through without
-# waiting. The guide reaches six hours for the same reason the
-# bulletin's does — every programme carries the reading as it stood when
-# the build ran, and a guide that promised tomorrow's weather would be
-# promising something it cannot know.
-ON_PAGE = 5
+# a glance; six of them is a page somebody reads through without
+# waiting — Jordan's four with the Emirates' two on the first board,
+# America's six on the second. The guide reaches six hours for the same
+# reason the bulletin's does — every programme carries the reading as it
+# stood when the build ran, and a guide that promised tomorrow's weather
+# would be promising something it cannot know.
+ON_PAGE = 6
 HOUR = timedelta(hours=1)
 HOURS_AHEAD = 6
 
@@ -262,27 +275,39 @@ def pages_of(cities: list[dict]) -> list[list[dict]]:
 
 # ---------------------------------------------------------------- drawing
 
-# ARABIC IS DRAWN SMALLER THAN LATIN AT THE SAME NOMINAL SIZE, and on a
-# board read from across a room that is the difference between a city
-# and a smudge. The bulletin carries the same lift for the same reason.
-ARABIC_LIFT = 1.22
+# THE WEATHER'S OWN COLOUR. The fixtures wear their green and the other
+# sports their violet; the weather wears sky — the colour of the thing
+# the channel is about, and one that four boards in a row tell apart at
+# a glance.
+SKY_ACCENT = (125, 196, 255, 255)
 
 
-def for_script(text: str, size: int) -> int:
-    """The size this text needs to LOOK like `size` on this board."""
-    return int(round(size * ARABIC_LIFT)) if ARABIC.search(text or "") else size
+def draw_mark(pen, x: int, y: int, size: int, accent=SKY_ACCENT) -> None:
+    """The channel's own mark: a sky glyph on the sky's own dark.
 
-
-def draw_mark(pen, x: int, y: int, size: int) -> None:
-    """The channel's own mark: a ring with the sun in the middle of it."""
-    pen.rounded_rectangle([x, y, x + size, y + size], radius=size // 4,
-                          fill=PANEL)
-    pad = size // 5
-    pen.ellipse([x + pad, y + pad, x + size - pad, y + size - pad],
-                outline=ACCENT, width=max(3, size // 12))
-    sun = size // 5
-    pen.ellipse([x + size // 2 - sun, y + size // 2 - sun,
-                 x + size // 2 + sun, y + size // 2 + sun], fill=ACCENT)
+    The fixtures mark is a countdown ring, because a fixtures board is
+    about when to be back. The weather is about the sky outside, and the
+    glyph for that is a sun over a horizon line — drawn in the channel's
+    sky blue on the sky's own dark, so the four marks in a row of boards
+    say four different channels.
+    """
+    ink = tuple(min(255, int(c * 0.28)) for c in accent[:3]) + (255,)
+    pen.rounded_rectangle([x, y, x + size, y + size],
+                          radius=size // 5, fill=ink, outline=accent, width=2)
+    inset = size // 4
+    inner = size - 2 * inset
+    sun = inner // 4
+    centre_x = x + size // 2
+    sun_y = y + inset + inner // 3
+    pen.ellipse([centre_x - sun, sun_y - sun, centre_x + sun, sun_y + sun],
+                fill=accent)
+    # And the horizon it sits over, with a curl at each end.
+    line_y = y + size - inset - inner // 5
+    mid = inner // 3
+    pen.line([(x + inset + 2, line_y), (centre_x + mid, line_y)],
+             fill=WHITE, width=max(3, size // 16))
+    pen.line([(centre_x - mid, line_y + 1), (x + size - inset - 2, line_y + 1)],
+             fill=WHITE, width=max(3, size // 16))
 
 
 def draw_board(cities: list[dict], now: datetime, viewer, *,
@@ -294,32 +319,42 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
     city is, with its country and its sky beneath it; the temperature is
     a number, which every script reads the same way, and it takes the
     left at the size a board is watched for.
-    """
-    board = Image.new("RGBA", (W, H), INK)
-    pen = ImageDraw.Draw(board)
 
-    draw_mark(pen, PAD, PAD - 4, 72)
-    x = PAD + 72 + 22
-    draw_text(pen, (x, PAD - 2), CHANNEL_AR, 40, WHITE)
+    The ground is the redraw's gradient and the rows are outlined cards,
+    and the temperature carries the sky's own colour — a weather number
+    in a weather blue reads as the channel's figure rather than as
+    another white line on a board.
+    """
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    accent = SKY_ACCENT
+
+    # ---- header ---------------------------------------------------------
+    draw_mark(pen, PAD, PAD - 6, 76, accent)
+    x = PAD + 76 + 24
+
+    draw_text(pen, (x, PAD - 4), CHANNEL_AR, 46, WHITE)
     subtitle = f"{countries} · من {SOURCE}" if countries else f"من {SOURCE}"
-    draw_text(pen, (x, PAD + 46), subtitle, 21, MUTED, thin=True)
+    draw_text(pen, (x, PAD + 52), subtitle, 21, MUTED, thin=True)
 
     right = W - PAD
     # A DATE, NOT A CLOCK — the one thing on this board that may change
     # daily and never sooner, for the reason at the top of this file.
-    draw_text(pen, (right, PAD - 2),
-              now.astimezone(viewer).strftime("%d.%m.%Y"), 30, WHITE,
-              anchor="ra")
-    draw_text(pen, (right, PAD + 40),
-              f"طقس اليوم · {page}/{pages}" if pages > 1 else "طقس اليوم",
-              19, MUTED, anchor="ra", thin=True)
+    date_chip(pen, right, PAD - 6, f"{now.astimezone(viewer):%d.%m.%Y}")
 
-    top = PAD + 92
-    pen.line([PAD, top, W - PAD, top], fill=RULE, width=2)
+    count = (arabic_count(len(cities), "مدينة", "مدينتان", "مدن", "مدينة")
+             if cities else "لا توجد بيانات")
+    if pages > 1:
+        count = f"{count} — {page}/{pages}"
+    draw_text(pen, (right, PAD + 64), count, 21, accent, anchor="ra")
+
+    top = PAD + 122
+    rule(pen, top, accent)
 
     if not cities:
         draw_text(pen, (W // 2, H // 2), "لا توجد بيانات طقس الآن", 32,
                   MUTED, anchor="mm")
+        progress(pen, page, pages, accent)
         return board
 
     room = H - top - PAD
@@ -328,30 +363,35 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
 
     for index, city in enumerate(cities):
         band = [PAD - 12, y, W - PAD + 12, y + height - 8]
-        if index % 2 == 0:
-            pen.rounded_rectangle(band, radius=12, fill=PANEL)
+        fill = PANEL if index % 2 == 0 else PANEL_ALT
+        pen.rounded_rectangle(band, radius=12, fill=fill,
+                              outline=RULE, width=1)
+
+        middle = y + (height - 8) // 2
 
         name = city["city"]
         where = f"{city['country']} · {city['condition']}"
         temp = int(round(city["temperature_c"]))
         wind = int(round(city["wind_speed"]))
 
-        at = size_that_fits(name, for_script(name, 25),
-                            for_script(name, 18), 320)
+        at = size_that_fits(name, 25, 18, 320)
         draw_text(pen, (W - PAD - 6, y + 34), name, at, WHITE, anchor="rm")
-        under = size_that_fits(where, for_script(where, 16),
-                               for_script(where, 12), 400)
+        under = size_that_fits(where, 16, 12, 400)
         draw_text(pen, (W - PAD - 6, y + 66), where, under, MUTED,
                   anchor="rm", thin=True)
 
-        draw_text(pen, (PAD + 18, y + 44), f"{temp}°", 42, WHITE,
-                  anchor="lm")
+        # The temperature in the channel's own blue, at the display
+        # weight a board is watched for. A weather number is the figure
+        # the whole channel exists to show.
+        draw_text(pen, (PAD + 18, y + 44), f"{temp}°", 42, accent,
+                  anchor="lm", weight="heavy")
         air = f"رطوبة {city['humidity']}% · رياح {wind} كم/سا"
         draw_text(pen, (PAD + 18, y + 76), air, 15, MUTED,
                   anchor="lm", thin=True)
 
         y += height
 
+    progress(pen, page, pages, accent)
     return board
 
 

@@ -244,7 +244,17 @@ def boards(prefix: str) -> list[str]:
 #      fingerprint below — the news pages hold for 35 seconds and the
 #      fixtures pages for 20, so the same picture on two screens is not
 #      the same segment
-ENCODER_REVISION = 6
+#   7  THE THEME. Every segment now carries its slice of audio/theme.m4a
+#      instead of silence — see THEME_LAP below for how the slice is
+#      chosen so the music runs continuously through a reel.
+#
+# THE THEME IS NOT IN THE FINGERPRINT, because the fingerprint's recipe
+# is held byte for byte by the gate and a theme swap must not quietly
+# leave stale segments playing the old music either: REPLACING
+# audio/theme.m4a WITH DIFFERENT AUDIO REQUIRES BUMPING THIS NUMBER, or
+# every segment keeps its old name and goes on playing the music it was
+# encoded with. The number is the whole mechanism.
+ENCODER_REVISION = 7
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -273,6 +283,42 @@ ENCODER_REVISION = 6
 # decoder handles without thinking.
 FPS = 12
 KEYFRAME_SECONDS = 2
+
+# THE MUSIC EVERY CHANNEL PLAYS UNDER ITS BOARDS.
+#
+# The reader handed over one mp3 and asked for it on all four channels,
+# "cropped" and working "always without messing up the contents". The
+# file is audio/theme.m4a, 140.000 seconds exactly, built from it once:
+# the source's quiet lead-in and its silent tail are cropped away, the
+# music is normalised to −20 LUFS so it sits under an information board
+# rather than shouting over it, and the END AND THE BEGINNING ARE THE
+# SAME INSTANT OF THE SOURCE — the loop-back is an acrossfade inside the
+# file, so playing it round and round is one continuous piece.
+#
+# 140 IS THE LEAST COMMON MULTIPLE OF THE TWO PAGE HOLDS, 20 and 35, so
+# the slice a board carries is place x HOLD mod 140 and every slice
+# abuts the one before it: a reel plays the theme end to end, and where
+# the reel is longer than a lap the music wraps at the seam the file was
+# built to hide.
+#
+# EACH SLICE IS FADED A QUARTER OF A SECOND AT BOTH EDGES. That is not
+# decoration: an independently encoded AAC segment carries about 64 ms
+# of decoder priming at its head, and a slice that starts loud butt-ended
+# against the one before it drops those samples out — a click on every
+# page turn, measured on segments encoded in this very repository. A
+# 400 ms breath at each edge is wider than the priming by an order of
+# magnitude and reads as the page turning, which is what the ear is
+# being told anyway. The fades are symmetric and deterministic, so the
+# same slice still encodes to the same bytes.
+#
+# THE FALLBACK IS SILENCE, because a channel whose music track is
+# missing is a channel, and a channel with no audio track at all can be
+# a black screen on some players. If audio/theme.m4a is not where this
+# expects it, the segment is encoded exactly as revision 6 encoded it,
+# and the picture is untouched either way.
+THEME = "audio/theme.m4a"
+THEME_LAP = 140.0
+THEME_FADE = 0.4
 
 
 def days_of(prefix: str) -> list[int]:
@@ -560,29 +606,89 @@ def encode_segment(board: str, out: str, place: int = 0,
     carries its index — other_sports_2.png is always the third board —
     so the same picture at the same place always encodes to the same
     bytes, and nothing is re-encoded for having been given an offset.
+
+    AND THE SAME PLACE CHOOSES THE MUSIC. Board k carries the slice of
+    the theme that begins k x HOLD into it (wrapped at the lap), so the
+    reel's audio is the theme played through, one slice after another,
+    with a breath at each page turn. See THEME_LAP for why that is
+    continuous and THEME_FADE for why each edge is faded. When the theme
+    is missing the segment is encoded silent, exactly as revision 6
+    encoded it, and the channel stays up.
     """
+    hold = step if step is not None else HOLD
+    where = (place * hold) % THEME_LAP
+    end = where + hold
+
+    fade_in = f"afade=t=in:st=0:d={THEME_FADE}"
+    fade_out = (f"afade=t=out:st={max(0.0, hold - THEME_FADE):.6f}"
+                f":d={THEME_FADE}")
+
+    # THE MUSIC IS THE SLICE OF THE THEME THIS BOARD'S PLACE LANDS ON,
+    # or silence when the theme is not there. Three shapes:
+    #
+    #   whole      [where, where+hold] fits inside the lap
+    #   wrapping   the slice crosses the lap's end: the tail of this lap
+    #              and the head of the next, concatenated — the seam is
+    #              the one the theme file was built to hide
+    #   silent     audio/theme.m4a is missing and the picture is the thing
+    if os.path.exists(THEME):
+        if end <= THEME_LAP + 0.000001:
+            inputs = ["-i", THEME]
+            filters = [
+                "-filter_complex",
+                f"[1:a]atrim=start={where:.6f}:end={end:.6f},"
+                f"asetpts=PTS-STARTPTS,{fade_in},{fade_out}[a]",
+            ]
+            maps = ["-map", "0:v", "-map", "[a]"]
+        else:
+            inputs = ["-i", THEME]
+            filters = [
+                "-filter_complex",
+                f"[1:a]asplit=2[u][v];"
+                f"[u]atrim=start={where:.6f}:end={THEME_LAP:.6f},"
+                f"asetpts=PTS-STARTPTS,{fade_out}[p];"
+                f"[v]atrim=start=0:end={end - THEME_LAP:.6f},"
+                f"asetpts=PTS-STARTPTS,{fade_in}[q];"
+                f"[p][q]concat=n=2:v=0:a=1[a]",
+            ]
+            maps = ["-map", "0:v", "-map", "[a]"]
+        codec = ["-c:a", "aac", "-b:a", "96k", "-ac", "2", "-ar", "32000"]
+    else:
+        inputs = [
+            # Silent audio: a live-television player with no audio track
+            # at all will sometimes sit on a black screen rather than
+            # show the video. 32000 and not 16000, measured rather than
+            # chosen: 20 x 16000 runs 96 ms long, 20 x 32000 runs 32 ms
+            # long.
+            #
+            # THE ARITHMETIC HERE USED TO SAY 32000 CAME OUT EXACT — 625
+            # frames of 1024 samples is 20.000 — and the files say
+            # otherwise. Every one of the six on air measures 20.032,
+            # which is 626 frames: the encoder emits one past the count,
+            # and neither -shortest, -t, -frames:a nor an atrim filter
+            # removes it. Only dropping the audio does, and a player with
+            # no audio track will sometimes show black, so the audio
+            # stays.
+            #
+            # The excess is not worth fighting, and it is not a rule that
+            # could be derived either — 16000 starts 0.064 early and runs
+            # 0.096 long, 48000 starts 0.021 early and runs 0.032 long.
+            # So it is MEASURED, and every board is placed by the
+            # measured length rather than by HOLD, which is what closes
+            # the overlap. The theme slice, when the theme is there,
+            # lands on the same 20.032 for the same reason: 1024 samples
+            # to an AAC frame, one frame more than the arithmetic says.
+            "-f", "lavfi",
+            "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
+        ]
+        filters, maps = [], []
+        codec = ["-c:a", "aac", "-b:a", "8k", "-ac", "1"]
+
     command = [
         "ffmpeg", "-y", "-loglevel", "error",
         "-loop", "1", "-framerate", str(FPS), "-i", board,
-        # Silent audio: a live-television player with no audio track at all
-        # will sometimes sit on a black screen rather than show the video.
-        # 32000 and not 16000, measured rather than chosen: 20 x 16000
-        # runs 96 ms long, 20 x 32000 runs 32 ms long.
-        #
-        # THE ARITHMETIC HERE USED TO SAY 32000 CAME OUT EXACT — 625
-        # frames of 1024 samples is 20.000 — and the files say otherwise.
-        # Every one of the six on air measures 20.032, which is 626
-        # frames: the encoder emits one past the count, and neither
-        # -shortest, -t, -frames:a nor an atrim filter removes it. Only
-        # dropping the audio does, and a player with no audio track will
-        # sometimes show black, so the audio stays.
-        #
-        # The excess is not worth fighting, and it is not a rule that
-        # could be derived either — 16000 starts 0.064 early and runs
-        # 0.096 long, 48000 starts 0.021 early and runs 0.032 long. So
-        # it is MEASURED, and every board is placed by the measured
-        # length rather than by HOLD, which is what closes the overlap.
-        "-f", "lavfi", "-i", "anullsrc=channel_layout=mono:sample_rate=32000",
+        *inputs,
+        *filters,
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
         "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
         # -r as well as the filter, because it is -r that makes the
@@ -593,8 +699,9 @@ def encode_segment(board: str, out: str, place: int = 0,
         "-keyint_min", str(FPS * KEYFRAME_SECONDS),
         "-sc_threshold", "0",
         "-crf", "32",
-        "-c:a", "aac", "-b:a", "8k", "-ac", "1",
-        "-shortest", "-t", str(HOLD), "-muxdelay", "0",
+        *codec,
+        *maps,
+        "-shortest", "-t", f"{hold:.6f}", "-muxdelay", "0",
         "-muxpreload", "0",
         # Where this board sits in the reel, so the reel is one timeline.
         # Measured step, and a step of headroom so board zero is not
