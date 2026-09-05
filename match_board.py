@@ -117,7 +117,9 @@ WHITE = (242, 246, 251, 255)
 MUTED = (142, 161, 188, 255)
 ACCENT = (52, 211, 153, 255)     # the clock of a match still to come
 OVER = (239, 93, 93, 255)        # and of one that has already been played
-LIVE_BG = (14, 42, 36, 255)
+LIVE_BG = (74, 18, 24, 255)      # the band a match on now sits in: red, and meant
+LIVE_RED = (255, 105, 97, 255)   # the clock of the row that is on the air
+LIVE_TAG = (224, 49, 49, 255)    # the مباشر pill: solid red, white letters
 PILL = (31, 47, 72, 255)
 PILL_INK = (186, 207, 233, 255)
 
@@ -402,13 +404,28 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         over = event["start"] + live_for <= now
         band = [PAD - 12, y, W - PAD + 12, y + height - 6]
         if live:
+            # ON THE AIR, AND IT LOOKS LIKE IT. A viewer looking at the
+            # board in bed, at arm's length, in the dark, asked why a
+            # match being played right now looked exactly like one that
+            # starts at nine. It did: the live band was a green so close
+            # to the panel either side of it that the only difference was
+            # a hairline a pixel wide, and the clock stayed green — the
+            # colour of "not started yet".
+            #
+            # So the band is red now, in the one shade a television
+            # viewer already knows means "on the air", with a red
+            # مباشر pill beside the clock and the clock itself red. Red
+            # was already the board's word for "over"; it stays there as
+            # a muted letter and comes here as a lit room, so "over" is
+            # read and "on now" is seen.
             pen.rounded_rectangle(band, radius=12, fill=LIVE_BG,
-                                  outline=accent, width=1)
-            # A lit edge on the reading side, so "this one is on now"
-            # is caught by the corner of the eye and not read.
+                                  outline=LIVE_TAG, width=2)
+            # A thick lit edge on the reading side — six times the
+            # hairline it was — so the eye lands on the row that is on
+            # before it reads a word on it.
             pen.rounded_rectangle([band[0] + 3, band[1] + 7,
-                                   band[0] + 8, band[3] - 7],
-                                  radius=2, fill=accent)
+                                   band[0] + 11, band[3] - 7],
+                                  radius=3, fill=LIVE_TAG)
         else:
             fill = PANEL if index % 2 == 0 else PANEL_ALT
             pen.rounded_rectangle(band, radius=12, fill=fill,
@@ -452,12 +469,25 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
 
         clock = event["start"].astimezone(viewer).strftime("%H:%M")
         draw_text(pen, (time_x, middle), clock, size,
-                  OVER if over else accent, anchor="rm")
+                  LIVE_RED if live else (OVER if over else accent),
+                  anchor="rm")
 
         if live:
-            pen.ellipse([name_x, head_y - 7, name_x + 14, head_y + 7],
-                        fill=accent)
-            head = name_x + 26
+            # AND THE ROW SAYS SO IN A WORD. The band is caught by the
+            # eye; the pill is read. مباشر — "on the air" — in white on
+            # solid red, on the reading side of the name, because the
+            # viewer who asked for this asked it from bed in the dark:
+            # "which one is on now?" is answered at a glance by a colour
+            # and confirmed in a word.
+            tag_px = max(13, min(16, size - 8))
+            tag_w = width_of("مباشر", tag_px, weight="mid") + 22
+            pen.rounded_rectangle(
+                [name_x, head_y - tag_px - 5, name_x + tag_w,
+                 head_y + tag_px + 5],
+                radius=tag_px + 5, fill=LIVE_TAG)
+            draw_text(pen, (name_x + tag_w // 2, head_y), "مباشر",
+                      tag_px, WHITE, anchor="mm", weight="mid")
+            head = name_x + tag_w + 14
         else:
             head = name_x
 
