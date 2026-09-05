@@ -1120,12 +1120,6 @@
     <display-name lang="ar">طقس اليوم</display-name>
     <display-name lang="en">Today's Weather</display-name>
   </channel>
-  <programme start="20260904092900 +0000" stop="20260904112200 +0000" channel="beIN4K.qa">
-    <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
-    <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260904112200 +0000" stop="20260904131500 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
@@ -1722,6 +1716,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260911113000 +0000" stop="20260911131500 +0000" channel="beIN4K.qa">
+    <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
+    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260904103000 +0000" stop="20260904134400 +0000" channel="beINSports.qa">
     <title lang="en">Day 5 - Day Session - World Athletics U20 Championships - Oregon 26</title>
     <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
@@ -2041,12 +2041,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
     <category lang="ar">ألعاب القوى</category>
     <category lang="en">Athletics</category>
-  </programme>
-  <programme start="20260904103000 +0000" stop="20260904113200 +0000" channel="beINSports1.qa">
-    <title lang="en">EPL Weekly Review - 2026/2027 - EP 2</title>
-    <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260904113200 +0000" stop="20260904120000 +0000" channel="beINSports1.qa">
     <title lang="en">Manchester United vs Ipswich Town - English Premier League 2026/2027 - Week 2</title>
@@ -3028,11 +3022,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260904094000 +0000" stop="20260904112000 +0000" channel="beINSports2.qa">
-    <title lang="en">Stoke City vs Norwich City - EFL - English Football League  SkyBet - Championship 2026/2027</title>
-    <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
-    <category lang="en">English League - Championship</category>
-  </programme>
   <programme start="20260904112000 +0000" stop="20260904130800 +0000" channel="beINSports2.qa">
     <title lang="en">Burnley vs Middlesbrough - EFL - English Football League  SkyBet - Championship 2026/2027</title>
     <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
@@ -3745,12 +3734,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260904105900 +0000" stop="20260904113000 +0000" channel="beINSports3.qa">
-    <title lang="en">La Liga Highlights 2026/2027 EP.3</title>
-    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20260904113000 +0000" stop="20260904131500 +0000" channel="beINSports3.qa">
     <title lang="en">Alavés vs Villarreal - Spanish LaLiga 2026/2027 - Week 3</title>
     <desc lang="en">Alavés have picked up points in five of their last seven LaLiga matches against Villarreal, after losing four of their previous five against them in the competition. Villarreal are on their longest winless run away from home against Alavés in LaLiga  and also on their longest run conceding a goal against them away from home in the top-flight.</desc>
@@ -4383,12 +4366,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260904105900 +0000" stop="20260904112800 +0000" channel="beINSports4.qa">
-    <title lang="en">Spirit of Sport</title>
-    <desc lang="en">Carlos Alcaraz looks back at his outstanding 2025 season reliving his victories at Roland Garros and the US Open. Jamaican sprinting icon Shelly-Ann Fraser-Pryce reflects on her final season and life after retirement, using her platform to give back. World Cup champion Cafu takes on some quickfire questions, ranking his Top 5 defenders of all time.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260904112800 +0000" stop="20260904131500 +0000" channel="beINSports4.qa">
     <title lang="en">Olympique Lyonnais vs Le Havre - French Ligue 1 2026/2027 - Week 2</title>
@@ -5053,17 +5030,6 @@ Played over two ties, the winners of each tie advance to the league phase of the
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20260904093500 +0000" stop="20260904113000 +0000" channel="beINSports5.qa">
-    <title lang="en">Al Shorta (IRQ) vs Al Duhail SC (QAT) - AFC Champions League Elite 2025/2026 - West MD8</title>
-    <desc lang="en">Al Shorta vs Al Duhail
-AFC Champions League Elite
-Season 2025/2026
-Qualifier Round
-Group West
-Al-Zawraa Stadium Stadium</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
   </programme>
   <programme start="20260904113000 +0000" stop="20260904120000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Ahli Saudi FC (KSA) vs Shabab Al Ahli (UAE) - AFC Champions League Elite 2025/2026 - West MD8 - M</title>
@@ -5807,13 +5773,6 @@ All games are live and exclusive only on beIN.</desc>
     <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260904100000 +0000" stop="20260904113000 +0000" channel="beINSports6.qa">
-    <title lang="en">Gemma Triay Pons (ESP) / Delfina Brea Senesi (ARG) vs Alejandra Salazar Bengoechea (ESP) / Aranzazu ‎• Live 🔵‎</title>
-    <desc lang="en">Premier Padel P1 tournaments are among the highest-level events on the professional padel calendar, featuring the world’s leading pairs competing for valuable ranking points and prestigious titles. The 2026 season features nine P1 tournaments across major international destinations delivering elite competition and world-class padel.</desc>
-    <category lang="ar">باديل</category>
-    <category lang="en">Live</category>
-    <category lang="en">Padel</category>
   </programme>
   <programme start="20260904113000 +0000" stop="20260904130000 +0000" channel="beINSports6.qa">
     <title lang="en">Martin Di Nenno (ARG) / Francisco Navarro (ESP) vs Alejandro Galan (ESP) / Federico Chingotto (ARG) ‎• Live 🔵‎</title>
@@ -7087,13 +7046,6 @@ All games are live and exclusive only on beIN.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260904103000 +0000" stop="20260904113000 +0000" channel="beINSports8.qa">
-    <title lang="en">Practice 1 - Italian Grand Prix - 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Live</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260904113000 +0000" stop="20260904120000 +0000" channel="beINSports8.qa">
     <title lang="en">The talented Isack Hadjar</title>
     <desc lang="en">Isack Hadjar, first Arab driver in Formula 1, impressed everybody for his first season in F1 with his team. . Rookie of the year 2025, beIN followed him during his season.</desc>
@@ -7684,6 +7636,13 @@ All games are live and exclusive only on beIN.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260911113000 +0000" stop="20260911124500 +0000" channel="beINSports8.qa">
+    <title lang="en">Practice 1 - Spanish Grand Prix - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
+    <category lang="ar">بطولة العالم للفورمولا وان</category>
+    <category lang="en">Live</category>
+    <category lang="en">Formula One World Championship</category>
+  </programme>
   <programme start="20260904091500 +0000" stop="20260904120000 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - London  Jumping - Grand Prix</title>
     <category lang="ar">الفروسية</category>
@@ -8210,11 +8169,6 @@ All games are live and exclusive only on beIN.</desc>
     <title lang="en">Longines Global Champions Tour - Riesenbeck  Jumping - Global Champion League of Riesenbeck - Round</title>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
-  </programme>
-  <programme start="20260904103000 +0000" stop="20260904113000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN PL 1 TO 11 2026-27 | E1</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260904113000 +0000" stop="20260904120000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">French Ligue 1 Highlights 2026/27 | E2</title>
@@ -9177,12 +9131,12 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20260904103000 +0000" stop="20260904113000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">Practice 1 - Italian Grand Prix - 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Live</category>
-    <category lang="en">Formula One World Championship</category>
+  <programme start="20260911113000 +0000" stop="20260911120000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Bayern München vs Bodø / Glimt - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260904113000 +0000" stop="20260904120000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Premier Padel Highlights 2026 - London P1</title>
@@ -9815,6 +9769,13 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260911113000 +0000" stop="20260911123000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Practice 1 - Spanish Grand Prix - 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
+    <category lang="ar">بطولة العالم للفورمولا وان</category>
+    <category lang="en">Live</category>
+    <category lang="en">Formula One World Championship</category>
+  </programme>
   <programme start="20260904100000 +0000" stop="20260904133000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Fh J12 P01 - Wimbledon 2025 - Tennis 2026</title>
     <desc lang="en">Sport.</desc>
@@ -10309,12 +10270,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260909031500 +0000" stop="20260909205959 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Film Des Finales 2026 - Championnat De France - Volleyball 2526</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260904093000 +0000" stop="20260904113000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Reds vs Cubs - MLB - BASEBALL 2026</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -12183,12 +12138,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260904110000 +0000" stop="20260904113000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260904113000 +0000" stop="20260904120000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassila   - 4/09/26</title>
     <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
@@ -14034,6 +13983,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260911110000 +0000" stop="20260911113000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260911113000 +0000" stop="20260911120000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassila   - 11/09/26</title>
+    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -68334,6 +68289,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260905185517 +0000" stop="20260905191520 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
+  <programme start="20260905191520 +0000" stop="20260905193515 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260903210000 +0000" stop="20260904210000 +0000" channel="JordanSports">
     <title lang="ar">الأردن الرياضية</title>
     <desc lang="ar">الأردن الرياضية | 2026-09-04
@@ -78058,7 +78016,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260905131500 +0000" stop="20260905133000 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904121500 +0000" channel="Starz_admnadsports1">
+  <programme start="20260904113500 +0000" stop="20260904121500 +0000" channel="Starz_admnadsports1">
     <title lang="en">Goalassimo (Ar) 2025</title>
     <desc lang="en">Goalassimo (Ar) 2025: Ep  43</desc>
     <category lang="en">Sport</category>
@@ -78448,7 +78406,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260904113500 +0000" stop="20260904120000 +0000" channel="Starz_admnadsports2">
     <title lang="en">AJP Tour 2026 - Jiu-Jitsu</title>
     <desc lang="en">AJP Tour 2026 - Jiu-Jitsu</desc>
     <category lang="en">Sport</category>
@@ -78808,7 +78766,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904114500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260904113500 +0000" stop="20260904114500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 3 - Serie A Preview Show Magazine</title>
     <title lang="ar">الجولة 3 - مجلة الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -79446,14 +79404,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904112000 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Cagliari x Inter Milan - Serie A</title>
-    <title lang="ar">كالياري × إنترميلان - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260904112000 +0000" stop="20260904115000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260904113500 +0000" stop="20260904115000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Round 2 - Serie A Highlights</title>
     <title lang="ar">الجولة 2 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -80022,7 +79973,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904124000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260904113500 +0000" stop="20260904124000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">UFC Fight Night</title>
     <title lang="ar">يو إف سي فايت نايت</title>
     <desc lang="en">UFC Fight Night brings you the best MMA action from around the world.</desc>
@@ -80603,7 +80554,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904114600 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260904113500 +0000" stop="20260904114600 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Japan vs. Italy - Nations Championship 2026</title>
     <desc lang="en">Japan vs. Italy - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -80886,7 +80837,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/GNLZZGG0038YGNB.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904115000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260904113500 +0000" stop="20260904115000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Max Power</title>
     <title lang="ar">ماكس باور</title>
     <desc lang="en">This program features highlights and up-to-the-minute news from international motorsport events.</desc>
@@ -81446,7 +81397,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260904113500 +0000" stop="20260904120200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Australia v Bangladesh, 1st Test - Test Cricket</title>
     <title lang="ar">تست كريكيت</title>
     <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
@@ -81949,7 +81900,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904115000 +0000" channel="Starz_wedosports">
+  <programme start="20260904113500 +0000" stop="20260904115000 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلبلاند</title>
     <desc lang="en">S1 , Ep.Liverpool FC, Internazionale Milano : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
@@ -82489,7 +82440,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120000 +0000" channel="Starz_criclife1">
+  <programme start="20260908111900 +0000" stop="20260908115300 +0000" channel="Starz_wedosports">
+    <title lang="en">Against the Odds</title>
+    <desc lang="en">S1 , E7 : Join a behind-the-scenes journey into the stories of famous athletes, exploring their very personal and emotive aspects of elite sport.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p19671364_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260904113500 +0000" stop="20260904120000 +0000" channel="Starz_criclife1">
     <title lang="en">2022: England vs Bangladesh - ICC Women's World Cup Cricket</title>
     <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
     <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
@@ -83028,14 +82985,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904112600 +0000" channel="Starz_criclife3">
-    <title lang="en">Eliminator: Sunrisers Leeds vs Southern Brave - Women's The Hundred</title>
-    <title lang="ar">وومنز ذا هاندرد</title>
-    <desc lang="en">S2026 , Ep.Eliminator: Sunrisers Leeds vs Southern Brave : Professional all-female cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260904112600 +0000" stop="20260904114600 +0000" channel="Starz_criclife3">
+  <programme start="20260904113500 +0000" stop="20260904114600 +0000" channel="Starz_criclife3">
     <title lang="en">Final: Trent Rockets vs Sunrisers Leeds - Women's The Hundred</title>
     <title lang="ar">وومنز ذا هاندرد</title>
     <desc lang="en">S2026 , Ep.Final: Trent Rockets vs Sunrisers Leeds : Professional all-female cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
@@ -83778,14 +83728,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904113000 +0000" channel="Starz_golflife">
-    <title lang="en">The Ally Challenge - PGA Tour Highlights</title>
-    <title lang="ar">بي جي إيه تور</title>
-    <desc lang="en">S2026 , Ep.The Ally Challenge : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
-  </programme>
-  <programme start="20260904113000 +0000" stop="20260904163000 +0000" channel="Starz_golflife">
+  <programme start="20260904113500 +0000" stop="20260904163000 +0000" channel="Starz_golflife">
     <title lang="en">Omega European Masters, Second Round - DP World Tour Golf - LIVE</title>
     <title lang="ar">دي بي ورلد تور غولف  - مباشر</title>
     <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
@@ -84162,14 +84105,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904113000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Documentary : UAE President Endurance Cup</title>
-    <title lang="ar">وثائقي: كأس رئيس دولة الإمارات للقدرة</title>
-    <desc lang="en">The documentary follows the UAE President Endurance Cup, showcasing the race, the riders, the horses, and the challenges of one of the world's leading endurance competitions.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG640584_landscape10-627241d1-d427-4d49-a22c-c31aa03296ad.jpg" />
-  </programme>
-  <programme start="20260904113000 +0000" stop="20260904123000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260904113500 +0000" stop="20260904123000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Ghantoot International Polo Championship - UAE Polo Cup</title>
     <title lang="ar">بطولة غنتوت الدولية للبولو - كأس الإمارات للبولو</title>
     <desc lang="en">Stay tuned to the latest matches from the UAE Polo Cup.</desc>
@@ -84764,7 +84700,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120000 +0000" channel="Starz_awsn">
+  <programme start="20260904113500 +0000" stop="20260904120000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -85058,7 +84994,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120000 +0000" channel="Starz_redbulltv">
+  <programme start="20260904113500 +0000" stop="20260904120000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -85640,7 +85576,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120000 +0000" channel="Starz_daznringside">
+  <programme start="20260904113500 +0000" stop="20260904120000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -85838,7 +85774,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904113844 +0000" channel="Starz_fifaplus">
+  <programme start="20260904113500 +0000" stop="20260904113844 +0000" channel="Starz_fifaplus">
     <title lang="en">FIFA U-20 Women's World Cup Finals - Highlights Bundle</title>
     <desc lang="en">Watch highlights from all the FIFA U-20 World Cup finals.</desc>
     <category lang="en">Sport</category>
@@ -86174,14 +86110,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123913.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904111700 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2025: India vs Pakistan - ICC Women's Cricket World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
-    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
-  </programme>
-  <programme start="20260904111700 +0000" stop="20260904114800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260904113500 +0000" stop="20260904114800 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Thailand vs Hong Kong - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
@@ -86930,13 +86859,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904113000 +0000" channel="Starz_admnyastv">
-    <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
-    <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260904113000 +0000" stop="20260904143000 +0000" channel="Starz_admnyastv">
+  <programme start="20260904113500 +0000" stop="20260904143000 +0000" channel="Starz_admnyastv">
     <title lang="en">Studio: York Ebor Festival 2026</title>
     <desc lang="en">Studio: York Ebor Festival 2026</desc>
     <category lang="en">Sport</category>
@@ -87320,13 +87243,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907201500 +0000" stop="20260908111500 +0000" channel="Starz_admnyastv">
+  <programme start="20260907201500 +0000" stop="20260908113500 +0000" channel="Starz_admnyastv">
     <title lang="en">The Boat Show (Ar) 2026</title>
     <desc lang="en">The Boat Show (Ar) 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260904111500 +0000" stop="20260904120000 +0000" channel="Starz_adfight">
+  <programme start="20260904113500 +0000" stop="20260904120000 +0000" channel="Starz_adfight">
     <title lang="en">AJP Tour 2026 - Jiu-Jitsu</title>
     <desc lang="en">AJP Tour 2026 - Jiu-Jitsu</desc>
     <category lang="en">Sport</category>
@@ -87458,7 +87381,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907143500 +0000" stop="20260908111500 +0000" channel="Starz_adfight">
+  <programme start="20260907143500 +0000" stop="20260908113500 +0000" channel="Starz_adfight">
     <title lang="en">JJIF World Jiu-Jitsu Championship - Abu Dhabi 2026</title>
     <desc lang="en">JJIF World Jiu-Jitsu Championship - Abu Dhabi 2026</desc>
     <category lang="en">Sport</category>
@@ -92479,27 +92402,27 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
+    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Knowle - Worcester City · BBC Red Button⁩⁩</title>
     <desc lang="ar">مباريات السبت 05/09 — بتوقيتك
 ⁦🔴 04:00 الآن  Manchester United U18 - Middlesbrough U18 · MUTV⁩
-⁦⏳ 04:30 أقل من 15 دقيقة  Newcastle - Bournemouth · beIN 1 · TNT 1 · Idman TV TR +4⁩
+⁦🔴 04:30 الآن  Newcastle - Bournemouth · beIN 1 · TNT 1 · Idman TV TR +4⁩
 ⁦Preston - Blackburn · beIN 2⁩
 ⁦Lincoln City - Southampton · Sky+⁩
 ⁦Preston North End - Blackburn Rovers · beIN 2 · Sky Main Event · Paramount+ +5⁩
 ⁦Stoke City - Charlton Athletic · Sky+ · V Sport Football · Viaplay Denmark +4⁩
 ⁦Knowle - Worcester City · BBC Red Button⁩
-⁦06:00 ساعة و42 دقيقة  KMKM SC - Al-Ahli Tripoli · Libya Sports⁩
+⁦⏳ 06:00 ساعة و22 دقيقة  KMKM SC - Al-Ahli Tripoli · Libya Sports⁩
 ⁦Brazil - Tanzania · Fox Soccer Plus · fuboTV · beIN XTRA 5 +3⁩
 ⁦Poland - Argentina · beIN⁩
 ⁦Brazil Women U20 - Tanzania Women U20 · DAZN⁩
 ⁦Poland Women U20 - Argentina Women U20 · DAZN⁩
 ⁦Bandırmaspor - Boluspor · TRT Spor TR · beIN Haber TR · beIN HABER TR⁩
-⁦06:30 ساعتين و12 دقيقة  Bayer Leverkusen - Union Berlin · MBC Shahid · S Sport Plus TR⁩
+⁦06:30 ساعة و52 دقيقة  Bayer Leverkusen - Union Berlin · MBC Shahid · S Sport Plus TR⁩
 ⁦Hoffenheim - Dortmund · MBC Shahid · Telemundo Deportes En Vivo · S Sport Plus TR +4⁩
 ⁦B. Monchengladbach - Elversberg · MBC Shahid · Peacock · S Sport Plus TR +4⁩
 ⁦Werder Bremen - RB Leipzig · MBC Shahid · Peacock · S Sport Plus TR +4⁩
 ⁦Paderborn - Freiburg · MBC Shahid · Peacock · S Sport Plus TR +4⁩
-⁦07:00 ساعتين و42 دقيقة  Manchester City - Coventry · beIN 1 · USA Network · Idman TV TR +6⁩
+⁦07:00 ساعتين و22 دقيقة  Manchester City - Coventry · beIN 1 · USA Network · Idman TV TR +6⁩
 ⁦Fulham - Crystal Palace · beIN 4 · NBCSN · fuboTV +4⁩
 ⁦Brighton - Leeds · beIN 3 · Alwan 6⁩
 ⁦Nottingham - Tottenham · beIN 2 · beIN 5 TR · Alwan 3 +1⁩
@@ -92507,34 +92430,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Burnley - Bristol City · CBS Sports Network · fuboTV · beIN XTRA 4 +3⁩
 ⁧معان - شباب الحسين · الأردن الرياضية⁩
 ⁦Erzurumspor - Konyaspor · Bein 2 TR · beIN 2 TR⁩
-⁦07:15 ساعتين و57 دقيقة  Ath Bilbao - Atl. Madrid · LALIGATV · beIN FR 1⁩
-⁦08:00 3 ساعات و42 دقيقة  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
-⁦08:15 3 ساعات و57 دقيقة  Lens - Lorient · beIN XTRA 1⁩
-⁦08:50 4 ساعات و32 دقيقة  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
-⁦08:55 4 ساعات و37 دقيقة  Al Taawoun FC - Al Fateh · Thmanyah · DAZN Germany · Thmanyah 2 HD +4⁩
-⁦09:00 4 ساعات و42 دقيقة  Mexico - Benin · Telemundo Deportes En Vivo · fuboTV · beIN XTRA 6 +2⁩
+⁦07:15 ساعتين و37 دقيقة  Ath Bilbao - Atl. Madrid · LALIGATV · beIN FR 1⁩
+⁦08:00 3 ساعات و22 دقيقة  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
+⁦08:15 3 ساعات و37 دقيقة  Lens - Lorient · beIN XTRA 1⁩
+⁦08:50 4 ساعات و12 دقيقة  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
+⁦08:55 4 ساعات و17 دقيقة  Al Taawoun FC - Al Fateh · Thmanyah · DAZN Germany · Thmanyah 2 HD +4⁩
+⁦09:00 4 ساعات و22 دقيقة  Mexico - Benin · Telemundo Deportes En Vivo · fuboTV · beIN XTRA 6 +2⁩
 ⁦Canada - England · Fox Soccer Plus · fuboTV · beIN XTRA 5 +3⁩
 ⁦Canada Women U20 - England Women U20 · DAZN⁩
 ⁦Mexico Women U20 - Benin Women U20 · DAZN⁩
 ⁦Inter Milan - Napoli (joins match in progress) · TNT 2 · DAZN · HBO Max⁩
-⁦09:30 5 ساعات و12 دقيقة  Hull City - Aston Villa · beIN 1 · Sky Main Event · NBC +7⁩
+⁦09:30 4 ساعات و52 دقيقة  Hull City - Aston Villa · beIN 1 · Sky Main Event · NBC +7⁩
 ⁦Rayo Vallecano - Racing Santander · beIN 2 · ESPN Deportes · S Sport TR +6⁩
 ⁦Schalke - Bayern Munich · MBC Shahid · Sky Football · USA Network +7⁩
-⁦10:00 5 ساعات و42 دقيقة  Fenerbahçe - Beşiktaş · beIN US · Bein 1 TR · fuboTV +4⁩
+⁦10:00 5 ساعات و22 دقيقة  Fenerbahçe - Beşiktaş · beIN US · Bein 1 TR · fuboTV +4⁩
 ⁦Keçiörengücü - Sarıyer · TRT Spor TR · Bein 2 TR · beIN 2 TR⁩
 ⁦Pendikspor - Ümraniyespor · TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR⁩
-⁦10:30 6 ساعات و12 دقيقة  Al-Hussein SC - Al Jazeera · الأردن الرياضية · Abu Dhabi Sports 1 · Dubai Sports 1 +1⁩
-⁦11:00 6 ساعات و42 دقيقة  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Fox Soccer Plus · S Sport Plus TR +4⁩
-⁦11:45 7 ساعات و27 دقيقة  Nice - Le Mans · beIN 3 · Ligue1+ · fuboTV +1⁩
+⁦10:30 5 ساعات و52 دقيقة  Al-Hussein SC - Al Jazeera · الأردن الرياضية · Abu Dhabi Sports 1 · Dubai Sports 1 +1⁩
+⁦11:00 6 ساعات و22 دقيقة  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · Fox Soccer Plus · S Sport Plus TR +4⁩
+⁦11:45 7 ساعات و7 دقائق  Nice - Le Mans · beIN 3 · Ligue1+ · fuboTV +1⁩
 ⁦Le Havre - Brest · beIN 4 · Ligue1+ · fuboTV +1⁩
-⁦12:00 7 ساعات و42 دقيقة  Villarreal - Dep. La Coruna · beIN 2 · ESPN Deportes · S Sport TR +6⁩
+⁦12:00 7 ساعات و22 دقيقة  Villarreal - Dep. La Coruna · beIN 2 · ESPN Deportes · S Sport TR +6⁩
 ⁦Swansea - Wrexham · Sky Main Event · Paramount+ · DAZN Canada +4⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260906070000 +0000" stop="20260907070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 23 ساعة و42 دقيقة ⁨·⁩ ⁨Birmingham - Wolves · beIN 2 · Sky Football · beIN 2 EN⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 23 ساعة و22 دقيقة ⁨·⁩ ⁨Birmingham - Wolves · beIN 2 · Sky Football · beIN 2 EN⁩⁩</title>
     <desc lang="ar">مباريات الأحد 06/09 — بتوقيتك
-⁦⏳ 04:00 23 ساعة و42 دقيقة  Birmingham - Wolves · beIN 2 · Sky Football · beIN 2 EN⁩
+⁦⏳ 04:00 23 ساعة و22 دقيقة  Birmingham - Wolves · beIN 2 · Sky Football · beIN 2 EN⁩
 ⁦05:00 يوم  Gor Mahia FC - Pyramids FC · ON Sport⁩
 ⁦06:00 يوم وساعة  Everton - Manchester Utd · beIN 1 · Sky Main Event · beIN EN 1 +1⁩
 ⁦Troyes - Strasbourg · beIN 3 · Ligue1+⁩
@@ -92543,17 +92466,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦France Women U20 - South Korea Women U20 · DAZN⁩
 ⁦Japan Women U20 - New Zealand Women U20 · DAZN⁩
 ⁦Frosinone - Venezia · DAZN ، Parma - Monza · DAZN⁩
-⁦06:30 يوم وساعتين  Hamburger SV - Mainz · MBC Shahid · MBC Action⁩
+⁦06:30 يوم وساعة  Hamburger SV - Mainz · MBC Shahid · MBC Action⁩
 ⁦07:15 يوم وساعتين  Valencia - Barcelona · beIN 2 · Premier Sports 2 · beIN FR 2⁩
 ⁦08:15 يوم و3 ساعات  Angers - Rennes · beIN 4 · Ligue1+⁩
-⁦08:30 يوم و4 ساعات  Arsenal - Chelsea · beIN 1 · Sky Main Event · beIN EN 1 +2⁩
+⁦08:30 يوم و3 ساعات  Arsenal - Chelsea · beIN 1 · Sky Main Event · beIN EN 1 +2⁩
 ⁦Eintracht Frankfurt - Augsburg · MBC Shahid · MBC Action⁩
 ⁦09:00 يوم و4 ساعات  Ecuador - Ghana · beIN XTRA 3⁩
 ⁦USA - Italy · beIN XTRA 2⁩
 ⁦Ecuador Women U20 - Ghana Women U20 · DAZN⁩
 ⁦USA Women U20 - Italy Women U20 · DAZN⁩
 ⁦Bologna - Sassuolo · BBC Alba · DAZN⁩
-⁦09:30 يوم و5 ساعات  Malaga - Levante · beIN 3 · Premier Sports TBC⁩
+⁦09:30 يوم و4 ساعات  Malaga - Levante · beIN 3 · Premier Sports TBC⁩
 ⁦Alaves - Osasuna · beIN 2 · Premier Sports 2⁩
 ⁦09:55 يوم و5 ساعات  Trabzonspor - Gençlerbirliği · beIN 5 · beIN FR 2⁩
 ⁦10:00 يوم و5 ساعات  ZED FC - ASAS · ON Sport⁩
@@ -92572,7 +92495,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦El Qanah FC - El Geish · On Sport Max⁩
 ⁧القناة - طلائع الجيش · لم تُعلن القناة⁩
 ⁧الاتحاد السكندري - بترول أسيوط · لم تُعلن القناة⁩
-⁦08:30 يومين و4 ساعات  Khaleej FC - Al-Riyadh SC · Thmanyah⁩
+⁦08:30 يومين و3 ساعات  Khaleej FC - Al-Riyadh SC · Thmanyah⁩
 ⁦09:00 يومين و4 ساعات  Spain - Nigeria · beIN 4 · beIN EN 1⁩
 ⁦Costa Rica - Colombia · beIN 5⁩
 ⁦Costa Rica Women U20 - Colombia Women U20 · DAZN⁩
@@ -92585,7 +92508,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁧البنك الأهلي - غزل المحلة · لم تُعلن القناة⁩
 ⁧م. السويس بتروجت - المصري · لم تُعلن القناة⁩
 ⁦11:00 يومين و6 ساعات  Al Hilal - NEOM SC · Thmanyah⁩
-⁦12:30 يومين و8 ساعات  Elche - Real Sociedad · beIN 1 · Premier Sports 1⁩</desc>
+⁦12:30 يومين و7 ساعات  Elche - Real Sociedad · beIN 1 · Premier Sports 1⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_10.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodaySports">
@@ -92804,15 +92727,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260905100000 +0000" stop="20260905110000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 03:54 — بتوقيتك
+    <title lang="ar">أخبار اليوم · محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:58 — بتوقيتك
 
-شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
-        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
-        عربي · CNN عربية
-السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
-        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
-        عربي · CNN عربية
+محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة
+        ستظل الممرضة السابقة، البالغة من العمر 36 عاماً، محتجزة بالتهم نفسها المتعلقة بالقتل، وستواصل الإقامة في منشأة الصحة النفسية الذي توجد فيها حالياً.
+        عربي · BBC عربي
+غالتييه: مواجهة الهلال اختبار كبير لشخصية نيوم
+        أكد الفرنسي كريستوف غالتييه، مدرب فريق نيوم، أن مواجهة الهلال تُمثل اختباراً كبيراً لشخصية فريقه.
+        عربي · الشرق الأوسط
 سفير واشنطن لدى إسرائيل بشأن عنف المستوطنين: أعمال إجرامية وإرهابية
         تصريحات للسفير الأمريكي لدى إسرائيل مايك هاكابي، خلال زيارته بلدة ترمسعيا، أكد فيها أن الحكومة الإسرائيلية "مسؤولة عن ضمان أمن وسلامة" الفلسطينيين في…
         تركيا · الأناضول
@@ -92825,9 +92748,9 @@ Here Is Where Ukraine Peace Talks Stand, as a New Round Approaches
 Trump Envoys Arrive in Moscow for Talks on Ukraine War
         Steve Witkoff, President Trump’s special envoy, and Jared Kushner, his son-in-law, plan to visit Kyiv next, in an effort to revive peace negotiations…
         أمريكا · NYT
-قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
-        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
-        عربي · الشرق الأوسط
+شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
+        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
+        عربي · CNN عربية
 بعد زيارة الملك.. ماذا يريد الأردن اقتصاديًا من الصين؟
         توجت الزيارة بمباحثات رسمية بين الملك عبد الله الثاني والرئيس الصيني شي جين بينغ وكبار المسؤولين، فضلًا عن توقيع حزمة من الاتفاقيات ومذكرات التفاهم
         تركيا · الأناضول
@@ -92843,12 +92766,12 @@ Masked protesters block access to Port of Dover
 Scenic Route
         The season’s new releases give us a cultural road map, but the most rewarding reading, listening and watching comes from the detours.
         أمريكا · NYT
-جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
-        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
-        عربي · الشرق الأوسط
-مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
-        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
+السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
+        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
         عربي · CNN عربية
+قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
+        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
+        عربي · الشرق الأوسط
 أوروغواي تعلن حالة الطوارئ بسبب إنفلونزا الطيور
         تركيا · الأناضول
 Lindsay Clancy murder trial has divided US on whether she's victim or criminal
@@ -92860,9 +92783,9 @@ Lindsay Clancy murder trial has divided US on whether she's victim or criminal
 What Will Happen to Lindsay Clancy in the Long Term?
         Even as a jury failed to reach a verdict in Lindsay Clancy’s murder trial, her future is unlikely to include freedom, at least for a long time
         أمريكا · NYT
-شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
-        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
-        عربي · CNN عربية
+جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
+        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
+        عربي · الشرق الأوسط
 "للمساعدة في إنقاذ المهاجرين".. الاتحاد الأوروبي ينشر سفنَ دورية في القنال الإنجليزي لأول مرة
         نشرت وكالة حماية الحدود وخفر السواحل الأوروبية "فرونتكس" سفنَ دورية في القنال الإنجليزي للمرة الأولى
         تركيا · TRT عربي
@@ -92878,12 +92801,12 @@ Captain calamity: Pete Hegseth under fire for ‘inept’ leadership of US milit
 What Led to Maria Bartiromo’s Downfall at Fox News
         The network this week took Maria Bartiromo off the air, pulling one of the last hosts whose coverage of Dominion Voting Systems drew an expensive…
         أمريكا · NYT
-سلالتان من الفهود جابتا السعودية.. هذا ما كشفه تحليل حمضها النووي
-        تكشف النتائج، التي نُشرت بمجلة "Communications Earth &amp; Environment" في يناير/كانون الثاني
+مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
+        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
         عربي · CNN عربية
-التاريخ الخفي وراء "موزة" ثمنها 6 ملايين دولار
-        تعرف على تاريخ الموزة التي بيعت مقابل 6 مليون دولار، وما هي قصة هذا النوع من الفنون.
-        عربي · BBC عربي
+شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
+        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
+        عربي · CNN عربية
 مقابل المشاركة بغزو إيران برياً.. مقترح إسرائيلي لشطب ديون الشباب الأمريكي عند التجنيد
         اقترح كاتب في صحيفة "جيروزاليم بوست" الإسرائيلية إعفاء الشباب الأمريكيين من ديونهم مقابل التطوع للخدمة العسكرية والمشاركة في غزو بري محتمل لإيران
         تركيا · TRT عربي
@@ -92905,9 +92828,9 @@ What the War in Iran Has Cost One Gold Star Family
 مورينيو: لم أجد تفسيراً لخسارة ريال مدريد أمام بيتيس
         أكد البرتغالي جوزيه مورينيو، المدير الفني لريال مدريد، أنه لا يجد تفسيراً لخسارة فريقه أمام ريال بيتيس بهدف دون رد مساء الجمعة في الدوري الإسباني.
         عربي · الشرق الأوسط
-Antonelli 'disrupting rules of fandom' in Ferrari's Italy
-        BBC Sport heads to Monza to find out if Italians want Kimi Antonelli to win the F1 title or if it is all about Ferrari.
-        بريطانيا · BBC
+Premier League buildup, WSL opening weekend news, and more – matchday live
+        Buildup, news and discussion before Saturday’s games This weekend’s fixtures | Mail us with your thoughts Back to the WSL and here’s Tom Garry with a…
+        بريطانيا · Guardian
 How Naomi Osaka Became the Fashion Queen of the Tennis Court
         At the U.S. Open she is playing a whole new style game.
         أمريكا · NYT
@@ -92918,14 +92841,14 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905110000 +0000" stop="20260905120000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:58 — بتوقيتك
 
-شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
-        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
-        عربي · CNN عربية
-السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
-        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
-        عربي · CNN عربية
+محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة
+        ستظل الممرضة السابقة، البالغة من العمر 36 عاماً، محتجزة بالتهم نفسها المتعلقة بالقتل، وستواصل الإقامة في منشأة الصحة النفسية الذي توجد فيها حالياً.
+        عربي · BBC عربي
+غالتييه: مواجهة الهلال اختبار كبير لشخصية نيوم
+        أكد الفرنسي كريستوف غالتييه، مدرب فريق نيوم، أن مواجهة الهلال تُمثل اختباراً كبيراً لشخصية فريقه.
+        عربي · الشرق الأوسط
 سفير واشنطن لدى إسرائيل بشأن عنف المستوطنين: أعمال إجرامية وإرهابية
         تصريحات للسفير الأمريكي لدى إسرائيل مايك هاكابي، خلال زيارته بلدة ترمسعيا، أكد فيها أن الحكومة الإسرائيلية "مسؤولة عن ضمان أمن وسلامة" الفلسطينيين في…
         تركيا · الأناضول
@@ -92938,9 +92861,9 @@ Here Is Where Ukraine Peace Talks Stand, as a New Round Approaches
 Trump Envoys Arrive in Moscow for Talks on Ukraine War
         Steve Witkoff, President Trump’s special envoy, and Jared Kushner, his son-in-law, plan to visit Kyiv next, in an effort to revive peace negotiations…
         أمريكا · NYT
-قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
-        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
-        عربي · الشرق الأوسط
+شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
+        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
+        عربي · CNN عربية
 بعد زيارة الملك.. ماذا يريد الأردن اقتصاديًا من الصين؟
         توجت الزيارة بمباحثات رسمية بين الملك عبد الله الثاني والرئيس الصيني شي جين بينغ وكبار المسؤولين، فضلًا عن توقيع حزمة من الاتفاقيات ومذكرات التفاهم
         تركيا · الأناضول
@@ -92956,12 +92879,12 @@ Masked protesters block access to Port of Dover
 Scenic Route
         The season’s new releases give us a cultural road map, but the most rewarding reading, listening and watching comes from the detours.
         أمريكا · NYT
-جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
-        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
-        عربي · الشرق الأوسط
-مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
-        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
+السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
+        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
         عربي · CNN عربية
+قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
+        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
+        عربي · الشرق الأوسط
 أوروغواي تعلن حالة الطوارئ بسبب إنفلونزا الطيور
         تركيا · الأناضول
 Lindsay Clancy murder trial has divided US on whether she's victim or criminal
@@ -92973,9 +92896,9 @@ Lindsay Clancy murder trial has divided US on whether she's victim or criminal
 What Will Happen to Lindsay Clancy in the Long Term?
         Even as a jury failed to reach a verdict in Lindsay Clancy’s murder trial, her future is unlikely to include freedom, at least for a long time
         أمريكا · NYT
-شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
-        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
-        عربي · CNN عربية
+جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
+        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
+        عربي · الشرق الأوسط
 "للمساعدة في إنقاذ المهاجرين".. الاتحاد الأوروبي ينشر سفنَ دورية في القنال الإنجليزي لأول مرة
         نشرت وكالة حماية الحدود وخفر السواحل الأوروبية "فرونتكس" سفنَ دورية في القنال الإنجليزي للمرة الأولى
         تركيا · TRT عربي
@@ -92991,12 +92914,12 @@ Captain calamity: Pete Hegseth under fire for ‘inept’ leadership of US milit
 What Led to Maria Bartiromo’s Downfall at Fox News
         The network this week took Maria Bartiromo off the air, pulling one of the last hosts whose coverage of Dominion Voting Systems drew an expensive…
         أمريكا · NYT
-سلالتان من الفهود جابتا السعودية.. هذا ما كشفه تحليل حمضها النووي
-        تكشف النتائج، التي نُشرت بمجلة "Communications Earth &amp; Environment" في يناير/كانون الثاني
+مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
+        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
         عربي · CNN عربية
-التاريخ الخفي وراء "موزة" ثمنها 6 ملايين دولار
-        تعرف على تاريخ الموزة التي بيعت مقابل 6 مليون دولار، وما هي قصة هذا النوع من الفنون.
-        عربي · BBC عربي
+شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
+        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
+        عربي · CNN عربية
 مقابل المشاركة بغزو إيران برياً.. مقترح إسرائيلي لشطب ديون الشباب الأمريكي عند التجنيد
         اقترح كاتب في صحيفة "جيروزاليم بوست" الإسرائيلية إعفاء الشباب الأمريكيين من ديونهم مقابل التطوع للخدمة العسكرية والمشاركة في غزو بري محتمل لإيران
         تركيا · TRT عربي
@@ -93018,9 +92941,9 @@ What the War in Iran Has Cost One Gold Star Family
 مورينيو: لم أجد تفسيراً لخسارة ريال مدريد أمام بيتيس
         أكد البرتغالي جوزيه مورينيو، المدير الفني لريال مدريد، أنه لا يجد تفسيراً لخسارة فريقه أمام ريال بيتيس بهدف دون رد مساء الجمعة في الدوري الإسباني.
         عربي · الشرق الأوسط
-Antonelli 'disrupting rules of fandom' in Ferrari's Italy
-        BBC Sport heads to Monza to find out if Italians want Kimi Antonelli to win the F1 title or if it is all about Ferrari.
-        بريطانيا · BBC
+Premier League buildup, WSL opening weekend news, and more – matchday live
+        Buildup, news and discussion before Saturday’s games This weekend’s fixtures | Mail us with your thoughts Back to the WSL and here’s Tom Garry with a…
+        بريطانيا · Guardian
 How Naomi Osaka Became the Fashion Queen of the Tennis Court
         At the U.S. Open she is playing a whole new style game.
         أمريكا · NYT
@@ -93031,14 +92954,14 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905120000 +0000" stop="20260905130000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:58 — بتوقيتك
 
-شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
-        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
-        عربي · CNN عربية
-السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
-        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
-        عربي · CNN عربية
+محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة
+        ستظل الممرضة السابقة، البالغة من العمر 36 عاماً، محتجزة بالتهم نفسها المتعلقة بالقتل، وستواصل الإقامة في منشأة الصحة النفسية الذي توجد فيها حالياً.
+        عربي · BBC عربي
+غالتييه: مواجهة الهلال اختبار كبير لشخصية نيوم
+        أكد الفرنسي كريستوف غالتييه، مدرب فريق نيوم، أن مواجهة الهلال تُمثل اختباراً كبيراً لشخصية فريقه.
+        عربي · الشرق الأوسط
 سفير واشنطن لدى إسرائيل بشأن عنف المستوطنين: أعمال إجرامية وإرهابية
         تصريحات للسفير الأمريكي لدى إسرائيل مايك هاكابي، خلال زيارته بلدة ترمسعيا، أكد فيها أن الحكومة الإسرائيلية "مسؤولة عن ضمان أمن وسلامة" الفلسطينيين في…
         تركيا · الأناضول
@@ -93051,9 +92974,9 @@ Here Is Where Ukraine Peace Talks Stand, as a New Round Approaches
 Trump Envoys Arrive in Moscow for Talks on Ukraine War
         Steve Witkoff, President Trump’s special envoy, and Jared Kushner, his son-in-law, plan to visit Kyiv next, in an effort to revive peace negotiations…
         أمريكا · NYT
-قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
-        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
-        عربي · الشرق الأوسط
+شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
+        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
+        عربي · CNN عربية
 بعد زيارة الملك.. ماذا يريد الأردن اقتصاديًا من الصين؟
         توجت الزيارة بمباحثات رسمية بين الملك عبد الله الثاني والرئيس الصيني شي جين بينغ وكبار المسؤولين، فضلًا عن توقيع حزمة من الاتفاقيات ومذكرات التفاهم
         تركيا · الأناضول
@@ -93069,12 +92992,12 @@ Masked protesters block access to Port of Dover
 Scenic Route
         The season’s new releases give us a cultural road map, but the most rewarding reading, listening and watching comes from the detours.
         أمريكا · NYT
-جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
-        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
-        عربي · الشرق الأوسط
-مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
-        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
+السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
+        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
         عربي · CNN عربية
+قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
+        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
+        عربي · الشرق الأوسط
 أوروغواي تعلن حالة الطوارئ بسبب إنفلونزا الطيور
         تركيا · الأناضول
 Lindsay Clancy murder trial has divided US on whether she's victim or criminal
@@ -93086,9 +93009,9 @@ Lindsay Clancy murder trial has divided US on whether she's victim or criminal
 What Will Happen to Lindsay Clancy in the Long Term?
         Even as a jury failed to reach a verdict in Lindsay Clancy’s murder trial, her future is unlikely to include freedom, at least for a long time
         أمريكا · NYT
-شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
-        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
-        عربي · CNN عربية
+جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
+        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
+        عربي · الشرق الأوسط
 "للمساعدة في إنقاذ المهاجرين".. الاتحاد الأوروبي ينشر سفنَ دورية في القنال الإنجليزي لأول مرة
         نشرت وكالة حماية الحدود وخفر السواحل الأوروبية "فرونتكس" سفنَ دورية في القنال الإنجليزي للمرة الأولى
         تركيا · TRT عربي
@@ -93104,12 +93027,12 @@ Captain calamity: Pete Hegseth under fire for ‘inept’ leadership of US milit
 What Led to Maria Bartiromo’s Downfall at Fox News
         The network this week took Maria Bartiromo off the air, pulling one of the last hosts whose coverage of Dominion Voting Systems drew an expensive…
         أمريكا · NYT
-سلالتان من الفهود جابتا السعودية.. هذا ما كشفه تحليل حمضها النووي
-        تكشف النتائج، التي نُشرت بمجلة "Communications Earth &amp; Environment" في يناير/كانون الثاني
+مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
+        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
         عربي · CNN عربية
-التاريخ الخفي وراء "موزة" ثمنها 6 ملايين دولار
-        تعرف على تاريخ الموزة التي بيعت مقابل 6 مليون دولار، وما هي قصة هذا النوع من الفنون.
-        عربي · BBC عربي
+شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
+        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
+        عربي · CNN عربية
 مقابل المشاركة بغزو إيران برياً.. مقترح إسرائيلي لشطب ديون الشباب الأمريكي عند التجنيد
         اقترح كاتب في صحيفة "جيروزاليم بوست" الإسرائيلية إعفاء الشباب الأمريكيين من ديونهم مقابل التطوع للخدمة العسكرية والمشاركة في غزو بري محتمل لإيران
         تركيا · TRT عربي
@@ -93131,9 +93054,9 @@ What the War in Iran Has Cost One Gold Star Family
 مورينيو: لم أجد تفسيراً لخسارة ريال مدريد أمام بيتيس
         أكد البرتغالي جوزيه مورينيو، المدير الفني لريال مدريد، أنه لا يجد تفسيراً لخسارة فريقه أمام ريال بيتيس بهدف دون رد مساء الجمعة في الدوري الإسباني.
         عربي · الشرق الأوسط
-Antonelli 'disrupting rules of fandom' in Ferrari's Italy
-        BBC Sport heads to Monza to find out if Italians want Kimi Antonelli to win the F1 title or if it is all about Ferrari.
-        بريطانيا · BBC
+Premier League buildup, WSL opening weekend news, and more – matchday live
+        Buildup, news and discussion before Saturday’s games This weekend’s fixtures | Mail us with your thoughts Back to the WSL and here’s Tom Garry with a…
+        بريطانيا · Guardian
 How Naomi Osaka Became the Fashion Queen of the Tennis Court
         At the U.S. Open she is playing a whole new style game.
         أمريكا · NYT
@@ -93144,14 +93067,14 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905130000 +0000" stop="20260905140000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:58 — بتوقيتك
 
-شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
-        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
-        عربي · CNN عربية
-السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
-        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
-        عربي · CNN عربية
+محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة
+        ستظل الممرضة السابقة، البالغة من العمر 36 عاماً، محتجزة بالتهم نفسها المتعلقة بالقتل، وستواصل الإقامة في منشأة الصحة النفسية الذي توجد فيها حالياً.
+        عربي · BBC عربي
+غالتييه: مواجهة الهلال اختبار كبير لشخصية نيوم
+        أكد الفرنسي كريستوف غالتييه، مدرب فريق نيوم، أن مواجهة الهلال تُمثل اختباراً كبيراً لشخصية فريقه.
+        عربي · الشرق الأوسط
 سفير واشنطن لدى إسرائيل بشأن عنف المستوطنين: أعمال إجرامية وإرهابية
         تصريحات للسفير الأمريكي لدى إسرائيل مايك هاكابي، خلال زيارته بلدة ترمسعيا، أكد فيها أن الحكومة الإسرائيلية "مسؤولة عن ضمان أمن وسلامة" الفلسطينيين في…
         تركيا · الأناضول
@@ -93164,9 +93087,9 @@ Here Is Where Ukraine Peace Talks Stand, as a New Round Approaches
 Trump Envoys Arrive in Moscow for Talks on Ukraine War
         Steve Witkoff, President Trump’s special envoy, and Jared Kushner, his son-in-law, plan to visit Kyiv next, in an effort to revive peace negotiations…
         أمريكا · NYT
-قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
-        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
-        عربي · الشرق الأوسط
+شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
+        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
+        عربي · CNN عربية
 بعد زيارة الملك.. ماذا يريد الأردن اقتصاديًا من الصين؟
         توجت الزيارة بمباحثات رسمية بين الملك عبد الله الثاني والرئيس الصيني شي جين بينغ وكبار المسؤولين، فضلًا عن توقيع حزمة من الاتفاقيات ومذكرات التفاهم
         تركيا · الأناضول
@@ -93182,12 +93105,12 @@ Masked protesters block access to Port of Dover
 Scenic Route
         The season’s new releases give us a cultural road map, but the most rewarding reading, listening and watching comes from the detours.
         أمريكا · NYT
-جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
-        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
-        عربي · الشرق الأوسط
-مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
-        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
+السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
+        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
         عربي · CNN عربية
+قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
+        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
+        عربي · الشرق الأوسط
 أوروغواي تعلن حالة الطوارئ بسبب إنفلونزا الطيور
         تركيا · الأناضول
 Lindsay Clancy murder trial has divided US on whether she's victim or criminal
@@ -93199,9 +93122,9 @@ Lindsay Clancy murder trial has divided US on whether she's victim or criminal
 What Will Happen to Lindsay Clancy in the Long Term?
         Even as a jury failed to reach a verdict in Lindsay Clancy’s murder trial, her future is unlikely to include freedom, at least for a long time
         أمريكا · NYT
-شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
-        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
-        عربي · CNN عربية
+جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
+        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
+        عربي · الشرق الأوسط
 "للمساعدة في إنقاذ المهاجرين".. الاتحاد الأوروبي ينشر سفنَ دورية في القنال الإنجليزي لأول مرة
         نشرت وكالة حماية الحدود وخفر السواحل الأوروبية "فرونتكس" سفنَ دورية في القنال الإنجليزي للمرة الأولى
         تركيا · TRT عربي
@@ -93217,12 +93140,12 @@ Captain calamity: Pete Hegseth under fire for ‘inept’ leadership of US milit
 What Led to Maria Bartiromo’s Downfall at Fox News
         The network this week took Maria Bartiromo off the air, pulling one of the last hosts whose coverage of Dominion Voting Systems drew an expensive…
         أمريكا · NYT
-سلالتان من الفهود جابتا السعودية.. هذا ما كشفه تحليل حمضها النووي
-        تكشف النتائج، التي نُشرت بمجلة "Communications Earth &amp; Environment" في يناير/كانون الثاني
+مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
+        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
         عربي · CNN عربية
-التاريخ الخفي وراء "موزة" ثمنها 6 ملايين دولار
-        تعرف على تاريخ الموزة التي بيعت مقابل 6 مليون دولار، وما هي قصة هذا النوع من الفنون.
-        عربي · BBC عربي
+شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
+        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
+        عربي · CNN عربية
 مقابل المشاركة بغزو إيران برياً.. مقترح إسرائيلي لشطب ديون الشباب الأمريكي عند التجنيد
         اقترح كاتب في صحيفة "جيروزاليم بوست" الإسرائيلية إعفاء الشباب الأمريكيين من ديونهم مقابل التطوع للخدمة العسكرية والمشاركة في غزو بري محتمل لإيران
         تركيا · TRT عربي
@@ -93244,9 +93167,9 @@ What the War in Iran Has Cost One Gold Star Family
 مورينيو: لم أجد تفسيراً لخسارة ريال مدريد أمام بيتيس
         أكد البرتغالي جوزيه مورينيو، المدير الفني لريال مدريد، أنه لا يجد تفسيراً لخسارة فريقه أمام ريال بيتيس بهدف دون رد مساء الجمعة في الدوري الإسباني.
         عربي · الشرق الأوسط
-Antonelli 'disrupting rules of fandom' in Ferrari's Italy
-        BBC Sport heads to Monza to find out if Italians want Kimi Antonelli to win the F1 title or if it is all about Ferrari.
-        بريطانيا · BBC
+Premier League buildup, WSL opening weekend news, and more – matchday live
+        Buildup, news and discussion before Saturday’s games This weekend’s fixtures | Mail us with your thoughts Back to the WSL and here’s Tom Garry with a…
+        بريطانيا · Guardian
 How Naomi Osaka Became the Fashion Queen of the Tennis Court
         At the U.S. Open she is playing a whole new style game.
         أمريكا · NYT
@@ -93257,14 +93180,14 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905140000 +0000" stop="20260905150000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:58 — بتوقيتك
 
-شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
-        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
-        عربي · CNN عربية
-السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
-        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
-        عربي · CNN عربية
+محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة
+        ستظل الممرضة السابقة، البالغة من العمر 36 عاماً، محتجزة بالتهم نفسها المتعلقة بالقتل، وستواصل الإقامة في منشأة الصحة النفسية الذي توجد فيها حالياً.
+        عربي · BBC عربي
+غالتييه: مواجهة الهلال اختبار كبير لشخصية نيوم
+        أكد الفرنسي كريستوف غالتييه، مدرب فريق نيوم، أن مواجهة الهلال تُمثل اختباراً كبيراً لشخصية فريقه.
+        عربي · الشرق الأوسط
 سفير واشنطن لدى إسرائيل بشأن عنف المستوطنين: أعمال إجرامية وإرهابية
         تصريحات للسفير الأمريكي لدى إسرائيل مايك هاكابي، خلال زيارته بلدة ترمسعيا، أكد فيها أن الحكومة الإسرائيلية "مسؤولة عن ضمان أمن وسلامة" الفلسطينيين في…
         تركيا · الأناضول
@@ -93277,9 +93200,9 @@ Here Is Where Ukraine Peace Talks Stand, as a New Round Approaches
 Trump Envoys Arrive in Moscow for Talks on Ukraine War
         Steve Witkoff, President Trump’s special envoy, and Jared Kushner, his son-in-law, plan to visit Kyiv next, in an effort to revive peace negotiations…
         أمريكا · NYT
-قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
-        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
-        عربي · الشرق الأوسط
+شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
+        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
+        عربي · CNN عربية
 بعد زيارة الملك.. ماذا يريد الأردن اقتصاديًا من الصين؟
         توجت الزيارة بمباحثات رسمية بين الملك عبد الله الثاني والرئيس الصيني شي جين بينغ وكبار المسؤولين، فضلًا عن توقيع حزمة من الاتفاقيات ومذكرات التفاهم
         تركيا · الأناضول
@@ -93295,12 +93218,12 @@ Masked protesters block access to Port of Dover
 Scenic Route
         The season’s new releases give us a cultural road map, but the most rewarding reading, listening and watching comes from the detours.
         أمريكا · NYT
-جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
-        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
-        عربي · الشرق الأوسط
-مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
-        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
+السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
+        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
         عربي · CNN عربية
+قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
+        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
+        عربي · الشرق الأوسط
 أوروغواي تعلن حالة الطوارئ بسبب إنفلونزا الطيور
         تركيا · الأناضول
 Lindsay Clancy murder trial has divided US on whether she's victim or criminal
@@ -93312,9 +93235,9 @@ Lindsay Clancy murder trial has divided US on whether she's victim or criminal
 What Will Happen to Lindsay Clancy in the Long Term?
         Even as a jury failed to reach a verdict in Lindsay Clancy’s murder trial, her future is unlikely to include freedom, at least for a long time
         أمريكا · NYT
-شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
-        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
-        عربي · CNN عربية
+جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
+        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
+        عربي · الشرق الأوسط
 "للمساعدة في إنقاذ المهاجرين".. الاتحاد الأوروبي ينشر سفنَ دورية في القنال الإنجليزي لأول مرة
         نشرت وكالة حماية الحدود وخفر السواحل الأوروبية "فرونتكس" سفنَ دورية في القنال الإنجليزي للمرة الأولى
         تركيا · TRT عربي
@@ -93330,12 +93253,12 @@ Captain calamity: Pete Hegseth under fire for ‘inept’ leadership of US milit
 What Led to Maria Bartiromo’s Downfall at Fox News
         The network this week took Maria Bartiromo off the air, pulling one of the last hosts whose coverage of Dominion Voting Systems drew an expensive…
         أمريكا · NYT
-سلالتان من الفهود جابتا السعودية.. هذا ما كشفه تحليل حمضها النووي
-        تكشف النتائج، التي نُشرت بمجلة "Communications Earth &amp; Environment" في يناير/كانون الثاني
+مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
+        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
         عربي · CNN عربية
-التاريخ الخفي وراء "موزة" ثمنها 6 ملايين دولار
-        تعرف على تاريخ الموزة التي بيعت مقابل 6 مليون دولار، وما هي قصة هذا النوع من الفنون.
-        عربي · BBC عربي
+شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
+        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
+        عربي · CNN عربية
 مقابل المشاركة بغزو إيران برياً.. مقترح إسرائيلي لشطب ديون الشباب الأمريكي عند التجنيد
         اقترح كاتب في صحيفة "جيروزاليم بوست" الإسرائيلية إعفاء الشباب الأمريكيين من ديونهم مقابل التطوع للخدمة العسكرية والمشاركة في غزو بري محتمل لإيران
         تركيا · TRT عربي
@@ -93357,9 +93280,9 @@ What the War in Iran Has Cost One Gold Star Family
 مورينيو: لم أجد تفسيراً لخسارة ريال مدريد أمام بيتيس
         أكد البرتغالي جوزيه مورينيو، المدير الفني لريال مدريد، أنه لا يجد تفسيراً لخسارة فريقه أمام ريال بيتيس بهدف دون رد مساء الجمعة في الدوري الإسباني.
         عربي · الشرق الأوسط
-Antonelli 'disrupting rules of fandom' in Ferrari's Italy
-        BBC Sport heads to Monza to find out if Italians want Kimi Antonelli to win the F1 title or if it is all about Ferrari.
-        بريطانيا · BBC
+Premier League buildup, WSL opening weekend news, and more – matchday live
+        Buildup, news and discussion before Saturday’s games This weekend’s fixtures | Mail us with your thoughts Back to the WSL and here’s Tom Garry with a…
+        بريطانيا · Guardian
 How Naomi Osaka Became the Fashion Queen of the Tennis Court
         At the U.S. Open she is playing a whole new style game.
         أمريكا · NYT
@@ -93370,14 +93293,14 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905150000 +0000" stop="20260905160000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:58 — بتوقيتك
 
-شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
-        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
-        عربي · CNN عربية
-السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
-        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
-        عربي · CNN عربية
+محاكمة ليندسي كلانسي: تطورات جديدة في قضية قاتلة أطفالها الثلاثة
+        ستظل الممرضة السابقة، البالغة من العمر 36 عاماً، محتجزة بالتهم نفسها المتعلقة بالقتل، وستواصل الإقامة في منشأة الصحة النفسية الذي توجد فيها حالياً.
+        عربي · BBC عربي
+غالتييه: مواجهة الهلال اختبار كبير لشخصية نيوم
+        أكد الفرنسي كريستوف غالتييه، مدرب فريق نيوم، أن مواجهة الهلال تُمثل اختباراً كبيراً لشخصية فريقه.
+        عربي · الشرق الأوسط
 سفير واشنطن لدى إسرائيل بشأن عنف المستوطنين: أعمال إجرامية وإرهابية
         تصريحات للسفير الأمريكي لدى إسرائيل مايك هاكابي، خلال زيارته بلدة ترمسعيا، أكد فيها أن الحكومة الإسرائيلية "مسؤولة عن ضمان أمن وسلامة" الفلسطينيين في…
         تركيا · الأناضول
@@ -93390,9 +93313,9 @@ Here Is Where Ukraine Peace Talks Stand, as a New Round Approaches
 Trump Envoys Arrive in Moscow for Talks on Ukraine War
         Steve Witkoff, President Trump’s special envoy, and Jared Kushner, his son-in-law, plan to visit Kyiv next, in an effort to revive peace negotiations…
         أمريكا · NYT
-قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
-        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
-        عربي · الشرق الأوسط
+شاهد.. ناجٍ يخرج حياً من نفق في نيبال بعد 10 أيام من الكارثة
+        أفاد الجيش النيبالي بأن فرق الإنقاذ انتشلت مواطناً صينياً حياً من نفق تابع لمحطة لتوليد الطاقة الكهرومائية
+        عربي · CNN عربية
 بعد زيارة الملك.. ماذا يريد الأردن اقتصاديًا من الصين؟
         توجت الزيارة بمباحثات رسمية بين الملك عبد الله الثاني والرئيس الصيني شي جين بينغ وكبار المسؤولين، فضلًا عن توقيع حزمة من الاتفاقيات ومذكرات التفاهم
         تركيا · الأناضول
@@ -93408,12 +93331,12 @@ Masked protesters block access to Port of Dover
 Scenic Route
         The season’s new releases give us a cultural road map, but the most rewarding reading, listening and watching comes from the detours.
         أمريكا · NYT
-جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
-        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
-        عربي · الشرق الأوسط
-مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
-        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
+السعودية.. الداخلية تعلن إعدام مواطن "حدا" وتكشف كيف قتل زوجته وابنته
+        أعلنت وزارة الداخلية السعودية في بيان، السبت، تنفيذ حكم القتل (حدًا) بحق مواطن سعودي في منطقة حائل، بعد ثبوت اتهامه بقتل زوجته وابنته
         عربي · CNN عربية
+قناة بنما تُقلص حركة عبور السفن بسبب ظاهرة «إل نينيو» المناخية
+        بدأت قناة بنما تقليص عدد السفن العابرة في مياهها بسبب انخفاض معدلات المتساقطات الناجم عن ظاهرة «إل نينيو» المناخية.
+        عربي · الشرق الأوسط
 أوروغواي تعلن حالة الطوارئ بسبب إنفلونزا الطيور
         تركيا · الأناضول
 Lindsay Clancy murder trial has divided US on whether she's victim or criminal
@@ -93425,9 +93348,9 @@ Lindsay Clancy murder trial has divided US on whether she's victim or criminal
 What Will Happen to Lindsay Clancy in the Long Term?
         Even as a jury failed to reach a verdict in Lindsay Clancy’s murder trial, her future is unlikely to include freedom, at least for a long time
         أمريكا · NYT
-شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
-        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
-        عربي · CNN عربية
+جثث متراكمة وتجنيد في المدارس يعكسان نزيف الحوثيين
+        تشهد صنعاء أزمة صحية تتمثل في اختناق ثلاجات حفظ الجثث بقتلى الحوثيين ومراكز العناية المركزة بجرحاهم
+        عربي · الشرق الأوسط
 "للمساعدة في إنقاذ المهاجرين".. الاتحاد الأوروبي ينشر سفنَ دورية في القنال الإنجليزي لأول مرة
         نشرت وكالة حماية الحدود وخفر السواحل الأوروبية "فرونتكس" سفنَ دورية في القنال الإنجليزي للمرة الأولى
         تركيا · TRT عربي
@@ -93443,12 +93366,12 @@ Captain calamity: Pete Hegseth under fire for ‘inept’ leadership of US milit
 What Led to Maria Bartiromo’s Downfall at Fox News
         The network this week took Maria Bartiromo off the air, pulling one of the last hosts whose coverage of Dominion Voting Systems drew an expensive…
         أمريكا · NYT
-سلالتان من الفهود جابتا السعودية.. هذا ما كشفه تحليل حمضها النووي
-        تكشف النتائج، التي نُشرت بمجلة "Communications Earth &amp; Environment" في يناير/كانون الثاني
+مسؤول روسي يوجه رسالة لإدارة ترامب بشأن "الحقائق على الأرض" بعد وصول ويتكوف وكوشنر لموسكو
+        قال نائب وزير الخارجية الروسي، سيرغي ريابكوف، ردا على سؤال حول زيارة المبعوثين الأمريكيين ستيف ويتكوف وجاريد كوشنر إلى موسكو
         عربي · CNN عربية
-التاريخ الخفي وراء "موزة" ثمنها 6 ملايين دولار
-        تعرف على تاريخ الموزة التي بيعت مقابل 6 مليون دولار، وما هي قصة هذا النوع من الفنون.
-        عربي · BBC عربي
+شاهد لحظة انفجار ضخم داخل قاعدة عسكرية في بوليفيا
+        وقع انفجار يوم الجمعة في قاعدة عسكرية تُستخدم لتخزين مواد الألعاب النارية في مدينة فياتشا البوليفية، بالقرب من العاصمة لاباز.
+        عربي · CNN عربية
 مقابل المشاركة بغزو إيران برياً.. مقترح إسرائيلي لشطب ديون الشباب الأمريكي عند التجنيد
         اقترح كاتب في صحيفة "جيروزاليم بوست" الإسرائيلية إعفاء الشباب الأمريكيين من ديونهم مقابل التطوع للخدمة العسكرية والمشاركة في غزو بري محتمل لإيران
         تركيا · TRT عربي
@@ -93470,9 +93393,9 @@ What the War in Iran Has Cost One Gold Star Family
 مورينيو: لم أجد تفسيراً لخسارة ريال مدريد أمام بيتيس
         أكد البرتغالي جوزيه مورينيو، المدير الفني لريال مدريد، أنه لا يجد تفسيراً لخسارة فريقه أمام ريال بيتيس بهدف دون رد مساء الجمعة في الدوري الإسباني.
         عربي · الشرق الأوسط
-Antonelli 'disrupting rules of fandom' in Ferrari's Italy
-        BBC Sport heads to Monza to find out if Italians want Kimi Antonelli to win the F1 title or if it is all about Ferrari.
-        بريطانيا · BBC
+Premier League buildup, WSL opening weekend news, and more – matchday live
+        Buildup, news and discussion before Saturday’s games This weekend’s fixtures | Mail us with your thoughts Back to the WSL and here’s Tom Garry with a…
+        بريطانيا · Guardian
 How Naomi Osaka Became the Fashion Queen of the Tennis Court
         At the U.S. Open she is playing a whole new style game.
         أمريكا · NYT
@@ -93481,7 +93404,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
         أمريكا · CBS</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260905160000 +0000" stop="20260905185452 +0000" channel="TodayNews">
+  <programme start="20260905160000 +0000" stop="20260905185807 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260905185000 +0300" stop="20260905185500 +0300" channel="ThmanyahGuide">
@@ -100047,7 +99970,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905100000 +0000" stop="20260905110000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:58 — بتوقيتك
 
 الأردن
 عمّان 31° · صافٍ · رطوبة 33% · رياح 16 كم/سا
@@ -100068,7 +99991,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905110000 +0000" stop="20260905120000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:58 — بتوقيتك
 
 الأردن
 عمّان 31° · صافٍ · رطوبة 33% · رياح 16 كم/سا
@@ -100089,7 +100012,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905120000 +0000" stop="20260905130000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:58 — بتوقيتك
 
 الأردن
 عمّان 31° · صافٍ · رطوبة 33% · رياح 16 كم/سا
@@ -100110,7 +100033,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905130000 +0000" stop="20260905140000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:58 — بتوقيتك
 
 الأردن
 عمّان 31° · صافٍ · رطوبة 33% · رياح 16 كم/سا
@@ -100131,7 +100054,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905140000 +0000" stop="20260905150000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:58 — بتوقيتك
 
 الأردن
 عمّان 31° · صافٍ · رطوبة 33% · رياح 16 كم/سا
@@ -100152,7 +100075,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
   </programme>
   <programme start="20260905150000 +0000" stop="20260905160000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 03:54 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:58 — بتوقيتك
 
 الأردن
 عمّان 31° · صافٍ · رطوبة 33% · رياح 16 كم/سا
@@ -100171,7 +100094,7 @@ NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
 سان فرانسيسكو 14° · صافٍ · رطوبة 92% · رياح 9 كم/سا</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260905160000 +0000" stop="20260905185452 +0000" channel="TodayWeather">
+  <programme start="20260905160000 +0000" stop="20260905185808 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-<programme start="20260905191520 +0000" stop="20260905191752 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905185452 +0000" stop="20260905191752 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905185452 +0000" stop="20260905191752 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260905193515 +0000" stop="20260905193806 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905185807 +0000" stop="20260905193806 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905185808 +0000" stop="20260905193806 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
