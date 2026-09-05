@@ -172,6 +172,26 @@ jobs:
         run: python -u match_screen_video.py today_weather
         continue-on-error: true
 
+      # THE SECOND CLOCK — the same four channels, every time printed in
+      # the Gulf's (Asia/Dubai), asked for as a second link set. Each is
+      # its own screen with its own boards, segments and playlist, so
+      # each takes its own encode step exactly like the first four.
+      - name: Encode the UAE-clock matches screen
+        run: python -u match_screen_video.py dubai_matches
+        continue-on-error: true
+
+      - name: Encode the UAE-clock sports screen
+        run: python -u match_screen_video.py dubai_sports
+        continue-on-error: true
+
+      - name: Encode the UAE-clock news screen
+        run: python -u match_screen_video.py dubai_news
+        continue-on-error: true
+
+      - name: Encode the UAE-clock weather screen
+        run: python -u match_screen_video.py dubai_weather
+        continue-on-error: true
+
       # The same day, written as a playlist. A player renders a playlist
       # group as a full screen list of rows, which is the shape an EPG
       # description panel could never give.
@@ -225,6 +245,11 @@ jobs:
             [ -f weather.json ] && git add -- weather.json || true
             [ -d boards ] && git add -- boards || true
             [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
+            [ -f ai_sports_dashboard_dubai.m3u ] && git add -- ai_sports_dashboard_dubai.m3u || true
+            [ -f dubai_matches_epg.xml ] && git add -- dubai_matches_epg.xml || true
+            [ -f dubai_sports_epg.xml ] && git add -- dubai_sports_epg.xml || true
+            [ -f dubai_news_epg.xml ] && git add -- dubai_news_epg.xml || true
+            [ -f dubai_weather_epg.xml ] && git add -- dubai_weather_epg.xml || true
             [ -d stream ] && git add -- stream || true
           }
 
