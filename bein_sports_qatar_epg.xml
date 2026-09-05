@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260904054500 +0000" stop="20260904073700 +0000" channel="beIN4K.qa">
-    <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
-    <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260904073700 +0000" stop="20260904092900 +0000" channel="beIN4K.qa">
     <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
     <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
@@ -1037,12 +1031,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">Athletics UTMB World Series 2026, is a world series for trail run racing between the famous cities around the world, top stars are among the participants.</desc>
     <category lang="ar">ألعاب القوى</category>
     <category lang="en">Athletics</category>
-  </programme>
-  <programme start="20260904065800 +0000" stop="20260904073000 +0000" channel="beINSports1.qa">
-    <title lang="en">La Liga Highlights 2026/2027 EP.3</title>
-    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260904073000 +0000" stop="20260904080000 +0000" channel="beINSports1.qa">
     <title lang="en">UEFA UCL  Magazine 2026/2027-Play-off Review / USC Review/Draw Review</title>
@@ -2048,6 +2036,13 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
+  <programme start="20260911073000 +0000" stop="20260911080000 +0000" channel="beINSports1.qa">
+    <title lang="en">Liverpool vs Atlético de Madrid - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
   <programme start="20260904071500 +0000" stop="20260904074500 +0000" channel="beINSports2.qa">
     <title lang="en">Liverpool vs Nottingham Forest - English Premier League 2026/2027 - Week 2</title>
     <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
@@ -2771,6 +2766,13 @@ Played over two ties, the winners of each tie advance to the league phase of the
   </programme>
   <programme start="20260911053000 +0000" stop="20260911073000 +0000" channel="beINSports2.qa">
     <title lang="en">PSV  vs Shakhtar Donetsk - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20260911073000 +0000" stop="20260911093000 +0000" channel="beINSports2.qa">
+    <title lang="en">Bayern München vs Bodø / Glimt - UEFA Champions League 2026-2027 - MD1</title>
     <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
 Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
@@ -7252,11 +7254,6 @@ All games are live and exclusive only on beIN.</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
   </programme>
-  <programme start="20260904070000 +0000" stop="20260904073000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN Ligue 1 Show 2026/27 | E3</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
   <programme start="20260904073000 +0000" stop="20260904080000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Aston Villa vs Arsenal - English Premier League 2026/2027 - Week 2</title>
     <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
@@ -8234,6 +8231,13 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <title lang="en">EN Ligue 1 Show 2026/27 | E4</title>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
+  </programme>
+  <programme start="20260911073000 +0000" stop="20260911080000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Barcelona  vs Feyenoord - UEFA Champions League 2026-2027 - MD1</title>
+    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
+Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260904062500 +0000" stop="20260904090000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026</title>
