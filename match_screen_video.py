@@ -78,6 +78,16 @@ SCREENS = {
     "today_matches": ("today_matches_", "screen.m3u8", "board.sha256", 20),
     "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256", 20),
     "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
+    # The fourth channel — طقس اليوم. It was a relay of somebody else's
+    # CDN until that CDN stopped answering, and it is a board now for
+    # the same reason the other three are: a picture this repository
+    # drew is a picture nobody outside can switch off.
+    #
+    # TWENTY SECONDS, because a weather row is read the way a fixtures
+    # row is — a city, a number, a sky — and not the way a headline is.
+    # Five cities a page is a glance, and a glance does not need the
+    # half a minute the bulletin's six headlines do.
+    "today_weather": ("today_weather_", "weather.m3u8", "weather.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:

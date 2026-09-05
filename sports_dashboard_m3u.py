@@ -40,25 +40,23 @@ from news_epg import CHANNEL_AR as NEWS_AR
 from news_epg import CHANNEL_ID as NEWS_ID
 from news_epg import LOGO as NEWS_LOGO
 from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
+from weather_epg import CHANNEL_AR as WEATHER_AR
+from weather_epg import CHANNEL_ID as WEATHER_ID
+from weather_epg import LOGO as WEATHER_LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
 RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 
-# The fourth channel — 🌤️ طقس اليوم. It is not drawn and encoded here like
-# the three boards: it is a live HLS relay (AccuWeather, via the amagi
-# CDN) that the n8n automation keeps fresh in stream/weather.m3u8, and
-# its guide — طقس اليوم للمدن, the cities and their temperatures — is
-# written by that same automation into epg.xml under AccuWeatherNow.
-#
-# The id, the name and the mark are written here rather than imported,
-# because the file they live in is written outside this repository's
-# build (n8n commits it directly), so there is no module here to take
-# them from — but they are the SAME values that automation writes, and
-# they are byte-for-byte the line it has been appending all along.
-WEATHER_ID = "AccuWeatherNow"
-WEATHER_NAME = "AccuWeather Now"
-WEATHER_LOGO = f"{RAW}/logos/today_weather.png"
+# The fourth channel — 🌤️ طقس اليوم. It is drawn and encoded here like
+# the three boards beside it: the weather is read from Open-Meteo each
+# pass, drawn as boards (weather_epg.py) and encoded into
+# stream/weather.m3u8 by the same encoder, so the picture is this
+# repository's own end to end and no outside server can switch it off.
+# It began as a relay of the AccuWeather channel through the amagi CDN,
+# which is somebody else's URL to rotate — and the day that CDN stopped
+# answering, the row was in the playlist and the channel played nothing.
+WEATHER_NAME = WEATHER_AR
 
 # Four channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears

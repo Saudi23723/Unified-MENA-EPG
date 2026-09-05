@@ -692,7 +692,8 @@ def gate_the_screen_cannot_go_stale() -> None:
     # proves nothing about the other, and they publish into the same
     # directory from the same pass.
     for prefix, name in (("today_matches_", "screen.m3u8"),
-                         ("other_sports_", "sports.m3u8")):
+                         ("other_sports_", "sports.m3u8"),
+                         ("today_weather_", "weather.m3u8")):
         one_screen(boards_dir, stream_dir, prefix, name, hashlib, _os, _re)
 
 

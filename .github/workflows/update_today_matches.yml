@@ -142,6 +142,18 @@ jobs:
             echo "::warning::the news did not rebuild this pass — the published file is unchanged"
         continue-on-error: true
 
+      # The fourth channel: today's weather, read live from Open-Meteo
+      # and drawn as boards. Same reasoning as the news above — a source
+      # that does not answer is not a failure worth an email: the
+      # generator falls back to the last committed reading in
+      # weather.json and the boards it drew before, so the channel keeps
+      # playing what it was playing.
+      - name: Rebuild the weather
+        run: |
+          python -u weather_epg.py || \
+            echo "::warning::the weather did not rebuild this pass — the published file is unchanged"
+        continue-on-error: true
+
       # The board as video, so tuning to the channel puts it on the
       # screen. Re-encoded only when the board itself changed.
       - name: Encode the screen channel
@@ -154,6 +166,10 @@ jobs:
 
       - name: Encode the news screen
         run: python -u match_screen_video.py today_news
+        continue-on-error: true
+
+      - name: Encode the weather screen
+        run: python -u match_screen_video.py today_weather
         continue-on-error: true
 
       # The same day, written as a playlist. A player renders a playlist
@@ -205,6 +221,8 @@ jobs:
             # nor, until it has built once, the second board's guide.
             [ -f other_sports_epg.xml ] && git add -- other_sports_epg.xml || true
             [ -f news_epg.xml ] && git add -- news_epg.xml || true
+            [ -f weather_epg.xml ] && git add -- weather_epg.xml || true
+            [ -f weather.json ] && git add -- weather.json || true
             [ -d boards ] && git add -- boards || true
             [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
             [ -d stream ] && git add -- stream || true
@@ -257,6 +275,7 @@ jobs:
             python -u match_screen_video.py today_matches || true
             python -u match_screen_video.py other_sports || true
             python -u match_screen_video.py today_news || true
+            python -u match_screen_video.py today_weather || true
             [ -d stream ] && git add -A -- stream || true
 
             if git diff --cached --quiet; then
