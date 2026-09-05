@@ -905,6 +905,126 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
               _os.path.basename(video.segment_of(one)))
 
 
+def gate_a_lost_segment_is_re_encoded_not_republished() -> None:
+    """A segment gone from disk is rebuilt, never named in a playlist.
+
+    THE SKIPPED PAGE, and this gate is the reason it cannot come back.
+
+        "it skipped one page on Sunday it went directly to 2"
+
+    Sunday took three boards. The first was drawn, numbered and
+    committed like the other two — nothing about the picture was wrong.
+    What was missing was the SEGMENT encoded from it, and the encoder
+    published its name anyway.
+
+    It could, because the two things it checks are not the same thing.
+    The fingerprint stamp tracks THE BOARDS; segment_of() computes a
+    NAME from a board's bytes and promises nothing about the file. So a
+    pass that lost a .ts while leaving boards/ and the stamp untouched —
+    the workflow's push-retry, which resets to main and restores only
+    the paths its own commit touched, is exactly such a pass — left the
+    encoder certain there was nothing to do. It took the fast path,
+    wrote the playlist from names, and one of those names was a 404.
+
+    A player does not stop on a 404 in a VOD reel. It moves to the next
+    segment. The page a viewer was meant to open on is the one page they
+    never see, and the day appears to start at 2.
+
+    So the gate does not inspect what happens to be published — the
+    check above already does that, and it can only speak after the fault
+    has shipped. It DRIVES THE ENCODER: a real board, a real segment,
+    the segment deleted with the stamp left intact, and the encoder run
+    again. The old code republished the name. The fixed code notices the
+    file is gone and re-encodes it.
+
+    Everything happens in a temporary directory that this test owns, so
+    no published segment is touched and nothing here can delete a file
+    the channel is serving.
+    """
+    print("\nA lost segment is re-encoded, not republished as a name")
+    import os as _os
+    import shutil as _shutil
+
+    import match_screen_video as video
+
+    if not _shutil.which("ffmpeg"):
+        print("  note ffmpeg is not installed here — the encoder cannot be "
+              "driven, so this gate is not run")
+        return
+
+    boards = video.boards("other_sports_") or video.boards("today_matches_")
+    if not boards:
+        print("  note no board has been drawn yet, nothing to encode")
+        return
+
+    was_out, was_board_dir, was_hold = video.OUT_DIR, video.BOARD_DIR, video.HOLD
+    with tempfile.TemporaryDirectory() as room:
+        try:
+            video.OUT_DIR = room
+            video.BOARD_DIR = _os.path.join(room, "boards")
+            _os.makedirs(video.BOARD_DIR, exist_ok=True)
+            video.HOLD = was_hold
+
+            # Two boards of our own, so the reel has a page to lose.
+            mine = []
+            for place in range(2):
+                name = f"other_sports_{place}.png"
+                _shutil.copyfile(boards[min(place, len(boards) - 1)],
+                                 _os.path.join(video.BOARD_DIR, name))
+                mine.append(_os.path.join(video.BOARD_DIR, name))
+
+            # Encode both, exactly as a pass would.
+            wanted = []
+            for place, board in enumerate(mine):
+                segment = video.segment_of(board)
+                video.encode_segment(board, segment, place, video.HOLD)
+                wanted.append(segment)
+
+            playlist = _os.path.join(room, "sports.m3u8")
+            video.write_playlist(wanted, playlist)
+
+            # The stamp says these boards are already encoded — which is
+            # true of the BOARDS and, in a moment, false of the files.
+            stamp = _os.path.join(room, "sports.sha256")
+            with open(stamp, "w", encoding="utf-8") as handle:
+                handle.write(video.digest(mine) + "\n")
+
+            # The fault, reproduced: one segment disappears while the
+            # boards and the fingerprint stay exactly as they were.
+            lost = wanted[0]
+            _os.remove(lost)
+            check("SCREEN", "a segment can go missing under an unchanged "
+                            "fingerprint",
+                  _os.path.exists(lost), False)
+
+            # Now the pass runs again, the way the workflow runs it.
+            was_screens = video.SCREENS
+            try:
+                video.SCREENS = {"other_sports": ("other_sports_",
+                                                  "sports.m3u8",
+                                                  "sports.sha256",
+                                                  int(was_hold))}
+                video.main(["other_sports"])
+            finally:
+                video.SCREENS = was_screens
+
+            # THE POINT. The segment is back, because it was re-encoded
+            # rather than taken on trust.
+            check("SCREEN", "and the pass after it rebuilds that segment",
+                  _os.path.exists(lost), True)
+
+            # And no name in the published playlist is a 404 — which is
+            # the property the viewer actually experiences.
+            named = [line.strip() for line in open(playlist, encoding="utf-8")
+                     if line.strip().endswith(".ts")]
+            check("SCREEN", "so no page in the reel is a name without a file",
+                  [one for one in named
+                   if not _os.path.exists(_os.path.join(room, one))], [])
+        finally:
+            video.OUT_DIR, video.BOARD_DIR = was_out, was_board_dir
+            video.HOLD = was_hold
+
+
 def gate_two_pages_make_one_row() -> None:
     """A match on both pages is one row, and a wrong pair is never one row.
 
@@ -4540,9 +4660,26 @@ def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
     check("ONEROW", "the night is three rows, not four", len(out), 3)
     check("ONEROW", "and the main card is named once",
           sum(1 for e in out if e["start"] == main), 1)
-    check("ONEROW", "keeping the title that names the fighters",
+    # The broadcaster's title wins the fold. A listings page names the
+    # fighters and the broadcaster does not; when the page's title goes
+    # stale it must not outvote the channel that is actually airing the
+    # night. wheresthematch kept "Yair Rodriguez vs Jean Silva" for days
+    # after Rodriguez withdrew and Jose Miguel Delgado had replaced him,
+    # while Sky's own guide had already self-corrected — so the longer
+    # title winning put a fight that never happens on the board. The
+    # broadcaster's bare title is the corrected one and replaces the
+    # page's; every channel either source gave it still joins the row.
+    check("ONEROW", "the broadcaster's title is the one kept",
           at[main]["title"],
-          "UFC Fight Night Dan Hooker vs Salahdine Parnasse")
+          "UFC Fight Night")
+    stale = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Yair Rodriguez vs Jean Silva", ["ESPN+"]),
+        row(main, "UFC Fight Night", ["ESPN+"]),
+    ])
+    check("ONEROW", "a withdrawn fighter's name is not kept on the board",
+          any("Rodriguez" in event["title"] or "Silva" in event["title"]
+              for event in stale),
+          False)
     check("ONEROW", "and every channel either source gave it",
           at[main]["channels"], ["TNT 1", "HBO Max"])
     check("ONEROW", "THE PRELIM SURVIVES", prelim in at, True)
@@ -5289,6 +5426,7 @@ def main() -> int:
                  gate_a_fact_survives_its_source,
                  gate_every_guide_is_covered,
                  gate_the_screen_cannot_go_stale,
+                 gate_a_lost_segment_is_re_encoded_not_republished,
                  gate_two_pages_make_one_row,
                  gate_a_day_divider_is_not_a_container,
                  gate_the_printed_clock_is_the_kickoff,

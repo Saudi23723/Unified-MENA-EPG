@@ -1,74 +1,54 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Draw the marks for the two dashboard guides.
+Draw the modern marks for the four dashboard guides.
 
-The guide is not a broadcaster, so there is no artwork to fetch: it is a
-strip of the day's football with a countdown on each fixture. The mark says
-that and nothing else — the channel's own name inside a ring drawn as a
-countdown part-way run down.
-
-Unlike make_filler_logos.py, this one does set Arabic type. It can, because
-it refuses to run unless Pillow was built with Raqm and the font actually
-carries the letters; without shaping the words would come out as
-disconnected back-to-front glyphs, which is exactly why the filler marks
-stay in Latin. Better to fail loudly here than to publish a broken mark.
+A channel's mark is how a viewer finds it in a list of two hundred, so
+each one says its name in both languages and carries an emblem a viewer
+can recognise at thumbnail size — a ball, a trophy, a broadcast wave, a
+sun behind a cloud — on a deep gradient with a glow of its own colour.
+Same layout, same family, four accents: a set that reads as a set.
 
     python make_today_matches_logo.py
 
-It writes logos/today_matches.png and logos/other_sports.png.
-
-TWO MARKS, because there are two channels. They shared one file until a
-reader looked at their guide and saw the same picture twice — a logo is
-how a channel is found in a list, so two channels wearing one is two
-channels a viewer cannot tell apart. Same shape, so they read as a pair;
-different name and different colour, so they are not each other.
+Writes logos/today_matches.png, logos/other_sports.png,
+logos/today_news.png and logos/today_weather.png — one 512×512
+transparent PNG each, rounded like a modern app tile, ready for
+TiviMate's icon slot.
 """
 
 from __future__ import annotations
 
 import sys
 
-from PIL import Image, ImageDraw, ImageFont, features
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, features
 
-# Each mark: the file, its Arabic name, its Latin one, and its four
-# colours — the ground, the part of the ring still to come, the part
-# already run down, and the Latin line. The shape and the layout are
-# shared, so the two read as a pair; nothing else is, so they are not
-# each other at a glance in a channel list.
+# Each mark: the file, its Arabic name, its Latin caption, the top and
+# bottom of the background gradient, and its accent colour.
 MARKS = (
-    ("logos/today_matches.png", "مباريات اليوم",
-     "T O D A Y ' S   M A T C H E S",
-     (11, 43, 36, 255), (30, 76, 65, 255),
-     (56, 214, 111, 255), (143, 231, 180, 255)),
-    ("logos/other_sports.png", "رياضات اليوم",
-     "T O D A Y ' S   S P O R T S",
-     (28, 22, 46, 255), (58, 48, 86, 255),
-     (245, 158, 11, 255), (253, 214, 138, 255)),
-    # THREE NOW. Same shape as its two neighbours so they read as a set,
-    # and its own name and its own colour so nobody has to open a channel
-    # to find out which of the three it is. Blue, because green and amber
-    # are taken and a bulletin is not a scoreboard.
-    ("logos/today_news.png", "أخبار اليوم",
-     "T O D A Y ' S   N E W S",
-     (12, 27, 48, 255), (28, 55, 92, 255),
-     (56, 152, 236, 255), (150, 200, 248, 255)),
+    ("logos/today_matches.png", "مباريات اليوم", "TODAY'S MATCHES",
+     (14, 46, 38, 255), (5, 11, 9, 255), (58, 224, 138, 255)),
+    ("logos/other_sports.png", "رياضات اليوم", "TODAY'S SPORTS",
+     (34, 24, 8, 255), (10, 7, 3, 255), (255, 176, 46, 255)),
+    ("logos/today_news.png", "أخبار اليوم", "TODAY'S NEWS",
+     (14, 30, 56, 255), (4, 8, 16, 255), (86, 168, 255, 255)),
+    ("logos/today_weather.png", "طقس اليوم", "TODAY'S WEATHER",
+     (10, 46, 66, 255), (4, 10, 15, 255), (74, 224, 220, 255)),
 )
 
-# FreeSerif is the one font on the build image that carries Arabic.
-AR_FONT = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf"
-EN_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+AR_FONT = "fonts/Tajawal-ExtraBold.ttf"
+EN_FONT = "fonts/Tajawal-Medium.ttf"
 
-SCALE = 4                 # draw large, shrink at the end, so edges are smooth
+SCALE = 2                 # draw large, shrink at the end, so edges are smooth
 SIZE = 512 * SCALE
-
+RADIUS = 118 * SCALE      # the corner of a modern app tile
 WHITE = (255, 255, 255, 255)
 
 ARABIC = dict(direction="rtl", language="ar")
 
 
 def refuse_without_shaping(name_ar: str) -> None:
-    """Stop before drawing if the Arabic would come out malformed."""
+    """Stop before drawing if the Arabic would not be shaped."""
     if not features.check("raqm"):
         sys.exit("Pillow has no Raqm, so Arabic would not be shaped. "
                  "Install libraqm and try again — do not commit the "
@@ -85,46 +65,143 @@ def fitted(path: str, text: str, width: int, ceiling: int, **kw) -> ImageFont.Fr
     while size > 8:
         font = ImageFont.truetype(path, size)
         box = measure.textbbox((0, 0), text, font=font, **kw)
-        if box[2] - box[0] <= width:
+        if box[2] - box[0] <= width: 
             return font
         size -= 2
     return ImageFont.truetype(path, size)
 
 
-def draw(name_ar: str, name_en: str, ground, track, lit,
+# ── the emblems ─────────────────────────────────────────────────────────
+# Line icons in white on a glow of the mark's accent: a ball, a cup, a
+# broadcast wave, a sun behind a cloud. Drawn at the same stroke weight
+# so they read as one family, and each is simple enough to survive a
+# 64px thumbnail.
+
+def draw_ball(pen: ImageDraw.ImageDraw, cx: int, cy: int, r: int,
+              stroke: int, accent) -> None:
+    """A football: circle, centre pentagon, five seams to the rim."""
+    pen.ellipse([cx - r, cy - r, cx + r, cy + r], outline=WHITE,
+                width=stroke)
+    import math
+    pts = [(cx + int(r * 0.46 * math.cos(math.radians(90 + i * 72))),
+            cy - int(r * 0.46 * math.sin(math.radians(90 + i * 72))))
+           for i in range(5)]
+    pen.polygon(pts, fill=accent)
+    for i, (px, py) in enumerate(pts):
+        a = math.radians(90 + i * 72)
+        pen.line([px, py, cx + int(r * math.cos(a) * 0.92),
+                  cy - int(r * math.sin(a) * 0.92)],
+                 fill=WHITE, width=max(3, stroke // 2))
+
+
+def draw_cup(pen: ImageDraw.ImageDraw, cx: int, cy: int, r: int,
+             stroke: int, accent) -> None:
+    """A trophy: bowl, two handles, a stem, a base."""
+    bowl = [cx - r // 2, cy - r, cx + r // 2, cy - r // 5]
+    pen.rounded_rectangle(bowl, radius=r // 6, outline=WHITE, width=stroke)
+    pen.arc([cx - r, cy - r, cx, cy + r // 5], 300, 90, fill=WHITE,
+            width=max(3, stroke // 2))
+    pen.arc([cx, cy - r, cx + r, cy + r // 5], 90, 240, fill=WHITE,
+            width=max(3, stroke // 2))
+    pen.line([cx, cy - r // 5, cx, cy + r // 3], fill=WHITE, width=stroke)
+    pen.line([cx - r // 3, cy + r // 3, cx + r // 3, cy + r // 3],
+             fill=WHITE, width=stroke)
+    pen.rounded_rectangle([cx - r // 2, cy + r // 3, cx + r // 2,
+                           cy + r // 3 + r // 6], radius=stroke,
+                          outline=WHITE, width=stroke)
+    pen.line([cx - r // 3, cy - r, cx + r // 3, cy - r], fill=accent,
+             width=max(3, stroke // 2))
+
+
+def draw_waves(pen: ImageDraw.ImageDraw, cx: int, cy: int, r: int,
+               stroke: int, accent) -> None:
+    """A broadcast mark: a dot, and arcs either side of it."""
+    dot = r // 7
+    pen.ellipse([cx - dot, cy - dot, cx + dot, cy + dot], fill=accent)
+    for i, spread in ((1, r // 3), (2, r * 2 // 3), (3, r)):
+        box = [cx - spread, cy - spread, cx + spread, cy + spread]
+        pen.arc(box, 315, 45, fill=WHITE, width=max(3, stroke // 2))
+        pen.arc(box, 135, 225, fill=WHITE, width=max(3, stroke // 2))
+
+
+def draw_sun_cloud(pen: ImageDraw.ImageDraw, cx: int, cy: int, r: int,
+                   stroke: int, accent) -> None:
+    """A sun sitting behind a small cloud."""
+    import math
+    sun = r * 0.42
+    sx, sy = cx + r // 3, cy - r // 3
+    for i in range(8):
+        a = math.radians(45 * i)
+        pen.line([sx + int(sun * math.cos(a)), sy - int(sun * math.sin(a)),
+                  sx + int((sun + r // 5) * math.cos(a)),
+                  sy - int((sun + r // 5) * math.sin(a))],
+                 fill=accent, width=max(3, stroke // 2))
+    pen.ellipse([sx - sun, sy - sun, sx + sun, sy + sun], outline=WHITE,
+                width=max(3, stroke // 2))
+    pen.ellipse([cx - r, cy + r // 10, cx - r // 3, cy + r * 2 // 3],
+                outline=WHITE, width=stroke)
+    pen.ellipse([cx - r // 3, cy, cx + r // 4, cy + r * 3 // 5],
+                outline=WHITE, width=stroke)
+    pen.line([cx - r, cy + r * 2 // 3, cx + r // 4, cy + r * 2 // 3],
+             fill=WHITE, width=stroke)
+
+
+EMBLEMS = {
+    "logos/today_matches.png": draw_ball,
+    "logos/other_sports.png": draw_cup,
+    "logos/today_news.png": draw_waves,
+    "logos/today_weather.png": draw_sun_cloud,
+}
+
+
+# ── the mark ────────────────────────────────────────────────────────────
+
+def draw(path: str, name_ar: str, name_en: str, top, bottom,
          accent) -> Image.Image:
     image = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
     pen = ImageDraw.Draw(image)
 
-    pen.rounded_rectangle([0, 0, SIZE - 1, SIZE - 1],
-                          radius=80 * SCALE, fill=ground)
+    # The background: a vertical gradient inside a rounded tile.
+    for y in range(SIZE):
+        share = y / (SIZE - 1)
+        ink = tuple(int(top[i] + (bottom[i] - top[i]) * share)
+                    for i in range(3)) + (255,)
+        pen.line([(0, y), (SIZE - 1, y)], fill=ink)
+    mask = Image.new("L", (SIZE, SIZE), 0)
+    ImageDraw.Draw(mask).rounded_rectangle(
+        [0, 0, SIZE - 1, SIZE - 1], radius=RADIUS, fill=255)
+    image.putalpha(mask)
 
-    # The ring is a countdown caught part-way: lit from the top round to
-    # the lower left, dark for what is left.
-    pad, width = 46 * SCALE, 22 * SCALE
-    ring = [pad, pad, SIZE - 1 - pad, SIZE - 1 - pad]
-    pen.ellipse(ring, outline=track, width=width)
-    pen.arc(ring, start=-90, end=170, fill=lit, width=width)
+    # The glow: the emblem's colour, blurred, so the icon floats on it.
+    cx, cy, r = SIZE // 2, 208 * SCALE, 96 * SCALE
+    glow = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+    ImageDraw.Draw(glow).ellipse(
+        [cx - r * 2, cy - r * 2, cx + r * 2, cy + r * 2],
+        fill=accent[:3] + (110,))
+    glow = glow.filter(ImageFilter.GaussianBlur(52 * SCALE))
+    image.alpha_composite(glow)
 
-    # Both lines sit inside the ring, so neither may be wider than it.
-    inner = SIZE - 2 * (pad + width) - 24 * SCALE
+    pen = ImageDraw.Draw(image)
+    EMBLEMS[path](pen, cx, cy, r, 8 * SCALE, accent)
+
+    # The two names, inside the tile's width.
+    inner = SIZE - 2 * 46 * SCALE
     middle = SIZE // 2
-
-    arabic = fitted(AR_FONT, name_ar, inner, 130 * SCALE, **ARABIC)
-    latin = fitted(EN_FONT, name_en, int(inner * 0.78), 34 * SCALE)
-
-    pen.text((middle, 224 * SCALE), name_ar, font=arabic, fill=WHITE,
+    arabic = fitted(AR_FONT, name_ar, inner, 96 * SCALE, **ARABIC)
+    latin = fitted(EN_FONT, " ".join(name_en), int(inner * 0.92),
+                   30 * SCALE)
+    pen.text((middle, 436 * SCALE), name_ar, font=arabic, fill=WHITE,
              anchor="mm", **ARABIC)
-    pen.text((middle, 322 * SCALE), name_en, font=latin, fill=accent,
-             anchor="mm")
+    pen.text((middle, 500 * SCALE), " ".join(name_en), font=latin,
+             fill=accent, anchor="mm")
 
     return image.resize((512, 512), Image.LANCZOS)
 
 
 def main() -> None:
-    for out, name_ar, name_en, ground, track, lit, accent in MARKS:
+    for out, name_ar, name_en, top, bottom, accent in MARKS:
         refuse_without_shaping(name_ar)
-        draw(name_ar, name_en, ground, track, lit, accent).save(out)
+        draw(out, name_ar, name_en, top, bottom, accent).save(out)
         print(f"wrote {out}")
 
 

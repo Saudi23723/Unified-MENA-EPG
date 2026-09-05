@@ -90,7 +90,8 @@ SHORTHAND = (
 A_FIGHT = re.compile(
     r"\bUFC\b|\bMMA\b|ultimate fighting|contender series|ultimate fighter"
     r"|\bPFL\b|bellator|\boktagon\b"
-    r"|\bboxing\b|fight night|title fight|undisputed", re.I)
+    r"|\bboxing\b|fight night|title fight|undisputed"
+    r"|\bzuffa\b|\braf\b", re.I)
 
 # Sky marks a live broadcast in the title. A repeat of last week's card
 # is not tonight's, and this is the only thing that tells them apart.

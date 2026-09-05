@@ -662,6 +662,26 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
     # two, while still ending the airing when the channel truly moves on.
     RUN_GAP = timedelta(hours=3)
 
+    # HOW LONG AN AIRING MAY BE AND STILL BE AN EVENT. Past this it is a
+    # channel looping tape, and the board was printing the loop as though
+    # the fight were on again today.
+    #
+    # Measured on Roya's own feed the day this was written. It publishes
+    # the same competition in two different ways:
+    #
+    #   Roya TV   17:30 -> 21:00, one block, 3h30m       the event
+    #   RFC       21:00 -> 20:29 three days later,       the loop
+    #             42 blocks of 1:41:53 end to end
+    #
+    # The first is a fight card: a promotion announces one, it runs an
+    # evening, it ends. The second is a video shelf playing the recording
+    # around the clock, and a viewer told "RFC, 00:00" on Sunday turns on
+    # a repeat of Friday. Nine hours is longer than any card this board
+    # has carried -- the UFC's longest night, early prelims to the last
+    # main-card fight, is under seven -- and far short of a loop, which
+    # does not stop at all.
+    LONGEST_EVENT = timedelta(hours=9)
+
     out: list[dict] = []
     for path, mark, names_it, sport, competition, preferred_channel in OUR_OWN_FIGHTS:
         # EVERY BLOCK THIS GUIDE PUBLISHES FOR THE COMPETITION, in order.
@@ -676,24 +696,50 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
         for row in programmes(path, mark):
             if not names_it.search(row["title"]):
                 continue
-            channel = row["channel"]
-            if channel == competition and preferred_channel:
-                channel = preferred_channel
+            # WHAT THE GUIDE SAID, kept apart from what the viewer is
+            # told. A shelf named after the promotion and the broadcast
+            # channel showing it are two different places, and only the
+            # guide's own name tells them apart -- so the rename that
+            # gives a viewer something to turn to happens after the
+            # stitch, never before it.
+            shown = row["channel"]
+            if shown == competition and preferred_channel:
+                shown = preferred_channel
             blocks.append({"start": row["start"],
                            "stop": row.get("stop", row["start"]),
-                           "channel": channel})
+                           "channel": row["channel"],
+                           "shown": shown})
         blocks.sort(key=lambda b: b["start"])
 
-        # Contiguous blocks -> one airing (start of the run to its end).
-        airings: list[dict] = []
+        # Contiguous blocks -> one airing (start of the run to its end),
+        # STITCHED PER CHANNEL.
+        #
+        # A broadcaster shows the same competition in two places at once:
+        # Roya carries the fight card live on Roya TV and plays the
+        # recording around the clock on a shelf channel named after the
+        # promotion. Stitched together those became one run of three
+        # days, so the shelf's loop swallowed the card -- and refusing
+        # the loop then refused the event that was inside it.
+        #
+        # Per channel, each is what it is: Roya TV's 17:30 to 21:00 is a
+        # night of fighting, the shelf's forty-two back-to-back blocks
+        # are a loop, and the length rule below can tell them apart.
+        per_channel: dict[str, list[dict]] = {}
         for block in blocks:
-            if airings and (block["start"] - airings[-1]["stop"]) <= RUN_GAP:
-                airings[-1]["stop"] = max(airings[-1]["stop"], block["stop"])
-                if block["channel"] not in airings[-1]["channels"]:
-                    airings[-1]["channels"].append(block["channel"])
-            else:
-                airings.append({"start": block["start"], "stop": block["stop"],
-                                "channels": [block["channel"]]})
+            per_channel.setdefault(block["channel"], []).append(block)
+
+        airings: list[dict] = []
+        for channel, runs in per_channel.items():
+            run: dict | None = None
+            for block in sorted(runs, key=lambda one: one["start"]):
+                if run is not None and (
+                        block["start"] - run["stop"]) <= RUN_GAP:
+                    run["stop"] = max(run["stop"], block["stop"])
+                    continue
+                run = {"start": block["start"], "stop": block["stop"],
+                       "channels": [block["shown"]]}
+                airings.append(run)
+        airings.sort(key=lambda one: one["start"])
 
         # ONE ROW PER DAY THE AIRING IS ON. A loop that spans days is a
         # real thing to tell a viewer about on each of those days — but
@@ -705,21 +751,28 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
             if floor is not None and not (
                     airing["start"] < ceiling and airing["stop"] > floor):
                 continue
-            span_floor = floor if floor is not None else airing["start"]
-            span_ceiling = ceiling if ceiling is not None else airing["stop"]
-            day = max(airing["start"], span_floor)
-            last = min(airing["stop"], span_ceiling)
-            while day < last:
-                nxt = _next_viewer_midnight(day)
-                out.append({
-                    "start": day,
-                    "title": competition,
-                    "competition": competition,
-                    "sport": sport,
-                    "channels": list(airing["channels"]),
-                })
-                found += 1
-                day = nxt
+            # A run that never stops is a shelf, not a night of fighting.
+            if airing["stop"] - airing["start"] > LONGEST_EVENT:
+                log(f"  {os.path.basename(path)}: {competition} runs "
+                    f"{(airing['stop'] - airing['start']).days}d "
+                    f"{(airing['stop'] - airing['start']).seconds // 3600}h "
+                    f"from {airing['start']:%d.%m %H:%M} -- a loop, not an "
+                    f"event, so no row")
+                continue
+            # ONE ROW, AT THE MOMENT IT STARTS. Not one per day it
+            # touches: an event that runs past midnight is still one
+            # event, and printing it again at 00:00 the next day told a
+            # viewer a fight was starting when it was already over. The
+            # only reason to print a later day was the loop, and a loop
+            # no longer reaches here.
+            out.append({
+                "start": airing["start"],
+                "title": competition,
+                "competition": competition,
+                "sport": sport,
+                "channels": list(airing["channels"]),
+            })
+            found += 1
         if found:
             log(f"  {os.path.basename(path)}: {found} {competition} "
                 f"day(s) this repository already had")
@@ -871,6 +924,35 @@ OUR_OWN_FIXTURES = (
 )
 
 
+# A Turkish club's name as Turkey itself writes it, for the grids that
+# print Turkish clubs in plain ASCII. beIN Qatar's French rows carry
+# "Basaksehir vs Galatasaray - Championnat de Turquie" while its English
+# ones write "İstanbul Başakşehir Fk" with every diacritic in place, and
+# a board that prints both spellings is a board misspelling one of them.
+# The keys are the ASCII forms a grid actually prints; a word that
+# already carries its diacritics is not a key and is left untouched.
+TURKISH_AS_WRITTEN = {
+    "Istanbul": "İstanbul",
+    "Basaksehir": "Başakşehir",
+    "Fenerbahce": "Fenerbahçe",
+    "Besiktas": "Beşiktaş",
+    "Kasimpasa": "Kasımpaşa",
+    "Genclerbirligi": "Gençlerbirliği",
+    "Bandirmaspor": "Bandırmaspor",
+    "Goztepe": "Göztepe",
+    "Eyupspor": "Eyüpspor",
+    "Karagumruk": "Karagümrük",
+    "Umraniyespor": "Ümraniyespor",
+    "Ankaragucu": "Ankaragücü",
+}
+
+
+def spelled_as_turkey_writes_it(name: str) -> str:
+    """A Turkish club's name with the diacritics a French grid dropped."""
+    return " ".join(TURKISH_AS_WRITTEN.get(word, word)
+                    for word in name.split(" "))
+
+
 def a_club(name: str) -> str:
     """A club's name without the company form a TV grid prints after it."""
     was = None
@@ -911,6 +993,8 @@ def fixtures_our_guides_have(floor=None, ceiling=None) -> list[dict]:
                 continue
             home, away = fixture_in(row["title"])
             home, away = a_club(home), a_club(away)
+            home, away = (spelled_as_turkey_writes_it(one)
+                          for one in (home, away))
             if not home or not away:
                 continue
             if floor is not None and not (floor <= row["start"] < ceiling):

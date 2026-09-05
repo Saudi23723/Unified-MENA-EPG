@@ -254,7 +254,7 @@ def boards(prefix: str) -> list[str]:
 # audio/theme.m4a WITH DIFFERENT AUDIO REQUIRES BUMPING THIS NUMBER, or
 # every segment keeps its old name and goes on playing the music it was
 # encoded with. The number is the whole mechanism.
-ENCODER_REVISION = 7
+ENCODER_REVISION = 8
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -316,7 +316,13 @@ KEYFRAME_SECONDS = 2
 # a black screen on some players. If audio/theme.m4a is not where this
 # expects it, the segment is encoded exactly as revision 6 encoded it,
 # and the picture is untouched either way.
-THEME = "audio/theme.m4a"
+THEME = "audio/theme.m4a"      # kept as the shared fallback
+THEMES = {
+    "today_matches": "audio/theme_matches.m4a",
+    "other_sports": "audio/theme_sports.m4a",
+    "today_news": "audio/theme_news.m4a",
+    "today_weather": "audio/theme_weather.m4a",
+}
 THEME_LAP = 140.0
 THEME_FADE = 0.4
 
@@ -827,8 +833,9 @@ def main(argv: list[str] | None = None) -> int:
     # folded into the fingerprint so a change to it re-encodes rather
     # than leaving a playlist declaring a length its segments do not
     # have.
-    global HOLD                                            # noqa: PLW0603
+    global HOLD, THEME                                     # noqa: PLW0603
     HOLD = seconds
+    THEME = THEMES.get(which, THEME)
     out = os.path.join(OUT_DIR, playlist)
     stamp = os.path.join(OUT_DIR, stamp_name)
 
@@ -852,14 +859,55 @@ def main(argv: list[str] | None = None) -> int:
     if os.path.exists(stamp):
         with open(stamp, encoding="utf-8") as handle:
             was = handle.read().strip()
-    if was == fingerprint and os.path.exists(out):
+    # EVERY SEGMENT THE REEL NEEDS, AND WHETHER IT IS ACTUALLY THERE.
+    #
+    # segment_of() computes a NAME from a board's bytes. It does not
+    # promise the file exists, and the fast path below used to take the
+    # names on trust: matching fingerprint, so nothing was re-encoded,
+    # so the playlist was written from names alone. A name whose file had
+    # gone was published exactly like one whose file was there.
+    #
+    # THAT IS THE SKIPPED PAGE. A missing segment is a 404 to the
+    # television, and a player that cannot fetch one segment of a VOD
+    # reel does not stop — it moves to the next one. The viewer sees the
+    # day open on page 2, with page 1 never drawn:
+    #
+    #     "it skipped one page on Sunday it went directly to 2"
+    #
+    # Sunday was three boards; the first of them was named in the
+    # playlist and was not in the repository, so the page a viewer was
+    # meant to open on was the one page they never saw. Nothing about
+    # the board was wrong — it was drawn, it was numbered, it was
+    # committed. Only the segment was gone.
+    #
+    # A segment can go missing without the fingerprint noticing: the
+    # stamp tracks THE BOARDS, not the files encoded from them, so any
+    # pass that lost a .ts while leaving boards/ and the stamp intact
+    # left this function certain there was nothing to do. The retry loop
+    # in the workflow resets to main and restores only the paths its own
+    # commit touched, which is exactly such a pass.
+    #
+    # So existence is CHECKED rather than assumed, and a missing segment
+    # is re-encoded rather than published as a name. The check is one
+    # stat per board — nothing measurable against an encode — and it runs
+    # on every pass, which is what makes the skip impossible rather than
+    # unlikely.
+    wanted_segments = [segment_of(board) for board in reel]
+    absent = [seg for seg in wanted_segments if not os.path.exists(seg)]
+    if absent and was == fingerprint:
+        warn(f"{which}: {len(absent)} segment(s) the reel needs are not on "
+             f"disk though the boards have not changed — re-encoding rather "
+             f"than publishing a playlist that names them: "
+             f"{', '.join(os.path.basename(one) for one in absent[:4])}")
+
+    if was == fingerprint and os.path.exists(out) and not absent:
         # Sweep even when nothing is re-encoded. The sweep used to run only
         # after an encode, so a segment orphaned any other way stayed
         # forever: two scheduled passes failed to push, left main holding
         # segments for boards that had moved on, and every pass after them
         # matched the fingerprint, returned here, and never looked. The
         # screen gate found them days later.
-        segments = [segment_of(board) for board in reel]
+        segments = wanted_segments
         dropped = forget_old_segments(segments, prefix)
         if dropped:
             log(f"  {dropped} segment(s) nothing points at any more, removed")

@@ -440,7 +440,13 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         two = bool(beneath) and height >= 42
         size = (max(17, min(25, height - 30)) if two
                 else max(19, min(28, height - 26)))
-        under = max(13, size - 7)
+        # 14 is the floor for the competition line, measured against the
+        # smallest phone a viewer checks a board on: 13px MUTED thin read
+        # as a smudge at arm's length and the viewer could not tell the
+        # league from the cup, which is the one thing the line exists to
+        # say. Two points of size cost nothing the name needs and the
+        # line is legible wherever the clock beside it is.
+        under = max(14, size - 7)
         head_y = middle - (under // 2) - 2 if two else middle
         sub_y = middle + (size // 2) + 2
 
@@ -505,11 +511,21 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                   fitted, WHITE, anchor="lm")
 
         if two:
-            # And the competition takes what the pills left on their line.
-            draw_text(pen, (head, sub_y),
-                      clipped(beneath, under, channel_x - head - 20,
-                              thin=True),
-                      under, MUTED, anchor="lm", thin=True)
+            # THE COMPETITION IS THE FIRST THING A VIEWER LOOKS FOR after
+            # the two names — league, cup or friendly decides whether
+            # they turn over at all — so it is drawn to be read, not to
+            # sit quietly under the name: an accent dot to lead the eye,
+            # the mid weight, and PILL_INK, which holds its own against
+            # the white above it instead of fading to a whisper like
+            # MUTED did. The dot is the same accent the board already
+            # marks "look here" with, so it reads as part of the board's
+            # language rather than a new thing.
+            pen.ellipse([head, sub_y - 4, head + 8, sub_y + 4],
+                        fill=accent)
+            draw_text(pen, (head + 18, sub_y),
+                      clipped(beneath, under, channel_x - head - 38,
+                              weight="mid"),
+                      under, PILL_INK, anchor="lm", weight="mid")
         y += height
 
     left_out = len(events) - len(rows)

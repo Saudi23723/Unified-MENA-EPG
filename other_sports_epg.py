@@ -274,6 +274,22 @@ def a_card_segment(title: str) -> str:
     return re.sub(r"\s+", " ", found.group(0).lower()) if found else ""
 
 
+
+def _the_broadcaster_names_it(event: dict, into: dict) -> bool:
+    """Whether `event` is the broadcaster’s own row for `into`’s broadcast.
+
+    Sky’s guide titles are the programme itself: “UFC Fight Night”,
+    “Live Boxing”, with no “Action from …” wording — that lives in the
+    synopsis. A listings page enriches the same broadcast with fighters
+    and venues, and enrichment is what the fold used to keep. So the row
+    whose title is a PREFIX of the other’s, arriving second at the same
+    minute on a channel in common, is the broadcaster’s, and its title
+    replaces the page’s.
+    """
+    theirs = a_bare_title(into["title"])
+    mine = a_bare_title(event["title"])
+    return bool(theirs) and bool(mine) and theirs.startswith(mine)
+
 def one_row_per_broadcast(events: list[dict]) -> list[dict]:
     """Two sources naming one broadcast become one row.
 
@@ -299,8 +315,27 @@ def one_row_per_broadcast(events: list[dict]) -> list[dict]:
     A prelim and a main card cannot start at the same minute, and the
     segment rule refuses them even if a source ever said they did.
 
-    The longer title wins, because it is the one that names the fighters,
-    and the channels are unioned in the order they arrived.
+    THE TITLE THE KEEPER WEARS. The longer title won, because it was the
+    one that named the fighters — until the day the longer one was
+    WRONG and the shorter one was right:
+
+        wheresthematch  UFC Fight Night Yair Rodriguez vs Jean Silva
+        Sky             Live: UFC Fight Night
+
+    Rodriguez withdrew; Jose Delgado took the bout. Sky, the BROADCASTER,
+    corrected its title and its synopsis ("headlined by the featherweight
+    bout between Jean Silva and Jose Miguel Delgado") while the listings
+    page still carried the cancelled pairing weeks later — and the
+    board printed the cancelled one, because it was longer:
+
+        "Yair Rodriguez already fought Silva why is it on schadule"
+
+    A broadcaster’s guide is the entity that has to air the event; a
+    listings page is a copy of one. When both name the same broadcast at
+    the same minute on a channel in common, the BROADCASTER’S title wins
+    and the page’s is folded away — the same rule the football board
+    already follows, where a source that does not carry a match does not
+    get to date it.
     """
     kept: list[dict] = []
     folded = 0
@@ -330,7 +365,14 @@ def one_row_per_broadcast(events: list[dict]) -> list[dict]:
             kept.append(dict(event, channels=list(event["channels"])))
             continue
 
-        # The longer title led the sort, so it is already the one kept.
+        # THE BROADCASTER’S TITLE, not the longer one. Sky’s rows carry
+        # the programme itself and no “from” word; when a listings page
+        # describes the same broadcast at the same minute on a channel in
+        # common, the page’s wording — however rich — is folded away
+        # and the broadcaster’s stands.
+        if _the_broadcaster_names_it(event, into):
+            into["title"] = event["title"]
+
         for channel in event["channels"]:
             if channel not in into["channels"]:
                 into["channels"].append(channel)
