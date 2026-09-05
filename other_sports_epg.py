@@ -47,10 +47,14 @@ from zoneinfo import ZoneInfo
 from PIL import Image
 
 import american_sport_on_tv
+import dubai_time
 import own_guides
 import real_american_freestyle
 import sky_epg
 import sports_media_watch
+import sportsnet
+import tapology
+import tsn
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
@@ -67,6 +71,13 @@ from today_matches_epg import in_the_readers_order as channels_in_order
 from today_matches_epg import shorter
 
 OUTPUT = "other_sports_epg.xml"
+
+# The words a backup source uses when a card has no televising
+# broadcaster — the honest "PPV" and its kin, which a listings page's
+# real channel name never is. A row whose channels are only these is a
+# row still waiting to be confirmed onto a channel, and where another
+# row already sits at its minute, the other row is the broadcast.
+PPV_WORDS = frozenset({"PPV", "PPV (Internet)", "Internet PPV"})
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
 
@@ -81,6 +92,19 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards")
+
+# THE SECOND CLOCK'S OUTPUTS — same events, same drawing, every time
+# printed in the Gulf's (Asia/Dubai), asked for as a second link set.
+#
+# A FRESH BOARD STEM, not an extension of the first's, because the
+# encoder owns its segments by prefix: a board whose name begins with
+# other_sports_ rides the first clock's reel whatever its suffix says.
+# A stem of its own is a screen of its own, encoded and published on
+# its own link.
+BOARD_PREFIX = "other_sports_"
+DUBAI_OUTPUT = "dubai_sports_epg.xml"
+DUBAI_CHANNEL_ID = "TodaySportsDubai"
+DUBAI_BOARD_PREFIX = "dubai_sports_"
 BOARD_COLOURS = 64
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #
@@ -228,7 +252,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
 def publish_board(index: int, day: date, events: list[dict], now: datetime,
                   *, page: int = 1, pages: int = 1) -> str | None:
     """Draw one board, keep it only if the bytes differ, return its URL."""
-    name = f"other_sports_{index}.png"
+    name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
         from match_board import draw_board
@@ -291,7 +315,14 @@ def _the_broadcaster_names_it(event: dict, into: dict) -> bool:
     mine = a_bare_title(event["title"])
     return bool(theirs) and bool(mine) and theirs.startswith(mine)
 
-def one_row_per_broadcast(events: list[dict]) -> list[dict]:
+def _a_bare_title_match(one: str, two: str) -> bool:
+    """One bare title a prefix of the other — the fold's own test."""
+    mine, yours = a_bare_title(one), a_bare_title(two)
+    return mine.startswith(yours) or yours.startswith(mine)
+
+
+def one_row_per_broadcast(events: list[dict],
+                          the_backup_is: str | None = None) -> list[dict]:
     """Two sources naming one broadcast become one row.
 
     Reading Sky's guide beside a listings page means both now carry the
@@ -340,6 +371,38 @@ def one_row_per_broadcast(events: list[dict]) -> list[dict]:
     """
     kept: list[dict] = []
     folded = 0
+    dropped_by_the_backup = 0
+
+    # THE BACKUP'S ROW FALLS AWAY FIRST. The reader named Tapology a
+    # backup — "for channel broadcast write PPV channel unless another
+    # source can confirm channels" — so where any other source already
+    # names the same broadcast, at the same minute, in the same sport,
+    # with one bare title a prefix of the other and the same part of the
+    # card, the other source's row is the broadcast and the backup's is
+    # the duplicate. This runs BEFORE the fold and pays no mind to
+    # channels: a PPV row beside a DAZN row shares no channel, so the
+    # fold's own rule would have kept both and printed one fight twice.
+    # A row the channel-confirmers below have already given a real
+    # channel to is no longer only-PPV, and it stands with the rest.
+    if the_backup_is:
+        the_rest = [row for row in events
+                    if row.get("source") != the_backup_is]
+        survivors = []
+        for row in events:
+            if row.get("source") != the_backup_is:
+                survivors.append(row)
+                continue
+            if set(row["channels"]) <= PPV_WORDS and any(
+                    other["start"] == row["start"]
+                    and other.get("sport") == row.get("sport")
+                    and _a_bare_title_match(other["title"], row["title"])
+                    and a_card_segment(other["title"])
+                    == a_card_segment(row["title"])
+                    for other in the_rest):
+                dropped_by_the_backup += 1
+                continue
+            survivors.append(row)
+        events = survivors
 
     for event in sorted(events, key=lambda one: (one["start"],
                                                  -len(one["title"]))):
@@ -381,6 +444,9 @@ def one_row_per_broadcast(events: list[dict]) -> list[dict]:
 
     if folded:
         log(f"  {folded} broadcast(s) two sources both had, now one row each")
+    if dropped_by_the_backup:
+        log(f"  {dropped_by_the_backup} row(s) the backup had that a "
+            f"listings page already carried, dropped")
     return kept
 
 
@@ -434,6 +500,40 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         everything += real_american_freestyle.events(
             session, floor, ceiling)
 
+    # AND TAPLOGY'S FIGHTCENTER, the fights board's calendar of last
+    # resort. The reader asked for it by name — "this website have all
+    # the missing parts or as a backup for others if applicable" — and
+    # what it has that no listings page here does is the part of fight
+    # sport nobody televises: BRAVE, Pancrase, OKTAGON, BKFC, every card
+    # that sells itself. Where the card is confirmed by Tapology's own
+    # words — DAZN, TrillerTV, UFC Fight Pass — that channel is kept,
+    # and where nothing but the promotion's own site carries it, the
+    # honest word for what it is, PPV, is what the row says.
+    #
+    # It runs BEFORE own_guides and sports_media_watch, so a PPV-only
+    # row can still be confirmed onto a real channel by them — and if
+    # one of them does, the row a listings page already had wins below,
+    # because Tapology is the backup, not the headline.
+    if can_fetch:
+        everything += tapology.events(session, floor, ceiling)
+
+    # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
+    # for by name ("TSN AND SPORTSNET events matches to be added on
+    # channels 1 and 2 find sources reliable ones from outside github").
+    # What they have that no listings page here does is the events a
+    # Canadian viewer watches on a Canadian channel: US Open tennis on
+    # TSN1, Japan-Canada rugby on TSN4, F1 qualifying on TSN5, the
+    # CW-SLARS rugby on Sportsnet. Both feeds are read from the same
+    # place their own television reads them, and the sport word each
+    # feed prints is what gates the row to this board — soccer belongs
+    # to the football board and is handed to its caller instead.
+    if can_fetch:
+        everything += tsn.events(
+            session, floor, ceiling,
+            sports=("Tennis", "Rugby", "NFL", "Golf", "MMA", "Auto Racing"))
+        everything += sportsnet.events(
+            session, floor, ceiling, sports=("rugby", "mma"))
+
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything
               if floor <= event["start"] < ceiling]
@@ -477,32 +577,34 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
 
     # Two sources, one broadcast, one row — after the channels are in, so
     # a row folded away leaves its channel behind on the row that stays.
-    inside = one_row_per_broadcast(inside)
-
+    # And Tapology's rows fall away FIRST, because the reader named it a
+    # backup: where a listings page already had the same fight at the
+    # same minute in a real channel, the backup's row is the duplicate,
+    # and its PPV wording is folded away rather than printed twice.
+    inside = one_row_per_broadcast(
+        inside, the_backup_is="tapology" if can_fetch else None)
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
         f"{len(kept)} in a sport asked for and naming a channel")
     return in_the_readers_order(kept)
 
 
-def build() -> int:
-    now = datetime.now(UTC)
-    days = days_of(now)
-    floor, ceiling = start_of_day(days[0]), start_of_day(
-        days[-1] + timedelta(days=1))
+def publish_all(events: list[dict], now: datetime,
+                *, days: list[date] | None = None) -> int:
+    """Render and publish this channel for whichever clock the module wears.
 
-    session = new_session()
-    events = collect(session, floor, ceiling)
+    Every clock in the file — the day an event groups under, the hour
+    printed beside it, the window a programme runs — reads the module's
+    VIEWER, so one function renders the channel for any zone it is told
+    to wear, and the two clocks cannot drift apart in how they draw.
 
-    # Sorted and shortened once, here, so the printed line and the drawn
-    # board show the same names in the same order — they each take the
-    # first three and would otherwise disagree about which those are.
-    # This is the first board's step, borrowed whole, and it is what puts
-    # a reader's own beIN in front of a Sky they cannot tune to.
-    for event in events:
-        event["channels"] = [shorter(name) for name
-                             in channels_in_order(event["channels"])]
-
+    The days are a parameter because the two clocks do not agree about
+    where the collected window ends: the default is the viewer's own
+    days_of(), and the UAE-clock caller hands in the days the collected
+    events actually span, so an event at the window's far edge is never
+    dropped for landing on a date the window never named.
+    """
+    days = days_of(now) if days is None else days
     tv = ET.Element("tv", {"generator-info-name": "Today's Other Sports"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
@@ -559,18 +661,60 @@ def build() -> int:
     # of the lap is played half-way and cut. This board is more exposed
     # to it, not less — it reaches fourteen days, and a Saturday of UFC
     # and boxing takes several boards where a quiet Tuesday takes one.
-    with open(os.path.join(BOARD_DIR, "other_sports_days.txt"), "w",
+    with open(os.path.join(BOARD_DIR, f"{BOARD_PREFIX}days.txt"), "w",
               encoding="utf-8") as handle:
         handle.write("\n".join(str(count) for count in per_day) + "\n")
     log(f"  boards per day: {per_day} (written for the encoder)")
 
     from match_board import forget_boards_past
-    stale = forget_boards_past("other_sports_", board_no, BOARD_DIR)
+    stale = forget_boards_past(BOARD_PREFIX, board_no, BOARD_DIR)
     if stale:
         log(f"  {stale} board(s) for days that have gone, deleted")
 
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Other Sports",
                           guard_regression=False, min_programmes=1)
+    return 0 if ok else 1
+
+
+
+def build() -> int:
+    now = datetime.now(UTC)
+    days = days_of(now)
+    floor, ceiling = start_of_day(days[0]), start_of_day(
+        days[-1] + timedelta(days=1))
+
+    session = new_session()
+    events = collect(session, floor, ceiling)
+
+    # Sorted and shortened once, here, so the printed line and the drawn
+    # board show the same names in the same order — they each take the
+    # first three and would otherwise disagree about which those are.
+    # This is the first board's step, borrowed whole, and it is what puts
+    # a reader's own beIN in front of a Sky they cannot tune to.
+    for event in events:
+        event["channels"] = [shorter(name) for name
+                             in channels_in_order(event["channels"])]
+
+    ok = publish_all(events, now) == 0
+
+    # THE SECOND CLOCK — the same events, every time printed in the
+    # Gulf's (Asia/Dubai), asked for outright as a second set of links.
+    # The events were collected once for both clocks; the module wears
+    # another zone for one render and puts it back afterwards. The first
+    # set is written and safe before this begins, and a failure here
+    # warns and leaves it exactly as it was.
+    with dubai_time.the_other_clock(
+            globals(),
+            VIEWER=dubai_time.DUBAI, VIEWER_NAME=dubai_time.DUBAI_NAME,
+            OUTPUT=DUBAI_OUTPUT, CHANNEL_ID=DUBAI_CHANNEL_ID,
+            BOARD_PREFIX=DUBAI_BOARD_PREFIX):
+        try:
+            publish_all(events, now,
+                        days=dubai_time.days_the_events_span(
+                            now, events, dubai_time.DUBAI))
+        except Exception as exc:                              # noqa: BLE001
+            warn(f"the UAE-clock sports guide could not be written "
+                 f"({exc}) — the published one is unchanged")
     return 0 if ok else 1
 
 

@@ -52,6 +52,7 @@ from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw
 
+import dubai_time
 from epg_lib import (
     add_programme, arabic_count, fetch, log, new_session, warn,
     write_xml_atomic,
@@ -61,6 +62,7 @@ from match_board import (
     backdrop, clipped, date_chip, draw_text, forget_boards_past, progress,
     rule, size_that_fits, width_of,
 )
+from match_board import draw_signature
 
 UTC = timezone.utc
 VIEWER = ZoneInfo("America/Los_Angeles")
@@ -73,8 +75,23 @@ OUTPUT = "weather_epg.xml"
 BOARD_DIR = "boards"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_weather.png")
+BOARD_PREFIX = "today_weather_"
 RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/boards/today_weather_{n}.png")
+             "main/boards/" + BOARD_PREFIX + "{n}.png")
+
+# THE SECOND CLOCK'S OUTPUTS — the same weather, every clock it prints
+# in the Gulf's (Asia/Dubai): "copy full links for 4 channels + second
+# link set with all times in UAE time (Asia/Dubai)".
+#
+# A FRESH BOARD STEM of its own, not an extension of the first's,
+# because the encoder owns its reel by prefix: a board whose name
+# begins with today_weather_ rides this clock's reel whatever its
+# suffix says, and half a lap in the wrong zone is worse than none.
+DUBAI_OUTPUT = "dubai_weather_epg.xml"
+DUBAI_CHANNEL_ID = "TodayWeatherDubai"
+DUBAI_BOARD_PREFIX = "dubai_weather_"
+DUBAI_RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/"
+                   "Unified-MENA-EPG/main/boards/dubai_weather_{n}.png")
 
 # Where the weather comes from. Open-Meteo needs no key, answers one
 # request for every city at once, and is the source the old automation
@@ -96,11 +113,11 @@ CACHE = "weather.json"
 # way the reader reads it, a city a row, six rows a page.
 CITIES = (
     ("عمّان", "الأردن", 31.9454, 35.9284),
-    ("إربد", "الأردن", 32.5556, 35.85),
-    ("الزرقاء", "الأردن", 32.0728, 36.088),
     ("العقبة", "الأردن", 29.532, 35.006),
     ("أبو ظبي", "الإمارات", 24.4539, 54.3773),
     ("دبي", "الإمارات", 25.2048, 55.2708),
+    ("لندن", "بريطانيا", 51.5074, -0.1278),
+    ("مانشستر", "بريطانيا", 53.4808, -2.2426),
     ("نيويورك", "أمريكا", 40.7128, -74.006),
     ("لوس أنجلوس", "أمريكا", 34.0522, -118.2437),
     ("شيكاغو", "أمريكا", 41.8781, -87.6298),
@@ -108,7 +125,7 @@ CITIES = (
     ("هيوستن", "أمريكا", 29.7604, -95.3698),
     ("سان فرانسيسكو", "أمريكا", 37.7749, -122.4194),
 )
-COUNTRY_ORDER = ("الأردن", "الإمارات", "أمريكا")
+COUNTRY_ORDER = ("الأردن", "الإمارات", "بريطانيا", "أمريكا")
 
 # The WMO weather codes, said in Arabic. The two the old file carried
 # are kept byte for byte — "صافٍ" and "غائم جزئياً" — so a reader who
@@ -156,6 +173,11 @@ def live_cities(session) -> list[dict] | None:
         "longitude": ",".join(str(one[3]) for one in CITIES),
         "current": ("temperature_2m,relative_humidity_2m,"
                     "weather_code,wind_speed_10m"),
+        # THE CHANCE OF RAIN, which "current" does not carry. It is an
+        # hourly figure, so the hour the reading itself sits in is the
+        # one asked for — the probability for 17:00 against a reading
+        # taken 17:15, never the one for the hour after it.
+        "hourly": "precipitation_probability",
         "timezone": "auto",
     }
     try:
@@ -178,6 +200,23 @@ def live_cities(session) -> list[dict] | None:
         try:
             current = row["current"]
             code = int(current["weather_code"])
+            # The chance of rain for the hour the reading itself sits
+            # in, said as a whole percentage the way the board says the
+            # humidity. Not every answer carries it (the fallback file
+            # did not), so it is optional in a way the temperature is
+            # not: a row without a probability is a row, a row without
+            # a temperature is nothing.
+            rain = None
+            try:
+                hours = row["hourly"]["time"]
+                probs = row["hourly"]["precipitation_probability"]
+                cut = current["time"][:13]
+                at = next((i for i, one in enumerate(hours)
+                           if one[:13] == cut), None)
+                if at is not None and probs[at] is not None:
+                    rain = int(probs[at])
+            except (KeyError, TypeError, ValueError, IndexError):
+                rain = None
             out.append({
                 "city": city,
                 "country": country,
@@ -186,6 +225,7 @@ def live_cities(session) -> list[dict] | None:
                 "temperature_c": current["temperature_2m"],
                 "humidity": int(current["relative_humidity_2m"]),
                 "wind_speed": round(float(current["wind_speed_10m"]), 1),
+                "rain_chance": rain,
                 "condition": WMO_AR.get(code, "غير معروف"),
                 "weather_code": code,
                 "observed_at": current["time"],
@@ -312,7 +352,8 @@ def draw_mark(pen, x: int, y: int, size: int, accent=SKY_ACCENT) -> None:
 
 def draw_board(cities: list[dict], now: datetime, viewer, *,
                page: int = 1, pages: int = 1,
-               countries: str = "") -> Image.Image:
+               countries: str = "",
+               as_of: datetime | None = None) -> Image.Image:
     """One page of the weather: a city a row, the numbers on the left.
 
     THE RIGHT SIDE IS WHERE AN ARABIC EYE STARTS, so that is where the
@@ -341,6 +382,23 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
     # A DATE, NOT A CLOCK — the one thing on this board that may change
     # daily and never sooner, for the reason at the top of this file.
     date_chip(pen, right, PAD - 6, f"{now.astimezone(viewer):%d.%m.%Y}")
+    draw_signature(pen)
+
+    # WHEN THE READING WAS TAKEN, in small letters under the date and
+    # above the count. It is asked for by the reader — "I want on top to
+    # be written when it was last updated in a small text somewhere" —
+    # and it is a clock the board never printed before, so it moves the
+    # way the reading moves: on the reading's own quarter-hour, not on
+    # the minute this pass happened to run, or the segment underneath it
+    # renames every pass and a television on a cached playlist is handed
+    # 404s — the fault this file was written around once already. When
+    # the source is down and the fallback is on, the stamp says the
+    # hour the last good reading was taken, so a stale board is an
+    # honest one.
+    if as_of is not None:
+        draw_text(pen, (right, PAD + 30),
+                  f"آخر تحديث {as_of.astimezone(viewer):%H:%M}",
+                  15, MUTED, anchor="ra", thin=True)
 
     count = (arabic_count(len(cities), "مدينة", "مدينتان", "مدن", "مدينة")
              if cities else "لا توجد بيانات")
@@ -386,6 +444,11 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
         draw_text(pen, (PAD + 18, y + 44), f"{temp}°", 42, accent,
                   anchor="lm", weight="heavy")
         air = f"رطوبة {city['humidity']}% · رياح {wind} كم/سا"
+        # The chance of rain, when the source carried it, said beside
+        # the humidity and the wind — the three things a reader stepping
+        # out the door wants on one line.
+        if city.get("rain_chance") is not None:
+            air = f"{air} · احتمال المطر {city['rain_chance']}%"
         draw_text(pen, (PAD + 18, y + 76), air, 15, MUTED,
                   anchor="lm", thin=True)
 
@@ -395,17 +458,18 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
     return board
 
 
-def draw_pages(pages: list[list[dict]], now: datetime) -> int:
+def draw_pages(pages: list[list[dict]], now: datetime,
+               as_of: datetime | None = None) -> int:
     os.makedirs(BOARD_DIR, exist_ok=True)
     for number, page in enumerate(pages):
         countries = " و".join(
             dict.fromkeys(one["country"] for one in page))
         board = draw_board(page, now, VIEWER,
                            page=number + 1, pages=len(pages),
-                           countries=countries)
+                           countries=countries, as_of=as_of)
         board.convert("RGB").save(
-            os.path.join(BOARD_DIR, f"today_weather_{number}.png"))
-    forget_boards_past("today_weather_", len(pages), BOARD_DIR)
+            os.path.join(BOARD_DIR, f"{BOARD_PREFIX}{number}.png"))
+    forget_boards_past(BOARD_PREFIX, len(pages), BOARD_DIR)
     return len(pages)
 
 
@@ -420,8 +484,11 @@ def a_line(city: dict) -> str:
     """
     temp = int(round(city["temperature_c"]))
     wind = int(round(city["wind_speed"]))
-    return (f"{city['city']} {temp}° · {city['condition']} · "
+    line = (f"{city['city']} {temp}° · {city['condition']} · "
             f"رطوبة {city['humidity']}% · رياح {wind} كم/سا")
+    if city.get("rain_chance") is not None:
+        line += f" · احتمال المطر {city['rain_chance']}%"
+    return line
 
 
 def a_description(pages: list[list[dict]], as_of: datetime,
@@ -441,25 +508,18 @@ def a_description(pages: list[list[dict]], as_of: datetime,
     return "\n".join(lines)
 
 
-def build() -> int:
-    now = datetime.now(UTC)
-    session = new_session()
+def publish_all(pages: list[list[dict]], now: datetime, as_of: datetime,
+                fallback: bool) -> int:
+    """Draw and publish the weather for whichever clock the module wears.
 
-    cities = live_cities(session)
-    if cities is not None:
-        remember(cities, now)
-        as_of, fallback = now, False
-    else:
-        cities, stamp = cached_cities()
-        if not cities:
-            warn("no weather to show — the published boards and guide "
-                 "are left exactly as they were")
-            return 1
-        as_of, fallback = (stamp or now), True
-
-    pages = pages_of(cities)
-    drawn = draw_pages(pages, now)
-    log(f"  {len(cities)} cit(ies) read, shown on {drawn} board(s)")
+    Every clock the channel prints — the date chip, the "آخر تحديث"
+    stamp on the board and in the guide — reads the module's VIEWER, so
+    one function publishes it for any zone it is told to wear, and the
+    two clocks cannot drift apart in how they draw.
+    """
+    drawn = draw_pages(pages, now, as_of)
+    log(f"  {sum(len(page) for page in pages)} cit(ies) shown on "
+        f"{drawn} board(s)")
 
     tv = ET.Element("tv", {"generator-info-name": "Today's Weather"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
@@ -485,6 +545,46 @@ def build() -> int:
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Weather",
                           guard_regression=False, min_programmes=1)
     log(f"{CHANNEL_AR}: {HOURS_AHEAD} programme(s), {drawn} board(s)")
+    return 0 if ok else 1
+
+
+def build() -> int:
+    now = datetime.now(UTC)
+    session = new_session()
+
+    cities = live_cities(session)
+    if cities is not None:
+        remember(cities, now)
+        as_of, fallback = now, False
+    else:
+        cities, stamp = cached_cities()
+        if not cities:
+            warn("no weather to show — the published boards and guide "
+                 "are left exactly as they were")
+            return 1
+        as_of, fallback = (stamp or now), True
+
+    pages = pages_of(cities)
+    log(f"  {len(cities)} cit(ies) read, drawn for two clocks")
+
+    ok = publish_all(pages, now, as_of, fallback) == 0
+
+    # THE SECOND CLOCK — the same weather, every time it prints in the
+    # Gulf's (Asia/Dubai), asked for outright as a second set of links.
+    # The reading was taken once for both clocks; the module wears
+    # another zone for one render and puts it back afterwards. The
+    # first set is written and safe before this begins, and a failure
+    # here warns and leaves it exactly as it was.
+    with dubai_time.the_other_clock(
+            globals(),
+            VIEWER=dubai_time.DUBAI, VIEWER_NAME=dubai_time.DUBAI_NAME,
+            OUTPUT=DUBAI_OUTPUT, CHANNEL_ID=DUBAI_CHANNEL_ID,
+            BOARD_PREFIX=DUBAI_BOARD_PREFIX, RAW_BOARD=DUBAI_RAW_BOARD):
+        try:
+            publish_all(pages, now, as_of, fallback)
+        except Exception as exc:                              # noqa: BLE001
+            warn(f"the UAE-clock weather could not be written ({exc}) — "
+                 f"the published one is unchanged")
     return 0 if ok else 1
 
 

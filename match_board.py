@@ -120,6 +120,8 @@ OVER = (239, 93, 93, 255)        # and of one that has already been played
 LIVE_BG = (74, 18, 24, 255)      # the band a match on now sits in: red, and meant
 LIVE_RED = (255, 105, 97, 255)   # the clock of the row that is on the air
 LIVE_TAG = (224, 49, 49, 255)    # the مباشر pill: solid red, white letters
+OVER_TAG = (108, 124, 148, 255)  # the انتهى pill: slate, white letters
+OVER_BG = (24, 33, 47, 255)      # the band a finished match sits in: grey, not green
 PILL = (31, 47, 72, 255)
 PILL_INK = (186, 207, 233, 255)
 
@@ -143,10 +145,46 @@ def font_for(text: str, size: int, *, thin: bool = False, weight: str = ""):
         first_face(EN_THIN_FACES if thin else EN_FACES), size)
 
 
+# LETTERS THE FACE CANNOT WRITE, written the way the reader says them.
+#
+# Tajawal is the board's face, and it has no Turkish ş, ğ, İ, Ş or Ğ —
+# measured on the committed fonts, and then photographed by a reader:
+# "look how Beşiktaş looks bad", and it did, every s in it a hollow box
+# where the face gives up. The GUIDE carries the true spelling and always
+# will; this is the picture's problem, so it is mended in the picture:
+# the five letters the face cannot draw are drawn as the nearest ones it
+# can — s, S, g, G, I — and Beşiktaş reads the way it is said. ı ç ü ö
+# and their capitals are all present in the face and left exactly alone.
+THE_LETTERS_THE_FACE_LACKS = str.maketrans({
+    "ş": "s", "Ş": "S", "ğ": "g", "Ğ": "G", "İ": "I",
+})
+
+
+def as_the_face_writes_it(text: str) -> str:
+    """The text with every letter the face lacks in the nearest one it has."""
+    return (text or "").translate(THE_LETTERS_THE_FACE_LACKS)
+
+
+# THE READER'S NAME, small, in the top right corner of every board.
+# Asked for by name and by position: "write my name S.Saudi on every
+# channel on the 4 channels always to be showed on top right corner in
+# small text". Every board this repository draws — the fixtures, the
+# other sports, the news, the weather — carries it, drawn rather than
+# stamped on the video, so it is part of the picture the moment the
+# board is drawn and not a layer any encoder could lose.
+SIGNATURE = "S.Saudi"
+
+
+def draw_signature(pen) -> None:
+    """The reader's mark: small, muted, top right, on every board."""
+    draw_text(pen, (W - PAD, 20), SIGNATURE, 15, MUTED,
+              anchor="ra", thin=True)
+
+
 def draw_text(pen, xy, text, size, fill, *, anchor="la", thin=False,
               weight: str = ""):
     """One run, laid out in its own script's direction."""
-    text = text or ""
+    text = as_the_face_writes_it(text)
     font = font_for(text, size, thin=thin, weight=weight)
     if ARABIC.search(text):
         pen.text(xy, text, font=font, fill=fill, anchor=anchor,
@@ -340,6 +378,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
 
     right = W - PAD
     date_chip(pen, right, PAD - 6, f"{day:%d.%m.%Y}")
+    draw_signature(pen)
 
     # WHICH day this board is, in the middle where it cannot be missed.
     #
@@ -426,6 +465,20 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             pen.rounded_rectangle([band[0] + 3, band[1] + 7,
                                    band[0] + 11, band[3] - 7],
                                   radius=3, fill=LIVE_TAG)
+        elif over:
+            # FINISHED, AND IT LOOKS LIKE IT TOO. The live row got a red
+            # room; the finished one gets the opposite of that: a grey
+            # band dimmer than the panels around it, so an evening board
+            # full of played matches reads as "already been" at a glance
+            # and the green rows are the ones the eye goes to. The clock
+            # keeps its red — "over" stays red as it always was — but
+            # the row itself steps back, and the انتهى pill below says
+            # what the colour is saying.
+            pen.rounded_rectangle(band, radius=12, fill=OVER_BG,
+                                  outline=OVER_TAG, width=1)
+            pen.rounded_rectangle([band[0] + 3, band[1] + 7,
+                                   band[0] + 11, band[3] - 7],
+                                  radius=3, fill=OVER_TAG)
         else:
             fill = PANEL if index % 2 == 0 else PANEL_ALT
             pen.rounded_rectangle(band, radius=12, fill=fill,
@@ -488,6 +541,22 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             draw_text(pen, (name_x + tag_w // 2, head_y), "مباشر",
                       tag_px, WHITE, anchor="mm", weight="mid")
             head = name_x + tag_w + 14
+        elif over:
+            # THE FINISHED PILL, THE SAME SHAPE AS THE LIVE ONE. Red and
+            # a word is how the board says "on the air"; slate and a word
+            # is how it says "finished". انتهى sits where مباشر sits, so
+            # a viewer scanning the reading side finds the same shape in
+            # the same place and only the colour and the word change —
+            # the reading side of the board keeps one language.
+            tag_px = max(13, min(16, size - 8))
+            tag_w = width_of("انتهى", tag_px, weight="mid") + 22
+            pen.rounded_rectangle(
+                [name_x, head_y - tag_px - 5, name_x + tag_w,
+                 head_y + tag_px + 5],
+                radius=tag_px + 5, fill=OVER_TAG)
+            draw_text(pen, (name_x + tag_w // 2, head_y), "انتهى",
+                      tag_px, WHITE, anchor="mm", weight="mid")
+            head = name_x + tag_w + 14
         else:
             head = name_x
 
@@ -495,7 +564,15 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # the name when there is only one, and under it when there are
         # two — which is the whole point of two.
         pill_y = sub_y if two else middle
-        pill_size = max(15, (under if two else size) - 2)
+        # SAME SIZE ON EVERY ROW, TWO LINES OR ONE. The size used to be
+        # taken from the line the pills sat on, and a single-line row
+        # had a larger font than a two-line one, so its pills were
+        # larger too — Fox Nation measured 35px tall against DAZN's 22
+        # beside it on the same board, and a viewer read the larger pill
+        # as a louder channel. Every row's pills are drawn at the
+        # two-line row's ceiling now, whichever line they sit on, so
+        # the board has one size of channel and not two.
+        pill_size = max(15, min(16, (under if two else size - 8) - 2))
         channel_x = W - PAD
         for channel in reversed(event["channels"][:3]):
             label = clipped(channel, pill_size, 280, thin=True)

@@ -88,6 +88,28 @@ SCREENS = {
     # Five cities a page is a glance, and a glance does not need the
     # half a minute the bulletin's six headlines do.
     "today_weather": ("today_weather_", "weather.m3u8", "weather.sha256", 20),
+    # THE SECOND CLOCK — the same four channels, every time printed in
+    # the Gulf's (Asia/Dubai): "copy full links for 4 channels + second
+    # link set with all times in UAE time (Asia/Dubai)".
+    #
+    # They are screens of their own rather than variants of the four
+    # above, and that is not a formality: a screen owns its segments by
+    # prefix, and a board drawn in another zone is different bytes, so
+    # every one of these has its own boards (dubai_*_N.png), its own
+    # segments, its own playlist and its own stamp. A board that shared
+    # a stem with the first clock's would ride that clock's reel, half
+    # a lap in a zone the reel never said.
+    "dubai_matches": ("dubai_matches_", "dubai_screen.m3u8",
+                      "dubai_board.sha256", 20),
+    "dubai_sports": ("dubai_sports_", "dubai_sports.m3u8",
+                     "dubai_sports.sha256", 20),
+    "dubai_news": ("dubai_news_", "dubai_news.m3u8",
+                   "dubai_news.sha256", 35),
+    # TWENTY SECONDS for the weather, like the clock it is a copy of:
+    # a weather row is read the way a fixtures row is, and a different
+    # time zone does not change how long a glance takes.
+    "dubai_weather": ("dubai_weather_", "dubai_weather.m3u8",
+                      "dubai_weather.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -254,7 +276,7 @@ def boards(prefix: str) -> list[str]:
 # audio/theme.m4a WITH DIFFERENT AUDIO REQUIRES BUMPING THIS NUMBER, or
 # every segment keeps its old name and goes on playing the music it was
 # encoded with. The number is the whole mechanism.
-ENCODER_REVISION = 8
+ENCODER_REVISION = 9
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -322,6 +344,14 @@ THEMES = {
     "other_sports": "audio/theme_sports.m4a",
     "today_news": "audio/theme_news.m4a",
     "today_weather": "audio/theme_weather.m4a",
+    # The second clock wears the first clock's music: the same channel
+    # with another time on it is still the same channel, and a viewer
+    # moving between the two sets should hear one service, not eight
+    # themes fighting for four pairs of screens.
+    "dubai_matches": "audio/theme_matches.m4a",
+    "dubai_sports": "audio/theme_sports.m4a",
+    "dubai_news": "audio/theme_news.m4a",
+    "dubai_weather": "audio/theme_weather.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4

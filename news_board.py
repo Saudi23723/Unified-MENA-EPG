@@ -42,6 +42,7 @@ from match_board import (
     WHITE, backdrop, clipped, date_chip, draw_text, norm_line, progress,
     rule, size_that_fits, width_of,
 )
+from match_board import draw_signature
 
 # THE BULLETIN'S OWN COLOUR. The fixtures wear their green and the other
 # sports their violet; the news wears amber, which is the colour a
@@ -127,6 +128,7 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     # how old the stories are, and every row says that by lighting its
     # region when the story is inside the hour.
     date_chip(pen, right, PAD - 6, f"{now.astimezone(viewer):%d.%m.%Y}")
+    draw_signature(pen)
 
     count = (arabic_count(len(stories), "خبر", "خبران", "أخبار", "خبر")
              if stories else "لا توجد أخبار")

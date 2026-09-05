@@ -59,11 +59,14 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import xml.etree.ElementTree as ET
 
+import dubai_time
 import jordan_football
 import live_football_on_tv
 import live_soccer_tv
 import own_guides
 import spor_ekrani
+import sportsnet
+import tsn
 import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
@@ -101,6 +104,19 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards")
+BOARD_PREFIX = "today_matches_"
+DUBAI_OUTPUT = "dubai_matches_epg.xml"
+DUBAI_CHANNEL_ID = "TodayMatchesDubai"
+DUBAI_BOARD_PREFIX = "dubai_matches_"
+
+# THE SECOND CLOCK'S OUTPUTS — same matches, same drawing, every time
+# printed in the Gulf's (Asia/Dubai): "copy full links for 4 channels +
+# second link set with all times in UAE time (Asia/Dubai)".
+#
+# A FRESH BOARD STEM, not an extension of the first's, because the
+# encoder owns its segments by prefix: a board whose name begins with
+# today_matches_ rides the first clock's reel whatever its suffix says,
+# and half a lap in a zone the reel never said is worse than none.
 BOARD_COLOURS = 64      # flat interface art: 88 KB truecolour, 27 KB here
 
 UTC = timezone.utc
@@ -254,6 +270,10 @@ WANTED_EXACT = {
     # Turkey's second tier, asked for after three of its matches were
     # photographed on TRT Spor and found to be on no page this board read.
     "tff 1. lig", "trendyol 1. lig", "1. lig",
+    # The Canadian leagues the Canadian feeds themselves name — asked
+    # for with the channels that carry them, and wanted by the word the
+    # broadcaster's own title prints.
+    "mls", "canadian premier league", "nwsl", "women's super league",
 }
 
 # Matched anywhere in the name, for families whose members all belong:
@@ -452,6 +472,45 @@ def competition_of(row) -> str:
         if 2 < len(head) < 90:
             return head
     return ""
+
+
+# The Canadian feeds' titles carry their league before their teams —
+# "MLS on TSN: Vancouver vs. St. Louis", "CPL on TSN: Atletico Ottawa
+# vs. Pacific FC", "2026 FIFA U-20 Women's World Cup: Canada vs. ..." —
+# and the board's own wanted() test reads the competition, not the
+# title, so the league the broadcaster itself printed is what the row
+# is handed. FIFA's competitions are already wanted by their own word,
+# and MLS and the CPL are wanted by name below, because a reader asked
+# for these channels by name and their game comes with them.
+CANADAS_LEAGUES = (
+    ("fifa", "fifa"),
+    ("mls", "mls"),
+    ("cpl", "canadian premier league"),
+    ("nwsl", "nwsl"),
+    ("wsl", "women's super league"),
+    ("premier league", "premier league"),
+)
+
+# Sportsnet's grid names the league only in its own data, never in the
+# title — "Chelsea vs. Aston Villa" is a Women's Super League match the
+# reader would never know from the words on the screen. The word the
+# broadcaster itself filed it under is handed to the board's own
+# wanted() test, which keeps the final word on what belongs.
+CANADAS_FEED_LEAGUES = {
+    "fawsl": "women's super league",
+}
+
+
+def canadas_competition(event: dict) -> str:
+    """The league a Canadian feed's row names, in the board's words."""
+    by_the_feed = CANADAS_FEED_LEAGUES.get((event.get("league") or "").casefold())
+    if by_the_feed:
+        return by_the_feed
+    lowered = event["title"].casefold()
+    for word, competition in CANADAS_LEAGUES:
+        if word in lowered:
+            return competition
+    return "mls" if " on tsn" in lowered else ""
 
 
 def real_channels(channels: list[str]) -> list[str]:
@@ -1502,7 +1561,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     copy of it every ten minutes, so the bytes are compared before
     anything is written.
     """
-    name = f"today_matches_{index}.png"
+    name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
         from match_board import draw_board
@@ -1589,6 +1648,97 @@ def say_which_rows_are_thin(events: list[dict]) -> None:
             f"   │ {event['competition']} │ {', '.join(named) or '—'}")
 
 
+def publish_all(events: list[dict], everything: list[dict],
+                now: datetime, *, days: list[date] | None = None) -> int:
+    """Render and publish this channel for whichever clock the module wears.
+
+    Every clock in the file — the day a match groups under, the hour
+    printed beside it, the window a programme runs — reads the module's
+    VIEWER, so one function renders the channel for any zone it is told
+    to wear, and the two clocks cannot drift apart in how they draw.
+
+    The days are a parameter because the two clocks do not agree about
+    where the collected window ends: the default is the viewer's own
+    days_of(), and the UAE-clock caller hands in the days the collected
+    events actually span, so a match at the window's far edge is never
+    dropped for landing on a date the window never named.
+    """
+    days = days_of(now) if days is None else days
+    say_what_was_dropped(everything, days)
+
+    tv = ET.Element("tv", {"generator-info-name": "Today's Matches"})
+    channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
+    ET.SubElement(channel, "icon", {"src": LOGO})
+    ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
+    ET.SubElement(channel, "display-name", {"lang": "en"}).text = CHANNEL_EN
+
+    # Today first, then every further day the page reached, so a viewer
+    # scrolling forward finds tomorrow rather than the end of the guide.
+    by_day: dict[date, list[dict]] = {day: [] for day in days}
+    for event in events:
+        day = event["start"].astimezone(VIEWER).date()
+        if day in by_day:
+            by_day[day].append(event)
+
+    # A day with more matches than a screen holds is drawn over as many
+    # boards as it takes, numbered straight through, so the slideshow runs
+    # them in order without knowing anything about days.
+    board_no = 0
+    per_day: list[int] = []
+    for day in days:
+        events_today = by_day[day]
+        chunks = [events_today[at:at + MAX_ON_BOARD]
+                  for at in range(0, len(events_today), MAX_ON_BOARD)] or [[]]
+        first_board = None
+        for page, chunk in enumerate(chunks, start=1):
+            url = publish_board(board_no, day, chunk, now,
+                                page=page, pages=len(chunks))
+            first_board = first_board or url
+            board_no += 1
+        per_day.append(len(chunks))
+
+        opens, closes = day_bounds(day)
+        add_programme(tv, CHANNEL_ID, opens, closes,
+                      day_title(day, events_today, now),
+                      day_page(day, events_today, now),
+                      icon=first_board)
+        log(f"  {day} -> {len(events_today)} match(es) over "
+            f"{len(chunks)} board(s)")
+
+    # And the boards this pass did NOT write. The window rolls at
+    # midnight — yesterday goes, a new day arrives at the far end — and
+    # the count can fall, so a board the old build wrote and this one
+    # did not was still on disk and still in the reel, playing a day
+    # that was over.
+    from match_board import forget_boards_past
+    stale = forget_boards_past(BOARD_PREFIX, board_no, BOARD_DIR)
+    if stale:
+        log(f"  {stale} board(s) for days that have gone, deleted")
+
+    # HOW MANY BOARDS EACH DAY TOOK, written down for the encoder.
+    #
+    # "ما عم بكمل جدول السبت ... و بقطع اشياء لحاله". It was: the reel
+    # took the first six boards and stopped, and Saturday needed six of
+    # its own. So the channel played Thursday, Friday, and the first
+    # THIRD of Saturday, then went back to the top — a day cut in half,
+    # mid-list, with nothing to say it had been.
+    #
+    # The encoder could not have known: it sees a folder of numbered
+    # pictures and nothing about days. So the builder, which does know,
+    # says so here — one line, one number per day, in the order the
+    # boards were written. What the encoder does with it is its own
+    # decision; what it can no longer do is guess.
+    with open(os.path.join(BOARD_DIR, f"{BOARD_PREFIX}days.txt"), "w",
+              encoding="utf-8") as handle:
+        handle.write("\n".join(str(count) for count in per_day) + "\n")
+    log(f"  boards per day: {per_day} (written for the encoder)")
+
+    ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
+                          guard_regression=False, min_programmes=1)
+    return 0 if ok else 1
+
+
+
 def build() -> int:
     now = datetime.now(UTC)
     session = requests.Session()
@@ -1673,6 +1823,29 @@ def build() -> int:
                if floor <= event["start"] < ceiling]
     everything = unify(everything, turkish)
 
+    # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
+    # for by name ("TSN AND SPORTSNET events matches to be added on
+    # channels 1 and 2 find sources reliable ones from outside github").
+    # What they have that no listings page here does is the Canadian
+    # game a Canadian viewer watches on a Canadian channel: MLS and the
+    # CPL on TSN5, the Women's World Cup U-20 on TSN4, the WSL on
+    # Sportsnet One. Their soccer rows are asked for from the same feeds
+    # their own television reads them, and each is given the competition
+    # its own title names, so the board's own wanted() test decides
+    # which belong — no league is added to this board by hand.
+    canadian = []
+    for feed_rows, in ((tsn.events(session, floor, ceiling,
+                                   sports=("Soccer",)),),
+                       (sportsnet.events(session, floor, ceiling,
+                                         sports=("soccer",)),)):
+        canadian += feed_rows
+    dressed = [dict(event, competition=canadas_competition(event))
+               for event in canadian]
+    everything = unify(everything, dressed)
+    if dressed:
+        log(f"  canadian feeds: {len(dressed)} football row(s) offered from "
+            f"TSN and Sportsnet's own grids")
+
     # And beIN's own schedule, which marks its live airing in its own
     # title and so needs nothing inferred. Four Süper Lig fixtures on
     # four days, on the channel beIN names, against eighteen repeats of
@@ -1742,78 +1915,26 @@ def build() -> int:
         log(f"  {event['start']:%m-%d %H:%M}Z  {event['title']}"
             f"   │ {event['competition']}")
 
-    days = days_of(now)
-    say_what_was_dropped(everything, days)
+    ok = publish_all(events, everything, now) == 0
 
-    tv = ET.Element("tv", {"generator-info-name": "Today's Matches"})
-    channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
-    ET.SubElement(channel, "icon", {"src": LOGO})
-    ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
-    ET.SubElement(channel, "display-name", {"lang": "en"}).text = CHANNEL_EN
-
-    # Today first, then every further day the page reached, so a viewer
-    # scrolling forward finds tomorrow rather than the end of the guide.
-    by_day: dict[date, list[dict]] = {day: [] for day in days}
-    for event in events:
-        day = event["start"].astimezone(VIEWER).date()
-        if day in by_day:
-            by_day[day].append(event)
-
-    # A day with more matches than a screen holds is drawn over as many
-    # boards as it takes, numbered straight through, so the slideshow runs
-    # them in order without knowing anything about days.
-    board_no = 0
-    per_day: list[int] = []
-    for day in days:
-        events_today = by_day[day]
-        chunks = [events_today[at:at + MAX_ON_BOARD]
-                  for at in range(0, len(events_today), MAX_ON_BOARD)] or [[]]
-        first_board = None
-        for page, chunk in enumerate(chunks, start=1):
-            url = publish_board(board_no, day, chunk, now,
-                                page=page, pages=len(chunks))
-            first_board = first_board or url
-            board_no += 1
-        per_day.append(len(chunks))
-
-        opens, closes = day_bounds(day)
-        add_programme(tv, CHANNEL_ID, opens, closes,
-                      day_title(day, events_today, now),
-                      day_page(day, events_today, now),
-                      icon=first_board)
-        log(f"  {day} -> {len(events_today)} match(es) over "
-            f"{len(chunks)} board(s)")
-
-    # And the boards this pass did NOT write. The window rolls at
-    # midnight — yesterday goes, a new day arrives at the far end — and
-    # the count can fall, so a board the old build wrote and this one
-    # did not was still on disk and still in the reel, playing a day
-    # that was over.
-    from match_board import forget_boards_past
-    stale = forget_boards_past("today_matches_", board_no, BOARD_DIR)
-    if stale:
-        log(f"  {stale} board(s) for days that have gone, deleted")
-
-    # HOW MANY BOARDS EACH DAY TOOK, written down for the encoder.
-    #
-    # "ما عم بكمل جدول السبت ... و بقطع اشياء لحاله". It was: the reel
-    # took the first six boards and stopped, and Saturday needed six of
-    # its own. So the channel played Thursday, Friday, and the first
-    # THIRD of Saturday, then went back to the top — a day cut in half,
-    # mid-list, with nothing to say it had been.
-    #
-    # The encoder could not have known: it sees a folder of numbered
-    # pictures and nothing about days. So the builder, which does know,
-    # says so here — one line, one number per day, in the order the
-    # boards were written. What the encoder does with it is its own
-    # decision; what it can no longer do is guess.
-    with open(os.path.join(BOARD_DIR, "today_matches_days.txt"), "w",
-              encoding="utf-8") as handle:
-        handle.write("\n".join(str(count) for count in per_day) + "\n")
-    log(f"  boards per day: {per_day} (written for the encoder)")
-
-    ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's Matches",
-                          guard_regression=False, min_programmes=1)
+    # THE SECOND CLOCK — the same matches, every time printed in the
+    # Gulf's (Asia/Dubai), asked for outright as a second set of links.
+    # The events are already on the table: no page is fetched again, the
+    # module simply wears another zone for one render and puts it back
+    # afterwards. The first set is written and safe before this begins,
+    # and a failure here warns and leaves it exactly as it was.
+    with dubai_time.the_other_clock(
+            globals(),
+            VIEWER=dubai_time.DUBAI, VIEWER_NAME=dubai_time.DUBAI_NAME,
+            OUTPUT=DUBAI_OUTPUT, CHANNEL_ID=DUBAI_CHANNEL_ID,
+            BOARD_PREFIX=DUBAI_BOARD_PREFIX):
+        try:
+            publish_all(events, everything, now,
+                        days=dubai_time.days_the_events_span(
+                            now, events, dubai_time.DUBAI))
+        except Exception as exc:                              # noqa: BLE001
+            warn(f"the UAE-clock guide could not be written ({exc}) — "
+                 f"the published one is unchanged")
     return 0 if ok else 1
 
 

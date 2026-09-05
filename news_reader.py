@@ -65,11 +65,14 @@ UTC = timezone.utc
 ATOM = "{http://www.w3.org/2005/Atom}"
 DC = "{http://purl.org/dc/elements/1.1/}"
 
-# The five regions, in the order a reader asked for them.
-REGIONS = ("JO", "AR", "US", "GB", "TR")
+# The five regions, in the order a reader asked for them, plus the
+# Emirates — "UAE important news" was asked for by name, so the Emirates
+# are a region of their own rather than a story or two inside another.
+REGIONS = ("JO", "AR", "AE", "US", "GB", "TR")
 REGION_AR = {
     "JO": "الأردن",
     "AR": "عربي",
+    "AE": "الإمارات",
     "US": "أمريكا",
     "GB": "بريطانيا",
     "TR": "تركيا",
@@ -108,9 +111,26 @@ SOURCES = (
     ("AR", "CNN عربية", "https://arabic.cnn.com/api/v1/rss/rss.xml"),
     ("AR", "فرانس 24", "https://www.france24.com/ar/rss"),
 
+    # THE EMIRATES, their own region: "UAE important news". The Emirates'
+    # own newsrooms answer 404 from every feed URL a runner can reach
+    # (WAM, Khaleej Times and The National were all tried and all refused),
+    # so the region reads the Google News feed restricted to the Emirates
+    # — Arabic headlines from the Emirates' own outlets, real timestamps,
+    # measured 33 items with the newest under an hour old. The label the
+    # feed appends comes off in a_story, the same way العربية's does.
+    ("AE", "الإمارات",
+     "https://news.google.com/rss?hl=ar&gl=AE&ceid=AE:ar"),
+
     ("US", "NYT", "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"),
     ("US", "CBS", "https://www.cbsnews.com/latest/rss/main"),
     ("US", "NPR", "https://feeds.npr.org/1001/rss.xml"),
+    # FOX AND ABC, asked for by name as breaking-news sources: "add fox,
+    # abc breaking news to it". Both answer from their own feeds, both
+    # carry real timestamps, and Fox's feed moves the way a breaking
+    # desk moves — a story a minute when a story is happening. They sit
+    # in the US region beside NYT, CBS and NPR.
+    ("US", "Fox News", "https://feeds.foxnews.com/foxnews/latest"),
+    ("US", "ABC News", "https://abcnews.go.com/abcnews/topstories"),
 
     ("GB", "BBC", "https://feeds.bbci.co.uk/news/rss.xml"),
     ("GB", "Guardian", "https://www.theguardian.com/international/rss"),

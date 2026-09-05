@@ -30,9 +30,11 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
+import dubai_time
 import news_board
 import news_reader
-from epg_lib import add_programme, log, new_session, norm, write_xml_atomic
+from epg_lib import (add_programme, log, new_session, norm, warn,
+                     write_xml_atomic)
 from match_board import ARABIC, forget_boards_past
 
 UTC = timezone.utc
@@ -46,8 +48,23 @@ OUTPUT = "news_epg.xml"
 BOARD_DIR = "boards"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_news.png")
+BOARD_PREFIX = "today_news_"
 RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/boards/today_news_{n}.png")
+             "main/boards/" + BOARD_PREFIX + "{n}.png")
+
+# THE SECOND CLOCK'S OUTPUTS — the same bulletin, every clock it prints
+# in the Gulf's (Asia/Dubai): "copy full links for 4 channels + second
+# link set with all times in UAE time (Asia/Dubai)".
+#
+# A FRESH BOARD STEM of its own, not an extension of the first's,
+# because the encoder owns its reel by prefix: a board whose name
+# begins with today_news_ rides this clock's reel whatever its suffix
+# says, and half a lap in the wrong zone is worse than none.
+DUBAI_OUTPUT = "dubai_news_epg.xml"
+DUBAI_CHANNEL_ID = "TodayNewsDubai"
+DUBAI_BOARD_PREFIX = "dubai_news_"
+DUBAI_RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/"
+                   "Unified-MENA-EPG/main/boards/dubai_news_{n}.png")
 
 # HOW MUCH IS SHOWN. "اعمل الصفحات اكثر شوي 5 - 6 صفحات" — so six
 # pages of six, thirty-six headlines against the eighteen before.
@@ -178,8 +195,8 @@ def draw_pages(pages: list[list[dict]], now: datetime) -> int:
                       else f"نشرة مستمرة · الأردن والعالم · {VIEWER_NAME}"),
             page=number + 1, pages=len(pages))
         board.convert("RGB").save(
-            os.path.join(BOARD_DIR, f"today_news_{number}.png"))
-    forget_boards_past("today_news_", len(pages), BOARD_DIR)
+            os.path.join(BOARD_DIR, f"{BOARD_PREFIX}{number}.png"))
+    forget_boards_past(BOARD_PREFIX, len(pages), BOARD_DIR)
     return len(pages)
 
 
@@ -213,15 +230,15 @@ def a_title(pages: list[list[dict]]) -> str:
     return f"{CHANNEL_AR} · {norm(top['title'])[:70]}"
 
 
-def build() -> int:
-    now = datetime.now(UTC)
-    session = new_session()
+def publish_all(pages: list[list[dict]], now: datetime) -> int:
+    """Draw and publish this bulletin for whichever clock the module wears.
 
-    found = news_reader.stories(session, now)
-    pages = pages_of(found)
+    Every clock the bulletin prints — the date chip on the board, the
+    "آخر تحديث" stamp in the guide's first line — reads the module's
+    VIEWER, so one function publishes it for any zone it is told to
+    wear, and the two clocks cannot drift apart in how they draw.
+    """
     drawn = draw_pages(pages, now)
-    log(f"  {len(found)} story(ies) read, "
-        f"{sum(len(page) for page in pages)} shown on {drawn} board(s)")
 
     tv = ET.Element("tv", {"generator-info-name": "Today's News"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
@@ -247,6 +264,36 @@ def build() -> int:
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Today's News",
                           guard_regression=False, min_programmes=1)
     log(f"{CHANNEL_AR}: {HOURS_AHEAD} programme(s), {drawn} board(s)")
+    return 0 if ok else 1
+
+
+def build() -> int:
+    now = datetime.now(UTC)
+    session = new_session()
+
+    found = news_reader.stories(session, now)
+    pages = pages_of(found)
+    log(f"  {len(found)} story(ies) read, "
+        f"{sum(len(page) for page in pages)} to show")
+
+    ok = publish_all(pages, now) == 0
+
+    # THE SECOND CLOCK — the same bulletin, every time it prints in the
+    # Gulf's (Asia/Dubai), asked for outright as a second set of links.
+    # The stories were read once for both clocks; the module wears
+    # another zone for one render and puts it back afterwards. The
+    # first set is written and safe before this begins, and a failure
+    # here warns and leaves it exactly as it was.
+    with dubai_time.the_other_clock(
+            globals(),
+            VIEWER=dubai_time.DUBAI, VIEWER_NAME=dubai_time.DUBAI_NAME,
+            OUTPUT=DUBAI_OUTPUT, CHANNEL_ID=DUBAI_CHANNEL_ID,
+            BOARD_PREFIX=DUBAI_BOARD_PREFIX, RAW_BOARD=DUBAI_RAW_BOARD):
+        try:
+            publish_all(pages, now)
+        except Exception as exc:                              # noqa: BLE001
+            warn(f"the UAE-clock bulletin could not be written ({exc}) — "
+                 f"the published one is unchanged")
     return 0 if ok else 1
 
 

@@ -85,6 +85,38 @@ SCREENS = (
 )
 
 
+# THE SECOND CLOCK — the same four channels with every time printed in
+# the Gulf's (Asia/Dubai), asked for outright as a second set of links.
+# A playlist of its own rather than rows appended to the first, because
+# a reader pastes one link and gets one set: mixing the two clocks in
+# one list is four channels each shown twice, and nobody can tell which
+# row is which clock without reading a time on each.
+#
+# Same marks as the first set on purpose — a channel wearing another
+# time is still that channel, and the mark is how it is found in a
+# list. The ids differ, because two channels of the same name and id
+# are one channel to a player and one of the two would never be tuned
+# to. DUBAI_GROUP is its own group so the two sets never fold together
+# in a player that groups by title.
+DUBAI_OUTPUT = "ai_sports_dashboard_dubai.m3u"
+DUBAI_GROUP = "AI Sports Dashboard · بتوقيت الإمارات"
+
+DUBAI_SCREENS = (
+    ("TodayMatchesDubai", CHANNEL_AR, "stream/dubai_screen.m3u8",
+     f"{RAW}/stream/dubai_screen.m3u8", "📺 مباريات اليوم · بتوقيت الإمارات",
+     LOGO),
+    ("TodaySportsDubai", SPORTS_AR, "stream/dubai_sports.m3u8",
+     f"{RAW}/stream/dubai_sports.m3u8", "🏁 رياضات اليوم · بتوقيت الإمارات",
+     SPORTS_LOGO),
+    ("TodayNewsDubai", NEWS_AR, "stream/dubai_news.m3u8",
+     f"{RAW}/stream/dubai_news.m3u8", "📰 أخبار اليوم · بتوقيت الإمارات",
+     NEWS_LOGO),
+    ("TodayWeatherDubai", WEATHER_NAME, "stream/dubai_weather.m3u8",
+     f"{RAW}/stream/dubai_weather.m3u8", "🌤️ طقس اليوم · بتوقيت الإمارات",
+     WEATHER_LOGO),
+)
+
+
 def clean(value: str) -> str:
     """Flatten anything that would break the line this sits on."""
     return re.sub(r"\s+", " ", (value or "").replace('"', "")).strip()
@@ -105,10 +137,17 @@ def display(value: str) -> str:
     return clean(value).replace(",", " ·")
 
 
-def build() -> int:
+def write_the_playlist(screens, output: str, group: str) -> int:
+    """Write one playlist from one set of screens, or leave it alone.
+
+    The same routine for both clocks, because a playlist is a playlist:
+    what differs is the screens, the file and the group they sit under,
+    and two copies of this body would drift apart exactly the way the
+    two boards' channel manners did before they were shared.
+    """
     lines = ["#EXTM3U"]
     written = 0
-    for channel_id, guide_name, path, url, shown, mark in SCREENS:
+    for channel_id, guide_name, path, url, shown, mark in screens:
         if not os.path.exists(path):
             # A channel whose screen has not been encoded is left OUT
             # rather than written pointing at nothing: a row in a playlist
@@ -120,22 +159,33 @@ def build() -> int:
         lines.append(
             f'#EXTINF:-1 tvg-id="{attribute(channel_id)}" '
             f'tvg-name="{attribute(guide_name)}" tvg-logo="{mark}" '
-            f'group-title="{attribute(GROUP)}",{display(shown)}')
+            f'group-title="{attribute(group)}",{display(shown)}')
         lines.append(url)
         written += 1
 
     if not written:
-        warn("no screen has been encoded — the playlist is left exactly "
-             "as it was published")
+        warn(f"no screen has been encoded — {output} is left exactly "
+             f"as it was published")
         return 1
 
     # No BOM: a byte-order mark in front of #EXTM3U makes a player refuse
     # the file outright.
-    with open(OUTPUT, "w", encoding="utf-8", newline="\n") as out:
+    with open(output, "w", encoding="utf-8", newline="\n") as out:
         out.write("\n".join(lines) + "\n")
 
-    log(f"{OUTPUT}: {written} channel(s) under “{GROUP}”")
+    log(f"{output}: {written} channel(s) under “{group}”")
     return 0
+
+
+def build() -> int:
+    # The first clock, exactly as before.
+    ok = write_the_playlist(SCREENS, OUTPUT, GROUP)
+
+    # And the second, into a file of its own. A screen that has not been
+    # encoded yet leaves its playlist unwritten rather than broken, and
+    # the first clock's file is already safe on disk by then.
+    ok = write_the_playlist(DUBAI_SCREENS, DUBAI_OUTPUT, DUBAI_GROUP) and ok
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

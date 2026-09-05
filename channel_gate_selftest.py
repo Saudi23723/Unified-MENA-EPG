@@ -4144,8 +4144,15 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
     import today_matches_epg as today
     for module, who in ((today, "the football board"),
                         (sports, "the sports board")):
+        # The render lives in publish_all now and build calls it for
+        # both clocks, so the sweep is asserted on the path a build
+        # really takes: build must reach the render, and the render
+        # must sweep. It cannot pass on a module that draws without
+        # sweeping, nor on one that sweeps from nowhere build goes.
         check("MIDNIGHT", f"{who} sweeps its own stale boards",
-              "forget_boards_past" in inspect.getsource(module.build), True)
+              ("publish_all" in inspect.getsource(module.build)
+               and "forget_boards_past" in
+               inspect.getsource(module.publish_all)), True)
 
     if not match_board.has_arabic_face():
         return
