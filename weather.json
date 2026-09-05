@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-05T05:16:41.697Z",
+  "updated_at": "2026-09-05T05:24:18.064Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -109,6 +109,42 @@
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-09-05T00:15"
+    },
+    {
+      "city": "لاس فيغاس",
+      "country": "أمريكا",
+      "latitude": 36.1699,
+      "longitude": -115.1398,
+      "temperature_c": 27.2,
+      "humidity": 15,
+      "wind_speed": 10.8,
+      "condition": "صافٍ",
+      "weather_code": 0,
+      "observed_at": "2026-09-04T22:15"
+    },
+    {
+      "city": "هيوستن",
+      "country": "أمريكا",
+      "latitude": 29.7604,
+      "longitude": -95.3698,
+      "temperature_c": 27.3,
+      "humidity": 82,
+      "wind_speed": 6.3,
+      "condition": "صافٍ",
+      "weather_code": 0,
+      "observed_at": "2026-09-05T00:15"
+    },
+    {
+      "city": "سان فرانسيسكو",
+      "country": "أمريكا",
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "temperature_c": 14.9,
+      "humidity": 83,
+      "wind_speed": 15.3,
+      "condition": "صافٍ",
+      "weather_code": 0,
+      "observed_at": "2026-09-04T22:15"
     }
   ]
 }
