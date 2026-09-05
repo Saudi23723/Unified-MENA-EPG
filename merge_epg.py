@@ -51,12 +51,12 @@ SOURCE_FILES = [
     # The fourth channel — 🌤️ طقس اليوم. Written by the ten-minute
     # workflow like the two boards beside it, from live Open-Meteo
     # readings drawn as boards by weather_epg.py. The entry this
-    # replaced was "epg.xml", committed by an automation outside that
-    # stopped updating it — a guide still carrying yesterday's hours is
-    # not a guide, so this is the file the channel's own build writes.
-    # A missing or unparsable file is skipped with a warning below, so
-    # a pass that runs before the weather's first build simply merges
-    # without it.
+    # replaced was epg.xml — its name unquoted here on purpose —
+    # committed by an automation outside that stopped updating it: a
+    # guide still carrying yesterday's hours is not a guide, so this is
+    # the file the channel's own build writes. A missing or unparsable
+    # file is skipped with a warning below, so a pass that runs before
+    # the weather's first build simply merges without it.
     "weather_epg.xml",
 ]
 

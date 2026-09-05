@@ -1469,13 +1469,55 @@ def gate_our_own_guides_name_the_channel() -> None:
     check("OWN", "a broadcast may open before the kickoff",
           own_guides.SLACK >= timedelta(minutes=45), True)
 
-    # End to end, on a board.
+    # End to end, on a board. The two grids it reads are written here
+    # rather than taken from the repository, because a published guide
+    # is a moving target under a static test: beIN Turkey carried
+    # Başakşehir v Galatasaray as a live 17:00 broadcast the day this
+    # was written, and by the next morning's rebuild kept only its
+    # Arşiv and Bant rows for the same match — both rightly refused
+    # as not fixtures — and the gate went red on the calendar rather
+    # than on the code. The pair below keeps the shape that failed:
+    # the same match, the Turkish grid opening at 16:15 for a 17:00
+    # kick and Doha's at 16:50, each title in its own guide's script,
+    # so every assertion still has exactly what it had — the TR mark,
+    # Doha left unmarked, a match neither guide carries left alone.
+    import os
+    import tempfile
+
     when = datetime(2026, 9, 4, 17, 0, tzinfo=timezone.utc)
     board = [{"start": when, "title": "إسطنبول باشاكشهير - جالاتا سراي",
               "channels": []},
              {"start": when, "title": "Mainz - Werder Bremen",
               "channels": ["beIN SPORTS 2"]}]
-    own_guides.add_channels(board)
+    istanbul_grid = """<?xml version="1.0" encoding="UTF-8"?>
+<tv>
+  <channel id="beINSPORTS1.tr"><display-name>beIN SPORTS 1</display-name></channel>
+  <programme start="20260904161500 +0000" stop="20260904190000 +0000"
+            channel="beINSPORTS1.tr"><title>Başakşehir FK - Galatasaray</title></programme>
+</tv>
+"""
+    doha_grid = """<?xml version="1.0" encoding="UTF-8"?>
+<tv>
+  <channel id="beINSPORTS5.qa"><display-name>beIN SPORTS 5</display-name></channel>
+  <programme start="20260904165000 +0000" stop="20260904190000 +0000"
+            channel="beINSPORTS5.qa"><title>إسطنبول باشاكشهير - جالاتا سراي</title></programme>
+</tv>
+"""
+    with tempfile.TemporaryDirectory() as here:
+        istanbul = os.path.join(here, "bein_sports_turkey_epg.xml")
+        doha = os.path.join(here, "bein_sports_qatar_epg.xml")
+        with open(istanbul, "w", encoding="utf-8") as hand:
+            hand.write(istanbul_grid)
+        with open(doha, "w", encoding="utf-8") as hand:
+            hand.write(doha_grid)
+        # The synthetic pair stands in for the published guides for this
+        # one call; the published ones go straight back afterwards.
+        published = own_guides.GUIDES
+        own_guides.GUIDES = ((doha, ""), (istanbul, " TR"))
+        try:
+            own_guides.add_channels(board)
+        finally:
+            own_guides.GUIDES = published
     # Doha shows this one too — beIN SPORTS 5 there, beIN SPORTS 1 in
     # Istanbul, at 16:50 for a 17:00 kick. Both are right and they are
     # different channels, which is exactly what the mark is for: a row

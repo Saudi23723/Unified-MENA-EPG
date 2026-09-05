@@ -16,9 +16,11 @@ What counts as a failure:
   * a guide with less than half a day left in the future: it is still
     being published, but there is nothing left to watch in it. tabii's
     guide sat like that — 83 programmes, one of them still ahead — and
-    nothing said so. Sources that publish a single day by design are
+    nothing said so. Sources that publish a short horizon by their own
+    design — one day, or a rolling handful of hours — are
     listed in ONE_DAY_SOURCES and fail only when nothing at all is left
-    ahead, since half a day is more than they ever carry after midday
+    ahead, since half a day is more than such a guide ever carries late
+    in its cycle
   * a channel with no name, or an icon pointing at a logo file this
     repository does not actually have
   * the same channel id claimed by two different source files — the merge
@@ -65,8 +67,9 @@ MERGED = "unified_mena_epg.xml"
 DEAD_DAYS = 0.5
 THIN_DAYS = 2
 
-# Sources that publish exactly one day, by their own design rather than
-# because something broke. Judging these on days-ahead raises a failure
+# Sources that publish a short horizon — one day, or a rolling few
+# hours — by their own design rather than because something broke.
+# Judging these on days-ahead raises a failure
 # every evening for a guide that is working perfectly: Alkass serves one
 # day and nothing else -- ?day=next, ?day=prev and an invented ?day=next2
 # all return byte-identical schedules -- so by late evening in Doha it
@@ -74,6 +77,20 @@ THIN_DAYS = 2
 # below: they must still cover now, and they must have been refreshed.
 ONE_DAY_SOURCES = {
     "alkass_epg.xml": "alkass.net/tvguide publishes the current day only",
+    # The boards below are bulletins, not schedules: their generators write
+    # HOURS_AHEAD hours from now and rewrite the whole guide every ten
+    # minutes, so measured from midnight their horizon shrinks all day and
+    # by late evening is always under half a day — exactly the
+    # shape Alkass is excused for, produced by design rather than by
+    # failure. They pass the same two-part test instead: something must
+    # still be ahead, or the newest programme must have ended within
+    # ONE_DAY_STALE_HOURS.
+    "news_epg.xml":
+        "the news board publishes a rolling six-hour bulletin, rewritten "
+        "every ten minutes",
+    "weather_epg.xml":
+        "the weather board publishes a rolling six-hour bulletin, "
+        "rewritten every ten minutes",
 }
 
 # How long a one-day guide may sit with nothing ahead before it counts as
@@ -250,8 +267,9 @@ def check_live_coverage(now: datetime) -> None:
     is for — every guard in this repository exists because something
     reached a television first.
 
-    A one-day source is held to a softer rule: it genuinely reaches
-    nowhere overnight, and staleness is already checked for it elsewhere.
+    A short-horizon source is held to a softer rule: it genuinely
+    reaches nowhere overnight, and staleness is already checked for it
+    elsewhere.
     """
     print(f"\n{'file':34} {'channels blank right now':>26}")
     for path in source_files():
@@ -279,7 +297,7 @@ def check_live_coverage(now: datetime) -> None:
             if not rows:
                 fail(f"{path}: {cid} is declared and has no programmes at all")
             elif path in ONE_DAY_SOURCES:
-                note(f"{path}: {cid} shows nothing right now — one-day "
+                note(f"{path}: {cid} shows nothing right now — short-horizon "
                      f"source ({ONE_DAY_SOURCES[path]})")
             else:
                 last = max(b for _, b in rows)
@@ -481,7 +499,7 @@ def main() -> int:
             # refreshed, not on how far ahead it reaches — it never reaches
             # far, and every night it reaches nowhere at all.
             if info["ahead"]:
-                note(f"{path}: {days} day(s) ahead — one-day source "
+                note(f"{path}: {days} day(s) ahead — short-horizon source "
                      f"({ONE_DAY_SOURCES[path]})")
             elif info["programmes"]:
                 behind = stale_hours(path, now)
