@@ -1229,7 +1229,8 @@ ARAB_CHANNEL = re.compile(r"\bbein\b|\balwan\b|\bthmanyah\b|\bon sport\b"
                           r"|\bon time\b|\bshahid\b|\bmbc\b|\bssc\b"
                           r"|\balkass\b|\bal kass\b|\bad sports\b"
                           r"|\bdubai\b|\bshasha\b|\bstarzplay\b"
-                          r"|\brotana\b|\bsaudi\b|\bjordan\b", re.I)
+                          r"|\brotana\b|\bsaudi\b|\bjordan\b|\bfajer\b",
+                          re.I)
 
 
 # The word a broadcaster puts in its name that carries no information,
@@ -1252,8 +1253,13 @@ GENERIC_WORD = re.compile(r"\s*\b(?:sports?|channels?)\b", re.I)
 # STARZPLAY joins them for the second board, which puts it on every UFC
 # card: "STARZPLAY Sports" is two words where one says the same thing,
 # and STARZPLAY is unmistakably a channel on its own.
+#
+# Fajer joins with Alwan: the two are published by the same generator
+# family here and their names are shaped the same — "Fajer Sport 1" is
+# "Alwan Sport 1" with another word for a channel, and Fajer answers to
+# its own name the way Alwan does.
 STANDS_ALONE = re.compile(
-    r"^(?:beIN|Sky|MBC|Shahid|Thmanyah|Alwan|TNT|STARZPLAY)\b", re.I)
+    r"^(?:beIN|Sky|MBC|Shahid|Thmanyah|Alwan|TNT|STARZPLAY|Fajer)\b", re.I)
 
 
 def shorter(name: str) -> str:

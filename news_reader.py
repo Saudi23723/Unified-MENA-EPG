@@ -19,14 +19,23 @@ feeds are and answered in their own <head>:
     المملكة       /rss.xml, linked
     TRT World    /feed/rss.xml, declared
 
-THREE ARE REALLY CLOSED and are not here: عمون, العربية and AP answer
+TWO ARE REALLY CLOSED and are not here: عمون and AP answer
 403 to a browser user-agent as well, so it is a block on datacentre
 addresses and not a header this can fix. CNN's US feed is not here
 either — it answers 200 and its newest item was dated APRIL, which is
-worse than a refusal because it looks alive.
+worse than a refusal because it looks alive. العربية is the third
+closed one, and it is read anyway — see the exception below.
 
 Every URL is an outlet's OWN feed. No aggregator, no mirror, nobody
 else's dump — the rule this repository has been held to throughout.
+
+THE ONE EXCEPTION IS العربية, and it is here because its own site
+closes every door to a runner — 403 on its feeds, its homepage, its
+sitemap, measured before this line was written — while the news feed
+restricted to its own domain carries its headlines as its newsroom
+wrote them, with the newsroom's name appended for the reader to take
+off. It is a mirror of one newsroom and nothing else, and the day
+العربية opens its own feed again this line is deleted, not widened.
 
 TWO RULES DECIDE WHAT BECOMES A ROW, and both come from measurement:
 
@@ -75,6 +84,22 @@ SOURCES = (
     ("AR", "الجزيرة",
      "https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-"
      "a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9"),
+    # AL ARABIYA'S OWN SITE answers 403 to every URL a runner can send
+    # — its feeds, its homepage, its sitemap alike — measured before
+    # this line was written. The one door it leaves open is the news
+    # feed restricted to its own domain, which carries its headlines
+    # as it wrote them and is the closest thing to the newsroom's own
+    # feed that can be read from here. Every headline arrives with the
+    # newsroom's name appended — "… - العربية" — and a_story takes
+    # that label off, because it is the feed's, not the headline's.
+    ("AR", "العربية",
+     "https://news.google.com/rss/search?q=site:alarabiya.net%20when:2d"
+     "&hl=ar&gl=SA&ceid=SA:ar"),
+    # AL JADEED's own feed, the third newsroom asked for by name:
+    # "Add Breaking news from ALJAZEERA ARABIC, AL ARABIYA, ALJADEED".
+    # Al Jazeera is above; this one answered with 20 items, the newest
+    # eleven minutes old when measured.
+    ("AR", "الجديد", "https://www.aljadeed.tv/Rss/NewsHighlights/ar"),
     # سكاي عربية answered 404 on the last two passes and is out until
     # it answers again. الشرق الأوسط replaces it: 300 items, newest
     # six minutes old when measured.
@@ -199,6 +224,16 @@ def a_story(title: str, summary: str, when: datetime | None,
     said = one_sentence(summary)
     if said and said[:40] == norm(title)[:40]:
         said = ""
+    # A feed that aggregates a newsroom appends the newsroom's own name
+    # to every headline — "… للسعادة - العربية" — and that name is the
+    # feed's label, not the headline the newsroom wrote. It comes off
+    # the END of the title, where the feed puts it, and only when it
+    # matches the outlet the feed was asked for: a dash in a headline's
+    # own words is a headline, and stays.
+    if " - " in title:
+        head, _, tail = title.rpartition(" - ")
+        if head and norm(tail).casefold() == outlet.casefold():
+            title = head
     return {
         "start": when,
         "title": norm(title),

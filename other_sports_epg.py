@@ -48,6 +48,7 @@ from PIL import Image
 
 import american_sport_on_tv
 import own_guides
+import real_american_freestyle
 import sky_epg
 import sports_media_watch
 import world_sport_on_tv
@@ -415,6 +416,23 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # channel carrying the UFC in Britain could not be read from itself.
     if can_fetch:
         everything += sky_epg.events(session, floor, ceiling)
+
+    # AND REAL AMERICAN FREESTYLE, from the promotion's own page. No
+    # listings page anywhere carries it — wheresthematch has no RAF row
+    # — and the promotion publishes the one thing that matters on its
+    # own events page: the card, the fight, and the broadcaster that
+    # has announced a time, which is Fox Nation under the long-term
+    # deal both parties announced. Its cards without a watch block
+    # (RAF13 Miami, RAF14 Las Vegas — tickets only) are skipped by the
+    # reader itself, so they reach this board the day RAF publishes
+    # them, without anybody here editing anything.
+    #
+    # It is filed as MMA for the same reason Sky's own RAF programmes
+    # are: this board folds two rows into one only when they agree on
+    # the sport, and a card filed two ways would print twice.
+    if can_fetch:
+        everything += real_american_freestyle.events(
+            session, floor, ceiling)
 
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything

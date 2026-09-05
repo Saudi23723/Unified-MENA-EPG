@@ -69,10 +69,19 @@ def _next_viewer_midnight(moment: datetime) -> datetime:
 # whole reason the mark exists: beIN SPORTS 1 is two different channels
 # showing two different matches, and a viewer told the wrong one turns to
 # the wrong football.
+# FAJER IS HERE FOR THE CHANNELS, NOT THE FIXTURES. Its rows carry no
+# competition at all — the titles read "ريال بيتيس - ريال مدريد" with
+# nothing to say WHICH competition, so they cannot go through the board's
+# own fixtures door and they never try to. It stays a channel ATTACHED to
+# a row that already belongs there. The attach rule is what keeps it safe:
+# one club, exactly, cross-script, within two hours — a club does not play
+# two matches in two hours, so a match is identified before a channel is
+# named on it.
 GUIDES = (
     ("alwan_sports_epg.xml", ""),
     ("bein_sports_qatar_epg.xml", ""),
     ("bein_sports_turkey_epg.xml", " TR"),
+    ("fajer_sports_epg.xml", ""),
 )
 
 # How far a broadcast may sit from the kickoff and still be that match.
@@ -334,6 +343,16 @@ def broadcasts(path: str, mark: str) -> list[dict]:
         label = channel.find("display-name")
         named[channel.get("id")] = norm(
             label.text if label is not None and label.text else channel.get("id"))
+        # FAJER'S OWN FILE prints its channel names with both scripts in
+        # one field — "Fajer Sport 1 | فجر سبورت 1" — and a board that
+        # showed the whole field would put a viewer's whole channel
+        # line on the Arabic half of a name the channel also answers to
+        # in Latin. The pipe is a separator Fajer invented, and taking
+        # the first side leaves what every other guide here publishes:
+        # one name, the Latin one the channel's own numbering runs on.
+        if "|" in named[channel.get("id")]:
+            named[channel.get("id")] = norm(
+                named[channel.get("id")].split("|", 1)[0])
 
     out = []
     for programme in guide.findall("programme"):
@@ -565,6 +584,12 @@ def programmes(path: str, mark: str) -> list[dict]:
         named[channel.get("id")] = norm(
             label.text if label is not None and label.text
             else channel.get("id"))
+        # The pipe split from broadcasts(), for the same reason: a
+        # channel Fajer names in two scripts is one channel, and the
+        # Latin half is the one its own numbering runs on.
+        if "|" in named[channel.get("id")]:
+            named[channel.get("id")] = norm(
+                named[channel.get("id")].split("|", 1)[0])
 
     out = []
     for programme in guide.findall("programme"):
@@ -933,6 +958,7 @@ OUR_OWN_FIXTURES = (
 # already carries its diacritics is not a key and is left untouched.
 TURKISH_AS_WRITTEN = {
     "Istanbul": "İstanbul",
+    "Istanbulspor": "İstanbulspor",
     "Basaksehir": "Başakşehir",
     "Fenerbahce": "Fenerbahçe",
     "Besiktas": "Beşiktaş",
@@ -944,6 +970,8 @@ TURKISH_AS_WRITTEN = {
     "Karagumruk": "Karagümrük",
     "Umraniyespor": "Ümraniyespor",
     "Ankaragucu": "Ankaragücü",
+    "Igdir": "Iğdır",
+    "Keciorengucu": "Keçiörengücü",
 }
 
 

@@ -4612,6 +4612,108 @@ def gate_alwan_reaches_the_board() -> None:
     check("ALWAN", "and its Toulouse - Lille can now find the board's",
           reachable, ["تولوز - ليل"])
 
+def gate_fajer_reaches_the_board() -> None:
+    """Fajer's channels on this repository's own rows — asked for by name.
+
+    "Add Alwan channels, Fajer channels to channel 1 for today's
+    matches" — and Fajer's own file carries two traps a reader that
+    trusted its shape would walk straight into, both printed from the
+    guide it actually published:
+
+      THE PIPE. Every channel name arrives in two scripts in one field
+      — "Fajer Sport 1 | فجر سبورت 1" — and a board that showed the
+      field whole would spend a row's channel line on half a name a
+      viewer cannot turn to. The pipe is taken off in broadcasts() and
+      programmes() alike.
+
+      THE ARABIC FIXTURE. Fajer writes its fixtures in Arabic with a
+      dash — "ريال بيتيس - ريال مدريد" — while the board's own rows
+      for the same night are written the same way, and the attach rule
+      is the same one Alwan already passes: one club, exactly, cross-
+      script, within two hours.
+
+    THE GATE IS SYNTHETIC ON PURPOSE. The Alwan gate above reads the
+    published XML and expects one named fixture in it, and the day the
+    XML rotates past that night the gate goes red on nothing. This one
+    writes its own Fajer-shaped grid to a temporary file, so it tests
+    the WIRING — pipe split, cross-script attach, fold to one name —
+    and not whatever happens to be on tonight.
+    """
+    print("\nFajer reaches the board — own_guides")
+    from datetime import datetime, timedelta, timezone
+
+    import own_guides
+
+    fajer_grid = """<tv>
+  <channel id="FajerSport1.eg"><display-name>Fajer Sport 1 | فجر سبورت 1</display-name></channel>
+  <programme start="20260905185000 +0000" stop="20260905210000 +0000"
+            channel="FajerSport1.eg"><title>ريال بيتيس - ريال مدريد ‎• Live 🔵‎</title></programme>
+  <programme start="20260905115500 +0000" stop="20260905140000 +0000"
+            channel="FajerSport1.eg"><title>⏰ التالي: مانشستر سيتي - كوفنتري سيتي</title></programme>
+</tv>
+"""
+    with tempfile.TemporaryDirectory() as here:
+        fajer = os.path.join(here, "fajer_sports_epg.xml")
+        with open(fajer, "w", encoding="utf-8") as hand:
+            hand.write(fajer_grid)
+
+        # THE TUPLE IS THE DOOR. Every check below tests the wiring —
+        # the pipe split, the cross-script attach — and all of it passed
+        # the day the fajer entry vanished from GUIDES, because the wiring
+        # was still right and only the list it is driven by was empty of
+        # Fajer. A reader asked for Fajer by name and the build said
+        # nothing, because the tuple said nothing. So the gate watches the
+        # tuple too: the entry lost once, silently, cannot be lost again
+        # the same way.
+        check("FAJER", "Fajer's guide is in the tuple that drives the board",
+              any("fajer" in path for path, _ in own_guides.GUIDES), True)
+
+        # THE PIPE COMES OFF, in both readers that name a channel.
+        rows = own_guides.broadcasts(fajer, "")
+        programmes = own_guides.programmes(fajer, "")
+        check("FAJER", "the two-script name is one Latin name",
+              sorted({row["channel"] for row in rows}), ["Fajer Sport 1"])
+        check("FAJER", "and the same split in the programmes reader",
+              sorted({row["channel"] for row in programmes}),
+              ["Fajer Sport 1"])
+        # The pipe text itself never reaches a row.
+        check("FAJER", "no Arabic half of a channel name is printed",
+              "|" in "".join(row["channel"] for row in rows + programmes),
+              False)
+
+        # THE REPEAT IS REFUSED — "التالي" is "next", not tonight.
+        check("FAJER", "and its next-up filler is not a fixture",
+              [row["title"] for row in rows],
+              ["ريال بيتيس - ريال مدريد"])
+
+        # AND THE CHANNEL ATTACHES, cross-script, inside the window.
+        board = [{
+            "start": datetime(2026, 9, 5, 19, 0, tzinfo=timezone.utc),
+            "title": "ريال بيتيس - ريال مدريد",
+            "channels": ["beIN SPORTS 1"],
+        }]
+        own_guides.attach(board, rows, "fajer")
+        check("FAJER", "the same match on the board gains Fajer's channel",
+              board[0]["channels"], ["beIN SPORTS 1", "Fajer Sport 1"])
+
+        # AND A MATCH FAJER DOES NOT CARRY IS LEFT ALONE.
+        other = [{
+            "start": datetime(2026, 9, 5, 19, 0, tzinfo=timezone.utc),
+            "title": "بنفيكا - بورتو",
+            "channels": ["beIN SPORTS 2"],
+        }]
+        own_guides.attach(other, rows, "fajer")
+        check("FAJER", "a match Fajer is not showing gains nothing",
+              other[0]["channels"], ["beIN SPORTS 2"])
+
+        # AND THE ROW PRINTS IT FOLDED AND RANKED, like Alwan.
+        import today_matches_epg as today
+        check("FAJER", "Fajer 1, the way Alwan 1 is printed",
+              today.shorter("Fajer Sport 1"), "Fajer 1")
+        check("FAJER", "and it ranks with the channels a MENA viewer has",
+              bool(today.ARAB_CHANNEL.search("Fajer Sport 1")), True)
+
+
 def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
     """"check fo duplicated games" — and reading Sky created new ones.
 
@@ -5152,12 +5254,137 @@ def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     check("NEWS", "and Turkey is still covered, in Arabic",
           turkey, ["TRT عربي", "الأناضول"])
 
-    # The three closed doors stay shut rather than being retried forever.
-    for closed in ("ammonnews.net", "alarabiya.net", "apnews.com"):
+    # The two closed doors stay shut rather than being retried forever.
+    for closed in ("ammonnews.net", "apnews.com"):
         check("NEWS", f"{closed} answers 403 to a browser too, so it is out",
               any(closed in host for host in hosts), False)
+    # العربية is closed the same way, and is read anyway — through the
+    # one door it leaves open, a feed restricted to its own domain. The
+    # gate says exactly that: never read from its own host, always
+    # through the restricted mirror, and never anywhere else.
+    urls = [url for _, _, url in news_reader.SOURCES]
+    arabiya_hosts = [host for host, url in zip(hosts, urls)
+                     if "alarabiya.net" in host
+                     and not host.startswith("news.google.com")]
+    arabiya_mirrors = [url for url in urls
+                       if "alarabiya.net" in url
+                       and url.startswith("https://news.google.com")]
+    check("NEWS", "العربية's own site is never read directly",
+          arabiya_hosts, [])
+    check("NEWS", "and its headlines still arrive, through the one "
+          "mirror restricted to its own domain",
+          arabiya_mirrors != [], True)
     check("NEWS", "and CNN's US feed, whose newest item was dated April",
           any("rss.cnn.com" in host for host in hosts), False)
+
+
+def gate_raf_reads_the_promotions_own_page() -> None:
+    """Real American Freestyle, from the promotion itself.
+
+    "check this and other resources for RAF" — and the promotion's own
+    events page is the only source that names a broadcaster for it.
+    The gate pins the three things the reader is trusted to do:
+
+      THE TIME, IN THE ZONE IT IS PRINTED IN. The page says "12:00 PM
+      est"; the card is in September, when New York is on EDT, and the
+      stream starts at noon in New York — so noon in New York is what
+      is built, and a label that is not an Eastern word at all is
+      refused rather than guessed at.
+
+      THE CHANNEL, ONLY WHERE ONE IS PUBLISHED. RAF13 and RAF14 carry
+      ticket links and no watch block, and a calendar entry with no
+      broadcaster is not a board row on this repository.
+
+      THE CARD THE WATCH BLOCK NAMES. The join is by date, so a watch
+      block cannot attach itself to another night's card.
+    """
+    print("\nReal American Freestyle — from the promotion's own page")
+    from datetime import datetime, timedelta, timezone
+
+    import real_american_freestyle as raf
+
+    # THE PAGE'S OWN SHAPES, as the events gallery prints them.
+    gallery = """
+<div><div class="text-block-28">RAF MOSCOW</div>
+<div class="text-block-28-copy">CHIMAEV VS WOODLEY</div>
+<div class="event-card_date small">September 5, 2026</div>
+<div class="event-card_location small">Moscow, Russia</div></div>
+<div><div class="text-block-28">RAF13</div>
+<div class="text-block-28-copy">Covington vs Muhammad</div>
+<div class="event-card_date small">September 18, 2026</div>
+<div class="event-card_location small">Miami, FL</div></div>
+<div><div class="text-block-77 dark">watch on</div>
+<div class="text-block-76 _2 dark">fox nation</div>
+<div class="text-block-76 _2 smaller dark">Sep 5, 2026 12:00 PM</div>
+<div class="text-block-76 _2 smaller dark">est</div></div>
+"""
+    got = raf.collect(gallery)
+    check("RAF", "the card with a watch block is a row",
+          [event["title"] for event in got],
+          ["RAF Moscow: Chimaev vs Woodley"])
+    check("RAF", "at noon in New York, whatever the label says",
+          f"{got[0]['start']:%Y-%m-%d %H:%M}", "2026-09-05 16:00")
+    check("RAF", "on the channel the promotion named",
+          got[0]["channels"], ["Fox Nation"])
+    check("RAF", "filed with the fights, like Sky files RAF",
+          got[0]["sport"], "MMA")
+    check("RAF", "and a card with no broadcaster is not a row",
+          [event["title"] for event in got].count("RAF13: Covington vs Muhammad"),
+          0)
+
+    # THE JOIN IS BY DATE: a watch block for the 18th joins the 18th's
+    # card, never the 5th's.
+    other_night = gallery.replace("Sep 5, 2026 12:00 PM",
+                                  "Sep 18, 2026 7:00 PM")
+    got2 = raf.collect(other_night)
+    check("RAF", "a watch block joins the card it names",
+          [event["title"] for event in got2],
+          ["RAF13: Covington vs Muhammad"])
+
+    # A LABEL THAT IS NOT EASTERN IS NOT A TIME THE PAGE CAN PLACE.
+    no_zone = gallery.replace(">est<", ">GMT<")
+    check("RAF", "a clock with a foreign zone word is refused",
+          raf.collect(no_zone), [])
+
+
+def gate_turkish_is_spelled_the_way_turkey_writes_it() -> None:
+    """The Turkish dictionary — asked for as a dictionary.
+
+    "Put a Turkish language dictionary so it can write Turkish clubs
+    nicely" — the grids publish plain ASCII ("Igdir Fk", "Keciorengucu",
+    "Bursaspor - Istanbulspor") and the board prints Turkey's own
+    spelling. The rule that keeps the dictionary safe is the one it was
+    written under: only the ASCII forms a grid actually prints are
+    keys, and a word that already carries its diacritics is never a
+    key — so the dictionary cannot corrupt a name it was not asked
+    about. Turkish has both an uppercase dotless i and a lowercase
+    dotted i, and the words below are the ones the guides here publish
+    in ASCII.
+    """
+    print("\nTurkish clubs, spelled the way Turkey spells them")
+    import own_guides
+
+    check("TURKISH", "Iğdır, as the TFF writes it",
+          own_guides.spelled_as_turkey_writes_it("Igdir Fk"), "Iğdır Fk")
+    check("TURKISH", "İstanbulspor, with its dotted capital",
+          own_guides.spelled_as_turkey_writes_it(
+              "Bursaspor - Istanbulspor"),
+          "Bursaspor - İstanbulspor")
+    check("TURKISH", "Keçiörengücü, all four diacritics",
+          own_guides.spelled_as_turkey_writes_it(
+              "Boluspor - Keciorengucu"),
+          "Boluspor - Keçiörengücü")
+    check("TURKISH", "and the words already written correctly stay put",
+          (own_guides.spelled_as_turkey_writes_it("İstanbul Başakşehir"),
+           own_guides.spelled_as_turkey_writes_it("Çorum FK")),
+          ("İstanbul Başakşehir", "Çorum FK"))
+    # A word that is not a key is left untouched, and every key in the
+    # dictionary is a plain-ASCII word — no key carries a diacritic,
+    # so a correct spelling can never be re-spelled.
+    unkeyed = [key for key in own_guides.TURKISH_AS_WRITTEN
+               if key != key.encode("ascii", "ignore").decode()]
+    check("TURKISH", "no dictionary key carries a diacritic",
+          unkeyed, [])
 
 
 def gate_alwan_carries_more_than_football() -> None:
@@ -5463,6 +5690,7 @@ def main() -> int:
                  gate_midnight_is_not_a_kickoff,
                  gate_turkey_comes_from_the_sources_asked_for,
                  gate_alwan_reaches_the_board,
+                 gate_fajer_reaches_the_board,
                  gate_the_broadcaster_is_the_source_for_its_own_matches,
                  gate_on_sport_reads_the_source_that_names_it,
                  gate_a_day_is_shown_whole_or_not_at_all,
@@ -5470,6 +5698,8 @@ def main() -> int:
                  gate_the_news_channel_says_only_what_a_newsroom_published,
                  gate_alwan_carries_more_than_football,
                  gate_the_card_is_split_by_the_broadcaster,
+                 gate_raf_reads_the_promotions_own_page,
+                 gate_turkish_is_spelled_the_way_turkey_writes_it,
                  gate_two_sources_naming_one_broadcast_is_one_row):
         try:
             gate()
