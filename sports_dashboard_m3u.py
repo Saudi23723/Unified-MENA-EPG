@@ -45,7 +45,22 @@ OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
 RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 
-# Two channels, ONE playlist, because that is the whole point of it: the
+# The fourth channel — 🌤️ طقس اليوم. It is not drawn and encoded here like
+# the three boards: it is a live HLS relay (AccuWeather, via the amagi
+# CDN) that the n8n automation keeps fresh in stream/weather.m3u8, and
+# its guide — طقس اليوم للمدن, the cities and their temperatures — is
+# written by that same automation into epg.xml under AccuWeatherNow.
+#
+# The id, the name and the mark are written here rather than imported,
+# because the file they live in is written outside this repository's
+# build (n8n commits it directly), so there is no module here to take
+# them from — but they are the SAME values that automation writes, and
+# they are byte-for-byte the line it has been appending all along.
+WEATHER_ID = "AccuWeatherNow"
+WEATHER_NAME = "AccuWeather Now"
+WEATHER_LOGO = f"{RAW}/logos/today_weather.png"
+
+# Four channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
 #
@@ -67,6 +82,8 @@ SCREENS = (
      f"{RAW}/stream/sports.m3u8", "🏁 رياضات اليوم", SPORTS_LOGO),
     (NEWS_ID, NEWS_AR, "stream/news.m3u8",
      f"{RAW}/stream/news.m3u8", "📰 أخبار اليوم", NEWS_LOGO),
+    (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",
+     f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
 )
 
 
