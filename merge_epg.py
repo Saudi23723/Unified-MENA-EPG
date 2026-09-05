@@ -48,6 +48,16 @@ SOURCE_FILES = [
     # boards beside it.
     "news_epg.xml",
     "thmanyah_epg.xml",
+    # The fourth channel — 🌤️ طقس اليوم. Its guide is not written by any
+    # workflow in this repository: the n8n automation outside commits
+    # epg.xml directly, with AccuWeatherNow's programmes (the cities and
+    # their temperatures) rebuilt around the clock. It is merged here for
+    # the same reason as every other source — this is the file a player
+    # actually loads, so a channel missing from it is a channel with no
+    # programmes on the television however well its own guide was built.
+    # A missing or unparsable file is skipped with a warning below, so a
+    # pass that runs before n8n's first commit simply merges without it.
+    "epg.xml",
 ]
 
 
