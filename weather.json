@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-05T21:34:07.105Z",
+  "updated_at": "2026-09-05T21:40:03.230Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -86,11 +86,11 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 25.2,
-      "humidity": 52,
+      "humidity": 49,
       "wind_speed": 12.9,
       "rain_chance": 2,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-09-05T17:30"
     },
     {
@@ -99,7 +99,7 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 33.3,
-      "humidity": 26,
+      "humidity": 27,
       "wind_speed": 13.5,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -112,7 +112,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 22.7,
-      "humidity": 94,
+      "humidity": 95,
       "wind_speed": 15.5,
       "rain_chance": 2,
       "condition": "غائم جزئياً",
@@ -151,7 +151,7 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 22.1,
-      "humidity": 59,
+      "humidity": 58,
       "wind_speed": 18.2,
       "rain_chance": 0,
       "condition": "صافٍ",
