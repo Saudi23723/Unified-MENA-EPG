@@ -1115,6 +1115,9 @@
     <display-name lang="ar">ثمانية | Guide</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/thmanyah_guide.png" />
   </channel>
+  <channel id="AccuWeatherNow">
+    <display-name>🌤️ طقس اليوم</display-name>
+  </channel>
   <programme start="20260904000700 +0000" stop="20260904015900 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United vs. Ipswich Town - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United are unbeaten in their last eight home league games against Ipswich, winning the last four by an aggregate score of 18-2. Ipswich are winless in their last seven Premier League games against Man Utd  since a 3-2 home win in September 1994. The first game in this winless run was a 9-0 defeat at Old Trafford in March 1995.</desc>
@@ -24928,10 +24931,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Kulis</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904010308 +0000" stop="20260904011810 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -25288,10 +25287,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Yozgat BLD Bozok Spor - Ejderoğlu Kırşehir Futbol</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904010308 +0000" stop="20260904011810 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -25568,10 +25563,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260904010308 +0000" stop="20260904011810 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -25842,10 +25833,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260907170000 +0000" stop="20260907210000 +0000" channel="TivibuSpor3.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260904010308 +0000" stop="20260904011810 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260904011810 +0000" stop="20260904013101 +0000" channel="TivibuSpor4.tr">
@@ -67865,6 +67852,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260905084857 +0000" stop="20260905090857 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
+  <programme start="20260905090857 +0000" stop="20260905092550 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260903210000 +0000" stop="20260904210000 +0000" channel="JordanSports">
     <title lang="ar">الأردن الرياضية</title>
     <desc lang="ar">الأردن الرياضية | 2026-09-04
@@ -77139,7 +77129,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260905131500 +0000" stop="20260905133000 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904013000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260904012500 +0000" stop="20260904013000 +0000" channel="Starz_admnadsports1">
     <title lang="en">AFC U20 Asian Cup Qualifiers 2027</title>
     <desc lang="en">AFC U20 Asian Cup Qualifiers 2027</desc>
     <category lang="en">Sport</category>
@@ -77601,7 +77591,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904020000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260904012500 +0000" stop="20260904020000 +0000" channel="Starz_admnadsports2">
     <title lang="en">KBMZ Jiu-Jitsu Championship 2026</title>
     <desc lang="en">KBMZ Jiu-Jitsu Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -77991,7 +77981,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904021500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260904012500 +0000" stop="20260904021500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Monza X Udinese - Serie A</title>
     <title lang="ar">مونزا × أودينيزي - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -78632,7 +78622,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904014500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260904012500 +0000" stop="20260904014500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Juventus x Parma - Serie A</title>
     <title lang="ar">يوفنتوس × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -79211,7 +79201,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904022000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260904012500 +0000" stop="20260904022000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">All In - AEW Full Gear</title>
     <title lang="ar">أول إن - ايه إي دبليو فل قير</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -79778,13 +79768,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904011300 +0000" channel="Starz_starzplayrugby">
-    <title lang="en">South Africa U20 vs. Georgia U20 - World Rugby Under 20 Championship</title>
-    <desc lang="en">South Africa U20 vs. Georgia U20 - World Rugby Under 20 Championship</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/GNLZZGG0037LMMV.jpg" />
-  </programme>
-  <programme start="20260904011300 +0000" stop="20260904031300 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260904012500 +0000" stop="20260904031300 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Ireland U20 vs. United States U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">Ireland U20 vs. United States U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -79952,7 +79936,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904023000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260904012500 +0000" stop="20260904023000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Astana: Phygital Basketball/Battle Royale - Games of the Future</title>
     <title lang="ar">أستانا: كرة السلة الرقمية/باتل رويال - ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -80484,7 +80468,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904030200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260904012500 +0000" stop="20260904030200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">St. Kitts &amp; Nevis Patriots vs. St. Lucia Kings - CPL T20 Cricket - LIVE</title>
     <title lang="ar">سي بي إل تي٢٠ كريكيت - مباشر</title>
     <desc lang="en">St. Kitts &amp; Nevis Patriots vs. St. Lucia Kings - CPL T20 Cricket - LIVE</desc>
@@ -81061,14 +81045,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904011900 +0000" channel="Starz_wedosports">
-    <title lang="en">Clubland</title>
-    <title lang="ar">كلبلاند</title>
-    <desc lang="en">S1 , E16 : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
-  </programme>
-  <programme start="20260904011900 +0000" stop="20260904022000 +0000" channel="Starz_wedosports">
+  <programme start="20260904012500 +0000" stop="20260904022000 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلبلاند</title>
     <desc lang="en">S1 , E38 : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
@@ -81608,7 +81585,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p3608998_b_h8_aq.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904020000 +0000" channel="Starz_criclife1">
+  <programme start="20260904012500 +0000" stop="20260904020000 +0000" channel="Starz_criclife1">
     <title lang="en">2022: Semi Final 2 South Africa vs. England - ICC Women's World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the ICC Women's World Cup wherein teams representing different nations compete in a series of matches to win.</desc>
@@ -82033,14 +82010,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904011400 +0000" channel="Starz_criclife3">
-    <title lang="en">1st T20: Pakistan v Australia - T20 Cricket</title>
-    <title lang="ar">تي٢٠ كريكيت</title>
-    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260904011400 +0000" stop="20260904014800 +0000" channel="Starz_criclife3">
+  <programme start="20260904012500 +0000" stop="20260904014800 +0000" channel="Starz_criclife3">
     <title lang="en">1st ODI: England v Ireland - Women's One-Day International Cricket</title>
     <title lang="ar">سكند أو دي آي: أستراليا فيرسز إنديا</title>
     <desc lang="en">Women's national cricket teams compete against each other in a one-day international in a bid to emerge victorious and win the title.</desc>
@@ -82892,7 +82862,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904015300 +0000" channel="Starz_golflife">
+  <programme start="20260904012500 +0000" stop="20260904015300 +0000" channel="Starz_golflife">
     <title lang="en">Wyndham Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E178 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -83342,7 +83312,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904014500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260904012500 +0000" stop="20260904014500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">100 km HH Sheikh Sultan bin Zayed - Endurance Race</title>
     <title lang="ar">الشيخ سلطان بن زايد - سباق 100 كم - سباق القدرة</title>
     <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
@@ -83944,7 +83914,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904020000 +0000" channel="Starz_awsn">
+  <programme start="20260904012500 +0000" stop="20260904020000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -84238,7 +84208,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904020000 +0000" channel="Starz_redbulltv">
+  <programme start="20260904012500 +0000" stop="20260904020000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -84820,7 +84790,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904030000 +0000" channel="Starz_daznringside">
+  <programme start="20260904012500 +0000" stop="20260904030000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -85018,13 +84988,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904011808 +0000" channel="Starz_fifaplus">
-    <title lang="en">Brazil v England | Semi-finals | FIFA U-17 World Cup India 2017™ | Full Match Replay</title>
-    <desc lang="en">Watch the full match replay between Brazil and England played at Vivekananda Yuba Bharati Krirangan, Kolkata on Wednesday, 25 October 2017 at 17:00 (local time).</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/119707.jpg" />
-  </programme>
-  <programme start="20260904011808 +0000" stop="20260904031254 +0000" channel="Starz_fifaplus">
+  <programme start="20260904012500 +0000" stop="20260904031254 +0000" channel="Starz_fifaplus">
     <title lang="en">England v Germany | Group A | FIFA Women's World Cup China 2007™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between England and Germany played at Shanghai Hongkou Football Stadium, Shanghai on Friday, 14 September 2007 at 20:00.</desc>
     <category lang="en">Sport</category>
@@ -85342,7 +85306,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/GGYQNvEz80ud4Ycr0HXdJA.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904014400 +0000" channel="Starz_criclifewoman">
+  <programme start="20260904012500 +0000" stop="20260904014400 +0000" channel="Starz_criclifewoman">
     <title lang="en">India v Bangladesh - ICC Women's Cricket World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
     <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
@@ -86154,7 +86118,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904013000 +0000" channel="Starz_admnyastv">
+  <programme start="20260904012500 +0000" stop="20260904013000 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
@@ -86604,13 +86568,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907201500 +0000" stop="20260908010500 +0000" channel="Starz_admnyastv">
+  <programme start="20260907201500 +0000" stop="20260908012500 +0000" channel="Starz_admnyastv">
     <title lang="en">The Boat Show (Ar) 2026</title>
     <desc lang="en">The Boat Show (Ar) 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260904010500 +0000" stop="20260904060000 +0000" channel="Starz_adfight">
+  <programme start="20260904012500 +0000" stop="20260904060000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -86760,7 +86724,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907143500 +0000" stop="20260908010500 +0000" channel="Starz_adfight">
+  <programme start="20260907143500 +0000" stop="20260908012500 +0000" channel="Starz_adfight">
     <title lang="en">JJIF World Jiu-Jitsu Championship - Abu Dhabi 2026</title>
     <desc lang="en">JJIF World Jiu-Jitsu Championship - Abu Dhabi 2026</desc>
     <category lang="en">Sport</category>
@@ -91578,28 +91542,28 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260905070000 +0000" stop="20260906070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 9 ساعات و49 دقيقة ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 9 ساعات و31 دقيقة ⁨·⁩ ⁨Manchester United U18 - Middlesbrough U18 · MUTV⁩⁩</title>
     <desc lang="ar">مباريات السبت 05/09 — بتوقيتك
-⁦⏳ 04:00 9 ساعات و49 دقيقة  Manchester United U18 - Middlesbrough U18 · MUTV⁩
-⁦04:30 10 ساعات و19 دقيقة  Newcastle - Bournemouth · beIN 1 · TNT 1 · Idman TV TR +4⁩
+⁦⏳ 04:00 9 ساعات و31 دقيقة  Manchester United U18 - Middlesbrough U18 · MUTV⁩
+⁦04:30 10 ساعات ودقيقة  Newcastle - Bournemouth · beIN 1 · TNT 1 · Idman TV TR +4⁩
 ⁦Preston - Blackburn · beIN 2⁩
 ⁦Lincoln City - Southampton · Sky+⁩
 ⁦Preston North End - Blackburn Rovers · beIN 2 · Sky Main Event · Sky Football⁩
 ⁦Stoke City - Charlton Athletic · Sky+⁩
 ⁦Knowle - Worcester City · BBC Red Button⁩
-⁦05:45 11 ساعة و34 دقيقة  Mexico - Benin · beIN XTRA 5⁩
-⁦06:00 11 ساعة و49 دقيقة  KMKM SC - Al-Ahli Tripoli · Libya Sports⁩
+⁦05:45 11 ساعة و16 دقيقة  Mexico - Benin · beIN XTRA 5⁩
+⁦06:00 11 ساعة و31 دقيقة  KMKM SC - Al-Ahli Tripoli · Libya Sports⁩
 ⁦Brazil - Tanzania · beIN Xtra 6⁩
 ⁦Poland - Argentina · beIN⁩
 ⁦Brazil Women U20 - Tanzania Women U20 · DAZN⁩
 ⁦Poland Women U20 - Argentina Women U20 · DAZN⁩
 ⁦Bandırmaspor - Boluspor · TRT Spor TR · beIN Haber TR · beIN 2 TR +1⁩
-⁦06:30 12 ساعة و19 دقيقة  Bayer Leverkusen - Union Berlin · MBC Shahid · S Sport Plus TR⁩
+⁦06:30 12 ساعة ودقيقة  Bayer Leverkusen - Union Berlin · MBC Shahid · S Sport Plus TR⁩
 ⁦Hoffenheim - Dortmund · MBC Shahid · S Sport Plus TR · Alwan 7⁩
 ⁦B. Monchengladbach - Elversberg · MBC Shahid · S Sport Plus TR⁩
 ⁦Werder Bremen - RB Leipzig · MBC Shahid · S Sport Plus TR⁩
 ⁦Paderborn - Freiburg · MBC Shahid · S Sport Plus TR⁩
-⁦07:00 12 ساعة و49 دقيقة  Manchester City - Coventry · beIN 1 · Idman TV TR · beIN EN 1 +1⁩
+⁦07:00 12 ساعة و31 دقيقة  Manchester City - Coventry · beIN 1 · Idman TV TR · beIN EN 1 +1⁩
 ⁦Fulham - Crystal Palace · beIN 4 · Alwan 4⁩
 ⁦Brighton - Leeds · beIN 3 · Alwan 6⁩
 ⁦Nottingham - Tottenham · beIN 2 · beIN 5 TR · Alwan 3 +1⁩
@@ -91607,28 +91571,28 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Burnley - Bristol City · beIN XTRA 4⁩
 ⁧معان - شباب الحسين · الأردن الرياضية⁩
 ⁦Erzurumspor - Konyaspor · Bein 2 TR · beIN 2 TR⁩
-⁦07:15 13 ساعة و4 دقائق  Ath Bilbao - Atl. Madrid · LALIGATV · beIN FR 1⁩
-⁦08:00 13 ساعة و49 دقيقة  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
-⁦08:15 14 ساعة و4 دقائق  Lens - Lorient · beIN XTRA 1⁩
-⁦08:45 14 ساعة و34 دقيقة  Brazil - Tanzania · beIN XTRA 6⁩
-⁦08:50 14 ساعة و39 دقيقة  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
-⁦08:55 14 ساعة و44 دقيقة  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
-⁦09:00 14 ساعة و49 دقيقة  Mexico - Benin · beIN Xtra 5⁩
+⁦07:15 12 ساعة و46 دقيقة  Ath Bilbao - Atl. Madrid · LALIGATV · beIN FR 1⁩
+⁦08:00 13 ساعة و31 دقيقة  Al Arabi Irbid - Al Salt · الأردن الرياضية⁩
+⁦08:15 13 ساعة و46 دقيقة  Lens - Lorient · beIN XTRA 1⁩
+⁦08:45 14 ساعة و16 دقيقة  Brazil - Tanzania · beIN XTRA 6⁩
+⁦08:50 14 ساعة و21 دقيقة  Al Faisaly FC - Al-Hazem SC · Thmanyah · Thmanyah 3 HD⁩
+⁦08:55 14 ساعة و26 دقيقة  Al Taawoun FC - Al Fateh · Thmanyah · Thmanyah 2 HD⁩
+⁦09:00 14 ساعة و31 دقيقة  Mexico - Benin · beIN Xtra 5⁩
 ⁦Canada - England · beIN XTRA 5⁩
 ⁦Canada Women U20 - England Women U20 · DAZN⁩
 ⁦Mexico Women U20 - Benin Women U20 · DAZN⁩
 ⁦Inter Milan - Napoli (joins match in progress) · TNT 2 · DAZN · HBO Max⁩
-⁦09:30 15 ساعة و19 دقيقة  Hull City - Aston Villa · beIN 1 · Sky Main Event · beIN EN 1 +2⁩
+⁦09:30 15 ساعة ودقيقة  Hull City - Aston Villa · beIN 1 · Sky Main Event · beIN EN 1 +2⁩
 ⁦Rayo Vallecano - Racing Santander · beIN 2 · S Sport TR · LALIGATV +2⁩
 ⁦Schalke - Bayern Munich · MBC Shahid · Sky Football · Idman TV TR +2⁩
-⁦10:00 15 ساعة و49 دقيقة  Fenerbahçe - Beşiktaş · Bein 1 TR · beIN 1 TR⁩
+⁦10:00 15 ساعة و31 دقيقة  Fenerbahçe - Beşiktaş · Bein 1 TR · beIN 1 TR⁩
 ⁦Keçiörengücü - Sarıyer · TRT Spor TR · Bein 2 TR · beIN 2 TR⁩
 ⁦Pendikspor - Ümraniyespor · TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR⁩
-⁦10:30 16 ساعة و19 دقيقة  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
-⁦11:00 16 ساعة و49 دقيقة  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · S Sport Plus TR · Thmanyah 1 HD⁩
-⁦11:45 17 ساعة و34 دقيقة  Nice - Le Mans · beIN 3 · Ligue1+⁩
+⁦10:30 16 ساعة ودقيقة  Al-Hussein SC - Al Jazeera · الأردن الرياضية⁩
+⁦11:00 16 ساعة و31 دقيقة  Al-Ittihad Jeddah Club - Al Nassr · Thmanyah · S Sport Plus TR · Thmanyah 1 HD⁩
+⁦11:45 17 ساعة و16 دقيقة  Nice - Le Mans · beIN 3 · Ligue1+⁩
 ⁦Le Havre - Brest · beIN 4 · Ligue1+⁩
-⁦12:00 17 ساعة و49 دقيقة  Villarreal - Dep. La Coruna · beIN 2 · S Sport TR · Disney+ +2⁩
+⁦12:00 17 ساعة و31 دقيقة  Villarreal - Dep. La Coruna · beIN 2 · S Sport TR · Disney+ +2⁩
 ⁦Swansea - Wrexham · Sky Main Event · beIN EN 1⁩</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_1.png" />
   </programme>
@@ -91645,8 +91609,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦Japan Women U20 - New Zealand Women U20 · DAZN⁩
 ⁦Frosinone - Venezia · DAZN ، Parma - Monza · DAZN⁩
 ⁦06:30 يوم و12 ساعة  Hamburger SV - Mainz · MBC Shahid · MBC Action⁩
-⁦07:15 يوم و13 ساعة  Valencia - Barcelona · beIN 2 · Premier Sports 2 · beIN FR 2⁩
-⁦08:15 يوم و14 ساعة  Angers - Rennes · beIN 4 · Ligue1+⁩
+⁦07:15 يوم و12 ساعة  Valencia - Barcelona · beIN 2 · Premier Sports 2 · beIN FR 2⁩
+⁦08:15 يوم و13 ساعة  Angers - Rennes · beIN 4 · Ligue1+⁩
 ⁦08:30 يوم و14 ساعة  Arsenal - Chelsea · beIN 1 · Sky Main Event · beIN EN 1 +2⁩
 ⁦Eintracht Frankfurt - Augsburg · MBC Shahid · MBC Action⁩
 ⁦08:45 يوم و14 ساعة  France - Korea Republic · beIN XTRA 2⁩
@@ -91879,135 +91843,21 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260915070000 +0000" stop="20260917070000 +0000" channel="TodaySports">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260905000000 +0000" stop="20260905010000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · طهران تلوّح بهجمات استباقية</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 17:48 — بتوقيتك
-
-طهران تلوّح بهجمات استباقية
-        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
-        عربي · الشرق الأوسط
-لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
-        دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
-        تركيا · TRT عربي
-Top military officials faced polygraphs over leaks on munitions, sources say
-        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
-        أمريكا · CBS
-Michael Owen doesn't tell his children he loves them - how big a deal is that?
-        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
-        بريطانيا · BBC
-Dubai.. The City that Will Not Bow
-        In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
-        الأردن · Jordan News
-Al-Harasais Receives Congratulations on Army Appointment
-        Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
-        الأردن · Jordan News
-«علي الطاهر» والأسرى يحركان المفاوضات
-        فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
-        عربي · الشرق الأوسط
-العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
-        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
-        عربي · الشرق الأوسط
-بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
-        قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
-        تركيا · TRT عربي
-Barry Morphew arrested, booked into Boulder County Jail
-        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
-        أمريكا · CBS
-Rescue of Nepal hydropower workers ‘triumph for humans and humanity’, tunnelling expert says
-        Arnold Dix, an Australian engineer and geologist who worked at Ground Zero after 9/11, says finding two workers alive in Trishuli 3A ‘gives us hope’…
-        بريطانيا · Guardian
-Yarmouk University Uncovers Key Archaeological Features
-        The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
-        الأردن · Jordan News
-رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
-        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
-        عربي · الشرق الأوسط
-وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
-        أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
-        تركيا · TRT عربي
-FBI using AI to zero in on threats faster, deputy director says
-        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
-        أمريكا · CBS
-New movies to look out for this fall
-        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
-        أمريكا · CBS
-How Gloria Steinem’s lifechanging stay in India shaped her approach to feminism
-        The activist said her two years studying and travelling in country ‘made me who I am’ ‘We badly need to raise our boys more like our girls’: Gloria…
-        بريطانيا · Guardian
-Government Digital Spokesperson “Farah” Joins Instagram
-        The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
-        الأردن · Jordan News
-الجيش اليمني يتقدم في غرب محافظة تعز
-        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
-        عربي · الشرق الأوسط
-تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
-        أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
-        تركيا · TRT عربي
-FBI deputy director explains how agency is using AI to fight crime
-        The FBI is using artificial intelligence to fight crime as it leans into targeting cartels and transnational criminal organizations
-        أمريكا · CBS
-The rise of south-east Asia’s girl bands: ‘The talent and popularity were always here’
-        Girl bands from the Philippines, Indonesia, Malaysia and Thailand are going global with their fusion of traditional and modern sounds “We all know…
-        بريطانيا · Guardian
-Death on the road to Rafah: the night the IDF targeted World Central Kitchen aid workers
-        The Israeli army had helped plan the delivery of food aid on 1 April 2024, but things went wrong from the beginning and ended in seven deaths •…
-        بريطانيا · Guardian
-Jordanians’ Tourist Departures Fall 10.5% in 7 Months
-        The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
-        الأردن · Jordan News
-سعودي يتعرض للطعن والسرقة وسط لندن
-        تعرض سعودي وسط لندن للطعن أثناء عملية سرقة تعرض لها مساء الخميس. وتداول ناشطون على مواقع التواصل وصول سيارات الشرطة إلى موقع الحادث في منطقة مايفير…
-        عربي · الشرق الأوسط
-3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
-        الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
-        تركيا · الأناضول
-سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
-        بحضور قيادات عسكرية تركية رفيعة
-        تركيا · الأناضول
-Neighborhood comes together to give young boy a memorable trick-or-treat birthday
-        When a mother posted a note on Facebook asking if anyone in her neighborhood would allow her son to trick-or-treat at their homes in July for his…
-        أمريكا · CBS
-‘Guilt by association’: why seven international aid workers were killed in Israeli airstrike
-        Exclusive: Guardian investigation reveals targeting of World Central Kitchen convoy was result of widely used military tactic • Death on the road to…
-        بريطانيا · Guardian
-Jordan, Netherlands Sign Defense Cooperation Agreement
-        Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
-        الأردن · Jordan News
-الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
-        فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
-        عربي · الشرق الأوسط
-الدوري الألماني: الخنوس يتألق في فوز شتوتغارت على كولن
-        حقّق شتوتغارت فوزه الأول في الدوري الألماني هذا الموسم، بتخطيه ضيفه كولن 4-1، الجمعة، في افتتاح المرحلة الثانية.
-        عربي · الشرق الأوسط
-5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
-        قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
-        تركيا · TRT عربي
-NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
-        The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
-        أمريكا · CBS
-Isak finally arrives as Gakpo proves value to Liverpool
-        Has the real Alexander Isak finally arrived at Liverpool after his two-goal display in their Premier League win at Ipswich Town, asks chief football…
-        بريطانيا · BBC
-Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
-        As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
-        أمريكا · NYT</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
-  </programme>
   <programme start="20260905010000 +0000" stop="20260905020000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 17:48 — بتوقيتك
+    <title lang="ar">أخبار اليوم · الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع ال</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:18 — بتوقيتك
 
-طهران تلوّح بهجمات استباقية
-        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع المكسيك
+        أعلنت الولايات المتحدة، الجمعة، أنها أسقطت منذ بداية عام 2026 أكثر من 300 طائرة مسيّرة 2026 أطلقتها عصابات مخدرات على طول الحدود المكسيكية.
         عربي · الشرق الأوسط
 لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
         دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
         تركيا · TRT عربي
-Top military officials faced polygraphs over leaks on munitions, sources say
-        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
+Senior aides to U.K.'s Nigel Farage step down in scandal over undercover report
+        Two senior aides to Nigel Farage, the firebrand leader of the U.K.'s populist Reform party, have stepped down in the wake of an investigative news…
         أمريكا · CBS
-Michael Owen doesn't tell his children he loves them - how big a deal is that?
-        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+Flight price rises due to 'foolish leaders' starting wars, Virgin's Branson says
+        Middle East tensions have choked the production and transportation of oil, causing a surge in the price of car and jet fuels.
         بريطانيا · BBC
 Dubai.. The City that Will Not Bow
         In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
@@ -92015,62 +91865,62 @@ Dubai.. The City that Will Not Bow
 Al-Harasais Receives Congratulations on Army Appointment
         Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
         الأردن · Jordan News
+طهران تلوّح بهجمات استباقية
+        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+        عربي · الشرق الأوسط
 «علي الطاهر» والأسرى يحركان المفاوضات
         فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
-        عربي · الشرق الأوسط
-العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
-        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
         قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
         تركيا · TRT عربي
-Barry Morphew arrested, booked into Boulder County Jail
-        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
+Nigel Farage's Reform U.K. accused of breaking foreign funding law after undercover investigation
+        Reform U.K.'s annual convention comes amid fresh controversy after an undercover investigation alleged that senior figures in Nigel Farage's party…
         أمريكا · CBS
-Rescue of Nepal hydropower workers ‘triumph for humans and humanity’, tunnelling expert says
-        Arnold Dix, an Australian engineer and geologist who worked at Ground Zero after 9/11, says finding two workers alive in Trishuli 3A ‘gives us hope’…
+US judge extends block on Trump order to restrict mail-in voting
+        Indira Talwani’s ruling presents major setback for president as first states begin to send out mail ballots for midterms A federal judge on Friday…
         بريطانيا · Guardian
 Yarmouk University Uncovers Key Archaeological Features
         The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
         الأردن · Jordan News
-رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
-        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
+العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
+        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
         أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
         تركيا · TRT عربي
-FBI using AI to zero in on threats faster, deputy director says
-        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
+UN votes to adopt new world map to reflect Africa's true size
+        The Togo-sponsored resolution was backed by 164 nations - with the US as the only nation to vote against it.
+        بريطانيا · BBC
+Top military officials faced polygraphs over leaks on munitions, sources say
+        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
         أمريكا · CBS
-New movies to look out for this fall
-        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
+Barry Morphew arrested, booked into Boulder County Jail
+        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
         أمريكا · CBS
-How Gloria Steinem’s lifechanging stay in India shaped her approach to feminism
-        The activist said her two years studying and travelling in country ‘made me who I am’ ‘We badly need to raise our boys more like our girls’: Gloria…
-        بريطانيا · Guardian
 Government Digital Spokesperson “Farah” Joins Instagram
         The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
         الأردن · Jordan News
-الجيش اليمني يتقدم في غرب محافظة تعز
-        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
+رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
+        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
         عربي · الشرق الأوسط
 تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
         أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
         تركيا · TRT عربي
-FBI deputy director explains how agency is using AI to fight crime
-        The FBI is using artificial intelligence to fight crime as it leans into targeting cartels and transnational criminal organizations
+The Grand Tour's new presenters: 'I hope we prove the critics wrong'
+        A new trio has taken the wheel of the motoring TV show from Jeremy Clarkson, Richard Hammond and James May.
+        بريطانيا · BBC
+Heat exceeds 40C in parts of Europe - is a September heatwave in store for the UK?
+        Parts of central and southern Europe have seen temperatures above 40C this week. As things warm up in the UK, is there a heatwave on the way?
+        بريطانيا · BBC
+FBI using AI to zero in on threats faster, deputy director says
+        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
         أمريكا · CBS
-The rise of south-east Asia’s girl bands: ‘The talent and popularity were always here’
-        Girl bands from the Philippines, Indonesia, Malaysia and Thailand are going global with their fusion of traditional and modern sounds “We all know…
-        بريطانيا · Guardian
-Death on the road to Rafah: the night the IDF targeted World Central Kitchen aid workers
-        The Israeli army had helped plan the delivery of food aid on 1 April 2024, but things went wrong from the beginning and ended in seven deaths •…
-        بريطانيا · Guardian
 Jordanians’ Tourist Departures Fall 10.5% in 7 Months
         The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
         الأردن · Jordan News
-سعودي يتعرض للطعن والسرقة وسط لندن
-        تعرض سعودي وسط لندن للطعن أثناء عملية سرقة تعرض لها مساء الخميس. وتداول ناشطون على مواقع التواصل وصول سيارات الشرطة إلى موقع الحادث في منطقة مايفير…
+الجيش اليمني يتقدم في غرب محافظة تعز
+        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
         عربي · الشرق الأوسط
 3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
         الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
@@ -92078,20 +91928,20 @@ Jordanians’ Tourist Departures Fall 10.5% in 7 Months
 سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
         بحضور قيادات عسكرية تركية رفيعة
         تركيا · الأناضول
-Neighborhood comes together to give young boy a memorable trick-or-treat birthday
-        When a mother posted a note on Facebook asking if anyone in her neighborhood would allow her son to trick-or-treat at their homes in July for his…
+New movies to look out for this fall
+        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
         أمريكا · CBS
-‘Guilt by association’: why seven international aid workers were killed in Israeli airstrike
-        Exclusive: Guardian investigation reveals targeting of World Central Kitchen convoy was result of widely used military tactic • Death on the road to…
-        بريطانيا · Guardian
+Michael Owen doesn't tell his children he loves them - how big a deal is that?
+        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+        بريطانيا · BBC
 Jordan, Netherlands Sign Defense Cooperation Agreement
         Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
         الأردن · Jordan News
+أليخاندرو بيتانكورت.. مصادر تكشف لـCNN كواليس إغلاق إدارة ترامب سراً تحقيقاً مع "مهندس صفقة النفط الفنزويلي"
+        على مدى عقد، ظل رجل الأعمال الفنزويلي أليخاندرو بيتانكورت متورطًا في تحقيق واسع النطاق لوزارة العدل الأمريكية بشأن مخطط معقد لغسيل أموال بمليارات…
+        عربي · CNN عربية
 الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
         فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
-        عربي · الشرق الأوسط
-الدوري الألماني: الخنوس يتألق في فوز شتوتغارت على كولن
-        حقّق شتوتغارت فوزه الأول في الدوري الألماني هذا الموسم، بتخطيه ضيفه كولن 4-1، الجمعة، في افتتاح المرحلة الثانية.
         عربي · الشرق الأوسط
 5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
         قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
@@ -92099,9 +91949,9 @@ Jordan, Netherlands Sign Defense Cooperation Agreement
 NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
         The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
         أمريكا · CBS
-Isak finally arrives as Gakpo proves value to Liverpool
-        Has the real Alexander Isak finally arrived at Liverpool after his two-goal display in their Premier League win at Ipswich Town, asks chief football…
-        بريطانيا · BBC
+Cameron Myers shines in star-studded field to win 1500m at Diamond League final
+        Australian beats Olympic champs Jakob Ingebrigtsen and Cole Hocker Pole vaulter Kurtis Marschall soars over 5.82m to finish third in Brussels…
+        بريطانيا · Guardian
 Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
         As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
         أمريكا · NYT</desc>
@@ -92109,19 +91959,19 @@ Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
   </programme>
   <programme start="20260905020000 +0000" stop="20260905030000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 17:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:18 — بتوقيتك
 
-طهران تلوّح بهجمات استباقية
-        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع المكسيك
+        أعلنت الولايات المتحدة، الجمعة، أنها أسقطت منذ بداية عام 2026 أكثر من 300 طائرة مسيّرة 2026 أطلقتها عصابات مخدرات على طول الحدود المكسيكية.
         عربي · الشرق الأوسط
 لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
         دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
         تركيا · TRT عربي
-Top military officials faced polygraphs over leaks on munitions, sources say
-        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
+Senior aides to U.K.'s Nigel Farage step down in scandal over undercover report
+        Two senior aides to Nigel Farage, the firebrand leader of the U.K.'s populist Reform party, have stepped down in the wake of an investigative news…
         أمريكا · CBS
-Michael Owen doesn't tell his children he loves them - how big a deal is that?
-        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+Flight price rises due to 'foolish leaders' starting wars, Virgin's Branson says
+        Middle East tensions have choked the production and transportation of oil, causing a surge in the price of car and jet fuels.
         بريطانيا · BBC
 Dubai.. The City that Will Not Bow
         In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
@@ -92129,62 +91979,62 @@ Dubai.. The City that Will Not Bow
 Al-Harasais Receives Congratulations on Army Appointment
         Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
         الأردن · Jordan News
+طهران تلوّح بهجمات استباقية
+        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+        عربي · الشرق الأوسط
 «علي الطاهر» والأسرى يحركان المفاوضات
         فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
-        عربي · الشرق الأوسط
-العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
-        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
         قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
         تركيا · TRT عربي
-Barry Morphew arrested, booked into Boulder County Jail
-        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
+Nigel Farage's Reform U.K. accused of breaking foreign funding law after undercover investigation
+        Reform U.K.'s annual convention comes amid fresh controversy after an undercover investigation alleged that senior figures in Nigel Farage's party…
         أمريكا · CBS
-Rescue of Nepal hydropower workers ‘triumph for humans and humanity’, tunnelling expert says
-        Arnold Dix, an Australian engineer and geologist who worked at Ground Zero after 9/11, says finding two workers alive in Trishuli 3A ‘gives us hope’…
+US judge extends block on Trump order to restrict mail-in voting
+        Indira Talwani’s ruling presents major setback for president as first states begin to send out mail ballots for midterms A federal judge on Friday…
         بريطانيا · Guardian
 Yarmouk University Uncovers Key Archaeological Features
         The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
         الأردن · Jordan News
-رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
-        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
+العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
+        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
         أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
         تركيا · TRT عربي
-FBI using AI to zero in on threats faster, deputy director says
-        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
+UN votes to adopt new world map to reflect Africa's true size
+        The Togo-sponsored resolution was backed by 164 nations - with the US as the only nation to vote against it.
+        بريطانيا · BBC
+Top military officials faced polygraphs over leaks on munitions, sources say
+        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
         أمريكا · CBS
-New movies to look out for this fall
-        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
+Barry Morphew arrested, booked into Boulder County Jail
+        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
         أمريكا · CBS
-How Gloria Steinem’s lifechanging stay in India shaped her approach to feminism
-        The activist said her two years studying and travelling in country ‘made me who I am’ ‘We badly need to raise our boys more like our girls’: Gloria…
-        بريطانيا · Guardian
 Government Digital Spokesperson “Farah” Joins Instagram
         The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
         الأردن · Jordan News
-الجيش اليمني يتقدم في غرب محافظة تعز
-        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
+رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
+        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
         عربي · الشرق الأوسط
 تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
         أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
         تركيا · TRT عربي
-FBI deputy director explains how agency is using AI to fight crime
-        The FBI is using artificial intelligence to fight crime as it leans into targeting cartels and transnational criminal organizations
+The Grand Tour's new presenters: 'I hope we prove the critics wrong'
+        A new trio has taken the wheel of the motoring TV show from Jeremy Clarkson, Richard Hammond and James May.
+        بريطانيا · BBC
+Heat exceeds 40C in parts of Europe - is a September heatwave in store for the UK?
+        Parts of central and southern Europe have seen temperatures above 40C this week. As things warm up in the UK, is there a heatwave on the way?
+        بريطانيا · BBC
+FBI using AI to zero in on threats faster, deputy director says
+        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
         أمريكا · CBS
-The rise of south-east Asia’s girl bands: ‘The talent and popularity were always here’
-        Girl bands from the Philippines, Indonesia, Malaysia and Thailand are going global with their fusion of traditional and modern sounds “We all know…
-        بريطانيا · Guardian
-Death on the road to Rafah: the night the IDF targeted World Central Kitchen aid workers
-        The Israeli army had helped plan the delivery of food aid on 1 April 2024, but things went wrong from the beginning and ended in seven deaths •…
-        بريطانيا · Guardian
 Jordanians’ Tourist Departures Fall 10.5% in 7 Months
         The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
         الأردن · Jordan News
-سعودي يتعرض للطعن والسرقة وسط لندن
-        تعرض سعودي وسط لندن للطعن أثناء عملية سرقة تعرض لها مساء الخميس. وتداول ناشطون على مواقع التواصل وصول سيارات الشرطة إلى موقع الحادث في منطقة مايفير…
+الجيش اليمني يتقدم في غرب محافظة تعز
+        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
         عربي · الشرق الأوسط
 3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
         الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
@@ -92192,20 +92042,20 @@ Jordanians’ Tourist Departures Fall 10.5% in 7 Months
 سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
         بحضور قيادات عسكرية تركية رفيعة
         تركيا · الأناضول
-Neighborhood comes together to give young boy a memorable trick-or-treat birthday
-        When a mother posted a note on Facebook asking if anyone in her neighborhood would allow her son to trick-or-treat at their homes in July for his…
+New movies to look out for this fall
+        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
         أمريكا · CBS
-‘Guilt by association’: why seven international aid workers were killed in Israeli airstrike
-        Exclusive: Guardian investigation reveals targeting of World Central Kitchen convoy was result of widely used military tactic • Death on the road to…
-        بريطانيا · Guardian
+Michael Owen doesn't tell his children he loves them - how big a deal is that?
+        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+        بريطانيا · BBC
 Jordan, Netherlands Sign Defense Cooperation Agreement
         Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
         الأردن · Jordan News
+أليخاندرو بيتانكورت.. مصادر تكشف لـCNN كواليس إغلاق إدارة ترامب سراً تحقيقاً مع "مهندس صفقة النفط الفنزويلي"
+        على مدى عقد، ظل رجل الأعمال الفنزويلي أليخاندرو بيتانكورت متورطًا في تحقيق واسع النطاق لوزارة العدل الأمريكية بشأن مخطط معقد لغسيل أموال بمليارات…
+        عربي · CNN عربية
 الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
         فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
-        عربي · الشرق الأوسط
-الدوري الألماني: الخنوس يتألق في فوز شتوتغارت على كولن
-        حقّق شتوتغارت فوزه الأول في الدوري الألماني هذا الموسم، بتخطيه ضيفه كولن 4-1، الجمعة، في افتتاح المرحلة الثانية.
         عربي · الشرق الأوسط
 5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
         قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
@@ -92213,9 +92063,9 @@ Jordan, Netherlands Sign Defense Cooperation Agreement
 NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
         The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
         أمريكا · CBS
-Isak finally arrives as Gakpo proves value to Liverpool
-        Has the real Alexander Isak finally arrived at Liverpool after his two-goal display in their Premier League win at Ipswich Town, asks chief football…
-        بريطانيا · BBC
+Cameron Myers shines in star-studded field to win 1500m at Diamond League final
+        Australian beats Olympic champs Jakob Ingebrigtsen and Cole Hocker Pole vaulter Kurtis Marschall soars over 5.82m to finish third in Brussels…
+        بريطانيا · Guardian
 Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
         As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
         أمريكا · NYT</desc>
@@ -92223,19 +92073,19 @@ Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
   </programme>
   <programme start="20260905030000 +0000" stop="20260905040000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 17:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:18 — بتوقيتك
 
-طهران تلوّح بهجمات استباقية
-        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع المكسيك
+        أعلنت الولايات المتحدة، الجمعة، أنها أسقطت منذ بداية عام 2026 أكثر من 300 طائرة مسيّرة 2026 أطلقتها عصابات مخدرات على طول الحدود المكسيكية.
         عربي · الشرق الأوسط
 لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
         دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
         تركيا · TRT عربي
-Top military officials faced polygraphs over leaks on munitions, sources say
-        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
+Senior aides to U.K.'s Nigel Farage step down in scandal over undercover report
+        Two senior aides to Nigel Farage, the firebrand leader of the U.K.'s populist Reform party, have stepped down in the wake of an investigative news…
         أمريكا · CBS
-Michael Owen doesn't tell his children he loves them - how big a deal is that?
-        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+Flight price rises due to 'foolish leaders' starting wars, Virgin's Branson says
+        Middle East tensions have choked the production and transportation of oil, causing a surge in the price of car and jet fuels.
         بريطانيا · BBC
 Dubai.. The City that Will Not Bow
         In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
@@ -92243,62 +92093,62 @@ Dubai.. The City that Will Not Bow
 Al-Harasais Receives Congratulations on Army Appointment
         Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
         الأردن · Jordan News
+طهران تلوّح بهجمات استباقية
+        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+        عربي · الشرق الأوسط
 «علي الطاهر» والأسرى يحركان المفاوضات
         فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
-        عربي · الشرق الأوسط
-العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
-        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
         قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
         تركيا · TRT عربي
-Barry Morphew arrested, booked into Boulder County Jail
-        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
+Nigel Farage's Reform U.K. accused of breaking foreign funding law after undercover investigation
+        Reform U.K.'s annual convention comes amid fresh controversy after an undercover investigation alleged that senior figures in Nigel Farage's party…
         أمريكا · CBS
-Rescue of Nepal hydropower workers ‘triumph for humans and humanity’, tunnelling expert says
-        Arnold Dix, an Australian engineer and geologist who worked at Ground Zero after 9/11, says finding two workers alive in Trishuli 3A ‘gives us hope’…
+US judge extends block on Trump order to restrict mail-in voting
+        Indira Talwani’s ruling presents major setback for president as first states begin to send out mail ballots for midterms A federal judge on Friday…
         بريطانيا · Guardian
 Yarmouk University Uncovers Key Archaeological Features
         The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
         الأردن · Jordan News
-رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
-        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
+العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
+        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
         أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
         تركيا · TRT عربي
-FBI using AI to zero in on threats faster, deputy director says
-        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
+UN votes to adopt new world map to reflect Africa's true size
+        The Togo-sponsored resolution was backed by 164 nations - with the US as the only nation to vote against it.
+        بريطانيا · BBC
+Top military officials faced polygraphs over leaks on munitions, sources say
+        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
         أمريكا · CBS
-New movies to look out for this fall
-        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
+Barry Morphew arrested, booked into Boulder County Jail
+        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
         أمريكا · CBS
-How Gloria Steinem’s lifechanging stay in India shaped her approach to feminism
-        The activist said her two years studying and travelling in country ‘made me who I am’ ‘We badly need to raise our boys more like our girls’: Gloria…
-        بريطانيا · Guardian
 Government Digital Spokesperson “Farah” Joins Instagram
         The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
         الأردن · Jordan News
-الجيش اليمني يتقدم في غرب محافظة تعز
-        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
+رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
+        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
         عربي · الشرق الأوسط
 تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
         أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
         تركيا · TRT عربي
-FBI deputy director explains how agency is using AI to fight crime
-        The FBI is using artificial intelligence to fight crime as it leans into targeting cartels and transnational criminal organizations
+The Grand Tour's new presenters: 'I hope we prove the critics wrong'
+        A new trio has taken the wheel of the motoring TV show from Jeremy Clarkson, Richard Hammond and James May.
+        بريطانيا · BBC
+Heat exceeds 40C in parts of Europe - is a September heatwave in store for the UK?
+        Parts of central and southern Europe have seen temperatures above 40C this week. As things warm up in the UK, is there a heatwave on the way?
+        بريطانيا · BBC
+FBI using AI to zero in on threats faster, deputy director says
+        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
         أمريكا · CBS
-The rise of south-east Asia’s girl bands: ‘The talent and popularity were always here’
-        Girl bands from the Philippines, Indonesia, Malaysia and Thailand are going global with their fusion of traditional and modern sounds “We all know…
-        بريطانيا · Guardian
-Death on the road to Rafah: the night the IDF targeted World Central Kitchen aid workers
-        The Israeli army had helped plan the delivery of food aid on 1 April 2024, but things went wrong from the beginning and ended in seven deaths •…
-        بريطانيا · Guardian
 Jordanians’ Tourist Departures Fall 10.5% in 7 Months
         The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
         الأردن · Jordan News
-سعودي يتعرض للطعن والسرقة وسط لندن
-        تعرض سعودي وسط لندن للطعن أثناء عملية سرقة تعرض لها مساء الخميس. وتداول ناشطون على مواقع التواصل وصول سيارات الشرطة إلى موقع الحادث في منطقة مايفير…
+الجيش اليمني يتقدم في غرب محافظة تعز
+        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
         عربي · الشرق الأوسط
 3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
         الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
@@ -92306,20 +92156,20 @@ Jordanians’ Tourist Departures Fall 10.5% in 7 Months
 سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
         بحضور قيادات عسكرية تركية رفيعة
         تركيا · الأناضول
-Neighborhood comes together to give young boy a memorable trick-or-treat birthday
-        When a mother posted a note on Facebook asking if anyone in her neighborhood would allow her son to trick-or-treat at their homes in July for his…
+New movies to look out for this fall
+        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
         أمريكا · CBS
-‘Guilt by association’: why seven international aid workers were killed in Israeli airstrike
-        Exclusive: Guardian investigation reveals targeting of World Central Kitchen convoy was result of widely used military tactic • Death on the road to…
-        بريطانيا · Guardian
+Michael Owen doesn't tell his children he loves them - how big a deal is that?
+        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+        بريطانيا · BBC
 Jordan, Netherlands Sign Defense Cooperation Agreement
         Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
         الأردن · Jordan News
+أليخاندرو بيتانكورت.. مصادر تكشف لـCNN كواليس إغلاق إدارة ترامب سراً تحقيقاً مع "مهندس صفقة النفط الفنزويلي"
+        على مدى عقد، ظل رجل الأعمال الفنزويلي أليخاندرو بيتانكورت متورطًا في تحقيق واسع النطاق لوزارة العدل الأمريكية بشأن مخطط معقد لغسيل أموال بمليارات…
+        عربي · CNN عربية
 الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
         فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
-        عربي · الشرق الأوسط
-الدوري الألماني: الخنوس يتألق في فوز شتوتغارت على كولن
-        حقّق شتوتغارت فوزه الأول في الدوري الألماني هذا الموسم، بتخطيه ضيفه كولن 4-1، الجمعة، في افتتاح المرحلة الثانية.
         عربي · الشرق الأوسط
 5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
         قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
@@ -92327,9 +92177,9 @@ Jordan, Netherlands Sign Defense Cooperation Agreement
 NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
         The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
         أمريكا · CBS
-Isak finally arrives as Gakpo proves value to Liverpool
-        Has the real Alexander Isak finally arrived at Liverpool after his two-goal display in their Premier League win at Ipswich Town, asks chief football…
-        بريطانيا · BBC
+Cameron Myers shines in star-studded field to win 1500m at Diamond League final
+        Australian beats Olympic champs Jakob Ingebrigtsen and Cole Hocker Pole vaulter Kurtis Marschall soars over 5.82m to finish third in Brussels…
+        بريطانيا · Guardian
 Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
         As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
         أمريكا · NYT</desc>
@@ -92337,19 +92187,19 @@ Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
   </programme>
   <programme start="20260905040000 +0000" stop="20260905050000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 17:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:18 — بتوقيتك
 
-طهران تلوّح بهجمات استباقية
-        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع المكسيك
+        أعلنت الولايات المتحدة، الجمعة، أنها أسقطت منذ بداية عام 2026 أكثر من 300 طائرة مسيّرة 2026 أطلقتها عصابات مخدرات على طول الحدود المكسيكية.
         عربي · الشرق الأوسط
 لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
         دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
         تركيا · TRT عربي
-Top military officials faced polygraphs over leaks on munitions, sources say
-        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
+Senior aides to U.K.'s Nigel Farage step down in scandal over undercover report
+        Two senior aides to Nigel Farage, the firebrand leader of the U.K.'s populist Reform party, have stepped down in the wake of an investigative news…
         أمريكا · CBS
-Michael Owen doesn't tell his children he loves them - how big a deal is that?
-        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+Flight price rises due to 'foolish leaders' starting wars, Virgin's Branson says
+        Middle East tensions have choked the production and transportation of oil, causing a surge in the price of car and jet fuels.
         بريطانيا · BBC
 Dubai.. The City that Will Not Bow
         In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
@@ -92357,62 +92207,62 @@ Dubai.. The City that Will Not Bow
 Al-Harasais Receives Congratulations on Army Appointment
         Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
         الأردن · Jordan News
+طهران تلوّح بهجمات استباقية
+        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+        عربي · الشرق الأوسط
 «علي الطاهر» والأسرى يحركان المفاوضات
         فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
-        عربي · الشرق الأوسط
-العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
-        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
         قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
         تركيا · TRT عربي
-Barry Morphew arrested, booked into Boulder County Jail
-        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
+Nigel Farage's Reform U.K. accused of breaking foreign funding law after undercover investigation
+        Reform U.K.'s annual convention comes amid fresh controversy after an undercover investigation alleged that senior figures in Nigel Farage's party…
         أمريكا · CBS
-Rescue of Nepal hydropower workers ‘triumph for humans and humanity’, tunnelling expert says
-        Arnold Dix, an Australian engineer and geologist who worked at Ground Zero after 9/11, says finding two workers alive in Trishuli 3A ‘gives us hope’…
+US judge extends block on Trump order to restrict mail-in voting
+        Indira Talwani’s ruling presents major setback for president as first states begin to send out mail ballots for midterms A federal judge on Friday…
         بريطانيا · Guardian
 Yarmouk University Uncovers Key Archaeological Features
         The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
         الأردن · Jordan News
-رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
-        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
+العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
+        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
         أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
         تركيا · TRT عربي
-FBI using AI to zero in on threats faster, deputy director says
-        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
+UN votes to adopt new world map to reflect Africa's true size
+        The Togo-sponsored resolution was backed by 164 nations - with the US as the only nation to vote against it.
+        بريطانيا · BBC
+Top military officials faced polygraphs over leaks on munitions, sources say
+        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
         أمريكا · CBS
-New movies to look out for this fall
-        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
+Barry Morphew arrested, booked into Boulder County Jail
+        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
         أمريكا · CBS
-How Gloria Steinem’s lifechanging stay in India shaped her approach to feminism
-        The activist said her two years studying and travelling in country ‘made me who I am’ ‘We badly need to raise our boys more like our girls’: Gloria…
-        بريطانيا · Guardian
 Government Digital Spokesperson “Farah” Joins Instagram
         The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
         الأردن · Jordan News
-الجيش اليمني يتقدم في غرب محافظة تعز
-        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
+رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
+        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
         عربي · الشرق الأوسط
 تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
         أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
         تركيا · TRT عربي
-FBI deputy director explains how agency is using AI to fight crime
-        The FBI is using artificial intelligence to fight crime as it leans into targeting cartels and transnational criminal organizations
+The Grand Tour's new presenters: 'I hope we prove the critics wrong'
+        A new trio has taken the wheel of the motoring TV show from Jeremy Clarkson, Richard Hammond and James May.
+        بريطانيا · BBC
+Heat exceeds 40C in parts of Europe - is a September heatwave in store for the UK?
+        Parts of central and southern Europe have seen temperatures above 40C this week. As things warm up in the UK, is there a heatwave on the way?
+        بريطانيا · BBC
+FBI using AI to zero in on threats faster, deputy director says
+        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
         أمريكا · CBS
-The rise of south-east Asia’s girl bands: ‘The talent and popularity were always here’
-        Girl bands from the Philippines, Indonesia, Malaysia and Thailand are going global with their fusion of traditional and modern sounds “We all know…
-        بريطانيا · Guardian
-Death on the road to Rafah: the night the IDF targeted World Central Kitchen aid workers
-        The Israeli army had helped plan the delivery of food aid on 1 April 2024, but things went wrong from the beginning and ended in seven deaths •…
-        بريطانيا · Guardian
 Jordanians’ Tourist Departures Fall 10.5% in 7 Months
         The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
         الأردن · Jordan News
-سعودي يتعرض للطعن والسرقة وسط لندن
-        تعرض سعودي وسط لندن للطعن أثناء عملية سرقة تعرض لها مساء الخميس. وتداول ناشطون على مواقع التواصل وصول سيارات الشرطة إلى موقع الحادث في منطقة مايفير…
+الجيش اليمني يتقدم في غرب محافظة تعز
+        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
         عربي · الشرق الأوسط
 3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
         الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
@@ -92420,20 +92270,20 @@ Jordanians’ Tourist Departures Fall 10.5% in 7 Months
 سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
         بحضور قيادات عسكرية تركية رفيعة
         تركيا · الأناضول
-Neighborhood comes together to give young boy a memorable trick-or-treat birthday
-        When a mother posted a note on Facebook asking if anyone in her neighborhood would allow her son to trick-or-treat at their homes in July for his…
+New movies to look out for this fall
+        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
         أمريكا · CBS
-‘Guilt by association’: why seven international aid workers were killed in Israeli airstrike
-        Exclusive: Guardian investigation reveals targeting of World Central Kitchen convoy was result of widely used military tactic • Death on the road to…
-        بريطانيا · Guardian
+Michael Owen doesn't tell his children he loves them - how big a deal is that?
+        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+        بريطانيا · BBC
 Jordan, Netherlands Sign Defense Cooperation Agreement
         Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
         الأردن · Jordan News
+أليخاندرو بيتانكورت.. مصادر تكشف لـCNN كواليس إغلاق إدارة ترامب سراً تحقيقاً مع "مهندس صفقة النفط الفنزويلي"
+        على مدى عقد، ظل رجل الأعمال الفنزويلي أليخاندرو بيتانكورت متورطًا في تحقيق واسع النطاق لوزارة العدل الأمريكية بشأن مخطط معقد لغسيل أموال بمليارات…
+        عربي · CNN عربية
 الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
         فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
-        عربي · الشرق الأوسط
-الدوري الألماني: الخنوس يتألق في فوز شتوتغارت على كولن
-        حقّق شتوتغارت فوزه الأول في الدوري الألماني هذا الموسم، بتخطيه ضيفه كولن 4-1، الجمعة، في افتتاح المرحلة الثانية.
         عربي · الشرق الأوسط
 5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
         قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
@@ -92441,9 +92291,9 @@ Jordan, Netherlands Sign Defense Cooperation Agreement
 NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
         The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
         أمريكا · CBS
-Isak finally arrives as Gakpo proves value to Liverpool
-        Has the real Alexander Isak finally arrived at Liverpool after his two-goal display in their Premier League win at Ipswich Town, asks chief football…
-        بريطانيا · BBC
+Cameron Myers shines in star-studded field to win 1500m at Diamond League final
+        Australian beats Olympic champs Jakob Ingebrigtsen and Cole Hocker Pole vaulter Kurtis Marschall soars over 5.82m to finish third in Brussels…
+        بريطانيا · Guardian
 Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
         As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
         أمريكا · NYT</desc>
@@ -92451,19 +92301,19 @@ Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
   </programme>
   <programme start="20260905050000 +0000" stop="20260905060000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 17:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:18 — بتوقيتك
 
-طهران تلوّح بهجمات استباقية
-        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع المكسيك
+        أعلنت الولايات المتحدة، الجمعة، أنها أسقطت منذ بداية عام 2026 أكثر من 300 طائرة مسيّرة 2026 أطلقتها عصابات مخدرات على طول الحدود المكسيكية.
         عربي · الشرق الأوسط
 لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
         دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
         تركيا · TRT عربي
-Top military officials faced polygraphs over leaks on munitions, sources say
-        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
+Senior aides to U.K.'s Nigel Farage step down in scandal over undercover report
+        Two senior aides to Nigel Farage, the firebrand leader of the U.K.'s populist Reform party, have stepped down in the wake of an investigative news…
         أمريكا · CBS
-Michael Owen doesn't tell his children he loves them - how big a deal is that?
-        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+Flight price rises due to 'foolish leaders' starting wars, Virgin's Branson says
+        Middle East tensions have choked the production and transportation of oil, causing a surge in the price of car and jet fuels.
         بريطانيا · BBC
 Dubai.. The City that Will Not Bow
         In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
@@ -92471,62 +92321,62 @@ Dubai.. The City that Will Not Bow
 Al-Harasais Receives Congratulations on Army Appointment
         Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
         الأردن · Jordan News
+طهران تلوّح بهجمات استباقية
+        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+        عربي · الشرق الأوسط
 «علي الطاهر» والأسرى يحركان المفاوضات
         فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
-        عربي · الشرق الأوسط
-العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
-        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
         قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
         تركيا · TRT عربي
-Barry Morphew arrested, booked into Boulder County Jail
-        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
+Nigel Farage's Reform U.K. accused of breaking foreign funding law after undercover investigation
+        Reform U.K.'s annual convention comes amid fresh controversy after an undercover investigation alleged that senior figures in Nigel Farage's party…
         أمريكا · CBS
-Rescue of Nepal hydropower workers ‘triumph for humans and humanity’, tunnelling expert says
-        Arnold Dix, an Australian engineer and geologist who worked at Ground Zero after 9/11, says finding two workers alive in Trishuli 3A ‘gives us hope’…
+US judge extends block on Trump order to restrict mail-in voting
+        Indira Talwani’s ruling presents major setback for president as first states begin to send out mail ballots for midterms A federal judge on Friday…
         بريطانيا · Guardian
 Yarmouk University Uncovers Key Archaeological Features
         The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
         الأردن · Jordan News
-رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
-        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
+العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
+        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
         عربي · الشرق الأوسط
 وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
         أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
         تركيا · TRT عربي
-FBI using AI to zero in on threats faster, deputy director says
-        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
+UN votes to adopt new world map to reflect Africa's true size
+        The Togo-sponsored resolution was backed by 164 nations - with the US as the only nation to vote against it.
+        بريطانيا · BBC
+Top military officials faced polygraphs over leaks on munitions, sources say
+        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
         أمريكا · CBS
-New movies to look out for this fall
-        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
+Barry Morphew arrested, booked into Boulder County Jail
+        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
         أمريكا · CBS
-How Gloria Steinem’s lifechanging stay in India shaped her approach to feminism
-        The activist said her two years studying and travelling in country ‘made me who I am’ ‘We badly need to raise our boys more like our girls’: Gloria…
-        بريطانيا · Guardian
 Government Digital Spokesperson “Farah” Joins Instagram
         The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
         الأردن · Jordan News
-الجيش اليمني يتقدم في غرب محافظة تعز
-        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
+رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
+        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
         عربي · الشرق الأوسط
 تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
         أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
         تركيا · TRT عربي
-FBI deputy director explains how agency is using AI to fight crime
-        The FBI is using artificial intelligence to fight crime as it leans into targeting cartels and transnational criminal organizations
+The Grand Tour's new presenters: 'I hope we prove the critics wrong'
+        A new trio has taken the wheel of the motoring TV show from Jeremy Clarkson, Richard Hammond and James May.
+        بريطانيا · BBC
+Heat exceeds 40C in parts of Europe - is a September heatwave in store for the UK?
+        Parts of central and southern Europe have seen temperatures above 40C this week. As things warm up in the UK, is there a heatwave on the way?
+        بريطانيا · BBC
+FBI using AI to zero in on threats faster, deputy director says
+        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
         أمريكا · CBS
-The rise of south-east Asia’s girl bands: ‘The talent and popularity were always here’
-        Girl bands from the Philippines, Indonesia, Malaysia and Thailand are going global with their fusion of traditional and modern sounds “We all know…
-        بريطانيا · Guardian
-Death on the road to Rafah: the night the IDF targeted World Central Kitchen aid workers
-        The Israeli army had helped plan the delivery of food aid on 1 April 2024, but things went wrong from the beginning and ended in seven deaths •…
-        بريطانيا · Guardian
 Jordanians’ Tourist Departures Fall 10.5% in 7 Months
         The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
         الأردن · Jordan News
-سعودي يتعرض للطعن والسرقة وسط لندن
-        تعرض سعودي وسط لندن للطعن أثناء عملية سرقة تعرض لها مساء الخميس. وتداول ناشطون على مواقع التواصل وصول سيارات الشرطة إلى موقع الحادث في منطقة مايفير…
+الجيش اليمني يتقدم في غرب محافظة تعز
+        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
         عربي · الشرق الأوسط
 3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
         الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
@@ -92534,20 +92384,20 @@ Jordanians’ Tourist Departures Fall 10.5% in 7 Months
 سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
         بحضور قيادات عسكرية تركية رفيعة
         تركيا · الأناضول
-Neighborhood comes together to give young boy a memorable trick-or-treat birthday
-        When a mother posted a note on Facebook asking if anyone in her neighborhood would allow her son to trick-or-treat at their homes in July for his…
+New movies to look out for this fall
+        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
         أمريكا · CBS
-‘Guilt by association’: why seven international aid workers were killed in Israeli airstrike
-        Exclusive: Guardian investigation reveals targeting of World Central Kitchen convoy was result of widely used military tactic • Death on the road to…
-        بريطانيا · Guardian
+Michael Owen doesn't tell his children he loves them - how big a deal is that?
+        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+        بريطانيا · BBC
 Jordan, Netherlands Sign Defense Cooperation Agreement
         Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
         الأردن · Jordan News
+أليخاندرو بيتانكورت.. مصادر تكشف لـCNN كواليس إغلاق إدارة ترامب سراً تحقيقاً مع "مهندس صفقة النفط الفنزويلي"
+        على مدى عقد، ظل رجل الأعمال الفنزويلي أليخاندرو بيتانكورت متورطًا في تحقيق واسع النطاق لوزارة العدل الأمريكية بشأن مخطط معقد لغسيل أموال بمليارات…
+        عربي · CNN عربية
 الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
         فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
-        عربي · الشرق الأوسط
-الدوري الألماني: الخنوس يتألق في فوز شتوتغارت على كولن
-        حقّق شتوتغارت فوزه الأول في الدوري الألماني هذا الموسم، بتخطيه ضيفه كولن 4-1، الجمعة، في افتتاح المرحلة الثانية.
         عربي · الشرق الأوسط
 5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
         قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
@@ -92555,15 +92405,129 @@ Jordan, Netherlands Sign Defense Cooperation Agreement
 NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
         The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
         أمريكا · CBS
-Isak finally arrives as Gakpo proves value to Liverpool
-        Has the real Alexander Isak finally arrived at Liverpool after his two-goal display in their Premier League win at Ipswich Town, asks chief football…
-        بريطانيا · BBC
+Cameron Myers shines in star-studded field to win 1500m at Diamond League final
+        Australian beats Olympic champs Jakob Ingebrigtsen and Cole Hocker Pole vaulter Kurtis Marschall soars over 5.82m to finish third in Brussels…
+        بريطانيا · Guardian
 Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
         As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
         أمريكا · NYT</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260905060000 +0000" stop="20260905084813 +0000" channel="TodayNews">
+  <programme start="20260905060000 +0000" stop="20260905070000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:18 — بتوقيتك
+
+الجيش الأميركي يعلن إسقاط 300 مسيّرة لعصابات المخدرات عند الحدود مع المكسيك
+        أعلنت الولايات المتحدة، الجمعة، أنها أسقطت منذ بداية عام 2026 أكثر من 300 طائرة مسيّرة 2026 أطلقتها عصابات مخدرات على طول الحدود المكسيكية.
+        عربي · الشرق الأوسط
+لأول مرة منذ تجدد التصعيد.. الطيران الحربي اليمني يشن 15 غارة على مواقع الحوثيين
+        دخل الطيران الحربي اليمني، مساء الجمعة، خط المواجهة ضد جماعة الحوثي بـ15 غارة جوية شنها على مواقعها بمحافظتي تعز والحديدة غربي البلاد
+        تركيا · TRT عربي
+Senior aides to U.K.'s Nigel Farage step down in scandal over undercover report
+        Two senior aides to Nigel Farage, the firebrand leader of the U.K.'s populist Reform party, have stepped down in the wake of an investigative news…
+        أمريكا · CBS
+Flight price rises due to 'foolish leaders' starting wars, Virgin's Branson says
+        Middle East tensions have choked the production and transportation of oil, causing a surge in the price of car and jet fuels.
+        بريطانيا · BBC
+Dubai.. The City that Will Not Bow
+        In moments of profound upheaval, cities are measured not merely by their soaring skylines, modern infrastructure or economic achievements, but by the…
+        الأردن · Jordan News
+Al-Harasais Receives Congratulations on Army Appointment
+        Chairman of the Joint Chiefs of Staff Maj. Gen. Majdi Mohammad Al-Harasais received congratulations Thursday at the General Command of the Jordan…
+        الأردن · Jordan News
+طهران تلوّح بهجمات استباقية
+        هدَّدت طهران باللجوء إلى ضربات «استباقية» في مواجهة أي تهديد عسكري محتمل، في وقت تستعد واشنطن والقوى الأوروبية لتصعيد الضغوط
+        عربي · الشرق الأوسط
+«علي الطاهر» والأسرى يحركان المفاوضات
+        فتحت التطورات المتزامنة في جنوب لبنان الباب أمام تحريك المفاوضات اللبنانية - الإسرائيلية
+        عربي · الشرق الأوسط
+بعد رفض فانس وصفها بـ"الحرب".. ترمب يقلل من شأن الحرب الأمريكية على إيران ويصفها بأنها "أمر ثانوي"
+        قال الرئيس الأمريكي دونالد ترمب إن الحرب الأمريكية على إيران تمثل "أمرًا ثانويًا" بالنسبة للولايات المتحدة
+        تركيا · TRT عربي
+Nigel Farage's Reform U.K. accused of breaking foreign funding law after undercover investigation
+        Reform U.K.'s annual convention comes amid fresh controversy after an undercover investigation alleged that senior figures in Nigel Farage's party…
+        أمريكا · CBS
+US judge extends block on Trump order to restrict mail-in voting
+        Indira Talwani’s ruling presents major setback for president as first states begin to send out mail ballots for midterms A federal judge on Friday…
+        بريطانيا · Guardian
+Yarmouk University Uncovers Key Archaeological Features
+        The Faculty of Archaeology and Anthropology at Yarmouk University has concluded the first season of excavation and field training at the…
+        الأردن · Jordan News
+العراق: ضحايا «حراك تشرين» لمقاضاة زعيم منظمة «بدر»
+        أُفيد في العراق، أمس، بأن عائلات ضحايا ما يُعرف بـ«حراك تشرين» عام 2019، تحضّر لرفع دعاوى على خلفية تصريحات أدلى بها قبل أيام، زعيم منظمة «بدر»
+        عربي · الشرق الأوسط
+وزارة الدفاع التركية تعلن تواصل البحث عن مفقودي السفينة الغارقة قبالة غيرنة
+        أعلنت وزارة الدفاع التركية، الجمعة، استمرار أعمال البحث والإنقاذ عن مفقودي السفينة التي انقلبت قبالة سواحل مدينة غيرنة بجمهورية شمال قبرص التركية
+        تركيا · TRT عربي
+UN votes to adopt new world map to reflect Africa's true size
+        The Togo-sponsored resolution was backed by 164 nations - with the US as the only nation to vote against it.
+        بريطانيا · BBC
+Top military officials faced polygraphs over leaks on munitions, sources say
+        Some of the highest-ranking officials in the U.S. military were subjected to polygraph tests as part of a sweeping leak probe, U.S
+        أمريكا · CBS
+Barry Morphew arrested, booked into Boulder County Jail
+        Barry Morphew was booked into the Boulder County Jail late Thursday night, according to a custody record.
+        أمريكا · CBS
+Government Digital Spokesperson “Farah” Joins Instagram
+        The government’s digital spokesperson, “Farah,” has launched an official account on Instagram, providing a new digital channel for engaging with the…
+        الأردن · Jordan News
+رئيس الوزراء الإسرائيلي يقترح «مناطق تجريبية» في قطاع غزة
+        كلف رئيس الوزراء الإسرائيلي، بنيامين نتنياهو، ووزير دفاعه، يسرائيل كاتس، الجيش بإعداد تصور لنقل نموذج «المناطق التجريبية» في جنوب لبنان إلى قطاع غزة
+        عربي · الشرق الأوسط
+تركيا تنقذ 26 مهاجرا غير نظامي دفعتهم اليونان إلى المياه التركية
+        أنقذت فرق خفر السواحل التركية 26 مهاجرا غير نظامي أجبرتهم السلطات اليونانية على العودة إلى المياه الإقليمية التركية قبالة ولاية إزمير.
+        تركيا · TRT عربي
+The Grand Tour's new presenters: 'I hope we prove the critics wrong'
+        A new trio has taken the wheel of the motoring TV show from Jeremy Clarkson, Richard Hammond and James May.
+        بريطانيا · BBC
+Heat exceeds 40C in parts of Europe - is a September heatwave in store for the UK?
+        Parts of central and southern Europe have seen temperatures above 40C this week. As things warm up in the UK, is there a heatwave on the way?
+        بريطانيا · BBC
+FBI using AI to zero in on threats faster, deputy director says
+        FBI Deputy Director Christopher Raia says the bureau is turning to artificial intelligence as a tool to identify threats and act on them faster.
+        أمريكا · CBS
+Jordanians’ Tourist Departures Fall 10.5% in 7 Months
+        The number of Jordanians departing the country for tourism purposes reached 904,811 during the first seven months of 2026, according to official data.
+        الأردن · Jordan News
+الجيش اليمني يتقدم في غرب محافظة تعز
+        استعادت القوات المسلحة اليمنية، أمس، موقع تبة، الخزان الاستراتيجي في مديرية جبل حبشي، غرب محافظة تعز خلال مواجهات عنيفة مع جماعة الحوثي
+        عربي · الشرق الأوسط
+3 قتلى وجرحى في غارات إسرائيلية على مناطق جنوبي لبنان
+        الغارات جاءت بعد إعلان الجيش الإسرائيلي بدء قصف مناطق جنوبي لبنان ردا على ما قال إنه إسقاط طائرة مسيرة ادعى أن عناصر من "حزب الله" أطلقوها باتجاه…
+        تركيا · الأناضول
+سفارة باكستان لدى أنقرة تحيي "يوم الدفاع والشهداء"
+        بحضور قيادات عسكرية تركية رفيعة
+        تركيا · الأناضول
+New movies to look out for this fall
+        The fall movie season is here. Variety senior entertainment writer Angelique Jackson joins CBS News to preview some of the films coming out over the…
+        أمريكا · CBS
+Michael Owen doesn't tell his children he loves them - how big a deal is that?
+        His comments sparked discussions around parenting, gender and culture, and just how important those three simple words are.
+        بريطانيا · BBC
+Jordan, Netherlands Sign Defense Cooperation Agreement
+        Deputy Prime Minister and Minister of Foreign Affairs and Expatriates Ayman Safadi met Friday with Dutch Deputy Prime Minister and Minister of…
+        الأردن · Jordan News
+أليخاندرو بيتانكورت.. مصادر تكشف لـCNN كواليس إغلاق إدارة ترامب سراً تحقيقاً مع "مهندس صفقة النفط الفنزويلي"
+        على مدى عقد، ظل رجل الأعمال الفنزويلي أليخاندرو بيتانكورت متورطًا في تحقيق واسع النطاق لوزارة العدل الأمريكية بشأن مخطط معقد لغسيل أموال بمليارات…
+        عربي · CNN عربية
+الزمالك يتخطى بورت الجيبوتي في الدور التمهيدي لـ«أبطال أفريقيا»
+        فاز الزمالك بطل الدوري المصري الممتاز 2-1 على مضيفه «إيه إس بورت» من جيبوتي في مباراة الذهاب بالدور التمهيدي بدوري أبطال أفريقيا، الجمعة.
+        عربي · الشرق الأوسط
+5 قتلى و24 جريحا في غارات إسرائيلية على مناطق بجنوب لبنان وشرقه
+        قُتل 5 أشخاص وأصيب 24 آخرون، مساء الجمعة، جراء سلسلة غارات إسرائيلية استهدفت مناطق متفرقة جنوبي وشرقي لبنان.
+        تركيا · TRT عربي
+NFL demands Kalshi and Polymarket refrain from offering questionable sports bets
+        The NFL is demanding that prediction markets like Kalshi and Polymarket stop offering risky bets that can be easily influenced by one person
+        أمريكا · CBS
+Cameron Myers shines in star-studded field to win 1500m at Diamond League final
+        Australian beats Olympic champs Jakob Ingebrigtsen and Cole Hocker Pole vaulter Kurtis Marschall soars over 5.82m to finish third in Brussels…
+        بريطانيا · Guardian
+Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
+        As the Open grows ever more popular, tennis fans wonder if “the people’s tournament” has become too rowdy.
+        أمريكا · NYT</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260905070000 +0000" stop="20260905091841 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260905185000 +0300" stop="20260905185500 +0300" channel="ThmanyahGuide">
@@ -99127,4 +99091,412 @@ Influencers, Noise and Weed: Has the U.S. Open Become a ‘Zoo’?
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-<programme start="20260905090857 +0000" stop="20260905091106 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905084813 +0000" stop="20260905091106 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260904000000 -0700" stop="20260904010000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904010000 -0700" stop="20260904020000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904020000 -0700" stop="20260904030000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904030000 -0700" stop="20260904040000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904040000 -0700" stop="20260904050000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904050000 -0700" stop="20260904060000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904060000 -0700" stop="20260904070000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904070000 -0700" stop="20260904080000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904080000 -0700" stop="20260904090000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904090000 -0700" stop="20260904100000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904100000 -0700" stop="20260904110000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904110000 -0700" stop="20260904120000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904120000 -0700" stop="20260904130000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904130000 -0700" stop="20260904140000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904140000 -0700" stop="20260904150000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904150000 -0700" stop="20260904160000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904160000 -0700" stop="20260904170000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904170000 -0700" stop="20260904180000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904180000 -0700" stop="20260904190000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904190000 -0700" stop="20260904200000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904200000 -0700" stop="20260904210000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904210000 -0700" stop="20260904220000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904220000 -0700" stop="20260904230000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+  <programme start="20260904230000 -0700" stop="20260905000000 -0700" channel="AccuWeatherNow">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">【 الإمارات 】
+  أبو ظبي: 34° • صافٍ • 💧 67% • 💨 6 كم/س
+  دبي: 32° • صافٍ • 💧 75% • 💨 6 كم/س
+【 الأردن 】
+  عمّان: 21° • صافٍ • 💧 48% • 💨 5 كم/س
+  إربد: 21° • غائم جزئيًا • 💧 92% • 💨 6 كم/س
+  الزرقاء: 20° • صافٍ • 💧 72% • 💨 4 كم/س
+  العقبة: 31° • صافٍ • 💧 36% • 💨 9 كم/س
+【 أمريكا 】
+  نيويورك: 28° • صافٍ • 💧 47% • 💨 16 كم/س
+  لوس أنجلوس: 28° • صافٍ • 💧 50% • 💨 16 كم/س
+  شيكاغو: 34° • صافٍ • 💧 47% • 💨 17 كم/س
+———
+آخر تحديث: 2026-09-04 15:01 (بتوقيتك)</desc>
+  </programme>
+<programme start="20260905092550 +0000" stop="20260905092913 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905091841 +0000" stop="20260905092913 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260905070000 +0000" stop="20260905092913 +0000" channel="AccuWeatherNow"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
