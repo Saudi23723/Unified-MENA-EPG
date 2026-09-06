@@ -113,10 +113,17 @@ jobs:
       # A backstop, not the mechanism: if the script died between writing
       # a guide and pushing it, the work is still on disk and this gets it
       # out rather than letting it be thrown away with the runner.
+      #
+      # XML only. Nothing here draws a board any more (مباريات اليوم left
+      # the generator list, and it was the only one that did), so staging
+      # boards/ from this workflow could only publish one half of a
+      # board+segment pair that belongs to the ten-minute workflow. A
+      # board without its segment is the stale-screen fault the gate
+      # exists to catch, so the pattern is left out on purpose.
       - name: Push anything the script left behind
         if: always()
         run: |
-          git add -- '*.xml' boards
+          git add -- '*.xml'
           if git diff --cached --quiet; then
             echo "Nothing left uncommitted."
             exit 0

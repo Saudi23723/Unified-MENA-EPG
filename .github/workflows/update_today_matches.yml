@@ -212,106 +212,32 @@ jobs:
         run: python -u channel_gate_selftest.py
         continue-on-error: true
 
-      # Publishing a GENERATED file must never rebase it.
+      # Publishing a GENERATED file must never rebase it, and a screen
+      # must never be published in pieces.
       #
-      # This step rebased, and it failed the moment the two schedules
-      # overlapped: the full build writes today_matches_epg.xml too — it
-      # runs this generator like the other thirteen — so both workflows
-      # push the same file, and git tried to merge one generated version
-      # into another. It conflicts every single time, and because the step
-      # runs under `bash -e` the failing `git pull --rebase` killed the
-      # job outright: the loop below never got a second attempt, and the
-      # pass published nothing at all.
+      # The step that lived here restored a rejected push path by path:
+      # take main as it now stands, put our version of each path this
+      # pass had touched back on top. A pass whose encoder had failed
+      # part way — a failure this workflow tolerates on purpose — carried
+      # an XML and fresh boards in its diff but no segments, and the
+      # restore stamped that XML and those boards on top of the other
+      # run's segments as one commit. Two runs wearing one commit is a
+      # torn screen, and the visible symptom was tomorrow's first board
+      # not showing.
       #
-      # build_all_epg.publish() already had the answer written down —
-      # nothing here needs merging, because these files are written whole
-      # by the pass that just ran. So on a rejection: take main as it now
-      # stands, put THIS pass's files back on top of it, commit that. The
-      # files are restored one path at a time from our own commit, and a
-      # path our pass removed (an old segment) is removed again rather
-      # than resurrected — no directory is ever deleted wholesale, which
-      # is how published work gets lost by accident.
+      # So the whole publish now lives in publish_screens.py, where the
+      # unit of publishing is a SCREEN, not a path: a pass that touched
+      # a screen restores all of it from its own commit — XML, boards,
+      # manifest, segments, playlist, stamp and ledgers together — and
+      # a pass that did not touch one keeps the winning run's copy
+      # whole. No half of anything can reach main through a retry. And
+      # the screen gate runs inside its loop: a push happens only when
+      # the gate holds (the one known Alwan row excepted), so a pass
+      # whose screens disagree with their boards publishes nothing at
+      # all, leaves the step red, and lets the next pass — five minutes
+      # away — build cleanly from scratch.
       - name: Publish it if it changed
-        run: |
-          stage() {
-            git add -- today_matches_epg.xml
-            # Never name a path that may not exist yet: git add fails the
-            # whole command on a pathspec that matches nothing, and on the
-            # first pass neither the boards nor the playlist are there —
-            # nor, until it has built once, the second board's guide.
-            [ -f other_sports_epg.xml ] && git add -- other_sports_epg.xml || true
-            [ -f news_epg.xml ] && git add -- news_epg.xml || true
-            [ -f weather_epg.xml ] && git add -- weather_epg.xml || true
-            [ -f weather.json ] && git add -- weather.json || true
-            [ -d boards ] && git add -- boards || true
-            [ -f ai_sports_dashboard.m3u ] && git add -- ai_sports_dashboard.m3u || true
-            [ -f ai_sports_dashboard_dubai.m3u ] && git add -- ai_sports_dashboard_dubai.m3u || true
-            [ -f dubai_matches_epg.xml ] && git add -- dubai_matches_epg.xml || true
-            [ -f dubai_sports_epg.xml ] && git add -- dubai_sports_epg.xml || true
-            [ -f dubai_news_epg.xml ] && git add -- dubai_news_epg.xml || true
-            [ -f dubai_weather_epg.xml ] && git add -- dubai_weather_epg.xml || true
-            [ -d stream ] && git add -- stream || true
-          }
-
-          stage
-          if git diff --cached --quiet; then
-            echo "Nothing changed."
-            exit 0
-          fi
-          git commit -m "Update today's matches"
-
-          for attempt in 1 2 3 4 5; do
-            if git push origin HEAD:main; then
-              echo "Pushed on attempt $attempt"
-              exit 0
-            fi
-            echo "Push rejected, rebuilding on top of main ($attempt/5)"
-
-            ours=$(git rev-parse HEAD)
-            changed=$(git diff --name-only "${ours}^" "$ours")
-            git fetch origin main
-            git reset --hard origin/main
-
-            # Our version of each path this pass touched, and only those.
-            printf '%s\n' "$changed" | while IFS= read -r path; do
-              [ -n "$path" ] || continue
-              if git cat-file -e "$ours:$path" 2>/dev/null; then
-                git checkout "$ours" -- "$path"
-              else
-                git rm -f --quiet --ignore-unmatch -- "$path"
-              fi
-            done
-
-            # stream/ has to be reconciled as a whole, not path by path.
-            # Restoring only the paths THIS pass touched leaves behind a
-            # segment some other pass published while we were working —
-            # ours is not in our own diff, so nothing removes it, and the
-            # screen gate goes red on a segment no playlist names. The
-            # encoder sweeps exactly that, and re-running it here is free:
-            # the fingerprint is unchanged so it does not re-encode.
-            #
-            # BOTH screens, named. The encoder takes a screen argument
-            # now and defaults to today_matches, so the bare call that
-            # used to reconcile everything reconciles half of it: an
-            # orphaned other_sports_ segment would survive every retry
-            # and turn the gate red on the NEXT pass, before that pass
-            # had committed anything. Each call sweeps only its own
-            # prefix, so both have to be made.
-            python -u match_screen_video.py today_matches || true
-            python -u match_screen_video.py other_sports || true
-            python -u match_screen_video.py today_news || true
-            python -u match_screen_video.py today_weather || true
-            [ -d stream ] && git add -A -- stream || true
-
-            if git diff --cached --quiet; then
-              echo "Main already carries this pass."
-              exit 0
-            fi
-            git commit -m "Update today's matches"
-            sleep $(( (RANDOM % 5) + 2 ))
-          done
-          echo "Failed to push after 5 attempts"
-          exit 1
+        run: python -u publish_screens.py
         continue-on-error: true
 
       - name: ✅ BUILD COMPLETE - FULLY NON-BLOCKING
