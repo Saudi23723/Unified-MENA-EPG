@@ -272,12 +272,7 @@ WANTED_EXACT = {
     "tff 1. lig", "trendyol 1. lig", "1. lig",
     # The Canadian leagues the Canadian feeds themselves name — asked
     # for with the channels that carry them, and wanted by the word the
-    # broadcaster's own title prints. NWSL is not here, deliberately:
-    # the two pages that carry it disagree about its name — one heads
-    # the block "NWSL Women", the other "NWSL" — and an exact test
-    # answers to only one of the two spellings. The word itself names
-    # one league and nothing else, so it is matched as a family, below,
-    # where it finds the league whatever either page calls it.
+    # broadcaster's own title prints.
     "mls", "canadian premier league", "women's super league",
 }
 
@@ -293,12 +288,6 @@ WANTED_PARTS = (
     "jordan",
     # Egypt beyond the league — the cup and the super cup.
     "egypt",
-    # The American women's league, which the two pages that carry it
-    # name differently — "NWSL Women" against "NWSL" — so the word, not
-    # the exact name, is what the board answers to. Measured the day it
-    # was missed: four of a weekend's five games were refused because
-    # the page that won the merge was the one that spells it "Women".
-    "nwsl",
     # England's cups. "efl" catches the League Cup whatever sponsor's name
     # is on it this season, which is what "carabao" alone would miss the
     # moment the sponsor changes.
@@ -307,6 +296,44 @@ WANTED_PARTS = (
     "turkish cup", "kupası", "kupasi",
     "king cup", "coppa italia", "copa del rey", "coupe de france", "dfb",
 )
+
+# THE NEVER-LIST, and why it is not just an absence from the lists above.
+#
+# "CH1 soccer-ONLY: remove NWSL and the AFL women's series, and the
+# future of these two" — removing a league from the WANTED lists is only
+# half of that, because the league comes back the day any page, feed or
+# guide starts naming it again. So the families that were asked off are
+# refused outright, on the competition and on the title both, before any
+# wanted test runs:
+#
+#   nwsl   the American women's league, however a page spells it —
+#          "NWSL", "NWSL Women", the "NWSL+" its streaming arm prints
+#   nsl    the Northern Super League, Canada's women's league in the
+#          same family and new the same season — a "future of these",
+#          and measured landing on this board labelled "MLS" by the
+#          fallback below, which is worse than not showing: it says a
+#          men's league is on
+#   aflw / afl women / women's afl
+#          Australia's women's football series
+#   nrlw / nrl women / women's nrl
+#          the women's rugby-league series the Canadian feeds carry
+#          under sport names this board could one day be fed
+#
+# England's Women's Super League is NOT here: it was asked for by name
+# and stays. FIFA's women's competitions are not here either — they are
+# international football, wanted by the "fifa" and "world cup" words
+# above, and a women's World Cup qualifier belongs on a soccer board as
+# much as any other international.
+#
+# Word-bounded on purpose: "nsl" without edges would refuse a page that
+# writes "Mens' League" carelessly, and "wsl" is not listed at all
+# because it sits INSIDE "nwsl" — the family match is done by these
+# whole words, never by scrap.
+NEVER_LISTED = re.compile(
+    r"\bnwsl\b|\bnsl\b|\baflw\b|\bnrlw\b"
+    r"|\bafl\s+women\b|women'?s\s+afl\b"
+    r"|\bnrl\s+women\b|women'?s\s+nrl\b",
+    re.I)
 
 # What the third page is asked for, and nothing else.
 #
@@ -506,11 +533,19 @@ def competition_of(row) -> str:
 # is handed. FIFA's competitions are already wanted by their own word,
 # and MLS and the CPL are wanted by name below, because a reader asked
 # for these channels by name and their game comes with them.
+#
+# The NWSL pair is gone, on purpose, and with it the league. A soccer
+# board that had carried it for a long time was asked to become
+# soccer's page alone and to stop carrying the American women's league
+# and its neighbours' women's series — and to make that stick, the
+# league is refused outright in NEVER_LISTED below rather than merely
+# unlisted here, so no page, feed or guide that starts carrying it
+# tomorrow can put it back. The WSL pair STAYS: England's Women's Super
+# League was asked for by name and is not the league going.
 CANADAS_LEAGUES = (
     ("fifa", "fifa"),
     ("mls", "mls"),
     ("cpl", "canadian premier league"),
-    ("nwsl", "nwsl"),
     ("wsl", "women's super league"),
     ("premier league", "premier league"),
 )
@@ -527,6 +562,17 @@ CANADAS_FEED_LEAGUES = {
 
 def canadas_competition(event: dict) -> str:
     """The league a Canadian feed's row names, in the board's words."""
+    # The never-listed leagues are answered with no league at all rather
+    # than the one the fallback would invent for them: "NSL on TSN:
+    # Ottawa vs. Montreal" is the Northern Super League — a women's
+    # league in the family that was asked off — and the fallback below
+    # would hand it "MLS" on no better evidence than " on tsn", while
+    # the lead-stripper takes the real word out of the title before
+    # wanted() could refuse it. Empty competition is refused by wanted()
+    # on its own, which is the correct refusal: the league is not
+    # mislabelled, it is not carried.
+    if NEVER_LISTED.search(event.get("title") or ""):
+        return ""
     by_the_feed = CANADAS_FEED_LEAGUES.get((event.get("league") or "").casefold())
     if by_the_feed:
         return by_the_feed
@@ -583,6 +629,14 @@ def wanted(event: dict) -> bool:
 
     competition = event["competition"].casefold()
     teams_folded = event["title"].casefold()
+
+    # The never-list is checked FIRST, and on the title as well as the
+    # competition, because the two disagree in exactly the families it
+    # exists for: a feed hands the row a league from its title, and a
+    # listings page hands it nothing at all. A league that was asked off
+    # stays off whichever of the two named it.
+    if NEVER_LISTED.search(competition) or NEVER_LISTED.search(teams_folded):
+        return False
 
     # Austria borrows Germany's word for its league; the clubs are the only
     # thing that tells the two apart.

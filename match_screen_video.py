@@ -276,7 +276,12 @@ def boards(prefix: str) -> list[str]:
 # audio/theme.m4a WITH DIFFERENT AUDIO REQUIRES BUMPING THIS NUMBER, or
 # every segment keeps its old name and goes on playing the music it was
 # encoded with. The number is the whole mechanism.
-ENCODER_REVISION = 9
+#
+#   10  the news theme swapped again: the bed the reader could not
+#       stand for Mixkit track 568, "Focus on Yourself", the same
+#       140.000 s -20 LUFS recipe. The dubai_news screen shares the
+#       file, so both news screens change together.
+ENCODER_REVISION = 10
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #

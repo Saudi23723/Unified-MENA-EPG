@@ -687,14 +687,122 @@ def gate_the_screen_cannot_go_stale() -> None:
           (sequence(live), sequence(after)), (0, 0))
 
     boards_dir, stream_dir = "boards", "stream"
-    # BOTH screens, because there are two now and the second can go out
-    # of step exactly as the first did. A gate that checks one of them
-    # proves nothing about the other, and they publish into the same
-    # directory from the same pass.
-    for prefix, name in (("today_matches_", "screen.m3u8"),
-                         ("other_sports_", "sports.m3u8"),
-                         ("today_weather_", "weather.m3u8")):
-        one_screen(boards_dir, stream_dir, prefix, name, hashlib, _os, _re)
+    # ALL EIGHT SCREENS, because there are two clocks now and each clock
+    # owns four channels, and the fifth screen can go out of step
+    # exactly as the first did. A gate that checks three of them proves
+    # nothing about the other five, and every one of them publishes into
+    # the same directory from the same pass. The table is the publish
+    # step's own, so a ninth screen added there is checked here without
+    # this file being told — and the two cannot disagree about how many
+    # screens there are.
+    import publish_screens as publisher
+    for _name, (prefix, xml, playlist, _stamp) in publisher.SCREENS.items():
+        one_screen(boards_dir, stream_dir, prefix, playlist,
+                   hashlib, _os, _re)
+        one_guide(boards_dir, prefix, xml)
+
+
+def one_guide(boards_dir: str, prefix: str, xml: str) -> None:
+    """The XML, the manifest and the boards of ONE screen, agreeing.
+
+    one_screen holds the stream together — boards, segments, playlist.
+    This holds the other half of a screen: the guide that says when the
+    boards are on, the manifest that says how many boards each day took,
+    and the boards themselves. A screen can go out of step on this side
+    exactly as it can on the stream side, and nothing here checked it.
+
+    NOTHING PUBLISHED YET IS NOT A FAILURE, exactly as in one_screen: a
+    fresh clone has no XML and no boards until the first build makes
+    them, and the gate proves nothing either way.
+
+    Checked against the FILES, not against the code that wrote them, for
+    the same reason one_screen is: a guard that only reads the source
+    proves the intention; this proves the result.
+    """
+    path = xml
+    if not os.path.isdir(boards_dir) or not os.path.exists(path):
+        # Nothing published yet, nothing to contradict.
+        check("SCREEN", f"{prefix} nothing published yet, nothing to "
+                        f"contradict", True, True)
+        return
+
+    from epg_lib import NOTHING_KNOWN
+
+    root = ET.parse(path).getroot()
+
+    # One channel is the whole point of a screen: two channels in one
+    # XML is one screen's programmes riding another's file, which is the
+    # torn-publish fault this whole gate family exists to catch.
+    channels = root.findall("channel")
+    check("SCREEN", f"{prefix} the guide carries one channel",
+          len(channels), 1)
+
+    # A programme that says NOTHING_KNOWN is the honest stand-in, not a
+    # broadcast: it carries no icon and no day, and counting it as one
+    # would make every count below lie by exactly the filler's count.
+    programmes = root.findall("programme")
+    real = [p for p in programmes
+            if (p.findtext("title") or "").strip() != NOTHING_KNOWN]
+
+    # The boards the GUIDE points at, numbered straight through with no
+    # hole — a hole is a day's boards half restored, and today is the
+    # day the channel is named after.
+    numbered = re.compile(re.escape(prefix) + r"(\d+)\.png$")
+    pngs = sorted((name for name in os.listdir(boards_dir)
+                   if name.startswith(prefix) and name.endswith(".png")),
+                  key=lambda name: int(numbered.search(name).group(1)))
+    numbers = [int(numbered.search(name).group(1)) for name in pngs]
+    check("SCREEN", f"{prefix} boards are numbered straight through, "
+                    f"no holes", numbers, list(range(len(pngs))))
+
+    # Every real programme points at a board of its own screen, and the
+    # board it points at is published — the icon is the only place a
+    # guide says which board carries its day, and a guide naming an
+    # unpainted board is a screen whose XML was written ahead of its
+    # boards, which is exactly the torn state.
+    def board_of(src):
+        found = re.search(r"/boards/" + re.escape(prefix) + r"(\d+)\.png$",
+                          src)
+        return int(found.group(1)) if found else None
+
+    icons = [board_of(p.find("icon").get("src") if p.find("icon") is not None
+                      else "") for p in real]
+    check("SCREEN", f"{prefix} every real programme points at one of "
+                    f"the screen's own boards",
+          [i for i in icons if i is None or i not in numbers], [])
+    missing = [i for i in icons if i is not None
+               and not os.path.exists(os.path.join(
+                   boards_dir, f"{prefix}{i}.png"))]
+    check("SCREEN", f"{prefix} and every board it points at is published",
+          missing, [])
+
+    # THE DAY MANIFEST, for the four screens the builder writes one for.
+    # One line per day the guide programmes, each line saying how many
+    # boards that day took, and each programme pointing at its day's
+    # FIRST board — because that is the board a viewer lands on when the
+    # day arrives, and a guide whose programme points at a later board
+    # of its own day skips the day's first page on every tune-in.
+    # The news and weather bulletins have no days: every programme is
+    # the same rolling bulletin, and every programme points at board
+    # zero — and a bulletin whose icon is ahead of its own first page
+    # is the same fault in miniature.
+    manifest = os.path.join(boards_dir, f"{prefix}days.txt")
+    if os.path.exists(manifest):
+        with open(manifest, encoding="utf-8") as handle:
+            counts = [int(line) for line in handle if line.strip()]
+        check("SCREEN", f"{prefix} one manifest line per day the guide "
+                        f"programmes", len(counts), len(real))
+        check("SCREEN", f"{prefix} the manifest accounts for every board "
+                        f"on disk", sum(counts), len(pngs))
+        running, firsts = 0, []
+        for count in counts:
+            firsts.append(running)
+            running += count
+        check("SCREEN", f"{prefix} each programme points at its day's "
+                        f"first board", icons, firsts)
+    else:
+        check("SCREEN", f"{prefix} the bulletin points at board zero",
+              icons, [0] * len(icons))
 
 
 def one_screen(boards_dir, stream_dir, prefix, playlist_name,
@@ -2745,10 +2853,15 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
     FIBA, golf, the Rugby World Cup, padel — so that order is the order
     rows appear in, not a sorting by clock. Inside one sport the clock
     decides, because two bouts on a Saturday are read as they happen.
+    The order has grown since — MLB, cycling, snooker, athletics came
+    with their own pages — and snooker is on the synthetic page below
+    for exactly that reason: the snapshot here must name the sports the
+    reader asks for NOW, or every addition turns this gate red for
+    being right.
 
     A SPORT NOT ASKED FOR CANNOT REACH THE BOARD. The sources carry
-    cricket, snooker, horse racing, speedway, baseball, Aussie rules and
-    a dozen more; none was asked for and none appears.
+    cricket, horse racing, speedway, Aussie rules and a dozen more;
+    none was asked for and none appears.
 
     AN EVENT WITH NO PUBLISHED CHANNEL DOES NOT APPEAR EITHER, and that
     is the rule every board here obeys. The one thing this screen must
@@ -2774,6 +2887,7 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
         event("Golf", "The Open - Round 2", 11, []),
         # Never asked for, and on the same pages as the ones that were.
         event("Cricket", "England - Ireland", 12, ["Sky Sports Cricket"]),
+        # Asked for since the snooker page arrived; it reaches the board.
         event("Snooker", "English Open", 10, ["TNT Sports 1"]),
     ]
     kept = board.in_the_readers_order(
@@ -2792,10 +2906,10 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
           clocks, sorted(clocks))
     check("BOARD2", "and the sports asked for are the ones that arrived",
           sorted({one["sport"] for one in kept}),
-          ["Boxing", "Darts", "F1", "NFL", "Tennis"])
+          ["Boxing", "Darts", "F1", "NFL", "Snooker", "Tennis"])
     check("BOARD2", "a sport nobody asked for cannot reach the board",
           [one["title"] for one in kept
-           if one["sport"] in ("Cricket", "Snooker")], [])
+           if one["sport"] in ("Cricket",)], [])
     check("BOARD2", "and nor can an event with no channel named",
           [one["title"] for one in kept if one["sport"] == "Golf"], [])
     # AND NO ROW WEARS AN EMOJI. This gate used to require one — every
@@ -4811,8 +4925,32 @@ def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
         row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
         row(main, "UFC Fight Night", ["DAZN"]),
     ])
-    check("ONEROW", "and neither is one with no channel in common",
-          len(elsewhere), 2)
+    # MEASURED ON THE BOARD: a card's prelims and main card printed
+    # twice — Sportsnet 360's rows naming the card's fighters beside
+    # Sky's plain ones, at the same minute, with NO channel in common,
+    # because the two broadcasters are two countries' carriers of one
+    # card. The card's own family and the same part of the night are
+    # the identity, and the only identity allowed to cross the channel
+    # gap. So this pair is ONE row now, wearing the title that names
+    # more.
+    check("ONEROW", "one card, two countries' carriers, no channel "
+          "in common, is one row", len(elsewhere), 1)
+    check("ONEROW", "and the title that names more is the one kept",
+          elsewhere[0]["title"], "UFC Fight Night Hooker vs Parnasse")
+
+    # The identities that must still refuse the fold, each alone.
+    another_card = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC 331", ["DAZN"]),
+    ])
+    check("ONEROW", "two different cards at one minute stay two rows",
+          len(another_card), 2)
+    another_part = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC Fight Night Prelims", ["DAZN"]),
+    ])
+    check("ONEROW", "the same card's two parts stay two rows",
+          len(another_part), 2)
 
     unlike = board.one_row_per_broadcast([
         row(main, "Boxing: De Los Santos v Valenzuela", ["Sky Mix"],

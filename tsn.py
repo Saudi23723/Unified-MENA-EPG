@@ -28,13 +28,16 @@ streaming numbers — TSN+01 through TSN+23 — and they are left where they
 sit: the boards answer "where to watch", and a streaming number is not a
 channel a reader can tune to beside beIN and Sky.
 
-THE SPORT GATES THE BOARD. Tennis, rugby, F1, MotoGP, NFL, golf and the
-UFC's own words map to the other-sports board's rows; soccer maps to the
-football board; the studio programmes — SPORTSCENTRE, the news blocks,
-the reality shows — are the channel's filler between events, not events,
-and are left where they sit. A "vs." in a title is not required here the
-way it is for Sportsnet, because a race or a tennis block is an event
-with no two sides to name.
+THE SPORT GATES THE BOARD. Tennis, rugby, F1, MotoGP, NFL, golf, the
+UFC's own words and baseball's majors map to the other-sports board's
+rows; soccer maps to the football board; basketball is judged by its
+title — the NBA and FIBA's competitions were asked for, the WNBA and US
+college were not, and the feed files them all under one word; the
+studio programmes — SPORTSCENTRE, the news blocks, the reality shows —
+are the channel's filler between events, not events, and are left
+where they sit. A "vs." in a title is not required here the way it is
+for Sportsnet, because a race or a tennis block is an event with no
+two sides to name.
 
 THE TIME IS UTC ALREADY. The feed prints "2026-09-05T15:00:00Z" — no
 zone to guess at, no DST boundary to cross, the instant itself.
@@ -48,6 +51,7 @@ the way that works, which is the way the data arrives.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from urllib.parse import quote
 
@@ -69,7 +73,16 @@ AS_A_SPORT = {
     "Auto Racing": None,      # judged by its title below, for F1 alone
     "Sailing": None,
     "Wrestling": None,
-    "Baseball": None,
+    # Baseball on TSN is the majors, measured twice in the feed's own
+    # words: "MLB on TSN: Braves vs. Phillies" and "Sunday Night
+    # Baseball: Twins vs. White Sox", both on the television channels.
+    # Nothing else the feed files under Baseball is a competition this
+    # board was asked for, so the word is the map and the title is not
+    # consulted.
+    "Baseball": "MLB",
+    # Basketball is judged by its title below, the way Auto Racing is:
+    # the feed files the NBA, the WNBA, the FIBA World Cup and US
+    # college under one word, and only two of those were asked for.
     "Basketball": None,
     "Football, U.S. College": None,
     "Soccer": "Football",     # the football board's, handed to its caller
@@ -87,10 +100,24 @@ AS_A_SPORT = {
 # read. A title that names Formula 1 is an F1 row whatever its channel.
 THE_F1_WORDS = ("formula 1", "f1", "formula one")
 
+# And the words that make a basketball row one of the two basketball
+# competitions the board was asked for. Both are word-bounded on
+# purpose: \"wnba\" carries \"nba\" inside it as three consecutive letters,
+# and the women's league was not asked for — an ordinary `in` test
+# would have let it through by spelling alone. \"Raptors\" sits beside
+# the league's own word because it is the NBA team a Canadian
+# broadcaster carries, and the feed's own titles name the team without
+# naming the league: \"Raptors vs. Celtics\" is an NBA row by every
+# word on it except the one it never prints.
+THE_NBA_WORDS = (re.compile(r"\bnba\b", re.I),
+                 re.compile(r"\braptors\b", re.I))
+THE_FIBA_WORDS = (re.compile(r"\bfiba\b", re.I),)
+
 
 def events(session, floor: datetime, ceiling: datetime,
            sports: tuple[str, ...] = ("Tennis", "Rugby", "NFL", "Golf",
-                                      "MMA", "Soccer", "Auto Racing")) -> list[dict]:
+                                      "MMA", "Soccer", "Auto Racing",
+                                      "Baseball", "Basketball")) -> list[dict]:
     """TSN's own grid, in the window, in the sports asked for."""
     url = f"{SOURCE}?query={quote(A_QUERY)}"
     try:
@@ -141,6 +168,20 @@ def _as_an_event(item: dict, sports: tuple[str, ...]) -> dict | None:
         if the_sport == "Auto Racing" and any(
                 word in lowered for word in THE_F1_WORDS):
             a_sport = "F1"
+        # And a basketball row is judged the same way, because the feed
+        # files the NBA, the WNBA, FIBA's competitions and US college
+        # under the one word "Basketball", and only the NBA and FIBA
+        # were asked for. Measured in the feed's own titles: "2026
+        # FIBA Women's World Cup: Türkiye - Australia" and the NBA
+        # preseason rows the season turns up, against WNBA rows the
+        # word boundary refuses.
+        elif the_sport == "Basketball":
+            if any(word.search(name) for word in THE_NBA_WORDS):
+                a_sport = "NBA"
+            elif any(word.search(name) for word in THE_FIBA_WORDS):
+                a_sport = "FIBA"
+            else:
+                return None
         else:
             return None
 
@@ -149,8 +190,15 @@ def _as_an_event(item: dict, sports: tuple[str, ...]) -> dict | None:
     # event from the channel's filler between them. "US Open Match
     # Point" is a highlight show, "Hard Knocks" is a documentary —
     # neither has the shape of the event it talks about.
+    # And a race weekend has its own pair, measured on this feed:
+    # "2026 F1 Grand Prix Sunday:" is the morning-of preview and "2026
+    # F1 Chequered Flag:" is the evening's review — the race is on the
+    # feed between them, at its own minute, and the board prints the
+    # race, not the shows about it.
     if (lowered.startswith("sc:") or "sportcentre" in lowered
-            or lowered.endswith("match point") or "hard knocks" in lowered):
+            or lowered.endswith("match point") or "hard knocks" in lowered
+            or "grand prix sunday" in lowered
+            or "chequered flag" in lowered):
         return None
 
     try:

@@ -816,6 +816,158 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
     return kept
 
 
+# ── Events our own guides have, in the other sports ─────────────────────
+#
+# "View as many broadcast channels per match as possible" and "Add
+# Triathlon, Olympics or similar competitions with broadcasts in US, UK,
+# beIN or Turkey" — and the answer was already published here, because
+# this repository's own guides are broadcasters' own grids and they
+# carry world-class events no listings page anywhere has:
+#
+#   beIN SPORTS EN 1   ATL vs PHI - MLB - 2026/27 • Live 🔵
+#   beIN SPORTS EN 1   NYY vs SD - MLB - 2026/27 • Live 🔵
+#   beIN SPORTS EN 1   TEX vs SEA - MLB - 2026/27 • Live 🔵
+#
+# — and nothing else live in this window. The grids carry the FIBA
+# Asian Qualifiers on beIN SPORTS 6, T100 Triathlon Vancouver, the
+# World Athletics U20 Championship in Oregon, the UTMB World Series
+# and Alkass's West Asia Volleyball too, and EVERY one of those
+# airings repeats later with no live mark: 46 named rows measured in
+# this window, three of them live, all three MLB. The competitions
+# stay in the table because the guide is a broadcaster's own grid and
+# its live mark is written in the title it prints — the day one of
+# these competitions IS shown live, the row appears on its own.
+#
+# THE SAME NARROW RULE AS THE FIGHTS: a competition is named, not a
+# channel, and the channel comes from whichever of the guide's own
+# channels is showing it. Each line below says "this guide, this
+# competition's own words, this sport" — and the title the viewer reads
+# is the guide's own title with only its live markers taken off, never
+# renamed, because a match's name is never overridden.
+#
+# WHAT IS NOT HERE, MEASURED. STARZPLAY's guide carries La Vuelta too —
+# and every one of its rows is a stage the British page already lists
+# on TNT Sports and HBO Max, or a repeat of one: Stage 13 aired on
+# YAS TV Extra on the 4th and twice again on the 5th, "Daily H" and
+# "Weekly" rows are highlights, and one "Weekly" row runs a full
+# twenty-four hours as a loop. Cycling is carried complete by the
+# listings source with the channels asked for (UK), so a line here
+# would print the same stages twice and nothing else. The same test
+# kept the table to the events NO listings page has.
+#
+# AND THE REPEAT RULE. A repeat airs later the same day with no live
+# mark — T100 repeats seven times across five days — so the rule is
+# the guide's own live mark on the row itself, the same rule the
+# fights obey, and a row without it never reaches the board. The one
+# row kept is the live airing: T100 airs its race one morning, UTMB's
+# 100 km runs from one afternoon into the next, and a race that runs
+# past midnight is still one race, not one per day it touches — the
+# LA-day fold below catches a live race that starts before midnight
+# and repeats live after it, which no broadcaster does.
+#
+# AND THE SHAPE RULE, measured on the same grids: a real event here
+# runs 105 minutes (a FIBA qualifier) to 465 (a UTMB night), and a
+# programme about the sport runs 15 to 35 ("Daily H", "MLB Plays of
+# the Week", a stage preview). Under an hour is a magazine; past nine
+# hours is a channel looping tape — the same ceiling the fights drew
+# from Roya's own shelf — and both are refused on their own shape
+# before any word in their title is consulted.
+OUR_OWN_EVENTS = (
+    # (guide, mark, what the title must say, what it must never say,
+    #  the sport the row carries)
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"\bMLB\b", re.I),
+     re.compile(r"plays of the week|highlights|film des finales|"
+                r"weekly|daily|review|preview|magazine", re.I),
+     "MLB"),
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"\bFIBA\b", re.I),
+     re.compile(r"world basketball|plays of the week|highlights|"
+                r"weekly|daily|review|magazine", re.I),
+     "FIBA"),
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"\bT100\b|world triathlon", re.I),
+     re.compile(r"highlights|weekly|daily|review|magazine", re.I),
+     "Triathlon"),
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"world athletics|athletics u20|\bUTMB\b|world series "
+                r"finals", re.I),
+     re.compile(r"highlights|weekly|daily|review|magazine", re.I),
+     "Athletics"),
+    ("alkass_epg.xml", "",
+     re.compile(r"volleyball", re.I),
+     re.compile(r"highlights|weekly|daily|review|magazine", re.I),
+     "Volleyball"),
+)
+
+
+def events_our_guides_have(floor=None, ceiling=None) -> list[dict]:
+    """World-class events from this repository's own guides, live only.
+
+    One row per (title, day on the board's own clock) at that day's
+    first LIVE airing, with every channel the guides gave it — the
+    shape the other-sports board reads, and the same narrow rule the
+    fights obey: the competition's own words and the guide's own live
+    mark, never a guess.
+    """
+    # The day the BOARD groups by, which is the first clock's — not
+    # UTC, because a race that runs from one Gulf afternoon into the
+    # next morning is one race on the viewer's evening, and deduping on
+    # a UTC day would print it twice on a day that owns it once. The
+    # second clock re-groups these same rows itself at publish time.
+    THE_DAY = _BOARD_VIEWER
+
+    # The shape a real event has, measured on the grids above: over an
+    # hour and under nine. See the table's comment for the counting.
+    SHORTEST_EVENT = timedelta(minutes=60)
+    LONGEST_EVENT = timedelta(hours=9)
+
+    out: list[dict] = []
+    for path, mark, names_it, refuses_it, sport in OUR_OWN_EVENTS:
+        # THE DAY'S AIRINGS, one title at a time. Programmes arrive in
+        # file order, not clock order, so the day's first airing is
+        # found by sorting, not by trusting the file.
+        airings: dict[tuple, dict] = {}
+        repeats = 0
+        for row in programmes(path, mark):
+            title = norm(NOISE.sub(" ", row["title"]))
+            if not names_it.search(title) or refuses_it.search(title):
+                continue
+            # THE LIVE MARK, on the raw title — NOISE strips it, so it
+            # is read after the name and before the shape. The guide is
+            # a broadcaster's own grid and its live mark is written in
+            # the title it prints: without it the row is a repeat, and
+            # a repeat never reaches the board. Measured in this
+            # window, 46 of 49 named rows carry no live mark.
+            if not A_LIVE_AIRING.search(row["title"]):
+                repeats += 1
+                continue
+            span = row.get("stop", row["start"]) - row["start"]
+            if not (SHORTEST_EVENT <= span <= LONGEST_EVENT):
+                continue
+            if floor is not None and not (
+                    floor <= row["start"] < ceiling):
+                continue
+            key = (row["start"].astimezone(THE_DAY).date(), title)
+            if key not in airings:
+                airings[key] = {"start": row["start"],
+                                "title": title,
+                                "channels": []}
+            if row["channel"] not in airings[key]["channels"]:
+                airings[key]["channels"].append(row["channel"])
+        for key in sorted(airings):
+            event = airings[key]
+            out.append({"start": event["start"],
+                        "title": event["title"],
+                        "sport": sport,
+                        "channels": event["channels"]})
+        if airings or repeats:
+            log(f"  {os.path.basename(path)}: {len(airings)} "
+                f"{sport} day(s) live, {repeats} repeat(s) ignored")
+
+    return sorted(out, key=lambda one: one["start"])
+
+
 # ─── Turkish football, from the sources asked for by name ───────────────
 #
 # Asked for repeatedly and not done, so it is written down here: the

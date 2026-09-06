@@ -3,8 +3,10 @@
 """The sports the football board does not carry, with the channel showing them.
 
 Asked for by name and in this order: F1, darts (the Premier League first),
-boxing, MMA, MotoGP, tennis, NFL, NBA, FIBA, golf, the Rugby World Cup,
-padel — the big competitions only, not every round of everything.
+boxing, MMA, MotoGP, tennis, NFL, NBA, FIBA, golf, rugby's internationals,
+padel — and, asked for later in the same words, baseball's MLB, cycling's
+World Tour, snooker's ranking events and athletics' world championships —
+the big competitions only, not every round of everything.
 
 WHY THIS SOURCE. Eight pages were asked and six are no use, and the two
 that look best are the instructive ones: pdc.tv lists 45 darts events and
@@ -101,10 +103,62 @@ PAGES = (
                 r"|presidents cup|the players", re.I),
      None),
 
-    # The World Cup and nothing else — not the league, not the union
-    # season. Asked for in those words.
+    # BASEBALL — the majors, asked for by name once the American game
+    # arrived on the British channels this source carries: "Add Yankees,
+    # Dodgers games (MLB)". The page's competition cell prints "MLB" and
+    # nothing else on the page holds those letters, so the whole word is
+    # the test. Measured on the day this was wired: eighteen rows, four
+    # of them the Yankees and the Dodgers, on TNT Sports and HBO Max.
+    ("/live-baseball-on-tv/", "MLB",
+     re.compile(r"\bmlb\b", re.I), None),
+
+    # CYCLING — the World Tour: the Vuelta's stages, the Tour of Britain,
+    # the one-days that carry the World Tour label. The competition cell
+    # prints "UCI World Tour" for every one of them, so that is the
+    # family word, and the races' own names sit beside it so a page that
+    # files a stage under the race's name still names a race asked for.
+    # A second-tier race — the Giro della Toscana, the Coppa Sabatini —
+    # prints its own competition cell and fails the keep on its own.
+    ("/live-cycling-on-tv/", "Cycling",
+     re.compile(r"uci world tour|tour de france|la vuelta|tour of britain"
+                r"|giro d.italia|world championship", re.I), None),
+
+    # SNOOKER — the ranking events, measured as the British Open and the
+    # English Open, every row filed under the competition cell "World
+    # Snooker". The word is the whole test because the page is snooker's
+    # own page. Channel "5" — Britain's Channel 5, a real channel, on the
+    # British Open's rows — passes the channel rules because a single
+    # digit is nobody's app, website or player.
+    ("/live-snooker-on-tv/", "Snooker",
+     re.compile(r"snooker", re.I), None),
+
+    # ATHLETICS — the world championships: the World Athletics Ultimate
+    # Championship on the BBC, measured three rows. The Diamond League
+    # and the Olympics are named alongside, so a quiet week on the page
+    # is the page having nothing to list rather than the keep having
+    # forgotten a competition.
+    ("/live-athletics-on-tv/", "Athletics",
+     re.compile(r"world athletics|diamond league|ultimate championship"
+                r"|olympic", re.I), None),
+
+    # RUGBY'S INTERNATIONALS, and nothing that is anybody's league
+    # season. "Rugby: INTERNATIONAL tournaments ONLY, not leagues" —
+    # asked for in those words, and the page carries 91 rows that make
+    # the rule necessary: the World Cup and the internationals beside
+    # RFU Championship (21 rows), the URC (16), WXV (15), Top 14 (12),
+    # Gallagher Premiership (10), NPC (6), Super Rygbi Cymru (4), the
+    # Pacific Nations Cup (4) and the Premiership Rugby Cup — all
+    # counted on the day this was written. The keep is the
+    # internationals: the World Cup, World Rugby's WXV — the women's
+    # international series, an international tournament and not a league
+    # — the Pacific Nations Cup, and any row whose own competition calls
+    # itself international. The refuse names the leagues by the words
+    # their competition cells print, so a league is out twice over: the
+    # refuse says its name, and the keep does not.
     ("/live-rugby-union-on-tv/", "Rugby",
-     re.compile(r"world cup", re.I), None),
+     re.compile(r"world cup|wxv|pacific nations|international", re.I),
+     re.compile(r"top 14|united rugby|\burc\b|premiership|rfu championship"
+                r"|national provincial|super rygbi|gallagher", re.I)),
 
     # BASKETBALL, and it is wired now on purpose so that it starts on its
     # own. The NBA season opens in October: this page reads zero rows
@@ -199,6 +253,13 @@ def title_of(row, fixture_cell) -> str:
     A grand prix practice session has no teams and its name IS the event;
     an NRL match has two and its name is the pair. Both shapes are on this
     site, in the same markup, so the row is asked rather than assumed.
+
+    THE EVENT'S OWN NAME is the description the cell prints beside its
+    label — and where the description already says what the label says,
+    the label is the page's own shorthand and is dropped, because a title
+    that prints one name twice is a duplication a reader counted on the
+    board. _the_label_repeats below is the whole test, measured on every
+    page this source has.
     """
     home = row.select_one("td.home-team")
     away = row.select_one("td.away-team")
@@ -206,7 +267,80 @@ def title_of(row, fixture_cell) -> str:
     away = norm(away.get_text(" ", strip=True)) if away else ""
     if home and away:
         return f"{home} - {away}"
-    return norm(fixture_cell.get_text(" ", strip=True)) if fixture_cell else ""
+    if fixture_cell is None:
+        return ""
+    pieces = [norm(piece) for piece in fixture_cell.stripped_strings]
+    pieces = [piece for piece in pieces if piece]
+    if len(pieces) >= 2:
+        label, rest = pieces[0], " ".join(pieces[1:])
+        if _the_label_repeats(label, rest):
+            return norm(rest)
+        # A label whose own name the description does not carry but
+        # whose first word it does is a SERIES WORD: the label names
+        # the event, the description names its session, and the word
+        # is printed by both sides. The word falls away from the
+        # description and the label stays — measured on the MotoGP
+        # page: "MotoGP San Marino Grand Prix" beside "MotoGP Race -
+        # Misano World Circuit Marco Simoncelli" is the San Marino
+        # Grand Prix race, named whole, printed once.
+        left = label.casefold().split()
+        rest_words = rest.split()
+        if (len(left) >= 2 and rest_words
+                and rest_words[0].casefold() == left[0]
+                and len(left[0]) >= 3):
+            return norm(f"{label} {' '.join(rest_words[1:])}")
+    return norm(fixture_cell.get_text(" ", strip=True))
+
+
+def _the_label_repeats(label: str, rest: str) -> bool:
+    """Whether the description already names what the label says.
+
+    The fixture cell prints two things — the event's label, then its
+    description — and joining them blindly prints one name twice,
+    measured on the live pages:
+
+        Snooker English Open  | BetVictor English Open 2026 - Brentwood
+        World Athletics Ultimate Championship | World Athletics Ultimate
+                                 Championship 2026 in Budapest
+        BMW Championship      | BMW PGA Championship - Wentworth Club
+
+    The label is dropped only when its own words are already in the
+    description: a run of two or more of the label's words inside it, or
+    the same first word naming the event in both — which is the whole of
+    the BMW case, where "BMW" is the only word the two share. A label the
+    description does not repeat ("Italian Grand Prix" beside "Race -
+    Monza Circuit, Monza", "Live Boxing" beside "Canelo Alvarez vs
+    Christian M'billi") is the event's name and stays.
+    """
+    left = label.casefold().split()
+    right = f" {norm(rest).casefold()} ".split()
+    if not left or not right:
+        return False
+    for size in range(len(left), 1, -1):
+        for i in range(len(left) - size + 1):
+            run = left[i:i + size]
+            for j in range(len(right) - size + 1):
+                if right[j:j + size] == run:
+                    return True
+    # The first word shared AND every remaining word of the label in
+    # the description, a plural counted as the same word: "Players
+    # Championship" beside "Players Championships 29-30" is the page's
+    # shorthand for one name, and the label falls away. But a label
+    # whose remaining words the description does NOT carry is the
+    # event's own name — "MotoGP San Marino Grand Prix" beside "MotoGP
+    # Race - Misano" carries "San Marino Grand Prix" nowhere in its
+    # description — and dropping the label would leave a race no grand
+    # prix names.
+    if not (left[0] == right[0] and len(left[0]) >= 3):
+        return False
+    right_words = set(right)
+    for word in left[1:]:
+        if (word in right_words
+                or word + "s" in right_words
+                or (word.endswith("s") and word[:-1] in right_words)):
+            continue
+        return False
+    return True
 
 
 def collect(html: str, sport: str, keep, refuse) -> list[dict]:
@@ -263,7 +397,18 @@ def events(session) -> list[dict]:
     out: list[dict] = []
     for path, sport, keep, refuse in PAGES:
         try:
-            page = fetch(session, SOURCE + path).text
+            # THE PAGE IS UTF-8 AND SAYS SO NOWHERE. The header prints
+            # "Content-Type: text/html" with no charset in it — measured
+            # on the live pages — and a reader that trusts it decodes
+            # the bytes as Latin-1, which turns "España" into "EspaÃ±a"
+            # and "Mâ€™billi" into "Mâ€™billi" on the board. The encoding is
+            # set to the one the page is actually written in before the
+            # text is read, so a name arrives the way the page spells it.
+            got = fetch(session, SOURCE + path)
+            if (got.encoding or "").lower() in ("", "iso-8859-1",
+                                                "latin-1"):
+                got.encoding = "utf-8"
+            page = got.text
         except Exception as exc:                              # noqa: BLE001
             warn(f"wheresthematch {sport} is unreachable ({exc}) — the "
                  f"board keeps what the other pages gave it")

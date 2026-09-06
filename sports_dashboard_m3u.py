@@ -58,13 +58,6 @@ RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 # answering, the row was in the playlist and the channel played nothing.
 WEATHER_NAME = WEATHER_AR
 
-# The fifth channel again, as constants: the lecture channel is not drawn
-# from a guide here the way the weather is, so its id, name and mark are
-# said once, plainly, where the screens can read them.
-ALKAMEES_ID = "AlkameesLecture"
-ALKAMEES_NAME = "الشيخ عثمان الخميس"
-ALKAMEES_LOGO = f"{RAW}/logos/alkamees.png"
-
 # Four channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
@@ -89,20 +82,6 @@ SCREENS = (
      f"{RAW}/stream/news.m3u8", "📰 أخبار اليوم", NEWS_LOGO),
     (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
-    # The fifth channel — 🎙️ الشيخ عثمان الخميس 24/7. Unlike the four
-    # boards beside it, this one is not drawn in this repository: it is a
-    # live channel stitched from two YouTube playlists of lectures
-    # (Dr. Othman Al-Khamees), transcoded uniformly to 720p and aired as a
-    # rolling window that never stops, never repeats inside a cycle and
-    # loops only after every video has played. What this repository holds
-    # is the door — stream/alkamees.m3u8, a master playlist pointing at
-    # the encoder that is always on. It is published here and not just
-    # listed, because raw.githubusercontent is the host the reader pastes
-    # and the door being a file of ours means the channel sits under this
-    # group on the same terms as its four neighbours: one link, one list,
-    # and it plays.
-    (ALKAMEES_ID, ALKAMEES_NAME, "stream/alkamees.m3u8",
-     f"{RAW}/stream/alkamees.m3u8", "🎙️ الشيخ عثمان الخميس 24/7", ALKAMEES_LOGO),
 )
 
 
@@ -135,15 +114,6 @@ DUBAI_SCREENS = (
     ("TodayWeatherDubai", WEATHER_NAME, "stream/dubai_weather.m3u8",
      f"{RAW}/stream/dubai_weather.m3u8", "🌤️ طقس اليوم · بتوقيت الإمارات",
      WEATHER_LOGO),
-    # And the lecture channel on the Gulf clock too: a lecture has no
-    # kickoff, so the clock printed beside it is the one the viewer
-    # arranged the evening around. The door is shared, not duplicated —
-    # both playlists point at the same always-on encoder, because there
-    # is one stream and two clocks that want it.
-    ("AlkameesLectureDubai", ALKAMEES_NAME, "stream/alkamees.m3u8",
-     f"{RAW}/stream/alkamees.m3u8",
-     "🎙️ الشيخ عثمان الخميس 24/7 · بتوقيت الإمارات",
-     ALKAMEES_LOGO),
 )
 
 

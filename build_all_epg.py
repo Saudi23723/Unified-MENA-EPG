@@ -115,9 +115,24 @@ GENERATORS: list[tuple[str, str, str]] = [
     ("Shahid Sports",       "update_shahid_sports_epg.py",     "shahid_sports_epg.xml"),
     ("Shasha",              "update_shasha_epg.py",            "shasha_epg.xml"),
     ("tabii Spor",          "update_tabii_epg.py",             "tabii_spor_1_10_epg.xml"),
-    ("مباريات اليوم",       "today_matches_epg.py",            "today_matches_epg.xml"),
     ("Thmanyah",            "update_thmanyah_epg.py",          "thmanyah_epg.xml"),
 ]
+
+# مباريات اليوم is deliberately NOT in the list above, and that is the fix
+# to a fault rather than an omission. This build and the ten-minute one used
+# to both write today_matches_epg.xml and its boards, and two writers for
+# one file is a race even when each of them is correct on its own: this
+# build regenerates the XML and the boards but stages only the XML (it has
+# no encoder), so a pass that lands between the ten-minute build's board
+# redraw and its push published new boards with no segments — or new XML
+# on top of boards the ten-minute build was about to replace. What reached
+# main was one commit carrying pieces of two runs, and the screen gate
+# found the mismatch. Every generator here writes a file nothing else
+# writes; مباريات اليوم has its own workflow, with its own encoder, that
+# draws the boards and publishes each board together with the segment
+# encoded from it. This build now rebuilds the guides around it and leaves
+# it entirely to that workflow, which also runs the moment this one
+# finishes (workflow_run), so the merge below still reads a fresh copy.
 
 MERGE_SCRIPT = "merge_epg.py"
 MERGED = "unified_mena_epg.xml"
@@ -126,9 +141,9 @@ MERGED = "unified_mena_epg.xml"
 # published has not had a quiet day; it has lost a source. The published
 # file is put back and the run says so.
 #
-# Seven of the thirteen generators already refuse this themselves, through
-# write_xml_atomic's regression guard. Six write their own XML and have no
-# such guard, and three of those six are not ours to change. Doing it here
+# Six of the thirteen generators already refuse this themselves, through
+# write_xml_atomic's regression guard. Seven write their own XML and have no
+# such guard, and three of those seven are not ours to change. Doing it here
 # covers all thirteen without touching any of them.
 #
 # Half is deliberately far below ordinary variation. Across a week of runs
@@ -137,16 +152,17 @@ MERGED = "unified_mena_epg.xml"
 # Combined pipeline before it was retired — were far past it.
 COLLAPSE_FLOOR = 0.5
 
-# Pictures a guide's programmes point at. This build DRAWS them, because
-# it runs today_matches_epg.py like every other generator — and it must
-# not PUBLISH them. That is not fussiness, it is the fix to a real fault
-# found by the screen gate: a board and the video segment encoded from it
-# are one thing in two files, and whoever publishes the first has to
-# publish the second in the same commit or the television goes on showing
-# the old picture. This build has no encoder and no ffmpeg. The ten-minute
-# workflow has both, redraws the same boards from the same source, and
-# publishes board and segment together — so the boards are left to it, and
-# what is on disk here is simply not staged.
+# Pictures a guide's programmes point at. No generator here draws them any
+# more — the ten-minute workflow owns boards and segments for every screen
+# it publishes — but the rule the screen gate taught is kept anyway: a
+# board and the video segment encoded from it are one thing in two files,
+# and whoever publishes the first has to publish the second in the same
+# commit or the television goes on showing the old picture. This build has
+# no encoder and no ffmpeg, so even if a generator were to draw a board
+# here, the pair could not leave this runner whole. The ten-minute
+# workflow redraws the same boards from the same source and publishes
+# board and segment together — so the boards are left to it, and anything
+# on disk here is simply not staged.
 BOARDS = "boards"
 
 

@@ -49,6 +49,7 @@ from PIL import Image
 import american_sport_on_tv
 import dubai_time
 import own_guides
+import pbc
 import real_american_freestyle
 import sky_epg
 import sports_media_watch
@@ -147,9 +148,21 @@ DAYS_AHEAD = 14
 # The reader's order, and the mark each sport wears on the board. A sport
 # absent from here cannot reach the board at all, which is what "the big
 # competitions only" means in practice.
+#
+# The six after Padel were asked for in the reader's own words — "Add
+# Yankees, Dodgers games (MLB)", "Major CYCLING, MARATHONS, SNOOKER with
+# broadcast channels", "Triathlon, Olympics or similar", "Major women's
+# international VOLLEYBALL with broadcast channels" — and they join at
+# the end of the order rather than anywhere inside it, because the
+# twelve above were asked for first and in this order. Inside a day the
+# clock rules anyway and the sport only breaks a tie, so a baseball
+# game that starts on the same minute as a grand prix still puts the
+# grand prix first, exactly as it did before either of them arrived.
 IN_ORDER = (
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
     "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
+    "MLB", "Cycling", "Snooker", "Athletics", "Volleyball",
+    "Triathlon",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -315,10 +328,309 @@ def _the_broadcaster_names_it(event: dict, into: dict) -> bool:
     mine = a_bare_title(event["title"])
     return bool(theirs) and bool(mine) and theirs.startswith(mine)
 
+
+# THE MAJORS' THIRTY CLUBS, each under every name a source on this board
+# spells it — measured, not guessed. Four sources now carry the sport,
+# and one ballgame arrives under four spellings that share not one word:
+#
+#     wheresthematch  Philadelphia Phillies v Atlanta Braves MLB  17:10
+#     TSN             MLB on TSN: Braves vs. Phillies            17:00
+#     Sportsnet       Toronto @ Kansas City                      17:30
+#     beIN EN 1       NYY vs SD - MLB - 2026 /27                 23:00
+#
+# No title rule folds those: not the same minute, not a channel in
+# common, not one a prefix of the other. What identifies a ballgame is
+# its two clubs, so the clubs are the table and each is named by its
+# full name, its city where the city is nobody else's, its nickname,
+# and the three letters beIN's grid prints. A city two clubs share —
+# Los Angeles, Chicago, New York — names neither of them, because
+# "Washington" is a ballclub only until the day it is a football team.
+THE_MAJORS = (
+    ("Arizona Diamondbacks", ("arizona", "diamondbacks", "ari")),
+    ("Atlanta Braves", ("atlanta", "braves", "atl")),
+    ("Baltimore Orioles", ("baltimore", "orioles", "bal")),
+    ("Boston Red Sox", ("boston", "red sox", "bos")),
+    ("Chicago Cubs", ("cubs", "chc")),
+    ("Chicago White Sox", ("white sox", "cws")),
+    ("Cincinnati Reds", ("cincinnati", "reds", "cin")),
+    ("Cleveland Guardians", ("cleveland", "guardians", "cle")),
+    ("Colorado Rockies", ("colorado", "rockies", "col")),
+    ("Detroit Tigers", ("detroit", "tigers", "det")),
+    ("Houston Astros", ("houston", "astros", "hou")),
+    ("Kansas City Royals", ("kansas city", "royals", "kc")),
+    ("Los Angeles Angels", ("angels", "laa")),
+    ("Los Angeles Dodgers", ("dodgers", "lad")),
+    ("Miami Marlins", ("miami", "marlins", "mia")),
+    ("Milwaukee Brewers", ("milwaukee", "brewers", "mil")),
+    ("Minnesota Twins", ("minnesota", "twins", "min")),
+    ("New York Mets", ("mets", "nym")),
+    ("New York Yankees", ("yankees", "nyy")),
+    ("Oakland Athletics", ("oakland", "athletics", "oak")),
+    ("Philadelphia Phillies", ("philadelphia", "phillies", "phi")),
+    ("Pittsburgh Pirates", ("pittsburgh", "pirates", "pit")),
+    ("St Louis Cardinals", ("st louis", "cardinals", "stl")),
+    ("San Diego Padres", ("san diego", "padres", "sd")),
+    ("San Francisco Giants", ("san francisco", "giants", "sf")),
+    ("Seattle Mariners", ("seattle", "mariners", "sea")),
+    ("Tampa Bay Rays", ("tampa bay", "rays", "tb")),
+    ("Texas Rangers", ("texas", "rangers", "tex")),
+    ("Toronto Blue Jays", ("toronto", "blue jays", "tor")),
+    ("Washington Nationals", ("washington", "nationals", "wsh")),
+)
+
+A_MAJORS_CLUB = tuple(
+    (re.compile(rf"\b{re.escape(said)}\b"), club)
+    for club, spellings in THE_MAJORS
+    for said in spellings)
+
+# How far apart two listings of one ballgame may sit. A listings page
+# rounds to its own quarter-hour — 17:00 against 17:10, measured on the
+# Braves-Phillies game the day this was written — and twenty minutes
+# covers every rounding without covering a doubleheader, whose second
+# game is hours after the first, or the next game of a series, which is
+# a day later.
+A_GAME_APART = timedelta(minutes=20)
+
+# A programme about the game is not the game, and two clubs named in
+# its title do not make it one. "Braves vs Phillies - Extended
+# Highlights" names the same two clubs as the ninth inning does, and
+# only the word in the middle tells them apart.
+A_HIGHLIGHTS = re.compile(r"highlights|preview|review|weekly|daily|"
+                          r"recap|best of|plays of the (?:week|day)",
+                          re.I)
+
+
+def the_two_sides(event: dict) -> frozenset | None:
+    """The two clubs a title names, or None if it does not name two.
+
+    Only an MLB row is asked, and only a title that names exactly two
+    clubs answers: a studio show, a highlights programme or a ticker
+    names none or several, and none of them is a ballgame to fold.
+    """
+    if event.get("sport") != "MLB":
+        return None
+    if A_HIGHLIGHTS.search(event.get("title") or ""):
+        return None
+    flat = re.sub(r"[^\w\s]", " ", (event.get("title") or "").casefold())
+    found = {club for a_club, club in A_MAJORS_CLUB if a_club.search(flat)}
+    return frozenset(found) if len(found) == 2 else None
+
 def _a_bare_title_match(one: str, two: str) -> bool:
     """One bare title a prefix of the other — the fold's own test."""
     mine, yours = a_bare_title(one), a_bare_title(two)
     return mine.startswith(yours) or yours.startswith(mine)
+
+
+# ─── One event, two wordings ───────────────────────────────────────────
+#
+# "check channel 2 there are too many mistakes ! and duplications" — and
+# the duplications that survived the fold above were measured, row by
+# row, on the board this build printed. Every one of them is TWO
+# SOURCES NAMING ONE BROADCAST WITH WORDINGS THE PREFIX TEST CANNOT SEE:
+#
+#     08:00  US Open Men's & Women's Singles Round of 16, Men's &      beIN 7 · Sky Tennis · Sky+
+#            Women's Doubles 2nd Round
+#     08:00  2026 US Open Tennis: Round of 16                           beIN 7 · TSN4 · TSN1
+#
+#     05:55  2026 Formula 1: Italian Grand Prix                         beIN 4K · TSN5 · TSN1
+#     06:00  Italian Grand Prix Race - Monza Circuit, Monza             beIN 4K · Sky F1
+#
+#     12:00  UFC Fight Night - Silva vs. Delgado Prelims                Sportsnet 360
+#     12:00  UFC Fight Night Prelims                                    TNT 2
+#
+# Same broadcast, same minute (the grand prix five minutes apart), a
+# channel in common on the tennis pair — and not one of the six titles
+# is a prefix of its twin, because the two wordings put their words in
+# different orders. The fold's own answer is the one it already gives
+# baseball: the EVENT'S OWN IDENTITY is the test there (the two clubs),
+# and identity is the test here. A grand prix is its name and its
+# session; a major is its name and its day's rounds; a UFC night is its
+# card's own name and its part of the night. The identity is read with
+# the competition's own words, the same regexes own_guides already uses
+# to find a channel by name — nothing new is invented, and a wording
+# that disagrees about the identity (Practice 1 against Practice 2, a
+# men's semifinal against a women's, one card against another) is a
+# disagreement the fold obeys.
+#
+# The identity folds are FALLBACKS: they run only where the structural
+# fold above found nothing, so every pair the prefix test already folds
+# keeps the title rules it has. And a row folded by identity keeps the
+# LONGER title, because identity folds join two broadcasters' own grids
+# — Sportsnet's against Sky's — and neither of those outranks the other
+# the way a listings page is outranked; the row that names more is the
+# row a viewer reads.
+A_SESSION_APART = timedelta(minutes=10)
+
+# How far apart two listings of one tennis window may sit. Measured on
+# this board: Sky printed the US Open's round of 16 at 11:00 and TSN
+# printed the same window at 12:00, both on beIN 7 — an hour apart, one
+# coverage window. Seventy-five minutes covers that and nothing else
+# measured: a major's two semifinals sit FOUR HOURS apart under the
+# same title, and the quarterfinal windows six hours apart, so the
+# slack is a fraction of the nearest pair that must stay two rows.
+A_TENNIS_WINDOW_APART = timedelta(minutes=75)
+
+# THE ENCORE'S CLOCK. Measured on this board: TSN2 printed the Italian
+# Grand Prix race again thirteen hours after the live one — and TSN
+# printed SailGP's Great Britain Grand Prix nine hours after its first
+# day, which is two LIVE sailing days that must stay two rows. So the
+# encore gap is floored at ten hours, one hour past the sailing tide,
+# and ceiled at three days, past which no broadcaster replays a
+# session. The sailing words are refused outright, because a sailing
+# title passes the F1 page's own filter and the gap alone would not
+# save it; and the race weekend's own studio shows — the preview and
+# the review — are refused with them, the same family tsn.py refuses.
+A_GRAND_PRIX_ENCORE_FROM = timedelta(hours=10)
+A_GRAND_PRIX_ENCORE_TO = timedelta(days=3)
+A_SAILING_WORDS = re.compile(r"sail\s*gp|sailing", re.I)
+A_STUDIO_WRAPS = re.compile(r"grand prix sunday|chequered flag", re.I)
+
+# A studio show about the event is not the event, and identity is no
+# excuse for folding one onto the coverage it talks about.
+A_HIGHLIGHTS_GUARD = A_HIGHLIGHTS
+
+
+def _the_grand_prix_of(title: str) -> str:
+    """The grand prix a title names — own_guides' own regex, casefolded."""
+    found = own_guides.A_GRAND_PRIX.search(title or "")
+    return found.group(1).casefold() if found else ""
+
+
+def _the_session_of(title: str) -> str:
+    """The session a title names — practice, qualifying, sprint or race."""
+    found = own_guides.A_SESSION.search(title or "")
+    return found.group(1).casefold() if found else ""
+
+
+def _the_same_race(into: dict, event: dict) -> bool:
+    """One grand prix, one session — the same broadcast, worded apart.
+
+    TSN's "2026 Formula 1: Italian Grand Prix" and the listings page's
+    "Italian Grand Prix Race - Monza Circuit, Monza" are one race, and
+    the session word is where a broadcaster that omits it is still
+    naming the same thing: the race is the broadcast a channel titles
+    with the grand prix's name alone. Two DIFFERENT sessions never fold
+    — Practice 1 is not Practice 2 and neither is the race — and a
+    programme about the session (a preview, a highlights reel) is
+    refused before it is asked.
+    """
+    if into.get("sport") != "F1" or event.get("sport") != "F1":
+        return False
+    if (A_HIGHLIGHTS_GUARD.search(into.get("title") or "")
+            or A_HIGHLIGHTS_GUARD.search(event.get("title") or "")):
+        return False
+    mine, yours = (_the_grand_prix_of(into["title"]),
+                   _the_grand_prix_of(event["title"]))
+    if not mine or mine != yours:
+        return False
+    a, b = _the_session_of(into["title"]), _the_session_of(event["title"])
+    return a == b or not (a and b)
+
+
+def _an_encore_of_the_race(into: dict, event: dict) -> bool:
+    """Whether the later row is a replay of the earlier row's race.
+
+    Measured on this board: TSN2 printed "2026 Formula 1: Italian Grand
+    Prix" again thirteen hours after the live one — an encore, not a
+    second race, because a grand prix weekend's one race happens once.
+    The identity is the same one the session fold reads — the same
+    grand prix, the same session or one worded without it — and the
+    guard refuses the programmes about the session. The clock is
+    A_GRAND_PRIX_ENCORE_FROM to A_GRAND_PRIX_ENCORE_TO, and the sailing
+    is refused outright: SailGP prints "Great Britain Grand Prix" too,
+    its days are nine hours apart, and they are LIVE days that must
+    stay two rows.
+    """
+    if into.get("sport") != "F1" or event.get("sport") != "F1":
+        return False
+    for wording in (into.get("title") or "", event.get("title") or ""):
+        if A_SAILING_WORDS.search(wording) or A_STUDIO_WRAPS.search(wording):
+            return False
+    gap = event["start"] - into["start"]
+    return A_GRAND_PRIX_ENCORE_FROM <= gap <= A_GRAND_PRIX_ENCORE_TO \
+        and _the_same_race(into, event)
+
+
+# The day's rounds, and the draws that play them — the two things a
+# major's coverage block names, and the only two things two broadcasters
+# disagree about when they describe the same window of the same day.
+A_TENNIS_ROUND = re.compile(
+    r"early round|round of \d+|\d+(?:st|nd|rd|th) round"
+    r"|quarterfinals?|semifinals?|\bfinals?\b", re.I)
+A_TENNIS_DRAW = re.compile(
+    r"\bmen(?:'?s)?\b|\bwomen(?:'?s)?\b|\bsingles\b|\bdoubles\b|\bmixed\b",
+    re.I)
+
+
+def _the_words_of(pattern, title: str) -> frozenset:
+    return frozenset(found.group(0).casefold()
+                     for found in pattern.finditer(title or ""))
+
+
+def _the_same_tennis_window(into: dict, event: dict) -> bool:
+    """One major, one day's window — the same coverage, worded apart.
+
+    Sky titles the window by its draws ("US Open Men's & Women's Singles
+    Round of 16, Men's & Women's Doubles 2nd Round"); TSN titles the
+    same window "2026 US Open Tennis: Round of 16". Same major, same
+    minute, and one description's rounds and draws a subset of the
+    other's — that is one broadcast, and the channels join.
+
+    What the subset rule refuses is exactly what must stay two rows: a
+    men's semifinal against a women's (the draws cross), a semifinal
+    against a final (the rounds cross), a doubles final against a
+    singles final (both). And the minute is exact in the same-minute
+    fold — a major's two semifinals are four hours apart under the SAME
+    title, measured on this board, and folding those would delete a
+    match; the different-minute fold's slack is A_TENNIS_WINDOW_APART,
+    a fraction of that four hours.
+    """
+    if into.get("sport") != "Tennis" or event.get("sport") != "Tennis":
+        return False
+    if (A_HIGHLIGHTS_GUARD.search(into.get("title") or "")
+            or A_HIGHLIGHTS_GUARD.search(event.get("title") or "")):
+        return False
+    mine = own_guides.A_MAJOR.search(into.get("title") or "")
+    yours = own_guides.A_MAJOR.search(event.get("title") or "")
+    if (not mine or not yours
+            or mine.group(1).casefold() != yours.group(1).casefold()):
+        return False
+    for pattern in (A_TENNIS_ROUND, A_TENNIS_DRAW):
+        a = _the_words_of(pattern, into.get("title") or "")
+        b = _the_words_of(pattern, event.get("title") or "")
+        if not (a <= b or b <= a):
+            return False
+    return True
+
+
+# A UFC night's own name for itself — the card's family, which every
+# broadcaster of it prints and nothing else does.
+A_UFC_CARD = re.compile(r"\bUFC\s+(?:Fight\s+Night|\d{3})\b", re.I)
+
+
+def _the_same_ufc_card(into: dict, event: dict) -> bool:
+    """One card, one part of the night — the same broadcast, worded apart.
+
+    Measured on the board: Sportsnet 360's "UFC Fight Night - Silva vs.
+    Delgado" beside Sky's "UFC Fight Night", and the prelims the same
+    way an hour earlier, with no channel in common because the two
+    broadcasters are two countries' carriers of one card. The card's own
+    family and the same part of the night are the identity — a
+    "UFC 331" never folds with a "UFC Fight Night", and a prelim never
+    folds with a main card, whatever the minute.
+    """
+    if into.get("sport") != "MMA" or event.get("sport") != "MMA":
+        return False
+    if (A_HIGHLIGHTS_GUARD.search(into.get("title") or "")
+            or A_HIGHLIGHTS_GUARD.search(event.get("title") or "")):
+        return False
+    mine = A_UFC_CARD.search(into.get("title") or "")
+    yours = A_UFC_CARD.search(event.get("title") or "")
+    if (not mine or not yours
+            or mine.group(0).casefold() != yours.group(0).casefold()):
+        return False
+    return a_card_segment(into.get("title") or "") \
+        == a_card_segment(event.get("title") or "")
 
 
 def one_row_per_broadcast(events: list[dict],
@@ -409,9 +721,60 @@ def one_row_per_broadcast(events: list[dict],
         bare = a_bare_title(event["title"])
         segment = a_card_segment(event["title"])
         into = None
+        # Set where an identity fold below is the one that matched, so
+        # the keeper-title rule at the bottom knows which of its two
+        # rules to apply: the broadcaster's title for a structural fold,
+        # the longer one for an identity fold.
+        by_identity = False
 
         for already in kept:
             if already["start"] != event["start"]:
+                # A BALLGAME LISTED BY ITS TWO CLUBS. Two sources can
+                # name one ballgame and disagree about its minute — a
+                # listings page rounds to its own quarter-hour — so
+                # for the sport that names its two sides the fold is
+                # given the clubs and the slack, and nothing else is:
+                # the club pair is the game, and twenty minutes is
+                # shorter than any doubleheader's gap. A studio show
+                # or a ticker names no two clubs and is never folded.
+                sides = the_two_sides(event)
+                if (sides is not None
+                        and the_two_sides(already) == sides
+                        and abs(already["start"] - event["start"])
+                        <= A_GAME_APART):
+                    into = already
+                    break
+                # ONE RACE, TWO CLOCKS. TSN prints the Italian Grand
+                # Prix at 12:55Z; the listings page prints the same
+                # race at 13:00Z — a race feed's own clock rounds, and
+                # five minutes of slack — ten, to cover a feed that
+                # counts the formation lap in — is shorter than any
+                # session gap at a race weekend. The grand prix's own
+                # name is the identity, the session word agrees or one
+                # of the two wordings omits it, and a programme ABOUT
+                # the session is refused by the guard inside the test.
+                if (abs(already["start"] - event["start"]) <= A_SESSION_APART
+                        and _the_same_race(already, event)):
+                    into = already
+                    by_identity = True
+                    break
+                # ONE MAJOR, ONE WINDOW, TWO CLOCKS. The same window
+                # of a major's day can print an hour apart on two
+                # broadcasters' clocks — Sky's US Open round of 16 at
+                # 11:00 beside TSN's at 12:00, both on beIN 7 — and
+                # A_TENNIS_WINDOW_APART is the measured slack that
+                # covers the pair and stops short of every pair that
+                # must stay two rows: a major's semifinals are four
+                # hours apart under the same title, its quarterfinal
+                # windows six. The rounds and draws are read by the
+                # subset rule inside the test, and a programme ABOUT
+                # the window is refused by the guard.
+                if (abs(already["start"] - event["start"])
+                        <= A_TENNIS_WINDOW_APART
+                        and _the_same_tennis_window(already, event)):
+                    into = already
+                    by_identity = True
+                    break
                 continue
             if already.get("sport") != event.get("sport"):
                 continue
@@ -436,9 +799,39 @@ def one_row_per_broadcast(events: list[dict],
                            event.get("source") == already.get("source"))
             if not same_source and not (
                     set(already["channels"]) & set(event["channels"])):
+                # ONE CARD, TWO COUNTRIES. Measured on the board: a UFC
+                # night's prelims and main card printed twice —
+                # Sportsnet 360's rows naming the card's fighters
+                # beside Sky's plain ones, at the same minute, with NO
+                # channel in common because the two broadcasters are
+                # two countries' carriers of one card. The card's own
+                # family and the same part of the night are the
+                # identity — and the only identity allowed to cross
+                # the channel gap, because nothing else here names a
+                # broadcast two carriers share with no channel in
+                # common. Two different cards, or the same card's two
+                # different parts, are refused by the test and stay
+                # two rows exactly as before.
+                if _the_same_ufc_card(already, event):
+                    into = already
+                    by_identity = True
+                    break
                 continue
             mine = a_bare_title(already["title"])
             if not (mine.startswith(bare) or bare.startswith(mine)):
+                # ONE MAJOR, ONE WINDOW, TWO WORDINGS. Sky titles the
+                # window by its draws; TSN titles the same window by
+                # its rounds. The minute is exact — a major's two
+                # semifinals are four hours apart under the SAME
+                # title, and one minute's slack would fold them — and
+                # the subset rule on rounds and draws is what refuses
+                # the windows that are not the same one. The channels
+                # were settled above: a channel in common, or the one
+                # feed that printed one programme twice.
+                if _the_same_tennis_window(already, event):
+                    into = already
+                    by_identity = True
+                    break
                 continue
             if a_card_segment(already["title"]) != segment:
                 continue
@@ -449,12 +842,20 @@ def one_row_per_broadcast(events: list[dict],
             kept.append(dict(event, channels=list(event["channels"])))
             continue
 
-        # THE BROADCASTER’S TITLE, not the longer one. Sky’s rows carry
-        # the programme itself and no “from” word; when a listings page
-        # describes the same broadcast at the same minute on a channel in
-        # common, the page’s wording — however rich — is folded away
-        # and the broadcaster’s stands.
-        if _the_broadcaster_names_it(event, into):
+        # THE TITLE THE KEEPER WEARS. For a structural fold, the
+        # broadcaster's won — until the day the longer one was WRONG
+        # and the shorter one was right: a listings page's rich title
+        # kept naming a withdrawn fighter long after the broadcaster's
+        # guide had self-corrected, so a broadcaster's bare title now
+        # replaces the page's. For an identity fold the two rows are
+        # two broadcasters' own grids — Sky's against Sportsnet's, or
+        # TSN's against the listings page's — and neither outranks the
+        # other the way a listings page is outranked; the row that
+        # NAMES MORE is the row a viewer reads, and the longer title
+        # is kept.
+        if _the_broadcaster_names_it(event, into) and not by_identity:
+            into["title"] = event["title"]
+        elif by_identity and len(event["title"]) > len(into["title"]):
             into["title"] = event["title"]
 
         for channel in event["channels"]:
@@ -467,6 +868,41 @@ def one_row_per_broadcast(events: list[dict],
     if dropped_by_the_backup:
         log(f"  {dropped_by_the_backup} row(s) the backup had that a "
             f"listings page already carried, dropped")
+
+    # THE ENCORE. A race is one broadcast, and the measured board
+    # carried TSN2's encore of the Italian Grand Prix thirteen hours
+    # after the live one. The fold above cannot drop it — the fold
+    # answers "is this a second SOURCE naming the same broadcast?", and
+    # the encore is one source repeating a broadcast it already gave
+    # the board at its live minute — so the question is asked here,
+    # after the fold, with the race's own identity: the same grand
+    # prix, ten hours to three days later, is a replay and falls away.
+    # The racing days that must survive — SailGP's nine-hour gap, the
+    # race weekend's own studio shows — are refused inside the test.
+    encore = 0
+    if any(row.get("sport") == "F1" for row in kept):
+        for row in kept:
+            if row.get("sport") != "F1":
+                continue
+            if A_SAILING_WORDS.search(row.get("title") or ""):
+                continue
+            if any(other.get("sport") == "F1"
+                   and other is not row
+                   and other["start"] < row["start"]
+                   and _an_encore_of_the_race(other, row)
+                   for other in kept):
+                encore += 1
+        if encore:
+            kept = [row for row in kept if not (
+                row.get("sport") == "F1"
+                and not A_SAILING_WORDS.search(row.get("title") or "")
+                and any(other.get("sport") == "F1"
+                        and other is not row
+                        and other["start"] < row["start"]
+                        and _an_encore_of_the_race(other, row)
+                        for other in kept))]
+            log(f"  {encore} encore(s) dropped, the race already on the "
+                f"board at its live minute")
     return kept
 
 
@@ -483,6 +919,21 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # minute the promotion's own announcement gave.
     if can_fetch:
         everything += own_guides.fights_our_guides_have(floor, ceiling)
+
+    # AND THE EVENTS this repository's own guides have, LIVE ONLY —
+    # the rule the reader set after measuring this same window: "only
+    # live events". A guide's repeats carried rows the listings pages
+    # never had — FIBA qualifiers, triathlon, athletics, volleyball —
+    # and every one of them was a REPLAY, 46 of 49 measured, because a
+    # guide repeats its week's competitions and the listings pages
+    # carry only what is broadcast live. So events_our_guides_have now
+    # requires the guide's own live mark (A_LIVE_AIRING) on the row's
+    # raw title, and in this window only three MLB games on beIN
+    # SPORTS EN 1 survive it. The table is OUR_OWN_EVENTS, the shape
+    # rule (an hour to nine hours long) and the LA-day fold are in
+    # own_guides.py — same door fights_our_guides_have uses.
+    if can_fetch:
+        everything += own_guides.events_our_guides_have(floor, ceiling)
 
     # AND THE CARD, SPLIT, from the broadcaster's own programme guide.
     #
@@ -520,6 +971,18 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         everything += real_american_freestyle.events(
             session, floor, ceiling)
 
+    # AND PREMIER BOXING CHAMPIONS, from the promotion's own schedule
+    # page. Another "more sources" answer: PBC is the boxing promotion
+    # no source on this board carried — no listings page has its cards,
+    # Sky's guide names none, and the promotion publishes its schedule
+    # itself as open JSON-LD on its own page, with the broadcaster in
+    # its own description prose ("streaming live on DAZN", "live on TNT
+    # and DAZN") and the clock in the timestamp itself. It is filed as
+    # Boxing, the sport this board already carries, so a card the Sky
+    # guide happens to name too folds into the one row a viewer reads.
+    if can_fetch:
+        everything += pbc.events(session, floor, ceiling)
+
     # AND TAPLOGY'S FIGHTCENTER, the fights board's calendar of last
     # resort. The reader asked for it by name — "this website have all
     # the missing parts or as a backup for others if applicable" — and
@@ -547,12 +1010,23 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # place their own television reads them, and the sport word each
     # feed prints is what gates the row to this board — soccer belongs
     # to the football board and is handed to its caller instead.
+    #
+    # Baseball and basketball joined the ask in the reader's own words —
+    # "Add Yankees, Dodgers games (MLB)" and "Verify NBA, FIBA listed
+    # with good sources and channels" — and the feeds' own words are
+    # the door: TSN files both under "Baseball" and "Basketball" and
+    # Sportsnet under "baseball" and "basketball", and the judging is
+    # done where it belongs, in each feed's own reader — only the
+    # majors are MLB, and a basketball row is the NBA or FIBA by its
+    # own title or it is nothing this board asked for.
     if can_fetch:
         everything += tsn.events(
             session, floor, ceiling,
-            sports=("Tennis", "Rugby", "NFL", "Golf", "MMA", "Auto Racing"))
+            sports=("Tennis", "Rugby", "NFL", "Golf", "MMA", "Auto Racing",
+                    "Baseball", "Basketball"))
         everything += sportsnet.events(
-            session, floor, ceiling, sports=("rugby", "mma"))
+            session, floor, ceiling,
+            sports=("rugby", "mma", "baseball", "basketball"))
 
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything

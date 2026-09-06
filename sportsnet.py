@@ -23,12 +23,14 @@ THE CHANNEL IS THE BROADCASTER'S OWN WORD. "SNOntario" is what Sportsnet
 calls Sportsnet Ontario on its own dial, and this board prints what the
 broadcaster prints, the same rule every other source here follows.
 
-THE SPORT GATES THE BOARD. Soccer belongs on the football board, and
-rugby and MMA on the other-sports board; baseball and the studio shows
-have no row on either and are left where they sit. A "companion" feed —
-the second hour of a broadcast split across two channels — is not a
-second event and is skipped, and so is anything the feed itself marks
-hidden.
+THE SPORT GATES THE BOARD. Soccer belongs on the football board; rugby
+and MMA, and now baseball as the majors and the NBA and FIBA basketball
+a title can name, belong on the other-sports board. Rugby is the
+international tournaments only — the domestic leagues were measured and
+refused. The studio shows still have no row on either and are left where
+they sit. A "companion" feed — the second hour of a broadcast split
+across two channels — is not a second event and is skipped, and so is
+anything the feed itself marks hidden.
 
 THE TIME IS EASTERN, PRINTED AS OFFSET. The feed's start_time_str carries
 "-0400" or "-0500" on every row, so the clock is read with strptime's
@@ -68,23 +70,51 @@ AS_A_CHANNEL = {
 }
 
 # The sports this repository's two boards carry. Soccer is the football
-# board's; rugby and MMA are the other-sports board's. Everything else —
-# baseball, the studio shows, the empty sport word — has no row to sit on.
+# board's; rugby and MMA are the other-sports board's. Baseball on this
+# feed is the majors — every one of a measured weekend's twenty-eight
+# rows was MLB — so the word is the map. Basketball is judged by its
+# title and league below, the way TSN's reader judges it, because the
+# feed files the NBA, the WNBA and US college under one word and only
+# the NBA and FIBA were asked for. Everything else — hockey, the studio
+# shows, the empty sport word — has no row to sit on.
 AS_A_SPORT = {
     "soccer": "Football",
     "rugby": "Rugby",
     "mma": "MMA",
     "hockey": None,   # no NHL row on either board
-    "baseball": None,
-    "basketball": None,
+    "baseball": "MLB",
+    "basketball": None,   # judged by its title below, NBA and FIBA alone
     "football": None,
     "shows": None,
     "": None,
 }
 
+# Basketball's competitions, word-bounded: the feed files the NBA, the
+# WNBA and US college under one word, and only the NBA and FIBA's
+# competitions were asked for. "wnba" carries "nba" inside it as three
+# consecutive letters, so the boundary is the whole test. "Raptors"
+# sits beside the league's word because a Canadian broadcaster's own
+# titles name the team without naming the league — "Raptors vs.
+# Celtics" is an NBA row by every word on it except the one it never
+# prints.
+THE_NBA_WORDS = (re.compile(r"\bnba\b", re.I),
+                 re.compile(r"\braptors\b", re.I))
+THE_FIBA_WORDS = (re.compile(r"\bfiba\b", re.I),)
+
+# Rugby's domestic leagues, by the words their own rows print — the
+# competitions the board was asked NOT to carry. "Rugby: INTERNATIONAL
+# tournaments ONLY, not leagues", and this feed's rugby rows are the
+# NRL and the Super League, the women's series those leagues run
+# included. An international — a World Cup row, a Pacific Nations Cup
+# row with Canada in it — prints none of these words.
+A_RUGBY_LEAGUE = re.compile(
+    r"\bnrl\b|\bslr\b|super league|national rugby league"
+    r"|\burc\b|united rugby|top 14|premiership|gallagher", re.I)
+
 
 def events(session, floor: datetime, ceiling: datetime,
-           sports: tuple[str, ...] = ("soccer", "rugby", "mma")) -> list[dict]:
+           sports: tuple[str, ...] = ("soccer", "rugby", "mma",
+                                      "baseball", "basketball")) -> list[dict]:
     """Sportsnet's own events, in the window, in the sports asked for."""
     from zoneinfo import ZoneInfo
     out: list[dict] = []
@@ -144,10 +174,42 @@ def _as_an_event(item: dict, sports: tuple[str, ...]) -> dict | None:
     # The feed's own sport word is not the whole truth — its studio
     # shows carry the sport of the night they talk about, and "Blair &
     # Barker" is a talk show on Sportsnet 360, not a match. A name with
-    # "vs." in it names two sides; a name with a colon and a date in it
-    # names a programme.
-    if "vs" not in name.casefold():
+    # "vs." in it names two sides; so does the feed's other spelling,
+    # "New York Yankees @ San Diego", with a side on each edge of the
+    # "@" — both spellings name a match, and a name with neither is a
+    # programme.
+    folded = name.casefold()
+    at_split = folded.split("@", 1)
+    if not ("vs" in folded or (len(at_split) == 2
+                               and at_split[0].strip()
+                               and at_split[1].strip())):
         return None
+
+    # The league the feed itself prints, because the board's own
+    # wanted() test reads the competition and a title alone —
+    # "Chelsea vs. Aston Villa" — names no league at all.
+    league = (item.get("league") or "").casefold()
+
+    # Rugby's domestic leagues — the NRL, the Super League, the women's
+    # series those leagues run — have no row here: "international
+    # tournaments ONLY, not leagues" was the ask. The league word and
+    # the title are both read, because the feed prints the league in
+    # either place.
+    if the_sport == "rugby" and (A_RUGBY_LEAGUE.search(name)
+                                 or A_RUGBY_LEAGUE.search(league)):
+        return None
+
+    # Basketball is judged by its title, the way TSN's reader judges it:
+    # the feed files the NBA, the WNBA and US college under one word,
+    # and only the NBA and FIBA were asked for. The word boundary is not
+    # decoration — "wnba" carries "nba" inside it.
+    if the_sport == "basketball":
+        if any(word.search(name) for word in THE_NBA_WORDS):
+            the_sport = "NBA"
+        elif any(word.search(name) for word in THE_FIBA_WORDS):
+            the_sport = "FIBA"
+        else:
+            return None
 
     try:
         start = datetime.strptime(when, A_DAY)
@@ -162,8 +224,5 @@ def _as_an_event(item: dict, sports: tuple[str, ...]) -> dict | None:
         "title": name,
         "sport": AS_A_SPORT.get(the_sport, the_sport),
         "channels": [channel],
-        # The league the feed itself prints, because the board's own
-        # wanted() test reads the competition and a title alone —
-        # "Chelsea vs. Aston Villa" — names no league at all.
-        "league": (item.get("league") or "").casefold(),
+        "league": league,
     }
