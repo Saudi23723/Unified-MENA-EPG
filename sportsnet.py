@@ -24,13 +24,15 @@ calls Sportsnet Ontario on its own dial, and this board prints what the
 broadcaster prints, the same rule every other source here follows.
 
 THE SPORT GATES THE BOARD. Soccer belongs on the football board; rugby
-and MMA, and now baseball as the majors and the NBA and FIBA basketball
-a title can name, belong on the other-sports board. Rugby is the
-international tournaments only — the domestic leagues were measured and
-refused. The studio shows still have no row on either and are left where
-they sit. A "companion" feed — the second hour of a broadcast split
-across two channels — is not a second event and is skipped, and so is
-anything the feed itself marks hidden.
+and MMA, and the NBA and FIBA basketball a title can name, belong on
+the other-sports board. Baseball was once here as the majors — every
+one of a measured weekend's twenty-eight rows was MLB — and is off now
+in the reader's own words ("remove snooker & MLB from channel 2").
+Rugby is the international tournaments only — the domestic leagues
+were measured and refused. The studio shows still have no row on
+either and are left where they sit. A "companion" feed — the second
+hour of a broadcast split across two channels — is not a second event
+and is skipped, and so is anything the feed itself marks hidden.
 
 THE TIME IS EASTERN, PRINTED AS OFFSET. The feed's start_time_str carries
 "-0400" or "-0500" on every row, so the clock is read with strptime's
@@ -72,17 +74,19 @@ AS_A_CHANNEL = {
 # The sports this repository's two boards carry. Soccer is the football
 # board's; rugby and MMA are the other-sports board's. Baseball on this
 # feed is the majors — every one of a measured weekend's twenty-eight
-# rows was MLB — so the word is the map. Basketball is judged by its
-# title and league below, the way TSN's reader judges it, because the
-# feed files the NBA, the WNBA and US college under one word and only
-# the NBA and FIBA were asked for. Everything else — hockey, the studio
-# shows, the empty sport word — has no row to sit on.
+# rows was MLB — but the majors are off the board now, taken off in the
+# reader's own words ("remove snooker & MLB from channel 2"), so the
+# word maps to nothing. Basketball is judged by its title and league
+# below, the way TSN's reader judges it, because the feed files the
+# NBA, the WNBA and US college under one word and only the NBA and FIBA
+# were asked for. Everything else — hockey, the studio shows, the empty
+# sport word — has no row to sit on.
 AS_A_SPORT = {
     "soccer": "Football",
     "rugby": "Rugby",
     "mma": "MMA",
     "hockey": None,   # no NHL row on either board
-    "baseball": "MLB",
+    "baseball": None,   # the majors, off the board in the reader's words
     "basketball": None,   # judged by its title below, NBA and FIBA alone
     "football": None,
     "shows": None,
@@ -114,8 +118,14 @@ A_RUGBY_LEAGUE = re.compile(
 
 def events(session, floor: datetime, ceiling: datetime,
            sports: tuple[str, ...] = ("soccer", "rugby", "mma",
-                                      "baseball", "basketball")) -> list[dict]:
-    """Sportsnet's own events, in the window, in the sports asked for."""
+                                      "basketball")) -> list[dict]:
+    """Sportsnet's own events, in the window, in the sports asked for.
+
+    Baseball was once among the defaults and its word mapped to the
+    majors; both are off in the reader's own words ("remove snooker &
+    MLB from channel 2"), so the word is gone from the defaults and
+    maps to nothing in the table above.
+    """
     from zoneinfo import ZoneInfo
     out: list[dict] = []
 

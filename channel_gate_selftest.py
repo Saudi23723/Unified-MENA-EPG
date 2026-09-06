@@ -2853,11 +2853,12 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
     FIBA, golf, the Rugby World Cup, padel — so that order is the order
     rows appear in, not a sorting by clock. Inside one sport the clock
     decides, because two bouts on a Saturday are read as they happen.
-    The order has grown since — MLB, cycling, snooker, athletics came
-    with their own pages — and snooker is on the synthetic page below
-    for exactly that reason: the snapshot here must name the sports the
-    reader asks for NOW, or every addition turns this gate red for
-    being right.
+    The order has grown since — cycling and athletics came with their
+    own pages — and shrunk too, in the reader's own words: snooker and
+    baseball's MLB came off the whole board at once ("remove snooker &
+    MLB from channel 2"), so the snapshot here must name the sports the
+    reader asks for NOW, or every removal turns this gate red for being
+    right.
 
     A SPORT NOT ASKED FOR CANNOT REACH THE BOARD. The sources carry
     cricket, horse racing, speedway, Aussie rules and a dozen more;
@@ -2887,8 +2888,16 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
         event("Golf", "The Open - Round 2", 11, []),
         # Never asked for, and on the same pages as the ones that were.
         event("Cricket", "England - Ireland", 12, ["Sky Sports Cricket"]),
-        # Asked for since the snooker page arrived; it reaches the board.
+        # Snooker's English Open row was the sport's row here once —
+        # the synthetic proof that a page-opened sport reaches the
+        # board — and the whole sport came off in the reader's own
+        # words ("remove snooker & MLB from channel 2"), so the row is
+        # here now as the OTHER proof: a sport taken off the list stays
+        # off the board, however many channels its page names.
         event("Snooker", "English Open", 10, ["TNT Sports 1"]),
+        # And baseball, the same door shut, offered as the fold's own
+        # measured rows: a studio show about the game is not the game.
+        event("MLB", "Braves vs Phillies - Extended Highlights", 14, []),
     ]
     kept = board.in_the_readers_order(
         [one for one in offered if board.wanted(one)])
@@ -2906,10 +2915,10 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
           clocks, sorted(clocks))
     check("BOARD2", "and the sports asked for are the ones that arrived",
           sorted({one["sport"] for one in kept}),
-          ["Boxing", "Darts", "F1", "NFL", "Snooker", "Tennis"])
+          ["Boxing", "Darts", "F1", "NFL", "Tennis"])
     check("BOARD2", "a sport nobody asked for cannot reach the board",
           [one["title"] for one in kept
-           if one["sport"] in ("Cricket",)], [])
+           if one["sport"] in ("Cricket", "Snooker", "MLB")], [])
     check("BOARD2", "and nor can an event with no channel named",
           [one["title"] for one in kept if one["sport"] == "Golf"], [])
     # AND NO ROW WEARS AN EMOJI. This gate used to require one — every

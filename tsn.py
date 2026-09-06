@@ -29,11 +29,11 @@ sit: the boards answer "where to watch", and a streaming number is not a
 channel a reader can tune to beside beIN and Sky.
 
 THE SPORT GATES THE BOARD. Tennis, rugby, F1, MotoGP, NFL, golf, the
-UFC's own words and baseball's majors map to the other-sports board's
-rows; soccer maps to the football board; basketball is judged by its
-title — the NBA and FIBA's competitions were asked for, the WNBA and US
-college were not, and the feed files them all under one word; the
-studio programmes — SPORTSCENTRE, the news blocks, the reality shows —
+UFC's own words map to the other-sports board's rows; soccer maps to
+the football board; basketball is judged by its title — the NBA and
+FIBA's competitions were asked for, the WNBA and US college were not,
+and the feed files them all under one word; the studio programmes —
+SPORTSCENTRE, the news blocks, the reality shows —
 are the channel's filler between events, not events, and are left
 where they sit. A "vs." in a title is not required here the way it is
 for Sportsnet, because a race or a tennis block is an event with no
@@ -73,13 +73,13 @@ AS_A_SPORT = {
     "Auto Racing": None,      # judged by its title below, for F1 alone
     "Sailing": None,
     "Wrestling": None,
-    # Baseball on TSN is the majors, measured twice in the feed's own
+    # Baseball on TSN is the majors — measured twice in the feed's own
     # words: "MLB on TSN: Braves vs. Phillies" and "Sunday Night
-    # Baseball: Twins vs. White Sox", both on the television channels.
-    # Nothing else the feed files under Baseball is a competition this
-    # board was asked for, so the word is the map and the title is not
-    # consulted.
-    "Baseball": "MLB",
+    # Baseball: Twins vs. White Sox", both on the television channels —
+    # but the majors are off the board now, taken off in the reader's
+    # own words ("remove snooker & MLB from channel 2"), so the sport
+    # has no row to sit on and the word maps to nothing.
+    "Baseball": None,
     # Basketball is judged by its title below, the way Auto Racing is:
     # the feed files the NBA, the WNBA, the FIBA World Cup and US
     # college under one word, and only two of those were asked for.
@@ -117,8 +117,14 @@ THE_FIBA_WORDS = (re.compile(r"\bfiba\b", re.I),)
 def events(session, floor: datetime, ceiling: datetime,
            sports: tuple[str, ...] = ("Tennis", "Rugby", "NFL", "Golf",
                                       "MMA", "Soccer", "Auto Racing",
-                                      "Baseball", "Basketball")) -> list[dict]:
-    """TSN's own grid, in the window, in the sports asked for."""
+                                      "Basketball")) -> list[dict]:
+    """TSN's own grid, in the window, in the sports asked for.
+
+    Baseball was once among the defaults and its word mapped to the
+    majors; both are off in the reader's own words ("remove snooker &
+    MLB from channel 2"), so the word is gone from the defaults and
+    maps to nothing in the table above.
+    """
     url = f"{SOURCE}?query={quote(A_QUERY)}"
     try:
         page = fetch(session, url,

@@ -669,6 +669,19 @@ OUR_OWN_FIGHTS = (
     #  mislabelled as a channel)
     ("roya_jordan_epg.xml", "",
      re.compile(r"\bRFC\b", re.I), "MMA", "RFC", "Roya TV"),
+    # ONE Championship, measured on beIN's own grid. Its two series are
+    # named in the guide's own titles — "One Friday Fights - 169" on
+    # beIN SPORTS EN 1, Friday afternoons, and "ONE Fight Night - 47"
+    # on beIN SPORTS XTRA 1, Saturday small hours — and both carry the
+    # guide's own live mark, because beIN repeats every one of them
+    # later with the mark gone. The mark is INSIDE the name rule, not
+    # a separate check: a live-marked row is a live card and nothing
+    # else is one. The printed title is the guide's own with only the
+    # live markers stripped, so the number stays and the row a viewer
+    # reads is the number the broadcaster printed.
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"(?:one\s+friday\s+fights?|one\s+fight\s+night)"
+                r"\D*\d+.*?•\s*Live", re.I), "MMA", "", ""),
 )
 
 
@@ -733,7 +746,8 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
             blocks.append({"start": row["start"],
                            "stop": row.get("stop", row["start"]),
                            "channel": row["channel"],
-                           "shown": shown})
+                           "shown": shown,
+                           "title": row["title"]})
         blocks.sort(key=lambda b: b["start"])
 
         # Contiguous blocks -> one airing (start of the run to its end),
@@ -762,7 +776,8 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
                     run["stop"] = max(run["stop"], block["stop"])
                     continue
                 run = {"start": block["start"], "stop": block["stop"],
-                       "channels": [block["shown"]]}
+                       "channels": [block["shown"]],
+                       "title": block["title"]}
                 airings.append(run)
         airings.sort(key=lambda one: one["start"])
 
@@ -790,10 +805,18 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
             # viewer a fight was starting when it was already over. The
             # only reason to print a later day was the loop, and a loop
             # no longer reaches here.
+            # THE TITLE THE VIEWER READS is the guide's own, with only
+            # the live markers taken off — never renamed, because a
+            # card's number is its name and "ONE Fight Night - 47"
+            # without its 47 is a different card. RFC keeps the name it
+            # has always been printed under, the competition's own
+            # three letters.
+            shown = competition or norm(
+                NOISE.sub(" ", airing.get("title", ""))).strip()
             out.append({
                 "start": airing["start"],
-                "title": competition,
-                "competition": competition,
+                "title": shown,
+                "competition": competition or shown,
                 "sport": sport,
                 "channels": list(airing["channels"]),
             })
@@ -833,10 +856,14 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
 # World Athletics U20 Championship in Oregon, the UTMB World Series
 # and Alkass's West Asia Volleyball too, and EVERY one of those
 # airings repeats later with no live mark: 46 named rows measured in
-# this window, three of them live, all three MLB. The competitions
-# stay in the table because the guide is a broadcaster's own grid and
-# its live mark is written in the title it prints — the day one of
-# these competitions IS shown live, the row appears on its own.
+# this window, three of them live, all three MLB. Those three MLB rows
+# were the live-mark rule's own measurement — and the sport they played
+# came off the board later in the reader's own words ("remove snooker &
+# MLB from channel 2"), so the row they earned is gone and the rule
+# they proved stays, serving every competition left in the table: a
+# competition is named, not a channel, and the channel comes from
+# whichever of the guide's own channels is showing it, and the day one
+# of these competitions IS shown live, the row appears on its own.
 #
 # THE SAME NARROW RULE AS THE FIGHTS: a competition is named, not a
 # channel, and the channel comes from whichever of the guide's own
@@ -875,11 +902,11 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
 OUR_OWN_EVENTS = (
     # (guide, mark, what the title must say, what it must never say,
     #  the sport the row carries)
-    ("bein_sports_qatar_epg.xml", "",
-     re.compile(r"\bMLB\b", re.I),
-     re.compile(r"plays of the week|highlights|film des finales|"
-                r"weekly|daily|review|preview|magazine", re.I),
-     "MLB"),
+    # MLB's row is the one taken off: the three live rows the guide
+    # printed were its own live-mark rule's measurement, and the sport
+    # came off the board in the reader's own words ("remove snooker &
+    # MLB from channel 2"), so the door here is shut with the snooker
+    # and baseball doors everywhere else.
     ("bein_sports_qatar_epg.xml", "",
      re.compile(r"\bFIBA\b", re.I),
      re.compile(r"world basketball|plays of the week|highlights|"

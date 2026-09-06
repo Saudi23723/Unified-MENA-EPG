@@ -48,6 +48,7 @@ from PIL import Image
 
 import american_sport_on_tv
 import dubai_time
+import espn_fights
 import own_guides
 import pbc
 import real_american_freestyle
@@ -130,39 +131,41 @@ VIEWER_NAME = "بتوقيتك"
 ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس",
               "الجمعة", "السبت", "الأحد")
 
-# FOURTEEN DAYS, not three, and the number is the whole reason the
-# events a reader asked for were missing.
+# FOUR DAYS, ROLLING, asked for in the reader's own words — "make
+# schadule every 4 days" — and the build that reads this runs every ten
+# minutes, so no edge of the window is ever more than ten minutes stale:
+# today plus three, every card on the board days away instead of weeks,
+# and the far Saturday arriving the morning it becomes one of the four.
 #
-# Three days is right for football, where every day has a card. It is the
-# wrong shape for this board entirely: a grand prix is a weekend, a UFC
-# card is a Saturday, a title fight is announced a month out. The source
-# was measured and it HAD everything asked for — UFC Fight Night on the
-# 5th and the 12th, UFC 331 on the 20th, Contender Series on the 9th,
-# Canelo on the 12th — and the window ended before any of it. Nothing was
-# being filtered out. It was never being looked at.
+# Fourteen was the reach this board carried once, and reach was the
+# whole point then — a three-day window had ended before a single
+# Saturday card, and nothing was ever being looked at. But reach stopped
+# being the ask: a SCHEDULE was, a rolling one, refreshed from every
+# source on every pass — and four days is denser, fresher, and honest
+# about what a viewer can actually plan for.
 #
-# A day with nothing on it is not drawn (see build), so fourteen days is
-# fourteen days of REACH, not fourteen empty boards.
-DAYS_AHEAD = 14
+# A day with nothing on it is not drawn (see build), and a four-day
+# window is four days of DENSITY, not four empty boards.
+DAYS_AHEAD = 4
 
 # The reader's order, and the mark each sport wears on the board. A sport
 # absent from here cannot reach the board at all, which is what "the big
 # competitions only" means in practice.
 #
-# The six after Padel were asked for in the reader's own words — "Add
-# Yankees, Dodgers games (MLB)", "Major CYCLING, MARATHONS, SNOOKER with
-# broadcast channels", "Triathlon, Olympics or similar", "Major women's
-# international VOLLEYBALL with broadcast channels" — and they join at
-# the end of the order rather than anywhere inside it, because the
-# twelve above were asked for first and in this order. Inside a day the
-# clock rules anyway and the sport only breaks a tie, so a baseball
-# game that starts on the same minute as a grand prix still puts the
-# grand prix first, exactly as it did before either of them arrived.
+# The four after Padel were asked for in the reader's own words — "Major
+# CYCLING, MARATHONS", "Triathlon, Olympics or similar", "Major women's
+# international VOLLEYBALL with broadcast channels", athletics with its
+# world championships — and they join at the end of the order rather than
+# anywhere inside it, because the twelve above were asked for first and in
+# this order. Snooker was once on this list too and came off it with the
+# whole sport, and baseball's MLB came on with "Add Yankees, Dodgers
+# games (MLB)" and came back off the same way — "its a mess, remove
+# snooker & MLB from channel 2". Inside a day the clock rules anyway and
+# the sport only breaks a tie.
 IN_ORDER = (
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
     "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
-    "MLB", "Cycling", "Snooker", "Athletics", "Volleyball",
-    "Triathlon",
+    "Cycling", "Athletics", "Volleyball", "Triathlon",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -329,91 +332,19 @@ def _the_broadcaster_names_it(event: dict, into: dict) -> bool:
     return bool(theirs) and bool(mine) and theirs.startswith(mine)
 
 
-# THE MAJORS' THIRTY CLUBS, each under every name a source on this board
-# spells it — measured, not guessed. Four sources now carry the sport,
-# and one ballgame arrives under four spellings that share not one word:
-#
-#     wheresthematch  Philadelphia Phillies v Atlanta Braves MLB  17:10
-#     TSN             MLB on TSN: Braves vs. Phillies            17:00
-#     Sportsnet       Toronto @ Kansas City                      17:30
-#     beIN EN 1       NYY vs SD - MLB - 2026 /27                 23:00
-#
-# No title rule folds those: not the same minute, not a channel in
-# common, not one a prefix of the other. What identifies a ballgame is
-# its two clubs, so the clubs are the table and each is named by its
-# full name, its city where the city is nobody else's, its nickname,
-# and the three letters beIN's grid prints. A city two clubs share —
-# Los Angeles, Chicago, New York — names neither of them, because
-# "Washington" is a ballclub only until the day it is a football team.
-THE_MAJORS = (
-    ("Arizona Diamondbacks", ("arizona", "diamondbacks", "ari")),
-    ("Atlanta Braves", ("atlanta", "braves", "atl")),
-    ("Baltimore Orioles", ("baltimore", "orioles", "bal")),
-    ("Boston Red Sox", ("boston", "red sox", "bos")),
-    ("Chicago Cubs", ("cubs", "chc")),
-    ("Chicago White Sox", ("white sox", "cws")),
-    ("Cincinnati Reds", ("cincinnati", "reds", "cin")),
-    ("Cleveland Guardians", ("cleveland", "guardians", "cle")),
-    ("Colorado Rockies", ("colorado", "rockies", "col")),
-    ("Detroit Tigers", ("detroit", "tigers", "det")),
-    ("Houston Astros", ("houston", "astros", "hou")),
-    ("Kansas City Royals", ("kansas city", "royals", "kc")),
-    ("Los Angeles Angels", ("angels", "laa")),
-    ("Los Angeles Dodgers", ("dodgers", "lad")),
-    ("Miami Marlins", ("miami", "marlins", "mia")),
-    ("Milwaukee Brewers", ("milwaukee", "brewers", "mil")),
-    ("Minnesota Twins", ("minnesota", "twins", "min")),
-    ("New York Mets", ("mets", "nym")),
-    ("New York Yankees", ("yankees", "nyy")),
-    ("Oakland Athletics", ("oakland", "athletics", "oak")),
-    ("Philadelphia Phillies", ("philadelphia", "phillies", "phi")),
-    ("Pittsburgh Pirates", ("pittsburgh", "pirates", "pit")),
-    ("St Louis Cardinals", ("st louis", "cardinals", "stl")),
-    ("San Diego Padres", ("san diego", "padres", "sd")),
-    ("San Francisco Giants", ("san francisco", "giants", "sf")),
-    ("Seattle Mariners", ("seattle", "mariners", "sea")),
-    ("Tampa Bay Rays", ("tampa bay", "rays", "tb")),
-    ("Texas Rangers", ("texas", "rangers", "tex")),
-    ("Toronto Blue Jays", ("toronto", "blue jays", "tor")),
-    ("Washington Nationals", ("washington", "nationals", "wsh")),
-)
-
-A_MAJORS_CLUB = tuple(
-    (re.compile(rf"\b{re.escape(said)}\b"), club)
-    for club, spellings in THE_MAJORS
-    for said in spellings)
-
-# How far apart two listings of one ballgame may sit. A listings page
-# rounds to its own quarter-hour — 17:00 against 17:10, measured on the
-# Braves-Phillies game the day this was written — and twenty minutes
-# covers every rounding without covering a doubleheader, whose second
-# game is hours after the first, or the next game of a series, which is
-# a day later.
-A_GAME_APART = timedelta(minutes=20)
-
 # A programme about the game is not the game, and two clubs named in
 # its title do not make it one. "Braves vs Phillies - Extended
 # Highlights" names the same two clubs as the ninth inning does, and
-# only the word in the middle tells them apart.
+# only the word in the middle tells them apart. The majors the rule was
+# measured on are off the board now — "remove snooker & MLB from
+# channel 2" — and the thirty-club table and the two-sides fold that
+# matched one ballgame across four sources' spellings went with them.
+# The guard stays because it is shared: tennis, F1 and UFC folds below
+# ask it the same question — is this a programme about the event rather
+# than the event — and they were never about the clubs.
 A_HIGHLIGHTS = re.compile(r"highlights|preview|review|weekly|daily|"
                           r"recap|best of|plays of the (?:week|day)",
                           re.I)
-
-
-def the_two_sides(event: dict) -> frozenset | None:
-    """The two clubs a title names, or None if it does not name two.
-
-    Only an MLB row is asked, and only a title that names exactly two
-    clubs answers: a studio show, a highlights programme or a ticker
-    names none or several, and none of them is a ballgame to fold.
-    """
-    if event.get("sport") != "MLB":
-        return None
-    if A_HIGHLIGHTS.search(event.get("title") or ""):
-        return None
-    flat = re.sub(r"[^\w\s]", " ", (event.get("title") or "").casefold())
-    found = {club for a_club, club in A_MAJORS_CLUB if a_club.search(flat)}
-    return frozenset(found) if len(found) == 2 else None
 
 def _a_bare_title_match(one: str, two: str) -> bool:
     """One bare title a prefix of the other — the fold's own test."""
@@ -633,6 +564,152 @@ def _the_same_ufc_card(into: dict, event: dict) -> bool:
         == a_card_segment(event.get("title") or "")
 
 
+# A CARD'S OWN CLOCK, as two calendars print it. ESPN carries the
+# league's own start and Tapology the promotion's, and the same card
+# measured an hour apart twice in one window — the Contender Series at
+# 23:00 against 00:00, Noche UFC at 18:00 against 19:00. Ninety minutes
+# covers both pairs and stops short of every pair that must stay two
+# rows: a UFC night's prelims sit two hours under its main card,
+# measured on Sportsnet's own grid, and a card a day apart is not a
+# fold at all.
+A_CARD_APART = timedelta(minutes=90)
+
+# THE MIDWEEK CARD'S OWN IDENTITY. "Dana White's Contender Series:
+# Season 10, Week 5" and "Contender Series 2026: Week 5" are one
+# broadcast in two spellings, and the week number is the one word both
+# spell the same way.
+A_CONTENDER_WEEK = re.compile(r"contender series.*?week\s*(\d+)", re.I)
+
+# THE ONE SERIES' OWN IDENTITY, in its own card number. beIN's guide
+# says "One Friday Fights - 169" and Tapology says "One Friday Fights
+# 170" — same number, same card; different number, two cards a week
+# apart.
+A_ONE_FRIDAY = re.compile(r"one\s+friday\s+fights?\D*?(\d+)", re.I)
+A_ONE_FIGHT_NIGHT = re.compile(r"one\s+fight\s+night\D*?(\d+)", re.I)
+
+# THE HEADLINERS. "Noche UFC: Silva vs. Delgado" and "UFC Fight Night:
+# Silva vs. Delgado" name the same two fighters and share no family
+# word at all — the card's own two surnames are its identity, and a card
+# with different headliners never folds, whatever the clock says.
+A_VERSUS = re.compile(
+    r"\w+(?:\s+\w+)?\s+(?:vs\.?|v)\s+\w+(?:\s+\w+)?", re.I)
+
+
+# The words a card's title uses AROUND the headliners, measured on
+# this board's own titles — "Live Boxing", "UFC Fight Night", "One
+# Friday Fights", the segment words, the rematch digits. None of them
+# is a fighter, and the pair rule below drops them from a name's side
+# so that "Live Boxing Cruz vs Bravo" and "Isaac Cruz vs Nestor
+# Bravo" compare as cruz/bravo against isaac cruz/nestor bravo — the
+# same fight — instead of letting "boxing" sit inside a name and break
+# the comparison.
+AROUND_THE_NAMES = frozenset(
+    "live boxing mma ufc fight fights night friday one contender series "
+    "season week prelims early main card the at on of and".split())
+
+
+def _the_pairs_of(title: str) -> tuple[tuple, ...]:
+    """The fight(s) a title names — each side's names, per vs-pair.
+
+    A co-main prints inside a main event's title — "Isaac Cruz vs
+    Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov" — and those are
+    two fights, so each pair keeps its two sides apart and a pair of
+    one title is compared with a pair of the other, both ways round:
+    "Silva vs. Delgado" and "Delgado vs. Silva" are one fight spelled
+    in two orders, and "Silva vs. Delgado" against "Silva vs.
+    Pantoja" is two fights whatever the order, because a side that
+    names a different opponent never matches.
+    """
+    pairs = []
+    for found in A_VERSUS.finditer(title or ""):
+        pair = found.group(0).lower()
+        sides = re.split(r"\s+(?:vs\.?|v)\s+", pair)
+        if len(sides) != 2:
+            continue
+        left = frozenset(word for word in sides[0].split()
+                         if word not in AROUND_THE_NAMES
+                         and not word.isdigit())
+        right = frozenset(word for word in sides[1].split()
+                          if word not in AROUND_THE_NAMES
+                          and not word.isdigit())
+        if left and right:
+            pairs.append((left, right))
+    return tuple(pairs)
+
+
+def _the_same_fight_card(into: dict, event: dict) -> bool:
+    """One card, worded apart by two calendars — the same broadcast.
+
+    Measured on the board, twice in one window: ESPN's "Dana White's
+    Contender Series: Season 10, Week 5" at 23:00 beside Tapology's
+    "Contender Series 2026: Week 5" at 00:00, and ESPN's "Noche UFC:
+    Silva vs. Delgado" at 18:00 beside Tapology's "UFC Fight Night:
+    Silva vs. Delgado" at 19:00 — one card each, printed twice, because
+    two calendars never agree about the minute and neither pair shared
+    a family word the UFC fold could read.
+
+    The identity is whatever the two spellings share: the Contender
+    Series' week, ONE's own card number, the UFC family, or the two
+    headliners themselves. What it never folds: two parts of one night
+    (the segment rule, as everywhere), two cards two hours apart (the
+    ninety minutes above), a programme about a card (the guard, as
+    everywhere), and a pair whose one title is a bare prefix of the
+    other — that pair is the exact-minute fold's own case, and the
+    minute is this fold's to refuse, never to own.
+    """
+    sports = {into.get("sport"), event.get("sport")}
+    if sports not in ({"MMA"}, {"Boxing"}):
+        return False
+    if (A_HIGHLIGHTS_GUARD.search(into.get("title") or "")
+            or A_HIGHLIGHTS_GUARD.search(event.get("title") or "")):
+        return False
+    if a_card_segment(into.get("title") or "") \
+            != a_card_segment(event.get("title") or ""):
+        return False
+    mine, yours = into.get("title") or "", event.get("title") or ""
+    # A pair whose one title is a bare prefix of the other is the
+    # exact-minute fold's own case, and this fold never takes a case
+    # that fold owns. The gate's own row: "UFC Fight Night Hooker vs
+    # Parnasse" a minute after a bare "UFC Fight Night", same channel —
+    # a minute apart is not the same broadcast, and a fold allowed
+    # ninety minutes cannot inherit a case whose whole test is the
+    # minute. Only a pair that names MORE on one side is refused: two
+    # spellings that bare down to the same words ("UFC Fight Night:
+    # Silva vs. Delgado" beside "UFC Fight Night - Silva vs Delgado")
+    # are the same card with the same name, and the ladder below still
+    # reads them.
+    bare_one, bare_two = a_bare_title(mine), a_bare_title(yours)
+    if (bare_one != bare_two
+            and (bare_one.startswith(bare_two)
+                 or bare_two.startswith(bare_one))):
+        return False
+    weeks = (A_CONTENDER_WEEK.search(mine), A_CONTENDER_WEEK.search(yours))
+    if weeks[0] and weeks[1]:
+        return weeks[0].group(1) == weeks[1].group(1)
+    for series in (A_ONE_FRIDAY, A_ONE_FIGHT_NIGHT):
+        nums = (series.search(mine), series.search(yours))
+        if nums[0] and nums[1]:
+            return nums[0].group(1) == nums[1].group(1)
+    if _the_same_ufc_card(into, event):
+        return True
+    pairs = (_the_pairs_of(mine), _the_pairs_of(yours))
+    if not pairs[0] or not pairs[1]:
+        return False
+    for (left, right) in pairs[0]:
+        for (their_left, their_right) in pairs[1]:
+            # The same two sides, in either order — and a side may
+            # name more of a fighter than the other does ("Cruz"
+            # against "Isaac Cruz"), because a surname is a name and
+            # the shorter spelling is still the same fighter.
+            if ((left <= their_left or their_left <= left)
+                    and (right <= their_right or their_right <= right)):
+                return True
+            if ((left <= their_right or their_right <= left)
+                    and (right <= their_left or their_left <= right)):
+                return True
+    return False
+
+
 def one_row_per_broadcast(events: list[dict],
                           the_backup_is: str | None = None) -> list[dict]:
     """Two sources naming one broadcast become one row.
@@ -729,21 +806,6 @@ def one_row_per_broadcast(events: list[dict],
 
         for already in kept:
             if already["start"] != event["start"]:
-                # A BALLGAME LISTED BY ITS TWO CLUBS. Two sources can
-                # name one ballgame and disagree about its minute — a
-                # listings page rounds to its own quarter-hour — so
-                # for the sport that names its two sides the fold is
-                # given the clubs and the slack, and nothing else is:
-                # the club pair is the game, and twenty minutes is
-                # shorter than any doubleheader's gap. A studio show
-                # or a ticker names no two clubs and is never folded.
-                sides = the_two_sides(event)
-                if (sides is not None
-                        and the_two_sides(already) == sides
-                        and abs(already["start"] - event["start"])
-                        <= A_GAME_APART):
-                    into = already
-                    break
                 # ONE RACE, TWO CLOCKS. TSN prints the Italian Grand
                 # Prix at 12:55Z; the listings page prints the same
                 # race at 13:00Z — a race feed's own clock rounds, and
@@ -772,6 +834,20 @@ def one_row_per_broadcast(events: list[dict],
                 if (abs(already["start"] - event["start"])
                         <= A_TENNIS_WINDOW_APART
                         and _the_same_tennis_window(already, event)):
+                    into = already
+                    by_identity = True
+                    break
+                # ONE CARD, TWO CALENDARS, TWO CLOCKS. ESPN carries the
+                # league's own start and Tapology the promotion's, and
+                # one card measured an hour apart twice in a single
+                # window — Contender Series week 5, then Noche UFC —
+                # with no family word in common for the UFC fold to
+                # read. The identity is whatever the two spellings
+                # share, and the clock is ninety minutes, past which
+                # sit the prelim-and-main pairs that stay two rows.
+                if (abs(already["start"] - event["start"])
+                        <= A_CARD_APART
+                        and _the_same_fight_card(already, event)):
                     into = already
                     by_identity = True
                     break
@@ -983,6 +1059,26 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     if can_fetch:
         everything += pbc.events(session, floor, ceiling)
 
+    # AND ESPN'S OWN SCOREBOARD, asked for in the reader's own words —
+    # "check new reliable sources similar to tapology or other websites
+    # !!! FOR FUTURE LIVE ONLY EVENTS" — because what ESPN has that no
+    # calendar here does is the league's own forward grid: every UFC and
+    # PFL card, months ahead, with the exact UTC instant and the
+    # broadcaster the league itself named, in an open page no reader has
+    # to stand in front of. The Contender Series' midweek weeks are on
+    # it — week by week through the season — and no listings page here
+    # carries them at all. A card with no published clock (the league's
+    # own "timeValid": false) or no named broadcaster never reaches the
+    # board: the same rules every row here obeys, in ESPN's own
+    # spelling, and "only live" is the league's own status word, "pre".
+    #
+    # It runs before Tapology on purpose. Tapology is the backup, and
+    # where the two name one card an hour apart — the Contender Series
+    # measured at 23:00 against 00:00 — the fold below reads the card's
+    # own identity and the two become one row.
+    if can_fetch:
+        everything += espn_fights.events(session, floor, ceiling)
+
     # AND TAPLOGY'S FIGHTCENTER, the fights board's calendar of last
     # resort. The reader asked for it by name — "this website have all
     # the missing parts or as a backup for others if applicable" — and
@@ -1013,20 +1109,23 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     #
     # Baseball and basketball joined the ask in the reader's own words —
     # "Add Yankees, Dodgers games (MLB)" and "Verify NBA, FIBA listed
-    # with good sources and channels" — and the feeds' own words are
-    # the door: TSN files both under "Baseball" and "Basketball" and
-    # Sportsnet under "baseball" and "basketball", and the judging is
-    # done where it belongs, in each feed's own reader — only the
-    # majors are MLB, and a basketball row is the NBA or FIBA by its
-    # own title or it is nothing this board asked for.
+    # with good sources and channels" — and then half the ask came back
+    # off: "remove snooker & MLB from channel 2". Basketball still has
+    # its door: TSN files it under "Basketball" and Sportsnet under
+    # "basketball", and the judging is done where it belongs, in each
+    # feed's own reader — a basketball row is the NBA or FIBA by its
+    # own title or it is nothing this board asked for. Baseball no
+    # longer has a door anywhere: both readers now map the word to
+    # nothing, so pulling it from the wiring below is honest bookkeeping
+    # for a sport that cannot arrive at all.
     if can_fetch:
         everything += tsn.events(
             session, floor, ceiling,
             sports=("Tennis", "Rugby", "NFL", "Golf", "MMA", "Auto Racing",
-                    "Baseball", "Basketball"))
+                    "Basketball"))
         everything += sportsnet.events(
             session, floor, ceiling,
-            sports=("rugby", "mma", "baseball", "basketball"))
+            sports=("rugby", "mma", "basketball"))
 
     inside = [dict(event, channels=drop_simulcasts(event["channels"]))
               for event in everything
@@ -1110,11 +1209,11 @@ def publish_all(events: list[dict], now: datetime,
         if day in by_day:
             by_day[day].append(event)
 
-    # A DAY WITH NOTHING ON IT IS NOT A BOARD. The window reaches two
-    # weeks now, and most of those days have no fight and no race — a
-    # screen that spends eleven of its fourteen boards saying "لا يوجد
-    # حدث" is worse than a shorter one, and every empty board is another
-    # twenty seconds a viewer waits to see the next real thing.
+    # A DAY WITH NOTHING ON IT IS NOT A BOARD. The window rolls four
+    # days now, dense by design, and a day can still arrive with no
+    # fight and no race on it — a board that says "لا يوجد حدث" is worse
+    # than no board, and every empty board is another twenty seconds a
+    # viewer waits to see the next real thing.
     #
     # Today is the exception and is always drawn. A viewer tuning in
     # wants to be told there is nothing on today; being shown next
@@ -1153,7 +1252,7 @@ def publish_all(events: list[dict], now: datetime,
     # board and with the same fault waiting if it is missing: without
     # this the reel counts boards, and a day whose card runs past the end
     # of the lap is played half-way and cut. This board is more exposed
-    # to it, not less — it reaches fourteen days, and a Saturday of UFC
+    # to it, not less — it reaches four days, and a Saturday of UFC
     # and boxing takes several boards where a quiet Tuesday takes one.
     with open(os.path.join(BOARD_DIR, f"{BOARD_PREFIX}days.txt"), "w",
               encoding="utf-8") as handle:

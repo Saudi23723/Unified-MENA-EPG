@@ -4,9 +4,11 @@
 
 Asked for by name and in this order: F1, darts (the Premier League first),
 boxing, MMA, MotoGP, tennis, NFL, NBA, FIBA, golf, rugby's internationals,
-padel — and, asked for later in the same words, baseball's MLB, cycling's
-World Tour, snooker's ranking events and athletics' world championships —
-the big competitions only, not every round of everything.
+padel — and, asked for later in the same words, cycling's World Tour and
+athletics' world championships — the big competitions only, not every
+round of everything. Baseball's MLB and snooker's ranking events were on
+this list once and came off it in the reader's own words: "its a mess,
+remove snooker & MLB from channel 2".
 
 WHY THIS SOURCE. Eight pages were asked and six are no use, and the two
 that look best are the instructive ones: pdc.tv lists 45 darts events and
@@ -103,14 +105,16 @@ PAGES = (
                 r"|presidents cup|the players", re.I),
      None),
 
-    # BASEBALL — the majors, asked for by name once the American game
-    # arrived on the British channels this source carries: "Add Yankees,
-    # Dodgers games (MLB)". The page's competition cell prints "MLB" and
-    # nothing else on the page holds those letters, so the whole word is
-    # the test. Measured on the day this was wired: eighteen rows, four
-    # of them the Yankees and the Dodgers, on TNT Sports and HBO Max.
-    ("/live-baseball-on-tv/", "MLB",
-     re.compile(r"\bmlb\b", re.I), None),
+    # BASEBALL — off the board. The reader said so in plain words
+    # ("remove snooker & MLB from channel 2"), and the wording reversed
+    # the earlier ask that put the page here. The page stays measured:
+    # its competition cell prints "MLB" and nothing else on the page
+    # holds those letters, and on the day it was wired it carried
+    # eighteen rows, four of them the Yankees and the Dodgers, on
+    # TNT Sports and HBO Max. But the door it gave the sport is shut,
+    # the same way the snooker page below is shut.
+    # ("/live-baseball-on-tv/", "MLB",
+    #  re.compile(r"\bmlb\b", re.I), None),
 
     # CYCLING — the World Tour: the Vuelta's stages, the Tour of Britain,
     # the one-days that carry the World Tour label. The competition cell
@@ -123,14 +127,15 @@ PAGES = (
      re.compile(r"uci world tour|tour de france|la vuelta|tour of britain"
                 r"|giro d.italia|world championship", re.I), None),
 
-    # SNOOKER — the ranking events, measured as the British Open and the
-    # English Open, every row filed under the competition cell "World
-    # Snooker". The word is the whole test because the page is snooker's
-    # own page. Channel "5" — Britain's Channel 5, a real channel, on the
-    # British Open's rows — passes the channel rules because a single
-    # digit is nobody's app, website or player.
-    ("/live-snooker-on-tv/", "Snooker",
-     re.compile(r"snooker", re.I), None),
+    # SNOOKER — taken off the board with its whole page. The reader has
+    # said so in plain words ("remove snooker from channel 2"), and the
+    # page here is the only door the sport had: no feed maps a word to
+    # it and no own-guide row names it. What stays is the measurement
+    # the label-drop below was built on — the Snooker English Open row
+    # whose label repeats in its description — because that finding is
+    # load-bearing for athletics and cycling rows too.
+    # ("/live-snooker-on-tv/", "Snooker",
+    #  re.compile(r"snooker", re.I), None),
 
     # ATHLETICS — the world championships: the World Athletics Ultimate
     # Championship on the BBC, measured three rows. The Diamond League
