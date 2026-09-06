@@ -59,8 +59,9 @@ import tapology
 import tsn
 import world_sport_on_tv
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, drop_simulcasts, log,
-    new_session, norm, warn, write_xml_atomic,
+    MATCH_ON_AIR, add_programme, arabic_count, countdown_label,
+    drop_simulcasts, in_reading_order, isolate, log, new_session, norm,
+    warn, write_xml_atomic,
 )
 # The first board's channel manners, borrowed rather than copied. A reader
 # looked at the two screens side by side and asked why this one still said
@@ -82,6 +83,16 @@ OUTPUT = "other_sports_epg.xml"
 PPV_WORDS = frozenset({"PPV", "PPV (Internet)", "Internet PPV"})
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
+
+# The marks the first board already wears, borrowed rather than reinvented
+# so the two channels cannot drift apart in what "on the air" looks like:
+# the same red dot for a broadcast under way, the same hourglass for the
+# next one counted down to. "make live indicator deployment fast on
+# time !! both channels both links" — the first channel's guide already
+# said it in its titles; this one said only a count, and a viewer tuning
+# to رياضات اليوم mid-card had to guess which row was on the air.
+LIVE_MARK = "🔴"
+NEXT_MARK = "⏳"
 
 # Its OWN mark, which it did not have. It wore the first board's for one
 # afternoon and a reader saw the same picture on two channels — a logo is
@@ -247,8 +258,33 @@ def row_title(event: dict) -> str:
 
 
 def day_title(day: date, events: list[dict], now: datetime) -> str:
+    """What the grid shows for this day, on one line.
+
+    The status rides at the FRONT for the reason the first channel
+    learned the hard way: a television truncates a title from the
+    right, so a mark put after the names is thrown away before a
+    viewer ever sees it. The live card says so with the same red dot
+    and the same word مباشر the first board wears; a day with nothing
+    under way counts down to its next card with the same hourglass;
+    and only a day with neither says its count.
+    """
     if not events:
         return f"{CHANNEL_AR} — لا يوجد حدث"
+    live = [e for e in events
+            if e["start"] <= now < e["start"] + MATCH_ON_AIR]
+    if live:
+        card = live[-1]
+        return in_reading_order(
+            f"{LIVE_MARK} مباشر {isolate('·')} {isolate(row_title(card))}",
+            names=row_title(card))
+    ahead = [e for e in events if e["start"] > now]
+    if ahead:
+        card = ahead[0]
+        minutes = (card["start"] - now).total_seconds() // 60
+        return in_reading_order(
+            f"{NEXT_MARK} بعد {countdown_label(minutes)} {isolate('·')} "
+            f"{isolate(row_title(card))}",
+            names=row_title(card))
     return f"{CHANNEL_AR} — " + arabic_count(
         len(events), "حدث", "حدثان", "أحداث", "حدثاً")
 
@@ -258,7 +294,14 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     for event in events:
         when = event["start"].astimezone(VIEWER)
         channels = " · ".join(event["channels"][:3])
-        lines.append(f"{when:%H:%M}  {row_title(event)}")
+        # The mark goes at the clock, where the eye looks for "which of
+        # these is on now". The same on-air window the board's own red
+        # band is drawn with, so the text and the picture can never
+        # disagree about what is live — and the two-space pad keeps
+        # every clock on the same column, marked row or not.
+        on_air = event["start"] <= now < event["start"] + MATCH_ON_AIR
+        mark = LIVE_MARK if on_air else " "
+        lines.append(f"{mark} {when:%H:%M}  {row_title(event)}")
         lines.append(f"        {channels}")
     if not events:
         lines.append("لا يوجد حدث من الرياضات المتابَعة في هذا اليوم.")
