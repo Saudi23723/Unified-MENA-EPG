@@ -58,11 +58,6 @@ RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 # answering, the row was in the playlist and the channel played nothing.
 WEATHER_NAME = WEATHER_AR
 
-# The fifth channel — the Sheikh Othman Alkamees 24/7 lecture stream.
-# Not a screen drawn in this repository: a live HLS channel stitched
-# from two YouTube lecture playlists (4,634 lectures), playing back to
-# back around the clock, never repeating a lecture inside a cycle. Its
-
 # Four channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
