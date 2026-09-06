@@ -93,6 +93,11 @@ CHANNEL_AR = "رياضات اليوم"
 # to رياضات اليوم mid-card had to guess which row was on the air.
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
+# Same reason as the football channel's: a blank mark is one width in a
+# text file and another on a television that renders the emoji as a wide
+# cell, which is how the waiting rows' clocks came to sit one column off
+# the marked ones'. Every row wears a circle of the same width class.
+WAIT_MARK = "⚪"
 
 # Its OWN mark, which it did not have. It wore the first board's for one
 # afternoon and a reader saw the same picture on two channels — a logo is
@@ -291,16 +296,24 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
 
 def day_page(day: date, events: list[dict], now: datetime) -> str:
     lines = [f"{CHANNEL_AR} · {ARABIC_DAY[day.weekday()]} {day:%d.%m.%Y}", ""]
+    coming = next((e for e in events if e["start"] > now), None)
     for event in events:
         when = event["start"].astimezone(VIEWER)
         channels = " · ".join(event["channels"][:3])
-        # The mark goes at the clock, where the eye looks for "which of
-        # these is on now". The same on-air window the board's own red
-        # band is drawn with, so the text and the picture can never
-        # disagree about what is live — and the two-space pad keeps
-        # every clock on the same column, marked row or not.
-        on_air = event["start"] <= now < event["start"] + MATCH_ON_AIR
-        mark = LIVE_MARK if on_air else " "
+        # The marks the first channel's page wears, in the same order and
+        # the same columns: 🔴 at the row on the air, ⏳ at the next
+        # kickoff, ⚪ at the rest — one character of the same width class
+        # on every row, so every clock, live or waiting, sits on the same
+        # line.
+        # "التالي و المباشر مش على نفس الخط" was said of the picture
+        # board; the text page answers it the same way, with all three
+        # states in one column.
+        if event["start"] <= now < event["start"] + MATCH_ON_AIR:
+            mark = LIVE_MARK
+        elif event is coming:
+            mark = NEXT_MARK
+        else:
+            mark = WAIT_MARK
         lines.append(f"{mark} {when:%H:%M}  {row_title(event)}")
         lines.append(f"        {channels}")
     if not events:

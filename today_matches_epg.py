@@ -244,6 +244,15 @@ CHANNEL_UNANNOUNCED = "لم تُعلن القناة"
 
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
+# The third state wears a mark too, and for a reason a screenshot made
+# plain: "التالي و المباشر مش على نفس الخط". A row whose status is
+# "not yet" used to open with two spaces, which is one width on a page
+# that renders it as text and another on a television that renders the
+# emoji as a wide cell — so the clock after it landed one column on the
+# waiting rows and another on the marked ones. A white circle is the
+# same width class as the red circle beside it, on every renderer, and
+# it says the same thing: not live, not next, just waiting.
+WAIT_MARK = "⚪"
 
 # Competitions worth a place on this channel, as the source names them.
 #
@@ -1691,8 +1700,12 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
 
     Every line here is a line of a television screen, and a page that does
     not fit in one screenful is not one page. So: matches already over are
-    dropped, kickoffs that share a time share a line, one channel is named
-    per match, and there is no blank line under the header.
+    dropped, one match per line with its channels on the line under it,
+    and there is no blank line under the header. The clock sits at the
+    same column on every line and the countdown phrase that used to sit
+    beside it is gone — a number that is frozen the moment the file is
+    written was pushing every row's clock off the column the viewer's eye
+    was looking down.
 
     Each line is then wrapped in an isolate that states its direction, for
     the same reason the title is. The header is Arabic, so a player lays
@@ -1707,35 +1720,41 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     if not left:
         return f"{header}\n{'انتهت مباريات اليوم' if events else NOTHING_TODAY}"
 
-    # Kickoffs at the same minute are one entry, not one each.
-    slots: list[list[dict]] = []
-    for event in left:
-        if slots and event["start"] == slots[-1][0]["start"]:
-            slots[-1].append(event)
-        else:
-            slots.append([event])
-
     coming = next((e for e in left if e["start"] > now), None)
     lines = [header]
-    for slot in slots:
-        if any(e["start"] <= now for e in slot):
+    for event in left:
+        # THE CLOCK IS THE FIRST THING ON EVERY LINE, AT THE SAME COLUMN
+        # ON EVERY LINE. The row used to open with a countdown phrase —
+        # "06:30 الآن", "08:15 أقل من 15 دقيقة", "09:30 ساعة و25 دقيقة" —
+        # so the clock landed at a different column on every row and the
+        # names after it started wherever the phrase happened to end:
+        # "التالي و المباشر مش على نفس الخط", said with a photograph of
+        # the television. The wait is a number that goes stale the moment
+        # the file is written anyway; the clock never does. The status is
+        # one mark before it — 🔴 for the row on the air, ⏳ for the next
+        # kickoff, ⚪ for the rest — one character of the same width class
+        # on every row, so every clock, live or waiting, sits on the same
+        # line. And the row carries the fixture alone: the channels go on
+        # their own line under it, where they are not truncated away.
+        if event["start"] <= now:
             mark = LIVE_MARK
-        elif coming in slot:
+        elif event is coming:
             mark = NEXT_MARK
         else:
-            mark = "  "
-        opening = f"{mark} {clock_and_wait(slot[0]['start'], now)}  "
-        line, named = opening, []
-        for event in slot:
-            fixture = fixture_of(event)
-            if line != opening and len(line) + 3 + len(fixture) > LINE_BUDGET:
-                lines.append(in_reading_order(line, names=" ".join(named)))
-                # A continuation of the same kickoff: the time is already
-                # on the line above, and repeating it reads as two slots.
-                line, named = "        ", []
-            line += ("" if line in (opening, "        ") else " ، ") + fixture
-            named.append(event["title"])
-        lines.append(in_reading_order(line, names=" ".join(named)))
+            mark = WAIT_MARK
+        when = event["start"].astimezone(VIEWER)
+        # The row carries the fixture alone \u2014 the channels go on their
+        # own line under it, where they are not truncated away.
+        lines.append(in_reading_order(
+            f"{mark} {when:%H:%M}  {event['title']}",
+            names=event["title"]))
+        # The channels under the name, indented past the clock — the name
+        # line then spends its whole width on the two names, which is
+        # what a viewer is reading for, and the channels are still one
+        # glance away without being truncated off the end of the line.
+        channels = channels_of(event)
+        if channels:
+            lines.append(f"        {channels}")
     return "\n".join(lines)
 
 

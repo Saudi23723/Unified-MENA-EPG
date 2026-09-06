@@ -122,6 +122,7 @@ LIVE_RED = (255, 105, 97, 255)   # the clock of the row that is on the air
 LIVE_TAG = (224, 49, 49, 255)    # the مباشر pill: solid red, white letters
 OVER_TAG = (108, 124, 148, 255)  # the انتهى pill: slate, white letters
 OVER_BG = (24, 33, 47, 255)      # the band a finished match sits in: grey, not green
+NEXT_TAG = (23, 133, 116, 255)   # the التالي pill: the coming green, white letters
 PILL = (31, 47, 72, 255)
 PILL_INK = (186, 207, 233, 255)
 
@@ -431,6 +432,32 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
 
     time_x, name_x = PAD + 128, PAD + 168
     y = top + 8
+
+    # THE STATUS SLOT. One line for مباشر, التالي and انتهى — asked for
+    # outright, twice, in the same breath: "التالي و المباشر مش على نفس
+    # الخط" and "make them a bit smaller to make it fit inside the lines".
+    # The old pill sat before the name only on live and finished rows, so
+    # a live row's name started some ninety pixels right of its
+    # neighbours', and the pill itself stood taller than the band it sat
+    # in — on a two-line row the name line sits above centre, so the pill
+    # rode up and poked through the row's own outline. One slot on every
+    # row, the same width on every row, is the only shape in which
+    # "on the air" and "next" can be read on the same line at all.
+    tag_px = max(11, min(13, height - 30)) if height >= 42 else 11
+    # The same width for all three words — the widest of them sets it —
+    # so a مباشر pill and a التالي pill occupy exactly the same box and
+    # the name behind them starts on exactly the same pixel.
+    slot_w = max(width_of(word, tag_px, weight="mid")
+                 for word in ("مباشر", "انتهى", "التالي")) + 18
+    slot_x = name_x
+    # The pill rides at the name line's height on a two-line row and the
+    # row's middle on a one-line one — never above the band's top edge,
+    # whatever the row's height: a pill that pokes out of the line is the
+    # thing that was asked to stop.
+    slot_half = min(tag_px + 5, (height - 6) // 2 - 2)
+    today = day == now.astimezone(viewer).date()
+    coming_seen = False
+
     for index, event in enumerate(rows):
         live = event["start"] <= now < event["start"] + live_for
         # OVER, AND SAID SO IN RED. Asked for outright. A board carries
@@ -525,40 +552,52 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                   LIVE_RED if live else (OVER if over else accent),
                   anchor="rm")
 
+        # THREE WORDS, ONE SLOT, ONE SIZE. The pill is drawn in the slot
+        # every row carries, at the slot's fixed width: مباشر red for the
+        # row on the air, التالي teal for the next kickoff on today's
+        # board, انتهى slate for the finished one — and nothing drawn at
+        # all for a plain upcoming row on a future day, where "next" is
+        # every row and would say nothing. The word sits at the name
+        # line's height on a two-line row and the row's middle on a
+        # one-line one, and the box it sits in never stands taller than
+        # the band around it — the pill that rode out of the row line was
+        # the thing asked out of the picture.
+        word, fill = "", LIVE_TAG
+        # The pill sits at the name line's height where that is inside
+        # the band, and at the band's own centre otherwise — a pill
+        # centred on a line that sits near the band's edge is a pill
+        # that pokes out of the row, which is the thing asked to stop.
+        slot_y = min(max(head_y, y + 3 + slot_half),
+                     y + height - 6 - 3 - slot_half)
         if live:
-            # AND THE ROW SAYS SO IN A WORD. The band is caught by the
-            # eye; the pill is read. مباشر — "on the air" — in white on
-            # solid red, on the reading side of the name, because the
-            # viewer who asked for this asked it from bed in the dark:
-            # "which one is on now?" is answered at a glance by a colour
-            # and confirmed in a word.
-            tag_px = max(13, min(16, size - 8))
-            tag_w = width_of("مباشر", tag_px, weight="mid") + 22
-            pen.rounded_rectangle(
-                [name_x, head_y - tag_px - 5, name_x + tag_w,
-                 head_y + tag_px + 5],
-                radius=tag_px + 5, fill=LIVE_TAG)
-            draw_text(pen, (name_x + tag_w // 2, head_y), "مباشر",
-                      tag_px, WHITE, anchor="mm", weight="mid")
-            head = name_x + tag_w + 14
+            word, fill = "مباشر", LIVE_TAG
         elif over:
-            # THE FINISHED PILL, THE SAME SHAPE AS THE LIVE ONE. Red and
-            # a word is how the board says "on the air"; slate and a word
-            # is how it says "finished". انتهى sits where مباشر sits, so
-            # a viewer scanning the reading side finds the same shape in
-            # the same place and only the colour and the word change —
-            # the reading side of the board keeps one language.
-            tag_px = max(13, min(16, size - 8))
-            tag_w = width_of("انتهى", tag_px, weight="mid") + 22
+            word, fill = "انتهى", OVER_TAG
+        elif today and not coming_seen:
+            # THE NEXT KICKOFF, SAID SO. The red room says "on now";
+            # everything else on today's board is either finished or
+            # waiting, and the waiting row a viewer is actually after is
+            # the next one to kick off. It wears the coming green the
+            # board has always used for a clock still to come, in the
+            # same slot and the same size as the red word, so "which one
+            # is next?" and "which one is on?" are answered on one line
+            # by the same shape. Only the first upcoming row wears it —
+            # a second التالي would be a second promise this board
+            # cannot keep.
+            word, fill = "التالي", NEXT_TAG
+            coming_seen = True
+        if word:
             pen.rounded_rectangle(
-                [name_x, head_y - tag_px - 5, name_x + tag_w,
-                 head_y + tag_px + 5],
-                radius=tag_px + 5, fill=OVER_TAG)
-            draw_text(pen, (name_x + tag_w // 2, head_y), "انتهى",
+                [slot_x, slot_y - slot_half, slot_x + slot_w,
+                 slot_y + slot_half],
+                radius=slot_half, fill=fill)
+            draw_text(pen, (slot_x + slot_w // 2, slot_y), word,
                       tag_px, WHITE, anchor="mm", weight="mid")
-            head = name_x + tag_w + 14
-        else:
-            head = name_x
+        # On a future day's board nothing is live or over and only one
+        # row would wear التالي; leaving the slot empty on every row
+        # would waste the widest word's width of name room, so the name
+        # takes the slot's x on the days it is never used.
+        head = slot_x + slot_w + 14 if (word or today) else name_x
 
         # THE CHANNELS BESIDE THE NAME, NOT UNDER IT. They used to drop
         # to the competition line on any row tall enough for two lines,
@@ -579,13 +618,17 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # two-line row's ceiling now, whichever line they sit on, so
         # the board has one size of channel and not two.
         pill_size = max(15, min(16, (under if two else size - 8) - 2))
+        # The pill's half is capped to the band, as the status slot's
+        # is — a channel pill that pokes out of the row line is the
+        # same complaint the status pill earned.
+        pill_half = min(pill_size, (height - 6) // 2 - 2)
         channel_x = W - PAD
         for channel in reversed(event["channels"][:3]):
             label = clipped(channel, pill_size, 280, thin=True)
             wide = width_of(label, pill_size, thin=True) + 26
             pen.rounded_rectangle(
-                [channel_x - wide, pill_y - pill_size, channel_x,
-                 pill_y + pill_size],
+                [channel_x - wide, pill_y - pill_half, channel_x,
+                 pill_y + pill_half],
                 radius=(pill_size + 4), fill=PILL, outline=RULE, width=1)
             draw_text(pen, (channel_x - wide // 2, pill_y), label,
                       pill_size, PILL_INK, anchor="mm", thin=True)
