@@ -272,8 +272,13 @@ WANTED_EXACT = {
     "tff 1. lig", "trendyol 1. lig", "1. lig",
     # The Canadian leagues the Canadian feeds themselves name — asked
     # for with the channels that carry them, and wanted by the word the
-    # broadcaster's own title prints.
-    "mls", "canadian premier league", "nwsl", "women's super league",
+    # broadcaster's own title prints. NWSL is not here, deliberately:
+    # the two pages that carry it disagree about its name — one heads
+    # the block "NWSL Women", the other "NWSL" — and an exact test
+    # answers to only one of the two spellings. The word itself names
+    # one league and nothing else, so it is matched as a family, below,
+    # where it finds the league whatever either page calls it.
+    "mls", "canadian premier league", "women's super league",
 }
 
 # Matched anywhere in the name, for families whose members all belong:
@@ -288,6 +293,12 @@ WANTED_PARTS = (
     "jordan",
     # Egypt beyond the league — the cup and the super cup.
     "egypt",
+    # The American women's league, which the two pages that carry it
+    # name differently — "NWSL Women" against "NWSL" — so the word, not
+    # the exact name, is what the board answers to. Measured the day it
+    # was missed: four of a weekend's five games were refused because
+    # the page that won the merge was the one that spells it "Women".
+    "nwsl",
     # England's cups. "efl" catches the League Cup whatever sponsor's name
     # is on it this season, which is what "carabao" alone would miss the
     # moment the sponsor changes.
@@ -374,15 +385,28 @@ WANTED_TEAMS = ("manchester united", "man united", "man utd", "manchester utd")
 # not answer with a shop. A match is dropped when EVERY name against it is
 # one of these; one real channel is enough to keep it, and the real one is
 # what gets shown.
-NOT_A_CHANNEL = (
-    "onefootball", "ppv", "youtube", "app", "tv+", "plus tv",
-    "federation", "official site", "club tv",
+#
+# "app" is a WORD here, not a scrap of one. Measured after the MLS
+# vanished: every Apple TV fixture was being refused by this list,
+# because "app" sits inside "Apple" — and Apple TV is where the whole
+# of Major League Soccer is, measured forty-four fixtures on the day
+# this was checked, every one of them Apple's alone, not one on beIN
+# or Sky or TSN. The rule this list was written for still holds, in
+# the words the other two source files already use: an app is "STC
+# App", "Thmanyah App", "LigaFUTVE App", the word standing by itself —
+# and the word boundary is what keeps the league on the board without
+# letting a single shop through. (DAZN and Amazon Prime Video are not
+# apps by this test; both name themselves without the word.)
+NOT_A_CHANNEL = re.compile(
+    r"onefootball|ppv|youtube|\bapps?\b|tv\+|plus tv"
+    r"|federation|official site|club tv"
     # "BBC Sport Website" reached the board as a channel. A page is not
     # something a television can be turned to, and it took one of three
     # slots from a broadcaster that is. Neither is a player: BBC iPlayer
-    # and Premier Player are the same page with a different name on it.
-    "website", ".com", ".co.uk", "player",
-)
+    # and Premier Player are the same page with a different name on it —
+    # and "iPlayer" is one word, which a word boundary on "player" alone
+    # would let through, so it is named by itself.
+    r"|website|\.com|\.co\.uk|\bplayer\b|iplayer", re.I)
 
 # Australia and New Zealand, ranked above everywhere else. They are named
 # only by an explicit marker, never by the brand: "Sky Sport NZ" carries
@@ -530,7 +554,7 @@ def real_channels(channels: list[str]) -> list[str]:
     """
     out: list[str] = []
     for name in channels:
-        if any(word in name.casefold() for word in NOT_A_CHANNEL):
+        if NOT_A_CHANNEL.search(name):
             continue
         spelling = canonical_channel(name)
         if spelling not in out:
@@ -772,6 +796,21 @@ ALIASES = {
     # club that needs it is written out here, in the table above, where
     # every other contraction the pages disagree on already lives.
     "preston": "preston north end",
+    # The American game, where the two pages disagree the same way. MLS
+    # and the NWSL only reached this board the day "Apple TV" stopped
+    # being read as an app — and their fixtures arrived twice, one row
+    # per spelling, from the two pages that both carry them:
+    # "LA Galaxy" against "Los Angeles Galaxy", "Vancouver" against
+    # "Vancouver Whitecaps", "Chicago Stars" against "Chicago W", and
+    # "Los Angeles FC" against "Los Angeles Football Club". Every one
+    # measured, the way Preston was, and none of them reachable by a
+    # rule: "LA" is two capitals, which written_as_initials refuses on
+    # purpose, and "Stars" is not furniture the way "FC" is not in
+    # CLUB_TAIL.
+    "la galaxy": "los angeles galaxy",
+    "vancouver": "vancouver whitecaps",
+    "chicago stars": "chicago",
+    "los angeles fc": "los angeles football club",
 }
 
 # One word written two ways, which is not a nickname and so does not
