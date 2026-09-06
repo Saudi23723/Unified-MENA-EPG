@@ -81,6 +81,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # A wedged job must never hold the queue. The refresh loop below
+    # runs for most of an hour on purpose, and a job that hangs on a
+    # source that never answers would otherwise keep every cron behind
+    # it waiting the default six hours. Seventy minutes is the loop's
+    # fifty-five plus the full pass's handful; the concurrency group's
+    # queued cron takes the pen the moment this job ends or is killed.
+    timeout-minutes: 70
     # CRITICAL FIX: Job continues even if any step fails
     continue-on-error: true
     steps:
@@ -240,5 +247,28 @@ jobs:
         run: python -u publish_screens.py
         continue-on-error: true
 
+      # THE ON-TIME FIX, and the one that ends the argument with the
+      # scheduler. Everything above already ran: the guides, the boards,
+      # the eight screens, the playlists, the publish. This step then
+      # keeps the job alive — publishing, not waiting — until the next
+      # cron takes the pen. Every few minutes it rebuilds the two match
+      # guides, re-encodes the four sports screens, rewrites the
+      # playlists, and publishes through publish_screens.py, which runs
+      # the gate before any push exactly as before. A kickoff lands
+      # 🔴 مباشر on both clocks within one cadence of the whistle
+      # instead of within one surviving cron of it.
+      #
+      # Fault tolerance is per pass inside the loop: a source that does
+      # not answer leaves its published guide untouched, a pass that
+      # crashes is logged and yielded to, and the next pass rebuilds
+      # from whatever published last. Nothing bypasses the gate, and
+      # nothing here rewrites the merged link — the queued cron behind
+      # this job rebuilds everything (news, weather, the merged guide)
+      # when it takes over, and that pass is already the belt-and-
+      # braces this repository wears.
+      - name: Keep the live mark honest until the next cron takes over
+        run: python -u live_refresh_loop.py
+        continue-on-error: true
+
       - name: ✅ BUILD COMPLETE - FULLY NON-BLOCKING
-        run: echo "✅ Today's matches workflow complete - system will try again in 5 minutes"
+        run: echo "✅ Today's matches workflow complete - live marks kept fresh for the hour, next cron takes over"
