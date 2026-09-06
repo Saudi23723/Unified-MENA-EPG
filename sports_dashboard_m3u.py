@@ -58,6 +58,23 @@ RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 # answering, the row was in the playlist and the channel played nothing.
 WEATHER_NAME = WEATHER_AR
 
+# The fifth channel — the Sheikh Othman Alkamees 24/7 lecture stream.
+# Not a screen drawn in this repository: a live HLS channel stitched
+# from two YouTube lecture playlists (4,634 lectures), playing back to
+# back around the clock, never repeating a lecture inside a cycle. Its
+# URL is a DOOR — stream/alkamees.m3u8, a master playlist committed here
+# that points at wherever the channel is currently being served from.
+# Moving the channel means editing the door; this row never changes,
+# and the channel survives any move because a player fetches the door
+# fresh each time it tunes in. The encoder never sweeps this file: no
+# screen owns the alkamees prefix, so the publishing pass leaves the
+# door exactly as committed.
+ALKAMEES_ID = "AlkameesLecture"
+ALKAMEES_NAME = "الشيخ عثمان الخميس"
+ALKAMEES_SHOWN = "🎙 الشيخ عثمان الخميس 24/7"
+ALKAMEES_LOGO = f"{RAW}/logos/alkamees.png"
+ALKAMEES_DOOR = f"{RAW}/stream/alkamees.m3u8"
+
 # Four channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
@@ -82,6 +99,8 @@ SCREENS = (
      f"{RAW}/stream/news.m3u8", "📰 أخبار اليوم", NEWS_LOGO),
     (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
+    (ALKAMEES_ID, ALKAMEES_NAME, "stream/alkamees.m3u8",
+     ALKAMEES_DOOR, ALKAMEES_SHOWN, ALKAMEES_LOGO),
 )
 
 
@@ -114,6 +133,9 @@ DUBAI_SCREENS = (
     ("TodayWeatherDubai", WEATHER_NAME, "stream/dubai_weather.m3u8",
      f"{RAW}/stream/dubai_weather.m3u8", "🌤️ طقس اليوم · بتوقيت الإمارات",
      WEATHER_LOGO),
+    ("AlkameesLectureDubai", ALKAMEES_NAME, "stream/alkamees.m3u8",
+     ALKAMEES_DOOR, ALKAMEES_SHOWN + " · بتوقيت الإمارات",
+     ALKAMEES_LOGO),
 )
 
 
