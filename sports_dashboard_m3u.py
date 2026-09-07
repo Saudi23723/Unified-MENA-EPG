@@ -218,7 +218,7 @@ def write_the_playlist(screens, output: str, group: str) -> int:
           "--match-filter",
           "is_live",
           "--format",
-          "best[acodec!=none][vcodec!=none]/best",
+          "best[height=720][acodec!=none][vcodec!=none]/best[height<=720][acodec!=none][vcodec!=none]/best[acodec!=none][vcodec!=none]/best",
           "--get-url",
           YOUTUBE_LIVE_URL,
       ]
