@@ -31,6 +31,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.request
 
@@ -68,7 +69,8 @@ WEATHER_NAME = WEATHER_AR
 # stream/ain_fm.m3u8 and says why they are three.
 AIN_FM_ID = "AinFMJordan"
 AIN_FM_NAME = "Ain FM 98.3"
-AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
+AIN_FM_LOGO = f"{RAW}/logos/ain_fm_radio_dim.png"
+AIN_FM_RADIO = "https://radio.ainfm.site/ainfm"
 
 # Five channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
@@ -95,7 +97,7 @@ SCREENS = (
     (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
     (AIN_FM_ID, AIN_FM_NAME, "stream/ain_fm.m3u8",
-     f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
+     AIN_FM_RADIO, "🎙️ Ain FM 98.3", AIN_FM_LOGO),
 
 )
 
@@ -200,6 +202,64 @@ def write_the_playlist(screens, output: str, group: str) -> int:
 
 
 
+YOUTUBE_LIVE_URL = "https://www.youtube.com/@AinFM_Jo/live"
+
+
+def current_ain_fm_source() -> str:
+  """Resolve Ain FM's 720p HLS master manifest with audio tracks, or keep radio working."""
+  command = [
+      sys.executable,
+      "-m",
+      "yt_dlp",
+      "--quiet",
+      "--no-warnings",
+      "--no-playlist",
+      "--js-runtimes",
+      "node",
+      "--skip-download",
+      "--match-filter",
+      "is_live",
+      "--format",
+      "bestvideo[height=720][width<=1280]",
+      "--print",
+      "%(manifest_url)s",
+      YOUTUBE_LIVE_URL,
+  ]
+  try:
+      result = subprocess.run(
+          command,
+          check=False,
+          capture_output=True,
+          text=True,
+          timeout=90,
+      )
+  except (OSError, subprocess.TimeoutExpired) as exc:
+      warn(f"Ain FM YouTube resolver unavailable ({exc}) — keeping radio")
+      return AIN_FM_RADIO
+
+  if result.returncode != 0:
+      log("Ain FM YouTube is offline — keeping the direct radio stream")
+      return AIN_FM_RADIO
+
+  for line in result.stdout.splitlines():
+      source = line.strip()
+      if source.startswith("http://") or source.startswith("https://"):
+          log("Ain FM YouTube Live is active")
+          return source
+
+  warn("Ain FM YouTube returned no playable URL — keeping radio")
+  return AIN_FM_RADIO
+
+
+def rewrite_ain_fm_source(path: str, channel_id: str, source: str) -> None:
+    lines = open(path, encoding="utf-8").read().splitlines()
+    for index, line in enumerate(lines[:-1]):
+        if f'tvg-id="{channel_id}"' in line:
+            lines[index + 1] = source
+            with open(path, "w", encoding="utf-8", newline="\n") as out:
+                out.write("\n".join(lines) + "\n")
+            return
+    warn(f"{channel_id} is missing from {path} — source was not changed")
 
 def build() -> int:
     # The first clock, exactly as before.
@@ -210,6 +270,10 @@ def build() -> int:
     # the first clock's file is already safe on disk by then.
     ok = write_the_playlist(DUBAI_SCREENS, DUBAI_OUTPUT, DUBAI_GROUP) and ok
 
+    # Resolve Ain FM once, then keep both public playlist URLs in sync.
+    ain_fm_source = current_ain_fm_source()
+    rewrite_ain_fm_source(OUTPUT, AIN_FM_ID, ain_fm_source)
+    rewrite_ain_fm_source(DUBAI_OUTPUT, "AinFMJordanDubai", ain_fm_source)
     return 0 if ok else 1
 
 
