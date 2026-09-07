@@ -1,4 +1,5 @@
 #EXTM3U
-    #EXTINF:-1 tvg-id="ain-fm" tvg-name="Ain FM" tvg-logo="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/ain_fm.png" group-title="Radio",Ain FM
-    https://radio.ainfm.site/ainfm
-    
+#EXT-X-VERSION:3
+#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="ainfm",NAME="Ain FM",DEFAULT=YES,AUTOSELECT=YES,URI="ain_fm_audio.m3u8"
+#EXT-X-STREAM-INF:BANDWIDTH=300000,CODECS="avc1.4d401f,mp4a.40.2",RESOLUTION=1280x720,AUDIO="ainfm"
+ain_fm_video.m3u8
