@@ -214,6 +214,8 @@ def current_ain_fm_source() -> str:
       "--quiet",
       "--no-warnings",
       "--no-playlist",
+      "--js-runtimes",
+      "node",
       "--skip-download",
       "--match-filter",
       "is_live",
