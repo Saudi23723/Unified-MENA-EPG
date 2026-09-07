@@ -58,7 +58,17 @@ RAW = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main"
 # answering, the row was in the playlist and the channel played nothing.
 WEATHER_NAME = WEATHER_AR
 
-# Four channels, ONE playlist, because that is the whole point of it: the
+# The fifth channel — Ain FM 98.3, and the only one of the five whose
+# sound comes from somebody else. A radio station publishes audio and
+# nothing else, so the row played and the screen stayed black; what is
+# added beside the station's stream is a picture, encoded here from the
+# station's own mark. ain_fm_screen.py builds the three files behind
+# stream/ain_fm.m3u8 and says why they are three.
+AIN_FM_ID = "AinFMJordan"
+AIN_FM_NAME = "Ain FM 98.3"
+AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
+
+# Five channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
 #
@@ -82,15 +92,17 @@ SCREENS = (
      f"{RAW}/stream/news.m3u8", "📰 أخبار اليوم", NEWS_LOGO),
     (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
+    (AIN_FM_ID, AIN_FM_NAME, "stream/ain_fm.m3u8",
+     f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
 
 )
 
 
-# THE SECOND CLOCK — the same four channels with every time printed in
+# THE SECOND CLOCK — the same five channels with every time printed in
 # the Gulf's (Asia/Dubai), asked for outright as a second set of links.
 # A playlist of its own rather than rows appended to the first, because
 # a reader pastes one link and gets one set: mixing the two clocks in
-# one list is four channels each shown twice, and nobody can tell which
+# one list is five channels each shown twice, and nobody can tell which
 # row is which clock without reading a time on each.
 #
 # Same marks as the first set on purpose — a channel wearing another
@@ -115,6 +127,12 @@ DUBAI_SCREENS = (
     ("TodayWeatherDubai", WEATHER_NAME, "stream/dubai_weather.m3u8",
      f"{RAW}/stream/dubai_weather.m3u8", "🌤️ طقس اليوم · بتوقيت الإمارات",
      WEATHER_LOGO),
+    # Ain FM keeps its own clock — Amman's, since that is where it is
+    # broadcast from — so this is the same channel under the second
+    # list's heading, and only its id differs, because a player takes
+    # two rows of one id for one channel and tunes to neither.
+    ("AinFMJordanDubai", AIN_FM_NAME, "stream/ain_fm.m3u8",
+     f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
 
 )
 
