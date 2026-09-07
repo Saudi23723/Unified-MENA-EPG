@@ -1,7 +1,4 @@
 #EXTM3U
-#EXT-X-VERSION:3
-#EXT-X-TARGETDURATION:10
-#EXT-X-MEDIA-SEQUENCE:0
-#EXTINF:10.0,
-https://radio.ainfm.site/ainfm
-#EXT-X-ENDLIST
+    #EXTINF:-1 tvg-id="ain-fm" tvg-name="Ain FM" tvg-logo="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/ain_fm.png" group-title="Radio",Ain FM
+    https://radio.ainfm.site/ainfm
+    
