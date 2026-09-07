@@ -98,12 +98,6 @@
     <display-name lang="ar">أبوظبي فايت</display-name>
     <icon src="https://starzplay-img-prod-ssl.akamaized.net/prd-peg-data/default/images/logos/live/v2/adfight/active/148e429d490678b682f11eb5046f99ca.png" />
   </channel>
-  <programme start="20260906202500 +0000" stop="20260906204500 +0000" channel="Starz_admnadsports1">
-    <title lang="en">Program: Full Time 2026-2027</title>
-    <desc lang="en">Program: Full Time 2026-2027</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
   <programme start="20260906204500 +0000" stop="20260906224500 +0000" channel="Starz_admnadsports1">
     <title lang="en">ADNOC Pro League 2026-2027</title>
     <desc lang="en">ADNOC Pro League 2026-2027</desc>
@@ -440,7 +434,13 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906210000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260910204500 +0000" stop="20260910211500 +0000" channel="Starz_admnadsports1">
+    <title lang="en">Studio: ADNOC Pro League 2026-2027</title>
+    <desc lang="en">Studio: ADNOC Pro League 2026-2027</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260906204500 +0000" stop="20260906210000 +0000" channel="Starz_admnadsports2">
     <title lang="en">City TV - Manchester City Football Club Match 2026</title>
     <desc lang="en">City TV - Manchester City Football Club Match 2026 - 2027</desc>
     <category lang="en">Sport</category>
@@ -745,13 +745,6 @@
     <desc lang="en">Serie A Preview Show Magazine (AR): Inside Serie A 2026-2027</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260906202500 +0000" stop="20260906204500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Juventus X Milan - Serie A</title>
-    <title lang="ar">يوفنتوس × ميلان - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
   </programme>
   <programme start="20260906204500 +0000" stop="20260906211500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Studio</title>
@@ -1341,13 +1334,6 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906204500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Juventus X Milan - Serie A</title>
-    <title lang="ar">يوفنتوس × ميلان - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
   <programme start="20260906204500 +0000" stop="20260906211500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Studio</title>
     <title lang="ar">استوديو</title>
@@ -1929,7 +1915,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906213000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260906204500 +0000" stop="20260906213000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Hooker X Parnasse - Prelims - UFC Fight Night</title>
     <title lang="ar">هوكر × بارناس - التصفيات التمهيدية - يو إف سي فايت نايت</title>
     <desc lang="en">UFC Fight Night brings you the best MMA action from around the world.</desc>
@@ -2489,13 +2475,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906203000 +0000" channel="Starz_starzplayrugby">
-    <title lang="en">Fiji vs. Scotland - Nations Championship 2026</title>
-    <desc lang="en">Fiji vs. Scotland - Nations Championship 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/GNLZZGG0039Z466.jpg" />
-  </programme>
-  <programme start="20260906203000 +0000" stop="20260906222700 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260906204500 +0000" stop="20260906222700 +0000" channel="Starz_starzplayrugby">
     <title lang="en">New Zealand vs. France - Nations Championship 2026</title>
     <desc lang="en">New Zealand vs. France - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -2759,14 +2739,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906203000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Iraq X Thailand - AFC U20 Asian Cup Qualifiers</title>
-    <title lang="ar">العراق × تايلاند - تصفيات  كأس آسيا تحت 20 سنة</title>
-    <desc lang="en">Stay tuned to AFC U20 Asian Cup Qualifiers.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG609584_landscape10-de196f54-ba37-4bb2-a688-780a32a7b198.jpg" />
-  </programme>
-  <programme start="20260906203000 +0000" stop="20260906223000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260906204500 +0000" stop="20260906223000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Astana: Phygital Basketball/Battle Royale - Games of the Future</title>
     <title lang="ar">أستانا: كرة السلة الرقمية/باتل رويال - ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -3333,7 +3306,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906230000 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260906204500 +0000" stop="20260906230000 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Guyana Amazon Warriors vs. St. Kitts &amp; Nevis Patriots - CPL T20 Cricket - LIVE</title>
     <title lang="ar">سي بي إل تي٢٠ كريكيت - مباشر</title>
     <desc lang="en">Guyana Amazon Warriors vs. St. Kitts &amp; Nevis Patriots - CPL T20 Cricket - LIVE</desc>
@@ -3643,68 +3616,289 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908015700 +0000" stop="20260908020000 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260908015700 +0000" stop="20260908022400 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Birmingham Phoenix vs. MI London - Men's The Hundred</title>
     <title lang="ar">منز ذا هاندرد</title>
     <desc lang="en">S2026 , Ep.Birmingham Phoenix vs. MI London : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908020000 +0000" stop="20260908050000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908022400 +0000" stop="20260908024800 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd ODI: India v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908024800 +0000" stop="20260908031200 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd T20: England vs. India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908050000 +0000" stop="20260908080000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908031200 +0000" stop="20260908033400 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Welsh Fire vs.London Spirit - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Welsh Fire vs.London Spirit : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908033400 +0000" stop="20260908040000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Jamaica Kingsmen v St. Kitts &amp; Nevis Patriots, 10th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908080000 +0000" stop="20260908110000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908040000 +0000" stop="20260908042900 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">1st ODI: England v India - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908042900 +0000" stop="20260908045700 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">4th ODI: West Indies v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908045700 +0000" stop="20260908052100 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Barbados Tridents vs. St. Lucia Kings, 29th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908110000 +0000" stop="20260908140000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908052100 +0000" stop="20260908055900 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd ODI: England v India - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908055900 +0000" stop="20260908062300 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Barbados Tridents vs. Trinbago Knight Riders - Women's CPL T20</title>
+    <desc lang="en">2026: Barbados Tridents vs. Trinbago Knight Riders - Women's CPL T20</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p22773637_b_h8_ac.jpg" />
+  </programme>
+  <programme start="20260908062300 +0000" stop="20260908065700 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">5th T20: England vs. India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908140000 +0000" stop="20260908170000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908065700 +0000" stop="20260908073100 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd ODI: England v Ireland - Women's One-Day International Cricket</title>
+    <title lang="ar">سكند أو دي آي: أستراليا فيرسز إنديا</title>
+    <desc lang="en">Women's national cricket teams compete against each other in a one-day international in a bid to emerge victorious and win the title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p11931627_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908073100 +0000" stop="20260908092100 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">1st Test: Sri Lanka vs. India - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908200000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908092100 +0000" stop="20260908094900 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Eliminator: Manchester Super Giants vs Sunrisers Leeds - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Eliminator: Manchester Super Giants vs Sunrisers Leeds : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908094900 +0000" stop="20260908101500 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd T20: Ireland vs. India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908200000 +0000" stop="20260908230000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908101500 +0000" stop="20260908104600 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">5th ODI: West Indies v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908104600 +0000" stop="20260908110800 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">4th T20: England vs. India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260908230000 +0000" stop="20260909020000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908110800 +0000" stop="20260908113200 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Barbados Tridents vs Trinbago Knight Riders, 27th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908113200 +0000" stop="20260908115100 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Best Of MLC 2026</title>
+    <desc lang="en">Best Of MLC 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908115100 +0000" stop="20260908121200 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Best Of MLC 2026</title>
+    <desc lang="en">Best Of MLC 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908121200 +0000" stop="20260908123600 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd T20: England vs. India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908123600 +0000" stop="20260908130500 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd ODI: India v Afghanistan - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908130500 +0000" stop="20260908133300 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Final: Trent Rockets vs. Manchester Super Giants - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Final: Trent Rockets vs. Manchester Super Giants : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908133300 +0000" stop="20260908135700 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Trinbago Knight Riders vs Antigua And Barbuda Falcons - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908135700 +0000" stop="20260908143600 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd ODI: India v Afghanistan - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908143600 +0000" stop="20260908150000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: St Kitts &amp; Nevis Patriots vs Saint Lucia Kings, 25th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908150000 +0000" stop="20260908164800 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd Test: Sri Lanka vs. India - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908164800 +0000" stop="20260908171200 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Guyana Amazon Warriors vs. St. Kitts &amp; Nevis Patriots, 28th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908171200 +0000" stop="20260908175000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd ODI: England v India - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908175000 +0000" stop="20260908181400 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Barbados Tridents vs. St. Lucia Kings, 29th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908181400 +0000" stop="20260908183400 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd ODI: West Indies vs. New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908183400 +0000" stop="20260908190000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Birmingham Phoenix vs. MI London - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Birmingham Phoenix vs. MI London : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908190000 +0000" stop="20260908192900 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd ODI: England vs. India - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908192900 +0000" stop="20260908200000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Challenger: San Francisco Unicorns vs Washington Freedom - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908200000 +0000" stop="20260908202500 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd T20: England vs. India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908202500 +0000" stop="20260908205300 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">1st ODI: West Indies v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908205300 +0000" stop="20260908211700 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Noyontara</title>
+    <title lang="ar">نويونتارا</title>
+    <desc lang="en">S1 , E246 : Noyontara's ability to communicate with spirits enables her to bridge the gap between realms and uncover veiled truths. Her marriage into the Sengupta family sets in motion a series of revelations.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p30286479_b_h8_ad.jpg" />
+  </programme>
+  <programme start="20260908211700 +0000" stop="20260908214400 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">MI London vs. Manchester Super Giants - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.MI London vs. Manchester Super Giants : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908214400 +0000" stop="20260908220700 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: MI New York vs. Washington Freedom - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908220700 +0000" stop="20260908223000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2026: Barbados Tridents vs. St. Lucia Kings, 29th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+  </programme>
+  <programme start="20260908223000 +0000" stop="20260909020000 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">Guyana Amazon Warriors vs. Antigua &amp; Barbuda Falcons - CPL T20 Cricket - LIVE</title>
+    <title lang="ar">سي بي إل تي٢٠ كريكيت - مباشر</title>
+    <desc lang="en">Guyana Amazon Warriors vs. Antigua &amp; Barbuda Falcons - CPL T20 Cricket - LIVE</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p14393243_b_h10_ad.jpg" />
   </programme>
   <programme start="20260909020000 +0000" stop="20260909050000 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Sports Programme</title>
@@ -3811,14 +4005,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906203400 +0000" channel="Starz_wedosports">
-    <title lang="en">Clubland</title>
-    <title lang="ar">كلبلاند</title>
-    <desc lang="en">S1 , E38 : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
-  </programme>
-  <programme start="20260906203400 +0000" stop="20260906210400 +0000" channel="Starz_wedosports">
+  <programme start="20260906204500 +0000" stop="20260906210400 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلبلاند</title>
     <desc lang="en">S1 , E16 : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
@@ -4282,7 +4469,13 @@
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906210000 +0000" channel="Starz_criclife1">
+  <programme start="20260910203000 +0000" stop="20260910210300 +0000" channel="Starz_wedosports">
+    <title lang="en">Against the Odds</title>
+    <desc lang="en">S1 , E7 : Join a behind-the-scenes journey into the stories of famous athletes, exploring their very personal and emotive aspects of elite sport.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p19671364_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260906204500 +0000" stop="20260906210000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's ODI World Cup 2023: New Zealand vs. Netherlands - Kick-Off Classics</title>
     <desc lang="en">ICC Men's ODI World Cup 2023: New Zealand vs. Netherlands - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
@@ -4597,63 +4790,241 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260908050000 +0000" stop="20260908080000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908050000 +0000" stop="20260908060000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Cricket 360</title>
+    <desc lang="en">ICC Cricket 360</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260908080000 +0000" stop="20260908110000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908060000 +0000" stop="20260908070000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's ODI World Cup 2023: Pakistan vs Sri Lanka - Kick-Off Classics</title>
+    <desc lang="en">ICC Men's ODI World Cup 2023: Pakistan vs Sri Lanka - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260908110000 +0000" stop="20260908140000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908070000 +0000" stop="20260908073000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Mens T20 World Cup 2022: India vs Zimbabwe - Kick-Off Classics</title>
+    <desc lang="en">ICC Mens T20 World Cup 2022: India vs Zimbabwe - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260908140000 +0000" stop="20260908170000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908073000 +0000" stop="20260908080000 +0000" channel="Starz_criclife1">
+    <title lang="en">Punjab Kings vs. Royal Challengers Bengaluru - Tata IPL Rewinds</title>
+    <desc lang="en">S2024 , Ep.Punjab Kings vs. Royal Challengers Bengaluru :</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908200000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908080000 +0000" stop="20260908083000 +0000" channel="Starz_criclife1">
+    <title lang="en">Chennai Super Kings vs. Gujarat Titans - Tata IPL Rewinds</title>
+    <desc lang="en">S2024 , Ep.Chennai Super Kings vs. Gujarat Titans :</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260908200000 +0000" stop="20260909020000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908083000 +0000" stop="20260908090000 +0000" channel="Starz_criclife1">
+    <title lang="en">Kolkata Knight Riders vs. Mumbai Indians - Tata IPL Rewinds</title>
+    <desc lang="en">S2024 , Ep.Kolkata Knight Riders vs. Mumbai Indians :</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260909020000 +0000" stop="20260909050000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908090000 +0000" stop="20260908093000 +0000" channel="Starz_criclife1">
+    <title lang="en">Asia Cup Men's 2023: Final: India vs Sri Lanka - Asian Blockbusters</title>
+    <desc lang="en">Asia Cup Men's 2023: Final: India vs Sri Lanka - Asian Blockbusters</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260909050000 +0000" stop="20260909080000 +0000" channel="Starz_criclife1">
-    <title lang="en">STARZPLAY Cricket</title>
-    <title lang="ar">ستارزبلاي كريكيت</title>
-    <desc lang="en">STARZPLAY Cricket</desc>
+  <programme start="20260908093000 +0000" stop="20260908100000 +0000" channel="Starz_criclife1">
+    <title lang="en">Asia Cup 2025: Afghanistan vs. Hong Kong - Asian Blockbusters</title>
+    <desc lang="en">Asia Cup 2025: Afghanistan vs. Hong Kong - Asian Blockbusters</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260909080000 +0000" stop="20260909110000 +0000" channel="Starz_criclife1">
+  <programme start="20260908100000 +0000" stop="20260908103000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC U19 Men's ODI World Cup 2026: Pakistan vs England - Future Stars Zone</title>
+    <desc lang="en">ICC U19 Men's ODI World Cup 2026: Pakistan vs England - Future Stars Zone</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908103000 +0000" stop="20260908110000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's U19 ODI WC 2026: Australia vs. Ireland - Future Stars Zone</title>
+    <desc lang="en">ICC Men's U19 ODI WC 2026: Australia vs. Ireland - Future Stars Zone</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908110000 +0000" stop="20260908120000 +0000" channel="Starz_criclife1">
+    <title lang="en">India v Australia - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260908120000 +0000" stop="20260908123000 +0000" channel="Starz_criclife1">
+    <title lang="en">2024: South Africa vs West Indies - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908123000 +0000" stop="20260908130100 +0000" channel="Starz_criclife1">
+    <title lang="en">2024: New Zealand vs. India - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908130100 +0000" stop="20260908133000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2026 Heroes Virat Kohli 2014 - ICC Specials</title>
+    <desc lang="en">ICC Men's T20 World Cup 2026 Heroes Virat Kohli 2014 - ICC Specials</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908133000 +0000" stop="20260908143000 +0000" channel="Starz_criclife1">
+    <title lang="en">CL ICC 2023 GM2 Greatest Matches 1996 A - ICC Specials</title>
+    <desc lang="en">CL ICC 2023 GM2 Greatest Matches 1996 A - ICC Specials</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908143000 +0000" stop="20260908150000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2007: India vs Pakistan - Flashback</title>
+    <desc lang="en">ICC Men's T20 World Cup 2007: India vs Pakistan - Flashback</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908150000 +0000" stop="20260908153000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2007: India vs England - Flashback</title>
+    <desc lang="en">ICC Men's T20 World Cup 2007: India vs England - Flashback</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908153000 +0000" stop="20260908162000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2007: Semifinal 1 - New Zealand vs Pakistan - Flashback</title>
+    <desc lang="en">ICC Men's T20 World Cup 2007: Semifinal 1 - New Zealand vs Pakistan - Flashback</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908162000 +0000" stop="20260908171500 +0000" channel="Starz_criclife1">
+    <title lang="en">TATA IPL 2026: Royal Challengers Bengaluru vs. Mumbai Indians - Prime Time Smash</title>
+    <desc lang="en">TATA IPL 2026: Royal Challengers Bengaluru vs. Mumbai Indians - Prime Time Smash</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908171500 +0000" stop="20260908174500 +0000" channel="Starz_criclife1">
+    <title lang="en">Women's Asia Cup 2026: Sri Lanka vs. United Arab Emirates - Prime Time Smash</title>
+    <desc lang="en">Women's Asia Cup 2026: Sri Lanka vs. United Arab Emirates - Prime Time Smash</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908174500 +0000" stop="20260908181500 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2026: India vs. Netherlands - Prime Time Smash</title>
+    <desc lang="en">ICC Men's T20 World Cup 2026: India vs. Netherlands - Prime Time Smash</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908181500 +0000" stop="20260908191600 +0000" channel="Starz_criclife1">
+    <title lang="en">TATA IPL 2026: Sunrisers Hyderabad vs. Rajasthan Royals - Prime Time Smash</title>
+    <desc lang="en">TATA IPL 2026: Sunrisers Hyderabad vs. Rajasthan Royals - Prime Time Smash</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908191600 +0000" stop="20260908201600 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Cricket 360</title>
+    <desc lang="en">ICC Cricket 360</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908201600 +0000" stop="20260908211300 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's ODI World Cup 2023: Pakistan vs Sri Lanka - Kick-Off Classics</title>
+    <desc lang="en">ICC Men's ODI World Cup 2023: Pakistan vs Sri Lanka - Kick-Off Classics</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908211300 +0000" stop="20260908214300 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Mens T20 World Cup 2022: India vs Zimbabwe - Kick-Off Classics</title>
+    <desc lang="en">ICC Mens T20 World Cup 2022: India vs Zimbabwe - Kick-Off Classics</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908214300 +0000" stop="20260908221300 +0000" channel="Starz_criclife1">
+    <title lang="en">Punjab Kings vs. Royal Challengers Bengaluru - Tata IPL Rewinds</title>
+    <desc lang="en">S2024 , Ep.Punjab Kings vs. Royal Challengers Bengaluru :</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908221300 +0000" stop="20260908224300 +0000" channel="Starz_criclife1">
+    <title lang="en">Chennai Super Kings vs. Gujarat Titans - Tata IPL Rewinds</title>
+    <desc lang="en">S2024 , Ep.Chennai Super Kings vs. Gujarat Titans :</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908224300 +0000" stop="20260908231300 +0000" channel="Starz_criclife1">
+    <title lang="en">Kolkata Knight Riders vs. Mumbai Indians - Tata IPL Rewinds</title>
+    <desc lang="en">S2024 , Ep.Kolkata Knight Riders vs. Mumbai Indians :</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908231300 +0000" stop="20260908234300 +0000" channel="Starz_criclife1">
+    <title lang="en">Asia Cup Men's 2023: Final: India vs Sri Lanka - Asian Blockbusters</title>
+    <desc lang="en">Asia Cup Men's 2023: Final: India vs Sri Lanka - Asian Blockbusters</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260908234300 +0000" stop="20260909001300 +0000" channel="Starz_criclife1">
+    <title lang="en">Asia Cup 2025: Afghanistan vs. Hong Kong - Asian Blockbusters</title>
+    <desc lang="en">Asia Cup 2025: Afghanistan vs. Hong Kong - Asian Blockbusters</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260909001300 +0000" stop="20260909004300 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC U19 Men's ODI World Cup 2026: Pakistan vs England - Future Stars Zone</title>
+    <desc lang="en">ICC U19 Men's ODI World Cup 2026: Pakistan vs England - Future Stars Zone</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260909004300 +0000" stop="20260909011400 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's U19 ODI WC 2026: Australia vs. Ireland - Future Stars Zone</title>
+    <desc lang="en">ICC Men's U19 ODI WC 2026: Australia vs. Ireland - Future Stars Zone</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260909011400 +0000" stop="20260909021000 +0000" channel="Starz_criclife1">
+    <title lang="en">India v Australia - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909021000 +0000" stop="20260909021400 +0000" channel="Starz_criclife1">
+    <title lang="en">2024: South Africa vs West Indies - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909021400 +0000" stop="20260909031100 +0000" channel="Starz_criclife1">
+    <title lang="en">2024: New Zealand vs. India - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909031100 +0000" stop="20260909034000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2026 Heroes Virat Kohli 2014 - ICC Specials</title>
+    <desc lang="en">ICC Men's T20 World Cup 2026 Heroes Virat Kohli 2014 - ICC Specials</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260909034000 +0000" stop="20260909043200 +0000" channel="Starz_criclife1">
+    <title lang="en">CL ICC 2023 GM2 Greatest Matches 1996 A - ICC Specials</title>
+    <desc lang="en">CL ICC 2023 GM2 Greatest Matches 1996 A - ICC Specials</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260909043200 +0000" stop="20260909050000 +0000" channel="Starz_criclife1">
+    <title lang="en">ICC Men's T20 World Cup 2007: India vs Pakistan - Flashback</title>
+    <desc lang="en">ICC Men's T20 World Cup 2007: India vs Pakistan - Flashback</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+  </programme>
+  <programme start="20260909050000 +0000" stop="20260909110000 +0000" channel="Starz_criclife1">
     <title lang="en">STARZPLAY Cricket</title>
     <title lang="ar">ستارزبلاي كريكيت</title>
     <desc lang="en">STARZPLAY Cricket</desc>
@@ -4737,14 +5108,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906203600 +0000" channel="Starz_criclife3">
-    <title lang="en">1st ODI: England v Ireland - Women's One-Day International Cricket</title>
-    <title lang="ar">سكند أو دي آي: أستراليا فيرسز إنديا</title>
-    <desc lang="en">Women's national cricket teams compete against each other in a one-day international in a bid to emerge victorious and win the title.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p11931627_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260906203600 +0000" stop="20260906210000 +0000" channel="Starz_criclife3">
+  <programme start="20260906204500 +0000" stop="20260906210000 +0000" channel="Starz_criclife3">
     <title lang="en">3rd T20: Sri Lanka vs. England - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -5139,65 +5503,319 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908014400 +0000" stop="20260908020000 +0000" channel="Starz_criclife3">
+  <programme start="20260908014400 +0000" stop="20260908020900 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Edinburgh Castle Rockers vs. Dublin Guardians - ETPL Highlights</title>
     <desc lang="en">2026: Edinburgh Castle Rockers vs. Dublin Guardians - ETPL Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908020000 +0000" stop="20260908050000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908020900 +0000" stop="20260908024300 +0000" channel="Starz_criclife3">
+    <title lang="en">3rd ODI: England v Ireland - Women's One-Day International Cricket</title>
+    <title lang="ar">سكند أو دي آي: أستراليا فيرسز إنديا</title>
+    <desc lang="en">Women's national cricket teams compete against each other in a one-day international in a bid to emerge victorious and win the title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p11931627_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908024300 +0000" stop="20260908030700 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: St Kitts &amp; Nevis Patriots vs Barbados Tridents, 23rd Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908050000 +0000" stop="20260908080000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908030700 +0000" stop="20260908043100 +0000" channel="Starz_criclife3">
+    <title lang="en">2nd Test: England vs Pakistan - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908080000 +0000" stop="20260908110000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908043100 +0000" stop="20260908045800 +0000" channel="Starz_criclife3">
+    <title lang="en">PSL 11 - Best of Season</title>
+    <desc lang="en">PSL 11 - Best of Season</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908110000 +0000" stop="20260908140000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908045800 +0000" stop="20260908052200 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Amsterdam Flames vs Rotterdam Dockers - ETPL Highlights</title>
+    <desc lang="en">2026: Amsterdam Flames vs Rotterdam Dockers - ETPL Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908140000 +0000" stop="20260908170000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908052200 +0000" stop="20260908054600 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Dublin Guardians vs. Amsterdam Flames - ETPL Highlights</title>
+    <desc lang="en">2026: Dublin Guardians vs. Amsterdam Flames - ETPL Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908200000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908054600 +0000" stop="20260908061800 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Jamaica Kingsmen vs. Barbados Royals, 4th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908200000 +0000" stop="20260908230000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908061800 +0000" stop="20260908064500 +0000" channel="Starz_criclife3">
+    <title lang="en">4th ODI: West Indies v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908064500 +0000" stop="20260908070800 +0000" channel="Starz_criclife3">
+    <title lang="en">1st ODI: Pakistan v Australia - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908070800 +0000" stop="20260908073200 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Barbados Tridents vs. St. Lucia Kings, 29th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260908230000 +0000" stop="20260909020000 +0000" channel="Starz_criclife3">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908073200 +0000" stop="20260908080000 +0000" channel="Starz_criclife3">
+    <title lang="en">Final: Trent Rockets vs. Manchester Super Giants - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Final: Trent Rockets vs. Manchester Super Giants : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908080000 +0000" stop="20260908082400 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Amsterdam Flames vs Glasgow Cosmic - ETPL Highlights</title>
+    <desc lang="en">2026: Amsterdam Flames vs Glasgow Cosmic - ETPL Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908082400 +0000" stop="20260908085200 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Final - Los Angeles Knight Riders vs Washington Freedom - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908085200 +0000" stop="20260908092200 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Trinbago Knight Riders vs Guyana Amazon Warriors, 22nd Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908092200 +0000" stop="20260908095300 +0000" channel="Starz_criclife3">
+    <title lang="en">1st ODI: West Indies v Sri Lanka - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908095300 +0000" stop="20260908103000 +0000" channel="Starz_criclife3">
+    <title lang="en">3rd ODI: Sri Lanka v England - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908103000 +0000" stop="20260908105600 +0000" channel="Starz_criclife3">
+    <title lang="en">Sunrisers Leeds vs Welsh Fire - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Sunrisers Leeds vs Welsh Fire : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908105600 +0000" stop="20260908112000 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Rotterdam Dockers vs Edinburgh Castle Rockers - ETPL Highlights</title>
+    <desc lang="en">2026: Rotterdam Dockers vs Edinburgh Castle Rockers - ETPL Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908112000 +0000" stop="20260908114900 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Seattle Orcas vs. San Francisco Unicorns - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908114900 +0000" stop="20260908132500 +0000" channel="Starz_criclife3">
+    <title lang="en">Australia v Bangladesh, 1st Test - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908132500 +0000" stop="20260908134900 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Dublin Guardians vs. Rotterdam Dockers - ETPL Highlights</title>
+    <desc lang="en">2026: Dublin Guardians vs. Rotterdam Dockers - ETPL Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908134900 +0000" stop="20260908141300 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Amsterdam Flames vs Glasgow Cosmic - ETPL Highlights</title>
+    <desc lang="en">2026: Amsterdam Flames vs Glasgow Cosmic - ETPL Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908141300 +0000" stop="20260908143700 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Guyana Amazon Warriors vs. St. Kitts &amp; Nevis Patriots, 28th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908143700 +0000" stop="20260908145700 +0000" channel="Starz_criclife3">
+    <title lang="en">Manchester Super Giants vs. Sunrisers Leeds - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Manchester Super Giants vs. Sunrisers Leeds : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908145700 +0000" stop="20260908152100 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Barbados Tridents vs. St. Lucia Kings, 29th Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908152100 +0000" stop="20260908154500 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Amsterdam Flames vs Rotterdam Dockers - ETPL Highlights</title>
+    <desc lang="en">2026: Amsterdam Flames vs Rotterdam Dockers - ETPL Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908154500 +0000" stop="20260908161000 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Qualifier - San Francisco Unicorns vs. Los Angeles Knight Riders - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908161000 +0000" stop="20260908163800 +0000" channel="Starz_criclife3">
+    <title lang="en">4th ODI: West Indies v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908163800 +0000" stop="20260908170300 +0000" channel="Starz_criclife3">
+    <title lang="en">3rd T20I: West Indies vs. Sri Lanka - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908170300 +0000" stop="20260908172800 +0000" channel="Starz_criclife3">
+    <title lang="en">2nd ODI: Pakistan v Australia - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908172800 +0000" stop="20260908175300 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Edinburgh Castle Rockers vs. Dublin Guardians - ETPL Highlights</title>
+    <desc lang="en">2026: Edinburgh Castle Rockers vs. Dublin Guardians - ETPL Highlights</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908175300 +0000" stop="20260908182300 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Trinbago Knight Riders vs Guyana Amazon Warriors, 22nd Match - CPL T20 Highlights</title>
+    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
+    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908182300 +0000" stop="20260908193500 +0000" channel="Starz_criclife3">
+    <title lang="en">1st Test, Day 1: England v Pakistan - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908193500 +0000" stop="20260908200000 +0000" channel="Starz_criclife3">
+    <title lang="en">PSL 11 - Best of Season</title>
+    <desc lang="en">PSL 11 - Best of Season</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908200000 +0000" stop="20260908201600 +0000" channel="Starz_criclife3">
+    <title lang="en">1st T20: New Zealand v South Africa - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908201600 +0000" stop="20260908203900 +0000" channel="Starz_criclife3">
+    <title lang="en">1st T20: Pakistan v Australia - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260908203900 +0000" stop="20260908210300 +0000" channel="Starz_criclife3">
+    <title lang="en">Birmingham Phoenix vs Sunrisers Leeds - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Birmingham Phoenix vs Sunrisers Leeds : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908210300 +0000" stop="20260908213100 +0000" channel="Starz_criclife3">
+    <title lang="en">1st ODI: Sri Lanka v England - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908213100 +0000" stop="20260908220200 +0000" channel="Starz_criclife3">
+    <title lang="en">Birmingham Phoenix vs. Trent Rockets - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Birmingham Phoenix vs. Trent Rockets : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908220200 +0000" stop="20260908222300 +0000" channel="Starz_criclife3">
+    <title lang="en">San Francisco Unicorns vs. Texas Super Kings - Major League Cricket</title>
+    <title lang="ar">ميجر ليغ كريكيت</title>
+    <desc lang="en">Professional cricket teams compete against each other to emerge victorious and win the coveted title in the Major League Cricket.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25184127_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260908222300 +0000" stop="20260908225000 +0000" channel="Starz_criclife3">
+    <title lang="en">MI London vs. London Spirit - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.MI London vs. London Spirit : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908225000 +0000" stop="20260908230800 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Los Angeles Knight Riders vs Washington Freedom - Major League Cricket Match Highlights</title>
+    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
+    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
+  </programme>
+  <programme start="20260908230800 +0000" stop="20260908234100 +0000" channel="Starz_criclife3">
+    <title lang="en">Sunrisers Leeds vs London Spirit - Men's The Hundred</title>
+    <title lang="ar">منز ذا هاندرد</title>
+    <desc lang="en">S2026 , Ep.Sunrisers Leeds vs London Spirit : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260908234100 +0000" stop="20260909013200 +0000" channel="Starz_criclife3">
+    <title lang="en">1st Test: West Indies vs Pakistan - Test Cricket</title>
+    <title lang="ar">تست كريكيت</title>
+    <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260909013200 +0000" stop="20260909015100 +0000" channel="Starz_criclife3">
+    <title lang="en">Best Of MLC 2026</title>
+    <desc lang="en">Best Of MLC 2026</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
+  </programme>
+  <programme start="20260909015100 +0000" stop="20260909020000 +0000" channel="Starz_criclife3">
+    <title lang="en">Best Of MLC 2026</title>
+    <desc lang="en">Best Of MLC 2026</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
@@ -5306,7 +5924,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906211100 +0000" channel="Starz_golflife">
+  <programme start="20260906204500 +0000" stop="20260906211100 +0000" channel="Starz_golflife">
     <title lang="en">BMW Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E188 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -5419,147 +6037,194 @@
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
   </programme>
-  <programme start="20260908000000 +0000" stop="20260908052900 +0000" channel="Starz_golflife">
+  <programme start="20260908000000 +0000" stop="20260908052600 +0000" channel="Starz_golflife">
     <title lang="en">Omega European Masters, First Round - DP World Tour Golf</title>
     <title lang="ar">دي بي ورلد تور غولف</title>
     <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260908052900 +0000" stop="20260908110000 +0000" channel="Starz_golflife">
+  <programme start="20260908052600 +0000" stop="20260908105800 +0000" channel="Starz_golflife">
     <title lang="en">Omega European Masters, Second Round - DP World Tour Golf</title>
     <title lang="ar">دي بي ورلد تور غولف</title>
     <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260908110000 +0000" stop="20260908162700 +0000" channel="Starz_golflife">
+  <programme start="20260908105800 +0000" stop="20260908162700 +0000" channel="Starz_golflife">
     <title lang="en">Omega European Masters, Third Round - DP World Tour Golf</title>
     <title lang="ar">دي بي ورلد تور غولف</title>
     <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260908162700 +0000" stop="20260908170000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908162700 +0000" stop="20260908231300 +0000" channel="Starz_golflife">
+    <title lang="en">Omega European Masters, Final Round - DP World Tour Golf</title>
+    <title lang="ar">دي بي ورلد تور غولف</title>
+    <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908200000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260908231300 +0000" stop="20260909043700 +0000" channel="Starz_golflife">
+    <title lang="en">First Round - 2026 TOUR Championship</title>
+    <desc lang="en">First Round - 2026 TOUR Championship</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33406701_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260909043700 +0000" stop="20260909100100 +0000" channel="Starz_golflife">
+    <title lang="en">Second Round - 2026 TOUR Championship</title>
+    <desc lang="en">Second Round - 2026 TOUR Championship</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33406701_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260909100100 +0000" stop="20260909163200 +0000" channel="Starz_golflife">
+    <title lang="en">Third Round - 2026 TOUR Championship</title>
+    <desc lang="en">Third Round - 2026 TOUR Championship</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33406701_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260909163200 +0000" stop="20260909231300 +0000" channel="Starz_golflife">
+    <title lang="en">Final Round - 2026 TOUR Championship</title>
+    <desc lang="en">Final Round - 2026 TOUR Championship</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33406701_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260909231300 +0000" stop="20260910001900 +0000" channel="Starz_golflife">
+    <title lang="en">BMW Championship - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E188 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910001900 +0000" stop="20260910012700 +0000" channel="Starz_golflife">
+    <title lang="en">The Ally Challenge - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , Ep.The Ally Challenge : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910012700 +0000" stop="20260910023000 +0000" channel="Starz_golflife">
+    <title lang="en">TOUR Championship - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E195 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910023000 +0000" stop="20260910024400 +0000" channel="Starz_golflife">
+    <title lang="en">BMW Championship - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E188 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910024400 +0000" stop="20260910031300 +0000" channel="Starz_golflife">
+    <title lang="en">Husqvarna British Masters Highlights - DP World Tour Championship, DP World Tour Golf</title>
+    <desc lang="en">Husqvarna British Masters Highlights - DP World Tour Championship, DP World Tour Golf</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9549006_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260910031300 +0000" stop="20260910034200 +0000" channel="Starz_golflife">
+    <title lang="en">2026 Vierumäki Finnish Challenge - HotelPlannerTour Series H/L</title>
+    <desc lang="en">2026 Vierumäki Finnish Challenge - HotelPlannerTour Series H/L</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260908200000 +0000" stop="20260908230000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260910034200 +0000" stop="20260910040900 +0000" channel="Starz_golflife">
+    <title lang="en">PGA TOUR: The CUT</title>
+    <title lang="ar">ذا كت</title>
+    <desc lang="en">S2026 , E24 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
+  </programme>
+  <programme start="20260910040900 +0000" stop="20260910051200 +0000" channel="Starz_golflife">
+    <title lang="en">Corales Puntacana Championship - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E157 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910051200 +0000" stop="20260910061500 +0000" channel="Starz_golflife">
+    <title lang="en">3M Open - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E162 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910061500 +0000" stop="20260910071400 +0000" channel="Starz_golflife">
+    <title lang="en">ISPS Handa Women's Scottish Open - Ladies Euro Tour Golf</title>
+    <title lang="ar">ليديز يورو تور غولف</title>
+    <desc lang="en">Elite women golfers compete across Europe's best courses, showcasing skill, strategy, and talent in prestigious tournaments.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8234778_b_h10_aa.jpg" />
+  </programme>
+  <programme start="20260910071400 +0000" stop="20260910074100 +0000" channel="Starz_golflife">
+    <title lang="en">PGA TOUR: The CUT</title>
+    <title lang="ar">ذا كت</title>
+    <desc lang="en">S2026 , E25 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
+  </programme>
+  <programme start="20260910074100 +0000" stop="20260910081000 +0000" channel="Starz_golflife">
+    <title lang="en">2026 Raiffeisenbank Golf Challenge - HotelPlannerTour Series H/L</title>
+    <desc lang="en">2026 Raiffeisenbank Golf Challenge - HotelPlannerTour Series H/L</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260908230000 +0000" stop="20260909020000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260910081000 +0000" stop="20260910091300 +0000" channel="Starz_golflife">
+    <title lang="en">ISCO Championship - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E148 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910091300 +0000" stop="20260910094200 +0000" channel="Starz_golflife">
+    <title lang="en">Genesis Scottish Open Highlights - DP World Tour Championship, DP World Tour Golf</title>
+    <desc lang="en">Genesis Scottish Open Highlights - DP World Tour Championship, DP World Tour Golf</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9549006_b_h8_aa.jpg" />
+  </programme>
+  <programme start="20260910094200 +0000" stop="20260910104400 +0000" channel="Starz_golflife">
+    <title lang="en">Kaulig Companies Championship - PGA Tour Champions Golf</title>
+    <title lang="ar">بي جي إيه تور تشامبيونز غولف</title>
+    <desc lang="en">S2026 , E17 : Senior golf professionals over 50 showcase their skills, vying for titles and prize money on the PGA Tour Champions circuit.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p18099468_b_h8_ad.jpg" />
+  </programme>
+  <programme start="20260910104400 +0000" stop="20260910111100 +0000" channel="Starz_golflife">
+    <title lang="en">PGA TOUR: The CUT</title>
+    <title lang="ar">ذا كت</title>
+    <desc lang="en">S2026 , E23 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
+  </programme>
+  <programme start="20260910111100 +0000" stop="20260910114200 +0000" channel="Starz_golflife">
+    <title lang="en">2026 German Challenge - HotelPlannerTour Series H/L</title>
+    <desc lang="en">2026 German Challenge - HotelPlannerTour Series H/L</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260909020000 +0000" stop="20260909050000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
+  <programme start="20260910114200 +0000" stop="20260910120900 +0000" channel="Starz_golflife">
+    <title lang="en">PGA TOUR: The CUT</title>
+    <title lang="ar">ذا كت</title>
+    <desc lang="en">S2026 , E29 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
+  </programme>
+  <programme start="20260910120900 +0000" stop="20260910123000 +0000" channel="Starz_golflife">
+    <title lang="en">Corales Puntacana Championship - PGA Tour Highlights</title>
+    <title lang="ar">بي جي إيه تور</title>
+    <desc lang="en">S2026 , E157 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9060599_b_h10_ad.jpg" />
+  </programme>
+  <programme start="20260910123000 +0000" stop="20260910180000 +0000" channel="Starz_golflife">
+    <title lang="en">Amgen Irish Open, First Round - DP World Tour Golf - LIVE</title>
+    <title lang="ar">دي بي ورلد تور غولف  - مباشر</title>
+    <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260909050000 +0000" stop="20260909080000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260909080000 +0000" stop="20260909110000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260909110000 +0000" stop="20260909140000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260909140000 +0000" stop="20260909170000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260909170000 +0000" stop="20260909200000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260909200000 +0000" stop="20260909230000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260909230000 +0000" stop="20260910020000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260910020000 +0000" stop="20260910050000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260910050000 +0000" stop="20260910080000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260910080000 +0000" stop="20260910110000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910140000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910170000 +0000" channel="Starz_golflife">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Sports Programme</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260910170000 +0000" stop="20260910200000 +0000" channel="Starz_golflife">
+  <programme start="20260910180000 +0000" stop="20260910200000 +0000" channel="Starz_golflife">
     <title lang="en">Sports Programme</title>
     <title lang="ar">سبورتس بروغرام</title>
     <desc lang="en">Sports Programme</desc>
@@ -5573,14 +6238,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906203000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">UAE President Cup Flat Races - Studio</title>
-    <title lang="ar">سباقات كأس رئيس دولة الإمارات للفروسية - استوديو</title>
-    <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG170908_landscape10-e17f5630-c16e-4765-bc5d-2c33cadac162.jpg" />
-  </programme>
-  <programme start="20260906203000 +0000" stop="20260906223000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260906204500 +0000" stop="20260906223000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">119 km Commemoration Ride (Private) - Endurance Race</title>
     <title lang="ar">سباق تذكاري 119 كم (الاسطبلات الخاصة) - سباق القدرة</title>
     <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
@@ -6133,7 +6791,7 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906220000 +0000" channel="Starz_awsn">
+  <programme start="20260906204500 +0000" stop="20260906220000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -6427,7 +7085,7 @@
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906210000 +0000" channel="Starz_redbulltv">
+  <programme start="20260906204500 +0000" stop="20260906210000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -7009,7 +7667,7 @@
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906210000 +0000" channel="Starz_daznringside">
+  <programme start="20260906204500 +0000" stop="20260906210000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -7207,7 +7865,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906204842 +0000" channel="Starz_fifaplus">
+  <programme start="20260906204500 +0000" stop="20260906204842 +0000" channel="Starz_fifaplus">
     <title lang="en">Croatia v England | Semi-finals | 2018 FIFA World Cup Russia™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay from the match between Croatia and England played at Luzhniki Stadium, Moscow on Wednesday, 11 July 2018.</desc>
     <category lang="en">Sport</category>
@@ -7603,13 +8261,7 @@
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123065.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906203200 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2026: India vs Thailand - Women's Asia Cup Highlights</title>
-    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
-  </programme>
-  <programme start="20260906203200 +0000" stop="20260906210200 +0000" channel="Starz_criclifewoman">
+  <programme start="20260906204500 +0000" stop="20260906210200 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Sri Lanka vs UAE - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
@@ -7864,290 +8516,478 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907181900 +0000" stop="20260907184900 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907183200 +0000" stop="20260907191100 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: UAE vs Indonesia - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260907191100 +0000" stop="20260907192400 +0000" channel="Starz_criclifewoman">
+    <title lang="en">No program available</title>
+    <title lang="ar">2026: India vs. Hong Kong - Women's Asia Cup Highlights</title>
+    <desc lang="en">No program available</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/criclife/CRICLIFEWY2023M/CRICLIFEWY2023M-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260907193100 +0000" stop="20260907200100 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Sri Lanka vs Indonesia - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260907200100 +0000" stop="20260907203000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Pakistan vs Thailand - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260907203000 +0000" stop="20260907210000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Bangladesh vs Indonesia - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907184900 +0000" stop="20260907192000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907210000 +0000" stop="20260907213100 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: India vs Thailand - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907192000 +0000" stop="20260907195000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907213100 +0000" stop="20260907220100 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Sri Lanka vs UAE - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907195000 +0000" stop="20260907202000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907220100 +0000" stop="20260907223100 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Thailand vs Hong Kong - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907202000 +0000" stop="20260907204800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907223100 +0000" stop="20260907230000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Australia vs. Bangladesh - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907204800 +0000" stop="20260907211700 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907230000 +0000" stop="20260907233000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: India vs. Netherlands - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the 2026 ICC Women's T20 World Cup match, where teams from India and the Netherlands compete to emerge victorious.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907211700 +0000" stop="20260907214800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907233000 +0000" stop="20260908000000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: South Africa vs. Pakistan - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the 2026 ICC Women's T20 World Cup match, where teams from South Africa and Pakistan compete to emerge victorious.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907214800 +0000" stop="20260907221800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908000000 +0000" stop="20260908003100 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: West Indies vs. Scotland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907221800 +0000" stop="20260907224700 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908003100 +0000" stop="20260908005900 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: New Zealand vs. Ireland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907224700 +0000" stop="20260907231500 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908005900 +0000" stop="20260908012700 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Australia vs. Netherlands - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907231500 +0000" stop="20260907234400 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908012700 +0000" stop="20260908015700 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Pakistan vs. Bangladesh - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260907234400 +0000" stop="20260908001300 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908015700 +0000" stop="20260908022600 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: England vs. Scotland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908001300 +0000" stop="20260908004100 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908022600 +0000" stop="20260908025400 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: West Indies vs. Sri Lanka - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908004100 +0000" stop="20260908011100 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908025400 +0000" stop="20260908032400 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: South Africa vs. India - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908011100 +0000" stop="20260908014000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908032400 +0000" stop="20260908035300 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: New Zealand vs. Scotland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908014000 +0000" stop="20260908020700 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908035300 +0000" stop="20260908042000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Sri Lanka vs Ireland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908020700 +0000" stop="20260908023600 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908042000 +0000" stop="20260908044800 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Australia vs. Pakistan - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908023600 +0000" stop="20260908030500 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908044800 +0000" stop="20260908051800 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: England vs. West Indies - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908030500 +0000" stop="20260908033500 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908051800 +0000" stop="20260908054700 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: India vs. Bangladesh - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908033500 +0000" stop="20260908040500 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908054700 +0000" stop="20260908061700 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: South Africa vs. Netherlands - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908040500 +0000" stop="20260908043400 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908061700 +0000" stop="20260908064600 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Sri Lanka vs. Scotland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908043400 +0000" stop="20260908050300 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908064600 +0000" stop="20260908071500 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Pakistan vs. Netherlands - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908050300 +0000" stop="20260908053100 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908071500 +0000" stop="20260908074400 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: West Indies vs. Ireland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908053100 +0000" stop="20260908055800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908074400 +0000" stop="20260908081000 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: England vs. New Zealand - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908055800 +0000" stop="20260908062600 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908081000 +0000" stop="20260908083900 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: South Africa vs. Bangladesh - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908062600 +0000" stop="20260908065600 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908083900 +0000" stop="20260908090800 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Australia vs. India - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908065600 +0000" stop="20260908072400 +0000" channel="Starz_criclifewoman">
+  <programme start="20260908090800 +0000" stop="20260908092200 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: England vs South Africa - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908072400 +0000" stop="20260908075400 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2026: Semi Final 2 - England vs. South Africa - ICC Women's T20 World Cup Highlights</title>
+  <programme start="20260908092200 +0000" stop="20260908095200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Thailand vs Hong Kong - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908095200 +0000" stop="20260908102200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Sri Lanka vs UAE - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908102200 +0000" stop="20260908105300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: India vs Thailand - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908105300 +0000" stop="20260908112300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Bangladesh vs Indonesia - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908112300 +0000" stop="20260908115300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Pakistan vs Thailand - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908115300 +0000" stop="20260908122300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Pakistan vs Hong Kong - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908122300 +0000" stop="20260908125300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: UAE vs Indonesia - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908125300 +0000" stop="20260908132300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: India vs Pakistan - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908132300 +0000" stop="20260908135200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Sri Lanka vs Bangladesh - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908135200 +0000" stop="20260908142000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Pakistan vs Hong Kong - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908142000 +0000" stop="20260908173200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">Bangladesh vs. United Arab Emirates - 2026 Women's Asia Cup Cricket - LIVE</title>
+    <desc lang="en">Bangladesh vs. United Arab Emirates - 2026 Women's Asia Cup Cricket - LIVE</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33925232_b_h10_aa.jpg" />
+  </programme>
+  <programme start="20260908173200 +0000" stop="20260908180000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2026: Pakistan vs Hong Kong - Women's Asia Cup Highlights</title>
+    <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260908180000 +0000" stop="20260908185200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: India vs Sri Lanka - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260908185200 +0000" stop="20260908191800 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Australia vs. New Zealand - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908075400 +0000" stop="20260908080000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908191800 +0000" stop="20260908201100 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: New Zealand vs Bangladesh - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
-  <programme start="20260908080000 +0000" stop="20260908110000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908201100 +0000" stop="20260908203700 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: South Africs vs. Scotland - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908110000 +0000" stop="20260908140000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908203700 +0000" stop="20260908212900 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: Sri Lanka vs. Bangladesh - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
-  <programme start="20260908140000 +0000" stop="20260908170000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908212900 +0000" stop="20260908215600 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: India vs Sri Lanka, Match 12 - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908200000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908215600 +0000" stop="20260908224800 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: India vs Australia - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
-  <programme start="20260908200000 +0000" stop="20260908230000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908224800 +0000" stop="20260908231500 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Bangladesh vs West Indies - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260908230000 +0000" stop="20260909023000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260908231500 +0000" stop="20260909000600 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: South Africa vs Bangladesh - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
-  <programme start="20260909023000 +0000" stop="20260909043000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260909000600 +0000" stop="20260909003300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024 : Australia vs Pakistan - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260909043000 +0000" stop="20260909063000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260909003300 +0000" stop="20260909010000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Sri Lanka vs New Zealand, Match 15 - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260909063000 +0000" stop="20260909083000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260909010000 +0000" stop="20260909012700 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: New Zeland vs Sri Lanka - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
-  <programme start="20260909083000 +0000" stop="20260909103000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260909012700 +0000" stop="20260909015400 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Bangladesh vs. South Africa - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260909103000 +0000" stop="20260909123000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260909015400 +0000" stop="20260909024600 +0000" channel="Starz_criclifewoman">
+    <title lang="en">Australia v Bangladesh - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
   </programme>
-  <programme start="20260909123000 +0000" stop="20260909143000 +0000" channel="Starz_criclifewoman">
-    <title lang="en">Sports Programme</title>
-    <title lang="ar">سبورتس بروغرام</title>
-    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+  <programme start="20260909024600 +0000" stop="20260909031300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: England vs. Scotland - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260909143000 +0000" stop="20260909163000 +0000" channel="Starz_criclifewoman">
+  <programme start="20260909031300 +0000" stop="20260909040500 +0000" channel="Starz_criclifewoman">
+    <title lang="en">South Africa v Sri Lanka - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909040500 +0000" stop="20260909043200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Australia vs. India, Match 18 - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909043200 +0000" stop="20260909052500 +0000" channel="Starz_criclifewoman">
+    <title lang="en">India v England - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909052500 +0000" stop="20260909055200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: New Zealand vs. Pakistan - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909055200 +0000" stop="20260909064400 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: Sri Lanka vs. Bangladesh - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909064400 +0000" stop="20260909071100 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Bangladesh vs. Scotland - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909071100 +0000" stop="20260909080300 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: India vs Sri Lanka - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909080300 +0000" stop="20260909083000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: Pakistan vs. Sri Lanka - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909083000 +0000" stop="20260909092200 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: Australia vs New Zealand - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909092200 +0000" stop="20260909094800 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: South Africa vs West Indies - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909094800 +0000" stop="20260909104000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2025: Bangladesh vs Pakistan - ICC Women's Cricket World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
+    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
+  </programme>
+  <programme start="20260909104000 +0000" stop="20260909110400 +0000" channel="Starz_criclifewoman">
+    <title lang="en">2024: New Zealand vs. India - ICC Women's T20 World Cup Highlights</title>
+    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
+    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260909110400 +0000" stop="20260909163000 +0000" channel="Starz_criclifewoman">
     <title lang="en">Sports Programme</title>
     <title lang="ar">سبورتس بروغرام</title>
     <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
@@ -8238,7 +9078,14 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260906214500 +0000" channel="Starz_admnyastv">
+  <programme start="20260910203000 +0000" stop="20260911023000 +0000" channel="Starz_criclifewoman">
+    <title lang="en">Sports Programme</title>
+    <title lang="ar">سبورتس بروغرام</title>
+    <desc lang="en">Bringing thrilling sports action, expert insights and key highlights from major tournaments, capturing the excitement of competitive athletics.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
+  </programme>
+  <programme start="20260906204500 +0000" stop="20260906214500 +0000" channel="Starz_admnyastv">
     <title lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhib</title>
     <desc lang="en">Abu Dhabi International Hunting &amp; Equestrian Exhibition 2026</desc>
     <category lang="en">Sport</category>
@@ -8449,7 +9296,7 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260906202500 +0000" stop="20260907050500 +0000" channel="Starz_adfight">
+  <programme start="20260906204500 +0000" stop="20260907050500 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -8509,10 +9356,10 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260908160500 +0000" stop="20260910202500 +0000" channel="Starz_adfight">
+  <programme start="20260908160500 +0000" stop="20260910204500 +0000" channel="Starz_adfight">
     <title lang="en">JJIF World Jiu-Jitsu Championship - Abu Dhabi 2026</title>
     <desc lang="en">JJIF World Jiu-Jitsu Championship - Abu Dhabi 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-</tv>
+<programme start="20260907181900 +0000" stop="20260907183200 +0000" channel="Starz_criclifewoman"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260907192400 +0000" stop="20260907193100 +0000" channel="Starz_criclifewoman"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
