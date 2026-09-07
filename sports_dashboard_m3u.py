@@ -180,8 +180,9 @@ def write_the_playlist(screens, output: str, group: str) -> int:
             warn(f"{path} has not been encoded — {guide_name} is left out "
                  f"of the playlist this pass")
             continue
+        radio_flag = ' radio="true"' if url == AIN_FM_RADIO else ''
         lines.append(
-            f'#EXTINF:-1 tvg-id="{attribute(channel_id)}" '
+            f'#EXTINF:-1{radio_flag} tvg-id="{attribute(channel_id)}" '
             f'tvg-name="{attribute(guide_name)}" tvg-logo="{mark}" '
             f'group-title="{attribute(group)}",{display(shown)}')
         lines.append(url)
@@ -248,16 +249,21 @@ def write_the_playlist(screens, output: str, group: str) -> int:
       return AIN_FM_RADIO
 
 
-    def rewrite_ain_fm_source(path: str, channel_id: str, source: str) -> None:
-      lines = open(path, encoding="utf-8").read().splitlines()
-      for index, line in enumerate(lines[:-1]):
-          if f'tvg-id="{channel_id}"' in line:
-              lines[index + 1] = source
-              with open(path, "w", encoding="utf-8", newline="\n") as out:
-                  out.write("\n".join(lines) + "\n")
-              return
-      warn(f"{channel_id} is missing from {path} — source was not changed")
-    
+def rewrite_ain_fm_source(path: str, channel_id: str, source: str) -> None:
+    lines = open(path, encoding="utf-8").read().splitlines()
+    for index, line in enumerate(lines[:-1]):
+        if f'tvg-id="{channel_id}"' in line:
+            lines[index + 1] = source
+            if source == AIN_FM_RADIO and ' radio="true"' not in lines[index]:
+                lines[index] = lines[index].replace(
+                    "#EXTINF:-1", '#EXTINF:-1 radio="true"', 1)
+            elif source != AIN_FM_RADIO:
+                lines[index] = lines[index].replace(' radio="true"', "")
+            with open(path, "w", encoding="utf-8", newline="\n") as out:
+                out.write("\n".join(lines) + "\n")
+            return
+    warn(f"{channel_id} is missing from {path} — source was not changed")
+
 def build() -> int:
     # The first clock, exactly as before.
     ok = write_the_playlist(SCREENS, OUTPUT, GROUP)
