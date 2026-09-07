@@ -206,7 +206,7 @@ YOUTUBE_LIVE_URL = "https://www.youtube.com/@AinFM_Jo/live"
 
 
 def current_ain_fm_source() -> str:
-  """Resolve Ain FM's best combined live video/audio URL, or keep radio working."""
+  """Resolve Ain FM's 720p HLS master manifest with audio tracks, or keep radio working."""
   command = [
       sys.executable,
       "-m",
@@ -218,8 +218,9 @@ def current_ain_fm_source() -> str:
       "--match-filter",
       "is_live",
       "--format",
-      "best[acodec!=none][vcodec!=none][width<=1280]/best[acodec!=none][vcodec!=none]",
-      "--get-url",
+      "bestvideo[height=720][width<=1280]",
+      "--print",
+      "%(manifest_url)s",
       YOUTUBE_LIVE_URL,
   ]
   try:
