@@ -22,7 +22,7 @@ OUT_DIR = "stream"
 MASTER = os.path.join(OUT_DIR, "ain_fm.m3u8")
 AUDIO = os.path.join(OUT_DIR, "ain_fm_audio.m3u8")
 LIVE = "https://radio.ainfm.site/ainfm"
-LOGO = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/ain_fm.png"
+LOGO = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/ain_fm_radio_dim.png"
 
 
 def write(path: str, lines: list[str]) -> None:

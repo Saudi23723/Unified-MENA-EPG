@@ -69,7 +69,7 @@ WEATHER_NAME = WEATHER_AR
 # stream/ain_fm.m3u8 and says why they are three.
 AIN_FM_ID = "AinFMJordan"
 AIN_FM_NAME = "Ain FM 98.3"
-AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
+AIN_FM_LOGO = f"{RAW}/logos/ain_fm_radio_dim.png"
 AIN_FM_RADIO = "https://radio.ainfm.site/ainfm"
 
 # Five channels, ONE playlist, because that is the whole point of it: the
