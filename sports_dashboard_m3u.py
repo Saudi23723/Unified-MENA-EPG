@@ -202,50 +202,50 @@ def write_the_playlist(screens, output: str, group: str) -> int:
 
 
 
-    YOUTUBE_LIVE_URL = "https://www.youtube.com/@AinFM_Jo/live"
+YOUTUBE_LIVE_URL = "https://www.youtube.com/@AinFM_Jo/live"
 
 
-    def current_ain_fm_source() -> str:
-      """Resolve the current Ain FM YouTube live URL, or keep radio working."""
-      command = [
-          sys.executable,
-          "-m",
-          "yt_dlp",
-          "--quiet",
-          "--no-warnings",
-          "--no-playlist",
-          "--skip-download",
-          "--match-filter",
-          "is_live",
-          "--format",
-          "best[height>=720][width<=1280][acodec!=none][vcodec!=none]",
-          "--get-url",
-          YOUTUBE_LIVE_URL,
-      ]
-      try:
-          result = subprocess.run(
-              command,
-              check=False,
-              capture_output=True,
-              text=True,
-              timeout=90,
-          )
-      except (OSError, subprocess.TimeoutExpired) as exc:
-          warn(f"Ain FM YouTube resolver unavailable ({exc}) — keeping radio")
-          return AIN_FM_RADIO
-
-      if result.returncode != 0:
-          log("Ain FM YouTube is offline — keeping the direct radio stream")
-          return AIN_FM_RADIO
-
-      for line in result.stdout.splitlines():
-          source = line.strip()
-          if source.startswith("http://") or source.startswith("https://"):
-              log("Ain FM YouTube Live is active")
-              return source
-
-      warn("Ain FM YouTube returned no playable URL — keeping radio")
+def current_ain_fm_source() -> str:
+  """Resolve the current Ain FM YouTube live URL, or keep radio working."""
+  command = [
+      sys.executable,
+      "-m",
+      "yt_dlp",
+      "--quiet",
+      "--no-warnings",
+      "--no-playlist",
+      "--skip-download",
+      "--match-filter",
+      "is_live",
+      "--format",
+      "best[height>=720][width<=1280][acodec!=none][vcodec!=none]",
+      "--get-url",
+      YOUTUBE_LIVE_URL,
+  ]
+  try:
+      result = subprocess.run(
+          command,
+          check=False,
+          capture_output=True,
+          text=True,
+          timeout=90,
+      )
+  except (OSError, subprocess.TimeoutExpired) as exc:
+      warn(f"Ain FM YouTube resolver unavailable ({exc}) — keeping radio")
       return AIN_FM_RADIO
+
+  if result.returncode != 0:
+      log("Ain FM YouTube is offline — keeping the direct radio stream")
+      return AIN_FM_RADIO
+
+  for line in result.stdout.splitlines():
+      source = line.strip()
+      if source.startswith("http://") or source.startswith("https://"):
+          log("Ain FM YouTube Live is active")
+          return source
+
+  warn("Ain FM YouTube returned no playable URL — keeping radio")
+  return AIN_FM_RADIO
 
 
 def rewrite_ain_fm_source(path: str, channel_id: str, source: str) -> None:
@@ -266,6 +266,11 @@ def build() -> int:
     # encoded yet leaves its playlist unwritten rather than broken, and
     # the first clock's file is already safe on disk by then.
     ok = write_the_playlist(DUBAI_SCREENS, DUBAI_OUTPUT, DUBAI_GROUP) and ok
+
+    # Resolve Ain FM once, then keep both public playlist URLs in sync.
+    ain_fm_source = current_ain_fm_source()
+    rewrite_ain_fm_source(OUTPUT, AIN_FM_ID, ain_fm_source)
+    rewrite_ain_fm_source(DUBAI_OUTPUT, "AinFMJordanDubai", ain_fm_source)
     return 0 if ok else 1
 
 
