@@ -382,6 +382,11 @@ def broadcasts(path: str, mark: str) -> list[dict]:
 
 def attach(events: list[dict], rows: list[dict], label: str) -> int:
     """Put each broadcast's channel on the board row it belongs to."""
+    # The authority on which two spellings are one channel is the
+    # board's own table (SAME_CHANNEL_PAIRS, through canonical_channel).
+    # Imported here, at call time, because this module is imported by
+    # the board and a cycle at import time is a crash on every run.
+    from today_matches_epg import canonical_channel as spelled
     found = 0
     for row in rows:
         for event in events:
@@ -389,7 +394,15 @@ def attach(events: list[dict], rows: list[dict], label: str) -> int:
                 continue
             if not one_club_matches(event["title"], row["title"]):
                 continue
-            if row["channel"] not in event["channels"]:
+            # A channel cannot be on a row twice, and "twice" is a
+            # question about the channel, not about its spelling. The
+            # board was shown "TRT Spor TR · Bein 2 TR · beIN 2 TR" —
+            # one broadcaster printed twice — because this check
+            # compared strings: Spor Ekranı's "Bein Sports 2 TR" was
+            # held apart from the "beIN SPORTS 2 TR" our own beIN
+            # Turkey guide had already put on the row.
+            if spelled(row["channel"]) not in (
+                    spelled(name) for name in event["channels"]):
                 event["channels"].append(row["channel"])
                 found += 1
     log(f"  {label}: {len(rows)} broadcast(s) named, "

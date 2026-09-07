@@ -81,6 +81,24 @@ MONTHS = {m.lower(): n for n, m in enumerate(
 # What a divider says when it does not know the broadcaster yet.
 UNKNOWN = {"tbc", "tba", "n/a"}
 
+# The cohort a competition can name so the sides don't have to. The U20
+# Women's World Cup is written by this page as "North Korea Women U20 v
+# Portugal Women U20" under a competition that already says U20 Women's
+# World Cup — while livefootballtv prints bare countries ("Korea DPR -
+# Portugal") and leaves the cohort in the competition cell. Two
+# spellings of the same teams are two fixtures to any comparison, so
+# ten matches were published twice on one board. The cohort is
+# furniture the COMPETITION already names, and the strip runs only
+# where the competition says so: the 2027 Women's World Cup Play-Off
+# sides ("Albania Women") keep every word because their competition
+# carries no U20, and no men's under-age World Cup can be touched —
+# the gate needs FIFA and women and U20 and World Cup, all four, in
+# any order, before the strip will fire.
+WOMENS_U20_TAIL = re.compile(r"[\s.\-]*\bwomen\s+u\s*[-. ]?\s*20\s*$", re.I)
+FIFA_U20_WOMENS_WORLD_CUP = re.compile(
+    r"^(?=.*\bfifa\b)(?=.*\bu\s*[-. ]?\s*20\b)(?=.*\bwomen\b)"
+    r"(?=.*\bworld\s+cup\b)", re.I)
+
 
 def day_of(divider) -> datetime | None:
     """The date a fixture-date divider announces."""
@@ -187,12 +205,15 @@ def collect(html: str, floor: datetime, ceiling: datetime) -> list[dict]:
         if not channels:
             continue                        # nowhere to watch it is not on
         competition = fixture.find("div", class_="fixture__competition")
+        comp = mended(norm(
+            competition.get_text(" ", strip=True))) if competition else ""
+        if FIFA_U20_WOMENS_WORLD_CUP.match(comp):
+            sides = [WOMENS_U20_TAIL.sub("", side).strip() for side in sides]
         events.append({
             "start": start,
             "title": f"{sides[0]} - {sides[1]}",
             "channels": channels,
-            "competition": mended(norm(
-                competition.get_text(" ", strip=True))) if competition else "",
+            "competition": comp,
         })
 
     log(f"  live-footballontv: {days} day(s) on the page, "

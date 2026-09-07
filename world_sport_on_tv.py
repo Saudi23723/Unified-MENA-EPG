@@ -67,7 +67,20 @@ PAGES = (
     ("/live-darts-on-tv/", "Darts",
      re.compile(r"premier league|world championship|world cup|world matchplay"
                 r"|world grand prix|grand slam|players championship"
-                r"|european championship|uk open|masters", re.I),
+                r"|european championship|uk open|masters"
+                # The European Tour, asked for by name after the board
+                # was measured not to carry it: the Czech Darts Open at
+                # 18:00 on PDC.TV and the Flanders Darts Trophy through
+                # the weekend, none of them on the board, because the
+                # competition cell says "PDC Darts Schedule" for every
+                # row on the page and the words "european tour" appear
+                # nowhere. What the events actually print is a place,
+                # then "Darts", then the shape — "Czech Darts Open",
+                # "Flanders Darts Trophy" — and the season's finals
+                # weekend prints "World Series of Darts Finals", which
+                # "world championship" above does not reach. Three
+                # shapes, all measured, nothing wider.
+                r"|darts open|darts trophy|world series of darts", re.I),
      None),
 
     ("/live-boxing-on-tv/", "Boxing", None, None),
@@ -96,13 +109,29 @@ PAGES = (
     ("/live-tennis-on-tv/", "Tennis",
      re.compile(r"grand slam|wimbledon|us open|australian open|roland"
                 r"|french open|atp finals|wta finals|masters|davis cup"
-                r"|billie jean king|united cup|olympic", re.I),
+                r"|billie jean king|united cup|olympic"
+                # The Laver Cup, the teams cup Europe against the World,
+                # asked for with the majors. Measured on the page: five
+                # rows through the last weekend of September, real
+                # instants, Sky Sports Tennis and HBO Max named — the
+                # "TNT Sports TBC" the page also prints is a channel
+                # whose NUMBER is unconfirmed, trimmed by
+                # AN_UNCONFIRMED_NUMBER, not an unset clock.
+                r"|laver cup", re.I),
      None),
 
     ("/live-golf-on-tv/", "Golf",
      re.compile(r"\bthe open\b|open championship|masters tournament"
                 r"|\bus open\b|pga championship|ryder cup|solheim"
-                r"|presidents cup|the players", re.I),
+                r"|presidents cup|the players"
+                # The Walker Cup, the amateur teams cup against the
+                # Ryder Cup's professional one, asked for with the
+                # majors. One row, a real instant, Sky Sports Golf
+                # named. The ordinary DP World Tour stops the page also
+                # carries — the Irish Open, the Open de France — stay
+                # refused: they are weekly tour events, not majors, and
+                # the board was never asked for the tour.
+                r"|walker cup", re.I),
      None),
 
     # BASEBALL — off the board. The reader said so in plain words
@@ -210,6 +239,20 @@ NOT_A_CHANNEL = re.compile(
 # where it belongs.
 AN_UNCONFIRMED_NUMBER = re.compile(r"\s+(?:tbc|tba|tbd)\.?$", re.I)
 
+# A clock the page has not set. The darts page prints it in the clock
+# cell — <span class="time"><em>TBC</em></span> — and still fills the
+# sr-only datetime attribute beside it with a placeholder midnight, so
+# a reader of the attribute alone cannot tell a kickoff from a blank.
+# Measured on the day this was written: eleven rows on one page, the
+# World Series of Darts Finals and the World Grand Prix, every one
+# printing TBC in the clock and carrying datetime="...T00:00:00+01:00".
+# The guard below reads the PRINTED clock first, once, only to veto:
+# unconfirmed means no instant, whatever the attribute beside it says.
+# The tennis and golf pages carry real clocks in every cell — and the
+# page's "TNT Sports TBC" channel names are a different thing, trimmed
+# by AN_UNCONFIRMED_NUMBER above.
+AN_UNSET_CLOCK = re.compile(r"^\s*(?:tbc|tba|tbd)\.?\s*$", re.I)
+
 
 def when(cell) -> datetime | None:
     """The kickoff as an instant, from the cell's own <time datetime>.
@@ -219,6 +262,16 @@ def when(cell) -> datetime | None:
     clock instead of an instant is the single fault this repository has
     paid for most.
     """
+    # The printed clock is read once, first, and only to refuse — the
+    # time itself still comes from the attribute, exactly as before.
+    # A page that has not set the clock has no instant, and the midnight
+    # the page machinery wrote into the attribute is a placeholder, not
+    # a kickoff; see AN_UNSET_CLOCK above for the measured page.
+    printed = cell.select_one("span.time") if cell else None
+    if printed is not None:
+        clock = norm(printed.get_text(" ", strip=True))
+        if not clock or AN_UNSET_CLOCK.match(clock):
+            return None
     stamp = cell.find("time") if cell else None
     raw = (stamp.get("datetime") if stamp else "") or ""
     if not raw.strip():

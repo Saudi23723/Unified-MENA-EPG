@@ -269,6 +269,16 @@ WAIT_MARK = "⚪"
 # for and then asked to go.
 WANTED_EXACT = {
     "saudi pro league", "premier league", "serie a",
+    # Italy's league under the label page 1 prints. The two pages
+    # disagree on the word: page 2 says "Serie A", page 1 says
+    # "Italian Serie A", and unify keeps the label of the page that
+    # came first — so Juventus - AC Milan arrived at wanted() as
+    # "Italian Serie A" and was refused by the exact match above, on
+    # a day the log counted it among "collected and not shown"
+    # (×4, both builds). Italy is in; Brazil is not — "Brazilian
+    # Serie A" and "Campeonato Brasileiro Serie A" stay refused,
+    # which is what the EXACT match (and not a substring) is for.
+    "italian serie a",
     "ligue 1", "laliga", "la liga", "bundesliga", "champions league",
     "europa league", "conference league",
     "turkish süper lig", "süper lig", "super lig",
@@ -852,6 +862,15 @@ ALIASES = {
     "internazionale": "inter milan",
     "atletico madrid": "atletico de madrid",
     "bayern": "bayern munich",
+    # Two more the two pages spell differently, asked for after the
+    # youth fixtures below were photographed twice on one board. Only
+    # the YOUTH rows print "At. Madrid" — the senior rows print
+    # "Atl. Madrid", which the "atl" word-alias already carries — and
+    # "at" is two letters, under every floor a rule could use. And
+    # page 1 prints the "ø" of Bodø/Glimt where page 2 drops it, a
+    # difference no transliteration rule should be trusted to guess.
+    "at madrid": "atletico madrid",
+    "bodø/glimt": "bodo/glimt",
     "dortmund": "borussia dortmund",
     # A page writes "Preston" where the other writes "Preston North End",
     # and "north" and "end" cannot be furniture — dropping them would
@@ -874,6 +893,15 @@ ALIASES = {
     "vancouver": "vancouver whitecaps",
     "chicago stars": "chicago",
     "los angeles fc": "los angeles football club",
+    # Two spellings of one country, measured on the U20 Women's World
+    # Cup board: page 1 prints "Korea DPR" and page 2 "North Korea" for
+    # the same national team, and a national team plays one match at a
+    # time — the same structural argument every club entry in this
+    # table rests on. The word "Korea" alone cannot be furniture the
+    # way "FC" is: it would fold South Korea into the North. So the
+    # country is written out here, measured, like Preston and LA
+    # Galaxy, rather than the furniture rule trusted to guess it.
+    "korea dpr": "north korea",
 }
 
 # One word written two ways, which is not a nickname and so does not
@@ -970,8 +998,80 @@ def same_word(short: str, long: str) -> bool:
             and len(long) - len(short) >= WORD_FLOOR)
 
 
+# A trailing youth tag, in the spellings the pages print around it:
+# "Academy" (page 1's word), "U19", "U-19", "Under-19", "under 19".
+YOUTH_TAIL = re.compile(
+    r"[\s.\-]*\b(academy"
+    r"|u\s*[-. ]?\s*(1[6-9]|2[0-3])"
+    r"|under\s*[-. ]?\s*(1[6-9]|2[0-3]))\s*$",
+    re.I)
+
+
+def youth_split(name: str):
+    """(age, base) — age None when the name carries no youth tag.
+
+    The tag is stripped from the END of the whole string so the base
+    keeps its own punctuation: "Bodø/Glimt Academy" -> ("academy",
+    "Bodø/Glimt"), which the alias table can still see.
+    """
+    hit = YOUTH_TAIL.search(name)
+    if not hit:
+        return None, name
+    age = "academy"
+    for group in hit.groups():
+        if group and group.isdigit():
+            age = group
+            break
+    return age, name[:hit.start()].strip()
+
+
+def youth_pair(first: str, second: str):
+    """True/False when either side carries a youth tag, else None.
+
+    The photographed dupes: page 1 prints "Club Brugge Academy -
+    Aston Villa Academy" where page 2 prints "Club Brugge U19 -
+    Aston Villa U19", and same_match refused every one of the four
+    because the suffix words differ and 'academy' is not furniture.
+    Measured on the same day: skeleton('U19') is 'a', which IS in
+    TAIL_SKELETONS (it fell out of 'w'), so the hole pointed the
+    other way too — same_side('Arsenal', 'Arsenal U19') was True and
+    U18 == U19 == U21, a senior side and a youth side one club. This
+    rule cures both directions at once:
+      both tagged   -> one club when the bases are one club by
+                      same_side itself (contractions and honorifics
+                      fall away the usual way) and the ages are
+                      compatible: equal ages, or "academy" against
+                      "19" — every "Academy" row page 1 prints is
+                      UEFA Youth League, which IS the U19 competition.
+                      A U19 against a U21 is refused: merging them
+                      would lose a real match, which is worse than
+                      showing it twice;
+      one tagged    -> two different teams. The senior side and the
+                      youth side are two different fixtures, whoever
+                      printed which — and this refusal is what closes
+                      the 'a'-tail hole above;
+      none tagged   -> None: this rule says nothing and every path
+                      that already exists decides, exactly as it did
+                      before this branch was written.
+    """
+    fa, fbase = youth_split(first)
+    sa, sbase = youth_split(second)
+    if fa is None and sa is None:
+        return None            # untagged vs untagged: not this rule's question
+    if fa is None or sa is None:
+        return False           # one tagged, one not: two different teams
+    if not (fa == sa or {fa, sa} == {"academy", "19"}):
+        return False           # two different squads of one club
+    if not fbase or not sbase:
+        return False           # the tag was the whole name
+    return same_side(fbase, sbase)
+
+
 def same_side(first: str, second: str) -> bool:
     """Whether two Latin spellings name one club, one of them shortened."""
+    youth = youth_pair(first, second)
+    if youth is not None:
+        return youth
     for short, long in ((first, second), (second, first)):
         as_initials = written_as_initials(short)
         if as_initials and as_initials == initials_of(long):
@@ -980,7 +1080,18 @@ def same_side(first: str, second: str) -> bool:
     first, second = expand(first), expand(second)
     left, right = words_of(first), words_of(second)
     if not left or not right:
-        return False
+        # An Arabic name has no words for the paths above to line up —
+        # words_of keeps only the Latin letters — so every cross-script
+        # question died right here, and the line at the bottom of this
+        # function was unreachable for exactly the names it was written
+        # for. Measured the day this changed: same_side('مونزا',
+        # 'Monza') answered False while epg_lib.same_club answered True
+        # on the same pair. The guard now asks the cross-script question
+        # instead of refusing outright — same_club still refuses within
+        # one script, and it refuses an empty name, so two Latin names
+        # that simply have no words to compare are still refused,
+        # exactly as they were before this line changed.
+        return same_club_across_scripts(first, second)
     if left == right:
         return True
 
@@ -1032,8 +1143,46 @@ def same_club_across_scripts(first: str, second: str) -> bool:
     So this catches only what an exact skeleton catches — الأهلي/Al Ahly,
     كولن/Koln, موناكو/Monaco — and the third page is kept to competitions
     the other two do not carry, where there is nothing to collide with.
+
+    One page DID collide, and it was photographed. The Egyptian league
+    is carried by the first page in English and by the third in Arabic,
+    and the two spell a fixture each way at one minute:
+
+        10:00  Zamalek SC - Abu Qir Semad            ON Sport
+        10:00  الزمالك - أبو قير للاسمدة              لم تُعلن القناة
+
+    The Arabic row names no channel, so already_on_air cannot settle it,
+    and every club on it measured below the thresholds above — 'smalk'
+    against 'samalak', 'abakarlasmdh' against 'abakrsamad' at 0.78 —
+    so the fixture printed twice. The pairs below are those
+    photographs, one line per club the two pages were SEEN to spell two
+    ways, the same discipline SAME_CHANNEL_PAIRS keeps: a pair is added
+    only against a measured duplicate, never by rule, and two clubs
+    that merely resemble one of these spellings are still two clubs.
     """
+    a, b = _bare(first), _bare(second)
+    for arabic, latin in SAME_CLUB_PAIRS:
+        spellings = (_bare(arabic), _bare(latin))
+        if a in spellings and b in spellings:
+            return True
     return same_club(first, second)
+
+
+# The photographed pairs themselves — see same_club_across_scripts
+# above for the board they were read off. "أبو قير" is written twice
+# because the third page printed it twice, with and without the hamza,
+# and both spellings arrived at the board on different days.
+SAME_CLUB_PAIRS = (
+    ("الزمالك", "Zamalek SC"),
+    ("أبو قير للأسمدة", "Abu Qair Semad"),
+    ("أبو قير للاسمدة", "Abu Qair Semad"),
+    ("سموحة", "Smouha"),
+    ("الفيصلي", "Al Faisaly"),
+    # The same club with the suffix the first page's rows print —
+    # the pairs match exact spellings, so both have to be here, the
+    # way "أبو قير" is above for its two spellings.
+    ("الفيصلي", "Al Faisaly FC"),
+)
 
 
 def one_side_agrees(first: str, second: str) -> bool:
@@ -1222,6 +1371,18 @@ SAME_CHANNEL_PAIRS = (
     ("الأردن الرياضية", "Jordan Sports"),
     ("الأردن الرياضية", "Jordan Sport"),
     ("الأردن الرياضية", "Jordan TV Sports"),
+    # One broadcaster, two spellings, and the difference is case and
+    # nothing else. Spor Ekranı's fixtures door prints "Bein Sports 2
+    # TR" (the shape the gate's own TFF 1. Lig door is held to at line
+    # 2605), and this repository's own beIN Turkey guide calls the same
+    # channel "beIN SPORTS 2 TR". The board printed both at one
+    # kickoff: "TRT Spor TR · Bein 2 TR · beIN 2 TR". _bare() already
+    # folds them to "beinsports2tr" for the screen key, but the screen
+    # is printed from the raw strings, and the guide's attach() checks
+    # membership with plain equality, so the case variant slipped past
+    # both. The pair is one line, and the spelling printed is this
+    # repository's own.
+    ("beIN SPORTS 2 TR", "Bein Sports 2 TR"),
 )
 
 
