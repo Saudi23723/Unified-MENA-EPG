@@ -206,7 +206,7 @@ YOUTUBE_LIVE_URL = "https://www.youtube.com/@AinFM_Jo/live"
 
 
 def current_ain_fm_source() -> str:
-  """Resolve the current Ain FM YouTube live URL, or keep radio working."""
+  """Resolve Ain FM's 720p live video URL, or keep radio working."""
   command = [
       sys.executable,
       "-m",
@@ -218,7 +218,7 @@ def current_ain_fm_source() -> str:
       "--match-filter",
       "is_live",
       "--format",
-      "best[height>=720][width<=1280][acodec!=none][vcodec!=none]",
+      "bestvideo[height=720][width<=1280]/bestvideo[height>=720][width<=1280]",
       "--get-url",
       YOUTUBE_LIVE_URL,
   ]
