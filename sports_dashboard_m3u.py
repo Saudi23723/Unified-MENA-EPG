@@ -67,6 +67,7 @@ WEATHER_NAME = WEATHER_AR
 AIN_FM_ID = "AinFMJordan"
 AIN_FM_NAME = "Ain FM 98.3"
 AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
+AIN_FM_RADIO = "https://radio.ainfm.site/ainfm"
 
 # Five channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
@@ -93,7 +94,7 @@ SCREENS = (
     (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
     (AIN_FM_ID, AIN_FM_NAME, "stream/ain_fm.m3u8",
-     f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
+     AIN_FM_RADIO, "🎙️ Ain FM 98.3", AIN_FM_LOGO),
 
 )
 
