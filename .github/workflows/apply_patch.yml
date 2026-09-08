@@ -4,6 +4,7 @@ on:
 jobs:
   apply:
     runs-on: ubuntu-latest
+    timeout-minutes: 350
     permissions:
       contents: write
     steps:
@@ -13,7 +14,7 @@ jobs:
       - name: Collect every league badge the boards can need
         run: |
           timeout 1800 python fetch_league_logos.py || true
-          timeout 4800 python fetch_sportsdb_logos.py || true
+          timeout 18000 python -u fetch_sportsdb_logos.py || true
           echo "badges on disk: $(ls logos/teams | wc -l)"
       - name: Commit
         run: |
