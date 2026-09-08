@@ -126,6 +126,30 @@ NEXT_TAG = (23, 133, 116, 255)   # the التالي pill: the coming green, whit
 PILL = (31, 47, 72, 255)
 PILL_INK = (186, 207, 233, 255)
 
+# THE COMPETITION'S OWN COLOUR. A board carries a league, a cup, a
+# friendly and a practice session in the same column, and they all read
+# the same. Each competition is given a colour of its own — chosen from
+# its name, so the same competition is always the same colour on every
+# board and the picture stays byte-stable — and the second line of a row
+# wears it as a chip. A viewer looking for the league sees a colour
+# before they read a word.
+COMP_TAGS = (
+    (56, 130, 246), (168, 85, 247), (245, 158, 11), (16, 185, 129),
+    (236, 72, 153), (20, 184, 166), (248, 113, 113), (129, 140, 248),
+)
+
+
+def comp_colour(name: str):
+    """A competition's colour, decided by its name and nothing else."""
+    total = sum(ord(ch) for ch in (name or "")) 
+    return COMP_TAGS[total % len(COMP_TAGS)]
+
+
+def dim(colour, share: float = 0.22):
+    """The same colour, dark enough to sit a bright word on."""
+    return tuple(int(round(c * share)) for c in colour[:3]) + (255,)
+
+
 ARABIC = re.compile(r"[\u0600-\u06ff\u0750-\u077f]")
 
 
@@ -430,8 +454,19 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             rows = events[:max(1, (room - 40) // 38)]
             height = 38
 
+    # A THIN DAY SHOULD NOT LEAVE HALF A SCREEN EMPTY. The row height
+    # was fixed, so five matches sat in the top third of the board and
+    # the bottom two thirds were bare ground — on a television, across a
+    # room, that reads as a broken page. The rows grow into the room
+    # they have, up to a ceiling that keeps a card looking like a card,
+    # and whatever is still spare is split above and below so the block
+    # sits in the middle of the board rather than hanging from its top.
+    if len(rows) * height < room:
+        height = min(104, room // len(rows))
+    spare = max(0, room - len(rows) * height)
+
     time_x, name_x = PAD + 128, PAD + 168
-    y = top + 8
+    y = top + 8 + spare // 2
 
     # THE STATUS SLOT. One line for مباشر, التالي and انتهى — asked for
     # outright, twice, in the same breath: "التالي و المباشر مش على نفس
@@ -548,9 +583,16 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         sub_y = middle + (size // 2) + 2
 
         clock = event["start"].astimezone(viewer).strftime("%H:%M")
+        # THE CLOCK IS THE COLUMN A BOARD IS SCANNED DOWN, so it is set
+        # in the display weight and separated from the names by a
+        # hairline: the eye runs down the times first and crosses to a
+        # name only when one of them is the time it wanted.
         draw_text(pen, (time_x, middle), clock, size,
                   LIVE_RED if live else (OVER if over else accent),
-                  anchor="rm")
+                  anchor="rm", weight="heavy")
+        if height >= 34:
+            pen.line([(time_x + 20, y + 8), (time_x + 20, y + height - 14)],
+                     fill=RULE, width=1)
 
         # THREE WORDS, ONE SLOT, ONE SIZE. The pill is drawn in the slot
         # every row carries, at the slot's fixed width: مباشر red for the
@@ -679,12 +721,22 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # bottom band crosses this line's height on the right — the
             # dot leads the eye from the left and the text never runs
             # under a channel.
-            pen.ellipse([head, sub_y - 4, head + 8, sub_y + 4],
-                        fill=accent)
-            draw_text(pen, (head + 18, sub_y),
-                      clipped(beneath, under, channel_x - head - 38,
-                              weight="mid"),
-                      under, PILL_INK, anchor="lm", weight="mid")
+            # The competition wears its own colour as a chip, so four
+            # leagues on one board are four colours and not four grey
+            # lines. The colour comes from the competition's name, so it
+            # never changes between builds and the board stays byte for
+            # byte the same unless the day did.
+            tone = comp_colour(beneath) + (255,)
+            label = clipped(beneath, under, channel_x - head - 60,
+                            weight="mid")
+            chip_w = width_of(label, under, weight="mid") + 26
+            chip_h = under + 10
+            pen.rounded_rectangle(
+                [head, sub_y - chip_h // 2, head + chip_w,
+                 sub_y + chip_h // 2],
+                radius=chip_h // 2, fill=dim(tone), outline=tone, width=1)
+            draw_text(pen, (head + chip_w // 2, sub_y), label,
+                      under, tone, anchor="mm", weight="mid")
         y += height
 
     left_out = len(events) - len(rows)
