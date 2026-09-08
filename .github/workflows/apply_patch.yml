@@ -10,30 +10,20 @@ jobs:
       - uses: actions/checkout@v4
       - name: Python bits the badge collection needs
         run: pip install --quiet pillow requests
-      - name: Fetch the updated screen scripts
-        run: |
-          curl -fsSL -o match_board.py https://d.uguu.se/QTBfpMFR.py
-          curl -fsSL -o match_screen_video.py https://n.uguu.se/XfQhTYiQ.py
-          curl -fsSL -o other_sports_epg.py https://h.uguu.se/iQJdABCH.py
-          curl -fsSL -o espn_fights.py https://h.uguu.se/sUimwYGf.py
-          curl -fsSL -o tapology.py https://d.uguu.se/yEMOTWdR.py
-          curl -fsSL -o fetch_league_logos.py https://d.uguu.se/qcbNVPvM.py
-          for f in match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py; do
-            python -c "import ast,sys;ast.parse(open(sys.argv[1],encoding='utf-8').read())" "$f"
-          done
       - name: Collect every league badge the boards can need
         run: |
-          timeout 2400 python fetch_league_logos.py || true
+          timeout 1800 python fetch_league_logos.py || true
+          timeout 4800 python fetch_sportsdb_logos.py || true
           echo "badges on disk: $(ls logos/teams | wc -l)"
       - name: Commit
         run: |
           git config user.name "epg-bot"
           git config user.email "epg-bot@users.noreply.github.com"
-          git add -A match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py logos/teams
-          git commit -m "Screens: live clock, events kept apart from fixtures, every league badge on disk" || echo "nothing to commit"
+          git add -A logos/teams
+          git commit -m "Badges: every club of every football competition on disk" || echo "nothing to commit"
           for i in 1 2 3 4 5 6 7 8; do
             git fetch origin main
-            git rebase origin/main || { git checkout --theirs . 2>/dev/null; git rebase --abort; git reset --hard HEAD; }
+            git rebase origin/main || { git rebase --abort; git reset --hard HEAD; }
             if git push origin HEAD:main; then echo pushed; exit 0; fi
             sleep 25
           done
