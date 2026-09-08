@@ -95,6 +95,12 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     # (prayer_epg.py says why it is not doubled).
     "today_prayer": ("today_prayer_", "prayer_epg.xml",
                      "prayer.m3u8", "prayer.sha256"),
+    # The eighth channel — بيسبول وسلة السيدات, in both clocks.
+    "ball_sports": ("ball_sports_", "ball_sports_epg.xml",
+                    "ball_sports.m3u8", "ball_sports.sha256"),
+    "dubai_ball_sports": ("dubai_ball_sports_", "dubai_ball_sports_epg.xml",
+                          "dubai_ball_sports.m3u8",
+                          "dubai_ball_sports.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
@@ -281,7 +287,8 @@ def stage() -> int:
               "anything")
         return 1
     git("add", "--", "today_matches_epg.xml")
-    for path in ("other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
+    for path in ("ball_sports_epg.xml", "dubai_ball_sports_epg.xml",
+                 "other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",
                  "dubai_news_epg.xml", "dubai_weather_epg.xml",
