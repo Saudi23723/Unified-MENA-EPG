@@ -199,6 +199,15 @@ def build_flights(rows, now_min):
 def draw_rounded(d, box, r, fill=None, outline=None, width=1):
     d.rounded_rectangle(box, radius=r, fill=fill, outline=outline, width=width)
 
+def fit_text(d, s, f, maxw):
+    """Truncate s with an ellipsis so it never exceeds maxw pixels."""
+    if d.textlength(s, font=f) <= maxw:
+        return s
+    while s and d.textlength(s + "\u2026", font=f) > maxw:
+        s = s[:-1]
+    return s.rstrip() + "\u2026"
+
+
 def text(d, xy, s, f, fill=TEXT, anchor=None):
     d.text(xy, s, font=f, fill=fill, anchor=anchor)
 
@@ -271,7 +280,7 @@ def render_frame(t, tz, date_label, out):
         draw_rounded(d, [cx+12, cy+12, cx+64, cy+44], 8, acol)
         text(d, (cx+38, cy+27), acode, F_BADGE, (255, 255, 255), anchor="mm")
         text(d, (cx+76, cy+12), f["num"], F_FLIGHT)
-        text(d, (cx+76, cy+38), f"{aname}  •  {f['ac']}", F_SMALL, MUTED)
+        text(d, (cx+76, cy+38), fit_text(d, f"{aname}  •  {f['ac']}", F_SMALL, 140), F_SMALL, MUTED)
 
         # route with progress line
         ry = cy + 72
@@ -296,9 +305,9 @@ def render_frame(t, tz, date_label, out):
         text(d, (cx+360, cy+14), f"{alab} {hhmm(arr_d)}", F_SMALL, GREEN if arr_act else ACCENT)
         text(d, (cx+230, cy+34), f"{hhmm(dep_l)} {tzcity}", F_TINY, GREY)
         text(d, (cx+360, cy+34), f"{hhmm(arr_l)} {tzcity}", F_TINY, GREY)
-        dur = int(round(f["arr"] - f["dep"]))
+        dur = int(round(f['arr'] - f['dep']))
         if dur < 0: dur += 1440
-        text(d, (cx+230, cy+54), f"{dur//60}h {dur%60:02d}m", F_SMALL, MUTED)
+        text(d, (cx+335, cy+80), f"FLIGHT TIME  {dur//60}h {dur%60:02d}m", F_SMALL, AMBER, anchor="mm")
 
         # status badge
         bw2 = 118
