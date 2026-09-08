@@ -61,6 +61,8 @@ import boxing_promotions
 import mlb_espn
 import wnba_espn
 import turkish_sport_grid
+import spanish_sport_grid
+
 import world_ball_feed
 import beach_volley_fivb
 import world_sport_on_tv
@@ -1290,6 +1292,20 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # was measured before it was believed.
     everything += turkish_sport_grid.events(session)
     can_fetch = hasattr(session, "request")
+
+    # AND A SECOND LISTINGS GRID, in Spain, asked for by name: "trt
+    # Italian channels, polish, Norway, france, German, Spanish". Of
+    # those six, five are gone or unreadable — tv-sport.de and
+    # tvsportguide no longer resolve, Poland's and France's schedule
+    # paths answer 404, and Norway's tvkampen draws its grid in the
+    # browser (two <time> in half a megabyte). The Portuguese and
+    # Brazilian guides asked for after them carry football only. The
+    # Spanish one answers with hundreds of rows a sport, a DATE ABOVE
+    # EACH BLOCK — so it reaches every day of the window, which the
+    # Turkish grid cannot — and the broadcasters inside the row.
+    if can_fetch:
+        everything += spanish_sport_grid.events(session)
+
 
     # AND THE EUROPEAN-WIDE BACKUP behind it, because one country's grid
     # holding one day is not enough for a sport that plays a World Cup
