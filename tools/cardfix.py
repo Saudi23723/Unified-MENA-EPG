@@ -16,15 +16,7 @@ def text(d, xy, s, f, fill=TEXT, anchor=None):''', 1)
 s = re.sub(r'text\(d, \(cx\+76, cy\+38\), f"\{aname\}[^\n]*\n',
            lambda m: 'text(d, (cx+76, cy+38), fit_text(d, f"{aname}  \u2022  {f[\'ac\']}", F_SMALL, 140), F_SMALL, MUTED)\n', s)
 
-NEW = '''        # bottom-middle amber line: countdown to landing only
-        lbl = None
-        if f["status"] == "IN FLIGHT":
-            rem = int(round(f['arr'] - now_min))
-            if rem < 0: rem += 1440
-            lbl = f"LANDS IN  {rem//60}h {rem%60:02d}m" if rem > 0 else "LANDING NOW"
-        if lbl:
-            text(d, (cx+335, cy+80), lbl, F_SMALL, AMBER, anchor="mm")
-'''
+NEW = ""
 
 # header: keep the blinking LIVE label clear of the clock
 s = s.replace('d.ellipse([W-300, 34, W-288, 46]', 'd.ellipse([W-330, 34, W-318, 46]')
