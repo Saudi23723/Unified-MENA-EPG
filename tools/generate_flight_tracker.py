@@ -261,8 +261,11 @@ def render_frame(t, tz, date_label, out):
             d.line([cx+100, line_y, px, line_y], fill=GREEN, width=3)
             # plane marker
             d.polygon([(px, line_y-6), (px-8, line_y+6), (px+8, line_y+6)], fill=GREEN)
-        text(d, (cx+230, ry-8), f"DEP {hhmm(f['dep'] + tz*60 - 3*60)}", F_SMALL, MUTED)
-        text(d, (cx+360, ry-8), f"ARR {hhmm(f['arr'] + tz*60 - 3*60)}", F_SMALL, MUTED)
+        dep_act=bool(f.get("dep_actual")); arr_act=bool(f.get("arr_actual"))
+        dlab="DEP" if dep_act else "SCH"
+        alab="ARR" if arr_act else ("ETA" if f["status"]=="IN FLIGHT" else "SCH")
+        text(d, (cx+230, ry-8), f"{dlab} {hhmm(f['dep'] + tz*60 - 3*60)}", F_SMALL, GREEN if dep_act else MUTED)
+        text(d, (cx+360, ry-8), f"{alab} {hhmm(f['arr'] + tz*60 - 3*60)}", F_SMALL, GREEN if arr_act else MUTED)
 
         # status badge
         bw2 = 118
@@ -271,16 +274,22 @@ def render_frame(t, tz, date_label, out):
         if f["delay"]:
             text(d, (cx+card_w-16, cy+52), f"+{f['delay']} min", F_SMALL, RED, anchor="ra")
         elif f["status"] == "IN FLIGHT":
-            lat, lon = f.get("lat"), f.get("lon")
-            if lat is not None and lon is not None:
-                label = f"{abs(lat):.2f}{'N' if lat >= 0 else 'S'} {abs(lon):.2f}{'E' if lon >= 0 else 'W'}"
-            else:
-                label = f"{int(f['prog']*100)}% en route"
-            text(d, (cx+card_w-16, cy+52), label, F_SMALL, GREEN, anchor="ra")
+            bits=[]
+            if f.get("alt"): bits.append("FL%03d"%(int(f["alt"])//100))
+            if f.get("spd"): bits.append("%d kt"%int(f["spd"]))
+            ph=(f.get("phase") or "").upper(); vs=f.get("vs") or 0
+            if ph=="CLIMB" or vs>300: bits.append("climbing")
+            elif ph=="DESCENT" or vs<-300: bits.append("descending")
+            elif ph=="GROUND": bits.append("on ground")
+            elif ph=="CRUISE": bits.append("cruising")
+            if f.get("trk") is not None: bits.append("%03d°"%int(f["trk"]))
+            if not bits: bits=[f"{int(f['prog']*100)}% en route"]
+            text(d, (cx+card_w-16, cy+52), "  ".join(bits), F_SMALL, GREEN, anchor="ra")
+            if f.get("callsign"): text(d, (cx+card_w-16, cy+72), str(f["callsign"]), F_SMALL, MUTED, anchor="ra")
 
     # footer
     d.rectangle([0, H-34, W, H], fill=PANEL)
-    text(d, (24, H-26), f"Departures & arrivals shown in local time  •  Page {page+1} of {pages}", F_SMALL, MUTED)
+    text(d, (24, H-26), f"Green times = actual, recorded live  •  Page {page+1} of {pages}", F_SMALL, MUTED)
     text(d, (W-24, H-26), "Live data • refreshed every 8 min  •  Unified MENA EPG — Channel 6", F_SMALL, MUTED, anchor="ra")
 
     img.save(out)
