@@ -184,7 +184,10 @@ DAYS_AHEAD = 3
 IN_ORDER = (
     "Olympics",
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
-    "NFL", "NBA", "WNBA", "MLB", "FIBA", "Golf", "Rugby", "Padel",
+    # MLB AND THE WNBA ARE NOT ON THIS CHANNEL. Asked for in those
+    # words — they get a channel of their own — and a sport this list
+    # does not name never reaches the board.
+    "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
     "Cycling", "Athletics", "Volleyball", "Triathlon", "Swimming",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
@@ -1213,13 +1216,16 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # only through the summer, and October whole: every postseason game,
     # up to and including the World Series, is a national broadcast and
     # the feed labels the round beside it. See mlb_espn.py.
-    if can_fetch:
+    # Off this channel for now, by request: baseball and the WNBA are
+    # to have a channel of their own, so nothing is fetched for them
+    # here. The collectors stay where they are, ready for it.
+    if False:
         everything += mlb_espn.collect(session, floor, ceiling)
 
     # AND THE WNBA, asked for beside baseball and filed by every listings
     # page under the same word as the NBA, where only the NBA survives.
     # Its own scoreboard is the only place it comes through whole.
-    if can_fetch:
+    if False:
         everything += wnba_espn.collect(session, floor, ceiling)
 
     # AND THE PROMOTIONS' OWN CARDS — Most Valuable Promotions from its

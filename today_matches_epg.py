@@ -943,6 +943,22 @@ ALIASES = {
     # country is written out here, measured, like Preston and LA
     # Galaxy, rather than the furniture rule trusted to guess it.
     "korea dpr": "north korea",
+    # ONE CLUB, FOUR SPELLINGS, photographed twice on one board: the
+    # German pages print "Bayern München", the English ones "Bayern
+    # Munich", a third drops the umlaut and a fourth writes it out as
+    # "Muenchen". The word rule below folds the city; these fold the
+    # club however a page chose to print it, and the two Arabic
+    # spellings of the same name onto one another.
+    "fc bayern": "bayern munich",
+    "bayern münchen": "bayern munich",
+    "fc bayern münchen": "bayern munich",
+    "fc bayern munich": "bayern munich",
+    "fc bayern munchen": "bayern munich",
+    "bayern munchen": "bayern munich",
+    "bayern muenchen": "bayern munich",
+    "بايرن ميونخ": "بايرن ميونيخ",
+    "بايرن ميونيخ": "بايرن ميونيخ",
+    "بايرن": "بايرن ميونيخ",
 }
 
 # One word written two ways, which is not a nickname and so does not
@@ -954,7 +970,10 @@ WORD_ALIASES = {"utd": "united", "utd.": "united", "atl": "atletico",
                 # so it is written out here rather than the floor lowered
                 # for every three-letter word in football.
                 "ath": "athletic", "ath.": "athletic",
-                "st": "saint", "st.": "saint"}
+                "st": "saint", "st.": "saint",
+                # The city, in the four ways football prints it.
+                "münchen": "munich", "munchen": "munich",
+                "muenchen": "munich"}
 
 # Words that hang off the end of a club's name and that a listings page
 # may or may not bother to print. A trailing word outside this list is
@@ -1119,6 +1138,13 @@ def same_side(first: str, second: str) -> bool:
             return True
 
     first, second = expand(first), expand(second)
+    # TWO SPELLINGS THE TABLE ALREADY WROTE OUT AS ONE. Written in
+    # Arabic there are no Latin words below to line up, so a pair the
+    # alias table has just made identical — "بايرن ميونخ" and
+    # "بايرن ميونيخ" — would have fallen through to the ratio test and
+    # been refused. Same name, same club.
+    if norm(first).casefold() == norm(second).casefold():
+        return True
     left, right = words_of(first), words_of(second)
     if not left or not right:
         # An Arabic name has no words for the paths above to line up —
