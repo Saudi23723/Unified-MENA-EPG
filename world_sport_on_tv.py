@@ -184,8 +184,12 @@ PAGES = (
     # the label-drop below was built on — the Snooker English Open row
     # whose label repeats in its description — because that finding is
     # load-bearing for athletics and cycling rows too.
-    # ("/live-snooker-on-tv/", "Snooker",
-    #  re.compile(r"snooker", re.I), None),
+    # SNOOKER — back on the board in the reader's own words ("add
+    # Snooker from TNT Sports and Eurosport channels"), and this page is
+    # the door the sport had before. The board keeps only the rows those
+    # two broadcasters carry; see SNOOKER_CHANNELS in other_sports_epg.
+    ("/live-snooker-on-tv/", "Snooker",
+     re.compile(r"snooker", re.I), None),
 
     # ATHLETICS — the world championships: the World Athletics Ultimate
     # Championship on the BBC, measured three rows. The Diamond League
