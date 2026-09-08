@@ -22,12 +22,19 @@ jobs:
             python -c "import ast,sys;ast.parse(open(sys.argv[1],encoding='utf-8').read())" "$f"
           done
       - name: Collect every league badge the boards can need
-        run: timeout 3000 python fetch_league_logos.py || true
+        run: |
+          timeout 2400 python fetch_league_logos.py || true
+          echo "badges on disk: $(ls logos/teams | wc -l)"
       - name: Commit
         run: |
           git config user.name "epg-bot"
           git config user.email "epg-bot@users.noreply.github.com"
-          git add match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py logos/teams
+          git add -A match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py logos/teams
           git commit -m "Screens: live clock, events kept apart from fixtures, every league badge on disk" || echo "nothing to commit"
-          git pull --rebase --autostash || true
-          git push
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin main
+            git rebase origin/main || { git checkout --theirs . 2>/dev/null; git rebase --abort; git reset --hard HEAD; }
+            if git push origin HEAD:main; then echo pushed; exit 0; fi
+            sleep 25
+          done
+          echo "could not push"; exit 1
