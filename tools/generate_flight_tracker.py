@@ -62,7 +62,6 @@ F_FLIGHT= font(20, True)
 F_BODY  = font(17)
 F_SMALL = font(14)
 F_BADGE = font(16, True)
-F_TINY  = font(12)
 F_CLOCK = font(22, True)
 
 # ---------------------------------------------------------------- theme
@@ -120,27 +119,6 @@ SCHEDULE = [
     ("RJ", "RJ615", "AMM", "CAI",  13*60+30, 14*60+10, "A320neo"),
     ("TK", "TK761", "IST", "AUH",  12*60+45, 18*60+0,  "A321neo"),
 ]
-
-# UTC offsets (hours) per airport, for showing each flight in the airports' own local time
-AIRPORT_TZ = {
- "AMM":3,"ADJ":3,"AQJ":3,"AUH":4,"DXB":4,"DWC":4,"SHJ":4,"AQI":3,"RUH":3,"JED":3,"DMM":3,"AHB":3,
- "MED":3,"TUU":3,"ULH":3,"HAS":3,"MJI":3,"BSZ":3,"DOH":3,"MCT":4,"KWI":3,"BAH":3,"BGW":3,"EBL":3,
- "BEY":3,"DAM":3,"ALP":3,"CAI":3,"SSH":2,"TLV":3,"KHI":5,"DEL":5.5,"BLR":5.5,"CMB":5.5,"KTM":5.75,
- "MLE":5,"IST":3,"AYT":3,"HTY":3,"KSY":3,"GYD":4,"TBS":4,"ALA":5,"NQZ":5,"DME":3,"VKO":3,"LED":3,
- "ATH":3,"LCA":3,"MLA":2,"FCO":2,"MXP":2,"BGY":2,"BLQ":2,"NAP":2,"VIE":2,"MUC":2,"FRA":2,"DUS":2,
- "HAM":2,"BER":2,"ZRH":2,"GVA":2,"BRU":2,"AMS":2,"CDG":2,"LYS":2,"NCE":2,"BCN":2,"MAD":2,"LIS":1,
- "CPH":2,"ARN":2,"OSL":2,"TLL":3,"WAW":2,"KRK":2,"OTP":3,"BEG":2,"PRG":2,"BUD":2,"LHR":1,"LGW":1,
- "STN":1,"MAN":1,"BHX":1,"NCL":1,"EDI":1,"DUB":1,"CMN":1,"TUN":1,"BEN":2,"DSS":0,"CKY":0,"ACC":0,
- "ASM":3,"NBO":3,"MBA":3,"EBB":3,"JNB":2,"CPT":2,"TNR":3,"MRU":4,"SEZ":4,"BKK":7,"DMK":7,"HKT":7,
- "KUL":8,"SIN":8,"CGK":7,"DPS":8,"HAN":7,"SGN":7,"HKG":8,"CAN":8,"SZX":8,"PVG":8,"PEK":8,"CGO":8,
- "ICN":9,"NRT":9,"TPE":8,"MNL":8,"SYD":10,"MEL":10,"BNE":10,"AKL":12,"JFK":-4,"EWR":-4,"BOS":-4,
- "IAD":-4,"ORD":-5,"ATL":-4,"CLT":-4,"MCO":-4,"DFW":-5,"IAH":-5,"DTW":-4,"SEA":-7,"SFO":-7,
- "LAX":-7,"YYZ":-4,"YUL":-4,"MEX":-6,"BOG":-5,"PTY":-5,"GRU":-3,"SCL":-4,"LIM":-5,
-}
-
-def apoff(code, fallback):
-    v = AIRPORT_TZ.get((code or "").upper())
-    return float(v) if v is not None else float(fallback)
 
 def hhmm(minutes):
     minutes %= 1440
@@ -233,7 +211,6 @@ def render_frame(t, tz, date_label, out):
     text(d, (W-280, 30), "LIVE", F_CLOCK, RED)
     text(d, (W-230, 30), clock, F_CLOCK, TEXT)
     tzname = "Jordan Time (UTC+3)" if tz == 3 else "Dubai Time (UTC+4)"
-    tzcity = "AMM" if tz == 3 else "DXB"
     text(d, (W-40, 58), f"{date_label}  •  {tzname}", F_SMALL, MUTED, anchor="ra")
 
     # stats bar
@@ -287,15 +264,8 @@ def render_frame(t, tz, date_label, out):
         dep_act=bool(f.get("dep_actual")); arr_act=bool(f.get("arr_actual"))
         dlab="DEP" if dep_act else "SCH"
         alab="ARR" if arr_act else ("ETA" if f["status"]=="IN FLIGHT" else "SCH")
-        o_off = apoff(f["o"], tz); d_off = apoff(f["d"], tz)
-        dep_o = int(round(f['dep'] + o_off*60 - 3*60))
-        arr_d = int(round(f['arr'] + d_off*60 - 3*60))
-        dep_l = f['dep'] + tz*60 - 3*60
-        arr_l = f['arr'] + tz*60 - 3*60
-        text(d, (cx+230, ry-14), f"{dlab} {hhmm(dep_o)}", F_SMALL, GREEN if dep_act else MUTED)
-        text(d, (cx+360, ry-14), f"{alab} {hhmm(arr_d)}", F_SMALL, GREEN if arr_act else MUTED)
-        text(d, (cx+230, ry+4), f"{hhmm(dep_l)} {tzcity}", F_TINY, MUTED)
-        text(d, (cx+360, ry+4), f"{hhmm(arr_l)} {tzcity}", F_TINY, MUTED)
+        text(d, (cx+230, ry-8), f"{dlab} {hhmm(f['dep'] + tz*60 - 3*60)}", F_SMALL, GREEN if dep_act else MUTED)
+        text(d, (cx+360, ry-8), f"{alab} {hhmm(f['arr'] + tz*60 - 3*60)}", F_SMALL, GREEN if arr_act else MUTED)
 
         # status badge
         bw2 = 118
@@ -319,7 +289,7 @@ def render_frame(t, tz, date_label, out):
 
     # footer
     d.rectangle([0, H-34, W, H], fill=PANEL)
-    text(d, (24, H-26), f"Top times = airport local  •  grey = {tzcity} time  •  green = actual  •  Page {page+1} of {pages}", F_SMALL, MUTED)
+    text(d, (24, H-26), f"Green times = actual, recorded live  •  Page {page+1} of {pages}", F_SMALL, MUTED)
     text(d, (W-24, H-26), "Live data • refreshed every 8 min  •  Unified MENA EPG — Channel 6", F_SMALL, MUTED, anchor="ra")
 
     img.save(out)
