@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260907172600 +0000" stop="20260907191100 +0000" channel="beIN4K.qa">
-    <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
-    <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260907191100 +0000" stop="20260907205900 +0000" channel="beIN4K.qa">
     <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
     <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
@@ -894,13 +888,6 @@ Old Trafford Stadium</desc>
     <desc lang="en">The Vancouver is the five round of the World Triathlon T100 Championship series leading up to the Final in QATAR next December amidst fierce competition in both the men’s and women’s categories</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
-  </programme>
-  <programme start="20260907164800 +0000" stop="20260907191800 +0000" channel="beINSports1.qa">
-    <title lang="en">Getafe vs Celta Vigo - Spanish LaLiga 2026/2027 - Week 4 ‎• Live 🔵‎</title>
-    <desc lang="en">Getafe are unbeaten in their last two LaLiga matches against Celta de Vigo, keeping a clean sheet in both. They have never kept three consecutive clean sheets against the Galician side in the top-flight. Celta de Vigo have picked up points in their last two away games against Getafe in LaLiga  and could do so in three consecutive visits to the Esta</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Live</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260907191800 +0000" stop="20260907213000 +0000" channel="beINSports1.qa">
     <title lang="en">Elche vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 4 ‎• Live 🔵‎</title>
@@ -2575,13 +2562,6 @@ Elland Road Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260907165000 +0000" stop="20260907190000 +0000" channel="beINSports3.qa">
-    <title lang="en">Göztepe A.Ş. vs Gaziantep Futbol Kulübü A.Ş. - Turkish Super League 2027 - MD4 ‎• Live 🔵‎</title>
-    <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907190000 +0000" stop="20260907210000 +0000" channel="beINSports3.qa">
     <title lang="en">Real Betis vs Real Madrid - Spanish LaLiga 2026/2027 - Week 4</title>
@@ -4332,12 +4312,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20260907173500 +0000" stop="20260907192000 +0000" channel="beINSports6.qa">
-    <title lang="en">Japan vs Qatar - FIBA Asian Qualifiers - 2027</title>
-    <desc lang="en">Qualification Match for the 2027 FIBA Basketball World Cup that will be hosted in Qatar August 27th – 12th September 2027. It will be the first FIBA Basketball World Cup to be held in the Arab World.</desc>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
   </programme>
   <programme start="20260907192000 +0000" stop="20260907210000 +0000" channel="beINSports6.qa">
     <title lang="en">China vs Lebanon - FIBA Asian Qualifiers - 2027</title>
@@ -9926,13 +9900,6 @@ Basra International Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907190000 +0000" stop="20260907191500 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Jawla ‎• Live 🔵‎</title>
-    <desc lang="en">Al Jawla covers the latest news and stories from sporting events across the planet. Including latest results and latest scores from the most recent games taking place. This daily look at the latest stories provides a fast paced update to sporting events.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260907191500 +0000" stop="20260907193000 +0000" channel="beINSportsNews.qa">
     <title lang="en">The summary 1 - 7/09/26</title>
     <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
@@ -11727,6 +11694,12 @@ Basra International Stadium Stadium</desc>
     <desc lang="en">Al Jawla covers the latest news and stories from sporting events across the planet. Including latest results and latest scores from the most recent games taking place. This daily look at the latest stories provides a fast paced update to sporting events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260914191500 +0000" stop="20260914193000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">The summary 1 - 14/09/26</title>
+    <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907190000 +0000" stop="20260907200000 +0000" channel="beINSportsXtra1.qa">
