@@ -1120,6 +1120,11 @@
     <display-name lang="ar">طقس اليوم</display-name>
     <display-name lang="en">Today's Weather</display-name>
   </channel>
+  <channel id="TodayPrayer">
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/today_prayer.png" />
+    <display-name lang="ar">مواقيت الصلاة</display-name>
+    <display-name lang="en">Prayer Times</display-name>
+  </channel>
   <programme start="20260907100400 +0000" stop="20260907115000 +0000" channel="beIN4K.qa">
     <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
@@ -3545,12 +3550,6 @@ Season 2026/2027
 Villa Park Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260907080500 +0000" stop="20260907101500 +0000" channel="beINSports3.qa">
-    <title lang="en">Athletic Bilbao vs Atletico Madrid - Spanish LaLiga 2026/2027 - Week 4</title>
-    <desc lang="en">Athletic Club have won four of their last 11 LaLiga matches against Atlético de Madrid, after winning just one of their previous 15 against them in the competition. After winning four of their five LaLiga away games against Athletic Club between 2014 and 2017, Atlético de Madrid have since lost five of their last eight top-flight away matches again</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260907101500 +0000" stop="20260907123000 +0000" channel="beINSports3.qa">
     <title lang="en">Rayo Vallecano vs Racing Club - Spanish LaLiga 2026/2027 - Week 4</title>
@@ -6321,12 +6320,6 @@ Stade du Moustoir - Yves Allainmat Stadium</desc>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260907064000 +0000" stop="20260907101700 +0000" channel="beINSports8.qa">
-    <title lang="en">Jakub Mensik (CZE) vs Learner Tien (USA)  - Louis Armstrong Court - Tennis US Open 2026</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260907101700 +0000" stop="20260907124500 +0000" channel="beINSports8.qa">
@@ -72806,6 +72799,66 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_RoyaSport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_RFC">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_RoyaComedy">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_RoyaKitchen">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch38">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch35">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch34">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch44">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch16">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch13">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch37">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch26">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch30">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch28">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch31">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch32">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="Roya_Ch22">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908180604 +0000" stop="20260908182005 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260906210000 +0000" stop="20260907210000 +0000" channel="JordanSports">
     <title lang="ar">الأردن الرياضية</title>
     <desc lang="ar">الأردن الرياضية | 2026-09-07
@@ -80957,7 +81010,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907120000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260907102000 +0000" stop="20260907120000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Program: Full Time 2026-2027</title>
     <desc lang="en">Program: Full Time 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -81257,7 +81310,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907103000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260907102000 +0000" stop="20260907103000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Inside City (AR) 2026-2027</title>
     <desc lang="en">Inside City (AR) 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -81533,14 +81586,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907101500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Frosinone X Venezia - Serie A</title>
-    <title lang="ar">فروزينوني × فينيتسيا - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260907101500 +0000" stop="20260907104500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260907102000 +0000" stop="20260907104500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 2 - Serie A Highlights</title>
     <title lang="ar">الجولة 2 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -82128,14 +82174,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907101500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Juventus X Milan - Serie A</title>
-    <title lang="ar">يوفنتوس × ميلان - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260907101500 +0000" stop="20260907104500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260907102000 +0000" stop="20260907104500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Round 3 - Serie A Preview Show Magazine</title>
     <title lang="ar">الجولة 3 - مجلة الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -82716,7 +82755,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907114500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260907102000 +0000" stop="20260907114500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -83311,7 +83350,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907103500 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260907102000 +0000" stop="20260907103500 +0000" channel="Starz_starzplayrugby">
     <title lang="en">South Africa vs. England - Nations Championship 2026</title>
     <desc lang="en">South Africa vs. England - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -83562,13 +83601,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">WOA STARZPLAY RUGBY</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
-  </programme>
-  <programme start="20260907100500 +0000" stop="20260907102000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Michael Phelps - Invincible</title>
-    <title lang="ar">مايكل فيلبس - إنفينسيبل</title>
-    <desc lang="en">A series that explores periods of unrivalled domination in sport. Chapters from sport's greatest careers and iconic dynasties.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG612639_landscape10-d4bc14d1-6599-4df2-82ce-cba37d891a04.jpg" />
   </programme>
   <programme start="20260907102000 +0000" stop="20260907115000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Salwa Al Sabah X Al Mokawloon Al Ordani - Shka. Fatima Women GCC Basketball Cup</title>
@@ -84172,14 +84204,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907100600 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2nd T20: Ireland vs. India - T20 Cricket</title>
-    <title lang="ar">تي٢٠ كريكيت</title>
-    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260907100600 +0000" stop="20260907103000 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260907102000 +0000" stop="20260907103000 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2026: Barbados Tridents vs Trinbago Knight Riders, 27th Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -84804,7 +84829,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907103600 +0000" channel="Starz_wedosports">
+  <programme start="20260907102000 +0000" stop="20260907103600 +0000" channel="Starz_wedosports">
     <title lang="en">Against the Odds</title>
     <title lang="ar">أغينست ذي أودز</title>
     <desc lang="en">S1 , E13 : A look at the brilliant careers of Ronaldo, the only Brazilian footballer to rival Pele, Zinedine Zidane, a top player then manager, and 1960s legend Eusebio.</desc>
@@ -85245,7 +85270,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p20258417_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907110000 +0000" channel="Starz_criclife1">
+  <programme start="20260907102000 +0000" stop="20260907110000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's U19 ODI World Cup 2026: Tanzania vs West Indies - Future Stars Zone</title>
     <desc lang="en">ICC Men's U19 ODI World Cup 2026: Tanzania vs West Indies - Future Stars Zone</desc>
     <category lang="en">Sport</category>
@@ -85758,13 +85783,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907101600 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Rotterdam Dockers vs Edinburgh Castle Rockers - ETPL Highlights</title>
-    <desc lang="en">2026: Rotterdam Dockers vs Edinburgh Castle Rockers - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260907101600 +0000" stop="20260907104600 +0000" channel="Starz_criclife3">
+  <programme start="20260907102000 +0000" stop="20260907104600 +0000" channel="Starz_criclife3">
     <title lang="en">1st ODI: West Indies v Sri Lanka - One-Day International Cricket</title>
     <title lang="ar">ون-داي إنترناشونال كريكيت</title>
     <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
@@ -86427,13 +86446,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907100600 +0000" channel="Starz_golflife">
-    <title lang="en">Final Day Session 1 - 2026 Walker Cup</title>
-    <desc lang="en">Final Day Session 1 - 2026 Walker Cup</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33667980_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260907100600 +0000" stop="20260907163900 +0000" channel="Starz_golflife">
+  <programme start="20260907102000 +0000" stop="20260907163900 +0000" channel="Starz_golflife">
     <title lang="en">Final Day, Session 2 - 2026 Walker Cup</title>
     <desc lang="en">Final Day, Session 2 - 2026 Walker Cup</desc>
     <category lang="en">Sport</category>
@@ -86729,7 +86742,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907113000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260907102000 +0000" stop="20260907113000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Al-Ain Camel Race Festival</title>
     <title lang="ar">مهرجان العين لسباقات الهجن</title>
     <desc lang="en">Stay tuned to Al-Ain Camel Race Festival.</desc>
@@ -87324,7 +87337,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907120000 +0000" channel="Starz_awsn">
+  <programme start="20260907102000 +0000" stop="20260907120000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -87618,7 +87631,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907110000 +0000" channel="Starz_redbulltv">
+  <programme start="20260907102000 +0000" stop="20260907110000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -88200,7 +88213,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907120000 +0000" channel="Starz_daznringside">
+  <programme start="20260907102000 +0000" stop="20260907120000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -88398,7 +88411,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907113227 +0000" channel="Starz_fifaplus">
+  <programme start="20260907102000 +0000" stop="20260907113227 +0000" channel="Starz_fifaplus">
     <title lang="en">Brazil v Belgium | Quarter-finals | 2018 FIFA World Cup Russia™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Brazil and Belgium played at Kazan Arena, Kazan on Friday, 06 July 2018.</desc>
     <category lang="en">Sport</category>
@@ -88812,7 +88825,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://dki01q1l7yn3y.cloudfront.net/thumbnails-platform-prod/assets/cs::content::episodemeta/41971-44019/86262941-default_v1.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907102100 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907102000 +0000" stop="20260907102100 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Thailand vs Hong Kong - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
@@ -89505,7 +89518,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907121500 +0000" channel="Starz_admnyastv">
+  <programme start="20260907102000 +0000" stop="20260907121500 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
@@ -89716,7 +89729,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907100500 +0000" stop="20260907113500 +0000" channel="Starz_adfight">
+  <programme start="20260907102000 +0000" stop="20260907113500 +0000" channel="Starz_adfight">
     <title lang="en">AJP Tour 2026 - Jiu-Jitsu</title>
     <desc lang="en">AJP Tour 2026 - Jiu-Jitsu</desc>
     <category lang="en">Sport</category>
@@ -91721,8 +91734,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Elmas Lig</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260908095500 +0000" stop="20260908102500 +0000" channel="TabiiSpor.tr">
-    <title lang="en">CONTENDERS</title>
+  <programme start="20260908092500 +0000" stop="20260908101500 +0000" channel="TabiiSpor.tr">
+    <title lang="en">Şampiyonlar Ligi Özetler</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260908102500 +0000" stop="20260908122500 +0000" channel="TabiiSpor.tr">
@@ -94699,11 +94712,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">PPV — حسب المباراة</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260908092500 +0000" stop="20260908095500 +0000" channel="TabiiSpor.tr">
+  <programme start="20260908101500 +0000" stop="20260908102500 +0000" channel="TabiiSpor.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260908070000 +0000" stop="20260909070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد ساعة و3 دقائق ⁨·⁩ ⁨FC Porto U19 - Manchester City U19 · beIN 1 · TNT 1 · HBO Max +1⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 45 دقيقة ⁨·⁩ ⁨FC Porto U19 - Manchester City U19 · beIN 1 · TNT 1 · HBO Max +1⁩⁩</title>
     <desc lang="ar">مباريات الثلاثاء 08/09 — بتوقيتك
 ⁦⏳ 04:00  FC Porto U19 - Manchester City U19⁩
         beIN 1 · TNT 1 · HBO Max +1
@@ -94730,7 +94743,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Poland - Mexico⁩
         beIN 4 · Fox Sports 2 · DAZN +3
 ⁦⚪ 09:45  Club Brugge KV - Aston Villa⁩
-        beIN 1 · TNT 1 · CBS Sports Network +9
+        beIN 1 · TNT 1 · CBS Sports Network +10
 ⁦⚪ 09:45  AEK Athens FC - LASK⁩
         beIN 2 · TNT 2 · Paramount+ +6
 ⁦⚪ 10:00  Zamalek SC - Abu Qair Semad⁩
@@ -94756,11 +94769,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Wrexham - Burnley⁩
         Sky+ · Paramount+ · Viaplay Denmark +3
 ⁦⚪ 12:00  Real Madrid - Inter⁩
-        beIN 1 · TNT 1 · Paramount+ +11
+        beIN 1 · TNT 1 · Paramount+ +12
 ⁦⚪ 12:00  Dortmund - Villarreal⁩
         beIN 4 · TNT 2 · CBS Sports Network +8
 ⁦⚪ 12:00  FC Porto - Manchester City⁩
-        beIN 2 · Paramount+ · İçtimai TV TR +6
+        beIN 2 · Paramount+ · İçtimai TV TR +7
 ⁦⚪ 12:00  Lille - Betis⁩
         beIN 3 · TNT 3 · Paramount+ +7
 ⁦⚪ 12:00  Bolton - West Ham⁩
@@ -94859,7 +94872,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_4.png" />
   </programme>
   <programme start="20260910070000 +0000" stop="20260911070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد يومين و3 ساعات ⁨·⁩ ⁨Spain - New Caledonia · beIN 5 · DAZN⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد يومين وساعتين ⁨·⁩ ⁨Spain - New Caledonia · beIN 5 · DAZN⁩⁩</title>
     <desc lang="ar">مباريات الخميس 10/09 — بتوقيتك
 ⁦⏳ 06:00  Spain - New Caledonia⁩
         beIN 5 · DAZN
@@ -94898,7 +94911,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_10.png" />
   </programme>
   <programme start="20260908070000 +0000" stop="20260909070000 +0000" channel="TodaySports">
-    <title lang="ar">⁦⏳ بعد ساعتين و32 دقيقة ⁨·⁩ ⁨Stage 16 - La Vuelta a España 2026⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد ساعتين و15 دقيقة ⁨·⁩ ⁨Stage 16 - La Vuelta a España 2026⁩⁩</title>
     <desc lang="ar">رياضات اليوم · الثلاثاء 08.09.2026
 
 ⏳ 05:30  Stage 16 - La Vuelta a España 2026
@@ -94954,7 +94967,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_2.png" />
   </programme>
   <programme start="20260911070000 +0000" stop="20260912070000 +0000" channel="TodaySports">
-    <title lang="ar">⁦⏳ بعد يومين و21 ساعة ⁨·⁩ ⁨MotoGP San Marino Grand Prix Free Practice Nr. 1 - Misano World Circuit Marco Simoncelli⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد يومين و20 ساعة ⁨·⁩ ⁨MotoGP San Marino Grand Prix Free Practice Nr. 1 - Misano World Circuit Marco Simoncelli⁩⁩</title>
     <desc lang="ar">رياضات اليوم · الجمعة 11.09.2026
 
 ⏳ 00:00  MotoGP San Marino Grand Prix Free Practice Nr. 1 - Misano World Circuit Marco Simoncelli
@@ -94993,637 +95006,649 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         TNT 2 · HBO Max</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_3.png" />
   </programme>
-  <programme start="20260908090000 +0000" stop="20260908100000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · 7 سفن فقط مرت من مضيق هرمز يوم الاثنين</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 02:05 — بتوقيتك
-
-7 سفن فقط مرت من مضيق هرمز يوم الاثنين
-        تباطأت حركة الملاحة عبر مضيق هرمز هذا الأسبوع بعد أن هددت إيران، الاثنين، بالرد على أي هجمات أميركية جديدة.
-        عربي · الشرق الأوسط
-السفير الأميركي ميشال عيسى في المجلس الإسلامي الشيعي.. التفاصيل مع مراسل الجديد
-        عربي · الجديد
-«أسبوع دبي لمستقبل القطاع المالي» ينطلق نوفمبر المقبل - alkhaleej.ae
-        الإمارات · الإمارات
-"الحوثي" تعلن استهداف منشآت لأرامكو وقاعدة جوية في السعودية
-        الجماعة اليمنية قالت إنها استخدمت عشرات الصواريخ الباليستية والطائرات المسيرة في هجماتها
-        تركيا · الأناضول
-Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
-        Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
-        أمريكا · CBS
-Prince George begins first day at Eton College
-        The 13-year-old will follow in the footsteps of his father, the Prince of Wales, by attending the elite private school.
-        بريطانيا · BBC
-«برنت» يقترب من 100 دولار مع تصاعد مخاطر استمرار الحرب
-        ارتفعت أسعار النفط في التعاملات الفورية خلال جلسة الثلاثاء، بنسبة 3 في المائة لتسجل 99.22 دولار للبرميل
-        عربي · الشرق الأوسط
-"الشارقة للمتاحف" تعقد ندوة حول ترخيص المتاحف الخاصة في 12 سبتمبر - sharjah24.ae
-        الإمارات · الإمارات
-تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - sharjah24.ae
-        الإمارات · الإمارات
-"الزردة" بتونس.. مهرجان الولائم والفروسية بعد موسم الحصاد
-        تركيا · الأناضول
-3 works of art stolen from France's Renoir Museum, local mayor says
-        Authorities in France are seeking two thieves who broke into France's Renoir Museum and stole "four works of art" but dropped one as they got away,…
-        أمريكا · CBS
-Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
-        The Duke and Duchess of Sussex returned to the UK last month
-        بريطانيا · Independent
-الين يقترب من أعلى مستوياته هذا العام مع تنامي رهانات رفع الفائدة
-        واصل الين الياباني مكاسبه خلال تعاملات الثلاثاء، مقترباً من أعلى مستوى له مقابل الدولار هذا العام، مع زيادة المستثمرين رهاناتهم على رفع الفائدة.
-        عربي · الشرق الأوسط
-مفوض أممي: أكثر من 1200 مدني قتلوا في ميانمار خلال عام
-        فولكر تورك حذر من تفاقم الأزمة الإنسانية والأمنية في ميانمار وتزايد تداعياتها الإقليمية
-        تركيا · الأناضول
-أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
-        الإمارات · الإمارات
-Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
-        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Moscow renews attacks after pause for peace talks The UK has…
-        بريطانيا · Guardian
-Britain Set to Target Israeli West Bank Settlements With Trade Ban
-        The expected move will be announced on Tuesday, officials said, and underscored Israel’s mounting isolation over its policies toward Palestinians…
-        أمريكا · NYT
-China’s Surging Exports Loom Over Trump’s Talks With Xi
-        China’s exports grew by a quarter in the month of August, weeks before its leader, Xi Jinping, is set to meet with President Trump in Washington.
-        أمريكا · NYT
-الأسواق الخليجية تكافح لاستعادة الزخم وسط تصاعد التوتر بين واشنطن وطهران
-        تحركت معظم أسواق الأسهم الخليجية في نطاق محدود، الثلاثاء، مع صعود بعضها بشكل طفيف.
-        عربي · الشرق الأوسط
-رئيس الوزراء الإسباني يبعث برسالة شكر إلى مدرسة تركية
-        بعد تلقيه مجلة أدبية أعدها طلاب مدرسة ثانوية بولاية قيصري
-        تركيا · الأناضول
-أسعار النفط تواصل الارتفاع وخام برنت يسجل 97.34 دولار للبرميل - sharjah24.ae
-        الإمارات · الإمارات
-Shetland spaceport project secures £30m of UK government investment
-        Several companies hope to use SaxaVord in Unst, the northernmost point in the UK, as a launch site for small commercial rockets.
-        بريطانيا · BBC
-Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
-        A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
-        بريطانيا · BBC
-Iran live updates: Trump says oil prices will drop 'when we WIN the war'
-        The Strait of Hormuz remains the primary flashpoint in the conflict.
-        أمريكا · ABC News
-«أبل» تختبر استخدام رقم هاتف واحد على جهازي «آيفون»
-        سيتمكن المستخدم من ربط رقم هاتفه بجهازين، ثم التنقل بينهما من دون إعادة نقل الشريحة الإلكترونية في كل مرة.
-        عربي · الشرق الأوسط
-وصفته أوكرانيا بـ"الهجوم المروع".. روسيا تستأنف قصف كييف عقب مغادرة كوشنر وويتكوف
-        استأنفت روسيا هجماتها على العاصمة الأوكرانية كييف الثلاثاء، بعد توقف قصير استمر ثلاثة أيام وتزامن مع زيارة مبعوثي الرئيس الأمريكي دونالد ترمب لبحث…
-        تركيا · TRT عربي
-بكين.. قطر والصين تبحثان العلاقات المشتركة وأزمة مضيق هرمز
-        وزيرا خارجية البلدين أكدا ضرورة ضمان أمن الملاحة الدولية، وبحثا جهود خفض التصعيد في المنطقة
-        تركيا · الأناضول
-آيفون قابل للطي لأول مرة.. ماذا يخبئ مؤتمر أبل 2026؟ - العربية
-        الإمارات · الإمارات
-Australia to force social media platforms to allow users to opt out of algorithms
-        Draft legislation enforces digital duty of care including limiting children’s exposure to misogynistic and eating disorder content Australia will…
-        بريطانيا · Guardian
-What to watch as Republicans gather in Dallas for Trump's unusual midterm convention
-        Republicans will descend on Dallas this week for a two-day convention dreamed up by President Donald Trump to rally his party ahead of this year’s…
-        أمريكا · ABC News
-أوساكا تتقبل انتظار فوزها بلقب كبير آخر بعد خروجها من فلاشينغ ميدوز
-        تسببت هزيمة ناومي أوساكا في الدور الرابع لدورة أميركا المفتوحة للتنس أمس الاثنين في إطالة انتظارها للحصول ​على لقب آخر في البطولات الكبرى.
-        عربي · الشرق الأوسط
-تركيا.. توقيف 9 أشخاص في عملية ضد تنظيم "داعش" الإرهابي بإسطنبول
-        ألقت السلطات التركية القبض على 9 مشتبه بهم خلال عملية أمنية استهدفت مصادر تمويل تنظيم "داعش" الإرهابي في مدينة إسطنبول، وفق مصادر أمنية.
-        تركيا · TRT عربي
-ما دلالات التصعيد الحوثي الأخير واستهداف منشآت مدنية واقتصادية في السعودية؟
-        أعلن ​الحوثيون ​المتحالفون مع إيران، الثلاثاء، ​أنهم ‌استهدفوا بطائرات ‌مسيرة وصواريخ باليستية مواقع تابعة لشركة أرامكو ​السعودية العملاقة للنفط ‌في…
-        عربي · فرانس 24
-الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
-        الإمارات · الإمارات
-Who will reach Super Bowl? - NFL predictions for 2026 season
-        Who are favourites to reach the Super Bowl and who will be the surprise standouts? BBC's NFL experts make their predictions for the 2026 season
-        بريطانيا · BBC
-FSU-SMU game turns into old-school football after stadium power outage wipes out in-game communication
-        A power outage plunged Doak Campbell Stadium into darkness minutes before kickoff, forcing SMU and Florida State to play without communications.
-        أمريكا · Fox News</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
-  </programme>
   <programme start="20260908100000 +0000" stop="20260908110000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 02:05 — بتوقيتك
+    <title lang="ar">أخبار اليوم · «الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق ه</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:01 — بتوقيتك
 
-7 سفن فقط مرت من مضيق هرمز يوم الاثنين
-        تباطأت حركة الملاحة عبر مضيق هرمز هذا الأسبوع بعد أن هددت إيران، الاثنين، بالرد على أي هجمات أميركية جديدة.
+«الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق هرمز
+        أدان وزراء الخارجية العرب، الثلاثاء، استمرار الهجمات الإيرانية ضد دول مجلس التعاون الخليجي والأردن والعراق
         عربي · الشرق الأوسط
-السفير الأميركي ميشال عيسى في المجلس الإسلامي الشيعي.. التفاصيل مع مراسل الجديد
-        عربي · الجديد
-«أسبوع دبي لمستقبل القطاع المالي» ينطلق نوفمبر المقبل - alkhaleej.ae
+إغلاق برج إيفل احتجاجا على استبعاد الموظفات من العمل خلال زيارة وفد هندوسي تجنبا للاختلاط بالنساء
+        بين الصدمة والشعور بإهانة النساء، قرر موظفو برج إيفل في باريس الإضراب احتجاجا على استبعاد الموظفات النساء وتعويضهن بموظفين رجال خلال زيارة خاصة لوفد…
+        عربي · فرانس 24
+مؤسسة دبي للمستقبل تطلق الدورة الرابعة لبرنامج القيادة والتصميم - Zawya
         الإمارات · الإمارات
-"الحوثي" تعلن استهداف منشآت لأرامكو وقاعدة جوية في السعودية
-        الجماعة اليمنية قالت إنها استخدمت عشرات الصواريخ الباليستية والطائرات المسيرة في هجماتها
+عقب اقتحام إسرائيلي.. انتشال جثمان فلسطيني من مقر لجنة زكاة طولكرم
+        الجثمان يعود للفلسطيني أسعد مليحة من قطاع غزة، وفق الدفاع المدني والهلال الأحمر
         تركيا · الأناضول
 Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
         Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
         أمريكا · CBS
-Prince George begins first day at Eton College
-        The 13-year-old will follow in the footsteps of his father, the Prince of Wales, by attending the elite private school.
-        بريطانيا · BBC
-«برنت» يقترب من 100 دولار مع تصاعد مخاطر استمرار الحرب
-        ارتفعت أسعار النفط في التعاملات الفورية خلال جلسة الثلاثاء، بنسبة 3 في المائة لتسجل 99.22 دولار للبرميل
-        عربي · الشرق الأوسط
-"الشارقة للمتاحف" تعقد ندوة حول ترخيص المتاحف الخاصة في 12 سبتمبر - sharjah24.ae
+Far-right Israeli minister calls for UK to be sanctioned over ‘occupation’ of Falkland Islands
+        Israeli ministers have sided with Argentina again despite Buenos Aires sanctioning an Israeli oil firm
+        بريطانيا · Independent
+أغلى دول العالم بأسعار البنزين.. وماذا عن البلدان العربية؟
+        وصل متوسط سعر لتر البنزين حول العالم إلى 1.54 دولار أمريكي للتر الواحد، حسب موقع Global Petrol Prices
+        عربي · CNN عربية
+خصم 50% على خدمات ترخيص السائقين لأصحاب الهمم في دبي - صحيفة الخليج
         الإمارات · الإمارات
-تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - sharjah24.ae
-        الإمارات · الإمارات
-"الزردة" بتونس.. مهرجان الولائم والفروسية بعد موسم الحصاد
+أمينة أردوغان: مبادرات التعليم غيَّرت حياة الكثيرين من الأشخاص
+        تدوينة لعقيلة الرئيس التركي بمناسبة "اليوم الدولي لمحو الأمية" الموافق 8 سبتمبر
         تركيا · الأناضول
-3 works of art stolen from France's Renoir Museum, local mayor says
-        Authorities in France are seeking two thieves who broke into France's Renoir Museum and stole "four works of art" but dropped one as they got away,…
+«دبي للثقافة» تُطلق «قصص الولفة» لإنتاج رسوم متحركة إماراتية - الاتحاد للأخبار
+        الإمارات · الإمارات
+Dangerous Hurricane Lowell passing just west of Hawaii
+        Hurricane Lowell was skirting western Hawaii, bringing damaging winds, heavy rain and punishing waves, the National Hurricane Center said, and…
         أمريكا · CBS
 Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
         The Duke and Duchess of Sussex returned to the UK last month
         بريطانيا · Independent
-الين يقترب من أعلى مستوياته هذا العام مع تنامي رهانات رفع الفائدة
-        واصل الين الياباني مكاسبه خلال تعاملات الثلاثاء، مقترباً من أعلى مستوى له مقابل الدولار هذا العام، مع زيادة المستثمرين رهاناتهم على رفع الفائدة.
-        عربي · الشرق الأوسط
-مفوض أممي: أكثر من 1200 مدني قتلوا في ميانمار خلال عام
-        فولكر تورك حذر من تفاقم الأزمة الإنسانية والأمنية في ميانمار وتزايد تداعياتها الإقليمية
-        تركيا · الأناضول
-أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
+بوادر حل تلوح في أفق الحرب في أوكرانيا... بوتين يبدي انفتاحا على استئناف المفاوضات
+        بعد أكثر من أربع سنوات على اندلاع الحرب الروسية في أوكرانيا، تلوح في الأفق بوادر حل ديبلوماسي إثر المباحثات التي أجراها الرئيس الروسي فلاديمير بوتين…
+        عربي · فرانس 24
+"تكريس لإنكار إبادة سربرنيتسا".. تركيا تندد بإقامة صربيا مراسم تشييع رسمية لملاديتش
+        نددت وزارة الخارجية التركية الثلاثاء، بإقامة مراسم تشييع رسمية رفيعة المستوى لراتكو ملاديتش، أحد أبرز المسؤولين عن إبادة سربرنيتسا
+        تركيا · TRT عربي
+تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - Sharjah24
         الإمارات · الإمارات
+N.H. voters choose nominees for open Senate seat, and more races to watch today
+        Both Democrats and Republicans are targeting the Senate seat that will be vacated by Democratic Sen
+        أمريكا · CBS
+Canada's retaliatory tariffs hit US products as Trump warns of escalation
+        Trade negotiations broke down last month, setting off tit-for-tat tariff threats.
+        أمريكا · ABC News
+Councillor becomes first politician in the country to defect from Reform to Labour
+        A Reform councillor has decided to leave the party, saying he had seen ‘first-hand’ how it ‘simply doesn't have a serious plan’
+        بريطانيا · Independent
+علاج حرقة المعدة في المنزل.. أطعمة وعادات قد تساعدك فوراً
+        تحدث حرقة المعدة عندما ترتد محتويات المعدة صعوداً إلى المريء، وهو الأنبوب العضلي الذي ينقل الطعام والسوائل من الفم إلى المعدة.
+        عربي · CNN عربية
+نائب الرئيس الإيراني: القيود المفروضة على الإنترنت غير مجدية
+        محمد رضا عارف قال خلال اجتماع عقده مع رجال دين في مدينة قم إن برامج تجاوز الحجب تشكل تهديدا أمنيا...
+        تركيا · الأناضول
+من الاستيقاظ حتى النوم.. كم قراراً تتخذه التطبيقات نيابة عنك؟ - إرم نيوز
+        الإمارات · الإمارات
+A Far-Right Win Puts New Pressure on Germany’s Leader
+        Chancellor Friedrich Merz was a drag on his conservative party in its disastrous loss to the far right in a state election
+        أمريكا · NYT
 Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
-        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Moscow renews attacks after pause for peace talks The UK has…
+        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Zelenskyy says he hopes to meet Trump this month But the tone coming…
         بريطانيا · Guardian
-Britain Set to Target Israeli West Bank Settlements With Trade Ban
-        The expected move will be announced on Tuesday, officials said, and underscored Israel’s mounting isolation over its policies toward Palestinians…
-        أمريكا · NYT
-China’s Surging Exports Loom Over Trump’s Talks With Xi
-        China’s exports grew by a quarter in the month of August, weeks before its leader, Xi Jinping, is set to meet with President Trump in Washington.
-        أمريكا · NYT
-الأسواق الخليجية تكافح لاستعادة الزخم وسط تصاعد التوتر بين واشنطن وطهران
-        تحركت معظم أسواق الأسهم الخليجية في نطاق محدود، الثلاثاء، مع صعود بعضها بشكل طفيف.
-        عربي · الشرق الأوسط
-رئيس الوزراء الإسباني يبعث برسالة شكر إلى مدرسة تركية
-        بعد تلقيه مجلة أدبية أعدها طلاب مدرسة ثانوية بولاية قيصري
-        تركيا · الأناضول
-أسعار النفط تواصل الارتفاع وخام برنت يسجل 97.34 دولار للبرميل - sharjah24.ae
-        الإمارات · الإمارات
-Shetland spaceport project secures £30m of UK government investment
-        Several companies hope to use SaxaVord in Unst, the northernmost point in the UK, as a launch site for small commercial rockets.
-        بريطانيا · BBC
 Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
         A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
         بريطانيا · BBC
-Iran live updates: Trump says oil prices will drop 'when we WIN the war'
-        The Strait of Hormuz remains the primary flashpoint in the conflict.
-        أمريكا · ABC News
-«أبل» تختبر استخدام رقم هاتف واحد على جهازي «آيفون»
-        سيتمكن المستخدم من ربط رقم هاتفه بجهازين، ثم التنقل بينهما من دون إعادة نقل الشريحة الإلكترونية في كل مرة.
+بعد اللوفر... سرقة لوحات بقيمة تسعة ملايين يورو من متحف فرنسي
+        قال بريان ماسون رئيس بلدية مدينة كاني سور مير، حيث متحف رينوار على الريفيرا الفرنسية، في بيان على «فيسبوك» إن لصين سرقا ثلاث لوحات من المتحف.
         عربي · الشرق الأوسط
-وصفته أوكرانيا بـ"الهجوم المروع".. روسيا تستأنف قصف كييف عقب مغادرة كوشنر وويتكوف
-        استأنفت روسيا هجماتها على العاصمة الأوكرانية كييف الثلاثاء، بعد توقف قصير استمر ثلاثة أيام وتزامن مع زيارة مبعوثي الرئيس الأمريكي دونالد ترمب لبحث…
-        تركيا · TRT عربي
-بكين.. قطر والصين تبحثان العلاقات المشتركة وأزمة مضيق هرمز
-        وزيرا خارجية البلدين أكدا ضرورة ضمان أمن الملاحة الدولية، وبحثا جهود خفض التصعيد في المنطقة
+محكمة إسرائيلية ترفض طلبا لتجميد عطاء البناء في مشروع E1 الاستيطاني
+        رغم انتقادات دولية واسعة للمشروع الذي يقوض فرص إقامة دولة فلسطينية
         تركيا · الأناضول
-آيفون قابل للطي لأول مرة.. ماذا يخبئ مؤتمر أبل 2026؟ - العربية
+غزة.. 4 قتلى يرفعون حصيلة الإبادة الإسرائيلية إلى 73 ألفا و662
+        خلال الساعات الـ24 الماضية، وفق وزارة الصحة في القطاع..
+        تركيا · الأناضول
+أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
         الإمارات · الإمارات
-Australia to force social media platforms to allow users to opt out of algorithms
-        Draft legislation enforces digital duty of care including limiting children’s exposure to misogynistic and eating disorder content Australia will…
-        بريطانيا · Guardian
-What to watch as Republicans gather in Dallas for Trump's unusual midterm convention
-        Republicans will descend on Dallas this week for a two-day convention dreamed up by President Donald Trump to rally his party ahead of this year’s…
-        أمريكا · ABC News
-أوساكا تتقبل انتظار فوزها بلقب كبير آخر بعد خروجها من فلاشينغ ميدوز
-        تسببت هزيمة ناومي أوساكا في الدور الرابع لدورة أميركا المفتوحة للتنس أمس الاثنين في إطالة انتظارها للحصول ​على لقب آخر في البطولات الكبرى.
+Britain to spend millions on space defence to counter threats and launch new satellites
+        The broader UK Space Strategy details £7.8 billion in total funding across the sector up to 2030
+        بريطانيا · Independent
+French A.I. Start-Up Mistral Raises $3.5 Billion as Part of Strategy Shift
+        Mistral is trying to keep pace with American and Chinese rivals while offering customers a European alternative for artificial intelligence.
+        أمريكا · NYT
+الأردن: افتتاح ناورو سفارة بالقدس خرق فاضح للقانون الدولي
+        وزارة الخارجية أكدت أن أي إجراءات تهدف لتغيير وضع المدينة المحتلة "باطلة وغير شرعية وغير قانونية"
+        تركيا · الأناضول
+الفرنسي فيس ينسحب من مواجهة كندا في كأس ديفيز
+        انسحب أرتور فيس المصنف الـ11 عالمياً من مباراة كأس ديفيز ​للتنس التي ستخوضها فرنسا ضد كندا قائلاً إنه بحاجة إلى توخي الحذر فيما يتعلق بصحته بعد عام…
         عربي · الشرق الأوسط
-تركيا.. توقيف 9 أشخاص في عملية ضد تنظيم "داعش" الإرهابي بإسطنبول
-        ألقت السلطات التركية القبض على 9 مشتبه بهم خلال عملية أمنية استهدفت مصادر تمويل تنظيم "داعش" الإرهابي في مدينة إسطنبول، وفق مصادر أمنية.
-        تركيا · TRT عربي
-ما دلالات التصعيد الحوثي الأخير واستهداف منشآت مدنية واقتصادية في السعودية؟
-        أعلن ​الحوثيون ​المتحالفون مع إيران، الثلاثاء، ​أنهم ‌استهدفوا بطائرات ‌مسيرة وصواريخ باليستية مواقع تابعة لشركة أرامكو ​السعودية العملاقة للنفط ‌في…
-        عربي · فرانس 24
+كومو يجدد عقد مهاجمته بيكي عقب إصابتها بسرطان الثدي
+        أعلن نادي كومو؛ المنافس في ​دوري الدرجة الأولى الإيطالي لكرة القدم للسيدات، تجديد عقد المهاجمة روبرتا بيكي حتى نهاية موسم 2027
+        عربي · الشرق الأوسط
 الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
         الإمارات · الإمارات
-Who will reach Super Bowl? - NFL predictions for 2026 season
-        Who are favourites to reach the Super Bowl and who will be the surprise standouts? BBC's NFL experts make their predictions for the 2026 season
-        بريطانيا · BBC
-FSU-SMU game turns into old-school football after stadium power outage wipes out in-game communication
-        A power outage plunged Doak Campbell Stadium into darkness minutes before kickoff, forcing SMU and Florida State to play without communications.
-        أمريكا · Fox News</desc>
+Liverpool agree £60m-a-year shirt sponsorship deal with Turkish Airlines
+        Turkish Airlines to replace Standard Chartered from 2027 Deal may be most lucrative in Premier League history Liverpool have announced a new shirt…
+        بريطانيا · Guardian
+The 2026 midterm general election season is upon us. Here's what to watch
+        The week of Labor Day marks the unofficial kickoff of the general election season
+        أمريكا · NPR</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
   <programme start="20260908110000 +0000" stop="20260908120000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:01 — بتوقيتك
 
-7 سفن فقط مرت من مضيق هرمز يوم الاثنين
-        تباطأت حركة الملاحة عبر مضيق هرمز هذا الأسبوع بعد أن هددت إيران، الاثنين، بالرد على أي هجمات أميركية جديدة.
+«الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق هرمز
+        أدان وزراء الخارجية العرب، الثلاثاء، استمرار الهجمات الإيرانية ضد دول مجلس التعاون الخليجي والأردن والعراق
         عربي · الشرق الأوسط
-السفير الأميركي ميشال عيسى في المجلس الإسلامي الشيعي.. التفاصيل مع مراسل الجديد
-        عربي · الجديد
-«أسبوع دبي لمستقبل القطاع المالي» ينطلق نوفمبر المقبل - alkhaleej.ae
+إغلاق برج إيفل احتجاجا على استبعاد الموظفات من العمل خلال زيارة وفد هندوسي تجنبا للاختلاط بالنساء
+        بين الصدمة والشعور بإهانة النساء، قرر موظفو برج إيفل في باريس الإضراب احتجاجا على استبعاد الموظفات النساء وتعويضهن بموظفين رجال خلال زيارة خاصة لوفد…
+        عربي · فرانس 24
+مؤسسة دبي للمستقبل تطلق الدورة الرابعة لبرنامج القيادة والتصميم - Zawya
         الإمارات · الإمارات
-"الحوثي" تعلن استهداف منشآت لأرامكو وقاعدة جوية في السعودية
-        الجماعة اليمنية قالت إنها استخدمت عشرات الصواريخ الباليستية والطائرات المسيرة في هجماتها
+عقب اقتحام إسرائيلي.. انتشال جثمان فلسطيني من مقر لجنة زكاة طولكرم
+        الجثمان يعود للفلسطيني أسعد مليحة من قطاع غزة، وفق الدفاع المدني والهلال الأحمر
         تركيا · الأناضول
 Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
         Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
         أمريكا · CBS
-Prince George begins first day at Eton College
-        The 13-year-old will follow in the footsteps of his father, the Prince of Wales, by attending the elite private school.
-        بريطانيا · BBC
-«برنت» يقترب من 100 دولار مع تصاعد مخاطر استمرار الحرب
-        ارتفعت أسعار النفط في التعاملات الفورية خلال جلسة الثلاثاء، بنسبة 3 في المائة لتسجل 99.22 دولار للبرميل
-        عربي · الشرق الأوسط
-"الشارقة للمتاحف" تعقد ندوة حول ترخيص المتاحف الخاصة في 12 سبتمبر - sharjah24.ae
+Far-right Israeli minister calls for UK to be sanctioned over ‘occupation’ of Falkland Islands
+        Israeli ministers have sided with Argentina again despite Buenos Aires sanctioning an Israeli oil firm
+        بريطانيا · Independent
+أغلى دول العالم بأسعار البنزين.. وماذا عن البلدان العربية؟
+        وصل متوسط سعر لتر البنزين حول العالم إلى 1.54 دولار أمريكي للتر الواحد، حسب موقع Global Petrol Prices
+        عربي · CNN عربية
+خصم 50% على خدمات ترخيص السائقين لأصحاب الهمم في دبي - صحيفة الخليج
         الإمارات · الإمارات
-تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - sharjah24.ae
-        الإمارات · الإمارات
-"الزردة" بتونس.. مهرجان الولائم والفروسية بعد موسم الحصاد
+أمينة أردوغان: مبادرات التعليم غيَّرت حياة الكثيرين من الأشخاص
+        تدوينة لعقيلة الرئيس التركي بمناسبة "اليوم الدولي لمحو الأمية" الموافق 8 سبتمبر
         تركيا · الأناضول
-3 works of art stolen from France's Renoir Museum, local mayor says
-        Authorities in France are seeking two thieves who broke into France's Renoir Museum and stole "four works of art" but dropped one as they got away,…
+«دبي للثقافة» تُطلق «قصص الولفة» لإنتاج رسوم متحركة إماراتية - الاتحاد للأخبار
+        الإمارات · الإمارات
+Dangerous Hurricane Lowell passing just west of Hawaii
+        Hurricane Lowell was skirting western Hawaii, bringing damaging winds, heavy rain and punishing waves, the National Hurricane Center said, and…
         أمريكا · CBS
 Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
         The Duke and Duchess of Sussex returned to the UK last month
         بريطانيا · Independent
-الين يقترب من أعلى مستوياته هذا العام مع تنامي رهانات رفع الفائدة
-        واصل الين الياباني مكاسبه خلال تعاملات الثلاثاء، مقترباً من أعلى مستوى له مقابل الدولار هذا العام، مع زيادة المستثمرين رهاناتهم على رفع الفائدة.
-        عربي · الشرق الأوسط
-مفوض أممي: أكثر من 1200 مدني قتلوا في ميانمار خلال عام
-        فولكر تورك حذر من تفاقم الأزمة الإنسانية والأمنية في ميانمار وتزايد تداعياتها الإقليمية
-        تركيا · الأناضول
-أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
+بوادر حل تلوح في أفق الحرب في أوكرانيا... بوتين يبدي انفتاحا على استئناف المفاوضات
+        بعد أكثر من أربع سنوات على اندلاع الحرب الروسية في أوكرانيا، تلوح في الأفق بوادر حل ديبلوماسي إثر المباحثات التي أجراها الرئيس الروسي فلاديمير بوتين…
+        عربي · فرانس 24
+"تكريس لإنكار إبادة سربرنيتسا".. تركيا تندد بإقامة صربيا مراسم تشييع رسمية لملاديتش
+        نددت وزارة الخارجية التركية الثلاثاء، بإقامة مراسم تشييع رسمية رفيعة المستوى لراتكو ملاديتش، أحد أبرز المسؤولين عن إبادة سربرنيتسا
+        تركيا · TRT عربي
+تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - Sharjah24
         الإمارات · الإمارات
+N.H. voters choose nominees for open Senate seat, and more races to watch today
+        Both Democrats and Republicans are targeting the Senate seat that will be vacated by Democratic Sen
+        أمريكا · CBS
+Canada's retaliatory tariffs hit US products as Trump warns of escalation
+        Trade negotiations broke down last month, setting off tit-for-tat tariff threats.
+        أمريكا · ABC News
+Councillor becomes first politician in the country to defect from Reform to Labour
+        A Reform councillor has decided to leave the party, saying he had seen ‘first-hand’ how it ‘simply doesn't have a serious plan’
+        بريطانيا · Independent
+علاج حرقة المعدة في المنزل.. أطعمة وعادات قد تساعدك فوراً
+        تحدث حرقة المعدة عندما ترتد محتويات المعدة صعوداً إلى المريء، وهو الأنبوب العضلي الذي ينقل الطعام والسوائل من الفم إلى المعدة.
+        عربي · CNN عربية
+نائب الرئيس الإيراني: القيود المفروضة على الإنترنت غير مجدية
+        محمد رضا عارف قال خلال اجتماع عقده مع رجال دين في مدينة قم إن برامج تجاوز الحجب تشكل تهديدا أمنيا...
+        تركيا · الأناضول
+من الاستيقاظ حتى النوم.. كم قراراً تتخذه التطبيقات نيابة عنك؟ - إرم نيوز
+        الإمارات · الإمارات
+A Far-Right Win Puts New Pressure on Germany’s Leader
+        Chancellor Friedrich Merz was a drag on his conservative party in its disastrous loss to the far right in a state election
+        أمريكا · NYT
 Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
-        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Moscow renews attacks after pause for peace talks The UK has…
+        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Zelenskyy says he hopes to meet Trump this month But the tone coming…
         بريطانيا · Guardian
-Britain Set to Target Israeli West Bank Settlements With Trade Ban
-        The expected move will be announced on Tuesday, officials said, and underscored Israel’s mounting isolation over its policies toward Palestinians…
-        أمريكا · NYT
-China’s Surging Exports Loom Over Trump’s Talks With Xi
-        China’s exports grew by a quarter in the month of August, weeks before its leader, Xi Jinping, is set to meet with President Trump in Washington.
-        أمريكا · NYT
-الأسواق الخليجية تكافح لاستعادة الزخم وسط تصاعد التوتر بين واشنطن وطهران
-        تحركت معظم أسواق الأسهم الخليجية في نطاق محدود، الثلاثاء، مع صعود بعضها بشكل طفيف.
-        عربي · الشرق الأوسط
-رئيس الوزراء الإسباني يبعث برسالة شكر إلى مدرسة تركية
-        بعد تلقيه مجلة أدبية أعدها طلاب مدرسة ثانوية بولاية قيصري
-        تركيا · الأناضول
-أسعار النفط تواصل الارتفاع وخام برنت يسجل 97.34 دولار للبرميل - sharjah24.ae
-        الإمارات · الإمارات
-Shetland spaceport project secures £30m of UK government investment
-        Several companies hope to use SaxaVord in Unst, the northernmost point in the UK, as a launch site for small commercial rockets.
-        بريطانيا · BBC
 Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
         A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
         بريطانيا · BBC
-Iran live updates: Trump says oil prices will drop 'when we WIN the war'
-        The Strait of Hormuz remains the primary flashpoint in the conflict.
-        أمريكا · ABC News
-«أبل» تختبر استخدام رقم هاتف واحد على جهازي «آيفون»
-        سيتمكن المستخدم من ربط رقم هاتفه بجهازين، ثم التنقل بينهما من دون إعادة نقل الشريحة الإلكترونية في كل مرة.
+بعد اللوفر... سرقة لوحات بقيمة تسعة ملايين يورو من متحف فرنسي
+        قال بريان ماسون رئيس بلدية مدينة كاني سور مير، حيث متحف رينوار على الريفيرا الفرنسية، في بيان على «فيسبوك» إن لصين سرقا ثلاث لوحات من المتحف.
         عربي · الشرق الأوسط
-وصفته أوكرانيا بـ"الهجوم المروع".. روسيا تستأنف قصف كييف عقب مغادرة كوشنر وويتكوف
-        استأنفت روسيا هجماتها على العاصمة الأوكرانية كييف الثلاثاء، بعد توقف قصير استمر ثلاثة أيام وتزامن مع زيارة مبعوثي الرئيس الأمريكي دونالد ترمب لبحث…
-        تركيا · TRT عربي
-بكين.. قطر والصين تبحثان العلاقات المشتركة وأزمة مضيق هرمز
-        وزيرا خارجية البلدين أكدا ضرورة ضمان أمن الملاحة الدولية، وبحثا جهود خفض التصعيد في المنطقة
+محكمة إسرائيلية ترفض طلبا لتجميد عطاء البناء في مشروع E1 الاستيطاني
+        رغم انتقادات دولية واسعة للمشروع الذي يقوض فرص إقامة دولة فلسطينية
         تركيا · الأناضول
-آيفون قابل للطي لأول مرة.. ماذا يخبئ مؤتمر أبل 2026؟ - العربية
+غزة.. 4 قتلى يرفعون حصيلة الإبادة الإسرائيلية إلى 73 ألفا و662
+        خلال الساعات الـ24 الماضية، وفق وزارة الصحة في القطاع..
+        تركيا · الأناضول
+أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
         الإمارات · الإمارات
-Australia to force social media platforms to allow users to opt out of algorithms
-        Draft legislation enforces digital duty of care including limiting children’s exposure to misogynistic and eating disorder content Australia will…
-        بريطانيا · Guardian
-What to watch as Republicans gather in Dallas for Trump's unusual midterm convention
-        Republicans will descend on Dallas this week for a two-day convention dreamed up by President Donald Trump to rally his party ahead of this year’s…
-        أمريكا · ABC News
-أوساكا تتقبل انتظار فوزها بلقب كبير آخر بعد خروجها من فلاشينغ ميدوز
-        تسببت هزيمة ناومي أوساكا في الدور الرابع لدورة أميركا المفتوحة للتنس أمس الاثنين في إطالة انتظارها للحصول ​على لقب آخر في البطولات الكبرى.
+Britain to spend millions on space defence to counter threats and launch new satellites
+        The broader UK Space Strategy details £7.8 billion in total funding across the sector up to 2030
+        بريطانيا · Independent
+French A.I. Start-Up Mistral Raises $3.5 Billion as Part of Strategy Shift
+        Mistral is trying to keep pace with American and Chinese rivals while offering customers a European alternative for artificial intelligence.
+        أمريكا · NYT
+الأردن: افتتاح ناورو سفارة بالقدس خرق فاضح للقانون الدولي
+        وزارة الخارجية أكدت أن أي إجراءات تهدف لتغيير وضع المدينة المحتلة "باطلة وغير شرعية وغير قانونية"
+        تركيا · الأناضول
+الفرنسي فيس ينسحب من مواجهة كندا في كأس ديفيز
+        انسحب أرتور فيس المصنف الـ11 عالمياً من مباراة كأس ديفيز ​للتنس التي ستخوضها فرنسا ضد كندا قائلاً إنه بحاجة إلى توخي الحذر فيما يتعلق بصحته بعد عام…
         عربي · الشرق الأوسط
-تركيا.. توقيف 9 أشخاص في عملية ضد تنظيم "داعش" الإرهابي بإسطنبول
-        ألقت السلطات التركية القبض على 9 مشتبه بهم خلال عملية أمنية استهدفت مصادر تمويل تنظيم "داعش" الإرهابي في مدينة إسطنبول، وفق مصادر أمنية.
-        تركيا · TRT عربي
-ما دلالات التصعيد الحوثي الأخير واستهداف منشآت مدنية واقتصادية في السعودية؟
-        أعلن ​الحوثيون ​المتحالفون مع إيران، الثلاثاء، ​أنهم ‌استهدفوا بطائرات ‌مسيرة وصواريخ باليستية مواقع تابعة لشركة أرامكو ​السعودية العملاقة للنفط ‌في…
-        عربي · فرانس 24
+كومو يجدد عقد مهاجمته بيكي عقب إصابتها بسرطان الثدي
+        أعلن نادي كومو؛ المنافس في ​دوري الدرجة الأولى الإيطالي لكرة القدم للسيدات، تجديد عقد المهاجمة روبرتا بيكي حتى نهاية موسم 2027
+        عربي · الشرق الأوسط
 الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
         الإمارات · الإمارات
-Who will reach Super Bowl? - NFL predictions for 2026 season
-        Who are favourites to reach the Super Bowl and who will be the surprise standouts? BBC's NFL experts make their predictions for the 2026 season
-        بريطانيا · BBC
-FSU-SMU game turns into old-school football after stadium power outage wipes out in-game communication
-        A power outage plunged Doak Campbell Stadium into darkness minutes before kickoff, forcing SMU and Florida State to play without communications.
-        أمريكا · Fox News</desc>
+Liverpool agree £60m-a-year shirt sponsorship deal with Turkish Airlines
+        Turkish Airlines to replace Standard Chartered from 2027 Deal may be most lucrative in Premier League history Liverpool have announced a new shirt…
+        بريطانيا · Guardian
+The 2026 midterm general election season is upon us. Here's what to watch
+        The week of Labor Day marks the unofficial kickoff of the general election season
+        أمريكا · NPR</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
   <programme start="20260908120000 +0000" stop="20260908130000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:01 — بتوقيتك
 
-7 سفن فقط مرت من مضيق هرمز يوم الاثنين
-        تباطأت حركة الملاحة عبر مضيق هرمز هذا الأسبوع بعد أن هددت إيران، الاثنين، بالرد على أي هجمات أميركية جديدة.
+«الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق هرمز
+        أدان وزراء الخارجية العرب، الثلاثاء، استمرار الهجمات الإيرانية ضد دول مجلس التعاون الخليجي والأردن والعراق
         عربي · الشرق الأوسط
-السفير الأميركي ميشال عيسى في المجلس الإسلامي الشيعي.. التفاصيل مع مراسل الجديد
-        عربي · الجديد
-«أسبوع دبي لمستقبل القطاع المالي» ينطلق نوفمبر المقبل - alkhaleej.ae
+إغلاق برج إيفل احتجاجا على استبعاد الموظفات من العمل خلال زيارة وفد هندوسي تجنبا للاختلاط بالنساء
+        بين الصدمة والشعور بإهانة النساء، قرر موظفو برج إيفل في باريس الإضراب احتجاجا على استبعاد الموظفات النساء وتعويضهن بموظفين رجال خلال زيارة خاصة لوفد…
+        عربي · فرانس 24
+مؤسسة دبي للمستقبل تطلق الدورة الرابعة لبرنامج القيادة والتصميم - Zawya
         الإمارات · الإمارات
-"الحوثي" تعلن استهداف منشآت لأرامكو وقاعدة جوية في السعودية
-        الجماعة اليمنية قالت إنها استخدمت عشرات الصواريخ الباليستية والطائرات المسيرة في هجماتها
+عقب اقتحام إسرائيلي.. انتشال جثمان فلسطيني من مقر لجنة زكاة طولكرم
+        الجثمان يعود للفلسطيني أسعد مليحة من قطاع غزة، وفق الدفاع المدني والهلال الأحمر
         تركيا · الأناضول
 Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
         Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
         أمريكا · CBS
-Prince George begins first day at Eton College
-        The 13-year-old will follow in the footsteps of his father, the Prince of Wales, by attending the elite private school.
-        بريطانيا · BBC
-«برنت» يقترب من 100 دولار مع تصاعد مخاطر استمرار الحرب
-        ارتفعت أسعار النفط في التعاملات الفورية خلال جلسة الثلاثاء، بنسبة 3 في المائة لتسجل 99.22 دولار للبرميل
-        عربي · الشرق الأوسط
-"الشارقة للمتاحف" تعقد ندوة حول ترخيص المتاحف الخاصة في 12 سبتمبر - sharjah24.ae
+Far-right Israeli minister calls for UK to be sanctioned over ‘occupation’ of Falkland Islands
+        Israeli ministers have sided with Argentina again despite Buenos Aires sanctioning an Israeli oil firm
+        بريطانيا · Independent
+أغلى دول العالم بأسعار البنزين.. وماذا عن البلدان العربية؟
+        وصل متوسط سعر لتر البنزين حول العالم إلى 1.54 دولار أمريكي للتر الواحد، حسب موقع Global Petrol Prices
+        عربي · CNN عربية
+خصم 50% على خدمات ترخيص السائقين لأصحاب الهمم في دبي - صحيفة الخليج
         الإمارات · الإمارات
-تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - sharjah24.ae
-        الإمارات · الإمارات
-"الزردة" بتونس.. مهرجان الولائم والفروسية بعد موسم الحصاد
+أمينة أردوغان: مبادرات التعليم غيَّرت حياة الكثيرين من الأشخاص
+        تدوينة لعقيلة الرئيس التركي بمناسبة "اليوم الدولي لمحو الأمية" الموافق 8 سبتمبر
         تركيا · الأناضول
-3 works of art stolen from France's Renoir Museum, local mayor says
-        Authorities in France are seeking two thieves who broke into France's Renoir Museum and stole "four works of art" but dropped one as they got away,…
+«دبي للثقافة» تُطلق «قصص الولفة» لإنتاج رسوم متحركة إماراتية - الاتحاد للأخبار
+        الإمارات · الإمارات
+Dangerous Hurricane Lowell passing just west of Hawaii
+        Hurricane Lowell was skirting western Hawaii, bringing damaging winds, heavy rain and punishing waves, the National Hurricane Center said, and…
         أمريكا · CBS
 Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
         The Duke and Duchess of Sussex returned to the UK last month
         بريطانيا · Independent
-الين يقترب من أعلى مستوياته هذا العام مع تنامي رهانات رفع الفائدة
-        واصل الين الياباني مكاسبه خلال تعاملات الثلاثاء، مقترباً من أعلى مستوى له مقابل الدولار هذا العام، مع زيادة المستثمرين رهاناتهم على رفع الفائدة.
-        عربي · الشرق الأوسط
-مفوض أممي: أكثر من 1200 مدني قتلوا في ميانمار خلال عام
-        فولكر تورك حذر من تفاقم الأزمة الإنسانية والأمنية في ميانمار وتزايد تداعياتها الإقليمية
-        تركيا · الأناضول
-أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
+بوادر حل تلوح في أفق الحرب في أوكرانيا... بوتين يبدي انفتاحا على استئناف المفاوضات
+        بعد أكثر من أربع سنوات على اندلاع الحرب الروسية في أوكرانيا، تلوح في الأفق بوادر حل ديبلوماسي إثر المباحثات التي أجراها الرئيس الروسي فلاديمير بوتين…
+        عربي · فرانس 24
+"تكريس لإنكار إبادة سربرنيتسا".. تركيا تندد بإقامة صربيا مراسم تشييع رسمية لملاديتش
+        نددت وزارة الخارجية التركية الثلاثاء، بإقامة مراسم تشييع رسمية رفيعة المستوى لراتكو ملاديتش، أحد أبرز المسؤولين عن إبادة سربرنيتسا
+        تركيا · TRT عربي
+تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - Sharjah24
         الإمارات · الإمارات
+N.H. voters choose nominees for open Senate seat, and more races to watch today
+        Both Democrats and Republicans are targeting the Senate seat that will be vacated by Democratic Sen
+        أمريكا · CBS
+Canada's retaliatory tariffs hit US products as Trump warns of escalation
+        Trade negotiations broke down last month, setting off tit-for-tat tariff threats.
+        أمريكا · ABC News
+Councillor becomes first politician in the country to defect from Reform to Labour
+        A Reform councillor has decided to leave the party, saying he had seen ‘first-hand’ how it ‘simply doesn't have a serious plan’
+        بريطانيا · Independent
+علاج حرقة المعدة في المنزل.. أطعمة وعادات قد تساعدك فوراً
+        تحدث حرقة المعدة عندما ترتد محتويات المعدة صعوداً إلى المريء، وهو الأنبوب العضلي الذي ينقل الطعام والسوائل من الفم إلى المعدة.
+        عربي · CNN عربية
+نائب الرئيس الإيراني: القيود المفروضة على الإنترنت غير مجدية
+        محمد رضا عارف قال خلال اجتماع عقده مع رجال دين في مدينة قم إن برامج تجاوز الحجب تشكل تهديدا أمنيا...
+        تركيا · الأناضول
+من الاستيقاظ حتى النوم.. كم قراراً تتخذه التطبيقات نيابة عنك؟ - إرم نيوز
+        الإمارات · الإمارات
+A Far-Right Win Puts New Pressure on Germany’s Leader
+        Chancellor Friedrich Merz was a drag on his conservative party in its disastrous loss to the far right in a state election
+        أمريكا · NYT
 Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
-        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Moscow renews attacks after pause for peace talks The UK has…
+        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Zelenskyy says he hopes to meet Trump this month But the tone coming…
         بريطانيا · Guardian
-Britain Set to Target Israeli West Bank Settlements With Trade Ban
-        The expected move will be announced on Tuesday, officials said, and underscored Israel’s mounting isolation over its policies toward Palestinians…
-        أمريكا · NYT
-China’s Surging Exports Loom Over Trump’s Talks With Xi
-        China’s exports grew by a quarter in the month of August, weeks before its leader, Xi Jinping, is set to meet with President Trump in Washington.
-        أمريكا · NYT
-الأسواق الخليجية تكافح لاستعادة الزخم وسط تصاعد التوتر بين واشنطن وطهران
-        تحركت معظم أسواق الأسهم الخليجية في نطاق محدود، الثلاثاء، مع صعود بعضها بشكل طفيف.
-        عربي · الشرق الأوسط
-رئيس الوزراء الإسباني يبعث برسالة شكر إلى مدرسة تركية
-        بعد تلقيه مجلة أدبية أعدها طلاب مدرسة ثانوية بولاية قيصري
-        تركيا · الأناضول
-أسعار النفط تواصل الارتفاع وخام برنت يسجل 97.34 دولار للبرميل - sharjah24.ae
-        الإمارات · الإمارات
-Shetland spaceport project secures £30m of UK government investment
-        Several companies hope to use SaxaVord in Unst, the northernmost point in the UK, as a launch site for small commercial rockets.
-        بريطانيا · BBC
 Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
         A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
         بريطانيا · BBC
-Iran live updates: Trump says oil prices will drop 'when we WIN the war'
-        The Strait of Hormuz remains the primary flashpoint in the conflict.
-        أمريكا · ABC News
-«أبل» تختبر استخدام رقم هاتف واحد على جهازي «آيفون»
-        سيتمكن المستخدم من ربط رقم هاتفه بجهازين، ثم التنقل بينهما من دون إعادة نقل الشريحة الإلكترونية في كل مرة.
+بعد اللوفر... سرقة لوحات بقيمة تسعة ملايين يورو من متحف فرنسي
+        قال بريان ماسون رئيس بلدية مدينة كاني سور مير، حيث متحف رينوار على الريفيرا الفرنسية، في بيان على «فيسبوك» إن لصين سرقا ثلاث لوحات من المتحف.
         عربي · الشرق الأوسط
-وصفته أوكرانيا بـ"الهجوم المروع".. روسيا تستأنف قصف كييف عقب مغادرة كوشنر وويتكوف
-        استأنفت روسيا هجماتها على العاصمة الأوكرانية كييف الثلاثاء، بعد توقف قصير استمر ثلاثة أيام وتزامن مع زيارة مبعوثي الرئيس الأمريكي دونالد ترمب لبحث…
-        تركيا · TRT عربي
-بكين.. قطر والصين تبحثان العلاقات المشتركة وأزمة مضيق هرمز
-        وزيرا خارجية البلدين أكدا ضرورة ضمان أمن الملاحة الدولية، وبحثا جهود خفض التصعيد في المنطقة
+محكمة إسرائيلية ترفض طلبا لتجميد عطاء البناء في مشروع E1 الاستيطاني
+        رغم انتقادات دولية واسعة للمشروع الذي يقوض فرص إقامة دولة فلسطينية
         تركيا · الأناضول
-آيفون قابل للطي لأول مرة.. ماذا يخبئ مؤتمر أبل 2026؟ - العربية
+غزة.. 4 قتلى يرفعون حصيلة الإبادة الإسرائيلية إلى 73 ألفا و662
+        خلال الساعات الـ24 الماضية، وفق وزارة الصحة في القطاع..
+        تركيا · الأناضول
+أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
         الإمارات · الإمارات
-Australia to force social media platforms to allow users to opt out of algorithms
-        Draft legislation enforces digital duty of care including limiting children’s exposure to misogynistic and eating disorder content Australia will…
-        بريطانيا · Guardian
-What to watch as Republicans gather in Dallas for Trump's unusual midterm convention
-        Republicans will descend on Dallas this week for a two-day convention dreamed up by President Donald Trump to rally his party ahead of this year’s…
-        أمريكا · ABC News
-أوساكا تتقبل انتظار فوزها بلقب كبير آخر بعد خروجها من فلاشينغ ميدوز
-        تسببت هزيمة ناومي أوساكا في الدور الرابع لدورة أميركا المفتوحة للتنس أمس الاثنين في إطالة انتظارها للحصول ​على لقب آخر في البطولات الكبرى.
+Britain to spend millions on space defence to counter threats and launch new satellites
+        The broader UK Space Strategy details £7.8 billion in total funding across the sector up to 2030
+        بريطانيا · Independent
+French A.I. Start-Up Mistral Raises $3.5 Billion as Part of Strategy Shift
+        Mistral is trying to keep pace with American and Chinese rivals while offering customers a European alternative for artificial intelligence.
+        أمريكا · NYT
+الأردن: افتتاح ناورو سفارة بالقدس خرق فاضح للقانون الدولي
+        وزارة الخارجية أكدت أن أي إجراءات تهدف لتغيير وضع المدينة المحتلة "باطلة وغير شرعية وغير قانونية"
+        تركيا · الأناضول
+الفرنسي فيس ينسحب من مواجهة كندا في كأس ديفيز
+        انسحب أرتور فيس المصنف الـ11 عالمياً من مباراة كأس ديفيز ​للتنس التي ستخوضها فرنسا ضد كندا قائلاً إنه بحاجة إلى توخي الحذر فيما يتعلق بصحته بعد عام…
         عربي · الشرق الأوسط
-تركيا.. توقيف 9 أشخاص في عملية ضد تنظيم "داعش" الإرهابي بإسطنبول
-        ألقت السلطات التركية القبض على 9 مشتبه بهم خلال عملية أمنية استهدفت مصادر تمويل تنظيم "داعش" الإرهابي في مدينة إسطنبول، وفق مصادر أمنية.
-        تركيا · TRT عربي
-ما دلالات التصعيد الحوثي الأخير واستهداف منشآت مدنية واقتصادية في السعودية؟
-        أعلن ​الحوثيون ​المتحالفون مع إيران، الثلاثاء، ​أنهم ‌استهدفوا بطائرات ‌مسيرة وصواريخ باليستية مواقع تابعة لشركة أرامكو ​السعودية العملاقة للنفط ‌في…
-        عربي · فرانس 24
+كومو يجدد عقد مهاجمته بيكي عقب إصابتها بسرطان الثدي
+        أعلن نادي كومو؛ المنافس في ​دوري الدرجة الأولى الإيطالي لكرة القدم للسيدات، تجديد عقد المهاجمة روبرتا بيكي حتى نهاية موسم 2027
+        عربي · الشرق الأوسط
 الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
         الإمارات · الإمارات
-Who will reach Super Bowl? - NFL predictions for 2026 season
-        Who are favourites to reach the Super Bowl and who will be the surprise standouts? BBC's NFL experts make their predictions for the 2026 season
-        بريطانيا · BBC
-FSU-SMU game turns into old-school football after stadium power outage wipes out in-game communication
-        A power outage plunged Doak Campbell Stadium into darkness minutes before kickoff, forcing SMU and Florida State to play without communications.
-        أمريكا · Fox News</desc>
+Liverpool agree £60m-a-year shirt sponsorship deal with Turkish Airlines
+        Turkish Airlines to replace Standard Chartered from 2027 Deal may be most lucrative in Premier League history Liverpool have announced a new shirt…
+        بريطانيا · Guardian
+The 2026 midterm general election season is upon us. Here's what to watch
+        The week of Labor Day marks the unofficial kickoff of the general election season
+        أمريكا · NPR</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
   <programme start="20260908130000 +0000" stop="20260908140000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:01 — بتوقيتك
 
-7 سفن فقط مرت من مضيق هرمز يوم الاثنين
-        تباطأت حركة الملاحة عبر مضيق هرمز هذا الأسبوع بعد أن هددت إيران، الاثنين، بالرد على أي هجمات أميركية جديدة.
+«الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق هرمز
+        أدان وزراء الخارجية العرب، الثلاثاء، استمرار الهجمات الإيرانية ضد دول مجلس التعاون الخليجي والأردن والعراق
         عربي · الشرق الأوسط
-السفير الأميركي ميشال عيسى في المجلس الإسلامي الشيعي.. التفاصيل مع مراسل الجديد
-        عربي · الجديد
-«أسبوع دبي لمستقبل القطاع المالي» ينطلق نوفمبر المقبل - alkhaleej.ae
+إغلاق برج إيفل احتجاجا على استبعاد الموظفات من العمل خلال زيارة وفد هندوسي تجنبا للاختلاط بالنساء
+        بين الصدمة والشعور بإهانة النساء، قرر موظفو برج إيفل في باريس الإضراب احتجاجا على استبعاد الموظفات النساء وتعويضهن بموظفين رجال خلال زيارة خاصة لوفد…
+        عربي · فرانس 24
+مؤسسة دبي للمستقبل تطلق الدورة الرابعة لبرنامج القيادة والتصميم - Zawya
         الإمارات · الإمارات
-"الحوثي" تعلن استهداف منشآت لأرامكو وقاعدة جوية في السعودية
-        الجماعة اليمنية قالت إنها استخدمت عشرات الصواريخ الباليستية والطائرات المسيرة في هجماتها
+عقب اقتحام إسرائيلي.. انتشال جثمان فلسطيني من مقر لجنة زكاة طولكرم
+        الجثمان يعود للفلسطيني أسعد مليحة من قطاع غزة، وفق الدفاع المدني والهلال الأحمر
         تركيا · الأناضول
 Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
         Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
         أمريكا · CBS
-Prince George begins first day at Eton College
-        The 13-year-old will follow in the footsteps of his father, the Prince of Wales, by attending the elite private school.
-        بريطانيا · BBC
-«برنت» يقترب من 100 دولار مع تصاعد مخاطر استمرار الحرب
-        ارتفعت أسعار النفط في التعاملات الفورية خلال جلسة الثلاثاء، بنسبة 3 في المائة لتسجل 99.22 دولار للبرميل
-        عربي · الشرق الأوسط
-"الشارقة للمتاحف" تعقد ندوة حول ترخيص المتاحف الخاصة في 12 سبتمبر - sharjah24.ae
+Far-right Israeli minister calls for UK to be sanctioned over ‘occupation’ of Falkland Islands
+        Israeli ministers have sided with Argentina again despite Buenos Aires sanctioning an Israeli oil firm
+        بريطانيا · Independent
+أغلى دول العالم بأسعار البنزين.. وماذا عن البلدان العربية؟
+        وصل متوسط سعر لتر البنزين حول العالم إلى 1.54 دولار أمريكي للتر الواحد، حسب موقع Global Petrol Prices
+        عربي · CNN عربية
+خصم 50% على خدمات ترخيص السائقين لأصحاب الهمم في دبي - صحيفة الخليج
         الإمارات · الإمارات
-تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - sharjah24.ae
-        الإمارات · الإمارات
-"الزردة" بتونس.. مهرجان الولائم والفروسية بعد موسم الحصاد
+أمينة أردوغان: مبادرات التعليم غيَّرت حياة الكثيرين من الأشخاص
+        تدوينة لعقيلة الرئيس التركي بمناسبة "اليوم الدولي لمحو الأمية" الموافق 8 سبتمبر
         تركيا · الأناضول
-3 works of art stolen from France's Renoir Museum, local mayor says
-        Authorities in France are seeking two thieves who broke into France's Renoir Museum and stole "four works of art" but dropped one as they got away,…
+«دبي للثقافة» تُطلق «قصص الولفة» لإنتاج رسوم متحركة إماراتية - الاتحاد للأخبار
+        الإمارات · الإمارات
+Dangerous Hurricane Lowell passing just west of Hawaii
+        Hurricane Lowell was skirting western Hawaii, bringing damaging winds, heavy rain and punishing waves, the National Hurricane Center said, and…
         أمريكا · CBS
 Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
         The Duke and Duchess of Sussex returned to the UK last month
         بريطانيا · Independent
-الين يقترب من أعلى مستوياته هذا العام مع تنامي رهانات رفع الفائدة
-        واصل الين الياباني مكاسبه خلال تعاملات الثلاثاء، مقترباً من أعلى مستوى له مقابل الدولار هذا العام، مع زيادة المستثمرين رهاناتهم على رفع الفائدة.
-        عربي · الشرق الأوسط
-مفوض أممي: أكثر من 1200 مدني قتلوا في ميانمار خلال عام
-        فولكر تورك حذر من تفاقم الأزمة الإنسانية والأمنية في ميانمار وتزايد تداعياتها الإقليمية
-        تركيا · الأناضول
-أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
+بوادر حل تلوح في أفق الحرب في أوكرانيا... بوتين يبدي انفتاحا على استئناف المفاوضات
+        بعد أكثر من أربع سنوات على اندلاع الحرب الروسية في أوكرانيا، تلوح في الأفق بوادر حل ديبلوماسي إثر المباحثات التي أجراها الرئيس الروسي فلاديمير بوتين…
+        عربي · فرانس 24
+"تكريس لإنكار إبادة سربرنيتسا".. تركيا تندد بإقامة صربيا مراسم تشييع رسمية لملاديتش
+        نددت وزارة الخارجية التركية الثلاثاء، بإقامة مراسم تشييع رسمية رفيعة المستوى لراتكو ملاديتش، أحد أبرز المسؤولين عن إبادة سربرنيتسا
+        تركيا · TRT عربي
+تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - Sharjah24
         الإمارات · الإمارات
+N.H. voters choose nominees for open Senate seat, and more races to watch today
+        Both Democrats and Republicans are targeting the Senate seat that will be vacated by Democratic Sen
+        أمريكا · CBS
+Canada's retaliatory tariffs hit US products as Trump warns of escalation
+        Trade negotiations broke down last month, setting off tit-for-tat tariff threats.
+        أمريكا · ABC News
+Councillor becomes first politician in the country to defect from Reform to Labour
+        A Reform councillor has decided to leave the party, saying he had seen ‘first-hand’ how it ‘simply doesn't have a serious plan’
+        بريطانيا · Independent
+علاج حرقة المعدة في المنزل.. أطعمة وعادات قد تساعدك فوراً
+        تحدث حرقة المعدة عندما ترتد محتويات المعدة صعوداً إلى المريء، وهو الأنبوب العضلي الذي ينقل الطعام والسوائل من الفم إلى المعدة.
+        عربي · CNN عربية
+نائب الرئيس الإيراني: القيود المفروضة على الإنترنت غير مجدية
+        محمد رضا عارف قال خلال اجتماع عقده مع رجال دين في مدينة قم إن برامج تجاوز الحجب تشكل تهديدا أمنيا...
+        تركيا · الأناضول
+من الاستيقاظ حتى النوم.. كم قراراً تتخذه التطبيقات نيابة عنك؟ - إرم نيوز
+        الإمارات · الإمارات
+A Far-Right Win Puts New Pressure on Germany’s Leader
+        Chancellor Friedrich Merz was a drag on his conservative party in its disastrous loss to the far right in a state election
+        أمريكا · NYT
 Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
-        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Moscow renews attacks after pause for peace talks The UK has…
+        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Zelenskyy says he hopes to meet Trump this month But the tone coming…
         بريطانيا · Guardian
-Britain Set to Target Israeli West Bank Settlements With Trade Ban
-        The expected move will be announced on Tuesday, officials said, and underscored Israel’s mounting isolation over its policies toward Palestinians…
-        أمريكا · NYT
-China’s Surging Exports Loom Over Trump’s Talks With Xi
-        China’s exports grew by a quarter in the month of August, weeks before its leader, Xi Jinping, is set to meet with President Trump in Washington.
-        أمريكا · NYT
-الأسواق الخليجية تكافح لاستعادة الزخم وسط تصاعد التوتر بين واشنطن وطهران
-        تحركت معظم أسواق الأسهم الخليجية في نطاق محدود، الثلاثاء، مع صعود بعضها بشكل طفيف.
-        عربي · الشرق الأوسط
-رئيس الوزراء الإسباني يبعث برسالة شكر إلى مدرسة تركية
-        بعد تلقيه مجلة أدبية أعدها طلاب مدرسة ثانوية بولاية قيصري
-        تركيا · الأناضول
-أسعار النفط تواصل الارتفاع وخام برنت يسجل 97.34 دولار للبرميل - sharjah24.ae
-        الإمارات · الإمارات
-Shetland spaceport project secures £30m of UK government investment
-        Several companies hope to use SaxaVord in Unst, the northernmost point in the UK, as a launch site for small commercial rockets.
-        بريطانيا · BBC
 Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
         A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
         بريطانيا · BBC
-Iran live updates: Trump says oil prices will drop 'when we WIN the war'
-        The Strait of Hormuz remains the primary flashpoint in the conflict.
-        أمريكا · ABC News
-«أبل» تختبر استخدام رقم هاتف واحد على جهازي «آيفون»
-        سيتمكن المستخدم من ربط رقم هاتفه بجهازين، ثم التنقل بينهما من دون إعادة نقل الشريحة الإلكترونية في كل مرة.
+بعد اللوفر... سرقة لوحات بقيمة تسعة ملايين يورو من متحف فرنسي
+        قال بريان ماسون رئيس بلدية مدينة كاني سور مير، حيث متحف رينوار على الريفيرا الفرنسية، في بيان على «فيسبوك» إن لصين سرقا ثلاث لوحات من المتحف.
         عربي · الشرق الأوسط
-وصفته أوكرانيا بـ"الهجوم المروع".. روسيا تستأنف قصف كييف عقب مغادرة كوشنر وويتكوف
-        استأنفت روسيا هجماتها على العاصمة الأوكرانية كييف الثلاثاء، بعد توقف قصير استمر ثلاثة أيام وتزامن مع زيارة مبعوثي الرئيس الأمريكي دونالد ترمب لبحث…
-        تركيا · TRT عربي
-بكين.. قطر والصين تبحثان العلاقات المشتركة وأزمة مضيق هرمز
-        وزيرا خارجية البلدين أكدا ضرورة ضمان أمن الملاحة الدولية، وبحثا جهود خفض التصعيد في المنطقة
+محكمة إسرائيلية ترفض طلبا لتجميد عطاء البناء في مشروع E1 الاستيطاني
+        رغم انتقادات دولية واسعة للمشروع الذي يقوض فرص إقامة دولة فلسطينية
         تركيا · الأناضول
-آيفون قابل للطي لأول مرة.. ماذا يخبئ مؤتمر أبل 2026؟ - العربية
+غزة.. 4 قتلى يرفعون حصيلة الإبادة الإسرائيلية إلى 73 ألفا و662
+        خلال الساعات الـ24 الماضية، وفق وزارة الصحة في القطاع..
+        تركيا · الأناضول
+أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
         الإمارات · الإمارات
-Australia to force social media platforms to allow users to opt out of algorithms
-        Draft legislation enforces digital duty of care including limiting children’s exposure to misogynistic and eating disorder content Australia will…
-        بريطانيا · Guardian
-What to watch as Republicans gather in Dallas for Trump's unusual midterm convention
-        Republicans will descend on Dallas this week for a two-day convention dreamed up by President Donald Trump to rally his party ahead of this year’s…
-        أمريكا · ABC News
-أوساكا تتقبل انتظار فوزها بلقب كبير آخر بعد خروجها من فلاشينغ ميدوز
-        تسببت هزيمة ناومي أوساكا في الدور الرابع لدورة أميركا المفتوحة للتنس أمس الاثنين في إطالة انتظارها للحصول ​على لقب آخر في البطولات الكبرى.
+Britain to spend millions on space defence to counter threats and launch new satellites
+        The broader UK Space Strategy details £7.8 billion in total funding across the sector up to 2030
+        بريطانيا · Independent
+French A.I. Start-Up Mistral Raises $3.5 Billion as Part of Strategy Shift
+        Mistral is trying to keep pace with American and Chinese rivals while offering customers a European alternative for artificial intelligence.
+        أمريكا · NYT
+الأردن: افتتاح ناورو سفارة بالقدس خرق فاضح للقانون الدولي
+        وزارة الخارجية أكدت أن أي إجراءات تهدف لتغيير وضع المدينة المحتلة "باطلة وغير شرعية وغير قانونية"
+        تركيا · الأناضول
+الفرنسي فيس ينسحب من مواجهة كندا في كأس ديفيز
+        انسحب أرتور فيس المصنف الـ11 عالمياً من مباراة كأس ديفيز ​للتنس التي ستخوضها فرنسا ضد كندا قائلاً إنه بحاجة إلى توخي الحذر فيما يتعلق بصحته بعد عام…
         عربي · الشرق الأوسط
-تركيا.. توقيف 9 أشخاص في عملية ضد تنظيم "داعش" الإرهابي بإسطنبول
-        ألقت السلطات التركية القبض على 9 مشتبه بهم خلال عملية أمنية استهدفت مصادر تمويل تنظيم "داعش" الإرهابي في مدينة إسطنبول، وفق مصادر أمنية.
-        تركيا · TRT عربي
-ما دلالات التصعيد الحوثي الأخير واستهداف منشآت مدنية واقتصادية في السعودية؟
-        أعلن ​الحوثيون ​المتحالفون مع إيران، الثلاثاء، ​أنهم ‌استهدفوا بطائرات ‌مسيرة وصواريخ باليستية مواقع تابعة لشركة أرامكو ​السعودية العملاقة للنفط ‌في…
-        عربي · فرانس 24
+كومو يجدد عقد مهاجمته بيكي عقب إصابتها بسرطان الثدي
+        أعلن نادي كومو؛ المنافس في ​دوري الدرجة الأولى الإيطالي لكرة القدم للسيدات، تجديد عقد المهاجمة روبرتا بيكي حتى نهاية موسم 2027
+        عربي · الشرق الأوسط
 الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
         الإمارات · الإمارات
-Who will reach Super Bowl? - NFL predictions for 2026 season
-        Who are favourites to reach the Super Bowl and who will be the surprise standouts? BBC's NFL experts make their predictions for the 2026 season
-        بريطانيا · BBC
-FSU-SMU game turns into old-school football after stadium power outage wipes out in-game communication
-        A power outage plunged Doak Campbell Stadium into darkness minutes before kickoff, forcing SMU and Florida State to play without communications.
-        أمريكا · Fox News</desc>
+Liverpool agree £60m-a-year shirt sponsorship deal with Turkish Airlines
+        Turkish Airlines to replace Standard Chartered from 2027 Deal may be most lucrative in Premier League history Liverpool have announced a new shirt…
+        بريطانيا · Guardian
+The 2026 midterm general election season is upon us. Here's what to watch
+        The week of Labor Day marks the unofficial kickoff of the general election season
+        أمريكا · NPR</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
   <programme start="20260908140000 +0000" stop="20260908150000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:01 — بتوقيتك
 
-7 سفن فقط مرت من مضيق هرمز يوم الاثنين
-        تباطأت حركة الملاحة عبر مضيق هرمز هذا الأسبوع بعد أن هددت إيران، الاثنين، بالرد على أي هجمات أميركية جديدة.
+«الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق هرمز
+        أدان وزراء الخارجية العرب، الثلاثاء، استمرار الهجمات الإيرانية ضد دول مجلس التعاون الخليجي والأردن والعراق
         عربي · الشرق الأوسط
-السفير الأميركي ميشال عيسى في المجلس الإسلامي الشيعي.. التفاصيل مع مراسل الجديد
-        عربي · الجديد
-«أسبوع دبي لمستقبل القطاع المالي» ينطلق نوفمبر المقبل - alkhaleej.ae
+إغلاق برج إيفل احتجاجا على استبعاد الموظفات من العمل خلال زيارة وفد هندوسي تجنبا للاختلاط بالنساء
+        بين الصدمة والشعور بإهانة النساء، قرر موظفو برج إيفل في باريس الإضراب احتجاجا على استبعاد الموظفات النساء وتعويضهن بموظفين رجال خلال زيارة خاصة لوفد…
+        عربي · فرانس 24
+مؤسسة دبي للمستقبل تطلق الدورة الرابعة لبرنامج القيادة والتصميم - Zawya
         الإمارات · الإمارات
-"الحوثي" تعلن استهداف منشآت لأرامكو وقاعدة جوية في السعودية
-        الجماعة اليمنية قالت إنها استخدمت عشرات الصواريخ الباليستية والطائرات المسيرة في هجماتها
+عقب اقتحام إسرائيلي.. انتشال جثمان فلسطيني من مقر لجنة زكاة طولكرم
+        الجثمان يعود للفلسطيني أسعد مليحة من قطاع غزة، وفق الدفاع المدني والهلال الأحمر
         تركيا · الأناضول
 Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
         Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
         أمريكا · CBS
-Prince George begins first day at Eton College
-        The 13-year-old will follow in the footsteps of his father, the Prince of Wales, by attending the elite private school.
-        بريطانيا · BBC
-«برنت» يقترب من 100 دولار مع تصاعد مخاطر استمرار الحرب
-        ارتفعت أسعار النفط في التعاملات الفورية خلال جلسة الثلاثاء، بنسبة 3 في المائة لتسجل 99.22 دولار للبرميل
-        عربي · الشرق الأوسط
-"الشارقة للمتاحف" تعقد ندوة حول ترخيص المتاحف الخاصة في 12 سبتمبر - sharjah24.ae
+Far-right Israeli minister calls for UK to be sanctioned over ‘occupation’ of Falkland Islands
+        Israeli ministers have sided with Argentina again despite Buenos Aires sanctioning an Israeli oil firm
+        بريطانيا · Independent
+أغلى دول العالم بأسعار البنزين.. وماذا عن البلدان العربية؟
+        وصل متوسط سعر لتر البنزين حول العالم إلى 1.54 دولار أمريكي للتر الواحد، حسب موقع Global Petrol Prices
+        عربي · CNN عربية
+خصم 50% على خدمات ترخيص السائقين لأصحاب الهمم في دبي - صحيفة الخليج
         الإمارات · الإمارات
-تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - sharjah24.ae
-        الإمارات · الإمارات
-"الزردة" بتونس.. مهرجان الولائم والفروسية بعد موسم الحصاد
+أمينة أردوغان: مبادرات التعليم غيَّرت حياة الكثيرين من الأشخاص
+        تدوينة لعقيلة الرئيس التركي بمناسبة "اليوم الدولي لمحو الأمية" الموافق 8 سبتمبر
         تركيا · الأناضول
-3 works of art stolen from France's Renoir Museum, local mayor says
-        Authorities in France are seeking two thieves who broke into France's Renoir Museum and stole "four works of art" but dropped one as they got away,…
+«دبي للثقافة» تُطلق «قصص الولفة» لإنتاج رسوم متحركة إماراتية - الاتحاد للأخبار
+        الإمارات · الإمارات
+Dangerous Hurricane Lowell passing just west of Hawaii
+        Hurricane Lowell was skirting western Hawaii, bringing damaging winds, heavy rain and punishing waves, the National Hurricane Center said, and…
         أمريكا · CBS
 Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
         The Duke and Duchess of Sussex returned to the UK last month
         بريطانيا · Independent
-الين يقترب من أعلى مستوياته هذا العام مع تنامي رهانات رفع الفائدة
-        واصل الين الياباني مكاسبه خلال تعاملات الثلاثاء، مقترباً من أعلى مستوى له مقابل الدولار هذا العام، مع زيادة المستثمرين رهاناتهم على رفع الفائدة.
-        عربي · الشرق الأوسط
-مفوض أممي: أكثر من 1200 مدني قتلوا في ميانمار خلال عام
-        فولكر تورك حذر من تفاقم الأزمة الإنسانية والأمنية في ميانمار وتزايد تداعياتها الإقليمية
-        تركيا · الأناضول
-أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
+بوادر حل تلوح في أفق الحرب في أوكرانيا... بوتين يبدي انفتاحا على استئناف المفاوضات
+        بعد أكثر من أربع سنوات على اندلاع الحرب الروسية في أوكرانيا، تلوح في الأفق بوادر حل ديبلوماسي إثر المباحثات التي أجراها الرئيس الروسي فلاديمير بوتين…
+        عربي · فرانس 24
+"تكريس لإنكار إبادة سربرنيتسا".. تركيا تندد بإقامة صربيا مراسم تشييع رسمية لملاديتش
+        نددت وزارة الخارجية التركية الثلاثاء، بإقامة مراسم تشييع رسمية رفيعة المستوى لراتكو ملاديتش، أحد أبرز المسؤولين عن إبادة سربرنيتسا
+        تركيا · TRT عربي
+تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - Sharjah24
         الإمارات · الإمارات
+N.H. voters choose nominees for open Senate seat, and more races to watch today
+        Both Democrats and Republicans are targeting the Senate seat that will be vacated by Democratic Sen
+        أمريكا · CBS
+Canada's retaliatory tariffs hit US products as Trump warns of escalation
+        Trade negotiations broke down last month, setting off tit-for-tat tariff threats.
+        أمريكا · ABC News
+Councillor becomes first politician in the country to defect from Reform to Labour
+        A Reform councillor has decided to leave the party, saying he had seen ‘first-hand’ how it ‘simply doesn't have a serious plan’
+        بريطانيا · Independent
+علاج حرقة المعدة في المنزل.. أطعمة وعادات قد تساعدك فوراً
+        تحدث حرقة المعدة عندما ترتد محتويات المعدة صعوداً إلى المريء، وهو الأنبوب العضلي الذي ينقل الطعام والسوائل من الفم إلى المعدة.
+        عربي · CNN عربية
+نائب الرئيس الإيراني: القيود المفروضة على الإنترنت غير مجدية
+        محمد رضا عارف قال خلال اجتماع عقده مع رجال دين في مدينة قم إن برامج تجاوز الحجب تشكل تهديدا أمنيا...
+        تركيا · الأناضول
+من الاستيقاظ حتى النوم.. كم قراراً تتخذه التطبيقات نيابة عنك؟ - إرم نيوز
+        الإمارات · الإمارات
+A Far-Right Win Puts New Pressure on Germany’s Leader
+        Chancellor Friedrich Merz was a drag on his conservative party in its disastrous loss to the far right in a state election
+        أمريكا · NYT
 Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
-        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Moscow renews attacks after pause for peace talks The UK has…
+        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Zelenskyy says he hopes to meet Trump this month But the tone coming…
         بريطانيا · Guardian
-Britain Set to Target Israeli West Bank Settlements With Trade Ban
-        The expected move will be announced on Tuesday, officials said, and underscored Israel’s mounting isolation over its policies toward Palestinians…
-        أمريكا · NYT
-China’s Surging Exports Loom Over Trump’s Talks With Xi
-        China’s exports grew by a quarter in the month of August, weeks before its leader, Xi Jinping, is set to meet with President Trump in Washington.
-        أمريكا · NYT
-الأسواق الخليجية تكافح لاستعادة الزخم وسط تصاعد التوتر بين واشنطن وطهران
-        تحركت معظم أسواق الأسهم الخليجية في نطاق محدود، الثلاثاء، مع صعود بعضها بشكل طفيف.
-        عربي · الشرق الأوسط
-رئيس الوزراء الإسباني يبعث برسالة شكر إلى مدرسة تركية
-        بعد تلقيه مجلة أدبية أعدها طلاب مدرسة ثانوية بولاية قيصري
-        تركيا · الأناضول
-أسعار النفط تواصل الارتفاع وخام برنت يسجل 97.34 دولار للبرميل - sharjah24.ae
-        الإمارات · الإمارات
-Shetland spaceport project secures £30m of UK government investment
-        Several companies hope to use SaxaVord in Unst, the northernmost point in the UK, as a launch site for small commercial rockets.
-        بريطانيا · BBC
 Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
         A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
         بريطانيا · BBC
-Iran live updates: Trump says oil prices will drop 'when we WIN the war'
-        The Strait of Hormuz remains the primary flashpoint in the conflict.
-        أمريكا · ABC News
-«أبل» تختبر استخدام رقم هاتف واحد على جهازي «آيفون»
-        سيتمكن المستخدم من ربط رقم هاتفه بجهازين، ثم التنقل بينهما من دون إعادة نقل الشريحة الإلكترونية في كل مرة.
+بعد اللوفر... سرقة لوحات بقيمة تسعة ملايين يورو من متحف فرنسي
+        قال بريان ماسون رئيس بلدية مدينة كاني سور مير، حيث متحف رينوار على الريفيرا الفرنسية، في بيان على «فيسبوك» إن لصين سرقا ثلاث لوحات من المتحف.
         عربي · الشرق الأوسط
-وصفته أوكرانيا بـ"الهجوم المروع".. روسيا تستأنف قصف كييف عقب مغادرة كوشنر وويتكوف
-        استأنفت روسيا هجماتها على العاصمة الأوكرانية كييف الثلاثاء، بعد توقف قصير استمر ثلاثة أيام وتزامن مع زيارة مبعوثي الرئيس الأمريكي دونالد ترمب لبحث…
-        تركيا · TRT عربي
-بكين.. قطر والصين تبحثان العلاقات المشتركة وأزمة مضيق هرمز
-        وزيرا خارجية البلدين أكدا ضرورة ضمان أمن الملاحة الدولية، وبحثا جهود خفض التصعيد في المنطقة
+محكمة إسرائيلية ترفض طلبا لتجميد عطاء البناء في مشروع E1 الاستيطاني
+        رغم انتقادات دولية واسعة للمشروع الذي يقوض فرص إقامة دولة فلسطينية
         تركيا · الأناضول
-آيفون قابل للطي لأول مرة.. ماذا يخبئ مؤتمر أبل 2026؟ - العربية
+غزة.. 4 قتلى يرفعون حصيلة الإبادة الإسرائيلية إلى 73 ألفا و662
+        خلال الساعات الـ24 الماضية، وفق وزارة الصحة في القطاع..
+        تركيا · الأناضول
+أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
         الإمارات · الإمارات
-Australia to force social media platforms to allow users to opt out of algorithms
-        Draft legislation enforces digital duty of care including limiting children’s exposure to misogynistic and eating disorder content Australia will…
-        بريطانيا · Guardian
-What to watch as Republicans gather in Dallas for Trump's unusual midterm convention
-        Republicans will descend on Dallas this week for a two-day convention dreamed up by President Donald Trump to rally his party ahead of this year’s…
-        أمريكا · ABC News
-أوساكا تتقبل انتظار فوزها بلقب كبير آخر بعد خروجها من فلاشينغ ميدوز
-        تسببت هزيمة ناومي أوساكا في الدور الرابع لدورة أميركا المفتوحة للتنس أمس الاثنين في إطالة انتظارها للحصول ​على لقب آخر في البطولات الكبرى.
+Britain to spend millions on space defence to counter threats and launch new satellites
+        The broader UK Space Strategy details £7.8 billion in total funding across the sector up to 2030
+        بريطانيا · Independent
+French A.I. Start-Up Mistral Raises $3.5 Billion as Part of Strategy Shift
+        Mistral is trying to keep pace with American and Chinese rivals while offering customers a European alternative for artificial intelligence.
+        أمريكا · NYT
+الأردن: افتتاح ناورو سفارة بالقدس خرق فاضح للقانون الدولي
+        وزارة الخارجية أكدت أن أي إجراءات تهدف لتغيير وضع المدينة المحتلة "باطلة وغير شرعية وغير قانونية"
+        تركيا · الأناضول
+الفرنسي فيس ينسحب من مواجهة كندا في كأس ديفيز
+        انسحب أرتور فيس المصنف الـ11 عالمياً من مباراة كأس ديفيز ​للتنس التي ستخوضها فرنسا ضد كندا قائلاً إنه بحاجة إلى توخي الحذر فيما يتعلق بصحته بعد عام…
         عربي · الشرق الأوسط
-تركيا.. توقيف 9 أشخاص في عملية ضد تنظيم "داعش" الإرهابي بإسطنبول
-        ألقت السلطات التركية القبض على 9 مشتبه بهم خلال عملية أمنية استهدفت مصادر تمويل تنظيم "داعش" الإرهابي في مدينة إسطنبول، وفق مصادر أمنية.
-        تركيا · TRT عربي
-ما دلالات التصعيد الحوثي الأخير واستهداف منشآت مدنية واقتصادية في السعودية؟
-        أعلن ​الحوثيون ​المتحالفون مع إيران، الثلاثاء، ​أنهم ‌استهدفوا بطائرات ‌مسيرة وصواريخ باليستية مواقع تابعة لشركة أرامكو ​السعودية العملاقة للنفط ‌في…
-        عربي · فرانس 24
+كومو يجدد عقد مهاجمته بيكي عقب إصابتها بسرطان الثدي
+        أعلن نادي كومو؛ المنافس في ​دوري الدرجة الأولى الإيطالي لكرة القدم للسيدات، تجديد عقد المهاجمة روبرتا بيكي حتى نهاية موسم 2027
+        عربي · الشرق الأوسط
 الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
         الإمارات · الإمارات
-Who will reach Super Bowl? - NFL predictions for 2026 season
-        Who are favourites to reach the Super Bowl and who will be the surprise standouts? BBC's NFL experts make their predictions for the 2026 season
-        بريطانيا · BBC
-FSU-SMU game turns into old-school football after stadium power outage wipes out in-game communication
-        A power outage plunged Doak Campbell Stadium into darkness minutes before kickoff, forcing SMU and Florida State to play without communications.
-        أمريكا · Fox News</desc>
+Liverpool agree £60m-a-year shirt sponsorship deal with Turkish Airlines
+        Turkish Airlines to replace Standard Chartered from 2027 Deal may be most lucrative in Premier League history Liverpool have announced a new shirt…
+        بريطانيا · Guardian
+The 2026 midterm general election season is upon us. Here's what to watch
+        The week of Labor Day marks the unofficial kickoff of the general election season
+        أمريكا · NPR</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260908150000 +0000" stop="20260908170556 +0000" channel="TodayNews">
+  <programme start="20260908150000 +0000" stop="20260908160000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 03:01 — بتوقيتك
+
+«الوزاري العربي» يدين الهجمات الإيرانية ويطالب طهران بإعادة فتح مضيق هرمز
+        أدان وزراء الخارجية العرب، الثلاثاء، استمرار الهجمات الإيرانية ضد دول مجلس التعاون الخليجي والأردن والعراق
+        عربي · الشرق الأوسط
+إغلاق برج إيفل احتجاجا على استبعاد الموظفات من العمل خلال زيارة وفد هندوسي تجنبا للاختلاط بالنساء
+        بين الصدمة والشعور بإهانة النساء، قرر موظفو برج إيفل في باريس الإضراب احتجاجا على استبعاد الموظفات النساء وتعويضهن بموظفين رجال خلال زيارة خاصة لوفد…
+        عربي · فرانس 24
+مؤسسة دبي للمستقبل تطلق الدورة الرابعة لبرنامج القيادة والتصميم - Zawya
+        الإمارات · الإمارات
+عقب اقتحام إسرائيلي.. انتشال جثمان فلسطيني من مقر لجنة زكاة طولكرم
+        الجثمان يعود للفلسطيني أسعد مليحة من قطاع غزة، وفق الدفاع المدني والهلال الأحمر
+        تركيا · الأناضول
+Price of crude oil nears $100 a barrel as U.S.-Iran stalemate continues
+        Oil prices are rising steadily with no end in sight to the U.S.-Iran standoff impeding tanker traffic in the Strait of Hormuz.
+        أمريكا · CBS
+Far-right Israeli minister calls for UK to be sanctioned over ‘occupation’ of Falkland Islands
+        Israeli ministers have sided with Argentina again despite Buenos Aires sanctioning an Israeli oil firm
+        بريطانيا · Independent
+أغلى دول العالم بأسعار البنزين.. وماذا عن البلدان العربية؟
+        وصل متوسط سعر لتر البنزين حول العالم إلى 1.54 دولار أمريكي للتر الواحد، حسب موقع Global Petrol Prices
+        عربي · CNN عربية
+خصم 50% على خدمات ترخيص السائقين لأصحاب الهمم في دبي - صحيفة الخليج
+        الإمارات · الإمارات
+أمينة أردوغان: مبادرات التعليم غيَّرت حياة الكثيرين من الأشخاص
+        تدوينة لعقيلة الرئيس التركي بمناسبة "اليوم الدولي لمحو الأمية" الموافق 8 سبتمبر
+        تركيا · الأناضول
+«دبي للثقافة» تُطلق «قصص الولفة» لإنتاج رسوم متحركة إماراتية - الاتحاد للأخبار
+        الإمارات · الإمارات
+Dangerous Hurricane Lowell passing just west of Hawaii
+        Hurricane Lowell was skirting western Hawaii, bringing damaging winds, heavy rain and punishing waves, the National Hurricane Center said, and…
+        أمريكا · CBS
+Harry and Meghan ‘surprised’ by King ruling out the couple returning as working royals
+        The Duke and Duchess of Sussex returned to the UK last month
+        بريطانيا · Independent
+بوادر حل تلوح في أفق الحرب في أوكرانيا... بوتين يبدي انفتاحا على استئناف المفاوضات
+        بعد أكثر من أربع سنوات على اندلاع الحرب الروسية في أوكرانيا، تلوح في الأفق بوادر حل ديبلوماسي إثر المباحثات التي أجراها الرئيس الروسي فلاديمير بوتين…
+        عربي · فرانس 24
+"تكريس لإنكار إبادة سربرنيتسا".. تركيا تندد بإقامة صربيا مراسم تشييع رسمية لملاديتش
+        نددت وزارة الخارجية التركية الثلاثاء، بإقامة مراسم تشييع رسمية رفيعة المستوى لراتكو ملاديتش، أحد أبرز المسؤولين عن إبادة سربرنيتسا
+        تركيا · TRT عربي
+تشارلز الثالث: هاري وميغان لن يضطلعا بأي مهام ملكية - Sharjah24
+        الإمارات · الإمارات
+N.H. voters choose nominees for open Senate seat, and more races to watch today
+        Both Democrats and Republicans are targeting the Senate seat that will be vacated by Democratic Sen
+        أمريكا · CBS
+Canada's retaliatory tariffs hit US products as Trump warns of escalation
+        Trade negotiations broke down last month, setting off tit-for-tat tariff threats.
+        أمريكا · ABC News
+Councillor becomes first politician in the country to defect from Reform to Labour
+        A Reform councillor has decided to leave the party, saying he had seen ‘first-hand’ how it ‘simply doesn't have a serious plan’
+        بريطانيا · Independent
+علاج حرقة المعدة في المنزل.. أطعمة وعادات قد تساعدك فوراً
+        تحدث حرقة المعدة عندما ترتد محتويات المعدة صعوداً إلى المريء، وهو الأنبوب العضلي الذي ينقل الطعام والسوائل من الفم إلى المعدة.
+        عربي · CNN عربية
+نائب الرئيس الإيراني: القيود المفروضة على الإنترنت غير مجدية
+        محمد رضا عارف قال خلال اجتماع عقده مع رجال دين في مدينة قم إن برامج تجاوز الحجب تشكل تهديدا أمنيا...
+        تركيا · الأناضول
+من الاستيقاظ حتى النوم.. كم قراراً تتخذه التطبيقات نيابة عنك؟ - إرم نيوز
+        الإمارات · الإمارات
+A Far-Right Win Puts New Pressure on Germany’s Leader
+        Chancellor Friedrich Merz was a drag on his conservative party in its disastrous loss to the far right in a state election
+        أمريكا · NYT
+Ukraine’s prosecutor general resigns after corruption allegations as Russia resumes strikes on Kyiv – Europe live
+        Ruslan Kravchenko leaves post after his offices were searched at the weekend, as Zelenskyy says he hopes to meet Trump this month But the tone coming…
+        بريطانيا · Guardian
+Harry and Meghan 'surprised' by King's letter making clear they remain non-working royals
+        A spokesman says they were not told in advance about the letter sent on behalf of the king, although palace sources deny this.
+        بريطانيا · BBC
+بعد اللوفر... سرقة لوحات بقيمة تسعة ملايين يورو من متحف فرنسي
+        قال بريان ماسون رئيس بلدية مدينة كاني سور مير، حيث متحف رينوار على الريفيرا الفرنسية، في بيان على «فيسبوك» إن لصين سرقا ثلاث لوحات من المتحف.
+        عربي · الشرق الأوسط
+محكمة إسرائيلية ترفض طلبا لتجميد عطاء البناء في مشروع E1 الاستيطاني
+        رغم انتقادات دولية واسعة للمشروع الذي يقوض فرص إقامة دولة فلسطينية
+        تركيا · الأناضول
+غزة.. 4 قتلى يرفعون حصيلة الإبادة الإسرائيلية إلى 73 ألفا و662
+        خلال الساعات الـ24 الماضية، وفق وزارة الصحة في القطاع..
+        تركيا · الأناضول
+أسهم أوروبا تهبط بفعل مخاوف التضخم بعد ارتفاع النفط - العربية
+        الإمارات · الإمارات
+Britain to spend millions on space defence to counter threats and launch new satellites
+        The broader UK Space Strategy details £7.8 billion in total funding across the sector up to 2030
+        بريطانيا · Independent
+French A.I. Start-Up Mistral Raises $3.5 Billion as Part of Strategy Shift
+        Mistral is trying to keep pace with American and Chinese rivals while offering customers a European alternative for artificial intelligence.
+        أمريكا · NYT
+الأردن: افتتاح ناورو سفارة بالقدس خرق فاضح للقانون الدولي
+        وزارة الخارجية أكدت أن أي إجراءات تهدف لتغيير وضع المدينة المحتلة "باطلة وغير شرعية وغير قانونية"
+        تركيا · الأناضول
+الفرنسي فيس ينسحب من مواجهة كندا في كأس ديفيز
+        انسحب أرتور فيس المصنف الـ11 عالمياً من مباراة كأس ديفيز ​للتنس التي ستخوضها فرنسا ضد كندا قائلاً إنه بحاجة إلى توخي الحذر فيما يتعلق بصحته بعد عام…
+        عربي · الشرق الأوسط
+كومو يجدد عقد مهاجمته بيكي عقب إصابتها بسرطان الثدي
+        أعلن نادي كومو؛ المنافس في ​دوري الدرجة الأولى الإيطالي لكرة القدم للسيدات، تجديد عقد المهاجمة روبرتا بيكي حتى نهاية موسم 2027
+        عربي · الشرق الأوسط
+الدوري السعودي.. أول تصرف من لاعبي الهلال بعد الخسارة أمام نيوم - CNN Arabic
+        الإمارات · الإمارات
+Liverpool agree £60m-a-year shirt sponsorship deal with Turkish Airlines
+        Turkish Airlines to replace Standard Chartered from 2027 Deal may be most lucrative in Premier League history Liverpool have announced a new shirt…
+        بريطانيا · Guardian
+The 2026 midterm general election season is upon us. Here's what to watch
+        The week of Labor Day marks the unofficial kickoff of the general election season
+        أمريكا · NPR</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260908160000 +0000" stop="20260908180140 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260908183000 +0300" stop="20260908185000 +0300" channel="ThmanyahGuide">
@@ -102484,139 +102509,283 @@ FSU-SMU game turns into old-school football after stadium power outage wipes out
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-  <programme start="20260908090000 +0000" stop="20260908100000 +0000" channel="TodayWeather">
-    <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 02:05 — بتوقيتك
-
-الأردن
-عمّان 32° · صافٍ · رطوبة 33% · رياح 9 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 41% · رياح 15 كم/سا · احتمال المطر 0%
-الإمارات
-أبو ظبي 42° · صافٍ · رطوبة 27% · رياح 14 كم/سا · احتمال المطر 0%
-دبي 39° · صافٍ غالباً · رطوبة 39% · رياح 22 كم/سا · احتمال المطر 0%
-بريطانيا
-لندن 15° · مطر · رطوبة 95% · رياح 10 كم/سا · احتمال المطر 100%
-مانشستر 14° · غائم · رطوبة 72% · رياح 17 كم/سا · احتمال المطر 6%
-أمريكا
-نيويورك 16° · صافٍ · رطوبة 80% · رياح 7 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 9 كم/سا · احتمال المطر 1%
-شيكاغو 18° · صافٍ · رطوبة 77% · رياح 14 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 29% · رياح 5 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 86% · رياح 1 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 17° · صافٍ · رطوبة 59% · رياح 6 كم/سا · احتمال المطر 0%</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
-  </programme>
   <programme start="20260908100000 +0000" stop="20260908110000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:01 — بتوقيتك
 
 الأردن
-عمّان 32° · صافٍ · رطوبة 33% · رياح 9 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 41% · رياح 15 كم/سا · احتمال المطر 0%
+عمّان 33° · صافٍ غالباً · رطوبة 36% · رياح 13 كم/سا · احتمال المطر 0%
+العقبة 37° · صافٍ · رطوبة 35% · رياح 16 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 42° · صافٍ · رطوبة 27% · رياح 14 كم/سا · احتمال المطر 0%
-دبي 39° · صافٍ غالباً · رطوبة 39% · رياح 22 كم/سا · احتمال المطر 0%
+أبو ظبي 40° · صافٍ · رطوبة 37% · رياح 20 كم/سا · احتمال المطر 0%
+دبي 39° · صافٍ · رطوبة 37% · رياح 23 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 15° · مطر · رطوبة 95% · رياح 10 كم/سا · احتمال المطر 100%
-مانشستر 14° · غائم · رطوبة 72% · رياح 17 كم/سا · احتمال المطر 6%
+لندن 15° · مطر خفيف · رطوبة 93% · رياح 7 كم/سا · احتمال المطر 100%
+مانشستر 13° · غائم · رطوبة 79% · رياح 21 كم/سا · احتمال المطر 32%
 أمريكا
-نيويورك 16° · صافٍ · رطوبة 80% · رياح 7 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 9 كم/سا · احتمال المطر 1%
-شيكاغو 18° · صافٍ · رطوبة 77% · رياح 14 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 29% · رياح 5 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 86% · رياح 1 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 17° · صافٍ · رطوبة 59% · رياح 6 كم/سا · احتمال المطر 0%</desc>
+نيويورك 16° · صافٍ · رطوبة 82% · رياح 5 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 10 كم/سا · احتمال المطر 1%
+شيكاغو 17° · غائم جزئياً · رطوبة 74% · رياح 14 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · صافٍ · رطوبة 32% · رياح 6 كم/سا · احتمال المطر 0%
+هيوستن 26° · صافٍ · رطوبة 88% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 16° · صافٍ · رطوبة 66% · رياح 3 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260908110000 +0000" stop="20260908120000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:01 — بتوقيتك
 
 الأردن
-عمّان 32° · صافٍ · رطوبة 33% · رياح 9 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 41% · رياح 15 كم/سا · احتمال المطر 0%
+عمّان 33° · صافٍ غالباً · رطوبة 36% · رياح 13 كم/سا · احتمال المطر 0%
+العقبة 37° · صافٍ · رطوبة 35% · رياح 16 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 42° · صافٍ · رطوبة 27% · رياح 14 كم/سا · احتمال المطر 0%
-دبي 39° · صافٍ غالباً · رطوبة 39% · رياح 22 كم/سا · احتمال المطر 0%
+أبو ظبي 40° · صافٍ · رطوبة 37% · رياح 20 كم/سا · احتمال المطر 0%
+دبي 39° · صافٍ · رطوبة 37% · رياح 23 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 15° · مطر · رطوبة 95% · رياح 10 كم/سا · احتمال المطر 100%
-مانشستر 14° · غائم · رطوبة 72% · رياح 17 كم/سا · احتمال المطر 6%
+لندن 15° · مطر خفيف · رطوبة 93% · رياح 7 كم/سا · احتمال المطر 100%
+مانشستر 13° · غائم · رطوبة 79% · رياح 21 كم/سا · احتمال المطر 32%
 أمريكا
-نيويورك 16° · صافٍ · رطوبة 80% · رياح 7 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 9 كم/سا · احتمال المطر 1%
-شيكاغو 18° · صافٍ · رطوبة 77% · رياح 14 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 29% · رياح 5 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 86% · رياح 1 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 17° · صافٍ · رطوبة 59% · رياح 6 كم/سا · احتمال المطر 0%</desc>
+نيويورك 16° · صافٍ · رطوبة 82% · رياح 5 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 10 كم/سا · احتمال المطر 1%
+شيكاغو 17° · غائم جزئياً · رطوبة 74% · رياح 14 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · صافٍ · رطوبة 32% · رياح 6 كم/سا · احتمال المطر 0%
+هيوستن 26° · صافٍ · رطوبة 88% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 16° · صافٍ · رطوبة 66% · رياح 3 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260908120000 +0000" stop="20260908130000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:01 — بتوقيتك
 
 الأردن
-عمّان 32° · صافٍ · رطوبة 33% · رياح 9 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 41% · رياح 15 كم/سا · احتمال المطر 0%
+عمّان 33° · صافٍ غالباً · رطوبة 36% · رياح 13 كم/سا · احتمال المطر 0%
+العقبة 37° · صافٍ · رطوبة 35% · رياح 16 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 42° · صافٍ · رطوبة 27% · رياح 14 كم/سا · احتمال المطر 0%
-دبي 39° · صافٍ غالباً · رطوبة 39% · رياح 22 كم/سا · احتمال المطر 0%
+أبو ظبي 40° · صافٍ · رطوبة 37% · رياح 20 كم/سا · احتمال المطر 0%
+دبي 39° · صافٍ · رطوبة 37% · رياح 23 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 15° · مطر · رطوبة 95% · رياح 10 كم/سا · احتمال المطر 100%
-مانشستر 14° · غائم · رطوبة 72% · رياح 17 كم/سا · احتمال المطر 6%
+لندن 15° · مطر خفيف · رطوبة 93% · رياح 7 كم/سا · احتمال المطر 100%
+مانشستر 13° · غائم · رطوبة 79% · رياح 21 كم/سا · احتمال المطر 32%
 أمريكا
-نيويورك 16° · صافٍ · رطوبة 80% · رياح 7 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 9 كم/سا · احتمال المطر 1%
-شيكاغو 18° · صافٍ · رطوبة 77% · رياح 14 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 29% · رياح 5 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 86% · رياح 1 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 17° · صافٍ · رطوبة 59% · رياح 6 كم/سا · احتمال المطر 0%</desc>
+نيويورك 16° · صافٍ · رطوبة 82% · رياح 5 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 10 كم/سا · احتمال المطر 1%
+شيكاغو 17° · غائم جزئياً · رطوبة 74% · رياح 14 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · صافٍ · رطوبة 32% · رياح 6 كم/سا · احتمال المطر 0%
+هيوستن 26° · صافٍ · رطوبة 88% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 16° · صافٍ · رطوبة 66% · رياح 3 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260908130000 +0000" stop="20260908140000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:01 — بتوقيتك
 
 الأردن
-عمّان 32° · صافٍ · رطوبة 33% · رياح 9 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 41% · رياح 15 كم/سا · احتمال المطر 0%
+عمّان 33° · صافٍ غالباً · رطوبة 36% · رياح 13 كم/سا · احتمال المطر 0%
+العقبة 37° · صافٍ · رطوبة 35% · رياح 16 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 42° · صافٍ · رطوبة 27% · رياح 14 كم/سا · احتمال المطر 0%
-دبي 39° · صافٍ غالباً · رطوبة 39% · رياح 22 كم/سا · احتمال المطر 0%
+أبو ظبي 40° · صافٍ · رطوبة 37% · رياح 20 كم/سا · احتمال المطر 0%
+دبي 39° · صافٍ · رطوبة 37% · رياح 23 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 15° · مطر · رطوبة 95% · رياح 10 كم/سا · احتمال المطر 100%
-مانشستر 14° · غائم · رطوبة 72% · رياح 17 كم/سا · احتمال المطر 6%
+لندن 15° · مطر خفيف · رطوبة 93% · رياح 7 كم/سا · احتمال المطر 100%
+مانشستر 13° · غائم · رطوبة 79% · رياح 21 كم/سا · احتمال المطر 32%
 أمريكا
-نيويورك 16° · صافٍ · رطوبة 80% · رياح 7 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 9 كم/سا · احتمال المطر 1%
-شيكاغو 18° · صافٍ · رطوبة 77% · رياح 14 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 29% · رياح 5 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 86% · رياح 1 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 17° · صافٍ · رطوبة 59% · رياح 6 كم/سا · احتمال المطر 0%</desc>
+نيويورك 16° · صافٍ · رطوبة 82% · رياح 5 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 10 كم/سا · احتمال المطر 1%
+شيكاغو 17° · غائم جزئياً · رطوبة 74% · رياح 14 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · صافٍ · رطوبة 32% · رياح 6 كم/سا · احتمال المطر 0%
+هيوستن 26° · صافٍ · رطوبة 88% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 16° · صافٍ · رطوبة 66% · رياح 3 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260908140000 +0000" stop="20260908150000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 02:05 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:01 — بتوقيتك
 
 الأردن
-عمّان 32° · صافٍ · رطوبة 33% · رياح 9 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 41% · رياح 15 كم/سا · احتمال المطر 0%
+عمّان 33° · صافٍ غالباً · رطوبة 36% · رياح 13 كم/سا · احتمال المطر 0%
+العقبة 37° · صافٍ · رطوبة 35% · رياح 16 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 42° · صافٍ · رطوبة 27% · رياح 14 كم/سا · احتمال المطر 0%
-دبي 39° · صافٍ غالباً · رطوبة 39% · رياح 22 كم/سا · احتمال المطر 0%
+أبو ظبي 40° · صافٍ · رطوبة 37% · رياح 20 كم/سا · احتمال المطر 0%
+دبي 39° · صافٍ · رطوبة 37% · رياح 23 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 15° · مطر · رطوبة 95% · رياح 10 كم/سا · احتمال المطر 100%
-مانشستر 14° · غائم · رطوبة 72% · رياح 17 كم/سا · احتمال المطر 6%
+لندن 15° · مطر خفيف · رطوبة 93% · رياح 7 كم/سا · احتمال المطر 100%
+مانشستر 13° · غائم · رطوبة 79% · رياح 21 كم/سا · احتمال المطر 32%
 أمريكا
-نيويورك 16° · صافٍ · رطوبة 80% · رياح 7 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 9 كم/سا · احتمال المطر 1%
-شيكاغو 18° · صافٍ · رطوبة 77% · رياح 14 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 29% · رياح 5 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 86% · رياح 1 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 17° · صافٍ · رطوبة 59% · رياح 6 كم/سا · احتمال المطر 0%</desc>
+نيويورك 16° · صافٍ · رطوبة 82% · رياح 5 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 10 كم/سا · احتمال المطر 1%
+شيكاغو 17° · غائم جزئياً · رطوبة 74% · رياح 14 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · صافٍ · رطوبة 32% · رياح 6 كم/سا · احتمال المطر 0%
+هيوستن 26° · صافٍ · رطوبة 88% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 16° · صافٍ · رطوبة 66% · رياح 3 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260908150000 +0000" stop="20260908170558 +0000" channel="TodayWeather">
+  <programme start="20260908150000 +0000" stop="20260908160000 +0000" channel="TodayWeather">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">طقس اليوم · آخر تحديث 03:01 — بتوقيتك
+
+الأردن
+عمّان 33° · صافٍ غالباً · رطوبة 36% · رياح 13 كم/سا · احتمال المطر 0%
+العقبة 37° · صافٍ · رطوبة 35% · رياح 16 كم/سا · احتمال المطر 0%
+الإمارات
+أبو ظبي 40° · صافٍ · رطوبة 37% · رياح 20 كم/سا · احتمال المطر 0%
+دبي 39° · صافٍ · رطوبة 37% · رياح 23 كم/سا · احتمال المطر 0%
+بريطانيا
+لندن 15° · مطر خفيف · رطوبة 93% · رياح 7 كم/سا · احتمال المطر 100%
+مانشستر 13° · غائم · رطوبة 79% · رياح 21 كم/سا · احتمال المطر 32%
+أمريكا
+نيويورك 16° · صافٍ · رطوبة 82% · رياح 5 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ · رطوبة 54% · رياح 10 كم/سا · احتمال المطر 1%
+شيكاغو 17° · غائم جزئياً · رطوبة 74% · رياح 14 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · صافٍ · رطوبة 32% · رياح 6 كم/سا · احتمال المطر 0%
+هيوستن 26° · صافٍ · رطوبة 88% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 16° · صافٍ · رطوبة 66% · رياح 3 كم/سا · احتمال المطر 0%</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
+  </programme>
+  <programme start="20260908160000 +0000" stop="20260908180141 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-<programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaSport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaKids"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch38"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch35"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch34"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch44"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch16"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch13"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch26"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch30"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch28"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch31"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch32"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908170556 +0000" stop="20260908181024 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908170558 +0000" stop="20260908181024 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260908100000 +0000" stop="20260908110000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908110000 +0000" stop="20260908120000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908120000 +0000" stop="20260908130000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908130000 +0000" stop="20260908140000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908140000 +0000" stop="20260908150000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908150000 +0000" stop="20260908160000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908160000 +0000" stop="20260908170000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908170000 +0000" stop="20260908180000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908190000 +0000" stop="20260908200000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908200000 +0000" stop="20260908210000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260908210000 +0000" stop="20260908220000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+عمّان — الفجر 04:53 · الشروق 06:16 · الظهر 12:34 · العصر 16:08 · المغرب 18:57 · العشاء 20:15
+أبو ظبي — الفجر 04:48 · الشروق 06:06 · الظهر 12:23 · العصر 15:49 · المغرب 18:37 · العشاء 19:52
+هندرسون · نيفادا — الفجر 05:05 · الشروق 06:17 · الظهر 12:37 · العصر 16:13 · المغرب 18:57 · العشاء 20:09
+إسطنبول — الفجر 05:02 · الشروق 06:30 · الظهر 13:07 · العصر 16:43 · المغرب 19:32 · العشاء 20:55
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+<programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_RoyaSport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_RoyaKids"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch38"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch35"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch34"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch44"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch16"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch13"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch26"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch30"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch28"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch31"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch32"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908182005 +0000" stop="20260908182423 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180140 +0000" stop="20260908182423 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180141 +0000" stop="20260908182423 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
