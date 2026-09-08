@@ -2891,13 +2891,11 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
         event("Golf", "The Open - Round 2", 11, []),
         # Never asked for, and on the same pages as the ones that were.
         event("Cricket", "England - Ireland", 12, ["Sky Sports Cricket"]),
-        # Snooker's English Open row was the sport's row here once —
-        # the synthetic proof that a page-opened sport reaches the
-        # board — and the whole sport came off in the reader's own
-        # words ("remove snooker & MLB from channel 2"), so the row is
-        # here now as the OTHER proof: a sport taken off the list stays
-        # off the board, however many channels its page names.
+        # Snooker came back in the reader's own words ("add Snooker from
+        # TNT Sports and Eurosport channels"), so a TNT row is kept and
+        # anybody else's snooker row is not.
         event("Snooker", "English Open", 10, ["TNT Sports 1"]),
+        event("Snooker", "Shoot Out Qualifier", 15, ["ITV4"]),
         # And baseball, the same door shut, offered as the fold's own
         # measured rows: a studio show about the game is not the game.
         event("MLB", "Braves vs Phillies - Extended Highlights", 14, []),
@@ -2918,11 +2916,14 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
           clocks, sorted(clocks))
     check("BOARD2", "and the sports asked for are the ones that arrived",
           sorted({one["sport"] for one in kept}),
-          ["Boxing", "Darts", "F1", "Tennis"])
+          ["Boxing", "Darts", "F1", "Snooker", "Tennis"])
     check("BOARD2", "a sport nobody asked for cannot reach the board",
           [one["title"] for one in kept
-           if one["sport"] in ("Cricket", "Snooker", "MLB",
+           if one["sport"] in ("Cricket", "MLB",
                                "NFL", "NBA")], [])
+    check("BOARD2", "and snooker is kept only on TNT Sports and Eurosport",
+          [one["title"] for one in kept if one["sport"] == "Snooker"],
+          ["English Open"])
     check("BOARD2", "and nor can an event with no channel named",
           [one["title"] for one in kept if one["sport"] == "Golf"], [])
     # AND NO ROW WEARS AN EMOJI. This gate used to require one — every
