@@ -1,60 +1,53 @@
-# مباريات اليوم on its own, ten minutes at a time.
-#
-# The page prints a countdown, and a countdown printed into a static file
-# is only as true as the moment the file was written. The full build runs
-# twice an hour because it rebuilds fourteen guides and takes four
-# minutes; this one guide takes eight seconds, so it can run six times an
-# hour and cut the error from half an hour to ten minutes.
-#
-# It writes today_matches_epg.xml, the day boards it points at, the screen
-# channel encoded from today's board, and the playlist of the same day.
-#
-# It builds the SECOND board in the same pass — رياضات اليوم, the F1 and
-# boxing and NFL screen — and that is deliberate rather than a second
-# workflow. Both boards draw into boards/ and encode into stream/, and two
-# workflows on the same schedule would race there and push over each
-# other on main. One pass builds both, one gate proves both, one commt
-# publishes both.
-# The merged link is
-# deliberately left to the full build: rewriting a thirteen-thousand-row
-# file every ten minutes would add a hundred and forty commits a day of
-# several megabytes each, to keep one channel fresh.
 name: Build today's matches
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
+  workflow_run:
+    workflows: ["Build every EPG"]
+    types: [completed]
 
-  # Six times an hour, written as six hourly entries rather than one
-  # ten-minute one — because the ten-minute one never fired. Measured, not
-  # supposed: in the four and a half hours after this workflow was added,
-  # "3,13,23,33,43,53 * * * *" produced ZERO scheduled runs, while the
-  # full build's plain hourly crons in the same repository produced
-  # forty-five. GitHub drops sub-hourly schedules first when it is busy,
-  # and this repository is evidently on the wrong side of that. The
-  # cadence is unchanged; only the way it is asked for is.
-  # TWELVE, not six, and the extra six are a response to a measurement
-  # rather than a hope. On 3 September the six above produced this:
-  #
-  #   06:15 · 05:54 · 05:10· 04:17 · 04:09 · 01:26 · 01:22 · 01:15
-  #   and then nothing at all between 07:16 and 08:18
-  #
-  # One or two an hour where six were asked for, and a clear hour with
-  # none — a reader noticed before any check did, because a screen an
-  # hour old looks exactly like a screen that is broken.
-  #
-  # There is nothing to fix at this end: GitHub drops scheduled runs when
-  # it is busy and says nothing. What can be done is ask more often, so
-  # that what survives the dropping is still frequent. Two runs an hour
-  # out of twelve asked is the same board a reader sees; out of six it
-  # was the gap they noticed.
-  #
-  # It costs nothing when they do all fire: the concurrency group below
-  # already refuses to run two at once, and a pass that finds nothing
+concurrency:
+  group: today-matches
+  cancel-in-progress: true
 
-    # the busy side of that. The
-    # keeps cron once
-    # publishes foth.
-# The merged link
-# deliberately left to the full build: rewriting a thirteen-thousand-row
-# file every ten minutes would add a hundred and forty commits a day of
-# several megabytes each, to keep one channel fresh.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Install rendering tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core ffmpeg
+      - name: Identify committer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Rebuild channel 1
+        run: python -u today_matches_epg.py
+      - name: Rebuild channel 2
+        run: pyton -u other_sports_epg.py
+      - name: Encode channel 1
+        run: python -u match_screen_video.py today_matches
+      - name: Encode channel 2
+        run: python -u match_screen_video.py other_sports
+      - name: Encode UAE channel 1
+        run: python -u match_screen_video.py dubai_matches
+      - name: Encode UAE channel 2
+        run: python -u match_screen_video.py dubai_sports
+      - name: Write playlists
+        run: python -u sports_dashboard_m3u.py
+      - name: Verify screens
+        run: python -u channel_gate_selftest.py
+      - name: Publish refreshed indicators
+        run: python -u publish_screens.py
