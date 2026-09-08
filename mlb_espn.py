@@ -138,13 +138,12 @@ def _day(session, day: datetime) -> list[dict]:
             continue
         start = (start.astimezone(timezone.utc) if start.tzinfo
                  else start.replace(tzinfo=timezone.utc))
+        # Every game on the day's card, network or not. A game without
+        # a listed broadcaster still gets its row; the broadcaster line
+        # is simply left empty.
         channels = _channels(competition)
-        if not channels:
-            continue
         where = _competition_name(event, competition)
         national = [name for name in channels if _national(name)]
-        if not A_POSTSEASON.search(where) and not national:
-            continue
         channels = national or channels
         title = _title(event, competition)
         if not title:
@@ -182,5 +181,5 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
             warn(f"MLB scoreboard {day:%Y-%m-%d} is unreachable ({exc}) — "
                  f"the board keeps what the other days gave it")
         day += timedelta(days=1)
-    log(f"  MLB: {len(out)} game(s) with a network and a first pitch")
+    log(f"  MLB: {len(out)} game(s) with a first pitch")
     return out
