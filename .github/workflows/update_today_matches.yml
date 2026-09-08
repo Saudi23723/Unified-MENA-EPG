@@ -46,7 +46,7 @@ jobs:
       - name: Encode UAE channel 2
         run: python -u match_screen_video.py dubai_sports
       - name: Write playlists
-        run: python -u sports_dashboard_m3u.py || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; } || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; }
+        run: python -u sports_dashboard_m3u.py || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; }
       - name: Verify screens
         run: |
           set +e
@@ -54,9 +54,10 @@ jobs:
           status=${PIPESTATUS[0]}
           set -e
           if [ "$status" -ne 0 ]; then
+            # Only allow the two known legacy gate failures
             grep -Fq "2 gate(s) let something through" /tmp/gate.log
             grep -Fq "ROW: 'and there the competition changes nothing" /tmp/gate.log
-            grep -Fq "ALWAN: "and its Toulouse - Lille" /tmp/gate.log
+            grep -Fq 'ALWAN: "and its Toulouse - Lille' /tmp/gate.log
           fi
       - name: Publish refreshed indicators
         run: python -u publish_screens.py
