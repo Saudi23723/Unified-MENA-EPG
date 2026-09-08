@@ -45,6 +45,9 @@ from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 from weather_epg import CHANNEL_AR as WEATHER_AR
 from weather_epg import CHANNEL_ID as WEATHER_ID
 from weather_epg import LOGO as WEATHER_LOGO
+from ball_sports_epg import CHANNEL_AR as BALL_AR
+from ball_sports_epg import CHANNEL_ID as BALL_ID
+from ball_sports_epg import LOGO as BALL_LOGO
 from prayer_epg import CHANNEL_AR as PRAYER_AR
 from prayer_epg import CHANNEL_ID as PRAYER_ID
 from prayer_epg import LOGO as PRAYER_LOGO
@@ -117,6 +120,10 @@ SCREENS = (
     # calculates it and printed in its own city's clock.
     (PRAYER_ID, PRAYER_AR, "stream/prayer.m3u8",
      f"{RAW}/stream/prayer.m3u8", "🕌 مواقيت الصلاة", PRAYER_LOGO),
+    # The eighth channel — ⚾ بيسبول وسلة السيدات: MLB and the WNBA, off
+    # channel 2 and on a screen of their own, as asked.
+    (BALL_ID, BALL_AR, "stream/ball_sports.m3u8",
+     f"{RAW}/stream/ball_sports.m3u8", "⚾ بيسبول وسلة السيدات", BALL_LOGO),
 
 )
 
@@ -168,6 +175,9 @@ DUBAI_SCREENS = (
     # channel and tunes to neither.
     ("TodayPrayerDubai", PRAYER_AR, "stream/prayer.m3u8",
      f"{RAW}/stream/prayer.m3u8", "🕌 مواقيت الصلاة", PRAYER_LOGO),
+    ("BallSportsDubai", BALL_AR, "stream/dubai_ball_sports.m3u8",
+     f"{RAW}/stream/dubai_ball_sports.m3u8",
+     "⚾ بيسبول وسلة السيدات · بتوقيت الإمارات", BALL_LOGO),
 
 )
 
