@@ -45,6 +45,9 @@ from today_matches_epg import CHANNEL_AR, CHANNEL_ID, LOGO
 from weather_epg import CHANNEL_AR as WEATHER_AR
 from weather_epg import CHANNEL_ID as WEATHER_ID
 from weather_epg import LOGO as WEATHER_LOGO
+from prayer_epg import CHANNEL_AR as PRAYER_AR
+from prayer_epg import CHANNEL_ID as PRAYER_ID
+from prayer_epg import LOGO as PRAYER_LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
@@ -109,6 +112,11 @@ SCREENS = (
      f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
     (FLIGHT_ID, FLIGHT_NAME, "stream/flight_tracker.m3u8",
      f"{RAW}/stream/flight_tracker.m3u8", "✈️ رحلات اليوم", FLIGHT_LOGO),
+    # The seventh channel — 🕌 مواقيت الصلاة: عمّان, أبو ظبي, هندرسون in
+    # Nevada and إسطنبول, each calculated the way its own authority
+    # calculates it and printed in its own city's clock.
+    (PRAYER_ID, PRAYER_AR, "stream/prayer.m3u8",
+     f"{RAW}/stream/prayer.m3u8", "🕌 مواقيت الصلاة", PRAYER_LOGO),
 
 )
 
@@ -153,6 +161,13 @@ DUBAI_SCREENS = (
     ("FlightTrackerDubai", FLIGHT_NAME, "stream/dubai_flight_tracker.m3u8",
      f"{RAW}/stream/dubai_flight_tracker.m3u8",
      "✈️ رحلات اليوم · بتوقيت الإمارات", FLIGHT_LOGO),
+    # مواقيت الصلاة keeps every city's own clock — a prayer time in
+    # another zone is another city's prayer — so this is the same reel
+    # under the second list's heading, like Ain FM above, and only its
+    # id differs, because a player takes two rows of one id for one
+    # channel and tunes to neither.
+    ("TodayPrayerDubai", PRAYER_AR, "stream/prayer.m3u8",
+     f"{RAW}/stream/prayer.m3u8", "🕌 مواقيت الصلاة", PRAYER_LOGO),
 
 )
 

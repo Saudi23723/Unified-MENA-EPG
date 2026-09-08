@@ -91,12 +91,17 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
                    "dubai_news.m3u8", "dubai_news.sha256"),
     "dubai_weather": ("dubai_weather_", "dubai_weather_epg.xml",
                       "dubai_weather.m3u8", "dubai_weather.sha256"),
+    # The seventh channel — مواقيت الصلاة, one screen for both link sets
+    # (prayer_epg.py says why it is not doubled).
+    "today_prayer": ("today_prayer_", "prayer_epg.xml",
+                     "prayer.m3u8", "prayer.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
 # channel's data, and the two playlists that point a player at all
 # eight screens at once.
 SHARED_FILES = ("weather.json",
+                "prayer_times.json",
                 "ai_sports_dashboard.m3u",
                 "ai_sports_dashboard_dubai.m3u")
 
@@ -272,6 +277,7 @@ def stage() -> int:
         return 1
     git("add", "--", "today_matches_epg.xml")
     for path in ("other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
+                 "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",
                  "dubai_news_epg.xml", "dubai_weather_epg.xml",
                  *SHARED_FILES):

@@ -110,6 +110,15 @@ SCREENS = {
     # time zone does not change how long a glance takes.
     "dubai_weather": ("dubai_weather_", "dubai_weather.m3u8",
                       "dubai_weather.sha256", 20),
+    # THE SEVENTH CHANNEL — مواقيت الصلاة. One screen, not two, because a
+    # prayer time is already in its own city's clock: printing عمّان's
+    # الفجر in Asia/Dubai would be a time nobody in عمّان prays at, so
+    # the second link set carries this same reel under its own id.
+    #
+    # TWENTY-FIVE SECONDS, a shade longer than a fixtures row: a row here
+    # is a city and six numbers, and six numbers is a read rather than a
+    # glance.
+    "today_prayer": ("today_prayer_", "prayer.m3u8", "prayer.sha256", 25),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:

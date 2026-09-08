@@ -58,6 +58,10 @@ SOURCE_FILES = [
     # file is skipped with a warning below, so a pass that runs before
     # the weather's first build simply merges without it.
     "weather_epg.xml",
+    # The seventh channel — مواقيت الصلاة, four cities each in its own
+    # authority's calculation. Missing before its first build, and the
+    # merge simply goes on without it.
+    "prayer_epg.xml",
 ]
 
 

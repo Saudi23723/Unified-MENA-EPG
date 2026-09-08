@@ -88,6 +88,9 @@ ONE_DAY_SOURCES = {
     "news_epg.xml":
         "the news board publishes a rolling six-hour bulletin, rewritten "
         "every ten minutes",
+    "prayer_epg.xml":
+        "the prayer board publishes a rolling twelve-hour guide, "
+        "so a build that landed today should still be covering now",
     "weather_epg.xml":
         "the weather board publishes a rolling six-hour bulletin, "
         "rewritten every ten minutes",

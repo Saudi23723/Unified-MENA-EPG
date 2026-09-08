@@ -179,6 +179,22 @@ jobs:
         run: python -u match_screen_video.py today_weather
         continue-on-error: true
 
+      # The seventh channel: مواقيت الصلاة for عمّان, أبو ظبي, هندرسون in
+      # Nevada and إسطنبول, each city calculated by its own authority's
+      # method (Jordan's Awqaf, the UAE's, ISNA, Diyanet) and printed in
+      # its own clock. Same reasoning as the weather above — if the source
+      # does not answer, the last committed day in prayer_times.json is
+      # drawn again and the channel keeps playing.
+      - name: Rebuild the prayer times
+        run: |
+          python -u prayer_epg.py || \
+            echo "::warning::the prayer times did not rebuild this pass — the published file is unchanged"
+        continue-on-error: true
+
+      - name: Encode the prayer times screen
+        run: python -u match_screen_video.py today_prayer
+        continue-on-error: true
+
       # THE SECOND CLOCK — the same four channels, every time printed in
       # the Gulf's (Asia/Dubai), asked for as a second link set. Each is
       # its own screen with its own boards, segments and playlist, so

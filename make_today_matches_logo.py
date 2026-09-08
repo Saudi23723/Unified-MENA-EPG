@@ -34,6 +34,8 @@ MARKS = (
      (14, 30, 56, 255), (4, 8, 16, 255), (86, 168, 255, 255)),
     ("logos/today_weather.png", "طقس اليوم", "TODAY'S WEATHER",
      (10, 46, 66, 255), (4, 10, 15, 255), (74, 224, 220, 255)),
+    ("logos/today_prayer.png", "مواقيت الصلاة", "PRAYER TIMES",
+     (38, 30, 10, 255), (10, 8, 4, 255), (226, 186, 106, 255)),
 )
 
 AR_FONT = "fonts/Tajawal-ExtraBold.ttf"
@@ -146,11 +148,33 @@ def draw_sun_cloud(pen: ImageDraw.ImageDraw, cx: int, cy: int, r: int,
              fill=WHITE, width=stroke)
 
 
+def draw_dome(pen: ImageDraw.ImageDraw, cx: int, cy: int, r: int,
+              stroke: int, accent) -> None:
+    """A mosque dome with a crescent finial, and a minaret beside it."""
+    base = cy + r * 2 // 3
+    dome = r * 3 // 4
+    pen.pieslice([cx - dome, base - dome * 3 // 2, cx + dome, base + dome // 2],
+                 180, 360, outline=accent, width=stroke)
+    pen.line([(cx - dome, base), (cx + dome, base)], fill=WHITE, width=stroke)
+    # The finial: a ring with a bite out of it, which is a crescent.
+    tip = base - dome * 3 // 2
+    ring = max(6, r // 7)
+    pen.ellipse([cx - ring, tip - ring * 2, cx + ring, tip],
+                outline=accent, width=max(3, stroke // 2))
+    pen.ellipse([cx - ring // 3, tip - ring * 2, cx + ring * 2, tip],
+                fill=(0, 0, 0, 0))
+    # The minaret, on the side an Arabic eye reads towards.
+    tower = max(6, r // 8)
+    pen.rectangle([cx + dome + tower, base - r * 3 // 2,
+                   cx + dome + tower * 2, base], outline=WHITE, width=max(3, stroke // 2))
+
+
 EMBLEMS = {
     "logos/today_matches.png": draw_ball,
     "logos/other_sports.png": draw_cup,
     "logos/today_news.png": draw_waves,
     "logos/today_weather.png": draw_sun_cloud,
+    "logos/today_prayer.png": draw_dome,
 }
 
 
