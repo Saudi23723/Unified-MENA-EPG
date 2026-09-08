@@ -3,7 +3,7 @@ name: Channel 6 — Live Flight Tracker
 on:
   schedule:
     - cron: "5 0 * * *"      # 00:05 UTC: pull the day's flights from AviationStack
-    - cron: "*/20 * * * *"   # every 20 minutes: re-render with live status/progress
+    - cron: "*/8 * * * *"    # every 8 minutes: re-render with live status/progress
   workflow_dispatch:
 
 concurrency:
@@ -29,7 +29,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg fonts-noto-core
 
-      # Only the 00:05 run spends API requests; the 20-minute runs reuse the cache.
+      # Only the 00:05 run spends API requests; the 8-minute runs reuse the cache.
       - name: Fetch today's flights
         if: github.event.schedule == '5 0 * * *' || github.event_name == 'workflow_dispatch'
         env:
