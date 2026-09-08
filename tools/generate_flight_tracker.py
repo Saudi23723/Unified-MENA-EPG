@@ -238,9 +238,9 @@ def render_frame(t, tz, date_label, out):
 
     # live indicator (blinks)
     if int(t * 2) % 2 == 0:
-        d.ellipse([W-300, 34, W-288, 46], fill=RED)
-    text(d, (W-280, 30), "LIVE", F_CLOCK, RED)
-    text(d, (W-230, 30), clock, F_CLOCK, TEXT)
+        d.ellipse([W-330, 34, W-318, 46], fill=RED)
+    text(d, (W-310, 30), "LIVE", F_CLOCK, RED)
+    text(d, (W-225, 30), clock, F_CLOCK, TEXT)
     tzname = "Jordan Time (UTC+3)" if tz == 3 else "Dubai Time (UTC+4)"
     tzcity = "AMM" if tz == 3 else "DXB"
     text(d, (W-40, 58), f"{date_label}  •  {tzname}", F_SMALL, MUTED, anchor="ra")
