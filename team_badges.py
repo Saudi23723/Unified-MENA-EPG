@@ -26,6 +26,7 @@ import unicodedata
 from io import BytesIO
 from pathlib import Path
 from urllib.parse import quote
+import time
 from urllib.request import Request, urlopen
 
 from PIL import Image
@@ -34,7 +35,18 @@ DIR = Path("logos/teams")
 INDEX = DIR / "index.json"
 SEARCH = "https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t="
 AGENT = {"User-Agent": "unified-mena-epg/1.0 (+github actions)"}
-TIMEOUT = 12
+TIMEOUT = 6
+
+# A BOARD THAT NEVER FINISHES IS WORSE THAN A BOARD WITHOUT CRESTS.
+# The first build after this change asks the crest service about every
+# club it has never asked about, and an unknown name costs a search, a
+# retry and sometimes a wait — hundreds of those in a row and the
+# channel simply stops being rebuilt. So the whole run gets a budget:
+# once it is spent, the remaining names take their lettered discs for
+# this build and are asked again on the next one, which starts with
+# everything the previous run cached.
+BUDGET = 300.0
+_SPENT = [0.0]
 
 # Words a listing carries that a badge search does not know: the board
 # says "Real Madrid Academy" where the search knows "Real Madrid", and
@@ -134,6 +146,10 @@ def _download(url: str) -> Image.Image | None:
     return badge
 
 
+def _out_of_time() -> bool:
+    return _SPENT[0] >= BUDGET
+
+
 def _ask(term: str, loose: bool) -> str | None:
     """One search. Exact name wins; a loose ask takes the closest offered.
 
@@ -144,12 +160,17 @@ def _ask(term: str, loose: bool) -> str | None:
     name that CONTAINS the one asked for, which is the club itself
     rather than a namesake with a town bolted on.
     """
+    if _out_of_time():
+        return None
+    started = time.monotonic()
     try:
         url = SEARCH + quote(term)
         with urlopen(Request(url, headers=AGENT), timeout=TIMEOUT) as answer:
             found = json.load(answer)
     except Exception:
         return None
+    finally:
+        _SPENT[0] += time.monotonic() - started
     teams = found.get("teams") or []
     wanted = _slug(term)
     near: list[tuple[int, str]] = []
@@ -229,6 +250,8 @@ def badge(name: str) -> Image.Image | None:
             return Image.open(stored).convert("RGBA")
         except Exception:
             return None
+    if _out_of_time():
+        return None
     index = _index()
     # A MISS RECORDED UNDER THE OLD SEARCH IS NOT A MISS. Arabic names
     # could never reach the wire before, so every one of them was filed
