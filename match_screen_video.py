@@ -119,6 +119,13 @@ SCREENS = {
     # is a city and six numbers, and six numbers is a read rather than a
     # glance.
     "today_prayer": ("today_prayer_", "prayer.m3u8", "prayer.sha256", 25),
+    # THE EIGHTH CHANNEL — بيسبول وسلة السيدات: MLB and the WNBA, which
+    # came off channel 2 to have a screen of their own. Its own board
+    # stem, so it owns its own segments and never rides channel 2's reel.
+    "ball_sports": ("ball_sports_", "ball_sports.m3u8",
+                    "ball_sports.sha256", 20),
+    "dubai_ball_sports": ("dubai_ball_sports_", "dubai_ball_sports.m3u8",
+                          "dubai_ball_sports.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -422,6 +429,8 @@ THEMES = {
     "dubai_sports": "audio/theme_sports.m4a",
     "dubai_news": "audio/theme_news.m4a",
     "dubai_weather": "audio/theme_weather.m4a",
+    "ball_sports": "audio/theme_sports.m4a",
+    "dubai_ball_sports": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4
