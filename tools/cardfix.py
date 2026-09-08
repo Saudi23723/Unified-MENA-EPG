@@ -1,11 +1,9 @@
-import sys
-p = "tools/generate_flight_tracker.py"
-s = open(p).read()
+import re, io, sys
+P = "tools/generate_flight_tracker.py"
+s = io.open(P, encoding="utf-8").read()
 
-# 1) add fit_text helper before def text(
-anchor = "def text(d, xy, s, f, fill=TEXT, anchor=None):"
-helper = '''def fit_text(d, s, f, maxw):
-    """Truncate s with an ellipsis so it never exceeds maxw pixels."""
+if "def fit_text(" not in s:
+    s = s.replace("def text(d, xy, s, f, fill=TEXT, anchor=None):", '''def fit_text(d, s, f, maxw):
     if d.textlength(s, font=f) <= maxw:
         return s
     while s and d.textlength(s + "\\u2026", font=f) > maxw:
@@ -13,30 +11,28 @@ helper = '''def fit_text(d, s, f, maxw):
     return s.rstrip() + "\\u2026"
 
 
+def text(d, xy, s, f, fill=TEXT, anchor=None):''', 1)
+
+s = re.sub(r'text\(d, \(cx\+76, cy\+38\), f"\{aname\}[^\n]*\n',
+           lambda m: 'text(d, (cx+76, cy+38), fit_text(d, f"{aname}  \u2022  {f[\'ac\']}", F_SMALL, 140), F_SMALL, MUTED)\n', s)
+
+NEW = '''        # bottom-middle amber line: remaining time to landing while airborne
+        if f["status"] == "IN FLIGHT":
+            rem = int(round(f['arr'] - now_min))
+            if rem < 0: rem += 1440
+            if rem > 1080: rem = 0
+            lbl = f"LANDS IN  {rem//60}h {rem%60:02d}m" if rem > 0 else "LANDING NOW"
+        else:
+            dur = int(round(f['arr'] - f['dep']))
+            if dur < 0: dur += 1440
+            lbl = f"FLIGHT TIME  {dur//60}h {dur%60:02d}m"
+        text(d, (cx+335, cy+80), lbl, F_SMALL, AMBER, anchor="mm")
 '''
-if "def fit_text" not in s:
-    assert anchor in s, "text() not found"
-    s = s.replace(anchor, helper + anchor, 1)
+# drop any previous duration/remaining block, then insert the new one
+s = re.sub(r'[ ]*# (?:flight duration|bottom-middle amber line)[^\n]*\n(?:[ ]{8}.*\n)*?[ ]{8}text\(d, \(cx\+335, cy\+80\)[^\n]*\n', NEW, s)
+if "LANDS IN" not in s:
+    s = re.sub(r'([ ]{8}text\(d, \(cx\+360, cy\+34\)[^\n]*\n)', lambda m: m.group(1) + NEW, s, count=1)
 
-# 2) truncate airline line so it can't reach the time columns
-old_air = '        text(d, (cx+76, cy+38), f"{aname}  \u2022  {f[\'ac\']}", F_SMALL, MUTED)'
-new_air = '        text(d, (cx+76, cy+38), fit_text(d, f"{aname}  \u2022  {f[\'ac\']}", F_SMALL, 140), F_SMALL, MUTED)'
-if new_air not in s:
-    assert old_air in s, "airline line not found"
-    s = s.replace(old_air, new_air, 1)
-
-# 3) move duration to bottom-middle, amber, labeled FLIGHT TIME
-old_dur = """        dur = int(round(f["arr"] - f["dep"]))
-        if dur < 0: dur += 1440
-        text(d, (cx+230, cy+54), f"{dur//60}h {dur%60:02d}m", F_SMALL, MUTED)"""
-new_dur = """        dur = int(round(f['arr'] - f['dep']))
-        if dur < 0: dur += 1440
-        text(d, (cx+335, cy+80), f"FLIGHT TIME  {dur//60}h {dur%60:02d}m", F_SMALL, AMBER, anchor="mm")"""
-if new_dur not in s:
-    assert old_dur in s, "duration block not found"
-    s = s.replace(old_dur, new_dur, 1)
-
-open(p, "w").write(s)
-import ast
-ast.parse(open(p).read())
-print("card layout patch applied OK")
+io.open(P, "w", encoding="utf-8").write(s)
+compile(s, P, "exec")
+print("cardfix ok; LANDS IN present:", "LANDS IN" in s)
