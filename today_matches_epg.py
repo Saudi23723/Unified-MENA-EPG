@@ -630,6 +630,30 @@ def real_channels(channels: list[str]) -> list[str]:
     return drop_simulcasts(out)
 
 
+# YOUTH, RESERVE AND ACADEMY FOOTBALL, in the spellings the pages print.
+# A board that carries a reader's league should not spend a row on its
+# under-19s — with the one exception the reader named.
+A_YOUTH_MATCH = re.compile(
+    r"\bu-?1[5-9]\b|\bu-?2[0-3]\b|under[- ]?1[5-9]\b|under[- ]?2[0-3]\b"
+    r"|\byouth\b|\bacademy\b|\breserves?\b|\bprimavera\b"
+    r"|\bjuniors?\b|\bjuvenil\b|\bprimera federaci|premier league 2\b"
+    r"|شباب|ناشئ|تحت\s*\d{2}|أكاديمي|رديف",
+    re.I)
+
+# The club kept by name, in every spelling the pages use for it.
+A_KEPT_YOUTH_CLUB = re.compile(
+    r"(man(chester)?\.?\s*(utd|united)|مانشستر يونايتد)"
+    r"[^-]*\b(u-?21|u-?18|under[- ]?21|under[- ]?18)\b",
+    re.I)
+
+AN_MLS_LEAGUE = re.compile(r"\bmls\b|major league soccer|الدوري الأمريكي",
+                           re.I)
+
+# The two cities kept, both clubs of New York among them.
+A_KEPT_MLS_CLUB = re.compile(
+    r"new york|nycfc|red bulls|inter miami|miami|نيويورك|ميامي", re.I)
+
+
 def wanted(event: dict) -> bool:
     """Is this a competition — or a club — that was actually asked for?"""
     # A shop is not a channel — a match whose every name is a pay-per-view
@@ -656,6 +680,23 @@ def wanted(event: dict) -> bool:
     # stays off whichever of the two named it.
     if NEVER_LISTED.search(competition) or NEVER_LISTED.search(teams_folded):
         return False
+
+    # YOUTH FOOTBALL IS OFF THIS BOARD, asked for in those words, with one
+    # club kept by name: "Remove all Youth matches except Manchester
+    # United u21 and u18". The age tag is read off the two sides and off
+    # the competition, because the pages disagree about which of them
+    # carries it — "Exeter City v Tottenham Hotspur U21" names it in the
+    # title, "Premier League 2" names it in neither.
+    if A_YOUTH_MATCH.search(competition) or A_YOUTH_MATCH.search(teams_folded):
+        if not A_KEPT_YOUTH_CLUB.search(teams_folded):
+            return False
+
+    # AND MLS IS OFF IT TOO, but for two cities: "Remove MLS except for New
+    # York and Miami games". Either side is enough — a reader wanting
+    # Miami wants Miami away as much as at home.
+    if AN_MLS_LEAGUE.search(competition) or AN_MLS_LEAGUE.search(teams_folded):
+        if not A_KEPT_MLS_CLUB.search(teams_folded):
+            return False
 
     # Austria borrows Germany's word for its league; the clubs are the only
     # thing that tells the two apart.

@@ -228,12 +228,11 @@ A_BOARD_NUMBER = re.compile(r"_(\d+)\.png$")
 # they have always had: the plain links are the viewer's own time, the
 # dubai_* links are the Emirates'. Nothing about kickoff times, the
 # guides or the playlists is touched by this - it is paint.
-CLOCK_ZONES = {
-    "today_matches": "America/Los_Angeles",
-    "other_sports": "America/Los_Angeles",
-    "dubai_matches": "Asia/Dubai",
-    "dubai_sports": "Asia/Dubai",
-}
+# THE CLOCK IS OFF. The reader asked for it removed from both
+# channels: an encoder clock cannot agree with the television beside it,
+# and a wrong clock is worse than none. No screen names a zone, so
+# clock_filter paints nothing. Kickoff times are untouched.
+CLOCK_ZONES: dict[str, str] = {}
 
 # Where the digits go: the well match_board draws in the header. Read
 # from the board module so the two can never drift apart.

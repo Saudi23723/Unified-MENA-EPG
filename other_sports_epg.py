@@ -59,6 +59,7 @@ import tapology
 import tsn
 import boxing_promotions
 import mlb_espn
+import wnba_espn
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label,
@@ -164,7 +165,7 @@ ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخ�
 #
 # A day with nothing on it is not drawn (see build), and a four-day
 # window is four days of DENSITY, not four empty boards.
-DAYS_AHEAD = 4
+DAYS_AHEAD = 3
 
 # The reader's order, and the mark each sport wears on the board. A sport
 # absent from here cannot reach the board at all, which is what "the big
@@ -183,7 +184,7 @@ DAYS_AHEAD = 4
 IN_ORDER = (
     "Olympics",
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
-    "NFL", "NBA", "MLB", "FIBA", "Golf", "Rugby", "Padel",
+    "NFL", "NBA", "WNBA", "MLB", "FIBA", "Golf", "Rugby", "Padel",
     "Cycling", "Athletics", "Volleyball", "Triathlon", "Swimming",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
@@ -236,9 +237,13 @@ def wanted(event: dict) -> bool:
     published broadcaster is not shown, because the one thing this screen
     must never do is put a viewer on a channel that is not carrying it.
     """
+    # A CARD WITH NO BROADCASTER ANNOUNCED IS STILL ON. Dropping it was
+    # costing real fights and real races — a reader counting the day
+    # against a scores app sees a missing EVENT, not a missing channel —
+    # so it is shown, and the row simply names no channel. This is the
+    # rule the football board already follows.
     return (event.get("sport") in RANK
-            and a_live_event(event.get("title", ""))
-            and bool(event.get("channels")))
+            and a_live_event(event.get("title", "")))
 
 
 def in_the_readers_order(events: list[dict]) -> list[dict]:
@@ -662,6 +667,48 @@ def _the_same_ufc_card(into: dict, event: dict) -> bool:
 # fold at all.
 A_CARD_APART = timedelta(minutes=90)
 
+# ONE NIGHT'S CARD, PRINTED AS THE CARD AND AGAIN AS ITS BOUTS. A reader
+# photographed the board carrying "Dana White's Contender Series: Season
+# 10, Week 5" and, on the very next row, "Berisha vs Pasley - Meta Apex"
+# with "Contender Series 2026" beneath it — one broadcast, two rows. The
+# card's own family is named in one row's title and in the other's
+# competition line, so the family is read from BOTH, and the bouts of a
+# card fold into the card with their channels.
+A_CARD_NIGHT = timedelta(hours=6)
+
+A_CARD_FAMILY = re.compile(
+    r"contender series|dana white|one friday fights?|one fight night|"
+    r"ufc\s*\d{3}|ufc fight night|noche ufc|pfl|bellator|"
+    r"misfits boxing|most valuable promotions", re.I)
+
+
+def _the_card_family(event: dict) -> str:
+    """The card a row belongs to, read from its title and its league."""
+    text = f"{event.get('title') or ''} {event.get('competition') or ''}"
+    found = A_CARD_FAMILY.search(text)
+    if not found:
+        return ""
+    family = re.sub(r"\s+", " ", found.group(0).casefold()).strip()
+    # Two spellings of the midweek card are one card.
+    if "contender" in family or "dana white" in family:
+        return "contender series"
+    return family
+
+
+def _the_same_card_family(into: dict, event: dict) -> bool:
+    """One card's own night — the card row and its bouts, folded as one."""
+    sports = {into.get("sport"), event.get("sport")}
+    if sports not in ({"MMA"}, {"Boxing"}, {"MMA", "Boxing"}):
+        return False
+    if (A_HIGHLIGHTS_GUARD.search(into.get("title") or "")
+            or A_HIGHLIGHTS_GUARD.search(event.get("title") or "")):
+        return False
+    if a_card_segment(into.get("title") or "") \
+            != a_card_segment(event.get("title") or ""):
+        return False
+    mine, yours = _the_card_family(into), _the_card_family(event)
+    return bool(mine) and mine == yours
+
 # THE MIDWEEK CARD'S OWN IDENTITY. "Dana White's Contender Series:
 # Season 10, Week 5" and "Contender Series 2026: Week 5" are one
 # broadcast in two spellings, and the week number is the one word both
@@ -998,6 +1045,13 @@ def one_row_per_broadcast(events: list[dict],
                     into = already
                     by_identity = True
                     break
+                # THE CARD AND ITS OWN BOUTS — one broadcast, one row.
+                if (abs(already["start"] - event["start"])
+                        <= A_CARD_NIGHT
+                        and _the_same_card_family(already, event)):
+                    into = already
+                    by_identity = True
+                    break
                 continue
             if already.get("sport") != event.get("sport"):
                 continue
@@ -1142,6 +1196,12 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # the feed labels the round beside it. See mlb_espn.py.
     if can_fetch:
         everything += mlb_espn.collect(session, floor, ceiling)
+
+    # AND THE WNBA, asked for beside baseball and filed by every listings
+    # page under the same word as the NBA, where only the NBA survives.
+    # Its own scoreboard is the only place it comes through whole.
+    if can_fetch:
+        everything += wnba_espn.collect(session, floor, ceiling)
 
     # AND THE PROMOTIONS' OWN CARDS — Most Valuable Promotions from its
     # own events page, where every upcoming card carries a real UNIX

@@ -148,9 +148,41 @@ COMP_TAGS = (
 )
 
 
+# THE COMPETITIONS A READER LOOKS FOR FIRST wear a colour of their own
+# rather than one drawn from their name, asked for in those words. Three
+# families, and not one of them is red — red belongs to the live mark, and
+# a league wearing it would argue with the indicator beside it.
+#
+#   gold      the ones watched for: boxing, MMA, F1, the Premier League,
+#             the Champions League and UEFA's competitions, La Liga
+#   sky       NBA and NFL
+#   mint      WNBA and MLB
+#
+# Everything else keeps the colour its own name gives it.
+COMP_FAMILIES = (
+    (re.compile(
+        r"boxing|\bmma\b|\bufc\b|bellator|\bpfl\b|contender series|"
+        r"formula\s*1|\bf1\b|grand prix|"
+        r"premier league|\bepl\b|champions league|europa|uefa|"
+        r"conference league|nations league|super cup|la\s*liga|laliga|"
+        r"ملاكمة|فنون قتالية|فورمولا|دوري أبطال أوروبا|"
+        r"الدوري الإنجليزي|الدوري الإسباني|الدوري الأوروبي", re.I),
+     (250, 204, 21)),
+    (re.compile(r"\bnba\b|\bnfl\b|national football league", re.I),
+     (56, 189, 248)),
+    (re.compile(r"\bwnba\b|\bmlb\b|world series|major league baseball",
+                re.I),
+     (52, 211, 153)),
+)
+
+
 def comp_colour(name: str):
-    """A competition's colour, decided by its name and nothing else."""
-    total = sum(ord(ch) for ch in (name or "")) 
+    """A competition's colour: its family's, or the one its name gives it."""
+    text = name or ""
+    for pattern, colour in COMP_FAMILIES:
+        if pattern.search(text):
+            return colour
+    total = sum(ord(ch) for ch in text)
     return COMP_TAGS[total % len(COMP_TAGS)]
 
 
@@ -613,8 +645,6 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     # frame by frame by the encoder (match_screen_video) and tick while
     # the channel is playing. All that is drawn here is the well they sit
     # in, at CLOCK_BOX - the one geometry both files agree on.
-    pen.rounded_rectangle(CLOCK_BOX, radius=14, fill=PANEL,
-                          outline=accent, width=1)
     draw_signature(pen)
 
     # WHICH day this board is, in the middle where it cannot be missed.
