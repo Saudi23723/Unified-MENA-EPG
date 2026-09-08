@@ -29,11 +29,6 @@ NEW = '''        # bottom-middle amber line: remaining time to landing while air
                 lbl = "LANDING NOW"
         text(d, (cx+335, cy+80), lbl, F_SMALL, AMBER, anchor="mm")
 '''
-# header: keep the blinking LIVE label clear of the clock
-s = s.replace('d.ellipse([W-300, 34, W-288, 46]', 'd.ellipse([W-330, 34, W-318, 46]')
-s = s.replace('text(d, (W-280, 30), "LIVE"', 'text(d, (W-310, 30), "LIVE"')
-s = s.replace('text(d, (W-230, 30), clock', 'text(d, (W-225, 30), clock')
-
 # rebuild the region between the time rows and the status badge (drop any old blocks)
 start = s.index('        text(d, (cx+360, cy+34)')
 end = s.index('        # status badge')
