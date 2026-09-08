@@ -1,16 +1,23 @@
 {
- "generated_utc": "2026-09-08T10:45:32+00:00",
+ "generated_utc": "2026-09-08T11:03:40+00:00",
  "date": "2026-09-08",
- "source": "keyless live ADS-B feed",
+ "source": "keyless live ADS-B feed (accumulated since UTC midnight)",
  "live_counts": {
-  "EY": 15,
-  "EK": 49,
+  "EY": 21,
+  "EK": 41,
   "RJ": 3,
-  "FZ": 8,
-  "TK": 32
+  "FZ": 9,
+  "TK": 28
  },
- "live_total": 107,
- "matched_schedule_rows": 7,
+ "day_counts": {
+  "EY": 27,
+  "EK": 50,
+  "RJ": 66,
+  "FZ": 10,
+  "TK": 34
+ },
+ "live_total": 102,
+ "matched_schedule_rows": 85,
  "errors": [],
  "flights": [
   {
@@ -21,7 +28,7 @@
    "dep": 425,
    "arr": 748,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -49,7 +56,7 @@
    "dep": 440,
    "arr": 490,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -63,7 +70,7 @@
    "dep": 445,
    "arr": 550,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -77,7 +84,7 @@
    "dep": 480,
    "arr": 516,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -91,7 +98,7 @@
    "dep": 495,
    "arr": 716,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -105,7 +112,7 @@
    "dep": 520,
    "arr": 570,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -119,7 +126,7 @@
    "dep": 530,
    "arr": 604,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -133,7 +140,7 @@
    "dep": 535,
    "arr": 592,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -149,10 +156,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 44.94,
-   "lon": 17.94,
+   "lat": 43.69,
+   "lon": 21.09,
    "alt": 39000,
-   "callsign": "ETD11K"
+   "callsign": "ETD11K",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -164,10 +172,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 31.51,
-   "lon": 39.04,
+   "lat": 29.76,
+   "lon": 41.3,
    "alt": 39000,
-   "callsign": "ETD160"
+   "callsign": "ETD160",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -179,10 +188,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 38.49,
-   "lon": 34.05,
-   "alt": 37500,
-   "callsign": "ETD1QN"
+   "lat": 36.15,
+   "lon": 35.79,
+   "alt": 39000,
+   "callsign": "ETD1QN",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -194,10 +204,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 33.9,
-   "lon": 20.1,
-   "alt": 38975,
-   "callsign": "ETD35Q"
+   "lat": 32.71,
+   "lon": 22.88,
+   "alt": 39000,
+   "callsign": "ETD35Q",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -209,10 +220,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 3.21,
-   "lon": 92.12,
-   "alt": 37996,
-   "callsign": "ETD473A"
+   "lat": 4.83,
+   "lon": 90.06,
+   "alt": 38004,
+   "callsign": "ETD473A",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -222,11 +234,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "B789",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 58.64,
-   "lon": -52.21,
-   "alt": 37975,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "ETD47B"
   },
   {
@@ -237,11 +249,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "B789",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 59.05,
-   "lon": -49.86,
-   "alt": 38000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "ETD53M"
   },
   {
@@ -254,10 +266,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 40.41,
-   "lon": 26.08,
-   "alt": 39000,
-   "callsign": "ETD7BR"
+   "lat": 38.89,
+   "lon": 29.05,
+   "alt": 38975,
+   "callsign": "ETD7BR",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -269,10 +282,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 44.95,
-   "lon": 26.25,
-   "alt": 38975,
-   "callsign": "ETD7EE"
+   "lat": 42.99,
+   "lon": 28.74,
+   "alt": 39000,
+   "callsign": "ETD7EE",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -284,10 +298,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 36.23,
-   "lon": 14.3,
-   "alt": 39000,
-   "callsign": "ETD87A"
+   "lat": 35.71,
+   "lon": 17.57,
+   "alt": 38975,
+   "callsign": "ETD87A",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -299,10 +314,11 @@
    "ac": "A35K",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 42.64,
-   "lon": 23.22,
+   "lat": 40.74,
+   "lon": 25.58,
    "alt": 39000,
-   "callsign": "ETD8NY"
+   "callsign": "ETD8NY",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -314,10 +330,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 23.17,
-   "lon": 76.47,
+   "lat": 22.78,
+   "lon": 78.95,
    "alt": 39000,
-   "callsign": "ETD935"
+   "callsign": "ETD935",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -329,10 +346,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 40.31,
-   "lon": 24.32,
-   "alt": 39000,
-   "callsign": "ETD99P"
+   "lat": 38.67,
+   "lon": 27.11,
+   "alt": 38975,
+   "callsign": "ETD99P",
+   "last_seen": 663
   },
   {
    "code": "EY",
@@ -344,10 +362,11 @@
    "ac": "A35K",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 36.26,
-   "lon": 33.48,
+   "lat": 34.25,
+   "lon": 35.84,
    "alt": 39000,
-   "callsign": "ETD9SM"
+   "callsign": "ETD9SM",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -359,10 +378,11 @@
    "ac": "B38M",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 22.93,
-   "lon": 68.91,
+   "lat": 22.96,
+   "lon": 66.34,
    "alt": 38000,
-   "callsign": "FDB1346"
+   "callsign": "FDB1346",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -374,10 +394,11 @@
    "ac": "B738",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 31.33,
-   "lon": 42.0,
+   "lat": 29.34,
+   "lon": 43.24,
    "alt": 39000,
-   "callsign": "FDB202"
+   "callsign": "FDB202",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -389,10 +410,11 @@
    "ac": "B738",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 24.6,
-   "lon": 60.67,
+   "lat": 24.19,
+   "lon": 58.3,
    "alt": 38000,
-   "callsign": "FDB2RK"
+   "callsign": "FDB2RK",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -402,11 +424,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "B738",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 39.15,
-   "lon": 42.94,
-   "alt": 38000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "FDB3WJ"
   },
   {
@@ -419,10 +441,11 @@
    "ac": "B38M",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 22.97,
-   "lon": 49.76,
+   "lat": 22.78,
+   "lon": 47.33,
    "alt": 38000,
-   "callsign": "FDB811"
+   "callsign": "FDB811",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -435,9 +458,10 @@
    "api_status": "ACTIVE",
    "delay": 0,
    "lat": 26.76,
-   "lon": 49.9,
+   "lon": 47.43,
    "alt": 38000,
-   "callsign": "FDB821"
+   "callsign": "FDB821",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -449,10 +473,11 @@
    "ac": "B38M",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 23.63,
-   "lon": 43.89,
+   "lat": 23.57,
+   "lon": 46.43,
    "alt": 39000,
-   "callsign": "FDB910"
+   "callsign": "FDB910",
+   "last_seen": 663
   },
   {
    "code": "FZ",
@@ -464,10 +489,11 @@
    "ac": "B38M",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 27.21,
-   "lon": 49.12,
+   "lat": 26.58,
+   "lon": 51.69,
    "alt": 39000,
-   "callsign": "FDB948"
+   "callsign": "FDB948",
+   "last_seen": 663
   },
   {
    "code": "RJ",
@@ -493,10 +519,11 @@
    "ac": "B788",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 40.36,
-   "lon": 23.13,
-   "alt": 38975,
-   "callsign": "RJA264"
+   "lat": 38.48,
+   "lon": 25.55,
+   "alt": 40975,
+   "callsign": "RJA264",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -508,10 +535,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 48.76,
-   "lon": 1.72,
+   "lat": 48.25,
+   "lon": 5.44,
    "alt": 39000,
-   "callsign": "THY12"
+   "callsign": "THY12",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -523,10 +551,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 29.59,
-   "lon": -91.3,
+   "lat": 27.6,
+   "lon": -93.05,
    "alt": 38000,
-   "callsign": "THY182"
+   "callsign": "THY182",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -536,11 +565,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A359",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 43.03,
-   "lon": 23.33,
-   "alt": 41000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "THY1RT"
   },
   {
@@ -551,11 +580,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A332",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 43.22,
-   "lon": 27.09,
-   "alt": 38375,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "THY1YM"
   },
   {
@@ -568,10 +597,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 30.09,
-   "lon": 42.66,
-   "alt": 37975,
-   "callsign": "THY209"
+   "lat": 31.25,
+   "lon": 40.39,
+   "alt": 38000,
+   "callsign": "THY209",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -583,10 +613,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -29.4,
-   "lon": -58.03,
+   "lat": -30.07,
+   "lon": -60.08,
    "alt": 40000,
-   "callsign": "THY215"
+   "callsign": "THY215",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -595,13 +626,14 @@
    "d": "LIS",
    "dep": 585,
    "arr": 765,
-   "ac": "A333",
+   "ac": "B77W",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 42.94,
-   "lon": 25.01,
-   "alt": 38000,
-   "callsign": "THY4GH"
+   "lat": 41.01,
+   "lon": 5.85,
+   "alt": 39000,
+   "callsign": "THY3705",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -613,10 +645,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -19.89,
-   "lon": 53.5,
+   "lat": -19.5,
+   "lon": 51.36,
    "alt": 40000,
-   "callsign": "THY38H"
+   "callsign": "THY38H",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -628,10 +661,11 @@
    "ac": "A333",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 48.06,
-   "lon": 16.24,
+   "lat": 46.78,
+   "lon": 19.01,
    "alt": 39025,
-   "callsign": "THY3KE"
+   "callsign": "THY3KE",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -641,11 +675,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "B77W",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 43.09,
-   "lon": 25.03,
-   "alt": 39000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "THY3YB"
   },
   {
@@ -658,10 +692,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 33.63,
-   "lon": 38.07,
+   "lat": 34.96,
+   "lon": 36.11,
    "alt": 40000,
-   "callsign": "THY48L"
+   "callsign": "THY48L",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -673,10 +708,11 @@
    "ac": "A333",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.75,
-   "lon": 22.33,
-   "alt": 41000,
-   "callsign": "THY4RG"
+   "lat": 42.55,
+   "lon": 25.36,
+   "alt": 40125,
+   "callsign": "THY4RG",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -688,10 +724,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 49.11,
-   "lon": -0.67,
+   "lat": 48.52,
+   "lon": 3.12,
    "alt": 41000,
-   "callsign": "THY4YT"
+   "callsign": "THY4YT",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -703,10 +740,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 41.88,
-   "lon": 61.84,
+   "lat": 41.3,
+   "lon": 59.19,
    "alt": 38000,
-   "callsign": "THY51"
+   "callsign": "THY51",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -718,10 +756,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 49.54,
-   "lon": -8.61,
+   "lat": 49.29,
+   "lon": -4.46,
    "alt": 41000,
-   "callsign": "THY5YR"
+   "callsign": "THY5YR",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -733,10 +772,11 @@
    "ac": "A332",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 22.79,
-   "lon": 56.28,
+   "lat": 23.46,
+   "lon": 58.57,
    "alt": 41000,
-   "callsign": "THY6123"
+   "callsign": "THY6123",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -748,10 +788,11 @@
    "ac": "A332",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 33.72,
-   "lon": 30.95,
+   "lat": 36.03,
+   "lon": 30.83,
    "alt": 38000,
-   "callsign": "THY6130"
+   "callsign": "THY6130",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -763,10 +804,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 23.38,
-   "lon": 74.71,
+   "lat": 22.82,
+   "lon": 77.12,
    "alt": 39000,
-   "callsign": "THY6262"
+   "callsign": "THY6262",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -778,10 +820,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 23.04,
-   "lon": 62.1,
+   "lat": 22.97,
+   "lon": 64.68,
    "alt": 39000,
-   "callsign": "THY6350"
+   "callsign": "THY6350",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -793,10 +836,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.25,
-   "lon": 84.9,
+   "lat": 44.16,
+   "lon": 88.25,
    "alt": 41100,
-   "callsign": "THY6586"
+   "callsign": "THY6586",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -808,10 +852,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 61.82,
-   "lon": -51.26,
+   "lat": 61.06,
+   "lon": -55.43,
    "alt": 38000,
-   "callsign": "THY67C"
+   "callsign": "THY67C",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -823,10 +868,11 @@
    "ac": "B789",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 61.29,
-   "lon": -37.99,
+   "lat": 60.65,
+   "lon": -42.29,
    "alt": 38000,
-   "callsign": "THY69W"
+   "callsign": "THY69W",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -836,11 +882,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A333",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 44.36,
-   "lon": 26.18,
-   "alt": 39000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "THY6EN"
   },
   {
@@ -853,10 +899,11 @@
    "ac": "B738",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 50.76,
-   "lon": 18.39,
+   "lat": 52.42,
+   "lon": 16.22,
    "alt": 38000,
-   "callsign": "THY7PU"
+   "callsign": "THY7PU",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -868,10 +915,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.34,
-   "lon": -29.05,
+   "lat": 45.36,
+   "lon": 5.82,
    "alt": 39000,
-   "callsign": "THY904"
+   "callsign": "THY801",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -883,10 +931,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 58.6,
-   "lon": 5.05,
+   "lat": 56.93,
+   "lon": 8.57,
    "alt": 41000,
-   "callsign": "THY8JK"
+   "callsign": "THY8JK",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -896,11 +945,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A359",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 42.72,
-   "lon": 23.1,
-   "alt": 41000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "THY8NK"
   },
   {
@@ -911,11 +960,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "B38M",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 39.61,
-   "lon": 33.18,
-   "alt": 39000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "THY8UZ"
   },
   {
@@ -928,10 +977,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 65.23,
-   "lon": -10.95,
+   "lat": 63.91,
+   "lon": -5.85,
    "alt": 39000,
-   "callsign": "THY9WC"
+   "callsign": "THY9WC",
+   "last_seen": 663
   },
   {
    "code": "TK",
@@ -943,10 +993,11 @@
    "ac": "B738",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 40.26,
-   "lon": 36.75,
+   "lat": 40.04,
+   "lon": 40.14,
    "alt": 39000,
-   "callsign": "THY9XR"
+   "callsign": "THY9XR",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -958,10 +1009,11 @@
    "ac": "B77W",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 35.76,
-   "lon": 22.93,
+   "lat": 35.95,
+   "lon": 20.19,
    "alt": 38000,
-   "callsign": "UAE"
+   "callsign": "UAE",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -973,10 +1025,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 38.56,
-   "lon": 20.05,
+   "lat": 36.72,
+   "lon": 22.26,
    "alt": 41000,
-   "callsign": "UAE102"
+   "callsign": "UAE102",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -986,11 +1039,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A388",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 46.57,
-   "lon": 14.97,
-   "alt": 40000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE11M"
   },
   {
@@ -1001,11 +1054,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A388",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 40.89,
-   "lon": 7.57,
-   "alt": 38000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE185"
   },
   {
@@ -1016,11 +1069,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A388",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 42.78,
-   "lon": 13.29,
-   "alt": 38000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE1GP"
   },
   {
@@ -1033,10 +1086,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 48.15,
-   "lon": 22.22,
+   "lat": 46.27,
+   "lon": 24.67,
    "alt": 39000,
-   "callsign": "UAE216"
+   "callsign": "UAE216",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1048,10 +1102,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 40.24,
-   "lon": 23.35,
+   "lat": 39.03,
+   "lon": 26.41,
    "alt": 39000,
-   "callsign": "UAE220"
+   "callsign": "UAE220",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1063,10 +1118,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 39.84,
-   "lon": 18.25,
+   "lat": 38.15,
+   "lon": 20.62,
    "alt": 41000,
-   "callsign": "UAE25K"
+   "callsign": "UAE25K",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1078,10 +1134,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.9,
-   "lon": 20.34,
+   "lat": 44.48,
+   "lon": 17.26,
    "alt": 40000,
-   "callsign": "UAE2P"
+   "callsign": "UAE2P",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1093,10 +1150,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 42.57,
-   "lon": 15.65,
+   "lat": 41.88,
+   "lon": 18.85,
    "alt": 39000,
-   "callsign": "UAE2VL"
+   "callsign": "UAE2VL",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1106,11 +1164,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A388",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 31.35,
-   "lon": 115.96,
-   "alt": 37100,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE302"
   },
   {
@@ -1121,11 +1179,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A388",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 56.71,
-   "lon": -49.21,
-   "alt": 40000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE30Y"
   },
   {
@@ -1138,10 +1196,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 50.6,
-   "lon": 6.27,
+   "lat": 51.34,
+   "lon": 2.88,
    "alt": 38000,
-   "callsign": "UAE34Y"
+   "callsign": "UAE34Y",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1151,11 +1210,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A359",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 52.61,
-   "lon": 4.71,
-   "alt": 40000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE35"
   },
   {
@@ -1168,10 +1227,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 22.88,
-   "lon": 89.49,
+   "lat": 22.77,
+   "lon": 92.05,
    "alt": 39000,
-   "callsign": "UAE362"
+   "callsign": "UAE362",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1183,10 +1243,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 23.47,
-   "lon": 99.01,
-   "alt": 39000,
-   "callsign": "UAE386"
+   "lat": 23.9,
+   "lon": 101.59,
+   "alt": 39100,
+   "callsign": "UAE386",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1198,10 +1259,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 17.85,
-   "lon": 92.2,
+   "lat": 16.91,
+   "lon": 94.54,
    "alt": 39000,
-   "callsign": "UAE372"
+   "callsign": "UAE372",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1213,10 +1275,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 47.81,
-   "lon": 6.67,
+   "lat": 49.16,
+   "lon": 3.76,
    "alt": 38000,
-   "callsign": "UAE39"
+   "callsign": "UAE39",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1226,11 +1289,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A359",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 12.04,
-   "lon": 84.85,
-   "alt": 41000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE396"
   },
   {
@@ -1243,10 +1306,11 @@
    "ac": "B77W",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 45.22,
-   "lon": 6.56,
+   "lat": 44.18,
+   "lon": 9.68,
    "alt": 39000,
-   "callsign": "UAE3TK"
+   "callsign": "UAE3TK",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1258,10 +1322,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -31.07,
-   "lon": 142.97,
+   "lat": -32.4,
+   "lon": 145.88,
    "alt": 39000,
-   "callsign": "UAE414"
+   "callsign": "UAE414",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1273,10 +1338,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 52.68,
-   "lon": 17.26,
+   "lat": 50.66,
+   "lon": 19.6,
    "alt": 39000,
-   "callsign": "UAE41P"
+   "callsign": "UAE41P",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1288,10 +1354,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.38,
-   "lon": 22.0,
+   "lat": 41.6,
+   "lon": 24.49,
    "alt": 41000,
-   "callsign": "UAE44"
+   "callsign": "UAE44",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1303,10 +1370,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -6.11,
-   "lon": 40.5,
-   "alt": 38000,
-   "callsign": "UAE4DU"
+   "lat": -8.23,
+   "lon": 39.43,
+   "alt": 40000,
+   "callsign": "UAE4DU",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1318,10 +1386,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 42.57,
-   "lon": 18.24,
+   "lat": 43.5,
+   "lon": 15.2,
    "alt": 38000,
-   "callsign": "UAE4PV"
+   "callsign": "UAE4PV",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1333,10 +1402,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 36.59,
-   "lon": 37.51,
+   "lat": 38.2,
+   "lon": 35.7,
    "alt": 38000,
-   "callsign": "UAE4PY"
+   "callsign": "UAE4PY",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1348,10 +1418,11 @@
    "ac": "B77W",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 50.25,
-   "lon": 20.78,
+   "lat": 52.4,
+   "lon": 19.51,
    "alt": 38000,
-   "callsign": "UAE4T"
+   "callsign": "UAE4T",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1361,11 +1432,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "B77W",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 48.03,
-   "lon": 10.11,
-   "alt": 38000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE56W"
   },
   {
@@ -1378,10 +1449,11 @@
    "ac": "B77W",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 48.87,
-   "lon": 13.49,
+   "lat": 50.21,
+   "lon": 10.49,
    "alt": 38000,
-   "callsign": "UAE58Q"
+   "callsign": "UAE58Q",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1393,10 +1465,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -29.7,
-   "lon": 128.29,
+   "lat": -30.99,
+   "lon": 130.99,
    "alt": 39000,
-   "callsign": "UAE62P"
+   "callsign": "UAE62P",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1408,10 +1481,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 50.77,
-   "lon": 5.96,
+   "lat": 45.55,
+   "lon": 21.74,
    "alt": 38000,
-   "callsign": "UAE1"
+   "callsign": "UAE62T",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1423,10 +1497,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 10.12,
-   "lon": 76.41,
-   "alt": 41000,
-   "callsign": "UAE654"
+   "lat": 8.66,
+   "lon": 78.16,
+   "alt": 38375,
+   "callsign": "UAE654",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1438,10 +1513,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 49.27,
-   "lon": 12.08,
+   "lat": 47.94,
+   "lon": 15.04,
    "alt": 39000,
-   "callsign": "UAE6AQ"
+   "callsign": "UAE6AQ",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1451,11 +1527,11 @@
    "dep": 585,
    "arr": 765,
    "ac": "A388",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
-   "lat": 50.99,
-   "lon": 4.71,
-   "alt": 38000,
+   "lat": null,
+   "lon": null,
+   "alt": null,
    "callsign": "UAE72V"
   },
   {
@@ -1468,10 +1544,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 45.45,
-   "lon": 10.21,
+   "lat": 46.49,
+   "lon": 7.14,
    "alt": 38000,
-   "callsign": "UAE73"
+   "callsign": "UAE73",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1483,10 +1560,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 35.0,
-   "lon": -1.45,
+   "lat": 34.21,
+   "lon": -4.09,
    "alt": 40000,
-   "callsign": "UAE751"
+   "callsign": "UAE751",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1498,10 +1576,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -3.23,
-   "lon": 41.72,
-   "alt": 40000,
-   "callsign": "UAE778"
+   "lat": -5.17,
+   "lon": 40.35,
+   "alt": 43000,
+   "callsign": "UAE778",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1513,10 +1592,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 40.92,
-   "lon": 16.67,
+   "lat": 39.27,
+   "lon": 19.04,
    "alt": 39000,
-   "callsign": "UAE7CN"
+   "callsign": "UAE7CN",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1528,10 +1608,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": -1.48,
-   "lon": 55.67,
+   "lat": -3.87,
+   "lon": 55.87,
    "alt": 40000,
-   "callsign": "UAE7X"
+   "callsign": "UAE7X",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1543,10 +1624,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 45.19,
-   "lon": 14.02,
+   "lat": 45.32,
+   "lon": 10.57,
    "alt": 40000,
-   "callsign": "UAE81"
+   "callsign": "UAE81",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1558,10 +1640,11 @@
    "ac": "A359",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 52.63,
-   "lon": -62.65,
+   "lat": 50.94,
+   "lon": -65.51,
    "alt": 40000,
-   "callsign": "UAE88F"
+   "callsign": "UAE88F",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1573,10 +1656,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 52.13,
-   "lon": -58.57,
-   "alt": 38000,
-   "callsign": "UAE8ER"
+   "lat": 50.67,
+   "lon": -61.57,
+   "alt": 37975,
+   "callsign": "UAE8ER",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1588,10 +1672,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.22,
-   "lon": 15.95,
+   "lat": 41.97,
+   "lon": 18.89,
    "alt": 41000,
-   "callsign": "UAE8UW"
+   "callsign": "UAE8UW",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1603,10 +1688,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 26.6,
-   "lon": 50.81,
+   "lat": 27.5,
+   "lon": 48.43,
    "alt": 40000,
-   "callsign": "UAE903"
+   "callsign": "UAE903",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1618,10 +1704,11 @@
    "ac": "B77W",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 28.61,
-   "lon": 37.6,
+   "lat": 29.0,
+   "lon": 35.01,
    "alt": 38000,
-   "callsign": "UAE921"
+   "callsign": "UAE921",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1633,10 +1720,11 @@
    "ac": "B77L",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 24.2,
-   "lon": 59.26,
+   "lat": 23.27,
+   "lon": 61.66,
    "alt": 39000,
-   "callsign": "UAE9882"
+   "callsign": "UAE9882",
+   "last_seen": 663
   },
   {
    "code": "EK",
@@ -1648,10 +1736,300 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 39.05,
-   "lon": 34.43,
+   "lat": 40.35,
+   "lon": 32.28,
    "alt": 40000,
-   "callsign": "UAE9N"
+   "callsign": "UAE9N",
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD1",
+   "o": "AUH",
+   "d": "JFK",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A35K",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD1",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD1VT",
+   "o": "AUH",
+   "d": "LHR",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A388",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD1VT",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD216",
+   "o": "AUH",
+   "d": "DEL",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B78X",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD216",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD5HJ",
+   "o": "GVA",
+   "d": "AUH",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B789",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD5HJ",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD7L1",
+   "o": "AUH",
+   "d": "AMS",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A35K",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD7L1",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD7MF",
+   "o": "AUH",
+   "d": "YYZ",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A388",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD7MF",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD7NZ",
+   "o": "AUH",
+   "d": "CDG",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A388",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD7NZ",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EY",
+   "num": "ETD93C",
+   "o": "AUH",
+   "d": "ORD",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B789",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "ETD93C",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "FZ",
+   "num": "FDB210",
+   "o": "EBL",
+   "d": "DXB",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B38M",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "FDB210",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "FZ",
+   "num": "FDB4GP",
+   "o": "DXB",
+   "d": "IST",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B738",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "FDB4GP",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "TK",
+   "num": "THY4GH",
+   "o": "IST",
+   "d": "LIS",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A333",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "THY4GH",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "TK",
+   "num": "THY4RC",
+   "o": "VKO",
+   "d": "IST",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A333",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "THY4RC",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "TK",
+   "num": "THY65",
+   "o": "BKK",
+   "d": "IST",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B789",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "THY65",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "TK",
+   "num": "THY6FL",
+   "o": "CDG",
+   "d": "IST",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A359",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "THY6FL",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EK",
+   "num": "UAE308",
+   "o": "DXB",
+   "d": "PEK",
+   "dep": 603,
+   "arr": 783,
+   "ac": "B77W",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "UAE308",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EK",
+   "num": "UAE384",
+   "o": "BKK",
+   "d": "HKG",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A388",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "UAE384",
+   "first_seen": 663,
+   "last_seen": 663
+  },
+  {
+   "code": "EK",
+   "num": "UAE71J",
+   "o": "CAI",
+   "d": "DXB",
+   "dep": 603,
+   "arr": 783,
+   "ac": "A388",
+   "api_status": "LANDED",
+   "delay": 0,
+   "lat": null,
+   "lon": null,
+   "alt": null,
+   "callsign": "UAE71J",
+   "first_seen": 663,
+   "last_seen": 663
   },
   {
    "code": "RJ",
@@ -1661,7 +2039,7 @@
    "dep": 605,
    "arr": 649,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -1745,7 +2123,7 @@
    "dep": 635,
    "arr": 783,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -1759,7 +2137,7 @@
    "dep": 635,
    "arr": 698,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -1817,10 +2195,11 @@
    "ac": "B788",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 46.12,
-   "lon": 20.23,
-   "alt": 40000,
-   "callsign": "RJA125"
+   "lat": 47.23,
+   "lon": 17.17,
+   "alt": 39975,
+   "callsign": "RJA125",
+   "last_seen": 663
   },
   {
    "code": "RJ",
@@ -1900,7 +2279,7 @@
    "dep": 655,
    "arr": 1025,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -1914,7 +2293,7 @@
    "dep": 655,
    "arr": 790,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -1956,7 +2335,7 @@
    "dep": 670,
    "arr": 750,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -1984,7 +2363,7 @@
    "dep": 690,
    "arr": 970,
    "ac": "\u2014",
-   "api_status": "ACTIVE",
+   "api_status": "LANDED",
    "delay": 0,
    "lat": null,
    "lon": null,
@@ -2126,10 +2505,11 @@
    "ac": "A20N",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 28.23,
-   "lon": 45.28,
-   "alt": 38000,
-   "callsign": "RJA611"
+   "lat": 28.72,
+   "lon": 42.87,
+   "alt": 37975,
+   "callsign": "RJA611",
+   "last_seen": 663
   },
   {
    "code": "RJ",
@@ -2309,10 +2689,11 @@
    "ac": "A388",
    "api_status": "ACTIVE",
    "delay": 0,
-   "lat": 43.58,
-   "lon": 21.53,
+   "lat": 41.81,
+   "lon": 24.11,
    "alt": 39000,
-   "callsign": "ETD81C"
+   "callsign": "ETD81C",
+   "last_seen": 663
   },
   {
    "code": "RJ",
