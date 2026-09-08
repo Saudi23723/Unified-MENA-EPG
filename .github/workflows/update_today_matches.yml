@@ -36,7 +36,7 @@ jobs:
       - name: Rebuild channel 1
         run: python -u today_matches_epg.py
       - name: Rebuild channel 2
-        run: pyton -u other_sports_epg.py
+        run: python -u other_sports_epg.py
       - name: Encode channel 1
         run: python -u match_screen_video.py today_matches
       - name: Encode channel 2
