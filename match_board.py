@@ -124,6 +124,8 @@ OVER_TAG = (108, 124, 148, 255)  # the انتهى pill: slate, white letters
 OVER_BG = (24, 33, 47, 255)      # the band a finished match sits in: grey, not green
 NEXT_TAG = (23, 133, 116, 255)   # the التالي pill: the coming green, white letters
 PILL = (31, 47, 72, 255)
+CHANNEL_BAR = (23, 78, 166, 255)   # the lit bar that names the broadcaster
+CHANNEL_EDGE = (64, 132, 224, 255)
 PILL_INK = (186, 207, 233, 255)
 
 # THE COMPETITION'S OWN COLOUR. A board carries a league, a cup, a
@@ -663,12 +665,19 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # in the display weight and separated from the names by a
         # hairline: the eye runs down the times first and crosses to a
         # name only when one of them is the time it wanted.
-        draw_text(pen, (time_x, middle), clock, size,
-                  LIVE_RED if live else (OVER if over else accent),
-                  anchor="rm", weight="heavy")
-        if height >= 34:
-            pen.line([(time_x + 20, y + 8), (time_x + 20, y + height - 14)],
-                     fill=RULE, width=1)
+        # THE KICKOFF IS A KEY, NOT A CAPTION. On a television board the
+        # time is the one thing read from across a room, so it is set in
+        # its own outlined tablet at the head of the row — a shape the
+        # eye finds without reading, the way a departures board is read
+        # by the column of times and not the column of destinations.
+        clock_ink = LIVE_RED if live else (OVER if over else accent)
+        clock_px = max(17, min(23, height - 32))
+        tab_h = min(clock_px + 16, height - 16)
+        tab = [PAD + 4, middle - tab_h // 2, time_x + 22, middle + tab_h // 2]
+        pen.rounded_rectangle(tab, radius=9, fill=dim(clock_ink),
+                              outline=clock_ink, width=2)
+        draw_text(pen, ((tab[0] + tab[2]) // 2, middle), clock, clock_px,
+                  clock_ink, anchor="mm", weight="heavy")
 
         # THREE WORDS, ONE SLOT, ONE SIZE. The pill is drawn in the slot
         # every row carries, at the slot's fixed width: مباشر red for the
@@ -746,19 +755,22 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # many channels a match happens to carry. Nothing is dropped:
         # every channel still shows, each one simply cut to its share
         # of the column when a match is on three of them at once.
-        channel_x = W - PAD
-        shown = event["channels"][:3]
-        share = (CHANNEL_ZONE - 10 * max(0, len(shown) - 1)) // max(1, len(shown))
-        for channel in reversed(shown):
-            label = clipped(channel, pill_size, max(60, share - 26), thin=True)
-            wide = width_of(label, pill_size, thin=True) + 26
-            pen.rounded_rectangle(
-                [channel_x - wide, pill_y - pill_half, channel_x,
-                 pill_y + pill_half],
-                radius=(pill_size + 4), fill=PILL, outline=RULE, width=1)
-            draw_text(pen, (channel_x - wide // 2, pill_y), label,
-                      pill_size, PILL_INK, anchor="mm", thin=True)
-            channel_x -= wide + 10
+        # WHERE TO WATCH IT IS ONE ANSWER, SO IT IS ONE BAR. Three
+        # little grey lozenges of different widths made the right-hand
+        # side of the board look like spare change; a broadcaster on a
+        # real sports channel gets a lit bar the width of the column,
+        # the same on every row, carrying every channel the match is on.
+        # Nothing is dropped — two or three names share the bar.
+        channel_x = W - PAD - CHANNEL_ZONE
+        if shown_any := event["channels"][:3]:
+            bar = [channel_x, middle - (pill_half + 4), W - PAD,
+                   middle + (pill_half + 4)]
+            pen.rounded_rectangle(bar, radius=8, fill=CHANNEL_BAR,
+                                  outline=CHANNEL_EDGE, width=2)
+            joined = clipped("  ·  ".join(shown_any), pill_size,
+                             CHANNEL_ZONE - 24, weight="mid")
+            draw_text(pen, ((bar[0] + bar[2]) // 2, middle), joined,
+                      pill_size, WHITE, anchor="mm", weight="mid")
 
         # THE NAME STOPS WHERE THE CHANNELS BEGIN, on every row. When
         # the pills sat under the name it could run edge to edge, and
@@ -864,15 +876,14 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             tone = comp_colour(beneath) + (255,)
             label = clipped(beneath, under, max(60, chip_stop - chip_left),
                             weight="mid")
-            chip_w = min(width_of(label, under, weight="mid") + 26,
-                         max(60, chip_stop - chip_left))
-            chip_h = under + 10
-            pen.rounded_rectangle(
-                [chip_left, sub_y - chip_h // 2, chip_left + chip_w,
-                 sub_y + chip_h // 2],
-                radius=chip_h // 2, fill=dim(tone), outline=tone, width=1)
-            draw_text(pen, (chip_left + chip_w // 2, sub_y), label,
-                      under, tone, anchor="mm", weight="mid")
+            # THE COMPETITION WHISPERS. It was a filled colour chip, and
+            # a board with eight of them read as a bag of sweets; the
+            # row's own furniture — the time tablet and the broadcaster
+            # bar — carries the colour now, and the league is simply set
+            # quietly under the home club, where a viewer looks only
+            # when they want it.
+            draw_text(pen, (chip_left, sub_y), label, under, tone,
+                      anchor="lm", weight="mid")
         y += height + lead
 
     left_out = len(events) - len(rows)
