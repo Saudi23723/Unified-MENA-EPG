@@ -2878,6 +2878,9 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
                 "start": datetime(2026, 9, 4, hour, 0, tzinfo=timezone.utc)}
 
     offered = [
+        # The NFL came off this channel with the NBA, in the reader's
+        # own words ("make another channel for NFL/NBA separately all
+        # games"), so its row is here as the proof the door is shut.
         event("NFL", "Patriots - Seahawks", 0, ["NBC"]),
         event("Boxing", "Canelo - Mbilli", 17, ["DAZN"]),
         event("Boxing", "Taylor - Pili", 9, ["DAZN"]),
@@ -2915,10 +2918,11 @@ def gate_the_second_board_keeps_the_readers_order() -> None:
           clocks, sorted(clocks))
     check("BOARD2", "and the sports asked for are the ones that arrived",
           sorted({one["sport"] for one in kept}),
-          ["Boxing", "Darts", "F1", "NFL", "Tennis"])
+          ["Boxing", "Darts", "F1", "Tennis"])
     check("BOARD2", "a sport nobody asked for cannot reach the board",
           [one["title"] for one in kept
-           if one["sport"] in ("Cricket", "Snooker", "MLB")], [])
+           if one["sport"] in ("Cricket", "Snooker", "MLB",
+                               "NFL", "NBA")], [])
     check("BOARD2", "and nor can an event with no channel named",
           [one["title"] for one in kept if one["sport"] == "Golf"], [])
     # AND NO ROW WEARS AN EMOJI. This gate used to require one — every
