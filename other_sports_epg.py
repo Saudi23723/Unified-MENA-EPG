@@ -188,7 +188,11 @@ IN_ORDER = (
     # MLB AND THE WNBA ARE NOT ON THIS CHANNEL. Asked for in those
     # words — they get a channel of their own — and a sport this list
     # does not name never reaches the board.
-    "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
+    # THE NBA AND THE NFL ARE NOT ON THIS CHANNEL EITHER. Asked for in
+    # those words — "make another channel for NFL/NBA separately all
+    # games" — and a sport this list does not name never reaches the
+    # board.
+    "FIBA", "Golf", "Rugby", "Padel",
     "Cycling", "Athletics", "Volleyball", "Triathlon", "Swimming",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
