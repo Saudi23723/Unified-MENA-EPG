@@ -192,7 +192,7 @@ IN_ORDER = (
     # those words — "make another channel for NFL/NBA separately all
     # games" — and a sport this list does not name never reaches the
     # board.
-    "FIBA", "Golf", "Rugby", "Padel",
+    "FIBA", "Golf", "Rugby", "Padel", "Snooker",
     "Cycling", "Athletics", "Volleyball", "Triathlon", "Swimming",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
@@ -238,6 +238,12 @@ def a_live_event(title: str) -> bool:
     return not NOT_LIVE.search(title or "")
 
 
+# The two broadcasters snooker was asked for on, matched at the start of
+# a channel's name so "TNT Sports 1", "TNT Sports 3" and "Eurosport 2"
+# all count while nobody else's snooker does.
+SNOOKER_CHANNELS = ("tnt sports", "eurosport")
+
+
 def wanted(event: dict) -> bool:
     """Only the sports asked for, live, and only ones that name a channel.
 
@@ -250,9 +256,19 @@ def wanted(event: dict) -> bool:
     # against a scores app sees a missing EVENT, not a missing channel —
     # so it is shown, and the row simply names no channel. This is the
     # rule the football board already follows.
-    return (event.get("sport") in RANK
-            and a_live_event(event.get("title", ""))
-            and bool(event.get("channels")))
+    if event.get("sport") not in RANK:
+        return False
+    if not a_live_event(event.get("title", "")):
+        return False
+    if not event.get("channels"):
+        return False
+    # SNOOKER, ONLY WHERE THE READER ASKED FOR IT: "add Snooker from TNT
+    # Sports and Eurosport channels". Every other broadcaster's snooker
+    # row stays off this board.
+    if event.get("sport") == "Snooker":
+        return any(name.casefold().startswith(SNOOKER_CHANNELS)
+                   for name in event["channels"])
+    return True
 
 
 def in_the_readers_order(events: list[dict]) -> list[dict]:
