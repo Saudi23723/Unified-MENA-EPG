@@ -677,10 +677,15 @@ A_CARD_APART = timedelta(minutes=90)
 # card fold into the card with their channels.
 A_CARD_NIGHT = timedelta(hours=6)
 
-A_CARD_FAMILY = re.compile(
-    r"contender series|dana white|one friday fights?|one fight night|"
-    r"ufc\s*\d{3}|ufc fight night|noche ufc|pfl|bellator|"
-    r"misfits boxing|most valuable promotions", re.I)
+A_CARD_FAMILY = re.compile(r"contender series|dana white", re.I)
+
+# WHY ONLY THAT ONE FAMILY. The UFC's own numbered cards, ONE's, the
+# PFL's and Bellator's already have a fold of their own a few lines up,
+# measured against the gate: two of their broadcasts a minute apart are
+# two broadcasts and must stay two rows. The Contender Series is the one
+# card that arrives as a card row AND as its bout row from two different
+# sources, which is what a reader photographed, so it is the only family
+# this wider rule owns.
 
 
 def _the_card_family(event: dict) -> str:
