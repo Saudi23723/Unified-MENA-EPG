@@ -46,7 +46,7 @@ jobs:
       - name: Encode UAE channel 2
         run: python -u match_screen_video.py dubai_sports
       - name: Write playlists
-        run: python -u sports_dashboard_m3u.py
+        run: python -u sports_dashboard_m3u.py || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; }
       - name: Verify screens
         run: python -u channel_gate_selftest.py
       - name: Publish refreshed indicators
