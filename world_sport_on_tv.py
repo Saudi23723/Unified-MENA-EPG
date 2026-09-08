@@ -115,6 +115,23 @@ PAGES = (
      re.compile(r"motogp|moto\s*gp", re.I),
      re.compile(r"juniorgp|junior gp|\bmoto4\b|rookies", re.I)),
 
+    # THE WORLD RALLY CHAMPIONSHIP, asked for by name. There is no rally
+    # page here: /live-rally-on-tv/, /live-wrc-on-tv/, /live-rallying-on-tv/
+    # and /live-world-rally-championship-on-tv/ all answer 404, measured on
+    # a runner. The motorsport page is where it lives, and that page is
+    # mostly NOT rally — 44 rows, and among them Formula 2 and Formula 3 at
+    # Madrid, the Ferrari Challenge at Budapest and the DTM at the
+    # Sachsenring, none of which this board was asked for.
+    #
+    # So the keep is the championship's own name and nothing wider. Six of
+    # the page's rows say it, each with a real instant and TNT Sports 1,
+    # TNT Sports 8 and HBO Max named beside it — a calendar with no
+    # broadcaster would be no use to this board, and 38 of the page's 40
+    # dated rows carry one.
+    ("/live-motorsport-on-tv/", "WRC",
+     re.compile(r"world rally championship|\bwrc\b", re.I),
+     None),
+
     ("/live-tennis-on-tv/", "Tennis",
      re.compile(r"grand slam|wimbledon|us open|australian open|roland"
                 r"|french open|atp finals|wta finals|masters|davis cup"
