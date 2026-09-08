@@ -8,14 +8,23 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch updated screen scripts
+      - name: Python bits the logo fetch needs
+        run: pip install --quiet pillow
+      - name: Fetch the updated screen scripts
+        env:
+          FROM: https://project--ea5e799b-bf8f-4a5b-a637-474ca2ed0e2f-dev.lovable.app/api/public/patch
         run: |
-          curl -fsSL -o team_badges.py https://d.uguu.se/MBfxYlPT.py
-          python -c "import ast;ast.parse(open('team_badges.py',encoding='utf-8').read())"
+          for f in match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py; do
+            curl -fsSL -o "$f" "$FROM/$f"
+            python -c "import ast,sys;ast.parse(open(sys.argv[1],encoding='utf-8').read())" "$f"
+          done
+      - name: Collect every league badge the boards can need
+        run: python fetch_league_logos.py || true
       - name: Commit
         run: |
           git config user.name "epg-bot"
           git config user.email "epg-bot@users.noreply.github.com"
-          git add team_badges.py
-          git commit -m "Crests: a time budget so a first lookup run cannot stall the build" || echo "nothing to commit"
+          git add match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py logos/teams
+          git commit -m "Screens: live clock, events kept apart from fixtures, every league badge on disk" || echo "nothing to commit"
+          git pull --rebase --autostash || true
           git push
