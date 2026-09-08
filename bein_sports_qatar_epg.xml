@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260907043300 +0000" stop="20260907061800 +0000" channel="beIN4K.qa">
-    <title lang="en">Liverpool vs. Nottingham Forest - English Premier League 2026/2027</title>
-    <desc lang="en">Liverpool have lost their last two home league games against Nottingham Forest, more than they had in their previous 30. They’ve never lost three in a row against them at Anfield. Since Nottingham Forest’s return to the Premier League in 2022, no side has won more league games against Liverpool than the Tricky Trees.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260907061800 +0000" stop="20260907080200 +0000" channel="beIN4K.qa">
     <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
     <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
@@ -927,6 +921,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">The Vancouver is the five round of the World Triathlon T100 Championship series leading up to the Final in QATAR next December amidst fierce competition in both the men’s and women’s categories</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
+  </programme>
+  <programme start="20260914061500 +0000" stop="20260914103000 +0000" channel="beINSports.qa">
+    <title lang="en">Day 3 - Evening Session - World Athletics U20 Championships - Oregon 26</title>
+    <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
+    <category lang="ar">ألعاب القوى</category>
+    <category lang="en">Athletics</category>
   </programme>
   <programme start="20260907060000 +0000" stop="20260907085300 +0000" channel="beINSports1.qa">
     <title lang="en">Valencia vs Barcelona - Spanish LaLiga 2026/2027 - Week 4</title>
@@ -1874,12 +1874,6 @@ Old Trafford Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260907042300 +0000" stop="20260907061500 +0000" channel="beINSports2.qa">
-    <title lang="en">Espanyol vs Sevilla - Spanish LaLiga 2026/2027 - Week 4</title>
-    <desc lang="en">After winning 2-1 at the RCDE Stadium in November 2025, Espanyol could win consecutive home LaLiga games against Sevilla for the third time in the last 37 years, and for the first time since 2017. Sevilla have achieved more wins against Espanyol, both overall and away from home, than against any other opponent in their entire LaLiga history.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20260907061500 +0000" stop="20260907064500 +0000" channel="beINSports2.qa">
     <title lang="en">PSG vs Monaco - French Ligue 1 2026/2027 - Week 3</title>
     <desc lang="en">Paris SG have lost their last two Ligue 1 matches against Monaco; no team has beaten PSG three times in a row in the league since the QSI takeover. Since the 2020-21 season, Paris SG have lost six of their 12 Ligue 1 meetings with Monaco, at least two more defeats than they have suffered against any other side in that period.</desc>
@@ -2598,12 +2592,6 @@ Season 2026/2027
 Selhurst Park Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260907042300 +0000" stop="20260907061800 +0000" channel="beINSports3.qa">
-    <title lang="en">Real Betis vs Real Madrid - Spanish LaLiga 2026/2027 - Week 4</title>
-    <desc lang="en">Real Betis have picked up points in five of their last seven LaLiga matches against Real Madrid ; since the 2022-23 season, Real Madrid have only dropped points in more games against Atlético de Madrid  than against Real Betis, also doing so in five against Rayo Vallecano. Real Madrid have not won on any of their last four LaLiga visits to Real Bet</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260907061800 +0000" stop="20260907080500 +0000" channel="beINSports3.qa">
     <title lang="en">Malaga vs Levante - Spanish LaLiga 2026/2027 - Week 4</title>
@@ -7514,6 +7502,16 @@ Tottenham Hotspur Stadium Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
+  <programme start="20260914063000 +0000" stop="20260914093000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Coventry City vs Brighton - English Premier League 2026/2027 - Week 4</title>
+    <desc lang="en">Coventry City vs Brighton
+At 13-9-2026, MECCA 16:00, GMT 13:00
+Premier League
+Season 2026/2027
+Coventry Building Society Arena Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
   <programme start="20260907052000 +0000" stop="20260907072000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -8086,12 +8084,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20260914040000 +0000" stop="20260914070000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260907060000 +0000" stop="20260907063000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Achat - Magazine 2026</title>
-    <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
