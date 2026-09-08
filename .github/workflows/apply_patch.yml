@@ -8,18 +8,21 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Python bits the logo fetch needs
-        run: pip install --quiet pillow
+      - name: Python bits the badge collection needs
+        run: pip install --quiet pillow requests
       - name: Fetch the updated screen scripts
-        env:
-          FROM: https://project--ea5e799b-bf8f-4a5b-a637-474ca2ed0e2f-dev.lovable.app/api/public/patch
         run: |
+          curl -fsSL -o match_board.py https://d.uguu.se/QTBfpMFR.py
+          curl -fsSL -o match_screen_video.py https://n.uguu.se/XfQhTYiQ.py
+          curl -fsSL -o other_sports_epg.py https://h.uguu.se/iQJdABCH.py
+          curl -fsSL -o espn_fights.py https://h.uguu.se/sUimwYGf.py
+          curl -fsSL -o tapology.py https://d.uguu.se/yEMOTWdR.py
+          curl -fsSL -o fetch_league_logos.py https://d.uguu.se/qcbNVPvM.py
           for f in match_board.py match_screen_video.py other_sports_epg.py espn_fights.py tapology.py fetch_league_logos.py; do
-            curl -fsSL -o "$f" "$FROM/$f"
             python -c "import ast,sys;ast.parse(open(sys.argv[1],encoding='utf-8').read())" "$f"
           done
       - name: Collect every league badge the boards can need
-        run: python fetch_league_logos.py || true
+        run: timeout 3000 python fetch_league_logos.py || true
       - name: Commit
         run: |
           git config user.name "epg-bot"
