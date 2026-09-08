@@ -211,6 +211,7 @@ PLAYLIST_NAMES = {
     "FlightTracker":  ("Flight Tracker",  "✈️ Flight Tracker"),
     "TodayPrayer":    ("Prayers Time",    "🕌 Prayers Time"),
     "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
+    "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
 }
 
 # The second clock's rows are the same channels under Gulf times, so they
