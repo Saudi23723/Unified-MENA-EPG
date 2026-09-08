@@ -46,7 +46,7 @@ jobs:
 
       # Channel 6 covers Etihad + Emirates + Royal Jordanian only.
       - name: Keep tracked airlines only
-        run: python3 -c 'import json;d=json.load(open("stream/flights.json"));d["flights"]=[f for f in d["flights"] if f["code"] in ("EY","EK","RJ")];json.dump(d,open("stream/flights.json","w"),indent=1);print("kept",len(d["flights"]))'
+        run: python3 -c 'import json;d=json.load(open("stream/flights.json"));d["flights"]=[f for f in d["flights"] if f["code"] in ("EY","RJ")];json.dump(d,open("stream/flights.json","w"),indent=1);print("kept",len(d["flights"]))'
 
       - name: Render Jordan-time channel
         env:
