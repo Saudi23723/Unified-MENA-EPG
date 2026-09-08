@@ -194,6 +194,11 @@ IN_ORDER = (
     # board.
     "FIBA", "Golf", "Rugby", "Padel", "Snooker",
     "Cycling", "Athletics", "Volleyball", "Triathlon", "Swimming",
+    # The World Rally Championship, asked for by name, and joining at the
+    # end like the four before it rather than beside F1 and MotoGP where
+    # a motorsport might look like it belongs: the order above is the
+    # reader's own, and nothing is moved inside it.
+    "WRC",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -1133,6 +1138,29 @@ def one_row_per_broadcast(events: list[dict],
                 # different parts, are refused by the test and stay
                 # two rows exactly as before.
                 if _the_same_ufc_card(already, event):
+                    into = already
+                    by_identity = True
+                    break
+                # ONE CARD, ONE MINUTE, TWO CARRIERS. The card row and one
+                # of its own bouts, at the SAME minute, from two sources
+                # with no channel in common — measured on the board:
+                #
+                #   23:00  Dana White's Contender Series: Season 10 Week 5
+                #          Paramount+                          (espn)
+                #   23:00  MMA Berisha vs Pasley - Meta Apex
+                #          UFC Fight Pass    (competition: Contender Series)
+                #
+                # _the_same_card_family was written for exactly this pair
+                # and says True about it — but it was only ever asked in
+                # the branch above, where the two starts DIFFER. When the
+                # two sources happen to agree on the minute to the minute,
+                # control never reached it and the card printed twice.
+                #
+                # It is asked here too. Its own test is what keeps this
+                # narrow: one family only, the same part of the night, and
+                # exactly one of the two rows a bout — so two cards of one
+                # promotion stay two rows, and so do two bouts of one card.
+                if _the_same_card_family(already, event):
                     into = already
                     by_identity = True
                     break
