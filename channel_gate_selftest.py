@@ -3484,6 +3484,87 @@ def gate_every_american_game_names_its_network() -> None:
           "def events(" in body or "fetch_events" in body, False)
 
 
+def gate_the_two_competitions_asked_for_by_name() -> None:
+    """Women's international volleyball and men's handball, and nothing else.
+
+    Both were asked for outright and neither could be had: the listings
+    site this board reads has no page for either sport, both 404 against a
+    basketball control that answers; CEV, EuroVolley, Volleyball World and
+    the EHF render their calendars in JavaScript with nought instants
+    between them; the IHF's sixteen name no broadcaster; S Sport serves a
+    certificate for the wrong hostname; and what beIN and Alkass already
+    hold is 26 rows of CLUB volleyball and club handball — the Daikin
+    StarLigue, the Championnat de France — which is not what was asked for.
+
+    Spor Ekranı's grid answers, and this holds it to the ask. Its rows are
+    the real shapes measured on the page, including the two the runner
+    printed on the day this was written.
+    """
+    print("\nThe two competitions asked for by name — the Turkish grid")
+    import turkish_sport_grid as grid
+    from datetime import datetime, timezone
+
+    def row(sport, clock, name, league, channels):
+        seats = "".join(
+            f'<div class="event-list__channel-mobile"><img alt="{c}"/></div>'
+            for c in channels)
+        return (f'<a class="event-list__row"><div class="event-list__time-col">'
+                f'<img class="event-list__sport-icon" alt="{sport}"/>'
+                f'<span class="event-list__time">{clock}</span></div>'
+                f'<div class="event-list__info">'
+                f'<p class="event-list__name">{name}</p>'
+                f'<p class="event-list__league">{league}</p>'
+                f'<div class="event-list__channels-mobile">{seats}</div>'
+                f'</div></a>')
+
+    page = '<div class="event-list">' + "".join([
+        row("Voleybol", "18:00", "Türkiye - İtalya",
+            "CEV Kadınlar Avrupa Şampiyonasi Voleybol", ["TRT Spor", "S Sport"]),
+        row("Hentbol", "20:30", "Danimarka - Fransa",
+            "IHF Erkekler Dünya Şampiyonasi Hentbol", ["beIN Sports"]),
+        # measured on the page: the men's Euro, which is the other side
+        row("Voleybol", "19:00", "Bulgaristan - Kuzey Makedonya",
+            "CEV Erkekler Avrupa Şampiyonasi Voleybol", ["CEV Youtube"]),
+        # measured on the page: a talk programme, icon and all
+        row("Programlar", "12:30", "Set Sayısı", "Voleybol Programi",
+            ["TRT Spor"]),
+        row("Voleybol", "17:00", "Fenerbahçe - Eczacıbaşı",
+            "Sultanlar Ligi Voleybol", ["TRT Spor"]),
+        row("Hentbol", "19:30", "Chambery - Paris",
+            "Daikin StarLigue Hentbol", ["beIN Sports"]),
+        row("Voleybol", "16:00", "Sırbistan - Polonya",
+            "CEV Kadınlar Avrupa Şampiyonasi Voleybol", []),
+    ]) + '</div>'
+
+    kept = grid.collect(page, datetime(2026, 9, 8, 12, 0, tzinfo=timezone.utc))
+    titles = [e["title"] for e in kept]
+
+    check("TRGRID", "the women's European Championship is a row",
+          "Türkiye - İtalya" in titles, True)
+    check("TRGRID", "and the men's handball World Championship",
+          "Danimarka - Fransa" in titles, True)
+    check("TRGRID", "and nothing else at all", len(kept), 2)
+    check("TRGRID", "the men's volleyball is the other side of the sport",
+          "Bulgaristan - Kuzey Makedonya" in titles, False)
+    check("TRGRID", "a talk programme is not a match",
+          "Set Sayısı" in titles, False)
+    check("TRGRID", "the Sultanlar Ligi is a club league, not asked for",
+          "Fenerbahçe - Eczacıbaşı" in titles, False)
+    check("TRGRID", "and so is the StarLigue",
+          "Chambery - Paris" in titles, False)
+    check("TRGRID", "a major naming no broadcaster is no use to this board",
+          "Sırbistan - Polonya" in titles, False)
+
+    # THE CLOCK IS ISTANBUL'S, and that is the whole risk of this source.
+    when = [e["start"] for e in kept if e["title"] == "Türkiye - İtalya"][0]
+    check("TRGRID", "18:00 on the page is 15:00 UTC, Istanbul being +03",
+          when.strftime("%H:%M"), "15:00")
+    check("TRGRID", "and the sport each row carries is the icon's own word",
+          sorted(e["sport"] for e in kept), ["Handball", "Volleyball"])
+    check("TRGRID", "an empty page is no rows, never a crash",
+          grid.collect("<html></html>"), [])
+
+
 def gate_a_board_changes_only_when_its_content_does() -> None:
     """A clock drawn into a picture is a channel that goes off the air.
 
@@ -5839,6 +5920,7 @@ def main() -> int:
                  gate_one_channel_spelled_two_ways_is_one_channel,
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
+                 gate_the_two_competitions_asked_for_by_name,
                  gate_a_board_changes_only_when_its_content_does,
                  gate_every_american_game_names_its_network,
                  gate_each_channel_wears_its_own_mark,
