@@ -193,6 +193,44 @@ DUBAI_SCREENS = (
 )
 
 
+# WHAT EACH ROW IS CALLED IN A PLAYER, asked for by name.
+#
+# Kept here and not in the guides: a guide's CHANNEL_AR is the name its
+# XMLTV file carries and the title its board draws across the top, and
+# renaming a row in somebody's player is not a reason to redraw a board
+# or to rewrite a guide every player already links by tvg-id.
+#
+# Two strings each, because a player may show either: the plain one goes
+# in tvg-name, the marked one is what is shown after the comma. The ids
+# are untouched, so every guide still finds its channel.
+PLAYLIST_NAMES = {
+    "TodayMatches":   ("Football Guide",  "⚽ Football Guide"),
+    "TodaySports":    ("Sports Guide",    "📺 Sports Guide"),
+    "TodayNews":      ("Breaking News",   "📰 Breaking News"),
+    "TodayWeather":   ("Today's Weather", "🌤️ Today's Weather"),
+    "FlightTracker":  ("Flight Tracker",  "✈️ Flight Tracker"),
+    "TodayPrayer":    ("Prayers Time",    "🕌 Prayers Time"),
+    "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
+}
+
+# The second clock's rows are the same channels under Gulf times, so they
+# take the same names with the suffix they already carried. Ain FM and
+# مواقيت الصلاة keep their own clock and so carry no suffix there; a row
+# that is not renamed above keeps exactly the name it had.
+DUBAI_SUFFIX = " · بتوقيت الإمارات"
+
+
+def named(channel_id, guide_name, shown):
+    """The two names this row shows, renamed if the reader named it."""
+    base = channel_id[:-5] if channel_id.endswith("Dubai") else channel_id
+    if base not in PLAYLIST_NAMES:
+        return guide_name, shown
+    plain, marked = PLAYLIST_NAMES[base]
+    if channel_id.endswith("Dubai") and shown.endswith(DUBAI_SUFFIX):
+        return plain + DUBAI_SUFFIX, marked + DUBAI_SUFFIX
+    return plain, marked
+
+
 def clean(value: str) -> str:
     """Flatten anything that would break the line this sits on."""
     return re.sub(r"\s+", " ", (value or "").replace('"', "")).strip()
@@ -224,6 +262,7 @@ def write_the_playlist(screens, output: str, group: str) -> int:
     lines = ["#EXTM3U"]
     written = 0
     for channel_id, guide_name, path, url, shown, mark in screens:
+        guide_name, shown = named(channel_id, guide_name, shown)
         if not os.path.exists(path):
             # A channel whose screen has not been encoded is left OUT
             # rather than written pointing at nothing: a row in a playlist
