@@ -21,6 +21,8 @@ from __future__ import annotations
 
 import json
 import sys
+import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 from pathlib import Path
@@ -37,6 +39,25 @@ API = "https://www.thesportsdb.com/api/v1/json/3/"
 AGENT = {"User-Agent": "unified-mena-epg/1.0 (+github actions)"}
 TIMEOUT = 20
 
+# THE SERVICE ANSWERS THIRTY QUESTIONS A MINUTE AND REFUSES THE REST.
+# Asked any faster it returns 429 to everything, which is how the first
+# run found twenty-two competitions out of thirteen hundred and wrote no
+# badges at all. So every question to the API waits its turn — two
+# seconds apart, one at a time — and a refusal is simply asked again.
+# The badge images themselves come off a plain file host and are not
+# counted, so those still come down as fast as the network allows.
+PACE = 2.1
+_gate = threading.Lock()
+_last = [0.0]
+
+
+def paced() -> None:
+    with _gate:
+        wait = PACE - (time.monotonic() - _last[0])
+        if wait > 0:
+            time.sleep(wait)
+        _last[0] = time.monotonic()
+
 # The service's competitions live in one contiguous stretch of ids.
 FIRST_LEAGUE = 4328
 LAST_LEAGUE = 5600
@@ -51,13 +72,16 @@ def read(url: str) -> bytes | None:
 
 
 def json_of(url: str) -> dict:
-    raw = read(url)
-    if not raw:
-        return {}
-    try:
-        return json.loads(raw) or {}
-    except Exception:
-        return {}
+    for _ in range(4):
+        paced()
+        raw = read(url)
+        if raw:
+            try:
+                return json.loads(raw) or {}
+            except Exception:
+                return {}
+        time.sleep(20)
+    return {}
 
 
 def league(one: int) -> dict | None:
@@ -119,9 +143,12 @@ def main(argv: list[str]) -> int:
         index = {}
 
     ids = [int(one) for one in argv] or list(range(FIRST_LEAGUE, LAST_LEAGUE + 1))
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        found = [one for one in pool.map(league, ids) if one]
-    print(f"{len(found)} football competitions")
+    found = []
+    for one in ids:
+        got = league(one)
+        if got:
+            found.append(got)
+    print(f"{len(found)} football competitions", flush=True)
 
     total = 0
     for one in found:
@@ -133,7 +160,7 @@ def main(argv: list[str]) -> int:
             written = sum(pool.map(lambda team: keep(team, index), sides))
         total += written
         if written:
-            print(f"  {name}: {len(sides)} sides, {written} badges")
+            print(f"  {name}: {len(sides)} sides, {written} badges", flush=True)
         INDEX.write_text(json.dumps(index, ensure_ascii=False, indent=1,
                                     sort_keys=True), encoding="utf-8")
 
