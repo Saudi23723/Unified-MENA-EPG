@@ -241,7 +241,11 @@ def reconcile_stream_with_the_encoder() -> None:
     for name in SCREENS:
         subprocess.run([sys.executable, "-u", "match_screen_video.py", name],
                        check=False)
-    for directory in ("boards", "stream"):
+    # A CREST IS FETCHED ONCE IN ITS LIFE. Any badge this pass had to
+    # download is published with the boards, so tomorrow's build reads
+    # it off the disk and the board looks the same whether the badge
+    # service answers that morning or not.
+    for directory in ("boards", "stream", "logos"):
         if os.path.isdir(directory):
             git("add", "-A", "--", directory)
 
