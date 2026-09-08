@@ -1120,15 +1120,6 @@
     <display-name lang="ar">طقس اليوم</display-name>
     <display-name lang="en">Today's Weather</display-name>
   </channel>
-  <programme start="20260907080200 +0000" stop="20260907100400 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Italian Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260907100400 +0000" stop="20260907115000 +0000" channel="beIN4K.qa">
     <title lang="en">Aston Villa v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Aston Villa have won four of their seven home games against Arsenal since their return to the Premier League in 2019, more than they had in their first 24 against them at Villa Park in the competition. Arsenal have won 15 Premier League games at Villa Park, more than they have at an other away venue in the competition.</desc>
@@ -2862,12 +2853,6 @@ Stade Francis-Le Blé Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100000 +0000" channel="beINSports2.qa">
-    <title lang="en">Manchester City vs Coventry City - English Premier League 2026/2027 - Week 3</title>
-    <desc lang="en">This is the first meeting in any competition between Manchester City and Coventry City since March 2002 in the second tier, won 4-2 at Maine Road by the Citizens under Kevin Keegan. The last season Man City and Coventry met in the Premier League was 2000-01, when both sides were relegated. The Citizens are winless in their last eight top-flight gam</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260907100000 +0000" stop="20260907130000 +0000" channel="beINSports2.qa">
     <title lang="en">Valencia vs Barcelona - Spanish LaLiga 2026/2027 - Week 4</title>
     <desc lang="en">Valencia won their last LaLiga encounter with Barcelona 3-1 last May, after failing to win any of their previous 11 ; they have only recorded consecutive wins against the Blaugrana in the competition once in the 21st century, with two victories between 2002 and 2003. Valencia have lost four of their last six home LaLiga matches against Barcelona, a</desc>
@@ -3550,6 +3535,16 @@ Selhurst Park Stadium</desc>
     <title lang="en">Sheffield Utd vs Wolverhampton Wanderers - EFL - English Football League  SkyBet - Championship 2026</title>
     <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
     <category lang="en">English League - Championship</category>
+  </programme>
+  <programme start="20260914100000 +0000" stop="20260914120000 +0000" channel="beINSports2.qa">
+    <title lang="en">Aston Villa vs Nottingham Forest - English Premier League 2026/2027 - Week 4</title>
+    <desc lang="en">Aston Villa vs Nottingham Forest
+At 12-9-2026, MECCA 17:00, GMT 14:00
+Premier League
+Season 2026/2027
+Villa Park Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260907080500 +0000" stop="20260907101500 +0000" channel="beINSports3.qa">
     <title lang="en">Athletic Bilbao vs Atletico Madrid - Spanish LaLiga 2026/2027 - Week 4</title>
@@ -9274,12 +9269,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907080000 +0000" stop="20260907100000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Reims vs Guingamp - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260907100000 +0000" stop="20260907120000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">St Etienne vs Montpellier - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -11022,12 +11011,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">The Issue of The Day</title>
-    <desc lang="en">The Issue Of The Day, from the beIn Sports News Team, takes an in depth look at the the main story form the world of sport from the last 24 hours.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260907100000 +0000" stop="20260907110000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassad</title>
@@ -12836,11 +12819,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الأخبار الرياضية</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassad</title>
+    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
+    <category lang="ar">الأخبار الرياضية</category>
+    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260907100000 +0000" stop="20260907110000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -13822,7 +13805,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14803,7 +14786,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15805,7 +15788,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16833,7 +16816,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17849,7 +17832,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18863,7 +18846,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19877,7 +19860,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20891,7 +20874,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260907090000 +0000" stop="20260907100000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -21900,6 +21883,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260914090000 +0000" stop="20260914100000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260914100000 +0000" stop="20260914110000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -72757,6 +72746,66 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260908160729 +0000" stop="20260908173247 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_RoyaSport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_RFC">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_RoyaComedy">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_RoyaKitchen">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_RoyaKids">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch38">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch35">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch34">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch44">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch16">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch13">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch37">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch26">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch30">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch28">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch31">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch32">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="Roya_Ch22">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260908173247 +0000" stop="20260908180604 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260906210000 +0000" stop="20260907210000 +0000" channel="JordanSports">
     <title lang="ar">الأردن الرياضية</title>
     <desc lang="ar">الأردن الرياضية | 2026-09-07
@@ -80908,13 +80957,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100000 +0000" channel="Starz_admnadsports1">
-    <title lang="en">ADNOC Pro League 2026-2027</title>
-    <desc lang="en">ADNOC Pro League 2026-2027</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260907100000 +0000" stop="20260907120000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260907100500 +0000" stop="20260907120000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Program: Full Time 2026-2027</title>
     <desc lang="en">Program: Full Time 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -81214,7 +81257,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907103000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260907100500 +0000" stop="20260907103000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Inside City (AR) 2026-2027</title>
     <desc lang="en">Inside City (AR) 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -81490,7 +81533,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907101500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260907100500 +0000" stop="20260907101500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Frosinone X Venezia - Serie A</title>
     <title lang="ar">فروزينوني × فينيتسيا - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -82079,7 +82122,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907101500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260911100000 +0000" stop="20260911110000 +0000" channel="Starz_starzplaysports1">
+    <title lang="en">StarzPLAY Sports 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
+  </programme>
+  <programme start="20260907100500 +0000" stop="20260907101500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Juventus X Milan - Serie A</title>
     <title lang="ar">يوفنتوس × ميلان - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -82661,21 +82710,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907094000 +0000" channel="Starz_starzplaysport1">
-    <title lang="en">A Memorable Finish - UFC: The Ultimate Fighter</title>
-    <title lang="ar">نهاية لا تُنسى - بطولة القتال النهائي: المقاتل النهائي</title>
-    <desc lang="en">Stay tuned to UFC: The Ultimate Fighter.</desc>
+  <programme start="20260911100000 +0000" stop="20260911110000 +0000" channel="Starz_starzplaysports2">
+    <title lang="en">StarzPLAY Sports 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG600510_landscape10-626d88d1-f202-40ad-9fa8-7b7043ad12de.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260907094000 +0000" stop="20260907100000 +0000" channel="Starz_starzplaysport1">
-    <title lang="en">Indianapolis, Day 2 - Highlights - LIV Golf Highlights</title>
-    <title lang="ar">إنديانابوليس، اليوم الثاني - أبرز اللقطات - مقتطفات بطولة LIV للغولف</title>
-    <desc lang="en">Stay tuned to LIV Golf Highlights.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG614651_landscape10-c03f2fa1-d34c-483b-91f6-191113827d73.jpg" />
-  </programme>
-  <programme start="20260907100000 +0000" stop="20260907114500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260907100500 +0000" stop="20260907114500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -83263,7 +83304,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907103500 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260911100000 +0000" stop="20260911110000 +0000" channel="Starz_starzplaysport1">
+    <title lang="en">Starzplay Sports 3</title>
+    <title lang="ar">ستارزبلاي سبورتس 3</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
+  </programme>
+  <programme start="20260907100500 +0000" stop="20260907103500 +0000" channel="Starz_starzplayrugby">
     <title lang="en">South Africa vs. England - Nations Championship 2026</title>
     <desc lang="en">South Africa vs. England - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -83509,14 +83557,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907095000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Motor Sport Mundial</title>
-    <title lang="ar">مونديال السيارات الرياضية</title>
-    <desc lang="en">Follow the latest races from the Motor Sports Mundial.</desc>
+  <programme start="20260911100000 +0000" stop="20260911140000 +0000" channel="Starz_starzplayrugby">
+    <title lang="en">WOA STARZPLAY RUGBY</title>
+    <desc lang="en">WOA STARZPLAY RUGBY</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG265419_landscape10-47812221-6f8a-4487-92a8-5e0f2da2631d.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260907095000 +0000" stop="20260907102000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260907100500 +0000" stop="20260907102000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Michael Phelps - Invincible</title>
     <title lang="ar">مايكل فيلبس - إنفينسيبل</title>
     <desc lang="en">A series that explores periods of unrivalled domination in sport. Chapters from sport's greatest careers and iconic dynasties.</desc>
@@ -84118,14 +84165,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907094000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">3rd ODI: England v India - One-Day International Cricket</title>
-    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
-    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+  <programme start="20260911100000 +0000" stop="20260911110000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Abu Dhabi Sports Asia 1</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260907094000 +0000" stop="20260907100600 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260907100500 +0000" stop="20260907100600 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2nd T20: Ireland vs. India - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -84757,14 +84804,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100200 +0000" channel="Starz_wedosports">
-    <title lang="en">Li Na, Robert Kubica, Aries Merritt, Maya Gabeira - Against the Odds</title>
-    <title lang="ar">أغينست ذي أودز</title>
-    <desc lang="en">S1 , E1 : Unique stories of perseverance and determination behind some of the most courageous and triumphant acts in world sport.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p20258417_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260907100200 +0000" stop="20260907103600 +0000" channel="Starz_wedosports">
+  <programme start="20260907100500 +0000" stop="20260907103600 +0000" channel="Starz_wedosports">
     <title lang="en">Against the Odds</title>
     <title lang="ar">أغينست ذي أودز</title>
     <desc lang="en">S1 , E13 : A look at the brilliant careers of Ronaldo, the only Brazilian footballer to rival Pele, Zinedine Zidane, a top player then manager, and 1960s legend Eusebio.</desc>
@@ -85198,13 +85238,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p20258417_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100100 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's U19 ODI WC 2026: USA vs. India - Future Stars Zone</title>
-    <desc lang="en">ICC Men's U19 ODI WC 2026: USA vs. India - Future Stars Zone</desc>
+  <programme start="20260911100200 +0000" stop="20260911103600 +0000" channel="Starz_wedosports">
+    <title lang="en">Against the Odds</title>
+    <title lang="ar">أغينست ذي أودز</title>
+    <desc lang="en">S1 , E13 : A look at the brilliant careers of Ronaldo, the only Brazilian footballer to rival Pele, Zinedine Zidane, a top player then manager, and 1960s legend Eusebio.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p20258417_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260907100100 +0000" stop="20260907110000 +0000" channel="Starz_criclife1">
+  <programme start="20260907100500 +0000" stop="20260907110000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's U19 ODI World Cup 2026: Tanzania vs West Indies - Future Stars Zone</title>
     <desc lang="en">ICC Men's U19 ODI World Cup 2026: Tanzania vs West Indies - Future Stars Zone</desc>
     <category lang="en">Sport</category>
@@ -85717,14 +85758,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907095200 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Guyana Amazon Warriors vs Jamaica Kingsmen, 26th Match - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260907095200 +0000" stop="20260907101600 +0000" channel="Starz_criclife3">
+  <programme start="20260907100500 +0000" stop="20260907101600 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Rotterdam Dockers vs Edinburgh Castle Rockers - ETPL Highlights</title>
     <desc lang="en">2026: Rotterdam Dockers vs Edinburgh Castle Rockers - ETPL Highlights</desc>
     <category lang="en">Sport</category>
@@ -86393,7 +86427,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100600 +0000" channel="Starz_golflife">
+  <programme start="20260907100500 +0000" stop="20260907100600 +0000" channel="Starz_golflife">
     <title lang="en">Final Day Session 1 - 2026 Walker Cup</title>
     <desc lang="en">Final Day Session 1 - 2026 Walker Cup</desc>
     <category lang="en">Sport</category>
@@ -86695,7 +86729,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907113000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260907100500 +0000" stop="20260907113000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Al-Ain Camel Race Festival</title>
     <title lang="ar">مهرجان العين لسباقات الهجن</title>
     <desc lang="en">Stay tuned to Al-Ain Camel Race Festival.</desc>
@@ -87283,13 +87317,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100000 +0000" channel="Starz_awsn">
-    <title lang="en">AWSN+</title>
-    <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
+  <programme start="20260911100000 +0000" stop="20260911110000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Abu Dhabi Sports Asia 2</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260907100000 +0000" stop="20260907120000 +0000" channel="Starz_awsn">
+  <programme start="20260907100500 +0000" stop="20260907120000 +0000" channel="Starz_awsn">
     <title lang="en">AWSN+</title>
     <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
@@ -87577,13 +87612,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100000 +0000" channel="Starz_redbulltv">
-    <title lang="en">Red Bull TV</title>
-    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+  <programme start="20260911100000 +0000" stop="20260911120000 +0000" channel="Starz_awsn">
+    <title lang="en">AWSN+</title>
+    <desc lang="en">All Women’s Sports Network (AWSN+) is a global sports television network dedicated exclusively to promoting women’s sports.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+    <icon src="https://evisioneand.com/image/catalog/AWSN HL Banner - 1920 X 1080.jpg" />
   </programme>
-  <programme start="20260907100000 +0000" stop="20260907110000 +0000" channel="Starz_redbulltv">
+  <programme start="20260907100500 +0000" stop="20260907110000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -88159,7 +88194,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907120000 +0000" channel="Starz_daznringside">
+  <programme start="20260911100000 +0000" stop="20260911110000 +0000" channel="Starz_redbulltv">
+    <title lang="en">Red Bull TV</title>
+    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+  </programme>
+  <programme start="20260907100500 +0000" stop="20260907120000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -88357,13 +88398,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907093701 +0000" channel="Starz_fifaplus">
-    <title lang="en">FACTS: Germany v Brazil | China 2007</title>
-    <desc lang="en">Germany wins its second title, defeating Marta's Brazil.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/138199.jpg" />
-  </programme>
-  <programme start="20260907093701 +0000" stop="20260907113227 +0000" channel="Starz_fifaplus">
+  <programme start="20260907100500 +0000" stop="20260907113227 +0000" channel="Starz_fifaplus">
     <title lang="en">Brazil v Belgium | Quarter-finals | 2018 FIFA World Cup Russia™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Brazil and Belgium played at Kazan Arena, Kazan on Friday, 06 July 2018.</desc>
     <category lang="en">Sport</category>
@@ -88777,14 +88812,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://dki01q1l7yn3y.cloudfront.net/thumbnails-platform-prod/assets/cs::content::episodemeta/41971-44019/86262941-default_v1.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907095100 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2026: India vs. Pakistan - ICC Women's T20 World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
-    <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33171723_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260907095100 +0000" stop="20260907102100 +0000" channel="Starz_criclifewoman">
+  <programme start="20260907100500 +0000" stop="20260907102100 +0000" channel="Starz_criclifewoman">
     <title lang="en">2026: Thailand vs Hong Kong - Women's Asia Cup Highlights</title>
     <desc lang="en">Highlights of the matches played during the 2024 edition of the Women's Asia Cup, an international cricket tournament wherein teams compete to win the trophy.</desc>
     <category lang="en">Sport</category>
@@ -89477,13 +89505,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907100000 +0000" channel="Starz_admnyastv">
-    <title lang="en">UAE Sailing 2026 Highlights</title>
-    <desc lang="en">UAE Sailing 2026 Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260907100000 +0000" stop="20260907121500 +0000" channel="Starz_admnyastv">
+  <programme start="20260907100500 +0000" stop="20260907121500 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
@@ -89694,7 +89716,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260907093000 +0000" stop="20260907113500 +0000" channel="Starz_adfight">
+  <programme start="20260907100500 +0000" stop="20260907113500 +0000" channel="Starz_adfight">
     <title lang="en">AJP Tour 2026 - Jiu-Jitsu</title>
     <desc lang="en">AJP Tour 2026 - Jiu-Jitsu</desc>
     <category lang="en">Sport</category>
@@ -89838,56 +89860,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260907192400 +0000" stop="20260907193100 +0000" channel="Starz_criclifewoman">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260905210000 +0000" stop="20260906141055 +0000" channel="FajerSport1">
-    <title lang="ar">⏰ التالي: فالنسيا - برشلونة روابط المشاهدة</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-المباراة القادمة: فالنسيا - برشلونة روابط المشاهدة</desc>
-  </programme>
-  <programme start="20260906141055 +0000" stop="20260906141500 +0000" channel="FajerSport1">
-    <title lang="ar">فالنسيا - برشلونة روابط المشاهدة ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-2026-09-06 17:10 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramNow</desc>
-  </programme>
-  <programme start="20260906141500 +0000" stop="20260906160500 +0000" channel="FajerSport1">
-    <title lang="ar">فالنسيا - برشلونة ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-2026-09-06 17:15 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906160500 +0000" stop="20260906184050 +0000" channel="FajerSport1">
-    <title lang="ar">⏰ التالي: يوفنتوس - ميلان روابط المشاهدة</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-المباراة القادمة: يوفنتوس - ميلان روابط المشاهدة</desc>
-  </programme>
-  <programme start="20260906184050 +0000" stop="20260906184500 +0000" channel="FajerSport1">
-    <title lang="ar">يوفنتوس - ميلان روابط المشاهدة ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-2026-09-06 21:40 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramNow</desc>
-  </programme>
-  <programme start="20260906184500 +0000" stop="20260906203500 +0000" channel="FajerSport1">
-    <title lang="ar">يوفنتوس - ميلان ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-2026-09-06 21:45 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906203500 +0000" stop="20260906210000 +0000" channel="FajerSport1">
-    <title lang="ar">⏰ التالي: الهلال - نيوم</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
-لا توجد مباراة معلنة في هذا الوقت.</desc>
-  </programme>
   <programme start="20260906210000 +0000" stop="20260907180000 +0000" channel="FajerSport1">
     <title lang="ar">⏰ التالي: الهلال - نيوم</title>
     <category lang="en">Sports</category>
@@ -89903,12 +89875,26 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
   </programme>
   <programme start="20260907195000 +0000" stop="20260907210000 +0000" channel="FajerSport1">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي: ريال مدريد - إنتر ميلان</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260907210000 +0000" stop="20260908210000 +0000" channel="FajerSport1">
+  <programme start="20260907210000 +0000" stop="20260908190000 +0000" channel="FajerSport1">
+    <title lang="ar">⏰ التالي: ريال مدريد - إنتر ميلان</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
+المباراة القادمة: ريال مدريد - إنتر ميلان</desc>
+  </programme>
+  <programme start="20260908190000 +0000" stop="20260908205000 +0000" channel="FajerSport1">
+    <title lang="ar">ريال مدريد - إنتر ميلان ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
+2026-09-08 22:00 بتوقيت فلسطين
+المصدر: إعلان فجر سبورت الرسمي
+مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
+  </programme>
+  <programme start="20260908205000 +0000" stop="20260908210000 +0000" channel="FajerSport1">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
@@ -89950,10 +89936,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260905210000 +0000" stop="20260906210000 +0000" channel="FajerSport2">
+  <programme start="20260914210000 +0000" stop="20260915210000 +0000" channel="FajerSport1">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 2 | فجر سبورت 2
+    <desc lang="ar">Fajer Sport 1 | فجر سبورت 1
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
   <programme start="20260906210000 +0000" stop="20260907210000 +0000" channel="FajerSport2">
@@ -90004,60 +89990,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">Fajer Sport 2 | فجر سبورت 2
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260905210000 +0000" stop="20260906130000 +0000" channel="FajerSport3">
-    <title lang="ar">⏰ التالي: إيفرتون - مانشستر يونايتد</title>
+  <programme start="20260914210000 +0000" stop="20260915210000 +0000" channel="FajerSport2">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-المباراة القادمة: إيفرتون - مانشستر يونايتد</desc>
-  </programme>
-  <programme start="20260906130000 +0000" stop="20260906145000 +0000" channel="FajerSport3">
-    <title lang="ar">إيفرتون - مانشستر يونايتد ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-2026-09-06 16:00 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906145000 +0000" stop="20260906152553 +0000" channel="FajerSport3">
-    <title lang="ar">⏰ التالي: آرسنال - تشيلسي روابط المشاهدة</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-المباراة القادمة: آرسنال - تشيلسي روابط المشاهدة</desc>
-  </programme>
-  <programme start="20260906152553 +0000" stop="20260906153000 +0000" channel="FajerSport3">
-    <title lang="ar">آرسنال - تشيلسي روابط المشاهدة ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-2026-09-06 18:25 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramNow</desc>
-  </programme>
-  <programme start="20260906153000 +0000" stop="20260906172000 +0000" channel="FajerSport3">
-    <title lang="ar">آرسنال - تشيلسي ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-2026-09-06 18:30 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906172000 +0000" stop="20260906190000 +0000" channel="FajerSport3">
-    <title lang="ar">⏰ التالي: إسبانيول - إشبيلية</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-المباراة القادمة: إسبانيول - إشبيلية</desc>
-  </programme>
-  <programme start="20260906190000 +0000" stop="20260906205000 +0000" channel="FajerSport3">
-    <title lang="ar">إسبانيول - إشبيلية ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
-2026-09-06 22:00 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906205000 +0000" stop="20260906210000 +0000" channel="FajerSport3">
-    <title lang="ar">⏰ التالي: خيتافي - سيلتا فيغو</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
+    <desc lang="ar">Fajer Sport 2 | فجر سبورت 2
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
   <programme start="20260906210000 +0000" stop="20260907170000 +0000" channel="FajerSport3">
@@ -90088,7 +90024,35 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 المصدر: إعلان فجر سبورت الرسمي
 مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
   </programme>
-  <programme start="20260907210000 +0000" stop="20260908210000 +0000" channel="FajerSport3">
+  <programme start="20260907210000 +0000" stop="20260908164500 +0000" channel="FajerSport3">
+    <title lang="ar">⏰ التالي: كلوب بروج - أستون فيلا</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
+المباراة القادمة: كلوب بروج - أستون فيلا</desc>
+  </programme>
+  <programme start="20260908164500 +0000" stop="20260908183500 +0000" channel="FajerSport3">
+    <title lang="ar">كلوب بروج - أستون فيلا ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
+2026-09-08 19:45 بتوقيت فلسطين
+المصدر: إعلان فجر سبورت الرسمي
+مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
+  </programme>
+  <programme start="20260908183500 +0000" stop="20260908190000 +0000" channel="FajerSport3">
+    <title lang="ar">⏰ التالي: بورتو - مانشستر سيتي</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
+المباراة القادمة: بورتو - مانشستر سيتي</desc>
+  </programme>
+  <programme start="20260908190000 +0000" stop="20260908205000 +0000" channel="FajerSport3">
+    <title lang="ar">بورتو - مانشستر سيتي ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
+2026-09-08 22:00 بتوقيت فلسطين
+المصدر: إعلان فجر سبورت الرسمي
+مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
+  </programme>
+  <programme start="20260908205000 +0000" stop="20260908210000 +0000" channel="FajerSport3">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
@@ -90130,38 +90094,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260905210000 +0000" stop="20260906170000 +0000" channel="FajerSport4">
-    <title lang="ar">⏰ التالي: طرابزون سبور - جينتشلاربيرليجى</title>
+  <programme start="20260914210000 +0000" stop="20260915210000 +0000" channel="FajerSport3">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
-المباراة القادمة: طرابزون سبور - جينتشلاربيرليجى</desc>
-  </programme>
-  <programme start="20260906170000 +0000" stop="20260906185000 +0000" channel="FajerSport4">
-    <title lang="ar">طرابزون سبور - جينتشلاربيرليجى ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
-2026-09-06 20:00 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906185000 +0000" stop="20260906190000 +0000" channel="FajerSport4">
-    <title lang="ar">⏰ التالي: إلتشي - ريال سوسييداد</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
-المباراة القادمة: إلتشي - ريال سوسييداد</desc>
-  </programme>
-  <programme start="20260906190000 +0000" stop="20260906205000 +0000" channel="FajerSport4">
-    <title lang="ar">إلتشي - ريال سوسييداد ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
-2026-09-06 22:00 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906205000 +0000" stop="20260906210000 +0000" channel="FajerSport4">
-    <title lang="ar">⏰ التالي: أودينيزي - لاتسيو</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
+    <desc lang="ar">Fajer Sport 3 | فجر سبورت 3
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
   <programme start="20260906210000 +0000" stop="20260907184500 +0000" channel="FajerSport4">
@@ -90179,12 +90115,26 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
   </programme>
   <programme start="20260907203500 +0000" stop="20260907210000 +0000" channel="FajerSport4">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي: القادسية - الأهلي السعودي</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260907210000 +0000" stop="20260908210000 +0000" channel="FajerSport4">
+  <programme start="20260907210000 +0000" stop="20260908180000 +0000" channel="FajerSport4">
+    <title lang="ar">⏰ التالي: القادسية - الأهلي السعودي</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
+المباراة القادمة: القادسية - الأهلي السعودي</desc>
+  </programme>
+  <programme start="20260908180000 +0000" stop="20260908195000 +0000" channel="FajerSport4">
+    <title lang="ar">القادسية - الأهلي السعودي ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
+2026-09-08 21:00 بتوقيت فلسطين
+المصدر: إعلان فجر سبورت الرسمي
+مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
+  </programme>
+  <programme start="20260908195000 +0000" stop="20260908210000 +0000" channel="FajerSport4">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
@@ -90226,33 +90176,33 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260905210000 +0000" stop="20260906153000 +0000" channel="FajerSport5">
-    <title lang="ar">⏰ التالي: آينتراخت فرانكفورت - أوجسبورج</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
-المباراة القادمة: آينتراخت فرانكفورت - أوجسبورج</desc>
-  </programme>
-  <programme start="20260906153000 +0000" stop="20260906172000 +0000" channel="FajerSport5">
-    <title lang="ar">آينتراخت فرانكفورت - أوجسبورج ‎• Live 🔵‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
-2026-09-06 18:30 بتوقيت فلسطين
-المصدر: إعلان فجر سبورت الرسمي
-مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
-  </programme>
-  <programme start="20260906172000 +0000" stop="20260906210000 +0000" channel="FajerSport5">
+  <programme start="20260914210000 +0000" stop="20260915210000 +0000" channel="FajerSport4">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
-    <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
+    <desc lang="ar">Fajer Sport 4 | فجر سبورت 4
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
   <programme start="20260906210000 +0000" stop="20260907210000 +0000" channel="FajerSport5">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي: بوروسيا دورتموند - فياريال</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
-  <programme start="20260907210000 +0000" stop="20260908210000 +0000" channel="FajerSport5">
+  <programme start="20260907210000 +0000" stop="20260908190000 +0000" channel="FajerSport5">
+    <title lang="ar">⏰ التالي: بوروسيا دورتموند - فياريال</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
+المباراة القادمة: بوروسيا دورتموند - فياريال</desc>
+  </programme>
+  <programme start="20260908190000 +0000" stop="20260908205000 +0000" channel="FajerSport5">
+    <title lang="ar">بوروسيا دورتموند - فياريال ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
+2026-09-08 22:00 بتوقيت فلسطين
+المصدر: إعلان فجر سبورت الرسمي
+مصدر اسم المباراة: FajerSportOfficialTelegramPosterOCR</desc>
+  </programme>
+  <programme start="20260908205000 +0000" stop="20260908210000 +0000" channel="FajerSport5">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
@@ -90289,6 +90239,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
   <programme start="20260913210000 +0000" stop="20260914210000 +0000" channel="FajerSport5">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
+لا توجد مباراة معلنة في هذا الوقت.</desc>
+  </programme>
+  <programme start="20260914210000 +0000" stop="20260915210000 +0000" channel="FajerSport5">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <category lang="en">Sports</category>
     <desc lang="ar">Fajer Sport 5 | فجر سبورت 5
@@ -94747,7 +94703,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260908070000 +0000" stop="20260909070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد ساعة و33 دقيقة ⁨·⁩ ⁨FC Porto U19 - Manchester City U19 · beIN 1 · TNT 1 · HBO Max +1⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد ساعة و3 دقائق ⁨·⁩ ⁨FC Porto U19 - Manchester City U19 · beIN 1 · TNT 1 · HBO Max +1⁩⁩</title>
     <desc lang="ar">مباريات الثلاثاء 08/09 — بتوقيتك
 ⁦⏳ 04:00  FC Porto U19 - Manchester City U19⁩
         beIN 1 · TNT 1 · HBO Max +1
@@ -94942,7 +94898,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_10.png" />
   </programme>
   <programme start="20260908070000 +0000" stop="20260909070000 +0000" channel="TodaySports">
-    <title lang="ar">⁦⏳ بعد 3 ساعات ودقيقتين ⁨·⁩ ⁨Stage 16 - La Vuelta a España 2026⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد ساعتين و32 دقيقة ⁨·⁩ ⁨Stage 16 - La Vuelta a España 2026⁩⁩</title>
     <desc lang="ar">رياضات اليوم · الثلاثاء 08.09.2026
 
 ⏳ 05:30  Stage 16 - La Vuelta a España 2026
@@ -94980,7 +94936,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_1.png" />
   </programme>
   <programme start="20260910070000 +0000" stop="20260911070000 +0000" channel="TodaySports">
-    <title lang="ar">⁦⏳ بعد يومين و3 ساعات ⁨·⁩ ⁨Stage 18 - La Vuelta a España 2026⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد يومين وساعتين ⁨·⁩ ⁨Stage 18 - La Vuelta a España 2026⁩⁩</title>
     <desc lang="ar">رياضات اليوم · الخميس 10.09.2026
 
 ⏳ 05:30  Stage 18 - La Vuelta a España 2026
@@ -102663,4 +102619,4 @@ FSU-SMU game turns into old-school football after stadium power outage wipes out
   <programme start="20260908150000 +0000" stop="20260908170558 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-<programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_RoyaSport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_RoyaKids"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch38"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch35"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch34"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch44"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch16"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch13"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch26"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch30"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch28"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch31"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch32"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908173247 +0000" stop="20260908173641 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908170556 +0000" stop="20260908173641 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908170558 +0000" stop="20260908173641 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaSport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RFC"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_RoyaKids"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch38"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch35"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch34"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch44"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch16"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch13"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch26"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch30"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch28"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch31"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch32"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908180604 +0000" stop="20260908181024 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908170556 +0000" stop="20260908181024 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260908170558 +0000" stop="20260908181024 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
