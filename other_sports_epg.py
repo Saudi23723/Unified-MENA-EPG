@@ -60,6 +60,7 @@ import tsn
 import boxing_promotions
 import mlb_espn
 import wnba_espn
+import turkish_sport_grid
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label,
@@ -199,6 +200,12 @@ IN_ORDER = (
     # a motorsport might look like it belongs: the order above is the
     # reader's own, and nothing is moved inside it.
     "WRC",
+    # And the men's handball, asked for beside the women's volleyball
+    # already above it. Volleyball was on this list and arriving empty:
+    # its only door was Alkass's guide, live-only, which gave nought
+    # rows. Both now come from the Turkish grid — see
+    # turkish_sport_grid.py for the seven sources measured before it.
+    "Handball",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -1258,6 +1265,17 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every event both sources have, inside the window, that names a channel."""
     everything = world_sport_on_tv.events(session)
     everything += american_sport_on_tv.events(session)
+
+    # AND THE TWO COMPETITIONS NO LISTINGS PAGE CARRIES — major women's
+    # international volleyball and the men's handball World Cup, asked
+    # for by name. The listings site this board already reads has no
+    # page for either sport (both 404), the confederations render their
+    # calendars in JavaScript, the IHF names no broadcaster, and what
+    # beIN and Alkass hold is club volleyball and club handball. Spor
+    # Ekranı's own grid names the sport, the competition, the clock and
+    # the channel inside each row, and turkish_sport_grid.py says what
+    # was measured before it was believed.
+    everything += turkish_sport_grid.events(session)
     can_fetch = hasattr(session, "request")
 
     # AND BASEBALL, from the league's own scoreboard — asked for by name
