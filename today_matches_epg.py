@@ -71,7 +71,7 @@ import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
     drop_simulcasts, fetch, in_reading_order, isolate, log, norm, same_club,
-    warn, write_xml_atomic,
+    same_fixture, warn, write_xml_atomic,
 )
 
 SOURCE = "https://www.livefootballtv.info/"
@@ -1337,6 +1337,56 @@ def same_match(first: str, second: str) -> bool:
     return same_side(left[0], right[0]) and same_side(left[1], right[1])
 
 
+def collapse_duplicates(events: list[dict]) -> list[dict]:
+    """One last sweep for the same match written twice, in two scripts.
+
+    Every source is merged into the board one at a time, and each merge
+    only compares a new row against what is already there within twelve
+    minutes. That catches most of it and misses the case the board is
+    judged on: الوحدات - الفيصلي from an Arabic federation page and
+    "Al Wehdat - Al Faisaly" from an English listing, half an hour apart
+    because the two pages rounded the kickoff differently. Both survive
+    every pairwise merge and land on the screen one under the other.
+
+    So the finished list is read once more, from the top, with the
+    board's own cross-script club test and a wider window — a fixture
+    does not kick off twice in ninety minutes. The first spelling wins,
+    which is the higher-priority source's, and the later row hands over
+    its channels before it goes, so nothing a viewer could have watched
+    is lost with it. Sides reversed count as the same match: a page that
+    lists the away club first has not invented a second fixture.
+    """
+    window = timedelta(minutes=90)
+    kept: list[dict] = []
+    for event in events:
+        twin = None
+        for already in kept:
+            if abs(already["start"] - event["start"]) > window:
+                continue
+            if same_match(already["title"], event["title"]):
+                twin = already
+                break
+            left = fixture_sides(already["title"])
+            right = fixture_sides(event["title"])
+            if len(left) == 2 and len(right) == 2:
+                if (same_side(left[0], right[1])
+                        and same_side(left[1], right[0])):
+                    twin = already
+                    break
+                if (same_fixture(
+                        f"{left[0]} - {left[1]}", f"{right[0]} - {right[1]}")):
+                    twin = already
+                    break
+        if twin is None:
+            kept.append(event)
+        else:
+            absorb(twin, event)
+    if len(kept) != len(events):
+        log(f"  {len(events) - len(kept)} duplicate row(s) collapsed — the "
+            f"same match written in two scripts or at two kickoffs")
+    return kept
+
+
 def absorb(into: dict, extra: dict) -> None:
     """Add what the second page knew and the first one did not."""
     for channel in extra["channels"]:
@@ -2243,6 +2293,11 @@ def build() -> int:
     # read this list and none of them can now forget.
     events = [dict(event, channels=real_channels(event["channels"]))
               for event in everything if wanted(event)]
+
+    # THE SAME MATCH, ONCE. Everything above merged source by source;
+    # this reads the finished board and collapses what those pairwise
+    # merges could not see across the two scripts.
+    events = collapse_duplicates(events)
 
     # And the channels this repository already publishes for itself. They
     # know something no listings page does — which of THIS reader's

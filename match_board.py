@@ -44,7 +44,7 @@ from __future__ import annotations
 
 import os
 import re
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from epg_lib import arabic_count
 
@@ -396,14 +396,59 @@ except Exception:                                # pragma: no cover
 SPLIT = re.compile(r"\s+(?:vs\.?|VS\.?|[-–—x×])\s+")
 _CRESTS: dict[tuple[str, int], object] = {}
 
+# THE SECOND CHANNEL IS NOT ALL FIXTURES, and drawing it as if it were
+# is worse than drawing nothing: "Italian Grand Prix - Practice 2" was
+# set as a match between a Grand Prix and a practice session, each with
+# a lettered disc for a crest, VS between them. Some of its rows ARE two
+# competitors — "Ruiz vs Knyba", "Lakers - Celtics" — so the answer is
+# not to switch the mirror off, it is to ask whether each SIDE is the
+# name of a competitor at all. A session, a round, a discipline or a
+# tournament stage is not, and a side carrying one of these words is
+# refused; both sides must pass before a row is set as a fixture.
+NOT_A_SIDE = re.compile(
+    r"\b(practice|qualifying|qualification|sprint|race|grand\s*prix|gp|"
+    r"free\s*practice|fp\d|q\d|round|rd|stage|leg|heat|session|"
+    r"final|finals|semi[- ]?finals?|quarter[- ]?finals?|"
+    r"singles|doubles|mixed|men'?s|women'?s|day\s*\d|"
+    r"championship|tournament|cup|open|classic|masters|series|"
+    r"سباق|تجارب|تصفيات|الجولة|الدور|نهائي|بطولة|فردي|زوجي)\b", re.I)
+
+
+def looks_like_a_side(name: str) -> bool:
+    """Whether one half of a split title is plausibly a competitor."""
+    if len(name) < 2 or len(name) > 34:
+        return False
+    if NOT_A_SIDE.search(name):
+        return False
+    # A competitor is named in a word or three, not a sentence.
+    return len(name.split()) <= 4
+
+
+# What a broadcaster puts in FRONT of a fight — "Live Boxing Ruiz vs
+# Knyba", "UFC 300: Jones vs Miocic". The lead belongs to the event, not
+# to the man on the left of it, and left on his name it made the row
+# read as a club called "Live Boxing Ruiz".
+LEAD = re.compile(
+    r"^\s*(?:[^:]{2,40}:\s*|(?:live\s+)?(?:boxing|mma|ufc|wwe|tennis|"
+    r"basketball|nba|nfl|mlb|nhl|f1|formula\s*1|"
+    r"ملاكمة|نزال|تنس|كرة\s*سلة)\s+)+", re.I)
+
+
+def trim_lead(name: str) -> str:
+    """A competitor's name with the broadcaster's billing taken off."""
+    cut = LEAD.sub("", name or "").strip(" .-–—:")
+    return cut or (name or "").strip()
+
 
 def split_sides(title: str):
     """The two sides of a fixture, or nothing if it is not one."""
     parts = SPLIT.split(title or "", maxsplit=1)
     if len(parts) != 2:
         return None
-    home, away = (part.strip() for part in parts)
-    if not home or not away or len(home) < 2 or len(away) < 2:
+    home, away = (trim_lead(part) for part in parts)
+    if not home or not away:
+        return None
+    if not (looks_like_a_side(home) and looks_like_a_side(away)):
         return None
     return home, away
 
@@ -451,6 +496,68 @@ def draw_crest(board, pen, name, cx, cy, box):
 CHANNEL_ZONE = 300
 
 
+def without_repeats(events: list[dict]) -> list[dict]:
+    """One match drawn once, whichever script each page wrote it in.
+
+    An Arabic federation page and an English listing describe the same
+    fixture — الوحدات - الفيصلي and "Al Wehdat - Al Faisaly" — and when
+    the two pages round the kickoff differently, both reach the board and
+    sit one under the other. The guide's own cross-script club test
+    settles it here, at the last moment before ink: same two clubs
+    inside ninety minutes is one match, the first spelling stays, and
+    the second hands over any channel the first did not have so nothing
+    a viewer could watch is lost with it.
+    """
+    try:
+        from epg_lib import club_skeleton, same_club
+    except Exception:                            # pragma: no cover
+        return events
+
+    def bones(name: str) -> str:
+        # THE VOWELS ARE WHERE THE TWO SPELLINGS DISAGREE, and only
+        # there: "Al Faisaly" reduces to fasala and الفيصلي to fasla,
+        # one letter apart and refused, while the consonants — f s l —
+        # are identical because they are what the Arabic actually
+        # writes. Comparing the bones catches the pair the strict test
+        # drops, and it is only ever asked after BOTH sides have been
+        # paired, at one kickoff, so two clubs sharing consonants
+        # cannot collide unless they somehow play the same opponent at
+        # the same minute.
+        return re.sub(r"[aeiou]", "", club_skeleton(name) or "")
+
+    def pair(one: str, two: str) -> bool:
+        if same_club(one, two):
+            return True
+        left, right = bones(one), bones(two)
+        return len(left) >= 3 and left == right
+    window = timedelta(minutes=90)
+    kept: list[dict] = []
+    for event in events:
+        sides = split_sides(event.get("title", ""))
+        twin = None
+        if sides:
+            for already in kept:
+                other = split_sides(already.get("title", ""))
+                if not other:
+                    continue
+                if abs(already["start"] - event["start"]) > window:
+                    continue
+                straight = pair(sides[0], other[0]) and pair(sides[1],
+                                                             other[1])
+                reversed_ = pair(sides[0], other[1]) and pair(sides[1],
+                                                              other[0])
+                if straight or reversed_:
+                    twin = already
+                    break
+        if twin is None:
+            kept.append(event)
+        else:
+            for channel in event.get("channels", []):
+                if channel not in twin["channels"]:
+                    twin["channels"].append(channel)
+    return kept
+
+
 def draw_board(day: date, events: list[dict], now: datetime, viewer,
                live_for, *, title: str, subtitle: str, weekday: str,
                page: int = 1, pages: int = 1, accent=None) -> Image.Image:
@@ -463,6 +570,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     gets the green this board has always worn.
     """
     accent = accent or ACCENT
+    events = without_repeats([dict(event) for event in events])
     board = backdrop()
     pen = ImageDraw.Draw(board)
 

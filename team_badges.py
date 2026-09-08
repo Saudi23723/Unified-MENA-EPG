@@ -40,19 +40,66 @@ TIMEOUT = 12
 # says "Real Madrid Academy" where the search knows "Real Madrid", and
 # an academy side wearing its parent club's crest is right rather than
 # wrong — it is the same badge on the same shirt.
+# Sports where an entry is a person or a squad nobody knows by badge.
+SOLO_SPORTS = {"Motorsport", "Fighting", "Boxing", "Cycling", "Golf",
+               "Tennis", "Athletics", "Skiing", "Horse Racing", "Darts",
+               "Snooker", "Extreme Sports", "Motorcycle Racing"}
+
 NOISE = re.compile(
     r"\b(fc|cf|sc|ac|afc|cd|sk|fk|if|bk|club|academy|acad|reserves?|"
     r"u\d{2}|women'?s?|femenino|team)\b", re.I)
 
 
+# ARABIC NAMES HAD NO BADGE AT ALL, and not because the search could not
+# find them — because they never reached it. The slug kept Latin letters
+# and digits and nothing else, so "الهلال" reduced to the empty string,
+# the key was empty and badge() returned None on its first line. Every
+# Arabic-spelled club on the board — the Saudi, Egyptian, Jordanian and
+# Gulf rows, which is most of what this channel exists for — wore a
+# lettered disc while their crests sat one search away.
+#
+# The alphabet answers it, the same way the guide's own duplicate test
+# does: Arabic sports writing spells a club sound by sound, so the name
+# is transliterated to Latin letters and the search is asked in the
+# script it actually indexes.
+ARABIC_LETTER = re.compile(r"[\u0600-\u06ff]")
+
+ARABIC_SOUND = {
+    "ب": "b", "ت": "t", "ث": "th", "ج": "j", "ح": "h", "خ": "kh", "د": "d",
+    "ذ": "z", "ر": "r", "ز": "z", "س": "s", "ش": "sh", "ص": "s", "ض": "d",
+    "ط": "t", "ظ": "z", "ع": "a", "غ": "gh", "ف": "f", "ق": "q", "ك": "k",
+    "ل": "l", "م": "m", "ن": "n", "ه": "h", "ة": "a", "و": "u", "ي": "i",
+    "ى": "a", "ا": "a", "أ": "a", "إ": "i", "آ": "a", "ء": "", "ؤ": "u",
+    "ئ": "i", "پ": "p", "چ": "ch", "ڤ": "v", "گ": "g", "ژ": "j",
+    "\u064b": "", "\u064c": "", "\u064d": "", "\u064e": "", "\u064f": "",
+    "\u0650": "", "\u0651": "", "\u0652": "",
+}
+
+
+def _romanised(name: str) -> str:
+    """An Arabic club name written in the letters the search indexes."""
+    if not ARABIC_LETTER.search(name or ""):
+        return name
+    out = []
+    for word in (name or "").split():
+        if word.startswith("ال") and len(word) > 3:
+            out.append("al " + "".join(
+                ARABIC_SOUND.get(ch, ch if ch.isascii() else "")
+                for ch in word[2:]))
+        else:
+            out.append("".join(ARABIC_SOUND.get(ch, ch if ch.isascii() else "")
+                               for ch in word))
+    return re.sub(r"\s+", " ", " ".join(out)).strip()
+
+
 def _slug(name: str) -> str:
-    flat = unicodedata.normalize("NFKD", name)
+    flat = unicodedata.normalize("NFKD", _romanised(name))
     flat = "".join(ch for ch in flat if not unicodedata.combining(ch))
     return re.sub(r"[^a-z0-9]+", "-", flat.casefold()).strip("-")
 
 
 def _query(name: str) -> str:
-    trimmed = NOISE.sub(" ", name)
+    trimmed = NOISE.sub(" ", _romanised(name))
     trimmed = re.sub(r"\s+", " ", trimmed).strip(" .-")
     return trimmed or name.strip()
 
@@ -87,26 +134,88 @@ def _download(url: str) -> Image.Image | None:
     return badge
 
 
-def _search(name: str) -> str | None:
+def _ask(term: str, loose: bool) -> str | None:
+    """One search. Exact name wins; a loose ask takes the closest offered.
+
+    "Closest" is not "first". Asked for "Al Hilal" the search offers
+    "Al Hilal Wau" — a Sudanese club — ahead of the Riyadh one, and a
+    board wearing the wrong crest is a board telling a lie confidently.
+    So an exact name is taken outright, and failing that the shortest
+    name that CONTAINS the one asked for, which is the club itself
+    rather than a namesake with a town bolted on.
+    """
     try:
-        url = SEARCH + quote(_query(name))
+        url = SEARCH + quote(term)
         with urlopen(Request(url, headers=AGENT), timeout=TIMEOUT) as answer:
             found = json.load(answer)
     except Exception:
         return None
     teams = found.get("teams") or []
-    wanted = _slug(_query(name))
-    best = None
+    wanted = _slug(term)
+    near: list[tuple[int, str]] = []
     for team in teams:
+        # A CREST BELONGS TO A CLUB, NOT TO A MAN. Asked for the boxer
+        # "Jones" the search offered a motorsport outfit called Parnelli
+        # Jones, and the board put its logo beside a fighter's name.
+        # Individual sports have no crests worth wearing, so their
+        # entries are refused outright and the fighter keeps the
+        # lettered disc that is honest about what it is.
+        if (team.get("strSport") or "") in SOLO_SPORTS:
+            continue
         badge = team.get("strBadge") or team.get("strTeamBadge")
         if not badge:
             continue
         names = [team.get("strTeam") or ""]
         names += (team.get("strTeamAlternate") or "").split(",")
-        if any(_slug(other) == wanted for other in names):
+        slugs = [_slug(other) for other in names if other.strip()]
+        if wanted and any(other == wanted for other in slugs):
             return badge
-        best = best or badge
-    return best
+        if wanted and any(wanted in other or other in wanted
+                          for other in slugs if other):
+            near.append((min(len(other) for other in slugs if other), badge))
+    if near:
+        near.sort(key=lambda pair: pair[0])
+        return near[0][1]
+    if loose:
+        for team in teams:
+            badge = team.get("strBadge") or team.get("strTeamBadge")
+            if badge:
+                return badge
+    return None
+
+
+def _search(name: str) -> str | None:
+    """The club's badge, asked for in the ways a listing spells a club.
+
+    The Arabic spelling is asked FIRST when there is one, because the
+    search carries Arabic names and answers them precisely: "الهلال"
+    returns Al-Hilal and nothing else, where the Latin "Al Hilal" leads
+    with a Sudanese club of the same name.
+
+    Then the romanised name whole, then with its last word dropped, then
+    its first two words — a listings page prints "Al Hilal SFC Riyadh"
+    where the search knows "Al Hilal". A one-word name is never taken
+    loosely: a loose answer to "Norris" is somebody else's crest, and a
+    wrong badge is worse than a lettered disc.
+    """
+    term = _query(name)
+    if not term:
+        return None
+    tries: list[tuple[str, bool]] = []
+    if ARABIC_LETTER.search(name or ""):
+        raw = re.sub(r"\s+", " ", (name or "")).strip()
+        if raw:
+            tries.append((raw, True))
+    words = term.split()
+    tries.append((term, len(words) > 1))
+    if len(words) > 2:
+        tries.append((" ".join(words[:-1]), False))
+        tries.append((" ".join(words[:2]), False))
+    for attempt, loose in tries:
+        badge = _ask(attempt, loose=loose)
+        if badge:
+            return badge
+    return None
 
 
 def badge(name: str) -> Image.Image | None:
@@ -121,10 +230,16 @@ def badge(name: str) -> Image.Image | None:
         except Exception:
             return None
     index = _index()
-    if index.get(key) == "":                    # searched once, not found
+    # A MISS RECORDED UNDER THE OLD SEARCH IS NOT A MISS. Arabic names
+    # could never reach the wire before, so every one of them was filed
+    # as "searched, nothing there" — and left alone, that file would keep
+    # the new search from ever running. Old misses were written as "";
+    # misses the current search made are written as "no", so the empty
+    # ones are asked again exactly once and then settle.
+    if index.get(key) == "no":                  # searched once, not found
         return None
     url = _search(name)
-    index[key] = url or ""
+    index[key] = url or "no"
     _remember(index)
     if not url:
         return None
