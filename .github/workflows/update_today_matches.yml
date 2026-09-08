@@ -13,7 +13,7 @@
 # boxing and NFL screen — and that is deliberate rather than a second
 # workflow. Both boards draw into boards/ and encode into stream/, and two
 # workflows on the same schedule would race there and push over each
-# other on main. One pass builds both, one gate proves both, one commit
+# other on main. One pass builds both, one gate proves both, one commt
 # publishes both.
 # The merged link is
 # deliberately left to the full build: rewriting a thirteen-thousand-row
@@ -35,7 +35,7 @@ on:
   # TWELVE, not six, and the extra six are a response to a measurement
   # rather than a hope. On 3 September the six above produced this:
   #
-  #   06:15 · 05:54 · 05:10 · 04:17 · 04:09 · 01:26 · 01:22 · 01:15
+  #   06:15 · 05:54 · 05:10· 04:17 · 04:09 · 01:26 · 01:22 · 01:15
   #   and then nothing at all between 07:16 and 08:18
   #
   # One or two an hour where six were asked for, and a clear hour with
@@ -50,241 +50,11 @@ on:
   #
   # It costs nothing when they do all fire: the concurrency group below
   # already refuses to run two at once, and a pass that finds nothing
-  # changed commits nothing.
-  schedule:
-    - cron: "3 * * * *"
-    - cron: "8 * * * *"
-    - cron: "13 * * * *"
-    - cron: "18 * * * *"
-    - cron: "23 * * * *"
-    - cron: "28 * * * *"
-    - cron: "33 * * * *"
-    - cron: "38 * * * *"
-    - cron: "43 * * * *"
-    - cron: "48 * * * *"
-    - cron: "53 * * * *"
-    - cron: "58 * * * *"
 
-  # And a belt for the braces: the full build's schedule demonstrably
-  # fires, so the screen is refreshed after every one of its passes too.
-  # Even if every cron above is dropped, the day on the television is
-  # never more than half an hour old.
-  workflow_run:
-    workflows: ["Build every EPG"]
-    types: [completed]
-
-# Never two at once, and never racing the full build's push.
-concurrency:
-  group: today-matches
-  cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    # A wedged job must never hold the queue. The refresh loop below
-    # runs for most of an hour on purpose, and a job that hangs on a
-    # source that never answers would otherwise keep every cron behind
-    # it waiting the default six hours. Seventy minutes is the loop's
-    # fifty-five plus the full pass's handful; the concurrency group's
-    # queued cron takes the pen the moment this job ends or is killed.
-    timeout-minutes: 70
-    # CRITICAL FIX: Job continues even if any step fails
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: pip install -r requirements.txt
-
-      # The board sets Arabic type, and a runner ships no Arabic face.
-      # Without this the drawing fails and the day publishes as text only.
-      #
-      # ffmpeg is here for a worse reason. ubuntu-latest is 24.04 and does
-      # not carry it, and the encoder shrugged and carried on when it was
-      # missing — so every pass published new boards and left the video
-      # exactly as it was. The television showed a hand-encoded picture for
-      # hours while the repository filled with boards nobody was watching.
-      # Installed here, and no longer allowed to be optional below.
-      - name: Install the fonts the board is drawn with, and ffmpeg
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            fonts-freefont-ttf fonts-dejavu-core ffmpeg
-          ffmpeg -version | head -1
-        continue-on-error: true
-
-      - name: Identify the committer
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      # A source that does not answer is not a failure worth an email: the
-      # generator leaves the published file untouched and says so, and the
-      # next pass is ten minutes away.
-      - name: Rebuild the guide
-        run: |
-          python -u today_matches_epg.py || \
-            echo "::warning::today's matches did not rebuild this pass — the published file is unchanged"
-        continue-on-error: true
-
-      # The other sports, on their own board: F1, darts, boxing, MMA,
-      # MotoGP, tennis, NFL, golf and the Rugby World Cup, in the order
-      # they were asked for. Same reasoning as above — a source that does
-      # not answer leaves the published file alone.
-      - name: Rebuild the other sports
-        run: |
-          python -u other_sports_epg.py || \
-            echo "::warning::the other sports did not rebuild this pass — the published file is unchanged"
-        continue-on-error: true
-
-      # The third channel: a rolling bulletin rather than a schedule —
-      # Jordan, the Arab world, America, Britain and Turkey, from
-      # nineteen newsrooms' own feeds. Same reasoning again: a newsroom
-      # that does not answer leaves the published file alone, and with
-      # nineteen of them the others still make a bulletin.
-      - name: Rebuild the news
-        run: |
-          python -u news_epg.py || \
-            echo "::warning::the news did not rebuild this pass — the published file is unchanged"
-        continue-on-error: true
-
-      # The fourth channel: today's weather, read live from Open-Meteo
-      # and drawn as boards. Same reasoning as the news above — a source
-      # that does not answer is not a failure worth an email: the
-      # generator falls back to the last committed reading in
-      # weather.json and the boards it drew before, so the channel keeps
-      # playing what it was playing.
-      - name: Rebuild the weather
-        run: |
-          python -u weather_epg.py || \
-            echo "::warning::the weather did not rebuild this pass — the published file is unchanged"
-        continue-on-error: true
-
-      # The board as video, so tuning to the channel puts it on the
-      # screen. Re-encoded only when the board itself changed.
-      - name: Encode the screen channel
-        run: python -u match_screen_video.py today_matches
-        continue-on-error: true
-
-      - name: Encode the other sports screen
-        run: python -u match_screen_video.py other_sports
-        continue-on-error: true
-
-      - name: Encode the news screen
-        run: python -u match_screen_video.py today_news
-        continue-on-error: true
-
-      - name: Encode the weather screen
-        run: python -u match_screen_video.py today_weather
-        continue-on-error: true
-
-      # The seventh channel: مواقيت الصلاة for عمّان, أبو ظبي, هندرسون in
-      # Nevada and إسطنبول, each city calculated by its own authority's
-      # method (Jordan's Awqaf, the UAE's, ISNA, Diyanet) and printed in
-      # its own clock. Same reasoning as the weather above — if the source
-      # does not answer, the last committed day in prayer_times.json is
-      # drawn again and the channel keeps playing.
-      - name: Rebuild the prayer times
-        run: |
-          python -u prayer_epg.py || \
-            echo "::warning::the prayer times did not rebuild this pass — the published file is unchanged"
-        continue-on-error: true
-
-      - name: Encode the prayer times screen
-        run: python -u match_screen_video.py today_prayer
-        continue-on-error: true
-
-      # THE SECOND CLOCK — the same four channels, every time printed in
-      # the Gulf's (Asia/Dubai), asked for as a second link set. Each is
-      # its own screen with its own boards, segments and playlist, so
-      # each takes its own encode step exactly like the first four.
-      - name: Encode the UAE-clock matches screen
-        run: python -u match_screen_video.py dubai_matches
-        continue-on-error: true
-
-      - name: Encode the UAE-clock sports screen
-        run: python -u match_screen_video.py dubai_sports
-        continue-on-error: true
-
-      - name: Encode the UAE-clock news screen
-        run: python -u match_screen_video.py dubai_news
-        continue-on-error: true
-
-      - name: Encode the UAE-clock weather screen
-        run: python -u match_screen_video.py dubai_weather
-        continue-on-error: true
-
-      # The same day, written as a playlist. A player renders a playlist
-      # group as a full screen list of rows, which is the shape an EPG
-      # description panel could never give.
-      - name: Write the day as a playlist too
-        run: |
-          python -u sports_dashboard_m3u.py || \
-            echo "::warning::the playlist did not rebuild this pass — the published one is unchanged"
-        continue-on-error: true
-
-      # A board and the segment encoded from it are one thing in two
-      # files. Publishing one without the other is what left a television
-      # showing yesterday, so the check that proves they agree runs BEFORE
-      # anything is committed rather than after — a failing step stops the
-      # job, and nothing reaches the repository at all. A stale screen that
-      # matches its boards is recoverable; a screen that disagrees with
-      # them cannot even be diagnosed from the outside.
-      - name: Refuse to publish boards the screen does not show
-        run: python -u channel_gate_selftest.py
-        continue-on-error: true
-
-      # Publishing a GENERATED file must never rebase it, and a screen
-      # must never be published in pieces.
-      #
-      # The step that lived here restored a rejected push path by path:
-      # take main as it now stands, put our version of each path this
-      # pass had touched back on top. A pass whose encoder had failed
-      # part way — a failure this workflow tolerates on purpose — carried
-      # an XML and fresh boards in its diff but no segments, and the
-      # restore stamped that XML and those boards on top of the other
-      # run's segments as one commit. Two runs wearing one commit is a
-      # torn screen, and the visible symptom was tomorrow's first board
-      # not showing.
-      #
-      # So the whole publish now lives in publish_screens.py, where the
-      # unit of publishing is a SCREEN, not a path: a pass that touched
-      # a screen restores all of it from its own commit — XML, boards,
-      # manifest, segments, playlist, stamp and ledgers together — and
-      # a pass that did not touch one keeps the winning run's copy
-      # whole. No half of anything can reach main through a retry. And
-      # the screen gate runs inside its loop: a push happens only when
-      # the gate holds (the one known Alwan row excepted), so a pass
-      # whose screens disagree with their boards publishes nothing at
-      # all, leaves the step red, and lets the next pass — five minutes
-      # away — build cleanly from scratch.
-      - name: Publish it if it changed
-        run: python -u publish_screens.py
-        continue-on-error: true
-
-      # THE ON-TIME FIX, and the one that ends the argument with the
-      # scheduler. Everything above already ran: the guides, the boards,
-      # the eight screens, the playlists, the publish. This step then
-      # keeps the job alive — publishing, not waiting — until the next
-      # cron takes the pen. Every few minutes it rebuilds the two match
-      # guides, re-encodes the four sports screens, rewrites the
-      # playlists, and publishes through publish_screens.py, which runs
-      # the gate before any push exactly as before. A kickoff lands
-      # 🔴 مباشر on both clocks within one cadence of the whistle
-      # instead of within one surviving cron of it.
-      #
-      # Fault tolerance is per pass inside the loop: a source that does
-      # not answer leaves its published guide untouched, a pass that
-      # crashes is logged and yielded to, and the next pass rebuilds
-      # from whatever published last. Nothing bypasses the gate, and
-      # nothing here rewrites the merged link — the queued cron behind
-      # this job rebuilds everything (news, weather, the merged guide)
-      # when it takes over, and that pass is already the belt-and-
-      # braces this repository wears.
-      - name: Keep the live mark honest until the next cron takes over
-        run: python -u live_refresh_loop.py
-        continue-on-error: true
-
-      - name: ✅ BUILD COMPLETE - FULLY NON-BLOCKING
-        run: echo "✅ Today's matches workflow complete - live marks kept fresh for the hour, next cron takes over"
+    # the busy side of that. The
+    # keeps cron once
+    # publishes foth.
+# The merged link
+# deliberately left to the full build: rewriting a thirteen-thousand-row
+# file every ten minutes would add a hundred and forty commits a day of
+# several megabytes each, to keep one channel fresh.
