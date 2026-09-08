@@ -61,6 +61,8 @@ import boxing_promotions
 import mlb_espn
 import wnba_espn
 import turkish_sport_grid
+import world_ball_feed
+import beach_volley_fivb
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label,
@@ -206,6 +208,12 @@ IN_ORDER = (
     # rows. Both now come from the Turkish grid — see
     # turkish_sport_grid.py for the seven sources measured before it.
     "Handball",
+    # And the two asked for beside them: the major international women's
+    # BEACH volleyball, from the federation's own service, and the major
+    # international FUTSAL. Same place at the end of the reader's order,
+    # nothing above them moved.
+    "Beach Volleyball",
+    "Futsal",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -272,7 +280,12 @@ def wanted(event: dict) -> bool:
         return False
     if not a_live_event(event.get("title", "")):
         return False
-    if not event.get("channels"):
+    if not event.get("channels") and event.get("source") not in (
+            "worldball", "fivb"):
+        # THE TWO FEDERATION-SIDE FEEDS ARE ALLOWED THROUGH WITHOUT ONE.
+        # They carry the majors no listings page in reach carries at all,
+        # and a reader counting the day sees a missing EVENT before a
+        # missing channel. Every other source still has to name one.
         return False
     # SNOOKER, ONLY WHERE THE READER ASKED FOR IT: "add Snooker from TNT
     # Sports and Eurosport channels". Every other broadcaster's snooker
@@ -1277,6 +1290,21 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # was measured before it was believed.
     everything += turkish_sport_grid.events(session)
     can_fetch = hasattr(session, "request")
+
+    # AND THE EUROPEAN-WIDE BACKUP behind it, because one country's grid
+    # holding one day is not enough for a sport that plays a World Cup
+    # across a fortnight: "Find more listing channels European channels
+    # for volleyball and handball if the Turkish is not sufficient". The
+    # feed world_ball_feed.py reads carries every day of the window with
+    # a real UNIX instant, and the majors of a third sport asked for in
+    # the same breath — futsal. It names no broadcaster, so its rows name
+    # none, and where the Turkish grid has the same fixture WITH a
+    # channel the board's own fold keeps that one.
+    if can_fetch:
+        everything += world_ball_feed.events(session)
+        # And the women's beach, from FIVB itself. See beach_volley_fivb.py
+        # for why its printed local clock is safe here and where it is not.
+        everything += beach_volley_fivb.events(session, floor, ceiling)
 
     # AND BASEBALL, from the league's own scoreboard — asked for by name
     # ("I want to add MLB and Baseball world series"). National networks
