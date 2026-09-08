@@ -9,15 +9,24 @@ Usage:
 Costs 5 API requests per run (one per airline). Run once or twice a day; the
 generator recomputes live status / progress locally every time it renders.
 """
-import argparse, json, os, sys, urllib.request, urllib.parse, datetime
+import argparse, json, os, sys, time, urllib.request, urllib.error, urllib.parse, datetime
 
 AIRLINES = ["EY", "EK", "RJ", "FZ", "TK"]
 API = "https://api.aviationstack.com/v1/flights"
 
 
 def get(url):
-    with urllib.request.urlopen(url, timeout=60) as r:
-        return json.load(r)
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(url, timeout=60) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < 4:
+                wait = 20 * (attempt + 1)
+                print(f"  rate-limited, retrying in {wait}s", flush=True)
+                time.sleep(wait)
+                continue
+            raise
 
 
 def minutes(iso):
@@ -36,12 +45,25 @@ def minutes(iso):
 def fetch(key, iata, date):
     # NOTE: the free plan does not allow the flight_date filter, so we request
     # the airline's current feed and filter to today's date locally.
-    q = urllib.parse.urlencode({
-        "access_key": key, "airline_iata": iata, "limit": 100,
-    })
-    data = get(f"{API}?{q}")
+    # Paginate (limit 100 per page) so we capture the airline's FULL day,
+    # not just the first 100 results.
+    rows = []
+    offset = 0
+    while True:
+        q = urllib.parse.urlencode({
+            "access_key": key, "airline_iata": iata,
+            "limit": 100, "offset": offset,
+        })
+        data = get(f"{API}?{q}")
+        batch = data.get("data", [])
+        rows += batch
+        total = (data.get("pagination") or {}).get("total", len(rows))
+        if not batch or len(rows) >= total:
+            break
+        offset += 100
+        time.sleep(5)  # stay under the free plan's per-minute rate limit
     out = []
-    for f in data.get("data", []):
+    for f in rows:
         if f.get("flight_date") != date:
             continue
         fl0 = f.get("flight") or {}
