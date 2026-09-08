@@ -218,6 +218,63 @@ JOIN_BACK = 3
 A_BOARD_NUMBER = re.compile(r"_(\d+)\.png$")
 
 
+# THE CLOCK ON THE SCREEN. A board is one still picture held for twenty
+# seconds, so a clock drawn into it would be a photograph of a clock. The
+# digits are painted on by the encoder instead, frame by frame, from the
+# board's place in the reel — so the time on the television advances with
+# the television rather than with the build.
+#
+# Each screen reads its own zone, and the two links keep the two clocks
+# they have always had: the plain links are the viewer's own time, the
+# dubai_* links are the Emirates'. Nothing about kickoff times, the
+# guides or the playlists is touched by this - it is paint.
+CLOCK_ZONES = {
+    "today_matches": "America/Los_Angeles",
+    "other_sports": "America/Los_Angeles",
+    "dubai_matches": "Asia/Dubai",
+    "dubai_sports": "Asia/Dubai",
+}
+
+# Where the digits go: the well match_board draws in the header. Read
+# from the board module so the two can never drift apart.
+try:
+    from match_board import CLOCK_BOX
+except Exception:                                          # pragma: no cover
+    CLOCK_BOX = [786, 42, 918, 86]
+
+CLOCK_ZONE = ""
+
+
+def clock_filter(place: int, hold: float) -> str:
+    """The drawtext that paints the live time into this segment."""
+    if not CLOCK_ZONE:
+        return ""
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+
+    now = datetime.now(timezone.utc)
+    try:
+        offset = ZoneInfo(CLOCK_ZONE).utcoffset(now)
+    except Exception:                                      # pragma: no cover
+        return ""
+    shift = offset.total_seconds() if offset else 0.0
+    # gmtime rather than localtime: the runner carries no tz database
+    # worth trusting, and the offset is arithmetic we already have.
+    epoch = int(now.timestamp() + shift + place * hold)
+    face = "fonts/Tajawal-Bold.ttf"
+    if not os.path.exists(face):
+        face = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    if not os.path.exists(face):
+        return ""
+    left, top, right, bottom = CLOCK_BOX
+    text = r"%{pts\:gmtime\:" + str(epoch) + r"\:%H\\\:%M}"
+    return (
+        f",drawtext=fontfile={face}:text='{text}'"
+        f":x={(left + right) // 2}-text_w/2:y={(top + bottom) // 2}-text_h/2"
+        f":fontsize=28:fontcolor=0xF2F6FF"
+    )
+
+
 def boards(prefix: str) -> list[str]:
     """This screen's boards, in the order of the days.
 
@@ -740,7 +797,7 @@ def encode_segment(board: str, out: str, place: int = 0,
         *inputs,
         *filters,
         "-c:v", "libx264", "-preset", "veryslow", "-tune", "stillimage",
-        "-vf", f"fps={FPS}", "-pix_fmt", "yuv420p",
+        "-vf", f"fps={FPS}{clock_filter(place, hold)}", "-pix_fmt", "yuv420p",
         # -r as well as the filter, because it is -r that makes the
         # stream DECLARE its rate. Without it ffprobe reads 0/0 and so
         # does the television.
@@ -877,8 +934,9 @@ def main(argv: list[str] | None = None) -> int:
     # folded into the fingerprint so a change to it re-encodes rather
     # than leaving a playlist declaring a length its segments do not
     # have.
-    global HOLD, THEME                                     # noqa: PLW0603
+    global HOLD, THEME, CLOCK_ZONE                         # noqa: PLW0603
     HOLD = seconds
+    CLOCK_ZONE = CLOCK_ZONES.get(which, "")
     THEME = THEMES.get(which, THEME)
     out = os.path.join(OUT_DIR, playlist)
     stamp = os.path.join(OUT_DIR, stamp_name)

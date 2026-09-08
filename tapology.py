@@ -219,12 +219,26 @@ def collect(page: str) -> list[dict]:
 
 def events(session, floor=None, ceiling=None) -> list[dict]:
     """Tapology's cards, or none if its reader is having a bad day."""
-    try:
-        page = fetch(session, SOURCE, headers={"x-no-cache": "true"},
-                     retries=1).text
-    except Exception as exc:                                  # noqa: BLE001
-        warn(f"tapology is unreachable through its reader ({exc}) — the "
-             f"board keeps what the other sources gave it")
+    # TWO WAYS IN, BECAUSE THE FIRST ONE HAS BAD DAYS. The reader answers
+    # 403 under load and the board lost every fight on the card with it,
+    # so the plain page is asked next — Cloudflare turns a runner away
+    # more often than not, but "more often than not" is not "always", and
+    # a card that arrives one pass in three is a card the board carries.
+    page = ""
+    for where, extra in ((SOURCE, {"x-no-cache": "true"}),
+                         (SOURCE.replace("https://r.jina.ai/", ""),
+                          {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) "
+                                         "AppleWebKit/537.36 (KHTML, like "
+                                         "Gecko) Chrome/124 Safari/537.36",
+                           "Accept-Language": "en"})):
+        try:
+            page = fetch(session, where, headers=extra, retries=1).text
+            break
+        except Exception as exc:                              # noqa: BLE001
+            last = exc
+    if not page:
+        warn(f"tapology is unreachable both ways ({last}) — the board "
+             f"keeps what the other sources gave it")
         return []
     found = collect(page)
     for event in found:

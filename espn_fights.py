@@ -72,7 +72,11 @@ from epg_lib import fetch, log, norm, warn
 # mma sport. Read straight from the scoreboard endpoint with a dates
 # window, the same way the reader of any other feed here reads its own.
 HOST = "https://site.web.api.espn.com/apis/site/v2/sports/mma"
-LEAGUES = ("ufc", "pfl")
+# UFC, PFL and Bellator: the three of ESPN's mma leagues whose
+# scoreboards actually answer, asked for as "sources for PPV events,
+# Boxing and MMA around the world". A league that stops answering
+# costs the board nothing — each one is read on its own.
+LEAGUES = ("ufc", "pfl", "bellator")
 
 # The window asked for in days. The board's own window is four days
 # now ("make schadule every 4 days"), and this calendar is read with a

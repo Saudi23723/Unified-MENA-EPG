@@ -199,14 +199,43 @@ def day_bounds(day: date) -> tuple[datetime, datetime]:
     return start_of_day(day), start_of_day(day + timedelta(days=1))
 
 
+# NOT A LIVE EVENT. A broadcaster's day is mostly talk: a preview show,
+# a panel, a magazine, a replay of last night, a classic from 1998, a
+# countdown, a documentary. Every one of them is a programme ABOUT sport
+# rather than sport happening, and this board exists to answer one
+# question - "what is on live right now, and where". A talk show sitting
+# between two live cards makes the whole board a guess.
+#
+# Asked for outright: "make sure it's only LIVE event, not recorded and
+# not a program". So a title that names itself a programme is refused
+# before anything else looks at it.
+NOT_LIVE = re.compile(
+    r"\b(preview|review|recap|rewind|replay|highlights?|encore|"
+    r"classic(?:s)?|vintage|archive|throwback|best\s+of|top\s+\d+|"
+    r"talk|panel|magazine|round\s*table|roundtable|debate|analysis|"
+    r"documentary|film|story|profile|special\s+report|"
+    r"countdown|build[- ]?up|pre[- ]?(?:game|match|fight)\s*show|"
+    r"post[- ]?(?:game|match|fight)\s*show|weigh[- ]?in|press\s+conference|"
+    r"sportscenter|sports\s*center|daily|weekly|this\s+week\s+in|"
+    r"season\s+preview|30\s+for\s+30|embedded|countdown\s+to)\b"
+    r"|\bshow\b", re.I)
+
+
+def a_live_event(title: str) -> bool:
+    """Whether this row is sport happening, rather than sport discussed."""
+    return not NOT_LIVE.search(title or "")
+
+
 def wanted(event: dict) -> bool:
-    """Only the sports asked for, and only ones that name a channel.
+    """Only the sports asked for, live, and only ones that name a channel.
 
     The second half is the rule every board here obeys: an event with no
     published broadcaster is not shown, because the one thing this screen
     must never do is put a viewer on a channel that is not carrying it.
     """
-    return event.get("sport") in RANK and bool(event.get("channels"))
+    return (event.get("sport") in RANK
+            and a_live_event(event.get("title", ""))
+            and bool(event.get("channels")))
 
 
 def in_the_readers_order(events: list[dict]) -> list[dict]:

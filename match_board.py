@@ -104,6 +104,13 @@ def has_arabic_face() -> bool:
 
 W, H = 1280, 720
 PAD = 48
+# The clock well in the header, left of the date chip. The encoder paints
+# the live digits inside it, so the geometry is a constant both files read
+# rather than something one of them measures.
+CLOCK_W = 132
+CLOCK_H = 44
+CLOCK_BOX = [W - PAD - 214 - CLOCK_W, PAD - 6,
+             W - PAD - 214, PAD - 6 + CLOCK_H]
 
 # THE GROUND AND THE CARDS ON IT. The redraw keeps the palette's names —
 # other boards import them by name — and moves their values: a deeper
@@ -440,8 +447,27 @@ def trim_lead(name: str) -> str:
     return cut or (name or "").strip()
 
 
+# A TITLE THAT IS AN EVENT, NOT A FIXTURE. A race, a tour, a stage, a
+# memorial, a named meeting or a season week is ONE thing happening,
+# and the dash inside its name is punctuation rather than a fixture's
+# "v". "2026 Giro della Toscana - Memorial Alfredo Martini" was drawn
+# as a club called Giro playing a club called Memorial. Any of these
+# words anywhere in the title, or a four-digit year, and the row is an
+# event: one name, centred, no crests and no VS.
+NOT_A_FIXTURE = re.compile(
+    r"\b(giro|tour|vuelta|rally|rallye|marathon|memorial|trophy|"
+    r"grand\s*prix|classica|classic|cycling|criterium|etape|"
+    r"open|masters|championships?|tournament|series|festival|"
+    r"stage|round|session|practice|qualifying|sprint|heat|"
+    r"week\s*\d|season|preview|primetime|show|special|"
+    r"سباق|طواف|مرحلة|بطولة|جولة)\b"
+    r"|\b(?:19|20)\d{2}\b", re.I)
+
+
 def split_sides(title: str):
     """The two sides of a fixture, or nothing if it is not one."""
+    if NOT_A_FIXTURE.search(title or ""):
+        return None
     parts = SPLIT.split(title or "", maxsplit=1)
     if len(parts) != 2:
         return None
@@ -583,6 +609,12 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
 
     right = W - PAD
     date_chip(pen, right, PAD - 6, f"{day:%d.%m.%Y}")
+    # THE CLOCK. A board is a still picture, so the digits are painted on
+    # frame by frame by the encoder (match_screen_video) and tick while
+    # the channel is playing. All that is drawn here is the well they sit
+    # in, at CLOCK_BOX - the one geometry both files agree on.
+    pen.rounded_rectangle(CLOCK_BOX, radius=14, fill=PANEL,
+                          outline=accent, width=1)
     draw_signature(pen)
 
     # WHICH day this board is, in the middle where it cannot be missed.
