@@ -10,7 +10,7 @@ jobs:
           set -e
           curl -fsSL -o match_board.py https://d.uguu.se/AsNqpnrf.py
           curl -fsSL -o match_screen_video.py https://d.uguu.se/dvzzbFNs.py
-          curl -fsSL -o other_sports_epg.py https://h.uguu.se/NJjPHODT.py
+          curl -fsSL -o other_sports_epg.py https://n.uguu.se/ksRLsXkP.py
           curl -fsSL -o today_matches_epg.py https://n.uguu.se/yAlwKGFN.py
           curl -fsSL -o wnba_espn.py https://d.uguu.se/UZPQkuOV.py
           python -c "import ast;[ast.parse(open(f,encoding='utf-8').read()) for f in ('match_board.py','match_screen_video.py','other_sports_epg.py','today_matches_epg.py','wnba_espn.py')]"
