@@ -15,8 +15,11 @@ Quota safety (free plan = ~100 API requests / month):
 """
 import argparse, json, os, sys, time, urllib.request, urllib.error, urllib.parse, datetime
 
-AIRLINES = ["EY", "EK", "RJ"]
-MAX_PAGES = 1  # pages (100 flights) per airline per run -> 3 requests/run
+AIRLINES = ["EY", "RJ"]
+# Pages (100 flights each) per airline per run. Etihad gets 2 pages because its
+# feed spreads today's flights further down. Total = 3 requests/run (~90/month).
+PAGES = {"EY": 2, "RJ": 1}
+MAX_PAGES = 1
 API = "https://api.aviationstack.com/v1/flights"
 
 
@@ -62,7 +65,8 @@ def fetch(key, iata, date):
     # NOTE: the free plan does not allow the flight_date filter, so we request
     # the airline's current feed and filter to today's date locally.
     rows = []
-    for page in range(MAX_PAGES):
+    max_pages = PAGES.get(iata, MAX_PAGES)
+    for page in range(max_pages):
         q = urllib.parse.urlencode({
             "access_key": key, "airline_iata": iata,
             "limit": 100, "offset": page * 100,
@@ -73,7 +77,7 @@ def fetch(key, iata, date):
         total = (data.get("pagination") or {}).get("total", len(rows))
         if not batch or len(rows) >= total:
             break
-        if page + 1 < MAX_PAGES:
+        if page + 1 < max_pages:
             time.sleep(5)  # stay under the per-minute rate limit
     out = []
     for f in rows:
