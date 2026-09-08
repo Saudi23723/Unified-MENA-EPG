@@ -19,18 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Upgrade the generator in-repo: 18s pages, dynamic length covering ALL
-      # flights, correct footer. Idempotent sed patches, committed back below.
-      - name: Patch generator to latest version
+      # The generator is stored in 3 parts (upload size limits); rebuild it.
+      - name: Assemble generator
         run: |
-          sed -i 's/^DURATION = 60.*$/DURATION = None  # dynamic: pages * PAGE_SECONDS/' tools/generate_flight_tracker.py
-          sed -i 's/^PAGE_SECONDS = .*/PAGE_SECONDS = 18/' tools/generate_flight_tracker.py
-          sed -i 's/    pages = max(1, DURATION \/\/ PAGE_SECONDS)/    pages = max(1, math.ceil(len(flights) \/ PER_PAGE))/' tools/generate_flight_tracker.py
-          sed -i 's/    return flights\[:pages \* PER_PAGE\], pages/    return flights, pages/' tools/generate_flight_tracker.py
-          sed -i 's/    n = FPS \* DURATION/    n = FPS * build_flights(ROWS, 0)[1] * PAGE_SECONDS/' tools/generate_flight_tracker.py
-          sed -i 's/refreshed every 20 min/refreshed every 8 min/' tools/generate_flight_tracker.py
-          sed -i 's/^FPS = .*/FPS = 2/' tools/generate_flight_tracker.py
-          grep -n "PAGE_SECONDS = \|n = FPS\|pages = max" tools/generate_flight_tracker.py
+          cat tools/genpart_00 tools/genpart_01 tools/genpart_02 > tools/generate_flight_tracker.py
+          python3 -c "import ast;ast.parse(open('tools/generate_flight_tracker.py').read());print('generator ok')"
 
       - uses: actions/setup-python@v5
         with:
