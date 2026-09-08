@@ -11,7 +11,7 @@ generator recomputes live status / progress locally every time it renders.
 """
 import argparse, json, os, sys, time, urllib.request, urllib.error, urllib.parse, datetime
 
-AIRLINES = ["EY", "EK", "RJ", "FZ", "TK"]
+AIRLINES = ["EY", "EK", "RJ"]
 API = "https://api.aviationstack.com/v1/flights"
 
 
