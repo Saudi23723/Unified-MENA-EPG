@@ -305,14 +305,6 @@ def render_frame(t, tz, date_label, out):
         text(d, (cx+360, cy+14), f"{alab} {hhmm(arr_d)}", F_SMALL, GREEN if arr_act else ACCENT)
         text(d, (cx+230, cy+34), f"{hhmm(dep_l)} {tzcity}", F_TINY, GREY)
         text(d, (cx+360, cy+34), f"{hhmm(arr_l)} {tzcity}", F_TINY, GREY)
-        # bottom-middle amber line: countdown to landing only
-        lbl = None
-        if f["status"] == "IN FLIGHT":
-            rem = int(round(f['arr'] - now_min))
-            if rem < 0: rem += 1440
-            lbl = f"LANDS IN  {rem//60}h {rem%60:02d}m" if rem > 0 else "LANDING NOW"
-        if lbl:
-            text(d, (cx+335, cy+80), lbl, F_SMALL, AMBER, anchor="mm")
 
         # status badge
         bw2 = 118
