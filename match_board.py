@@ -379,6 +379,76 @@ def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
     return f"{relative} · {weekday}" if relative else weekday
 
 
+# ---- crests ------------------------------------------------------------
+# A MATCH IS TWO CLUBS, SO THE ROW SHOWS TWO CLUBS. The board used to
+# print "Real Madrid CF - FC Internazionale Milano" as one run of text,
+# and a viewer across a room read a grey line rather than a fixture.
+# Each side now carries its crest, the two are set either side of a VS,
+# and a club whose crest cannot be found wears a lettered disc in a
+# colour taken from its own name — never a hole where a badge should be.
+try:
+    import team_badges
+except Exception:                                # pragma: no cover
+    team_badges = None
+
+SPLIT = re.compile(r"\s+(?:vs\.?|VS\.?|[-–—x×])\s+")
+_CRESTS: dict[tuple[str, int], object] = {}
+
+
+def split_sides(title: str):
+    """The two sides of a fixture, or nothing if it is not one."""
+    parts = SPLIT.split(title or "", maxsplit=1)
+    if len(parts) != 2:
+        return None
+    home, away = (part.strip() for part in parts)
+    if not home or not away or len(home) < 2 or len(away) < 2:
+        return None
+    return home, away
+
+
+def crest(name: str, box: int):
+    """The club's crest at the size the row can hold, or None."""
+    key = (name, box)
+    if key in _CRESTS:
+        return _CRESTS[key]
+    image = None
+    if team_badges is not None:
+        try:
+            found = team_badges.badge(name)
+        except Exception:
+            found = None
+        if found is not None:
+            found = found.copy()
+            found.thumbnail((box, box), Image.LANCZOS)
+            image = found
+    _CRESTS[key] = image
+    return image
+
+
+def initials(name: str) -> str:
+    words = [word for word in re.split(r"[\s.]+", name) if word]
+    letters = "".join(word[0] for word in words if word[0].isalnum())
+    return (letters[:2] or name[:2]).upper()
+
+
+def draw_crest(board, pen, name, cx, cy, box):
+    """A club's badge at (cx, cy), or its letters in its own colour."""
+    image = crest(name, box)
+    if image is not None:
+        board.alpha_composite(image, (cx - image.width // 2,
+                                      cy - image.height // 2))
+        return
+    tone = comp_colour(name) + (255,)
+    half = box // 2
+    pen.ellipse([cx - half, cy - half, cx + half, cy + half],
+                fill=dim(tone, 0.30), outline=tone, width=2)
+    draw_text(pen, (cx, cy), initials(name), max(12, box // 2 - 2), tone,
+              anchor="mm", weight="heavy")
+
+
+CHANNEL_ZONE = 300
+
+
 def draw_board(day: date, events: list[dict], now: datetime, viewer,
                live_for, *, title: str, subtitle: str, weekday: str,
                page: int = 1, pages: int = 1, accent=None) -> Image.Image:
@@ -462,11 +532,17 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     # and whatever is still spare is split above and below so the block
     # sits in the middle of the board rather than hanging from its top.
     if len(rows) * height < room:
-        height = min(104, room // len(rows))
+        height = min(96, room // len(rows))
+    # Whatever room is still spare is spread as air between the cards
+    # rather than left in one dead block at the foot of the screen, so a
+    # three-match day breathes down the whole board instead of stopping
+    # a third of the way and leaving the rest bare.
     spare = max(0, room - len(rows) * height)
+    lead = min(40, spare // (len(rows) + 1))
+    spare -= lead * (len(rows) + 1)
 
     time_x, name_x = PAD + 128, PAD + 168
-    y = top + 8 + spare // 2
+    y = top + 8 + lead + spare // 2
 
     # THE STATUS SLOT. One line for مباشر, التالي and انتهى — asked for
     # outright, twice, in the same breath: "التالي و المباشر مش على نفس
@@ -664,9 +740,17 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # is — a channel pill that pokes out of the row line is the
         # same complaint the status pill earned.
         pill_half = min(pill_size, (height - 6) // 2 - 2)
+        # THE CHANNELS KEEP A COLUMN OF THEIR OWN, always the same
+        # width, so the VS down the middle of the board lands in one
+        # straight line on every row instead of drifting with however
+        # many channels a match happens to carry. Nothing is dropped:
+        # every channel still shows, each one simply cut to its share
+        # of the column when a match is on three of them at once.
         channel_x = W - PAD
-        for channel in reversed(event["channels"][:3]):
-            label = clipped(channel, pill_size, 280, thin=True)
+        shown = event["channels"][:3]
+        share = (CHANNEL_ZONE - 10 * max(0, len(shown) - 1)) // max(1, len(shown))
+        for channel in reversed(shown):
+            label = clipped(channel, pill_size, max(60, share - 26), thin=True)
             wide = width_of(label, pill_size, thin=True) + 26
             pen.rounded_rectangle(
                 [channel_x - wide, pill_y - pill_half, channel_x,
@@ -698,12 +782,63 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # mistake. Past that, and only past that, it is clipped — and
         # what is left over is a name longer than a whole board, where
         # something has to give.
-        fitted = size_that_fits(event["title"], size,
-                                under if two else max(15, size - 6),
-                                room_for_name)
-        draw_text(pen, (head, head_y),
-                  clipped(event["title"], fitted, room_for_name),
-                  fitted, WHITE, anchor="lm")
+        # THE FIXTURE, DRAWN AS A FIXTURE. Where the row is tall enough
+        # and the title really is two sides, it is set as crest, club,
+        # VS, crest, club — the shape a viewer already reads on every
+        # sports channel there is. Where it is not (a race, a session, a
+        # one-name event, or a row squeezed thin by a full day) the
+        # title is written as it always was.
+        sides = split_sides(event["title"]) if height >= 52 else None
+        drawn = False
+        chip_left, chip_stop = head, channel_x - 60
+        if sides:
+            home, away = sides
+            # A FIXTURE IS A MIRROR, AND THE BOARD IS SET LIKE ONE. The
+            # home club runs out from the left with its crest first; the
+            # away club runs back in from the right with its crest last;
+            # VS holds the centre line, in the same place on every row,
+            # so the eye reads straight down the middle of the board
+            # instead of hunting for where one fixture ends. Each side
+            # gets exactly half the span minus the VS gutter, so the two
+            # can never meet in the middle whatever the names are.
+            left_edge, right_edge = head, W - PAD - CHANNEL_ZONE - 24
+            centre = (left_edge + right_edge) // 2
+            crest_y = (head_y + middle) // 2 if two else middle
+            box = min(44, 2 * (crest_y - y - 6),
+                      2 * (y + height - 6 - crest_y))
+            gap, gutter = 12, 34
+            side_room = centre - gutter - left_edge - box - gap
+            fitted = size
+            while fitted > 15 and max(width_of(home, fitted),
+                                      width_of(away, fitted)) > side_room:
+                fitted -= 1
+            if box >= 22 and side_room > 60:
+                # A played match steps back in grey; red is kept
+                # for the clock, where it means "over" already.
+                ink = PILL_INK if over else WHITE
+                home_txt = clipped(home, fitted, side_room)
+                away_txt = clipped(away, fitted, side_room)
+                draw_crest(board, pen, home, left_edge + box // 2,
+                           crest_y, box)
+                chip_left = left_edge + box + gap
+                draw_text(pen, (chip_left, head_y), home_txt, fitted, ink,
+                          anchor="lm")
+                draw_text(pen, (centre, head_y), "VS", max(14, fitted - 5),
+                          LIVE_TAG if live else MUTED, anchor="mm",
+                          weight="heavy")
+                draw_crest(board, pen, away, right_edge - box // 2,
+                           crest_y, box)
+                draw_text(pen, (right_edge - box - gap, head_y), away_txt,
+                          fitted, ink, anchor="rm")
+                chip_stop = centre - gutter
+                drawn = True
+        if not drawn:
+            fitted = size_that_fits(event["title"], size,
+                                    under if two else max(15, size - 6),
+                                    room_for_name)
+            draw_text(pen, (head, head_y),
+                      clipped(event["title"], fitted, room_for_name),
+                      fitted, WHITE, anchor="lm")
 
         if two:
             # THE COMPETITION IS THE FIRST THING A VIEWER LOOKS FOR after
@@ -727,17 +862,18 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # never changes between builds and the board stays byte for
             # byte the same unless the day did.
             tone = comp_colour(beneath) + (255,)
-            label = clipped(beneath, under, channel_x - head - 60,
+            label = clipped(beneath, under, max(60, chip_stop - chip_left),
                             weight="mid")
-            chip_w = width_of(label, under, weight="mid") + 26
+            chip_w = min(width_of(label, under, weight="mid") + 26,
+                         max(60, chip_stop - chip_left))
             chip_h = under + 10
             pen.rounded_rectangle(
-                [head, sub_y - chip_h // 2, head + chip_w,
+                [chip_left, sub_y - chip_h // 2, chip_left + chip_w,
                  sub_y + chip_h // 2],
                 radius=chip_h // 2, fill=dim(tone), outline=tone, width=1)
-            draw_text(pen, (head + chip_w // 2, sub_y), label,
+            draw_text(pen, (chip_left + chip_w // 2, sub_y), label,
                       under, tone, anchor="mm", weight="mid")
-        y += height
+        y += height + lead
 
     left_out = len(events) - len(rows)
     if left_out > 0:
