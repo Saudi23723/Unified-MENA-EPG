@@ -126,6 +126,7 @@ BOARD_PREFIX = "other_sports_"
 DUBAI_OUTPUT = "dubai_sports_epg.xml"
 DUBAI_CHANNEL_ID = "TodaySportsDubai"
 DUBAI_BOARD_PREFIX = "dubai_sports_"
+SUBTITLE = "سباقات ونزالات وبطولات"
 BOARD_COLOURS = 64
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #
@@ -373,7 +374,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
         drawn_rows = [dict(event, title=row_title(event)) for event in events]
         board = draw_board(
             day, drawn_rows, now, VIEWER, MATCH_ON_AIR,
-            title=CHANNEL_AR, subtitle=f"سباقات ونزالات وبطولات · {VIEWER_NAME}",
+            title=CHANNEL_AR, subtitle=f"{SUBTITLE} · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages,
             accent=(167, 139, 250, 255))
         buffer = io.BytesIO()
