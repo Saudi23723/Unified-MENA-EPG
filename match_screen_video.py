@@ -126,6 +126,13 @@ SCREENS = {
                     "ball_sports.sha256", 20),
     "dubai_ball_sports": ("dubai_ball_sports_", "dubai_ball_sports.m3u8",
                           "dubai_ball_sports.sha256", 20),
+    # THE NINTH CHANNEL — السلة والقدم الأمريكية: the NBA and the NFL,
+    # which came off channel 2 to have a screen of their own.
+    "hoops_gridiron": ("hoops_gridiron_", "hoops_gridiron.m3u8",
+                       "hoops_gridiron.sha256", 20),
+    "dubai_hoops_gridiron": ("dubai_hoops_gridiron_",
+                             "dubai_hoops_gridiron.m3u8",
+                             "dubai_hoops_gridiron.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -431,6 +438,8 @@ THEMES = {
     "dubai_weather": "audio/theme_weather.m4a",
     "ball_sports": "audio/theme_sports.m4a",
     "dubai_ball_sports": "audio/theme_sports.m4a",
+    "hoops_gridiron": "audio/theme_sports.m4a",
+    "dubai_hoops_gridiron": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4
