@@ -101,6 +101,13 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "dubai_ball_sports": ("dubai_ball_sports_", "dubai_ball_sports_epg.xml",
                           "dubai_ball_sports.m3u8",
                           "dubai_ball_sports.sha256"),
+    # The ninth channel — السلة والقدم الأمريكية, in both clocks.
+    "hoops_gridiron": ("hoops_gridiron_", "hoops_gridiron_epg.xml",
+                       "hoops_gridiron.m3u8", "hoops_gridiron.sha256"),
+    "dubai_hoops_gridiron": ("dubai_hoops_gridiron_",
+                             "dubai_hoops_gridiron_epg.xml",
+                             "dubai_hoops_gridiron.m3u8",
+                             "dubai_hoops_gridiron.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
@@ -288,6 +295,7 @@ def stage() -> int:
         return 1
     git("add", "--", "today_matches_epg.xml")
     for path in ("ball_sports_epg.xml", "dubai_ball_sports_epg.xml",
+                 "hoops_gridiron_epg.xml", "dubai_hoops_gridiron_epg.xml",
                  "other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",
