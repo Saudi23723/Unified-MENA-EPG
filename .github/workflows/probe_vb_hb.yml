@@ -5,6 +5,7 @@ on:
       - "probes/probe_volleyball_and_handball.py"
       - "probes/probe_turkish_volleyball.py"
       - "probes/probe_event_list_rows.py"
+      - "probes/probe_a_match_day.py"
       - ".github/workflows/probe_vb_hb.yml"
   workflow_dispatch:
 permissions:
@@ -19,4 +20,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -u probes/probe_event_list_rows.py
+      - run: python -u probes/probe_a_match_day.py
