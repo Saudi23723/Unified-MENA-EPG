@@ -10,14 +10,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch updated screen scripts
         run: |
-          curl -fsSL -o match_board.py https://litter.catbox.moe/kcsnai.py
-          curl -fsSL -o team_badges.py https://d.uguu.se/FcSJrNJR.py
-          curl -fsSL -o today_matches_epg.py https://n.uguu.se/snQPfTuc.py
-          python -c "import ast,sys;[ast.parse(open(f,encoding='utf-8').read()) for f in ['match_board.py','team_badges.py','today_matches_epg.py']]"
+          curl -fsSL -o team_badges.py https://d.uguu.se/MBfxYlPT.py
+          python -c "import ast;ast.parse(open('team_badges.py',encoding='utf-8').read())"
       - name: Commit
         run: |
           git config user.name "epg-bot"
           git config user.email "epg-bot@users.noreply.github.com"
-          git add match_board.py team_badges.py today_matches_epg.py
-          git commit -m "Screens: real crests, event rows on channel 2, no repeated fixtures" || echo "nothing to commit"
+          git add team_badges.py
+          git commit -m "Crests: a time budget so a first lookup run cannot stall the build" || echo "nothing to commit"
           git push
