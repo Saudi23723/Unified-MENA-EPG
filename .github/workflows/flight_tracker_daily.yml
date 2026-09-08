@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Apply card layout fix
+        run: python3 tools/cardfix.py
       - name: Validate generator
         run: python3 -c "import ast;ast.parse(open('tools/generate_flight_tracker.py').read());print('generator ok')"
       - uses: actions/setup-python@v5
