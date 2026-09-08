@@ -70,6 +70,17 @@ AIN_FM_ID = "AinFMJordan"
 AIN_FM_NAME = "Ain FM 98.3"
 AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
 
+# The sixth channel — ✈️ رحلات اليوم. Today's departures and arrivals for
+# Etihad, Emirates, Royal Jordanian, flydubai and Turkish, pulled once a
+# day from AviationStack (tools/fetch_flights.py) and re-drawn every
+# twenty minutes so a plane's status and its place along the route are
+# current rather than a picture of the morning. Encoded here into
+# stream/flight_tracker.m3u8 the same way the boards beside it are, so
+# nothing outside this repository can switch the channel off.
+FLIGHT_ID = "FlightTracker"
+FLIGHT_NAME = "رحلات اليوم"
+FLIGHT_LOGO = f"{RAW}/logos/flight_tracker.png"
+
 # Five channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
@@ -96,6 +107,8 @@ SCREENS = (
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
     (AIN_FM_ID, AIN_FM_NAME, "stream/ain_fm.m3u8",
      f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
+    (FLIGHT_ID, FLIGHT_NAME, "stream/flight_tracker.m3u8",
+     f"{RAW}/stream/flight_tracker.m3u8", "✈️ رحلات اليوم", FLIGHT_LOGO),
 
 )
 
@@ -135,6 +148,11 @@ DUBAI_SCREENS = (
     # two rows of one id for one channel and tunes to neither.
     ("AinFMJordanDubai", AIN_FM_NAME, "stream/ain_fm.m3u8",
      f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
+    # Every time on this one is printed in the Gulf's, so it is its own
+    # encode rather than the first clock's file under a second id.
+    ("FlightTrackerDubai", FLIGHT_NAME, "stream/dubai_flight_tracker.m3u8",
+     f"{RAW}/stream/dubai_flight_tracker.m3u8",
+     "✈️ رحلات اليوم · بتوقيت الإمارات", FLIGHT_LOGO),
 
 )
 
