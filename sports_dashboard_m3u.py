@@ -48,6 +48,9 @@ from weather_epg import LOGO as WEATHER_LOGO
 from ball_sports_epg import CHANNEL_AR as BALL_AR
 from ball_sports_epg import CHANNEL_ID as BALL_ID
 from ball_sports_epg import LOGO as BALL_LOGO
+from hoops_gridiron_epg import CHANNEL_AR as HOOPS_AR
+from hoops_gridiron_epg import CHANNEL_ID as HOOPS_ID
+from hoops_gridiron_epg import LOGO as HOOPS_LOGO
 from prayer_epg import CHANNEL_AR as PRAYER_AR
 from prayer_epg import CHANNEL_ID as PRAYER_ID
 from prayer_epg import LOGO as PRAYER_LOGO
@@ -124,6 +127,11 @@ SCREENS = (
     # channel 2 and on a screen of their own, as asked.
     (BALL_ID, BALL_AR, "stream/ball_sports.m3u8",
      f"{RAW}/stream/ball_sports.m3u8", "⚾ بيسبول وسلة السيدات", BALL_LOGO),
+    # The ninth channel — 🏀 السلة والقدم الأمريكية: the NBA and the NFL,
+    # off channel 2 and on a screen of their own, every game of both.
+    (HOOPS_ID, HOOPS_AR, "stream/hoops_gridiron.m3u8",
+     f"{RAW}/stream/hoops_gridiron.m3u8", "🏀 السلة والقدم الأمريكية",
+     HOOPS_LOGO),
 
 )
 
@@ -178,6 +186,9 @@ DUBAI_SCREENS = (
     ("BallSportsDubai", BALL_AR, "stream/dubai_ball_sports.m3u8",
      f"{RAW}/stream/dubai_ball_sports.m3u8",
      "⚾ بيسبول وسلة السيدات · بتوقيت الإمارات", BALL_LOGO),
+    ("HoopsGridironDubai", HOOPS_AR, "stream/dubai_hoops_gridiron.m3u8",
+     f"{RAW}/stream/dubai_hoops_gridiron.m3u8",
+     "🏀 السلة والقدم الأمريكية · بتوقيت الإمارات", HOOPS_LOGO),
 
 )
 
