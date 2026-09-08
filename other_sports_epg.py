@@ -57,6 +57,8 @@ import sports_media_watch
 import sportsnet
 import tapology
 import tsn
+import boxing_promotions
+import mlb_espn
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label,
@@ -179,9 +181,10 @@ DAYS_AHEAD = 4
 # snooker & MLB from channel 2". Inside a day the clock rules anyway and
 # the sport only breaks a tie.
 IN_ORDER = (
+    "Olympics",
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
-    "NFL", "NBA", "FIBA", "Golf", "Rugby", "Padel",
-    "Cycling", "Athletics", "Volleyball", "Triathlon",
+    "NFL", "NBA", "MLB", "FIBA", "Golf", "Rugby", "Padel",
+    "Cycling", "Athletics", "Volleyball", "Triathlon", "Swimming",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -795,6 +798,65 @@ def _the_same_fight_card(into: dict, event: dict) -> bool:
     return False
 
 
+
+def one_row_per_ball_game(events: list[dict]) -> list[dict]:
+    """One baseball game, however many sources named it.
+
+    Two sources carry the same game and write it differently — the
+    listings page reverses the sides and puts the league at the end, the
+    league's own feed does not:
+
+        23:40  Milwaukee Brewers v Chicago Cubs MLB   TNT Sports 1 · HBO Max
+        23:40  Chicago Cubs - Milwaukee Brewers       ESPN Unlmtd
+
+    The general fold above tests one title as a prefix of the other,
+    which these two are not, so baseball gets its own test: the same two
+    clubs, whichever way round they are written, within a quarter of an
+    hour of each other — a listings page rounds a 22:40 first pitch to
+    22:30 and no two games between the same two clubs are ever that
+    close together. The channels of both are kept, because they
+    are both true — one is where the game is shown here, the other
+    where it is shown there — and the league feed's title is the one
+    printed, because it is the league's.
+    """
+    def nicknames(title: str) -> frozenset[str]:
+        bare = re.sub(r"\bmlb\b", " ", title, flags=re.I)
+        sides = re.split(r"\s+(?:v|vs|at|-|–|@)\s+", bare, flags=re.I)
+        out = {side.split()[-1].casefold() for side in sides
+               if side.strip() and side.split()}
+        return frozenset(out)
+
+    kept: list[dict] = []
+    for event in events:
+        if event.get("sport") != "MLB":
+            kept.append(event)
+            continue
+        # One wording for the sport: the listings page ends every title
+        # with the league's own name and separates the clubs with a "v",
+        # and neither belongs on a board that already prints the league
+        # beside the row.
+        event["title"] = re.sub(
+            r"\s+v\s+", " - ",
+            re.sub(r"\s*\bmlb\b\s*$", "", event["title"], flags=re.I),
+            flags=re.I).strip()
+        sides = nicknames(event["title"])
+        for other in kept:
+            if (other.get("sport") == "MLB"
+                    and abs((other["start"] - event["start"]).total_seconds()) <= 900
+                    and len(sides) == 2
+                    and nicknames(other["title"]) == sides):
+                for channel in event["channels"]:
+                    if channel not in other["channels"]:
+                        other["channels"].append(channel)
+                # The league's own wording, which writes " - ".
+                if " - " in event["title"] and " - " not in other["title"]:
+                    other["title"] = event["title"]
+                break
+        else:
+            kept.append(event)
+    return kept
+
+
 def one_row_per_broadcast(events: list[dict],
                           the_backup_is: str | None = None) -> list[dict]:
     """Two sources naming one broadcast become one row.
@@ -1073,6 +1135,23 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     everything += american_sport_on_tv.events(session)
     can_fetch = hasattr(session, "request")
 
+    # AND BASEBALL, from the league's own scoreboard — asked for by name
+    # ("I want to add MLB and Baseball world series"). National networks
+    # only through the summer, and October whole: every postseason game,
+    # up to and including the World Series, is a national broadcast and
+    # the feed labels the round beside it. See mlb_espn.py.
+    if can_fetch:
+        everything += mlb_espn.collect(session, floor, ceiling)
+
+    # AND THE PROMOTIONS' OWN CARDS — Most Valuable Promotions from its
+    # own events page, where every upcoming card carries a real UNIX
+    # instant; Misfits and the rest of DAZN's boxing through the listings
+    # pages that name DAZN, which are already read above. See
+    # boxing_promotions.py for what each promotion publishes and what it
+    # does not.
+    if can_fetch:
+        everything += boxing_promotions.collect(session, floor, ceiling)
+
     # And the fights this repository's OWN guides have, which no listings
     # page anywhere carries. A reader asked for RFC — an MMA promotion in
     # Amman — and it needed nothing to be written down: Roya's own feed
@@ -1259,6 +1338,7 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # backup: where a listings page already had the same fight at the
     # same minute in a real channel, the backup's row is the duplicate,
     # and its PPV wording is folded away rather than printed twice.
+    inside = one_row_per_ball_game(inside)
     inside = one_row_per_broadcast(
         inside, the_backup_is="tapology" if can_fetch else None)
     kept = [event for event in inside if wanted(event)]

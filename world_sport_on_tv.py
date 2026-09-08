@@ -49,6 +49,15 @@ from epg_lib import fetch, log, norm, warn
 
 SOURCE = "https://www.wheresthematch.com"
 
+# THE OLYMPICS, asked for by name. The Games are not a page here — there
+# is no /live-olympics-on-tv/, measured: it answers 404 — they are a
+# fortnight in which every sport page carries them. So an Olympic row is
+# kept off ANY page whatever that page's own competitions are, and it is
+# filed under its own name so a reader sees the Games together rather
+# than scattered through six sports.
+AN_OLYMPIC = re.compile(
+    r"olympic|paralympic|winter games|summer games", re.I)
+
 # Each page, and what may come off it. The page is not the filter — the
 # COMPETITION is, because a page collects a sport and the reader asked for
 # particular competitions inside it.
@@ -134,9 +143,18 @@ PAGES = (
                 r"|walker cup", re.I),
      None),
 
-    # BASEBALL — off the board. The reader said so in plain words
-    # ("remove snooker & MLB from channel 2"), and the wording reversed
-    # the earlier ask that put the page here. The page stays measured:
+    # BASEBALL — back on the board, asked for again in plain words ("I
+    # want to add MLB and Baseball world series"). The page is British
+    # and names the British carrier — TNT Sports, HBO Max — and the
+    # league's own scoreboard (mlb_espn.py) names the American national
+    # network beside it, so the two together carry a game wherever it is
+    # watched. The competition cell prints "MLB" and nothing else on the
+    # page holds those letters.
+    ("/live-baseball-on-tv/", "MLB",
+     re.compile(r"\bmlb\b|world series", re.I), None),
+
+    # WHAT THE PAGE USED TO SAY, kept because the wording reversed once
+    # already and may again. The page stays measured:
     # its competition cell prints "MLB" and nothing else on the page
     # holds those letters, and on the day it was wired it carried
     # eighteen rows, four of them the Yankees and the Dodgers, on
@@ -144,6 +162,9 @@ PAGES = (
     # the same way the snooker page below is shut.
     # ("/live-baseball-on-tv/", "MLB",
     #  re.compile(r"\bmlb\b", re.I), None),
+
+    ("/live-swimming-on-tv/", "Swimming",
+     re.compile(r"olympic|paralympic|world championship", re.I), None),
 
     # CYCLING — the World Tour: the Vuelta's stages, the Tour of Britain,
     # the one-days that carry the World Tour label. The competition cell
@@ -430,7 +451,8 @@ def collect(html: str, sport: str, keep, refuse) -> list[dict]:
         if refuse is not None and refuse.search(both):
             unwanted += 1
             continue
-        if keep is not None and not keep.search(both):
+        olympic = bool(AN_OLYMPIC.search(both))
+        if keep is not None and not keep.search(both) and not olympic:
             unwanted += 1
             continue
         if not title:
@@ -440,7 +462,7 @@ def collect(html: str, sport: str, keep, refuse) -> list[dict]:
             "start": start,
             "title": title,
             "competition": competition or sport,
-            "sport": sport,
+            "sport": "Olympics" if olympic else sport,
             "channels": channels,
         })
 
