@@ -243,7 +243,8 @@ def wanted(event: dict) -> bool:
     # so it is shown, and the row simply names no channel. This is the
     # rule the football board already follows.
     return (event.get("sport") in RANK
-            and a_live_event(event.get("title", "")))
+            and a_live_event(event.get("title", ""))
+            and bool(event.get("channels")))
 
 
 def in_the_readers_order(events: list[dict]) -> list[dict]:
@@ -695,6 +696,10 @@ def _the_card_family(event: dict) -> str:
     return family
 
 
+# Two names with a fight between them — "Berisha vs Pasley", "X - Y".
+A_BOUT = re.compile(r"\bvs?\.?\b|\bv\b|\s[-–]\s", re.I)
+
+
 def _the_same_card_family(into: dict, event: dict) -> bool:
     """One card's own night — the card row and its bouts, folded as one."""
     sports = {into.get("sport"), event.get("sport")}
@@ -707,7 +712,16 @@ def _the_same_card_family(into: dict, event: dict) -> bool:
             != a_card_segment(event.get("title") or ""):
         return False
     mine, yours = _the_card_family(into), _the_card_family(event)
-    return bool(mine) and mine == yours
+    if not mine or mine != yours:
+        return False
+    # ONE OF THE TWO IS THE CARD, THE OTHER IS A FIGHT ON IT. That is the
+    # duplicate photographed off the television — "Dana White's Contender
+    # Series: Season 10, Week 5" above "Berisha vs Pasley - Meta Apex".
+    # Two BOUTS of one card are two fights and stay two rows, and so do
+    # two cards of one promotion on one night.
+    a_bout = A_BOUT.search(into.get("title") or "") is not None
+    b_bout = A_BOUT.search(event.get("title") or "") is not None
+    return a_bout != b_bout
 
 # THE MIDWEEK CARD'S OWN IDENTITY. "Dana White's Contender Series:
 # Season 10, Week 5" and "Contender Series 2026: Week 5" are one
