@@ -69,14 +69,16 @@ CACHE = "prayer_times.json"
 #   16 — UAE, General Authority of Islamic Affairs (awqaf.gov.ae)
 #    2 — ISNA, the North American standard (Henderson, Nevada)
 #   13 — Diyanet, Türkiye (namazvakitleri.diyanet.gov.tr)
+# The order is the order the reader asked to read them in, left to
+# right down the board: Amman, Abu Dhabi, Henderson NV, Istanbul.
 CITIES = (
-    ("عمّان", "الأردن", "دائرة الإفتاء والأوقاف", 31.9539, 35.9106,
-     23, "Asia/Amman"),
-    ("أبو ظبي", "الإمارات", "الهيئة العامة للشؤون الإسلامية", 24.4539,
-     54.3773, 16, "Asia/Dubai"),
-    ("هندرسون · نيفادا", "أمريكا", "ISNA", 36.0397, -114.9819,
-     2, "America/Los_Angeles"),
-    ("إسطنبول", "تركيا", "Diyanet", 41.0082, 28.9784, 13,
+    ("عمّان", "Amman", "الأردن", "دائرة الإفتاء والأوقاف", 31.9539,
+     35.9106, 23, "Asia/Amman"),
+    ("أبو ظبي", "Abu Dhabi", "الإمارات", "الهيئة العامة للشؤون الإسلامية",
+     24.4539, 54.3773, 16, "Asia/Dubai"),
+    ("هندرسون · نيفادا", "Henderson NV", "أمريكا", "ISNA", 36.0397,
+     -114.9819, 2, "America/Los_Angeles"),
+    ("إسطنبول", "Istanbul", "تركيا", "Diyanet", 41.0082, 28.9784, 13,
      "Europe/Istanbul"),
 )
 
@@ -119,7 +121,7 @@ def live_cities(session) -> list[dict] | None:
     looks broken.
     """
     out: list[dict] = []
-    for city, country, authority, lat, lon, method, zone in CITIES:
+    for city, city_en, country, authority, lat, lon, method, zone in CITIES:
         here = datetime.now(ZoneInfo(zone))
         try:
             answer = fetch(session, API.format(date=f"{here:%d-%m-%Y}"),
@@ -138,6 +140,7 @@ def live_cities(session) -> list[dict] | None:
             hijri = data["date"]["hijri"]
             out.append({
                 "city": city,
+                "city_en": city_en,
                 "country": country,
                 "authority": authority,
                 "zone": zone,
@@ -253,27 +256,32 @@ def draw_board(cities: list[dict], *, page: int = 1, pages: int = 1) -> Image.Im
         pen.rounded_rectangle(band, radius=12, fill=fill,
                               outline=RULE, width=1)
 
-        name = city["city"]
-        at = size_that_fits(name, 26, 17, 300)
-        draw_text(pen, (W - PAD - 6, y + 32), name, at, WHITE, anchor="rm")
-        under = f"{city['country']} · {city['authority']}"
-        draw_text(pen, (W - PAD - 6, y + 62),
-                  under, size_that_fits(under, 15, 12, 320), MUTED,
-                  anchor="rm", thin=True)
+        # The city on the left and its six times running away to the
+        # right, because that is the order the reader reads the board
+        # in: Amman, Abu Dhabi, Henderson NV, Istanbul, top to bottom.
+        label = PAD + 6
+        name = city.get("city_en") or city["city"]
+        at = size_that_fits(name, 30, 18, 284)
+        draw_text(pen, (label, y + 30), name, at, WHITE, anchor="lm",
+                  weight="heavy")
+        under = f"{city['city']} · {city['country']}"
+        draw_text(pen, (label, y + 60), under,
+                  size_that_fits(under, 16, 12, 290), MUTED, anchor="lm",
+                  thin=True)
+        draw_text(pen, (label, y + 84), city["authority"],
+                  size_that_fits(city["authority"], 14, 11, 290), MUTED,
+                  anchor="lm", thin=True)
 
-        # The six times, laid left to right in the order the day runs
-        # them — a number reads the same in every script, so the row of
-        # them is the part of the board a reader across the room uses.
-        wide = 128
+        wide = 138
         gap = 8
-        left = PAD + 6
+        left = label + 300
         pill_y = y + 26
         pill_h = height - 8 - 52
-        for slot, (key, label) in enumerate(PRAYERS):
+        for slot, (key, label_ar) in enumerate(PRAYERS):
             px = left + slot * (wide + gap)
             pen.rounded_rectangle([px, pill_y, px + wide, pill_y + pill_h],
                                   radius=10, fill=PILL, outline=RULE, width=1)
-            draw_text(pen, (px + wide // 2, pill_y + 20), label, 17,
+            draw_text(pen, (px + wide // 2, pill_y + 20), label_ar, 17,
                       PILL_INK, anchor="mm", thin=True)
             draw_text(pen, (px + wide // 2, pill_y + pill_h - 24),
                       city["times"][key], 27, accent, anchor="mm",
@@ -298,9 +306,10 @@ def draw_pages(pages: list[list[dict]]) -> int:
 # ------------------------------------------------------------------ guide
 
 def a_line(city: dict) -> str:
+    name = city.get("city_en") or city["city"]
     times = " · ".join(f"{label} {city['times'][key]}"
                        for key, label in PRAYERS)
-    return f"{city['city']} — {times}"
+    return f"{name} ({city['city']}) — {times}"
 
 
 def a_description(cities: list[dict], fallback: bool) -> str:
