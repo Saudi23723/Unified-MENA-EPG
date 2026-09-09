@@ -4143,9 +4143,9 @@ def gate_a_row_says_which_competition_it_is() -> None:
     import inspect
     drawing = inspect.getsource(match_board.draw_board)
     check("ROW", "the channels are drawn beside the name, at the row's "
-                 "middle", "middle = y + (height - 6) // 2" in drawing, True)
+                 "middle", "pill_y = middle" in drawing, True)
     check("ROW", "and the name stops where the channels begin",
-          "stop = W - PAD - 30 - chan_w" in drawing, True)
+          "room_for_name = channel_x - head - 24" in drawing, True)
 
     # Both boards must actually HAND it the competition, or none of the
     # above ever happens in the build.
