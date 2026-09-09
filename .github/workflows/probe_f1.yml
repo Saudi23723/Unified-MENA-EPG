@@ -6,6 +6,7 @@ on:
       - "probes/probe_f1_radio.py"
       - "probes/probe_f1_dump.py"
       - "probes/probe_f1_full.py"
+      - "probes/probe_f1_facts.py"
       - "f1_epg.py"
       - "f1_board.py"
       - ".github/workflows/probe_f1.yml"
@@ -24,6 +25,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Install the fonts the board is drawn with
         run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+      - name: What can be said about a circuit
+        run: python -u probes/probe_f1_facts.py
       - name: Draw all three boards from nothing
         run: python -u f1_board.py
       - name: Build the F1 channel for real
