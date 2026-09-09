@@ -17,5 +17,30 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Install the fonts the board is drawn with
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
       - name: Ask the calendar for coordinates and Open-Meteo for weather
         run: python -u probes/probe_track_weather.py
+      - name: Draw every page from nothing
+        run: python -u f1_board.py
+      - name: Build the F1 channel for real, and read the weather off it
+        run: |
+          python -u f1_epg.py
+          python - <<'PY2'
+          import json
+          state = json.load(open("f1_state.json"))
+          keys = [k for k in state if k.startswith("weather:")]
+          print("weather cached under:", keys)
+          for k in keys:
+              was = (state[k] or {}).get("was") or {}
+              print(" current:", json.dumps(was.get("current") or {}))
+          import xml.etree.ElementTree as ET
+          root = ET.parse("f1_epg.xml").getroot()
+          print("--- the words page ---")
+          print(root.find("programme").findtext("desc"))
+          PY2
+          ls -la boards/f1_*.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f1-track-weather
+          path: boards/f1_*.png

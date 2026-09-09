@@ -69,6 +69,46 @@ FLAG_COLOUR = {"GREEN": GREEN_FLAG, "CLEAR": GREEN_FLAG,
                "RED": RED_FLAG, "CHEQUERED": CHEQUER}
 
 
+# THE SKY, in the WMO codes Open-Meteo answers with, said in the same
+# short English the rest of this page's labels use. A code that is not
+# in here is not guessed at — the band simply does not name the sky.
+WMO_EN = {
+    0: "CLEAR", 1: "MOSTLY CLEAR", 2: "PARTLY CLOUDY", 3: "OVERCAST",
+    45: "FOG", 48: "FREEZING FOG",
+    51: "LIGHT DRIZZLE", 53: "DRIZZLE", 55: "HEAVY DRIZZLE",
+    56: "FREEZING DRIZZLE", 57: "FREEZING DRIZZLE",
+    61: "LIGHT RAIN", 63: "RAIN", 65: "HEAVY RAIN",
+    66: "FREEZING RAIN", 67: "FREEZING RAIN",
+    71: "LIGHT SNOW", 73: "SNOW", 75: "HEAVY SNOW", 77: "SNOW GRAINS",
+    80: "SHOWERS", 81: "SHOWERS", 82: "VIOLENT SHOWERS",
+    85: "SNOW SHOWERS", 86: "HEAVY SNOW SHOWERS",
+    95: "THUNDERSTORM", 96: "THUNDERSTORM, HAIL", 99: "THUNDERSTORM, HAIL",
+}
+# WET IS THE ONE THING ON THIS BAND THAT CHANGES A RACE, so it is the
+# one thing that gets a colour. Everything else is read, not spotted.
+WET_CODES = tuple(range(51, 68)) + tuple(range(80, 100))
+DRY_SKY = (120, 145, 190, 255)
+WET_SKY = (54, 113, 198, 255)
+
+
+def sky_words(code) -> str:
+    try:
+        return WMO_EN.get(int(code), "")
+    except (TypeError, ValueError):
+        return ""
+
+
+def sky_is_wet(weather: dict) -> bool:
+    """Rain that is falling, or rain that is more likely than not."""
+    try:
+        if int(weather.get("code")) in WET_CODES:
+            return True
+    except (TypeError, ValueError):
+        pass
+    return (float(weather.get("rain_mm") or 0) > 0
+            or float(weather.get("rain_chance") or 0) >= 50)
+
+
 def team_colour(name: str):
     for known, tone in TEAM_COLOUR.items():
         if known.lower() in (name or "").lower():
@@ -393,6 +433,77 @@ def draw_facts(pen, box, facts) -> None:
                   tone, anchor="lm", weight="heavy")
 
 
+def draw_weather(pen, box, weather) -> None:
+    """The weather at the circuit, in one band under its outline.
+
+    WHY IT IS ON THIS PAGE AND NOT ONLY THE LIVE ONE. The live board's
+    weather comes off the trackside sensors, which is the better number
+    and only exists while a session is running. This channel is on air
+    the whole week; for five days of it the circuit had no weather on
+    the screen at all. This band is a forecast at the circuit's own
+    coordinates, so the track page always has one.
+
+    IT NEVER CLAIMS TO BE THE SENSOR. The ground figure is labelled
+    SURFACE, not TRACK — the live panel keeps TRACK for the measured
+    one, and a viewer comparing the two pages is never told the same
+    word means two different things.
+
+    A READING THAT DID NOT COME BACK IS LEFT OUT. Four figures spread
+    across the band and six spread across it both look laid out; a
+    "0°" where a number is missing looks like weather.
+    """
+    if not weather or weather.get("air_c") is None:
+        return
+    wet = sky_is_wet(weather)
+    tone = WET_SKY if wet else DRY_SKY
+    pen.rounded_rectangle(box, radius=10, fill=PANEL_ALT)
+    pen.rounded_rectangle([box[0], box[1], box[0] + 5, box[3]], radius=2,
+                          fill=tone)
+
+    said = sky_words(weather.get("code"))
+    draw_text(pen, (box[0] + 22, box[1] + 20), "TRACK WEATHER", 13, MUTED,
+              anchor="lm", thin=True)
+    if said:
+        draw_text(pen, (box[0] + 150, box[1] + 20), said, 15, tone,
+                  anchor="lm", weight="heavy")
+    # WHERE, AND WHAT TIME IT IS THERE. A viewer reading 11° for
+    # Melbourne is owed the 23:30 that explains it.
+    when = (weather.get("observed") or "")[11:16]
+    right = " · ".join(one for one in (weather.get("where"), when) if one)
+    if right:
+        draw_text(pen, (box[2] - 20, box[1] + 20),
+                  clipped(right, 14, box[2] - box[0] - 340, thin=True), 14,
+                  MUTED, anchor="rm", thin=True)
+
+    numbers = []
+    air = weather.get("air_c")
+    numbers.append(("AIR", f"{air:.0f}\u00b0", WHITE))
+    if weather.get("surface_c") is not None:
+        numbers.append(("SURFACE", f"{weather['surface_c']:.0f}\u00b0",
+                        F1_RED))
+    if weather.get("feels_c") is not None:
+        numbers.append(("FEELS", f"{weather['feels_c']:.0f}\u00b0", MUTED))
+    if weather.get("rain_chance") is not None:
+        numbers.append(("RAIN CHANCE", f"{weather['rain_chance']:.0f}%",
+                        tone))
+    if weather.get("humidity") is not None:
+        numbers.append(("HUMIDITY", f"{weather['humidity']:.0f}%", WHITE))
+    if weather.get("wind_kmh") is not None:
+        numbers.append(("WIND", f"{weather['wind_kmh']:.0f}", WHITE))
+
+    room = box[2] - box[0] - 44
+    step = room // len(numbers)
+    y = box[1] + 46
+    for index, (label, value, ink) in enumerate(numbers):
+        x = box[0] + 22 + index * step
+        draw_text(pen, (x, y), label, 12, MUTED, anchor="lm", thin=True)
+        draw_text(pen, (x, y + 26), value, 26, ink, anchor="lm",
+                  weight="heavy")
+        if label == "WIND":
+            draw_text(pen, (x + width_of(value, 26) + 6, y + 32), "km/h",
+                      12, MUTED, anchor="lm", thin=True)
+
+
 def page_track(now, state) -> Image.Image:
     """THE CIRCUIT, on a page of its own and nothing else on it.
 
@@ -417,11 +528,19 @@ def page_track(now, state) -> Image.Image:
     draw_text(pen, (left[0] + 24, left[1] + 62),
               f"{nxt.get('locality', '')}, {nxt.get('country', '')}", 17,
               F1_RED, anchor="lm", weight="mid")
+    # THE WEATHER TAKES THE FOOT OF THIS PANEL, and the outline gives up
+    # exactly that much room rather than being drawn over. A pass with
+    # no weather back gives the whole panel to the circuit again, so a
+    # source that did not answer costs a band, not a smaller track.
+    sky = state.get("weather") or {}
+    band = [left[0] + 20, left[3] - 108, left[2] - 20, left[3] - 20]
+    floor = (band[1] - 12) if sky.get("air_c") is not None else left[3] - 24
     if state.get("shape"):
         draw_track(board, pen, state["shape"],
-                   [left[0] + 40, left[1] + 92, left[2] - 40, left[3] - 24],
+                   [left[0] + 40, left[1] + 92, left[2] - 40, floor],
                    rotation=state.get("rotation", 0),
                    tone=(120, 145, 190, 255), width=8)
+    draw_weather(pen, band, sky)
 
     right = [PAD + 724, 122, W - PAD, H - 116]
     y = _panel(pen, right, "THE FACTS")
@@ -778,7 +897,12 @@ def selftest() -> int:
              "facts": {"corners": 11, "laps": "53", "held": "74",
                        "first": "1950", "type": "Permanent",
                        "last_winner": "ANT", "last_winner_year": "2026",
-                       "most_wins": ("HAM", 5)}}
+                       "most_wins": ("HAM", 5)},
+             "weather": {"air_c": 11.7, "feels_c": 8.0, "surface_c": 10.1,
+                         "humidity": 67, "wind_kmh": 17.5, "rain_mm": 0.0,
+                         "rain_chance": 17, "code": 2, "day": False,
+                         "observed": "2026-09-09T23:30", "zone": "AEST",
+                         "where": "Melbourne, Australia"}}
     live = {"session": "Race", "circuit": "A Circuit", "country": "A Country",
             "flag": "GREEN", "lap": 12, "laps": 53,
             "weather": {"track_temperature": 41.0, "air_temperature": 27.0,
@@ -830,6 +954,15 @@ def selftest() -> int:
         print(f"  ok   {name} page drawn {board.size}")
     page_track(now, dict(state, facts={}, shape=[]))
     print("  ok   track page with no facts and no shape")
+    page_track(now, dict(state, weather={}))
+    print("  ok   track page with no weather back from the forecast")
+    page_track(now, dict(state, weather={"air_c": 31.0, "code": 63,
+                                         "rain_chance": 80, "rain_mm": 1.4,
+                                         "where": "A Town, A Country",
+                                         "observed": "2026-09-09T15:30"}))
+    print("  ok   track page in the wet, with half the readings missing")
+    page_track(now, dict(state, facts={}, shape=[], weather={}))
+    print("  ok   track page with nothing on it at all")
     page_session(now, {})
     print("  ok   session page with nothing measured yet")
     print(f"{drawn} board(s) drawn")
