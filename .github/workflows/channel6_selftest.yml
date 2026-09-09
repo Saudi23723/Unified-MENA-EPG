@@ -53,14 +53,18 @@ jobs:
       - name: Put each fault back and check the test catches it
         run: |
           set -e
-          catches () {
-            if python3 channel6_selftest.py >/dev/null 2>&1; then
-              echo "  MISSED: $1"; git checkout -- .; exit 1
-            fi
-            echo "  caught: $1"; git checkout -- .
-          }
           W=.github/workflows/flight_tracker_daily.yml
           G=tools/generate_flight_tracker.py
+          # RESTORE ONLY THE TWO FILES THIS INJECTS INTO. "git checkout
+          # -- ." would throw away every uncommitted change in the tree,
+          # which is fine on a fresh runner and destroys a developer's
+          # work in progress anywhere else. It did exactly that once.
+          catches () {
+            if python3 channel6_selftest.py >/dev/null 2>&1; then
+              echo "  MISSED: $1"; git checkout -- "$W" "$G"; exit 1
+            fi
+            echo "  caught: $1"; git checkout -- "$W" "$G"
+          }
           sed -i 's|git reset --mixed origin/main$|git reset --soft origin/main|' $W
           catches "reset --soft, which committed the whole stale index"
           python3 - <<'PY'
@@ -70,5 +74,18 @@ jobs:
           catches "an unquoted glob, which never staged a deletion"
           sed -i 's|MAX_REEL_SECONDS = REFRESH_SECONDS // 2|MAX_REEL_SECONDS = REFRESH_SECONDS * 2|' $G
           catches "a reel longer than the interval that replaces it"
-          sed -i 's|room = max(len(moving), MAX_PAGES \* PER_PAGE)|room = MAX_PAGES * PER_PAGE|' $G
+          # BOTH LINES, or the fault is not the fault. Changing "room"
+          # alone leaves "shown = moving + done[...]" keeping every
+          # moving flight regardless, so the invariant still holds and
+          # the test is right to say so — this injection reported a
+          # MISS on its first run for exactly that reason.
+          python3 - <<'PY'
+          p = "tools/generate_flight_tracker.py"
+          s = open(p).read()
+          s = s.replace("room = max(len(moving), MAX_PAGES * PER_PAGE)",
+                        "room = MAX_PAGES * PER_PAGE")
+          s = s.replace("shown = moving + done[:max(0, room - len(moving))]",
+                        "shown = (moving + done)[:room]")
+          open(p, "w").write(s)
+          PY
           catches "a cap allowed to cut a flight that is still in the air"
