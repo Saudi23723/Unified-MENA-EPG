@@ -406,6 +406,17 @@ def the_session_detail(session, state, now, colours) -> dict:
         code, who = numbers.get(top["driver_number"], ("?", {}))
         out["top_speed"] = {"code": code, "kph": top["st_speed"],
                             "colour": who.get("colour", "")}
+    stints = _ask(session, f"{OPENF1}/stints?session_key=latest", state,
+                  "stints", now, QUICKLY) or []
+    latest: dict = {}
+    for stint in stints:
+        latest[stint.get("driver_number")] = stint
+    out["tyres"] = [
+        {"compound": s.get("compound"),
+         "code": numbers.get(n, (f"#{n}", {}))[0],
+         "laps": (s.get("lap_end") or 0) - (s.get("lap_start") or 0) + 1}
+        for n, s in list(latest.items())[:12] if s.get("compound")]
+
     pit = _ask(session, f"{OPENF1}/pit?session_key=latest", state, "pit",
                now, QUICKLY) or []
     if pit:
@@ -472,43 +483,106 @@ def a_page(mode, state) -> str:
         for name, when in nxt["sessions"]:
             local = when.astimezone(VIEWER)
             lines.append(f"  {name:<11} {local:%a %d.%m}  {local:%H:%M}")
+    facts = state.get("facts") or {}
+    told = []
+    if facts.get("corners"):
+        told.append(f"{facts['corners']} منعطف")
+    if facts.get("laps"):
+        told.append(f"{facts['laps']} لفة")
+    if facts.get("type"):
+        told.append(facts["type"])
+    if facts.get("first"):
+        told.append(f"منذ {facts['first']}")
+    if facts.get("held"):
+        told.append(f"{facts['held']} سباق هنا")
+    if told:
+        lines += ["", "الحلبة:", "  " + "  ·  ".join(told)]
+    if facts.get("last_winner"):
+        lines.append(f"  آخر فائز هنا: {facts['last_winner']} "
+                     f"({facts.get('last_winner_year', '')})")
+    most = facts.get("most_wins")
+    if most:
+        lines.append(f"  الأكثر فوزاً هنا: {most[0]} — {most[1]}")
+
     table = state.get("drivers") or []
     if table:
         lines += ["", "ترتيب السائقين:"]
-        for row in table[:6]:
+        for row in table[:10]:
             lines.append(f"  {row['pos']:>2}. {row['code']:<4} "
-                         f"{row['team']:<16} {row['points']:>4}")
+                         f"{row['team']:<18} {row['points']:>4}")
+    teams = state.get("teams") or []
+    if teams:
+        lines += ["", "ترتيب الفرق:"]
+        for row in teams[:6]:
+            lines.append(f"  {row['pos']:>2}. {row['name']:<20} "
+                         f"{row['points']:>4}")
     return "\n".join(lines)
 
 
-def publish(now, mode, state) -> int:
+def the_pages(now, mode, state) -> list:
+    """Which boards this pass draws, in the order the reel plays them.
+
+    ONE BOARD WAS LOSING THINGS. The championship, the circuit and a
+    session's own numbers were being squeezed onto one screen and
+    dropping off the bottom of it. This channel is a reel like every
+    other one here: each page carries one subject at a size a
+    television can read, and nothing has to be left out to fit.
+    """
     import f1_board
-    os.makedirs(BOARD_DIR, exist_ok=True)
+    pages = []
     if mode == "live":
-        board = f1_board.draw_live(now, dict(state["live"], **state["detail"],
-                                             shape=state.get("shape") or [],
-                                             rotation=state.get("rotation", 0),
-                                             corners=state.get("corners", 0)))
+        live = dict(state["live"], **state["detail"],
+                    shape=state.get("shape") or [],
+                    rotation=state.get("rotation", 0),
+                    corners=state.get("corners", 0))
+        pages.append(f1_board.draw_live(now, live))
+        pages.append(f1_board.page_session(now, live))
+    elif mode == "weekend":
+        pages.append(f1_board.draw_weekend(now, VIEWER, state))
+    else:
+        pages.append(f1_board.draw_between(now, VIEWER, state))
+    # THE TRACK AND THE CHAMPIONSHIP FOLLOW ON EVERY MODE, because they
+    # are true whether or not a car is on the circuit — and they are
+    # what this channel has on the five days it has nothing else.
+    if state.get("shape") or state.get("facts"):
+        pages.append(f1_board.page_track(now, state))
+    if state.get("drivers"):
+        pages.append(f1_board.page_championship(now, state))
+    return pages
+
+
+def publish(now, mode, state) -> int:
+    import io
+
+    from PIL import Image
+
+    from match_board import forget_boards_past
+
+    os.makedirs(BOARD_DIR, exist_ok=True)
+    pages = the_pages(now, mode, state)
+    for number, board in enumerate(pages):
+        path = os.path.join(BOARD_DIR, f"{BOARD_PREFIX}{number}.png")
+        buffer = io.BytesIO()
+        board.convert("RGB").convert(
+            "P", palette=Image.ADAPTIVE, colors=64).save(buffer, format="PNG",
+                                                         optimize=True)
+        fresh = buffer.getvalue()
+        if not os.path.exists(path) or open(path, "rb").read() != fresh:
+            with open(path, "wb") as out:
+                out.write(fresh)
+            log(f"  board {BOARD_PREFIX}{number}.png redrawn "
+                f"({len(fresh) // 1024} KB)")
+    # A BOARD THIS PASS DID NOT WRITE IS A BOARD PLAYING SOMETHING OVER.
+    # The page count moves with the mode — a live session draws five
+    # where a quiet Tuesday draws three — so the ones past the end go.
+    forget_boards_past(BOARD_PREFIX, len(pages), BOARD_DIR)
+
+    if mode == "live":
         title = f"🔴 {state['live']['session']} — {state['live']['circuit']}"
     elif mode == "weekend":
-        board = f1_board.draw_weekend(now, VIEWER, state)
         title = f"{state['next']['name']} — نهاية الأسبوع"
     else:
-        board = f1_board.draw_between(now, VIEWER, state)
-        title = (f"{state['next']['name']}" if state.get("next")
-                 else CHANNEL_EN)
-
-    path = os.path.join(BOARD_DIR, f"{BOARD_PREFIX}0.png")
-    from PIL import Image
-    buffer = __import__("io").BytesIO()
-    board.convert("RGB").convert("P", palette=Image.ADAPTIVE,
-                                 colors=64).save(buffer, format="PNG",
-                                                 optimize=True)
-    fresh = buffer.getvalue()
-    if not os.path.exists(path) or open(path, "rb").read() != fresh:
-        with open(path, "wb") as out:
-            out.write(fresh)
-        log(f"  board {BOARD_PREFIX}0.png redrawn ({len(fresh)//1024} KB)")
+        title = (state["next"]["name"] if state.get("next") else CHANNEL_EN)
 
     tv = ET.Element("tv", {"generator-info-name": "Formula 1"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
@@ -524,7 +598,8 @@ def publish(now, mode, state) -> int:
                       title=title, desc=page, icon=RAW)
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Formula 1",
                           guard_regression=False, min_programmes=1)
-    log(f"{CHANNEL_AR}: {mode} board, {HOURS_AHEAD} programme(s)")
+    log(f"{CHANNEL_AR}: {mode}, {len(pages)} board(s), "
+        f"{HOURS_AHEAD} programme(s)")
     return 0 if ok else 1
 
 

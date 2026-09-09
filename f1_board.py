@@ -393,6 +393,224 @@ def draw_facts(pen, box, facts) -> None:
                   tone, anchor="lm", weight="heavy")
 
 
+def page_track(now, state) -> Image.Image:
+    """THE CIRCUIT, on a page of its own and nothing else on it.
+
+    Cramming the corners and the history into a band under the
+    championship was losing them. A circuit gets the whole screen: its
+    own shape drawn large from its own coordinates, and every fact
+    around it in type a television can read.
+    """
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    nxt = state.get("next") or {}
+    facts = state.get("facts") or {}
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · الحلبة",
+              f"ROUND {nxt.get('round', '')} · "
+              f"{(nxt.get('country') or '').upper()}",
+              "THE TRACK", (90, 110, 150, 255))
+
+    left = [PAD, 122, PAD + 700, H - 116]
+    pen.rounded_rectangle(left, radius=14, fill=PANEL, outline=RULE, width=1)
+    draw_text(pen, (left[0] + 24, left[1] + 30), nxt.get("circuit", ""), 30,
+              WHITE, anchor="lm", weight="heavy")
+    draw_text(pen, (left[0] + 24, left[1] + 62),
+              f"{nxt.get('locality', '')}, {nxt.get('country', '')}", 17,
+              F1_RED, anchor="lm", weight="mid")
+    if state.get("shape"):
+        draw_track(board, pen, state["shape"],
+                   [left[0] + 40, left[1] + 92, left[2] - 40, left[3] - 24],
+                   rotation=state.get("rotation", 0),
+                   tone=(120, 145, 190, 255), width=8)
+
+    right = [PAD + 724, 122, W - PAD, H - 116]
+    y = _panel(pen, right, "THE FACTS")
+    rows = []
+    if facts.get("corners"):
+        rows.append(("CORNERS", str(facts["corners"]), F1_RED))
+    if facts.get("laps"):
+        rows.append(("RACE LAPS", str(facts["laps"]), WHITE))
+    if facts.get("type"):
+        rows.append(("CIRCUIT", facts["type"].upper(), WHITE))
+    if facts.get("held"):
+        rows.append(("GRANDS PRIX HELD", str(facts["held"]), WHITE))
+    if facts.get("first"):
+        rows.append(("FIRST HELD", str(facts["first"]), WHITE))
+    if facts.get("last_winner"):
+        rows.append(("LAST WON BY",
+                     f"{facts['last_winner']} "
+                     f"{facts.get('last_winner_year', '')}".strip(), WHITE))
+    most = facts.get("most_wins")
+    if most:
+        rows.append(("MOST WINS HERE", f"{most[0]}  {most[1]}×", F1_RED))
+    if not rows:
+        draw_text(pen, ((right[0] + right[2]) // 2, (right[1] + right[3]) // 2),
+                  "لا توجد معلومات عن الحلبة", 18, MUTED, anchor="mm",
+                  thin=True)
+        _foot(pen, now)
+        return board
+    step = max(48, min(74, (right[3] - y - 20) // len(rows)))
+    for label, value, tone in rows:
+        pen.rounded_rectangle([right[0] + 16, y - 14, right[2] - 16,
+                               y + step - 24], radius=8, fill=PANEL_ALT)
+        draw_text(pen, (right[0] + 30, y + 2), label, 14, MUTED, anchor="lm",
+                  thin=True)
+        draw_text(pen, (right[2] - 30, y + 2), value,
+                  26 if len(value) < 8 else 20, tone, anchor="rm",
+                  weight="heavy")
+        y += step
+    _foot(pen, now)
+    return board
+
+
+def page_championship(now, state) -> Image.Image:
+    """BOTH TABLES, whole, on a page that has room for them.
+
+    Eight drivers squeezed beside a session list is eight drivers in
+    small type. Ten drivers and every constructor, side by side, is what
+    a championship page is for.
+    """
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · بطولة العالم",
+              f"ROUND {state.get('round', '')} OF {state.get('rounds', '')}",
+              "CHAMPIONSHIP", F1_RED)
+
+    table = state.get("drivers") or []
+    left = [PAD, 122, PAD + 630, H - 116]
+    y = _panel(pen, left, "DRIVERS")
+    lead = float(table[0]["points"]) if table else 1
+    for line in table[:10]:
+        _bar_row(pen, left, y, _hex(line.get("colour")),
+                 float(line["points"]) / max(lead, 1), line["pos"],
+                 line["code"], line["team"], line["points"],
+                 f"{line['wins']} wins" if int(line["wins"]) else "")
+        y += 44
+
+    teams = state.get("teams") or []
+    right = [PAD + 654, 122, W - PAD, 452]
+    y = _panel(pen, right, "CONSTRUCTORS")
+    top = float(teams[0]["points"]) if teams else 1
+    for line in teams[:6]:
+        _bar_row(pen, right, y, team_colour(line["name"]),
+                 float(line["points"]) / max(top, 1), line["pos"],
+                 line["name"][:14], "", line["points"])
+        y += 44
+
+    box = [PAD + 654, 470, W - PAD, H - 116]
+    y = _panel(pen, box, "THE TITLE")
+    if len(table) >= 2:
+        gap = int(table[0]["points"]) - int(table[1]["points"])
+        rounds_left = int(state["rounds"]) - int(state["round"])
+        left_pts = rounds_left * 25
+        draw_text(pen, (box[0] + 22, y + 6), "LEAD", 14, MUTED, anchor="lm",
+                  thin=True)
+        draw_text(pen, (box[0] + 22, y + 38), str(gap), 34,
+                  _hex(table[0].get("colour")), anchor="lm", weight="heavy")
+        draw_text(pen, (box[0] + 200, y + 6), "STILL AVAILABLE", 14, MUTED,
+                  anchor="lm", thin=True)
+        draw_text(pen, (box[0] + 200, y + 38), str(left_pts), 34, WHITE,
+                  anchor="lm", weight="heavy")
+        settled = gap > left_pts
+        draw_text(pen, (box[2] - 22, y + 38),
+                  "DECIDED" if settled else "STILL OPEN", 17,
+                  F1_RED if settled else GREEN_FLAG, anchor="rm",
+                  weight="heavy")
+        draw_text(pen, (box[0] + 22, y + 74),
+                  f"over {rounds_left} round(s) still to run", 15, MUTED,
+                  anchor="lm", thin=True)
+    _foot(pen, now)
+    return board
+
+
+def page_session(now, state) -> Image.Image:
+    """THE NUMBERS A SESSION LEAVES BEHIND — fastest lap and its three
+    sectors, the trap, the pit stops, and what rubber everyone is on."""
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    live = state.get("live") or {}
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · تفاصيل الجلسة",
+              f"{(live.get('circuit') or '').upper()}", "SESSION",
+              (90, 110, 150, 255))
+
+    best = state.get("fastest")
+    box = [PAD, 122, W - PAD, 320]
+    y = _panel(pen, box, "FASTEST LAP")
+    if best:
+        draw_text(pen, (box[0] + 24, y + 16), best["code"], 34,
+                  _hex(best.get("colour")), anchor="lm", weight="heavy")
+        draw_text(pen, (box[0] + 130, y + 16), _lap(best["time"]), 40, WHITE,
+                  anchor="lm", weight="heavy")
+        draw_text(pen, (box[2] - 24, y + 16), f"lap {best['lap']}", 17, MUTED,
+                  anchor="rm", thin=True)
+        x = box[0] + 24
+        for number, part in enumerate(best.get("sectors") or (), start=1):
+            pen.rounded_rectangle([x, y + 54, x + 168, y + 100], radius=8,
+                                  fill=PANEL_ALT)
+            draw_text(pen, (x + 16, y + 77), f"SECTOR {number}", 14, MUTED,
+                      anchor="lm", weight="mid")
+            draw_text(pen, (x + 152, y + 77), f"{part:.3f}", 22, WHITE,
+                      anchor="rm", weight="heavy")
+            x += 182
+        if best.get("trap"):
+            draw_text(pen, (box[2] - 24, y + 77),
+                      f"speed trap {best['trap']} km/h", 17, MUTED,
+                      anchor="rm", weight="mid")
+    else:
+        draw_text(pen, ((box[0] + box[2]) // 2, y + 60),
+                  "لا يوجد زمن لفة بعد", 18, MUTED, anchor="mm", thin=True)
+
+    tyres = state.get("tyres") or []
+    box = [PAD, 338, PAD + 700, H - 116]
+    y = _panel(pen, box, "TYRES")
+    if tyres:
+        x, row = box[0] + 30, y + 10
+        for stint in tyres[:12]:
+            tone = TYRE_COLOUR.get((stint.get("compound") or "").upper(),
+                                   MUTED)
+            pen.ellipse([x, row, x + 52, row + 52], outline=tone, width=6)
+            draw_text(pen, (x + 26, row + 26),
+                      (stint.get("compound") or "?")[0], 22, tone,
+                      anchor="mm", weight="heavy")
+            draw_text(pen, (x + 26, row + 70),
+                      str(stint.get("code") or f"#{stint.get('driver_number')}"),
+                      15, WHITE, anchor="mm", weight="mid")
+            if stint.get("laps"):
+                draw_text(pen, (x + 26, row + 92), f"{stint['laps']} laps", 12,
+                          MUTED, anchor="mm", thin=True)
+            x += 82
+            if x + 52 > box[2] - 20:
+                x, row = box[0] + 30, row + 120
+                if row + 52 > box[3] - 20:
+                    break
+    else:
+        draw_text(pen, ((box[0] + box[2]) // 2, y + 60),
+                  "لا توجد بيانات إطارات", 18, MUTED, anchor="mm", thin=True)
+
+    box = [PAD + 724, 338, W - PAD, H - 116]
+    y = _panel(pen, box, "SESSION")
+    top = state.get("top_speed")
+    if top:
+        draw_text(pen, (box[0] + 22, y + 6), "TOP SPEED", 14, MUTED,
+                  anchor="lm", thin=True)
+        draw_text(pen, (box[0] + 22, y + 40), f"{top['kph']}", 34,
+                  _hex(top.get("colour")), anchor="lm", weight="heavy")
+        draw_text(pen, (box[0] + 110, y + 40), f"km/h  {top['code']}", 17,
+                  WHITE, anchor="lm", weight="mid")
+    pits = state.get("pits")
+    if pits:
+        draw_text(pen, (box[0] + 22, y + 88), "PIT STOPS", 14, MUTED,
+                  anchor="lm", thin=True)
+        draw_text(pen, (box[0] + 22, y + 122), str(pits["count"]), 34, WHITE,
+                  anchor="lm", weight="heavy")
+        if pits.get("best"):
+            draw_text(pen, (box[0] + 100, y + 122),
+                      f"fastest {pits['best']}  {pits['s']}s", 16, MUTED,
+                      anchor="lm", weight="mid")
+    _foot(pen, now)
+    return board
+
+
 def draw_between(now, viewer, state) -> Image.Image:
     """No circuit at all. The championship, and what is coming."""
     board = backdrop()
@@ -434,7 +652,7 @@ def draw_between(now, viewer, state) -> Image.Image:
                    tone=(78, 96, 132, 255), width=5)
 
 
-    right = [PAD + 554, 122, W - PAD, 486]  # its foot carries the title
+    right = [PAD + 554, 122, W - PAD, H - 160]  # its foot carries the title
     y = _panel(pen, right, "DRIVERS' CHAMPIONSHIP")
     table = state.get("drivers") or []
     lead = float(table[0]["points"]) if table else 1
@@ -467,9 +685,20 @@ def draw_between(now, viewer, state) -> Image.Image:
                   F1_RED if settled else GREEN_FLAG, anchor="rm",
                   weight="heavy")
 
+    # THE TRACK AND THE CHAMPIONSHIP HAVE PAGES OF THEIR OWN NOW, so
+    # this one keeps a short signpost rather than a squeezed copy of
+    # either. Nothing is lost — it is on the next board round.
     facts = state.get("facts") or {}
-    if any(facts.get(k) for k in ("corners", "laps", "held", "first")):
-        draw_facts(pen, [PAD + 554, 504, W - PAD, H - 116], facts)
+    told = []
+    if facts.get("corners"):
+        told.append(f"{facts['corners']} corners")
+    if facts.get("laps"):
+        told.append(f"{facts['laps']} laps")
+    if facts.get("type"):
+        told.append(facts["type"].lower())
+    if told:
+        draw_text(pen, (PAD + 574, H - 140), "  ·  ".join(told), 16, MUTED,
+                  anchor="lm", weight="mid")
     _foot(pen, now)
     return board
 
@@ -501,12 +730,6 @@ def draw_weekend(now, viewer, state) -> Image.Image:
                    [track[0] + 40, track[1] + 48, track[2] - 40,
                     track[3] - 20], rotation=state.get("rotation", 0),
                    tone=(90, 110, 150, 255), width=6)
-
-    facts = state.get("facts") or {}
-    if any(facts.get(k) for k in ("corners", "laps", "held", "last_winner")):
-        draw_facts(pen, [PAD + 634, 438, W - PAD, H - 116], facts)
-        _foot(pen, now)
-        return board
 
     box = [PAD + 634, 438, W - PAD, H - 116]
     y = _panel(pen, box, f"LAST RACE · {state['last']['at'].upper()}")
@@ -589,6 +812,26 @@ def selftest() -> int:
     half = dict(state, facts={"corners": 11})
     draw_between(now, viewer, half)
     print("  ok   between board knowing only the corner count")
+
+    # THE PAGES THAT CARRY WHAT THE FIRST BOARD NO LONGER CRAMS IN
+    live["tyres"] = [{"compound": "SOFT", "code": "ANT", "laps": 12},
+                     {"compound": "MEDIUM", "code": "RUS", "laps": 20},
+                     {"compound": "HARD", "code": "VER", "laps": 31}]
+    state["teams"] = [{"pos": str(n), "name": "Mercedes",
+                       "points": str(500 - n * 60)} for n in range(1, 7)]
+    for name, call in (("track", lambda: page_track(now, state)),
+                       ("championship", lambda: page_championship(now, state)),
+                       ("session", lambda: page_session(now, live))):
+        board = call()
+        if board.size != (W, H):
+            print(f"  FAIL {name}: {board.size}")
+            return 1
+        drawn += 1
+        print(f"  ok   {name} page drawn {board.size}")
+    page_track(now, dict(state, facts={}, shape=[]))
+    print("  ok   track page with no facts and no shape")
+    page_session(now, {})
+    print("  ok   session page with nothing measured yet")
     print(f"{drawn} board(s) drawn")
     return 0
 
