@@ -427,6 +427,42 @@ def draw_mark(pen, x: int, y: int, size: int, accent=ACCENT) -> None:
 RELATIVE_DAY = {0: "اليوم", 1: "غداً", 2: "بعد غد"}
 
 
+# WHICH DAY THIS BOARD IS, AND IT IS NOT A FOOTNOTE. The reel turns
+# through four pages of today and as many again of tomorrow, and the
+# only thing saying which was 15px of accent text in the far right
+# corner — "غداً · الأربعاء", set smaller than a channel name. It is now
+# a chip in the middle of the heading line, set half again as large, and
+# it carries a colour of its own for each day so a viewer glancing up
+# has the answer before the words are read.
+#
+# None of the three is a colour a pill already owns: the red is مباشر,
+# the green التالي and the slate انتهى, so the day cannot be mistaken
+# for the state of a row.
+A_DAY_COLOUR = {
+    0: (245, 158, 11, 255),      # اليوم — amber
+    1: (56, 189, 248, 255),      # غداً — sky
+    2: (167, 139, 250, 255),     # بعد غد — violet
+}
+ANOTHER_DAY = (129, 140, 168, 255)
+DAY_INK = (9, 15, 26, 255)       # dark letters, because the chip is bright
+
+
+def draw_day_chip(pen, day: date, now: datetime, viewer, weekday: str,
+                  y: int, *, clear_of: int) -> None:
+    """The day, as a chip in the middle of the line it sits on."""
+    words = day_badge(day, now, viewer, weekday)
+    away = (day - now.astimezone(viewer).date()).days
+    tone = A_DAY_COLOUR.get(away, ANOTHER_DAY)
+    size, high = 22, 36
+    wide = width_of(words, size, weight="heavy") + 44
+    x = max(clear_of, (W - wide) // 2)
+    x = min(x, W - PAD - wide)
+    pen.rounded_rectangle([x, y - high // 2, x + wide, y + high // 2],
+                          radius=high // 2, fill=tone)
+    draw_text(pen, (x + wide // 2, y + 1), words, size, DAY_INK,
+              anchor="mm", weight="heavy")
+
+
 def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
     """Which of the three days this board is, said in words.
 
@@ -1295,6 +1331,7 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         col = W - PAD
     span = (col - PAD) - (28 if lanes == 1 else 0)
     lane_w = (span - GUTTER * (lanes - 1)) // lanes
+    heading_ends = PAD
     if not quiet:
         draw_text(pen, (PAD, top), "على الهواء الآن", 22, WHITE, anchor="lm",
                   weight="mid")
@@ -1302,6 +1339,7 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         pen.ellipse([dot_x, top - 5, dot_x + 10, top + 5], fill=LIVE_TAG)
         draw_text(pen, (dot_x + 18, top + 1), "LIVE", 13, LIVE_RED,
                   anchor="lm", weight="mid")
+        heading_ends = dot_x + 18 + width_of("LIVE", 13, weight="mid")
 
     y = top + 28
     # THE LIVE CARD IS THE POINT OF THE BOARD, so it is not the smallest
@@ -1360,9 +1398,9 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                       16 if tall else 14, PILL_INK, anchor="lm",
                       weight="mid")
 
-    draw_text(pen, (W - PAD, top), day_badge(day, now, viewer, weekday), 15,
-              accent, anchor="rm", weight="mid")
     if lanes == 2:
+        draw_day_chip(pen, day, now, viewer, weekday, top,
+                      clear_of=heading_ends + 30)
         # the panel is the board; there is no list to rule off from
         progress(pen, page, pages, accent, y=H - 14)
         pen.line([(PAD, foot + 34), (W - PAD, foot + 34)], fill=RULE,
@@ -1379,11 +1417,16 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     left = col + (0 if quiet else 30)
     draw_text(pen, (left, top), "البث القادم", 22, WHITE, anchor="lm",
               weight="mid")
+    heading_ends = left + width_of("البث القادم", 22, weight="mid")
     if quiet:
-        note = left + width_of("البث القادم", 22, weight="mid") + 20
+        note = heading_ends + 20
         pen.ellipse([note, top - 5, note + 10, top + 5], fill=RULE)
         draw_text(pen, (note + 18, top + 1), "لا يوجد بث مباشر الآن", 15,
                   MUTED, anchor="lm", thin=True)
+        heading_ends = note + 18 + width_of("لا يوجد بث مباشر الآن", 15,
+                                            thin=True)
+    draw_day_chip(pen, day, now, viewer, weekday, top,
+                  clear_of=heading_ends + 30)
 
     y = top + 28
     room = foot - y
