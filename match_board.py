@@ -191,6 +191,23 @@ def dim(colour, share: float = 0.22):
     return tuple(int(round(c * share)) for c in colour[:3]) + (255,)
 
 
+def readable(colour, share: float = 0.55):
+    """The same colour, lifted far enough toward white to be READ.
+
+    A competition's family colour is chosen to tell one competition from
+    another at a glance, and on a light ground it does that well. On this
+    board's navy panels a saturated blue or green at 13px is a smudge —
+    photographed off a television across a room, the competition line
+    under each fixture could not be made out at all, which is the one
+    line that says WHICH tournament a viewer is looking at.
+
+    So the hue is kept, because the hue is the whole point of it, and the
+    colour is mixed toward white until it clears the panel behind it.
+    """
+    return tuple(int(round(c + (255 - c) * share))
+                 for c in colour[:3]) + (255,)
+
+
 ARABIC = re.compile(r"[\u0600-\u06ff\u0750-\u077f]")
 
 
@@ -458,6 +475,19 @@ def looks_like_a_side(name: str) -> bool:
     if len(name) < 2 or len(name) > 34:
         return False
     if NOT_A_SIDE.search(name):
+        return False
+    # A SIDE THAT STILL HOLDS A SEPARATOR IS NOT ONE NAME. The title is
+    # split once, so a title carrying two separators leaves the second
+    # inside the right-hand side — and that side is then drawn as a
+    # single competitor, crest and all. Photographed off the television:
+    #
+    #     Berisha            VS      Pasley - Meta Apex
+    #
+    # Meta Apex is the hall the card is fought in, not half of the man's
+    # name. Nothing here needs to know that: a competitor is one name,
+    # and one name does not contain a fixture's own "v" or dash. Such a
+    # row falls back to its whole title, centred, which is what it is.
+    if SPLIT.search(name):
         return False
     # A competitor is named in a word or three, not a sentence.
     return len(name.split()) <= 4
@@ -1168,8 +1198,8 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         comp = norm_line(event.get("competition"))
         if comp:
             draw_text(pen, (card[2] - 16, y + 24),
-                      clipped(comp, 14, room - 90, weight="mid"), 14,
-                      comp_colour(comp) + (255,), anchor="rm", weight="mid")
+                      clipped(comp, 15, room - 90, weight="mid"), 15,
+                      readable(comp_colour(comp)), anchor="rm", weight="mid")
         name = size_that_fits(event["title"], 24, 16, room)
         draw_text(pen, (inner, y + 52), clipped(event["title"], name, room),
                   name, WHITE, anchor="lm", weight="mid")
@@ -1247,8 +1277,8 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                   anchor="lm", weight="mid")
         if two:
             draw_text(pen, (text_x, middle + 12),
-                      clipped(comp, 13, space, weight="mid"), 13,
-                      comp_colour(comp) + (255,), anchor="lm", weight="mid")
+                      clipped(comp, 15, space, weight="mid"), 15,
+                      readable(comp_colour(comp)), anchor="lm", weight="mid")
         y += height
 
     left_out = len(rest) - len(shown)
