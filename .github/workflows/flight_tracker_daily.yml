@@ -1,18 +1,48 @@
 name: Channel 6 — Live Flight Tracker
 
+# WHY THIS DOES NOT TRUST ITS OWN CRON.
+#
+# "*/8 * * * *" asks for seven or eight runs an hour. Measured on the
+# 9th of September it fired at 19:53, 22:02, 00:00, 04:26 and 09:03 —
+# five times in fourteen hours, where it asked for a hundred. Between
+# 04:26 and 09:03 GitHub should have started it thirty-four times and
+# started it once, so the board on the television was four and a half
+# hours old and every run had SUCCEEDED. Nothing was broken; the
+# scheduler simply was not firing.
+#
+# update_all_epg.yml learned this first and wrote it down: this
+# repository's scheduled events get delayed up to 45 minutes and dropped
+# for eight to eleven hours at a stretch, and asking more often does not
+# help. The fix there is the fix here — a run that lands does the work
+# MANY TIMES before it exits, so one surviving event covers the silence
+# after it instead of one moment of it.
+#
+# Twenty passes, eight minutes apart, is two hours and forty minutes of
+# cover from a single start. And the run is chained to the build that
+# demonstrably does fire, so a dropped cron is bridged by a workflow
+# GitHub is already running for another reason.
 on:
   schedule:
     - cron: "*/8 * * * *"
+  workflow_run:
+    workflows: ["Build every EPG"]
+    types: [completed]
   workflow_dispatch:
 
+# cancel-in-progress, not queueing. With a run that lives for hours, a
+# second start must REPLACE the first rather than wait behind it — a
+# queue of them would serialise into a board that updates less often
+# than it did before. Whatever a cancelled run had already rendered is
+# already pushed.
 concurrency:
   group: flight-tracker
-  cancel-in-progress: false
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 175
     steps:
       - uses: actions/checkout@v4
       - name: Apply card layout fix
@@ -27,36 +57,49 @@ jobs:
           python -m pip install --quiet pillow
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg fonts-noto-core
-      - name: Refresh live flights from keyless ADS-B feed
-        continue-on-error: true
-        timeout-minutes: 2
-        run: python tools/fetch_flights.py --out stream/flights.json
-      - name: Keep all five requested airlines
-        run: python3 -c 'import json;d=json.load(open("stream/flights.json"));d["flights"]=[f for f in d["flights"] if f["code"] in ("EY","EK","RJ","FZ","TK")];json.dump(d,open("stream/flights.json","w"),indent=1);print("kept",len(d["flights"]))'
-      - name: Render Jordan-time channel
+      - name: Refresh, render and publish — twenty times, eight minutes apart
         env:
           FLIGHT_DATA: stream/flights.json
           CH6_WORK: /tmp/ch6
           CH6_OUT: stream
-        run: python tools/generate_flight_tracker.py --tz 3 --out flight_tracker
-      - name: Render Dubai-time channel
-        env:
-          FLIGHT_DATA: stream/flights.json
-          CH6_WORK: /tmp/ch6
-          CH6_OUT: stream
-        run: python tools/generate_flight_tracker.py --tz 4 --out dubai_flight_tracker
-      - name: Commit updated stream
         run: |
           git config user.name "flight-tracker-bot"
           git config user.email "bot@users.noreply.github.com"
-          PATHS="tools/generate_flight_tracker.py stream/flights.json stream/flight_tracker* stream/dubai_flight_tracker*"
-          for i in 1 2 3 4 5 6; do
-            git fetch origin main
-            git reset --soft origin/main
-            git add $PATHS
-            if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
-            git commit -m "chore: refresh channel 6 flight tracker"
-            git push origin HEAD:main && exit 0
-            sleep 5
+          PATHS="stream/flights.json stream/flight_tracker* stream/dubai_flight_tracker*"
+          PASSES=20
+          for pass in $(seq 1 $PASSES); do
+            started=$(date +%s)
+            echo "::group::pass $pass of $PASSES  $(date -u +%H:%M:%S)"
+
+            # A PASS THAT CANNOT FETCH STILL DRAWS. The feed being down
+            # for one pass is not a reason to leave the last board up
+            # for the whole run — the generator redraws from whatever
+            # flights.json holds, and the clock on it moves.
+            timeout 120 python tools/fetch_flights.py --out stream/flights.json \
+              || echo "the flight feed did not answer this pass"
+            python3 -c 'import json;d=json.load(open("stream/flights.json"));d["flights"]=[f for f in d["flights"] if f["code"] in ("EY","EK","RJ","FZ","TK")];json.dump(d,open("stream/flights.json","w"),indent=1);print("kept",len(d["flights"]))'
+            python tools/generate_flight_tracker.py --tz 3 --out flight_tracker
+            python tools/generate_flight_tracker.py --tz 4 --out dubai_flight_tracker
+
+            for try in 1 2 3 4 5 6; do
+              git fetch origin main
+              git reset --soft origin/main
+              git add $PATHS
+              if git diff --cached --quiet; then
+                echo "nothing changed this pass"
+                break
+              fi
+              git commit -m "chore: refresh channel 6 flight tracker"
+              git push origin HEAD:main && break
+              sleep 5
+            done
+            echo "::endgroup::"
+
+            # THE CADENCE IS WHAT IS LEFT OF IT, not a fresh eight
+            # minutes on top of however long the pass took. A slow feed
+            # slows the cadence honestly instead of stacking passes.
+            [ "$pass" = "$PASSES" ] && break
+            spent=$(( $(date +%s) - started ))
+            rest=$(( 480 - spent ))
+            [ "$rest" -gt 0 ] && sleep "$rest"
           done
-          exit 1
