@@ -55,8 +55,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --quiet pillow
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg fonts-noto-core
+          tools/apt_install.sh ffmpeg fonts-noto-core
       # THE INVARIANTS THIS CHANNEL LEARNED THE HARD WAY, checked before
       # a single pass runs — and AFTER the dependencies, because the
       # selftest loads the generator and the generator imports PIL at

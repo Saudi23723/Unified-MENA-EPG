@@ -35,8 +35,7 @@ jobs:
       - name: Install OCR engine (only if enabled)
         run: |
           if grep -q "^ENABLE_TELEGRAM_OCR = True" update_thmanyah_epg.py; then
-            sudo apt-get update
-            sudo apt-get install -y tesseract-ocr tesseract-ocr-ara
+            tools/apt_install.sh tesseract-ocr tesseract-ocr-ara
           else
             echo "Telegram OCR disabled; skipping tesseract install"
           fi
