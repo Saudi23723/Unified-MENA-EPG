@@ -881,7 +881,13 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     # and whatever is still spare is split above and below so the block
     # sits in the middle of the board rather than hanging from its top.
     if len(rows) * height < room:
-        height = min(96, room // len(rows))
+        # 130 RATHER THAN 96. This channel's quiet nights are most of its
+        # nights — one, two, three games — and a 96px card in 502px of
+        # room read off a television as one row adrift in black ground,
+        # which is the fault the other board was rebuilt for. A row may
+        # now grow half again as far, and the type inside it grows with
+        # it rather than staying at the size a 55px row already reached.
+        height = min(130, room // len(rows))
     # Whatever room is still spare is spread as air between the cards
     # rather than left in one dead block at the foot of the screen, so a
     # three-match day breathes down the whole board instead of stopping
@@ -995,8 +1001,14 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # name, which is the thing a viewer came for.
         beneath = norm_line(event.get("competition"))
         two = bool(beneath) and height >= 42
-        size = (max(17, min(25, height - 30)) if two
-                else max(19, min(28, height - 26)))
+        # THE CAPS WERE REACHED AT A 55px ROW, so every row from there to
+        # the ceiling was drawn at one size — a card that grew with
+        # letters that did not. Past 80px the larger caps apply; below it
+        # nothing moves, so a full page is drawn exactly as it was. Held
+        # by a hash: an eight-row page renders to the same bytes.
+        tall_row = height >= 80
+        size = (max(17, min(31 if tall_row else 25, height - 30)) if two
+                else max(19, min(36 if tall_row else 28, height - 26)))
         # 14 is the floor for the competition line, measured against the
         # smallest phone a viewer checks a board on: 13px MUTED thin read
         # as a smudge at arm's length and the viewer could not tell the
@@ -1018,7 +1030,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # eye finds without reading, the way a departures board is read
         # by the column of times and not the column of destinations.
         clock_ink = LIVE_RED if live else (OVER if over else accent)
-        clock_px = max(17, min(23, height - 32))
+        clock_px = max(17, min(29 if tall_row else 23, height - 32))
         tab_h = min(clock_px + 16, height - 16)
         tab = [PAD + 4, middle - tab_h // 2, time_x + 22, middle + tab_h // 2]
         pen.rounded_rectangle(tab, radius=9, fill=dim(clock_ink),
@@ -1163,7 +1175,11 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             left_edge, right_edge = head, W - PAD - CHANNEL_ZONE - 24
             centre = (left_edge + right_edge) // 2
             crest_y = (head_y + middle) // 2 if two else middle
-            box = min(44, 2 * (crest_y - y - 6),
+            # A CREST IS THE FASTEST THING ON THE ROW TO READ — a viewer
+            # knows the arrowhead before they read "Kansas City" — so on
+            # a row with the room it is not left at the size a 62px row
+            # allows. The two bounds below still hold it inside the band.
+            box = min(60 if tall_row else 44, 2 * (crest_y - y - 6),
                       2 * (y + height - 6 - crest_y))
             gap, gutter = 12, 34
             side_room = centre - gutter - left_edge - box - gap
