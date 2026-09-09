@@ -108,6 +108,12 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
                              "dubai_hoops_gridiron_epg.xml",
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256"),
+    # The tenth channel — القنوات التركية · PPV, in both clocks.
+    "turkish_ppv": ("turkish_ppv_", "turkish_ppv_epg.xml",
+                    "turkish_ppv.m3u8", "turkish_ppv.sha256"),
+    "dubai_turkish_ppv": ("dubai_turkish_ppv_", "dubai_turkish_ppv_epg.xml",
+                          "dubai_turkish_ppv.m3u8",
+                          "dubai_turkish_ppv.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
@@ -296,6 +302,7 @@ def stage() -> int:
     git("add", "--", "today_matches_epg.xml")
     for path in ("ball_sports_epg.xml", "dubai_ball_sports_epg.xml",
                  "hoops_gridiron_epg.xml", "dubai_hoops_gridiron_epg.xml",
+                 "turkish_ppv_epg.xml", "dubai_turkish_ppv_epg.xml",
                  "other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",
