@@ -8,14 +8,42 @@ Usage:
     python3 generate_flight_tracker.py --tz 3 --out flight_tracker      # Jordan time
     python3 generate_flight_tracker.py --tz 4 --out dubai_flight_tracker # Dubai time
 """
-import argparse, json, math, os, subprocess, sys, datetime
+import argparse, glob, json, math, os, subprocess, sys, datetime
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1280, 720
 FPS = 2
-DURATION = None  # dynamic: total_pages * PAGE_SECONDS
+DURATION = None  # dynamic: pages_shown() * PAGE_SECONDS
 PAGE_SECONDS = 18
-PER_PAGE = 8
+PER_PAGE = 8            # the card grid is 2 columns x 4 rows; this is that
+
+# HOW OFTEN A NEW REEL REPLACES THIS ONE, and the rule that follows from
+# it. The workflow refreshes channel 6 every eight minutes.
+#
+# THE REEL WAS TWELVE MINUTES LONG. It is rebuilt every eight, so no
+# viewer could ever reach the end of one before it was swapped, and any
+# one flight came back around once every twelve minutes at best. That is
+# the lag: not a slow feed, a reel longer than the interval that
+# replaces it.
+#
+# So the reel is capped at HALF the refresh interval. Four minutes plays
+# through twice between updates, which means every page is seen at least
+# once no matter when a viewer tunes in, and the whole thing is drawn
+# and encoded in a third of the frames it used to take.
+REFRESH_SECONDS = 8 * 60
+MAX_REEL_SECONDS = REFRESH_SECONDS // 2
+MAX_PAGES = max(1, MAX_REEL_SECONDS // PAGE_SECONDS)
+
+# AND WHAT GOES ON THOSE PAGES. The feed accumulates every flight since
+# UTC midnight and never drops one, so of 316 rows measured on the 9th
+# of September, 237 had ALREADY LANDED and 79 were in the air. Three
+# quarters of a twelve minute reel on a channel called Live Flight
+# Tracker was aircraft that were already parked.
+#
+# Anything still moving comes first and is never cut. The landed fill
+# whatever room is left, MOST RECENT FIRST — the old sort kept the
+# oldest arrivals, which is exactly backwards for a tracker.
+MOVING = ("IN FLIGHT", "BOARDING", "DELAYED", "SCHEDULED")
 DATA_FILE = "/dev-server/public/stream/flights.json"
 SEG_TIME = 20
 
@@ -191,9 +219,33 @@ def build_flights(rows, now_min):
 
     order = {"IN FLIGHT": 0, "BOARDING": 1, "DELAYED": 2, "SCHEDULED": 3,
              "LANDED": 4, "CANCELLED": 5}
-    flights.sort(key=lambda f: (order.get(f["status"], 9), f["dep"]))
-    pages = max(1, math.ceil(len(flights) / PER_PAGE))
-    return flights, pages
+    # Anything still moving in the order it leaves; anything finished
+    # newest first, so a truncated tail is the last few arrivals rather
+    # than this morning's.
+    flights.sort(key=lambda f: (order.get(f["status"], 9),
+                                f["dep"] if f["status"] in MOVING
+                                else -f["arr"]))
+    return flights, max(1, math.ceil(len(flights) / PER_PAGE))
+
+
+def on_the_reel(flights):
+    """The flights this reel actually carries, and how many are not on it.
+
+    Everything still moving is kept whatever the count — a live tracker
+    that drops a live flight is not one. The landed fill the room that
+    is left. If the moving flights alone need more than MAX_PAGES the
+    cap gives way rather than the flights: a busy hour is exactly when
+    this channel is worth watching.
+    """
+    moving = [f for f in flights if f["status"] in MOVING]
+    done = [f for f in flights if f["status"] not in MOVING]
+    room = max(len(moving), MAX_PAGES * PER_PAGE)
+    shown = moving + done[:max(0, room - len(moving))]
+    # Round up to a whole page so the last page is never half empty of
+    # rows that exist and were left off.
+    whole = math.ceil(len(shown) / PER_PAGE) * PER_PAGE
+    shown = (moving + done)[:whole]
+    return shown, len(flights) - len(shown)
 
 
 def draw_rounded(d, box, r, fill=None, outline=None, width=1):
@@ -220,9 +272,12 @@ def render_frame(t, tz, date_label, out):
     now_min = now.hour * 60 + now.minute
     clock = now.strftime("%H:%M:%S")
 
-    flights, pages = build_flights(ROWS, now_min)
+    flights, _ = build_flights(ROWS, now_min)
+    flights, held_back = on_the_reel(flights)
+    pages = max(1, math.ceil(len(flights) / PER_PAGE))
     page = int(t // PAGE_SECONDS) % pages
     page_flights = flights[page*PER_PAGE:(page+1)*PER_PAGE]
+    in_air = sum(1 for f in flights if f["status"] == "IN FLIGHT")
 
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
@@ -249,7 +304,12 @@ def render_frame(t, tz, date_label, out):
     counts = {"SCHEDULED":0,"BOARDING":0,"IN FLIGHT":0,"LANDED":0,"DELAYED":0,"CANCELLED":0}
     for f in flights:
         counts[f["status"]] = counts.get(f["status"], 0) + 1
-    stats = [("TOTAL FLIGHTS", len(flights), TEXT),
+    # "TOTAL FLIGHTS" WOULD BE A FALSE TOTAL once the reel stops carrying
+    # every landed flight of the day: the six tiles add up to what is on
+    # the reel, not to what the feed loaded, so the first one says which
+    # of the two it is counting.
+    stats = [("ON THE REEL" if held_back else "TOTAL FLIGHTS",
+              len(flights), TEXT),
              ("SCHEDULED", counts["SCHEDULED"], BLUE),
              ("BOARDING", counts["BOARDING"], AMBER),
              ("IN FLIGHT", counts["IN FLIGHT"], GREEN),
@@ -328,8 +388,17 @@ def render_frame(t, tz, date_label, out):
 
     # footer
     d.rectangle([0, H-34, W, H], fill=PANEL)
-    text(d, (24, H-26), f"Blue = airport local time  •  grey = {tzcity} time  •  green = actual recorded  •  Page {page+1} of {pages}", F_SMALL, MUTED)
-    text(d, (W-24, H-26), "Live data • refreshed every 8 min  •  Unified MENA EPG — Channel 6", F_SMALL, MUTED, anchor="ra")
+    text(d, (24, H-26),
+         f"Blue = airport local time  \u2022  grey = {tzcity} time  "
+         f"\u2022  green = actual recorded  \u2022  Page {page+1} of {pages}",
+         F_SMALL, MUTED)
+    right = "Unified MENA EPG \u2014 Channel 6"
+    if held_back:
+        right = (f"{in_air} airborne  \u2022  {held_back} landed earlier "
+                 f"today  \u2022  " + right)
+    else:
+        right = f"live \u2022 every 8 min  \u2022  " + right
+    text(d, (W-24, H-26), right, F_SMALL, MUTED, anchor="ra")
 
     img.save(out)
 
@@ -348,8 +417,19 @@ def main():
     os.makedirs(work, exist_ok=True)
     today = (datetime.datetime.utcnow() + datetime.timedelta(hours=args.tz)).strftime("%A, %d %B %Y")
 
-    # video length = enough pages to show EVERY loaded flight
-    total_pages = max(1, math.ceil(len(ROWS) / PER_PAGE))
+    # VIDEO LENGTH = THE REEL THE VIEWER ACTUALLY GETS. It used to be
+    # "enough pages to show EVERY loaded flight", which is how twelve
+    # minutes of video came to be rebuilt every eight — see the note on
+    # MAX_PAGES. It is the same list render_frame pages through, so the
+    # length and the paging cannot disagree.
+    now_min = (datetime.datetime.utcnow()
+               + datetime.timedelta(hours=args.tz))
+    now_min = now_min.hour * 60 + now_min.minute
+    shown, held_back = on_the_reel(build_flights(ROWS, now_min)[0])
+    total_pages = max(1, math.ceil(len(shown) / PER_PAGE))
+    print(f"channel 6: {len(ROWS)} flights loaded, {len(shown)} on the reel "
+          f"({held_back} landed left off), {total_pages} page(s), "
+          f"{total_pages * PAGE_SECONDS}s")
     n = FPS * total_pages * PAGE_SECONDS
     for i in range(n):
         render_frame(i / FPS, args.tz, today, f"{work}/f{i:04d}.png")
@@ -370,9 +450,25 @@ def main():
         f"{outdir}/{args.out}.m3u8",
     ]
     subprocess.run(cmd, check=True, capture_output=True)
-    # rewrite playlist to match house style
+
+    # SEGMENTS THE NEW REEL NO LONGER NAMES ARE DELETED. This reel used
+    # to be a fixed thirty-six segments and simply overwrote them; now
+    # that its length follows the traffic it can drop to twelve, and
+    # segments 12 to 35 would sit in the repository forever with no
+    # playlist pointing at them. The publish gate flags exactly that on
+    # every other channel here, and it is right to.
     with open(f"{outdir}/{args.out}.m3u8") as fh:
-        print(fh.read())
+        reel = fh.read()
+    named = {line.strip() for line in reel.splitlines()
+             if line.strip().endswith(".ts")}
+    dropped = 0
+    for stale in sorted(glob.glob(f"{outdir}/{args.out}_*.ts")):
+        if os.path.basename(stale) not in named:
+            os.remove(stale)
+            dropped += 1
+    if dropped:
+        print(f"removed {dropped} segment(s) this reel no longer names")
+    print(reel)
 
 if __name__ == "__main__":
     main()
