@@ -49,6 +49,14 @@ jobs:
         run: python3 tools/cardfix.py
       - name: Validate generator
         run: python3 -c "import ast;ast.parse(open('tools/generate_flight_tracker.py').read());print('generator ok')"
+      # THE INVARIANTS THIS CHANNEL LEARNED THE HARD WAY, checked before
+      # a single pass runs. Three faults reached the television through
+      # the gap where this file should have been — a commit step that
+      # deleted another channel, a git add that never staged its
+      # deletions, and a reel longer than the interval that replaced it.
+      # A run that cannot pass them does not get to publish.
+      - name: Hold channel 6 to its invariants
+        run: python3 channel6_selftest.py
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -92,6 +100,23 @@ jobs:
             python3 -c 'import json;d=json.load(open("stream/flights.json"));d["flights"]=[f for f in d["flights"] if f["code"] in ("EY","EK","RJ","FZ","TK")];json.dump(d,open("stream/flights.json","w"),indent=1);print("kept",len(d["flights"]))'
             python tools/generate_flight_tracker.py --tz 3 --out flight_tracker
             python tools/generate_flight_tracker.py --tz 4 --out dubai_flight_tracker
+
+            # AND THE REEL THIS PASS JUST DREW, before it is pushed. A
+            # playlist naming a segment that is not there, or a segment
+            # nothing names, or a reel longer than the eight minutes
+            # that will replace it — none of those reach the television.
+            # The pass is skipped, the last good reel stays up, and the
+            # next pass tries again eight minutes later.
+            if ! python3 channel6_selftest.py --published; then
+              echo "this pass drew a reel that does not hold together "\
+                   "— leaving the last good one up"
+              echo "::endgroup::"
+              [ "$pass" = "$PASSES" ] && break
+              spent=$(( $(date +%s) - started ))
+              rest=$(( 480 - spent ))
+              [ "$rest" -gt 0 ] && sleep "$rest"
+              continue
+            fi
 
             for try in 1 2 3 4 5 6; do
               git fetch origin main

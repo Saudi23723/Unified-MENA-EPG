@@ -1,0 +1,69 @@
+name: Channel 6 — invariants
+
+# THE TEST THAT DID NOT EXIST.
+#
+# Every other channel here answers to channel_gate_selftest before it
+# publishes. Channel 6 had its own workflow, its own git plumbing and its
+# own generator, and nothing checking any of them — so three faults
+# reached the television one after another, each found by a viewer:
+#
+#   a commit step that deleted another channel's boards and playlists,
+#   a git add that never staged its own deletions,
+#   and a reel that ran twelve minutes and was replaced every eight.
+#
+# This runs on every change to any of those files, so the next one is
+# caught here instead.
+on:
+  push:
+    paths:
+      - "channel6_selftest.py"
+      - "tools/generate_flight_tracker.py"
+      - ".github/workflows/flight_tracker_daily.yml"
+      - ".github/workflows/channel6_selftest.yml"
+      - "stream/flight_tracker.m3u8"
+      - "stream/dubai_flight_tracker.m3u8"
+  pull_request:
+    paths:
+      - "channel6_selftest.py"
+      - "tools/generate_flight_tracker.py"
+      - ".github/workflows/flight_tracker_daily.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  hold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: The invariants
+        run: python3 channel6_selftest.py
+      # AND THE PROOF THAT THE TEST STILL BITES. A test nobody has seen
+      # fail is a test nobody knows works: each of the three faults that
+      # actually shipped is put back, one at a time, and the run fails
+      # if the test does not notice.
+      - name: Put each fault back and check the test catches it
+        run: |
+          set -e
+          catches () {
+            if python3 channel6_selftest.py >/dev/null 2>&1; then
+              echo "  MISSED: $1"; git checkout -- .; exit 1
+            fi
+            echo "  caught: $1"; git checkout -- .
+          }
+          W=.github/workflows/flight_tracker_daily.yml
+          G=tools/generate_flight_tracker.py
+          sed -i 's|git reset --mixed origin/main$|git reset --soft origin/main|' $W
+          catches "reset --soft, which committed the whole stale index"
+          python3 - <<'PY'
+          p=".github/workflows/flight_tracker_daily.yml"; s=open(p).read()
+          open(p,"w").write(s.replace('git add -A -- "${PATHS[@]}"','git add $PATHS'))
+          PY
+          catches "an unquoted glob, which never staged a deletion"
+          sed -i 's|MAX_REEL_SECONDS = REFRESH_SECONDS // 2|MAX_REEL_SECONDS = REFRESH_SECONDS * 2|' $G
+          catches "a reel longer than the interval that replaces it"
+          sed -i 's|room = max(len(moving), MAX_PAGES \* PER_PAGE)|room = MAX_PAGES * PER_PAGE|' $G
+          catches "a cap allowed to cut a flight that is still in the air"

@@ -190,6 +190,13 @@ def load_flights():
 
 
 def build_flights(rows, now_min):
+    """Every loaded flight with a status on it, in the order it belongs.
+
+    Returns the flights only. It used to return a page count beside
+    them, computed from EVERY flight loaded — which is what the video's
+    length was set from while the frames paged through a different list.
+    The reel decides its own length now, in pages_for, once.
+    """
     flights = []
     for r in rows:
         dep, arr = r["dep"], r["arr"]
@@ -225,7 +232,7 @@ def build_flights(rows, now_min):
     flights.sort(key=lambda f: (order.get(f["status"], 9),
                                 f["dep"] if f["status"] in MOVING
                                 else -f["arr"]))
-    return flights, max(1, math.ceil(len(flights) / PER_PAGE))
+    return flights
 
 
 def on_the_reel(flights):
@@ -243,9 +250,24 @@ def on_the_reel(flights):
     shown = moving + done[:max(0, room - len(moving))]
     # Round up to a whole page so the last page is never half empty of
     # rows that exist and were left off.
-    whole = math.ceil(len(shown) / PER_PAGE) * PER_PAGE
+    whole = pages_for(shown) * PER_PAGE
     shown = (moving + done)[:whole]
     return shown, len(flights) - len(shown)
+
+
+def pages_for(shown) -> int:
+    """How many pages a list of flights is, in ONE place.
+
+    This arithmetic used to be written out three times — once to set the
+    video's length, once to decide which page a frame is on, and once
+    more to print the page number on it. Three copies of a sum is three
+    chances for the reel's length and its paging to disagree, which is
+    the shape of the original fault: the length was computed from every
+    flight loaded while the frames paged through a different list.
+    Never fewer than one page, because a feed that answers with nothing
+    still has to put a board on the television.
+    """
+    return max(1, math.ceil(len(shown) / PER_PAGE))
 
 
 def draw_rounded(d, box, r, fill=None, outline=None, width=1):
@@ -272,9 +294,8 @@ def render_frame(t, tz, date_label, out):
     now_min = now.hour * 60 + now.minute
     clock = now.strftime("%H:%M:%S")
 
-    flights, _ = build_flights(ROWS, now_min)
-    flights, held_back = on_the_reel(flights)
-    pages = max(1, math.ceil(len(flights) / PER_PAGE))
+    flights, held_back = on_the_reel(build_flights(ROWS, now_min))
+    pages = pages_for(flights)
     page = int(t // PAGE_SECONDS) % pages
     page_flights = flights[page*PER_PAGE:(page+1)*PER_PAGE]
     in_air = sum(1 for f in flights if f["status"] == "IN FLIGHT")
@@ -425,8 +446,8 @@ def main():
     now_min = (datetime.datetime.utcnow()
                + datetime.timedelta(hours=args.tz))
     now_min = now_min.hour * 60 + now_min.minute
-    shown, held_back = on_the_reel(build_flights(ROWS, now_min)[0])
-    total_pages = max(1, math.ceil(len(shown) / PER_PAGE))
+    shown, held_back = on_the_reel(build_flights(ROWS, now_min))
+    total_pages = pages_for(shown)
     print(f"channel 6: {len(ROWS)} flights loaded, {len(shown)} on the reel "
           f"({held_back} landed left off), {total_pages} page(s), "
           f"{total_pages * PAGE_SECONDS}s")
