@@ -616,449 +616,202 @@ def without_repeats(events: list[dict]) -> list[dict]:
     return kept
 
 
+def _crest_strip(board, pen, events, y: int, accent) -> None:
+    """The band of crests along the foot, the way a channel's info screen
+    signs itself off with the competitions it carries."""
+    seen, marks = set(), []
+    for event in events:
+        sides = split_sides(event["title"])
+        for name in (sides or ()):
+            key = name.lower()
+            if key in seen:
+                continue
+            art = crest(name, 30)
+            if art is not None:
+                seen.add(key)
+                marks.append(art)
+        if len(marks) >= 12:
+            break
+    if not marks:
+        return
+    gap = 46
+    left = (W - (len(marks) * gap - (gap - 30))) // 2
+    faint = Image.new("RGBA", board.size, (0, 0, 0, 0))
+    for index, art in enumerate(marks):
+        faint.paste(art, (left + index * gap, y), art)
+    board.alpha_composite(Image.blend(Image.new("RGBA", board.size,
+                                                (0, 0, 0, 0)), faint, 0.75))
+
+
 def draw_board(day: date, events: list[dict], now: datetime, viewer,
                live_for, *, title: str, subtitle: str, weekday: str,
                page: int = 1, pages: int = 1, accent=None) -> Image.Image:
-    """The whole board: header, then a card for each match.
+    """The whole board, laid out the way a broadcaster's info channel is.
 
-    `events` are dicts with start / title / channels, already filtered and
-    in order. `live_for` is how long a match counts as under way.
-    `accent` is the channel's own colour — the football wears the green
-    and the other sports their violet, and a caller that passes nothing
-    gets the green this board has always worn.
+    THE 2026 INFO-SCREEN REDRAW. A list of eight identical boxes is a
+    spreadsheet; the screens a viewer actually recognises — beIN CONNECT
+    INFO, S SPORT+ INFO — are built the other way round: the channel's
+    name set large across the top, what is ON AIR right now in its own
+    panel on the reading side, what is COMING listed beside it, and the
+    competitions signed along the foot. That is this board now.
     """
     accent = accent or ACCENT
     events = without_repeats([dict(event) for event in events])
     board = backdrop()
     pen = ImageDraw.Draw(board)
 
-    # ---- header ---------------------------------------------------------
-    draw_mark(pen, PAD, PAD - 6, 76, accent)
-    x = PAD + 76 + 24
-
-    draw_text(pen, (x, PAD - 4), title, 46, WHITE)
-    draw_text(pen, (x, PAD + 52), subtitle, 21, MUTED, thin=True)
-
-    right = W - PAD
-    date_chip(pen, right, PAD - 6, f"{day:%d.%m.%Y}")
-    # THE CLOCK. A board is a still picture, so the digits are painted on
-    # frame by frame by the encoder (match_screen_video) and tick while
-    # the channel is playing. All that is drawn here is the well they sit
-    # in, at CLOCK_BOX - the one geometry both files agree on.
-    draw_signature(pen)
-
-    # WHICH day this board is, in the middle where it cannot be missed.
-    #
-    # The name of the channel is "مباريات اليوم", and it was set in 40px
-    # across the top of every board — including tomorrow's and the day
-    # after's. So the largest words on a Friday board said "today", and
-    # the only thing that disagreed was a 21px muted weekday in a corner.
-    # A viewer watching three boards go past could not tell which was
-    # which, and the one thing they were told outright was wrong.
-    #
-    # The relative word is the one that answers it — اليوم, غداً, بعد غد
-    # — and the weekday is what it means. No digits in this badge: the
-    # date is already set on the right, and a number inside Arabic is the
-    # one thing that can come out reversed.
-    badge = day_badge(day, now, viewer, weekday)
-    badge_size = 26
-    wide = width_of(badge, badge_size) + 60
-    middle_x = W // 2
-    pen.rounded_rectangle(
-        [middle_x - wide // 2, PAD + 46, middle_x + wide // 2, PAD + 92],
-        radius=23, fill=PANEL, outline=RULE, width=1)
-    draw_text(pen, (middle_x, PAD + 69), badge, badge_size, accent,
-              anchor="mm")
+    # ---- masthead -------------------------------------------------------
+    draw_mark(pen, PAD, 30, 54, accent)
+    head = title.upper() if not ARABIC.search(title) else title
+    draw_text(pen, (W // 2, 52), clipped(head, 40, 720, weight="heavy"), 40,
+              WHITE, anchor="mm", weight="heavy")
+    if subtitle:
+        draw_text(pen, (W // 2, 84), clipped(subtitle, 17, 760, thin=True),
+                  17, MUTED, anchor="mm", thin=True)
+    stamp = f"{weekday} · {day:%d.%m.%Y}"
+    draw_text(pen, (W - PAD, 46), stamp, 20, WHITE, anchor="rm", weight="mid")
     count = (arabic_count(len(events), "مباراة", "مبارياتان", "مباريات",
                           "مباراة") if events else "لا توجد مباراة")
-    # A day too long for one screen is drawn over several, and a viewer
-    # watching them go past should be told which of them this is.
     if pages > 1:
-        count = f"{count} — {page}/{pages}"
-    draw_text(pen, (right, PAD + 64), count, 21, accent, anchor="ra")
+        count = f"{count} · {page}/{pages}"
+    draw_text(pen, (W - PAD, 72), count, 14, MUTED, anchor="rm", thin=True)
+    pen.line([(PAD, 112), (W - PAD, 112)], fill=RULE, width=1)
+    pen.rounded_rectangle([PAD, 110, PAD + 150, 114], radius=2, fill=accent)
 
-    top = PAD + 122
-    rule(pen, top, accent)
-
+    foot = H - 104
     if not events:
         draw_text(pen, (W // 2, H // 2), "لا توجد مباراة معلنة اليوم",
-                  32, MUTED, anchor="mm")
-        progress(pen, page, pages, accent)
+                  30, MUTED, anchor="mm")
+        progress(pen, page, pages, accent, y=H - 26)
         return board
 
-    # ---- rows -----------------------------------------------------------
-    room = H - top - PAD
-    rows = events
-    height = 62
-    if len(rows) * height > room:
-        height = max(38, room // len(rows))
-        if height < 38:                     # more than fits: show what does
-            rows = events[:max(1, (room - 40) // 38)]
-            height = 38
+    live_rows = [e for e in events
+                 if e["start"] <= now < e["start"] + live_for]
+    rest = [e for e in events if e not in live_rows]
 
-    # A THIN DAY SHOULD NOT LEAVE HALF A SCREEN EMPTY. The row height
-    # was fixed, so five matches sat in the top third of the board and
-    # the bottom two thirds were bare ground — on a television, across a
-    # room, that reads as a broken page. The rows grow into the room
-    # they have, up to a ceiling that keeps a card looking like a card,
-    # and whatever is still spare is split above and below so the block
-    # sits in the middle of the board rather than hanging from its top.
-    if len(rows) * height < room:
-        height = min(96, room // len(rows))
-    # Whatever room is still spare is spread as air between the cards
-    # rather than left in one dead block at the foot of the screen, so a
-    # three-match day breathes down the whole board instead of stopping
-    # a third of the way and leaving the rest bare.
-    spare = max(0, room - len(rows) * height)
-    lead = min(40, spare // (len(rows) + 1))
-    spare -= lead * (len(rows) + 1)
+    # ---- ON AIR, its own panel on the left ------------------------------
+    col = PAD + 372                       # where the left column ends
+    top = 140
+    draw_text(pen, (PAD, top), "على الهواء الآن", 22, WHITE, anchor="lm",
+              weight="mid")
+    dot_x = PAD + width_of("على الهواء الآن", 22, weight="mid") + 18
+    pen.ellipse([dot_x, top - 5, dot_x + 10, top + 5], fill=LIVE_TAG)
+    draw_text(pen, (dot_x + 18, top + 1), "LIVE", 13, LIVE_RED, anchor="lm",
+              weight="mid")
 
-    time_x, name_x = PAD + 128, PAD + 168
-    y = top + 8 + lead + spare // 2
+    y = top + 28
+    if not live_rows:
+        draw_text(pen, (PAD, y + 18), "لا يوجد بث مباشر الآن", 16, MUTED,
+                  anchor="lm", thin=True)
+    for event in live_rows[:4]:
+        card_h = 92
+        if y + card_h > foot:
+            break
+        card = [PAD, y, col - 28, y + card_h]
+        pen.rounded_rectangle(card, radius=12, fill=LIVE_BG,
+                              outline=LIVE_TAG, width=2)
+        pen.rounded_rectangle([card[0], card[1] + 10, card[0] + 6,
+                               card[3] - 10], radius=3, fill=LIVE_TAG)
+        inner = card[0] + 20
+        room = card[2] - inner - 16
+        draw_text(pen, (inner, y + 24),
+                  event["start"].astimezone(viewer).strftime("%H:%M"), 17,
+                  LIVE_RED, anchor="lm", weight="heavy")
+        comp = norm_line(event.get("competition"))
+        if comp:
+            draw_text(pen, (card[2] - 16, y + 24),
+                      clipped(comp, 14, room - 90, weight="mid"), 14,
+                      comp_colour(comp) + (255,), anchor="rm", weight="mid")
+        name = size_that_fits(event["title"], 24, 16, room)
+        draw_text(pen, (inner, y + 52), clipped(event["title"], name, room),
+                  name, WHITE, anchor="lm", weight="mid")
+        if event["channels"]:
+            draw_text(pen, (inner, y + 76),
+                      clipped("  ·  ".join(event["channels"][:3]), 14, room,
+                              weight="mid"), 14, PILL_INK, anchor="lm",
+                      weight="mid")
+        y += card_h + 12
 
-    # THE STATUS SLOT. One line for مباشر, التالي and انتهى — asked for
-    # outright, twice, in the same breath: "التالي و المباشر مش على نفس
-    # الخط" and "make them a bit smaller to make it fit inside the lines".
-    # The old pill sat before the name only on live and finished rows, so
-    # a live row's name started some ninety pixels right of its
-    # neighbours', and the pill itself stood taller than the band it sat
-    # in — on a two-line row the name line sits above centre, so the pill
-    # rode up and poked through the row's own outline. One slot on every
-    # row, the same width on every row, is the only shape in which
-    # "on the air" and "next" can be read on the same line at all.
-    tag_px = max(11, min(13, height - 30)) if height >= 42 else 11
-    # The same width for all three words — the widest of them sets it —
-    # so a مباشر pill and a التالي pill occupy exactly the same box and
-    # the name behind them starts on exactly the same pixel.
-    slot_w = max(width_of(word, tag_px, weight="mid")
-                 for word in ("مباشر", "انتهى", "التالي")) + 18
-    slot_x = name_x
-    # The pill rides at the name line's height on a two-line row and the
-    # row's middle on a one-line one — never above the band's top edge,
-    # whatever the row's height: a pill that pokes out of the line is the
-    # thing that was asked to stop.
-    slot_half = min(tag_px + 5, (height - 6) // 2 - 2)
+    pen.line([(col, top - 14), (col, foot)], fill=RULE, width=1)
+
+    # ---- COMING, listed on the right ------------------------------------
+    left = col + 30
+    draw_text(pen, (left, top), "البث القادم", 22, WHITE, anchor="lm",
+              weight="mid")
+    draw_text(pen, (W - PAD, top), day_badge(day, now, viewer, weekday), 15,
+              accent, anchor="rm", weight="mid")
+
+    y = top + 28
+    room = foot - y
+    shown = rest
+    height = max(40, min(64, room // max(1, len(shown))))
+    if len(shown) * height > room:
+        shown = rest[:max(1, room // 40)]
+        height = room // len(shown)
+
     today = day == now.astimezone(viewer).date()
-    coming_seen = False
-
-    for index, event in enumerate(rows):
-        live = event["start"] <= now < event["start"] + live_for
-        # OVER, AND SAID SO IN RED. Asked for outright. A board carries
-        # the whole day, so by the evening most of it has been played —
-        # and every one of those rows was printing its clock in the same
-        # green as the match that has not started yet. Green is the
-        # colour this board uses for "coming"; a match that is finished
-        # is not coming, and a viewer scanning for what is next was being
-        # made to read every line to find out.
+    coming = False
+    for index, event in enumerate(shown):
         over = event["start"] + live_for <= now
-        band = [PAD - 12, y, W - PAD + 12, y + height - 6]
-        if live:
-            # ON THE AIR, AND IT LOOKS LIKE IT. A viewer looking at the
-            # board in bed, at arm's length, in the dark, asked why a
-            # match being played right now looked exactly like one that
-            # starts at nine. It did: the live band was a green so close
-            # to the panel either side of it that the only difference was
-            # a hairline a pixel wide, and the clock stayed green — the
-            # colour of "not started yet".
-            #
-            # So the band is red now, in the one shade a television
-            # viewer already knows means "on the air", with a red
-            # مباشر pill beside the clock and the clock itself red. Red
-            # was already the board's word for "over"; it stays there as
-            # a muted letter and comes here as a lit room, so "over" is
-            # read and "on now" is seen.
-            pen.rounded_rectangle(band, radius=12, fill=LIVE_BG,
-                                  outline=LIVE_TAG, width=2)
-            # A thick lit edge on the reading side — six times the
-            # hairline it was — so the eye lands on the row that is on
-            # before it reads a word on it.
-            pen.rounded_rectangle([band[0] + 3, band[1] + 7,
-                                   band[0] + 11, band[3] - 7],
-                                  radius=3, fill=LIVE_TAG)
-        elif over:
-            # FINISHED, AND IT LOOKS LIKE IT TOO. The live row got a red
-            # room; the finished one gets the opposite of that: a grey
-            # band dimmer than the panels around it, so an evening board
-            # full of played matches reads as "already been" at a glance
-            # and the green rows are the ones the eye goes to. The clock
-            # keeps its red — "over" stays red as it always was — but
-            # the row itself steps back, and the انتهى pill below says
-            # what the colour is saying.
-            pen.rounded_rectangle(band, radius=12, fill=OVER_BG,
-                                  outline=OVER_TAG, width=1)
-            pen.rounded_rectangle([band[0] + 3, band[1] + 7,
-                                   band[0] + 11, band[3] - 7],
-                                  radius=3, fill=OVER_TAG)
-        else:
-            fill = PANEL if index % 2 == 0 else PANEL_ALT
-            pen.rounded_rectangle(band, radius=12, fill=fill,
-                                  outline=RULE, width=1)
-
+        band = [left, y, W - PAD, y + height - 6]
+        pen.rounded_rectangle(band, radius=8,
+                              fill=OVER_BG if over else
+                              (PANEL if index % 2 == 0 else PANEL_ALT))
+        pen.rounded_rectangle([band[0], band[1] + 5, band[0] + 4,
+                               band[3] - 5], radius=2,
+                              fill=OVER_TAG if over else accent)
         middle = y + (height - 6) // 2
+        ink = PILL_INK if over else WHITE
 
-        # TWO LINES WHERE THERE IS ROOM FOR TWO, and the second one is
-        # the competition.
-        #
-        # A row said "Fenerbahce - Besiktas · beIN 6" and left out the one
-        # thing that tells a viewer what they are looking at — whether
-        # that is the league, the cup, or a pre-season friendly. On the
-        # second board it matters more, not less: "Live Boxing Ruiz vs
-        # Knyba" says nothing about whether it is a title fight, and
-        # "Practice 1" says nothing about which championship.
-        #
-        # The name gives up a little size to make room, which is the
-        # trade asked for outright — a slightly smaller line that says
-        # more beats a large one that says half of it.
-        #
-        # 42 is where it stops, and it is measured rather than chosen: a
-        # 42px row leaves a 36px band, and a 17px name over a 13px
-        # competition needs 31 of it. Below that the two lines start
-        # touching, and two lines that touch are worse than one that
-        # does not — so a day too full for both keeps the single centred
-        # name, which is the thing a viewer came for.
-        beneath = norm_line(event.get("competition"))
-        two = bool(beneath) and height >= 42
-        size = (max(17, min(25, height - 30)) if two
-                else max(19, min(28, height - 26)))
-        # 14 is the floor for the competition line, measured against the
-        # smallest phone a viewer checks a board on: 13px MUTED thin read
-        # as a smudge at arm's length and the viewer could not tell the
-        # league from the cup, which is the one thing the line exists to
-        # say. Two points of size cost nothing the name needs and the
-        # line is legible wherever the clock beside it is.
-        under = max(14, size - 7)
-        head_y = middle - (under // 2) - 2 if two else middle
-        sub_y = middle + (size // 2) + 2
+        draw_text(pen, (left + 18, middle),
+                  event["start"].astimezone(viewer).strftime("%H:%M"), 19,
+                  OVER_TAG if over else accent, anchor="lm", weight="heavy")
+        text_x = left + 90
+        tag = ""
+        if over:
+            tag = "انتهى"
+        elif today and not coming:
+            tag, coming = "التالي", True
+        chan = "  ·  ".join(event["channels"][:3])
+        chan_w = min(200, width_of(chan, 13, weight="mid")) if chan else 0
+        if chan:
+            draw_text(pen, (W - PAD - 16, middle),
+                      clipped(chan, 13, 200, weight="mid"), 13,
+                      MUTED if over else PILL_INK, anchor="rm", weight="mid")
+        stop = W - PAD - 30 - chan_w
+        if tag:
+            wide = width_of(tag, 12, weight="mid") + 16
+            pen.rounded_rectangle([stop - wide, middle - 10, stop,
+                                   middle + 10], radius=10,
+                                  fill=OVER_TAG if over else NEXT_TAG)
+            draw_text(pen, (stop - wide // 2, middle), tag, 12, WHITE,
+                      anchor="mm", weight="mid")
+            stop -= wide + 12
 
-        clock = event["start"].astimezone(viewer).strftime("%H:%M")
-        # THE CLOCK IS THE COLUMN A BOARD IS SCANNED DOWN, so it is set
-        # in the display weight and separated from the names by a
-        # hairline: the eye runs down the times first and crosses to a
-        # name only when one of them is the time it wanted.
-        # THE KICKOFF IS A KEY, NOT A CAPTION. On a television board the
-        # time is the one thing read from across a room, so it is set in
-        # its own outlined tablet at the head of the row — a shape the
-        # eye finds without reading, the way a departures board is read
-        # by the column of times and not the column of destinations.
-        clock_ink = LIVE_RED if live else (OVER if over else accent)
-        clock_px = max(17, min(23, height - 32))
-        tab_h = min(clock_px + 16, height - 16)
-        tab = [PAD + 4, middle - tab_h // 2, time_x + 22, middle + tab_h // 2]
-        pen.rounded_rectangle(tab, radius=9, fill=dim(clock_ink),
-                              outline=clock_ink, width=2)
-        draw_text(pen, ((tab[0] + tab[2]) // 2, middle), clock, clock_px,
-                  clock_ink, anchor="mm", weight="heavy")
-
-        # THREE WORDS, ONE SLOT, ONE SIZE. The pill is drawn in the slot
-        # every row carries, at the slot's fixed width: مباشر red for the
-        # row on the air, التالي teal for the next kickoff on today's
-        # board, انتهى slate for the finished one — and nothing drawn at
-        # all for a plain upcoming row on a future day, where "next" is
-        # every row and would say nothing. The word sits at the name
-        # line's height on a two-line row and the row's middle on a
-        # one-line one, and the box it sits in never stands taller than
-        # the band around it — the pill that rode out of the row line was
-        # the thing asked out of the picture.
-        word, fill = "", LIVE_TAG
-        # The pill sits at the name line's height where that is inside
-        # the band, and at the band's own centre otherwise — a pill
-        # centred on a line that sits near the band's edge is a pill
-        # that pokes out of the row, which is the thing asked to stop.
-        slot_y = min(max(head_y, y + 3 + slot_half),
-                     y + height - 6 - 3 - slot_half)
-        if live:
-            word, fill = "مباشر", LIVE_TAG
-        elif over:
-            word, fill = "انتهى", OVER_TAG
-        elif today and not coming_seen:
-            # THE NEXT KICKOFF, SAID SO. The red room says "on now";
-            # everything else on today's board is either finished or
-            # waiting, and the waiting row a viewer is actually after is
-            # the next one to kick off. It wears the coming green the
-            # board has always used for a clock still to come, in the
-            # same slot and the same size as the red word, so "which one
-            # is next?" and "which one is on?" are answered on one line
-            # by the same shape. Only the first upcoming row wears it —
-            # a second التالي would be a second promise this board
-            # cannot keep.
-            word, fill = "التالي", NEXT_TAG
-            coming_seen = True
-        if word:
-            pen.rounded_rectangle(
-                [slot_x, slot_y - slot_half, slot_x + slot_w,
-                 slot_y + slot_half],
-                radius=slot_half, fill=fill)
-            draw_text(pen, (slot_x + slot_w // 2, slot_y), word,
-                      tag_px, WHITE, anchor="mm", weight="mid")
-        # On a future day's board nothing is live or over and only one
-        # row would wear التالي; leaving the slot empty on every row
-        # would waste the widest word's width of name room, so the name
-        # takes the slot's x on the days it is never used.
-        head = slot_x + slot_w + 14 if (word or today) else name_x
-
-        # THE CHANNELS BESIDE THE NAME, NOT UNDER IT. They used to drop
-        # to the competition line on any row tall enough for two lines,
-        # and a viewer photographing the board asked outright for them
-        # back beside the name: the pills name where the game is
-        # watched, which is the question the name asks, and a line of
-        # channels under a match reads as a second event rather than an
-        # answer. They sit at the row's middle now — the name's level on
-        # a two-line row and the whole row on a one-line one — and the
-        # competition keeps the second line to itself.
-        pill_y = middle
-        # SAME SIZE ON EVERY ROW, TWO LINES OR ONE. The size used to be
-        # taken from the line the pills sat on, and a single-line row
-        # had a larger font than a two-line one, so its pills were
-        # larger too — Fox Nation measured 35px tall against DAZN's 22
-        # beside it on the same board, and a viewer read the larger pill
-        # as a louder channel. Every row's pills are drawn at the
-        # two-line row's ceiling now, whichever line they sit on, so
-        # the board has one size of channel and not two.
-        pill_size = max(15, min(16, (under if two else size - 8) - 2))
-        # The pill's half is capped to the band, as the status slot's
-        # is — a channel pill that pokes out of the row line is the
-        # same complaint the status pill earned.
-        pill_half = min(pill_size, (height - 6) // 2 - 2)
-        # THE CHANNELS KEEP A COLUMN OF THEIR OWN, always the same
-        # width, so the VS down the middle of the board lands in one
-        # straight line on every row instead of drifting with however
-        # many channels a match happens to carry. Nothing is dropped:
-        # every channel still shows, each one simply cut to its share
-        # of the column when a match is on three of them at once.
-        # WHERE TO WATCH IT IS ONE ANSWER, SO IT IS ONE BAR. Three
-        # little grey lozenges of different widths made the right-hand
-        # side of the board look like spare change; a broadcaster on a
-        # real sports channel gets a lit bar the width of the column,
-        # the same on every row, carrying every channel the match is on.
-        # Nothing is dropped — two or three names share the bar.
-        channel_x = W - PAD - CHANNEL_ZONE
-        if shown_any := event["channels"][:3]:
-            bar = [channel_x, middle - (pill_half + 4), W - PAD,
-                   middle + (pill_half + 4)]
-            pen.rounded_rectangle(bar, radius=8, fill=CHANNEL_BAR,
-                                  outline=CHANNEL_EDGE, width=2)
-            joined = clipped("  ·  ".join(shown_any), pill_size,
-                             CHANNEL_ZONE - 24, weight="mid")
-            draw_text(pen, ((bar[0] + bar[2]) // 2, middle), joined,
-                      pill_size, WHITE, anchor="mm", weight="mid")
-
-        # THE NAME STOPS WHERE THE CHANNELS BEGIN, on every row. When
-        # the pills sat under the name it could run edge to edge, and
-        # the events that needed the room were the ones that got it.
-        # With the pills beside the name again — where a viewer asked
-        # for them — the name gives way, and "US Open Men's & Women's
-        # Singles 3rd Round and Women's Doubles 1st Round" is clipped
-        # rather than written over its own channels. It shrinks first
-        # and clips only past its own floor, as below.
-        room_for_name = channel_x - head - 24
-
-        # SHRINK BEFORE CUTTING. A name cut short is a name that says
-        # nothing — "US Open Men's & Women's Singles 3rd Round and
-        # Women's Doubles 1st Round" became "US Open…", which is every
-        # tennis row on the board and tells a viewer which of them apart
-        # from none. Two or three points smaller and the whole of it
-        # fits, and a viewer can read the whole of it.
-        #
-        # It only goes down as far as the competition line under it,
-        # because a name smaller than its own subtitle reads as a
-        # mistake. Past that, and only past that, it is clipped — and
-        # what is left over is a name longer than a whole board, where
-        # something has to give.
-        # THE FIXTURE, DRAWN AS A FIXTURE. Where the row is tall enough
-        # and the title really is two sides, it is set as crest, club,
-        # VS, crest, club — the shape a viewer already reads on every
-        # sports channel there is. Where it is not (a race, a session, a
-        # one-name event, or a row squeezed thin by a full day) the
-        # title is written as it always was.
-        sides = split_sides(event["title"]) if height >= 52 else None
-        drawn = False
-        chip_left, chip_stop = head, channel_x - 60
-        if sides:
-            home, away = sides
-            # A FIXTURE IS A MIRROR, AND THE BOARD IS SET LIKE ONE. The
-            # home club runs out from the left with its crest first; the
-            # away club runs back in from the right with its crest last;
-            # VS holds the centre line, in the same place on every row,
-            # so the eye reads straight down the middle of the board
-            # instead of hunting for where one fixture ends. Each side
-            # gets exactly half the span minus the VS gutter, so the two
-            # can never meet in the middle whatever the names are.
-            left_edge, right_edge = head, W - PAD - CHANNEL_ZONE - 24
-            centre = (left_edge + right_edge) // 2
-            crest_y = (head_y + middle) // 2 if two else middle
-            box = min(44, 2 * (crest_y - y - 6),
-                      2 * (y + height - 6 - crest_y))
-            gap, gutter = 12, 34
-            side_room = centre - gutter - left_edge - box - gap
-            fitted = size
-            while fitted > 15 and max(width_of(home, fitted),
-                                      width_of(away, fitted)) > side_room:
-                fitted -= 1
-            if box >= 22 and side_room > 60:
-                # A played match steps back in grey; red is kept
-                # for the clock, where it means "over" already.
-                ink = PILL_INK if over else WHITE
-                home_txt = clipped(home, fitted, side_room)
-                away_txt = clipped(away, fitted, side_room)
-                draw_crest(board, pen, home, left_edge + box // 2,
-                           crest_y, box)
-                chip_left = left_edge + box + gap
-                draw_text(pen, (chip_left, head_y), home_txt, fitted, ink,
-                          anchor="lm")
-                draw_text(pen, (centre, head_y), "VS", max(14, fitted - 5),
-                          LIVE_TAG if live else MUTED, anchor="mm",
-                          weight="heavy")
-                draw_crest(board, pen, away, right_edge - box // 2,
-                           crest_y, box)
-                draw_text(pen, (right_edge - box - gap, head_y), away_txt,
-                          fitted, ink, anchor="rm")
-                chip_stop = centre - gutter
-                drawn = True
-        if not drawn:
-            fitted = size_that_fits(event["title"], size,
-                                    under if two else max(15, size - 6),
-                                    room_for_name)
-            draw_text(pen, (head, head_y),
-                      clipped(event["title"], fitted, room_for_name),
-                      fitted, WHITE, anchor="lm")
-
+        comp = norm_line(event.get("competition"))
+        two = bool(comp) and height >= 50
+        size = 19 if two else 20
+        name_y = middle - 9 if two else middle
+        space = stop - text_x - 14
+        fitted = size_that_fits(event["title"], size, 14, space)
+        draw_text(pen, (text_x, name_y),
+                  clipped(event["title"], fitted, space), fitted, ink,
+                  anchor="lm", weight="mid")
         if two:
-            # THE COMPETITION IS THE FIRST THING A VIEWER LOOKS FOR after
-            # the two names — league, cup or friendly decides whether
-            # they turn over at all — so it is drawn to be read, not to
-            # sit quietly under the name: an accent dot to lead the eye,
-            # the mid weight, and PILL_INK, which holds its own against
-            # the white above it instead of fading to a whisper like
-            # MUTED did. The dot is the same accent the board already
-            # marks "look here" with, so it reads as part of the board's
-            # language rather than a new thing.
-            #
-            # The line still stops where the pills' lowest edge hangs,
-            # because the pills sit at the row's middle now and their
-            # bottom band crosses this line's height on the right — the
-            # dot leads the eye from the left and the text never runs
-            # under a channel.
-            # The competition wears its own colour as a chip, so four
-            # leagues on one board are four colours and not four grey
-            # lines. The colour comes from the competition's name, so it
-            # never changes between builds and the board stays byte for
-            # byte the same unless the day did.
-            tone = comp_colour(beneath) + (255,)
-            label = clipped(beneath, under, max(60, chip_stop - chip_left),
-                            weight="mid")
-            # THE COMPETITION WHISPERS. It was a filled colour chip, and
-            # a board with eight of them read as a bag of sweets; the
-            # row's own furniture — the time tablet and the broadcaster
-            # bar — carries the colour now, and the league is simply set
-            # quietly under the home club, where a viewer looks only
-            # when they want it.
-            draw_text(pen, (chip_left, sub_y), label, under, tone,
-                      anchor="lm", weight="mid")
-        y += height + lead
+            draw_text(pen, (text_x, middle + 12),
+                      clipped(comp, 13, space, weight="mid"), 13,
+                      comp_colour(comp) + (255,), anchor="lm", weight="mid")
+        y += height
 
-    left_out = len(events) - len(rows)
+    left_out = len(rest) - len(shown)
     if left_out > 0:
-        draw_text(pen, (W - PAD, H - PAD + 8), f"+{left_out} مباراة أخرى",
-                  20, MUTED, anchor="rs")
-    progress(pen, page, pages, accent)
+        draw_text(pen, (W - PAD, foot + 16), f"+{left_out} أخرى", 14, MUTED,
+                  anchor="rm", thin=True)
+
+    # ---- the sign-off band ----------------------------------------------
+    pen.line([(PAD, foot + 34), (W - PAD, foot + 34)], fill=RULE, width=1)
+    _crest_strip(board, pen, events, foot + 44, accent)
+    draw_text(pen, (W - PAD, H - 10), SIGNATURE, 13, RULE, anchor="rs",
+              thin=True)
+    progress(pen, page, pages, accent, y=H - 14)
     return board
