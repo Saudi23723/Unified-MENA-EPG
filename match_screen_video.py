@@ -133,6 +133,12 @@ SCREENS = {
     "dubai_hoops_gridiron": ("dubai_hoops_gridiron_",
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256", 20),
+    # THE ELEVENTH CHANNEL — الفورمولا ١. One board, not a reel of them:
+    # this channel draws the state of the championship rather than a
+    # list of fixtures, so there is one picture and it is redrawn, not
+    # paged. TWENTY SECONDS because it divides 140 and lands on a whole
+    # AAC frame (f1_epg.py says why there is only ever one board).
+    "f1": ("f1_", "f1.m3u8", "f1.sha256", 20),
     # THE TENTH CHANNEL — القنوات التركية · PPV: the Turkish grid alone.
     # FOURTEEN, AND THE NUMBER IS NOT FREE. A page of five fixtures is
     # read faster than a page of eight, and this channel now draws five
@@ -460,6 +466,7 @@ THEMES = {
     "ball_sports": "audio/theme_sports.m4a",
     "dubai_ball_sports": "audio/theme_sports.m4a",
     "hoops_gridiron": "audio/theme_sports.m4a",
+    "f1": "audio/theme_sports.m4a",
     "dubai_hoops_gridiron": "audio/theme_sports.m4a",
     "turkish_ppv": "audio/theme_sports.m4a",
     "dubai_turkish_ppv": "audio/theme_sports.m4a",

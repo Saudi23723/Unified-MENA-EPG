@@ -43,6 +43,8 @@ jobs:
         run: python -u hoops_gridiron_epg.py
       - name: Rebuild Turkish PPV channel
         run: python -u turkish_ppv_epg.py
+      - name: Rebuild Formula 1 channel
+        run: python -u f1_epg.py
       - name: Encode channel 1
         run: python -u match_screen_video.py today_matches
       - name: Encode channel 2
@@ -59,6 +61,8 @@ jobs:
         run: python -u match_screen_video.py hoops_gridiron
       - name: Encode UAE NBA and NFL channel
         run: python -u match_screen_video.py dubai_hoops_gridiron
+      - name: Encode Formula 1 channel
+        run: python -u match_screen_video.py f1
       - name: Encode Turkish PPV channel
         run: python -u match_screen_video.py turkish_ppv
       - name: Encode UAE Turkish PPV channel
