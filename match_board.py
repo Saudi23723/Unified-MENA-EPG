@@ -1173,8 +1173,42 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     # against a list of three rows crushed into what was left — reported
     # off the television as "too small". With nothing on air the left
     # column keeps just enough to say so, and the list takes the rest.
-    col = PAD + (372 if live_rows else 196)
+    #
+    # AND A NIGHT WHERE EVERYTHING IS ON AT ONCE. The panel drew four
+    # cards and stopped: with eight simultaneous matches the heading
+    # counted eight, four were drawn nowhere at all, and the COMING
+    # column sat empty across two thirds of the screen. So the panel is
+    # sized from what it has to hold — it takes the whole width in two
+    # lanes when nothing is coming — and a card that still does not fit
+    # falls into the list beside it rather than off the board.
     top = 140
+    foot_of_panel = foot - (top + 28)
+    STEP = 12
+    GUTTER = 24
+
+    def cards_that_fit(height: int) -> int:
+        """How many cards of this height one lane of the panel holds."""
+        return max(1, (foot_of_panel + STEP) // (height + STEP))
+
+    lanes = (2 if live_rows and not rest
+             and len(live_rows) > cards_that_fit(92) else 1)
+    tall = lanes == 1 and len(live_rows) <= 2
+    card_h = 148 if tall else 92
+    per_lane = cards_that_fit(card_h)
+    if lanes == 2:
+        # five on air reads as 3 + 2, not as a full lane and a stray
+        per_lane = min(per_lane, -(-len(live_rows) // lanes))
+
+    spill = live_rows[per_lane * lanes:]
+    live_rows = live_rows[:per_lane * lanes]
+    if spill:
+        rest = sorted(rest + spill, key=lambda e: e["start"])
+
+    col = PAD + (372 if live_rows else 196)
+    if lanes == 2:
+        col = W - PAD
+    span = (col - PAD) - (28 if lanes == 1 else 0)
+    lane_w = (span - GUTTER * (lanes - 1)) // lanes
     draw_text(pen, (PAD, top), "على الهواء الآن", 22, WHITE, anchor="lm",
               weight="mid")
     dot_x = PAD + width_of("على الهواء الآن", 22, weight="mid") + 18
@@ -1191,14 +1225,11 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     # actually ON AIR sat in a 92px card beside 118px rows — the one row
     # a viewer is looking for, drawn smaller than the ones they are not.
     # With one or two live it takes the room the column has.
-    tall = len(live_rows) <= 2
-    for event in live_rows[:4]:
-        card_h = 148 if tall else 92
-        if y + card_h > foot:
-            card_h = 92
-        if y + card_h > foot:
-            break
-        card = [PAD, y, col - 28, y + card_h]
+    for index, event in enumerate(live_rows):
+        lane, slot = divmod(index, per_lane)
+        x = PAD + lane * (lane_w + GUTTER)
+        y = top + 28 + slot * (card_h + STEP)
+        card = [x, y, x + lane_w, y + card_h]
         pen.rounded_rectangle(card, radius=12, fill=LIVE_BG,
                               outline=LIVE_TAG, width=2)
         pen.rounded_rectangle([card[0], card[1] + 10, card[0] + 6,
@@ -1244,7 +1275,18 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                               16 if tall else 14, room, weight="mid"),
                       16 if tall else 14, PILL_INK, anchor="lm",
                       weight="mid")
-        y += card_h + 12
+
+    draw_text(pen, (W - PAD, top), day_badge(day, now, viewer, weekday), 15,
+              accent, anchor="rm", weight="mid")
+    if lanes == 2:
+        # the panel is the board; there is no list to rule off from
+        progress(pen, page, pages, accent, y=H - 14)
+        pen.line([(PAD, foot + 34), (W - PAD, foot + 34)], fill=RULE,
+                 width=1)
+        _crest_strip(board, pen, events, foot + 44, accent)
+        draw_text(pen, (W - PAD, H - 10), SIGNATURE, 13, RULE, anchor="rs",
+                  thin=True)
+        return board
 
     pen.line([(col, top - 14), (col, foot)], fill=RULE, width=1)
 
@@ -1252,8 +1294,6 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     left = col + 30
     draw_text(pen, (left, top), "البث القادم", 22, WHITE, anchor="lm",
               weight="mid")
-    draw_text(pen, (W - PAD, top), day_badge(day, now, viewer, weekday), 15,
-              accent, anchor="rm", weight="mid")
 
     y = top + 28
     room = foot - y
@@ -1284,24 +1324,34 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     coming = False
     for index, event in enumerate(shown):
         over = event["start"] + live_for <= now
+        # A ROW THAT SPILLED OUT OF A FULL PANEL IS STILL ON AIR, and a
+        # list that told a viewer it was "next" would be lying about the
+        # one thing this board exists to say.
+        on_air = not over and event["start"] <= now
         band = [left, y, W - PAD, y + height - 6]
         pen.rounded_rectangle(band, radius=8,
-                              fill=OVER_BG if over else
-                              (PANEL if index % 2 == 0 else PANEL_ALT))
+                              fill=LIVE_BG if on_air else
+                              (OVER_BG if over else
+                               (PANEL if index % 2 == 0 else PANEL_ALT)))
         pen.rounded_rectangle([band[0], band[1] + 5, band[0] + 4,
                                band[3] - 5], radius=2,
-                              fill=OVER_TAG if over else accent)
+                              fill=LIVE_TAG if on_air else
+                              (OVER_TAG if over else accent))
         middle = y + (height - 6) // 2
         ink = PILL_INK if over else WHITE
 
         draw_text(pen, (left + 18, middle),
                   event["start"].astimezone(viewer).strftime("%H:%M"),
                   25 if big else 19,
-                  OVER_TAG if over else accent, anchor="lm", weight="heavy")
+                  LIVE_RED if on_air else
+                  (OVER_TAG if over else accent), anchor="lm",
+                  weight="heavy")
         text_x = left + (118 if big else 90)
         tag = ""
         if over:
             tag = "انتهى"
+        elif on_air:
+            tag = "مباشر"
         elif today and not coming:
             tag, coming = "التالي", True
         chan = "  ·  ".join(event["channels"][:3])
@@ -1321,7 +1371,8 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
             wide = width_of(tag, tag_size, weight="mid") + (24 if big else 16)
             pen.rounded_rectangle([stop - wide, middle - half, stop,
                                    middle + half], radius=half,
-                                  fill=OVER_TAG if over else NEXT_TAG)
+                                  fill=LIVE_TAG if on_air else
+                                  (OVER_TAG if over else NEXT_TAG))
             draw_text(pen, (stop - wide // 2, middle), tag, tag_size, WHITE,
                       anchor="mm", weight="mid")
             stop -= wide + 12
