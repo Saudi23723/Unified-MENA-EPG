@@ -139,7 +139,7 @@ SCREENS = (
     # listing, every sport and every competition, off channel 2 and on a
     # screen of its own.
     (TPPV_ID, TPPV_AR, "stream/turkish_ppv.m3u8",
-     f"{RAW}/stream/turkish_ppv.m3u8", "🇹🇷 القنوات التركية · PPV",
+     f"{RAW}/stream/turkish_ppv.m3u8", "🇹🇷 Turkish PPV",
      TPPV_LOGO),
 
 )
@@ -200,7 +200,7 @@ DUBAI_SCREENS = (
      "🏀 السلة والقدم الأمريكية · بتوقيت الإمارات", HOOPS_LOGO),
     ("TurkishPPVDubai", TPPV_AR, "stream/dubai_turkish_ppv.m3u8",
      f"{RAW}/stream/dubai_turkish_ppv.m3u8",
-     "🇹🇷 القنوات التركية · PPV · بتوقيت الإمارات", TPPV_LOGO),
+     "🇹🇷 Turkish PPV · بتوقيت الإمارات", TPPV_LOGO),
 
 )
 
