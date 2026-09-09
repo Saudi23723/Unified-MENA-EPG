@@ -48,6 +48,10 @@ GENERATOR = os.path.join(HERE, "tools/generate_flight_tracker.py")
 STREAM = os.environ.get("CH6_OUT") or os.path.join(HERE, "stream")
 PLAYLISTS = ("flight_tracker", "dubai_flight_tracker")
 
+class CannotRun(Exception):
+    """The checks could not be run at all — as opposed to failing."""
+
+
 failures: list[str] = []
 
 
@@ -90,6 +94,33 @@ def the_commit_step() -> int:
           re.search(r'git add -A -- "\$\{PATHS\[@\]\}"', text) is not None)
     check("it refuses a commit carrying paths that are not channel 6's",
           "refusing to push it" in text and "--cached --name-only" in text)
+
+    # THE STEP ORDER, because getting it wrong took the channel off air
+    # for twenty minutes. This selftest loads the generator and the
+    # generator imports PIL, so a step that runs it before the
+    # dependencies are installed does not guard the channel — it kills
+    # it, in twenty seconds, every single run.
+    try:
+        import yaml
+        steps = (yaml.safe_load(open(WORKFLOW, encoding="utf-8"))
+                 ["jobs"]["build"]["steps"])
+        names = [str(s.get("name") or s.get("uses") or "") for s in steps]
+        installs = next(i for i, n in enumerate(names)
+                        if "Install dependencies" in n)
+        guards = next(i for i, n in enumerate(names)
+                      if "invariants" in n.lower())
+        check("the invariants are checked AFTER the dependencies "
+              "they need", installs < guards,
+              f"install at step {installs}, check at step {guards}")
+        publishes = next(i for i, n in enumerate(names)
+                         if "Refresh, render and publish" in n)
+        check("and before anything is published", guards < publishes,
+              f"check at {guards}, publish at {publishes}")
+    except StopIteration:
+        check("the publish workflow still has the steps this relies on",
+              False, "a step was renamed")
+    except ImportError:
+        print("  skip  step order — pyyaml is not installed here")
 
     with tempfile.TemporaryDirectory() as room:
         git("init", "-q", ".", cwd=room)
@@ -162,7 +193,16 @@ def the_reel() -> int:
     print("\nthe reel")
     spec = importlib.util.spec_from_file_location("ch6", GENERATOR)
     g = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(g)
+    try:
+        spec.loader.exec_module(g)
+    except Exception as exc:                                  # noqa: BLE001
+        # THE CHECK COULD NOT RUN. That is not evidence the channel is
+        # broken, and a guard that takes the television off air when the
+        # guard is what is broken is worse than no guard. Exit 2 says
+        # "ask someone", exit 1 says "do not publish".
+        print(f"  CANNOT RUN — the generator would not load: "
+              f"{type(exc).__name__}: {exc}")
+        raise CannotRun(str(exc)) from exc
 
     check("the reel is capped at half the refresh interval",
           g.MAX_REEL_SECONDS * 2 <= g.REFRESH_SECONDS,
@@ -282,10 +322,16 @@ def main() -> int:
     only_published = "--published" in sys.argv
     print("channel 6 — the invariants that were only ever learned the "
           "hard way")
-    if not only_published:
-        the_commit_step()
-        the_reel()
-    the_published_reel()
+    try:
+        if not only_published:
+            the_commit_step()
+            the_reel()
+        the_published_reel()
+    except CannotRun as why:
+        print(f"\nthe checks could not be run: {why}")
+        print("exit 2 — this says nothing about whether channel 6 is "
+              "sound, only that nothing here could look")
+        return 2
     print()
     if failures:
         print(f"{len(failures)} check(s) failed: {', '.join(failures)}")
