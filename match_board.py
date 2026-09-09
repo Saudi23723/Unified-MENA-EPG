@@ -1284,22 +1284,26 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     if spill:
         rest = sorted(rest + spill, key=lambda e: e["start"])
 
-    col = PAD + (372 if live_rows else 196)
+    # WHEN NOTHING IS ON AIR, THE COLUMN IS NOT WORTH A COLUMN. It kept
+    # 196px and a heading of its own purely to say it was empty, and the
+    # list read the whole night in what was left — reported off the
+    # television as small twice over. On a quiet board the note moves
+    # onto the heading line and the list takes the full width.
+    quiet = not live_rows
+    col = PAD + (372 if live_rows else 0)
     if lanes == 2:
         col = W - PAD
     span = (col - PAD) - (28 if lanes == 1 else 0)
     lane_w = (span - GUTTER * (lanes - 1)) // lanes
-    draw_text(pen, (PAD, top), "على الهواء الآن", 22, WHITE, anchor="lm",
-              weight="mid")
-    dot_x = PAD + width_of("على الهواء الآن", 22, weight="mid") + 18
-    pen.ellipse([dot_x, top - 5, dot_x + 10, top + 5], fill=LIVE_TAG)
-    draw_text(pen, (dot_x + 18, top + 1), "LIVE", 13, LIVE_RED, anchor="lm",
-              weight="mid")
+    if not quiet:
+        draw_text(pen, (PAD, top), "على الهواء الآن", 22, WHITE, anchor="lm",
+                  weight="mid")
+        dot_x = PAD + width_of("على الهواء الآن", 22, weight="mid") + 18
+        pen.ellipse([dot_x, top - 5, dot_x + 10, top + 5], fill=LIVE_TAG)
+        draw_text(pen, (dot_x + 18, top + 1), "LIVE", 13, LIVE_RED,
+                  anchor="lm", weight="mid")
 
     y = top + 28
-    if not live_rows:
-        draw_text(pen, (PAD, y + 18), "لا يوجد بث مباشر الآن", 16, MUTED,
-                  anchor="lm", thin=True)
     # THE LIVE CARD IS THE POINT OF THE BOARD, so it is not the smallest
     # thing on it. Once the coming rows were allowed to grow, a fixture
     # actually ON AIR sat in a 92px card beside 118px rows — the one row
@@ -1368,12 +1372,18 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                   thin=True)
         return board
 
-    pen.line([(col, top - 14), (col, foot)], fill=RULE, width=1)
+    if not quiet:
+        pen.line([(col, top - 14), (col, foot)], fill=RULE, width=1)
 
     # ---- COMING, listed on the right ------------------------------------
-    left = col + 30
+    left = col + (0 if quiet else 30)
     draw_text(pen, (left, top), "البث القادم", 22, WHITE, anchor="lm",
               weight="mid")
+    if quiet:
+        note = left + width_of("البث القادم", 22, weight="mid") + 20
+        pen.ellipse([note, top - 5, note + 10, top + 5], fill=RULE)
+        draw_text(pen, (note + 18, top + 1), "لا يوجد بث مباشر الآن", 15,
+                  MUTED, anchor="lm", thin=True)
 
     y = top + 28
     room = foot - y
@@ -1388,8 +1398,22 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     if len(shown) * height > room:
         shown = rest[:max(1, room // 40)]
         height = room // len(shown)
-    # and the type grows with the row it sits in
-    big = height >= 78
+
+    # TYPE THAT GROWS WITH THE ROW, not two sizes with a cliff between
+    # them. The cliff sat at 78px, and a full page of eight puts a row
+    # at 56 — so every size on a full board fell to the small step and
+    # stayed there: 20px fixtures and 13px channels, read across a room
+    # off a television and reported as small twice. Each size is now
+    # taken from the row's own height and clamped at both ends, so a row
+    # is always as large as the room it actually has.
+    def fits(share: float, least: int, most: int) -> int:
+        return max(least, min(most, int(height * share)))
+
+    clock_size = fits(0.34, 20, 28)
+    name_size = fits(0.40, 22, 34)
+    comp_size = fits(0.26, 16, 22)
+    chan_size = fits(0.24, 15, 18)
+    tag_size = fits(0.22, 13, 16)
 
     # A SHORT NIGHT SITS IN THE MIDDLE, not in a band under the heading
     # with the rest of the screen black beneath it. Whatever the rows do
@@ -1420,13 +1444,14 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         middle = y + (height - 6) // 2
         ink = PILL_INK if over else WHITE
 
-        draw_text(pen, (left + 18, middle),
-                  event["start"].astimezone(viewer).strftime("%H:%M"),
-                  25 if big else 19,
+        clock = event["start"].astimezone(viewer).strftime("%H:%M")
+        draw_text(pen, (left + 18, middle), clock, clock_size,
                   LIVE_RED if on_air else
                   (OVER_TAG if over else accent), anchor="lm",
                   weight="heavy")
-        text_x = left + (118 if big else 90)
+        # the fixture starts clear of the clock, whatever size it took
+        text_x = left + 18 + width_of("00:00", clock_size,
+                                      weight="heavy") + 26
         tag = ""
         if over:
             tag = "انتهى"
@@ -1435,8 +1460,7 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         elif today and not coming:
             tag, coming = "التالي", True
         chan = "  ·  ".join(event["channels"][:3])
-        chan_size = 16 if big else 13
-        chan_room = 300 if big else 200
+        chan_room = 340 if height >= 66 else 260
         chan_w = (min(chan_room, width_of(chan, chan_size, weight="mid"))
                   if chan else 0)
         if chan:
@@ -1446,9 +1470,8 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                       anchor="rm", weight="mid")
         stop = W - PAD - 30 - chan_w
         if tag:
-            tag_size = 15 if big else 12
-            half = 14 if big else 10
-            wide = width_of(tag, tag_size, weight="mid") + (24 if big else 16)
+            half = tag_size // 2 + 6
+            wide = width_of(tag, tag_size, weight="mid") + tag_size + 8
             pen.rounded_rectangle([stop - wide, middle - half, stop,
                                    middle + half], radius=half,
                                   fill=LIVE_TAG if on_air else
@@ -1458,17 +1481,18 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
             stop -= wide + 12
 
         comp = norm_line(event.get("competition"))
-        two = bool(comp) and height >= 50
-        size = (26 if two else 28) if big else (19 if two else 20)
-        name_y = middle - (15 if big else 9) if two else middle
+        two = bool(comp) and height >= name_size + comp_size + 12
+        # the two lines are centred as one block, so the pair sits on
+        # the row's middle however large either of them grew
+        block = name_size + 4 + comp_size
+        name_y = (middle - block // 2 + name_size // 2) if two else middle
         space = stop - text_x - 14
-        fitted = size_that_fits(event["title"], size, 14, space)
+        fitted = size_that_fits(event["title"], name_size, 14, space)
         draw_text(pen, (text_x, name_y),
                   clipped(event["title"], fitted, space), fitted, ink,
                   anchor="lm", weight="mid")
         if two:
-            comp_size = 19 if big else 15
-            draw_text(pen, (text_x, middle + (19 if big else 12)),
+            draw_text(pen, (text_x, middle + block // 2 - comp_size // 2),
                       clipped(comp, comp_size, space, weight="mid"),
                       comp_size, readable(comp_colour(comp)),
                       anchor="lm", weight="mid")

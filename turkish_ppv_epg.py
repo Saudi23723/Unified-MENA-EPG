@@ -65,6 +65,15 @@ IN_ORDER = (
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
+# HOW MANY ROWS A PAGE OF THIS CHANNEL HOLDS, and it is this channel's
+# own number rather than the shared eight. A board has 448px for its
+# list, so eight rows are 56px each and every size in them falls to the
+# smallest step the drawing has — which is what "it's too small" meant,
+# twice, off a television across a room. Six rows are 74px, which is
+# where the fixture, the competition and the channels each get their
+# full size. The day is not lost: the reel simply turns one more page.
+ON_A_PAGE = 6
+
 
 def wear_this_channel(**also):
     """Put the shared generator in this channel's clothes for a block."""
@@ -72,7 +81,8 @@ def wear_this_channel(**also):
         base.__dict__,
         CHANNEL_ID=CHANNEL_ID, CHANNEL_AR=CHANNEL_AR, SUBTITLE=SUBTITLE,
         OUTPUT=OUTPUT, BOARD_PREFIX=BOARD_PREFIX, LOGO=LOGO,
-        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="info", **also)
+        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="info",
+        MAX_ON_BOARD=ON_A_PAGE, **also)
 
 
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
