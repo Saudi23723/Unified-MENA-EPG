@@ -70,7 +70,40 @@ SOURCE = "https://www.sporekrani.com/"
 ISTANBUL = ZoneInfo("Europe/Istanbul")
 
 # The sport is the icon's own word, never a guess from the title.
-A_SPORT = {"voleybol": "Volleyball", "hentbol": "Handball"}
+#
+# EVERY SPORT THE GRID CARRIES, asked for outright: "download all their
+# listings for every sport and every competition it's fine just don't
+# duplicate". The Turkish word on the icon is mapped to the board's own
+# name for the sport, and the board's own order decides what it shows —
+# football belongs to the first channel and basketball to the NBA/NFL
+# one, so neither is mapped here and neither can arrive by this door.
+A_SPORT = {
+    "voleybol": "Volleyball",
+    "hentbol": "Handball",
+    "plaj voleybolu": "Beach Volleyball",
+    "futsal": "Futsal",
+    "tenis": "Tennis",
+    "snooker": "Snooker",
+    "bisiklet": "Cycling",
+    "padel": "Padel",
+    "golf": "Golf",
+    "ragbi": "Rugby",
+    "rugby": "Rugby",
+    "atletizm": "Athletics",
+    "yüzme": "Swimming",
+    "yuzme": "Swimming",
+    "triatlon": "Triathlon",
+    "boks": "Boxing",
+    "mma": "MMA",
+    "ufc": "MMA",
+    "dart": "Darts",
+    "darts": "Darts",
+    "formula 1": "F1",
+    "motogp": "MotoGP",
+    "motor sporları": "MotoGP",
+    "ralli": "WRC",
+    "olimpiyat": "Olympics",
+}
 
 # WHOSE COMPETITION. Turkish names the side outright — Kadınlar is the
 # women's, Erkekler the men's — and the reader asked for one of each:
@@ -139,12 +172,13 @@ def collect(html: str, today: datetime | None = None) -> list[dict]:
         if A_PROGRAMME.search(f"{league} {title}"):
             not_major += 1
             continue
-        if not A_MAJOR.search(league):
-            not_major += 1
-            continue
-        if not WANTED[sport].search(league):
-            wrong_side += 1
-            continue
+        # EVERY COMPETITION, not only the majors — "every sport and every
+        # competition it's fine just don't duplicate". The major-only and
+        # whose-half gates that stood here were written when this source
+        # answered for two sports alone; the board's own sport order and
+        # its one-row-per-broadcast fold now do the deciding, and the
+        # fold is what keeps a competition arriving twice to one row.
+        # A_MAJOR and WANTED stay defined for the gate that reads them.
 
         channels = []
         for img in row.select("div[class*=channel] img"):
