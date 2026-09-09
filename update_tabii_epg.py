@@ -183,14 +183,35 @@ STAND_IN_DESC = (
 )
 
 
-def parse_utc(value) -> datetime | None:
+def parse_utc(value, naive_is=UTC) -> datetime | None:
+    """A source's timestamp in UTC.
+
+    A stamp that CARRIES an offset is converted and that is the end of it.
+    A stamp that carries NONE has to be read on some clock, and which
+    clock is the caller's to know — a Turkish broadcaster publishing its
+    own schedule prints Istanbul time, and calling that UTC puts every
+    programme three hours late.
+
+    That is exactly what happened. TRT's naive timestamps were being
+    stamped +0000, so the linear channel had Liverpool - Atletico
+    Madrid at 22:00 UTC when TRT meant 22:00 in Istanbul: 19:00 UTC,
+    the ordinary late Champions League slot, and already an hour old
+    by the time the guide claimed it was starting. Barcelona -
+    Feyenoord read 19:45 UTC for a 16:45 UTC kick-off, the same three
+    hours out.
+
+    The default stays UTC so no existing caller changes behaviour; the
+    two linear sources pass Istanbul, which is what they print.
+    """
     if not isinstance(value, str) or not value.strip():
         return None
     try:
         stamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         return None
-    return stamp.astimezone(UTC) if stamp.tzinfo else stamp.replace(tzinfo=UTC)
+    if stamp.tzinfo:
+        return stamp.astimezone(UTC)
+    return stamp.replace(tzinfo=naive_is).astimezone(UTC)
 
 
 # --------------------------------------------------------------------------
@@ -252,8 +273,8 @@ def fetch_trt(session) -> list[dict]:
             shows += [current] if isinstance(current, dict) and current else []
             shows += list(channel.get("upcoming") or [])
             for show in shows:
-                start = parse_utc(show.get("starttime"))
-                stop = parse_utc(show.get("endtime"))
+                start = parse_utc(show.get("starttime"), naive_is=ISTANBUL)
+                stop = parse_utc(show.get("endtime"), naive_is=ISTANBUL)
                 name = norm(show.get("title"))
                 if not start or not stop or stop <= start or not name:
                     continue
@@ -284,8 +305,9 @@ def fetch_tvyayinakisi(session) -> list[dict]:
                 stack.extend(node)
             elif isinstance(node, dict):
                 if node.get("@type") in ("BroadcastEvent", "Event"):
-                    start = parse_utc(node.get("startDate"))
-                    stop = parse_utc(node.get("endDate"))
+                    start = parse_utc(node.get("startDate"),
+                                      naive_is=ISTANBUL)
+                    stop = parse_utc(node.get("endDate"), naive_is=ISTANBUL)
                     name = norm(node.get("name"))
                     if start and stop and stop > start and name:
                         out[(start, stop, name)] = {
