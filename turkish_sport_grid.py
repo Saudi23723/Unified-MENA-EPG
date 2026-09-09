@@ -74,10 +74,35 @@ ISTANBUL = ZoneInfo("Europe/Istanbul")
 # EVERY SPORT THE GRID CARRIES, asked for outright: "download all their
 # listings for every sport and every competition it's fine just don't
 # duplicate". The Turkish word on the icon is mapped to the board's own
-# name for the sport, and the board's own order decides what it shows —
-# football belongs to the first channel and basketball to the NBA/NFL
-# one, so neither is mapped here and neither can arrive by this door.
+# name for the sport, and each channel's own order decides what it shows.
+#
+# FOOTBALL AND BASKETBALL WERE LEFT OUT OF THIS MAP, and that is what
+# was silently costing TRT Spor, S Sport and HT Spor every row they had.
+# Asked for them by name; measured first (probes/probe_turkish_channels
+# .py, on a runner, 80 rows):
+#
+#     TRT Spor         13 rows — 13 studio programmes, no match
+#     HT Spor          11 rows —  3 basketball, 8 programmes
+#     S Sport Plus      4 rows —  2 basketball, 2 football
+#     S Sport           2 rows —  2 basketball
+#     TRT Spor Yildiz   1 row  —  1 basketball
+#
+# Nothing here has ever filtered on a channel name; every broadcaster
+# the grid prints is carried. It was the SPORT that refused them, and
+# with these two mapped their ten real matches reach a board. The
+# programmes stay refused, by A_PROGRAMME below and by their own icon:
+# "events / matches" is what was asked for, and a studio show is
+# neither.
+#
+# WHICH BOARD SEES THEM IS STILL EACH CHANNEL'S OWN DECISION. Channel 2
+# refuses any sport outside its IN_ORDER by name, and football and
+# basketball are not in it, so nothing here can put a football match on
+# the sports guide — they belong to the first channel and to the
+# NBA/NFL one. The Turkish channel, whose whole subject is what is on
+# Turkish screens, takes them.
 A_SPORT = {
+    "futbol": "Football",
+    "basketbol": "Basketball",
     "voleybol": "Volleyball",
     "hentbol": "Handball",
     "plaj voleybolu": "Beach Volleyball",
