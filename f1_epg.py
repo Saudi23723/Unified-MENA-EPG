@@ -87,6 +87,15 @@ DUBAI_RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 JOLPICA = "https://api.jolpi.ca/ergast/f1"
 OPENF1 = "https://api.openf1.org/v1"
 CIRCUITS = "https://api.multiviewer.app/api/v1/circuits"
+# THE WEATHER ON THE CIRCUIT WHEN NOBODY IS ON IT. OpenF1's
+# trackside sensors only exist while a session is running, so on the
+# five days a week this channel has no session the temperature it
+# showed was whatever the last session left behind — a memory, not a
+# reading. Open-Meteo is this repository's weather source already
+# (weather_epg.py reads it), needs no key, and answered for all 23
+# circuits of the season in ONE request: the calendar carries every
+# round's latitude and longitude, 23 of 23.
+METEO = "https://api.open-meteo.com/v1/forecast"
 
 # HOW LONG A SESSION IS, because the calendar gives a start and no end.
 # An hour for a practice or a qualifying, two for a race — and the board
@@ -101,6 +110,10 @@ CLOSES_AFTER = timedelta(hours=3)
 # How old a cached answer may be before it is asked for again.
 SLOWLY = timedelta(hours=1)          # calendar, standings, results
 QUICKLY = timedelta(minutes=4)       # the session on now
+# The weather is asked for every quarter of an hour. Open-Meteo's
+# own reading only moves on the quarter hour, so asking every four
+# minutes would be four requests for one number.
+WEATHER_EVERY = timedelta(minutes=15)
 HOURS_AHEAD = 12
 
 
@@ -190,6 +203,8 @@ def the_calendar(session, state, now) -> list[dict]:
             "circuit_id": circuit.get("circuitId") or "",
             "locality": place.get("locality") or "",
             "country": place.get("country") or "",
+            # WHERE THE CIRCUIT IS, so a forecast can be asked about it.
+            "lat": place.get("lat"), "lon": place.get("long"),
             "sessions": sessions,
             "race_at": started})
     return out
@@ -264,6 +279,84 @@ def the_track_facts(session, state, now, circuit_id, meeting,
         if best and best[0][1] > 1:
             out["most_wins"] = best[0]
     return out
+
+
+def the_track_weather(session, state, now, race) -> dict:
+    """The weather ON THE CIRCUIT, on a day with no car on it.
+
+    WHY THIS IS NOT THE LIVE PANEL'S WEATHER. That one comes from
+    OpenF1, which reads the sensors AT the track — the real surface
+    temperature, measured. It is the better number and it stays where
+    it is. But it exists only while a session is running. This one is a
+    forecast at the circuit's own latitude and longitude, so the track
+    page has weather on the five days a week the sensors are silent.
+
+    IT SAYS WHICH IS WHICH. The surface figure here is the ground
+    temperature at those coordinates, not a reading off the tarmac, and
+    the board labels it SURFACE rather than the trackside TRACK so the
+    two are never mistaken for each other.
+
+    A READING THAT DOES NOT COME BACK IS LEFT OUT, never zeroed —
+    "0°" on a television is a lie a blank space does not tell.
+    """
+    lat, lon = (race or {}).get("lat"), (race or {}).get("lon")
+    if not lat or not lon:
+        return {}
+    url = (f"{METEO}?latitude={lat}&longitude={lon}"
+           f"&current=temperature_2m,apparent_temperature,"
+           f"relative_humidity_2m,weather_code,wind_speed_10m,"
+           f"precipitation,is_day"
+           f"&hourly=precipitation_probability,soil_temperature_0cm"
+           f"&forecast_days=1&timezone=auto")
+
+    # ONE CIRCUIT'S WEATHER IS KEPT, NOT THE SEASON'S. This state file
+    # is committed on every pass, and a key for each of 23 rounds would
+    # be 23 forecasts of dead weight in it. But a single key must never
+    # hand Madrid's weather to Monza the week the calendar moves on —
+    # so the coordinates it was fetched for are kept beside it, and a
+    # different circuit throws the cached answer away rather than
+    # waiting a quarter of an hour to stop being wrong.
+    for stale in [k for k in state if k.startswith("weather:")]:
+        state.pop(stale, None)                     # keys from before this
+    if state.get("weather_at") != f"{lat},{lon}":
+        state.pop("weather", None)
+        state["weather_at"] = f"{lat},{lon}"
+    data = _ask(session, url, state, "weather", now, WEATHER_EVERY)
+    current = (data or {}).get("current") or {}
+    if current.get("temperature_2m") is None:
+        return {}
+
+    # THE HOUR THE READING ITSELF SITS IN, not the hour after it. The
+    # chance of rain and the ground temperature are hourly figures, and
+    # the one that belongs beside a 15:30 reading is 15:00's.
+    out = {}
+    hourly = (data or {}).get("hourly") or {}
+    times = hourly.get("time") or []
+    cut = (current.get("time") or "")[:13]
+    at = next((i for i, one in enumerate(times) if one[:13] == cut), None)
+    if at is not None:
+        for key, field in (("rain_chance", "precipitation_probability"),
+                           ("surface_c", "soil_temperature_0cm")):
+            column = hourly.get(field) or []
+            if at < len(column) and column[at] is not None:
+                out[key] = column[at]
+
+    out.update({
+        "air_c": current["temperature_2m"],
+        "feels_c": current.get("apparent_temperature"),
+        "humidity": current.get("relative_humidity_2m"),
+        "wind_kmh": current.get("wind_speed_10m"),
+        "rain_mm": current.get("precipitation"),
+        "code": current.get("weather_code"),
+        "day": bool(current.get("is_day")),
+        # The clock AT THE CIRCUIT, which Open-Meteo hands back because
+        # the request asks for its own timezone. A viewer reading
+        # "27° at 23:30" knows why it is not hotter.
+        "observed": current.get("time"),
+        "zone": (data or {}).get("timezone_abbreviation") or "",
+        "where": f"{race.get('locality', '')}, {race.get('country', '')}",
+    })
+    return {k: v for k, v in out.items() if v is not None}
 
 
 def the_colours(session, state, now) -> dict:
@@ -461,6 +554,19 @@ def which_board(now, calendar) -> tuple[str, dict | None, tuple | None]:
     return "between", (ahead[0] if ahead else None), None
 
 
+def _sky_words(code) -> str:
+    """The sky in Arabic, in the words the weather channel already uses.
+
+    Borrowed from weather_epg rather than written again: a reader who
+    knows "غائم جزئياً" from channel 9 reads the same two words here.
+    """
+    try:
+        from weather_epg import WMO_AR
+        return WMO_AR.get(int(code), "")
+    except Exception:                                         # noqa: BLE001
+        return ""
+
+
 def a_page(mode, state) -> str:
     """The day in words, for a player that shows no artwork at all."""
     lines = [f"{CHANNEL_AR} · {VIEWER_NAME}", ""]
@@ -504,6 +610,23 @@ def a_page(mode, state) -> str:
     if most:
         lines.append(f"  الأكثر فوزاً هنا: {most[0]} — {most[1]}")
 
+    # THE WEATHER ON THE CIRCUIT, on the page a player with no artwork
+    # shows. Said in Arabic here because everything around it is, and
+    # in the words the weather channel already uses for the same codes.
+    sky = state.get("weather") or {}
+    if sky.get("air_c") is not None:
+        said = [f"الجو {sky['air_c']:.0f}°"]
+        if sky.get("surface_c") is not None:
+            said.append(f"سطح الأرض {sky['surface_c']:.0f}°")
+        if sky.get("rain_chance") is not None:
+            said.append(f"احتمال المطر {sky['rain_chance']:.0f}%")
+        if sky.get("humidity") is not None:
+            said.append(f"رطوبة {sky['humidity']:.0f}%")
+        if sky.get("wind_kmh") is not None:
+            said.append(f"رياح {sky['wind_kmh']:.0f} كم/س")
+        lines += ["", f"🌡️ طقس الحلبة — {_sky_words(sky.get('code'))}",
+                  "  " + "  ·  ".join(said)]
+
     table = state.get("drivers") or []
     if table:
         lines += ["", "ترتيب السائقين:"]
@@ -544,7 +667,7 @@ def the_pages(now, mode, state) -> list:
     # THE TRACK AND THE CHAMPIONSHIP FOLLOW ON EVERY MODE, because they
     # are true whether or not a car is on the circuit — and they are
     # what this channel has on the five days it has nothing else.
-    if state.get("shape") or state.get("facts"):
+    if state.get("shape") or state.get("facts") or state.get("weather"):
         pages.append(f1_board.page_track(now, state))
     if state.get("drivers"):
         pages.append(f1_board.page_championship(now, state))
@@ -638,6 +761,7 @@ def build() -> int:
         page["facts"] = the_track_facts(session, state, now,
                                         race.get("circuit_id"), meeting,
                                         corners)
+        page["weather"] = the_track_weather(session, state, now, race)
     if mode == "live" and "live" not in page:
         # THE CLOCK SAID A SESSION WAS ON AND THE FEED DID NOT AGREE.
         # A board that says LIVE with nothing under it is worse than one
