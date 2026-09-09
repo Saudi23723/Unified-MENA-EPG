@@ -3543,24 +3543,31 @@ def gate_the_two_competitions_asked_for_by_name() -> None:
           "Türkiye - İtalya" in titles, True)
     check("TRGRID", "and the men's handball World Championship",
           "Danimarka - Fransa" in titles, True)
-    check("TRGRID", "and nothing else at all", len(kept), 2)
-    check("TRGRID", "the men's volleyball is the other side of the sport",
-          "Bulgaristan - Kuzey Makedonya" in titles, False)
+    # EVERY COMPETITION NOW, asked for in those words — "download all
+    # their listings for every sport and every competition it's fine
+    # just don't duplicate". The club leagues and the other half of a
+    # sport are rows again; only a programme and a row naming no
+    # broadcaster still stay out, and the board's own sport order and
+    # its one-row-per-broadcast fold do the rest.
+    check("TRGRID", "the men's volleyball is a row too now",
+          "Bulgaristan - Kuzey Makedonya" in titles, True)
     check("TRGRID", "a talk programme is not a match",
           "Set Sayısı" in titles, False)
-    check("TRGRID", "the Sultanlar Ligi is a club league, not asked for",
-          "Fenerbahçe - Eczacıbaşı" in titles, False)
+    check("TRGRID", "the Sultanlar Ligi is carried as well",
+          "Fenerbahçe - Eczacıbaşı" in titles, True)
     check("TRGRID", "and so is the StarLigue",
-          "Chambery - Paris" in titles, False)
-    check("TRGRID", "a major naming no broadcaster is no use to this board",
+          "Chambery - Paris" in titles, True)
+    check("TRGRID", "a row naming no broadcaster is no use to this board",
           "Sırbistan - Polonya" in titles, False)
+    check("TRGRID", "and nothing else at all", len(kept), 5)
 
     # THE CLOCK IS ISTANBUL'S, and that is the whole risk of this source.
     when = [e["start"] for e in kept if e["title"] == "Türkiye - İtalya"][0]
     check("TRGRID", "18:00 on the page is 15:00 UTC, Istanbul being +03",
           when.strftime("%H:%M"), "15:00")
     check("TRGRID", "and the sport each row carries is the icon's own word",
-          sorted(e["sport"] for e in kept), ["Handball", "Volleyball"])
+          sorted(e["sport"] for e in kept),
+          ["Handball", "Handball", "Volleyball", "Volleyball", "Volleyball"])
     check("TRGRID", "an empty page is no rows, never a crash",
           grid.collect("<html></html>"), [])
 
