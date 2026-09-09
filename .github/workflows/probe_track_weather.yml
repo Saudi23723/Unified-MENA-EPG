@@ -1,0 +1,21 @@
+name: Probe — track weather
+on:
+  push:
+    paths:
+      - "probes/probe_track_weather.py"
+      - ".github/workflows/probe_track_weather.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Ask the calendar for coordinates and Open-Meteo for weather
+        run: python -u probes/probe_track_weather.py
