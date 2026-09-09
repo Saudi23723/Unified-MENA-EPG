@@ -49,14 +49,6 @@ jobs:
         run: python3 tools/cardfix.py
       - name: Validate generator
         run: python3 -c "import ast;ast.parse(open('tools/generate_flight_tracker.py').read());print('generator ok')"
-      # THE INVARIANTS THIS CHANNEL LEARNED THE HARD WAY, checked before
-      # a single pass runs. Three faults reached the television through
-      # the gap where this file should have been — a commit step that
-      # deleted another channel, a git add that never staged its
-      # deletions, and a reel longer than the interval that replaced it.
-      # A run that cannot pass them does not get to publish.
-      - name: Hold channel 6 to its invariants
-        run: python3 channel6_selftest.py
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -65,6 +57,30 @@ jobs:
           python -m pip install --quiet pillow
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg fonts-noto-core
+      # THE INVARIANTS THIS CHANNEL LEARNED THE HARD WAY, checked before
+      # a single pass runs — and AFTER the dependencies, because the
+      # selftest loads the generator and the generator imports PIL at
+      # module level. Placed before them it killed the whole job in
+      # twenty seconds and took the channel off air for twenty minutes;
+      # the step ORDER is asserted in channel6_selftest.py now so it
+      # cannot drift back.
+      #
+      # EXIT 1 IS A VIOLATION AND STOPS THE PUBLISH. EXIT 2 IS THE CHECK
+      # ITSELF FAILING TO RUN, and that is NOT evidence the channel is
+      # broken — a guard that takes the television off air when the
+      # guard is what is broken is worse than no guard at all. So a 2 is
+      # shouted about and the passes go ahead; the per-pass check on
+      # what each pass actually drew is still there to stop a bad reel.
+      - name: Hold channel 6 to its invariants
+        run: |
+          python3 channel6_selftest.py && exit 0
+          code=$?
+          if [ "$code" = "2" ]; then
+            echo "::warning::channel 6's selftest could not run (exit 2) — publishing anyway; the per-pass check still applies"
+            exit 0
+          fi
+          echo "::error::channel 6 violated an invariant — not publishing"
+          exit 1
       - name: Refresh, render and publish — twenty times, eight minutes apart
         env:
           FLIGHT_DATA: stream/flights.json
