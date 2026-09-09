@@ -1186,8 +1186,16 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     if not live_rows:
         draw_text(pen, (PAD, y + 18), "لا يوجد بث مباشر الآن", 16, MUTED,
                   anchor="lm", thin=True)
+    # THE LIVE CARD IS THE POINT OF THE BOARD, so it is not the smallest
+    # thing on it. Once the coming rows were allowed to grow, a fixture
+    # actually ON AIR sat in a 92px card beside 118px rows — the one row
+    # a viewer is looking for, drawn smaller than the ones they are not.
+    # With one or two live it takes the room the column has.
+    tall = len(live_rows) <= 2
     for event in live_rows[:4]:
-        card_h = 92
+        card_h = 148 if tall else 92
+        if y + card_h > foot:
+            card_h = 92
         if y + card_h > foot:
             break
         card = [PAD, y, col - 28, y + card_h]
@@ -1197,21 +1205,44 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                                card[3] - 10], radius=3, fill=LIVE_TAG)
         inner = card[0] + 20
         room = card[2] - inner - 16
-        draw_text(pen, (inner, y + 24),
-                  event["start"].astimezone(viewer).strftime("%H:%M"), 17,
-                  LIVE_RED, anchor="lm", weight="heavy")
+        clock_y = y + (30 if tall else 24)
+        draw_text(pen, (inner, clock_y),
+                  event["start"].astimezone(viewer).strftime("%H:%M"),
+                  24 if tall else 17, LIVE_RED, anchor="lm", weight="heavy")
+        # THE WORD ITSELF, on the card, in the language the board is in.
+        # The header says LIVE once for the whole column; a viewer
+        # scanning a card wants it on the card.
+        if tall:
+            word = "مباشر"
+            wide = width_of(word, 15, weight="mid") + 26
+            pill = [card[2] - 16 - wide, clock_y - 14, card[2] - 16,
+                    clock_y + 14]
+            pen.rounded_rectangle(pill, radius=14, fill=LIVE_TAG)
+            draw_text(pen, ((pill[0] + pill[2]) // 2, clock_y), word, 15,
+                      WHITE, anchor="mm", weight="mid")
+        name = size_that_fits(event["title"], 30 if tall else 24,
+                              16, room)
+        draw_text(pen, (inner, y + (72 if tall else 52)),
+                  clipped(event["title"], name, room),
+                  name, WHITE, anchor="lm", weight="mid")
         comp = norm_line(event.get("competition"))
         if comp:
-            draw_text(pen, (card[2] - 16, y + 24),
-                      clipped(comp, 15, room - 90, weight="mid"), 15,
-                      readable(comp_colour(comp)), anchor="rm", weight="mid")
-        name = size_that_fits(event["title"], 24, 16, room)
-        draw_text(pen, (inner, y + 52), clipped(event["title"], name, room),
-                  name, WHITE, anchor="lm", weight="mid")
+            if tall:
+                # its own line, not squeezed beside the clock
+                draw_text(pen, (inner, y + 102),
+                          clipped(comp, 17, room, weight="mid"), 17,
+                          readable(comp_colour(comp)), anchor="lm",
+                          weight="mid")
+            else:
+                draw_text(pen, (card[2] - 16, y + 24),
+                          clipped(comp, 15, room - 90, weight="mid"), 15,
+                          readable(comp_colour(comp)), anchor="rm",
+                          weight="mid")
         if event["channels"]:
-            draw_text(pen, (inner, y + 76),
-                      clipped("  ·  ".join(event["channels"][:3]), 14, room,
-                              weight="mid"), 14, PILL_INK, anchor="lm",
+            draw_text(pen, (inner, y + (128 if tall else 76)),
+                      clipped("  ·  ".join(event["channels"][:3]),
+                              16 if tall else 14, room, weight="mid"),
+                      16 if tall else 14, PILL_INK, anchor="lm",
                       weight="mid")
         y += card_h + 12
 
