@@ -3520,6 +3520,37 @@ def gate_a_card_is_not_named_after_one_of_its_bouts() -> None:
           sorted(both[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
     check("CARDNAME", "and it is one row, not two", len(both), 1)
 
+    # WHO CARRIES IT, KEPT WHILE THE CARD IS STILL ON. ESPN drops a card
+    # once its night is past and the listings page does not, so the row
+    # lost a carrier partway through the night a viewer wanted it.
+    import copy, os, tempfile
+    ledger = tempfile.mktemp(suffix=".json")
+    try:
+        first = board.remember_who_carries_a_card(
+            board.name_a_lone_bout_by_its_card(
+                board.one_row_per_broadcast(copy.deepcopy([card, bout]))),
+            ledger)
+        check("CARDNAME", "with both sources the row names both carriers",
+              sorted(first[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
+
+        after = board.remember_who_carries_a_card(
+            board.name_a_lone_bout_by_its_card(copy.deepcopy([bout])), ledger)
+        check("CARDNAME", "and keeps them when one source drops the card",
+              sorted(after[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
+
+        stale = copy.deepcopy(bout)
+        stale["start"] = when - __import__("datetime").timedelta(days=3)
+        gone = board.remember_who_carries_a_card(
+            board.name_a_lone_bout_by_its_card([stale]), ledger)
+        check("CARDNAME", "and forgets them once the card is days past",
+              gone[0]["channels"], ["UFC Fight Pass"])
+
+        check("CARDNAME", "the row it was handed is never written into",
+              bout["channels"], ["UFC Fight Pass"])
+    finally:
+        if os.path.exists(ledger):
+            os.unlink(ledger)
+
     plain = board.name_a_lone_bout_by_its_card([dict(
         title="Isaac Cruz vs Nestor Bravo", competition="Premier Boxing "
         "Champions", sport="Boxing", channels=["DAZN"], start=when)])

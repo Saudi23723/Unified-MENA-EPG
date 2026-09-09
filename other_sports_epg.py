@@ -1006,6 +1006,101 @@ def one_row_per_ball_game(events: list[dict]) -> list[dict]:
 THE_CONTENDER_SERIES = "Dana White's Contender Series"
 
 
+# WHAT A CARD IS CARRIED ON, REMEMBERED WHILE IT IS STILL ON.
+#
+# Two sources carry a fight card and each names a different carrier: ESPN
+# says Paramount+, the listings page says UFC Fight Pass, and while both
+# rows arrive the fold puts the two on one row, which is the whole point
+# of it. But ESPN drops a card the moment its night is past and the
+# listings page does not, so the row loses a carrier partway through the
+# very night a viewer is looking for it — and the board went from
+#
+#     Dana White's Contender Series   Paramount+ · UFC Fight Pass
+# to
+#     Dana White's Contender Series   UFC Fight Pass
+#
+# with nothing having changed about who is showing the fight.
+#
+# So the pairing is written down while both sources still say it, and
+# read back for as long as the card is on. This is NOT a rights table:
+# nothing is written here by hand, every line of it was put there by a
+# source naming that broadcast, it is keyed to one card on one day, and
+# it is forgotten two days later. A carrier this has never been told
+# about is never printed.
+CHANNEL_MEMORY = "known_channels.json"
+REMEMBER_FOR = timedelta(days=2)
+
+
+def _a_card_key(event: dict) -> str:
+    """One broadcast's name for the ledger: its card, its sport, its day."""
+    family = _the_card_family(event)
+    name = family or norm(event.get("title") or "").casefold()
+    day = event["start"].astimezone(VIEWER).date().isoformat()
+    return f"{event.get('sport')}|{name}|{day}"
+
+
+def _read_the_ledger(path: str) -> dict:
+    try:
+        with io.open(path, encoding="utf-8") as fh:
+            import json
+            return json.load(fh)
+    except Exception:                                         # noqa: BLE001
+        return {}
+
+
+def remember_who_carries_a_card(events: list[dict],
+                                path: str = CHANNEL_MEMORY) -> list[dict]:
+    """Keep a card's carriers while it is on, and give them back.
+
+    Runs after the fold, so what is written down is what the fold agreed
+    on: one row, every carrier either source gave it.
+    """
+    import json
+    known = _read_the_ledger(path)
+    today = datetime.now(timezone.utc).astimezone(VIEWER).date()
+
+    # forget what is old, so this never becomes a table of claims
+    for key in list(known):
+        try:
+            when = date.fromisoformat(key.rsplit("|", 1)[-1])
+        except ValueError:
+            del known[key]
+            continue
+        if today - when > REMEMBER_FOR:
+            del known[key]
+
+    given_back = 0
+    for event in events:
+        if event.get("sport") not in ("MMA", "Boxing"):
+            continue
+        key = _a_card_key(event)
+        seen = [c for c in known.get(key, []) if c]
+        # A NEW LIST, never the caller's. dict(event) copies the row and
+        # not the list inside it, so appending in place would reach back
+        # into whatever else is holding that same list.
+        event["channels"] = list(event["channels"])
+        for channel in seen:
+            if channel not in event["channels"]:
+                event["channels"].append(channel)
+                given_back += 1
+        merged = list(dict.fromkeys(seen + list(event["channels"])))
+        if merged:
+            known[key] = merged
+
+    try:
+        with io.open(path, "w", encoding="utf-8") as fh:
+            json.dump(known, fh, ensure_ascii=False, indent=1,
+                      sort_keys=True)
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"the channel ledger could not be written ({exc}) — the board "
+             f"prints what this pass's sources gave it")
+
+    if given_back:
+        log(f"  {given_back} carrier(s) given back to a card still on, from "
+            f"a pass when both sources named it")
+    return events
+
+
 def name_a_lone_bout_by_its_card(events: list[dict]) -> list[dict]:
     """A card printed as one of its own bouts is titled by the card.
 
@@ -1623,6 +1718,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # the fold pairs the two and keeps ESPN's own title, which is the
     # better one. This only speaks for the rows the fold left alone.
     inside = name_a_lone_bout_by_its_card(inside)
+    # and a card keeps the carriers it was shown with while it is still on
+    inside = remember_who_carries_a_card(inside)
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
         f"{len(kept)} in a sport asked for and naming a channel")
