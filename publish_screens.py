@@ -121,6 +121,14 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
 # eight screens at once.
 SHARED_FILES = ("weather.json",
                 "prayer_times.json",
+                # WHO CARRIES A CARD, remembered across passes. A fight
+                # card's two sources name different carriers, and one of
+                # them drops the card the moment its night is past — so
+                # the pairing is written down while both still say it and
+                # read back for as long as the card is on. Published with
+                # the boards because a ledger that does not survive the
+                # run that wrote it remembers nothing at all.
+                "known_channels.json",
                 "ai_sports_dashboard.m3u",
                 "ai_sports_dashboard_dubai.m3u")
 
