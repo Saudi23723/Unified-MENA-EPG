@@ -134,10 +134,26 @@ SCREENS = {
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256", 20),
     # THE TENTH CHANNEL — القنوات التركية · PPV: the Turkish grid alone.
+    # FOURTEEN, AND THE NUMBER IS NOT FREE. A page of five fixtures is
+    # read faster than a page of eight, and this channel now draws five
+    # so its type can reach full size — so the page is held for less.
+    #
+    # A hold has to divide 140, the length of the theme, or a board's
+    # slice of the music straddles the file's loop seam. 14 divides it
+    # exactly, ten slices to a lap: the reel plays the theme end to end
+    # and wraps where the file was built to be wrapped. 16 would not
+    # (140/16 = 8.75) and would cut the music mid-phrase.
+    #
+    # It does not land on a whole AAC frame — 14 x 32000 / 1024 is
+    # 437.5, and no standard rate fixes that. Neither does the news
+    # channel's 35 (1093.75), which has been on air throughout: every
+    # board is placed on the timeline by its MEASURED length rather than
+    # by the hold, which absorbs the 16ms exactly as it absorbs the
+    # frame the encoder already emits past the count at 20s.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv.m3u8",
-                    "turkish_ppv.sha256", 20),
+                    "turkish_ppv.sha256", 14),
     "dubai_turkish_ppv": ("dubai_turkish_ppv_", "dubai_turkish_ppv.m3u8",
-                          "dubai_turkish_ppv.sha256", 20),
+                          "dubai_turkish_ppv.sha256", 14),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
