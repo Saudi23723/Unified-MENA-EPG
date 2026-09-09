@@ -51,6 +51,9 @@ from ball_sports_epg import LOGO as BALL_LOGO
 from hoops_gridiron_epg import CHANNEL_AR as HOOPS_AR
 from hoops_gridiron_epg import CHANNEL_ID as HOOPS_ID
 from hoops_gridiron_epg import LOGO as HOOPS_LOGO
+from turkish_ppv_epg import CHANNEL_AR as TPPV_AR
+from turkish_ppv_epg import CHANNEL_ID as TPPV_ID
+from turkish_ppv_epg import LOGO as TPPV_LOGO
 from prayer_epg import CHANNEL_AR as PRAYER_AR
 from prayer_epg import CHANNEL_ID as PRAYER_ID
 from prayer_epg import LOGO as PRAYER_LOGO
@@ -132,6 +135,12 @@ SCREENS = (
     (HOOPS_ID, HOOPS_AR, "stream/hoops_gridiron.m3u8",
      f"{RAW}/stream/hoops_gridiron.m3u8", "🏀 السلة والقدم الأمريكية",
      HOOPS_LOGO),
+    # The tenth channel — القنوات التركية · PPV: the Turkish grid's whole
+    # listing, every sport and every competition, off channel 2 and on a
+    # screen of its own.
+    (TPPV_ID, TPPV_AR, "stream/turkish_ppv.m3u8",
+     f"{RAW}/stream/turkish_ppv.m3u8", "🇹🇷 القنوات التركية · PPV",
+     TPPV_LOGO),
 
 )
 
@@ -189,6 +198,9 @@ DUBAI_SCREENS = (
     ("HoopsGridironDubai", HOOPS_AR, "stream/dubai_hoops_gridiron.m3u8",
      f"{RAW}/stream/dubai_hoops_gridiron.m3u8",
      "🏀 السلة والقدم الأمريكية · بتوقيت الإمارات", HOOPS_LOGO),
+    ("TurkishPPVDubai", TPPV_AR, "stream/dubai_turkish_ppv.m3u8",
+     f"{RAW}/stream/dubai_turkish_ppv.m3u8",
+     "🇹🇷 القنوات التركية · PPV · بتوقيت الإمارات", TPPV_LOGO),
 
 )
 
