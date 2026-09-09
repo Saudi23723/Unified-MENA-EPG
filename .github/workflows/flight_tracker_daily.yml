@@ -83,8 +83,41 @@ jobs:
 
             for try in 1 2 3 4 5 6; do
               git fetch origin main
-              git reset --soft origin/main
+
+              # --mixed, NOT --soft. THIS CHANNEL WAS REVERTING THE WHOLE
+              # REPOSITORY. --soft moves HEAD and LEAVES THE INDEX ALONE,
+              # so the index still held the tree this runner checked out
+              # minutes or hours earlier: every file main had gained since
+              # was staged as a DELETION, every file main had changed was
+              # staged back to the older copy, and `git commit` committed
+              # the whole index — not the four paths added to it.
+              #
+              # Measured: one "chore: refresh channel 6 flight tracker"
+              # changed 184 files and deleted 31, among them boards/f1_1.png,
+              # boards/f1_2.png, every dubai_f1 board and segment,
+              # stream/dubai_f1.m3u8, dubai_f1_epg.xml and 26 team logos.
+              # Channel 6 was deleting channel 11.
+              #
+              # --mixed resets the index to origin/main and leaves the
+              # working tree alone, so the `git add` below stages this
+              # pass's flight files against current main and nothing else.
+              git reset --mixed origin/main
               git add $PATHS
+
+              # AND IT PROVES IT BEFORE IT PUSHES. A staged path that is
+              # not channel 6's means something upstream of here is wrong,
+              # and the answer to that is to push nothing — not to push it
+              # and find out from the television.
+              if git diff --cached --name-only \
+                   | grep -qv '^stream/\(dubai_\)\?flight'; then
+                echo "this commit would carry files that are not channel 6's:"
+                git diff --cached --name-only \
+                  | grep -v '^stream/\(dubai_\)\?flight'
+                echo "refusing to push it"
+                git reset --mixed origin/main
+                break
+              fi
+
               if git diff --cached --quiet; then
                 echo "nothing changed this pass"
                 break
