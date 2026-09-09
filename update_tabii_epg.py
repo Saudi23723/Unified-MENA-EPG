@@ -183,6 +183,37 @@ STAND_IN_DESC = (
 )
 
 
+def parse_istanbul_wall(value) -> datetime | None:
+    """A TRT timestamp, read on the clock TRT actually means.
+
+    TRT SUFFIXES ITS TIMES WITH "Z" AND MEANS ISTANBUL. Measured off the
+    live payload, not guessed:
+
+        "starttime": "2026-09-09T22:00:00.000Z"   Liverpool - Atletico
+
+    That match was ON AIR at 19:30 UTC when the guide claimed it had not
+    started. 22:00 read as Istanbul is 19:00 UTC, which is when it began.
+    The same reading puts Barcelona - Feyenoord at 16:45 UTC from a
+    19:45 stamp — and 19:45 and 22:00 local are exactly the two slots
+    Turkish television lists a Champions League night on. Read as UTC,
+    both land three hours late and neither matches a kick-off.
+
+    So the declared offset is discarded and the wall clock is re-read in
+    Istanbul. That is a deliberate override of what the source says
+    about itself, which is why it is a function of its own with the
+    evidence written beside it rather than a quiet argument somewhere.
+
+    A first attempt at this passed naive_is=ISTANBUL to parse_utc and
+    changed nothing at all, because these stamps are not naive — they
+    carry a Z. The Z is simply wrong.
+    """
+    stamp = parse_utc(value)
+    if stamp is None:
+        return None
+    wall = stamp.astimezone(UTC).replace(tzinfo=None)
+    return wall.replace(tzinfo=ISTANBUL).astimezone(UTC)
+
+
 def parse_utc(value, naive_is=UTC) -> datetime | None:
     """A source's timestamp in UTC.
 
@@ -244,6 +275,36 @@ def find_epg_days(node, depth: int = 0) -> list[dict]:
     return []
 
 
+# A FIXTURE IS TWO SIDES WITH A DASH BETWEEN THEM. Every match TRT
+# lists reads that way — "... LILLE - REAL BETIS", "Sporting CP -
+# Galatasaray | ..." — and nothing else on the channel does: CONTENDERS,
+# Futbolun En Büyük Sahnesi and TRT SPOR YILDIZ ORTAK YAYIN carry no
+# dash. A studio show is not badged live just because it is on now.
+A_FIXTURE = re.compile(r"\S\s+[-–—]\s+\S")
+
+
+def is_live_match(show: dict, title: str) -> bool:
+    """Whether this airing is the match itself, and not a replay of it.
+
+    TRT PUBLISHES NO LIVE FLAG — this file said so and it was right —
+    but it publishes isRepeat, which is the same question asked the
+    other way round. Measured on the payload: every show object carries
+
+        isRepeat: false
+
+    and the same fixture appears again later in the day as a repeat.
+    So the FIRST airing of a match is the live one, and the 09:55 and
+    12:05 showings of it are not.
+
+    Both halves are required. isRepeat alone would badge a first-run
+    studio programme; a dash alone would badge every replay of a
+    fixture. Nothing is badged that the source did not say twice over.
+    """
+    if show.get("isRepeat") is not False:
+        return False
+    return bool(A_FIXTURE.search(title or ""))
+
+
 def fetch_trt(session) -> list[dict]:
     """Every linear-channel programme TRT publishes, deduped across days."""
     page = fetch(session, TRT_URL).text
@@ -273,8 +334,8 @@ def fetch_trt(session) -> list[dict]:
             shows += [current] if isinstance(current, dict) and current else []
             shows += list(channel.get("upcoming") or [])
             for show in shows:
-                start = parse_utc(show.get("starttime"), naive_is=ISTANBUL)
-                stop = parse_utc(show.get("endtime"), naive_is=ISTANBUL)
+                start = parse_istanbul_wall(show.get("starttime"))
+                stop = parse_istanbul_wall(show.get("endtime"))
                 name = norm(show.get("title"))
                 if not start or not stop or stop <= start or not name:
                     continue
@@ -283,7 +344,7 @@ def fetch_trt(session) -> list[dict]:
                 seen[(start, stop, name)] = {
                     "number": LINEAR, "start": start, "stop": stop,
                     "title": name, "desc": norm(show.get("synopsis")),
-                    "live": False,
+                    "live": is_live_match(show, name),
                 }
     log(f"  TRT: {len(seen)} programmes across {len(days)} days")
     return list(seen.values())
