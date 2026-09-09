@@ -69,10 +69,17 @@ RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 # own number rather than the shared eight. A board has 448px for its
 # list, so eight rows are 56px each and every size in them falls to the
 # smallest step the drawing has — which is what "it's too small" meant,
-# twice, off a television across a room. Six rows are 74px, which is
-# where the fixture, the competition and the channels each get their
-# full size. The day is not lost: the reel simply turns one more page.
-ON_A_PAGE = 6
+# off a television across a room, twice. Six rows are 74px; FIVE are
+# 89px, which is where the fixture reaches 34px and every size in the
+# row is clamped at its ceiling. Four buys nothing further — the type is
+# already at its maximum and only the air around it grows.
+#
+# The day is not lost, the reel turns one more page: today's 26 rows go
+# from five boards to six. And the page is held for 14s rather than 20
+# (see SCREENS in match_screen_video.py), so six pages of five come
+# round in 84s where five pages of six took 100 — larger type AND a
+# shorter wait.
+ON_A_PAGE = 5
 
 
 def wear_this_channel(**also):
