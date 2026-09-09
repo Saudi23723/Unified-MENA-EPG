@@ -3484,6 +3484,64 @@ def gate_every_american_game_names_its_network() -> None:
           "def events(" in body or "fetch_events" in body, False)
 
 
+def gate_a_card_is_not_named_after_one_of_its_bouts() -> None:
+    """A whole card printed as one fight on it, and a venue for a surname.
+
+    Two sources carry the Contender Series and word it differently: ESPN
+    names the CARD, the listings page names a BOUT on it and puts the
+    card in its competition line. While both arrive the fold pairs them
+    and keeps ESPN's title. ESPN drops a card once its night is past and
+    the listings page does not, so the board was left calling the whole
+    card "MMA Berisha vs Pasley - Meta Apex" — one fight, and a hall.
+    """
+    print("\nA card is not named after one of its bouts")
+    import other_sports_epg as board
+    from datetime import datetime, timezone
+
+    when = datetime(2026, 9, 8, 23, 0, tzinfo=timezone.utc)
+    bout = dict(title="MMA Berisha vs Pasley - Meta Apex",
+                competition="Contender Series 2026", sport="MMA",
+                source=None, channels=["UFC Fight Pass"], start=when)
+    card = dict(title="Dana White's Contender Series: Season 10, Week 5",
+                competition=None, sport="MMA", source="espn",
+                channels=["Paramount+"], start=when)
+
+    alone = board.name_a_lone_bout_by_its_card([dict(bout)])
+    check("CARDNAME", "a card left as one of its bouts takes the card's name",
+          alone[0]["title"], "Dana White's Contender Series 2026")
+    check("CARDNAME", "and keeps the channel it was carried on",
+          alone[0]["channels"], ["UFC Fight Pass"])
+
+    both = board.name_a_lone_bout_by_its_card(
+        board.one_row_per_broadcast([dict(card), dict(bout)]))
+    check("CARDNAME", "with both sources the fold's title still wins",
+          both[0]["title"], "Dana White's Contender Series: Season 10, Week 5")
+    check("CARDNAME", "and both carriers are on the one row",
+          sorted(both[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
+    check("CARDNAME", "and it is one row, not two", len(both), 1)
+
+    plain = board.name_a_lone_bout_by_its_card([dict(
+        title="Isaac Cruz vs Nestor Bravo", competition="Premier Boxing "
+        "Champions", sport="Boxing", channels=["DAZN"], start=when)])
+    check("CARDNAME", "an ordinary fight is not renamed after its promotion",
+          plain[0]["title"], "Isaac Cruz vs Nestor Bravo")
+
+    # THE VENUE THAT WAS DRAWN AS A FIGHTER, the other half of the same
+    # photograph: a side that still holds a separator is not one name.
+    import match_board
+    cut = match_board.trim_lead("MMA Berisha vs Pasley - Meta Apex")
+    sides = match_board.SPLIT.split(cut, maxsplit=1)
+    check("CARDNAME", "a venue is not drawn as the other fighter",
+          all(match_board.looks_like_a_side(p) for p in sides), False)
+    for fixture in ("Lakers - Celtics", "Bulgaristan - Kuzey Makedonya",
+                    "Ruiz vs Knyba"):
+        pieces = match_board.SPLIT.split(
+            match_board.trim_lead(fixture), maxsplit=1)
+        check("CARDNAME", f"and {fixture} is still two sides",
+              len(pieces) == 2
+              and all(match_board.looks_like_a_side(p) for p in pieces), True)
+
+
 def gate_the_two_competitions_asked_for_by_name() -> None:
     """Women's international volleyball and men's handball, and nothing else.
 
@@ -5927,6 +5985,7 @@ def main() -> int:
                  gate_one_channel_spelled_two_ways_is_one_channel,
                  gate_the_window_keeps_moving,
                  gate_a_simulcast_is_not_a_second_channel,
+                 gate_a_card_is_not_named_after_one_of_its_bouts,
                  gate_the_two_competitions_asked_for_by_name,
                  gate_a_board_changes_only_when_its_content_does,
                  gate_every_american_game_names_its_network,

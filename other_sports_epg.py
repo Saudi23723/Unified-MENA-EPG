@@ -1000,6 +1000,59 @@ def one_row_per_ball_game(events: list[dict]) -> list[dict]:
     return kept
 
 
+# THE PROMOTION'S OWN NAME FOR ITS MIDWEEK CARD. A_CARD_FAMILY already
+# knows this competition answers to two spellings; this is the one it is
+# actually called, and the one ESPN prints when ESPN is carrying it.
+THE_CONTENDER_SERIES = "Dana White's Contender Series"
+
+
+def name_a_lone_bout_by_its_card(events: list[dict]) -> list[dict]:
+    """A card printed as one of its own bouts is titled by the card.
+
+    Two sources carry this competition and they word it differently: ESPN
+    names the CARD — "Dana White's Contender Series: Season 10, Week 5" —
+    and the listings page names a BOUT on it, "MMA Berisha vs Pasley -
+    Meta Apex", with "Contender Series 2026" in its competition line.
+    When both arrive the fold keeps ESPN's, and the row reads as the card
+    it is.
+
+    When only the bout survives — ESPN drops a card once its night is
+    past, and the listings page does not — the board was left calling a
+    whole card after one fight on it, beside a venue most viewers have
+    never heard of. A reader photographed it and said, simply, "it's Dana
+    White's Contender Series".
+
+    Nothing is invented to fix that. The row's OWN competition line
+    already says which card it belongs to; the bout's name is the part
+    that was never the row's name. So a row that is a bout of a card this
+    board knows takes the card's name, and the bout falls away with the
+    venue attached to it.
+    """
+    renamed = 0
+    for event in events:
+        if event.get("sport") not in ("MMA", "Boxing"):
+            continue
+        if _the_card_family(event) != "contender series":
+            continue
+        if not A_BOUT.search(event.get("title") or ""):
+            continue
+        if A_CARD_FAMILY.search(event.get("title") or ""):
+            # already named for its card; nothing to do
+            continue
+        competition = norm(event.get("competition") or "")
+        # the competition's own words, with the promotion's full name in
+        # place of the short one it uses
+        card = A_CARD_FAMILY.sub(THE_CONTENDER_SERIES, competition).strip()
+        if not card:
+            card = THE_CONTENDER_SERIES
+        event["title"] = card
+        renamed += 1
+    if renamed:
+        log(f"  {renamed} row(s) named for the card they belong to rather "
+            f"than for one bout on it")
+    return events
+
+
 def one_row_per_broadcast(events: list[dict],
                           the_backup_is: str | None = None) -> list[dict]:
     """Two sources naming one broadcast become one row.
@@ -1566,6 +1619,10 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     inside = one_row_per_ball_game(inside)
     inside = one_row_per_broadcast(
         inside, the_backup_is="tapology" if can_fetch else None)
+    # AFTER the fold, never before it: while ESPN's card row is present
+    # the fold pairs the two and keeps ESPN's own title, which is the
+    # better one. This only speaks for the rows the fold left alone.
+    inside = name_a_lone_bout_by_its_card(inside)
     kept = [event for event in inside if wanted(event)]
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
         f"{len(kept)} in a sport asked for and naming a channel")
