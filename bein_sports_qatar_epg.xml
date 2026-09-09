@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260908171600 +0000" stop="20260908190000 +0000" channel="beIN4K.qa">
-    <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
-    <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260908190000 +0000" stop="20260908204400 +0000" channel="beIN4K.qa">
     <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
     <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
@@ -2305,6 +2299,14 @@ Hisor Central Stadium Stadium</desc>
   </programme>
   <programme start="20260915165000 +0000" stop="20260915190000 +0000" channel="beINSports2.qa">
     <title lang="en">Rayo Vallecano vs Espanyol - Spanish LaLiga 2026/2027 - Week 6 ‎• Live 🔵‎</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Live</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260915190000 +0000" stop="20260915205959 +0000" channel="beINSports2.qa">
+    <title lang="en">Elche vs Real Madrid - Spanish LaLiga 2026/2027 - Week 6 ‎• Live 🔵‎</title>
     <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
 Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
@@ -5182,13 +5184,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSports8.qa">
-    <title lang="en">Day 10 - Louis Armstrong Court - Tennis US Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="beINSports8.qa">
     <title lang="en">Day 10 - Louis Armstrong Court - Tennis US Open 2026 ‎• Live 🔵‎</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -6057,14 +6052,6 @@ Stade CMA CGM Océane Stadium</desc>
     <desc lang="en">Held at Campo Marte in Mexico City, featuring CSI5* show jumping with fences up to 1.60m. The program includes the Global Champions League team competition and the Grand Prix, where riders earn ranking points toward the season standings. Competition takes place at altitude, impacting horse performance and pace.</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
-  </programme>
-  <programme start="20260908160000 +0000" stop="20260908190000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Club Brugge vs Aston Villa  - Match 1 - UEFA Champions League 2026-2027 - MD1 ‎• Live 🔵‎</title>
-    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
-Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">Live</category>
-    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260908190000 +0000" stop="20260908215000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Real Madrid  vs Inter - UEFA Champions League 2026-2027 - MD1 ‎• Live 🔵‎</title>
@@ -6989,13 +6976,6 @@ Hazza Bin Zayed Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">English League - Cup</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">World Feed - Tennis US Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026 ‎• Live 🔵‎</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -7580,13 +7560,6 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20260908164000 +0000" stop="20260908185500 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Aston Villa vs Bruges - Champions League J01 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908185500 +0000" stop="20260908210000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Real Madrid vs Inter Milan - Champions League J01 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sport.</desc>
@@ -7879,12 +7852,6 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908185500 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Nantes vs Nancy - Ligue 2 - J05 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908185500 +0000" stop="20260908210000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Milwall vs Newcastle - Coupe de la Ligue Anglaise - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sport.</desc>
@@ -8130,12 +8097,6 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8353,12 +8314,6 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260911190000 +0000" stop="20260911205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8586,12 +8541,6 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8809,12 +8758,6 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260911190000 +0000" stop="20260911205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9042,12 +8985,6 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9265,12 +9202,6 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260911190000 +0000" stop="20260911205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9497,13 +9428,6 @@ Kingdom Arena Stadium</desc>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Nine O'Clock bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260908190000 +0000" stop="20260908191500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Jawla ‎• Live 🔵‎</title>
@@ -11213,6 +11137,13 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports News</category>
   </programme>
+  <programme start="20260915190000 +0000" stop="20260915191500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Jawla ‎• Live 🔵‎</title>
+    <desc lang="en">Al Jawla covers the latest news and stories from sporting events across the planet. Including latest results and latest scores from the most recent games taking place. This daily look at the latest stories provides a fast paced update to sporting events.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260908183500 +0000" stop="20260908215000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">Sunderland vs Hull - Carabao Cup 2026 / 2027 - Round 3 ‎• Live 🔵‎</title>
     <desc lang="en">The Carabao Cup, also referred to as the League Cup is open to any club within the top four levels of the English football league system, 92 clubs. The winner of the competition qualifies for the play-off round of the 2027–28 UEFA Conference League. Manchester City are the defending champions.</desc>
@@ -12170,6 +12101,12 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260915180000 +0000" stop="20260915190000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13138,11 +13075,10 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908170000 +0000" stop="20260908190000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">Day 10 - Grandstand Court - Tennis US Open 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260908190000 +0000" stop="20260908200000 +0000" channel="beINSportsXtra3.qa">
@@ -14118,6 +14054,12 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260915180000 +0000" stop="20260915190000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15127,7 +15069,7 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16143,7 +16085,7 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17157,7 +17099,7 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18171,7 +18113,7 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19185,7 +19127,7 @@ Kingdom Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20194,6 +20136,12 @@ Kingdom Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260915180000 +0000" stop="20260915190000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260915190000 +0000" stop="20260915200000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>

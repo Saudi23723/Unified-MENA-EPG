@@ -3,6 +3,13 @@
   <channel id="TabiiSpor.tr">
     <display-name lang="tr">tabii Spor</display-name>
     <display-name lang="ar">تابي سبور</display-name>
+    <display-name lang="tr">Tabii Spor</display-name>
+    <display-name lang="tr">TABII SPOR</display-name>
+    <display-name lang="tr">TabiiSpor</display-name>
+    <display-name lang="tr">tabii Spor HD</display-name>
+    <display-name lang="tr">Tabii Spor HD</display-name>
+    <display-name lang="tr">tabii Spor TR</display-name>
+    <display-name lang="ar">تابي سبور HD</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii.png" />
   </channel>
   <channel id="TabiiSpor1.tr">
@@ -378,6 +385,8 @@
   </programme>
   <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="TabiiSpor1.tr">
@@ -663,6 +672,8 @@
   </programme>
   <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="TabiiSpor2.tr">
@@ -943,6 +954,8 @@
   </programme>
   <programme start="20260908180000 +0000" stop="20260908190000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260908190000 +0000" stop="20260908210000 +0000" channel="TabiiSpor3.tr">
