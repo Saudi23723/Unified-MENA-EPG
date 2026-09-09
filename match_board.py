@@ -1168,7 +1168,12 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     rest = [e for e in events if e not in live_rows]
 
     # ---- ON AIR, its own panel on the left ------------------------------
-    col = PAD + 372                       # where the left column ends
+    # THE COLUMN IS ONLY WORTH ITS WIDTH WHEN SOMETHING IS IN IT. On a
+    # channel whose night has not started, this held 372px of empty panel
+    # against a list of three rows crushed into what was left — reported
+    # off the television as "too small". With nothing on air the left
+    # column keeps just enough to say so, and the list takes the rest.
+    col = PAD + (372 if live_rows else 196)
     top = 140
     draw_text(pen, (PAD, top), "على الهواء الآن", 22, WHITE, anchor="lm",
               weight="mid")
@@ -1222,10 +1227,27 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     y = top + 28
     room = foot - y
     shown = rest
-    height = max(40, min(64, room // max(1, len(shown))))
+    # A BOARD IS NOT A BAND ACROSS THE TOP. The ceiling here was 64px, so
+    # three rows filled a fifth of the screen and left the rest black —
+    # photographed and reported as exactly that. A row may now grow to
+    # 118px, which is what a nearly empty night needs and what gives the
+    # title, the competition, the channels and the مباشر pill room to sit
+    # apart instead of on top of one another.
+    height = max(40, min(118, room // max(1, len(shown))))
     if len(shown) * height > room:
         shown = rest[:max(1, room // 40)]
         height = room // len(shown)
+    # and the type grows with the row it sits in
+    big = height >= 78
+
+    # A SHORT NIGHT SITS IN THE MIDDLE, not in a band under the heading
+    # with the rest of the screen black beneath it. Whatever the rows do
+    # not use is split above and below them, so three fixtures read as a
+    # board that was laid out for three rather than as a board that lost
+    # its other five.
+    spare = room - len(shown) * height
+    if spare > 0:
+        y += spare // 2
 
     today = day == now.astimezone(viewer).date()
     coming = False
@@ -1242,43 +1264,52 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         ink = PILL_INK if over else WHITE
 
         draw_text(pen, (left + 18, middle),
-                  event["start"].astimezone(viewer).strftime("%H:%M"), 19,
+                  event["start"].astimezone(viewer).strftime("%H:%M"),
+                  25 if big else 19,
                   OVER_TAG if over else accent, anchor="lm", weight="heavy")
-        text_x = left + 90
+        text_x = left + (118 if big else 90)
         tag = ""
         if over:
             tag = "انتهى"
         elif today and not coming:
             tag, coming = "التالي", True
         chan = "  ·  ".join(event["channels"][:3])
-        chan_w = min(200, width_of(chan, 13, weight="mid")) if chan else 0
+        chan_size = 16 if big else 13
+        chan_room = 300 if big else 200
+        chan_w = (min(chan_room, width_of(chan, chan_size, weight="mid"))
+                  if chan else 0)
         if chan:
             draw_text(pen, (W - PAD - 16, middle),
-                      clipped(chan, 13, 200, weight="mid"), 13,
-                      MUTED if over else PILL_INK, anchor="rm", weight="mid")
+                      clipped(chan, chan_size, chan_room, weight="mid"),
+                      chan_size, MUTED if over else PILL_INK,
+                      anchor="rm", weight="mid")
         stop = W - PAD - 30 - chan_w
         if tag:
-            wide = width_of(tag, 12, weight="mid") + 16
-            pen.rounded_rectangle([stop - wide, middle - 10, stop,
-                                   middle + 10], radius=10,
+            tag_size = 15 if big else 12
+            half = 14 if big else 10
+            wide = width_of(tag, tag_size, weight="mid") + (24 if big else 16)
+            pen.rounded_rectangle([stop - wide, middle - half, stop,
+                                   middle + half], radius=half,
                                   fill=OVER_TAG if over else NEXT_TAG)
-            draw_text(pen, (stop - wide // 2, middle), tag, 12, WHITE,
+            draw_text(pen, (stop - wide // 2, middle), tag, tag_size, WHITE,
                       anchor="mm", weight="mid")
             stop -= wide + 12
 
         comp = norm_line(event.get("competition"))
         two = bool(comp) and height >= 50
-        size = 19 if two else 20
-        name_y = middle - 9 if two else middle
+        size = (26 if two else 28) if big else (19 if two else 20)
+        name_y = middle - (15 if big else 9) if two else middle
         space = stop - text_x - 14
         fitted = size_that_fits(event["title"], size, 14, space)
         draw_text(pen, (text_x, name_y),
                   clipped(event["title"], fitted, space), fitted, ink,
                   anchor="lm", weight="mid")
         if two:
-            draw_text(pen, (text_x, middle + 12),
-                      clipped(comp, 15, space, weight="mid"), 15,
-                      readable(comp_colour(comp)), anchor="lm", weight="mid")
+            comp_size = 19 if big else 15
+            draw_text(pen, (text_x, middle + (19 if big else 12)),
+                      clipped(comp, comp_size, space, weight="mid"),
+                      comp_size, readable(comp_colour(comp)),
+                      anchor="lm", weight="mid")
         y += height
 
     left_out = len(rest) - len(shown)
