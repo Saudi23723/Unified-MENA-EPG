@@ -378,20 +378,33 @@ def the_championship(session, state, now, colours) -> tuple[list, list]:
                    "drivers_table", now, SLOWLY)
     lists = ((drivers or {}).get("MRData", {}).get("StandingsTable", {})
              .get("StandingsLists") or [{}])[0]
+    # EVERY DRIVER, NOT THE FIRST EIGHT. The source hands back the whole
+    # championship in the one answer that was already being paid for, and
+    # a table cut at eight is twelve drivers thrown away before the board
+    # ever gets a chance to draw them. What fits is the board's decision,
+    # made where there is a page size to decide it against — not here.
     table = []
-    for row in (lists.get("DriverStandings") or [])[:8]:
-        code = row["Driver"]["code"]
+    for row in (lists.get("DriverStandings") or []):
+        who = row["Driver"]
+        code = who.get("code") or (who.get("familyName") or "")[:3].upper()
         table.append({"pos": row["position"], "code": code,
                       "team": row["Constructors"][0]["name"],
                       "points": row["points"], "wins": row["wins"],
+                      # THE NAME, which the source carries and the board
+                      # had no way to show because it never arrived.
+                      "name": f"{who.get('givenName','')} "
+                              f"{who.get('familyName','')}".strip(),
+                      "number": who.get("permanentNumber") or "",
+                      "nationality": who.get("nationality") or "",
                       "colour": (colours.get(code) or {}).get("colour", "")})
     teams = _ask(session, f"{JOLPICA}/current/constructorStandings.json",
                  state, "teams_table", now, SLOWLY)
     lists = ((teams or {}).get("MRData", {}).get("StandingsTable", {})
              .get("StandingsLists") or [{}])[0]
     return table, [{"pos": r["position"], "name": r["Constructor"]["name"],
-                    "points": r["points"]}
-                   for r in (lists.get("ConstructorStandings") or [])[:6]]
+                    "points": r["points"], "wins": r.get("wins") or "0",
+                    "nationality": r["Constructor"].get("nationality") or ""}
+                   for r in (lists.get("ConstructorStandings") or [])]
 
 
 def the_last_race(session, state, now, colours) -> dict:
@@ -399,26 +412,70 @@ def the_last_race(session, state, now, colours) -> dict:
                 "last_race", now, SLOWLY)
     race = ((data or {}).get("MRData", {}).get("RaceTable", {})
             .get("Races") or [{}])[0]
+    # THE WHOLE CLASSIFICATION, AND EVERYTHING ON EACH ROW. The answer
+    # carries the gap to the winner, the finishing status, the points
+    # scored, the laps completed and the grid slot each driver started
+    # from — and six rows of code and team were all that was being kept
+    # out of it. None of the rest costs another request.
     top = []
-    for row in (race.get("Results") or [])[:6]:
-        code = row["Driver"]["code"]
-        top.append({"pos": row["position"], "code": code,
-                    "team": row["Constructor"]["name"],
-                    "grid": row.get("grid", "?"),
-                    "colour": (colours.get(code) or {}).get("colour", "")})
+    for row in (race.get("Results") or []):
+        who = row["Driver"]
+        code = who.get("code") or (who.get("familyName") or "")[:3].upper()
+        clock = (row.get("Time") or {}).get("time") or ""
+        status = row.get("status") or ""
+        top.append({
+            "pos": row["position"], "code": code,
+            "team": row["Constructor"]["name"],
+            "grid": row.get("grid", "?"),
+            "laps": row.get("laps") or "",
+            "points": row.get("points") or "0",
+            "name": f"{who.get('givenName','')} "
+                    f"{who.get('familyName','')}".strip(),
+            # THE GAP IF THEY FINISHED, THE REASON IF THEY DID NOT. A
+            # classification that says "18" and nothing else does not
+            # tell a viewer whether the car broke or the driver was
+            # simply slow, and the source says which.
+            "gap": clock or ("" if status.startswith("Finished") else status),
+            "status": status,
+            "colour": (colours.get(code) or {}).get("colour", "")})
+
+    # THE FASTEST LAP OF THAT RACE, which is on the row that set it.
+    quickest = None
+    for row in (race.get("Results") or []):
+        best = row.get("FastestLap") or {}
+        if best.get("rank") == "1":
+            who = row["Driver"]
+            quickest = {
+                "code": who.get("code") or "",
+                "time": (best.get("Time") or {}).get("time") or "",
+                "lap": best.get("lap") or "",
+                "kph": (best.get("AverageSpeed") or {}).get("speed") or "",
+                "colour": (colours.get(who.get("code")) or {}).get("colour",
+                                                                   "")}
+            break
+
     quali = _ask(session, f"{JOLPICA}/current/last/qualifying.json", state,
                  "last_quali", now, SLOWLY)
     lap = ((quali or {}).get("MRData", {}).get("RaceTable", {})
            .get("Races") or [{}])[0]
     order = []
-    for row in (lap.get("QualifyingResults") or [])[:4]:
-        code = row["Driver"]["code"]
+    for row in (lap.get("QualifyingResults") or []):
+        who = row["Driver"]
+        code = who.get("code") or (who.get("familyName") or "")[:3].upper()
+        # EACH OF THE THREE PARTS, not just the last one a driver
+        # reached. Q1 and Q2 are how the grid's back half was decided,
+        # and they were being dropped on the floor.
         order.append({"pos": row["position"], "code": code,
+                      "team": (row.get("Constructor") or {}).get("name", ""),
+                      "q1": row.get("Q1") or "", "q2": row.get("Q2") or "",
+                      "q3": row.get("Q3") or "",
                       "time": row.get("Q3") or row.get("Q2")
                       or row.get("Q1") or "",
                       "colour": (colours.get(code) or {}).get("colour", "")})
     return {"at": race.get("raceName") or "", "top": top,
-            "round": race.get("round"), "qualifying": order}
+            "round": race.get("round"), "qualifying": order,
+            "circuit": ((race.get("Circuit") or {}).get("circuitName") or ""),
+            "date": race.get("date") or "", "fastest": quickest}
 
 
 def _by_number(colours: dict) -> dict:
@@ -627,16 +684,36 @@ def a_page(mode, state) -> str:
         lines += ["", f"🌡️ طقس الحلبة — {_sky_words(sky.get('code'))}",
                   "  " + "  ·  ".join(said)]
 
+    # THE LAST RACE AND THE LAST QUALIFYING, which this page never said
+    # a word about even while the channel was paying for both.
+    last = state.get("last") or {}
+    if last.get("top"):
+        lines += ["", f"نتيجة آخر سباق — {last.get('at', '')}:"]
+        for row in last["top"][:10]:
+            said = row.get("gap") or ""
+            lines.append(f"  {row['pos']:>2}. {row['code']:<4} "
+                         f"{row['team']:<18} {said:<14} {row.get('points','0'):>3}")
+        best = last.get("fastest") or {}
+        if best.get("time"):
+            lines.append(f"  أسرع لفة: {best.get('code','')} {best['time']}"
+                         + (f" (لفة {best['lap']})" if best.get("lap") else ""))
+    grid = state.get("qualifying") or last.get("qualifying") or []
+    if grid:
+        lines += ["", "نتيجة التجارب:"]
+        for row in grid[:10]:
+            lines.append(f"  {row['pos']:>2}. {row['code']:<4} "
+                         f"{row.get('time', ''):<12}")
+
     table = state.get("drivers") or []
     if table:
         lines += ["", "ترتيب السائقين:"]
-        for row in table[:10]:
+        for row in table:
             lines.append(f"  {row['pos']:>2}. {row['code']:<4} "
                          f"{row['team']:<18} {row['points']:>4}")
     teams = state.get("teams") or []
     if teams:
         lines += ["", "ترتيب الفرق:"]
-        for row in teams[:6]:
+        for row in teams:
             lines.append(f"  {row['pos']:>2}. {row['name']:<20} "
                          f"{row['points']:>4}")
     return "\n".join(lines)
@@ -671,6 +748,15 @@ def the_pages(now, mode, state) -> list:
         pages.append(f1_board.page_track(now, state))
     if state.get("drivers"):
         pages.append(f1_board.page_championship(now, state))
+    if state.get("teams"):
+        pages.append(f1_board.page_constructors(now, state))
+    # AND WHAT THE LAST WEEKEND ACTUALLY DID. The classification and the
+    # grid were both being fetched and both being thrown away at six
+    # rows and four; they get a page each now, whole.
+    if (state.get("last") or {}).get("top"):
+        pages.append(f1_board.page_last(now, state))
+    if state.get("qualifying") or (state.get("last") or {}).get("qualifying"):
+        pages.append(f1_board.page_qualifying(now, state))
     return pages
 
 

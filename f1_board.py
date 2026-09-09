@@ -166,7 +166,7 @@ def _driver_row(pen, x, y, wide, pos, code, team, right, tall=34,
     draw_text(pen, (x + 58, y + tall // 2), code, 20, WHITE, anchor="lm",
               weight="heavy")
     draw_text(pen, (x + 112, y + tall // 2),
-              clipped(team, 14, wide - 230, weight="mid"), 14, tone,
+              clipped(team, 15, wide - 230, weight="mid"), 15, _lift(tone),
               anchor="lm", weight="mid")
     draw_text(pen, (x + wide - 16, y + tall // 2), right, 18, WHITE,
               anchor="rm", weight="heavy")
@@ -204,6 +204,27 @@ def _dim(tone, share: float = 0.22):
             int(tone[2] * share), 255)
 
 
+def _lift(tone, share: float = 0.55):
+    """A team's colour bright enough to READ on a bar of that colour.
+
+    THIS IS WHY THE TEAM NAMES WERE NOT LEGIBLE. Every championship row
+    drew the team's name in the team's own colour on top of a bar that
+    was the same colour at 28 per cent — Ferrari red on dark Ferrari
+    red, Red Bull blue on dark Red Bull blue. The two are related by a
+    multiplication, so the contrast between them is fixed and low no
+    matter which team it is, and on a television across a room the name
+    disappeared into its own bar.
+
+    Mixing the colour towards white instead keeps a Ferrari row red and
+    a McLaren row orange — the colour is still doing its job of naming
+    the team before the letters are read — while putting the text far
+    enough from the bar behind it to be read at all.
+    """
+    return (int(tone[0] + (255 - tone[0]) * share),
+            int(tone[1] + (255 - tone[1]) * share),
+            int(tone[2] + (255 - tone[2]) * share), 255)
+
+
 def _hex(code: str):
     code = (code or "").lstrip("#")
     if len(code) != 6:
@@ -216,24 +237,40 @@ def _clock(pen, x, y, label, value, tone=WHITE, big=30):
     draw_text(pen, (x, y + 28), value, big, tone, anchor="lm", weight="heavy")
 
 
-def _bar_row(pen, box, y, tone, share, pos, code, team, right, note=""):
-    """One championship row: a bar as long as the points it stands for."""
+def _bar_row(pen, box, y, tone, share, pos, code, team, right, note="",
+             tall=26, room=150):
+    """One championship row: a bar as long as the points it stands for.
+
+    THE BAR IS DIMMER AND THE TEXT IS BRIGHTER than they were. A bar at
+    28 per cent of the team's colour with the team's name written on it
+    in the full colour is the one pairing on this board that cannot be
+    read; the bar carries 22 per cent now and the name is lifted towards
+    white, so the colour still names the team and the letters still read.
+    """
     wide = box[2] - box[0] - 40
-    pen.rounded_rectangle([box[0] + 20, y - 10, box[0] + 20 + int(wide * share),
-                           y + 16], radius=6, fill=_dim(tone, 0.28))
-    pen.rounded_rectangle([box[0] + 20, y - 10, box[0] + 26, y + 16],
+    half = tall // 2
+    pen.rounded_rectangle([box[0] + 20, y - half,
+                           box[0] + 20 + int(wide * share), y + half],
+                          radius=6, fill=_dim(tone, 0.22))
+    pen.rounded_rectangle([box[0] + 20, y - half, box[0] + 26, y + half],
                           radius=3, fill=tone)
-    draw_text(pen, (box[0] + 38, y + 3), pos, 15, MUTED, anchor="lm",
+    draw_text(pen, (box[0] + 38, y + 1), pos, 16, WHITE, anchor="lm",
               weight="mid")
-    draw_text(pen, (box[0] + 62, y + 3), code, 18, WHITE, anchor="lm",
+    draw_text(pen, (box[0] + 66, y + 1), code, 19, WHITE, anchor="lm",
               weight="heavy")
-    draw_text(pen, (box[0] + 116, y + 3),
-              clipped(team, 14, 150, weight="mid"), 14, tone, anchor="lm",
-              weight="mid")
+    # THE SECOND COLUMN STARTS AFTER THE FIRST ONE ENDS. A fixed offset
+    # assumed a three-letter driver code and the constructors' page
+    # writes "Aston Martin" into the same slot, so the name and the
+    # nationality were printed on top of each other.
+    after = box[0] + 66 + width_of(code, 19, weight="heavy") + 18
+    if team:
+        draw_text(pen, (after, y + 1),
+                  clipped(team, 15, max(40, room), weight="mid"), 15,
+                  _lift(tone), anchor="lm", weight="mid")
     if note:
-        draw_text(pen, (box[2] - 86, y + 3), note, 13, MUTED, anchor="rm",
-                  thin=True)
-    draw_text(pen, (box[2] - 20, y + 3), right, 17, WHITE, anchor="rm",
+        draw_text(pen, (box[2] - 88, y + 1), note, 14, (150, 164, 190, 255),
+                  anchor="rm", weight="mid")
+    draw_text(pen, (box[2] - 20, y + 1), right, 18, WHITE, anchor="rm",
               weight="heavy")
 
 
@@ -582,62 +619,285 @@ def page_track(now, state) -> Image.Image:
     return board
 
 
-def page_championship(now, state) -> Image.Image:
-    """BOTH TABLES, whole, on a page that has room for them.
+def _columns(count, top, foot, least=32, most=52, most_cols=4):
+    """How to lay `count` rows into a box: how many columns, how tall.
 
-    Eight drivers squeezed beside a session list is eight drivers in
-    small type. Ten drivers and every constructor, side by side, is what
-    a championship page is for.
+    THE COLUMN COUNT CANNOT BE DECIDED BEFORE THE ROW HEIGHT. Fixing the
+    step first and dividing gave twenty drivers three columns of seven
+    and left the bottom third of the panel empty — the page looked
+    padded and every row was narrower than it needed to be.
+
+    So it asks the other way round: the FEWEST columns whose rows are
+    still tall enough to read, and then the rows grow to fill the height
+    they actually have. Twenty drivers become two columns of ten that
+    reach the foot of the panel, not three of seven that stop halfway.
+    """
+    room = max(1, foot - top)
+    for columns in range(1, most_cols + 1):
+        per = -(-count // columns)
+        step = room // max(1, per)
+        if step >= least or columns == most_cols:
+            return columns, per, max(least, min(most, step))
+    return 1, count, least
+
+
+def _title_band(pen, box, state, table) -> None:
+    """How the championship stands, as two numbers and a verdict."""
+    if len(table) < 2:
+        return
+    gap = int(table[0]["points"]) - int(table[1]["points"])
+    rounds_left = int(state["rounds"]) - int(state["round"])
+    # 25 for a win, 18 for second, and a point for the fastest lap is
+    # not on offer any more — so the most a driver can still take from
+    # here is 25 a round, and the sprints are what this cannot know.
+    left_pts = rounds_left * 25
+    settled = gap > left_pts
+    line = box[3] - 52
+    pen.line([(box[0] + 20, line), (box[2] - 20, line)], fill=RULE, width=1)
+    draw_text(pen, (box[0] + 20, line + 26),
+              f"{table[0]['code']} leads by {gap}", 19,
+              _lift(_hex(table[0].get("colour")), 0.35), anchor="lm",
+              weight="heavy")
+    draw_text(pen, (box[0] + 240, line + 26),
+              f"{left_pts} still available over {rounds_left} rounds", 16,
+              (160, 176, 202, 255), anchor="lm", weight="mid")
+    draw_text(pen, (box[2] - 20, line + 26),
+              "DECIDED" if settled else "STILL OPEN", 18,
+              F1_RED if settled else GREEN_FLAG, anchor="rm", weight="heavy")
+
+
+def page_championship(now, state) -> Image.Image:
+    """EVERY DRIVER IN THE CHAMPIONSHIP, in two columns.
+
+    Ten was never the championship, it was as many as one column had
+    room for — and the source hands over all twenty-odd in the same
+    answer. Two columns side by side hold the whole table at a size a
+    television reads, so nobody is dropped for being eleventh.
     """
     board = backdrop()
     pen = ImageDraw.Draw(board)
-    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · بطولة العالم",
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · ترتيب السائقين",
               f"ROUND {state.get('round', '')} OF {state.get('rounds', '')}",
-              "CHAMPIONSHIP", F1_RED)
+              "DRIVERS", F1_RED)
 
     table = state.get("drivers") or []
-    left = [PAD, 122, PAD + 630, H - 116]
-    y = _panel(pen, left, "DRIVERS")
-    lead = float(table[0]["points"]) if table else 1
-    for line in table[:10]:
-        _bar_row(pen, left, y, _hex(line.get("colour")),
-                 float(line["points"]) / max(lead, 1), line["pos"],
-                 line["code"], line["team"], line["points"],
-                 f"{line['wins']} wins" if int(line["wins"]) else "")
-        y += 44
+    box = [PAD, 122, W - PAD, H - 116]
+    _panel(pen, box, "DRIVERS' CHAMPIONSHIP")
+    if not table:
+        draw_text(pen, ((box[0] + box[2]) // 2, (box[1] + box[3]) // 2),
+                  "لا يوجد ترتيب بعد", 20, MUTED, anchor="mm", thin=True)
+        _foot(pen, now)
+        return board
+
+    lead = float(table[0]["points"]) or 1
+    # AS MANY ROWS AS THE COLUMN HOLDS, then the second column, then a
+    # third if a season ever runs more entries than two columns take.
+    top, foot = box[1] + 58, box[3] - 66
+    columns, per, step = _columns(len(table), top, foot, least=34, most=46)
+    wide = (box[2] - box[0] - 24) // columns
+    for index, line in enumerate(table):
+        column, seat = divmod(index, per)
+        cell = [box[0] + 12 + column * wide, 0,
+                box[0] + 12 + (column + 1) * wide - 12, 0]
+        _bar_row(pen, cell, top + seat * step + step // 2,
+                 _hex(line.get("colour")),
+                 float(line["points"]) / lead, line["pos"], line["code"],
+                 line["team"], line["points"],
+                 f"{line['wins']}W" if int(line["wins"] or 0) else "",
+                 tall=min(30, step - 6), room=wide - 300)
+    _title_band(pen, box, state, table)
+    _foot(pen, now)
+    return board
+
+
+def page_constructors(now, state) -> Image.Image:
+    """EVERY CONSTRUCTOR, not the first six — and what each has won."""
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · ترتيب الفرق",
+              f"ROUND {state.get('round', '')} OF {state.get('rounds', '')}",
+              "CONSTRUCTORS", (90, 110, 150, 255))
 
     teams = state.get("teams") or []
-    right = [PAD + 654, 122, W - PAD, 452]
-    y = _panel(pen, right, "CONSTRUCTORS")
-    top = float(teams[0]["points"]) if teams else 1
-    for line in teams[:6]:
-        _bar_row(pen, right, y, team_colour(line["name"]),
-                 float(line["points"]) / max(top, 1), line["pos"],
-                 line["name"][:14], "", line["points"])
-        y += 44
-
-    box = [PAD + 654, 470, W - PAD, H - 116]
-    y = _panel(pen, box, "THE TITLE")
-    if len(table) >= 2:
-        gap = int(table[0]["points"]) - int(table[1]["points"])
-        rounds_left = int(state["rounds"]) - int(state["round"])
-        left_pts = rounds_left * 25
-        draw_text(pen, (box[0] + 22, y + 6), "LEAD", 14, MUTED, anchor="lm",
+    box = [PAD, 122, W - PAD, H - 116]
+    _panel(pen, box, "CONSTRUCTORS' CHAMPIONSHIP")
+    if not teams:
+        draw_text(pen, ((box[0] + box[2]) // 2, (box[1] + box[3]) // 2),
+                  "لا يوجد ترتيب للفرق بعد", 20, MUTED, anchor="mm",
                   thin=True)
-        draw_text(pen, (box[0] + 22, y + 38), str(gap), 34,
-                  _hex(table[0].get("colour")), anchor="lm", weight="heavy")
-        draw_text(pen, (box[0] + 200, y + 6), "STILL AVAILABLE", 14, MUTED,
-                  anchor="lm", thin=True)
-        draw_text(pen, (box[0] + 200, y + 38), str(left_pts), 34, WHITE,
-                  anchor="lm", weight="heavy")
-        settled = gap > left_pts
-        draw_text(pen, (box[2] - 22, y + 38),
-                  "DECIDED" if settled else "STILL OPEN", 17,
-                  F1_RED if settled else GREEN_FLAG, anchor="rm",
+        _foot(pen, now)
+        return board
+
+    top = float(teams[0]["points"]) or 1
+    y = box[1] + 62
+    step = max(38, min(56, (box[3] - 40 - y) // max(1, len(teams))))
+    for line in teams:
+        tone = team_colour(line["name"])
+        _bar_row(pen, box, y, tone, float(line["points"]) / top,
+                 line["pos"], line["name"][:24], line.get("nationality", ""),
+                 line["points"],
+                 (f"{line.get('wins', '0')} win"
+                  + ("s" if int(line.get("wins") or 0) != 1 else ""))
+                 if int(line.get("wins") or 0) else "",
+                 tall=min(34, step - 8), room=200)
+        y += step
+    _foot(pen, now)
+    return board
+
+
+def page_last(now, state) -> Image.Image:
+    """THE LAST RACE, CLASSIFIED IN FULL — gap, laps, points, and why
+    a car that is not on the list is not on it.
+
+    Six rows of code and team were all this channel kept of a Grand
+    Prix. The same answer carries every finisher, the gap each was
+    beaten by, the status of anyone who did not finish, the laps they
+    completed and the points they took — so all of it is on the board.
+    """
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    last = state.get("last") or {}
+    rows = last.get("top") or []
+    where = (last.get("at") or "").upper()
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · نتيجة آخر سباق",
+              clipped(where, 17, 420, weight="heavy") if where else "",
+              "LAST RACE", (90, 110, 150, 255))
+
+    box = [PAD, 122, W - PAD, H - 176]
+    _panel(pen, box, "CLASSIFICATION")
+    if not rows:
+        draw_text(pen, ((box[0] + box[2]) // 2, (box[1] + box[3]) // 2),
+                  "لا توجد نتيجة سباق بعد", 20, MUTED, anchor="mm",
+                  thin=True)
+    else:
+        top, foot = box[1] + 56, box[3] - 12
+        columns, per, step = _columns(len(rows), top, foot, least=32,
+                                      most=44)
+        wide = (box[2] - box[0] - 24) // columns
+        for index, line in enumerate(rows):
+            column, seat = divmod(index, per)
+            x = box[0] + 12 + column * wide
+            y = top + seat * step
+            tone = _hex(line.get("colour")) or team_colour(line["team"])
+            pen.rounded_rectangle([x, y, x + wide - 14, y + step - 6],
+                                  radius=7, fill=PANEL_ALT)
+            pen.rounded_rectangle([x + 4, y + 5, x + 10, y + step - 11],
+                                  radius=3, fill=tone)
+            draw_text(pen, (x + 26, y + (step - 6) // 2), line["pos"], 17,
+                      F1_RED if line["pos"] == "1" else WHITE, anchor="lm",
+                      weight="heavy")
+            draw_text(pen, (x + 58, y + (step - 6) // 2), line["code"], 19,
+                      WHITE, anchor="lm", weight="heavy")
+            draw_text(pen, (x + 112, y + (step - 6) // 2),
+                      clipped(line["team"], 14, 118, weight="mid"), 14,
+                      _lift(tone), anchor="lm", weight="mid")
+            # THE GAP, OR WHY THERE ISN'T ONE. A retirement says what
+            # stopped the car instead of leaving the column blank.
+            gap = line.get("gap") or ""
+            out = not (line.get("status") or "").startswith("Finished") \
+                and not gap[:1].isdigit() and gap
+            draw_text(pen, (x + wide - 78, y + (step - 6) // 2),
+                      clipped(gap, 14, wide - 300, weight="mid"), 14,
+                      F1_RED if out else (160, 176, 202, 255), anchor="rm",
+                      weight="mid")
+            points = line.get("points") or "0"
+            draw_text(pen, (x + wide - 24, y + (step - 6) // 2),
+                      points if points != "0" else "—", 17,
+                      WHITE if points != "0" else RULE, anchor="rm",
+                      weight="heavy")
+
+    # THE FASTEST LAP OF THAT RACE, on a band of its own.
+    band = [PAD, H - 166, W - PAD, H - 108]
+    best = last.get("fastest") or {}
+    pen.rounded_rectangle(band, radius=10, fill=PANEL_ALT)
+    draw_text(pen, (band[0] + 20, (band[1] + band[3]) // 2), "FASTEST LAP",
+              14, MUTED, anchor="lm", thin=True)
+    if best.get("time"):
+        tone = _lift(_hex(best.get("colour")), 0.3)
+        draw_text(pen, (band[0] + 140, (band[1] + band[3]) // 2),
+                  best.get("code") or "", 22, tone, anchor="lm",
                   weight="heavy")
-        draw_text(pen, (box[0] + 22, y + 74),
-                  f"over {rounds_left} round(s) still to run", 15, MUTED,
-                  anchor="lm", thin=True)
+        draw_text(pen, (band[0] + 210, (band[1] + band[3]) // 2),
+                  best["time"], 24, WHITE, anchor="lm", weight="heavy")
+        said = []
+        if best.get("lap"):
+            said.append(f"on lap {best['lap']}")
+        if best.get("kph"):
+            said.append(f"{best['kph']} km/h average")
+        if said:
+            draw_text(pen, (band[2] - 20, (band[1] + band[3]) // 2),
+                      "  ·  ".join(said), 15, (160, 176, 202, 255),
+                      anchor="rm", weight="mid")
+    else:
+        draw_text(pen, (band[0] + 140, (band[1] + band[3]) // 2),
+                  "لم يُسجَّل", 16, MUTED, anchor="lm", thin=True)
+    _foot(pen, now)
+    return board
+
+
+def page_qualifying(now, state) -> Image.Image:
+    """THE WHOLE GRID, AND ALL THREE PARTS OF IT.
+
+    Four rows and one time were what this kept. Q1 and Q2 are how the
+    back half of the grid was decided and they were being thrown away,
+    so every driver's three laps are here — the ones they did not set
+    left blank rather than filled with a dash that looks like a time.
+    """
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    rows = (state.get("qualifying")
+            or (state.get("last") or {}).get("qualifying") or [])
+    where = ((state.get("last") or {}).get("at") or "").upper()
+    _masthead(board, pen, "FORMULA 1", "الفورمولا ١ · نتيجة التجارب",
+              clipped(where, 17, 420, weight="heavy") if where else "",
+              "QUALIFYING", (167, 139, 250, 255))
+
+    box = [PAD, 122, W - PAD, H - 116]
+    _panel(pen, box, "STARTING ORDER")
+    if not rows:
+        draw_text(pen, ((box[0] + box[2]) // 2, (box[1] + box[3]) // 2),
+                  "لا توجد نتيجة تجارب بعد", 20, MUTED, anchor="mm",
+                  thin=True)
+        _foot(pen, now)
+        return board
+
+    top, foot = box[1] + 78, box[3] - 14
+    columns, per, step = _columns(len(rows), top, foot, least=32, most=44)
+    wide = (box[2] - box[0] - 24) // columns
+    for column in range(columns):
+        x = box[0] + 12 + column * wide
+        for label, at in (("Q1", 0.50), ("Q2", 0.68), ("Q3", 0.86)):
+            draw_text(pen, (x + int((wide - 14) * at), top - 22), label, 13,
+                      MUTED, anchor="mm", thin=True)
+    for index, line in enumerate(rows):
+        column, seat = divmod(index, per)
+        x = box[0] + 12 + column * wide
+        y = top + seat * step
+        tone = _hex(line.get("colour")) or team_colour(line.get("team", ""))
+        pen.rounded_rectangle([x, y, x + wide - 14, y + step - 6], radius=7,
+                              fill=PANEL_ALT)
+        pen.rounded_rectangle([x + 4, y + 5, x + 10, y + step - 11],
+                              radius=3, fill=tone)
+        mid = y + (step - 6) // 2
+        draw_text(pen, (x + 26, mid), line["pos"], 17,
+                  (167, 139, 250, 255) if line["pos"] == "1" else WHITE,
+                  anchor="lm", weight="heavy")
+        draw_text(pen, (x + 58, mid), line["code"], 19, WHITE, anchor="lm",
+                  weight="heavy")
+        if line.get("team"):
+            draw_text(pen, (x + 114, mid),
+                      clipped(line["team"], 14,
+                              int((wide - 14) * 0.50) - 132, weight="mid"),
+                      14, _lift(tone), anchor="lm", weight="mid")
+        for key, at in (("q1", 0.50), ("q2", 0.68), ("q3", 0.86)):
+            said = line.get(key) or ""
+            if not said:
+                continue
+            best = key == "q3" or (key == "q2" and not line.get("q3")) \
+                or (key == "q1" and not line.get("q2") and not line.get("q3"))
+            draw_text(pen, (x + int((wide - 14) * at), mid), said, 14,
+                      WHITE if best else (146, 162, 190, 255), anchor="mm",
+                      weight="heavy" if best else "mid")
     _foot(pen, now)
     return board
 
@@ -761,26 +1021,46 @@ def draw_between(now, viewer, state) -> Image.Image:
               f"round {state['round']} of {state['rounds']} run", 14, MUTED,
               anchor="rm", thin=True)
 
+    # AND THE WEATHER AT THAT CIRCUIT, in the foot of the same panel.
+    # This is the board on screen the five days a week nothing runs, and
+    # under it was empty space — so the reading that answers "what is it
+    # like there right now" goes where the eye already is, rather than
+    # only on a page two turns of the reel away.
+    sky = state.get("weather") or {}
+    band = [left[0] + 20, H - 224, left[2] - 20, H - 136]
+    floor = (band[1] - 14) if sky.get("air_c") is not None else H - 132
+
     # AND THE CIRCUIT ITSELF, in the room the sessions leave. A viewer
     # recognises Monza's straights or Monaco's harbour before they read
     # either name, and this board has already paid for the coordinates.
-    if state.get("shape") and row + 86 < H - 150:
+    if state.get("shape") and row + 86 < floor - 40:
         draw_track(board, pen, state["shape"],
-                   [left[0] + 40, row + 86, left[2] - 40, H - 132],
+                   [left[0] + 40, row + 86, left[2] - 40, floor],
                    rotation=state.get("rotation", 0),
                    tone=(78, 96, 132, 255), width=5)
+    draw_weather(pen, band, sky)
 
 
     right = [PAD + 554, 122, W - PAD, H - 160]  # its foot carries the title
     y = _panel(pen, right, "DRIVERS' CHAMPIONSHIP")
     table = state.get("drivers") or []
+    # AS MANY DRIVERS AS THE PANEL HOLDS, not eight. Eight was the count
+    # that fit when the fetch only returned eight; the panel's foot is
+    # the only real limit and it holds more than that.
     lead = float(table[0]["points"]) if table else 1
-    for line in table[:8]:
-        _bar_row(pen, right, y, _hex(line.get("colour")),
+    room = (right[3] - 52) - y
+    step = 34
+    fits = max(1, room // step)
+    if len(table) > fits:                 # spread to the foot rather than
+        step = max(28, room // min(len(table), room // 28 or 1))
+        fits = max(1, room // step)
+    for line in table[:fits]:
+        _bar_row(pen, right, y + step // 2 - 6, _hex(line.get("colour")),
                  float(line["points"]) / max(lead, 1), line["pos"],
                  line["code"], line["team"], line["points"],
-                 f"{line['wins']} wins" if int(line["wins"]) else "")
-        y += 34
+                 f"{line['wins']}W" if int(line["wins"]) else "",
+                 tall=min(28, step - 4), room=160)
+        y += step
 
     # THE TITLE, on the championship's own foot rather than in a panel
     # of its own — it is two numbers about the table above it, and a
@@ -794,10 +1074,11 @@ def draw_between(now, viewer, state) -> Image.Image:
                  width=1)
         draw_text(pen, (right[0] + 20, line + 24),
                   f"{table[0]['code']} leads by {gap}", 17,
-                  _hex(table[0].get("colour")), anchor="lm", weight="heavy")
+                  _lift(_hex(table[0].get("colour")), 0.35), anchor="lm",
+                  weight="heavy")
         draw_text(pen, (right[0] + 200, line + 24),
                   f"{left_pts} still available over {rounds_left} rounds", 15,
-                  MUTED, anchor="lm", weight="mid")
+                  (160, 176, 202, 255), anchor="lm", weight="mid")
         settled = gap > left_pts
         draw_text(pen, (right[2] - 20, line + 24),
                   "DECIDED" if settled else "STILL OPEN", 14,
@@ -816,8 +1097,8 @@ def draw_between(now, viewer, state) -> Image.Image:
     if facts.get("type"):
         told.append(facts["type"].lower())
     if told:
-        draw_text(pen, (PAD + 574, H - 140), "  ·  ".join(told), 16, MUTED,
-                  anchor="lm", weight="mid")
+        draw_text(pen, (PAD + 574, H - 140), "  ·  ".join(told), 16,
+                  (150, 166, 194, 255), anchor="lm", weight="mid")
     _foot(pen, now)
     return board
 
@@ -875,23 +1156,50 @@ def selftest() -> int:
     from zoneinfo import ZoneInfo
     now = datetime.now(timezone.utc)
     viewer = ZoneInfo("Asia/Riyadh")
-    table = [{"pos": str(n), "code": "ABC", "team": "Mercedes",
-              "points": str(300 - n * 30), "wins": str(n), "colour": "00D7B6"}
-             for n in range(1, 9)]
+    # A WHOLE FIELD, because the pages now draw a whole field. Eight
+    # rows never found the column that a twentieth row falls into.
+    teams_of = ["Mercedes", "Ferrari", "McLaren", "Red Bull", "Williams",
+                "Aston Martin", "Alpine", "Racing Bulls", "Haas", "Sauber"]
+    table = [{"pos": str(n), "code": f"D{n:02d}",
+              "team": teams_of[(n - 1) % len(teams_of)],
+              "points": str(max(0, 300 - n * 14)), "wins": str(max(0, 5 - n)),
+              "name": f"Driver {n}", "number": str(n), "nationality": "British",
+              "colour": "00D7B6"}
+             for n in range(1, 21)]
     nxt = {"round": "14", "name": "A Grand Prix", "circuit": "A Circuit",
            "locality": "A Town", "country": "A Country",
            "race_at": now + timedelta(days=4),
            "sessions": [(n, now + timedelta(days=2, hours=h)) for h, n in
                         enumerate(("FP1", "FP2", "FP3", "QUALIFYING",
                                    "RACE"))]}
-    last = {"at": "A Grand Prix", "top": [
-        {"pos": str(n), "code": "XYZ", "team": "Ferrari", "grid": "9",
-         "colour": "ED1131"} for n in range(1, 5)]}
+    last = {"at": "A Grand Prix", "circuit": "A Circuit", "date": "2026-09-06",
+            "top": [{"pos": str(n), "code": f"D{n:02d}",
+                     "team": teams_of[(n - 1) % len(teams_of)], "grid": "9",
+                     "laps": "53" if n < 18 else "31",
+                     "points": str(max(0, 26 - n * 3)),
+                     "name": f"Driver {n}",
+                     "gap": ("1:32:11.204" if n == 1 else
+                             (f"+{n * 3}.402" if n < 18 else
+                              ("Power Unit" if n == 18 else "Collision"))),
+                     "status": ("Finished" if n < 18 else "Retired"),
+                     "colour": "ED1131"} for n in range(1, 21)],
+            "fastest": {"code": "D03", "time": "1:19.813", "lap": "44",
+                        "kph": "231.402", "colour": "ED1131"},
+            "qualifying": [{"pos": str(n), "code": f"D{n:02d}",
+                            "team": teams_of[(n - 1) % len(teams_of)],
+                            "q1": f"1:2{n%10}.400",
+                            "q2": f"1:2{n%10}.100" if n <= 15 else "",
+                            "q3": f"1:19.{800+n}" if n <= 10 else "",
+                            "time": f"1:19.{800+n}" if n <= 10 else
+                                    f"1:2{n%10}.100",
+                            "colour": "00A1E8"} for n in range(1, 21)]}
     state = {"round": "13", "rounds": "23", "drivers": table,
-             "teams": [{"pos": "1", "name": "Mercedes", "points": "468"}],
+             "teams": [{"pos": str(n), "name": name,
+                        "points": str(max(0, 480 - n * 45)),
+                        "wins": str(max(0, 4 - n)), "nationality": "German"}
+                       for n, name in enumerate(teams_of, start=1)],
              "last": last, "next": nxt, "next_session": nxt["sessions"][0],
-             "qualifying": [{"pos": "1", "code": "GAS", "time": "1:21.786",
-                             "colour": "00A1E8"}],
+             "qualifying": last["qualifying"],
              "shape": [[0, 0], [900, 200], [1400, 900], [400, 1200]],
              "rotation": 20, "corners": 11,
              "facts": {"corners": 11, "laps": "53", "held": "74",
@@ -941,10 +1249,11 @@ def selftest() -> int:
     live["tyres"] = [{"compound": "SOFT", "code": "ANT", "laps": 12},
                      {"compound": "MEDIUM", "code": "RUS", "laps": 20},
                      {"compound": "HARD", "code": "VER", "laps": 31}]
-    state["teams"] = [{"pos": str(n), "name": "Mercedes",
-                       "points": str(500 - n * 60)} for n in range(1, 7)]
     for name, call in (("track", lambda: page_track(now, state)),
                        ("championship", lambda: page_championship(now, state)),
+                       ("constructors", lambda: page_constructors(now, state)),
+                       ("last race", lambda: page_last(now, state)),
+                       ("qualifying", lambda: page_qualifying(now, state)),
                        ("session", lambda: page_session(now, live))):
         board = call()
         if board.size != (W, H):
@@ -965,6 +1274,22 @@ def selftest() -> int:
     print("  ok   track page with nothing on it at all")
     page_session(now, {})
     print("  ok   session page with nothing measured yet")
+
+    # AND EVERY NEW PAGE WITH NOTHING TO PUT ON IT, which is what a
+    # rate-limited pass or the week before round one actually hands over.
+    page_championship(now, dict(state, drivers=[]))
+    page_constructors(now, dict(state, teams=[]))
+    page_last(now, dict(state, last={}))
+    page_qualifying(now, dict(state, qualifying=[], last={}))
+    print("  ok   all four table pages with nothing in them")
+    # a season half the length, and one longer than two columns hold
+    page_championship(now, dict(state, drivers=table[:5]))
+    page_championship(now, dict(state, drivers=table * 3))
+    page_last(now, dict(state, last=dict(last, top=last["top"][:3],
+                                         fastest={})))
+    page_qualifying(now, dict(state, qualifying=last["qualifying"][:2]))
+    print("  ok   short fields, an over-long one, and a race with no "
+          "fastest lap")
     print(f"{drawn} board(s) drawn")
     return 0
 
