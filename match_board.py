@@ -803,7 +803,18 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         board.alpha_composite(badge, (x, PAD + 18 - badge.height // 2))
         x += badge.width + 16
     draw_text(pen, (x, PAD - 4), head, 46, WHITE)
-    draw_text(pen, (x, PAD + 52), subtitle, 21, MUTED, thin=True)
+    # THE DAY CHIP SITS ON THIS LINE TOO, in the middle of the board, so
+    # the subtitle is given the room the chip leaves it and no more. It
+    # was drawn at full length underneath and the chip was drawn on top
+    # of it: on the board on air, "الدوري الأمريكي للسلة والقدم
+    # الأمريكية" reached the middle of the screen and the chip covered
+    # its first word. Cut with an ellipsis is a subtitle a viewer can
+    # read the start of; painted over is one they cannot read at all.
+    chip_words = day_badge(day, now, viewer, weekday)
+    chip_wide = width_of(chip_words, 26) + 60
+    draw_text(pen, (x, PAD + 52),
+              clipped(subtitle, 21, (W - chip_wide) // 2 - x - 24,
+                      thin=True), 21, MUTED, thin=True)
 
     right = W - PAD
     date_chip(pen, right, PAD - 6, f"{day:%d.%m.%Y}")
@@ -826,9 +837,9 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     # — and the weekday is what it means. No digits in this badge: the
     # date is already set on the right, and a number inside Arabic is the
     # one thing that can come out reversed.
-    badge = day_badge(day, now, viewer, weekday)
+    badge = chip_words
     badge_size = 26
-    wide = width_of(badge, badge_size) + 60
+    wide = chip_wide
     middle_x = W // 2
     pen.rounded_rectangle(
         [middle_x - wide // 2, PAD + 46, middle_x + wide // 2, PAD + 92],
