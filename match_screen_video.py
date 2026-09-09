@@ -133,6 +133,11 @@ SCREENS = {
     "dubai_hoops_gridiron": ("dubai_hoops_gridiron_",
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256", 20),
+    # THE TENTH CHANNEL — القنوات التركية · PPV: the Turkish grid alone.
+    "turkish_ppv": ("turkish_ppv_", "turkish_ppv.m3u8",
+                    "turkish_ppv.sha256", 20),
+    "dubai_turkish_ppv": ("dubai_turkish_ppv_", "dubai_turkish_ppv.m3u8",
+                          "dubai_turkish_ppv.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -440,6 +445,8 @@ THEMES = {
     "dubai_ball_sports": "audio/theme_sports.m4a",
     "hoops_gridiron": "audio/theme_sports.m4a",
     "dubai_hoops_gridiron": "audio/theme_sports.m4a",
+    "turkish_ppv": "audio/theme_sports.m4a",
+    "dubai_turkish_ppv": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4
