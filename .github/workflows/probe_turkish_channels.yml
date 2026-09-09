@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - "probes/probe_turkish_channels.py"
+      - "probes/probe_turkish_channels_after.py"
       - ".github/workflows/probe_turkish_channels.yml"
   workflow_dispatch:
 permissions:
@@ -17,4 +18,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -u probes/probe_turkish_channels.py
+      - run: python -u probes/probe_turkish_channels_after.py

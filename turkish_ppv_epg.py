@@ -50,6 +50,13 @@ DUBAI_BOARD_PREFIX = "dubai_turkish_ppv_"
 # absent from here never reaches it either.
 IN_ORDER = (
     "Olympics",
+    # THE TWO THE TURKISH SCREENS LEAD WITH. Asked for by their carriers
+    # — TRT Spor, S Sport and HT Spor — and those three carry football,
+    # basketball and studio programmes and almost nothing else, so
+    # without these two the channel had none of their matches at all.
+    # A sport absent from this tuple never reaches the board however the
+    # grid files it.
+    "Football", "Basketball",
     "F1", "MotoGP", "WRC",
     "Boxing", "MMA",
     "Tennis", "Padel", "Snooker", "Darts", "Golf",
