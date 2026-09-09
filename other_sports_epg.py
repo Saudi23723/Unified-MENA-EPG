@@ -152,6 +152,11 @@ DUBAI_CHANNEL_ID = "TodaySportsDubai"
 DUBAI_BOARD_PREFIX = "dubai_sports_"
 SUBTITLE = "سباقات ونزالات وبطولات"
 BOARD_COLOURS = 64
+# Which drawing the channel wears. "classic" is the row board every
+# channel had before the info-screen redraw; its reading is larger and a
+# viewer asked for it back on channels 1, 2, NBA/NFL and MLB/WNBA.
+# "info" is the broadcaster info-screen, kept on Turkish PPV.
+BOARD_STYLE = "classic"
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #
 # Asked for outright — "ما تعجق الصورة … بتنقسم على صفحتين ورا بعض عادي".
@@ -435,10 +440,12 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
-        from match_board import draw_board
+        from match_board import draw_board, draw_board_info
+
+        draw = draw_board_info if BOARD_STYLE == "info" else draw_board
 
         drawn_rows = [dict(event, title=row_title(event)) for event in events]
-        board = draw_board(
+        board = draw(
             day, drawn_rows, now, VIEWER, MATCH_ON_AIR,
             title=CHANNEL_AR, subtitle=f"{SUBTITLE} · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages,
