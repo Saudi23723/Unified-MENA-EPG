@@ -103,6 +103,33 @@ def channel_names(number: int) -> tuple[str, str]:
     return f"tabii Spor {number}", f"تابي سبور {number}"
 
 
+# EXTRA NAMES, FOR THE LINEAR CHANNEL ONLY.
+#
+# The numbered channels match a player's channel list on sight: a row
+# called "tabii Spor 3" finds "tabii Spor 3". The unnumbered one does
+# not, because providers write it a dozen ways — Tabii Spor, TABII
+# SPOR, tabii Spor HD, TabiiSpor — and a guide that answers to only one
+# of them is a guide the reader cannot attach to their channel.
+#
+# So the linear channel answers to all of them. Aliases are only ever
+# added here; every numbered channel's block is left exactly as it was,
+# and no alias may be a prefix of a numbered name (never a bare
+# "tabii"), so nothing can be stolen from tabii Spor 1 through 10.
+LINEAR_ALIASES = (
+    ("tr", "Tabii Spor"),
+    ("tr", "TABII SPOR"),
+    ("tr", "TabiiSpor"),
+    ("tr", "tabii Spor HD"),
+    ("tr", "Tabii Spor HD"),
+    ("tr", "tabii Spor TR"),
+    ("ar", "تابي سبور HD"),
+)
+
+
+def channel_aliases(number: int) -> tuple[tuple[str, str], ...]:
+    return LINEAR_ALIASES if number == LINEAR else ()
+
+
 def channel_logo(number: int) -> str:
     """Each channel wears its own number.
 
@@ -535,6 +562,8 @@ def build() -> int:
         channel = ET.SubElement(root, "channel", id=channel_id(number))
         ET.SubElement(channel, "display-name", lang="tr").text = tr_name
         ET.SubElement(channel, "display-name", lang="ar").text = ar_name
+        for lang, alias in channel_aliases(number):
+            ET.SubElement(channel, "display-name", lang=lang).text = alias
         ET.SubElement(channel, "icon", src=channel_logo(number))
 
     per_channel: dict[int, list[dict]] = {}
