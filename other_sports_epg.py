@@ -89,6 +89,25 @@ OUTPUT = "other_sports_epg.xml"
 # row still waiting to be confirmed onto a channel, and where another
 # row already sits at its minute, the other row is the broadcast.
 PPV_WORDS = frozenset({"PPV", "PPV (Internet)", "Internet PPV"})
+
+# THE CARRIERS A VIEWER BUYS THE EVENT ON, asked for by name: "these
+# write beside them for example tabii ppv". tabii, S Sport / S Sport
+# Plus and beIN CONNECT are subscription-or-pass services rather than a
+# channel already in a viewer's package, so the row says so beside the
+# name instead of leaving them to find out at the door. Matched at the
+# START of the printed name, so "S Sport Plus 2" counts and a channel
+# merely containing the words does not.
+PPV_CARRIERS = ("tabii", "s sport", "bein connect", "bein sports connect")
+
+
+def ppv_beside(name: str) -> str:
+    """`name` with " PPV" beside it when it is one of those carriers."""
+    plain = name.casefold()
+    if "ppv" in plain:
+        return name
+    return f"{name} PPV" if plain.startswith(PPV_CARRIERS) else name
+
+
 CHANNEL_ID = "TodaySports"
 CHANNEL_AR = "رياضات اليوم"
 
@@ -1290,7 +1309,10 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # Ekranı's own grid names the sport, the competition, the clock and
     # the channel inside each row, and turkish_sport_grid.py says what
     # was measured before it was believed.
-    everything += turkish_sport_grid.events(session)
+    # THE TURKISH GRID LEFT THIS CHANNEL. Asked for outright: "make them
+    # on a separate channel created from scratch called Turkish PPV". Its
+    # whole listing now builds turkish_ppv_epg.py and nothing of it is
+    # drawn here, so no row of it can appear on two channels at once.
     can_fetch = hasattr(session, "request")
 
     # AND A SECOND LISTINGS GRID, in Spain, asked for by name: "trt
@@ -1646,8 +1668,17 @@ def build() -> int:
     # This is the first board's step, borrowed whole, and it is what puts
     # a reader's own beIN in front of a Sky they cannot tune to.
     for event in events:
-        event["channels"] = [shorter(name) for name
+        event["channels"] = [ppv_beside(shorter(name)) for name
                              in channels_in_order(event["channels"])]
+        # "Ppv on anything ppv it's simple" — a row that reaches the
+        # board with no announced broadcaster is one a viewer can still
+        # buy, so the line says PPV instead of standing empty. This runs
+        # AFTER collection, folding and ordering, so nothing that decides
+        # which rows survive ever sees the word: the dedup rules that
+        # treat a PPV-only row as unconfirmed (PPV_WORDS) have already
+        # run on the sources' own channels.
+        if not event["channels"]:
+            event["channels"] = ["PPV"]
 
     ok = publish_all(events, now) == 0
 
