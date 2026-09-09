@@ -302,29 +302,57 @@ def is_a_fixture(show: dict, title: str) -> bool:
     return bool(A_FIXTURE.search(title or ""))
 
 
+# WHEN THIS CHANNEL SHOWS FOOTBALL LIVE, on its own clock. Counted off
+# the published schedule rather than picked: every daytime airing of a
+# fixture is a rerun of the night before, and they stop dead at 15:50.
+#
+#   replays   09:55 10:20 12:00 12:05 13:45 13:55 14:05 14:10 15:50
+#   live      17:00 17:15 17:30 18:00 18:55 19:10 19:40 19:45 21:10
+#             21:15 21:20 22:00
+#
+# Seventy clear minutes between the last rerun and the earliest kick-off,
+# so 17:00 is the line and nothing sits near it.
+#
+# A match starting after midnight would fall outside this and simply go
+# unbadged. That is the safe way to be wrong: a missing badge tells the
+# reader nothing, a false one tells them a lie.
+EVENING_IN_ISTANBUL = 17
+
+
+def kicks_off_in_the_evening(start: datetime) -> bool:
+    return start.astimezone(ISTANBUL).hour >= EVENING_IN_ISTANBUL
+
+
 def only_the_first_airing_is_live(events: list[dict]) -> int:
-    """Badge each fixture's EARLIEST showing and nothing else.
+    """Badge each fixture's EARLIEST EVENING showing and nothing else.
 
     ISREPEAT WAS NOT ENOUGH, and the guide proved it within minutes of
     going out: Liverpool - Atletico Madrid was badged live twice, once
     at 19:00 when it kicked off and again at 11:10 the next morning.
-    TRT reports isRepeat: false on the replay too, so on its own it
-    badged seven "live" matches in a single day — four of them daytime
-    reruns of the previous night.
+    TRT reports isRepeat: false on the replay too.
 
-    A match is broadcast live once. Every later showing of the same two
-    sides is a replay, whatever the source says about it, so the
-    earliest airing keeps the badge and the rest lose it. That is
-    decided here rather than per row because it is a fact about the
-    schedule as a whole, not about any one entry in it.
+    EARLIEST-AIRING ALONE WAS NOT ENOUGH EITHER. A fixture whose live
+    showing happened BEFORE the week TRT publishes leaves only its
+    reruns inside the window, and the earliest of those is still a
+    rerun — Real Madrid - Inter at 10:20 in the morning, badged live.
+
+    So both hold. A match is broadcast live once, in the evening, and
+    every other showing of the same two sides is a replay whatever the
+    source says. This is decided over the whole schedule rather than
+    per row because it is a fact about the schedule, not about any one
+    entry in it.
 
     Returns how many rows ended up badged.
     """
+    # THE EVENING TEST COMES FIRST, then the earliest of what survives
+    # it — in that order, and it matters. Taking the earliest airing
+    # first would hand the badge to a lunchtime rerun and leave the
+    # night's real kick-off with nothing, which is exactly backwards.
     earliest: dict[str, datetime] = {}
     for event in events:
-        if not event.get("fixture"):
+        key = event.get("fixture")
+        if not key or not kicks_off_in_the_evening(event["start"]):
             continue
-        key = event["fixture"]
         if key not in earliest or event["start"] < earliest[key]:
             earliest[key] = event["start"]
     badged = 0
