@@ -51,7 +51,13 @@ from zoneinfo import ZoneInfo
 from epg_lib import add_programme, fetch, log, new_session, warn, write_xml_atomic
 
 UTC = timezone.utc
-VIEWER = ZoneInfo("Asia/Riyadh")
+# THE SAME CLOCK EVERY OTHER CHANNEL HERE WEARS, and it was wrong: this
+# was written with Asia/Riyadh in it, so a Grand Prix that starts at
+# 13:00 UTC printed 16:00 on a screen whose every neighbour would have
+# printed 06:00. "بتوقيتك" means one zone across the service or it means
+# nothing, and that zone is America/Los_Angeles — today_matches_epg,
+# other_sports_epg, news_epg and weather_epg all say so.
+VIEWER = ZoneInfo("America/Los_Angeles")
 VIEWER_NAME = "بتوقيتك"
 
 CHANNEL_ID = "Formula1"
@@ -65,6 +71,18 @@ RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
        "main/boards/f1_0.png")
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/f1.png")
+
+# THE SECOND CLOCK. Every other channel here publishes twice — the same
+# rows with every time printed in the Gulf's — and this one refused to,
+# on the reasoning that a Grand Prix is one instant everywhere. That is
+# true of the instant and useless to a viewer: what they read is the
+# hour it lands on THEIR wall, and the Gulf's link exists to say that
+# hour. So it publishes twice like the rest.
+DUBAI_OUTPUT = "dubai_f1_epg.xml"
+DUBAI_CHANNEL_ID = "Formula1Dubai"
+DUBAI_BOARD_PREFIX = "dubai_f1_"
+DUBAI_RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             "main/boards/dubai_f1_0.png")
 
 JOLPICA = "https://api.jolpi.ca/ergast/f1"
 OPENF1 = "https://api.openf1.org/v1"
@@ -194,6 +212,58 @@ def the_shape(session, state, now, meeting) -> tuple[list, int, int]:
     return ([[int(a), int(b)] for a, b in pairs],
             int(data.get("rotation") or 0),
             len(data.get("corners") or []))
+
+
+def the_track_facts(session, state, now, circuit_id, meeting,
+                    corners) -> dict:
+    """What can be said about a circuit without buying a source.
+
+    Every one of these is already paid for. The corner count falls out
+    of the shape this board already draws. Whether it is a street
+    circuit or a permanent one is a field in the meetings feed. And the
+    rest is the same calendar this channel already reads, asked about
+    one circuit instead of one season: how many Grands Prix have been
+    held here, the year of the first, who won the last one and in how
+    many laps, and who has won here more than anyone.
+
+    CACHED FOR A WEEK, because none of it can change inside one. A
+    circuit's history is the slowest-moving thing this channel knows.
+    """
+    out = {"corners": corners or 0,
+           "type": (meeting or {}).get("circuit_type") or ""}
+    if not circuit_id:
+        return out
+    week = timedelta(days=7)
+
+    held = _ask(session, f"{JOLPICA}/circuits/{circuit_id}/races.json"
+                f"?limit=100", state, f"held:{circuit_id}", now, week)
+    races = ((held or {}).get("MRData", {}).get("RaceTable", {})
+             .get("Races") or [])
+    if races:
+        out["held"] = len(races)
+        out["first"] = races[0].get("season")
+
+    won = _ask(session, f"{JOLPICA}/circuits/{circuit_id}/results/1.json"
+               f"?limit=100", state, f"won:{circuit_id}", now, week)
+    wins = ((won or {}).get("MRData", {}).get("RaceTable", {})
+            .get("Races") or [])
+    if wins:
+        last = wins[-1]
+        row = (last.get("Results") or [{}])[0]
+        out["last_winner"] = row.get("Driver", {}).get("code")
+        out["last_winner_team"] = row.get("Constructor", {}).get("name")
+        out["last_winner_year"] = last.get("season")
+        out["laps"] = row.get("laps")
+        tally: dict[str, int] = {}
+        for race in wins:
+            code = ((race.get("Results") or [{}])[0]
+                    .get("Driver", {}).get("code"))
+            if code:
+                tally[code] = tally.get(code, 0) + 1
+        best = sorted(tally.items(), key=lambda pair: -pair[1])[:1]
+        if best and best[0][1] > 1:
+            out["most_wins"] = best[0]
+    return out
 
 
 def the_colours(session, state, now) -> dict:
@@ -336,6 +406,17 @@ def the_session_detail(session, state, now, colours) -> dict:
         code, who = numbers.get(top["driver_number"], ("?", {}))
         out["top_speed"] = {"code": code, "kph": top["st_speed"],
                             "colour": who.get("colour", "")}
+    stints = _ask(session, f"{OPENF1}/stints?session_key=latest", state,
+                  "stints", now, QUICKLY) or []
+    latest: dict = {}
+    for stint in stints:
+        latest[stint.get("driver_number")] = stint
+    out["tyres"] = [
+        {"compound": s.get("compound"),
+         "code": numbers.get(n, (f"#{n}", {}))[0],
+         "laps": (s.get("lap_end") or 0) - (s.get("lap_start") or 0) + 1}
+        for n, s in list(latest.items())[:12] if s.get("compound")]
+
     pit = _ask(session, f"{OPENF1}/pit?session_key=latest", state, "pit",
                now, QUICKLY) or []
     if pit:
@@ -347,6 +428,19 @@ def the_session_detail(session, state, now, colours) -> dict:
                      if best else ""),
             "s": best["pit_duration"] if best else 0}
     return out
+
+
+def the_meeting(session, state, now) -> dict | None:
+    """The meeting the paddock is at, for the circuit key and its type.
+
+    Between weekends OpenF1's "latest" is the LAST meeting rather than
+    the next, so this is only ever asked for the circuit's own shape and
+    its type — never for a time, which is the one thing it would be
+    wrong about.
+    """
+    data = _ask(session, f"{OPENF1}/meetings?year={now.year}", state,
+                "meetings", now, SLOWLY)
+    return (data or [None])[-1] if isinstance(data, list) else None
 
 
 def which_board(now, calendar) -> tuple[str, dict | None, tuple | None]:
@@ -389,43 +483,106 @@ def a_page(mode, state) -> str:
         for name, when in nxt["sessions"]:
             local = when.astimezone(VIEWER)
             lines.append(f"  {name:<11} {local:%a %d.%m}  {local:%H:%M}")
+    facts = state.get("facts") or {}
+    told = []
+    if facts.get("corners"):
+        told.append(f"{facts['corners']} منعطف")
+    if facts.get("laps"):
+        told.append(f"{facts['laps']} لفة")
+    if facts.get("type"):
+        told.append(facts["type"])
+    if facts.get("first"):
+        told.append(f"منذ {facts['first']}")
+    if facts.get("held"):
+        told.append(f"{facts['held']} سباق هنا")
+    if told:
+        lines += ["", "الحلبة:", "  " + "  ·  ".join(told)]
+    if facts.get("last_winner"):
+        lines.append(f"  آخر فائز هنا: {facts['last_winner']} "
+                     f"({facts.get('last_winner_year', '')})")
+    most = facts.get("most_wins")
+    if most:
+        lines.append(f"  الأكثر فوزاً هنا: {most[0]} — {most[1]}")
+
     table = state.get("drivers") or []
     if table:
         lines += ["", "ترتيب السائقين:"]
-        for row in table[:6]:
+        for row in table[:10]:
             lines.append(f"  {row['pos']:>2}. {row['code']:<4} "
-                         f"{row['team']:<16} {row['points']:>4}")
+                         f"{row['team']:<18} {row['points']:>4}")
+    teams = state.get("teams") or []
+    if teams:
+        lines += ["", "ترتيب الفرق:"]
+        for row in teams[:6]:
+            lines.append(f"  {row['pos']:>2}. {row['name']:<20} "
+                         f"{row['points']:>4}")
     return "\n".join(lines)
 
 
-def publish(now, mode, state) -> int:
+def the_pages(now, mode, state) -> list:
+    """Which boards this pass draws, in the order the reel plays them.
+
+    ONE BOARD WAS LOSING THINGS. The championship, the circuit and a
+    session's own numbers were being squeezed onto one screen and
+    dropping off the bottom of it. This channel is a reel like every
+    other one here: each page carries one subject at a size a
+    television can read, and nothing has to be left out to fit.
+    """
     import f1_board
-    os.makedirs(BOARD_DIR, exist_ok=True)
+    pages = []
     if mode == "live":
-        board = f1_board.draw_live(now, dict(state["live"], **state["detail"],
-                                             shape=state.get("shape") or [],
-                                             rotation=state.get("rotation", 0),
-                                             corners=state.get("corners", 0)))
+        live = dict(state["live"], **state["detail"],
+                    shape=state.get("shape") or [],
+                    rotation=state.get("rotation", 0),
+                    corners=state.get("corners", 0))
+        pages.append(f1_board.draw_live(now, live))
+        pages.append(f1_board.page_session(now, live))
+    elif mode == "weekend":
+        pages.append(f1_board.draw_weekend(now, VIEWER, state))
+    else:
+        pages.append(f1_board.draw_between(now, VIEWER, state))
+    # THE TRACK AND THE CHAMPIONSHIP FOLLOW ON EVERY MODE, because they
+    # are true whether or not a car is on the circuit — and they are
+    # what this channel has on the five days it has nothing else.
+    if state.get("shape") or state.get("facts"):
+        pages.append(f1_board.page_track(now, state))
+    if state.get("drivers"):
+        pages.append(f1_board.page_championship(now, state))
+    return pages
+
+
+def publish(now, mode, state) -> int:
+    import io
+
+    from PIL import Image
+
+    from match_board import forget_boards_past
+
+    os.makedirs(BOARD_DIR, exist_ok=True)
+    pages = the_pages(now, mode, state)
+    for number, board in enumerate(pages):
+        path = os.path.join(BOARD_DIR, f"{BOARD_PREFIX}{number}.png")
+        buffer = io.BytesIO()
+        board.convert("RGB").convert(
+            "P", palette=Image.ADAPTIVE, colors=64).save(buffer, format="PNG",
+                                                         optimize=True)
+        fresh = buffer.getvalue()
+        if not os.path.exists(path) or open(path, "rb").read() != fresh:
+            with open(path, "wb") as out:
+                out.write(fresh)
+            log(f"  board {BOARD_PREFIX}{number}.png redrawn "
+                f"({len(fresh) // 1024} KB)")
+    # A BOARD THIS PASS DID NOT WRITE IS A BOARD PLAYING SOMETHING OVER.
+    # The page count moves with the mode — a live session draws five
+    # where a quiet Tuesday draws three — so the ones past the end go.
+    forget_boards_past(BOARD_PREFIX, len(pages), BOARD_DIR)
+
+    if mode == "live":
         title = f"🔴 {state['live']['session']} — {state['live']['circuit']}"
     elif mode == "weekend":
-        board = f1_board.draw_weekend(now, VIEWER, state)
         title = f"{state['next']['name']} — نهاية الأسبوع"
     else:
-        board = f1_board.draw_between(now, VIEWER, state)
-        title = (f"{state['next']['name']}" if state.get("next")
-                 else CHANNEL_EN)
-
-    path = os.path.join(BOARD_DIR, f"{BOARD_PREFIX}0.png")
-    from PIL import Image
-    buffer = __import__("io").BytesIO()
-    board.convert("RGB").convert("P", palette=Image.ADAPTIVE,
-                                 colors=64).save(buffer, format="PNG",
-                                                 optimize=True)
-    fresh = buffer.getvalue()
-    if not os.path.exists(path) or open(path, "rb").read() != fresh:
-        with open(path, "wb") as out:
-            out.write(fresh)
-        log(f"  board {BOARD_PREFIX}0.png redrawn ({len(fresh)//1024} KB)")
+        title = (state["next"]["name"] if state.get("next") else CHANNEL_EN)
 
     tv = ET.Element("tv", {"generator-info-name": "Formula 1"})
     channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
@@ -441,7 +598,8 @@ def publish(now, mode, state) -> int:
                       title=title, desc=page, icon=RAW)
     ok = write_xml_atomic(tv, OUTPUT, generator_name="Formula 1",
                           guard_regression=False, min_programmes=1)
-    log(f"{CHANNEL_AR}: {mode} board, {HOURS_AHEAD} programme(s)")
+    log(f"{CHANNEL_AR}: {mode}, {len(pages)} board(s), "
+        f"{HOURS_AHEAD} programme(s)")
     return 0 if ok else 1
 
 
@@ -469,13 +627,17 @@ def build() -> int:
         page["next_session"] = ahead
         shape, rotation, corners = [], 0, 0
         live = the_session_now(session, state, now, colours) if mode == "live" else None
+        meeting = live["meeting"] if live else the_meeting(session, state, now)
+        if meeting:
+            shape, rotation, corners = the_shape(session, state, now, meeting)
         if live:
-            shape, rotation, corners = the_shape(session, state, now,
-                                                 live["meeting"])
             page["live"] = live
             page["detail"] = the_session_detail(session, state, now, colours)
         page["shape"], page["rotation"], page["corners"] = (shape, rotation,
                                                             corners)
+        page["facts"] = the_track_facts(session, state, now,
+                                        race.get("circuit_id"), meeting,
+                                        corners)
     if mode == "live" and "live" not in page:
         # THE CLOCK SAID A SESSION WAS ON AND THE FEED DID NOT AGREE.
         # A board that says LIVE with nothing under it is worse than one
@@ -483,6 +645,22 @@ def build() -> int:
         mode = "weekend"
     log(f"  F1: {mode} — round {page['round']} of {page['rounds']}")
     result = publish(now, mode, page)
+
+    # AND AGAIN IN THE GULF'S CLOCK, on its own link, exactly as every
+    # other channel does. Wrapped so a failure in the second render
+    # cannot take the first one's guide down with it — the published
+    # board is already on disk by the time this runs.
+    import dubai_time
+    try:
+        with dubai_time.the_other_clock(
+                globals(), VIEWER=dubai_time.DUBAI,
+                VIEWER_NAME=dubai_time.DUBAI_NAME, OUTPUT=DUBAI_OUTPUT,
+                CHANNEL_ID=DUBAI_CHANNEL_ID, BOARD_PREFIX=DUBAI_BOARD_PREFIX,
+                RAW=DUBAI_RAW):
+            publish(now, mode, page)
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"the UAE-clock F1 guide could not be written ({exc}) — "
+             f"the published one is unchanged")
     _keep(state)
     return result
 

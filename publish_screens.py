@@ -113,6 +113,8 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     # the viewer's zone already, so a second copy would say the same
     # thing twice.
     "f1": ("f1_", "f1_epg.xml", "f1.m3u8", "f1.sha256"),
+    "dubai_f1": ("dubai_f1_", "dubai_f1_epg.xml", "dubai_f1.m3u8",
+                 "dubai_f1.sha256"),
     # The tenth channel — القنوات التركية · PPV, in both clocks.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv_epg.xml",
                     "turkish_ppv.m3u8", "turkish_ppv.sha256"),
@@ -320,7 +322,7 @@ def stage() -> int:
     for path in ("ball_sports_epg.xml", "dubai_ball_sports_epg.xml",
                  "hoops_gridiron_epg.xml", "dubai_hoops_gridiron_epg.xml",
                  "turkish_ppv_epg.xml", "dubai_turkish_ppv_epg.xml",
-                 "f1_epg.xml",
+                 "f1_epg.xml", "dubai_f1_epg.xml",
                  "other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",

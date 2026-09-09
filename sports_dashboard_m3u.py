@@ -211,6 +211,9 @@ DUBAI_SCREENS = (
     ("TurkishPPVDubai", TPPV_AR, "stream/dubai_turkish_ppv.m3u8",
      f"{RAW}/stream/dubai_turkish_ppv.m3u8",
      "🇹🇷 Turkish PPV · بتوقيت الإمارات", TPPV_LOGO),
+    ("Formula1Dubai", F1_AR, "stream/dubai_f1.m3u8",
+     f"{RAW}/stream/dubai_f1.m3u8",
+     "🏁 Formula 1 · بتوقيت الإمارات", F1_LOGO),
 
 )
 
