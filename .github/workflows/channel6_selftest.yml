@@ -39,6 +39,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      # The generator imports PIL at module level and the selftest loads
+      # the generator, so the drawing library is needed even though
+      # nothing here draws.
+      - name: Install what the generator imports
+        run: python -m pip install --quiet pillow
       - name: The invariants
         run: python3 channel6_selftest.py
       # AND THE PROOF THAT THE TEST STILL BITES. A test nobody has seen
