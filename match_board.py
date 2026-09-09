@@ -1181,6 +1181,18 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # allows. The two bounds below still hold it inside the band.
             box = min(60 if tall_row else 44, 2 * (crest_y - y - 6),
                       2 * (y + height - 6 - crest_y))
+            # AND IT BELONGS ON THE NAME'S OWN LINE, beside the التالي or
+            # مباشر pill, which is already drawn there. It sat seven
+            # pixels below both — measured, not guessed — so a row read
+            # as a badge that had not lined up with its own words.
+            #
+            # It is raised to that line as far as it can go WITHOUT
+            # shrinking: the size is settled first, and the crest then
+            # takes the highest place that size still fits inside the
+            # band. On a 130px row that is the name's line exactly. On a
+            # 62px one the crest is already as high as it can sit, so
+            # nothing moves and a full page is drawn as it was.
+            crest_y = max(head_y, y + 6 + box // 2)
             gap, gutter = 12, 34
             side_room = centre - gutter - left_edge - box - gap
             fitted = size
