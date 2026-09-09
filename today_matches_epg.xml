@@ -5,14 +5,8 @@
     <display-name lang="ar">مباريات اليوم</display-name>
     <display-name lang="en">Today's Matches</display-name>
   </channel>
-  <programme start="20260908070000 +0000" stop="20260909070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁧انتهت مباريات اليوم — 13 مباراة⁩</title>
-    <desc lang="ar">مباريات الثلاثاء 08/09 — بتوقيتك
-انتهت مباريات اليوم</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
-  </programme>
   <programme start="20260909070000 +0000" stop="20260910070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 7 ساعات و22 دقيقة ⁨·⁩ ⁨Future FC - Wadi Degla SC · On Sport Plus⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 6 ساعات و3 دقائق ⁨·⁩ ⁨Future FC - Wadi Degla SC · On Sport Plus⁩⁩</title>
     <desc lang="ar">مباريات الأربعاء 09/09 — بتوقيتك
 ⁦⏳ 07:00  Future FC - Wadi Degla SC⁩
         On Sport Plus
@@ -37,11 +31,11 @@
 ⁦⚪ 11:45  Norwich City - Birmingham City⁩
         Sky+
 ⁦⚪ 12:00  PSG - Slovan Bratislava⁩
-        beIN 1 · TNT 3 · Paramount+ +6
+        beIN 1 · TNT 3 · Paramount+ +7
 ⁦⚪ 12:00  Napoli - Arsenal⁩
-        beIN 2 · TNT 2 · Paramount+ +9
+        beIN 2 · TNT 2 · Paramount+ +10
 ⁦⚪ 12:00  Liverpool - Atl. Madrid⁩
-        beIN 3 · TNT 1 · Paramount+ +7
+        beIN 3 · TNT 1 · Paramount+ +8
 ⁦⚪ 12:00  Sporting CP - Galatasaray⁩
         beIN 4 · TNT 6 · CBS Sports Network +7
 ⁦⚪ 12:00  Charlton Athletic - QPR⁩
@@ -52,10 +46,10 @@
         Apple TV · SiriusXM FC · Nexgen +1
 ⁦⚪ 19:30  Los Angeles FC - New York Red Bulls⁩
         Apple TV · SPOTV Prime · Coupang Play</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_2.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260910070000 +0000" stop="20260911070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد يوم و6 ساعات ⁨·⁩ ⁨Pharco FC - Baladiyat El Mahalla · On Sport Max⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد يوم و5 ساعات ⁨·⁩ ⁨Pharco FC - Baladiyat El Mahalla · On Sport Max⁩⁩</title>
     <desc lang="ar">مباريات الخميس 10/09 — بتوقيتك
 ⁦⏳ 06:30  Pharco FC - Baladiyat El Mahalla⁩
         On Sport Max
@@ -75,6 +69,37 @@
         beIN 4 · TNT 5 · HBO Max
 ⁦⚪ 12:00  Como - RB Leipzig⁩
         beIN 3 · TNT 3 · HBO Max +1</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_3.png" />
+  </programme>
+  <programme start="20260911070000 +0000" stop="20260912070000 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏳ بعد يومين و5 ساعات ⁨·⁩ ⁨Tersana SC - El-Mansoura SC · ON Sport⁩⁩</title>
+    <desc lang="ar">مباريات الجمعة 11/09 — بتوقيتك
+⁦⏳ 06:30  Tersana SC - El-Mansoura SC⁩
+        ON Sport
+⁦⚪ 06:30  El Entag El Harby - Ismaily SC⁩
+        On Sport Max
+⁧⚪ 08:00  الحسين - البقعة⁩
+        الأردن الرياضية
+⁦⚪ 08:25  Al Qadisiya - Al Ettifaq⁩
+        Thmanyah
+⁦⚪ 08:45  Al Faisaly FC - Al-Ittihad Jeddah Club⁩
+        Thmanyah
+⁦⚪ 09:50  Beşiktaş - Erzurumspor⁩
+        beIN 1
+⁧⚪ 10:30  الفيصلي - دوقرة⁩
+        الأردن الرياضية
+⁦⚪ 11:00  Al Ahli - Al-Hazem SC⁩
+        Thmanyah
+⁦⚪ 11:30  Union Berlin - Schalke⁩
+        MBC Shahid · MBC Action
+⁦⚪ 11:45  Rennes - Marseille⁩
+        beIN 2 · Ligue1+ · beIN FR 2
+⁦⚪ 11:45  Venezia - Fiorentina⁩
+        DAZN
+⁦⚪ 12:00  Sevilla - Valencia⁩
+        beIN 4 · Premier Sports 2
+⁦⚪ 12:00  West Ham - Wrexham⁩
+        beIN 3 · Sky Main Event · beIN 1 EN +1</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_5.png" />
   </programme>
 </tv>
