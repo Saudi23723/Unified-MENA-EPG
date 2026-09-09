@@ -158,6 +158,12 @@ def draw_track(board, pen, points, box, rotation=0, tone=None, width=5):
     return line
 
 
+def _dim(tone, share: float = 0.22):
+    """A team's colour at the weight a bar behind text can carry."""
+    return (int(tone[0] * share), int(tone[1] * share),
+            int(tone[2] * share), 255)
+
+
 def _hex(code: str):
     code = (code or "").lstrip("#")
     if len(code) != 6:
@@ -453,3 +459,71 @@ def draw_weekend(now, viewer, state) -> Image.Image:
         y += 38
     _foot(pen, now)
     return board
+
+
+def selftest() -> int:
+    """Draw all three boards from a made-up state, so a name that is not
+    defined is found here rather than on a runner.
+
+    THIS EXISTS BECAUSE ONE WAS NOT. _dim went missing when this file was
+    trimmed, every import still passed, and the channel got as far as a
+    GitHub runner before anything said so — "F1: between — round 13 of
+    23", then NameError. A drawing is not exercised by importing it.
+    """
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+    now = datetime.now(timezone.utc)
+    viewer = ZoneInfo("Asia/Riyadh")
+    table = [{"pos": str(n), "code": "ABC", "team": "Mercedes",
+              "points": str(300 - n * 30), "wins": str(n), "colour": "00D7B6"}
+             for n in range(1, 9)]
+    nxt = {"round": "14", "name": "A Grand Prix", "circuit": "A Circuit",
+           "locality": "A Town", "country": "A Country",
+           "race_at": now + timedelta(days=4),
+           "sessions": [(n, now + timedelta(days=2, hours=h)) for h, n in
+                        enumerate(("FP1", "FP2", "FP3", "QUALIFYING",
+                                   "RACE"))]}
+    last = {"at": "A Grand Prix", "top": [
+        {"pos": str(n), "code": "XYZ", "team": "Ferrari", "grid": "9",
+         "colour": "ED1131"} for n in range(1, 5)]}
+    state = {"round": "13", "rounds": "23", "drivers": table,
+             "teams": [{"pos": "1", "name": "Mercedes", "points": "468"}],
+             "last": last, "next": nxt, "next_session": nxt["sessions"][0],
+             "qualifying": [{"pos": "1", "code": "GAS", "time": "1:21.786",
+                             "colour": "00A1E8"}],
+             "shape": [[0, 0], [900, 200], [1400, 900], [400, 1200]],
+             "rotation": 20, "corners": 11}
+    live = {"session": "Race", "circuit": "A Circuit", "country": "A Country",
+            "flag": "GREEN", "lap": 12, "laps": 53,
+            "weather": {"track_temperature": 41.0, "air_temperature": 27.0,
+                        "humidity": 40.0, "rainfall": 0, "wind_speed": 1.2},
+            "order": [{"code": "ABC", "team": "Mercedes", "colour": "00D7B6",
+                       "gap": "LEADER" if n == 1 else f"+{n}.100"}
+                      for n in range(1, 10)],
+            "fastest": {"code": "ABC", "colour": "00D7B6", "lap": 11,
+                        "time": 83.5, "sectors": [27.2, 28.6, 27.5],
+                        "trap": 314},
+            "top_speed": {"code": "XYZ", "kph": 338, "colour": "ED1131"},
+            "pits": {"count": 12, "best": "ABC", "s": 24.2},
+            "shape": state["shape"], "rotation": 20, "corners": 11}
+    drawn = 0
+    for name, call in (("live", lambda: draw_live(now, live)),
+                       ("weekend", lambda: draw_weekend(now, viewer, state)),
+                       ("between", lambda: draw_between(now, viewer, state))):
+        board = call()
+        if board.size != (W, H):
+            print(f"  FAIL {name}: {board.size}")
+            return 1
+        drawn += 1
+        print(f"  ok   {name} board drawn {board.size}")
+    # and with everything optional missing, which is what a rate-limited
+    # pass actually hands it
+    bare = dict(state, qualifying=[], shape=[], teams=[])
+    draw_between(now, viewer, bare)
+    print("  ok   between board with nothing optional in it")
+    print(f"{drawn} board(s) drawn")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(selftest())

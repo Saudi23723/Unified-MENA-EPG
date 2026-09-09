@@ -24,6 +24,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Install the fonts the board is drawn with
         run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+      - name: Draw all three boards from nothing
+        run: python -u f1_board.py
       - name: Build the F1 channel for real
         run: python -u f1_epg.py
       - name: What it produced
