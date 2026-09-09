@@ -51,7 +51,13 @@ from zoneinfo import ZoneInfo
 from epg_lib import add_programme, fetch, log, new_session, warn, write_xml_atomic
 
 UTC = timezone.utc
-VIEWER = ZoneInfo("Asia/Riyadh")
+# THE SAME CLOCK EVERY OTHER CHANNEL HERE WEARS, and it was wrong: this
+# was written with Asia/Riyadh in it, so a Grand Prix that starts at
+# 13:00 UTC printed 16:00 on a screen whose every neighbour would have
+# printed 06:00. "بتوقيتك" means one zone across the service or it means
+# nothing, and that zone is America/Los_Angeles — today_matches_epg,
+# other_sports_epg, news_epg and weather_epg all say so.
+VIEWER = ZoneInfo("America/Los_Angeles")
 VIEWER_NAME = "بتوقيتك"
 
 CHANNEL_ID = "Formula1"
@@ -65,6 +71,18 @@ RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
        "main/boards/f1_0.png")
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/f1.png")
+
+# THE SECOND CLOCK. Every other channel here publishes twice — the same
+# rows with every time printed in the Gulf's — and this one refused to,
+# on the reasoning that a Grand Prix is one instant everywhere. That is
+# true of the instant and useless to a viewer: what they read is the
+# hour it lands on THEIR wall, and the Gulf's link exists to say that
+# hour. So it publishes twice like the rest.
+DUBAI_OUTPUT = "dubai_f1_epg.xml"
+DUBAI_CHANNEL_ID = "Formula1Dubai"
+DUBAI_BOARD_PREFIX = "dubai_f1_"
+DUBAI_RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             "main/boards/dubai_f1_0.png")
 
 JOLPICA = "https://api.jolpi.ca/ergast/f1"
 OPENF1 = "https://api.openf1.org/v1"
@@ -483,6 +501,22 @@ def build() -> int:
         mode = "weekend"
     log(f"  F1: {mode} — round {page['round']} of {page['rounds']}")
     result = publish(now, mode, page)
+
+    # AND AGAIN IN THE GULF'S CLOCK, on its own link, exactly as every
+    # other channel does. Wrapped so a failure in the second render
+    # cannot take the first one's guide down with it — the published
+    # board is already on disk by the time this runs.
+    import dubai_time
+    try:
+        with dubai_time.the_other_clock(
+                globals(), VIEWER=dubai_time.DUBAI,
+                VIEWER_NAME=dubai_time.DUBAI_NAME, OUTPUT=DUBAI_OUTPUT,
+                CHANNEL_ID=DUBAI_CHANNEL_ID, BOARD_PREFIX=DUBAI_BOARD_PREFIX,
+                RAW=DUBAI_RAW):
+            publish(now, mode, page)
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"the UAE-clock F1 guide could not be written ({exc}) — "
+             f"the published one is unchanged")
     _keep(state)
     return result
 

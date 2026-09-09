@@ -139,6 +139,7 @@ SCREENS = {
     # paged. TWENTY SECONDS because it divides 140 and lands on a whole
     # AAC frame (f1_epg.py says why there is only ever one board).
     "f1": ("f1_", "f1.m3u8", "f1.sha256", 20),
+    "dubai_f1": ("dubai_f1_", "dubai_f1.m3u8", "dubai_f1.sha256", 20),
     # THE TENTH CHANNEL — القنوات التركية · PPV: the Turkish grid alone.
     # FOURTEEN, AND THE NUMBER IS NOT FREE. A page of five fixtures is
     # read faster than a page of eight, and this channel now draws five
@@ -467,6 +468,7 @@ THEMES = {
     "dubai_ball_sports": "audio/theme_sports.m4a",
     "hoops_gridiron": "audio/theme_sports.m4a",
     "f1": "audio/theme_sports.m4a",
+    "dubai_f1": "audio/theme_sports.m4a",
     "dubai_hoops_gridiron": "audio/theme_sports.m4a",
     "turkish_ppv": "audio/theme_sports.m4a",
     "dubai_turkish_ppv": "audio/theme_sports.m4a",

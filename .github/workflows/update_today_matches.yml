@@ -63,6 +63,8 @@ jobs:
         run: python -u match_screen_video.py dubai_hoops_gridiron
       - name: Encode Formula 1 channel
         run: python -u match_screen_video.py f1
+      - name: Encode UAE Formula 1 channel
+        run: python -u match_screen_video.py dubai_f1
       - name: Encode Turkish PPV channel
         run: python -u match_screen_video.py turkish_ppv
       - name: Encode UAE Turkish PPV channel
