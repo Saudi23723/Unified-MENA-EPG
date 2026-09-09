@@ -4,6 +4,8 @@ on:
     paths:
       - "probes/probe_track_weather.py"
       - ".github/workflows/probe_track_weather.yml"
+      - "f1_epg.py"
+      - "f1_board.py"
   workflow_dispatch:
 permissions:
   contents: read

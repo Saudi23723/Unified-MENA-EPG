@@ -307,9 +307,21 @@ def the_track_weather(session, state, now, race) -> dict:
            f"relative_humidity_2m,weather_code,wind_speed_10m,"
            f"precipitation,is_day"
            f"&hourly=precipitation_probability,soil_temperature_0cm"
-           f"&forecast_days=2&timezone=auto")
-    data = _ask(session, url, state, f"weather:{lat},{lon}", now,
-                WEATHER_EVERY)
+           f"&forecast_days=1&timezone=auto")
+
+    # ONE CIRCUIT'S WEATHER IS KEPT, NOT THE SEASON'S. This state file
+    # is committed on every pass, and a key for each of 23 rounds would
+    # be 23 forecasts of dead weight in it. But a single key must never
+    # hand Madrid's weather to Monza the week the calendar moves on —
+    # so the coordinates it was fetched for are kept beside it, and a
+    # different circuit throws the cached answer away rather than
+    # waiting a quarter of an hour to stop being wrong.
+    for stale in [k for k in state if k.startswith("weather:")]:
+        state.pop(stale, None)                     # keys from before this
+    if state.get("weather_at") != f"{lat},{lon}":
+        state.pop("weather", None)
+        state["weather_at"] = f"{lat},{lon}"
+    data = _ask(session, url, state, "weather", now, WEATHER_EVERY)
     current = (data or {}).get("current") or {}
     if current.get("temperature_2m") is None:
         return {}
