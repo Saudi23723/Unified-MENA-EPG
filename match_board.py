@@ -42,6 +42,7 @@ has some depth to it:
 """
 from __future__ import annotations
 
+import math
 import os
 import re
 from datetime import date, datetime, timedelta
@@ -560,6 +561,74 @@ def crest(name: str, box: int):
     return image
 
 
+# THE TWO EMPTY BOXES WHERE A FLAG SHOULD BE. A flag emoji is not a
+# glyph — it is two regional-indicator letters a font is expected to
+# join — and none of the faces this board can reach carries either of
+# them. The Turkish channel's masthead therefore read "▯▯ TURKISH PPV"
+# on the television. No font this build can install will fix that, so
+# the flag is DRAWN rather than typed, and a country with no drawing has
+# its emoji dropped instead of printed as boxes.
+A_FLAG = re.compile("[\U0001F1E6-\U0001F1FF]{2}")
+
+TURKISH_RED = (227, 10, 23, 255)
+
+
+def flag_code(pair: str) -> str:
+    """"🇹🇷" -> "TR". The pair is two letters written in another block."""
+    return "".join(chr(ord(letter) - 0x1F1E6 + ord("A")) for letter in pair)
+
+
+def flag_art(code: str, height: int):
+    """A country's flag drawn at this height, or None for one not drawn.
+
+    Turkey's is built to its own law rather than by eye: Flag Law No.
+    2893 fixes every measure as a fraction of the hoist — the crescent's
+    outer circle centred at 0.5 of it and half of it across, the inner
+    circle at 0.5625 and 0.4 across, the star's circle at 0.815 and a
+    quarter across — and the star turns one point toward the crescent.
+    Drawn at four times the size and brought back down, because a
+    crescent is two circles subtracting and their edge is the whole
+    shape.
+    """
+    if code != "TR" or height < 8:
+        return None
+    over = 4
+    tall = height * over
+    wide = int(round(tall * 1.5))
+    art = Image.new("RGBA", (wide, tall), TURKISH_RED)
+    pen = ImageDraw.Draw(art)
+
+    def circle(at: float, across: float, fill) -> None:
+        radius = across * tall / 2
+        middle = at * tall
+        pen.ellipse([middle - radius, tall / 2 - radius,
+                     middle + radius, tall / 2 + radius], fill=fill)
+
+    circle(0.5, 0.5, WHITE)
+    circle(0.5625, 0.4, TURKISH_RED)
+
+    middle, radius = 0.815 * tall, 0.125 * tall
+    star = []
+    for step in range(10):
+        angle = math.pi + step * math.pi / 5
+        # the notch of a five-pointed star, sin(18°) / sin(126°)
+        reach = radius if step % 2 == 0 else radius * 0.38197
+        star.append((middle + reach * math.cos(angle),
+                     tall / 2 + reach * math.sin(angle)))
+    pen.polygon(star, fill=WHITE)
+    return art.resize((wide // over, tall // over), Image.LANCZOS)
+
+
+def a_masthead(title: str, height: int):
+    """The channel name as it is drawn, and the flag drawn beside it."""
+    art = None
+    found = A_FLAG.search(title)
+    if found:
+        art = flag_art(flag_code(found.group(0)), height)
+        title = A_FLAG.sub("", title).strip()
+    return title, art
+
+
 def initials(name: str) -> str:
     words = [word for word in re.split(r"[\s.]+", name) if word]
     letters = "".join(word[0] for word in words if word[0].isalnum())
@@ -693,7 +762,11 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     draw_mark(pen, PAD, PAD - 6, 76, accent)
     x = PAD + 76 + 24
 
-    draw_text(pen, (x, PAD - 4), title, 46, WHITE)
+    head, badge = a_masthead(title, 34)
+    if badge:
+        board.alpha_composite(badge, (x, PAD + 18 - badge.height // 2))
+        x += badge.width + 16
+    draw_text(pen, (x, PAD - 4), head, 46, WHITE)
     draw_text(pen, (x, PAD + 52), subtitle, 21, MUTED, thin=True)
 
     right = W - PAD
@@ -1140,9 +1213,16 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
 
     # ---- masthead -------------------------------------------------------
     draw_mark(pen, PAD, 30, 54, accent)
-    head = title.upper() if not ARABIC.search(title) else title
-    draw_text(pen, (W // 2, 52), clipped(head, 40, 720, weight="heavy"), 40,
-              WHITE, anchor="mm", weight="heavy")
+    head, badge = a_masthead(title, 30)
+    head = head.upper() if not ARABIC.search(head) else head
+    beside = badge.width + 16 if badge else 0
+    head = clipped(head, 40, 720 - beside, weight="heavy")
+    span = width_of(head, 40, weight="heavy") + beside
+    x = (W - span) // 2
+    if badge:
+        board.alpha_composite(badge, (x, 52 - badge.height // 2))
+        x += beside
+    draw_text(pen, (x, 52), head, 40, WHITE, anchor="lm", weight="heavy")
     if subtitle:
         draw_text(pen, (W // 2, 84), clipped(subtitle, 17, 760, thin=True),
                   17, MUTED, anchor="mm", thin=True)
