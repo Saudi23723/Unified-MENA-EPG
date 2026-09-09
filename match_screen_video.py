@@ -829,7 +829,28 @@ def encode_segment(board: str, out: str, place: int = 0,
         "-g", str(FPS * KEYFRAME_SECONDS),
         "-keyint_min", str(FPS * KEYFRAME_SECONDS),
         "-sc_threshold", "0",
-        "-crf", "32",
+        # HOW SHARP THE LETTERS ARE, and it is the only lever there is.
+        # A board is small type on flat panels — the case h.264 handles
+        # worst — and at CRF 32 the encoder was spending so little on it
+        # that letter edges came back smeared and the panels behind them
+        # carried ringing around every word. Photographed off the
+        # television and reported as exactly that.
+        #
+        # MEASURED, on a real board, at the keyframe interval this
+        # encoder actually uses:
+        #
+        #     CRF 32   374 KB   SSIM(Y) 0.99566   <- what it was
+        #     CRF 28   433 KB           0.99829
+        #     CRF 26   470 KB           0.99898
+        #     CRF 24   510 KB           0.99935   <- the knee
+        #     CRF 22   555 KB           0.99943
+        #     CRF 20   609 KB           0.99974
+        #
+        # 24 is where the curve flattens: a third more bytes for a sixth
+        # of the error, and past it the bytes buy almost nothing. The
+        # tune is already the right one — stillimage beat animation and
+        # no tune at all at the same CRF, on both size and SSIM.
+        "-crf", "24",
         *codec,
         *maps,
         "-shortest", "-t", f"{hold:.6f}", "-muxdelay", "0",
