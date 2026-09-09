@@ -34,7 +34,7 @@ from today_matches_epg import in_the_readers_order as channels_in_order
 from today_matches_epg import shorter
 
 CHANNEL_ID = "TurkishPPV"
-CHANNEL_AR = "القنوات التركية · PPV"
+CHANNEL_AR = "🇹🇷 Turkish PPV"
 SUBTITLE = "كل رياضة وكل بطولة على الشاشات التركية"
 OUTPUT = "turkish_ppv_epg.xml"
 BOARD_PREFIX = "turkish_ppv_"
