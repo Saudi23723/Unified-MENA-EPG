@@ -340,6 +340,59 @@ def _foot(pen, now) -> None:
               thin=True)
 
 
+def _fact(pen, x, y, label, value, tone=WHITE, size=26):
+    draw_text(pen, (x, y), label, 14, MUTED, anchor="lm", thin=True)
+    draw_text(pen, (x, y + 30), value, size, tone, anchor="lm",
+              weight="heavy")
+
+
+def draw_facts(pen, box, facts) -> None:
+    """What is true of this circuit, in one band of numbers.
+
+    NONE OF IT IS FETCHED FOR THIS PANEL. The corner count falls out of
+    the shape the board already draws, the type is a field in the
+    meetings feed, and the history is the same calendar this channel
+    already reads, asked about one circuit instead of one season.
+
+    A FACT THAT IS MISSING IS LEFT OUT, not guessed and not zeroed: a
+    board that says "0 corners" is worse than one that says nothing
+    about corners. The numbers that survive are spread across whatever
+    width they have, so three of them and five of them both look laid
+    out rather than left over.
+    """
+    y = _panel(pen, box, "TRACK")
+    told = []
+    if facts.get("last_winner"):
+        told.append(f"last won by {facts['last_winner']}")
+    most = facts.get("most_wins")
+    if most:
+        told.append(f"{most[0]} {most[1]}×")
+    if told:
+        draw_text(pen, (box[2] - 20, box[1] + 24), "  ·  ".join(told), 14,
+                  F1_RED, anchor="rm", weight="mid")
+
+    numbers = []
+    if facts.get("corners"):
+        numbers.append(("CORNERS", str(facts["corners"]), F1_RED))
+    if facts.get("laps"):
+        numbers.append(("RACE LAPS", str(facts["laps"]), WHITE))
+    if facts.get("held"):
+        numbers.append(("HELD", str(facts["held"]), WHITE))
+    if facts.get("first"):
+        numbers.append(("SINCE", str(facts["first"]), WHITE))
+    if facts.get("type"):
+        numbers.append(("CIRCUIT", facts["type"].upper()[:9], MUTED))
+    if not numbers:
+        return
+    room = box[2] - box[0] - 44
+    step = room // len(numbers)
+    for index, (label, value, tone) in enumerate(numbers):
+        x = box[0] + 22 + index * step
+        draw_text(pen, (x, y + 6), label, 14, MUTED, anchor="lm", thin=True)
+        draw_text(pen, (x, y + 36), value, 28 if len(value) < 5 else 20,
+                  tone, anchor="lm", weight="heavy")
+
+
 def draw_between(now, viewer, state) -> Image.Image:
     """No circuit at all. The championship, and what is coming."""
     board = backdrop()
@@ -371,24 +424,17 @@ def draw_between(now, viewer, state) -> Image.Image:
               f"round {state['round']} of {state['rounds']} run", 14, MUTED,
               anchor="rm", thin=True)
 
-    quali = state.get("qualifying") or []
-    if quali:
-        box = [left[0] + 18, row + 80, left[2] - 18, H - 124]
-        y2 = _panel(pen, box, f"LAST QUALIFYING · {state['last']['at'].upper()}")
-        for line in quali[:2]:
-            pen.rounded_rectangle([box[0] + 14, y2 - 12, box[2] - 14, y2 + 18],
-                                  radius=7, fill=PANEL_ALT)
-            pen.rounded_rectangle([box[0] + 18, y2 - 7, box[0] + 24, y2 + 13],
-                                  radius=3, fill=_hex(line.get("colour")))
-            draw_text(pen, (box[0] + 38, y2 + 3), line["pos"], 15, WHITE,
-                      anchor="lm", weight="heavy")
-            draw_text(pen, (box[0] + 62, y2 + 3), line["code"], 17, WHITE,
-                      anchor="lm", weight="heavy")
-            draw_text(pen, (box[2] - 22, y2 + 3), line["time"], 16, MUTED,
-                      anchor="rm", weight="mid")
-            y2 += 36
+    # AND THE CIRCUIT ITSELF, in the room the sessions leave. A viewer
+    # recognises Monza's straights or Monaco's harbour before they read
+    # either name, and this board has already paid for the coordinates.
+    if state.get("shape") and row + 86 < H - 150:
+        draw_track(board, pen, state["shape"],
+                   [left[0] + 40, row + 86, left[2] - 40, H - 132],
+                   rotation=state.get("rotation", 0),
+                   tone=(78, 96, 132, 255), width=5)
 
-    right = [PAD + 554, 122, W - PAD, 486]
+
+    right = [PAD + 554, 122, W - PAD, 486]  # its foot carries the title
     y = _panel(pen, right, "DRIVERS' CHAMPIONSHIP")
     table = state.get("drivers") or []
     lead = float(table[0]["points"]) if table else 1
@@ -399,24 +445,31 @@ def draw_between(now, viewer, state) -> Image.Image:
                  f"{line['wins']} wins" if int(line["wins"]) else "")
         y += 34
 
-    title = [PAD + 554, 504, W - PAD, H - 116]
-    y = _panel(pen, title, "THE TITLE")
+    # THE TITLE, on the championship's own foot rather than in a panel
+    # of its own — it is two numbers about the table above it, and a
+    # panel around them was a box to hold a sentence.
     if len(table) >= 2:
         gap = int(table[0]["points"]) - int(table[1]["points"])
-        left_pts = (int(state["rounds"]) - int(state["round"])) * 25
-        _clock(pen, title[0] + 20, y + 8, "LEAD", str(gap),
-               _hex(table[0].get("colour")))
-        draw_text(pen, (title[0] + 96, y + 36), "points", 15, MUTED,
-                  anchor="lm", thin=True)
-        _clock(pen, title[0] + 220, y + 8, "STILL AVAILABLE", str(left_pts))
-        draw_text(pen, (title[0] + 300, y + 36),
-                  f"over {int(state['rounds']) - int(state['round'])} rounds",
-                  15, MUTED, anchor="lm", thin=True)
+        rounds_left = int(state["rounds"]) - int(state["round"])
+        left_pts = rounds_left * 25
+        line = right[3] - 46
+        pen.line([(right[0] + 20, line), (right[2] - 20, line)], fill=RULE,
+                 width=1)
+        draw_text(pen, (right[0] + 20, line + 24),
+                  f"{table[0]['code']} leads by {gap}", 17,
+                  _hex(table[0].get("colour")), anchor="lm", weight="heavy")
+        draw_text(pen, (right[0] + 200, line + 24),
+                  f"{left_pts} still available over {rounds_left} rounds", 15,
+                  MUTED, anchor="lm", weight="mid")
         settled = gap > left_pts
-        draw_text(pen, (title[2] - 20, y + 8),
-                  "DECIDED" if settled else "STILL OPEN", 13,
+        draw_text(pen, (right[2] - 20, line + 24),
+                  "DECIDED" if settled else "STILL OPEN", 14,
                   F1_RED if settled else GREEN_FLAG, anchor="rm",
-                  weight="mid")
+                  weight="heavy")
+
+    facts = state.get("facts") or {}
+    if any(facts.get(k) for k in ("corners", "laps", "held", "first")):
+        draw_facts(pen, [PAD + 554, 504, W - PAD, H - 116], facts)
     _foot(pen, now)
     return board
 
@@ -448,6 +501,12 @@ def draw_weekend(now, viewer, state) -> Image.Image:
                    [track[0] + 40, track[1] + 48, track[2] - 40,
                     track[3] - 20], rotation=state.get("rotation", 0),
                    tone=(90, 110, 150, 255), width=6)
+
+    facts = state.get("facts") or {}
+    if any(facts.get(k) for k in ("corners", "laps", "held", "last_winner")):
+        draw_facts(pen, [PAD + 634, 438, W - PAD, H - 116], facts)
+        _foot(pen, now)
+        return board
 
     box = [PAD + 634, 438, W - PAD, H - 116]
     y = _panel(pen, box, f"LAST RACE · {state['last']['at'].upper()}")
@@ -492,7 +551,11 @@ def selftest() -> int:
              "qualifying": [{"pos": "1", "code": "GAS", "time": "1:21.786",
                              "colour": "00A1E8"}],
              "shape": [[0, 0], [900, 200], [1400, 900], [400, 1200]],
-             "rotation": 20, "corners": 11}
+             "rotation": 20, "corners": 11,
+             "facts": {"corners": 11, "laps": "53", "held": "74",
+                       "first": "1950", "type": "Permanent",
+                       "last_winner": "ANT", "last_winner_year": "2026",
+                       "most_wins": ("HAM", 5)}}
     live = {"session": "Race", "circuit": "A Circuit", "country": "A Country",
             "flag": "GREEN", "lap": 12, "laps": 53,
             "weather": {"track_temperature": 41.0, "air_temperature": 27.0,
@@ -518,9 +581,14 @@ def selftest() -> int:
         print(f"  ok   {name} board drawn {board.size}")
     # and with everything optional missing, which is what a rate-limited
     # pass actually hands it
-    bare = dict(state, qualifying=[], shape=[], teams=[])
+    bare = dict(state, qualifying=[], shape=[], teams=[], facts={})
     draw_between(now, viewer, bare)
     print("  ok   between board with nothing optional in it")
+    draw_weekend(now, viewer, bare)
+    print("  ok   weekend board with no facts to tell")
+    half = dict(state, facts={"corners": 11})
+    draw_between(now, viewer, half)
+    print("  ok   between board knowing only the corner count")
     print(f"{drawn} board(s) drawn")
     return 0
 

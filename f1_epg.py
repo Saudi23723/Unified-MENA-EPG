@@ -214,6 +214,58 @@ def the_shape(session, state, now, meeting) -> tuple[list, int, int]:
             len(data.get("corners") or []))
 
 
+def the_track_facts(session, state, now, circuit_id, meeting,
+                    corners) -> dict:
+    """What can be said about a circuit without buying a source.
+
+    Every one of these is already paid for. The corner count falls out
+    of the shape this board already draws. Whether it is a street
+    circuit or a permanent one is a field in the meetings feed. And the
+    rest is the same calendar this channel already reads, asked about
+    one circuit instead of one season: how many Grands Prix have been
+    held here, the year of the first, who won the last one and in how
+    many laps, and who has won here more than anyone.
+
+    CACHED FOR A WEEK, because none of it can change inside one. A
+    circuit's history is the slowest-moving thing this channel knows.
+    """
+    out = {"corners": corners or 0,
+           "type": (meeting or {}).get("circuit_type") or ""}
+    if not circuit_id:
+        return out
+    week = timedelta(days=7)
+
+    held = _ask(session, f"{JOLPICA}/circuits/{circuit_id}/races.json"
+                f"?limit=100", state, f"held:{circuit_id}", now, week)
+    races = ((held or {}).get("MRData", {}).get("RaceTable", {})
+             .get("Races") or [])
+    if races:
+        out["held"] = len(races)
+        out["first"] = races[0].get("season")
+
+    won = _ask(session, f"{JOLPICA}/circuits/{circuit_id}/results/1.json"
+               f"?limit=100", state, f"won:{circuit_id}", now, week)
+    wins = ((won or {}).get("MRData", {}).get("RaceTable", {})
+            .get("Races") or [])
+    if wins:
+        last = wins[-1]
+        row = (last.get("Results") or [{}])[0]
+        out["last_winner"] = row.get("Driver", {}).get("code")
+        out["last_winner_team"] = row.get("Constructor", {}).get("name")
+        out["last_winner_year"] = last.get("season")
+        out["laps"] = row.get("laps")
+        tally: dict[str, int] = {}
+        for race in wins:
+            code = ((race.get("Results") or [{}])[0]
+                    .get("Driver", {}).get("code"))
+            if code:
+                tally[code] = tally.get(code, 0) + 1
+        best = sorted(tally.items(), key=lambda pair: -pair[1])[:1]
+        if best and best[0][1] > 1:
+            out["most_wins"] = best[0]
+    return out
+
+
 def the_colours(session, state, now) -> dict:
     """Each driver's code and the team's OWN colour, from the feed."""
     data = _ask(session, f"{OPENF1}/drivers?session_key=latest", state,
@@ -367,6 +419,19 @@ def the_session_detail(session, state, now, colours) -> dict:
     return out
 
 
+def the_meeting(session, state, now) -> dict | None:
+    """The meeting the paddock is at, for the circuit key and its type.
+
+    Between weekends OpenF1's "latest" is the LAST meeting rather than
+    the next, so this is only ever asked for the circuit's own shape and
+    its type — never for a time, which is the one thing it would be
+    wrong about.
+    """
+    data = _ask(session, f"{OPENF1}/meetings?year={now.year}", state,
+                "meetings", now, SLOWLY)
+    return (data or [None])[-1] if isinstance(data, list) else None
+
+
 def which_board(now, calendar) -> tuple[str, dict | None, tuple | None]:
     """LIVE, WEEKEND or BETWEEN — decided by the clock, not a setting."""
     for race in calendar:
@@ -487,13 +552,17 @@ def build() -> int:
         page["next_session"] = ahead
         shape, rotation, corners = [], 0, 0
         live = the_session_now(session, state, now, colours) if mode == "live" else None
+        meeting = live["meeting"] if live else the_meeting(session, state, now)
+        if meeting:
+            shape, rotation, corners = the_shape(session, state, now, meeting)
         if live:
-            shape, rotation, corners = the_shape(session, state, now,
-                                                 live["meeting"])
             page["live"] = live
             page["detail"] = the_session_detail(session, state, now, colours)
         page["shape"], page["rotation"], page["corners"] = (shape, rotation,
                                                             corners)
+        page["facts"] = the_track_facts(session, state, now,
+                                        race.get("circuit_id"), meeting,
+                                        corners)
     if mode == "live" and "live" not in page:
         # THE CLOCK SAID A SESSION WAS ON AND THE FEED DID NOT AGREE.
         # A board that says LIVE with nothing under it is worse than one
