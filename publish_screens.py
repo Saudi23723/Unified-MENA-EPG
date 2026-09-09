@@ -108,6 +108,11 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
                              "dubai_hoops_gridiron_epg.xml",
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256"),
+    # The eleventh channel — الفورمولا ١. One clock only: a Grand Prix
+    # is one instant everywhere, and the board prints its sessions in
+    # the viewer's zone already, so a second copy would say the same
+    # thing twice.
+    "f1": ("f1_", "f1_epg.xml", "f1.m3u8", "f1.sha256"),
     # The tenth channel — القنوات التركية · PPV, in both clocks.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv_epg.xml",
                     "turkish_ppv.m3u8", "turkish_ppv.sha256"),
@@ -119,7 +124,11 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
 # Files this pass owns that are not any one screen's: the weather
 # channel's data, and the two playlists that point a player at all
 # eight screens at once.
-SHARED_FILES = ("weather.json",
+SHARED_FILES = (
+    # The F1 channel's cache: a source that rate limits is not a source
+    # that failed, and this is what the next pass stands on when it does.
+    "f1_state.json",
+    "weather.json",
                 "prayer_times.json",
                 # WHO CARRIES A CARD, remembered across passes. A fight
                 # card's two sources name different carriers, and one of
@@ -311,6 +320,7 @@ def stage() -> int:
     for path in ("ball_sports_epg.xml", "dubai_ball_sports_epg.xml",
                  "hoops_gridiron_epg.xml", "dubai_hoops_gridiron_epg.xml",
                  "turkish_ppv_epg.xml", "dubai_turkish_ppv_epg.xml",
+                 "f1_epg.xml",
                  "other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",

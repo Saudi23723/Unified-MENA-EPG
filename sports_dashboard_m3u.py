@@ -51,6 +51,9 @@ from ball_sports_epg import LOGO as BALL_LOGO
 from hoops_gridiron_epg import CHANNEL_AR as HOOPS_AR
 from hoops_gridiron_epg import CHANNEL_ID as HOOPS_ID
 from hoops_gridiron_epg import LOGO as HOOPS_LOGO
+from f1_epg import CHANNEL_AR as F1_AR
+from f1_epg import CHANNEL_ID as F1_ID
+from f1_epg import LOGO as F1_LOGO
 from turkish_ppv_epg import CHANNEL_AR as TPPV_AR
 from turkish_ppv_epg import CHANNEL_ID as TPPV_ID
 from turkish_ppv_epg import LOGO as TPPV_LOGO
@@ -141,6 +144,13 @@ SCREENS = (
     (TPPV_ID, TPPV_AR, "stream/turkish_ppv.m3u8",
      f"{RAW}/stream/turkish_ppv.m3u8", "🇹🇷 Turkish PPV",
      TPPV_LOGO),
+    # The eleventh channel — الفورمولا ١. One clock only: a Grand Prix
+    # starts at one instant everywhere and the board already prints its
+    # sessions in the viewer's own zone, so there is nothing for a
+    # second row to say differently.
+    (F1_ID, F1_AR, "stream/f1.m3u8",
+     f"{RAW}/stream/f1.m3u8", "🏁 Formula 1",
+     F1_LOGO),
 
 )
 
@@ -224,6 +234,7 @@ PLAYLIST_NAMES = {
     "TodayPrayer":    ("Prayers Time",    "🕌 Prayers Time"),
     "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
     "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
+    "Formula1":       ("Formula 1",       "🏁 Formula 1"),
 }
 
 # The second clock's rows are the same channels under Gulf times, so they
