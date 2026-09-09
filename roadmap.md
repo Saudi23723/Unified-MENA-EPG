@@ -11,3 +11,4 @@
 
 - New channel: Turkish PPV (all Spor Ekrani listings, own screen + logo), pushed with the new token.
 - Turkish PPV appears on BOTH links: local clock + UAE clock.
+- Channel name shown in the player: "🇹🇷 Turkish PPV".
