@@ -65,7 +65,7 @@ def wear_this_channel(**also):
         base.__dict__,
         CHANNEL_ID=CHANNEL_ID, CHANNEL_AR=CHANNEL_AR, SUBTITLE=SUBTITLE,
         OUTPUT=OUTPUT, BOARD_PREFIX=BOARD_PREFIX, LOGO=LOGO,
-        IN_ORDER=IN_ORDER, RANK=RANK, **also)
+        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="info", **also)
 
 
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
