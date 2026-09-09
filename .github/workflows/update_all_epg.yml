@@ -78,8 +78,7 @@ jobs:
       # installed once here instead of once per guide.
       - name: Install the OCR engine
         run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
+          tools/apt_install.sh tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
           tesseract --list-langs
           tesseract --list-langs | grep -qx ara
           tesseract --list-langs | grep -qx eng
@@ -92,7 +91,7 @@ jobs:
       # The board sets Arabic type, and a runner ships no Arabic face.
       # Without this the drawing fails and the day publishes as text only.
       - name: Install the fonts the board is drawn with
-        run: sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+        run: tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core
 
       - name: Identify the committer
         run: |

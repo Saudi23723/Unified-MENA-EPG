@@ -27,8 +27,7 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Install rendering tools
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core ffmpeg
+          tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core ffmpeg
       - name: Identify committer
         run: |
           git config user.name "github-actions[bot]"

@@ -35,8 +35,7 @@ jobs:
 
       - name: Install OCR and Python dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
+          tools/apt_install.sh tesseract-ocr tesseract-ocr-ara tesseract-ocr-eng
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 pillow pytesseract numpy
           

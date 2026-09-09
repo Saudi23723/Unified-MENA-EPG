@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: Install the fonts the board is drawn with
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends fonts-freefont-ttf fonts-dejavu-core
+        run: tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core
       - name: Ask the calendar for coordinates and Open-Meteo for weather
         run: python -u probes/probe_track_weather.py
       - name: Draw every page from nothing

@@ -188,6 +188,46 @@ def the_commit_step() -> int:
 
 # ------------------------------------------------------------- the reel
 
+def the_shared_installer() -> int:
+    """No workflow may let a third-party apt repo take the service down.
+
+    On the 9th of September 2026 Google served a Packages.gz whose hash
+    did not match its own Release file. apt-get update returned 100 and
+    all three publishing workflows died inside thirty seconds — for a
+    repository this service does not use, hosting a browser it does not
+    install. Every workflow began "apt-get update && apt-get install",
+    so every workflow was exposed to it.
+
+    They all go through tools/apt_install.sh now, which drops the
+    sources this repository never installs from, refreshes tolerantly,
+    and lets the INSTALL decide whether the step failed. This checks
+    that none of them has drifted back.
+    """
+    print("\nhow packages are installed")
+    here = os.path.join(HERE, ".github/workflows")
+    script = os.path.join(HERE, "tools/apt_install.sh")
+    check("the shared installer exists", os.path.exists(script))
+    if os.path.exists(script):
+        check("and is executable", os.access(script, os.X_OK))
+        body = open(script, encoding="utf-8").read()
+        check("it refreshes tolerantly", "|| " in body
+              or "if ! sudo apt-get update" in body)
+        check("and installs strictly",
+              re.search(r"sudo apt-get install -y[^\n]*\"\$@\"", body)
+              is not None)
+
+    offenders = []
+    for name in sorted(os.listdir(here)):
+        if not name.endswith((".yml", ".yaml")):
+            continue
+        text = open(os.path.join(here, name), encoding="utf-8").read()
+        if "apt-get" in text:
+            offenders.append(name)
+    check("no workflow calls apt-get directly", not offenders,
+          ", ".join(offenders))
+    return 0
+
+
 def the_reel() -> int:
     """What the reel may and may not do, whatever the traffic is."""
     print("\nthe reel")
@@ -325,6 +365,7 @@ def main() -> int:
     try:
         if not only_published:
             the_commit_step()
+            the_shared_installer()
             the_reel()
         the_published_reel()
     except CannotRun as why:
