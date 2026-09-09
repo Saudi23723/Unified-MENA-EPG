@@ -283,26 +283,57 @@ def find_epg_days(node, depth: int = 0) -> list[dict]:
 A_FIXTURE = re.compile(r"\S\s+[-–—]\s+\S")
 
 
-def is_live_match(show: dict, title: str) -> bool:
-    """Whether this airing is the match itself, and not a replay of it.
+def fixture_key(title: str) -> str:
+    """The two sides, as the thing that is the same across every airing.
 
-    TRT PUBLISHES NO LIVE FLAG — this file said so and it was right —
-    but it publishes isRepeat, which is the same question asked the
-    other way round. Measured on the payload: every show object carries
-
-        isRepeat: false
-
-    and the same fixture appears again later in the day as a repeat.
-    So the FIRST airing of a match is the live one, and the 09:55 and
-    12:05 showings of it are not.
-
-    Both halves are required. isRepeat alone would badge a first-run
-    studio programme; a dash alone would badge every replay of a
-    fixture. Nothing is badged that the source did not say twice over.
+    "UEFA ŞAMPİYONLAR LİGİ FUTBOL KARŞILAŞMASI  LIVERPOOL - ATLETICO
+    MADRID" at 22:00 and the same words at 14:10 the next afternoon are
+    one match shown twice, and this is what makes them equal.
     """
-    if show.get("isRepeat") is not False:
+    said = re.sub(r"\s+", " ", (title or "")).strip().casefold()
+    said = said.split("|")[0].strip()          # "... | UEFA ... Maçı"
+    return said
+
+
+def is_a_fixture(show: dict, title: str) -> bool:
+    """Whether this row is a football match at all."""
+    if show.get("isRepeat") is True:
         return False
     return bool(A_FIXTURE.search(title or ""))
+
+
+def only_the_first_airing_is_live(events: list[dict]) -> int:
+    """Badge each fixture's EARLIEST showing and nothing else.
+
+    ISREPEAT WAS NOT ENOUGH, and the guide proved it within minutes of
+    going out: Liverpool - Atletico Madrid was badged live twice, once
+    at 19:00 when it kicked off and again at 11:10 the next morning.
+    TRT reports isRepeat: false on the replay too, so on its own it
+    badged seven "live" matches in a single day — four of them daytime
+    reruns of the previous night.
+
+    A match is broadcast live once. Every later showing of the same two
+    sides is a replay, whatever the source says about it, so the
+    earliest airing keeps the badge and the rest lose it. That is
+    decided here rather than per row because it is a fact about the
+    schedule as a whole, not about any one entry in it.
+
+    Returns how many rows ended up badged.
+    """
+    earliest: dict[str, datetime] = {}
+    for event in events:
+        if not event.get("fixture"):
+            continue
+        key = event["fixture"]
+        if key not in earliest or event["start"] < earliest[key]:
+            earliest[key] = event["start"]
+    badged = 0
+    for event in events:
+        key = event.get("fixture")
+        live = bool(key) and event["start"] == earliest.get(key)
+        event["live"] = live
+        badged += live
+    return badged
 
 
 def fetch_trt(session) -> list[dict]:
@@ -344,10 +375,17 @@ def fetch_trt(session) -> list[dict]:
                 seen[(start, stop, name)] = {
                     "number": LINEAR, "start": start, "stop": stop,
                     "title": name, "desc": norm(show.get("synopsis")),
-                    "live": is_live_match(show, name),
+                    # Decided across the whole schedule once it is
+                    # gathered — see only_the_first_airing_is_live.
+                    "live": False,
+                    "fixture": (fixture_key(name)
+                                if is_a_fixture(show, name) else ""),
                 }
-    log(f"  TRT: {len(seen)} programmes across {len(days)} days")
-    return list(seen.values())
+    rows = list(seen.values())
+    badged = only_the_first_airing_is_live(rows)
+    log(f"  TRT: {len(seen)} programmes across {len(days)} days, "
+        f"{badged} live (first airing of each fixture)")
+    return rows
 
 
 def fetch_tvyayinakisi(session) -> list[dict]:
