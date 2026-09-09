@@ -65,7 +65,19 @@ jobs:
         run: |
           git config user.name "flight-tracker-bot"
           git config user.email "bot@users.noreply.github.com"
-          PATHS="stream/flights.json stream/flight_tracker* stream/dubai_flight_tracker*"
+          # QUOTED, AND HANDED TO GIT RATHER THAN THE SHELL. An unquoted
+          # stream/flight_tracker* is expanded by bash against the files
+          # that EXIST, so a segment the generator just deleted cannot
+          # match it and its deletion is never staged. Measured: after
+          # the reel dropped from 36 segments to 12, all 12 were
+          # committed and 50 stale ones stayed in the repository with no
+          # playlist naming them.
+          #
+          # "git add -A -- <pathspec>" makes git do the matching, against
+          # the index as well as the working tree, so a deletion is
+          # staged like any other change.
+          PATHS=(stream/flights.json 'stream/flight_tracker*'
+                 'stream/dubai_flight_tracker*')
           PASSES=20
           for pass in $(seq 1 $PASSES); do
             started=$(date +%s)
@@ -102,7 +114,7 @@ jobs:
               # working tree alone, so the `git add` below stages this
               # pass's flight files against current main and nothing else.
               git reset --mixed origin/main
-              git add $PATHS
+              git add -A -- "${PATHS[@]}"
 
               # AND IT PROVES IT BEFORE IT PUSHES. A staged path that is
               # not channel 6's means something upstream of here is wrong,
