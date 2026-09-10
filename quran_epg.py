@@ -55,6 +55,8 @@ BOARD_DIR = "boards"
 BOARD_PREFIX = "today_quran_"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_quran.png")
+RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             "main/boards/" + BOARD_PREFIX + "{n}.png")
 
 VIEWER = timezone.utc
 DAYS_AHEAD = 4
@@ -450,6 +452,7 @@ def main() -> int:
 
     board = 0
     for day in days:
+        first_board = board
         # THREE BOARDS A DAY, each refusing on its own. A tafsir that
         # did not arrive does not stop the ayah that did.
         reading = the_days_reading(rows, day) if rows else None
@@ -494,7 +497,22 @@ def main() -> int:
         title = (f"⁦{reading['text'][:60]}…⁩" if reading
                  else "لم يصل النصُّ من مصدرِه")
         start = datetime.combine(day, datetime.min.time(), VIEWER)
-        programmes.append((channel, start, start + timedelta(days=1), title))
+        # THE ICON IS NOT DECORATION, IT IS WHAT THE SCREEN GATE READS.
+        # A programme with no <icon> pointing at one of this screen's
+        # own boards fails "every real programme points at one of the
+        # screen's own boards", the gate names the screen, and
+        # quarantine_screens.py holds it back — every pass, for ever.
+        # That is why this channel was built and encoded on the runner
+        # and never once appeared on main.
+        #
+        # And it must be the day's FIRST board, not any board of it:
+        # that is the page a viewer lands on when the day arrives, and
+        # a programme pointing at a later one skips the day's first
+        # page on every tune-in. With two boards a day the first ones
+        # are 0, 2, 4, 6 — which is what `board` held before this day's
+        # boards were drawn.
+        programmes.append((channel, start, start + timedelta(days=1),
+                           title, RAW_BOARD.format(n=first_board)))
 
     # The manifest counts what was actually drawn, not what was hoped
     # for: the encoder reads this to know how many boards a day owns,
@@ -517,8 +535,8 @@ def write_guide(channel: str, programmes):
     root = ET.Element("tv")
     node = ET.SubElement(root, "channel", {"id": channel})
     ET.SubElement(node, "display-name").text = "وِرْدُ اليوم"
-    for chan, start, stop, title in programmes:
-        add_programme(root, chan, start, stop, title)
+    for chan, start, stop, title, icon in programmes:
+        add_programme(root, chan, start, stop, title, icon=icon)
     return root
 
 
