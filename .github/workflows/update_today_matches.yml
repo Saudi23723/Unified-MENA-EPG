@@ -2,11 +2,32 @@ name: Build today's matches
 
 on:
   workflow_dispatch:
+  # ONCE EVERY HALF HOUR, NOT TWELVE TIMES AN HOUR — and no chaining.
+  #
+  # THE FAULT THIS REPLACES, and it was mine. The job publishes eight
+  # times over 175 minutes now, and concurrency below cancels a running
+  # job whenever a new one starts. With a cron every five minutes AND a
+  # workflow_run chained to "Build every EPG", something started every
+  # few minutes and killed the ticker before it had published anything:
+  # run 862 was cancelled two and a half minutes in, mid-build. The
+  # boards had not moved since 15:47 while runs kept starting and dying.
+  #
+  # At twenty minutes a pass, being cancelled is only harmless when the
+  # cancellation lands in a sleep AFTER a pass has published. Firing
+  # every five minutes guarantees the opposite.
+  #
+  # So the trigger rate is matched to what one run now covers. Two
+  # events an hour are two chances to start a fresh ticker after a
+  # silence, and each one covers nearly three hours by itself — the
+  # same arithmetic "Build every EPG" already runs on, which is why it
+  # has never had this problem.
+  #
+  # :11 and :41 rather than :00 and :30 on purpose, and offset from
+  # "Build every EPG" at :07 so the two do not contend: GitHub's own
+  # guidance is to avoid the round minutes, where the load spikes that
+  # eat scheduled events land.
   schedule:
-    - cron: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
-  workflow_run:
-    workflows: ["Build every EPG"]
-    types: [completed]
+    - cron: "11,41 * * * *"
 
 concurrency:
   group: today-matches
