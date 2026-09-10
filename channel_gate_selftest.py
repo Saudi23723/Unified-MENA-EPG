@@ -6147,6 +6147,71 @@ def gate_the_youth_competition_asked_for_by_name() -> None:
                   "دوري أبطال أوروبا")), True)
 
 
+def gate_the_channel_opens_on_a_day_with_something_left() -> None:
+    """The first board is the one a viewer arrives on.
+
+    Photographed at 22:40: seven rows, every one of them slate, every one
+    reading انتهى — and tomorrow's eight live fixtures on the board
+    BEHIND it. days_of() puts today first until midnight, the reel plays
+    the boards in the order they were drawn, so from the last final
+    whistle until midnight the channel opened on a day that was over.
+
+    A finished leading day goes to the end of the reel now. It is not
+    dropped, not hidden, and still sits in the guide at its own hour —
+    it just stops being the first thing on the screen once nothing on it
+    is still to come.
+    """
+    print("\nThe channel opens on a day that still has something on it")
+
+    from datetime import date as _date, datetime as _dt, timezone as _tz
+    import today_matches_epg as today
+
+    now = _dt(2026, 9, 10, 22, 40, tzinfo=_tz.utc)
+    days = [_date(2026, 9, 10), _date(2026, 9, 11), _date(2026, 9, 12)]
+
+    def at(day, hour):
+        return {"start": _dt(day.year, day.month, day.day, hour,
+                             tzinfo=_tz.utc)}
+
+    def order(by_day):
+        return [d.day for d in today.reel_order(days, by_day, now)]
+
+    # The night this was reported: today played out, tomorrow full.
+    check("REEL", "a day that is over goes last",
+          order({days[0]: [at(days[0], 8), at(days[0], 11)],
+                 days[1]: [at(days[1], 13)],
+                 days[2]: []}), [11, 12, 10])
+
+    # AND EVERY REASON NOT TO MOVE IT. One kickoff still to come is
+    # enough to keep the day where it is, and so is a match on the air:
+    # a viewer arriving mid-match must arrive at the match.
+    check("REEL", "one kickoff still to come keeps it",
+          order({days[0]: [at(days[0], 8), at(days[0], 23)],
+                 days[1]: [at(days[1], 13)],
+                 days[2]: []}), [10, 11, 12])
+    check("REEL", "and a match on the air keeps it",
+          order({days[0]: [at(days[0], 22)],
+                 days[1]: [at(days[1], 13)],
+                 days[2]: []}), [10, 11, 12])
+
+    # A day with NO matches is not a finished day. Its board says so in
+    # one line, which is an answer — unlike a wall of played fixtures.
+    check("REEL", "an empty day keeps its place",
+          order({days[0]: [], days[1]: [at(days[1], 13)], days[2]: []}),
+          [10, 11, 12])
+
+    # If everything is over there is no better board to arrive on, and
+    # shuffling would only make the guide's icons disagree for nothing.
+    check("REEL", "every day over leaves the order alone",
+          order({d: [at(days[0], 8)] for d in days}), [10, 11, 12])
+
+    # Two finished days at the front both move, in their own order.
+    check("REEL", "two finished days both move, in order",
+          order({days[0]: [at(days[0], 8)],
+                 days[1]: [at(days[0], 9)],
+                 days[2]: [at(days[2], 20)]}), [12, 10, 11])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6207,7 +6272,8 @@ def main() -> int:
                  gate_turkish_is_spelled_the_way_turkey_writes_it,
                  gate_two_sources_naming_one_broadcast_is_one_row,
                  gate_a_playlist_that_was_written_reports_success,
-                 gate_the_youth_competition_asked_for_by_name):
+                 gate_the_youth_competition_asked_for_by_name,
+                 gate_the_channel_opens_on_a_day_with_something_left):
         try:
             gate()
         except Exception as exc:
