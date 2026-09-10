@@ -6074,6 +6074,79 @@ def gate_a_playlist_that_was_written_reports_success() -> None:
           open(dashboard.OUTPUT, "rb").read() == published, True)
 
 
+def gate_the_youth_competition_asked_for_by_name() -> None:
+    """Youth football stays off, and the UEFA Youth League comes back on.
+
+    Two things were asked for months apart and the second was silently
+    eaten by the first. "Remove all Youth matches except Manchester
+    United u21 and u18" put a filter on the word youth and every
+    spelling around it. "و ارجع رجع UEFA Youth matches لكرة القدم"
+    asked for one competition back.
+
+    own_guides had already read it — its door names it
+    دوري أبطال أوروبا للشباب off beIN's own guide — and wanted() threw
+    it away on the شباب in that name. Both fixtures were sitting in the
+    published source the evening it was asked for.
+
+    So this gate holds BOTH halves at once: the competition goes on the
+    board from either spelling and either field, and every other kind of
+    youth football this filter was put there for still comes off it.
+    """
+    print("\nThe youth competition asked for by name, and no other")
+
+    import today_matches_epg as today
+
+    def row(title, competition):
+        return {"title": title, "competition": competition,
+                "start": 0, "channels": ["beIN 1"]}
+
+    # The two fixtures beIN actually carried, by both roads they arrive:
+    # a listings page hands the English, our own beIN door the Arabic.
+    check("YOUTH", "beIN's own English wording",
+          today.wanted(
+              row("FC Bayern München vs FK Bodø/Glimt "
+                  "- UEFA Youth League 2026/2027 - MD1",
+                  "UEFA Youth League")), True)
+    check("YOUTH", "and the name own_guides gives it",
+          today.wanted(
+              row("Liverpool FC - Atlético de Madrid",
+                  "دوري أبطال أوروبا للشباب")), True)
+    check("YOUTH", "with U19 on both sides, as the pages write it",
+          today.wanted(
+              row("Club Brugge U19 - Aston Villa U19",
+                  "دوري أبطال أوروبا للشباب")), True)
+
+    # The club that was kept the first time is still kept.
+    check("YOUTH", "Manchester United U21 is still kept",
+          today.wanted(
+              row("Manchester United U21 - Arsenal U21",
+                  "Premier League 2")), True)
+
+    # AND EVERYTHING THE FILTER EXISTS FOR IS STILL REFUSED. A rule
+    # written on the two loose words at the end would have let all of
+    # these back: every federation has a "youth league", and Spain's
+    # juvenil and England's academy sides are exactly what a reader's
+    # board should not spend a row on.
+    for title, competition in (
+            ("Exeter City - Tottenham Hotspur U21", "Premier League 2"),
+            ("Real Madrid Juvenil - Barcelona Juvenil", "Liga Juvenil"),
+            ("Chelsea Academy - Fulham Academy", "Youth League"),
+            ("Ajax Reserves - PSV Reserves", "Beloften Eredivisie"),
+            ("Milan Primavera - Inter Primavera", "Campionato Primavera"),
+            ("الأهلي شباب - النصر شباب", "دوري الشباب السعودي"),
+            ("Bayern U17 - Dortmund U17", "Bundesliga U17"),
+    ):
+        check("YOUTH", f"off: {competition[:26]}",
+              today.wanted(row(title, competition)), False)
+
+    # And a senior tie in the parent competition is untouched by any of
+    # it — the two names differ by one word.
+    check("YOUTH", "the senior Champions League tie",
+          today.wanted(
+              row("Liverpool - Atlético de Madrid",
+                  "دوري أبطال أوروبا")), True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6133,7 +6206,8 @@ def main() -> int:
                  gate_raf_reads_the_promotions_own_page,
                  gate_turkish_is_spelled_the_way_turkey_writes_it,
                  gate_two_sources_naming_one_broadcast_is_one_row,
-                 gate_a_playlist_that_was_written_reports_success):
+                 gate_a_playlist_that_was_written_reports_success,
+                 gate_the_youth_competition_asked_for_by_name):
         try:
             gate()
         except Exception as exc:

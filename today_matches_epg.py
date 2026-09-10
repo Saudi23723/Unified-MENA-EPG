@@ -646,6 +646,36 @@ A_KEPT_YOUTH_CLUB = re.compile(
     r"[^-]*\b(u-?21|u-?18|under[- ]?21|under[- ]?18)\b",
     re.I)
 
+# AND THE ONE YOUTH COMPETITION KEPT BY NAME, asked for in those words:
+# "و ارجع رجع UEFA Youth matches لكرة القدم".
+#
+# It is the Champions League's own under-19 tournament — the same clubs,
+# the same nights, on the channel the senior tie is on — and beIN marks
+# it live. own_guides already reads it off beIN's own guide and names it
+# دوري أبطال أوروبا للشباب; what dropped it was this filter, on the word
+# شباب in the name own_guides gives it. Measured in the published source
+# the evening this was asked for:
+#
+#     FC Bayern München vs FK Bodø/Glimt - UEFA Youth League 2026/2027
+#     Liverpool FC vs Atlético de Madrid - UEFA Youth League 2026/2027
+#
+# BOTH SPELLINGS ARE READ because a row reaches here by two roads: a
+# listings page hands it the English, our own beIN door hands it the
+# Arabic. And BOTH FIELDS are searched, because the pages disagree about
+# which of them carries the competition — beIN puts it in the title, and
+# own_guides puts it in the competition with the two clubs alone in the
+# title.
+#
+# Anchored on UEFA and on أوروبا rather than on the two loose words at
+# the end. Every federation has a "youth league", and a rule matching
+# that phrase would let all of them back onto a board this filter exists
+# to keep them off.
+A_KEPT_YOUTH_COMPETITION = re.compile(
+    r"uefa\s+youth\s+league"
+    r"|أبطال\s+أوروبا\s+للشباب"
+    r"|دوري\s+الشباب\s+الأوروبي",
+    re.I)
+
 AN_MLS_LEAGUE = re.compile(r"\bmls\b|major league soccer|الدوري الأمريكي",
                            re.I)
 
@@ -688,7 +718,10 @@ def wanted(event: dict) -> bool:
     # carries it — "Exeter City v Tottenham Hotspur U21" names it in the
     # title, "Premier League 2" names it in neither.
     if A_YOUTH_MATCH.search(competition) or A_YOUTH_MATCH.search(teams_folded):
-        if not A_KEPT_YOUTH_CLUB.search(teams_folded):
+        kept = (A_KEPT_YOUTH_CLUB.search(teams_folded)
+                or A_KEPT_YOUTH_COMPETITION.search(competition)
+                or A_KEPT_YOUTH_COMPETITION.search(teams_folded))
+        if not kept:
             return False
 
     # AND MLS IS OFF IT TOO, but for two cities: "Remove MLS except for New
