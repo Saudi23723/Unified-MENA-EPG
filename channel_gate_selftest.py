@@ -4175,10 +4175,22 @@ def gate_a_row_says_which_competition_it_is() -> None:
             date(2026, 9, 5), rows, now, viewer, timedelta(hours=2),
             title="مباريات اليوم", subtitle="س", weekday="السبت").tobytes()
 
+    # EIGHTEEN ROWS HAS TO MEAN EIGHTEEN ROWS. draw_board runs
+    # without_repeats over what it is handed before it measures
+    # anything, and "Club 0 - Opponent 0" through "Club 17 - Opponent
+    # 17" are alike enough that eighteen of them collapse to THREE.
+    # Three rows have 87px each, far above the 42px floor, so the
+    # competition was drawn after all and the full-day gate below had
+    # been failing on fixtures that never reached the case it names.
+    # Distinct clubs survive the fold, so the count asked for is the
+    # count drawn and the floor is the thing under test.
+    LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
     def row(competition, count=6):
         first = datetime(2026, 9, 5, 10, 0, tzinfo=timezone.utc)
         return [{"start": first + timedelta(minutes=15 * n),
-                 "title": f"Club {n} - Opponent {n}",
+                 "title": f"{LETTERS[n % 26]}{n} United - "
+                          f"{LETTERS[-1 - n % 26]}{n} City",
                  "competition": competition,
                  "channels": ["beIN 1"]} for n in range(count)]
 
@@ -4922,11 +4934,34 @@ def gate_alwan_reaches_the_board() -> None:
 
     rows = own_guides.broadcasts("alwan_sports_epg.xml", "")
     check("ALWAN", "Alwan's listings are read at all", len(rows) > 0, True)
-    reachable = [row["title"] for row in rows
-                 if own_guides.one_club_matches("Toulouse - Lille",
-                                                row["title"])]
-    check("ALWAN", "and its Toulouse - Lille can now find the board's",
-          reachable, ["تولوز - ليل"])
+
+    # THE FIXTURE IS WRITTEN DOWN, NOT LOOKED UP. This gate used to ask
+    # the live guide for "تولوز - ليل" and expect to be handed it. That
+    # was true the day it was written and false every day after: Alwan
+    # publishes the night that is on, so the row rolled off and the gate
+    # went red for good — red at every publish, on a rule that had not
+    # broken, until the workflow had to name it in a grep to get past it.
+    # A gate nobody can turn green teaches a reader to ignore the gates
+    # that go red for a reason.
+    #
+    # So the matcher is put to the row instead of the row being hunted
+    # for. Same function, same pair, and it now answers for the rule
+    # rather than for tonight's schedule.
+    check("ALWAN", "an Arabic row finds the board's Latin fixture",
+          own_guides.one_club_matches("Toulouse - Lille", "تولوز - ليل"),
+          True)
+    check("ALWAN", "and a row of two other clubs does not",
+          [own_guides.one_club_matches("Toulouse - Lille", other)
+           for other in ("برشلونة - فاينورد", "نابولي - أرسنال",
+                         "ليفربول - أتلتيكو")],
+          [False, False, False])
+
+    # And the guide is still read for real, so a file that stopped
+    # parsing is still caught here — it just is not asked to carry one
+    # named match for ever.
+    check("ALWAN", "every row Alwan publishes is a fixture, not filler",
+          all(any(own_guides.fixture_in(row["title"])) for row in rows),
+          True)
 
 def gate_fajer_reaches_the_board() -> None:
     """Fajer's channels on this repository's own rows — asked for by name.

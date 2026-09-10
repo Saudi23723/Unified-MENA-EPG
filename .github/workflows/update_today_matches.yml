@@ -77,10 +77,21 @@ jobs:
           status=${PIPESTATUS[0]}
           set -e
           if [ "$status" -ne 0 ]; then
-            # Only allow the two known legacy gate failures
-            grep -Fq "2 gate(s) let something through" /tmp/gate.log
-            grep -Fq "ROW: 'and there the competition changes nothing" /tmp/gate.log
-            grep -Fq 'ALWAN: "and its Toulouse - Lille' /tmp/gate.log
+            # A GATE THAT NAMES A SCREEN HOLDS BACK THAT SCREEN. It used
+            # to stop the publish outright, so five gates about Turkish
+            # PPV froze all thirteen channels' boards, twice in one
+            # evening. quarantine_screens.py puts a named screen back to
+            # the copy already published and lets the rest go out; a
+            # failure that names no screen is about the whole build and
+            # still publishes nothing, which is what the exit code here
+            # carries.
+            #
+            # The two gates this used to grep past by name are fixed
+            # rather than excused: the ROW one was handing draw_board
+            # eighteen rows so alike that without_repeats folded them to
+            # three, and the ALWAN one demanded a fixture that rolled
+            # off Alwan's schedule the day after it was written.
+            python -u quarantine_screens.py /tmp/gate.log
           fi
       - name: Publish refreshed indicators
         run: python -u publish_screens.py

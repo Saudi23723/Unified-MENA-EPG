@@ -59,6 +59,13 @@ jobs:
         run: python -u channel_gate_selftest.py
         continue-on-error: true
 
+      # One broken screen must hold back one screen. It used to stop the
+      # whole publish, so five gates about Turkish PPV froze thirteen
+      # channels twice in one evening.
+      - name: A broken screen holds back only itself
+        run: python -u quarantine_selftest.py
+        continue-on-error: true
+
       # Structure only: whether a guide has aged out is the scheduled
       # health check's job, not a reason for a pull request to go red.
       - name: The committed guides must still be structurally valid
