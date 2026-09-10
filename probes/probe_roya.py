@@ -93,6 +93,67 @@ def probe(session, name: str, url: str) -> None:
                     log(f"           its programs list is {len(rows)} long")
 
 
+def reproduce_the_build(session) -> None:
+    """Run the generator's OWN filter over day 0 and count what it drops.
+
+    The API answers with 1741 programmes for today and the published
+    guide carries about a hundred real rows for it, so something between
+    the two is throwing them away. This is that gap, counted by reason
+    rather than reasoned about — the last guess about this guide was
+    wrong and cost a round trip.
+    """
+    log("\n=== the build's own filter, over day 0")
+
+    import roya_jordan_epg as roya
+
+    channels = roya.canonical_channels(roya.discover_channels(session))
+    log(f"  channels the build knows: {len(channels)}")
+
+    blocks = roya.fetch_day(session, 0)
+    ids_seen = {str(b.get("id")) for b in blocks}
+    log(f"  channel ids in the day response: {len(ids_seen)}")
+    log(f"  ids the build has no meta for:   "
+        f"{len(ids_seen - set(channels))}")
+
+    kept = 0
+    no_meta = no_start = no_end = bad_span = no_title = 0
+    all_keys: set[str] = set()
+    for block in blocks:
+        meta = channels.get(str(block.get("id")))
+        rows = block.get("programs") or []
+        if not meta:
+            no_meta += len(rows)
+            continue
+        for row in rows:
+            if isinstance(row, dict):
+                all_keys |= set(row)
+            if row.get("start_timestamp") is None:
+                no_start += 1
+                continue
+            if row.get("end_timestamp") is None:
+                no_end += 1
+                continue
+            try:
+                if int(row["end_timestamp"]) <= int(row["start_timestamp"]):
+                    bad_span += 1
+                    continue
+            except Exception:
+                bad_span += 1
+                continue
+            if not (row.get("name") or "").strip():
+                no_title += 1
+                continue
+            kept += 1
+
+    log(f"  KEPT                              {kept}")
+    log(f"  dropped, channel not in the map   {no_meta}")
+    log(f"  dropped, no start_timestamp       {no_start}")
+    log(f"  dropped, no end_timestamp         {no_end}")
+    log(f"  dropped, stop not after start     {bad_span}")
+    log(f"  dropped, no title                 {no_title}")
+    log(f"\n  EVERY key a programme carries: {sorted(all_keys)}")
+
+
 def main() -> int:
     session = new_session()
     for name, url in ENDPOINTS:
@@ -100,6 +161,10 @@ def main() -> int:
             probe(session, name, url)
         except Exception as exc:
             warn(f"{name} could not be probed: {exc}")
+    try:
+        reproduce_the_build(session)
+    except Exception as exc:
+        warn(f"the build's filter could not be reproduced: {exc}")
     log("\nWhat matters: whether a day the guide draws as 100% filler "
         "comes back with programmes here. If it does, the generator is "
         "dropping them. If it does not, the API has gone quiet and the "
