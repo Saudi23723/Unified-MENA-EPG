@@ -51,8 +51,30 @@ jobs:
         run: python -u f1_epg.py
       - name: Rebuild وِرْدُ اليوم
         run: python -u quran_epg.py
+      # THREE DASHBOARDS NOTHING WAS BUILDING. news_epg.py,
+      # weather_epg.py and prayer_epg.py exist, and no workflow ran
+      # either them or the encoder for their screens: today_news,
+      # dubai_news, today_weather, dubai_weather and today_prayer had
+      # no automatic path at all, so الأخبار and الطقس and مواقيت
+      # الصلاة sat on whatever render was last pushed by hand.
+      - name: Rebuild news
+        run: python -u news_epg.py
+      - name: Rebuild weather
+        run: python -u weather_epg.py
+      - name: Rebuild prayer times
+        run: python -u prayer_epg.py
       - name: Encode وِرْدُ اليوم
         run: python -u match_screen_video.py today_quran
+      - name: Encode news
+        run: python -u match_screen_video.py today_news
+      - name: Encode UAE news
+        run: python -u match_screen_video.py dubai_news
+      - name: Encode weather
+        run: python -u match_screen_video.py today_weather
+      - name: Encode UAE weather
+        run: python -u match_screen_video.py dubai_weather
+      - name: Encode prayer times
+        run: python -u match_screen_video.py today_prayer
       - name: Encode channel 1
         run: python -u match_screen_video.py today_matches
       - name: Encode channel 2
@@ -147,14 +169,17 @@ jobs:
               set -e
               for build in today_matches_epg other_sports_epg \
                            ball_sports_epg hoops_gridiron_epg \
-                           turkish_ppv_epg f1_epg quran_epg; do
+                           turkish_ppv_epg f1_epg quran_epg \
+                           news_epg weather_epg prayer_epg; do
                 python -u "$build.py"
               done
               for screen in today_quran today_matches other_sports \
                             dubai_matches dubai_sports ball_sports \
                             dubai_ball_sports hoops_gridiron \
                             dubai_hoops_gridiron f1 dubai_f1 \
-                            turkish_ppv dubai_turkish_ppv; do
+                            turkish_ppv dubai_turkish_ppv \
+                            today_news dubai_news today_weather \
+                            dubai_weather today_prayer; do
                 python -u match_screen_video.py "$screen"
               done
               python -u sports_dashboard_m3u.py \
