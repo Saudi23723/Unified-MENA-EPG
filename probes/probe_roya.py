@@ -154,6 +154,40 @@ def reproduce_the_build(session) -> None:
     log(f"\n  EVERY key a programme carries: {sorted(all_keys)}")
 
 
+def run_the_real_build() -> None:
+    """Run the generator for real and measure the file it writes.
+
+    The filter keeps all 1741 — so whatever loses them happens AFTER it,
+    and reading the build's own output is the only way to see where. The
+    probe still commits nothing: the file lands in the runner's checkout
+    and dies with it.
+    """
+    log("\n=== the real build, and the file it writes")
+
+    import collections
+    import xml.etree.ElementTree as ET
+
+    import roya_jordan_epg as roya
+
+    code = roya.build()
+    log(f"  build() returned {code}")
+
+    root = ET.parse(roya.OUTPUT).getroot()
+    rows = list(root.iter("programme"))
+    channels = list(root.iter("channel"))
+    filler = [p for p in rows
+              if "لم يُعلن" in (p.findtext("title") or "")]
+    log(f"  {len(channels)} channel(s), {len(rows)} row(s), "
+        f"{len(filler)} filler ({round(100 * len(filler) / max(len(rows), 1))}%)")
+
+    per_day = collections.Counter(p.get("start")[:8] for p in rows)
+    blind_day = collections.Counter(p.get("start")[:8] for p in filler)
+    log(f"  {'day':10} {'rows':>6} {'filler':>7} {'%':>5}")
+    for day in sorted(per_day):
+        n, b = per_day[day], blind_day[day]
+        log(f"  {day:10} {n:6} {b:7} {round(100 * b / n):4}%")
+
+
 def main() -> int:
     session = new_session()
     for name, url in ENDPOINTS:
@@ -165,6 +199,10 @@ def main() -> int:
         reproduce_the_build(session)
     except Exception as exc:
         warn(f"the build's filter could not be reproduced: {exc}")
+    try:
+        run_the_real_build()
+    except Exception as exc:
+        warn(f"the real build could not be run: {exc}")
     log("\nWhat matters: whether a day the guide draws as 100% filler "
         "comes back with programmes here. If it does, the generator is "
         "dropping them. If it does not, the API has gone quiet and the "
