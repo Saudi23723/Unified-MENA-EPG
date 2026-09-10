@@ -16,10 +16,19 @@ on:
   schedule:
     - cron: "25 5,17 * * *"
   workflow_dispatch:
+  # AND NOT ON A REBUILT GUIDE EITHER. "*.xml" was in this list, and a
+  # guide is what the bots push all day — so a check that is red for a
+  # real reason sent that same reason again on every merge that touched
+  # any guide. It is the fault the workflow_run trigger was removed for,
+  # arriving by a second road: one problem, many identical emails, and
+  # the tenth is read less carefully than the first.
+  #
+  # What is left is the two files that decide what this check MEANS. A
+  # rule changing is a reason to run it again immediately; a guide being
+  # rebuilt for the ninth time today is not — the schedule covers that.
   push:
     branches: [main]
     paths:
-      - "*.xml"
       - "health_check.py"
       - "merge_epg.py"
       - ".github/workflows/health_check.yml"
