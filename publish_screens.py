@@ -115,12 +115,6 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "f1": ("f1_", "f1_epg.xml", "f1.m3u8", "f1.sha256"),
     "dubai_f1": ("dubai_f1_", "dubai_f1_epg.xml", "dubai_f1.m3u8",
                  "dubai_f1.sha256"),
-    # The twelfth channel — وِرْدُ اليوم. One clock only, for the same
-    # reason مواقيت الصلاة is: the board carries a day's reading and a
-    # day is a day in either zone, so a second copy would say the same
-    # thing twice.
-    "today_quran": ("today_quran_", "quran_epg.xml",
-                    "quran.m3u8", "quran.sha256"),
     # The tenth channel — القنوات التركية · PPV, in both clocks.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv_epg.xml",
                     "turkish_ppv.m3u8", "turkish_ppv.sha256"),
@@ -334,13 +328,6 @@ def stage() -> int:
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",
                  "dubai_news_epg.xml", "dubai_weather_epg.xml",
-                 # وِرْدُ اليوم. Its boards and segments rode the
-                 # boards/ and stream/ adds below and its guide did
-                 # not, so the channel reached the playlist with no
-                 # XML behind it. A screen added to SCREENS must be
-                 # added here too — the directories are wholesale, the
-                 # guides are named one by one.
-                 "quran_epg.xml",
                  *SHARED_FILES):
         if os.path.exists(path):
             git("add", "--", path)
