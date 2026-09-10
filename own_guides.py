@@ -925,6 +925,48 @@ OUR_OWN_EVENTS = (
      re.compile(r"world basketball|plays of the week|highlights|"
                 r"weekly|daily|review|magazine", re.I),
      "FIBA"),
+    # THE ASIAN GAMES, EVERY SPORT OF THEM. Not a FIBA competition and
+    # not an Olympic one — the Olympic Council of Asia's — so it went
+    # past the basketball door above, which reads the word FIBA, and
+    # past the Olympic word-test on the listings sources, which reads
+    # "olympic|paralympic|winter games|summer games". beIN Qatar spent
+    # the fortnight carrying the men's basketball tournament, all twelve
+    # fixtures live-marked on beIN SPORTS, while the board showed none.
+    #
+    # So the door is the GAMES rather than one sport in them. Measured
+    # across the whole guide — 31 channels, 2026-09-08 to 09-16 —
+    # basketball is the only discipline beIN live-marks today, and beIN
+    # Turkey carries none at all. Writing this for basketball alone
+    # would mean coming back the day they add the volleyball, so it is
+    # written for the Games and whatever sport appears under them.
+    #
+    # ONLY THE SCHEDULED COMPETITION, asked for in those words, so the
+    # door names what a fixture LOOKS like rather than listing the
+    # programmes to keep out. beIN writes every real one the same way,
+    # measured on all thirty-one rows in the guide:
+    #
+    #   Jordan vs Chinese Taipei - Basketball Men - Asian Games Aichi-…
+    #   \_____ the sides _____/   \_ the discipline _/
+    #
+    # — a discipline between two dashes ahead of the Games' own name,
+    # and the sides before it. Either half is enough, which is what
+    # lets a final with no opponent in its title through ("Men's 100m
+    # Final - Athletics - Asian Games") alongside a head-to-head.
+    #
+    # Every one of the five programmes the guide files under the Games
+    # has neither: a history, a flame-lighting film, a 2022 ceremony
+    # highlight, a 2022 retrospective. None is a scheduled event and
+    # none can reach the board through a shape it does not have.
+    #
+    # The refusals stay as a second lock. A shape is a good rule until
+    # the day a broadcaster writes "Highlight - Basketball Men - Asian
+    # Games", which would wear the shape exactly.
+    ("bein_sports_qatar_epg.xml", "",
+     re.compile(r"-\s*[^-]+-\s*asian games"
+                r"|\s(?:vs\.?|v|x)\s.*asian games", re.I),
+     re.compile(r"history|the art of|creation|highlight|ceremony|"
+                r"plays of the week|weekly|daily|review|magazine", re.I),
+     "Olympics"),
     ("bein_sports_qatar_epg.xml", "",
      re.compile(r"\bT100\b|world triathlon", re.I),
      re.compile(r"highlights|weekly|daily|review|magazine", re.I),
