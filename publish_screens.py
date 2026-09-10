@@ -157,11 +157,12 @@ ATTEMPTS = 5
 # transliteration gap that predates every change here. If the gate ever
 # fails on anything else — or Alwan starts failing on some other row —
 # this is the string to update, after finding out why it changed.
-KNOWN_GATE_FAILURES = (
-    "ROW: 'and there the competition changes nothing, because it is not drawn' -> False, expected True",
-    'ALWAN: "and its Toulouse - Lille can now find the board\'s" '
-    "-> [], expected ['تولوز - ليل']",
-)
+# BOTH WERE FIXED, so both are gone. ROW was handing draw_board
+# eighteen rows so alike that without_repeats folded them to three, and
+# ALWAN demanded a fixture that had rolled off Alwan's schedule. Neither
+# fails any more, and an allowance for a failure that cannot happen is
+# an invitation to let the next one through under its name.
+KNOWN_GATE_FAILURES: tuple[str, ...] = ()
 
 
 def log(message: str) -> None:
@@ -333,6 +334,13 @@ def stage() -> int:
                  "prayer_epg.xml",
                  "dubai_matches_epg.xml", "dubai_sports_epg.xml",
                  "dubai_news_epg.xml", "dubai_weather_epg.xml",
+                 # وِرْدُ اليوم. Its boards and segments rode the
+                 # boards/ and stream/ adds below and its guide did
+                 # not, so the channel reached the playlist with no
+                 # XML behind it. A screen added to SCREENS must be
+                 # added here too — the directories are wholesale, the
+                 # guides are named one by one.
+                 "quran_epg.xml",
                  *SHARED_FILES):
         if os.path.exists(path):
             git("add", "--", path)
