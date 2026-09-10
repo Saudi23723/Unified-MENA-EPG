@@ -67,12 +67,24 @@ DAYS_AHEAD = 4
 # yield 6236 ayat, which is the whole point of preferring a complete
 # edition over an endpoint answering one ayah at a time.
 EDITIONS = (
-    ("quran-api · ara-quranuthmanihaf",
-     "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1"
-     "/editions/ara-quranuthmanihaf.json"),
+    # THE SIMPLE SPELLING FIRST, and it is a rendering decision rather
+    # than a textual preference. The uthmani edition carries letters
+    # the faces on the runner draw badly or not at all — the alef
+    # wasla, the dagger alef, the sura marks — and the published board
+    # showed it: on one line the ayah came out rough and broken while
+    # the tafsir's gloss beside it, written in ordinary spelling, was
+    # clean. Tajawal is worse again, drawing empty boxes where those
+    # letters belong.
+    #
+    # So the board takes the spelling it can actually render, and the
+    # uthmani stays below it as the fallback. If a face that draws the
+    # uthmani properly is ever bundled here, put it back on top.
     ("quran-api · ara-quransimple",
      "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1"
      "/editions/ara-quransimple.json"),
+    ("quran-api · ara-quranuthmanihaf",
+     "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1"
+     "/editions/ara-quranuthmanihaf.json"),
     ("alquran.cloud · quran-uthmani",
      "https://api.alquran.cloud/v1/quran/quran-uthmani"),
 )
@@ -309,10 +321,18 @@ def to_the_last_whole_word(text: str, room: int) -> str:
         return text
     cut = text[:room]
     if " " in cut:
-        cut = cut[:cut.rindex(" ")]
+        # A WHOLE WORD KEEPS ITS LAST VOWEL. Cutting at the space ends
+        # on the final letter of a complete word, and in vocalised
+        # Arabic that letter carries its vowel — أَتْرَابٌ ends on a
+        # dammatan, ٱلْحِسَابِ on a kasra. Stripping it, as this did at
+        # first, does not tidy a broken word: it takes the harakah off
+        # a correct one.
+        return f"{cut[:cut.rindex(' ')].rstrip()}…"
+    # NO SPACE AT ALL, so the cut really did land inside a single word
+    # and whatever marks trail it have lost the letter they sat on.
+    # Those are the only ones worth removing.
     while cut and unicodedata.combining(cut[-1]):
         cut = cut[:-1]
-    cut = cut.rstrip()
     return f"{cut}…" if cut else text[:room]
 
 

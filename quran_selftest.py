@@ -184,13 +184,25 @@ check("a long one is shortened", len(short) <= 61, True)
 check("and it ends on a word, not inside one",
       short.rstrip("\u2026").endswith("\u0629"), True)
 
-# A COMBINING MARK WITH NOTHING TO COMBINE WITH is the fault this
-# helper exists for: text[:60] left one dangling on all four titles.
-DAMMA = "\u064f"
-marked = ("\u0643\u0644\u0645" + DAMMA + "\u0629 ") * 30
-out = q.to_the_last_whole_word(marked, 40).rstrip("\u2026")
-check("no vowel mark is left hanging off the end",
-      bool(out) and not _u.combining(out[-1]), True)
+# A WHOLE WORD KEEPS ITS LAST VOWEL. The first version of this helper
+# stripped every trailing combining mark, and in vocalised Arabic that
+# is the harakah of a perfectly good final word — so it tidied correct
+# text into incorrect text. Only a cut that lands INSIDE a word leaves
+# marks with nothing to sit on.
+DAMMATAN = "\u064c"
+KALIMA = "\u0643\u0644\u0645\u0629"
+marked = (KALIMA + DAMMATAN + " ") * 30
+out = q.to_the_last_whole_word(marked, 40).rstrip("\u2026").rstrip()
+check("a complete word keeps the vowel it ends on",
+      bool(out) and _u.combining(out[-1]) > 0, True)
+check("and the cut fell on a word boundary, not inside one",
+      out.endswith(KALIMA + DAMMATAN), True)
+# One word longer than the room has no boundary to fall on, and the
+# marks past the cut really have lost their letter.
+lone = (KALIMA + DAMMATAN) * 10
+solo = q.to_the_last_whole_word(lone, 15).rstrip("\u2026")
+check("but a cut inside a lone word drops the orphaned marks",
+      bool(solo) and _u.combining(solo[-1]) == 0, True)
 check("nothing is appended when nothing was removed",
       "\u2026" not in q.to_the_last_whole_word("\u0643\u0644\u0645\u0629", 60),
       True)
