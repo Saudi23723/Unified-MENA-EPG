@@ -21,8 +21,13 @@ a probe that dumps scripture answers a question nobody asked.
 from __future__ import annotations
 
 import json
+import sys
 
-from epg_lib import log, new_session, warn
+# The convention the other probes here already use: a probe lives in
+# probes/ and the library it reads lives at the root, so the root goes
+# on the path before it is imported.
+sys.path.insert(0, ".")
+from epg_lib import log, new_session, warn                     # noqa: E402
 
 # Every candidate is a complete, keyless, single-file edition where one
 # exists — the same preference the Quran fetch already makes, because a
