@@ -799,8 +799,23 @@ def one_guide(boards_dir: str, prefix: str, xml: str) -> None:
         for count in counts:
             firsts.append(running)
             running += count
+        # COMPARED AS A SET, because the guide and the reel are ordered
+        # by different things and deliberately so. The manifest lists the
+        # days in the order the REEL plays them — a day whose every match
+        # has finished is drawn last, so a viewer does not arrive on a
+        # board of played fixtures — while the guide lists them in the
+        # order they HAPPEN, because a guide saying what is on at an hour
+        # cannot put tomorrow above today.
+        #
+        # So on such a night the icons read [8, 0, 2] against a manifest
+        # of [2, 6, 1]: Friday opens the reel at board 0, Saturday
+        # follows at 2, and Thursday — finished — sits at 8. Every
+        # programme still points at the first board of its own day, and
+        # each first board is claimed exactly once, which is the whole of
+        # what this is for. Comparing the two in order would only be
+        # asserting that the reel never reorders.
         check("SCREEN", f"{prefix} each programme points at its day's "
-                        f"first board", icons, firsts)
+                        f"first board", sorted(icons), firsts)
     else:
         check("SCREEN", f"{prefix} the bulletin points at board zero",
               icons, [0] * len(icons))
@@ -4293,12 +4308,59 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
     print("\nOur own guides carry fights nobody lists — own_guides")
     import own_guides
 
-    if not os.path.exists("roya_jordan_epg.xml"):
-        check("OURFIGHTS", "Roya's guide is not built here yet", True, True)
-        return
+    # DRIVEN OFF A FIXTURE, NOT OFF THIS WEEK'S ROYA.
+    #
+    # This gate used to call fights_our_guides_have() against the
+    # published roya_jordan_epg.xml and assert a card came back. It was
+    # green for days for the wrong reason: that file had stopped being
+    # written — one clashing pair was making write_xml_atomic refuse the
+    # whole tree — so the gate kept re-reading a frozen copy of the week
+    # a card happened to be in it. The moment the guide was fixed and
+    # started advancing again, the gate went red, having tested nothing
+    # but a stale file.
+    #
+    # What it is FOR is the rule: a named competition in a broadcaster's
+    # own schedule becomes a row, a shelf looping it around the clock
+    # does not, and the channel is READ rather than asserted. None of
+    # that depends on what Roya is showing tonight. So both shapes are
+    # written out here and the real reader is pointed at them.
+    import tempfile as _tf
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
 
-    got = own_guides.fights_our_guides_have()
-    rfc = [event for event in got if event["competition"] == "RFC"]
+    import epg_lib
+
+    def roya_with(rows, room):
+        """A Roya guide holding exactly these RFC blocks."""
+        tree = ET.Element("tv")
+        channel = ET.SubElement(tree, "channel", id="Roya_RoyaTV")
+        ET.SubElement(channel, "display-name", lang="ar").text = "Roya TV"
+        for start, minutes in rows:
+            epg_lib.add_programme(tree, "Roya_RoyaTV", start,
+                                  start + _td(minutes=minutes), "بطولة RFC")
+        path = os.path.join(room, "roya_jordan_epg.xml")
+        ET.ElementTree(tree).write(path, encoding="utf-8",
+                                   xml_declaration=True)
+        return path
+
+    night = _dt(2026, 9, 4, 17, 30, tzinfo=_tz.utc)
+    floor, ceiling = night - _td(days=1), night + _td(days=3)
+
+    def read_in(rows):
+        here = os.getcwd()
+        with _tf.TemporaryDirectory() as room:
+            roya_with(rows, room)
+            try:
+                os.chdir(room)
+                got = own_guides.fights_our_guides_have(floor, ceiling)
+            finally:
+                os.chdir(here)
+        return [e for e in got if e["competition"] == "RFC"]
+
+    # A NIGHT OF FIGHTING: the card Roya announced for the 4th, sliced
+    # into back-to-back blocks the way Roya publishes it — 17:30 to
+    # 21:00, which is what the announcement said in +3.
+    card = [(night + _td(minutes=step), 70) for step in (0, 70, 140)]
+    rfc = read_in(card)
     check("OURFIGHTS", "RFC is read out of Roya's own feed",
           len(rfc) >= 1, True)
     if rfc:
@@ -4307,9 +4369,21 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
               one["channels"], ["Roya TV"])
         check("OURFIGHTS", "and it is an MMA event, so the board wants it",
               one["sport"], "MMA")
+        check("OURFIGHTS", "stitched into one row, not one per block",
+              len(rfc), 1)
+        check("OURFIGHTS", "starting when the broadcaster said it does",
+              one["start"], night)
         import other_sports_epg as board
         check("OURFIGHTS", "the board's own filter accepts it",
               board.wanted(one), True)
+
+    # AND THE SHELF IS STILL REFUSED. The same competition looping
+    # back-to-back around the clock is not a card, and this is the half
+    # that was never really being tested: forty-four blocks with no gap,
+    # which is what Roya's own channel now carries.
+    loop = [(night + _td(minutes=70 * step), 70) for step in range(44)]
+    check("OURFIGHTS", "a shelf looping it round the clock is not a card",
+          read_in(loop), [])
 
     # THE NARROWNESS. Roya's cookery, news and drama must not come with
     # it — and the pattern is the only thing standing between them.
