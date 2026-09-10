@@ -173,6 +173,35 @@ book, rows = q.the_hadith(Book(mixed))
 check("and a part-graded edition keeps only the graded rows",
       len(rows), 1)
 
+print("\nA dhikr is drawn only with its count — the hadith lesson again")
+NASS = "\u0646\u0635"
+dhikr = {"text": NASS, "id": "1", "repeat": "3"}
+check("a complete dhikr in a named bab passes",
+      q.sourced_dhikr(dhikr, "\u0628\u0627\u0628"), True)
+check("with no bab named it is refused",
+      q.sourced_dhikr(dhikr, ""), False)
+check("with no id it is refused",
+      q.sourced_dhikr({**dhikr, "id": ""}, "\u0628\u0627\u0628"), False)
+check("with no text it is refused",
+      q.sourced_dhikr({**dhikr, "text": ""}, "\u0628\u0627\u0628"), False)
+check("AND WITH NO COUNT IT IS REFUSED — a dhikr without its number "
+      "is missing the thing that makes it that dhikr",
+      q.sourced_dhikr({**dhikr, "repeat": ""}, "\u0628\u0627\u0628"), False)
+check("a count is never assumed to be one",
+      q.sourced_dhikr({k: v for k, v in dhikr.items() if k != "repeat"},
+                      "\u0628\u0627\u0628"), False)
+
+print("\nMorning runs to three, evening after it")
+from datetime import datetime as _dt, timezone as _tz
+def at(h):
+    return q.which_adhkar(_dt(2026, 9, 10, h, 30, tzinfo=_tz.utc))
+check("mid-morning is the morning's", at(9), "morning")
+check("just before three is still the morning's", at(14), "morning")
+check("three o'clock is the evening's", at(15), "evening")
+check("late evening is the evening's", at(22), "evening")
+check("and the small hours, before fajr, are still the evening's",
+      at(2), "evening")
+
 print("\nA title is shortened at a word, never through one")
 import unicodedata as _u
 LONG = "\u0643\u0644\u0645\u0629 " * 40          # "kalima " forty times

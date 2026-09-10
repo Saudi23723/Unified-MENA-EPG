@@ -336,6 +336,125 @@ def to_the_last_whole_word(text: str, room: int) -> str:
     return f"{cut}…" if cut else text[:room]
 
 
+# ── الأذكار، بعددها كما يذكره المصدر ─────────────────────────────────
+#
+# MEASURED BEFORE A LINE WAS WRITTEN, and three sources were ruled out
+# on the way. azkar.ml does not resolve at all — a free .ml domain that
+# was reclaimed, so the API in its own documentation is gone. zakroon
+# is a rendered HTML page, not a feed. Islamic-Api's various_adkar is
+# an index of categories (icon/id/label) with the adhkar a level below.
+#
+# hisnmuslim answers with what this board needs: every row carries
+# ARABIC_TEXT, an ID, and REPEAT — the count. For a dhikr the count IS
+# the attribution that matters; a line of remembrance with no number
+# beside it is missing the thing that makes it that dhikr rather than
+# a sentence. So REPEAT is required, exactly as a hadith's grading is,
+# and it is READ, never assumed to be one.
+HISN_INDEX = "https://www.hisnmuslim.com/api/ar/husn_ar.json"
+HISN_BAB = "https://www.hisnmuslim.com/api/ar/{id}.json"
+
+MORNING_WORDS = ("الصباح",)
+EVENING_WORDS = ("المساء",)
+# THE READER'S OWN RULE: "اذكار الصباح من الفجر الى الساعة ٣ العصر
+# و بعدها اذكار المساء". Fajr comes from the prayer channel's own
+# cache when it is there — the two channels then cannot disagree about
+# when the day begins — and falls back to first light otherwise.
+EVENING_FROM = 15
+FAJR_FALLBACK = 5
+
+
+def _hisn(session, url):
+    """hisnmuslim serves valid JSON behind a byte order mark."""
+    got = session.get(url, timeout=30,
+                      headers={"User-Agent": "Mozilla/5.0"})
+    if got.status_code != 200:
+        warn(f"hisnmuslim: HTTP {got.status_code} for {url}")
+        return None
+    return json.loads(got.content.decode("utf-8-sig"))
+
+
+def _rows_of(payload) -> tuple[str, list]:
+    """The one titled list a category answers with."""
+    if not isinstance(payload, dict):
+        return "", []
+    for title, rows in payload.items():
+        if isinstance(rows, list) and rows:
+            return title, rows
+    return "", []
+
+
+def the_adhkar(session) -> dict:
+    """Morning and evening adhkar, each with the count its source gives."""
+    try:
+        index = _hisn(session, HISN_INDEX)
+    except Exception as exc:                                   # noqa: BLE001
+        warn(f"the adhkar index is unreachable ({exc})")
+        return {}
+    _, babs = _rows_of(index)
+    if not babs:
+        warn("the adhkar index came back in an unknown shape")
+        return {}
+
+    wanted = {}
+    for bab in babs:
+        if not isinstance(bab, dict):
+            continue
+        title = str(bab.get("TITLE") or "")
+        for when, words in (("morning", MORNING_WORDS),
+                            ("evening", EVENING_WORDS)):
+            if when in wanted or not any(w in title for w in words):
+                continue
+            try:
+                payload = _hisn(session, HISN_BAB.format(id=bab.get("ID")))
+            except Exception as exc:                           # noqa: BLE001
+                warn(f"{title}: unreachable ({exc})")
+                continue
+            name, rows = _rows_of(payload)
+            kept = []
+            for row in rows or []:
+                if not isinstance(row, dict):
+                    continue
+                text = str(row.get("ARABIC_TEXT") or "").strip()
+                repeat = row.get("REPEAT")
+                if not text or repeat in (None, "", 0):
+                    continue
+                kept.append({"text": text, "repeat": str(repeat),
+                             "id": str(row.get("ID") or "")})
+            if kept:
+                wanted[when] = {"bab": name or title, "rows": kept}
+                log(f"  {when} adhkar from {name or title}: "
+                    f"{len(kept)} of {len(rows or [])} rows carry a count")
+    if not wanted:
+        warn("no adhkar category answered with a counted row")
+    return wanted
+
+
+def sourced_dhikr(row: dict, bab: str) -> bool:
+    """A dhikr is drawn only with its text, its id AND its count."""
+    return (bool(bab) and bool(row.get("text"))
+            and bool(str(row.get("id") or "").strip())
+            and bool(str(row.get("repeat") or "").strip()))
+
+
+def which_adhkar(now: datetime) -> str:
+    """Morning from fajr to three, evening after it — the reader's rule."""
+    fajr = FAJR_FALLBACK
+    try:
+        with open("prayer_times.json", encoding="utf-8") as handle:
+            cached = json.load(handle)
+        # Any city's fajr will do for a boundary measured in hours; the
+        # first one the file offers is taken rather than a chosen city,
+        # so a change to that channel's list cannot silently move this.
+        for value in json.loads(json.dumps(cached)).values() \
+                if isinstance(cached, dict) else []:
+            if isinstance(value, dict) and value.get("Fajr"):
+                fajr = int(str(value["Fajr"]).split(":")[0])
+                break
+    except Exception:                                          # noqa: BLE001
+        pass
+    return "morning" if fajr <= now.hour < EVENING_FROM else "evening"
+
+
 def sourced(row: dict, edition: str) -> bool:
     """THE GATE. Four things or it is not drawn."""
     return bool(edition) and bool(row.get("text")) \
@@ -373,79 +492,79 @@ def the_days_reading(rows: list[dict], day: date) -> dict:
 
 
 # ── the board ─────────────────────────────────────────────────────────
-def draw(day: date, reading: dict | None, edition: str):
-    """One board. With a reading, or saying plainly that there is none."""
+def draw(day: date, reading: dict | None, note: dict | None,
+         edition: str, work: str = "", author: str = ""):
+    """ONE board a day, carrying the ayah AND its tafsir together.
+
+    They were two boards and the reader asked for them on one: "بدل ما
+    الآية بصفحة و التفسير بصفحة يصيروا مع بعض". Which is also the
+    better reading — the gloss explains the line directly above it
+    rather than one a viewer saw twenty seconds ago and is trying to
+    hold in their head.
+
+    Each half still refuses on its own. A tafsir that did not arrive
+    leaves its panel saying so and does not touch the ayah above it.
+    """
     from nur_theme import (
         GOLD_DIM, H, MUTED, NASKH_BOLD, PAD, SANS, SANS_MID, W, WHITE,
         digits, face, frame, ground, masthead, pill_left, wrap, write,
     )
     board = ground()
     pen = ImageDraw.Draw(board)
-    top = masthead(board, pen, "وِرْدُ اليوم", "آيةُ اليوم", day,
+    top = masthead(board, pen, "وِرْدُ اليوم", "آيةُ اليوم وتفسيرُها", day,
                    right_note=edition or "")
 
+    # The ayah takes the upper half, the tafsir what is left. The split
+    # is by share rather than by a fixed pixel so the two move together
+    # if the masthead ever changes height.
+    room = (H - 62) - top
+    split = top + int(room * 0.46)
+
+    frame(pen, (PAD, top, W - PAD, split - 12), ornate=bool(reading))
     if reading is None:
-        frame(pen, (PAD, top, W - PAD, H - 62))
-        write(pen, (W // 2, (top + H - 62) // 2),
-              "لم يصل النصُّ من مصدرِه اليوم", face(SANS, 34), MUTED,
+        write(pen, (W // 2, (top + split - 12) // 2),
+              "لم تصل الآيةُ من مصدرِها", face(SANS, 30), MUTED,
               anchor="mm")
-        write(pen, (W // 2, (top + H - 62) // 2 + 56),
-              "ولا يُعرَض ما لم يَرِد عن مصدر", face(SANS_MID, 23),
+    else:
+        pill_left(pen, PAD + 30, top + 20,
+                  f"{digits(reading['sura'])} · {digits(reading['ayah'])}",
+                  face(SANS, 21))
+        for size in range(42, 21, -2):
+            font = face(NASKH_BOLD, size)
+            lines = wrap(pen, reading["text"], font, W - 2 * PAD - 130)
+            if len(lines) * (size + 18) <= (split - 12) - top - 96:
+                break
+        middle = top + 78 + ((split - 12) - (top + 78)) // 2
+        at = middle - (len(lines) - 1) * (size + 18) // 2
+        for line in lines:
+            write(pen, (W // 2, at), line, font, WHITE, anchor="mm")
+            at += size + 18
+
+    frame(pen, (PAD, split + 12, W - PAD, H - 62))
+    if note is None:
+        write(pen, (W // 2, (split + 12 + H - 62) // 2),
+              "لم يصل التفسيرُ من مصدرِه", face(SANS, 26), MUTED,
+              anchor="mm")
+        write(pen, (W // 2, (split + 12 + H - 62) // 2 + 44),
+              "ولا يُعرَض ما لم يَرِد عن مصدر", face(SANS_MID, 20),
               GOLD_DIM, anchor="mm")
         return board
 
-    frame(pen, (PAD, top, W - PAD, H - 62), ornate=True)
-    reference = f"{digits(reading['sura'])} · {digits(reading['ayah'])}"
-    pill_left(pen, PAD + 34, top + 26, reference, face(SANS, 22))
-    write(pen, (W - PAD - 34, top + 46), edition, face(SANS_MID, 20),
-          MUTED, anchor="rm")
-
-    # The size steps down until the whole ayah fits: an ayah is never
-    # cut, never ellipsised and never spilled off the card.
-    for size in range(48, 21, -2):
-        font = face(NASKH_BOLD, size)
-        lines = wrap(pen, reading["text"], font, W - 2 * PAD - 140)
-        if len(lines) * (size + 22) <= H - 62 - top - 130:
-            break
-    middle = top + 100 + (H - 62 - 60 - (top + 100)) // 2
-    step = size + 22
-    at = middle - (len(lines) - 1) * step // 2
-    for line in lines:
-        write(pen, (W // 2, at), line, font, WHITE, anchor="mm")
-        at += step
-    return board
-
-
-def draw_tafsir(day, row, work, author):
-    from nur_theme import (
-        GOLD_DIM, H, MUTED, PAD, SANS, SANS_MID, W, WHITE, digits, face,
-        frame, ground, masthead, pill_left, wrap, write,
-    )
-    board = ground()
-    pen = ImageDraw.Draw(board)
-    top = masthead(board, pen, "التفسير", work or "", day,
-                   right_note=author or "")
-    frame(pen, (PAD, top, W - PAD, H - 62), ornate=bool(row))
-    if not row:
-        write(pen, (W // 2, (top + H - 62) // 2),
-              "لم يصل التفسيرُ من مصدرِه اليوم", face(SANS, 32), MUTED,
-              anchor="mm")
-        write(pen, (W // 2, (top + H - 62) // 2 + 52),
-              "ولا يُعرَض ما لم يَرِد عن مصدر", face(SANS_MID, 22),
-              GOLD_DIM, anchor="mm")
-        return board
-    pill_left(pen, PAD + 34, top + 26,
-              f"{digits(row['sura'])} · {digits(row['ayah'])}",
-              face(SANS, 22))
-    for size in range(34, 17, -2):
+    pill_left(pen, PAD + 30, split + 30, "التفسير", face(SANS, 20))
+    if work:
+        write(pen, (W - PAD - 30, split + 50),
+              f"{work}{(' — ' + author) if author else ''}",
+              face(SANS_MID, 19), MUTED, anchor="rm")
+    for size in range(28, 15, -1):
         font = face(SANS_MID, size)
-        lines = wrap(pen, row["text"], font, W - 2 * PAD - 120)
-        if len(lines) * (size + 16) <= H - 62 - top - 120:
+        lines = wrap(pen, note["text"], font, W - 2 * PAD - 110)
+        if len(lines) * (size + 13) <= (H - 62) - (split + 12) - 96:
             break
-    at = top + 110
-    for line in lines[:12]:
-        write(pen, (W // 2, at), line, font, WHITE, anchor="mm")
-        at += size + 16
+    at = split + 12 + 92
+    for line in lines[:10]:
+        write(pen, (W // 2, at), line, font, (214, 226, 214, 255),
+              anchor="mm")
+        at += size + 13
     return board
 
 
@@ -487,6 +606,55 @@ def draw_hadith(day, row, book):
     return board
 
 
+def draw_adhkar(day: date, when: str, bab: str, rows: list[dict],
+                page: int = 0):
+    """A page of adhkar, each with the number of times it is said.
+
+    The count is not decoration and it is not ours: it comes from the
+    source on the row, and a row that arrived without one was never
+    kept. It is set beside the dhikr rather than under it because it is
+    read at the same moment — "this, seven times" is one thought.
+    """
+    from nur_theme import (
+        GOLD, H, MUTED, PAD, SANS, SANS_MID, W, WHITE, digits, face,
+        frame, ground, masthead, pill_left, wrap, write,
+    )
+    board = ground()
+    pen = ImageDraw.Draw(board)
+    head = "أذكارُ الصباح" if when == "morning" else "أذكارُ المساء"
+    since = ("من الفجر إلى الثالثة" if when == "morning"
+             else "من الثالثة إلى الفجر")
+    top = masthead(board, pen, head, since, day, right_note=bab or "")
+
+    if not rows:
+        frame(pen, (PAD, top, W - PAD, H - 62))
+        write(pen, (W // 2, (top + H - 62) // 2),
+              "لم تصل الأذكارُ من مصدرِها", face(SANS, 30), MUTED,
+              anchor="mm")
+        return board
+
+    y = top
+    room = (H - 62) - top
+    tall = 104
+    fits = max(1, room // tall)
+    for row in rows[page * fits:(page + 1) * fits]:
+        frame(pen, (PAD, y, W - PAD, y + tall - 12))
+        pill_left(pen, PAD + 26, y + 22,
+                  f"{digits(row['repeat'])}×", face(SANS, 21),
+                  fill=(38, 32, 16, 255), ink=GOLD)
+        for size in range(26, 15, -1):
+            font = face(SANS_MID, size)
+            lines = wrap(pen, row["text"], font, W - 2 * PAD - 190)
+            if len(lines) <= 2:
+                break
+        at = y + (tall - 12) // 2 - (len(lines) - 1) * (size + 6) // 2
+        for line in lines[:2]:
+            write(pen, (W - PAD - 26, at), line, font, WHITE, anchor="rm")
+            at += size + 6
+        y += tall
+    return board
+
+
 def main() -> int:
     session = new_session()
     edition, rows = the_quran(session)
@@ -501,6 +669,7 @@ def main() -> int:
     drawn = refused = 0
 
     work, author, tafsir_rows = the_tafsir(session)
+    adhkar = the_adhkar(session)
     book, hadith_rows = the_hadith(session)
 
     board = 0
@@ -512,19 +681,28 @@ def main() -> int:
         if reading is not None and not sourced(reading, edition):
             refused += 1
             reading = None
-        draw(day, reading, edition).convert("RGB").save(
-            f"boards/today_quran_{board}.png")
-        board += 1
-        drawn += reading is not None
-
         note = the_days_reading(tafsir_rows, day) if tafsir_rows else None
         if note is not None and not sourced_tafsir(note, work):
             refused += 1
             note = None
-        draw_tafsir(day, note, work, author).convert("RGB").save(
-            f"boards/today_quran_{board}.png")
+        draw(day, reading, note, edition, work, author).convert(
+            "RGB").save(f"boards/today_quran_{board}.png")
         board += 1
-        drawn += note is not None
+        drawn += (reading is not None) + (note is not None)
+
+        # THE SECOND BOARD OF THE DAY. Today's follows the clock; the
+        # days after it open on the morning, which is where their own
+        # clock will be when they arrive.
+        when = which_adhkar(now) if day == days[0] else "morning"
+        chosen = adhkar.get(when) or {}
+        kept = [r for r in chosen.get("rows", [])
+                if sourced_dhikr(r, chosen.get("bab", ""))]
+        refused += len(chosen.get("rows", [])) - len(kept)
+        draw_adhkar(day, when, chosen.get("bab", ""), kept).convert(
+            "RGB").save(f"boards/today_quran_{board}.png")
+        board += 1
+        drawn += bool(kept)
+
 
         # A BOARD THAT CAN ONLY EVER SAY "لم يصل" IS NOT DRAWN AT ALL.
         # Measured on a runner: البخاري, مسلم and النووية all answer,
