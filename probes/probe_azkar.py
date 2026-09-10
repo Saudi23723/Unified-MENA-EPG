@@ -34,12 +34,26 @@ from epg_lib import log, new_session, warn                     # noqa: E402
 #   hisnmuslim          answers, and is JSON behind a BOM. The parse
 #                       failed on the byte order mark, not the content.
 CANDIDATES = (
-    # azkar.ml, as the reader's screenshot documents it. The categories
-    # are m=صباح e=مساء as=بعد الصلاة t=تسابيح bs=قبل النوم
-    # wu=الاستيقاظ qd=أدعية قرآنية pd=أدعية الأنبياء
+    # FOUND BY READING THE LISTING, not by guessing at it.
+    ("Islamic-Api · various_adkar",
+     "https://raw.githubusercontent.com/itsSamBz/Islamic-Api/main"
+     "/various_adkar.json"),
+    ("Islamic-Api · sunnah_data",
+     "https://raw.githubusercontent.com/itsSamBz/Islamic-Api/main"
+     "/sunnah_data.json"),
+    # hisnmuslim's index gave ID/TITLE/TEXT/AUDIO_URL — TEXT there looks
+    # like a link into the category rather than the dhikr itself, so one
+    # category is followed to see what a real row carries.
     ("hisnmuslim · الفهرس",
      "https://www.hisnmuslim.com/api/ar/husn_ar.json"),
+    ("hisnmuslim · باب واحد",
+     "https://www.hisnmuslim.com/api/ar/27.json"),
+    # zakroon, as the reader sent it. A GitHub Pages site is a
+    # repository underneath, so the data is looked for there.
+    ("zakroon · the page itself", "https://osamayy.github.io/zakroon/"),
 )
+
+ZAKROON = "https://api.github.com/repos/osamayy/zakroon/contents{path}"
 
 # The repository whose file names have to be read rather than guessed.
 LISTING = "https://api.github.com/repos/itsSamBz/Islamic-Api/contents{path}"
@@ -98,6 +112,14 @@ def ask(session, name, url) -> None:
                 break
         if row is None:
             row = payload
+    if isinstance(row, dict) and not any(
+            isinstance(v, (list, dict)) for v in row.values()):
+        pass
+    elif isinstance(row, dict):
+        for value in row.values():
+            if isinstance(value, list) and value and isinstance(value[0], dict):
+                row = value[0]
+                break
     if isinstance(row, dict):
         carries = [k for k in row if k.lower() in ATTRIBUTION
                    or k in ATTRIBUTION]
@@ -105,12 +127,13 @@ def ask(session, name, url) -> None:
         log(f"      attribution present: {carries or 'NONE'}")
 
 
-def walk_the_repo(session, path="", depth=0) -> None:
+def walk_the_repo(session, path="", depth=0, listing=None) -> None:
     """Read the file names out of the listing instead of inventing them."""
     if depth > 2:
         return
     try:
-        got = session.get(LISTING.format(path=path), timeout=30)
+        got = session.get((listing or LISTING).format(path=path),
+                          timeout=30)
         rows = got.json() if got.status_code == 200 else []
     except Exception as exc:                                   # noqa: BLE001
         warn(f"listing {path or '/'}: {exc}")
@@ -121,7 +144,8 @@ def walk_the_repo(session, path="", depth=0) -> None:
         kind, name = row.get("type"), row.get("name", "")
         if kind == "dir":
             log(f"  {'  ' * depth}[{name}]")
-            walk_the_repo(session, f"{path}/{name}", depth + 1)
+            walk_the_repo(session, f"{path}/{name}", depth + 1,
+                          listing)
         elif name.lower().endswith((".json", ".js")):
             log(f"  {'  ' * depth}{name}  ({row.get('size', 0):,} bytes)")
             log(f"  {'  ' * depth}   {row.get('download_url')}")
@@ -129,8 +153,8 @@ def walk_the_repo(session, path="", depth=0) -> None:
 
 def main() -> int:
     session = new_session()
-    log("WHAT IS ACTUALLY IN Islamic-Api — names read, not guessed")
-    walk_the_repo(session)
+    log("WHAT IS IN zakroon — names read, not guessed")
+    walk_the_repo(session, listing=ZAKROON)
     log("")
     log("Does an adhkar row carry a COUNT and a SOURCE, or only text?")
     for name, url in CANDIDATES:
