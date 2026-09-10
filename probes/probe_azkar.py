@@ -23,24 +23,26 @@ import sys
 sys.path.insert(0, ".")
 from epg_lib import log, new_session, warn                     # noqa: E402
 
+# WHAT THE FIRST PASS SETTLED, so it is not asked again:
+#   azkar.ml            DOES NOT RESOLVE. A free .ml domain that has
+#                       been reclaimed; the API in the screenshot is
+#                       gone, whatever the documentation still says.
+#   Islamic-Api         the repository answers, but the file names
+#                       guessed for it did not. So the listing is read
+#                       and the files are found in it — the same
+#                       lesson the tafsir slugs taught.
+#   hisnmuslim          answers, and is JSON behind a BOM. The parse
+#                       failed on the byte order mark, not the content.
 CANDIDATES = (
     # azkar.ml, as the reader's screenshot documents it. The categories
     # are m=صباح e=مساء as=بعد الصلاة t=تسابيح bs=قبل النوم
     # wu=الاستيقاظ qd=أدعية قرآنية pd=أدعية الأنبياء
-    ("azkar.ml · أذكار الصباح", "https://azkar.ml/zekr?m=true&json=true"),
-    ("azkar.ml · أذكار المساء", "https://azkar.ml/zekr?e=true&json=true"),
-    ("azkar.ml · أدعية الأنبياء", "https://azkar.ml/zekr?pd=true&json=true"),
-    # Islamic-Api, whose data is served as files out of the repository.
-    ("Islamic-Api · repo root",
-     "https://api.github.com/repos/itsSamBz/Islamic-Api/contents"),
-    ("Islamic-Api · raw azkar (guess a)",
-     "https://raw.githubusercontent.com/itsSamBz/Islamic-Api/main/azkar.json"),
-    ("Islamic-Api · raw azkar (guess b)",
-     "https://raw.githubusercontent.com/itsSamBz/Islamic-Api/master/azkar.json"),
-    # A third, widely mirrored, for comparison only.
-    ("hisnmuslim · index",
+    ("hisnmuslim · الفهرس",
      "https://www.hisnmuslim.com/api/ar/husn_ar.json"),
 )
+
+# The repository whose file names have to be read rather than guessed.
+LISTING = "https://api.github.com/repos/itsSamBz/Islamic-Api/contents{path}"
 
 # What turns a line of text into something this board may draw.
 ATTRIBUTION = ("count", "repeat", "times", "التكرار", "تكرار", "العدد",
@@ -70,7 +72,10 @@ def ask(session, name, url) -> None:
         warn(f"{name}: HTTP {got.status_code} ({size:,} bytes)")
         return
     try:
-        payload = got.json()
+        # A BOM IS NOT A PARSE ERROR. hisnmuslim serves valid JSON
+        # behind a byte order mark and .json() choked on it, which
+        # read as "not json" when the content was fine all along.
+        payload = json.loads(got.content.decode("utf-8-sig"))
     except (ValueError, json.JSONDecodeError):
         log(f"  {name}: {size:,} bytes, NOT json "
             f"(starts {got.text[:40]!r})")
@@ -100,8 +105,33 @@ def ask(session, name, url) -> None:
         log(f"      attribution present: {carries or 'NONE'}")
 
 
+def walk_the_repo(session, path="", depth=0) -> None:
+    """Read the file names out of the listing instead of inventing them."""
+    if depth > 2:
+        return
+    try:
+        got = session.get(LISTING.format(path=path), timeout=30)
+        rows = got.json() if got.status_code == 200 else []
+    except Exception as exc:                                   # noqa: BLE001
+        warn(f"listing {path or '/'}: {exc}")
+        return
+    if not isinstance(rows, list):
+        return
+    for row in rows:
+        kind, name = row.get("type"), row.get("name", "")
+        if kind == "dir":
+            log(f"  {'  ' * depth}[{name}]")
+            walk_the_repo(session, f"{path}/{name}", depth + 1)
+        elif name.lower().endswith((".json", ".js")):
+            log(f"  {'  ' * depth}{name}  ({row.get('size', 0):,} bytes)")
+            log(f"  {'  ' * depth}   {row.get('download_url')}")
+
+
 def main() -> int:
     session = new_session()
+    log("WHAT IS ACTUALLY IN Islamic-Api — names read, not guessed")
+    walk_the_repo(session)
+    log("")
     log("Does an adhkar row carry a COUNT and a SOURCE, or only text?")
     for name, url in CANDIDATES:
         ask(session, name, url)
