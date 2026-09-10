@@ -40,6 +40,44 @@ check("a zero sura is refused",
 check("a sura that is not a number is refused",
       q.sourced({**good, "sura": "2"}, "an edition"), False)
 
+print("\nA hadith is drawn only with its book, its number AND its grading")
+said = {"text": "نص", "number": "1", "reference": "ref", "grade": "درجة"}
+check("a complete hadith with a named book passes",
+      q.sourced_hadith(said, "كتاب"), True)
+check("with NO book named it is refused",
+      q.sourced_hadith(said, ""), False)
+check("with no number it is refused",
+      q.sourced_hadith({**said, "number": ""}, "كتاب"), False)
+check("with no text it is refused",
+      q.sourced_hadith({**said, "text": ""}, "كتاب"), False)
+check("AND WITH NO GRADING IT IS REFUSED — the whole point",
+      q.sourced_hadith({**said, "grade": ""}, "كتاب"), False)
+check("a grading of whitespace is not a grading",
+      q.sourced_hadith({**said, "grade": "   "}, "كتاب"), False)
+check("a missing reference does not refuse it — the book and number "
+      "already say where it is",
+      q.sourced_hadith({**said, "reference": ""}, "كتاب"), True)
+
+print("\nThe grading is read, never decided here")
+check("a list of grade objects yields the first grade as written",
+      q._grade_from({"grades": [{"name": "x", "grade": "صحيح"}]}), "صحيح")
+check("a list of plain strings works too",
+      q._grade_from({"grades": ["حسن"]}), "حسن")
+check("a bare string works too", q._grade_from({"grades": "ضعيف"}), "ضعيف")
+check("no grades field yields nothing — NOT a default of 'صحيح'",
+      q._grade_from({}), "")
+check("an empty grades list yields nothing",
+      q._grade_from({"grades": []}), "")
+check("a grade object with no grade in it yields nothing",
+      q._grade_from({"grades": [{"name": "x"}]}), "")
+
+print("\nA tafsir row obeys the same rule as an ayah")
+note = {"sura": 2, "ayah": 255, "text": "نص"}
+check("a complete tafsir row with a named work passes",
+      q.sourced_tafsir(note, "عمل"), True)
+check("with no work named it is refused",
+      q.sourced_tafsir(note, ""), False)
+
 print("\nAn edition is refused unless it is the whole book")
 flat = {"quran": [{"chapter": 1, "verse": n, "text": "نص"}
                   for n in range(1, 8)]}
