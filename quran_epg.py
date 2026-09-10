@@ -461,22 +461,40 @@ def main() -> int:
         board += 1
         drawn += note is not None
 
-        said = the_days_reading(hadith_rows, day) if hadith_rows else None
-        if said is not None and not sourced_hadith(said, book):
-            refused += 1
-            said = None
-        draw_hadith(day, said, book).convert("RGB").save(
-            f"boards/today_quran_{board}.png")
-        board += 1
-        drawn += said is not None
+        # A BOARD THAT CAN ONLY EVER SAY "لم يصل" IS NOT DRAWN AT ALL.
+        # Measured on a runner: البخاري, مسلم and النووية all answer,
+        # all carry a grades KEY, and not one of 14,982 rows between
+        # them carries a grading in it. So there is no graded hadith to
+        # be had from this source, and a hadith board here would show
+        # its own error message every day for ever — which teaches a
+        # viewer to ignore the one day it means something.
+        #
+        # The day the source starts publishing gradings, or a graded
+        # one is added to HADITH_EDITIONS, the board appears by itself.
+        # Nothing else needs changing.
+        if hadith_rows:
+            said = the_days_reading(hadith_rows, day)
+            if not sourced_hadith(said, book):
+                refused += 1
+                said = None
+            draw_hadith(day, said, book).convert("RGB").save(
+                f"boards/today_quran_{board}.png")
+            board += 1
+            drawn += said is not None
 
         title = (f"⁦{reading['text'][:60]}…⁩" if reading
                  else "لم يصل النصُّ من مصدرِه")
         start = datetime.combine(day, datetime.min.time(), VIEWER)
         programmes.append((channel, start, start + timedelta(days=1), title))
 
+    # The manifest counts what was actually drawn, not what was hoped
+    # for: the encoder reads this to know how many boards a day owns,
+    # and a count that disagrees with the files is the torn screen the
+    # publish gate exists to catch.
+    per_day = board // len(days)
     with open("boards/today_quran_days.txt", "w", encoding="utf-8") as out:
-        out.write("\n".join("3" for _ in days) + "\n")
+        out.write("\n".join(str(per_day) for _ in days) + "\n")
+    log(f"  {per_day} board(s) a day")
 
     root = write_guide(channel, programmes)
     write_xml_atomic(root, "quran_epg.xml")
