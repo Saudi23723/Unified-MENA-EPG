@@ -173,6 +173,19 @@ book, rows = q.the_hadith(Book(mixed))
 check("and a part-graded edition keeps only the graded rows",
       len(rows), 1)
 
+print("\nEvery programme carries the board the screen gate reads")
+import re as _re
+_src = open("quran_epg.py", encoding="utf-8").read()
+check("the guide writer passes an icon through to add_programme",
+      "icon=icon" in _src, True)
+check("and the icon is a board of THIS screen",
+      bool(_re.search(r'RAW_BOARD\s*=.*BOARD_PREFIX', _src, _re.S)), True)
+check("the board it names is the day's FIRST, not any board of it",
+      "RAW_BOARD.format(n=first_board)" in _src, True)
+check("and first_board is taken before that day's boards are drawn",
+      bool(_re.search(r"for day in days:\s*\n\s*first_board = board",
+                      _src)), True)
+
 print("\nThe same day gives the same ayah, on every machine")
 from datetime import date
 rows = [{"sura": 1, "ayah": n, "text": "نص"} for n in range(1, 6237)]
