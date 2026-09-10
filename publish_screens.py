@@ -115,6 +115,12 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "f1": ("f1_", "f1_epg.xml", "f1.m3u8", "f1.sha256"),
     "dubai_f1": ("dubai_f1_", "dubai_f1_epg.xml", "dubai_f1.m3u8",
                  "dubai_f1.sha256"),
+    # The twelfth channel — وِرْدُ اليوم. One clock only, for the same
+    # reason مواقيت الصلاة is: the board carries a day's reading and a
+    # day is a day in either zone, so a second copy would say the same
+    # thing twice.
+    "today_quran": ("today_quran_", "quran_epg.xml",
+                    "quran.m3u8", "quran.sha256"),
     # The tenth channel — القنوات التركية · PPV, in both clocks.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv_epg.xml",
                     "turkish_ppv.m3u8", "turkish_ppv.sha256"),

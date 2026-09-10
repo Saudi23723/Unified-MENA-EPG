@@ -44,6 +44,10 @@ jobs:
         run: python -u turkish_ppv_epg.py
       - name: Rebuild Formula 1 channel
         run: python -u f1_epg.py
+      - name: Rebuild وِرْدُ اليوم
+        run: python -u quran_epg.py
+      - name: Encode وِرْدُ اليوم
+        run: python -u match_screen_video.py today_quran
       - name: Encode channel 1
         run: python -u match_screen_video.py today_matches
       - name: Encode channel 2
