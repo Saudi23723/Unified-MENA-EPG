@@ -196,12 +196,15 @@ def the_tafsir(session) -> tuple[str, str, list[dict]]:
 # inferred — a program that decides a hadith's grade for itself is the
 # whole thing this channel refuses to be.
 HADITH_EDITIONS = (
-    ("الأربعون النووية",
-     "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1"
-     "/editions/ara-nawawi.json"),
     ("صحيح البخاري",
      "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1"
      "/editions/ara-bukhari.json"),
+    ("صحيح مسلم",
+     "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1"
+     "/editions/ara-muslim.json"),
+    ("الأربعون النووية",
+     "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1"
+     "/editions/ara-nawawi.json"),
 )
 
 
@@ -250,8 +253,22 @@ def the_hadith(session) -> tuple[str, list[dict]]:
         if not out:
             warn(f"{book}: nothing in it carried a number and a text")
             continue
-        log(f"  hadith from {book}: {len(out)} of {len(rows)} rows usable")
-        return book, out
+        # AN EDITION WITHOUT GRADINGS IS NO USE HERE, however sound the
+        # collection. Measured: الأربعون النووية answered with all 42
+        # rows carrying number and text, and every board built from it
+        # was then refused by sourced_hadith for having no grading —
+        # eight boards drawn and four refused, every day the same one.
+        # The gate was right and the edition was wrong, so the choice is
+        # made here rather than leaving the gate to reject the whole
+        # edition one row at a time.
+        graded = sum(1 for row in out if row["grade"])
+        if not graded:
+            warn(f"{book}: {len(out)} rows and not one grading — "
+                 f"refused, since an ungraded hadith is not drawn")
+            continue
+        log(f"  hadith from {book}: {len(out)} of {len(rows)} rows "
+            f"usable, {graded} of them graded")
+        return book, [row for row in out if row["grade"]]
     return "", []
 
 

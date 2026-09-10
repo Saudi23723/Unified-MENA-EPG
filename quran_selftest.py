@@ -140,6 +140,39 @@ name, rows = q.the_quran(Source(Answer(500, {}), Answer(200, whole)))
 check("a failed first edition falls through to the next",
       (bool(name), len(rows)), (True, q.WHOLE_QURAN))
 
+print("\nAn edition carrying no gradings at all is refused whole")
+
+
+class Book:
+    def __init__(self, *answers):
+        self.answers, self.asked = list(answers), 0
+
+    def get(self, url, **kw):
+        answer = self.answers[min(self.asked, len(self.answers) - 1)]
+        self.asked += 1
+        return answer
+
+
+ungraded = Answer(200, {"hadiths": [
+    {"text": "نص", "hadithnumber": n, "reference": "r", "grades": []}
+    for n in range(1, 43)]})
+graded = Answer(200, {"hadiths": [
+    {"text": "نص", "hadithnumber": n, "reference": "r",
+     "grades": [{"name": "x", "grade": "درجة"}]} for n in range(1, 43)]})
+book, rows = q.the_hadith(Book(ungraded))
+check("every edition ungraded means no hadith at all — not a board "
+      "refused one row at a time",
+      (book, rows), ("", []))
+book, rows = q.the_hadith(Book(ungraded, graded))
+check("an ungraded edition falls through to a graded one",
+      (bool(book), len(rows)), (True, 42))
+mixed = Answer(200, {"hadiths": [
+    {"text": "نص", "hadithnumber": 1, "grades": [{"grade": "درجة"}]},
+    {"text": "نص", "hadithnumber": 2, "grades": []}]})
+book, rows = q.the_hadith(Book(mixed))
+check("and a part-graded edition keeps only the graded rows",
+      len(rows), 1)
+
 print("\nThe same day gives the same ayah, on every machine")
 from datetime import date
 rows = [{"sura": 1, "ayah": n, "text": "نص"} for n in range(1, 6237)]
