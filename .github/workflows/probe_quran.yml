@@ -1,0 +1,40 @@
+name: Probe — the Quran source
+on:
+  push:
+    paths:
+      - "quran_epg.py"
+      - "nur_theme.py"
+      - "quran_selftest.py"
+      - ".github/workflows/probe_quran.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Install rendering tools
+        run: tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core
+      - name: Nothing unsourced may reach the board
+        run: python -u quran_selftest.py
+      - name: Which edition actually answers, and what it hands back
+        run: |
+          mkdir -p boards
+          python -u quran_epg.py
+          echo "── the guide it wrote ──"
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          root = ET.parse("quran_epg.xml").getroot()
+          for p in root.findall("programme"):
+              print(f"  {p.get('start')[:8]}  {p.findtext('title')[:70]}")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quran-boards
+          path: boards/today_quran_*.png
