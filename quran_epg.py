@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import json
 import sys
+import unicodedata
 from datetime import date, datetime, timedelta, timezone
 
 from PIL import ImageDraw
@@ -283,6 +284,38 @@ def the_hadith(session) -> tuple[str, list[dict]]:
     return "", []
 
 
+def to_the_last_whole_word(text: str, room: int) -> str:
+    """Shorten to a WORD boundary, never through the middle of one.
+
+    THE FAULT THIS REPLACES. The guide's titles were cut with a plain
+    text[:60], and every one of the four came out ending inside a word
+    with a bare vowel mark hanging off it — a dammatan, a kasra, a
+    kasratan. A combining mark with nothing to combine with is not a
+    shortened word, it is a broken one, and in a guide listing it reads
+    as mangled Arabic rather than as a line that continues.
+
+    Latin gets away with cutting mid-word because a half word still
+    looks like a word. Arabic does not: the letters change shape by
+    position and the vowels sit ON the letters, so the cut has to fall
+    where the writing itself allows a break.
+
+    So: back up to the last space inside the room, and then strip any
+    combining marks left stranded at the new end. Nothing is added if
+    nothing was removed — an ellipsis on a complete line is a promise
+    of more that is not there.
+    """
+    text = " ".join((text or "").split())
+    if len(text) <= room:
+        return text
+    cut = text[:room]
+    if " " in cut:
+        cut = cut[:cut.rindex(" ")]
+    while cut and unicodedata.combining(cut[-1]):
+        cut = cut[:-1]
+    cut = cut.rstrip()
+    return f"{cut}…" if cut else text[:room]
+
+
 def sourced(row: dict, edition: str) -> bool:
     """THE GATE. Four things or it is not drawn."""
     return bool(edition) and bool(row.get("text")) \
@@ -494,8 +527,8 @@ def main() -> int:
             board += 1
             drawn += said is not None
 
-        title = (f"⁦{reading['text'][:60]}…⁩" if reading
-                 else "لم يصل النصُّ من مصدرِه")
+        title = (f"⁦{to_the_last_whole_word(reading['text'], 60)}⁩"
+                 if reading else "لم يصل النصُّ من مصدرِه")
         start = datetime.combine(day, datetime.min.time(), VIEWER)
         # THE ICON IS NOT DECORATION, IT IS WHAT THE SCREEN GATE READS.
         # A programme with no <icon> pointing at one of this screen's
