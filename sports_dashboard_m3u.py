@@ -322,14 +322,23 @@ def write_the_playlist(screens, output: str, group: str) -> int:
 
 def build() -> int:
     # The first clock, exactly as before.
-    ok = write_the_playlist(SCREENS, OUTPUT, GROUP)
+    first = write_the_playlist(SCREENS, OUTPUT, GROUP)
 
     # And the second, into a file of its own. A screen that has not been
     # encoded yet leaves its playlist unwritten rather than broken, and
     # the first clock's file is already safe on disk by then.
-    ok = write_the_playlist(DUBAI_SCREENS, DUBAI_OUTPUT, DUBAI_GROUP) and ok
+    second = write_the_playlist(DUBAI_SCREENS, DUBAI_OUTPUT, DUBAI_GROUP)
 
-    return 0 if ok else 1
+    # These two are exit codes, where nought is the good one — not truths,
+    # where nought is the bad one. Combining them with "and" read them the
+    # second way and got both ends backwards: two written playlists came
+    # to nought, which is false, which was reported as a failure, and two
+    # unwritten ones came to one, which is true, which was reported as
+    # success. The second is the dangerous half — the only run that ever
+    # exited nought was the run that wrote nothing.
+    #
+    # The worst is what matters, so take it: nought only when both wrote.
+    return max(first, second)
 
 
 if __name__ == "__main__":

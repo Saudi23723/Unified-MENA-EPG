@@ -38,6 +38,7 @@ red, which is the point.
 
 from __future__ import annotations
 
+import itertools
 import os
 import re
 import sys
@@ -6022,6 +6023,57 @@ def gate_the_card_is_split_by_the_broadcaster() -> None:
            sky_epg.a_day(EarlyDay(), "3625", "TNT Sports 1", "20260905")],
           ["UFC Fight Night Early Prelims"])
 
+def gate_a_playlist_that_was_written_reports_success() -> None:
+    """An exit code is not a truth value, and the two read opposite ways.
+
+    sports_dashboard_m3u.build() called two writers that each hand back
+    an exit code — nought for written — and then combined them with
+    "and", which reads nought as false. Both ends came out backwards.
+    Two written playlists made nought, which is false, which the last
+    line turned into 1: a good run reported as a failure. Two unwritten
+    ones made 1, which is true, which became nought: the only run that
+    ever exited nought was the run that wrote nothing at all.
+
+    The workflow's "|| test -s" hid the first half — the step passed
+    anyway because both files existed from the pass before — and in
+    hiding it, hid the second. This gate reads the exit code the way
+    the shell does, so an inversion cannot come back quietly.
+    """
+    print("\nA playlist that was written reports success")
+
+    import sports_dashboard_m3u as dashboard
+
+    # Every combination of the two clocks, through the real build().
+    written = dashboard.write_the_playlist
+    try:
+        for first, second in itertools.product((0, 1), repeat=2):
+            codes = iter((first, second))
+            dashboard.write_the_playlist = lambda *_, **__: next(codes)
+            said = "wrote" if first == 0 else "did not write"
+            also = "wrote" if second == 0 else "did not write"
+            check("PLAYLIST",
+                  f"{said} / {also}"[:34],
+                  dashboard.build(), max(first, second))
+    finally:
+        dashboard.write_the_playlist = written
+
+    # And the real thing with nothing encoded: the published playlists
+    # are left exactly as they are, and the run says so. Nothing is
+    # written on this path, so the repository's own files are safe.
+    here = dashboard.os.path.exists
+    published = open(dashboard.OUTPUT, "rb").read()
+    try:
+        dashboard.os.path.exists = (
+            lambda p: False if str(p).endswith(".m3u8") else here(p))
+        code = dashboard.build()
+    finally:
+        dashboard.os.path.exists = here
+
+    check("PLAYLIST", "no screen encoded is a failure", code, 1)
+    check("PLAYLIST", "and the published file is untouched",
+          open(dashboard.OUTPUT, "rb").read() == published, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6080,7 +6132,8 @@ def main() -> int:
                  gate_the_card_is_split_by_the_broadcaster,
                  gate_raf_reads_the_promotions_own_page,
                  gate_turkish_is_spelled_the_way_turkey_writes_it,
-                 gate_two_sources_naming_one_broadcast_is_one_row):
+                 gate_two_sources_naming_one_broadcast_is_one_row,
+                 gate_a_playlist_that_was_written_reports_success):
         try:
             gate()
         except Exception as exc:
