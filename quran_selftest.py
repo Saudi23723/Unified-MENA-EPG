@@ -173,6 +173,30 @@ book, rows = q.the_hadith(Book(mixed))
 check("and a part-graded edition keeps only the graded rows",
       len(rows), 1)
 
+print("\nA title is shortened at a word, never through one")
+import unicodedata as _u
+LONG = "\u0643\u0644\u0645\u0629 " * 40          # "kalima " forty times
+check("a short line is left alone",
+      q.to_the_last_whole_word("\u0643\u0644\u0645\u0629", 60),
+      "\u0643\u0644\u0645\u0629")
+short = q.to_the_last_whole_word(LONG, 60)
+check("a long one is shortened", len(short) <= 61, True)
+check("and it ends on a word, not inside one",
+      short.rstrip("\u2026").endswith("\u0629"), True)
+
+# A COMBINING MARK WITH NOTHING TO COMBINE WITH is the fault this
+# helper exists for: text[:60] left one dangling on all four titles.
+DAMMA = "\u064f"
+marked = ("\u0643\u0644\u0645" + DAMMA + "\u0629 ") * 30
+out = q.to_the_last_whole_word(marked, 40).rstrip("\u2026")
+check("no vowel mark is left hanging off the end",
+      bool(out) and not _u.combining(out[-1]), True)
+check("nothing is appended when nothing was removed",
+      "\u2026" not in q.to_the_last_whole_word("\u0643\u0644\u0645\u0629", 60),
+      True)
+check("a single word longer than the room still yields something",
+      bool(q.to_the_last_whole_word("\u0643" * 80, 20)), True)
+
 print("\nEvery programme carries the board the screen gate reads")
 import re as _re
 _src = open("quran_epg.py", encoding="utf-8").read()
