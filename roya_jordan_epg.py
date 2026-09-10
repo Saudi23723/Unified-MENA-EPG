@@ -46,7 +46,7 @@ from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, run_main, warn,
+    add_programme, fetch, log, new_session, resolve_overlaps, run_main, warn,
     write_xml_atomic,
 )
 
@@ -209,6 +209,7 @@ def build() -> int:
 
     total = 0
     ok_days = 0
+    per_channel: dict[str, list[dict]] = {}
 
     for offset in range(-DAYS_BACK, DAYS_FORWARD + 1):
         try:
@@ -222,33 +223,73 @@ def build() -> int:
         ok_days += 1
 
         for ch_entry in days:
-                site_id = str(ch_entry.get("id"))
-                meta = channels.get(site_id)
-                if not meta:
+            site_id = str(ch_entry.get("id"))
+            meta = channels.get(site_id)
+            if not meta:
+                continue
+            for prog in ch_entry.get("programs", []) or []:
+                try:
+                    start_ts = prog.get("start_timestamp")
+                    end_ts = prog.get("end_timestamp")
+                    if start_ts is None or end_ts is None:
+                        continue
+                    start = datetime.fromtimestamp(int(start_ts), tz=UTC)
+                    stop = datetime.fromtimestamp(int(end_ts), tz=UTC)
+                except Exception:
                     continue
-                for prog in ch_entry.get("programs", []) or []:
-                    try:
-                        start_ts = prog.get("start_timestamp")
-                        end_ts = prog.get("end_timestamp")
-                        if start_ts is None or end_ts is None:
-                            continue
-                        start = datetime.fromtimestamp(int(start_ts), tz=UTC)
-                        stop = datetime.fromtimestamp(int(end_ts), tz=UTC)
-                    except Exception:
-                        continue
-                    if stop <= start:
-                        continue
-                    title = (prog.get("name") or "").strip()
-                    if not title:
-                        continue
-                    desc = (prog.get("description") or "").strip()
-                    icon = prog.get("thumbnail_web") or None
+                if stop <= start:
+                    continue
+                title = (prog.get("name") or "").strip()
+                if not title:
+                    continue
 
-                    add_programme(
-                        root, meta["xmltv_id"], start, stop, title, desc,
-                        icon=icon,
-                    )
-                    total += 1
+                # GATHERED PER CHANNEL, ACROSS EVERY DAY, and written
+                # only once the whole channel is in hand — see below.
+                per_channel.setdefault(meta["xmltv_id"], []).append({
+                    "start": start,
+                    "stop": stop,
+                    "title": title,
+                    "desc": (prog.get("description") or "").strip(),
+                    "icon": prog.get("thumbnail_web") or None,
+                })
+
+    # AND THE OVERLAPS ARE RESOLVED BEFORE ANYTHING IS WRITTEN.
+    #
+    # This guide was the only one of the nine here that did not do this,
+    # and it cost the whole file. write_xml_atomic refuses a tree where
+    # one channel has two programmes at once — rightly, XMLTV cannot
+    # express it — and it refuses the WHOLE tree, so a single clashing
+    # pair out of Roya's API threw away all twenty-eight channels:
+    #
+    #     WARN overlapping programmes on Roya_RoyaTV
+    #          at 20260910210000 +0000
+    #
+    # A refused write leaves the previous file exactly where it was,
+    # which is the right thing to do and looks like nothing at all. So
+    # the guide simply stopped advancing, and its days aged: the last
+    # build that succeeded had filled its FUTURE days with stand-in, and
+    # those days became the present. Measured on the published file, the
+    # older a day was the more real it looked —
+    #
+    #     20260905  1949 rows,   73 stand-in    4%
+    #     20260909  1965 rows, 1749 stand-in   89%
+    #     20260910  1995 rows, 1890 stand-in   95%   today
+    #
+    # — which reads like a source that has gone quiet and is not one.
+    # Asked directly, the API answers with 1741 programmes for today and
+    # every one of them survives this file's own filter.
+    #
+    # Roya publishes across days, and a programme that runs past midnight
+    # comes back in BOTH days' responses, so the clash is as likely to be
+    # a channel against itself a day later as two rows in one payload.
+    # That is why a channel is gathered whole, over every day, and
+    # resolved once — resolving each day on its own would leave exactly
+    # the pair that breaks this.
+    for xmltv_id, rows in per_channel.items():
+        for event in resolve_overlaps(rows):
+            add_programme(root, xmltv_id, event["start"], event["stop"],
+                          event["title"], event["desc"], icon=event["icon"])
+            total += 1
 
     log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, "
         f"{total} programmes total, no Live badge (Roya publishes no live marker)")

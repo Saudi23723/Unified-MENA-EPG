@@ -6212,6 +6212,103 @@ def gate_the_channel_opens_on_a_day_with_something_left() -> None:
                  days[2]: [at(days[2], 20)]}), [12, 10, 11])
 
 
+def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
+    """Roya was the only guide here that never resolved its overlaps.
+
+    write_xml_atomic refuses a tree where one channel has two programmes
+    at once — rightly, XMLTV cannot express it — and it refuses the WHOLE
+    tree. So one clashing pair out of Roya's API threw away all
+    twenty-eight of its channels:
+
+        WARN overlapping programmes on Roya_RoyaTV at 20260910210000 +0000
+
+    A refused write leaves the previous file where it was, which is
+    correct and looks like nothing at all. The guide stopped advancing
+    and its days aged: the last build that succeeded had filled its
+    FUTURE days with stand-in, and those days became the present. The
+    older a published day was, the more real it looked — which reads
+    exactly like a source that has gone quiet, and was not one. Asked
+    directly, the API answered with 1741 programmes for that day.
+
+    Roya publishes across days, and a programme running past midnight
+    comes back in BOTH days' responses — so the clash is as likely to be
+    a channel against itself a day later as two rows in one payload.
+    A channel is gathered whole and resolved once for that reason.
+    """
+    print("\nOne clashing pair does not cost a whole guide")
+
+    import tempfile as _tf
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+
+    import epg_lib
+    import roya_jordan_epg as roya
+
+    check("ROYA", "the guide resolves its overlaps at all",
+          hasattr(roya, "resolve_overlaps"), True)
+
+    day = _dt(2026, 9, 10, tzinfo=_tz.utc)
+
+    def row(hour, minutes, title):
+        start = day + _td(hours=hour)
+        return {"start": start, "stop": start + _td(minutes=minutes),
+                "title": title, "desc": "", "icon": None}
+
+    # The three shapes Roya's own payload produces.
+    payload = [
+        row(20, 90, "a programme that overruns the next one"),   # 20:00-21:30
+        row(21, 60, "the one that starts inside it"),            # 21:00-22:00
+        row(23, 120, "and one that runs past midnight"),         # 23:00-01:00
+    ]
+    # The midnight one again, exactly as the NEXT day's response repeats it.
+    payload.append(row(23, 120, "and one that runs past midnight"))
+
+    kept = roya.resolve_overlaps(payload)
+    check("ROYA", "the clashing pair both survive", len(kept) >= 3, True)
+    check("ROYA", "and the repeat across days is not doubled",
+          len(kept), 3)
+
+    # NO PAIR OVERLAPS ANY MORE, and the published start times are the
+    # ones the source gave — a stop time is an estimate, a start is not.
+    clashes = sum(1 for before, after in zip(kept, kept[1:])
+                  if after["start"] < before["stop"])
+    check("ROYA", "no pair overlaps after resolving", clashes, 0)
+    check("ROYA", "every start is the one the source published",
+          [e["start"].hour for e in kept], [20, 21, 23])
+
+    # AND THE TREE THIS PRODUCES IS ONE write_xml_atomic WILL ACCEPT —
+    # which is the whole point. The old path built the same rows and the
+    # write refused them.
+    root = ET.Element("tv")
+    channel = ET.SubElement(root, "channel", id="Roya_RoyaTV")
+    ET.SubElement(channel, "display-name").text = "رؤيا"
+    for event in kept:
+        epg_lib.add_programme(root, "Roya_RoyaTV", event["start"],
+                              event["stop"], event["title"])
+
+    with _tf.TemporaryDirectory() as room:
+        out = os.path.join(room, "roya_check.xml")
+        written = epg_lib.write_xml_atomic(root, out, guard_regression=False)
+        check("ROYA", "and the file is written rather than refused",
+              written, True)
+
+    # The unresolved rows are what the refusal was about — proved by
+    # feeding them in unresolved and watching the write refuse.
+    raw = ET.Element("tv")
+    channel = ET.SubElement(raw, "channel", id="Roya_RoyaTV")
+    ET.SubElement(channel, "display-name").text = "رؤيا"
+    for event in payload[:2]:
+        epg_lib.add_programme(raw, "Roya_RoyaTV", event["start"],
+                              event["stop"], event["title"])
+    refused = False
+    with _tf.TemporaryDirectory() as room:
+        try:
+            epg_lib.write_xml_atomic(raw, os.path.join(room, "raw.xml"),
+                                     guard_regression=False)
+        except ValueError:
+            refused = True
+    check("ROYA", "unresolved, the same rows are refused", refused, True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6273,7 +6370,8 @@ def main() -> int:
                  gate_two_sources_naming_one_broadcast_is_one_row,
                  gate_a_playlist_that_was_written_reports_success,
                  gate_the_youth_competition_asked_for_by_name,
-                 gate_the_channel_opens_on_a_day_with_something_left):
+                 gate_the_channel_opens_on_a_day_with_something_left,
+                 gate_one_clashing_pair_does_not_cost_a_whole_guide):
         try:
             gate()
         except Exception as exc:
