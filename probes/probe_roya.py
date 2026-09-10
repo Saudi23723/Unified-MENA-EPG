@@ -30,7 +30,7 @@ import sys
 
 sys.path.insert(0, ".")
 
-from epg_lib import fetch, log, new_session, run_main, warn  # noqa: E402
+from epg_lib import fetch, log, new_session, warn  # noqa: E402
 
 ENDPOINTS = (
     ("schedule", "https://backend.roya.tv/api/v01/channels/schedule"),
@@ -108,4 +108,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    run_main(main)
+    raise SystemExit(main())
