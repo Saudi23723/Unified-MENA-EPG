@@ -120,8 +120,6 @@ jobs:
         run: python -u match_screen_video.py turkish_ppv
       - name: Encode UAE Turkish PPV channel
         run: python -u match_screen_video.py dubai_turkish_ppv
-      - name: Write playlists
-        run: python -u sports_dashboard_m3u.py || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; }
       - name: Verify screens
         run: |
           set +e
@@ -145,6 +143,22 @@ jobs:
             # off Alwan's schedule the day after it was written.
             python -u quarantine_screens.py /tmp/gate.log
           fi
+      # THE PLAYLIST IS WRITTEN AFTER THE SCREENS ARE VERIFIED, not
+      # before. It used to run ahead of the gate, so when the gate
+      # named a screen and quarantine_screens.py put that screen's
+      # files back, the playlist had ALREADY listed it — and the row
+      # went out pointing at a stream that was no longer there. That is
+      # a dead channel in the player, which is worse than an absent
+      # one: an absent channel is a gap, a dead one is a black screen
+      # somebody tunes to and waits on.
+      #
+      # Written here it sees what actually survived. The builder already
+      # refuses to list a screen whose m3u8 is missing — "has not been
+      # encoded — left out of the playlist this pass" — so a
+      # quarantined screen simply does not appear until it is fixed.
+      - name: Write playlists
+        run: python -u sports_dashboard_m3u.py || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; }
+
       - name: Publish refreshed indicators
         run: python -u publish_screens.py
 
@@ -203,9 +217,6 @@ jobs:
                             dubai_weather today_prayer; do
                 python -u match_screen_video.py "$screen"
               done
-              python -u sports_dashboard_m3u.py \
-                || { test -s ai_sports_dashboard.m3u \
-                     && test -s ai_sports_dashboard_dubai.m3u; }
               set +e
               python -u channel_gate_selftest.py 2>&1 | tee /tmp/gate.log
               status=${PIPESTATUS[0]}
@@ -213,6 +224,10 @@ jobs:
               if [ "$status" -ne 0 ]; then
                 python -u quarantine_screens.py /tmp/gate.log
               fi
+              # After the gate, for the reason above the first-pass step.
+              python -u sports_dashboard_m3u.py \
+                || { test -s ai_sports_dashboard.m3u \
+                     && test -s ai_sports_dashboard_dubai.m3u; }
               python -u publish_screens.py
             ) || echo "::warning::pass $pass did not finish — whatever it published stands, and pass $((pass + 1)) follows"
           done
