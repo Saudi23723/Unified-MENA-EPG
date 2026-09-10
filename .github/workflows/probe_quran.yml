@@ -28,12 +28,12 @@ jobs:
           mkdir -p boards
           python -u quran_epg.py
           echo "── the guide it wrote ──"
-          python - <<'PY'
+          python -c "
           import xml.etree.ElementTree as ET
-          root = ET.parse("quran_epg.xml").getroot()
-          for p in root.findall("programme"):
-              print(f"  {p.get('start')[:8]}  {p.findtext('title')[:70]}")
-          PY
+          root = ET.parse('quran_epg.xml').getroot()
+          for p in root.findall('programme'):
+              print('  ', p.get('start')[:8], p.findtext('title')[:70])
+          "
       - uses: actions/upload-artifact@v4
         with:
           name: quran-boards

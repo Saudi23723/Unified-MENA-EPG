@@ -222,7 +222,7 @@ def main() -> int:
         out.write("\n".join("1" for _ in days) + "\n")
 
     root = write_guide(channel, programmes)
-    write_xml_atomic("quran_epg.xml", root)
+    write_xml_atomic(root, "quran_epg.xml")
     log(f"  {drawn} day(s) with a sourced reading, {refused} refused, "
         f"{len(days) - drawn - refused} with none to show")
     return 0
