@@ -47,6 +47,15 @@ from PIL import ImageDraw
 
 from epg_lib import add_programme, log, new_session, warn, write_xml_atomic
 
+CHANNEL_ID = "TodayQuran"
+CHANNEL_AR = "وِرْدُ اليوم"
+CHANNEL_EN = "Daily Reading"
+OUTPUT = "quran_epg.xml"
+BOARD_DIR = "boards"
+BOARD_PREFIX = "today_quran_"
+LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+        "main/logos/today_quran.png")
+
 VIEWER = timezone.utc
 DAYS_AHEAD = 4
 
@@ -432,7 +441,7 @@ def main() -> int:
 
     now = datetime.now(VIEWER)
     days = [now.date() + timedelta(days=n) for n in range(DAYS_AHEAD)]
-    channel = "quran.today"
+    channel = CHANNEL_ID
     programmes = []
     drawn = refused = 0
 

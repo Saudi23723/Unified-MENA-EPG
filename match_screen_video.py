@@ -138,6 +138,11 @@ SCREENS = {
     # list of fixtures, so there is one picture and it is redrawn, not
     # paged. TWENTY SECONDS because it divides 140 and lands on a whole
     # AAC frame (f1_epg.py says why there is only ever one board).
+
+    # The twelfth channel — وِرْدُ اليوم. TWENTY SECONDS, like the
+    # fixtures boards: an ayah with its reference is read at a glance,
+    # not scanned like a bulletin's headlines.
+    "today_quran": ("today_quran_", "quran.m3u8", "quran.sha256", 20),
     "f1": ("f1_", "f1.m3u8", "f1.sha256", 20),
     "dubai_f1": ("dubai_f1_", "dubai_f1.m3u8", "dubai_f1.sha256", 20),
     # THE TENTH CHANNEL — القنوات التركية · PPV: the Turkish grid alone.

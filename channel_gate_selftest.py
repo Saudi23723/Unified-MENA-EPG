@@ -4061,6 +4061,26 @@ def gate_no_guide_reads_a_stranger() -> None:
         ("bein_sports_turkey_epg.py", "epgshare01.online"),
         ("bein_sports_turkey_epg.py", "www.open-epg.com"),
         ("tivibu_spor_epg.py", "epgshare01.online"),
+        # THE THIRD, AND IT IS A DECISION, not an oversight this gate
+        # failed to catch — it caught it, which is why this line exists.
+        #
+        # وِرْدُ اليوم reads the Quran text and an Arabic tafsir from a
+        # community edition mirrored on jsDelivr. That is a weaker
+        # provenance than the rest of this repository's sources, which
+        # are broadcasters publishing their own schedules, and it is
+        # weaker in the one place it matters most.
+        #
+        # What stands behind it instead: the fetch refuses an edition
+        # that is not exactly 6236 ayat, refuses a payload in a shape
+        # it does not recognise rather than guessing at it, and draws
+        # nothing at all without a sura, an ayah and the edition's own
+        # name on the row. The edition that answered is logged on every
+        # build, so which text is on the screen is a matter of record
+        # rather than of trust.
+        #
+        # If a text published by an authority directly becomes
+        # reachable, it belongs above this line and this line should go.
+        ("quran_epg.py", "cdn.jsdelivr.net"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4125,10 +4145,15 @@ def gate_no_guide_reads_a_stranger() -> None:
     check("SOURCES", "and no schedule is ever fetched back out of GitHub",
           read_back, [])
 
-    # The two that ARE read are the weakest thing here, and the count is
-    # held so that it can only go down without somebody noticing.
-    check("SOURCES", "exactly three aggregated-feed reads, all declared",
-          len(KNOWN), 3)
+    # The ones that ARE read are the weakest thing here, and the count is
+    # held so that it can only go down without somebody noticing. It went
+    # UP to four when وِرْدُ اليوم arrived, which is the gate working:
+    # widening KNOWN alone was not enough to get past it, and the number
+    # had to be raised deliberately too. Four is the ceiling, not a
+    # target — the day a text published by an authority replaces the
+    # mirrored edition, this goes back to three.
+    check("SOURCES", "exactly four aggregated-feed reads, all declared",
+          len(KNOWN), 4)
 
 
 

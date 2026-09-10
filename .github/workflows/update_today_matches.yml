@@ -18,7 +18,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # EIGHT PASSES TWENTY MINUTES APART NEEDS THE ROOM TO RUN THEM.
+    # At 20 this job was killed inside the first sleep, so the ticker
+    # below would never have reached pass 2 and the whole change would
+    # have been decoration. 175 matches channel 6's, and leaves margin
+    # over the ~160 minutes the eight passes actually take.
+    timeout-minutes: 175
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -44,6 +49,10 @@ jobs:
         run: python -u turkish_ppv_epg.py
       - name: Rebuild Formula 1 channel
         run: python -u f1_epg.py
+      - name: Rebuild وِرْدُ اليوم
+        run: python -u quran_epg.py
+      - name: Encode وِرْدُ اليوم
+        run: python -u match_screen_video.py today_quran
       - name: Encode channel 1
         run: python -u match_screen_video.py today_matches
       - name: Encode channel 2
@@ -95,3 +104,69 @@ jobs:
           fi
       - name: Publish refreshed indicators
         run: python -u publish_screens.py
+
+      # ─── AND AGAIN, SEVEN MORE TIMES, TWENTY MINUTES APART ───────────
+      #
+      # THE CRON IS NOT ARRIVING. This asks for a run every five minutes
+      # — twelve slots an hour — and measured across 2026-09-10 it fired
+      # twice in three hours, then not at all between 15:47 and 17:50.
+      # For two hours the football, sports, baseball, NBA/NFL, Turkish
+      # and Formula 1 boards all sat on a stale render while somebody
+      # dispatched this by hand, hour after hour. That is not a fix, and
+      # doing it again tomorrow would not be one either.
+      #
+      # The repository already answered this question twice. "Build every
+      # EPG" builds nine times, twenty minutes apart, and channel 6
+      # twenty times, eight minutes apart, both for exactly this reason:
+      # correctness must not depend on the scheduler firing often. This
+      # brings the same answer to the workflow that had been left out of
+      # it — one landed event now covers not quite three hours on its
+      # own, so a dropped slot costs nothing.
+      #
+      # ADDED AFTER the steps above rather than replacing them, on
+      # purpose: the first pass is still the steps exactly as they were,
+      # already published before this runs at all. If this step never
+      # executes, the workflow behaves precisely as it did before.
+      #
+      # A pass that fails does not stop the ones after it. A source that
+      # answers badly for twenty minutes should cost twenty minutes, not
+      # the remaining two hours — and whatever the failing pass had
+      # already published stays published.
+      #
+      # cancel-in-progress means a fresh trigger replaces a running
+      # ticker instead of queueing behind it, so these can never pile
+      # up, and a cancellation almost always lands inside a sleep with
+      # the last pass already pushed.
+      - name: Keep publishing while the scheduler is quiet
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          for pass in 2 3 4 5 6 7 8; do
+            sleep 1200
+            echo "───── pass $pass of 8 ─────"
+            (
+              set -e
+              for build in today_matches_epg other_sports_epg \
+                           ball_sports_epg hoops_gridiron_epg \
+                           turkish_ppv_epg f1_epg quran_epg; do
+                python -u "$build.py"
+              done
+              for screen in today_quran today_matches other_sports \
+                            dubai_matches dubai_sports ball_sports \
+                            dubai_ball_sports hoops_gridiron \
+                            dubai_hoops_gridiron f1 dubai_f1 \
+                            turkish_ppv dubai_turkish_ppv; do
+                python -u match_screen_video.py "$screen"
+              done
+              python -u sports_dashboard_m3u.py \
+                || { test -s ai_sports_dashboard.m3u \
+                     && test -s ai_sports_dashboard_dubai.m3u; }
+              set +e
+              python -u channel_gate_selftest.py 2>&1 | tee /tmp/gate.log
+              status=${PIPESTATUS[0]}
+              set -e
+              if [ "$status" -ne 0 ]; then
+                python -u quarantine_screens.py /tmp/gate.log
+              fi
+              python -u publish_screens.py
+            ) || echo "::warning::pass $pass did not finish — whatever it published stands, and pass $((pass + 1)) follows"
+          done
