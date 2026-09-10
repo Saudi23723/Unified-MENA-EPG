@@ -58,8 +58,6 @@ from turkish_ppv_epg import CHANNEL_AR as TPPV_AR
 from turkish_ppv_epg import CHANNEL_ID as TPPV_ID
 from turkish_ppv_epg import LOGO as TPPV_LOGO
 from prayer_epg import CHANNEL_AR as PRAYER_AR
-from quran_epg import CHANNEL_ID as QURAN_ID
-from quran_epg import LOGO as QURAN_LOGO
 from prayer_epg import CHANNEL_ID as PRAYER_ID
 from prayer_epg import LOGO as PRAYER_LOGO
 
@@ -153,13 +151,6 @@ SCREENS = (
     (F1_ID, F1_AR, "stream/f1.m3u8",
      f"{RAW}/stream/f1.m3u8", "🏁 Formula 1",
      F1_LOGO),
-    # The twelfth channel — وِرْدُ اليوم. One clock only, like مواقيت
-    # الصلاة above it: the board carries a day's reading, and a day is
-    # a day in either zone.
-    (QURAN_ID, "وِرْدُ اليوم", "stream/quran.m3u8",
-     f"{RAW}/stream/quran.m3u8", "☾ وِرْدُ اليوم",
-     QURAN_LOGO),
-
 )
 
 
@@ -246,7 +237,6 @@ PLAYLIST_NAMES = {
     "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
     "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
     "Formula1":       ("Formula 1",       "🏁 Formula 1"),
-    "TodayQuran":     ("Daily Reading",   "☾ وِرْدُ اليوم"),
 }
 
 # The second clock's rows are the same channels under Gulf times, so they

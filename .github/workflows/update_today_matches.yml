@@ -70,8 +70,6 @@ jobs:
         run: python -u turkish_ppv_epg.py
       - name: Rebuild Formula 1 channel
         run: python -u f1_epg.py
-      - name: Rebuild وِرْدُ اليوم
-        run: python -u quran_epg.py
       # THREE DASHBOARDS NOTHING WAS BUILDING. news_epg.py,
       # weather_epg.py and prayer_epg.py exist, and no workflow ran
       # either them or the encoder for their screens: today_news,
@@ -84,8 +82,6 @@ jobs:
         run: python -u weather_epg.py
       - name: Rebuild prayer times
         run: python -u prayer_epg.py
-      - name: Encode وِرْدُ اليوم
-        run: python -u match_screen_video.py today_quran
       - name: Encode news
         run: python -u match_screen_video.py today_news
       - name: Encode UAE news
@@ -204,11 +200,11 @@ jobs:
               set -e
               for build in today_matches_epg other_sports_epg \
                            ball_sports_epg hoops_gridiron_epg \
-                           turkish_ppv_epg f1_epg quran_epg \
+                           turkish_ppv_epg f1_epg \
                            news_epg weather_epg prayer_epg; do
                 python -u "$build.py"
               done
-              for screen in today_quran today_matches other_sports \
+              for screen in today_matches other_sports \
                             dubai_matches dubai_sports ball_sports \
                             dubai_ball_sports hoops_gridiron \
                             dubai_hoops_gridiron f1 dubai_f1 \
