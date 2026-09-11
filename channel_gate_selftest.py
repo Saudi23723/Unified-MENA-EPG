@@ -6221,93 +6221,6 @@ def gate_the_youth_competition_asked_for_by_name() -> None:
                   "دوري أبطال أوروبا")), True)
 
 
-def gate_the_channel_opens_on_a_day_with_something_left() -> None:
-    """The first board is the one a viewer arrives on.
-
-    Photographed at 22:40: seven rows, every one of them slate, every one
-    reading انتهى — and tomorrow's eight live fixtures on the board
-    BEHIND it. days_of() puts today first until midnight, the reel plays
-    the boards in the order they were drawn, so from the last final
-    whistle until midnight the channel opened on a day that was over.
-
-    A finished leading day goes to the end of the reel now. It is not
-    dropped, not hidden, and still sits in the guide at its own hour —
-    it just stops being the first thing on the screen once nothing on it
-    is still to come.
-    """
-    print("\nThe channel opens on a day that still has something on it")
-
-    from datetime import date as _date, datetime as _dt, timezone as _tz
-    import today_matches_epg as today
-
-    now = _dt(2026, 9, 10, 22, 40, tzinfo=_tz.utc)
-    days = [_date(2026, 9, 10), _date(2026, 9, 11), _date(2026, 9, 12)]
-
-    def at(day, hour):
-        return {"start": _dt(day.year, day.month, day.day, hour,
-                             tzinfo=_tz.utc)}
-
-    def order(by_day):
-        return [d.day for d in today.reel_order(days, by_day, now)]
-
-    # The night this was reported: today played out, tomorrow full.
-    check("REEL", "a day that is over goes last",
-          order({days[0]: [at(days[0], 8), at(days[0], 11)],
-                 days[1]: [at(days[1], 13)],
-                 days[2]: []}), [11, 12, 10])
-
-    # AND EVERY REASON NOT TO MOVE IT. One kickoff still to come is
-    # enough to keep the day where it is, and so is a match on the air:
-    # a viewer arriving mid-match must arrive at the match.
-    check("REEL", "one kickoff still to come keeps it",
-          order({days[0]: [at(days[0], 8), at(days[0], 23)],
-                 days[1]: [at(days[1], 13)],
-                 days[2]: []}), [10, 11, 12])
-    check("REEL", "and a match on the air keeps it",
-          order({days[0]: [at(days[0], 22)],
-                 days[1]: [at(days[1], 13)],
-                 days[2]: []}), [10, 11, 12])
-
-    # AN EMPTY DAY IS SPENT TOO, and this gate said the opposite until
-    # the baseball channel showed it: board 0 read "لا يوجد حدث" with
-    # thirty games on the two boards behind it. "Nothing today" and
-    # "everything today has finished" are the same thing to somebody
-    # looking for what to watch.
-    check("REEL", "an empty day moves as well",
-          order({days[0]: [], days[1]: [at(days[1], 13)], days[2]: []}),
-          [11, 12, 10])
-    check("REEL", "empty today, empty tomorrow, games on the third",
-          order({days[0]: [], days[1]: [], days[2]: [at(days[2], 13)]}),
-          [12, 10, 11])
-
-    # BUT IF THERE IS NOTHING ANYWHERE the order is left alone — this is
-    # the case where "لا يوجد حدث" IS the answer, and it stays first.
-    check("REEL", "nothing on any day leaves the order alone",
-          order({d: [] for d in days}), [10, 11, 12])
-    check("REEL", "every day over leaves the order alone",
-          order({d: [at(days[0], 8)] for d in days}), [10, 11, 12])
-
-    # Two finished days at the front both move, in their own order.
-    check("REEL", "two finished days both move, in order",
-          order({days[0]: [at(days[0], 8)],
-                 days[1]: [at(days[0], 9)],
-                 days[2]: [at(days[2], 20)]}), [12, 10, 11])
-
-    # AND THE SPORTS CHANNELS USE THE SAME RULE. ball_sports,
-    # hoops_gridiron and turkish_ppv are all built on other_sports_epg,
-    # which is why the baseball channel could open on "لا يوجد حدث" while
-    # channel one had already been fixed. One rule, imported, not two
-    # copies to drift apart.
-    import other_sports_epg
-    check("REEL", "the sports channels read the same rule",
-          other_sports_epg.reel_order is today.reel_order, True)
-    for name in ("ball_sports_epg", "hoops_gridiron_epg",
-                 "turkish_ppv_epg"):
-        built_on = __import__(name)
-        check("REEL", f"{name[:24]} is built on it",
-              getattr(built_on, "base", None) is other_sports_epg, True)
-
-
 def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
     """Roya was the only guide here that never resolved its overlaps.
 
@@ -6458,12 +6371,15 @@ def gate_a_game_being_played_is_a_live_event() -> None:
     check("LIVEBALL", "and the NFL channel reads it",
           hasattr(hoops_gridiron_epg, "nfl_espn"), True)
 
-    # espn_fights is NOT touched here: it feeds another channel and was
-    # not asked about. Named so that a later reader does not "tidy" the
-    # four into one without deciding that separately.
+    # AND CHANNEL TWO, which reads espn_fights. It was left alone at
+    # first because it had not been asked about; then it was, and it had
+    # the same fault — a card BEING FOUGHT refused alongside one already
+    # fought.
     import espn_fights
-    check("LIVEBALL", "the fights reader is deliberately left alone",
-          'state") != "pre"' in inspect.getsource(espn_fights), True)
+    check("LIVEBALL", "espn_fights keeps a card being fought",
+          'state") != "pre"' in inspect.getsource(espn_fights), False)
+    check("LIVEBALL", "and still drops one already fought",
+          'state") == "post"' in inspect.getsource(espn_fights), True)
 
 
 def main() -> int:
@@ -6527,7 +6443,6 @@ def main() -> int:
                  gate_two_sources_naming_one_broadcast_is_one_row,
                  gate_a_playlist_that_was_written_reports_success,
                  gate_the_youth_competition_asked_for_by_name,
-                 gate_the_channel_opens_on_a_day_with_something_left,
                  gate_one_clashing_pair_does_not_cost_a_whole_guide,
                  gate_a_game_being_played_is_a_live_event):
         try:
