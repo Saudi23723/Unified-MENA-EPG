@@ -55,12 +55,22 @@ def events(floor: datetime, ceiling: datetime) -> list[dict]:
         edition = session["edition"]
         sport = EDITION_SPORT.get(edition, "Olympics")
         discipline = session["discipline"]
+        # Aichi-Nagoya basketball is shown only when a beIN broadcast is
+        # confirmed; unlabeled sessions (the board's "PPV" fallback) are
+        # dropped for that discipline alone. Every other sport is untouched.
+        if edition == "Aichi-Nagoya 2026" and "basketball" in discipline.lower():
+            bein = [c for c in session.get("channels", []) if c.lower().startswith("bein")]
+            if not bein:
+                continue
+            channels = bein
+        else:
+            channels = list(session.get("channels", []))
         title = norm(f"{edition} — {discipline}")
         out.append({
             "title": title,
             "sport": sport,
             "start": start,
-            "channels": [],
+            "channels": channels,
             "source": "majorgames",
             "duration": DEFAULT_DURATION,
             "discipline": discipline,
