@@ -65,6 +65,7 @@ import spanish_sport_grid
 
 import world_ball_feed
 import beach_volley_fivb
+import womens_volley_fivb
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label, on_air_for,
@@ -1498,6 +1499,14 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         # And the women's beach, from FIVB itself. See beach_volley_fivb.py
         # for why its printed local clock is safe here and where it is not.
         everything += beach_volley_fivb.events(session, floor, ceiling)
+        # AND THE INDOOR WOMEN'S INTERNATIONALS, from the same federation
+        # service — asked for outright: "Add women's international
+        # volleyball to channel 2". The national grids of Poland, Sweden,
+        # Germany, Italy, France, Russia and Serbia were measured first
+        # and none of them answers with a readable row; Spain's does and
+        # is already read above, Turkey's has a channel of its own. See
+        # womens_volley_fivb.py for what each one returned.
+        everything += womens_volley_fivb.events(session, floor, ceiling)
 
     # AND BASEBALL, from the league's own scoreboard — asked for by name
     # ("I want to add MLB and Baseball world series"). National networks
