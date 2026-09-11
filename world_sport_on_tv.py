@@ -254,26 +254,6 @@ PAGES = (
     ("/live-basketball-on-tv/", "NBA",
      re.compile(r"\bNBA\b", re.I), None),
 
-    # MAJOR PRO WRESTLING, asked for beside the Olympic kind: "Add
-    # major wrestling and Olympic wrestling ... to channel 2". There is
-    # no /live-wrestling-on-tv/ here — measured, 404 — and no AEW page
-    # either; the sport's door on this source is its WWE page, which is
-    # the same server-rendered table every page above is read from, with
-    # the UK carrier in the channel column. Its own navigation calls the
-    # sport "WWE Wrestling".
-    #
-    # The keep names the cards worth a board row: the premium live
-    # events, Raw and SmackDown and NXT, and AEW where the page carries
-    # it. The board's own NOT_LIVE guard throws out the previews and the
-    # recaps before any of this is looked at, so a "WWE Rivals" repeat
-    # cannot reach a screen wearing a live row's clothes.
-    ("/live-wwe-on-tv/", "Wrestling",
-     re.compile(r"\bwwe\b|\baew\b|\bnxt\b|wrestlemania|summerslam"
-                r"|royal rumble|survivor series|money in the bank"
-                r"|clash at the castle|bash in berlin|backlash|elimination"
-                r"|\braw\b|smackdown|wrestling", re.I),
-     None),
-
     ("/live-basketball-on-tv/", "FIBA",
      re.compile(r"\bFIBA\b|eurobasket|basketball world cup", re.I), None),
 )
@@ -315,7 +295,6 @@ AN_UNCONFIRMED_NUMBER = re.compile(r"\s+(?:tbc|tba|tbd)\.?$", re.I)
 # by AN_UNCONFIRMED_NUMBER above.
 AN_UNSET_CLOCK = re.compile(r"^\s*(?:tbc|tba|tbd)\.?\s*$", re.I)
 
-
 def when(cell) -> datetime | None:
     """The kickoff as an instant, from the cell's own <time datetime>.
 
@@ -345,7 +324,6 @@ def when(cell) -> datetime | None:
     return (moment.astimezone(timezone.utc) if moment.tzinfo
             else moment.replace(tzinfo=timezone.utc))
 
-
 def channels_of(cell) -> list[str]:
     """Every channel the row names, and nothing that is not one."""
     if cell is None:
@@ -365,7 +343,6 @@ def channels_of(cell) -> list[str]:
         for name in re.split(r"\s{2,}|\n", cell.get_text("\n", strip=True)):
             keep(name, out)
     return out
-
 
 def title_of(row, fixture_cell) -> str:
     """Two sides where the sport has them, the event's own name where not.
@@ -410,7 +387,6 @@ def title_of(row, fixture_cell) -> str:
                 and len(left[0]) >= 3):
             return norm(f"{label} {' '.join(rest_words[1:])}")
     return norm(fixture_cell.get_text(" ", strip=True))
-
 
 def _the_label_repeats(label: str, rest: str) -> bool:
     """Whether the description already names what the label says.
@@ -462,7 +438,6 @@ def _the_label_repeats(label: str, rest: str) -> bool:
         return False
     return True
 
-
 def collect(html: str, sport: str, keep, refuse) -> list[dict]:
     """Every event on one sport page that belongs on this board."""
     from bs4 import BeautifulSoup
@@ -511,7 +486,6 @@ def collect(html: str, sport: str, keep, refuse) -> list[dict]:
         f"instant, {unwanted} not a competition asked for, "
         f"{len(out)} kept")
     return out
-
 
 def events(session) -> list[dict]:
     """Every event this source has, for the sports the board was asked for."""
