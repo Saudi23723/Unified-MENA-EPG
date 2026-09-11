@@ -64,6 +64,7 @@ import turkish_sport_grid
 import spanish_sport_grid
 
 import world_ball_feed
+import bkfc
 import beach_volley_fivb
 import womens_volley_fivb
 import wrestling_uww
@@ -331,7 +332,7 @@ def wanted(event: dict) -> bool:
     if not a_live_event(event.get("title", "")):
         return False
     if not event.get("channels") and event.get("source") not in (
-            "worldball", "fivb", "uww", "majorgames"):
+            "worldball", "fivb", "uww", "majorgames", "bkfc"):
         # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
         # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
         # listings page reaches, and the board's PPV fallback labels
@@ -1680,6 +1681,15 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # because Tapology is the backup, not the headline.
     if can_fetch:
         everything += tapology.events(session, floor, ceiling)
+
+    # AND BKFC'S OWN EVENTS PAGE, asked for by name. Nothing else here
+    # can see a bare-knuckle card any more: ESPN has no such league and
+    # Tapology, which used to carry them, answers 403 to this reader.
+    # The promotion publishes every card's own clock in Eastern time,
+    # and its page says so itself; see bkfc.py. No channel is invented —
+    # BKFC sells its own cards, so the row prints the honest PPV word.
+    if can_fetch:
+        everything += bkfc.events(session, floor, ceiling)
 
     # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
     # for by name ("TSN AND SPORTSNET events matches to be added on
