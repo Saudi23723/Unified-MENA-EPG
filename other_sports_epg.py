@@ -66,6 +66,7 @@ import spanish_sport_grid
 import world_ball_feed
 import beach_volley_fivb
 import womens_volley_fivb
+import wrestling_uww
 import world_sport_on_tv
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label, on_air_for,
@@ -242,6 +243,16 @@ IN_ORDER = (
     # nothing above them moved.
     "Beach Volleyball",
     "Futsal",
+    # And the wrestling, asked for by name: "Add major wrestling and
+    # Olympic wrestling, Olympic boxing events / matches to channel 2".
+    # Two doors, because the word means two sports: the Olympic-style
+    # championships from the federation's own calendar (wrestling_uww.py)
+    # and the major pro cards from the listings page that carries them
+    # (the WWE page in world_sport_on_tv.py). Olympic-style BOXING keeps
+    # the doors it already has — the open boxing page and the Turkish
+    # grid's "boks" — because no federation calendar for it can be read
+    # from a runner; see wrestling_uww.py for what was measured.
+    "Wrestling",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -309,7 +320,7 @@ def wanted(event: dict) -> bool:
     if not a_live_event(event.get("title", "")):
         return False
     if not event.get("channels") and event.get("source") not in (
-            "worldball", "fivb"):
+            "worldball", "fivb", "uww"):
         # THE TWO FEDERATION-SIDE FEEDS ARE ALLOWED THROUGH WITHOUT ONE.
         # They carry the majors no listings page in reach carries at all,
         # and a reader counting the day sees a missing EVENT before a
@@ -1507,6 +1518,15 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         # is already read above, Turkey's has a channel of its own. See
         # womens_volley_fivb.py for what each one returned.
         everything += womens_volley_fivb.events(session, floor, ceiling)
+        # AND THE WRESTLING CHAMPIONSHIPS, from United World Wrestling's
+        # own calendar — asked for outright: "Add major wrestling and
+        # Olympic wrestling ... to channel 2". The majors only, senior
+        # only, each competition day placed in the HOST CITY'S zone, and
+        # UWW+ named only where the federation itself says it streams
+        # the event. See wrestling_uww.py for the four sources measured
+        # before it and for why Olympic-style boxing keeps its existing
+        # doors instead of a new one.
+        everything += wrestling_uww.events(session, floor, ceiling)
 
     # AND BASEBALL, from the league's own scoreboard — asked for by name
     # ("I want to add MLB and Baseball world series"). National networks
