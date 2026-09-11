@@ -3514,7 +3514,13 @@ def gate_a_card_is_not_named_after_one_of_its_bouts() -> None:
     import other_sports_epg as board
     from datetime import datetime, timezone
 
-    when = datetime(2026, 9, 8, 23, 0, tzinfo=timezone.utc)
+    # TONIGHT, not a date written into the test. The carrier ledger
+    # deliberately forgets a card days after its night, so a fixed date
+    # made this gate pass the day it was written and fail two days
+    # later — and a failing gate publishes nothing, which is what left
+    # the live indicators frozen on every channel.
+    when = datetime.now(timezone.utc).replace(
+        hour=23, minute=0, second=0, microsecond=0)
     bout = dict(title="MMA Berisha vs Pasley - Meta Apex",
                 competition="Contender Series 2026", sport="MMA",
                 source=None, channels=["UFC Fight Pass"], start=when)
