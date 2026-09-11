@@ -6268,14 +6268,22 @@ def gate_the_channel_opens_on_a_day_with_something_left() -> None:
                  days[1]: [at(days[1], 13)],
                  days[2]: []}), [10, 11, 12])
 
-    # A day with NO matches is not a finished day. Its board says so in
-    # one line, which is an answer — unlike a wall of played fixtures.
-    check("REEL", "an empty day keeps its place",
+    # AN EMPTY DAY IS SPENT TOO, and this gate said the opposite until
+    # the baseball channel showed it: board 0 read "لا يوجد حدث" with
+    # thirty games on the two boards behind it. "Nothing today" and
+    # "everything today has finished" are the same thing to somebody
+    # looking for what to watch.
+    check("REEL", "an empty day moves as well",
           order({days[0]: [], days[1]: [at(days[1], 13)], days[2]: []}),
-          [10, 11, 12])
+          [11, 12, 10])
+    check("REEL", "empty today, empty tomorrow, games on the third",
+          order({days[0]: [], days[1]: [], days[2]: [at(days[2], 13)]}),
+          [12, 10, 11])
 
-    # If everything is over there is no better board to arrive on, and
-    # shuffling would only make the guide's icons disagree for nothing.
+    # BUT IF THERE IS NOTHING ANYWHERE the order is left alone — this is
+    # the case where "لا يوجد حدث" IS the answer, and it stays first.
+    check("REEL", "nothing on any day leaves the order alone",
+          order({d: [] for d in days}), [10, 11, 12])
     check("REEL", "every day over leaves the order alone",
           order({d: [at(days[0], 8)] for d in days}), [10, 11, 12])
 
@@ -6284,6 +6292,20 @@ def gate_the_channel_opens_on_a_day_with_something_left() -> None:
           order({days[0]: [at(days[0], 8)],
                  days[1]: [at(days[0], 9)],
                  days[2]: [at(days[2], 20)]}), [12, 10, 11])
+
+    # AND THE SPORTS CHANNELS USE THE SAME RULE. ball_sports,
+    # hoops_gridiron and turkish_ppv are all built on other_sports_epg,
+    # which is why the baseball channel could open on "لا يوجد حدث" while
+    # channel one had already been fixed. One rule, imported, not two
+    # copies to drift apart.
+    import other_sports_epg
+    check("REEL", "the sports channels read the same rule",
+          other_sports_epg.reel_order is today.reel_order, True)
+    for name in ("ball_sports_epg", "hoops_gridiron_epg",
+                 "turkish_ppv_epg"):
+        built_on = __import__(name)
+        check("REEL", f"{name[:24]} is built on it",
+              getattr(built_on, "base", None) is other_sports_epg, True)
 
 
 def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
