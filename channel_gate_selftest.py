@@ -6405,6 +6405,67 @@ def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
     check("ROYA", "unresolved, the same rows are refused", refused, True)
 
 
+def gate_a_game_being_played_is_a_live_event() -> None:
+    """The two ball channels were dropping exactly what was on now.
+
+    "رجع الي NFL المباشر اليوم و ال MLB المباشر اليوم" — reported with
+    games in progress, both channels drawing today as لا يوجد حدث.
+
+    ESPN's scoreboard gives every game a state: "pre" before it starts,
+    "in" while it is being played, "post" once it is over. These readers
+    kept only "pre". Measured the same minute, ESPN had a full card
+    every day of the window and today came back empty:
+
+        day (viewer)   events
+        2026-09-10          0     today — all of it "in" or "post"
+        2026-09-11         15
+        2026-09-12         15
+
+    A game being played IS the live event. It is the finished one that
+    is not, and "post" is still dropped: nobody should be sent to a
+    channel for a game that is over.
+    """
+    print("\nA game being played is a live event — the ball channels")
+
+    import inspect
+
+    import espn_league
+    import mlb_espn
+    import wnba_espn
+
+    # READ OFF THE SOURCE, because the rule is one line in three files
+    # and the fault was that one of them could drift from the others.
+    for name, module in (("mlb_espn", mlb_espn),
+                         ("wnba_espn", wnba_espn),
+                         ("espn_league", espn_league)):
+        body = inspect.getsource(module)
+        check("LIVEBALL", f"{name} keeps a game in progress",
+              'state") != "pre"' in body, False)
+        check("LIVEBALL", f"{name} still drops a finished game",
+              'state") == "post"' in body, True)
+
+    # AND THE CHANNELS THOSE THREE FEED. ball_sports is MLB and the
+    # WNBA; hoops_gridiron is the NFL and the NBA through espn_league.
+    import ball_sports_epg
+    import hoops_gridiron_epg
+    import nfl_espn
+    check("LIVEBALL", "the baseball channel reads MLB",
+          ball_sports_epg.mlb_espn is mlb_espn, True)
+    check("LIVEBALL", "and the WNBA",
+          ball_sports_epg.wnba_espn is wnba_espn, True)
+    check("LIVEBALL", "the NFL reader is the shared league reader",
+          inspect.getmodule(nfl_espn.collect_league) is espn_league, True)
+    check("LIVEBALL", "and the NFL channel reads it",
+          hasattr(hoops_gridiron_epg, "nfl_espn"), True)
+
+    # espn_fights is NOT touched here: it feeds another channel and was
+    # not asked about. Named so that a later reader does not "tidy" the
+    # four into one without deciding that separately.
+    import espn_fights
+    check("LIVEBALL", "the fights reader is deliberately left alone",
+          'state") != "pre"' in inspect.getsource(espn_fights), True)
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6467,7 +6528,8 @@ def main() -> int:
                  gate_a_playlist_that_was_written_reports_success,
                  gate_the_youth_competition_asked_for_by_name,
                  gate_the_channel_opens_on_a_day_with_something_left,
-                 gate_one_clashing_pair_does_not_cost_a_whole_guide):
+                 gate_one_clashing_pair_does_not_cost_a_whole_guide,
+                 gate_a_game_being_played_is_a_live_event):
         try:
             gate()
         except Exception as exc:

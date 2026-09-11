@@ -52,7 +52,29 @@ def _day(session, day: datetime) -> list[dict]:
             continue
         competition = competitions[0]
         status = ((event.get("status") or {}).get("type") or {})
-        if status.get("state") != "pre":
+        # NOT YET STARTED, OR ON RIGHT NOW. ESPN's three states are
+        # "pre", "in" and "post", and this used to keep only "pre" —
+        # which threw away the one thing a viewer turning the channel on
+        # is looking for. A game being played IS the live event; it is
+        # the FINISHED one that is not.
+        #
+        # Reported off the screen, with games in progress:
+        # "رجع الي NFL المباشر اليوم و ال MLB المباشر اليوم". Measured
+        # the same minute, ESPN had a full card every day of the window
+        # and the board drew today as لا يوجد حدث —
+        #
+        #     day (viewer)   events
+        #     2026-09-10          0     <- today, all of it "in" or "post"
+        #     2026-09-11         15
+        #     2026-09-12         15
+        #
+        # because every one of today's games had already started.
+        #
+        # "post" is still dropped: a game that is over is not something
+        # to send anybody to a channel for. And timeValid stays, because
+        # a game the feed has not timed ("time TBD" days exist in the
+        # postseason bracket) has no instant to print.
+        if status.get("state") == "post":
             continue
         if competition.get("timeValid") is False:
             continue
