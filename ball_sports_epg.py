@@ -70,10 +70,15 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # so a game listed twice keeps every channel it was listed with.
     inside = base.one_row_per_ball_game(inside)
     inside = base.one_row_per_broadcast(inside)
-    kept = [event for event in inside if base.a_live_event(
-        event.get("title", "")) and bool(event.get("channels"))]
-    log(f"  {len(events)} game(s) offered, {len(kept)} timed, live and "
-        f"naming a channel")
+    # EVERY GAME, ANNOUNCED OR NOT. This used to require a named
+    # broadcaster, and on 2026-09-11 that threw away twelve of the
+    # fifteen baseball games the feed had — only the three on a national
+    # network survived. The ask was "all games, every game", so a game
+    # with no announced carrier stays and simply carries no channel
+    # name; the board prints PPV beside a row with none, as elsewhere.
+    kept = [event for event in inside
+            if base.a_live_event(event.get("title", ""))]
+    log(f"  {len(events)} game(s) offered, {len(kept)} timed and live")
     return sorted(kept, key=lambda e: (e["start"], RANK[e["sport"]]))
 
 
