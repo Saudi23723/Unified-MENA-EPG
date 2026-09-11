@@ -2069,64 +2069,6 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     return "\n".join(lines)
 
 
-def reel_order(days: list[date], by_day: dict, now: datetime) -> list[date]:
-    """The days in the order the reel plays them, not the order they happen.
-
-    THE FIRST BOARD IS THE ONE A VIEWER ARRIVES ON. The reel is a loop of
-    boards played in the order they were drawn, and days_of() puts today
-    first until midnight — so from the last final whistle until midnight,
-    the board a viewer lands on was seven rows all reading انتهى, with
-    tomorrow's eight live fixtures sitting on the board behind it.
-
-    Photographed at 22:40 with every row of it slate: the day had been
-    over for hours and was still the first thing the channel showed.
-
-    So a LEADING day whose every match has finished goes to the END of
-    the reel. Nothing is dropped and nothing is hidden — the day is still
-    drawn, still played, still in the guide at its own hour; it simply
-    stops being the first thing on the screen once there is nothing left
-    on it to come.
-
-    AND AN EMPTY DAY IS SPENT TOO. This first said an empty day was not
-    "finished" and should keep its place, on the reasoning that one line
-    saying nothing is on is an answer, unlike a wall of played fixtures.
-    That was wrong wherever a LATER day has something, and the baseball
-    channel showed it:
-
-        board 0   بيسبول وسلة السيدات — لا يوجد حدث
-        board 1   Pittsburgh Pirates - ...     15 games
-        board 3   Colorado Rockies - ...       15 games
-
-    A viewer arriving at that channel was told there was nothing on,
-    with thirty games one board behind. "Nothing today" and "everything
-    today already finished" are the same thing to somebody looking for
-    what to watch: neither has anything left to come.
-
-    Held narrow on purpose:
-      * only days at the FRONT move, and only while each is spent — the
-        first day with anything still to come stops the sweep
-      * a match ON THE AIR is not spent, so a viewer arriving mid-match
-        arrives at the match
-      * if EVERY day is spent the order is left exactly alone. There is
-        no better board to arrive on, and shuffling would only make the
-        guide's icons disagree with the reel for nothing — this is the
-        case where "لا يوجد حدث" IS the answer, and it stays first.
-    """
-    def spent(day) -> bool:
-        rows = by_day.get(day) or []
-        return all(event["start"] + MATCH_ON_AIR <= now for event in rows)
-
-    done = []
-    for day in days:
-        if spent(day):
-            done.append(day)
-        else:
-            break
-    if not done or len(done) == len(days):
-        return list(days)
-    return [day for day in days if day not in done] + done
-
-
 def publish_board(index: int, day: date, events: list[dict], now: datetime,
                   *, page: int = 1, pages: int = 1) -> str | None:
     """Draw the day's board, keep it only if it differs, return its URL.
@@ -2257,17 +2199,9 @@ def publish_all(events: list[dict], everything: list[dict],
     # A day with more matches than a screen holds is drawn over as many
     # boards as it takes, numbered straight through, so the slideshow runs
     # them in order without knowing anything about days.
-    # THE BOARDS ARE DRAWN IN THE ORDER THE REEL PLAYS THEM, which is not
-    # always the order the days happen — see reel_order.
-    order = reel_order(days, by_day, now)
-    if order != days:
-        log(f"  {order[-1]} is over — its board(s) move to the end of the "
-            f"reel so the channel opens on {order[0]}")
-
     board_no = 0
     per_day: list[int] = []
-    opened: dict[date, str | None] = {}
-    for day in order:
+    for day in days:
         events_today = by_day[day]
         chunks = [events_today[at:at + MAX_ON_BOARD]
                   for at in range(0, len(events_today), MAX_ON_BOARD)] or [[]]
@@ -2278,22 +2212,14 @@ def publish_all(events: list[dict], everything: list[dict],
             first_board = first_board or url
             board_no += 1
         per_day.append(len(chunks))
-        opened[day] = first_board
-        log(f"  {day} -> {len(events_today)} match(es) over "
-            f"{len(chunks)} board(s)")
 
-    # AND THE GUIDE STAYS IN THE ORDER A DAY HAPPENS, whatever order the
-    # reel plays them in. The two answer different questions: the reel is
-    # what is on the screen now, the guide is what is on at an hour — and
-    # a guide listing tomorrow before today would be wrong on its own
-    # terms. Each day still carries its OWN first board as its picture.
-    for day in days:
-        events_today = by_day[day]
         opens, closes = day_bounds(day)
         add_programme(tv, CHANNEL_ID, opens, closes,
                       day_title(day, events_today, now),
                       day_page(day, events_today, now),
-                      icon=opened.get(day))
+                      icon=first_board)
+        log(f"  {day} -> {len(events_today)} match(es) over "
+            f"{len(chunks)} board(s)")
 
     # And the boards this pass did NOT write. The window rolls at
     # midnight — yesterday goes, a new day arrives at the far end — and

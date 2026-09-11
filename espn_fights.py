@@ -141,11 +141,21 @@ def collect(payload: str) -> list[dict]:
         if one.get("timeValid") is False:
             continue
         status = ((event.get("status") or {}).get("type") or {})
-        if status.get("state") != "pre":
-            # THE CARD IS FUTURE, OR IT IS NOT A ROW. The league's own
-            # word for a card yet to be fought is "pre"; anything else
-            # has been fought or is being fought, and neither is the
-            # live-only future this board was asked for.
+        if status.get("state") == "post":
+            # FOUGHT ALREADY, SO NOT A ROW. This used to refuse anything
+            # that was not "pre", which put a card BEING FOUGHT in the
+            # same bin as one that was over — and a card being fought is
+            # the one a viewer turning this channel on is looking for.
+            #
+            # The same line on the two ball channels emptied today's
+            # board while games were being played, measured against
+            # ESPN the same minute: a full card every day of the window,
+            # and nought for today because all of today's had started.
+            # This reader feeds channel two, which is on the dashboard
+            # beside them, and it had the fault too.
+            #
+            # "post" is still refused: a fight that is over is not
+            # something to send anybody to a channel for.
             continue
 
         try:
