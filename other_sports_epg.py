@@ -67,7 +67,8 @@ import world_ball_feed
 import beach_volley_fivb
 import world_sport_on_tv
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, countdown_label,
+    MATCH_ON_AIR, add_programme, arabic_count, countdown_label, on_air_for,
+    status_of,
     drop_simulcasts, in_reading_order, isolate, log, new_session, norm,
     warn, write_xml_atomic,
 )
@@ -388,8 +389,7 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
     """
     if not events:
         return f"{CHANNEL_AR} — لا يوجد حدث"
-    live = [e for e in events
-            if e["start"] <= now < e["start"] + MATCH_ON_AIR]
+    live = [e for e in events if status_of(e, now) == "live"]
     if live:
         card = live[-1]
         return in_reading_order(
@@ -421,7 +421,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
         # "التالي و المباشر مش على نفس الخط" was said of the picture
         # board; the text page answers it the same way, with all three
         # states in one column.
-        if event["start"] <= now < event["start"] + MATCH_ON_AIR:
+        if status_of(event, now) == "live":
             mark = LIVE_MARK
         elif event is coming:
             mark = NEXT_MARK
@@ -446,7 +446,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
 
         drawn_rows = [dict(event, title=row_title(event)) for event in events]
         board = draw(
-            day, drawn_rows, now, VIEWER, MATCH_ON_AIR,
+            day, drawn_rows, now, VIEWER, on_air_for,
             title=CHANNEL_AR, subtitle=f"{SUBTITLE} · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages,
             accent=(167, 139, 250, 255))
