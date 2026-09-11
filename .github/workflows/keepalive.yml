@@ -1,0 +1,57 @@
+name: Keep the schedules alive
+
+# GITHUB TURNS SCHEDULED WORKFLOWS OFF AFTER 60 DAYS OF REPOSITORY
+# INACTIVITY, and commits pushed by github-actions[bot] — which is every
+# commit this repository makes on its own — do not count as activity. So
+# a repository that refreshes itself perfectly every twenty minutes is
+# exactly the repository GitHub eventually switches off.
+#
+# This job runs weekly and does two things: it re-enables any scheduled
+# workflow GitHub has disabled, and it writes one line into a file so
+# there is a commit on the record. Between them the channels keep
+# rebuilding without anyone touching the repository.
+
+on:
+  schedule:
+    - cron: "19 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Re-enable every disabled scheduled workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows" --paginate \
+            -q '.workflows[] | select(.state|test("disabled")) | .id' \
+            > disabled.txt || true
+          while read -r id; do
+            [ -n "$id" ] || continue
+            echo "re-enabling workflow $id"
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/actions/workflows/$id/enable" || true
+          done < disabled.txt
+          rm -f disabled.txt
+
+      - name: Leave a commit on the record
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          date -u "+%Y-%m-%dT%H:%M:%SZ still building" > .keepalive
+          git add .keepalive
+          git commit -m "keepalive: schedules checked" || exit 0
+          git push
