@@ -1100,14 +1100,36 @@ ON_AIR_CEILING = timedelta(hours=8)
 ON_AIR_FLOOR = timedelta(minutes=30)
 
 
+# A row naming two opponents — "Puerto Rico W vs Canada W", "Marquez vs
+# Fonseca" — is ONE match. A match ends when the match ends; it can never
+# stay on the air for the broadcaster's whole window. Session rows ("US
+# Open: Men's Semifinals", a race day, a fight card) are the opposite:
+# the listing covers the broadcast, so the source's own span is the truth.
+A_MATCHUP = re.compile(
+    r"\b(?:vs\.?|v)\b|\s[-–—]\s.*\b(?:vs\.?|v)\b", re.I)
+
+
+def _is_a_matchup(event) -> bool:
+    title = event.get("title") or ""
+    if event.get("home") and event.get("away"):
+        return True
+    return bool(A_MATCHUP.search(title))
+
+
 def on_air_for(event) -> timedelta:
     """How long this one row counts as under way.
 
-    A source's own end time wins where it gives one and it is sane;
-    otherwise the sport's figure; otherwise football's.
+    A matchup always answers with its sport's real duration, even when a
+    source hangs a day-long end time on it — a volleyball match is over
+    inside three hours, whatever the grid says. Only a session row may
+    borrow the source's own span (bounded by the ceiling); anything left
+    answers with the sport's figure, then football's.
     """
     if not isinstance(event, dict):
         return MATCH_ON_AIR
+    sports = ON_AIR_BY_SPORT.get(event.get("sport") or "", MATCH_ON_AIR)
+    if _is_a_matchup(event):
+        return sports
     start, end = event.get("start"), event.get("end")
     if start is not None and end is not None:
         try:
@@ -1116,7 +1138,7 @@ def on_air_for(event) -> timedelta:
             span = None
         if span is not None and ON_AIR_FLOOR <= span <= ON_AIR_CEILING:
             return span
-    return ON_AIR_BY_SPORT.get(event.get("sport") or "", MATCH_ON_AIR)
+    return sports
 
 
 def status_of(event, now, live_for=None) -> str:
