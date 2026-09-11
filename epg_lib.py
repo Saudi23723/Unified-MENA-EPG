@@ -1077,7 +1077,13 @@ ON_AIR_BY_SPORT = {
     "Swimming": timedelta(hours=3),
     "Triathlon": timedelta(hours=4),
     "Olympics": timedelta(hours=4),
+    "Asian Games": timedelta(hours=4),
+    "Commonwealth Games": timedelta(hours=4),
+    "Pan American Games": timedelta(hours=4),
+    "European Games": timedelta(hours=4),
+    "African Games": timedelta(hours=4),
     "F1": timedelta(hours=3),
+
     "MotoGP": timedelta(hours=3),
     "WRC": timedelta(hours=4),
     "Boxing": timedelta(hours=5),
@@ -1388,3 +1394,4 @@ def group_concurrent(events: list[dict], key="start") -> dict:
     for ev in events:
         slots.setdefault(ev[key], []).append(ev)
     return slots
+
