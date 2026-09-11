@@ -314,24 +314,6 @@ WANTED_PARTS = (
     # Turkey's cup, in both the spellings the page might use.
     "turkish cup", "kupası", "kupasi",
     "king cup", "coppa italia", "copa del rey", "coupe de france", "dfb",
-    # SOUTH AMERICA'S TWO, asked for off the screen: "المباريات مباشر و
-    # مش مبينه". beIN carries them live and the board was dropping them
-    # — measured on the night, two live football matches on beIN 2 and
-    # beIN 3 that this guide collected and refused:
-    #
-    #     Independiente del Valle - Flamengo    Copa Libertadores
-    #     Cienciano - Montevideo City Torque    Conmebol Sudamericana
-    #
-    # and the build had been saying so every pass, in the line nobody
-    # reads: "8 collected and not shown — Copa Libertadores ×1, Copa
-    # Sudamericana ×1 ...".
-    #
-    # "libertadores" stands alone — no other competition is called it.
-    # The second is named THREE ways by the pages that carry it: CONMEBOL
-    # Sudamericana, Copa Sudamericana, and Sudamericana bare, so the bare
-    # word is what is matched. "recopa" is the super cup between the two
-    # winners and comes with them.
-    "libertadores", "sudamericana", "recopa sudamericana",
 )
 
 # THE NEVER-LIST, and why it is not just an absence from the lists above.
