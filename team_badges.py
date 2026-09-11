@@ -126,6 +126,26 @@ BADGE_ALIASES = {
     "باريس سان جيرمان": "paris-saint-germain", "مارسيليا": "marseille",
 }
 
+# Names such as Al Faisaly, Al Ahli and Al Jazeera exist in several Arab
+# leagues.  Never decide which crest they mean from the club name alone.
+# A Jordanian competition/source makes these spellings unambiguous; outside
+# that context the ordinary league cache/search remains in charge.
+JORDAN_CONTEXT = re.compile(r"jordan|jordanian|الأردن|الاردن|أردني|اردني", re.I)
+JORDAN_CONTEXT_ALIASES = {
+    "al faisaly": "al-faisaly-amman", "al-faisaly": "al-faisaly-amman",
+    "al faisaly fc": "al-faisaly-amman", "al-faisaly fc": "al-faisaly-amman",
+    "al wehdat": "al-wehdat", "al-wehdat": "al-wehdat",
+    "al ramtha": "al-ramtha", "al-ramtha": "al-ramtha",
+    "al hussein irbid": "al-hussein-irbid", "al-hussein irbid": "al-hussein-irbid",
+    "al jazeera": "al-jazeera-amman", "al-jazeera": "al-jazeera-amman",
+    "al jazeera amman": "al-jazeera-amman",
+    "al baqaa": "al-baqaa", "al-baqaa": "al-baqaa",
+    "al arabi irbid": "al-arabi-irbid", "al-arabi irbid": "al-arabi-irbid",
+    "al salt": "al-salt", "al-salt": "al-salt",
+    "shabab al ordon": "shabab-al-ordon", "shabab al-ordon": "shabab-al-ordon",
+    "maan": "maan", "ma'an": "maan", "sahab": "sahab",
+}
+
 
 # ARABIC NAMES HAD NO BADGE AT ALL, and not because the search could not
 # find them — because they never reached it. The slug kept Latin letters
@@ -304,12 +324,17 @@ def _search(name: str) -> str | None:
     return None
 
 
-def badge(name: str) -> Image.Image | None:
+def badge(name: str, context: str = "") -> Image.Image | None:
     """The club's crest, off the disk if it is there and off the wire once."""
     key = _slug(name)
     if not key:
         return None
-    alias = BADGE_ALIASES.get(re.sub(r"\s+", " ", (name or "").strip()).casefold())
+    clean_name = re.sub(r"\s+", " ", (name or "").strip()).casefold()
+    alias = None
+    if JORDAN_CONTEXT.search(context or ""):
+        alias = JORDAN_CONTEXT_ALIASES.get(clean_name)
+    if alias is None:
+        alias = BADGE_ALIASES.get(clean_name)
     if alias:
         aliased = DIR / f"{alias}.png"
         if aliased.exists():
