@@ -193,9 +193,9 @@ jobs:
       - name: Keep publishing while the scheduler is quiet
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
-          for pass in 2 3 4 5 6 7 8; do
-            sleep 1200
-            echo "───── pass $pass of 8 ─────"
+          for pass in 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+            sleep 300
+            echo "───── pass $pass of 14 ─────"
             (
               set -e
               for build in today_matches_epg other_sports_epg \
