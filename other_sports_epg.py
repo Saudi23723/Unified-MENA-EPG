@@ -79,7 +79,7 @@ from epg_lib import (
 # functions, so the two boards cannot drift apart in how they name a
 # channel.
 from today_matches_epg import in_the_readers_order as channels_in_order
-from today_matches_epg import shorter
+from today_matches_epg import reel_order, shorter
 
 OUTPUT = "other_sports_epg.xml"
 
@@ -1767,9 +1767,33 @@ def publish_all(events: list[dict], now: datetime,
         log(f"  {len(days) - len(with_something)} day(s) with nothing on "
             f"them, not drawn")
 
+    # AND TODAY, DRAWN, STILL GOES LAST ONCE IT HAS NOTHING LEFT ON IT.
+    #
+    # Today is always drawn — a viewer wants to be told there is nothing
+    # on tonight rather than shown next Saturday with no word about it —
+    # but drawn is not the same as FIRST. The baseball channel is what
+    # settled this:
+    #
+    #     board 0   بيسبول وسلة السيدات — لا يوجد حدث
+    #     board 1   Pittsburgh Pirates - ...      15 games
+    #     board 3   Colorado Rockies - ...        15 games
+    #
+    # A viewer arriving was told there was nothing on, with thirty games
+    # one board behind. reel_order is the same rule channel one uses: a
+    # leading day with nothing left to come — empty, or every event
+    # finished — goes to the END of the reel, and the guide keeps the
+    # days in the order they happen. If NOTHING is on any day the order
+    # is left alone, because then "لا يوجد حدث" is the honest first
+    # board.
+    order = reel_order(with_something, by_day, now)
+    if order != with_something:
+        log(f"  {order[-1]} has nothing left on it — its board(s) move to "
+            f"the end so the channel opens on {order[0]}")
+
     board_no = 0
     per_day: list[int] = []
-    for day in with_something:
+    opened: dict = {}
+    for day in order:
         today = by_day[day]
         chunks = [today[at:at + MAX_ON_BOARD]
                   for at in range(0, len(today), MAX_ON_BOARD)] or [[]]
@@ -1780,12 +1804,17 @@ def publish_all(events: list[dict], now: datetime,
             first_board = first_board or url
             board_no += 1
         per_day.append(len(chunks))
+        opened[day] = first_board
+        log(f"  {day} -> {len(today)} event(s) over {len(chunks)} board(s)")
 
+    # The guide stays in the order the days happen, whatever order the
+    # reel plays them in — see the same split in today_matches_epg.
+    for day in with_something:
+        today = by_day[day]
         opens, closes = day_bounds(day)
         add_programme(tv, CHANNEL_ID, opens, closes,
                       day_title(day, today, now),
-                      day_page(day, today, now), icon=first_board)
-        log(f"  {day} -> {len(today)} event(s) over {len(chunks)} board(s)")
+                      day_page(day, today, now), icon=opened.get(day))
 
     # And the boards this pass did NOT write. The window rolls at
     # midnight — yesterday goes, a new day arrives at the far end — and

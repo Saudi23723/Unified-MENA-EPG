@@ -2087,21 +2087,38 @@ def reel_order(days: list[date], by_day: dict, now: datetime) -> list[date]:
     stops being the first thing on the screen once there is nothing left
     on it to come.
 
+    AND AN EMPTY DAY IS SPENT TOO. This first said an empty day was not
+    "finished" and should keep its place, on the reasoning that one line
+    saying nothing is on is an answer, unlike a wall of played fixtures.
+    That was wrong wherever a LATER day has something, and the baseball
+    channel showed it:
+
+        board 0   بيسبول وسلة السيدات — لا يوجد حدث
+        board 1   Pittsburgh Pirates - ...     15 games
+        board 3   Colorado Rockies - ...       15 games
+
+    A viewer arriving at that channel was told there was nothing on,
+    with thirty games one board behind. "Nothing today" and "everything
+    today already finished" are the same thing to somebody looking for
+    what to watch: neither has anything left to come.
+
     Held narrow on purpose:
-      * only days at the FRONT move, and only while each is finished —
-        the first day with anything still coming stops the sweep
-      * a day with NO matches is not "finished" and does not move. Its
-        board says so in one line, which is an answer rather than a wall
-        of played fixtures
-      * if EVERY day is finished the order is left exactly alone, because
-        there is no better board to arrive on and shuffling them would
-        only make the guide's icons disagree with the reel for nothing
+      * only days at the FRONT move, and only while each is spent — the
+        first day with anything still to come stops the sweep
+      * a match ON THE AIR is not spent, so a viewer arriving mid-match
+        arrives at the match
+      * if EVERY day is spent the order is left exactly alone. There is
+        no better board to arrive on, and shuffling would only make the
+        guide's icons disagree with the reel for nothing — this is the
+        case where "لا يوجد حدث" IS the answer, and it stays first.
     """
+    def spent(day) -> bool:
+        rows = by_day.get(day) or []
+        return all(event["start"] + MATCH_ON_AIR <= now for event in rows)
+
     done = []
     for day in days:
-        rows = by_day.get(day) or []
-        if rows and all(event["start"] + MATCH_ON_AIR <= now
-                        for event in rows):
+        if spent(day):
             done.append(day)
         else:
             break
