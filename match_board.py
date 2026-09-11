@@ -487,7 +487,7 @@ except Exception:                                # pragma: no cover
     team_badges = None
 
 SPLIT = re.compile(r"\s+(?:vs\.?|VS\.?|[-–—x×])\s+")
-_CRESTS: dict[tuple[str, int], object] = {}
+_CRESTS: dict[tuple[str, str, int], object] = {}
 
 # THE SECOND CHANNEL IS NOT ALL FIXTURES, and drawing it as if it were
 # is worse than drawing nothing: "Italian Grand Prix - Practice 2" was
@@ -578,15 +578,15 @@ def split_sides(title: str):
     return home, away
 
 
-def crest(name: str, box: int):
+def crest(name: str, box: int, context: str = ""):
     """The club's crest at the size the row can hold, or None."""
-    key = (name, box)
+    key = (name, context, box)
     if key in _CRESTS:
         return _CRESTS[key]
     image = None
     if team_badges is not None:
         try:
-            found = team_badges.badge(name)
+            found = team_badges.badge(name, context=context)
         except Exception:
             found = None
         if found is not None:
@@ -671,9 +671,9 @@ def initials(name: str) -> str:
     return (letters[:2] or name[:2]).upper()
 
 
-def draw_crest(board, pen, name, cx, cy, box):
+def draw_crest(board, pen, name, cx, cy, box, context=""):
     """A club's badge at (cx, cy), or its letters in its own colour."""
-    image = crest(name, box)
+    image = crest(name, box, context=context)
     if image is not None:
         board.alpha_composite(image, (cx - image.width // 2,
                                       cy - image.height // 2))
@@ -761,7 +761,7 @@ def _crest_strip(board, pen, events, y: int, accent) -> None:
             key = name.lower()
             if key in seen:
                 continue
-            art = crest(name, 30)
+            art = crest(name, 30, context=event.get("competition", ""))
             if art is not None:
                 seen.add(key)
                 marks.append(art)
@@ -1226,7 +1226,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                 home_txt = clipped(home, fitted, side_room)
                 away_txt = clipped(away, fitted, side_room)
                 draw_crest(board, pen, home, left_edge + box // 2,
-                           crest_y, box)
+                           crest_y, box, event.get("competition", ""))
                 chip_left = left_edge + box + gap
                 draw_text(pen, (chip_left, head_y), home_txt, fitted, ink,
                           anchor="lm")
@@ -1234,7 +1234,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                           LIVE_TAG if live else MUTED, anchor="mm",
                           weight="heavy")
                 draw_crest(board, pen, away, right_edge - box // 2,
-                           crest_y, box)
+                           crest_y, box, event.get("competition", ""))
                 draw_text(pen, (right_edge - box - gap, head_y), away_txt,
                           fitted, ink, anchor="rm")
                 chip_stop = centre - gutter
