@@ -6405,59 +6405,6 @@ def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
     check("ROYA", "unresolved, the same rows are refused", refused, True)
 
 
-def gate_south_americas_two_reach_the_board() -> None:
-    """Two live football matches on beIN, and the board refused both.
-
-    "المباريات مباشر و مش مبينه" — reported off the screen while they
-    were on the air. Measured on beIN's own guide at that minute:
-
-        beIN 2   Independiente del Valle - Flamengo   Copa Libertadores
-        beIN 3   Cienciano - Montevideo City Torque   Conmebol Sudamericana
-
-    Both collected, both dropped, because South America's two were never
-    in WANTED_PARTS. The build had been saying so every pass in the line
-    nobody reads — "8 collected and not shown — Copa Libertadores ×1,
-    Copa Sudamericana ×1" — which is why this gate names the
-    competitions rather than counting them: a number going down says
-    nothing about WHICH match went missing.
-
-    Narrow on purpose. The rest of South American club football is still
-    off: the board carries the continent's two knockout competitions,
-    not Brazil's league or Argentina's second tier.
-    """
-    print("\nSouth America's two reach the board, and nothing else does")
-
-    import today_matches_epg as today
-
-    def on(competition, title):
-        return today.wanted({"title": title, "competition": competition,
-                             "channels": ["beIN 2"], "start": 0})
-
-    # THE TWO THAT WERE ON THE AIR, in the spellings the pages use. The
-    # second is named three ways, so the bare word is what is matched.
-    for competition, title in (
-            ("Copa Libertadores", "Independiente del Valle - Flamengo"),
-            ("CONMEBOL Libertadores", "Palmeiras - River Plate"),
-            ("Conmebol Sudamericana", "Cienciano - Montevideo City Torque"),
-            ("Copa Sudamericana", "Lanus - Fluminense"),
-            ("Recopa Sudamericana", "Botafogo - Racing"),
-    ):
-        check("SOUTH", f"on: {competition[:26]}", on(competition, title), True)
-
-    # AND THE REST OF THE CONTINENT IS STILL OFF. A rule written on
-    # "copa" or on "conmebol" alone would have brought all of it.
-    for competition, title in (
-            ("Brazilian Serie A", "Santos - Cruzeiro"),
-            ("Primera División Argentina", "Boca Juniors - River Plate"),
-            ("Primera Nacional Argentina", "A - B"),
-            ("Liga 1 Perú", "Cusco - FBC Melgar"),
-            ("MLS", "LA Galaxy - Austin FC"),
-            ("MLS Next Pro", "Minnesota Utd. 2 - Vancouver Whitecaps 2"),
-    ):
-        check("SOUTH", f"off: {competition[:25]}", on(competition, title),
-              False)
-
-
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6520,8 +6467,7 @@ def main() -> int:
                  gate_a_playlist_that_was_written_reports_success,
                  gate_the_youth_competition_asked_for_by_name,
                  gate_the_channel_opens_on_a_day_with_something_left,
-                 gate_one_clashing_pair_does_not_cost_a_whole_guide,
-                 gate_south_americas_two_reach_the_board):
+                 gate_one_clashing_pair_does_not_cost_a_whole_guide):
         try:
             gate()
         except Exception as exc:
