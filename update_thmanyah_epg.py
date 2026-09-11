@@ -2163,11 +2163,29 @@ def write_xml(events):
             + f"\n\nمباريات اليوم:\n{day_summary(group['start'].date())}"
         )
 
+    # A match is written as three hours long, but the next match on the same
+    # channel can start sooner than that. Trim each row so it ends when the
+    # following one begins — two rows overlapping on one channel is what the
+    # health check calls out, and players show it as a broken row.
+    starts_by_channel = defaultdict(list)
     for event in events:
+        channel = event.get("channel")
+        if channel in CHANNELS:
+            starts_by_channel[channel].append(event["start"])
+    for channel in starts_by_channel:
+        starts_by_channel[channel].sort()
+
+    for event in sorted(events, key=lambda e: e["start"]):
         stop = event["start"] + timedelta(hours=3)
         channel = event.get("channel")
 
         if channel in CHANNELS:
+            for other in starts_by_channel[channel]:
+                if other > event["start"]:
+                    stop = min(stop, other)
+                    break
+            if stop <= event["start"]:
+                continue
             channel_id = f"Thmanyah{channel}.sa"
             real_by_id[channel_id].append((event["start"], stop))
             p = ET.SubElement(
