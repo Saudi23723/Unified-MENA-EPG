@@ -5,14 +5,8 @@
     <display-name lang="ar">مباريات اليوم</display-name>
     <display-name lang="en">Today's Matches</display-name>
   </channel>
-  <programme start="20260910070000 +0000" stop="20260911070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁧انتهت مباريات اليوم — 8 مباريات⁩</title>
-    <desc lang="ar">مباريات الخميس 10/09 — بتوقيتك
-انتهت مباريات اليوم</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
-  </programme>
   <programme start="20260911070000 +0000" stop="20260912070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 6 ساعات و39 دقيقة ⁨·⁩ ⁨Tersana SC - El-Mansoura SC · ON Sport⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد ساعة و3 دقائق ⁨·⁩ ⁨Tersana SC - El-Mansoura SC · ON Sport⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 11/09 — بتوقيتك
 ⁦⏳ 06:30  Tersana SC - El-Mansoura SC⁩
         ON Sport
@@ -25,29 +19,29 @@
 ⁦⚪ 08:25  Al Qadisiya - Al Ettifaq⁩
         Thmanyah · S Sport Plus TR · Thmanyah 1 HD
 ⁦⚪ 08:45  Al Faisaly FC - Al-Ittihad Jeddah Club⁩
-        Thmanyah · Thmanyah 2 HD
-⁦⚪ 10:00  Beşiktaş - Erzurumspor⁩
-        beIN 1
+        Thmanyah · BandSports · Thmanyah 2 HD +1
 ⁦⚪ 10:00  Sarıyer - Bandırmaspor⁩
         TRT Spor TR · beIN 2 TR
+⁦⚪ 10:00  Beşiktaş - Erzurumspor⁩
+        beIN 1
 ⁦⚪ 10:30  Al Faisaly - Doqarah Club⁩
-        الأردن الرياضية
+        الأردن الرياضية · BandSports · Thmanyah +1
 ⁦⚪ 11:00  Al Ahli - Al-Hazem SC⁩
-        Thmanyah · HT Spor TR · Thmanyah 1 HD +1
+        Thmanyah · FOX Deportes · HT Spor TR +5
 ⁦⚪ 11:30  Union Berlin - Schalke⁩
-        MBC Shahid · Idman TV TR · MBC Action +1
+        MBC Shahid · AzTV TR · MBC Action +2
 ⁦⚪ 11:45  Rennes - Marseille⁩
         beIN 2 · Ligue1+ · beIN FR 2 +1
 ⁦⚪ 11:45  Venezia - Fiorentina⁩
-        Alwan 3 · S Sport 2 TR · DAZN +1
+        Alwan 3 · S Sport 2 TR · DAZN +3
 ⁦⚪ 12:00  Sevilla - Valencia⁩
-        beIN 4 · Premier Sports 2 · S Sport TR +2
+        beIN 4 · Premier Sports 2 · ESPN+ +6
 ⁦⚪ 12:00  West Ham - Wrexham⁩
         beIN 3 · Sky Main Event · beIN 1 EN +1</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_1.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_0.png" />
   </programme>
   <programme start="20260912070000 +0000" stop="20260913070000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد يوم و4 ساعات ⁨·⁩ ⁨Derby - Birmingham · beIN 1 · Sky Football · beIN EN 1⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 23 ساعة و3 دقائق ⁨·⁩ ⁨Derby - Birmingham · beIN 1 · Sky Football · beIN EN 1⁩⁩</title>
     <desc lang="ar">مباريات السبت 12/09 — بتوقيتك
 ⁦⏳ 04:30  Derby - Birmingham⁩
         beIN 1 · Sky Football · beIN EN 1
@@ -55,12 +49,14 @@
         Sky+
 ⁦⚪ 04:30  West Brom - QPR⁩
         Sky+
+⁦⚪ 04:30  Newcastle United U18 - Manchester United U18⁩
+        MUTV
 ⁦⚪ 04:45  West Ham United Women - London City Lionesses⁩
         Sky Premier League · Sportsnet One · Sky Mix
 ⁦⚪ 04:50  Racing Club - Deportivo Alaves⁩
         beIN XTRA 1
 ⁦⚪ 05:00  Racing Santander - Alaves⁩
-        beIN 9 · Premier Sports 1
+        beIN 9 · Premier Sports 1 · beIN Xtra 1
 ⁦⚪ 06:30  Mainz - Eintracht Frankfurt⁩
         MBC Shahid
 ⁦⚪ 06:30  Augsburg - Bayer Leverkusen⁩
@@ -84,7 +80,7 @@
 ⁦⚪ 07:00  Watford - Stoke⁩
         beIN XTRA 4
 ⁦⚪ 07:15  Osasuna - Espanyol⁩
-        LALIGATV · beIN XTRA 1
+        Premier Sports 1 · beIN XTRA 1
 ⁦⚪ 08:00  Ramtha SC - Al Arabi Irbid⁩
         الأردن الرياضية
 ⁦⚪ 08:15  Strasbourg - Monaco⁩
@@ -133,6 +129,61 @@
         Apple TV
 ⁦⚪ 18:30  Real Salt Lake - New York City⁩
         Apple TV</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_3.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_2.png" />
+  </programme>
+  <programme start="20260913070000 +0000" stop="20260914070000 +0000" channel="TodayMatches">
+    <title lang="ar">⁦⏳ بعد يوم و22 ساعة ⁨·⁩ ⁨Sheffield Utd - Wolves · beIN 2 · Sky Football⁩⁩</title>
+    <desc lang="ar">مباريات الأحد 13/09 — بتوقيتك
+⁦⏳ 04:00  Sheffield Utd - Wolves⁩
+        beIN 2 · Sky Football
+⁦⚪ 04:00  Manchester United Women - Chelsea Women⁩
+        Sky One · Sportsnet One · Sky Mix +1
+⁦⚪ 05:00  Celta Vigo - Malaga⁩
+        beIN 5 · Premier Sports 2
+⁦⚪ 06:00  Coventry - Brighton⁩
+        beIN 4 · beIN EN 1
+⁦⚪ 06:00  Lille - Troyes⁩
+        beIN 3 · Ligue1+
+⁦⚪ 06:00  Coventry City - Brighton &amp; Hove Albion⁩
+        beIN 4 · Sky Premier League · beIN EN 1
+⁦⚪ 06:00  Lecce - Monza⁩
+        DAZN
+⁦⚪ 06:00  Birmingham City Women - Brighton &amp; Hove Albion Women⁩
+        Sky+
+⁦⚪ 06:00  Liverpool Women - Tottenham Hotspur Women⁩
+        Sky+
+⁦⚪ 06:30  RB Leipzig - Hamburger SV⁩
+        MBC Shahid
+⁦⚪ 06:45  Arsenal Women - Crystal Palace Women⁩
+        BBC Two · Sportsnet One
+⁦⚪ 07:15  Levante - Barcelona⁩
+        beIN 2 · Premier Sports 1
+⁦⚪ 08:15  Le Mans - Lens⁩
+        beIN 3 · Ligue1+
+⁦⚪ 08:30  Manchester Utd - Manchester City⁩
+        beIN 1 · Sky Main Event · beIN EN 1 +1
+⁦⚪ 08:30  Elversberg - Bayern Munich⁩
+        MBC Shahid
+⁦⚪ 09:00  Napoli - Bologna⁩
+        BBC Alba · DAZN
+⁦⚪ 09:20  NEOM SC - Al Fateh⁩
+        Thmanyah · Thmanyah 2 HD
+⁦⚪ 09:30  Getafe - Dep. La Coruna⁩
+        beIN 5 · Premier Sports 1
+⁦⚪ 09:50  Galatasaray - Kocaelispor⁩
+        beIN 2
+⁦⚪ 10:30  Aston Villa Women - Manchester City Women⁩
+        Sky Football · Sky Premier League · Sky Mix
+⁦⚪ 11:00  Al-Riyadh SC - Al Kholood⁩
+        Thmanyah · Thmanyah 3 HD
+⁦⚪ 11:00  Al Draih - Abha Club⁩
+        Thmanyah · Thmanyah 1 HD
+⁦⚪ 11:45  Brest - PSG⁩
+        beIN 1 · Ligue1+ · beIN EN 1
+⁦⚪ 11:45  Sassuolo - Juventus⁩
+        TNT 1 · DAZN · HBO Max
+⁦⚪ 12:00  Real Sociedad - Atl. Madrid⁩
+        beIN 3 · Premier Sports 1</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_matches_8.png" />
   </programme>
 </tv>
