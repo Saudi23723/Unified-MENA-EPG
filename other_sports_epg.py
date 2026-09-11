@@ -68,6 +68,8 @@ import beach_volley_fivb
 import womens_volley_fivb
 import wrestling_uww
 import world_sport_on_tv
+import major_games
+
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, countdown_label, on_air_for,
     status_of,
@@ -216,6 +218,15 @@ DAYS_AHEAD = 3
 # the sport only breaks a tie.
 IN_ORDER = (
     "Olympics",
+    # Major multi-sport games, asked for by name: Asian Games, Commonwealth,
+    # Pan American, European and African Games. They sit beside Olympics
+    # because they are the same kind of event, in the order the reader
+    # named them.
+    "Asian Games",
+    "Commonwealth Games",
+    "Pan American Games",
+    "European Games",
+    "African Games",
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
     # MLB AND THE WNBA ARE NOT ON THIS CHANNEL. Asked for in those
     # words — they get a channel of their own — and a sport this list
@@ -320,12 +331,13 @@ def wanted(event: dict) -> bool:
     if not a_live_event(event.get("title", "")):
         return False
     if not event.get("channels") and event.get("source") not in (
-            "worldball", "fivb", "uww"):
-        # THE TWO FEDERATION-SIDE FEEDS ARE ALLOWED THROUGH WITHOUT ONE.
-        # They carry the majors no listings page in reach carries at all,
-        # and a reader counting the day sees a missing EVENT before a
-        # missing channel. Every other source still has to name one.
+            "worldball", "fivb", "uww", "majorgames"):
+        # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
+        # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
+        # listings page reaches, and the board's PPV fallback labels
+        # them honestly. Every other source still has to name a channel.
         return False
+
     # SNOOKER, ONLY WHERE THE READER ASKED FOR IT: "add Snooker from TNT
     # Sports and Eurosport channels". Every other broadcaster's snooker
     # row stays off this board.
@@ -1528,6 +1540,13 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         # doors instead of a new one.
         everything += wrestling_uww.events(session, floor, ceiling)
 
+        # AND MAJOR MULTI-SPORT GAMES — Asian, Commonwealth, Pan American,
+        # European and African Games — from checked-in official session
+        # schedules. The snapshots carry no broadcaster, so the board's PPV
+        # fallback applies; see major_games.py for source metadata.
+        everything += major_games.events(floor, ceiling)
+
+
     # AND BASEBALL, from the league's own scoreboard — asked for by name
     # ("I want to add MLB and Baseball world series"). National networks
     # only through the summer, and October whole: every postseason game,
@@ -1895,3 +1914,4 @@ def build() -> int:
 
 if __name__ == "__main__":
     sys.exit(build())
+
