@@ -61,6 +61,71 @@ NOISE = re.compile(
     r"\b(fc|cf|sc|ac|afc|cd|sk|fk|if|bk|club|academy|acad|reserves?|"
     r"u\d{2}|women'?s?|femenino|team)\b", re.I)
 
+# THE JORDANIAN LEAGUE HAS NO ESPN PAGE, so none of its crests ever
+# arrived with the league sweeps, and the one name the search DID answer
+# answered wrong: asked for "Al-Faisaly" it returns the SAUDI club, and
+# the Amman side — the one this guide carries every week — wore a
+# stranger's badge. So the Jordanian top flight is written down here,
+# club by club, off TheSportsDB's own league roster, and taken from this
+# table before any search is made.
+JORDAN_BADGES = {
+    "al-faisaly-amman":
+        "https://r2.thesportsdb.com/images/media/team/badge/ja0udy1753205043.png",
+    "al-wehdat":
+        "https://r2.thesportsdb.com/images/media/team/badge/82f0fc1617889632.png",
+    "al-ramtha":
+        "https://r2.thesportsdb.com/images/media/team/badge/kczgws1753204656.png",
+    "al-hussein-irbid":
+        "https://r2.thesportsdb.com/images/media/team/badge/ijbwwm1753204799.png",
+    "al-jazeera-amman":
+        "https://r2.thesportsdb.com/images/media/team/badge/6yt0y51753204931.png",
+    "al-baqaa":
+        "https://r2.thesportsdb.com/images/media/team/badge/ng6x581625310975.png",
+    "al-arabi-irbid":
+        "https://www.thesportsdb.com/images/media/team/badge/96ad9u1786985546.png",
+    "al-salt":
+        "https://r2.thesportsdb.com/images/media/team/badge/5808ya1618585977.png",
+    "dougra":
+        "https://www.thesportsdb.com/images/media/team/badge/oin4hz1786985757.png",
+    "shabab-al-ordon":
+        "https://www.thesportsdb.com/images/media/team/badge/knxyd41786985786.png",
+    "sahab":
+        "https://r2.thesportsdb.com/images/media/team/badge/ye5h3z1625311112.png",
+    "maan":
+        "https://r2.thesportsdb.com/images/media/team/badge/yfjtd61625311108.png",
+}
+
+# Arabic guide spellings mapped to the official cached league badges.
+BADGE_ALIASES = {
+    "الوحدات": "al-wehdat", "الفيصلي": "al-faisaly-amman",
+    "الفيصلي الأردني": "al-faisaly-amman", "الفيصلي الاردني": "al-faisaly-amman",
+    "الفيصلي عمان": "al-faisaly-amman", "al-faisaly amman": "al-faisaly-amman",
+    "al faisaly amman": "al-faisaly-amman",
+    "الرمثا": "al-ramtha", "الحسين إربد": "al-hussein-irbid",
+    "الحسين اربد": "al-hussein-irbid", "شباب الأردن": "shabab-al-ordon",
+    "شباب الاردن": "shabab-al-ordon", "الجزيرة": "al-jazeera-amman",
+    "الجزيرة عمان": "al-jazeera-amman",
+    "العربي إربد": "al-arabi-irbid", "العربي اربد": "al-arabi-irbid",
+    "البقعة": "al-baqaa", "دوقرة": "dougra", "دوقره": "dougra",
+    "السلط": "al-salt", "سحاب": "sahab", "معان": "maan",
+    "الأهلي الأردني": "al-ahli-jordan", "الاهلي الاردني": "al-ahli-jordan",
+    "الأهلي": "al-ahly", "الاهلي": "al-ahly", "الزمالك": "zamalek-sc",
+    "بيراميدز": "pyramids-fc", "المصري": "al-masry",
+    "الإسماعيلي": "ismaily", "الاسماعيلي": "ismaily", "سموحة": "smouha",
+    "سيراميكا كليوباترا": "ceramica-cleopatra", "الجونة": "el-gouna",
+    "إنبي": "enppi", "انبي": "enppi", "الاتحاد السكندري": "al-ittihad-alexandria",
+    "zamalek": "zamalek-sc", "pyramids": "pyramids-fc",
+    "مانشستر يونايتد": "manchester-united", "مانشستر سيتي": "manchester-city",
+    "ليفربول": "liverpool", "أرسنال": "arsenal", "ارسنال": "arsenal",
+    "تشيلسي": "chelsea", "توتنهام": "tottenham-hotspur",
+    "ريال مدريد": "real-madrid", "برشلونة": "barcelona",
+    "أتلتيكو مدريد": "atletico-madrid", "اتلتيكو مدريد": "atletico-madrid",
+    "يوفنتوس": "juventus", "إنتر ميلان": "inter-milan",
+    "انتر ميلان": "inter-milan", "ميلان": "ac-milan",
+    "بايرن ميونخ": "bayern-munich", "بوروسيا دورتموند": "borussia-dortmund",
+    "باريس سان جيرمان": "paris-saint-germain", "مارسيليا": "marseille",
+}
+
 
 # ARABIC NAMES HAD NO BADGE AT ALL, and not because the search could not
 # find them — because they never reached it. The slug kept Latin letters
@@ -244,6 +309,31 @@ def badge(name: str) -> Image.Image | None:
     key = _slug(name)
     if not key:
         return None
+    alias = BADGE_ALIASES.get(re.sub(r"\s+", " ", (name or "").strip()).casefold())
+    if alias:
+        aliased = DIR / f"{alias}.png"
+        if aliased.exists():
+            try:
+                return Image.open(aliased).convert("RGBA")
+            except Exception:
+                pass
+        key = alias
+    # A club written down by hand is never searched for: the roster is
+    # the answer, and the first build that meets the club keeps it.
+    fixed = JORDAN_BADGES.get(key)
+    stored = DIR / f"{key}.png"
+    if fixed and not stored.exists():
+        crest = _download(fixed)
+        if crest is not None:
+            try:
+                DIR.mkdir(parents=True, exist_ok=True)
+                crest.save(stored)
+            except Exception:
+                pass
+            index = _index()
+            index[key] = fixed
+            _remember(index)
+            return crest
     stored = DIR / f"{key}.png"
     if stored.exists():
         try:
@@ -261,7 +351,12 @@ def badge(name: str) -> Image.Image | None:
     # ones are asked again exactly once and then settle.
     if index.get(key) == "no":                  # searched once, not found
         return None
-    url = _search(name)
+    # A successful lookup can outlive its local PNG (for example after an
+    # interrupted asset sync). Reuse the known official URL before spending
+    # another search request, and restore the missing cached file.
+    known = index.get(key)
+    url = known if isinstance(known, str) and known.startswith("http") \
+        else _search(name)
     index[key] = url or "no"
     _remember(index)
     if not url:
