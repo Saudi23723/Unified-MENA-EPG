@@ -1042,6 +1042,86 @@ def elapsed_title(what: str, minutes) -> str:
 # row cleared at ninety would disappear while people were still watching.
 MATCH_ON_AIR = timedelta(minutes=115)
 
+
+# HOW LONG EACH SPORT IS ACTUALLY ON THE AIR.
+#
+# Every board used the football figure for everything, so a five-hour
+# fight card wore انتهى ninety minutes into its main event, a grand prix
+# weekend session went dark while the cars were still running, and an
+# NFL game read "finished" at half time. The indicators were not wrong
+# about the clock; they were wrong about the sport.
+#
+# One number per sport, deliberately generous — a row that says مباشر a
+# few minutes past the finish is right far more often than a row that
+# says انتهى while the event is on.
+ON_AIR_BY_SPORT = {
+    "Football": MATCH_ON_AIR,
+    "Futsal": timedelta(hours=2),
+    "Handball": timedelta(hours=2),
+    "Volleyball": timedelta(hours=3),
+    "Beach Volleyball": timedelta(hours=2),
+    "Basketball": timedelta(hours=3),
+    "FIBA": timedelta(hours=3),
+    "NBA": timedelta(hours=3),
+    "WNBA": timedelta(hours=3),
+    "NFL": timedelta(hours=4),
+    "MLB": timedelta(hours=4),
+    "Rugby": timedelta(hours=3),
+    "Tennis": timedelta(hours=4),
+    "Padel": timedelta(hours=3),
+    "Snooker": timedelta(hours=4),
+    "Darts": timedelta(hours=4),
+    "Golf": timedelta(hours=6),
+    "Cycling": timedelta(hours=6),
+    "Athletics": timedelta(hours=4),
+    "Swimming": timedelta(hours=3),
+    "Triathlon": timedelta(hours=4),
+    "Olympics": timedelta(hours=4),
+    "F1": timedelta(hours=3),
+    "MotoGP": timedelta(hours=3),
+    "WRC": timedelta(hours=4),
+    "Boxing": timedelta(hours=5),
+    "MMA": timedelta(hours=5),
+}
+# Nothing is called "on now" for longer than this, whatever a source says.
+ON_AIR_CEILING = timedelta(hours=8)
+ON_AIR_FLOOR = timedelta(minutes=30)
+
+
+def on_air_for(event) -> timedelta:
+    """How long this one row counts as under way.
+
+    A source's own end time wins where it gives one and it is sane;
+    otherwise the sport's figure; otherwise football's.
+    """
+    if not isinstance(event, dict):
+        return MATCH_ON_AIR
+    start, end = event.get("start"), event.get("end")
+    if start is not None and end is not None:
+        try:
+            span = end - start
+        except TypeError:
+            span = None
+        if span is not None and ON_AIR_FLOOR <= span <= ON_AIR_CEILING:
+            return span
+    return ON_AIR_BY_SPORT.get(event.get("sport") or "", MATCH_ON_AIR)
+
+
+def status_of(event, now, live_for=None) -> str:
+    """"upcoming", "live" or "over" — the ONE answer every screen uses.
+
+    The picture board, the text page and the row title all asked this
+    question separately and could answer it differently. They ask here
+    now, so مباشر, التالي and انتهى cannot disagree across a channel.
+    """
+    span = (live_for(event) if callable(live_for)
+            else (live_for if live_for is not None else on_air_for(event)))
+    start = event["start"]
+    if now < start:
+        return "upcoming"
+    return "live" if now < start + span else "over"
+
+
 # How often the "started N ago" row is rewritten while a match is on.
 ELAPSED_STEP = timedelta(minutes=15)
 
