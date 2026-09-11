@@ -778,6 +778,26 @@ def _crest_strip(board, pen, events, y: int, accent) -> None:
                                                 (0, 0, 0, 0)), faint, 0.75))
 
 
+def _span_for(event, live_for):
+    """How long THIS row is on the air.
+
+    `live_for` may be a plain duration, as it always was, or a function of
+    the row — which is how a sport's own length reaches the drawing.
+    """
+    try:
+        return live_for(event) if callable(live_for) else live_for
+    except Exception:                                          # noqa: BLE001
+        return live_for
+
+
+def _is_live(event, now, live_for) -> bool:
+    return event["start"] <= now < event["start"] + _span_for(event, live_for)
+
+
+def _is_over(event, now, live_for) -> bool:
+    return event["start"] + _span_for(event, live_for) <= now
+
+
 def draw_board(day: date, events: list[dict], now: datetime, viewer,
                live_for, *, title: str, subtitle: str, weekday: str,
                page: int = 1, pages: int = 1, accent=None) -> Image.Image:
@@ -925,7 +945,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     coming_seen = False
 
     for index, event in enumerate(rows):
-        live = event["start"] <= now < event["start"] + live_for
+        live = _is_live(event, now, live_for)
         # OVER, AND SAID SO IN RED. Asked for outright. A board carries
         # the whole day, so by the evening most of it has been played —
         # and every one of those rows was printing its clock in the same
@@ -933,7 +953,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # colour this board uses for "coming"; a match that is finished
         # is not coming, and a viewer scanning for what is next was being
         # made to read every line to find out.
-        over = event["start"] + live_for <= now
+        over = _is_over(event, now, live_for)
         band = [PAD - 12, y, W - PAD + 12, y + height - 6]
         if live:
             # ON THE AIR, AND IT LOOKS LIKE IT. A viewer looking at the
@@ -1318,8 +1338,7 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
         progress(pen, page, pages, accent, y=H - 26)
         return board
 
-    live_rows = [e for e in events
-                 if e["start"] <= now < e["start"] + live_for]
+    live_rows = [e for e in events if _is_live(e, now, live_for)]
     rest = [e for e in events if e not in live_rows]
 
     # ---- ON AIR, its own panel on the left ------------------------------
@@ -1509,7 +1528,7 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     today = day == now.astimezone(viewer).date()
     coming = False
     for index, event in enumerate(shown):
-        over = event["start"] + live_for <= now
+        over = _is_over(event, now, live_for)
         # A ROW THAT SPILLED OUT OF A FULL PANEL IS STILL ON AIR, and a
         # list that told a viewer it was "next" would be lying about the
         # one thing this board exists to say.
