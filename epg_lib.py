@@ -1082,6 +1082,12 @@ ON_AIR_BY_SPORT = {
     "WRC": timedelta(hours=4),
     "Boxing": timedelta(hours=5),
     "MMA": timedelta(hours=5),
+    # A wrestling row is either a pro card, which runs three hours and
+    # some, or a championship DAY from the federation's calendar, whose
+    # sessions run from the morning qualification to the evening finals.
+    # Five hours covers the card without ever calling a finished one live
+    # all evening, and the eight-hour ceiling above still caps the day.
+    "Wrestling": timedelta(hours=5),
 }
 # Nothing is called "on now" for longer than this, whatever a source says.
 ON_AIR_CEILING = timedelta(hours=8)
