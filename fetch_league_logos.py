@@ -54,7 +54,7 @@ FOOTBALL = [
     "fifa.wwc", "fifa.confederations", "fifa.olympics", "fifa.friendly",
     "uefa.champions", "uefa.europa", "uefa.europa.conf", "uefa.euro",
     "uefa.nations", "uefa.super_cup",
-    "afc.champions", "afc.asian.cup", "caf.champions", "caf.nations",
+    "afc.champions", "afc.cup", "afc.asian.cup", "caf.champions", "caf.nations",
     "concacaf.champions", "conmebol.libertadores", "conmebol.sudamericana",
     "club.friendly", "fifa.cwc",
     "eng.1", "eng.2", "eng.3", "eng.4", "eng.fa", "eng.league_cup",
@@ -62,7 +62,7 @@ FOOTBALL = [
     "ita.1", "ita.2", "ita.coppa_italia",
     "ger.1", "ger.2", "ger.dfb_pokal",
     "fra.1", "fra.2", "fra.coupe_de_france",
-    "ned.1", "por.1", "bel.1", "sco.1", "tur.1", "gre.1", "rus.1",
+    "ned.1", "por.1", "bel.1", "sco.1", "wal.1", "tur.1", "gre.1", "rus.1",
     "aut.1", "sui.1", "den.1", "swe.1", "nor.1", "pol.1", "cze.1",
     "ukr.1", "rou.1", "cro.1", "srb.1", "hun.1", "isr.1", "cyp.1",
     "ksa.1", "uae.1", "qat.1", "kuw.1", "bhr.1", "omn.1", "jor.1",
@@ -147,6 +147,65 @@ def keep(team: dict, index: dict) -> int:
     return written
 
 
+# LEAGUES ESPN HAS NEVER HEARD OF. Jordan's top flight returns a plain
+# 404 from every ESPN path, so its clubs were the one MENA league whose
+# crests could never arrive with the sweeps above. TheSportsDB publishes
+# the same roster — badge, English name, and the Arabic spelling the
+# guide actually prints — so those leagues are collected from there and
+# written under every spelling, Latin and Arabic alike.
+SPORTSDB_LEAGUES = [
+    "Jordanian Pro League",
+    "Jordanian First Division League",
+]
+SPORTSDB_ROSTER = "https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l="
+
+
+def sportsdb_keys(team: dict) -> list[str]:
+    from urllib.parse import quote  # noqa: F401  (kept local, see below)
+    from team_badges import _slug as arabic_slug
+
+    names = [team.get("strTeam") or ""]
+    names += (team.get("strTeamAlternate") or "").split(",")
+    keys = [arabic_slug(one.strip()) for one in names if one.strip()]
+    return [key for key in keys if key and len(key) > 2]
+
+
+def sportsdb_league(name: str) -> int:
+    from urllib.parse import quote
+
+    raw = read(SPORTSDB_ROSTER + quote(name))
+    if not raw:
+        print(f"  {name}: nothing (source quiet)")
+        return 0
+    try:
+        rows = json.loads(raw).get("teams") or []
+    except Exception:
+        return 0
+    written = 0
+    for team in rows:
+        url = team.get("strBadge") or team.get("strTeamBadge")
+        keys = sportsdb_keys(team)
+        if not url or not keys:
+            continue
+        if all((DIR / f"{key}.png").exists() for key in keys):
+            continue
+        raw_badge = read(url)
+        if not raw_badge:
+            continue
+        try:
+            crest = Image.open(BytesIO(raw_badge)).convert("RGBA")
+        except Exception:
+            continue
+        crest.thumbnail((128, 128), Image.LANCZOS)
+        for key in keys:
+            path = DIR / f"{key}.png"
+            if not path.exists():
+                crest.save(path)
+                written += 1
+    print(f"  {name}: {len(rows)} sides, {written} badges written")
+    return written
+
+
 def main(argv: list[str]) -> int:
     wanted = argv or list(LEAGUES)
     DIR.mkdir(parents=True, exist_ok=True)
@@ -156,6 +215,10 @@ def main(argv: list[str]) -> int:
         index = {}
 
     total = 0
+    if not argv or "jordan" in argv:
+        for league in SPORTSDB_LEAGUES:
+            total += sportsdb_league(league)
+        wanted = [one for one in wanted if one != "jordan"]
     for name in wanted:
         path = LEAGUES.get(name, name)
         found = teams(path)
