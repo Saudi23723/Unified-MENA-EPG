@@ -6388,6 +6388,54 @@ def gate_a_game_being_played_is_a_live_event() -> None:
           'state") == "post"' in inspect.getsource(espn_fights), True)
 
 
+def gate_womens_international_volleyball_is_on_channel_two() -> None:
+    """"Add women's international volleyball to channel 2."
+
+    The national grids asked for first — Poland, Sweden, Germany, Italy,
+    France, Russia, Serbia — were measured and none answers with a
+    readable row (see womens_volley_fivb.py for what each returned).
+    Spain's does and is already read; Turkey's has a channel of its own.
+    The fixtures therefore come from the federation's own VIS service,
+    which stamps the women's draw Gender="1" and gives a real UTC
+    instant, and channel two must actually read it.
+    """
+    print("\nWomen's international volleyball — channel two")
+
+    import other_sports_epg
+    import womens_volley_fivb
+
+    check("WVOLLEY", "channel two reads the federation's indoor feed",
+          other_sports_epg.womens_volley_fivb is womens_volley_fivb, True)
+    check("WVOLLEY", "volleyball is in channel two's order",
+          "Volleyball" in other_sports_epg.IN_ORDER, True)
+
+    women = {"Gender": "1", "Name": "Women Pan American Cup 2026"}
+    men = {"Gender": "0", "Name": "Men Pan American Cup 2026"}
+    girls = {"Gender": "1",
+             "Name": "FIVB Volleyball Girls' U17 World Championship 2026"}
+    club = {"Gender": "1",
+            "Name": "FIVB Volleyball Women's Club World Championship 2026"}
+    league = {"Gender": "1", "Name": "CEV EuroVolley 2026 | Women"}
+
+    check("WVOLLEY", "a women's international major is kept",
+          womens_volley_fivb._is_major_women(women), True)
+    check("WVOLLEY", "EuroVolley is kept",
+          womens_volley_fivb._is_major_women(league), True)
+    check("WVOLLEY", "the men's draw is refused",
+          womens_volley_fivb._is_major_women(men), False)
+    check("WVOLLEY", "an age group is refused",
+          womens_volley_fivb._is_major_women(girls), False)
+    check("WVOLLEY", "a club competition is refused",
+          womens_volley_fivb._is_major_women(club), False)
+    check("WVOLLEY", "EuroVolley names the carrier CEV streams it on",
+          womens_volley_fivb._channels_for(league["Name"]), ["EuroVolley TV"])
+    check("WVOLLEY", "a Volleyball World competition names VBTV",
+          womens_volley_fivb._channels_for(
+              "FIVB Volleyball Women's Nations League 2026"), ["VBTV"])
+    check("WVOLLEY", "and nothing else is guessed a channel",
+          womens_volley_fivb._channels_for("Women Pan American Cup 2026"), [])
+
+
 def main() -> int:
     print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
     for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
@@ -6450,7 +6498,8 @@ def main() -> int:
                  gate_a_playlist_that_was_written_reports_success,
                  gate_the_youth_competition_asked_for_by_name,
                  gate_one_clashing_pair_does_not_cost_a_whole_guide,
-                 gate_a_game_being_played_is_a_live_event):
+                 gate_a_game_being_played_is_a_live_event,
+                 gate_womens_international_volleyball_is_on_channel_two):
         try:
             gate()
         except Exception as exc:
