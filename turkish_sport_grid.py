@@ -128,6 +128,12 @@ A_SPORT = {
     "motor sporları": "MotoGP",
     "ralli": "WRC",
     "olimpiyat": "Olympics",
+    # The wrestling, asked for by name for the second channel. Turkish
+    # names it "güreş", with and without its dotless spelling.
+    "güreş": "Wrestling",
+    "gures": "Wrestling",
+    "güres": "Wrestling",
+    "wrestling": "Wrestling",
 }
 
 # WHOSE COMPETITION. Turkish names the side outright — Kadınlar is the
