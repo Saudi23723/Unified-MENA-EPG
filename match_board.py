@@ -559,8 +559,26 @@ NOT_A_FIXTURE = re.compile(
     r"open|masters|championships?|tournament|series|festival|"
     r"stage|round|session|practice|qualifying|sprint|heat|"
     r"week\s*\d|season|preview|primetime|show|special|"
+    r"one\s+friday|friday\s+fights?|fight\s*night|"
     r"سباق|طواف|مرحلة|بطولة|جولة)\b"
     r"|\b(?:19|20)\d{2}\b", re.I)
+
+
+# A FIGHTER HAS NO CREST. Boxing and MMA rows are two people, not two
+# clubs, so a badge lookup can only return the wrong thing — and its
+# fallback, a lettered disc, is worse. Combat rows keep the mirror and
+# the VS, and drop the crest columns entirely.
+A_FIGHT = re.compile(
+    r"\b(boxing|box|mma|ufc|one\s+championship|bellator|pfl|"
+    r"kickboxing|muay\s*thai|wrestling|wwe|contender\s+series|"
+    r"ملاكمة|نزال|فنون\s*قتالية|مصارعة)\b", re.I)
+
+
+def a_fight(event: dict) -> bool:
+    """Whether this row is two fighters rather than two clubs."""
+    text = f"{event.get('competition', '')} {event.get('title', '')}"
+    return bool(A_FIGHT.search(text))
+
 
 
 def split_sides(title: str):
@@ -756,6 +774,8 @@ def _crest_strip(board, pen, events, y: int, accent) -> None:
     signs itself off with the competitions it carries."""
     seen, marks = set(), []
     for event in events:
+        if a_fight(event):
+            continue
         sides = split_sides(event["title"])
         for name in (sides or ()):
             key = name.lower()
@@ -1214,27 +1234,34 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # nothing moves and a full page is drawn as it was.
             crest_y = max(head_y, y + 6 + box // 2)
             gap, gutter = 12, 34
+            # Two fighters take no badge, so the columns a crest would
+            # have held go back to their names instead.
+            fight = a_fight(event)
+            if fight:
+                box, gap = 0, 0
             side_room = centre - gutter - left_edge - box - gap
             fitted = size
             while fitted > 15 and max(width_of(home, fitted),
                                       width_of(away, fitted)) > side_room:
                 fitted -= 1
-            if box >= 22 and side_room > 60:
+            if (fight or box >= 22) and side_room > 60:
                 # A played match steps back in grey; red is kept
                 # for the clock, where it means "over" already.
                 ink = PILL_INK if over else WHITE
                 home_txt = clipped(home, fitted, side_room)
                 away_txt = clipped(away, fitted, side_room)
-                draw_crest(board, pen, home, left_edge + box // 2,
-                           crest_y, box, event.get("competition", ""))
+                if not fight:
+                    draw_crest(board, pen, home, left_edge + box // 2,
+                               crest_y, box, event.get("competition", ""))
                 chip_left = left_edge + box + gap
                 draw_text(pen, (chip_left, head_y), home_txt, fitted, ink,
                           anchor="lm")
                 draw_text(pen, (centre, head_y), "VS", max(14, fitted - 5),
                           LIVE_TAG if live else MUTED, anchor="mm",
                           weight="heavy")
-                draw_crest(board, pen, away, right_edge - box // 2,
-                           crest_y, box, event.get("competition", ""))
+                if not fight:
+                    draw_crest(board, pen, away, right_edge - box // 2,
+                               crest_y, box, event.get("competition", ""))
                 draw_text(pen, (right_edge - box - gap, head_y), away_txt,
                           fitted, ink, anchor="rm")
                 chip_stop = centre - gutter
