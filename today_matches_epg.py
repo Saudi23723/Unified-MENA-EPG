@@ -70,6 +70,7 @@ import tsn
 import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
+    on_air_for, status_of,
     drop_simulcasts, fetch, in_reading_order, isolate, log, norm, same_club,
     same_fixture, warn, write_xml_atomic,
 )
@@ -1978,7 +1979,7 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
     if not events:
         return in_reading_order(f"{day_name(day)} — {NOTHING_TODAY}")
 
-    live = [e for e in events if e["start"] <= now < e["start"] + MATCH_ON_AIR]
+    live = [e for e in events if status_of(e, now) == "live"]
     if live:
         event = live[-1]
         return in_reading_order(
@@ -2027,7 +2028,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
     line under it reversed.
     """
     header = f"مباريات {day_name(day)} — {VIEWER_NAME}"
-    left = [e for e in events if e["start"] + MATCH_ON_AIR > now]
+    left = [e for e in events if status_of(e, now) != "over"]
     if not left:
         return f"{header}\n{'انتهت مباريات اليوم' if events else NOTHING_TODAY}"
 
@@ -2083,7 +2084,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
         from match_board import draw_board
 
         board = draw_board(
-            day, events, now, VIEWER, MATCH_ON_AIR,
+            day, events, now, VIEWER, on_air_for,
             title=CHANNEL_AR, subtitle=f"بث اليوم المباشر · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages)
         drawn = io.BytesIO()
