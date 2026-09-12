@@ -1167,6 +1167,25 @@ def status_of(event, now, live_for=None) -> str:
     return "live" if now < start + on_air_span(event, live_for) else "over"
 
 
+def still_on_air_at(events, moment, live_for=None) -> list:
+    """The rows that began before this instant and have not come off yet.
+
+    A viewer day ends at a fixed hour, and a match does not. A baseball
+    game starting at 04:00 runs four hours, so at 07:00 — where the
+    dashboard channels cut their day — it is still being played, and the
+    new day, which knows only its own fixtures, opened by counting down
+    to something else. The game was on the air and the channel had
+    stopped saying so.
+
+    So the day that begins is handed whatever is still running from the
+    day that ended. It is not one of the new day's fixtures and is never
+    counted as one; it is only still true.
+    """
+    return [event for event in events
+            if event["start"] < moment
+            < event["start"] + on_air_span(event, live_for)]
+
+
 def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
                       icon=None, live_for=None) -> int:
     """Programme one day as the stretches over which its status holds still.

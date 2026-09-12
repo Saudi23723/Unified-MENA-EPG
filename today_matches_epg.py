@@ -70,7 +70,7 @@ import tsn
 import yallakora
 from epg_lib import (
     MATCH_ON_AIR, add_day_in_blocks, arabic_count, club_skeleton,
-    countdown_label, on_air_for, status_of,
+    countdown_label, on_air_for, status_of, still_on_air_at,
     drop_simulcasts, fetch, in_reading_order, isolate, log, norm, same_club,
     same_fixture, warn, write_xml_atomic,
 )
@@ -1997,7 +1997,16 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
 
     # arabic_count carries the number itself — "مباراتان", "3 مباريات" —
     # so putting a numeral in front of it would say the count twice.
-    count = arabic_count(len(events), "مباراة", "مباراتان", "مباريات", "مباراة")
+    #
+    # AND IT COUNTS THIS DAY'S OWN MATCHES. A match still being played
+    # when the day turns over is handed to the new day as well, so its
+    # live mark does not vanish at the boundary — still_on_air_at — but
+    # it belongs to the day it kicked off on and is not one of the new
+    # day's fixtures once it ends.
+    own = [e for e in events if e["start"].astimezone(VIEWER).date() == day]
+    if not own:
+        return in_reading_order(f"{day_name(day)} — {NOTHING_TODAY}")
+    count = arabic_count(len(own), "مباراة", "مباراتان", "مباريات", "مباراة")
     if day == now.astimezone(VIEWER).date():
         return in_reading_order(f"انتهت مباريات اليوم — {count}")
     return in_reading_order(f"مباريات {day_name(day)} — {count}")
@@ -2222,10 +2231,15 @@ def publish_all(events: list[dict], everything: list[dict],
         # kickoffs and the final whistles, each block titled for its own
         # start, مباشر clears itself on the clock.
         opens, closes = day_bounds(day)
+        # AND WHATEVER IS STILL BEING PLAYED AS THE DAY OPENS. A match
+        # that kicked off before the boundary and runs past it is on the
+        # air on both days; the day that inherits it says so until it
+        # ends, and counts it as neither of its own.
+        shown = still_on_air_at(events, opens) + events_today
         rows = add_day_in_blocks(
-            tv, CHANNEL_ID, opens, closes, events_today,
-            lambda moment: (day_title(day, events_today, moment),
-                            day_page(day, events_today, moment)),
+            tv, CHANNEL_ID, opens, closes, shown,
+            lambda moment: (day_title(day, shown, moment),
+                            day_page(day, shown, moment)),
             icon=first_board)
         log(f"  {day} -> {len(events_today)} match(es) over "
             f"{len(chunks)} board(s), {rows} row(s)")

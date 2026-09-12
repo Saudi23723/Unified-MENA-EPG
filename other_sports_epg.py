@@ -73,7 +73,7 @@ import major_games
 
 from epg_lib import (
     MATCH_ON_AIR, add_day_in_blocks, arabic_count, countdown_label,
-    on_air_for, status_of,
+    on_air_for, status_of, still_on_air_at,
     drop_simulcasts, in_reading_order, isolate, log, new_session, norm,
     warn, write_xml_atomic,
 )
@@ -428,8 +428,15 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
             f"{NEXT_MARK} بعد {countdown_label(minutes)} {isolate('·')} "
             f"{isolate(row_title(card))}",
             names=row_title(card))
+    # THIS DAY'S OWN EVENTS. A card still being played when the day turns
+    # over is handed to the new day as well, so its live mark does not
+    # vanish at the boundary — still_on_air_at — but it belongs to the day
+    # it started on and is not one of the new day's own once it ends.
+    own = [e for e in events if e["start"].astimezone(VIEWER).date() == day]
+    if not own:
+        return f"{CHANNEL_AR} — لا يوجد حدث"
     return f"{CHANNEL_AR} — " + arabic_count(
-        len(events), "حدث", "حدثان", "أحداث", "حدثاً")
+        len(own), "حدث", "حدثان", "أحداث", "حدثاً")
 
 
 def day_page(day: date, events: list[dict], now: datetime) -> str:
@@ -1846,10 +1853,15 @@ def publish_all(events: list[dict], now: datetime,
         # named had finished. Cut at the starts and the ends, each block
         # titled for its own start.
         opens, closes = day_bounds(day)
+        # AND WHATEVER IS STILL BEING PLAYED AS THE DAY OPENS. A baseball
+        # game starting at four runs four hours, so at the boundary it is
+        # on the air on both days; the day that inherits it says so until
+        # it ends, and counts it as none of its own.
+        shown = still_on_air_at(events, opens) + today
         rows = add_day_in_blocks(
-            tv, CHANNEL_ID, opens, closes, today,
-            lambda moment: (day_title(day, today, moment),
-                            day_page(day, today, moment)),
+            tv, CHANNEL_ID, opens, closes, shown,
+            lambda moment: (day_title(day, shown, moment),
+                            day_page(day, shown, moment)),
             icon=first_board)
         log(f"  {day} -> {len(today)} event(s) over {len(chunks)} "
             f"board(s), {rows} row(s)")
