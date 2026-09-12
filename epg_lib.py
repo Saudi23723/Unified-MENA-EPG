@@ -1108,6 +1108,46 @@ ON_AIR_FLOOR = timedelta(minutes=30)
 A_MATCHUP = re.compile(
     r"\b(?:vs\.?|v)\b|\s[-–—]\s.*\b(?:vs\.?|v)\b", re.I)
 
+# The games where one "sport" covers a fortnight of everything.
+MULTI_SPORT_GAMES = frozenset({
+    "Olympics", "Asian Games", "Commonwealth Games",
+    "Pan American Games", "European Games", "African Games",
+})
+
+# A DISCIPLINE NAMED IN THE TITLE BEATS THE GAMES IT BELONGS TO.
+#
+# "Qatar vs Jordan - Basketball Men - Asian Games Aichi-Nagoya 2026" was
+# taking four hours on the air, because its sport is "Asian Games" and
+# four hours is what a games SESSION runs — an afternoon of athletics,
+# a morning of heats. This is not a session. It is one basketball game,
+# it says so in its own title, and the table above already knows a
+# basketball game is three. Measured on the published guide: the row was
+# still wearing مباشر three and a quarter hours after tip-off, and the
+# cut in the file sat at start + 4h, not +3h. Thirteen head-to-heads on
+# channel two carried the extra hour, and the two women's football ones
+# carried two.
+#
+# So a head-to-head at a games answers with the discipline its title
+# names, and only a row that names no discipline the table knows falls
+# back on the games' own figure — which is the right answer for the
+# session rows this was written for.
+#
+# Longest name first, so "Beach Volleyball" is never read as volleyball.
+_DISCIPLINE_IN_TITLE = [
+    (sport, re.compile(r"\b" + re.escape(sport) + r"\b", re.I))
+    for sport in sorted(ON_AIR_BY_SPORT, key=len, reverse=True)
+    if sport not in MULTI_SPORT_GAMES
+]
+
+
+def discipline_named_by(event):
+    """The on-air figure for the discipline this row names, if it names one."""
+    said = f"{event.get('title') or ''} {event.get('competition') or ''}"
+    for sport, word in _DISCIPLINE_IN_TITLE:
+        if word.search(said):
+            return ON_AIR_BY_SPORT[sport]
+    return None
+
 
 def _is_a_matchup(event) -> bool:
     title = event.get("title") or ""
@@ -1121,14 +1161,21 @@ def on_air_for(event) -> timedelta:
 
     A matchup always answers with its sport's real duration, even when a
     source hangs a day-long end time on it — a volleyball match is over
-    inside three hours, whatever the grid says. Only a session row may
-    borrow the source's own span (bounded by the ceiling); anything left
-    answers with the sport's figure, then football's.
+    inside three hours, whatever the grid says. At a multi-sport games,
+    where the "sport" is the games itself, a matchup answers with the
+    discipline its own title names — see discipline_named_by. Only a
+    session row may borrow the source's own span (bounded by the
+    ceiling); anything left answers with the sport's figure, then
+    football's.
     """
     if not isinstance(event, dict):
         return MATCH_ON_AIR
     sports = ON_AIR_BY_SPORT.get(event.get("sport") or "", MATCH_ON_AIR)
     if _is_a_matchup(event):
+        if event.get("sport") in MULTI_SPORT_GAMES:
+            named = discipline_named_by(event)
+            if named is not None:
+                return named
         return sports
     start, end = event.get("start"), event.get("end")
     if start is not None and end is not None:

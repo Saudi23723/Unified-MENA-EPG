@@ -12,9 +12,9 @@ on:
   # run 862 was cancelled two and a half minutes in, mid-build. The
   # boards had not moved since 15:47 while runs kept starting and dying.
   #
-  # At twenty minutes a pass, being cancelled is only harmless when the
-  # cancellation lands in a sleep AFTER a pass has published. Firing
-  # every five minutes guarantees the opposite.
+  # Cancelling is no longer how a fresh trigger is handled at all — see
+  # concurrency below — so a landed slot is never thrown away. It is
+  # held as this run's successor and starts the moment this one ends.
   #
   # So the trigger rate is matched to what one run now covers. Two
   # events an hour are two chances to start a fresh ticker after a
@@ -31,7 +31,29 @@ on:
 
 concurrency:
   group: today-matches
-  cancel-in-progress: true
+  # A TRIGGER THAT LANDS MID-RUN QUEUES BEHIND IT; IT DOES NOT KILL IT.
+  #
+  # This was true, and it left the boards frozen twice in one morning.
+  # The job runs its ticker for 175 minutes and then exits, and the ONLY
+  # thing that starts another is the cron — which GitHub drops. Measured
+  # 2026-09-12: run 902's ticker ended 07:58 and the 08:11 slot never
+  # arrived, so nothing published for 65 minutes; run 904 ended 12:13,
+  # its 12:11 slot never arrived either. Every slot that DID land during
+  # those three hours was thrown away by cancel-in-progress, because at
+  # the time it landed a ticker was running and cancelling was the whole
+  # point.
+  #
+  # Queued instead, one of those slots becomes the successor: GitHub
+  # holds exactly one pending run per group and cancels any earlier
+  # pending one, so they still cannot pile up — and the moment the
+  # ticker exits, the pending run starts. The gap closes without the
+  # scheduler having to fire at the right minute, only at SOME minute in
+  # the three hours a run covers.
+  #
+  # It also ends the other half of the same fault: a hand-dispatch used
+  # to kill whatever was mid-build. Run 873 had reordered correctly at
+  # 23:39 and was cancelled at 23:42 before it could push.
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -39,11 +61,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # EIGHT PASSES TWENTY MINUTES APART NEEDS THE ROOM TO RUN THEM.
+    # A PASS EVERY FIVE MINUTES NEEDS THE ROOM TO RUN THEM.
     # At 20 this job was killed inside the first sleep, so the ticker
     # below would never have reached pass 2 and the whole change would
-    # have been decoration. 175 matches channel 6's, and leaves margin
-    # over the ~160 minutes the eight passes actually take.
+    # have been decoration. 175 matches channel 6's; the ticker stops
+    # itself at 165 so the last pass publishes rather than being cut.
     timeout-minutes: 175
     steps:
       - uses: actions/checkout@v4
@@ -158,7 +180,7 @@ jobs:
       - name: Publish refreshed indicators
         run: python -u publish_screens.py
 
-      # ─── AND AGAIN, SEVEN MORE TIMES, TWENTY MINUTES APART ───────────
+      # ─── AND AGAIN, EVERY FIVE MINUTES, FOR THE WHOLE WINDOW ─────────
       #
       # THE CRON IS NOT ARRIVING. This asks for a run every five minutes
       # — twelve slots an hour — and measured across 2026-09-10 it fired
@@ -169,8 +191,8 @@ jobs:
       # doing it again tomorrow would not be one either.
       #
       # The repository already answered this question twice. "Build every
-      # EPG" builds nine times, twenty minutes apart, and channel 6
-      # twenty times, eight minutes apart, both for exactly this reason:
+      # EPG" builds nine times over its window, and channel 6 twenty
+      # times, eight minutes apart, both for exactly this reason:
       # correctness must not depend on the scheduler firing often. This
       # brings the same answer to the workflow that had been left out of
       # it — one landed event now covers not quite three hours on its
@@ -182,20 +204,27 @@ jobs:
       # executes, the workflow behaves precisely as it did before.
       #
       # A pass that fails does not stop the ones after it. A source that
-      # answers badly for twenty minutes should cost twenty minutes, not
-      # the remaining two hours — and whatever the failing pass had
-      # already published stays published.
+      # answers badly for one pass should cost one pass, not the
+      # remaining two hours — and whatever the failing pass had already
+      # published stays published.
       #
-      # cancel-in-progress means a fresh trigger replaces a running
-      # ticker instead of queueing behind it, so these can never pile
-      # up, and a cancellation almost always lands inside a sleep with
-      # the last pass already pushed.
+      # RUN TO THE WINDOW, NOT TO A COUNT. Fourteen passes was a guess at
+      # how many fit, and run 904 proved it wrong in the expensive
+      # direction: it was still inside pass fourteen when the 175-minute
+      # timeout killed it, mid-build. A deadline stops cleanly with a
+      # published pass behind it, and it stays right when a pass gets
+      # slower or faster — which it does, with the number of matches.
       - name: Keep publishing while the scheduler is quiet
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
-          for pass in 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+          # Ten minutes inside the job's own timeout, so the last pass
+          # finishes and pushes rather than being cut off part-way.
+          deadline=$(( $(date +%s) + 165 * 60 ))
+          pass=1
+          while [ "$(date +%s)" -lt "$deadline" ]; do
             sleep 300
-            echo "───── pass $pass of 14 ─────"
+            pass=$(( pass + 1 ))
+            echo "───── pass $pass ─────"
             (
               set -e
               for build in today_matches_epg other_sports_epg \
@@ -225,5 +254,6 @@ jobs:
                 || { test -s ai_sports_dashboard.m3u \
                      && test -s ai_sports_dashboard_dubai.m3u; }
               python -u publish_screens.py
-            ) || echo "::warning::pass $pass did not finish — whatever it published stands, and pass $((pass + 1)) follows"
+            ) || echo "::warning::pass $pass did not finish — whatever it published stands, and the next one follows"
           done
+          echo "───── $pass pass(es) published; the window is up ─────"
