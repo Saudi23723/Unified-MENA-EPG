@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260911170800 +0000" stop="20260911185200 +0000" channel="beIN4K.qa">
-    <title lang="en">Arsenal v Chelsea - English Premier League 2026/2027</title>
-    <desc lang="en">Arsenal are unbeaten in their last nine Premier League matches against Chelsea, their best unbeaten run against the Blues since a run of 19 between 1995 and 2005. Chelsea have lost their last four away Premier League games against Arsenal by an aggregate score of 11-2. Their last win there was in August 2021, a 2-0 victory.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260911185200 +0000" stop="20260911211600 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Italian Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -2010,10 +2004,11 @@ Recep Tayyip Erdogan Stadyumu Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911170000 +0000" stop="20260911185000 +0000" channel="beINSports3.qa">
-    <title lang="en">Liverpool FC vs Atlético de Madrid - UEFA Youth League 2026/2027 - MD1</title>
-    <category lang="ar">دوري أبطال أوروبا للشباب</category>
-    <category lang="en">UEFA Youth League</category>
+  <programme start="20260918190000 +0000" stop="20260918205959 +0000" channel="beINSports2.qa">
+    <title lang="en">Manchester United vs Manchester City - English Premier League 2026/2027 - Week 4</title>
+    <desc lang="en">Manchester United won this exact fixture last season 2-0 but haven’t beaten rivals Manchester City twice in a row at home in the Premier League since a run of three under Alex Ferguson from 2008-09 to 2010-11. Manchester City have won just one of their last four Premier League games against Manchester United, this after winning five of their six be</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260911185000 +0000" stop="20260911210500 +0000" channel="beINSports3.qa">
     <title lang="en">West Ham Utd vs Wrexham -EFL - English Football League  SkyBet - Championship 2026/2027 ‎• Live 🔵‎</title>
@@ -2624,6 +2619,14 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <desc lang="en">Live and exclusive coverage from South American of the Copa Sudamericana.</desc>
     <category lang="ar">كأس أندية أميركا الجنوبية</category>
     <category lang="en">Copa Sudamericana</category>
+  </programme>
+  <programme start="20260918185000 +0000" stop="20260918205959 +0000" channel="beINSports3.qa">
+    <title lang="en">Espanyol vs Elche - Spanish LaLiga 2026/2027 - Week 7 ‎• Live 🔵‎</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Live</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260911184800 +0000" stop="20260911211600 +0000" channel="beINSports4.qa">
     <title lang="en">Sevilla vs Valencia - Spanish LaLiga 2026/2027 - Week 5 ‎• Live 🔵‎</title>
@@ -3695,6 +3698,12 @@ Bahrain National Stadium Stadium</desc>
 36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
+  </programme>
+  <programme start="20260918185000 +0000" stop="20260918205959 +0000" channel="beINSports5.qa">
+    <title lang="en">Bristol City vs Watford - EFL - English Football League  SkyBet - Championship 2026/2027 ‎• Live 🔵‎</title>
+    <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
+    <category lang="en">Live</category>
+    <category lang="en">English League - Championship</category>
   </programme>
   <programme start="20260911180000 +0000" stop="20260911194500 +0000" channel="beINSports6.qa">
     <title lang="en">Premier Padel - Paris Major  - Eduardo Alonso (ESP) Aimar Goñi Lacabe (ESP) vs Alejandro Galan (ESP) ‎• Live 🔵‎</title>
@@ -4824,6 +4833,18 @@ Season 2026/2027
 Qualifier Round
 Group F
 Jalan Besar Stadium Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918190000 +0000" stop="20260918205959 +0000" channel="beINSports7.qa">
+    <title lang="en">Al Shorta (IRQ) vs Al Seeb Club (OMA) - AFC Champions League Two 2026/2027 - MD1</title>
+    <desc lang="en">Al Shorta vs Al-Seeb
+At 16-9-2026, MECCA 21:15, GMT 18:15
+AFC Champions League Two
+Season 2026/2027
+Qualifier Round
+Group D
+Al-Zawraa Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -6198,11 +6219,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">كرة اليد</category>
     <category lang="en">Live</category>
     <category lang="en">Handball</category>
-  </programme>
-  <programme start="20260911180000 +0000" stop="20260911185000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">French Ligue 1 Preview 2026/27 | E4</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260911185000 +0000" stop="20260911210000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">West Ham Utd vs Wrexham -EFL - English Football League  SkyBet - Championship 2026/2027 ‎• Live 🔵‎</title>
@@ -7906,6 +7922,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
   </programme>
+  <programme start="20260918185000 +0000" stop="20260918205959 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Bristol City vs Watford - EFL - English Football League  SkyBet - Championship 2026/2027 ‎• Live 🔵‎</title>
+    <category lang="ar">دوري البطولة الإنجليزية - الدرجة الأولى</category>
+    <category lang="en">Live</category>
+    <category lang="en">English League - Championship</category>
+  </programme>
   <programme start="20260911175500 +0000" stop="20260911200000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Multiplex - Ligue 2 - J06 - Football 2026-2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sport.</desc>
@@ -8112,12 +8134,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260911170000 +0000" stop="20260911190000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260911190000 +0000" stop="20260911210000 +0000" channel="beINSportsMax1.qa">
@@ -8337,12 +8353,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260911170000 +0000" stop="20260911190000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8570,12 +8580,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911170000 +0000" stop="20260911190000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260911190000 +0000" stop="20260911210000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8793,12 +8797,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260911170000 +0000" stop="20260911190000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9026,12 +9024,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911170000 +0000" stop="20260911190000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260911190000 +0000" stop="20260911210000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9249,12 +9241,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260911170000 +0000" stop="20260911190000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9481,13 +9467,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Nine O'Clock bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260911190000 +0000" stop="20260911191500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Jawla ‎• Live 🔵‎</title>
@@ -11277,10 +11256,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918190000 +0000" stop="20260918191500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Jawla ‎• Live 🔵‎</title>
+    <desc lang="en">Al Jawla covers the latest news and stories from sporting events across the planet. Including latest results and latest scores from the most recent games taking place. This daily look at the latest stories provides a fast paced update to sporting events.</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260911190000 +0000" stop="20260911200000 +0000" channel="beINSportsXtra1.qa">
@@ -12319,7 +12299,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13392,7 +13372,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14441,7 +14421,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15427,7 +15407,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16477,7 +16457,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17495,7 +17475,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18521,7 +18501,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19517,7 +19497,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911180000 +0000" stop="20260911190000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20525,4 +20505,10 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-<programme start="20260912205959 +0000" stop="20260913024902 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912205959 +0000" stop="20260913024902 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+<programme start="20260912205959 +0000" stop="20260913030941 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912205959 +0000" stop="20260913030941 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
