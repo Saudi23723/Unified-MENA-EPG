@@ -1128,15 +1128,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260911033900 +0000" stop="20260911060400 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Italian Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260911060400 +0000" stop="20260911074900 +0000" channel="beIN4K.qa">
     <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
     <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
@@ -1615,10 +1606,16 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260912130000 +0000" stop="20260912153000 +0000" channel="beINSports.qa">
+  <programme start="20260912130000 +0000" stop="20260912145500 +0000" channel="beINSports.qa">
     <title lang="en">Chinese Taipei vs Iran - Basketball Men - Asian Games Aichi-Nagoya 2026</title>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260912145500 +0000" stop="20260912153000 +0000" channel="beINSports.qa">
+    <title lang="en">Arab Participation In Asian Games</title>
+    <desc lang="en">A focused program highlighting the presence of Arab athletes at the Asian Games, showcasing key performances, medal moments, and breakthrough achievements across multiple sports. It reflects the growth of Arab representation on the continental stage, featuring standout stories, national milestones, and the competitive impact of Arab delegations in</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260912153000 +0000" stop="20260912180000 +0000" channel="beINSports.qa">
     <title lang="en">Qatar vs Jordan - Basketball Men - Asian Games Aichi-Nagoya 2026</title>
@@ -1725,12 +1722,11 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260911053000 +0000" stop="20260911060100 +0000" channel="beINSports1.qa">
-    <title lang="en">Napoli vs Arsenal - UEFA Champions League 2026-2027 - MD1</title>
-    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
-Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
+  <programme start="20260918060000 +0000" stop="20260918205959 +0000" channel="beINSports.qa">
+    <title lang="en">All -Sports  - Asian Games Aichi-Nagoya 2026 ‎• Live 🔵‎</title>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260911060100 +0000" stop="20260911070100 +0000" channel="beINSports1.qa">
     <title lang="en">Bein Champions - UEFA Champions League 2026-2027</title>
@@ -2533,6 +2529,13 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918060000 +0000" stop="20260918063000 +0000" channel="beINSports1.qa">
+    <title lang="en">Real Madrid vs Rayo Vallecono - Spanish LaLiga 2026/2027 - Week 5</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260911053000 +0000" stop="20260911073000 +0000" channel="beINSports2.qa">
     <title lang="en">PSV vs Shakhtar Donetsk - UEFA Champions League 2026-2027 - MD1</title>
@@ -5406,6 +5409,12 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">كأس الرابطة الإنكليزي</category>
     <category lang="en">English League - Cup</category>
   </programme>
+  <programme start="20260918060000 +0000" stop="20260918073000 +0000" channel="beINSports6.qa">
+    <title lang="en">Thailand vs Singapore    - Hockey Men's  - Asian Games Aichi-Nagoya 2026  - HOC01 ‎• Live 🔵‎</title>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
   <programme start="20260911040000 +0000" stop="20260911063000 +0000" channel="beINSports7.qa">
     <title lang="en">Zverev, Alexander (Ger) vs Van De Zandschulp, Botic (Ned) - Men - Arthur Ashe Court - Tennis US Open</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -8275,6 +8284,12 @@ Played over two ties, the winners of each tie advance to the league phase of the
   <programme start="20260918053000 +0000" stop="20260918060000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Sunderland vs Arsenal - English Premier League 2026/2027 - Week 4</title>
     <desc lang="en">Sunderland have won just one of their last 29 Premier League meetings with Arsenal, and are winless in 17  since a 1-0 victory in November 2009 after Darren Bent’s goal. Arsenal have only lost one of their last 14 league visits to Sunderland, winning five of their last seven, although did draw this exact fixture last season 2-2.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260918060000 +0000" stop="20260918063000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Liverpool vs Fulham - English Premier League 2026/2027 - Week 4</title>
+    <desc lang="en">Liverpool have only lost two of 33 previous home league games against Fulham, 1-0 defeats in May 2012 and March 2021. Since completing the double over Liverpool in 2011-12, Fulham have won just two of 16 Premier League games versus the Reds.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -21199,10 +21214,10 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260911205959 +0000" stop="20260912140010 +0000" channel="beINSportsFr1.qa">
+  <programme start="20260911205959 +0000" stop="20260912142011 +0000" channel="beINSportsFr1.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260911205959 +0000" stop="20260912140010 +0000" channel="beINSportsFr2.qa">
+  <programme start="20260911205959 +0000" stop="20260912142011 +0000" channel="beINSportsFr2.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260911213100 +0000" stop="20260911231500 +0000" channel="beINSPORTS1.tr">
@@ -49553,10 +49568,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/713/kloKfQeffViJlwO.jpg" />
   </programme>
-  <programme start="20260911055421 +0000" stop="20260911061416 +0000" channel="AlJadeed.lb">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="ar">منوعات</category>
-  </programme>
   <programme start="20260911061416 +0000" stop="20260911064143 +0000" channel="AlJadeed.lb">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">منوعات</category>
@@ -50219,11 +50230,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260917203000 +0000" stop="20260917205900 +0000" channel="AlJadeed.lb">
     <title lang="ar">نشرة الأخبار الليلية</title>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20260911060000 +0000" stop="20260911061416 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20260911061416 +0000" stop="20260911064143 +0000" channel="AlJazeera.qa">
@@ -64911,7 +64917,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260912120000 +0000" stop="20260912123000 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911063000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260911062000 +0000" stop="20260911063000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Serie A Preview Show Magazine (AR): Inside Serie A</title>
     <desc lang="en">Serie A Preview Show Magazine (AR): Inside Serie A 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -65379,7 +65385,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911070000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260911062000 +0000" stop="20260911070000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -65816,13 +65822,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">Hexagone MMA 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260911060000 +0000" stop="20260911062000 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Udinese X Lazio - Serie A</title>
-    <title lang="ar">أودينيزي × لاتسيو - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
   </programme>
   <programme start="20260911062000 +0000" stop="20260911065000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 3 - Serie A Highlights</title>
@@ -66430,7 +66429,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911073000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260911062000 +0000" stop="20260911073000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Roma X Atalanta - Serie A</title>
     <title lang="ar">روما × أتلانتا - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -67029,7 +67028,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911080500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260911062000 +0000" stop="20260911080500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Hooker X Parnasse - Main Card - UFC Fight Night</title>
     <title lang="ar">هوكر × بارناس - البطاقة الرئيسية - يو إف سي فايت نايت</title>
     <desc lang="en">UFC Fight Night brings you the best MMA action from around the world.</desc>
@@ -67631,7 +67630,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911082100 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260911062000 +0000" stop="20260911082100 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Fiji vs. Wales - Nations Championship 2026</title>
     <desc lang="en">Fiji vs. Wales - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -67913,14 +67912,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911061200 +0000" channel="Starz_criclifewoman">
-    <title lang="en">2025: India vs Pakistan - ICC Women's Cricket World Cup Highlights</title>
-    <title lang="ar">آي سي سي وومنز ورلد كب كريكيت</title>
-    <desc lang="en">Women's cricket teams from various countries compete against each other to emerge victorious at the ICC Women's Cricket World Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p9682373_b_h10_ag.jpg" />
-  </programme>
-  <programme start="20260911061200 +0000" stop="20260911063800 +0000" channel="Starz_criclifewoman">
+  <programme start="20260911062000 +0000" stop="20260911063800 +0000" channel="Starz_criclifewoman">
     <title lang="en">2024: Bangladesh vs England - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
@@ -68569,7 +68561,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/H9DhuVsS.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911070000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260911062000 +0000" stop="20260911070000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Games of the Future</title>
     <title lang="ar">ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -69164,13 +69156,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911061900 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Rotterdam Dockers vs. Glasgow Cosmic - ETPL Highlights</title>
-    <desc lang="en">2026: Rotterdam Dockers vs. Glasgow Cosmic - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260911061900 +0000" stop="20260911064300 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260911062000 +0000" stop="20260911064300 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2026: Belfast Wolves vs. Amsterdam Flames - ETPL Highlights</title>
     <desc lang="en">2026: Belfast Wolves vs. Amsterdam Flames - ETPL Highlights</desc>
     <category lang="en">Sport</category>
@@ -69693,7 +69679,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911070000 +0000" channel="Starz_wedosports">
+  <programme start="20260911062000 +0000" stop="20260911070000 +0000" channel="Starz_wedosports">
     <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
@@ -70141,7 +70127,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p3608998_b_h8_aq.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911070000 +0000" channel="Starz_criclife1">
+  <programme start="20260911062000 +0000" stop="20260911070000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's ODI World Cup 2023: New Zealand vs. Bangladesh - Kick-Off Classics</title>
     <desc lang="en">ICC Men's ODI World Cup 2023: New Zealand vs. Bangladesh - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
@@ -70704,14 +70690,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911061000 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Final - Los Angeles Knight Riders vs Washington Freedom - Major League Cricket Match Highlights</title>
-    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
-    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260911061000 +0000" stop="20260911063400 +0000" channel="Starz_criclife3">
+  <programme start="20260911062000 +0000" stop="20260911063400 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Antigua &amp; Barbuda Falcons vs. Guyana Amazon Warriors, 30th Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -71258,13 +71237,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911062000 +0000" channel="Starz_golflife">
-    <title lang="en">PGA TOUR: The CUT</title>
-    <title lang="ar">ذا كت</title>
-    <desc lang="en">S2026 , E26 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
-  </programme>
   <programme start="20260911062000 +0000" stop="20260911072300 +0000" channel="Starz_golflife">
     <title lang="en">Wyndham Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
@@ -71571,14 +71543,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911061500 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">Sail Grand Prix</title>
-    <title lang="ar">سباق الجائزة الكبرى للشراع</title>
-    <desc lang="en">Special coverage of the Sail Grand Prix.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG518592_landscape10-c2893686-a0ce-4b56-ab97-818553489df7.jpg" />
-  </programme>
-  <programme start="20260911061500 +0000" stop="20260911070000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260911062000 +0000" stop="20260911070000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">UAE National Arabian Horse Beauty Pageants</title>
     <title lang="ar">بطولة الإمارات لجمال الخيول</title>
     <desc lang="en">Follow the most important Pageant for the origional Arabian horses of differnt ages.</desc>
@@ -72152,7 +72117,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911065830 +0000" channel="Starz_awsn">
+  <programme start="20260911062000 +0000" stop="20260911065830 +0000" channel="Starz_awsn">
     <title lang="en">Rockford Group 2026: KOR vs. CAN</title>
     <desc lang="en">Women&amp;apos;s Baseball World Cup Rockford Group continues with Korea and Canada going head to head on day 2.</desc>
     <category lang="en">Sport</category>
@@ -72899,7 +72864,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911070000 +0000" channel="Starz_redbulltv">
+  <programme start="20260911062000 +0000" stop="20260911070000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -73481,7 +73446,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911090000 +0000" channel="Starz_daznringside">
+  <programme start="20260911062000 +0000" stop="20260911090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -73679,7 +73644,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911072051 +0000" channel="Starz_fifaplus">
+  <programme start="20260911062000 +0000" stop="20260911072051 +0000" channel="Starz_fifaplus">
     <title lang="en">Netherlands v Spain | Final | 2010 FIFA World Cup South Africa™ | Full Match Replay</title>
     <desc lang="en">Watch the full replay from the match between Netherlands and Spain played at Soccer City, Johannesburg on Sunday, 11 July 2010.</desc>
     <category lang="en">Sport</category>
@@ -74075,7 +74040,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/14709.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911065700 +0000" channel="Starz_admnyastv">
+  <programme start="20260911062000 +0000" stop="20260911065700 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Falconary Highlights 2026</title>
     <desc lang="en">UAE Falconary Highlights 2026</desc>
     <category lang="en">Sport</category>
@@ -74567,7 +74532,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260911060000 +0000" stop="20260911110000 +0000" channel="Starz_adfight">
+  <programme start="20260911062000 +0000" stop="20260911110000 +0000" channel="Starz_adfight">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</title>
     <desc lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</desc>
     <category lang="en">Sport</category>
@@ -74705,7 +74670,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260914150000 +0000" stop="20260915060000 +0000" channel="Starz_adfight">
+  <programme start="20260914150000 +0000" stop="20260915062000 +0000" channel="Starz_adfight">
     <title lang="en">AJP Tour 2026 - Jiu-Jitsu</title>
     <desc lang="en">AJP Tour 2026 - Jiu-Jitsu</desc>
     <category lang="en">Sport</category>
@@ -79504,7 +79469,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -79613,7 +79578,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -79722,7 +79687,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -79831,7 +79796,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -79940,7 +79905,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -80049,7 +80014,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -80150,7 +80115,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦⚪ 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦⚪ 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦⚪ 07:00  Samsunspor - Çorum FK⁩
@@ -80245,7 +80210,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦🔴 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦🔴 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦🔴 07:00  Samsunspor - Çorum FK⁩
@@ -80340,7 +80305,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦🔴 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦🔴 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦🔴 07:00  Samsunspor - Çorum FK⁩
@@ -80433,7 +80398,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦🔴 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦🔴 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦🔴 07:00  Samsunspor - Çorum FK⁩
@@ -80526,7 +80491,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦🔴 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦🔴 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦🔴 07:00  Samsunspor - Çorum FK⁩
@@ -80609,7 +80574,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 07:00  Boluspor - Pendikspor⁩
         TRT Türk TR · Bein Max 1 TR · beIN MAX 1 TR
 ⁦🔴 07:00  Vanspor - Keçiörengücü⁩
-        TRT Spor TR · beIN Haber TR
+        TRT Spor TR · beIN Haber TR · beIN HABER TR
 ⁦🔴 07:00  Eyüpspor - Ç.Rizespor⁩
         beIN 2 TR
 ⁦🔴 07:00  Samsunspor - Çorum FK⁩
@@ -87639,19 +87604,19 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_8.png" />
   </programme>
   <programme start="20260912050000 +0000" stop="20260912060000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (ا</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:34 — بتوقيتك
+    <title lang="ar">أخبار اليوم · بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائي</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:48 — بتوقيتك
 
+بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائيات العربية
+        حصلت الممثلة المصرية مي عمر على جائزة أفضل ممثلة لعام 2026 عن دورها في مسلسل "الست موناليزا"
+        عربي · CNN عربية
 جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (الجمهورية)
         كما هو معلوم، فإنّ موعد جلسة المناقشة العامة للحكومة، التي دعا إليها رئيس مجلس النواب نبيه بري
         عربي · الجديد
-مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
-        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
-        عربي · فرانس 24
 ارتفاع عدد الإصابات بفيروس إيبولا في الكونغو الديمقراطية لأكثر من 7 آلاف حالة - Qatar news agency
         الإمارات · الإمارات
-إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
-        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
+العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
+        رئيس الوزراء العراقي علي الزيدي أحال قيادة عمليات محافظة ميسان جنوب شرق البلاد للتحقيق..
         تركيا · الأناضول
 Sweden’s extremely close election could see far right enter government
         Latest poll shows 0.3-point gap between left and right blocs, with country’s reputation as global champion of human rights said to be at stake Sweden…
@@ -87659,15 +87624,14 @@ Sweden’s extremely close election could see far right enter government
 Gen. Dan Caine reflects on responding to 9/11: "No doubt" nation was at war
         Now the chairman of the Joint Chiefs of Staff, Gen. Dan Caine was a young fighter pilot mobilized in the response on Sept. 11, 2001.
         أمريكا · CBS
-عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
-        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
-        عربي · الجديد
-مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
-        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+مبابي يعلق غاضباً على صور "دكتاتور".. "المقارنة مرفوضة"
+        عربي · العربية
+مسؤول يمني يدعو الضباط والجنود للعودة إلى مواقعهم بعد خسارة معركة المخا
+        وفق رئيس مجلس الشورى اليمني أحمد عبيد بن دغر...
         تركيا · الأناضول
-وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - argaam.com
+وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - ارقام
         الإمارات · الإمارات
-شرب مياه الفيضان وتمسك بالأمل.. ناجٍ من كارثة نيبال يروي - العربية
+9 أيام تحت الأرض.. ناجٍ من كارثة نيبال يروي لحظات الرعب - العربية
         الإمارات · الإمارات
 From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling week with the Patriot Platform
         A militaristic operation with features of influencer culture, the new anti-migrant movement seems to show a shift in tactics and rhetoric Shortly…
@@ -87675,11 +87639,11 @@ From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling we
 9/11: We Remember
         CBS News marks 25 years since the 9/11 terror attacks through powerful stories of survival, loss and resilience.
         أمريكا · CBS
-ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
-        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
-        عربي · الشرق الأوسط
-بقائي: إيران وعُمان ستدليان بتصريحات حول مسار المباحثات
-        المتحدث باسم الخارجية الإيرانية أفاد بأن طهران التزمت بالتزاماتها المنصوص عليها في مذكرة التفاهم المبرمة مع الولايات المتحدة
+مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
+        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
+        عربي · فرانس 24
+السعودية.. إطلاق إنذار في محافظة "خميس مشيط" جنوب غربي المملكة
+        للتحذير من خطر لم يحدده الدفاع المدني السعودي
         تركيا · الأناضول
 البحرين تدين المخطط الإجرامي لتهريب أشخاص بطرق غير مشروعة عبر حدود الإمارات - البيان
         الإمارات · الإمارات
@@ -87692,14 +87656,14 @@ Chicago rapper Lil Durk acquitted in Los Angeles murder-for-hire plot
 Daughters of 9/11 victims seek answers about accused mastermind's trial
         A new documentary, "Daughters of 9/11," follows their pursuit of information and closure, which they were determined to find for themselves, other…
         أمريكا · CBS
-شاهد لحظة نقل CNN خبر هجمات 11 سبتمبر للمرة الأولى
-        يُظهر مقطع الفيديو اللحظة التي نقلت فيها شبكة CNN لأول مرة أنباء الهجوم الإرهابي على مركز التجارة العالمي في نيويورك يوم 11 سبتمبر 2001.
-        عربي · CNN عربية
-هجمات متبادلة بين روسيا وأوكرانيا وبوتين يجدد انتقاده لتوسع الناتو - الجزيرة نت
+عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
+        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
+        عربي · الجديد
+تونس.. يوم تضامني مع 4 صحفيين مسجونين وإقرار إضراب عام ليوم
+        بدعوة من النقابة الوطنية للصحفيين التونسيين في وقت تؤكد السلطات عدم التدخل في عمل القضاء
+        تركيا · الأناضول
+في افتتاح معرض أبوظبي للكتاب.. عبدالله المهيري يروي الحب والثأر بلغة الشعر - emaratalyoum.com
         الإمارات · الإمارات
-العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
-        أقر العراق، مساء الجمعة، بانطلاق الاعتداءات على السعودية من محافظة ميسان، جنوب شرق البلاد، فيما أحال رئيس الوزراء علي الزيدي
-        تركيا · TRT عربي
 From Practical Magic 2 to Saturday Night Live UK: your complete entertainment guide to the week ahead
         Bullock and Kidman try to put a second spell on you in the fantasy comedy sequel, while the topical sketch show returns after a well-regarded debut…
         بريطانيا · Guardian
@@ -87709,23 +87673,26 @@ Last Seen to Angine de Poitrine: the week in rave reviews
 25 years after 9/11 attacks, America reflects and remembers
         Four former presidents were at the World Trade Center memorial site for 9/11 commemorations, while President Trump spoke at the Pentagon.
         أمريكا · CBS
-بصور جوية.. ماذا نعلم عن استهداف خط أنابيب "شرق-غرب" في السعودية؟
-        تعرضت شبكة رئيسية لأنابيب النفط في السعودية لضربات بمقذوفات، وذلك وفقاً لما ذكره مسؤولان أمريكيان مطلعان على الأمر
-        عربي · CNN عربية
-بعد 35 عاماً.. تحويل فيلم "بوينت بريك" إلى مسلسل - إرم نيوز
-        الإمارات · الإمارات
-بريطانيا توسع حظرها التجاري على المستوطنات الإسرائيلية ليشمل الجولان
-        قالت صحيفة "ميدل إيست آي" نقلا عن مصادر حكومية، إن قرار بريطانيا حظر التجارة مع المستوطنات الإسرائيلية المقامة على أراضٍ فلسطينية محتلة
-        تركيا · TRT عربي
-السيسي يؤكد لبوتين أهمية استقرار الممرات الملاحية في البحر الأحمر وقناة السويس
-        ويدعوان لعودة واشنطن وطهران إلى مسار التفاوض..
+ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
+        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
+        عربي · الشرق الأوسط
+إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
+        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
         تركيا · الأناضول
+مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
+        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+        تركيا · الأناضول
+«مكتبة محمد بن راشد» تشارك في «أبوظبي للكتاب» - emaratalyoum.com
+        الإمارات · الإمارات
 Can chatbots feel – or even dream? Meet the man leading the fight for AI rights
         Cattle rancher and tech CEO Michael Samadi is convinced these artificial minds are far from just tools
         بريطانيا · Guardian
 Dabble Promo Code FOXNEWS: Pay $5 get $50
         Claim the Dabble promo code FOXNEWS for September 2026. Get $50 when you play $5 with Dabble Fantasy, see how to sign up, the full terms, and whether…
         أمريكا · Fox News
+مؤسسة تركية توزع قرطاسية على 800 طفل يتيم بالعراق
+        مؤسسة "وقف اليتيم" وزعت بالتنسيق مع جمعية التركمان للتنمية والمساعدات الإنسانية المساعدات على 800 طالب يتيم في العاصمة بغداد ومدينة كركوك..
+        تركيا · الأناضول
 الجيش اليمني يستهدف تجمعات للحوثيين بالمخا - الجزيرة نت
         الإمارات · الإمارات
 إقالة قائد بالجيش العراقي بعد هجمات بمسيرات استهدفت السعودية
@@ -87734,9 +87701,6 @@ Dabble Promo Code FOXNEWS: Pay $5 get $50
 العالم قد يكون أمام المزيد من رفع أسعار الفائدة للسيطرة على التضخم
         الفيدرالي وبنك إنجلترا يصدران قرارات الفائدة الأسبوع المقبل وسط توقعات بمزيد من رفع أسعار الفائدة بهدف مواجهة انفجارات الأسعار الناتجة عن صعود قوي…
         عربي · BBC عربي
-السعودية: مسيرات قادمة من العراق تستهدف خط أنابيب شرق-غرب في الرياض والمدينة وإيقافه احترازياً
-        كشفت وزارة الخارجية السعودية، الجمعة، أن الهجوم الذي استهدف خط أنابيب شرق-غرب في منطقتي الرياض والمدينة المنورة تم بعدة مسيرات قادمة من العراق
-        تركيا · TRT عربي
 New Man City signings desperate to win - Dias
         Manchester City have brought in summer signings who are "desperate to win" and the whole squad is "buying into the idea" of new manager Enzo Maresca,…
         بريطانيا · BBC
@@ -87747,18 +87711,18 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
   </programme>
   <programme start="20260912060000 +0000" stop="20260912070000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:48 — بتوقيتك
 
+بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائيات العربية
+        حصلت الممثلة المصرية مي عمر على جائزة أفضل ممثلة لعام 2026 عن دورها في مسلسل "الست موناليزا"
+        عربي · CNN عربية
 جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (الجمهورية)
         كما هو معلوم، فإنّ موعد جلسة المناقشة العامة للحكومة، التي دعا إليها رئيس مجلس النواب نبيه بري
         عربي · الجديد
-مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
-        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
-        عربي · فرانس 24
 ارتفاع عدد الإصابات بفيروس إيبولا في الكونغو الديمقراطية لأكثر من 7 آلاف حالة - Qatar news agency
         الإمارات · الإمارات
-إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
-        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
+العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
+        رئيس الوزراء العراقي علي الزيدي أحال قيادة عمليات محافظة ميسان جنوب شرق البلاد للتحقيق..
         تركيا · الأناضول
 Sweden’s extremely close election could see far right enter government
         Latest poll shows 0.3-point gap between left and right blocs, with country’s reputation as global champion of human rights said to be at stake Sweden…
@@ -87766,15 +87730,14 @@ Sweden’s extremely close election could see far right enter government
 Gen. Dan Caine reflects on responding to 9/11: "No doubt" nation was at war
         Now the chairman of the Joint Chiefs of Staff, Gen. Dan Caine was a young fighter pilot mobilized in the response on Sept. 11, 2001.
         أمريكا · CBS
-عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
-        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
-        عربي · الجديد
-مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
-        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+مبابي يعلق غاضباً على صور "دكتاتور".. "المقارنة مرفوضة"
+        عربي · العربية
+مسؤول يمني يدعو الضباط والجنود للعودة إلى مواقعهم بعد خسارة معركة المخا
+        وفق رئيس مجلس الشورى اليمني أحمد عبيد بن دغر...
         تركيا · الأناضول
-وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - argaam.com
+وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - ارقام
         الإمارات · الإمارات
-شرب مياه الفيضان وتمسك بالأمل.. ناجٍ من كارثة نيبال يروي - العربية
+9 أيام تحت الأرض.. ناجٍ من كارثة نيبال يروي لحظات الرعب - العربية
         الإمارات · الإمارات
 From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling week with the Patriot Platform
         A militaristic operation with features of influencer culture, the new anti-migrant movement seems to show a shift in tactics and rhetoric Shortly…
@@ -87782,11 +87745,11 @@ From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling we
 9/11: We Remember
         CBS News marks 25 years since the 9/11 terror attacks through powerful stories of survival, loss and resilience.
         أمريكا · CBS
-ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
-        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
-        عربي · الشرق الأوسط
-بقائي: إيران وعُمان ستدليان بتصريحات حول مسار المباحثات
-        المتحدث باسم الخارجية الإيرانية أفاد بأن طهران التزمت بالتزاماتها المنصوص عليها في مذكرة التفاهم المبرمة مع الولايات المتحدة
+مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
+        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
+        عربي · فرانس 24
+السعودية.. إطلاق إنذار في محافظة "خميس مشيط" جنوب غربي المملكة
+        للتحذير من خطر لم يحدده الدفاع المدني السعودي
         تركيا · الأناضول
 البحرين تدين المخطط الإجرامي لتهريب أشخاص بطرق غير مشروعة عبر حدود الإمارات - البيان
         الإمارات · الإمارات
@@ -87799,14 +87762,14 @@ Chicago rapper Lil Durk acquitted in Los Angeles murder-for-hire plot
 Daughters of 9/11 victims seek answers about accused mastermind's trial
         A new documentary, "Daughters of 9/11," follows their pursuit of information and closure, which they were determined to find for themselves, other…
         أمريكا · CBS
-شاهد لحظة نقل CNN خبر هجمات 11 سبتمبر للمرة الأولى
-        يُظهر مقطع الفيديو اللحظة التي نقلت فيها شبكة CNN لأول مرة أنباء الهجوم الإرهابي على مركز التجارة العالمي في نيويورك يوم 11 سبتمبر 2001.
-        عربي · CNN عربية
-هجمات متبادلة بين روسيا وأوكرانيا وبوتين يجدد انتقاده لتوسع الناتو - الجزيرة نت
+عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
+        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
+        عربي · الجديد
+تونس.. يوم تضامني مع 4 صحفيين مسجونين وإقرار إضراب عام ليوم
+        بدعوة من النقابة الوطنية للصحفيين التونسيين في وقت تؤكد السلطات عدم التدخل في عمل القضاء
+        تركيا · الأناضول
+في افتتاح معرض أبوظبي للكتاب.. عبدالله المهيري يروي الحب والثأر بلغة الشعر - emaratalyoum.com
         الإمارات · الإمارات
-العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
-        أقر العراق، مساء الجمعة، بانطلاق الاعتداءات على السعودية من محافظة ميسان، جنوب شرق البلاد، فيما أحال رئيس الوزراء علي الزيدي
-        تركيا · TRT عربي
 From Practical Magic 2 to Saturday Night Live UK: your complete entertainment guide to the week ahead
         Bullock and Kidman try to put a second spell on you in the fantasy comedy sequel, while the topical sketch show returns after a well-regarded debut…
         بريطانيا · Guardian
@@ -87816,23 +87779,26 @@ Last Seen to Angine de Poitrine: the week in rave reviews
 25 years after 9/11 attacks, America reflects and remembers
         Four former presidents were at the World Trade Center memorial site for 9/11 commemorations, while President Trump spoke at the Pentagon.
         أمريكا · CBS
-بصور جوية.. ماذا نعلم عن استهداف خط أنابيب "شرق-غرب" في السعودية؟
-        تعرضت شبكة رئيسية لأنابيب النفط في السعودية لضربات بمقذوفات، وذلك وفقاً لما ذكره مسؤولان أمريكيان مطلعان على الأمر
-        عربي · CNN عربية
-بعد 35 عاماً.. تحويل فيلم "بوينت بريك" إلى مسلسل - إرم نيوز
-        الإمارات · الإمارات
-بريطانيا توسع حظرها التجاري على المستوطنات الإسرائيلية ليشمل الجولان
-        قالت صحيفة "ميدل إيست آي" نقلا عن مصادر حكومية، إن قرار بريطانيا حظر التجارة مع المستوطنات الإسرائيلية المقامة على أراضٍ فلسطينية محتلة
-        تركيا · TRT عربي
-السيسي يؤكد لبوتين أهمية استقرار الممرات الملاحية في البحر الأحمر وقناة السويس
-        ويدعوان لعودة واشنطن وطهران إلى مسار التفاوض..
+ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
+        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
+        عربي · الشرق الأوسط
+إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
+        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
         تركيا · الأناضول
+مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
+        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+        تركيا · الأناضول
+«مكتبة محمد بن راشد» تشارك في «أبوظبي للكتاب» - emaratalyoum.com
+        الإمارات · الإمارات
 Can chatbots feel – or even dream? Meet the man leading the fight for AI rights
         Cattle rancher and tech CEO Michael Samadi is convinced these artificial minds are far from just tools
         بريطانيا · Guardian
 Dabble Promo Code FOXNEWS: Pay $5 get $50
         Claim the Dabble promo code FOXNEWS for September 2026. Get $50 when you play $5 with Dabble Fantasy, see how to sign up, the full terms, and whether…
         أمريكا · Fox News
+مؤسسة تركية توزع قرطاسية على 800 طفل يتيم بالعراق
+        مؤسسة "وقف اليتيم" وزعت بالتنسيق مع جمعية التركمان للتنمية والمساعدات الإنسانية المساعدات على 800 طالب يتيم في العاصمة بغداد ومدينة كركوك..
+        تركيا · الأناضول
 الجيش اليمني يستهدف تجمعات للحوثيين بالمخا - الجزيرة نت
         الإمارات · الإمارات
 إقالة قائد بالجيش العراقي بعد هجمات بمسيرات استهدفت السعودية
@@ -87841,9 +87807,6 @@ Dabble Promo Code FOXNEWS: Pay $5 get $50
 العالم قد يكون أمام المزيد من رفع أسعار الفائدة للسيطرة على التضخم
         الفيدرالي وبنك إنجلترا يصدران قرارات الفائدة الأسبوع المقبل وسط توقعات بمزيد من رفع أسعار الفائدة بهدف مواجهة انفجارات الأسعار الناتجة عن صعود قوي…
         عربي · BBC عربي
-السعودية: مسيرات قادمة من العراق تستهدف خط أنابيب شرق-غرب في الرياض والمدينة وإيقافه احترازياً
-        كشفت وزارة الخارجية السعودية، الجمعة، أن الهجوم الذي استهدف خط أنابيب شرق-غرب في منطقتي الرياض والمدينة المنورة تم بعدة مسيرات قادمة من العراق
-        تركيا · TRT عربي
 New Man City signings desperate to win - Dias
         Manchester City have brought in summer signings who are "desperate to win" and the whole squad is "buying into the idea" of new manager Enzo Maresca,…
         بريطانيا · BBC
@@ -87854,18 +87817,18 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
   </programme>
   <programme start="20260912070000 +0000" stop="20260912080000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:48 — بتوقيتك
 
+بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائيات العربية
+        حصلت الممثلة المصرية مي عمر على جائزة أفضل ممثلة لعام 2026 عن دورها في مسلسل "الست موناليزا"
+        عربي · CNN عربية
 جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (الجمهورية)
         كما هو معلوم، فإنّ موعد جلسة المناقشة العامة للحكومة، التي دعا إليها رئيس مجلس النواب نبيه بري
         عربي · الجديد
-مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
-        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
-        عربي · فرانس 24
 ارتفاع عدد الإصابات بفيروس إيبولا في الكونغو الديمقراطية لأكثر من 7 آلاف حالة - Qatar news agency
         الإمارات · الإمارات
-إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
-        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
+العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
+        رئيس الوزراء العراقي علي الزيدي أحال قيادة عمليات محافظة ميسان جنوب شرق البلاد للتحقيق..
         تركيا · الأناضول
 Sweden’s extremely close election could see far right enter government
         Latest poll shows 0.3-point gap between left and right blocs, with country’s reputation as global champion of human rights said to be at stake Sweden…
@@ -87873,15 +87836,14 @@ Sweden’s extremely close election could see far right enter government
 Gen. Dan Caine reflects on responding to 9/11: "No doubt" nation was at war
         Now the chairman of the Joint Chiefs of Staff, Gen. Dan Caine was a young fighter pilot mobilized in the response on Sept. 11, 2001.
         أمريكا · CBS
-عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
-        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
-        عربي · الجديد
-مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
-        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+مبابي يعلق غاضباً على صور "دكتاتور".. "المقارنة مرفوضة"
+        عربي · العربية
+مسؤول يمني يدعو الضباط والجنود للعودة إلى مواقعهم بعد خسارة معركة المخا
+        وفق رئيس مجلس الشورى اليمني أحمد عبيد بن دغر...
         تركيا · الأناضول
-وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - argaam.com
+وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - ارقام
         الإمارات · الإمارات
-شرب مياه الفيضان وتمسك بالأمل.. ناجٍ من كارثة نيبال يروي - العربية
+9 أيام تحت الأرض.. ناجٍ من كارثة نيبال يروي لحظات الرعب - العربية
         الإمارات · الإمارات
 From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling week with the Patriot Platform
         A militaristic operation with features of influencer culture, the new anti-migrant movement seems to show a shift in tactics and rhetoric Shortly…
@@ -87889,11 +87851,11 @@ From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling we
 9/11: We Remember
         CBS News marks 25 years since the 9/11 terror attacks through powerful stories of survival, loss and resilience.
         أمريكا · CBS
-ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
-        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
-        عربي · الشرق الأوسط
-بقائي: إيران وعُمان ستدليان بتصريحات حول مسار المباحثات
-        المتحدث باسم الخارجية الإيرانية أفاد بأن طهران التزمت بالتزاماتها المنصوص عليها في مذكرة التفاهم المبرمة مع الولايات المتحدة
+مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
+        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
+        عربي · فرانس 24
+السعودية.. إطلاق إنذار في محافظة "خميس مشيط" جنوب غربي المملكة
+        للتحذير من خطر لم يحدده الدفاع المدني السعودي
         تركيا · الأناضول
 البحرين تدين المخطط الإجرامي لتهريب أشخاص بطرق غير مشروعة عبر حدود الإمارات - البيان
         الإمارات · الإمارات
@@ -87906,14 +87868,14 @@ Chicago rapper Lil Durk acquitted in Los Angeles murder-for-hire plot
 Daughters of 9/11 victims seek answers about accused mastermind's trial
         A new documentary, "Daughters of 9/11," follows their pursuit of information and closure, which they were determined to find for themselves, other…
         أمريكا · CBS
-شاهد لحظة نقل CNN خبر هجمات 11 سبتمبر للمرة الأولى
-        يُظهر مقطع الفيديو اللحظة التي نقلت فيها شبكة CNN لأول مرة أنباء الهجوم الإرهابي على مركز التجارة العالمي في نيويورك يوم 11 سبتمبر 2001.
-        عربي · CNN عربية
-هجمات متبادلة بين روسيا وأوكرانيا وبوتين يجدد انتقاده لتوسع الناتو - الجزيرة نت
+عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
+        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
+        عربي · الجديد
+تونس.. يوم تضامني مع 4 صحفيين مسجونين وإقرار إضراب عام ليوم
+        بدعوة من النقابة الوطنية للصحفيين التونسيين في وقت تؤكد السلطات عدم التدخل في عمل القضاء
+        تركيا · الأناضول
+في افتتاح معرض أبوظبي للكتاب.. عبدالله المهيري يروي الحب والثأر بلغة الشعر - emaratalyoum.com
         الإمارات · الإمارات
-العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
-        أقر العراق، مساء الجمعة، بانطلاق الاعتداءات على السعودية من محافظة ميسان، جنوب شرق البلاد، فيما أحال رئيس الوزراء علي الزيدي
-        تركيا · TRT عربي
 From Practical Magic 2 to Saturday Night Live UK: your complete entertainment guide to the week ahead
         Bullock and Kidman try to put a second spell on you in the fantasy comedy sequel, while the topical sketch show returns after a well-regarded debut…
         بريطانيا · Guardian
@@ -87923,23 +87885,26 @@ Last Seen to Angine de Poitrine: the week in rave reviews
 25 years after 9/11 attacks, America reflects and remembers
         Four former presidents were at the World Trade Center memorial site for 9/11 commemorations, while President Trump spoke at the Pentagon.
         أمريكا · CBS
-بصور جوية.. ماذا نعلم عن استهداف خط أنابيب "شرق-غرب" في السعودية؟
-        تعرضت شبكة رئيسية لأنابيب النفط في السعودية لضربات بمقذوفات، وذلك وفقاً لما ذكره مسؤولان أمريكيان مطلعان على الأمر
-        عربي · CNN عربية
-بعد 35 عاماً.. تحويل فيلم "بوينت بريك" إلى مسلسل - إرم نيوز
-        الإمارات · الإمارات
-بريطانيا توسع حظرها التجاري على المستوطنات الإسرائيلية ليشمل الجولان
-        قالت صحيفة "ميدل إيست آي" نقلا عن مصادر حكومية، إن قرار بريطانيا حظر التجارة مع المستوطنات الإسرائيلية المقامة على أراضٍ فلسطينية محتلة
-        تركيا · TRT عربي
-السيسي يؤكد لبوتين أهمية استقرار الممرات الملاحية في البحر الأحمر وقناة السويس
-        ويدعوان لعودة واشنطن وطهران إلى مسار التفاوض..
+ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
+        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
+        عربي · الشرق الأوسط
+إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
+        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
         تركيا · الأناضول
+مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
+        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+        تركيا · الأناضول
+«مكتبة محمد بن راشد» تشارك في «أبوظبي للكتاب» - emaratalyoum.com
+        الإمارات · الإمارات
 Can chatbots feel – or even dream? Meet the man leading the fight for AI rights
         Cattle rancher and tech CEO Michael Samadi is convinced these artificial minds are far from just tools
         بريطانيا · Guardian
 Dabble Promo Code FOXNEWS: Pay $5 get $50
         Claim the Dabble promo code FOXNEWS for September 2026. Get $50 when you play $5 with Dabble Fantasy, see how to sign up, the full terms, and whether…
         أمريكا · Fox News
+مؤسسة تركية توزع قرطاسية على 800 طفل يتيم بالعراق
+        مؤسسة "وقف اليتيم" وزعت بالتنسيق مع جمعية التركمان للتنمية والمساعدات الإنسانية المساعدات على 800 طالب يتيم في العاصمة بغداد ومدينة كركوك..
+        تركيا · الأناضول
 الجيش اليمني يستهدف تجمعات للحوثيين بالمخا - الجزيرة نت
         الإمارات · الإمارات
 إقالة قائد بالجيش العراقي بعد هجمات بمسيرات استهدفت السعودية
@@ -87948,9 +87913,6 @@ Dabble Promo Code FOXNEWS: Pay $5 get $50
 العالم قد يكون أمام المزيد من رفع أسعار الفائدة للسيطرة على التضخم
         الفيدرالي وبنك إنجلترا يصدران قرارات الفائدة الأسبوع المقبل وسط توقعات بمزيد من رفع أسعار الفائدة بهدف مواجهة انفجارات الأسعار الناتجة عن صعود قوي…
         عربي · BBC عربي
-السعودية: مسيرات قادمة من العراق تستهدف خط أنابيب شرق-غرب في الرياض والمدينة وإيقافه احترازياً
-        كشفت وزارة الخارجية السعودية، الجمعة، أن الهجوم الذي استهدف خط أنابيب شرق-غرب في منطقتي الرياض والمدينة المنورة تم بعدة مسيرات قادمة من العراق
-        تركيا · TRT عربي
 New Man City signings desperate to win - Dias
         Manchester City have brought in summer signings who are "desperate to win" and the whole squad is "buying into the idea" of new manager Enzo Maresca,…
         بريطانيا · BBC
@@ -87961,18 +87923,18 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
   </programme>
   <programme start="20260912080000 +0000" stop="20260912090000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:48 — بتوقيتك
 
+بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائيات العربية
+        حصلت الممثلة المصرية مي عمر على جائزة أفضل ممثلة لعام 2026 عن دورها في مسلسل "الست موناليزا"
+        عربي · CNN عربية
 جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (الجمهورية)
         كما هو معلوم، فإنّ موعد جلسة المناقشة العامة للحكومة، التي دعا إليها رئيس مجلس النواب نبيه بري
         عربي · الجديد
-مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
-        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
-        عربي · فرانس 24
 ارتفاع عدد الإصابات بفيروس إيبولا في الكونغو الديمقراطية لأكثر من 7 آلاف حالة - Qatar news agency
         الإمارات · الإمارات
-إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
-        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
+العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
+        رئيس الوزراء العراقي علي الزيدي أحال قيادة عمليات محافظة ميسان جنوب شرق البلاد للتحقيق..
         تركيا · الأناضول
 Sweden’s extremely close election could see far right enter government
         Latest poll shows 0.3-point gap between left and right blocs, with country’s reputation as global champion of human rights said to be at stake Sweden…
@@ -87980,15 +87942,14 @@ Sweden’s extremely close election could see far right enter government
 Gen. Dan Caine reflects on responding to 9/11: "No doubt" nation was at war
         Now the chairman of the Joint Chiefs of Staff, Gen. Dan Caine was a young fighter pilot mobilized in the response on Sept. 11, 2001.
         أمريكا · CBS
-عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
-        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
-        عربي · الجديد
-مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
-        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+مبابي يعلق غاضباً على صور "دكتاتور".. "المقارنة مرفوضة"
+        عربي · العربية
+مسؤول يمني يدعو الضباط والجنود للعودة إلى مواقعهم بعد خسارة معركة المخا
+        وفق رئيس مجلس الشورى اليمني أحمد عبيد بن دغر...
         تركيا · الأناضول
-وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - argaam.com
+وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - ارقام
         الإمارات · الإمارات
-شرب مياه الفيضان وتمسك بالأمل.. ناجٍ من كارثة نيبال يروي - العربية
+9 أيام تحت الأرض.. ناجٍ من كارثة نيبال يروي لحظات الرعب - العربية
         الإمارات · الإمارات
 From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling week with the Patriot Platform
         A militaristic operation with features of influencer culture, the new anti-migrant movement seems to show a shift in tactics and rhetoric Shortly…
@@ -87996,11 +87957,11 @@ From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling we
 9/11: We Remember
         CBS News marks 25 years since the 9/11 terror attacks through powerful stories of survival, loss and resilience.
         أمريكا · CBS
-ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
-        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
-        عربي · الشرق الأوسط
-بقائي: إيران وعُمان ستدليان بتصريحات حول مسار المباحثات
-        المتحدث باسم الخارجية الإيرانية أفاد بأن طهران التزمت بالتزاماتها المنصوص عليها في مذكرة التفاهم المبرمة مع الولايات المتحدة
+مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
+        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
+        عربي · فرانس 24
+السعودية.. إطلاق إنذار في محافظة "خميس مشيط" جنوب غربي المملكة
+        للتحذير من خطر لم يحدده الدفاع المدني السعودي
         تركيا · الأناضول
 البحرين تدين المخطط الإجرامي لتهريب أشخاص بطرق غير مشروعة عبر حدود الإمارات - البيان
         الإمارات · الإمارات
@@ -88013,14 +87974,14 @@ Chicago rapper Lil Durk acquitted in Los Angeles murder-for-hire plot
 Daughters of 9/11 victims seek answers about accused mastermind's trial
         A new documentary, "Daughters of 9/11," follows their pursuit of information and closure, which they were determined to find for themselves, other…
         أمريكا · CBS
-شاهد لحظة نقل CNN خبر هجمات 11 سبتمبر للمرة الأولى
-        يُظهر مقطع الفيديو اللحظة التي نقلت فيها شبكة CNN لأول مرة أنباء الهجوم الإرهابي على مركز التجارة العالمي في نيويورك يوم 11 سبتمبر 2001.
-        عربي · CNN عربية
-هجمات متبادلة بين روسيا وأوكرانيا وبوتين يجدد انتقاده لتوسع الناتو - الجزيرة نت
+عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
+        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
+        عربي · الجديد
+تونس.. يوم تضامني مع 4 صحفيين مسجونين وإقرار إضراب عام ليوم
+        بدعوة من النقابة الوطنية للصحفيين التونسيين في وقت تؤكد السلطات عدم التدخل في عمل القضاء
+        تركيا · الأناضول
+في افتتاح معرض أبوظبي للكتاب.. عبدالله المهيري يروي الحب والثأر بلغة الشعر - emaratalyoum.com
         الإمارات · الإمارات
-العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
-        أقر العراق، مساء الجمعة، بانطلاق الاعتداءات على السعودية من محافظة ميسان، جنوب شرق البلاد، فيما أحال رئيس الوزراء علي الزيدي
-        تركيا · TRT عربي
 From Practical Magic 2 to Saturday Night Live UK: your complete entertainment guide to the week ahead
         Bullock and Kidman try to put a second spell on you in the fantasy comedy sequel, while the topical sketch show returns after a well-regarded debut…
         بريطانيا · Guardian
@@ -88030,23 +87991,26 @@ Last Seen to Angine de Poitrine: the week in rave reviews
 25 years after 9/11 attacks, America reflects and remembers
         Four former presidents were at the World Trade Center memorial site for 9/11 commemorations, while President Trump spoke at the Pentagon.
         أمريكا · CBS
-بصور جوية.. ماذا نعلم عن استهداف خط أنابيب "شرق-غرب" في السعودية؟
-        تعرضت شبكة رئيسية لأنابيب النفط في السعودية لضربات بمقذوفات، وذلك وفقاً لما ذكره مسؤولان أمريكيان مطلعان على الأمر
-        عربي · CNN عربية
-بعد 35 عاماً.. تحويل فيلم "بوينت بريك" إلى مسلسل - إرم نيوز
-        الإمارات · الإمارات
-بريطانيا توسع حظرها التجاري على المستوطنات الإسرائيلية ليشمل الجولان
-        قالت صحيفة "ميدل إيست آي" نقلا عن مصادر حكومية، إن قرار بريطانيا حظر التجارة مع المستوطنات الإسرائيلية المقامة على أراضٍ فلسطينية محتلة
-        تركيا · TRT عربي
-السيسي يؤكد لبوتين أهمية استقرار الممرات الملاحية في البحر الأحمر وقناة السويس
-        ويدعوان لعودة واشنطن وطهران إلى مسار التفاوض..
+ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
+        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
+        عربي · الشرق الأوسط
+إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
+        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
         تركيا · الأناضول
+مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
+        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+        تركيا · الأناضول
+«مكتبة محمد بن راشد» تشارك في «أبوظبي للكتاب» - emaratalyoum.com
+        الإمارات · الإمارات
 Can chatbots feel – or even dream? Meet the man leading the fight for AI rights
         Cattle rancher and tech CEO Michael Samadi is convinced these artificial minds are far from just tools
         بريطانيا · Guardian
 Dabble Promo Code FOXNEWS: Pay $5 get $50
         Claim the Dabble promo code FOXNEWS for September 2026. Get $50 when you play $5 with Dabble Fantasy, see how to sign up, the full terms, and whether…
         أمريكا · Fox News
+مؤسسة تركية توزع قرطاسية على 800 طفل يتيم بالعراق
+        مؤسسة "وقف اليتيم" وزعت بالتنسيق مع جمعية التركمان للتنمية والمساعدات الإنسانية المساعدات على 800 طالب يتيم في العاصمة بغداد ومدينة كركوك..
+        تركيا · الأناضول
 الجيش اليمني يستهدف تجمعات للحوثيين بالمخا - الجزيرة نت
         الإمارات · الإمارات
 إقالة قائد بالجيش العراقي بعد هجمات بمسيرات استهدفت السعودية
@@ -88055,9 +88019,6 @@ Dabble Promo Code FOXNEWS: Pay $5 get $50
 العالم قد يكون أمام المزيد من رفع أسعار الفائدة للسيطرة على التضخم
         الفيدرالي وبنك إنجلترا يصدران قرارات الفائدة الأسبوع المقبل وسط توقعات بمزيد من رفع أسعار الفائدة بهدف مواجهة انفجارات الأسعار الناتجة عن صعود قوي…
         عربي · BBC عربي
-السعودية: مسيرات قادمة من العراق تستهدف خط أنابيب شرق-غرب في الرياض والمدينة وإيقافه احترازياً
-        كشفت وزارة الخارجية السعودية، الجمعة، أن الهجوم الذي استهدف خط أنابيب شرق-غرب في منطقتي الرياض والمدينة المنورة تم بعدة مسيرات قادمة من العراق
-        تركيا · TRT عربي
 New Man City signings desperate to win - Dias
         Manchester City have brought in summer signings who are "desperate to win" and the whole squad is "buying into the idea" of new manager Enzo Maresca,…
         بريطانيا · BBC
@@ -88068,18 +88029,18 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
   </programme>
   <programme start="20260912090000 +0000" stop="20260912100000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:48 — بتوقيتك
 
+بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائيات العربية
+        حصلت الممثلة المصرية مي عمر على جائزة أفضل ممثلة لعام 2026 عن دورها في مسلسل "الست موناليزا"
+        عربي · CNN عربية
 جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (الجمهورية)
         كما هو معلوم، فإنّ موعد جلسة المناقشة العامة للحكومة، التي دعا إليها رئيس مجلس النواب نبيه بري
         عربي · الجديد
-مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
-        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
-        عربي · فرانس 24
 ارتفاع عدد الإصابات بفيروس إيبولا في الكونغو الديمقراطية لأكثر من 7 آلاف حالة - Qatar news agency
         الإمارات · الإمارات
-إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
-        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
+العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
+        رئيس الوزراء العراقي علي الزيدي أحال قيادة عمليات محافظة ميسان جنوب شرق البلاد للتحقيق..
         تركيا · الأناضول
 Sweden’s extremely close election could see far right enter government
         Latest poll shows 0.3-point gap between left and right blocs, with country’s reputation as global champion of human rights said to be at stake Sweden…
@@ -88087,15 +88048,14 @@ Sweden’s extremely close election could see far right enter government
 Gen. Dan Caine reflects on responding to 9/11: "No doubt" nation was at war
         Now the chairman of the Joint Chiefs of Staff, Gen. Dan Caine was a young fighter pilot mobilized in the response on Sept. 11, 2001.
         أمريكا · CBS
-عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
-        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
-        عربي · الجديد
-مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
-        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+مبابي يعلق غاضباً على صور "دكتاتور".. "المقارنة مرفوضة"
+        عربي · العربية
+مسؤول يمني يدعو الضباط والجنود للعودة إلى مواقعهم بعد خسارة معركة المخا
+        وفق رئيس مجلس الشورى اليمني أحمد عبيد بن دغر...
         تركيا · الأناضول
-وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - argaam.com
+وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - ارقام
         الإمارات · الإمارات
-شرب مياه الفيضان وتمسك بالأمل.. ناجٍ من كارثة نيبال يروي - العربية
+9 أيام تحت الأرض.. ناجٍ من كارثة نيبال يروي لحظات الرعب - العربية
         الإمارات · الإمارات
 From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling week with the Patriot Platform
         A militaristic operation with features of influencer culture, the new anti-migrant movement seems to show a shift in tactics and rhetoric Shortly…
@@ -88103,11 +88063,11 @@ From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling we
 9/11: We Remember
         CBS News marks 25 years since the 9/11 terror attacks through powerful stories of survival, loss and resilience.
         أمريكا · CBS
-ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
-        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
-        عربي · الشرق الأوسط
-بقائي: إيران وعُمان ستدليان بتصريحات حول مسار المباحثات
-        المتحدث باسم الخارجية الإيرانية أفاد بأن طهران التزمت بالتزاماتها المنصوص عليها في مذكرة التفاهم المبرمة مع الولايات المتحدة
+مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
+        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
+        عربي · فرانس 24
+السعودية.. إطلاق إنذار في محافظة "خميس مشيط" جنوب غربي المملكة
+        للتحذير من خطر لم يحدده الدفاع المدني السعودي
         تركيا · الأناضول
 البحرين تدين المخطط الإجرامي لتهريب أشخاص بطرق غير مشروعة عبر حدود الإمارات - البيان
         الإمارات · الإمارات
@@ -88120,14 +88080,14 @@ Chicago rapper Lil Durk acquitted in Los Angeles murder-for-hire plot
 Daughters of 9/11 victims seek answers about accused mastermind's trial
         A new documentary, "Daughters of 9/11," follows their pursuit of information and closure, which they were determined to find for themselves, other…
         أمريكا · CBS
-شاهد لحظة نقل CNN خبر هجمات 11 سبتمبر للمرة الأولى
-        يُظهر مقطع الفيديو اللحظة التي نقلت فيها شبكة CNN لأول مرة أنباء الهجوم الإرهابي على مركز التجارة العالمي في نيويورك يوم 11 سبتمبر 2001.
-        عربي · CNN عربية
-هجمات متبادلة بين روسيا وأوكرانيا وبوتين يجدد انتقاده لتوسع الناتو - الجزيرة نت
+عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
+        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
+        عربي · الجديد
+تونس.. يوم تضامني مع 4 صحفيين مسجونين وإقرار إضراب عام ليوم
+        بدعوة من النقابة الوطنية للصحفيين التونسيين في وقت تؤكد السلطات عدم التدخل في عمل القضاء
+        تركيا · الأناضول
+في افتتاح معرض أبوظبي للكتاب.. عبدالله المهيري يروي الحب والثأر بلغة الشعر - emaratalyoum.com
         الإمارات · الإمارات
-العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
-        أقر العراق، مساء الجمعة، بانطلاق الاعتداءات على السعودية من محافظة ميسان، جنوب شرق البلاد، فيما أحال رئيس الوزراء علي الزيدي
-        تركيا · TRT عربي
 From Practical Magic 2 to Saturday Night Live UK: your complete entertainment guide to the week ahead
         Bullock and Kidman try to put a second spell on you in the fantasy comedy sequel, while the topical sketch show returns after a well-regarded debut…
         بريطانيا · Guardian
@@ -88137,23 +88097,26 @@ Last Seen to Angine de Poitrine: the week in rave reviews
 25 years after 9/11 attacks, America reflects and remembers
         Four former presidents were at the World Trade Center memorial site for 9/11 commemorations, while President Trump spoke at the Pentagon.
         أمريكا · CBS
-بصور جوية.. ماذا نعلم عن استهداف خط أنابيب "شرق-غرب" في السعودية؟
-        تعرضت شبكة رئيسية لأنابيب النفط في السعودية لضربات بمقذوفات، وذلك وفقاً لما ذكره مسؤولان أمريكيان مطلعان على الأمر
-        عربي · CNN عربية
-بعد 35 عاماً.. تحويل فيلم "بوينت بريك" إلى مسلسل - إرم نيوز
-        الإمارات · الإمارات
-بريطانيا توسع حظرها التجاري على المستوطنات الإسرائيلية ليشمل الجولان
-        قالت صحيفة "ميدل إيست آي" نقلا عن مصادر حكومية، إن قرار بريطانيا حظر التجارة مع المستوطنات الإسرائيلية المقامة على أراضٍ فلسطينية محتلة
-        تركيا · TRT عربي
-السيسي يؤكد لبوتين أهمية استقرار الممرات الملاحية في البحر الأحمر وقناة السويس
-        ويدعوان لعودة واشنطن وطهران إلى مسار التفاوض..
+ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
+        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
+        عربي · الشرق الأوسط
+إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
+        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
         تركيا · الأناضول
+مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
+        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+        تركيا · الأناضول
+«مكتبة محمد بن راشد» تشارك في «أبوظبي للكتاب» - emaratalyoum.com
+        الإمارات · الإمارات
 Can chatbots feel – or even dream? Meet the man leading the fight for AI rights
         Cattle rancher and tech CEO Michael Samadi is convinced these artificial minds are far from just tools
         بريطانيا · Guardian
 Dabble Promo Code FOXNEWS: Pay $5 get $50
         Claim the Dabble promo code FOXNEWS for September 2026. Get $50 when you play $5 with Dabble Fantasy, see how to sign up, the full terms, and whether…
         أمريكا · Fox News
+مؤسسة تركية توزع قرطاسية على 800 طفل يتيم بالعراق
+        مؤسسة "وقف اليتيم" وزعت بالتنسيق مع جمعية التركمان للتنمية والمساعدات الإنسانية المساعدات على 800 طالب يتيم في العاصمة بغداد ومدينة كركوك..
+        تركيا · الأناضول
 الجيش اليمني يستهدف تجمعات للحوثيين بالمخا - الجزيرة نت
         الإمارات · الإمارات
 إقالة قائد بالجيش العراقي بعد هجمات بمسيرات استهدفت السعودية
@@ -88162,9 +88125,6 @@ Dabble Promo Code FOXNEWS: Pay $5 get $50
 العالم قد يكون أمام المزيد من رفع أسعار الفائدة للسيطرة على التضخم
         الفيدرالي وبنك إنجلترا يصدران قرارات الفائدة الأسبوع المقبل وسط توقعات بمزيد من رفع أسعار الفائدة بهدف مواجهة انفجارات الأسعار الناتجة عن صعود قوي…
         عربي · BBC عربي
-السعودية: مسيرات قادمة من العراق تستهدف خط أنابيب شرق-غرب في الرياض والمدينة وإيقافه احترازياً
-        كشفت وزارة الخارجية السعودية، الجمعة، أن الهجوم الذي استهدف خط أنابيب شرق-غرب في منطقتي الرياض والمدينة المنورة تم بعدة مسيرات قادمة من العراق
-        تركيا · TRT عربي
 New Man City signings desperate to win - Dias
         Manchester City have brought in summer signings who are "desperate to win" and the whole squad is "buying into the idea" of new manager Enzo Maresca,…
         بريطانيا · BBC
@@ -88175,18 +88135,18 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
   </programme>
   <programme start="20260912100000 +0000" stop="20260912110000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 22:48 — بتوقيتك
 
+بعد فوزها بجائزة أفضل ممثلة.. مي عمر بإطلالة برونزية في مهرجان الفضائيات العربية
+        حصلت الممثلة المصرية مي عمر على جائزة أفضل ممثلة لعام 2026 عن دورها في مسلسل "الست موناليزا"
+        عربي · CNN عربية
 جلسة مناقشة الحكومة: مداخلات مرتقبة عالية السقف وبري يستعدّ للتدخّل (الجمهورية)
         كما هو معلوم، فإنّ موعد جلسة المناقشة العامة للحكومة، التي دعا إليها رئيس مجلس النواب نبيه بري
         عربي · الجديد
-مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
-        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
-        عربي · فرانس 24
 ارتفاع عدد الإصابات بفيروس إيبولا في الكونغو الديمقراطية لأكثر من 7 آلاف حالة - Qatar news agency
         الإمارات · الإمارات
-إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
-        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
+العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
+        رئيس الوزراء العراقي علي الزيدي أحال قيادة عمليات محافظة ميسان جنوب شرق البلاد للتحقيق..
         تركيا · الأناضول
 Sweden’s extremely close election could see far right enter government
         Latest poll shows 0.3-point gap between left and right blocs, with country’s reputation as global champion of human rights said to be at stake Sweden…
@@ -88194,15 +88154,14 @@ Sweden’s extremely close election could see far right enter government
 Gen. Dan Caine reflects on responding to 9/11: "No doubt" nation was at war
         Now the chairman of the Joint Chiefs of Staff, Gen. Dan Caine was a young fighter pilot mobilized in the response on Sept. 11, 2001.
         أمريكا · CBS
-عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
-        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
-        عربي · الجديد
-مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
-        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+مبابي يعلق غاضباً على صور "دكتاتور".. "المقارنة مرفوضة"
+        عربي · العربية
+مسؤول يمني يدعو الضباط والجنود للعودة إلى مواقعهم بعد خسارة معركة المخا
+        وفق رئيس مجلس الشورى اليمني أحمد عبيد بن دغر...
         تركيا · الأناضول
-وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - argaam.com
+وارش يواجه ضغوطاً لرفع الفائدة بعد بيانات التضخم - ارقام
         الإمارات · الإمارات
-شرب مياه الفيضان وتمسك بالأمل.. ناجٍ من كارثة نيبال يروي - العربية
+9 أيام تحت الأرض.. ناجٍ من كارثة نيبال يروي لحظات الرعب - العربية
         الإمارات · الإمارات
 From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling week with the Patriot Platform
         A militaristic operation with features of influencer culture, the new anti-migrant movement seems to show a shift in tactics and rhetoric Shortly…
@@ -88210,11 +88169,11 @@ From black-clad agitators to an appeal for ‘Tommo’s Mum’: an unsettling we
 9/11: We Remember
         CBS News marks 25 years since the 9/11 terror attacks through powerful stories of survival, loss and resilience.
         أمريكا · CBS
-ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
-        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
-        عربي · الشرق الأوسط
-بقائي: إيران وعُمان ستدليان بتصريحات حول مسار المباحثات
-        المتحدث باسم الخارجية الإيرانية أفاد بأن طهران التزمت بالتزاماتها المنصوص عليها في مذكرة التفاهم المبرمة مع الولايات المتحدة
+مباشر: واشنطن تضع مواعيد لمرور الناقلات بمضيق هرمز وسط تهديد جديد لنفط الخليج
+        كشفت صحيفة ​فاينانشال تايمز السبت ​أن الولايات المتحدة طلبت من ناقلات النفط التي تمر عبر ​مضيق ‌هرمز الإبحار في أوقات محددة فقط
+        عربي · فرانس 24
+السعودية.. إطلاق إنذار في محافظة "خميس مشيط" جنوب غربي المملكة
+        للتحذير من خطر لم يحدده الدفاع المدني السعودي
         تركيا · الأناضول
 البحرين تدين المخطط الإجرامي لتهريب أشخاص بطرق غير مشروعة عبر حدود الإمارات - البيان
         الإمارات · الإمارات
@@ -88227,14 +88186,14 @@ Chicago rapper Lil Durk acquitted in Los Angeles murder-for-hire plot
 Daughters of 9/11 victims seek answers about accused mastermind's trial
         A new documentary, "Daughters of 9/11," follows their pursuit of information and closure, which they were determined to find for themselves, other…
         أمريكا · CBS
-شاهد لحظة نقل CNN خبر هجمات 11 سبتمبر للمرة الأولى
-        يُظهر مقطع الفيديو اللحظة التي نقلت فيها شبكة CNN لأول مرة أنباء الهجوم الإرهابي على مركز التجارة العالمي في نيويورك يوم 11 سبتمبر 2001.
-        عربي · CNN عربية
-هجمات متبادلة بين روسيا وأوكرانيا وبوتين يجدد انتقاده لتوسع الناتو - الجزيرة نت
+عون لأهالي النبطية: "تكرم عينكم".. نحن إلى جانبكم (فيديو)
+        أكد رئيس الجمهورية جوزاف عون، خلال جولة تفقدية في مدينة النبطية صباح اليوم، يرافقه فيها قائد الجيش وقادة الأجهزة الأمنية
+        عربي · الجديد
+تونس.. يوم تضامني مع 4 صحفيين مسجونين وإقرار إضراب عام ليوم
+        بدعوة من النقابة الوطنية للصحفيين التونسيين في وقت تؤكد السلطات عدم التدخل في عمل القضاء
+        تركيا · الأناضول
+في افتتاح معرض أبوظبي للكتاب.. عبدالله المهيري يروي الحب والثأر بلغة الشعر - emaratalyoum.com
         الإمارات · الإمارات
-العراق يقر بانطلاق الاعتداء على السعودية من أراضيه ويعفي قائدا أمنيا
-        أقر العراق، مساء الجمعة، بانطلاق الاعتداءات على السعودية من محافظة ميسان، جنوب شرق البلاد، فيما أحال رئيس الوزراء علي الزيدي
-        تركيا · TRT عربي
 From Practical Magic 2 to Saturday Night Live UK: your complete entertainment guide to the week ahead
         Bullock and Kidman try to put a second spell on you in the fantasy comedy sequel, while the topical sketch show returns after a well-regarded debut…
         بريطانيا · Guardian
@@ -88244,23 +88203,26 @@ Last Seen to Angine de Poitrine: the week in rave reviews
 25 years after 9/11 attacks, America reflects and remembers
         Four former presidents were at the World Trade Center memorial site for 9/11 commemorations, while President Trump spoke at the Pentagon.
         أمريكا · CBS
-بصور جوية.. ماذا نعلم عن استهداف خط أنابيب "شرق-غرب" في السعودية؟
-        تعرضت شبكة رئيسية لأنابيب النفط في السعودية لضربات بمقذوفات، وذلك وفقاً لما ذكره مسؤولان أمريكيان مطلعان على الأمر
-        عربي · CNN عربية
-بعد 35 عاماً.. تحويل فيلم "بوينت بريك" إلى مسلسل - إرم نيوز
-        الإمارات · الإمارات
-بريطانيا توسع حظرها التجاري على المستوطنات الإسرائيلية ليشمل الجولان
-        قالت صحيفة "ميدل إيست آي" نقلا عن مصادر حكومية، إن قرار بريطانيا حظر التجارة مع المستوطنات الإسرائيلية المقامة على أراضٍ فلسطينية محتلة
-        تركيا · TRT عربي
-السيسي يؤكد لبوتين أهمية استقرار الممرات الملاحية في البحر الأحمر وقناة السويس
-        ويدعوان لعودة واشنطن وطهران إلى مسار التفاوض..
+ماكرون يلتقي الزيدي الاثنين لتعزيز التعاون وتنويع مسارات تصدير النفط
+        يستقبل الرئيس الفرنسي إيمانويل ماكرون، الاثنين، رئيس الوزراء العراقي علي الزيدي، لبحث تعزيز التعاون الدفاعي، و«تنويع» مسارات تصدير النفط.
+        عربي · الشرق الأوسط
+إدانات عربية لاستهداف خط شرق-غرب في السعودية بمسيرات قادمة من الرياض
+        وفق بيانات لوزارتي الخارجية الأردنية والقطرية ومجلس التعاون الخليجي..
         تركيا · الأناضول
+مؤسسة تركية توزع احتياجات مدرسية على 20 ألف طفل في 19 دولة
+        بينها دول مثل تشاد وغانا ومالي وموريتانيا والصومال والسودان وتوغو وتونس، إضافة إلى فلسطين والعراق ولبنان وسوريا واليمن وقيرغيزستان وجورجيا وألبانيا...
+        تركيا · الأناضول
+«مكتبة محمد بن راشد» تشارك في «أبوظبي للكتاب» - emaratalyoum.com
+        الإمارات · الإمارات
 Can chatbots feel – or even dream? Meet the man leading the fight for AI rights
         Cattle rancher and tech CEO Michael Samadi is convinced these artificial minds are far from just tools
         بريطانيا · Guardian
 Dabble Promo Code FOXNEWS: Pay $5 get $50
         Claim the Dabble promo code FOXNEWS for September 2026. Get $50 when you play $5 with Dabble Fantasy, see how to sign up, the full terms, and whether…
         أمريكا · Fox News
+مؤسسة تركية توزع قرطاسية على 800 طفل يتيم بالعراق
+        مؤسسة "وقف اليتيم" وزعت بالتنسيق مع جمعية التركمان للتنمية والمساعدات الإنسانية المساعدات على 800 طالب يتيم في العاصمة بغداد ومدينة كركوك..
+        تركيا · الأناضول
 الجيش اليمني يستهدف تجمعات للحوثيين بالمخا - الجزيرة نت
         الإمارات · الإمارات
 إقالة قائد بالجيش العراقي بعد هجمات بمسيرات استهدفت السعودية
@@ -88269,9 +88231,6 @@ Dabble Promo Code FOXNEWS: Pay $5 get $50
 العالم قد يكون أمام المزيد من رفع أسعار الفائدة للسيطرة على التضخم
         الفيدرالي وبنك إنجلترا يصدران قرارات الفائدة الأسبوع المقبل وسط توقعات بمزيد من رفع أسعار الفائدة بهدف مواجهة انفجارات الأسعار الناتجة عن صعود قوي…
         عربي · BBC عربي
-السعودية: مسيرات قادمة من العراق تستهدف خط أنابيب شرق-غرب في الرياض والمدينة وإيقافه احترازياً
-        كشفت وزارة الخارجية السعودية، الجمعة، أن الهجوم الذي استهدف خط أنابيب شرق-غرب في منطقتي الرياض والمدينة المنورة تم بعدة مسيرات قادمة من العراق
-        تركيا · TRT عربي
 New Man City signings desperate to win - Dias
         Manchester City have brought in summer signings who are "desperate to win" and the whole squad is "buying into the idea" of new manager Enzo Maresca,…
         بريطانيا · BBC
@@ -88280,7 +88239,7 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
         أمريكا · Fox News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260912110000 +0000" stop="20260912133454 +0000" channel="TodayNews">
+  <programme start="20260912110000 +0000" stop="20260912134816 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260912185000 +0300" stop="20260912210000 +0300" channel="ThmanyahGuide">
@@ -94181,137 +94140,137 @@ Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America'
   </programme>
   <programme start="20260912050000 +0000" stop="20260912060000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 22:48 — بتوقيتك
 
 الأردن
-عمّان 22° · صافٍ · رطوبة 65% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 29° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+عمّان 23° · صافٍ · رطوبة 61% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 29° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 56% · رياح 7 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 47% · رياح 16 كم/سا · احتمال المطر 0%
+أبو ظبي 36° · صافٍ · رطوبة 54% · رياح 7 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 44% · رياح 16 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · صافٍ · رطوبة 81% · رياح 10 كم/سا · احتمال المطر 0%
-مانشستر 12° · غائم · رطوبة 78% · رياح 11 كم/سا · احتمال المطر 25%
+لندن 14° · صافٍ · رطوبة 81% · رياح 9 كم/سا · احتمال المطر 0%
+مانشستر 12° · غائم · رطوبة 78% · رياح 12 كم/سا · احتمال المطر 25%
 أمريكا
-نيويورك 18° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · غائم جزئياً · رطوبة 74% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 79% · رياح 9 كم/سا · احتمال المطر 0%
-لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 19 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 74% · رياح 8 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 15° · صافٍ · رطوبة 76% · رياح 19 كم/سا · احتمال المطر 0%</desc>
+نيويورك 18° · صافٍ · رطوبة 77% · رياح 6 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ غالباً · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ · رطوبة 78% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 23 كم/سا · احتمال المطر 0%
+هيوستن 26° · غائم · رطوبة 77% · رياح 7 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 72% · رياح 19 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260912060000 +0000" stop="20260912070000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 22:48 — بتوقيتك
 
 الأردن
-عمّان 22° · صافٍ · رطوبة 65% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 29° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+عمّان 23° · صافٍ · رطوبة 61% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 29° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 56% · رياح 7 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 47% · رياح 16 كم/سا · احتمال المطر 0%
+أبو ظبي 36° · صافٍ · رطوبة 54% · رياح 7 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 44% · رياح 16 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · صافٍ · رطوبة 81% · رياح 10 كم/سا · احتمال المطر 0%
-مانشستر 12° · غائم · رطوبة 78% · رياح 11 كم/سا · احتمال المطر 25%
+لندن 14° · صافٍ · رطوبة 81% · رياح 9 كم/سا · احتمال المطر 0%
+مانشستر 12° · غائم · رطوبة 78% · رياح 12 كم/سا · احتمال المطر 25%
 أمريكا
-نيويورك 18° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · غائم جزئياً · رطوبة 74% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 79% · رياح 9 كم/سا · احتمال المطر 0%
-لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 19 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 74% · رياح 8 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 15° · صافٍ · رطوبة 76% · رياح 19 كم/سا · احتمال المطر 0%</desc>
+نيويورك 18° · صافٍ · رطوبة 77% · رياح 6 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ غالباً · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ · رطوبة 78% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 23 كم/سا · احتمال المطر 0%
+هيوستن 26° · غائم · رطوبة 77% · رياح 7 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 72% · رياح 19 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260912070000 +0000" stop="20260912080000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 22:48 — بتوقيتك
 
 الأردن
-عمّان 22° · صافٍ · رطوبة 65% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 29° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+عمّان 23° · صافٍ · رطوبة 61% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 29° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 56% · رياح 7 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 47% · رياح 16 كم/سا · احتمال المطر 0%
+أبو ظبي 36° · صافٍ · رطوبة 54% · رياح 7 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 44% · رياح 16 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · صافٍ · رطوبة 81% · رياح 10 كم/سا · احتمال المطر 0%
-مانشستر 12° · غائم · رطوبة 78% · رياح 11 كم/سا · احتمال المطر 25%
+لندن 14° · صافٍ · رطوبة 81% · رياح 9 كم/سا · احتمال المطر 0%
+مانشستر 12° · غائم · رطوبة 78% · رياح 12 كم/سا · احتمال المطر 25%
 أمريكا
-نيويورك 18° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · غائم جزئياً · رطوبة 74% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 79% · رياح 9 كم/سا · احتمال المطر 0%
-لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 19 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 74% · رياح 8 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 15° · صافٍ · رطوبة 76% · رياح 19 كم/سا · احتمال المطر 0%</desc>
+نيويورك 18° · صافٍ · رطوبة 77% · رياح 6 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ غالباً · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ · رطوبة 78% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 23 كم/سا · احتمال المطر 0%
+هيوستن 26° · غائم · رطوبة 77% · رياح 7 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 72% · رياح 19 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260912080000 +0000" stop="20260912090000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 22:48 — بتوقيتك
 
 الأردن
-عمّان 22° · صافٍ · رطوبة 65% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 29° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+عمّان 23° · صافٍ · رطوبة 61% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 29° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 56% · رياح 7 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 47% · رياح 16 كم/سا · احتمال المطر 0%
+أبو ظبي 36° · صافٍ · رطوبة 54% · رياح 7 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 44% · رياح 16 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · صافٍ · رطوبة 81% · رياح 10 كم/سا · احتمال المطر 0%
-مانشستر 12° · غائم · رطوبة 78% · رياح 11 كم/سا · احتمال المطر 25%
+لندن 14° · صافٍ · رطوبة 81% · رياح 9 كم/سا · احتمال المطر 0%
+مانشستر 12° · غائم · رطوبة 78% · رياح 12 كم/سا · احتمال المطر 25%
 أمريكا
-نيويورك 18° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · غائم جزئياً · رطوبة 74% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 79% · رياح 9 كم/سا · احتمال المطر 0%
-لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 19 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 74% · رياح 8 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 15° · صافٍ · رطوبة 76% · رياح 19 كم/سا · احتمال المطر 0%</desc>
+نيويورك 18° · صافٍ · رطوبة 77% · رياح 6 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ غالباً · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ · رطوبة 78% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 23 كم/سا · احتمال المطر 0%
+هيوستن 26° · غائم · رطوبة 77% · رياح 7 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 72% · رياح 19 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260912090000 +0000" stop="20260912100000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 22:48 — بتوقيتك
 
 الأردن
-عمّان 22° · صافٍ · رطوبة 65% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 29° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+عمّان 23° · صافٍ · رطوبة 61% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 29° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 56% · رياح 7 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 47% · رياح 16 كم/سا · احتمال المطر 0%
+أبو ظبي 36° · صافٍ · رطوبة 54% · رياح 7 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 44% · رياح 16 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · صافٍ · رطوبة 81% · رياح 10 كم/سا · احتمال المطر 0%
-مانشستر 12° · غائم · رطوبة 78% · رياح 11 كم/سا · احتمال المطر 25%
+لندن 14° · صافٍ · رطوبة 81% · رياح 9 كم/سا · احتمال المطر 0%
+مانشستر 12° · غائم · رطوبة 78% · رياح 12 كم/سا · احتمال المطر 25%
 أمريكا
-نيويورك 18° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · غائم جزئياً · رطوبة 74% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 79% · رياح 9 كم/سا · احتمال المطر 0%
-لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 19 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 74% · رياح 8 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 15° · صافٍ · رطوبة 76% · رياح 19 كم/سا · احتمال المطر 0%</desc>
+نيويورك 18° · صافٍ · رطوبة 77% · رياح 6 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ غالباً · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ · رطوبة 78% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 23 كم/سا · احتمال المطر 0%
+هيوستن 26° · غائم · رطوبة 77% · رياح 7 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 72% · رياح 19 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260912100000 +0000" stop="20260912110000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 22:34 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 22:48 — بتوقيتك
 
 الأردن
-عمّان 22° · صافٍ · رطوبة 65% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 29° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+عمّان 23° · صافٍ · رطوبة 61% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 29° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 56% · رياح 7 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 47% · رياح 16 كم/سا · احتمال المطر 0%
+أبو ظبي 36° · صافٍ · رطوبة 54% · رياح 7 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 44% · رياح 16 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · صافٍ · رطوبة 81% · رياح 10 كم/سا · احتمال المطر 0%
-مانشستر 12° · غائم · رطوبة 78% · رياح 11 كم/سا · احتمال المطر 25%
+لندن 14° · صافٍ · رطوبة 81% · رياح 9 كم/سا · احتمال المطر 0%
+مانشستر 12° · غائم · رطوبة 78% · رياح 12 كم/سا · احتمال المطر 25%
 أمريكا
-نيويورك 18° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 24° · غائم جزئياً · رطوبة 74% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 79% · رياح 9 كم/سا · احتمال المطر 0%
-لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 19 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 74% · رياح 8 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 15° · صافٍ · رطوبة 76% · رياح 19 كم/سا · احتمال المطر 0%</desc>
+نيويورك 18° · صافٍ · رطوبة 77% · رياح 6 كم/سا · احتمال المطر 0%
+لوس أنجلوس 24° · صافٍ غالباً · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ · رطوبة 78% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 34° · صافٍ · رطوبة 13% · رياح 23 كم/سا · احتمال المطر 0%
+هيوستن 26° · غائم · رطوبة 77% · رياح 7 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 72% · رياح 19 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260912110000 +0000" stop="20260912133455 +0000" channel="TodayWeather">
+  <programme start="20260912110000 +0000" stop="20260912134817 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260912050000 +0000" stop="20260912060000 +0000" channel="TodayPrayer">
@@ -94458,4 +94417,4 @@ Istanbul (إسطنبول) — الفجر 05:07 · الشروق 06:34 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260912140010 +0000" stop="20260912140543 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912140010 +0000" stop="20260912140543 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912133454 +0000" stop="20260912140543 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912133455 +0000" stop="20260912140543 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260912142011 +0000" stop="20260912142429 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912142011 +0000" stop="20260912142429 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912134816 +0000" stop="20260912142429 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260912134817 +0000" stop="20260912142429 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
