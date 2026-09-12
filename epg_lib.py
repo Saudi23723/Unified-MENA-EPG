@@ -1141,6 +1141,19 @@ def on_air_for(event) -> timedelta:
     return sports
 
 
+def on_air_span(event, live_for=None) -> timedelta:
+    """The length a caller means by "under way" for this one row.
+
+    A caller may name the span outright, hand in a function of the event,
+    or say nothing and take the sport's own figure. Every screen resolves
+    it here so that a board, a page and a row title cannot disagree about
+    when the same event stops being on the air.
+    """
+    if callable(live_for):
+        return live_for(event)
+    return live_for if live_for is not None else on_air_for(event)
+
+
 def status_of(event, now, live_for=None) -> str:
     """"upcoming", "live" or "over" — the ONE answer every screen uses.
 
@@ -1148,12 +1161,71 @@ def status_of(event, now, live_for=None) -> str:
     question separately and could answer it differently. They ask here
     now, so مباشر, التالي and انتهى cannot disagree across a channel.
     """
-    span = (live_for(event) if callable(live_for)
-            else (live_for if live_for is not None else on_air_for(event)))
     start = event["start"]
     if now < start:
         return "upcoming"
-    return "live" if now < start + span else "over"
+    return "live" if now < start + on_air_span(event, live_for) else "over"
+
+
+def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
+                      icon=None, live_for=None) -> int:
+    """Programme one day as the stretches over which its status holds still.
+
+    THE LIVE MARK WAS FROZEN INTO A DAY-LONG ROW. The dashboard channels
+    wrote one programme per viewer day — 07:00 to 07:00 — and put the
+    status in its title: "🔴 مباشر · San Diego Padres - San Francisco
+    Giants". That sentence is true while the game is on and false for the
+    rest of the day, and nothing in the file said when it stopped being
+    true. A player showing that row at 04:27 still said مباشر because the
+    build had caught the game at 03:04.
+
+    So the mark could only ever be as fresh as the last build, and when
+    the scheduler drops a slot — which it does, for hours at a time — the
+    channel sits there claiming a finished game is on the air. "ليش ال
+    live indicator رجع يعلق" is exactly that: not a wrong mark, a mark
+    with no expiry.
+
+    A static file CAN say when a sentence stops being true; it only has
+    to be cut where the sentence changes. That is what countdown_step
+    below already does for the numbers, for the same reason and in nearly
+    the same words — the player always shows the block covering now, so
+    what it says stays correct without the file being fetched again. This
+    brings it to the status: the cuts are the instants an event goes on
+    the air and the instants one comes off it, each block titled for its
+    OWN start. مباشر then appears and clears on the clock, whether or not
+    a build has run since.
+
+    on_air_span answers when a row comes off the air, so a baseball game
+    and a football match are each cut at their own end rather than at a
+    figure borrowed from the other.
+
+    Consecutive blocks that come out saying the same thing are one block
+    again: two kickoffs in the same minute are one cut, not two, and a
+    match ending while another is still on does not change what the row
+    says, so it does not earn a row of its own. A day with nothing on it
+    comes out as the single programme it has always been.
+    """
+    cuts = {opens}
+    for event in events:
+        span = on_air_span(event, live_for)
+        for moment in (event["start"], event["start"] + span):
+            if opens < moment < closes:
+                cuts.add(moment)
+
+    blocks: list[list] = []
+    edges = sorted(cuts) + [closes]
+    for at, until in zip(edges, edges[1:]):
+        if until <= at:
+            continue
+        title, desc = describe(at)
+        if blocks and blocks[-1][2:] == [title, desc]:
+            blocks[-1][1] = until
+        else:
+            blocks.append([at, until, title, desc])
+
+    for at, until, title, desc in blocks:
+        add_programme(tv, channel_id, at, until, title, desc, icon=icon)
+    return len(blocks)
 
 
 # How often the "started N ago" row is rewritten while a match is on.

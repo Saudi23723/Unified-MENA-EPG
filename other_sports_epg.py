@@ -72,8 +72,8 @@ import world_sport_on_tv
 import major_games
 
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, countdown_label, on_air_for,
-    status_of,
+    MATCH_ON_AIR, add_day_in_blocks, arabic_count, countdown_label,
+    on_air_for, status_of,
     drop_simulcasts, in_reading_order, isolate, log, new_session, norm,
     warn, write_xml_atomic,
 )
@@ -1839,11 +1839,20 @@ def publish_all(events: list[dict], now: datetime,
             board_no += 1
         per_day.append(len(chunks))
 
+        # IN BLOCKS, not as one row — see add_day_in_blocks. This channel
+        # and the two that wear it, the baseball one and the NBA/NFL one,
+        # all put the live mark in a title that ran the length of a day,
+        # so مباشر stood for the twenty-odd hours after the event it
+        # named had finished. Cut at the starts and the ends, each block
+        # titled for its own start.
         opens, closes = day_bounds(day)
-        add_programme(tv, CHANNEL_ID, opens, closes,
-                      day_title(day, today, now),
-                      day_page(day, today, now), icon=first_board)
-        log(f"  {day} -> {len(today)} event(s) over {len(chunks)} board(s)")
+        rows = add_day_in_blocks(
+            tv, CHANNEL_ID, opens, closes, today,
+            lambda moment: (day_title(day, today, moment),
+                            day_page(day, today, moment)),
+            icon=first_board)
+        log(f"  {day} -> {len(today)} event(s) over {len(chunks)} "
+            f"board(s), {rows} row(s)")
 
     # And the boards this pass did NOT write. The window rolls at
     # midnight — yesterday goes, a new day arrives at the far end — and

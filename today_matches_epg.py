@@ -69,8 +69,8 @@ import sportsnet
 import tsn
 import yallakora
 from epg_lib import (
-    MATCH_ON_AIR, add_programme, arabic_count, club_skeleton, countdown_label,
-    on_air_for, status_of,
+    MATCH_ON_AIR, add_day_in_blocks, arabic_count, club_skeleton,
+    countdown_label, on_air_for, status_of,
     drop_simulcasts, fetch, in_reading_order, isolate, log, norm, same_club,
     same_fixture, warn, write_xml_atomic,
 )
@@ -2214,13 +2214,21 @@ def publish_all(events: list[dict], everything: list[dict],
             board_no += 1
         per_day.append(len(chunks))
 
+        # THE DAY IS PROGRAMMED IN BLOCKS, not as one row — see
+        # add_day_in_blocks. The title carries the live mark, and a row
+        # that runs from seven in the morning to seven the next morning
+        # carries whatever that mark was at the moment the build ran, all
+        # day, with nothing to say when it stopped being true. Cut at the
+        # kickoffs and the final whistles, each block titled for its own
+        # start, مباشر clears itself on the clock.
         opens, closes = day_bounds(day)
-        add_programme(tv, CHANNEL_ID, opens, closes,
-                      day_title(day, events_today, now),
-                      day_page(day, events_today, now),
-                      icon=first_board)
+        rows = add_day_in_blocks(
+            tv, CHANNEL_ID, opens, closes, events_today,
+            lambda moment: (day_title(day, events_today, moment),
+                            day_page(day, events_today, moment)),
+            icon=first_board)
         log(f"  {day} -> {len(events_today)} match(es) over "
-            f"{len(chunks)} board(s)")
+            f"{len(chunks)} board(s), {rows} row(s)")
 
     # And the boards this pass did NOT write. The window rolls at
     # midnight — yesterday goes, a new day arrives at the far end — and
