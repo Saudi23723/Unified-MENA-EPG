@@ -791,8 +791,14 @@ def one_guide(boards_dir: str, prefix: str, xml: str) -> None:
     if os.path.exists(manifest):
         with open(manifest, encoding="utf-8") as handle:
             counts = [int(line) for line in handle if line.strip()]
+        # ONE LINE PER DAY, AND A DAY IS NOW SEVERAL ROWS. The guides cut
+        # each day at the moments an event goes on the air and comes off
+        # it, so the live mark in the title expires on the clock instead
+        # of standing until the next build — add_day_in_blocks. Every
+        # block of one day points at that day's first board, so the days
+        # are counted by the boards pointed at, not by the rows.
         check("SCREEN", f"{prefix} one manifest line per day the guide "
-                        f"programmes", len(counts), len(real))
+                        f"programmes", len(counts), len(set(icons)))
         check("SCREEN", f"{prefix} the manifest accounts for every board "
                         f"on disk", sum(counts), len(pngs))
         running, firsts = 0, []
@@ -815,7 +821,7 @@ def one_guide(boards_dir: str, prefix: str, xml: str) -> None:
         # what this is for. Comparing the two in order would only be
         # asserting that the reel never reorders.
         check("SCREEN", f"{prefix} each programme points at its day's "
-                        f"first board", sorted(icons), firsts)
+                        f"first board", sorted(set(icons)), firsts)
     else:
         check("SCREEN", f"{prefix} the bulletin points at board zero",
               icons, [0] * len(icons))
