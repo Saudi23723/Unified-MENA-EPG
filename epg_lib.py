@@ -1223,6 +1223,19 @@ def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
     match ending while another is still on does not change what the row
     says, so it does not earn a row of its own. A day with nothing on it
     comes out as the single programme it has always been.
+
+    THE TITLE DECIDES THAT, NOT THE PAGE UNDER IT. Cutting wherever
+    either changed put 34 of channel one's 82 rows next to a row saying
+    exactly the same sentence — "🔴 مباشر · Rennes - Marseille" three
+    times running, five minutes, three minutes, two minutes — because a
+    kickoff elsewhere on the card had moved a mark on the page while the
+    row itself stood still. A guide is scrolled by its rows, and that is
+    the wall countdown_step was cut back to avoid.
+
+    So the page rides with the row it belongs to, written for the moment
+    that row begins. It is a snapshot, as it was when the whole day was
+    one programme; the difference is that it is now retaken every time
+    the row it sits under changes rather than once a day.
     """
     cuts = {opens}
     for event in events:
@@ -1237,7 +1250,7 @@ def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
         if until <= at:
             continue
         title, desc = describe(at)
-        if blocks and blocks[-1][2:] == [title, desc]:
+        if blocks and blocks[-1][2] == title:
             blocks[-1][1] = until
         else:
             blocks.append([at, until, title, desc])
