@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260911060400 +0000" stop="20260911074900 +0000" channel="beIN4K.qa">
-    <title lang="en">Ipswich Town v Liverpool - English Premier League 2026/2027</title>
-    <desc lang="en">Ipswich Town have lost their last four Premier League games against Liverpool across the 2001-02 and 2024-25 seasons, conceding 17 goals and scoring just once. Liverpool are unbeaten in all six away Premier League matches against Ipswich Town at Portman Road. It’s the most games they’ve played at one stadium without losing in the competition.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260911074900 +0000" stop="20260911093200 +0000" channel="beIN4K.qa">
     <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
     <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
@@ -717,13 +711,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260911070100 +0000" stop="20260911073000 +0000" channel="beINSports1.qa">
-    <title lang="en">Bayern München vs Bodø / Glimt - UEFA Champions League 2026-2027 - MD1</title>
-    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
-Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260911073000 +0000" stop="20260911080000 +0000" channel="beINSports1.qa">
     <title lang="en">Liverpool vs Atlético de Madrid - UEFA Champions League 2026-2027 - MD1</title>
@@ -1531,13 +1518,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260911053000 +0000" stop="20260911073000 +0000" channel="beINSports2.qa">
-    <title lang="en">PSV vs Shakhtar Donetsk - UEFA Champions League 2026-2027 - MD1</title>
-    <desc lang="en">Fourteen teams are involved in the UEFA Champions League play-off round.
-Played over two ties, the winners of each tie advance to the league phase of the Champions League while defeated sides switch to the league phase of the UEFA Europa League.</desc>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20260911073000 +0000" stop="20260911093000 +0000" channel="beINSports2.qa">
     <title lang="en">Bayern München vs Bodø / Glimt - UEFA Champions League 2026-2027 - MD1</title>
@@ -3812,12 +3792,6 @@ Bahrain National Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260911045100 +0000" stop="20260911073300 +0000" channel="beINSports6.qa">
-    <title lang="en">Javier Barahona (ESP) Maximiliano Sanchez Blasco (ARG) vs Leandro Roman Augsburger (ARG) Juan LeBron</title>
-    <desc lang="en">Premier Padel Majors represent the pinnacle of professional padel, attracting the sport’s biggest stars to four iconic events in Qatar, Italy, France and Mexico. Offering the highest ranking rewards on the Premier Padel Tour, the Majors are among the most coveted titles of the season and showcase the sport at its highest level.</desc>
-    <category lang="ar">باديل</category>
-    <category lang="en">Padel</category>
-  </programme>
   <programme start="20260911073300 +0000" stop="20260911090200 +0000" channel="beINSports6.qa">
     <title lang="en">Agustin Tapia (ARG) Arturo Coello (ESP) vs Alejandro Ruiz Granados (ESP) Javier Garcia (ESP) - Men -</title>
     <desc lang="en">Premier Padel Majors represent the pinnacle of professional padel, attracting the sport’s biggest stars to four iconic events in Qatar, Italy, France and Mexico. Offering the highest ranking rewards on the Premier Padel Tour, the Majors are among the most coveted titles of the season and showcase the sport at its highest level.</desc>
@@ -4411,6 +4385,12 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
+  <programme start="20260918073000 +0000" stop="20260918080000 +0000" channel="beINSports6.qa">
+    <title lang="en">La Liga Highlights 2026/2027 EP.5</title>
+    <desc lang="en">"A highlight show that include each game played on Friday, Saturday and Sunday.LALIGA includes special video presentations of the best goal, the best save and the best player of the day."</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
   <programme start="20260911063000 +0000" stop="20260911080500 +0000" channel="beINSports7.qa">
     <title lang="en">Bolelli (Ita) / a. Vavassori (ITA) or A. Krajicek (USA) / N. Mektic (CRO) vs Harrison, Christian (US</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
@@ -4908,6 +4888,13 @@ Ahmad bin Ali Stadium Stadium</desc>
   </programme>
   <programme start="20260918054500 +0000" stop="20260918073000 +0000" channel="beINSports7.qa">
     <title lang="en">Bayer Leverkusen vs Celje - UEFA Europa League 2026/2027 - MD1</title>
+    <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
+36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
+    <category lang="ar">الدوري الأوروبي</category>
+    <category lang="en">UEFA Europa League</category>
+  </programme>
+  <programme start="20260918073000 +0000" stop="20260918091500 +0000" channel="beINSports7.qa">
+    <title lang="en">Olympiacos Piraeus vs Jagiellonia - UEFA Europa League 2026/2027 - MD1</title>
     <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
 36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
     <category lang="ar">الدوري الأوروبي</category>
@@ -7287,6 +7274,12 @@ Played over two ties, the winners of each tie advance to the league phase of the
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918073000 +0000" stop="20260918080000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Brest vs PSG - French Ligue 1 2026/2027 - Week 4</title>
+    <desc lang="en">Since their promotion to Ligue 1 in the summer of 2019, Brest have lost 12 of their 13 Ligue 1 encounters against Paris SG. SB29 could record the highest number of defeats for a single team against the same opponent in the competition over this period. Paris SG are unbeaten in their last 34 matches in all competitions against Brest, which is the lo</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260911055900 +0000" stop="20260911082600 +0000" channel="beINSportsEn2.qa">
     <title lang="en">World Feed - Tennis US Open 2026</title>
@@ -20179,4 +20172,4 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-<programme start="20260911205959 +0000" stop="20260912152947 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260911205959 +0000" stop="20260912152947 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260911205959 +0000" stop="20260912154945 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260911205959 +0000" stop="20260912154945 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
