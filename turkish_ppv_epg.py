@@ -192,6 +192,20 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     for why in sorted(refused):
         names = ", ".join(sorted(n for n in refused[why] if n)) or "(no league)"
         log(f"  refused as {why}: {names}")
+    # AND WHAT THE CHANNEL IS ACTUALLY CARRYING, by competition. Asked
+    # outright — "و بدي اعرف شو القناة رح تعطيني" — and there is nowhere
+    # else to read it: the guide carries a fixture and its channels, and
+    # the competition is drawn on the board and nowhere in the XML. So
+    # the build says it, once a pass, and the answer stops being a guess
+    # made from team names.
+    carrying: dict[str, int] = {}
+    for event in kept:
+        carrying[(event.get("competition") or "").strip() or "(no league)"] = (
+            carrying.get((event.get("competition") or "").strip()
+                         or "(no league)", 0) + 1)
+    log(f"  carrying {len(carrying)} competition(s):")
+    for name, count in sorted(carrying.items(), key=lambda kv: (-kv[1], kv[0])):
+        log(f"    {count:3d}  {name}")
     return sorted(kept, key=lambda e: (e["start"], RANK[e["sport"]]))
 
 
