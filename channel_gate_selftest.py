@@ -977,6 +977,40 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     wrong = [f"{board} -> expected {name}"
              for board, name in now_named.items() if name not in distinct]
 
+    # AND ONE HOLD OF GRACE, for exactly the same reason and on exactly
+    # the same terms.
+    #
+    # The hold is half the recipe — a segment is the picture AND how the
+    # picture is encoded, and how long it stays up is part of that, which
+    # is why it is folded into the name. But the grace below forgives
+    # only a changed ENCODER_REVISION, so changing a screen's hold left
+    # every one of its published segments named under the old recipe with
+    # nothing to forgive it. That is not a fault: it is the ordinary
+    # state of a correct change in flight, the same one the revision is
+    # forgiven for. Unforgiven it refuses the whole pass, and a gate that
+    # names a screen but cannot be satisfied stops every channel
+    # publishing, not just this one.
+    #
+    # The old hold is not guessed. The published playlist DECLARES it —
+    # #EXTINF:14.080 for a fourteen-second page, 20.032 for a twenty —
+    # so this asks the published reel what it was built for and forgives
+    # only if EVERY segment matches under that. A mixture still fails,
+    # which is the thing this check exists to catch.
+    if wrong:
+        published = None
+        with open(playlist, encoding="utf-8") as handle:
+            found = _re.search(r"#EXTINF:([\d.]+)", handle.read())
+        if found:
+            published = int(round(float(found.group(1))))
+        if published is not None and published != hold:
+            before = named_under(video.ENCODER_REVISION, published)
+            if all(name in distinct for name in before.values()):
+                print(f"  note {prefix} every segment is named for a "
+                      f"{published}s page, not {hold}s — the hold was "
+                      f"changed and the build that re-encodes them has "
+                      f"not run yet")
+                wrong = []
+
     # ONE REVISION OF GRACE, and only a WHOLESALE one.
     #
     # The published stream is built by a workflow that runs on main after
