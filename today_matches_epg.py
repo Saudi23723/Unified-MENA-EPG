@@ -306,8 +306,22 @@ WANTED_EXACT = {
     # The Canadian leagues the Canadian feeds themselves name — asked
     # for with the channels that carry them, and wanted by the word the
     # broadcaster's own title prints.
-    "mls", "canadian premier league", "women's super league",
+    #
+    # THE CANADIAN PREMIER LEAGUE IS NOT AMONG THEM and never was:
+    # "Canadian premier League بحياتي ما طلبته ليش ينحط ينشال نهائي
+    # هاد". It rode in on the Canadian feeds beside MLS, which WAS asked
+    # for. Unlisted here it can no longer be kept by name, and
+    # A_LEAGUE_NOBODY_ASKED_FOR below refuses it however a feed spells
+    # it, so no page that starts carrying it tomorrow can put it back.
+    "mls", "women's super league",
 }
+
+# REFUSED OUTRIGHT, whatever names it. A league removed from the lists
+# above is only unlisted — a title that happens to match some other
+# rule can still carry it in — so the one asked to go for good is
+# refused by its own pattern before anything else is decided.
+A_LEAGUE_NOBODY_ASKED_FOR = re.compile(
+    r"canadian\s+premier\s+league|\bcpl\b", re.I)
 
 # Matched anywhere in the name, for families whose members all belong:
 # every FIFA and UEFA competition, the African and Asian confederations,
@@ -578,7 +592,6 @@ def competition_of(row) -> str:
 CANADAS_LEAGUES = (
     ("fifa", "fifa"),
     ("mls", "mls"),
-    ("cpl", "canadian premier league"),
     ("wsl", "women's super league"),
     ("premier league", "premier league"),
 )
@@ -723,6 +736,16 @@ def wanted(event: dict) -> bool:
     # listings page hands it nothing at all. A league that was asked off
     # stays off whichever of the two named it.
     if NEVER_LISTED.search(competition) or NEVER_LISTED.search(teams_folded):
+        return False
+
+    # AND THE ONE ASKED OFF FOR GOOD, before any rule that could keep it.
+    # "Canadian premier League بحياتي ما طلبته ليش ينحط ينشال نهائي هاد"
+    # — it was never asked for and rode in beside MLS on the Canadian
+    # feeds. Refused on the competition AND on the title, because those
+    # feeds print the league in the title and a listings page prints it
+    # in neither.
+    if (A_LEAGUE_NOBODY_ASKED_FOR.search(competition)
+            or A_LEAGUE_NOBODY_ASKED_FOR.search(teams_folded)):
         return False
 
     # YOUTH FOOTBALL IS OFF THIS BOARD, asked for in those words, with one
@@ -1296,6 +1319,30 @@ SAME_CLUB_PAIRS = (
     # the pairs match exact spellings, so both have to be here, the
     # way "أبو قير" is above for its two spellings.
     ("الفيصلي", "Al Faisaly FC"),
+    # FOUR MORE OFF THE SAME EGYPTIAN LEAGUE, photographed on the board
+    # the same way the Zamalek pair was: "الدوري المصري مكتوب مرة
+    # بالعربي و مرة بالانجليزي شو المسخرة هاي", with all four rows at
+    # 10:00 on one page —
+    #
+    #     10:00  ZED FC - El Qanah FC                    Egyptian Premier League
+    #     10:00  Ceramica Cleopatra FC - National Bank   Egyptian Premier League
+    #     10:00  زد - القناة                              Egyptian league
+    #     10:00  سيراميكا كليوباترا - البنك الأهلي         الدوري المصري
+    #
+    # Each spelling is written here exactly as the page prints it,
+    # because the pairs match exact skeletons and nothing is inferred
+    # from resemblance. Two clubs that merely look like one of these
+    # are still two clubs.
+    ("زد", "ZED FC"),
+    ("زد", "ZED"),
+    ("القناة", "El Qanah FC"),
+    ("القناة", "El Qanah"),
+    ("سيراميكا كليوباترا", "Ceramica Cleopatra FC"),
+    ("سيراميكا كليوباترا", "Ceramica Cleopatra"),
+    ("البنك الأهلي", "National Bank of Egypt SC"),
+    ("البنك الأهلي", "National Bank of Egypt"),
+    ("البنك الاهلي", "National Bank of Egypt SC"),
+    ("البنك الاهلي", "National Bank of Egypt"),
 )
 
 
