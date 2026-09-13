@@ -1382,24 +1382,67 @@ def vsport_chip(pen, x: int, y: int, text: str, size: int = 22) -> int:
     return x + wide
 
 
+# WHERE THE BROADCASTER GOES, and it is the one thing this layout cannot
+# borrow. V Sport's rows are all on ONE channel — its name is the green
+# chip at the top — so a row has only two things to say and says them
+# bold-then-plain. This board is an aggregator: every row is on a
+# DIFFERENT broadcaster, and the question it exists to answer is "what is
+# on, and where".
+#
+# So the row keeps V Sport's three columns and gives the third one to the
+# channel, on the right where that screen leaves only LIVE:
+#
+#   04:00 │ Premier League  Man Utd - Chelsea │ beIN 2 +2 │ LIVE
+#     when│        what                        │   where   │
+#
+# The middle keeps the source's own bold-then-plain: the competition in
+# bold and the fixture after it, which is exactly "Formel 3  Madrid,
+# Feature race 2". A row naming no competition bolds its fixture instead,
+# so the bold column is never empty.
+#
+# ONE BROADCASTER, NOT THREE. Printing "beIN 4 · Sky Premier League ·
+# Paramount+ +5" costs a third of the row and answers a question nobody
+# asked — a viewer needs the channel they can tune to, which is the first
+# in the reader's own order. The rest are counted, not named.
+VS_WHERE = (150, 172, 202, 255)    # the broadcaster's column, quieter ink
+
+
+def vsport_where(channels) -> str:
+    """The one channel to tune to, and a count of the others."""
+    names = [n for n in (channels or []) if n]
+    if not names:
+        return ""
+    # A name that already carries its own "+3" keeps it and is not counted
+    # twice — the guides fold their overflow in before the board sees it.
+    return names[0] if len(names) == 1 else f"{names[0]} +{len(names) - 1}"
+
+
 def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
-               *, live: bool, over: bool) -> None:
-    """One black bar: clock, the bold name, its detail, and LIVE."""
+               where: str, *, live: bool, over: bool) -> None:
+    """One black bar: when, what, where, and LIVE."""
     pen.rectangle([PAD, y, W - PAD, y + height], fill=VS_ROW)
     middle = y + height // 2
 
-    size = 21
-    draw_text(pen, (PAD + 20, middle), clock, size,
+    draw_text(pen, (PAD + 20, middle), clock, 21,
               MUTED if over else VS_CLOCK, anchor="lm", weight="mid")
     x = PAD + 20 + 78
 
-    # LIVE first, because what is left after it is the room the names get.
+    # The right-hand columns are measured first, because what they leave
+    # is the room the names get rather than the other way round.
     stop = W - PAD - 20
     if live:
-        word = "LIVE"
-        draw_text(pen, (stop, middle), word, 19, WHITE, anchor="rm",
+        draw_text(pen, (stop, middle), "LIVE", 19, WHITE, anchor="rm",
                   weight="heavy")
-        stop -= width_of(word, 19, weight="heavy") + 24
+        stop -= width_of("LIVE", 19, weight="heavy") + 22
+    elif over:
+        draw_text(pen, (stop, middle), "انتهى", 18, MUTED, anchor="rm",
+                  weight="mid")
+        stop -= width_of("انتهى", 18, weight="mid") + 22
+    if where:
+        where = clipped(where, 19, 210, weight="mid")
+        draw_text(pen, (stop, middle), where, 19,
+                  MUTED if over else VS_WHERE, anchor="rm", weight="mid")
+        stop -= width_of(where, 19, weight="mid") + 26
 
     room = stop - x
     bold_size = 23
@@ -1441,6 +1484,7 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
         vsport_row(pen, y, ROW,
                    coming["start"].astimezone(viewer).strftime("%H:%M"),
                    *_vsport_halves(coming),
+                   vsport_where(coming.get("channels")),
                    live=status_of(coming, now, live_for) == "live",
                    over=False)
         y += ROW
@@ -1460,6 +1504,7 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
         vsport_row(pen, y, ROW,
                    event["start"].astimezone(viewer).strftime("%H:%M"),
                    *_vsport_halves(event),
+                   vsport_where(event.get("channels")),
                    live=state == "live", over=state == "over")
         y += ROW + GAP
 
@@ -1475,9 +1520,7 @@ def _vsport_halves(event: dict) -> tuple:
     """(bold, detail) for one row, the way the source itself is shaped."""
     comp = norm_line(event.get("competition"))
     fixture = norm_line(event.get("title"))
-    if comp:
-        return comp, fixture
-    return fixture, " · ".join(event.get("channels") or [])[:64]
+    return (comp, fixture) if comp else (fixture, "")
 
 
 def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
