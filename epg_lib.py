@@ -1218,7 +1218,27 @@ def on_air_span(event, live_for=None) -> timedelta:
     or say nothing and take the sport's own figure. Every screen resolves
     it here so that a board, a page and a row title cannot disagree about
     when the same event stops being on the air.
+
+    A BROADCASTER'S OWN LENGTH BEATS THE TABLE, and that is what
+    "on_air_for" on the event means: not a source's end time, which is
+    routinely a day-long placeholder and is why on_air_for() above
+    ignores one on a matchup, but a duration the broadcaster PUBLISHED
+    for this exact broadcast. Sport TV carries one on every row.
+
+    The table is a guess by sport — 115 minutes for football, four hours
+    for tennis — so مباشر stands for the guessed length whatever the
+    fixture actually does. Asked for outright: "و زبط علامة Live لجميع
+    القنوات بالحقيقة تكون نازلة على ال event او المباراة". A published
+    length is the nearest thing to the truth a static guide can hold.
+
+    Still bounded by the floor and the ceiling, because a published
+    length can be wrong too — a thirty-second trailer is not a broadcast
+    and an all-day slot is not one either.
     """
+    stated = event.get("on_air_for") if isinstance(event, dict) else None
+    if (isinstance(stated, timedelta)
+            and ON_AIR_FLOOR <= stated <= ON_AIR_CEILING):
+        return stated
     if callable(live_for):
         return live_for(event)
     return live_for if live_for is not None else on_air_for(event)
@@ -1320,12 +1340,32 @@ def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
         if until <= at:
             continue
         title, desc = describe(at)
-        if blocks and blocks[-1][2] == title:
+        # WHICH ROWS ARE ON THE AIR AT THIS INSTANT, and not just what
+        # the title says about the headline one.
+        #
+        # Merging on the title alone left the PAGE lying. The page is a
+        # snapshot taken at the block's start, and the title names only
+        # the headline fixture — so when a DIFFERENT match ended, the
+        # title did not change, the blocks merged, and that match kept
+        # its 🔴 on the page until the headline changed. Measured on the
+        # published guide: 58 rows held a live mark after they had
+        # finished, the worst for an hour and three quarters.
+        #
+        # "و زبط علامة Live لجميع القنوات بالحقيقة تكون نازلة على ال
+        # event او المباراة" — so a block ends when ANY row goes on or
+        # comes off the air, which is exactly when the page stops being
+        # true. The cuts for those instants were already in the set
+        # above; only the merge was throwing them away.
+        on_air = frozenset(
+            index for index, event in enumerate(events)
+            if event["start"] <= at < event["start"] + on_air_span(
+                event, live_for))
+        if blocks and blocks[-1][2] == title and blocks[-1][4] == on_air:
             blocks[-1][1] = until
         else:
-            blocks.append([at, until, title, desc])
+            blocks.append([at, until, title, desc, on_air])
 
-    for at, until, title, desc in blocks:
+    for at, until, title, desc, _on_air in blocks:
         add_programme(tv, channel_id, at, until, title, desc, icon=icon)
     return len(blocks)
 

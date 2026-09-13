@@ -10,6 +10,10 @@ on:
       - "probes/probe_sporttv_pt.py"
       - "probes/probe_sporttv_rows.py"
       - "probes/probe_sporttv_channel.py"
+      - "probes/probe_sporttv_epg.py"
+      - "probes/probe_sporttv_resolve.py"
+      - "probes/probe_sporttv_reader.py"
+      - "sporttv_pt.py"
       - ".github/workflows/probe_sporttv_pt.yml"
 
 jobs:
@@ -25,3 +29,6 @@ jobs:
       - run: python -u probes/probe_sporttv_pt.py
       - run: python -u probes/probe_sporttv_rows.py
       - run: python -u probes/probe_sporttv_channel.py
+      - run: python -u probes/probe_sporttv_epg.py
+      - run: python -u probes/probe_sporttv_resolve.py
+      - run: python -u probes/probe_sporttv_reader.py
