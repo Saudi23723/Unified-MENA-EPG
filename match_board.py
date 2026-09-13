@@ -464,28 +464,20 @@ def draw_day_chip(pen, day: date, now: datetime, viewer, weekday: str,
 
 
 def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
-    """Which day this board is: its own name, and nothing relative.
+    """Which of the three days this board is, said in words.
 
-    IT SAID "اليوم · الأحد", "غداً · الاثنين", "بعد غد · الثلاثاء", and
-    then plain weekdays after that — four different shapes for one
-    question. A viewer turning through a reel cannot tell which board
-    they are looking at from a word that means something different
-    depending on when they look, and the boards past the third day were
-    already answering with the weekday alone. "بس ينكتب الأحد، الاثنين،
-    الثلاثاء … و التاريخ عشان ما يصير خربطة".
+    No digits: the date is already set on the right, and a number inside
+    Arabic is the one thing that can come out reversed.
 
-    So every board answers the same way — its own weekday — and the
-    date beside it on the heading line settles the rest.
-
-    STILL NO DIGITS IN HERE. The date is set separately, on the right,
-    because a number inside Arabic is the one thing that can come out
-    reversed on a television. That was measured and it still holds; it
-    is the reason this returns a word and not a date.
-
-    now and viewer are kept in the signature because the callers pass
-    them and a later question about the day may need them again.
+    UNCHANGED, and deliberately. The now-and-next boards were asked to
+    name their day outright instead of saying "اليوم" — but that was
+    asked of the NEW boards, not of these: "لا مش القنوات القديمة / بس
+    الجديدة". The classic and info boards keep the wording they have
+    always had, and the channels wearing them keep what they show.
     """
-    return weekday
+    away = (day - now.astimezone(viewer).date()).days
+    relative = RELATIVE_DAY.get(away, "")
+    return f"{relative} · {weekday}" if relative else weekday
 
 
 # ---- crests ------------------------------------------------------------

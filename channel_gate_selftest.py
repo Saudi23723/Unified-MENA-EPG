@@ -2281,20 +2281,15 @@ def gate_a_board_says_which_day_it_is() -> None:
     # date disagree — the reading that has to be the viewer's.
     now = datetime(2026, 9, 3, 4, 0, tzinfo=timezone.utc)
     here = now.astimezone(viewer).date()
-    # EVERY BOARD ANSWERS THE SAME WAY NOW — its own weekday. It used to
-    # say "اليوم · الأحد", then "غداً", then "بعد غد", then plain
-    # weekdays: four shapes for one question, and a word that means a
-    # different day depending on when it is read. Asked for outright:
-    # "بس ينكتب الأحد، الاثنين … و التاريخ عشان ما يصير خربطة".
-    check("DAY", "today's board says its own weekday",
-          match_board.day_badge(here, now, viewer, "الخميس"), "الخميس")
-    check("DAY", "and so does the next one",
+    check("DAY", "the viewer's own date is the one called today",
+          match_board.day_badge(here, now, viewer, "س"), "اليوم · س")
+    check("DAY", "the next one is غداً",
           match_board.day_badge(date(here.year, here.month, here.day + 1),
-                                now, viewer, "الجمعة"), "الجمعة")
-    check("DAY", "and the one after that",
+                                now, viewer, "س"), "غداً · س")
+    check("DAY", "and the one after that is بعد غد",
           match_board.day_badge(date(here.year, here.month, here.day + 2),
-                                now, viewer, "السبت"), "السبت")
-    check("DAY", "and one a week out, with nothing guessed",
+                                now, viewer, "س"), "بعد غد · س")
+    check("DAY", "past the third day it says the weekday and guesses nothing",
           match_board.day_badge(date(here.year, here.month, here.day + 5),
                                 now, viewer, "الاثنين"), "الاثنين")
     check("DAY", "and no digit goes inside the Arabic, where it could reverse",
