@@ -23,6 +23,7 @@ PPV" — the same wording asked for on channel 2 and kept here with it.
 """
 from __future__ import annotations
 
+import re
 import sys
 from datetime import datetime, timedelta
 
@@ -82,6 +83,63 @@ RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 ON_A_PAGE = 5
 
 
+# SIX COMPETITIONS OFF THIS CHANNEL, asked for by name: "Remove ... UCL
+# championship from Turkish PPV channel / Amanya bundesliga 2 and 3 /
+# CEV erkekler / Azebaycan League / Gloria Cup Basketball / Fransa
+# handball ligi / Remove all from the channel".
+#
+# MATCHED ON THE GRID'S LEAGUE LINE AND NOTHING ELSE, which is what
+# "competition" carries here: the page prints a competition and then its
+# sport in Turkish — "CEV Erkekler Avrupa Şampiyonasi Voleybol", "Daikin
+# StarLigue Hentbol", "Sultanlar Ligi Voleybol". The grid always fills
+# it, and falls back to it for a title it has none of, so the league
+# line alone is enough.
+#
+# THE FIXTURE IS NOT SEARCHED, and that is the whole of it. Searching it
+# too cost the men's handball World Championship on the first try: "IHF
+# Erkekler Dünya Şampiyonasi Hentbol · Danimarka - Fransa" was refused
+# as the French league, because the OPPONENT is France. "Letonya -
+# Fransa" and "ABD - Fransa" sit on this channel as well, and an
+# Azerbaijan national side would have walked into the Azerbaycan rule
+# the same way. A country that is playing is not a country whose league
+# this is.
+#
+# WHAT EACH ONE IS NOT ALLOWED TO TAKE WITH IT, because the ask names
+# one half of a pair every time:
+#   - Bundesliga 2 and 3 go; the Bundesliga does not. The rule needs a
+#     2 or a 3 against it, in either the Turkish order ("Bundesliga 2")
+#     or the German one ("2. Bundesliga").
+#   - CEV Erkekler goes; CEV Kadınlar — the women's European
+#     Championship, asked for by name when this channel was built — does
+#     not. The rule needs the word erkekler.
+#   - The French handball league goes; the men's handball World
+#     Championship, also asked for by name, does not. So the rule names
+#     the league — StarLigue, ProLigue, the Championnat de France — and
+#     the Fransa/Hentbol pair, and nothing that says Şampiyonasi.
+OFF_THIS_CHANNEL = (
+    ("UCL", re.compile(r"\bUCL\b", re.I)),
+    ("Bundesliga 2 and 3", re.compile(
+        r"bundesliga\s*[23]\b|\b[23]\s*\.?\s*bundesliga", re.I)),
+    ("CEV Erkekler", re.compile(r"\bcev\b.*erkekler|erkekler.*\bcev\b",
+                               re.I)),
+    ("Azerbaycan", re.compile(r"azer?bay?can|azerbaijan", re.I)),
+    ("Gloria Cup", re.compile(r"gloria\s*(?:cup|kupa)", re.I)),
+    ("the French handball league", re.compile(
+        r"starligue|proligue"
+        r"|championnat\s+de\s+france.*hand"
+        r"|fransa[^|]*hentbol|hentbol[^|]*fransa", re.I)),
+)
+
+
+def off_this_channel(event: dict) -> str:
+    """The name of the rule refusing this row, or "" if none does."""
+    said = event.get("competition") or ""
+    for name, pattern in OFF_THIS_CHANNEL:
+        if pattern.search(said):
+            return name
+    return ""
+
+
 def wear_this_channel(**also):
     """Put the shared generator in this channel's clothes for a block."""
     return dubai_time.the_other_clock(
@@ -102,10 +160,27 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # One row per broadcast — the same fold channel 2 does, so a fixture
     # the grid prints twice keeps every channel it was printed with.
     inside = base.one_row_per_broadcast(inside)
-    kept = [event for event in inside
-            if base.a_live_event(event.get("title", ""))]
+    kept = []
+    refused: dict[str, set] = {}
+    for event in inside:
+        if not base.a_live_event(event.get("title", "")):
+            continue
+        why = off_this_channel(event)
+        if why:
+            # THE LEAGUE LINE AS THE GRID PRINTED IT, written down. The
+            # six rules above are matched against a page this machine
+            # cannot reach, so the only way to know a rule is catching
+            # what it was meant to — and nothing beside it — is to read
+            # back what it caught.
+            refused.setdefault(why, set()).add(
+                (event.get("competition") or "").strip())
+            continue
+        kept.append(event)
     log(f"  {len(events)} row(s) offered, {len(kept)} live and inside the "
         f"window")
+    for why in sorted(refused):
+        names = ", ".join(sorted(n for n in refused[why] if n)) or "(no league)"
+        log(f"  refused as {why}: {names}")
     return sorted(kept, key=lambda e: (e["start"], RANK[e["sport"]]))
 
 
