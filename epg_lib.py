@@ -1140,6 +1140,26 @@ _DISCIPLINE_IN_TITLE = [
 ]
 
 
+# TENNIS IS TWO LENGTHS UNDER ONE NAME. The four hours in the table is a
+# man's Grand Slam singles match, best of five sets, which really does
+# run that long and sometimes longer. A woman's match and every doubles
+# match are best of THREE, and are over inside two hours.
+#
+# Measured on the board: "2026 US Open Tennis: Women's Final" kicked off
+# at 20:00 and was still wearing مباشر at 23:30 — three and a half hours
+# into a two-set final that had finished well before. The row was
+# obeying the table; the table was answering for the wrong match.
+#
+# Two and a half hours rather than two, because the figure is allowed to
+# run past the finish a little — a row that says انتهى while a match is
+# on is the worse mistake — and a three-setter with a tie-break in it
+# reaches two hours on its own.
+TENNIS_BEST_OF_THREE = timedelta(hours=2, minutes=30)
+A_BEST_OF_THREE = re.compile(
+    r"\bwomen'?s?\b|\bwoman\b|\bladies\b|\bwta\b"
+    r"|\bdoubles\b|\bmixed\b", re.I)
+
+
 def discipline_named_by(event):
     """The on-air figure for the discipline this row names, if it names one."""
     said = f"{event.get('title') or ''} {event.get('competition') or ''}"
@@ -1171,6 +1191,9 @@ def on_air_for(event) -> timedelta:
     if not isinstance(event, dict):
         return MATCH_ON_AIR
     sports = ON_AIR_BY_SPORT.get(event.get("sport") or "", MATCH_ON_AIR)
+    if event.get("sport") == "Tennis" and A_BEST_OF_THREE.search(
+            f"{event.get('title') or ''} {event.get('competition') or ''}"):
+        return TENNIS_BEST_OF_THREE
     if _is_a_matchup(event):
         if event.get("sport") in MULTI_SPORT_GAMES:
             named = discipline_named_by(event)
