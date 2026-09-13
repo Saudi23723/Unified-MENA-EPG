@@ -4550,7 +4550,6 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
           match_board.forget_boards_past("scr_", 3, "no/such/place"), 0)
 
     # Both generators must actually call it, or none of that ever runs.
-    import inspect
     import other_sports_epg as sports
     import today_matches_epg as today
     for module, who in ((today, "the football board"),
@@ -4560,10 +4559,28 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
         # really takes: build must reach the render, and the render
         # must sweep. It cannot pass on a module that draws without
         # sweeping, nor on one that sweeps from nowhere build goes.
+        #
+        # ASKED OF THE COMPILED FUNCTION, NOT OF THE FILE ON DISK.
+        # inspect.getsource re-reads the .py and slices it at the line
+        # number the loaded function was compiled at — and this gate is
+        # imported and run by publish_screens.py, which does
+        # `git reset --hard origin/main` between publish attempts. So a
+        # pass that started before a merge and retried after one reads
+        # the NEW file at the OLD offsets and gets somebody else's
+        # lines. It happened: run 911 checked out c5b152ce, main moved
+        # to 2a542972e with 35 lines added above publish_all, and this
+        # gate came back False on a module whose sweep was right there.
+        # The gate named no screen, so quarantine_screens.py had nothing
+        # to hold back and the whole pass published nothing.
+        #
+        # co_names is what the function actually reaches for, read off
+        # the code object already in memory. No file, no line numbers,
+        # nothing to shift — and a stricter question than the old one,
+        # which a comment mentioning the name would have satisfied.
         check("MIDNIGHT", f"{who} sweeps its own stale boards",
-              ("publish_all" in inspect.getsource(module.build)
+              ("publish_all" in module.build.__code__.co_names
                and "forget_boards_past" in
-               inspect.getsource(module.publish_all)), True)
+               module.publish_all.__code__.co_names), True)
 
     if not match_board.has_arabic_face():
         return
