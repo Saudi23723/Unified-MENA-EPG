@@ -124,9 +124,42 @@ def split_event(name: str) -> tuple[str, str]:
     return name.strip(), ""
 
 
+# WHICH CHANNEL A ROW IS ON comes from the ROW, never from the page it
+# was fetched off. Each channel's page carries the schedule for ALL of
+# them — "epg" appears eight times in the store — so taking the page's
+# channel put every fixture on all six at once: 54 rows each, "Casa Pia
+# AC X FC Porto" on TV1 and TV2 and TV+ together. The row's own canal
+# says which one it really is.
+BY_ID = {int(cid): shown for cid, _slug, shown in CHANNELS}
+BY_NAME = {slug.replace(".", "").replace(" ", "").upper(): shown
+           for _cid, slug, shown in CHANNELS}
+
+
+def channel_of(value) -> str:
+    """The display name for a row's canal, or "" if it is not one of ours."""
+    if isinstance(value, dict):
+        for key in ("id", "codigo", "canalId"):
+            try:
+                found = BY_ID.get(int(value.get(key)))
+            except (TypeError, ValueError):
+                found = None
+            if found:
+                return found
+        for key in ("nome", "name", "descricao"):
+            word = str(value.get(key) or "").replace(".", "")
+            word = word.replace(" ", "").replace("-", "").upper()
+            if word in BY_NAME:
+                return BY_NAME[word]
+        return ""
+    try:
+        return BY_ID.get(int(value), "")
+    except (TypeError, ValueError):
+        return ""
+
+
 def one_channel(session, cid: str, slug: str, shown: str,
-                seen_types: Counter) -> list[dict]:
-    """Every live contest this one channel is carrying."""
+                seen_types: Counter, seen_canal: Counter) -> list[dict]:
+    """Every live contest in this page's store, each on its OWN channel."""
     got = fetch(session, f"{BASE}/live/canal/{cid}/{slug}")
     table = json.loads(biggest_json(got.text))
     if not isinstance(table, list):
@@ -139,6 +172,14 @@ def one_channel(session, cid: str, slug: str, shown: str,
         if not (isinstance(row, dict) and "tipoEmissao" in row):
             continue
         seen_types[str(at(row.get("tipoEmissao")))] += 1
+        canal = at(row.get("canal"))
+        seen_canal[json.dumps(canal, ensure_ascii=False)[:60]
+                   if isinstance(canal, (dict, list)) else str(canal)] += 1
+        on = channel_of(canal)
+        if not on:
+            # Not one of the six asked for — SPORT.TV6 and SPORT.TV7 are
+            # in this store too and were not asked for.
+            continue
 
         when = at(row.get("data"))
         if not isinstance(when, int) or when < 1_000_000_000_000:
@@ -177,7 +218,7 @@ def one_channel(session, cid: str, slug: str, shown: str,
             "competition": (competition.title()
                             if competition.isupper() else competition),
             "sport": sport,
-            "channels": [shown],
+            "channels": [on],
         })
     return out
 
@@ -186,17 +227,34 @@ def events(session, floor: datetime | None = None,
            ceiling: datetime | None = None) -> list[dict]:
     """Every live contest the six channels carry, inside the window."""
     seen_types: Counter = Counter()
+    seen_canal: Counter = Counter()
     out: list[dict] = []
+
+    # EVERY PAGE CARRIES EVERY CHANNEL'S SCHEDULE, so the same broadcast
+    # arrives six times over. They are folded on what actually
+    # identifies one — the instant, the fixture and the channel it is
+    # really on — rather than counted six times.
+    seen: set = set()
     for cid, slug, shown in CHANNELS:
         try:
-            rows = one_channel(session, cid, slug, shown, seen_types)
+            rows = one_channel(session, cid, slug, shown,
+                               seen_types, seen_canal)
         except Exception as exc:                               # noqa: BLE001
             warn(f"sporttv {shown} is unreadable ({exc}) — the other "
-                 f"channels still count")
+                 f"pages still count")
             continue
-        log(f"  sporttv {shown}: {len(rows)} live contest(s)")
-        out += rows
+        fresh = 0
+        for row in rows:
+            key = (row["start"], row["title"], row["channels"][0])
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(row)
+            fresh += 1
+        log(f"  sporttv page {shown}: {len(rows)} row(s), {fresh} new")
 
+    if seen_canal:
+        log(f"  sporttv canal seen: {dict(seen_canal.most_common(10))}")
     if seen_types:
         # The field that SHOULD settle live from recorded outright. Its
         # values were not readable in the probe, so they are printed on
