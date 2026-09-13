@@ -33,8 +33,23 @@ HEAD = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                       "(KHTML, like Gecko) Chrome/124 Safari/537.36",
         "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8"}
 
-HOSTS = ("https://rmcsport.bfmtv.com", "https://www.rmcsport.fr",
-         "https://rmcbfmplay.com", "https://www.rmcbfmplay.com")
+# RMC BFM Play REDIRECTS to rmcplus.fr — measured, not assumed: its
+# homepage answers 200 and lands on https://www.rmcplus.fr/. The brand
+# moved, and the first round chased 483 candidates on the old host that
+# were every one of them a VOD catalogue page — documentaries, fiction,
+# the weather — carrying "Diffusé le 09/09/2026", a broadcast already
+# gone. None of that is a live sports guide.
+#
+# So the new host is asked directly, and the paths a French broadcaster
+# actually uses for one: le direct, le guide, la grille, les chaînes.
+HOSTS = ("https://www.rmcplus.fr", "https://rmcsport.bfmtv.com",
+         "https://www.rmcsport.fr")
+
+# Tried outright on the new host, because a link list is a poor way to
+# find a page that may only be reachable from an app.
+DIRECT = ("/direct", "/en-direct", "/live", "/sport", "/sports",
+          "/guide-tv", "/guide", "/grille-tv", "/grille", "/chaines",
+          "/programme-tv", "/programmes", "/epg", "/tv")
 
 WANTED = re.compile(r"guide|grille|programme|programmation|direct|live"
                     r"|diffusion|horaire|agenda|tv", re.I)
@@ -106,10 +121,31 @@ def main() -> int:
 
     print()
     print("=" * 74)
+    print("THE PATHS A FRENCH BROADCASTER USES FOR A LIVE GUIDE")
+    print("=" * 74)
+    for path in DIRECT:
+        r = get(session, "https://www.rmcplus.fr" + path)
+        if r is None:
+            continue
+        kind = r.headers.get("content-type", "?")[:30]
+        print(f"\n  {path:<16} {r.status_code}  {len(r.text or ''):>8} bytes"
+              f"  {kind}  final={r.url[-44:]}")
+        if r.status_code == 200 and "html" in kind:
+            shape(r.text)
+
+    print()
+    print("=" * 74)
     print(f"{len(candidates)} candidate(s) — following the most likely")
     print("=" * 74)
-    ranked = sorted(candidates, key=lambda u: (
-        0 if re.search(r"guide|grille|programme", u, re.I) else 1, len(u)))
+    # A CATALOGUE PAGE IS NOT A GUIDE. /programme/<slug> and
+    # /s-programme/<slug> are the VOD catalogue — one show each, with
+    # the date it was last broadcast — and the first round followed
+    # eight of them and learned nothing. They are skipped by shape.
+    catalogue = re.compile(r"/s?-?programme/[^/]+$", re.I)
+    ranked = sorted((u for u in candidates if not catalogue.search(u)),
+                    key=lambda u: (
+        0 if re.search(r"direct|guide|grille|chaine", u, re.I) else 1, len(u)))
+    print(f"  ({len(candidates) - len(ranked)} catalogue page(s) skipped)")
     for url in ranked[:10]:
         r = get(session, url)
         if r is None:
