@@ -225,16 +225,24 @@ PAGES = (
     # Gallagher Premiership (10), NPC (6), Super Rygbi Cymru (4), the
     # Pacific Nations Cup (4) and the Premiership Rugby Cup — all
     # counted on the day this was written. The keep is the
-    # internationals: the World Cup, World Rugby's WXV — the women's
-    # international series, an international tournament and not a league
-    # — the Pacific Nations Cup, and any row whose own competition calls
-    # itself international. The refuse names the leagues by the words
-    # their competition cells print, so a league is out twice over: the
-    # refuse says its name, and the keep does not.
+    # internationals: the World Cup, the Pacific Nations Cup, and any row
+    # whose own competition calls itself international. The refuse names
+    # the leagues by the words their competition cells print, so a league
+    # is out twice over: the refuse says its name, and the keep does not.
+    #
+    # WXV IS OFF THIS CHANNEL, asked for outright: "Remove WOMEN'S RUGBY
+    # COMPETITION ... On channel number 2 for good". It used to be kept
+    # here as an international series rather than a league, which it is;
+    # it is simply not wanted. Out of the keep AND named in the refuse,
+    # the same way a league is, so a row whose competition cell says WXV
+    # cannot come back through the "international" word beside it. The
+    # board refuses it a third time at its own gate — off_this_board in
+    # other_sports_epg.py — because it also reaches the channel from
+    # RugbyPass, which this file never sees.
     ("/live-rugby-union-on-tv/", "Rugby",
-     re.compile(r"world cup|wxv|pacific nations|international", re.I),
+     re.compile(r"world cup|pacific nations|international", re.I),
      re.compile(r"top 14|united rugby|\burc\b|premiership|rfu championship"
-                r"|national provincial|super rygbi|gallagher", re.I)),
+                r"|national provincial|super rygbi|gallagher|\bwxv\b", re.I)),
 
     # BASKETBALL, and it is wired now on purpose so that it starts on its
     # own. The NBA season opens in October: this page reads zero rows

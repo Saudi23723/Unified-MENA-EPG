@@ -315,6 +315,45 @@ def a_live_event(title: str) -> bool:
 SNOOKER_CHANNELS = ("tnt sports", "eurosport")
 
 
+# TWO COMPETITIONS OFF THIS BOARD FOR GOOD, asked for in those words:
+# "Remove WOMEN'S RUGBY COMPETITION / Remove Pan American women's
+# competition ... On channel number 2 for good".
+#
+# THE REFUSAL IS HERE RATHER THAN AT A SOURCE, because neither arrives by
+# one door. World Rugby's WXV reached the board from the rugby listings
+# page, which names it in its keep, AND from RugbyPass with a title of
+# its own; the Pan American women's volleyball comes from the
+# federation's own service, where it is one tournament among the majors
+# that service is asked for. Refusing them at each door means finding
+# every door, today and every time one is added. Refusing them here,
+# where every collector's rows pass, is one rule that cannot be got
+# round.
+#
+# WHAT STAYS. The men's rugby internationals this channel already
+# carries — the Pacific Nations Cup, the World Cup, anything whose own
+# competition calls itself international. Only the women's series goes.
+# And the multi-sport games keep their women's events: "Pan American
+# women's competition" is the volleyball cup that was on the board, not
+# the Pan American Games, so a row that calls itself Games is left
+# alone.
+A_WOMENS_RUGBY = re.compile(
+    r"\bwxv\b"
+    r"|\bwomen'?s?\b.*\brugby\b"
+    r"|\brugby\b.*\bwomen'?s?\b", re.I)
+A_PAN_AMERICAN = re.compile(r"pan.?american", re.I)
+A_WOMENS = re.compile(r"\bwomen'?s?\b|\bW\b\s+vs\.?\s", re.I)
+A_THE_GAMES = re.compile(r"\bgames\b", re.I)
+
+
+def off_this_board(event: dict) -> bool:
+    """The two competitions this channel was told to stop carrying."""
+    said = f"{event.get('title') or ''} · {event.get('competition') or ''}"
+    if A_WOMENS_RUGBY.search(said):
+        return True
+    return bool(A_PAN_AMERICAN.search(said) and A_WOMENS.search(said)
+                and not A_THE_GAMES.search(said))
+
+
 def wanted(event: dict) -> bool:
     """Only the sports asked for, live, and only ones that name a channel.
 
@@ -328,6 +367,8 @@ def wanted(event: dict) -> bool:
     # so it is shown, and the row simply names no channel. This is the
     # rule the football board already follows.
     if event.get("sport") not in RANK:
+        return False
+    if off_this_board(event):
         return False
     if not a_live_event(event.get("title", "")):
         return False
