@@ -349,14 +349,38 @@ def publish() -> int:
         return 0
     git("commit", "-m", COMMIT_MESSAGE)
 
-    for attempt in range(1, ATTEMPTS + 1):
-        allowed, failures = the_gate_allows_publishing()
-        if not allowed:
-            error("the screen gate refused this pass — nothing is published")
-            for failure in failures:
-                log(f"  {failure}")
-            return 1
+    # THE GATE RUNS ONCE, HERE, BEFORE THE FIRST PUSH — not once per
+    # attempt inside the loop.
+    #
+    # It used to run at the top of every attempt, and that is what cost
+    # runs #911, #915 and #917. The loop's recovery from a rejected push
+    # is `git reset --hard origin/main`, which brings main's CODE into a
+    # pass whose boards and segments were built minutes earlier by the
+    # code this run checked out. The next attempt then judged this
+    # pass's artefacts with somebody else's newer rules.
+    #
+    # Run #917 is the clean example. Its own "Verify screens" step had
+    # just passed. The push was rejected because main had moved, the
+    # reset pulled in a change that had altered a screen's page length
+    # from 14 seconds to 20, and the gate — now expecting 20 — refused
+    # fifteen segments this run had correctly encoded at 14, plus five
+    # VOD checks and a crash, eight failures from one version skew. The
+    # run published nothing, and the boards on the television stayed as
+    # they were for another hour.
+    #
+    # Running it once is not a weakening. restore() puts this pass back
+    # whole, screen by screen, from our own commit — so the artefacts
+    # after a rebase are the SAME BYTES the gate has already approved.
+    # What re-running could catch is not a fault in this pass; it is
+    # only the skew, and the skew is the bug.
+    allowed, failures = the_gate_allows_publishing()
+    if not allowed:
+        error("the screen gate refused this pass — nothing is published")
+        for failure in failures:
+            log(f"  {failure}")
+        return 1
 
+    for attempt in range(1, ATTEMPTS + 1):
         pushed = git("push", "origin", f"HEAD:{BRANCH}")
         if pushed.returncode == 0:
             log(f"Pushed on attempt {attempt}")
