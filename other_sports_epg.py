@@ -336,6 +336,17 @@ SNOOKER_CHANNELS = ("tnt sports", "eurosport")
 # women's competition" is the volleyball cup that was on the board, not
 # the Pan American Games, so a row that calls itself Games is left
 # alone.
+# AUSTRALIAN RULES, ALL OF IT — "اشطب كل ال AFL". Not the women's series
+# alone, which is all channel one was ever told to drop, and not the
+# league alone: every shape the feeds print it in. Measured on the
+# board: "AFL Women's Series: North Melbourne vs. Carlton" and "AFL
+# Women's Series: Sydney Swans vs. GWS Giants" on TSN, and the men's
+# side arrives as "Australian Rules Football: Semi Finals".
+#
+# \bAFL\b does not reach the Arabic filler word AFLAM — the boundary
+# needs a non-letter after the L, and AFLAM has an A.
+A_AUSTRALIAN_RULES = re.compile(
+    r"\bafl\b|\baflw\b|australian\s+rules|aussie\s+rules", re.I)
 A_WOMENS_RUGBY = re.compile(
     r"\bwxv\b"
     r"|\bwomen'?s?\b.*\brugby\b"
@@ -348,6 +359,8 @@ A_THE_GAMES = re.compile(r"\bgames\b", re.I)
 def off_this_board(event: dict) -> bool:
     """The two competitions this channel was told to stop carrying."""
     said = f"{event.get('title') or ''} · {event.get('competition') or ''}"
+    if A_AUSTRALIAN_RULES.search(said):
+        return True
     if A_WOMENS_RUGBY.search(said):
         return True
     return bool(A_PAN_AMERICAN.search(said) and A_WOMENS.search(said)
