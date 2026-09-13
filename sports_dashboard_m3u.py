@@ -116,16 +116,6 @@ SCREENS = (
      f"{RAW}/stream/screen.m3u8", "📺 مباريات اليوم", LOGO),
     (SPORTS_ID, SPORTS_AR, "stream/sports.m3u8",
      f"{RAW}/stream/sports.m3u8", "🏁 رياضات اليوم", SPORTS_LOGO),
-    # THE TRIAL, listed so it can be tuned to. It carries the first
-    # channel's matches in the new drawing and sits next to it on
-    # purpose: the point is to press up and down between the two.
-    # ITS OWN MARK, not the first channel's. Sharing one picture put two
-    # rows in the list wearing the same icon — which the playlist gate
-    # caught, and which would have defeated the whole point: a trial you
-    # cannot tell from the thing it is being compared against.
-    ("TodayMatchesNew", "مباريات اليوم — تجريبي", "stream/screen_new.m3u8",
-     f"{RAW}/stream/screen_new.m3u8", "🆕 مباريات اليوم — تجريبي",
-     f"{RAW}/logos/today_matches_new.png"),
     (NEWS_ID, NEWS_AR, "stream/news.m3u8",
      f"{RAW}/stream/news.m3u8", "📰 أخبار اليوم", NEWS_LOGO),
     (WEATHER_ID, WEATHER_NAME, "stream/weather.m3u8",

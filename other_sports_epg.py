@@ -158,11 +158,14 @@ DUBAI_CHANNEL_ID = "TodaySportsDubai"
 DUBAI_BOARD_PREFIX = "dubai_sports_"
 SUBTITLE = "سباقات ونزالات وبطولات"
 BOARD_COLOURS = 64
-# Which drawing the channel wears. "classic" is the row board every
-# channel had before the info-screen redraw; its reading is larger and a
-# viewer asked for it back on channels 1, 2, NBA/NFL and MLB/WNBA.
-# "info" is the broadcaster info-screen, kept on Turkish PPV.
-BOARD_STYLE = "classic"
+# Which drawing the channel wears. "vsport" is the broadcaster's
+# now-and-next table the first channel was moved to after a day's trial
+# beside it — "و اذا تزبط للقناة الثانية و Turkish PPV" — and it is what
+# this channel and the ones wearing this module now show. "classic" is
+# the row board that came before it; "info" is the broadcaster
+# info-screen. Both are still drawn by match_board and are one word
+# away.
+BOARD_STYLE = "vsport"
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #
 # Asked for outright — "ما تعجق الصورة … بتنقسم على صفحتين ورا بعض عادي".
@@ -526,9 +529,11 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
-        from match_board import draw_board, draw_board_info
+        from match_board import (draw_board, draw_board_info,
+                                 draw_board_vsport)
 
-        draw = draw_board_info if BOARD_STYLE == "info" else draw_board
+        draw = {"info": draw_board_info,
+                "vsport": draw_board_vsport}.get(BOARD_STYLE, draw_board)
 
         drawn_rows = [dict(event, title=row_title(event)) for event in events]
         board = draw(

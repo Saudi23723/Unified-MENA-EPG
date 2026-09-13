@@ -52,7 +52,14 @@ def wear_this_channel(**also):
         base.__dict__,
         CHANNEL_ID=CHANNEL_ID, CHANNEL_AR=CHANNEL_AR, SUBTITLE=SUBTITLE,
         OUTPUT=OUTPUT, BOARD_PREFIX=BOARD_PREFIX, LOGO=LOGO,
-        IN_ORDER=IN_ORDER, RANK=RANK, **also)
+        IN_ORDER=IN_ORDER, RANK=RANK,
+        # PINNED, so this channel does NOT follow channel 2. It wears
+        # channel 2's generator, and channel 2 moved to the
+        # now-and-next table — but only channel 2 and Turkish PPV were
+        # asked to move: "I didn't say change NBA or NFL or MLB". Left
+        # unset, this channel would have inherited that change silently.
+        # It keeps the card board it has, and changing it is this word.
+        BOARD_STYLE="classic", **also)
 
 
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:

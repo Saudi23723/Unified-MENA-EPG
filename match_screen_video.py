@@ -77,11 +77,6 @@ OUT_DIR = "stream"
 SCREENS = {
     "today_matches": ("today_matches_", "screen.m3u8", "board.sha256", 20),
     "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256", 20),
-    # The trial beside the first channel — see today_matches_new_epg.py.
-    # Twenty seconds a page, the same as the channel it is judged
-    # against, so the comparison is of the drawing and nothing else.
-    "today_matches_new": ("trial_matches_", "screen_new.m3u8",
-                          "board_new.sha256", 20),
     "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
     # The fourth channel — طقس اليوم. It was a relay of somebody else's
     # CDN until that CDN stopped answering, and it is a board now for

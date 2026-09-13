@@ -1420,6 +1420,29 @@ VS_WHERE_W = 300                   # every channel the row was printed with
 VS_CLOCK_W = 78
 VS_GAP = 20
 
+# AND THE ROW GROWS INTO THE ROOM IT IS GIVEN — which is the one thing
+# this layout had to learn before the other two channels could wear it.
+#
+# The sizes above are a row of 46px, which is what eight rows come to on
+# a 440px list. Turkish PPV does not put eight rows on a board: it puts
+# FIVE, and it puts five because the type was called too small off a
+# television across a room, twice, and five is where the info board's
+# fixture reaches 34px. A fixed 23px row would have handed that channel
+# type SMALLER than the complaint it was already fixed for.
+#
+# So a row is measured, not fixed. Five rows on the same list are 85px
+# each and every size in them is multiplied by 85/46 — the board fills,
+# and a page carrying few rows reads from further away than a page
+# carrying many, which is the behaviour the info board already had and
+# the reason its own number was tuned per channel.
+#
+# The ceiling is there because the growth cannot go on forever: one row
+# alone on a board would otherwise reach 100px of type and read as a
+# mistake. 1.9 is a hair under the five-row case, so the channel tuned
+# for five gets the whole of it.
+VS_ROW_BASE = 46
+VS_SCALE_CEILING = 1.9
+
 
 def vsport_where(channels) -> str:
     """Every channel the row names, in the reader's own order."""
@@ -1427,13 +1450,38 @@ def vsport_where(channels) -> str:
 
 
 def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
-               where: str, *, live: bool, over: bool, nxt: bool) -> None:
-    """One black bar: when, what, where, and how it stands."""
+               where: str, *, live: bool, over: bool, nxt: bool,
+               scale: float = 1.0) -> None:
+    """One black bar: when, what, where, and how it stands.
+
+    `scale` is how much taller this row is than the eight-row row the
+    sizes below were drawn for. Every size and every column width is
+    multiplied by it, so the table keeps its proportions and the
+    columns cannot start overlapping as the type grows — which is what
+    happens if only the type scales and the reserved widths do not.
+    """
+    def at(size):
+        return max(1, round(size * scale))
+
+    # THE COLUMNS DO NOT GROW AS FAST AS THE TYPE, and they must not.
+    # Scaling a reserved width by the same 1.9 the type gets leaves the
+    # middle — the only column that carries the match itself — with less
+    # room than it had at 1.0, and the fixture is then dropped for want
+    # of 90px. Measured on the five-row Turkish board: "Glasgow Rangers
+    # - Celtic" vanished and the row said only "İskoçya Premiership".
+    # A clock and a channel name need SOME of the growth and not all of
+    # it, so they take a little under half.
+    def wide(px):
+        return max(1, round(px * (1 + (scale - 1) * 0.45)))
+
     pen.rectangle([PAD, y, W - PAD, y + height], fill=VS_ROW)
     middle = y + height // 2
-    left, right = PAD + VS_GAP, W - PAD - VS_GAP
+    gap = wide(VS_GAP)
+    left, right = PAD + gap, W - PAD - gap
+    mark_w, where_w, clock_w = (wide(VS_MARK_W), wide(VS_WHERE_W),
+                                wide(VS_CLOCK_W))
 
-    draw_text(pen, (left, middle), clock, 21,
+    draw_text(pen, (left, middle), clock, at(21),
               MUTED if over else VS_CLOCK, anchor="lm", weight="mid")
 
     # THE MARK BOX, the same width on every row whether it holds a word or
@@ -1446,24 +1494,45 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
     elif over:
         word, ink, size = "انتهى", MUTED, 18
     if word:
-        draw_text(pen, (right, middle), word, size, ink, anchor="rm",
+        draw_text(pen, (right, middle), word, at(size), ink, anchor="rm",
                   weight="heavy" if live else "mid")
 
     if where:
-        edge = right - VS_MARK_W
+        edge = right - mark_w
         draw_text(pen, (edge, middle),
-                  clipped(where, 18, VS_WHERE_W, weight="mid"), 18,
+                  clipped(where, at(18), where_w, weight="mid"), at(18),
                   MUTED if over else VS_WHERE, anchor="rm", weight="mid")
 
-    x = left + VS_CLOCK_W
-    room = right - VS_MARK_W - VS_WHERE_W - VS_GAP - x
-    bold_size = 23
+    x = left + clock_w
+    room = right - mark_w - where_w - gap - x
+    bold_size = at(23)
+    ink = MUTED if over else WHITE
+
+    # A TALL ROW STACKS ITS TWO HALVES. Side by side is right at the
+    # eight-row height, where the type is small and the line is long.
+    # At five rows the type is nearly twice the size and the two will
+    # not sit on one line at any column width — one of them is always
+    # cut to an ellipsis, and the one that gets cut is the fixture,
+    # which is the thing the viewer came for. Stacked, each half has
+    # the WHOLE of the middle column and the row reads in two glances
+    # instead of one crowded line. A tall row has the height for it:
+    # that is what makes it tall.
+    if detail and height >= VS_ROW_BASE * 1.3:
+        draw_text(pen, (x, middle - height // 5),
+                  clipped(bold, bold_size, room, weight="heavy"),
+                  bold_size, ink, anchor="lm", weight="heavy")
+        draw_text(pen, (x, middle + height // 5),
+                  clipped(detail, at(19), room, thin=True), at(19),
+                  MUTED if over else VS_DETAIL, anchor="lm", thin=True)
+        return
+
     bold_wide = min(width_of(bold, bold_size, weight="heavy"), room)
     draw_text(pen, (x, middle), clipped(bold, bold_size, room, weight="heavy"),
-              bold_size, MUTED if over else WHITE, anchor="lm", weight="heavy")
-    if detail and room - bold_wide > 90:
-        draw_text(pen, (x + bold_wide + 22, middle),
-                  clipped(detail, 20, room - bold_wide - 22, thin=True), 20,
+              bold_size, ink, anchor="lm", weight="heavy")
+    if detail and room - bold_wide > at(90):
+        draw_text(pen, (x + bold_wide + at(22), middle),
+                  clipped(detail, at(20), room - bold_wide - at(22),
+                          thin=True), at(20),
                   MUTED if over else VS_DETAIL, anchor="lm", thin=True)
 
 
@@ -1506,20 +1575,34 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     vsport_chip(pen, PAD, y, f"{title} · {weekday} {day:%d.%m}")
     y += 40 + 8
 
+    # THE ROWS FILL THE LIST rather than sitting at a fixed height with
+    # air under them. However many this page carries, they are laid out
+    # over the whole of the room left — so a channel that puts five rows
+    # on a board gets five tall rows and the type to match, and one that
+    # puts eight gets the eight-row row these sizes were drawn for. See
+    # VS_ROW_BASE above for why Turkish PPV made this necessary.
     room = H - 64 - y
-    fits = max(1, room // (ROW + GAP))
-    for index, event in enumerate(events[:fits]):
+    fits = max(1, room // (VS_ROW_BASE + GAP))
+    shown = events[:fits] if events else []
+    if shown:
+        tall = min(int(room / len(shown)) - GAP,
+                   int(VS_ROW_BASE * VS_SCALE_CEILING))
+        tall = max(tall, VS_ROW_BASE)
+        scale = tall / VS_ROW_BASE
+    else:
+        tall, scale = VS_ROW_BASE, 1.0
+    for index, event in enumerate(shown):
         state = status_of(event, now, live_for)
         if index:
             pen.line([(PAD, y - GAP + 1), (W - PAD, y - GAP + 1)],
                      fill=VS_LINE, width=2)
-        vsport_row(pen, y, ROW,
+        vsport_row(pen, y, tall,
                    event["start"].astimezone(viewer).strftime("%H:%M"),
                    *_vsport_halves(event),
                    vsport_where(event.get("channels")),
                    live=state == "live", over=state == "over",
-                   nxt=event is coming)
-        y += ROW + GAP
+                   nxt=event is coming, scale=scale)
+        y += tall + GAP
 
     if not events:
         draw_text(pen, (W // 2, H // 2), "لا توجد مباراة معلنة اليوم",
