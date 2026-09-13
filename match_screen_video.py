@@ -752,6 +752,83 @@ def step_of(segment: str) -> float:
     return seconds_of(segment)
 
 
+# How far a segment already on disk may be from the reel's step and still
+# be the same segment.
+#
+# IT HAS TO BE WIDER THAN THE STEP ITSELF IS, because a segment is never
+# exactly HOLD long — the encoder lands a little past it, which is the
+# whole reason the step is measured rather than assumed. Measured at every
+# page length this service publishes:
+#
+#     HOLD 20s -> 20.032s   gap 32ms
+#     HOLD 25s -> 25.056s   gap 56ms
+#     HOLD 35s -> 35.040s   gap 40ms
+#
+# So a tenth of a second clears the worst of them with room to spare.
+#
+# AND IT CANNOT LET A WRONG SEGMENT THROUGH, because the only lengths a
+# segment could otherwise have are the other page lengths — five and
+# fifteen seconds away, not tenths — and those change HOLD, which is
+# folded into the hash and renames the file. What the tolerance is really
+# guarding against is a truncated or half-written file, and that is orders
+# of magnitude short, not milliseconds.
+SAME_LENGTH = 0.1
+
+
+def already_encoded(segment: str, step: float) -> bool:
+    """True when this exact segment is on disk and need not be made again.
+
+    THE EXPENSIVE HALF OF A PASS WAS BEING SPENT REWRITING BYTES THAT DID
+    NOT CHANGE. A screen re-encoded its WHOLE reel whenever any one board
+    moved, so a single row's مباشر flipping on a ten-board channel paid
+    for ten encodes and used one. Measured inside one run: nine builds
+    84s, nineteen encodes 394s, the gate 21s, the publish 179s — the
+    encodes were most of the wait, and most of the encodes were a picture
+    being turned into bytes it had already been turned into.
+
+    That is not how anyone else does it. Server-side stitching treats the
+    playlist as text and the media as fixed — the manifest names
+    different segments and "no media bytes are ever rewritten" — so the
+    cost of a change is the cost of the part that changed. This is the
+    same rule applied where this service actually spends its time.
+
+    AN EXISTING FILE WITH THIS NAME IS THIS PASS'S OWN OUTPUT, because
+    everything that decides a segment's bytes is in its name:
+
+      - the board's own bytes, as eight characters of its hash, which is
+        what makes a changed picture a file nobody has seen;
+      - the board's INDEX, carried in the stem — other_sports_2.png is
+        always the third board — and the index is what sets the segment's
+        place on the timeline and which slice of the theme it carries;
+      - ENCODER_REVISION and HOLD, both folded into that same hash, so a
+        change to the recipe or the page length renames every segment.
+
+    The one thing not in the name is the measured step, which is read off
+    board zero and can differ from HOLD by milliseconds. So it is CHECKED
+    rather than assumed: the file's own length must match the step this
+    reel is being placed by. That is one ffprobe — about ten
+    milliseconds, against about two seconds to encode — and it also
+    catches a truncated or half-written file, which would otherwise be
+    reused as if it were whole.
+    """
+    if not os.path.exists(segment) or os.path.getsize(segment) <= 0:
+        return False
+    # ASKED STRICTLY, not through seconds_of. That one answers HOLD when
+    # ffprobe cannot read a file, which is the right answer when writing
+    # an #EXTINF for a segment already published and the wrong one here:
+    # a half-written segment would report the nominal length and be kept
+    # as though it were whole. A file this cannot measure is re-encoded.
+    try:
+        done = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=nw=1:nk=1", segment],
+            check=False, capture_output=True, text=True)
+        length = float(done.stdout.strip())
+    except (ValueError, OSError):
+        return False
+    return abs(length - step) <= SAME_LENGTH
+
+
 def encode_segment(board: str, out: str, place: int = 0,
                    step: float | None = None) -> bool:
     """One board as a transport stream segment, at its place in the reel.
@@ -1130,17 +1207,28 @@ def main(argv: list[str] | None = None) -> int:
     # board after it is placed by that. Guessing the step is what put a
     # 32 ms overlap on every boundary; the encoder is the only thing that
     # knows, so it is asked.
+    #
+    # UNLESS THAT SEGMENT IS ALREADY ON DISK, in which case its length is
+    # read off the file it is already in rather than off one encoded to
+    # ask the question. See already_encoded below for why an existing
+    # file with this name is the same bytes this pass would produce.
     first = segment_of(reel[0])
-    if not encode_segment(reel[0], first, 0, HOLD):
-        return 1
-    step = step_of(first)
-    if abs(step - HOLD) > 0.001:
-        log(f"  a board measures {step:.3f}s, not {HOLD}s — placing every "
-            f"board by the measured length so no boundary overlaps")
-    # Re-placed with the step now known, so board zero sits on the same
-    # timeline as the rest.
-    if not encode_segment(reel[0], first, 0, step):
-        return 1
+    kept = 0
+    if already_encoded(first, HOLD):
+        step = step_of(first)
+        kept += 1
+    else:
+        if not encode_segment(reel[0], first, 0, HOLD):
+            return 1
+        step = step_of(first)
+        if abs(step - HOLD) > 0.001:
+            log(f"  a board measures {step:.3f}s, not {HOLD}s — placing "
+                f"every board by the measured length so no boundary "
+                f"overlaps")
+        # Re-placed with the step now known, so board zero sits on the
+        # same timeline as the rest.
+        if not encode_segment(reel[0], first, 0, step):
+            return 1
 
     segments = []
     for place, board in enumerate(reel):
@@ -1148,11 +1236,19 @@ def main(argv: list[str] | None = None) -> int:
         if place == 0:
             segments.append(segment)
             continue
+        # A BOARD THAT DID NOT CHANGE IS NOT ENCODED AGAIN.
+        if already_encoded(segment, step):
+            segments.append(segment)
+            kept += 1
+            continue
         if not encode_segment(board, segment, place, step):
             # Same reasoning: what is published stays, and this pass says
             # it failed so nothing is committed on top of it.
             return 1
         segments.append(segment)
+    if kept:
+        log(f"  {kept} of {len(reel)} board(s) unchanged — their segments "
+            f"are reused, not re-encoded")
 
     write_playlist(segments, out)
     dropped = forget_old_segments(segments, prefix)
@@ -1163,9 +1259,9 @@ def main(argv: list[str] | None = None) -> int:
         handle.write(fingerprint + "\n")
     bytes_on_disk = os.path.getsize(out) + sum(os.path.getsize(s)
                                                for s in segments)
-    log(f"{which} re-encoded: {len(segments)} segment(s) at {HOLD}s, "
-        f"VOD reel that opens on board zero, "
-        f"{bytes_on_disk // 1024} KB on disk in total")
+    log(f"{which}: {len(segments) - kept} segment(s) encoded, {kept} kept "
+        f"as they were, {len(segments)} at {HOLD}s in the VOD reel that "
+        f"opens on board zero, {bytes_on_disk // 1024} KB on disk in total")
     return 0
 
 

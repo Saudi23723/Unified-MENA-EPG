@@ -142,8 +142,25 @@ jobs:
           # finishes and pushes rather than being cut off part-way.
           deadline=$(( $(date +%s) + 165 * 60 ))
           pass=1
+          # A PASS EVERY FIVE MINUTES, not five minutes between passes.
+          #
+          # This slept a flat 300s after each pass, so the gap between
+          # two boards landing was 300s PLUS however long a pass took —
+          # measured at 9 to 17 minutes apart, median 11, which is how
+          # late a live mark could be. The five minutes is meant to be
+          # the cadence, so it is measured start to start: a pass that
+          # takes four minutes waits one, and a pass that takes six
+          # starts the next one immediately rather than idling on top of
+          # its own length.
+          last=$(date +%s)
           while [ "$(date +%s)" -lt "$deadline" ]; do
-            sleep 300
+            rest=$(( 300 - ( $(date +%s) - last ) ))
+            # Written as an if rather than "[ ... ] && sleep". A step runs
+            # under bash -e, and a trailing test that fails is exactly the
+            # shape that killed this ticker once before; this shape cannot
+            # end the step whatever rest comes out to.
+            if [ "$rest" -gt 0 ]; then sleep "$rest"; fi
+            last=$(date +%s)
             pass=$(( pass + 1 ))
             echo "───── pass $pass ─────"
             python -u one_pass.py \
