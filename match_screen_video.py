@@ -77,6 +77,11 @@ OUT_DIR = "stream"
 SCREENS = {
     "today_matches": ("today_matches_", "screen.m3u8", "board.sha256", 20),
     "other_sports": ("other_sports_", "sports.m3u8", "sports.sha256", 20),
+    # The twelfth channel — 🇵🇹 Sport TV. Twenty seconds a page, the
+    # same as every channel on the now-and-next table.
+    "sporttv": ("sporttv_", "sporttv.m3u8", "sporttv.sha256", 20),
+    "dubai_sporttv": ("dubai_sporttv_", "dubai_sporttv.m3u8",
+                      "dubai_sporttv.sha256", 20),
     "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
     # The fourth channel — طقس اليوم. It was a relay of somebody else's
     # CDN until that CDN stopped answering, and it is a board now for
@@ -478,6 +483,8 @@ THEMES = {
     "f1": "audio/theme_sports.m4a",
     "dubai_f1": "audio/theme_sports.m4a",
     "dubai_hoops_gridiron": "audio/theme_sports.m4a",
+    "sporttv": "audio/theme_sports.m4a",
+    "dubai_sporttv": "audio/theme_sports.m4a",
     "turkish_ppv": "audio/theme_sports.m4a",
     "dubai_turkish_ppv": "audio/theme_sports.m4a",
 }

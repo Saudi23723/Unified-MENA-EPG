@@ -79,6 +79,12 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
                       "screen.m3u8", "board.sha256"),
     "other_sports": ("other_sports_", "other_sports_epg.xml",
                      "sports.m3u8", "sports.sha256"),
+    # THE TWELFTH CHANNEL — 🇵🇹 Sport TV, the six Portuguese screens,
+    # live contests only. See sporttv_epg.py.
+    "sporttv": ("sporttv_", "sporttv_epg.xml",
+                "sporttv.m3u8", "sporttv.sha256"),
+    "dubai_sporttv": ("dubai_sporttv_", "dubai_sporttv_epg.xml",
+                      "dubai_sporttv.m3u8", "dubai_sporttv.sha256"),
     "today_news": ("today_news_", "news_epg.xml",
                    "news.m3u8", "news.sha256"),
     "today_weather": ("today_weather_", "weather_epg.xml",

@@ -54,6 +54,9 @@ from hoops_gridiron_epg import LOGO as HOOPS_LOGO
 from f1_epg import CHANNEL_AR as F1_AR
 from f1_epg import CHANNEL_ID as F1_ID
 from f1_epg import LOGO as F1_LOGO
+from sporttv_epg import CHANNEL_AR as SPTV_AR
+from sporttv_epg import CHANNEL_ID as SPTV_ID
+from sporttv_epg import LOGO as SPTV_LOGO
 from turkish_ppv_epg import CHANNEL_AR as TPPV_AR
 from turkish_ppv_epg import CHANNEL_ID as TPPV_ID
 from turkish_ppv_epg import LOGO as TPPV_LOGO
@@ -144,6 +147,11 @@ SCREENS = (
     (TPPV_ID, TPPV_AR, "stream/turkish_ppv.m3u8",
      f"{RAW}/stream/turkish_ppv.m3u8", "🇹🇷 Turkish PPV",
      TPPV_LOGO),
+    # The twelfth channel — 🇵🇹 Sport TV: the six Portuguese screens,
+    # and only what they are actually playing. Its rows carry the length
+    # the broadcaster published, so مباشر comes off them on time.
+    (SPTV_ID, SPTV_AR, "stream/sporttv.m3u8",
+     f"{RAW}/stream/sporttv.m3u8", "🇵🇹 Sport TV", SPTV_LOGO),
     # The eleventh channel — الفورمولا ١. One clock only: a Grand Prix
     # starts at one instant everywhere and the board already prints its
     # sessions in the viewer's own zone, so there is nothing for a
@@ -210,6 +218,9 @@ DUBAI_SCREENS = (
     ("TurkishPPVDubai", TPPV_AR, "stream/dubai_turkish_ppv.m3u8",
      f"{RAW}/stream/dubai_turkish_ppv.m3u8",
      "🇹🇷 Turkish PPV · بتوقيت الإمارات", TPPV_LOGO),
+    ("SportTVPTDubai", SPTV_AR, "stream/dubai_sporttv.m3u8",
+     f"{RAW}/stream/dubai_sporttv.m3u8",
+     "🇵🇹 Sport TV · بتوقيت الإمارات", SPTV_LOGO),
     ("Formula1Dubai", F1_AR, "stream/dubai_f1.m3u8",
      f"{RAW}/stream/dubai_f1.m3u8",
      "🏁 Formula 1 · بتوقيت الإمارات", F1_LOGO),
