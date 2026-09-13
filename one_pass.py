@@ -31,6 +31,7 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 
 GATE_LOG = "/tmp/gate.log"
 
@@ -110,11 +111,48 @@ def main() -> int:
               "source, and nothing is published on it")
         return 1
 
-    # ---- every screen the encoder knows, read live --------------------
-    for screen in list(match_screen_video.SCREENS):
-        if run("match_screen_video.py", screen) != 0:
-            print(f"::warning::{screen} did not encode — the gate below "
-                  f"decides whether it may still be published")
+    # ---- every screen the encoder knows, read live, SIDE BY SIDE ------
+    #
+    # THE ENCODES ARE MOST OF THE WAIT, and the wait is what makes the
+    # live mark late. A board is a picture inside an encoded reel, so it
+    # cannot change on its own — مباشر appears on the television only
+    # when a pass redraws that board and re-encodes it. Measured over
+    # two hours of real publishes, passes landed every 9 to 17 minutes,
+    # median 11, so the mark could be a quarter of an hour behind the
+    # kickoff. "لما يجي الوقت تحول طوالي ل لايف".
+    #
+    # Measured inside one run: nine builds took 84 seconds, the gate 21,
+    # the publish 179 — and NINETEEN ENCODES TOOK 394, one after another
+    # on a four-core machine.
+    #
+    # They do not need to be. A screen owns its own boards, its own
+    # segments, its own playlist and its own stamp, all under its own
+    # prefix — that separation is what the whole quarantine design rests
+    # on — so no two of them touch the same file. Run side by side they
+    # finish in a fraction of the time, and the pass gets shorter by
+    # most of six minutes.
+    #
+    # Each screen's output is held and printed whole when it finishes,
+    # because interleaved ffmpeg logs from nineteen encodes are a log
+    # nobody can read afterwards.
+    workers = min(4, (os.cpu_count() or 2))
+    screens = list(match_screen_video.SCREENS)
+
+    def encode(screen):
+        done = subprocess.run(
+            [sys.executable, "-u", "match_screen_video.py", screen],
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        return screen, done.returncode, done.stdout
+
+    print(f"\n───── encoding {len(screens)} screen(s), {workers} at a time "
+          f"─────", flush=True)
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for screen, code, output in pool.map(encode, screens):
+            print(f"\n───── match_screen_video.py {screen} ─────", flush=True)
+            sys.stdout.write(output)
+            if code != 0:
+                print(f"::warning::{screen} did not encode — the gate below "
+                      f"decides whether it may still be published")
 
     # ---- the gate, and the quarantine it feeds -------------------------
     with open(GATE_LOG, "w", encoding="utf-8") as log:
