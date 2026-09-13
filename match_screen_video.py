@@ -158,17 +158,13 @@ SCREENS = {
     # board is placed on the timeline by its MEASURED length rather than
     # by the hold, which absorbs the 16ms exactly as it absorbs the
     # frame the encoder already emits past the count at 20s.
-    # TWENTY SECONDS, the same as channels 1 and 2. It was 14 to pay for
-    # the extra pages five rows a page cost; that channel carries eight
-    # rows on the now-and-next table now (see ON_A_PAGE in
-    # turkish_ppv_epg.py), which is ten boards instead of fifteen, and
-    # ten boards at 14s would give a viewer 1.8s a row — less reading
-    # time per row than this channel has ever had. At 20s it is 2.5s a
-    # row and the day still comes round in 3:20.
+    # FOURTEEN, bought to pay for the pages five rows a page costs.
+    # It was briefly 20 to match channels 1 and 2 and is back exactly
+    # where it was — see ON_A_PAGE in turkish_ppv_epg.py.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv.m3u8",
-                    "turkish_ppv.sha256", 20),
+                    "turkish_ppv.sha256", 14),
     "dubai_turkish_ppv": ("dubai_turkish_ppv_", "dubai_turkish_ppv.m3u8",
-                          "dubai_turkish_ppv.sha256", 20),
+                          "dubai_turkish_ppv.sha256", 14),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
