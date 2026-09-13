@@ -167,7 +167,27 @@ A_MAJOR = re.compile(
 # itself — the icon says Programlar and the league says Programi — and
 # the board refuses them anyway, but they are dropped here so a
 # programme never even reaches it wearing a sport's name.
-A_PROGRAMME = re.compile(r"program|stüdyo|studyo|özet|ozet|tekrar", re.I)
+#
+# AND A BROADCAST THAT IS NOT LIVE IS NOT ONE EITHER: "make sure only
+# live event/match not programs or recorded". A Turkish grid says so in
+# its own words — banttan and kayıttan are "from tape" and "from the
+# recording", yeniden yayın is a re-broadcast — and a row wearing one
+# of them is the same fixture a viewer already had a chance to watch.
+#
+# The studio words beside them are the magazine shows around a fixture:
+# the news, the agenda, the analysis, the interview, the compilation,
+# the press conference. None of them is a contest.
+#
+# WHAT IS DELIBERATELY NOT HERE is "hazırlık" — a hazırlık maçı is a
+# FRIENDLY, which is a real match played live, and refusing it would
+# lose fixtures rather than shows. The line is drawn at whether a
+# contest is being decided, not at how important it is.
+A_PROGRAMME = re.compile(
+    r"program|stüdyo|studyo|özet|ozet|tekrar"
+    r"|banttan|kayıttan|kayittan|yeniden\s+yayın|yeniden\s+yayin"
+    r"|magazin|gündem|gundem|analiz|derleme|belgesel"
+    r"|röportaj|roportaj|basın\s+toplantısı|basin\s+toplantisi",
+    re.I)
 
 
 def _rows(soup):
