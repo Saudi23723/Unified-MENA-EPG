@@ -464,14 +464,28 @@ def draw_day_chip(pen, day: date, now: datetime, viewer, weekday: str,
 
 
 def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
-    """Which of the three days this board is, said in words.
+    """Which day this board is: its own name, and nothing relative.
 
-    No digits: the date is already set on the right, and a number inside
-    Arabic is the one thing that can come out reversed.
+    IT SAID "اليوم · الأحد", "غداً · الاثنين", "بعد غد · الثلاثاء", and
+    then plain weekdays after that — four different shapes for one
+    question. A viewer turning through a reel cannot tell which board
+    they are looking at from a word that means something different
+    depending on when they look, and the boards past the third day were
+    already answering with the weekday alone. "بس ينكتب الأحد، الاثنين،
+    الثلاثاء … و التاريخ عشان ما يصير خربطة".
+
+    So every board answers the same way — its own weekday — and the
+    date beside it on the heading line settles the rest.
+
+    STILL NO DIGITS IN HERE. The date is set separately, on the right,
+    because a number inside Arabic is the one thing that can come out
+    reversed on a television. That was measured and it still holds; it
+    is the reason this returns a word and not a date.
+
+    now and viewer are kept in the signature because the callers pass
+    them and a later question about the day may need them again.
     """
-    away = (day - now.astimezone(viewer).date()).days
-    relative = RELATIVE_DAY.get(away, "")
-    return f"{relative} · {weekday}" if relative else weekday
+    return weekday
 
 
 # ---- crests ------------------------------------------------------------
@@ -1533,27 +1547,26 @@ def vsport_day_label(title: str, day: date, now: datetime, viewer,
                      weekday: str) -> str:
     """What the chip over the list says about the day it is showing.
 
-    "مباريات اليوم · الاثنين 14.09" says two things that cannot both be
-    true. The channel is NAMED "مباريات اليوم", and the reel carries a
-    board for every day of the window — so on tomorrow's board the name
-    called it today and the weekday beside it called it Monday, in one
-    line. "مش مباريات اليوم الأثنين / مباريات يوم الاثنين او مباريات
-    الاثنين".
+    THE DAY IS ALWAYS NAMED, and the word "اليوم" never appears.
 
-    So the day the board is FOR decides the wording. On today's board
-    the channel's own name is right and the weekday follows it. On any
-    other day the word "اليوم" is replaced by that day's name, which
-    turns "مباريات اليوم" into "مباريات الاثنين" and "رياضات اليوم"
-    into "رياضات الاثنين" without a second phrasing to keep in step.
+    The channels are NAMED "مباريات اليوم" and "رياضات اليوم", and the
+    reel carries a board for every day of the window — so the name said
+    "today" on Tuesday's board. Saying it only on today's board was
+    half a fix: a viewer flicking through a reel has no way to know
+    which board is today's, so "اليوم" on one of them and a weekday on
+    the next is exactly the confusion it was meant to end. "اليوم / يوم
+    المفروض او خلص بس ينكتب الأحد، الاثنين … و التاريخ عشان ما يصير
+    خربطة".
 
-    A channel whose name does not say "اليوم" — Turkish PPV — is
-    untouched and keeps its weekday beside it.
+    So every board names its own day outright — الأحد 13.09, الاثنين
+    14.09 — whether or not it is today, and the date beside it settles
+    any doubt. "مباريات اليوم" becomes "مباريات الأحد"; "رياضات اليوم"
+    becomes "رياضات الأحد".
+
+    A channel whose name does not carry "اليوم" — Turkish PPV — keeps
+    its name and takes the weekday beside it, which reads the same way.
     """
-    try:
-        today = day == now.astimezone(viewer).date()
-    except Exception:                                          # noqa: BLE001
-        today = False
-    if not today and "اليوم" in title:
+    if "اليوم" in title:
         return f"{title.replace('اليوم', weekday)} {day:%d.%m}"
     return f"{title} · {weekday} {day:%d.%m}"
 
