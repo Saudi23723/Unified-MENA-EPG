@@ -41,7 +41,49 @@ def run(*command: str) -> int:
     return subprocess.call([sys.executable, "-u", *command])
 
 
+def catch_up() -> None:
+    """Take whatever landed on main since this run checked out.
+
+    THE ONE THING THAT WAS NOT AUTOMATIC, and it is the reason a fix
+    merged at 09:46 was still not on the television at 09:57 with a run
+    healthily in progress the whole time.
+
+    A workflow's steps are frozen when a run starts, and so was its
+    CODE: publish_screens only reset to main when a push was rejected,
+    which is luck rather than design. If its pushes went through, a run
+    kept the code it checked out for the whole 165-minute window — so
+    every merge waited for that window to end, or for somebody to
+    cancel the run and dispatch another by hand. Which is what I kept
+    doing, and what "Everything to be automatic from now on" is about.
+
+    So every pass starts by fast-forwarding to main. FAST-FORWARD ONLY,
+    deliberately: if this run has a commit of its own that has not been
+    pushed yet — a pass whose publish failed — the merge refuses and
+    the pass carries on with what it has rather than throwing that work
+    away. Nothing is ever discarded to take an update.
+    """
+    fetched = subprocess.call(["git", "fetch", "--quiet", "origin", "main"])
+    if fetched != 0:
+        print("::warning::could not reach origin — this pass uses the code "
+              "it already has")
+        return
+    was = subprocess.run(["git", "rev-parse", "HEAD"], text=True,
+                         capture_output=True).stdout.strip()
+    moved = subprocess.call(["git", "merge", "--ff-only", "--quiet",
+                             "origin/main"])
+    now = subprocess.run(["git", "rev-parse", "HEAD"], text=True,
+                         capture_output=True).stdout.strip()
+    if moved != 0:
+        print("::warning::this run has work of its own not yet pushed — "
+              "keeping it and building on the code in hand")
+    elif was != now:
+        print(f"───── caught up to main: {was[:8]} -> {now[:8]} ─────",
+              flush=True)
+
+
 def main() -> int:
+    catch_up()
+
     import channels
     import match_screen_video
 
