@@ -62,14 +62,6 @@
     <display-name lang="ar">تابي سبور 10</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/tabii10.png" />
   </channel>
-  <programme start="20260913090000 +0000" stop="20260913104500 +0000" channel="TabiiSpor.tr">
-    <title lang="en">UEFA ŞAMPİYONLAR LİGİ FUTBOL KARŞILAŞMASI REAL MADRID - INTER</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20260913104500 +0000" stop="20260913111000 +0000" channel="TabiiSpor.tr">
-    <title lang="en">CONTENDERS</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260913111000 +0000" stop="20260913125000 +0000" channel="TabiiSpor.tr">
     <title lang="en">ŞAMPİYONLAR LİGİ FUTBOL KARŞILAŞMASI CLUB BRUGGE - ASTON VILLA</title>
     <category lang="en">Spor</category>
@@ -468,6 +460,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor1.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor1.tr">
@@ -732,6 +726,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor2.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor2.tr">
@@ -996,6 +992,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor3.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor3.tr">
@@ -1260,6 +1258,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor4.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor4.tr">
@@ -1524,6 +1524,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor5.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor5.tr">
@@ -1798,6 +1800,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor6.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor6.tr">
@@ -2077,10 +2081,14 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912140000 +0000" channel="TabiiSpor7.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912140000 +0000" stop="20260912150000 +0000" channel="TabiiSpor7.tr">
@@ -2356,6 +2364,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor8.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor8.tr">
@@ -2620,6 +2630,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor9.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor9.tr">
@@ -2884,6 +2896,8 @@
   </programme>
   <programme start="20260912090000 +0000" stop="20260912120000 +0000" channel="TabiiSpor10.tr">
     <title lang="ar">PPV — حسب المباراة</title>
+    <desc lang="ar">قناة PPV: تفتح وقت المباراة فقط، ولا تبث بقية الوقت.
+تابي تعلن رقم القناة صباح يوم البث، فلا يوجد جدول قبل ذلك — وهذا الحقل ليس موعد برنامج.</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260912120000 +0000" stop="20260912150000 +0000" channel="TabiiSpor10.tr">
