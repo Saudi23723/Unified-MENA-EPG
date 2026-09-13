@@ -106,10 +106,18 @@ BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards")
 BOARD_PREFIX = "today_matches_"
-# THE DRAWING THIS CHANNEL WEARS, and the only thing the trial channel
-# beside it changes. "classic" is the card board this channel has always
-# had; "vsport" is the now-and-next table. See today_matches_new_epg.py.
-BOARD_STYLE = "classic"
+# THE DRAWING THIS CHANNEL WEARS. "vsport" is the broadcaster's
+# now-and-next table — three columns, a flat black bar a row, LIVE and
+# التالي and انتهى on the right — which is what this channel now shows
+# on BOTH links after it was run for a day as a trial beside the card
+# board and judged against it on the television: "ممتاز سويها الاصلية
+# هيك". "classic" is that card board, still what draw_board draws and
+# still one word away.
+#
+# The second clock is not a second setting: the UAE channel wears this
+# same module with only its file names swapped, so both links change
+# together and cannot drift into two different drawings.
+BOARD_STYLE = "vsport"
 
 DUBAI_OUTPUT = "dubai_matches_epg.xml"
 DUBAI_CHANNEL_ID = "TodayMatchesDubai"
@@ -2095,13 +2103,12 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
-        # WHICH DRAWING THIS CHANNEL WEARS. "مش تبدلها تضيفها اشوفها
-        # بعيني" — so the first channel keeps the card board it has
-        # always had, and the trial in the broadcaster's now-and-next
-        # shape is a SEPARATE channel that wears this same generator with
-        # BOARD_STYLE swapped. Two links, the same matches, judged side
-        # by side on the television rather than one replacing the other
-        # unseen. See today_matches_new_epg.py.
+        # WHICH DRAWING THIS CHANNEL WEARS — BOARD_STYLE at the head of
+        # this file, and it is "vsport" now. It was not swapped unseen:
+        # the new drawing ran for a day as a channel of its own beside
+        # this one, on its own link, carrying these same matches, and
+        # was judged against the card board on the television before
+        # this channel moved to it.
         from match_board import draw_board, draw_board_vsport
 
         draw = draw_board_vsport if BOARD_STYLE == "vsport" else draw_board
