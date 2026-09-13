@@ -227,13 +227,37 @@ jobs:
             echo "───── pass $pass ─────"
             (
               set -e
+              # A BUILD THIS PASS NO LONGER HAS IS SKIPPED, NOT FATAL.
+              #
+              # This list is frozen when the run starts, but the files
+              # under it are not: publish_screens does git reset --hard
+              # origin/main every pass, so a channel deleted on main
+              # mid-run vanishes from under a name still written here.
+              # Under set -e that missing file killed the WHOLE pass at
+              # the second command, and the run went on looping for an
+              # hour publishing nothing at all — measured on run #916,
+              # which was still naming the trial channel after the merge
+              # that deleted it. A name this pass cannot find is a
+              # channel that no longer exists; the others must still go
+              # out.
               for build in today_matches_epg \
                            other_sports_epg \
                            ball_sports_epg hoops_gridiron_epg \
                            turkish_ppv_epg f1_epg \
                            news_epg weather_epg prayer_epg; do
-                python -u "$build.py"
+                if [ -f "$build.py" ]; then
+                  python -u "$build.py"
+                else
+                  echo "::warning::$build.py is gone from main — skipped"
+                fi
               done
+              # AND A SCREEN THIS PASS NO LONGER HAS, for the same
+              # reason: match_screen_video exits 1 on a name it does not
+              # know, which under set -e is the whole pass again. The
+              # registry is asked once rather than per screen, and only
+              # an UNKNOWN name is skipped — a real encode failure still
+              # stops the pass, which is what it is there for.
+              known=$(python -c "import match_screen_video as v; print(' '.join(v.SCREENS))")
               for screen in today_matches other_sports \
                             dubai_matches dubai_sports ball_sports \
                             dubai_ball_sports hoops_gridiron \
@@ -241,7 +265,10 @@ jobs:
                             turkish_ppv dubai_turkish_ppv \
                             today_news dubai_news today_weather \
                             dubai_weather today_prayer; do
-                python -u match_screen_video.py "$screen"
+                case " $known " in
+                  *" $screen "*) python -u match_screen_video.py "$screen" ;;
+                  *) echo "::warning::screen $screen is no longer registered — skipped" ;;
+                esac
               done
               set +e
               python -u channel_gate_selftest.py 2>&1 | tee /tmp/gate.log
