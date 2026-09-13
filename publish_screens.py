@@ -84,7 +84,7 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     # own so the two can be looked at side by side. Registered here
     # because a screen nobody publishes is a screen nobody can watch;
     # deleting it is deleting this line and its file.
-    "today_matches_new": ("today_matches_new_", "today_matches_new_epg.xml",
+    "today_matches_new": ("trial_matches_", "today_matches_new_epg.xml",
                           "screen_new.m3u8", "board_new.sha256"),
     "today_news": ("today_news_", "news_epg.xml",
                    "news.m3u8", "news.sha256"),

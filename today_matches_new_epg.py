@@ -33,7 +33,18 @@ import today_matches_epg as base
 CHANNEL_ID = "TodayMatchesNew"
 CHANNEL_AR = "مباريات اليوم — تجريبي"
 OUTPUT = "today_matches_new_epg.xml"
-BOARD_PREFIX = "today_matches_new_"
+# NOT "today_matches_new_", and that is the whole reason this channel
+# failed to reach the screen the first time it was built. A screen owns
+# its boards and its segments BY PREFIX — seven different places ask
+# name.startswith(prefix) — so a prefix that begins with another
+# screen's prefix makes that screen swallow this one's files.
+# "today_matches_" is the first channel's, and it is a strict prefix of
+# "today_matches_new_": channel one counted trial_matches boards as its
+# own, and the screen gate then crashed reading a number out of a name
+# its pattern could not match, which stopped the whole pass publishing.
+# "trial_" begins no other screen's name, so nothing owns these files
+# but this channel.
+BOARD_PREFIX = "trial_matches_"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_matches_new.png")
 
@@ -43,7 +54,8 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 # look at a drawing — but they must not collide.
 DUBAI_OUTPUT = "dubai_matches_new_epg.xml"
 DUBAI_CHANNEL_ID = "TodayMatchesNewDubai"
-DUBAI_BOARD_PREFIX = "dubai_matches_new_"
+# Same rule: "dubai_matches_" is the real UAE channel's prefix.
+DUBAI_BOARD_PREFIX = "trial_dubai_matches_"
 
 
 def build() -> int:

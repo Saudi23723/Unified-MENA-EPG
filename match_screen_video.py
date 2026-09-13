@@ -80,7 +80,7 @@ SCREENS = {
     # The trial beside the first channel — see today_matches_new_epg.py.
     # Twenty seconds a page, the same as the channel it is judged
     # against, so the comparison is of the drawing and nothing else.
-    "today_matches_new": ("today_matches_new_", "screen_new.m3u8",
+    "today_matches_new": ("trial_matches_", "screen_new.m3u8",
                           "board_new.sha256", 20),
     "today_news": ("today_news_", "news.m3u8", "news.sha256", 35),
     # The fourth channel — طقس اليوم. It was a relay of somebody else's
