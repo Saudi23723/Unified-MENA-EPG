@@ -1340,12 +1340,32 @@ def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
         if until <= at:
             continue
         title, desc = describe(at)
-        if blocks and blocks[-1][2] == title:
+        # WHICH ROWS ARE ON THE AIR AT THIS INSTANT, and not just what
+        # the title says about the headline one.
+        #
+        # Merging on the title alone left the PAGE lying. The page is a
+        # snapshot taken at the block's start, and the title names only
+        # the headline fixture — so when a DIFFERENT match ended, the
+        # title did not change, the blocks merged, and that match kept
+        # its 🔴 on the page until the headline changed. Measured on the
+        # published guide: 58 rows held a live mark after they had
+        # finished, the worst for an hour and three quarters.
+        #
+        # "و زبط علامة Live لجميع القنوات بالحقيقة تكون نازلة على ال
+        # event او المباراة" — so a block ends when ANY row goes on or
+        # comes off the air, which is exactly when the page stops being
+        # true. The cuts for those instants were already in the set
+        # above; only the merge was throwing them away.
+        on_air = frozenset(
+            index for index, event in enumerate(events)
+            if event["start"] <= at < event["start"] + on_air_span(
+                event, live_for))
+        if blocks and blocks[-1][2] == title and blocks[-1][4] == on_air:
             blocks[-1][1] = until
         else:
-            blocks.append([at, until, title, desc])
+            blocks.append([at, until, title, desc, on_air])
 
-    for at, until, title, desc in blocks:
+    for at, until, title, desc, _on_air in blocks:
         add_programme(tv, channel_id, at, until, title, desc, icon=icon)
     return len(blocks)
 

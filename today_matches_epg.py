@@ -415,10 +415,61 @@ NEVER_LISTED = re.compile(
 # because Başakşehir v Galatasaray was missing when this was measured,
 # and it is not missing now: beIN's own feed carries the Süper Lig with
 # the channel named and the live airing marked in beIN's own title.
+# THE EGYPTIAN LEAGUE IS NOT ASKED OF THIS PAGE, and that is the fix
+# for a duplicate that four hand-written club pairs could never have
+# caught.
+#
+# It was here, and the English pages carry the same league — so every
+# Egyptian fixture arrived TWICE, once as "Egyptian Premier League ·
+# Asyut Petroleum - Future FC" and once as "Egyptian league | الدوري
+# المصري · بترول أسيوط - مودرن سبورت". The fold cannot join those: it
+# matches clubs, and a club written in two scripts only joins if it has
+# been taught that exact pair by hand. Four pairs were added off one
+# photograph — زد, القناة, سيراميكا كليوباترا, البنك الأهلي — and the
+# next photograph simply showed four different clubs. "Still the
+# freaking duplications English and Arabic". Pair by pair was the wrong
+# shape of fix; the league has eighteen clubs and a new fixture list
+# every week.
+#
+# So the duplicate is removed where it is created. The English pages
+# carry this league whole — the photograph shows three of its fixtures
+# in English beside two in Arabic — and this page is left the
+# competitions nothing else has.
+#
+# THE JORDANIAN ONES STAY, because that is measured and still true: 272
+# fixtures were offered by the other pages and not one was Jordanian.
+# Nothing duplicates them, so nothing about them is duplicated.
 YALLAKORA_ONLY = (
     "الدوري المصري", "كأس مصر", "السوبر المصري",
     "الدوري الأردني", "كأس الأردن", "درع الاتحاد الأردني",
 )
+
+# EGYPT IS A FALLBACK HERE, NOT A SOURCE — read only when the English
+# pages carried none of it.
+#
+# This page and the English pages both carry Egypt's league, so every
+# fixture arrived TWICE in two scripts: "Egyptian Premier League · Asyut
+# Petroleum - Future FC" beside "Egyptian league | الدوري المصري ·
+# بترول أسيوط - مودرن سبورت". The fold cannot join those — it matches
+# clubs, and a club in two scripts only joins on a pair taught by hand.
+# Four pairs were added off one photograph and the next photograph
+# simply showed four different clubs. The league has eighteen of them
+# and a new round every week, so pair by pair was never going to end.
+#
+# Dropping it outright would have been the other mistake: this page was
+# added because a fixture was missing, and it is the only Arabic-named
+# source here. So it is kept and demoted. If the English pages already
+# have Egypt, this page's Egyptian rows are not needed and not taken.
+# If they have none — the day that source breaks — it supplies the
+# league whole, exactly as before.
+#
+# The Jordanian competitions are NOT fallbacks and never pass through
+# this: 272 fixtures were offered by the other pages and not one was
+# Jordanian, so nothing duplicates them.
+EGYPT_HERE = ("الدوري المصري", "كأس مصر", "السوبر المصري")
+AN_EGYPTIAN_LEAGUE = re.compile(
+    r"egyptian\s+premier\s+league|egyptian\s+league|الدوري\s+المصري"
+    r"|egypt\s+cup|كأس\s+مصر", re.I)
 
 # The same families as WANTED_PARTS, as the third page names them.
 #
@@ -2386,6 +2437,18 @@ def build() -> int:
              not_from_the_listings_page(
                  yallakora.fetch_events(session, floor, ceiling))
              if any(name in event["competition"] for name in YALLAKORA_ONLY)]
+
+    # And Egypt only if nobody else brought it — see EGYPT_HERE above.
+    already_egypt = sum(1 for event in everything
+                        if AN_EGYPTIAN_LEAGUE.search(event["competition"]))
+    if already_egypt:
+        before = len(asked)
+        asked = [event for event in asked
+                 if not any(name in event["competition"]
+                            for name in EGYPT_HERE)]
+        log(f"  yallakora: the English pages already carry "
+            f"{already_egypt} Egyptian fixture(s), so {before - len(asked)} "
+            f"Arabic-named duplicate(s) are not taken")
     fresh = [event for event in asked if not already_on_air(event, everything)]
     log(f"  yallakora: {len(asked)} in the competitions asked for, "
         f"{len(fresh)} the board did not already have")

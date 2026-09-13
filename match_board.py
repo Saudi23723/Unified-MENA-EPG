@@ -1529,6 +1529,35 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
                   VS_BOLD_SIZE, ink, anchor="lm", weight="heavy")
 
 
+def vsport_day_label(title: str, day: date, now: datetime, viewer,
+                     weekday: str) -> str:
+    """What the chip over the list says about the day it is showing.
+
+    "مباريات اليوم · الاثنين 14.09" says two things that cannot both be
+    true. The channel is NAMED "مباريات اليوم", and the reel carries a
+    board for every day of the window — so on tomorrow's board the name
+    called it today and the weekday beside it called it Monday, in one
+    line. "مش مباريات اليوم الأثنين / مباريات يوم الاثنين او مباريات
+    الاثنين".
+
+    So the day the board is FOR decides the wording. On today's board
+    the channel's own name is right and the weekday follows it. On any
+    other day the word "اليوم" is replaced by that day's name, which
+    turns "مباريات اليوم" into "مباريات الاثنين" and "رياضات اليوم"
+    into "رياضات الاثنين" without a second phrasing to keep in step.
+
+    A channel whose name does not say "اليوم" — Turkish PPV — is
+    untouched and keeps its weekday beside it.
+    """
+    try:
+        today = day == now.astimezone(viewer).date()
+    except Exception:                                          # noqa: BLE001
+        today = False
+    if not today and "اليوم" in title:
+        return f"{title.replace('اليوم', weekday)} {day:%d.%m}"
+    return f"{title} · {weekday} {day:%d.%m}"
+
+
 def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
                       live_for, *, title: str, subtitle: str, weekday: str,
                       page: int = 1, pages: int = 1,
@@ -1554,7 +1583,8 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     pen = ImageDraw.Draw(board)
 
     y = PAD - 8
-    vsport_chip(board, pen, PAD, y, f"{title} · {weekday} {day:%d.%m}")
+    vsport_chip(board, pen, PAD, y,
+                vsport_day_label(title, day, now, viewer, weekday))
     y += 40 + 8
 
     # The next row is the first that has not started; it wears التالي and
