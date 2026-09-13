@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260912163900 +0000" stop="20260912182900 +0000" channel="beIN4K.qa">
-    <title lang="en">Arsenal v Chelsea - English Premier League 2026/2027</title>
-    <desc lang="en">Arsenal are unbeaten in their last nine Premier League matches against Chelsea, their best unbeaten run against the Blues since a run of 19 between 1995 and 2005. Chelsea have lost their last four away Premier League games against Arsenal by an aggregate score of 11-2. Their last win there was in August 2021, a 2-0 victory.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260912182900 +0000" stop="20260912213000 +0000" channel="beIN4K.qa">
     <title lang="en">Sunderland v Arsenal - English Premier League 2026/2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sunderland have won just one of their last 29 Premier League meetings with Arsenal, and are winless in 17  since a 1-0 victory in November 2009 after Darren Bent’s goal. Arsenal have only lost one of their last 14 league visits to Sunderland, winning five of their last seven, although did draw this exact fixture last season 2-2.</desc>
@@ -1322,14 +1316,6 @@ The City Ground Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260912163000 +0000" stop="20260912183000 +0000" channel="beINSports2.qa">
-    <title lang="en">Athletic Bilbao vs Elche - Spanish LaLiga 2026/2027 - Week 5 ‎• Live 🔵‎</title>
-    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
-Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Live</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20260912183000 +0000" stop="20260912213000 +0000" channel="beINSports2.qa">
     <title lang="en">Real Madrid vs Rayo Vallecono - Spanish LaLiga 2026/2027 - Week 5 ‎• Live 🔵‎</title>
     <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
@@ -2385,10 +2371,11 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260912180000 +0000" stop="20260912183500 +0000" channel="beINSports4.qa">
-    <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
-    <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
+  <programme start="20260919183500 +0000" stop="20260919205959 +0000" channel="beINSports3.qa">
+    <title lang="en">Lyon vs Rennes - French Ligue 1 2026/2027 - Week 5 ‎• Live 🔵‎</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
     <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">Live</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260912183500 +0000" stop="20260912210000 +0000" channel="beINSports4.qa">
@@ -2930,12 +2917,12 @@ Elland Road Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260912180000 +0000" stop="20260912183500 +0000" channel="beINSports5.qa">
-    <title lang="en">Al Ahli (KSA) vs FC Machida Zelvia (JPN) - AFC Champions League Elite 2025/2026 - Final</title>
-    <desc lang="en">The AFC Champions League Elite is contested by Asia's top-division football clubs. It is the most prestigious club competition in Asian football, played by the national league champions. A total of 24 clubs compete in the league stage of the competition, divided into East and West regions (12 teams each).
-All games are live and exclusive only on be</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
+  <programme start="20260919183500 +0000" stop="20260919205959 +0000" channel="beINSports4.qa">
+    <title lang="en">Toulouse vs Havre AC - French Ligue 1 2026/2027 - Week 5 ‎• Live 🔵‎</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">Live</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260912183500 +0000" stop="20260912210000 +0000" channel="beINSports5.qa">
     <title lang="en">Auxerre vs Nice - French Ligue 1 2026/2027 - Week 4 ‎• Live 🔵‎</title>
@@ -3422,6 +3409,13 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260919183500 +0000" stop="20260919205959 +0000" channel="beINSports5.qa">
+    <title lang="en">Le Mans vs Lorient - French Ligue 1 2026/2027 - Week 5 ‎• Live 🔵‎</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">Live</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260912153000 +0000" stop="20260912190000 +0000" channel="beINSports6.qa">
     <title lang="en">Premier Padel - Paris Major - Stupaczuk/Sanz or Di Nenno/Navarro vs  Alonso/Goñi Lacabe or Galan/Chi ‎• Live 🔵‎</title>
@@ -3979,6 +3973,13 @@ St. James' Park Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260919183500 +0000" stop="20260919205959 +0000" channel="beINSports6.qa">
+    <title lang="en">Angers vs Troyes - French Ligue 1 2026/2027 - Week 5 ‎• Live 🔵‎</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">Live</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260912160000 +0000" stop="20260912193000 +0000" channel="beINSports7.qa">
     <title lang="en">Christian Harrison (USA) / Xinran Sun (CHN) vs Neal Skupski (GBR)  / Kevin Krawietz (GER)  - Arthur ‎• Live 🔵‎</title>
@@ -5145,12 +5146,6 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260912173000 +0000" stop="20260912183500 +0000" channel="beINSports9.qa">
-    <title lang="en">Class 5 - Against the clock with Jump off 1.50</title>
-    <desc lang="en">Day 2 of Longines Global Champions Tour</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260912183500 +0000" stop="20260912210000 +0000" channel="beINSports9.qa">
     <title lang="en">Havre AC vs Angers - French Ligue 1 2026/2027 - Week 4 ‎• Live 🔵‎</title>
@@ -10561,12 +10556,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260912181000 +0000" stop="20260912183500 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260912183500 +0000" stop="20260912203000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">Lorient vs Toulouse - French Ligue 1 2026/2027 - Week 4 ‎• Live 🔵‎</title>
     <desc lang="en">Toulouse have not lost any of their last nine Ligue 1 matches against Lorient, which is their third-longest current unbeaten run against a single opponent, behind their confrontations against Nancy  and Troyes. After their 1-0 win against Lens, Lorient could keep two consecutive clean sheets in Ligue 1 for the first time in 2026. Furthermore, their</desc>
@@ -11537,18 +11526,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">كرة اليد</category>
     <category lang="en">Live</category>
     <category lang="en">Handball</category>
-  </programme>
-  <programme start="20260912182000 +0000" stop="20260912183000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260912183000 +0000" stop="20260912184000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260912184000 +0000" stop="20260912185000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -12539,18 +12516,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260919180000 +0000" stop="20260919190000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260912182000 +0000" stop="20260912183000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260912183000 +0000" stop="20260912184000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19663,4 +19628,4 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-<programme start="20260913205959 +0000" stop="20260914022423 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260913205959 +0000" stop="20260914022423 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260913205959 +0000" stop="20260914024424 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260913205959 +0000" stop="20260914024424 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
