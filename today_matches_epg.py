@@ -106,6 +106,11 @@ BOARD_DIR = "boards"
 BOARD_URL = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/boards")
 BOARD_PREFIX = "today_matches_"
+# THE DRAWING THIS CHANNEL WEARS, and the only thing the trial channel
+# beside it changes. "classic" is the card board this channel has always
+# had; "vsport" is the now-and-next table. See today_matches_new_epg.py.
+BOARD_STYLE = "classic"
+
 DUBAI_OUTPUT = "dubai_matches_epg.xml"
 DUBAI_CHANNEL_ID = "TodayMatchesDubai"
 DUBAI_BOARD_PREFIX = "dubai_matches_"
@@ -2090,9 +2095,17 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
-        from match_board import draw_board
+        # WHICH DRAWING THIS CHANNEL WEARS. "مش تبدلها تضيفها اشوفها
+        # بعيني" — so the first channel keeps the card board it has
+        # always had, and the trial in the broadcaster's now-and-next
+        # shape is a SEPARATE channel that wears this same generator with
+        # BOARD_STYLE swapped. Two links, the same matches, judged side
+        # by side on the television rather than one replacing the other
+        # unseen. See today_matches_new_epg.py.
+        from match_board import draw_board, draw_board_vsport
 
-        board = draw_board(
+        draw = draw_board_vsport if BOARD_STYLE == "vsport" else draw_board
+        board = draw(
             day, events, now, VIEWER, on_air_for,
             title=CHANNEL_AR, subtitle=f"بث اليوم المباشر · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages)

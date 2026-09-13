@@ -82,6 +82,11 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Rebuild channel 1
         run: python -u today_matches_epg.py
+      # The trial that stands beside channel 1 — see
+      # today_matches_new_epg.py. Its own step because it is its own
+      # channel; delete this line and the encode below to be rid of it.
+      - name: Rebuild the trial board
+        run: python -u today_matches_new_epg.py
       - name: Rebuild channel 2
         run: python -u other_sports_epg.py
       - name: Rebuild baseball and WNBA channel
@@ -116,6 +121,8 @@ jobs:
         run: python -u match_screen_video.py today_prayer
       - name: Encode channel 1
         run: python -u match_screen_video.py today_matches
+      - name: Encode the trial board
+        run: python -u match_screen_video.py today_matches_new
       - name: Encode channel 2
         run: python -u match_screen_video.py other_sports
       - name: Encode UAE channel 1
@@ -227,13 +234,14 @@ jobs:
             echo "───── pass $pass ─────"
             (
               set -e
-              for build in today_matches_epg other_sports_epg \
+              for build in today_matches_epg today_matches_new_epg \
+                           other_sports_epg \
                            ball_sports_epg hoops_gridiron_epg \
                            turkish_ppv_epg f1_epg \
                            news_epg weather_epg prayer_epg; do
                 python -u "$build.py"
               done
-              for screen in today_matches other_sports \
+              for screen in today_matches today_matches_new other_sports \
                             dubai_matches dubai_sports ball_sports \
                             dubai_ball_sports hoops_gridiron \
                             dubai_hoops_gridiron f1 dubai_f1 \
