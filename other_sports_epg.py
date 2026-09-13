@@ -159,12 +159,12 @@ DUBAI_BOARD_PREFIX = "dubai_sports_"
 SUBTITLE = "سباقات ونزالات وبطولات"
 BOARD_COLOURS = 64
 # Which drawing the channel wears. "vsport" is the broadcaster's
-# now-and-next table the first channel was moved to after a day's trial
-# beside it — "و اذا تزبط للقناة الثانية و Turkish PPV" — and it is what
-# this channel and the ones wearing this module now show. "classic" is
-# the row board that came before it; "info" is the broadcaster
-# info-screen. Both are still drawn by match_board and are one word
-# away.
+# now-and-next table the first channel moved to after a day's trial
+# beside it, and this channel with it. "classic" is the row board that
+# came before it. "info" is the broadcaster info-screen, and Turkish
+# PPV stays on it — it was offered this table and kept the old one:
+# "Turkish keep the old style". All three are drawn by match_board and
+# any channel wearing this module picks one by this word.
 BOARD_STYLE = "vsport"
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #

@@ -1420,26 +1420,24 @@ VS_WHERE_W = 300                   # every channel the row was printed with
 VS_CLOCK_W = 78
 VS_GAP = 20
 
-# AND THE ROW GROWS INTO THE ROOM IT IS GIVEN — which is the one thing
-# this layout had to learn before the other two channels could wear it.
+# AND THE ROW GROWS INTO THE ROOM IT IS GIVEN.
 #
 # The sizes above are a row of 46px, which is what eight rows come to on
-# a 440px list. Turkish PPV does not put eight rows on a board: it puts
-# FIVE, and it puts five because the type was called too small off a
-# television across a room, twice, and five is where the info board's
-# fixture reaches 34px. A fixed 23px row would have handed that channel
-# type SMALLER than the complaint it was already fixed for.
+# a 440px list — a full page. But a day is cut into pages of eight and
+# the LAST page of every day carries whatever is left: one row, or two,
+# or three. Fixed at 46px those sat in a thin strip at the top of the
+# board with half the picture empty under them, and read no larger than
+# a full page does despite having four times the room.
 #
-# So a row is measured, not fixed. Five rows on the same list are 85px
-# each and every size in them is multiplied by 85/46 — the board fills,
-# and a page carrying few rows reads from further away than a page
-# carrying many, which is the behaviour the info board already had and
-# the reason its own number was tuned per channel.
+# So a row is measured, not fixed: three rows on the same list are 85px
+# each and every size in them is multiplied by 85/46. A page carrying
+# few rows reads from further away than a page carrying many, which is
+# the behaviour the info board already had and the reason its own row
+# count was tuned per channel.
 #
 # The ceiling is there because the growth cannot go on forever: one row
 # alone on a board would otherwise reach 100px of type and read as a
-# mistake. 1.9 is a hair under the five-row case, so the channel tuned
-# for five gets the whole of it.
+# mistake.
 VS_ROW_BASE = 46
 VS_SCALE_CEILING = 1.9
 
@@ -1467,10 +1465,10 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
     # Scaling a reserved width by the same 1.9 the type gets leaves the
     # middle — the only column that carries the match itself — with less
     # room than it had at 1.0, and the fixture is then dropped for want
-    # of 90px. Measured on the five-row Turkish board: "Glasgow Rangers
-    # - Celtic" vanished and the row said only "İskoçya Premiership".
-    # A clock and a channel name need SOME of the growth and not all of
-    # it, so they take a little under half.
+    # of 90px. Measured on a five-row board: "Glasgow Rangers - Celtic"
+    # vanished and the row said only "İskoçya Premiership". A clock and
+    # a channel name need SOME of the growth and not all of it, so they
+    # take a little under half.
     def wide(px):
         return max(1, round(px * (1 + (scale - 1) * 0.45)))
 
