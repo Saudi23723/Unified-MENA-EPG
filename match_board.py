@@ -47,7 +47,7 @@ import os
 import re
 from datetime import date, datetime, timedelta
 
-from epg_lib import arabic_count
+from epg_lib import arabic_count, status_of
 
 from PIL import Image, ImageDraw, ImageFont, features
 
@@ -1314,6 +1314,170 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                   20, MUTED, anchor="rs")
     progress(pen, page, pages, accent)
     return board
+
+
+# ─── THE BROADCASTER'S NOW-AND-NEXT, third style ────────────────────────
+#
+# A trial, asked for with three photographs of V Sport's own info screen
+# and the words "moder و simple و professional". What makes that screen
+# read from across a room is not decoration, it is restraint:
+#
+#   - a bright diagonal ground, and then NOTHING else coloured on it
+#   - every row a flat black bar the full width of the board, so the eye
+#     runs down one straight left edge instead of hopping between cards
+#   - three columns and only three: the clock, the thing's name in bold,
+#     and its detail in plain white after it
+#   - LIVE alone on the right, in white, with no pill and no dot
+#   - a hairline between rows, and no outline around them
+#
+# So this draws no crests, no competition chips, no colour-coded pills,
+# no "on air" panel — the things the other two styles spend their width
+# on. It is the same data with almost all of the ink taken away.
+#
+# THE ROW'S TWO HALVES follow the source's own shape. V Sport bolds the
+# COMPETITION and sets the fixture after it — "Formel 3  Madrid, Feature
+# race 2", "Dansk Superliga  FCK v Horsens". A row that names a
+# competition is drawn that way round; one that does not bolds its own
+# title and puts the channels after it, so a board never has an empty
+# bold column.
+VS_ROW = (9, 12, 18, 255)          # the black bar a row sits in
+VS_LINE = (46, 104, 196, 255)      # the hairline between two of them
+VS_CHIP = (126, 232, 122, 255)     # the green label that names the channel
+VS_CHIP_INK = (8, 24, 12, 255)
+VS_CLOCK = (126, 232, 122, 255)    # the time, in the chip's own green
+VS_DETAIL = (214, 226, 242, 255)   # the words after the bold ones
+# The diagonal ground, bottom-left to top-right, in the order they are
+# laid down. Flat bands rather than a smooth sweep: the photographs show
+# hard edges, and a flat fill is the same bytes on every machine that
+# draws it, which is the rule this whole file lives by.
+VS_BANDS = ((37, 62, 214, 255), (26, 128, 196, 255),
+            (34, 176, 168, 255), (96, 214, 138, 255),
+            (128, 74, 226, 255))
+
+
+def vsport_ground() -> Image.Image:
+    """The diagonal ground: deep blue, with flat colour bands sweeping up."""
+    board = Image.new("RGBA", (W, H), VS_BANDS[0])
+    pen = ImageDraw.Draw(board)
+    # Each band is a parallelogram leaning the same way. They start off
+    # the left edge and finish off the top, so no band ends inside the
+    # picture where its corner would read as a shape.
+    lean = H  # one pixel across for every pixel up: a 45° lean
+    starts = (-260, 40, 330, 620, 980)
+    widths = (300, 290, 300, 360, 420)
+    for colour, start, wide in zip(VS_BANDS[1:] + (VS_BANDS[1],),
+                                   starts, widths):
+        pen.polygon([(start, H), (start + wide, H),
+                     (start + wide + lean, -1), (start + lean, -1)],
+                    fill=colour)
+    return board
+
+
+def vsport_chip(pen, x: int, y: int, text: str, size: int = 22) -> int:
+    """The green label that names a channel. Returns its right edge."""
+    wide = width_of(text, size, weight="heavy") + 34
+    pen.rectangle([x, y, x + wide, y + size + 18], fill=VS_CHIP)
+    draw_text(pen, (x + 17, y + (size + 18) // 2), text, size, VS_CHIP_INK,
+              anchor="lm", weight="heavy")
+    return x + wide
+
+
+def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
+               *, live: bool, over: bool) -> None:
+    """One black bar: clock, the bold name, its detail, and LIVE."""
+    pen.rectangle([PAD, y, W - PAD, y + height], fill=VS_ROW)
+    middle = y + height // 2
+
+    size = 21
+    draw_text(pen, (PAD + 20, middle), clock, size,
+              MUTED if over else VS_CLOCK, anchor="lm", weight="mid")
+    x = PAD + 20 + 78
+
+    # LIVE first, because what is left after it is the room the names get.
+    stop = W - PAD - 20
+    if live:
+        word = "LIVE"
+        draw_text(pen, (stop, middle), word, 19, WHITE, anchor="rm",
+                  weight="heavy")
+        stop -= width_of(word, 19, weight="heavy") + 24
+
+    room = stop - x
+    bold_size = 23
+    bold_wide = min(width_of(bold, bold_size, weight="heavy"), room)
+    draw_text(pen, (x, middle), clipped(bold, bold_size, room, weight="heavy"),
+              bold_size, MUTED if over else WHITE, anchor="lm", weight="heavy")
+    if detail and room - bold_wide > 90:
+        draw_text(pen, (x + bold_wide + 22, middle),
+                  clipped(detail, 20, room - bold_wide - 22, thin=True), 20,
+                  MUTED if over else VS_DETAIL, anchor="lm", thin=True)
+
+
+def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
+                      live_for, *, title: str, subtitle: str, weekday: str,
+                      page: int = 1, pages: int = 1,
+                      accent=None) -> Image.Image:
+    """A board in the shape of a broadcaster's own now-and-next screen."""
+    events = without_repeats([dict(event) for event in events])
+    board = vsport_ground()
+    pen = ImageDraw.Draw(board)
+
+    ROW, GAP = 46, 3
+    y = PAD - 8
+
+    # ---- what is next, in its own block above the list -----------------
+    # THE ONE THAT HAS NOT STARTED, which is what "neste program" means
+    # on the screen this copies. Taking the first row that is merely not
+    # over put the match already ON AIR in the next-up block, so the
+    # board named the same fixture twice and answered nobody's question.
+    # Only when nothing is still to come does it fall back to what is on.
+    coming = next((e for e in events
+                   if status_of(e, now, live_for) == "upcoming"), None)
+    if coming is None:
+        coming = next((e for e in events
+                       if status_of(e, now, live_for) == "live"), None)
+    vsport_chip(pen, PAD, y, f"{title} — التالي")
+    y += 40 + 8
+    if coming:
+        vsport_row(pen, y, ROW,
+                   coming["start"].astimezone(viewer).strftime("%H:%M"),
+                   *_vsport_halves(coming),
+                   live=status_of(coming, now, live_for) == "live",
+                   over=False)
+        y += ROW
+    y += 34
+
+    # ---- and the day itself --------------------------------------------
+    vsport_chip(pen, PAD, y, f"{title} · {weekday} {day:%d.%m}")
+    y += 40 + 8
+
+    room = H - 64 - y
+    fits = max(1, room // (ROW + GAP))
+    for index, event in enumerate(events[:fits]):
+        state = status_of(event, now, live_for)
+        if index:
+            pen.line([(PAD, y - GAP + 1), (W - PAD, y - GAP + 1)],
+                     fill=VS_LINE, width=2)
+        vsport_row(pen, y, ROW,
+                   event["start"].astimezone(viewer).strftime("%H:%M"),
+                   *_vsport_halves(event),
+                   live=state == "live", over=state == "over")
+        y += ROW + GAP
+
+    if not events:
+        draw_text(pen, (W // 2, H // 2), "لا توجد مباراة معلنة اليوم",
+                  28, WHITE, anchor="mm", weight="mid")
+
+    progress(pen, page, pages, VS_CHIP, y=H - 26)
+    return board
+
+
+def _vsport_halves(event: dict) -> tuple:
+    """(bold, detail) for one row, the way the source itself is shaped."""
+    comp = norm_line(event.get("competition"))
+    fixture = norm_line(event.get("title"))
+    if comp:
+        return comp, fixture
+    return fixture, " · ".join(event.get("channels") or [])[:64]
 
 
 def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
