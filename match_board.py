@@ -1585,41 +1585,23 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     return board
 
 
-# A COMPETITION WRITTEN THE WAY IT IS SAID, when its full name is long
-# enough to crowd the row. Asked for by example: "اذا البطولة WOMENS
-# PREMIER LEAGUE تنكتب WPL او WSL".
+# THE COMPETITION IS PRINTED IN FULL, and there is no abbreviation
+# table any more.
 #
-# Exact names only, matched whole and case-folded. Nothing is shortened
-# by rule — an abbreviation invented for a competition nobody abbreviates
-# is a row a viewer cannot read, which is the opposite of the point. A
-# name not on this list is printed in full, and the row has the width for
-# it now that the two halves are stacked.
-VS_SHORT = {
-    "women's super league": "WSL",
-    "womens super league": "WSL",
-    "fa women's super league": "WSL",
-    "barclays women's super league": "WSL",
-    "women's premier league": "WPL",
-    "womens premier league": "WPL",
-    "uefa women's champions league": "UWCL",
-    "women's champions league": "UWCL",
-    "uefa champions league": "UCL",
-    "uefa europa league": "UEL",
-    "uefa europa conference league": "UECL",
-    "uefa conference league": "UECL",
-    "afc champions league elite": "AFC Champions League",
-    "concacaf champions cup": "CONCACAF Champions Cup",
-}
-
-
-def vsport_competition(name: str) -> str:
-    """The competition as the row should print it."""
-    return VS_SHORT.get((name or "").strip().casefold(), name)
+# One was added — WSL, WPL, UCL — to buy room back from a row whose two
+# halves were fighting over one column. Stacking them settled that: each
+# half now has the WHOLE middle column, and "Ceramica Cleopatra FC -
+# National Bank of Egypt SC" prints whole beside a competition printed
+# whole. "بما انه لقيت حل مافي داعي لاختصار اسماء البطولات".
+#
+# Which is the better answer anyway. An abbreviation is only readable to
+# somebody who already knows it, and a board exists for the viewer who
+# does not.
 
 
 def _vsport_halves(event: dict) -> tuple:
     """(bold, detail) for one row, the way the source itself is shaped."""
-    comp = vsport_competition(norm_line(event.get("competition")))
+    comp = norm_line(event.get("competition"))
     fixture = norm_line(event.get("title"))
     return (comp, fixture) if comp else (fixture, "")
 
