@@ -66,25 +66,31 @@ IN_ORDER = (
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
-# HOW MANY ROWS A PAGE OF THIS CHANNEL HOLDS, and it is this channel's
-# own number rather than the shared eight. A board has 448px for its
-# list, so eight rows are 56px each and every size in them falls to the
-# smallest step the drawing has — which is what "it's too small" meant,
-# off a television across a room, twice. Six rows are 74px; FIVE are
-# 89px, which is where the fixture reaches 34px and every size in the
-# row is clamped at its ceiling. Four buys nothing further — the type is
-# already at its maximum and only the air around it grows.
+# EIGHT ROWS A PAGE, AND 20 SECONDS A PAGE — the same as channels 1
+# and 2, which is what was asked for: "حكينا ٨ صفوف و حكينا مثل ١ و ٢".
 #
-# The day is not lost, the reel turns one more page: today's 26 rows go
-# from five boards to six. And the page is held for 14s rather than 20
-# (see SCREENS in match_screen_video.py), so six pages of five come
-# round in 84s where five pages of six took 100 — larger type AND a
-# shorter wait.
+# It was FIVE for a reason that belonged to the other board. On the info
+# screen eight rows are 56px each and every size falls to the drawing's
+# smallest step, which is what "it's too small" meant off a television
+# across a room, twice; five rows are 89px and the fixture reaches 34px.
 #
-# IT WAS TRIED AT EIGHT ON THE NOW-AND-NEXT TABLE and put back exactly
-# as it was: "صلح ال Turkish PPV زي ما هو بالظبط". Nothing about this
-# channel differs from before that attempt.
-ON_A_PAGE = 5
+# This channel wears the now-and-next table now, and there the
+# comparison runs the other way, because the two boards disagree about
+# WHICH HALF of a row matters. This channel's titles are "Yarış 2",
+# "Çeyrek Finaller", "Ispanya GP" — race 2, the quarter-finals, the
+# Spanish GP. None says anything alone; the competition beside it is the
+# half a viewer reads. The info board printed the title at 30px and the
+# competition UNDER it at 17px — the useful half in the small type. The
+# table bolds the competition, so at eight rows that half is 26px: half
+# again the size it was published at, not smaller.
+#
+# The 14-second page went back to 20 with it (see SCREENS in
+# match_screen_video.py). The 14 was bought to pay for the pages five
+# rows cost — 74 rows over fifteen boards. Eight rows is ten boards, and
+# ten at 14s is 1.8s a row, less reading time per row than this channel
+# has ever had. At 20s it is 2.5s a row and the day still comes round in
+# 3:20, which is what fifteen pages of five took.
+ON_A_PAGE = 8
 
 
 # SIX COMPETITIONS OFF THIS CHANNEL, asked for by name: "Remove ... UCL
@@ -161,7 +167,7 @@ def wear_this_channel(**also):
         base.__dict__,
         CHANNEL_ID=CHANNEL_ID, CHANNEL_AR=CHANNEL_AR, SUBTITLE=SUBTITLE,
         OUTPUT=OUTPUT, BOARD_PREFIX=BOARD_PREFIX, LOGO=LOGO,
-        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="info",
+        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="vsport",
         MAX_ON_BOARD=ON_A_PAGE, **also)
 
 
