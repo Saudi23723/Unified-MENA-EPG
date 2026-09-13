@@ -80,105 +80,26 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: Rebuild channel 1
-        run: python -u today_matches_epg.py
-      - name: Rebuild channel 2
-        run: python -u other_sports_epg.py
-      - name: Rebuild baseball and WNBA channel
-        run: python -u ball_sports_epg.py
-      - name: Rebuild NBA and NFL channel
-        run: python -u hoops_gridiron_epg.py
-      - name: Rebuild Turkish PPV channel
-        run: python -u turkish_ppv_epg.py
-      - name: Rebuild Formula 1 channel
-        run: python -u f1_epg.py
-      # THREE DASHBOARDS NOTHING WAS BUILDING. news_epg.py,
-      # weather_epg.py and prayer_epg.py exist, and no workflow ran
-      # either them or the encoder for their screens: today_news,
-      # dubai_news, today_weather, dubai_weather and today_prayer had
-      # no automatic path at all, so الأخبار and الطقس and مواقيت
-      # الصلاة sat on whatever render was last pushed by hand.
-      - name: Rebuild news
-        run: python -u news_epg.py
-      - name: Rebuild weather
-        run: python -u weather_epg.py
-      - name: Rebuild prayer times
-        run: python -u prayer_epg.py
-      - name: Encode news
-        run: python -u match_screen_video.py today_news
-      - name: Encode UAE news
-        run: python -u match_screen_video.py dubai_news
-      - name: Encode weather
-        run: python -u match_screen_video.py today_weather
-      - name: Encode UAE weather
-        run: python -u match_screen_video.py dubai_weather
-      - name: Encode prayer times
-        run: python -u match_screen_video.py today_prayer
-      - name: Encode channel 1
-        run: python -u match_screen_video.py today_matches
-      - name: Encode channel 2
-        run: python -u match_screen_video.py other_sports
-      - name: Encode UAE channel 1
-        run: python -u match_screen_video.py dubai_matches
-      - name: Encode UAE channel 2
-        run: python -u match_screen_video.py dubai_sports
-      - name: Encode baseball and WNBA channel
-        run: python -u match_screen_video.py ball_sports
-      - name: Encode UAE baseball and WNBA channel
-        run: python -u match_screen_video.py dubai_ball_sports
-      - name: Encode NBA and NFL channel
-        run: python -u match_screen_video.py hoops_gridiron
-      - name: Encode UAE NBA and NFL channel
-        run: python -u match_screen_video.py dubai_hoops_gridiron
-      - name: Encode Formula 1 channel
-        run: python -u match_screen_video.py f1
-      - name: Encode UAE Formula 1 channel
-        run: python -u match_screen_video.py dubai_f1
-      - name: Encode Turkish PPV channel
-        run: python -u match_screen_video.py turkish_ppv
-      - name: Encode UAE Turkish PPV channel
-        run: python -u match_screen_video.py dubai_turkish_ppv
-      - name: Verify screens
-        run: |
-          set +e
-          python -u channel_gate_selftest.py 2>&1 | tee /tmp/gate.log
-          status=${PIPESTATUS[0]}
-          set -e
-          if [ "$status" -ne 0 ]; then
-            # A GATE THAT NAMES A SCREEN HOLDS BACK THAT SCREEN. It used
-            # to stop the publish outright, so five gates about Turkish
-            # PPV froze all thirteen channels' boards, twice in one
-            # evening. quarantine_screens.py puts a named screen back to
-            # the copy already published and lets the rest go out; a
-            # failure that names no screen is about the whole build and
-            # still publishes nothing, which is what the exit code here
-            # carries.
-            #
-            # The two gates this used to grep past by name are fixed
-            # rather than excused: the ROW one was handing draw_board
-            # eighteen rows so alike that without_repeats folded them to
-            # three, and the ALWAN one demanded a fixture that rolled
-            # off Alwan's schedule the day after it was written.
-            python -u quarantine_screens.py /tmp/gate.log
-          fi
-      # THE PLAYLIST IS WRITTEN AFTER THE SCREENS ARE VERIFIED, not
-      # before. It used to run ahead of the gate, so when the gate
-      # named a screen and quarantine_screens.py put that screen's
-      # files back, the playlist had ALREADY listed it — and the row
-      # went out pointing at a stream that was no longer there. That is
-      # a dead channel in the player, which is worse than an absent
-      # one: an absent channel is a gap, a dead one is a black screen
-      # somebody tunes to and waits on.
+      # ─── ONE PASS: BUILD, ENCODE, VERIFY, PUBLISH ──────────────────
       #
-      # Written here it sees what actually survived. The builder already
-      # refuses to list a screen whose m3u8 is missing — "has not been
-      # encoded — left out of the playlist this pass" — so a
-      # quarantined screen simply does not appear until it is fixed.
-      - name: Write playlists
-        run: python -u sports_dashboard_m3u.py || { test -s ai_sports_dashboard.m3u && test -s ai_sports_dashboard_dubai.m3u; }
-
-      - name: Publish refreshed indicators
-        run: python -u publish_screens.py
+      # THIS STEP NAMES NO CHANNEL, and that is the point of it.
+      #
+      # It used to be twenty-six steps, one per channel, and the ticker
+      # below repeated every one of those names in two lists of its own.
+      # A workflow's steps are frozen when a run starts; the code under
+      # them is not, because publish_screens does git reset --hard
+      # origin/main every pass. So the lists described a repository that
+      # could change under them, and on 2026-09-13 one did: run #916 was
+      # still calling a channel deleted half an hour earlier, died at its
+      # second command under set -e, and published nothing for an hour.
+      #
+      # The list lives in channels.py now and is read live, so a channel
+      # added or removed on main is picked up by a run already in
+      # flight. one_pass.py holds the sequence — build, encode, verify,
+      # quarantine, playlists, publish — so the first pass and the ticker
+      # cannot drift: they are the same file.
+      - name: Build, verify and publish every channel
+        run: python -u one_pass.py
 
       # ─── AND AGAIN, EVERY FIVE MINUTES, FOR THE WHOLE WINDOW ─────────
       #
@@ -225,63 +146,7 @@ jobs:
             sleep 300
             pass=$(( pass + 1 ))
             echo "───── pass $pass ─────"
-            (
-              set -e
-              # A BUILD THIS PASS NO LONGER HAS IS SKIPPED, NOT FATAL.
-              #
-              # This list is frozen when the run starts, but the files
-              # under it are not: publish_screens does git reset --hard
-              # origin/main every pass, so a channel deleted on main
-              # mid-run vanishes from under a name still written here.
-              # Under set -e that missing file killed the WHOLE pass at
-              # the second command, and the run went on looping for an
-              # hour publishing nothing at all — measured on run #916,
-              # which was still naming the trial channel after the merge
-              # that deleted it. A name this pass cannot find is a
-              # channel that no longer exists; the others must still go
-              # out.
-              for build in today_matches_epg \
-                           other_sports_epg \
-                           ball_sports_epg hoops_gridiron_epg \
-                           turkish_ppv_epg f1_epg \
-                           news_epg weather_epg prayer_epg; do
-                if [ -f "$build.py" ]; then
-                  python -u "$build.py"
-                else
-                  echo "::warning::$build.py is gone from main — skipped"
-                fi
-              done
-              # AND A SCREEN THIS PASS NO LONGER HAS, for the same
-              # reason: match_screen_video exits 1 on a name it does not
-              # know, which under set -e is the whole pass again. The
-              # registry is asked once rather than per screen, and only
-              # an UNKNOWN name is skipped — a real encode failure still
-              # stops the pass, which is what it is there for.
-              known=$(python -c "import match_screen_video as v; print(' '.join(v.SCREENS))")
-              for screen in today_matches other_sports \
-                            dubai_matches dubai_sports ball_sports \
-                            dubai_ball_sports hoops_gridiron \
-                            dubai_hoops_gridiron f1 dubai_f1 \
-                            turkish_ppv dubai_turkish_ppv \
-                            today_news dubai_news today_weather \
-                            dubai_weather today_prayer; do
-                case " $known " in
-                  *" $screen "*) python -u match_screen_video.py "$screen" ;;
-                  *) echo "::warning::screen $screen is no longer registered — skipped" ;;
-                esac
-              done
-              set +e
-              python -u channel_gate_selftest.py 2>&1 | tee /tmp/gate.log
-              status=${PIPESTATUS[0]}
-              set -e
-              if [ "$status" -ne 0 ]; then
-                python -u quarantine_screens.py /tmp/gate.log
-              fi
-              # After the gate, for the reason above the first-pass step.
-              python -u sports_dashboard_m3u.py \
-                || { test -s ai_sports_dashboard.m3u \
-                     && test -s ai_sports_dashboard_dubai.m3u; }
-              python -u publish_screens.py
-            ) || echo "::warning::pass $pass did not finish — whatever it published stands, and the next one follows"
+            python -u one_pass.py \
+            || echo "::warning::pass $pass did not finish — whatever it published stands, and the next one follows"
           done
           echo "───── $pass pass(es) published; the window is up ─────"
