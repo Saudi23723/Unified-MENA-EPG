@@ -59,6 +59,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import xml.etree.ElementTree as ET
 
+import board_marks
 import dubai_time
 import jordan_football
 import live_football_on_tv
@@ -2200,29 +2201,33 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     """
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
+    # WHICH DRAWING THIS CHANNEL WEARS — BOARD_STYLE at the head of this
+    # file, and it is "vsport" now. It was not swapped unseen: the new
+    # drawing ran for a day as a channel of its own beside this one, on
+    # its own link, carrying these same matches, and was judged against
+    # the card board on the television before this channel moved to it.
+    #
+    # AND THE DRAWING CALL ITSELF LIVES IN board_marks, not here. That is
+    # what lets LIVE, التالي and انتهى move on the clock instead of on a
+    # build: the record below is enough to draw this board again at any
+    # later instant, and a flip pass does exactly that without fetching a
+    # source or rebuilding a guide. Because it is the SAME call, a flip
+    # cannot produce a board this build would not have.
+    record = {
+        "name": name, "style": BOARD_STYLE, "day": day.isoformat(),
+        "viewer": str(VIEWER), "title": CHANNEL_AR,
+        "subtitle": f"بث اليوم المباشر · {VIEWER_NAME}",
+        "weekday": ARABIC_DAY[day.weekday()], "page": page, "pages": pages,
+        "colours": BOARD_COLOURS, "accent": None,
+        "board_dir": BOARD_DIR, "board_url": BOARD_URL,
+    }
     try:
-        # WHICH DRAWING THIS CHANNEL WEARS — BOARD_STYLE at the head of
-        # this file, and it is "vsport" now. It was not swapped unseen:
-        # the new drawing ran for a day as a channel of its own beside
-        # this one, on its own link, carrying these same matches, and
-        # was judged against the card board on the television before
-        # this channel moved to it.
-        from match_board import draw_board, draw_board_vsport
-
-        draw = draw_board_vsport if BOARD_STYLE == "vsport" else draw_board
-        board = draw(
-            day, events, now, VIEWER, on_air_for,
-            title=CHANNEL_AR, subtitle=f"بث اليوم المباشر · {VIEWER_NAME}",
-            weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages)
-        drawn = io.BytesIO()
-        board.convert("RGB").convert(
-            "P", palette=Image.ADAPTIVE, colors=BOARD_COLOURS).save(
-                drawn, format="PNG", optimize=True)
-        fresh = drawn.getvalue()
+        fresh = board_marks.picture(dict(record, rows=events), now)
     except Exception as exc:
         warn(f"the board for {day} could not be drawn ({exc}) — the day "
              f"still publishes as text")
         return BOARD_URL + "/" + name if os.path.exists(path) else None
+    board_marks.remember(record, events, now)
 
     os.makedirs(BOARD_DIR, exist_ok=True)
     if not os.path.exists(path) or open(path, "rb").read() != fresh:

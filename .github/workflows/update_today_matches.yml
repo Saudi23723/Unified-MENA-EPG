@@ -154,12 +154,25 @@ jobs:
           # its own length.
           last=$(date +%s)
           while [ "$(date +%s)" -lt "$deadline" ]; do
-            rest=$(( 300 - ( $(date +%s) - last ) ))
-            # Written as an if rather than "[ ... ] && sleep". A step runs
-            # under bash -e, and a trailing test that fails is exactly the
-            # shape that killed this ticker once before; this shape cannot
-            # end the step whatever rest comes out to.
-            if [ "$rest" -gt 0 ]; then sleep "$rest"; fi
+            # THE MINUTES BETWEEN PASSES ARE NOT IDLE ANY MORE.
+            #
+            # A full pass is the wrong unit of work for a mark: it takes
+            # 4m51s and when a row crosses its kickoff or its final
+            # whistle almost none of that is the work. flip_marks does
+            # only that — it recomputes every drawn board's marks, and
+            # when none has moved, which is almost every minute, it
+            # exits having read a few small files. When one has, it
+            # redraws that board, re-encodes only its screen and
+            # publishes.
+            #
+            # So the marks move within about a minute of the whistle
+            # instead of waiting out the rest of the five.
+            while [ $(( $(date +%s) - last )) -lt 300 ] \
+               && [ "$(date +%s)" -lt "$deadline" ]; do
+              sleep 60
+              python -u flip_marks.py \
+              || echo "::warning::a flip did not finish — the next pass redraws it"
+            done
             last=$(date +%s)
             pass=$(( pass + 1 ))
             echo "───── pass $pass ─────"
