@@ -1373,11 +1373,32 @@ def vsport_ground() -> Image.Image:
     return board
 
 
-def vsport_chip(pen, x: int, y: int, text: str, size: int = 22) -> int:
-    """The green label that names a channel. Returns its right edge."""
-    wide = width_of(text, size, weight="heavy") + 34
+def vsport_chip(board, pen, x: int, y: int, text: str, size: int = 22) -> int:
+    """The green label that names a channel. Returns its right edge.
+
+    THE TWO EMPTY BOXES WHERE THE FLAG SHOULD BE. This chip printed the
+    channel's name exactly as it is written, and the Turkish channel is
+    written with a flag in it — so the board read "▯▯ Turkish PPV" on
+    the television, twice on every page.
+
+    A flag emoji is not a glyph but two regional-indicator letters a
+    font is expected to join, and no face this build can reach carries
+    either of them. The repository already answered this for the other
+    boards: a_masthead lifts the flag out of the title and flag_art
+    DRAWS it. This chip simply never asked. It asks now, and a country
+    with no drawing has its emoji dropped rather than printed as boxes.
+    """
+    name, flag = a_masthead(text, size)
+    art = flag if flag is not None else None
+    beside = (art.width + 10) if art is not None else 0
+    wide = width_of(name, size, weight="heavy") + 34 + beside
     pen.rectangle([x, y, x + wide, y + size + 18], fill=VS_CHIP)
-    draw_text(pen, (x + 17, y + (size + 18) // 2), text, size, VS_CHIP_INK,
+    middle = y + (size + 18) // 2
+    cx = x + 17
+    if art is not None:
+        board.alpha_composite(art, (cx, middle - art.height // 2))
+        cx += beside
+    draw_text(pen, (cx, middle), name, size, VS_CHIP_INK,
               anchor="lm", weight="heavy")
     return x + wide
 
@@ -1533,7 +1554,7 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     pen = ImageDraw.Draw(board)
 
     y = PAD - 8
-    vsport_chip(pen, PAD, y, f"{title} · {weekday} {day:%d.%m}")
+    vsport_chip(board, pen, PAD, y, f"{title} · {weekday} {day:%d.%m}")
     y += 40 + 8
 
     # The next row is the first that has not started; it wears التالي and
