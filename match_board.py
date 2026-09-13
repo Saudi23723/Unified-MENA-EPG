@@ -1400,51 +1400,63 @@ def vsport_chip(pen, x: int, y: int, text: str, size: int = 22) -> int:
 # Feature race 2". A row naming no competition bolds its fixture instead,
 # so the bold column is never empty.
 #
-# ONE BROADCASTER, NOT THREE. Printing "beIN 4 · Sky Premier League ·
-# Paramount+ +5" costs a third of the row and answers a question nobody
-# asked — a viewer needs the channel they can tune to, which is the first
-# in the reader's own order. The rest are counted, not named.
+# EVERY BROADCASTER, AND NO COLUMN EVER TOUCHING ITS NEIGHBOUR — "لا
+# جميع القنوات مو وحدة بدي / بس من غير overlapping". Naming only the
+# first and counting the rest read shorter, but a viewer looking for the
+# one channel they actually get was being told there were two more and
+# not which.
+#
+# So the columns are FIXED WIDTHS rather than measured off their own
+# text. Every row's clock starts at the same pixel, every row's channels
+# end at the same pixel, every mark sits in the same box — the board
+# reads as a table instead of eight lines that happen to be near each
+# other. And overlapping stops being something to avoid: the middle is
+# handed what is left AFTER the right-hand columns are reserved, so a
+# long name is cut with an ellipsis and there is nowhere for it to run
+# into.
 VS_WHERE = (150, 172, 202, 255)    # the broadcaster's column, quieter ink
+VS_MARK_W = 84                     # LIVE / التالي / انتهى
+VS_WHERE_W = 300                   # every channel the row was printed with
+VS_CLOCK_W = 78
+VS_GAP = 20
 
 
 def vsport_where(channels) -> str:
-    """The one channel to tune to, and a count of the others."""
-    names = [n for n in (channels or []) if n]
-    if not names:
-        return ""
-    # A name that already carries its own "+3" keeps it and is not counted
-    # twice — the guides fold their overflow in before the board sees it.
-    return names[0] if len(names) == 1 else f"{names[0]} +{len(names) - 1}"
+    """Every channel the row names, in the reader's own order."""
+    return " · ".join(n for n in (channels or []) if n)
 
 
 def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
-               where: str, *, live: bool, over: bool) -> None:
-    """One black bar: when, what, where, and LIVE."""
+               where: str, *, live: bool, over: bool, nxt: bool) -> None:
+    """One black bar: when, what, where, and how it stands."""
     pen.rectangle([PAD, y, W - PAD, y + height], fill=VS_ROW)
     middle = y + height // 2
+    left, right = PAD + VS_GAP, W - PAD - VS_GAP
 
-    draw_text(pen, (PAD + 20, middle), clock, 21,
+    draw_text(pen, (left, middle), clock, 21,
               MUTED if over else VS_CLOCK, anchor="lm", weight="mid")
-    x = PAD + 20 + 78
 
-    # The right-hand columns are measured first, because what they leave
-    # is the room the names get rather than the other way round.
-    stop = W - PAD - 20
+    # THE MARK BOX, the same width on every row whether it holds a word or
+    # nothing, so the channels beside it line up down the whole board.
+    word, ink, size = "", WHITE, 19
     if live:
-        draw_text(pen, (stop, middle), "LIVE", 19, WHITE, anchor="rm",
-                  weight="heavy")
-        stop -= width_of("LIVE", 19, weight="heavy") + 22
+        word = "LIVE"
+    elif nxt:
+        word, ink, size = "التالي", VS_CHIP, 18
     elif over:
-        draw_text(pen, (stop, middle), "انتهى", 18, MUTED, anchor="rm",
-                  weight="mid")
-        stop -= width_of("انتهى", 18, weight="mid") + 22
-    if where:
-        where = clipped(where, 19, 210, weight="mid")
-        draw_text(pen, (stop, middle), where, 19,
-                  MUTED if over else VS_WHERE, anchor="rm", weight="mid")
-        stop -= width_of(where, 19, weight="mid") + 26
+        word, ink, size = "انتهى", MUTED, 18
+    if word:
+        draw_text(pen, (right, middle), word, size, ink, anchor="rm",
+                  weight="heavy" if live else "mid")
 
-    room = stop - x
+    if where:
+        edge = right - VS_MARK_W
+        draw_text(pen, (edge, middle),
+                  clipped(where, 18, VS_WHERE_W, weight="mid"), 18,
+                  MUTED if over else VS_WHERE, anchor="rm", weight="mid")
+
+    x = left + VS_CLOCK_W
+    room = right - VS_MARK_W - VS_WHERE_W - VS_GAP - x
     bold_size = 23
     bold_wide = min(width_of(bold, bold_size, weight="heavy"), room)
     draw_text(pen, (x, middle), clipped(bold, bold_size, room, weight="heavy"),
@@ -1486,7 +1498,7 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
                    *_vsport_halves(coming),
                    vsport_where(coming.get("channels")),
                    live=status_of(coming, now, live_for) == "live",
-                   over=False)
+                   over=False, nxt=False)
         y += ROW
     y += 34
 
@@ -1505,7 +1517,8 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
                    event["start"].astimezone(viewer).strftime("%H:%M"),
                    *_vsport_halves(event),
                    vsport_where(event.get("channels")),
-                   live=state == "live", over=state == "over")
+                   live=state == "live", over=state == "over",
+                   nxt=event is coming)
         y += ROW + GAP
 
     if not events:

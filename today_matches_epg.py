@@ -2090,9 +2090,18 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
     try:
-        from match_board import draw_board
+        # THE BROADCASTER'S NOW-AND-NEXT, on this channel's own URL —
+        # "على نفس ال url حطها". It was drawn as a trial beside the old
+        # card board and judged from the television; nothing else moves
+        # with it. Same guide, same boards folder, same reel, same link:
+        # only the drawing changed, so a viewer's channel does not
+        # disappear and come back somewhere else.
+        #
+        # The old draw_board is still there and still what channel two
+        # and its family use. Putting this back is one word.
+        from match_board import draw_board_vsport
 
-        board = draw_board(
+        board = draw_board_vsport(
             day, events, now, VIEWER, on_air_for,
             title=CHANNEL_AR, subtitle=f"بث اليوم المباشر · {VIEWER_NAME}",
             weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages)
