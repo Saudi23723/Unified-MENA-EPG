@@ -53,8 +53,24 @@ def structure(text: str) -> None:
     ):
         found = re.findall(pattern, text, re.I)
         print(f"      {label}{len(found)}")
+    # WHICH SPORT TV CHANNEL A ROW NAMES — asked for by name: "+ و ١ و ٢
+    # و ٣ و ٤ و ٥ و البلس". A row that does not say which of the six it
+    # is on is a row a viewer cannot tune to, so this counts them before
+    # anything is written.
+    named = {}
+    for label in ("SPORT TV1", "SPORT TV2", "SPORT TV3", "SPORT TV4",
+                  "SPORT TV5", "SPORT TV+", "SPORT TV \\+", "SPORTTV1",
+                  "SPORT TV ?1", "Sport TV +"):
+        hits = re.findall(re.escape(label).replace(r"\ ", r"\s*"), text, re.I)
+        if hits:
+            named[label] = len(hits)
+    loose = re.findall(r"sport\s*tv\s*([1-5]|\+)", text, re.I)
+    print(f"      sport tv N mentions {len(loose)}  "
+          f"{dict((k, loose.count(k)) for k in sorted(set(loose)))}")
+    if named:
+        print(f"      exact labels      {named}")
+
     # the first few clocks, in context, so the row shape is visible
-    rows = re.findall(r".{90}\b([01]?\d|2[0-3]):[0-5]\d\b.{90}", text)
     hits = re.finditer(r"\b(?:[01]?\d|2[0-3]):[0-5]\d\b", text)
     shown = 0
     for m in hits:
