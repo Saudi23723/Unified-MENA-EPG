@@ -47,6 +47,7 @@ from zoneinfo import ZoneInfo
 from PIL import Image
 
 import american_sport_on_tv
+import board_marks
 import dubai_time
 import espn_fights
 import own_guides
@@ -528,28 +529,33 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     """Draw one board, keep it only if the bytes differ, return its URL."""
     name = f"{BOARD_PREFIX}{index}.png"
     path = os.path.join(BOARD_DIR, name)
+    # THE DRAWING CALL LIVES IN board_marks — see the note on the same
+    # line in today_matches_epg. The record below is everything needed to
+    # draw this board again at a later instant, which is what lets LIVE,
+    # التالي and انتهى move on the clock rather than on a build. Every
+    # channel that wears this generator — channel 2, NBA/NFL, WNBA/MLB,
+    # Turkish PPV, Sport TV and both their UAE clocks — gets it from
+    # here, so "all the dashboard channels" is not a list anyone has to
+    # keep up to date.
+    #
+    # row_title is applied BEFORE the record is kept, so the rows in it
+    # are the rows the board actually prints.
+    drawn_rows = [dict(event, title=row_title(event)) for event in events]
+    record = {
+        "name": name, "style": BOARD_STYLE, "day": day.isoformat(),
+        "viewer": str(VIEWER), "title": CHANNEL_AR,
+        "subtitle": f"{SUBTITLE} · {VIEWER_NAME}",
+        "weekday": ARABIC_DAY[day.weekday()], "page": page, "pages": pages,
+        "colours": BOARD_COLOURS, "accent": [167, 139, 250, 255],
+        "board_dir": BOARD_DIR, "board_url": BOARD_URL,
+    }
     try:
-        from match_board import (draw_board, draw_board_info,
-                                 draw_board_vsport)
-
-        draw = {"info": draw_board_info,
-                "vsport": draw_board_vsport}.get(BOARD_STYLE, draw_board)
-
-        drawn_rows = [dict(event, title=row_title(event)) for event in events]
-        board = draw(
-            day, drawn_rows, now, VIEWER, on_air_for,
-            title=CHANNEL_AR, subtitle=f"{SUBTITLE} · {VIEWER_NAME}",
-            weekday=ARABIC_DAY[day.weekday()], page=page, pages=pages,
-            accent=(167, 139, 250, 255))
-        buffer = io.BytesIO()
-        board.convert("RGB").convert(
-            "P", palette=Image.ADAPTIVE, colors=BOARD_COLOURS).save(
-                buffer, format="PNG", optimize=True)
-        fresh = buffer.getvalue()
+        fresh = board_marks.picture(dict(record, rows=drawn_rows), now)
     except Exception as exc:                                  # noqa: BLE001
         warn(f"the board for {day} could not be drawn ({exc}) — the day "
              f"still publishes as text")
         return f"{BOARD_URL}/{name}" if os.path.exists(path) else None
+    board_marks.remember(record, drawn_rows, now)
 
     os.makedirs(BOARD_DIR, exist_ok=True)
     if not os.path.exists(path) or open(path, "rb").read() != fresh:

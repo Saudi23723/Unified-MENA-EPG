@@ -25,3 +25,8 @@ epg_dump.json
 # Your own broadcaster -> stream URL mapping. It carries the username and
 # password in your playlist URLs and must never be committed.
 stream_map.json
+
+# Board records — a note about work already published, not published work.
+# See board_marks.py: one small file per board, rewritten every pass, read
+# only by the flip pass on the same machine.
+.marks/
