@@ -88,6 +88,11 @@ ON_A_PAGE = 5
 # CEV erkekler / Azebaycan League / Gloria Cup Basketball / Fransa
 # handball ligi / Remove all from the channel".
 #
+# THE NAMES ARE READ AGAINST THE BOARD, not letter by letter. "Amanya"
+# is Almanya and "Azebaycan" is Azerbaycan, which cost nothing; "ucl" is
+# USL, which cost ten rows, because a rule for UCL matches nothing here
+# and the channel went on carrying every one of them.
+#
 # MATCHED ON THE GRID'S LEAGUE LINE AND NOTHING ELSE, which is what
 # "competition" carries here: the page prints a competition and then its
 # sport in Turkish — "CEV Erkekler Avrupa Şampiyonasi Voleybol", "Daikin
@@ -117,7 +122,13 @@ ON_A_PAGE = 5
 #     the league — StarLigue, ProLigue, the Championnat de France — and
 #     the Fransa/Hentbol pair, and nothing that says Şampiyonasi.
 OFF_THIS_CHANNEL = (
-    ("UCL", re.compile(r"\bUCL\b", re.I)),
+    # "And ucl championship" — and it is USL, the American second
+    # division, with the letters turned round. Read literally it bought a
+    # rule for a competition that is not on this channel at all: nothing
+    # here says UCL, while USL Championship was TEN of the board's 76
+    # rows, every one of them on "USL Championship Youtube", stacked at
+    # 16:00 and 19:00. Ten rows is why it was named first.
+    ("USL Championship", re.compile(r"\busl\b", re.I)),
     ("Bundesliga 2 and 3", re.compile(
         r"bundesliga\s*[23]\b|\b[23]\s*\.?\s*bundesliga", re.I)),
     ("CEV Erkekler", re.compile(r"\bcev\b.*erkekler|erkekler.*\bcev\b",
