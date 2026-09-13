@@ -1218,7 +1218,27 @@ def on_air_span(event, live_for=None) -> timedelta:
     or say nothing and take the sport's own figure. Every screen resolves
     it here so that a board, a page and a row title cannot disagree about
     when the same event stops being on the air.
+
+    A BROADCASTER'S OWN LENGTH BEATS THE TABLE, and that is what
+    "on_air_for" on the event means: not a source's end time, which is
+    routinely a day-long placeholder and is why on_air_for() above
+    ignores one on a matchup, but a duration the broadcaster PUBLISHED
+    for this exact broadcast. Sport TV carries one on every row.
+
+    The table is a guess by sport — 115 minutes for football, four hours
+    for tennis — so مباشر stands for the guessed length whatever the
+    fixture actually does. Asked for outright: "و زبط علامة Live لجميع
+    القنوات بالحقيقة تكون نازلة على ال event او المباراة". A published
+    length is the nearest thing to the truth a static guide can hold.
+
+    Still bounded by the floor and the ceiling, because a published
+    length can be wrong too — a thirty-second trailer is not a broadcast
+    and an all-day slot is not one either.
     """
+    stated = event.get("on_air_for") if isinstance(event, dict) else None
+    if (isinstance(stated, timedelta)
+            and ON_AIR_FLOOR <= stated <= ON_AIR_CEILING):
+        return stated
     if callable(live_for):
         return live_for(event)
     return live_for if live_for is not None else on_air_for(event)

@@ -162,8 +162,17 @@ def one_channel(session, cid: str, slug: str, shown: str,
         if not sport:
             continue
 
+        # THE LENGTH THE BROADCASTER PUBLISHED, so مباشر comes off this
+        # row when the broadcast ends rather than when a table guesses
+        # it should. epg_lib.on_air_span prefers this over the sport's
+        # figure and still bounds it by the floor and the ceiling.
+        span = at(row.get("duracao"))
+        stated = (timedelta(milliseconds=span)
+                  if isinstance(span, int) and span > 0 else None)
+
         out.append({
             "start": start,
+            "on_air_for": stated,
             "title": fixture.title() if fixture.isupper() else fixture,
             "competition": (competition.title()
                             if competition.isupper() else competition),
