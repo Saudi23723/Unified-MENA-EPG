@@ -54,7 +54,7 @@ DUBAI_BOARD_PREFIX = "dubai_sporttv_"
 # Keep a real multi-day EPG while excluding programmes that already ended.
 # The source feed supplies current and scheduled broadcasts; a live-only
 # snapshot was the reason this channel appeared to contain one day only.
-PORTUGAL_DAYS = 7
+PORTUGAL_DAYS = 3
 
 # The sports this channel may carry, in the order it shows them. A sport
 # absent here can never reach the board — the same rule every channel
