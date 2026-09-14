@@ -57,16 +57,22 @@ def audit(name: str) -> None:
         fail(f"{name}: malformed start directive is present")
 
     boards = video.whole_days(prefix, video.boards(prefix))
-    expected = [os.path.basename(video.segment_of(board)) for board in boards]
+    # A page may have more than one content-addressed TS now: the encoder
+    # precomputes the board's NEXT/LIVE/FINISHED states and the playlist
+    # selects one by the absolute occurrence time.  The board number is the
+    # ordering invariant; the hash suffix is intentionally state-specific.
+    expected = [os.path.splitext(os.path.basename(board))[0]
+                for board in boards]
     if not expected:
         fail(f"{name}: no pages were generated")
     refs = re.findall(r"(?m)^([^#\s]+\.ts)$", text)
     reel = len(expected)
-    if refs[:reel] != expected:
+    first_stems = [ref.split(".", 1)[0] for ref in refs[:reel]]
+    if first_stems != expected:
         fail(f"{name}: first reel is not page 0..{reel - 1} in order")
     if len(refs) <= reel:
         fail(f"{name}: playlist contains only one reel and will buffer at its end")
-    if refs[-video.JOIN_BACK] != expected[0]:
+    if refs[-video.JOIN_BACK].split(".", 1)[0] != expected[0]:
         fail(f"{name}: normal live join point is not page zero")
 
     found = re.search(r"(?m)^#EXT-X-MEDIA-SEQUENCE:(\d+)$", text)
@@ -82,7 +88,7 @@ def audit(name: str) -> None:
         fail(f"{name}: playlist names missing segments: {missing[:4]}")
 
     timing = [probe(os.path.join(video.OUT_DIR, segment))
-              for segment in expected]
+              for segment in refs[:reel]]
     for page, (start, duration, bframes) in enumerate(timing):
         if bframes:
             fail(f"{name}: page {page} still contains B-frames")

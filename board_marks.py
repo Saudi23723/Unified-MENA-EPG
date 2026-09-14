@@ -54,7 +54,7 @@ from zoneinfo import ZoneInfo
 
 from PIL import Image
 
-from epg_lib import on_air_for, status_of
+from epg_lib import on_air_for, on_air_span, status_of
 
 # Untracked, beside the boards. A record is a note about work already
 # published, not something a viewer or another machine ever reads, and
@@ -105,6 +105,29 @@ def marks_of(rows: list[dict], now: datetime) -> list[str]:
     differ and never merely because time passed.
     """
     return [status_of(row, now, on_air_for) for row in rows]
+
+
+def transition_times(rows: list[dict]) -> list[datetime]:
+    """The instants at which a board's status can change.
+
+    A board is a still image, but its marks are a function of the clock.
+    Keeping the transition calculation here (beside ``marks_of``) makes the
+    HLS encoder use exactly the same duration rule as the drawing and the
+    one-minute mark flipper.  Source end times are deliberately not read:
+    ``status_of`` uses the shared ``on_air_span`` policy, including a
+    broadcaster's stated duration where one exists.
+    """
+    found: set[datetime] = set()
+    for row in rows:
+        start = row.get("start") if isinstance(row, dict) else None
+        if not isinstance(start, datetime):
+            continue
+        found.add(start)
+        try:
+            found.add(start + on_air_span(row, on_air_for))
+        except (TypeError, ValueError):
+            continue
+    return sorted(found)
 
 
 def remember(record: dict, rows: list[dict], now: datetime) -> None:
