@@ -154,11 +154,15 @@ def picture(kept: dict, now: datetime) -> bytes:
 
     draw = {"info": draw_board_info,
             "vsport": draw_board_vsport}.get(kept["style"], draw_board)
+    extra = {}
+    if kept["style"] == "vsport":
+        extra["show_page_count"] = kept.get("show_page_count", False)
     board = draw(
         date.fromisoformat(kept["day"]), kept["rows"], now,
         ZoneInfo(kept["viewer"]), on_air_for,
         title=kept["title"], subtitle=kept["subtitle"],
         weekday=kept["weekday"], page=kept["page"], pages=kept["pages"],
+        **extra,
         **({"accent": tuple(kept["accent"])} if kept.get("accent") else {}))
     drawn = io.BytesIO()
     board.convert("RGB").convert(

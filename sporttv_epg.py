@@ -77,7 +77,8 @@ def wear_this_channel(**also):
         base.__dict__,
         CHANNEL_ID=CHANNEL_ID, CHANNEL_AR=CHANNEL_AR, SUBTITLE=SUBTITLE,
         OUTPUT=OUTPUT, BOARD_PREFIX=BOARD_PREFIX, LOGO=LOGO,
-        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="vsport", **also)
+        IN_ORDER=IN_ORDER, RANK=RANK, BOARD_STYLE="vsport",
+        SHOW_PAGE_COUNT=True, **also)
 
 
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
@@ -134,7 +135,7 @@ def build() -> int:
                 base.__dict__,
                 VIEWER=dubai_time.DUBAI, VIEWER_NAME=dubai_time.DUBAI_NAME,
                 OUTPUT=DUBAI_OUTPUT, CHANNEL_ID=DUBAI_CHANNEL_ID,
-                BOARD_PREFIX=DUBAI_BOARD_PREFIX):
+                BOARD_PREFIX=DUBAI_BOARD_PREFIX, SHOW_PAGE_COUNT=True):
             try:
                 base.publish_all(events, now,
                                  days=[
