@@ -1901,10 +1901,11 @@ def publish_all(events: list[dict], now: datetime,
     # than no board, and every empty board is another twenty seconds a
     # viewer waits to see the next real thing.
     #
-    # Today is the exception and is always drawn. A viewer tuning in
-    # wants to be told there is nothing on today; being shown next
-    # Saturday with no word about this evening reads as a fault.
-    with_something = [day for day in days if by_day[day] or day == days[0]]
+    # Draw days that actually contain events. If the whole rolling window is
+    # empty, retain today's empty board so the channel can say that clearly.
+    # Do not keep an empty Monday board when Tuesday or Wednesday has the next
+    # real game; that made the channel appear stuck on the old day.
+    with_something = [day for day in days if by_day[day]] or [days[0]]
     if len(with_something) < len(days):
         log(f"  {len(days) - len(with_something)} day(s) with nothing on "
             f"them, not drawn")
