@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""DAZN Portugal's official EPG, retaining only live or scheduled-live events.
+"""DAZN Portugal's linear EPG, retaining only genuinely live sports events.
 
-The public DAZN EPG exposes linear channel tiles (DAZN 1-5 and others) and
-separate event tiles. The event tiles do not carry a DAZN linear-channel
-assignment, so this reader labels them honestly as ``DAZN Portugal`` rather
-than duplicating one event onto every linear channel.
+DAZN's former ``epgWithDatesRange`` endpoint now returns HTTP 403.  The live
+TV schedule moved to the public v10 Rail endpoint.  Each DAZN 1-5 tile carries
+its own Now/Next/Later schedule and, crucially, every programme states both
+``IsLive`` and ``ProgramType``.  Requiring ``IsLive is True`` and
+``ProgramType == "Sports event"`` rejects recorded matches and live studio
+shows without guessing from their titles.
 """
 from __future__ import annotations
 
@@ -14,14 +16,21 @@ from datetime import datetime, timedelta, timezone
 
 from epg_lib import fetch, log, norm, warn
 
-BASE = "https://epg.discovery.indazn.com/pt/v3/epgWithDatesRange"
+BASE = "https://rail-router.discovery.indazn.com/eu/v10/Rail"
 COUNTRY = "pt"
 LANGUAGE = "pt"
-CHANNEL = "DAZN Portugal"
-# Confirmed by the official Portugal EPG's linear-channel tiles. More may be
-# added by DAZN; the event feed must provide an explicit mapping before we
-# attach an event to one of them.
 LINEAR_CHANNELS = tuple(f"DAZN {n}" for n in range(1, 6))
+RAIL_PARAMS = {
+    "platform": "web",
+    "id": "Livetvschedule",
+    "country": COUNTRY,
+    "brand": "dazn",
+    "languageCode": LANGUAGE,
+}
+RAIL_HEADERS = {
+    "Accept": "application/json, text/plain, */*",
+    "Referer": "https://www.dazn.com/",
+}
 
 # The official feed also labels studio/editorial programming as live or
 # upcoming. The requested Portuguese channel is for games and sporting
@@ -44,6 +53,7 @@ SPORTS = {
     "basebol": "Baseball", "baseball": "Baseball",
     "ténis": "Tennis", "tenis": "Tennis", "tennis": "Tennis",
     "motorsport": "Motorsport", "automobilismo": "Motorsport",
+    "auto racing": "Motorsport",
     "boxe": "Boxing", "boxing": "Boxing", "mma": "MMA",
     "golfe": "Golf", "golf": "Golf", "padel": "Padel",
     "rugby": "Rugby", "ciclismo": "Cycling", "cycling": "Cycling",
@@ -64,102 +74,86 @@ def _parse(value: str | None) -> datetime | None:
     return parsed.astimezone(timezone.utc) if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
 
 
-def _sport(tile: dict) -> str:
-    sport = tile.get("Sport")
-    label = sport.get("Title") if isinstance(sport, dict) else sport
-    label = norm(str(label or ""))
-    return SPORTS.get(label.casefold(), label.title() if label else "Sports")
+def _sport(programme: dict) -> str:
+    """Map the first recognised Rail genre to this board's sport labels."""
+    genres = programme.get("Genre")
+    if not isinstance(genres, list):
+        genres = [genres]
+    first = ""
+    for genre in genres:
+        label = genre.get("name") if isinstance(genre, dict) else genre
+        label = norm(str(label or ""))
+        if not label:
+            continue
+        first = first or label
+        mapped = SPORTS.get(label.casefold())
+        if mapped:
+            return mapped
+    return first.title() if first else "Sports"
 
 
-def _competition(tile: dict) -> str:
-    comp = tile.get("Competition")
-    value = comp.get("Title") if isinstance(comp, dict) else comp
-    return norm(str(value or "DAZN Portugal"))
-
-
-def _channels(tile: dict) -> list[str]:
-    """Return real DAZN linear channels when the feed maps one.
-
-    Event tiles often have no linear assignment. In that case keep the
-    honest DAZN Portugal label instead of copying one event onto DAZN 1
-    through 5. If the official feed supplies a channel field, preserve it.
-    """
-    found: list[str] = []
-    for key in ("ChannelName", "ChannelTitle", "Channel",
-                "LinearChannel", "Channels"):
-        value = tile.get(key)
-        values = value if isinstance(value, list) else [value]
-        for item in values:
-            if isinstance(item, dict):
-                item = (item.get("Title") or item.get("Name")
-                        or item.get("title") or item.get("name"))
-            label = norm(str(item or ""))
-            match = re.search(r"\bDAZN\s*(?:Portugal\s*)?([1-5])\b",
-                              label, re.I)
-            if match:
-                found.append(f"DAZN {match.group(1)}")
-    return list(dict.fromkeys(found)) or [CHANNEL]
+def _programmes(tile: dict) -> list[dict]:
+    """The ordered Now/Next/Later programmes from one linear-channel tile."""
+    schedule = tile.get("LinearSchedule")
+    if not isinstance(schedule, dict):
+        return []
+    rows = [schedule.get("Now"), schedule.get("Next")]
+    later = schedule.get("Later")
+    if isinstance(later, list):
+        rows.extend(later)
+    return [row for row in rows if isinstance(row, dict)]
 
 def events(session, floor: datetime | None = None,
            ceiling: datetime | None = None) -> list[dict]:
-    now = datetime.now(timezone.utc)
-    start = (floor or now - timedelta(hours=6)).date()
-    end = (ceiling or now + timedelta(days=7)).date()
-    # DAZN rejects ranges whose date difference is greater than six. Fetch
-    # adjacent six-day windows so an eight-day repository build never loses
-    # its final scheduled day.
-    tiles: list[dict] = []
-    cursor = start
-    while cursor <= end:
-        chunk_end = min(cursor + timedelta(days=6), end)
-        url = (f"{BASE}?country={COUNTRY}&languageCode={LANGUAGE}"
-               f"&startDate={cursor.isoformat()}&endDate={chunk_end.isoformat()}")
-        try:
-            response = fetch(session, url)
-            payload = response.json()
-            if isinstance(payload, dict):
-                tiles.extend(payload.get("Tiles", []))
-        except Exception as exc:  # noqa: BLE001
-            warn(f"dazn Portugal EPG window {cursor}..{chunk_end} unreadable ({exc})")
-        cursor = chunk_end + timedelta(days=1)
+    try:
+        response = fetch(
+            session, BASE, params=RAIL_PARAMS, headers=RAIL_HEADERS)
+        payload = response.json()
+        tiles = payload.get("Tiles", []) if isinstance(payload, dict) else []
+    except Exception as exc:  # noqa: BLE001
+        warn(f"dazn Portugal linear EPG unreadable ({exc})")
+        tiles = []
+
     out: list[dict] = []
     seen: set[tuple] = set()
     for tile in tiles:
         if not isinstance(tile, dict):
             continue
-        # Live = currently live; UpComing = scheduled-live. CatchUp,
-        # Highlights and all other types are deliberately rejected.
-        if tile.get("Type") not in {"Live", "UpComing"}:
+        channel = norm(str(tile.get("Title") or ""))
+        if channel not in LINEAR_CHANNELS:
             continue
-        # Linear channel tiles are not events and have no fixture title.
-        if tile.get("IsLinear") or str(tile.get("Title") or "").startswith("DAZN "):
-            continue
-        start = _parse(tile.get("Start"))
-        if not start:
-            continue
-        if floor and start < floor or ceiling and start >= ceiling:
-            continue
-        title = norm(str(tile.get("Title") or ""))
-        if not title:
-            continue
-        searchable = " ".join(str(tile.get(key) or "")
-                               for key in ("Title", "Description", "Label"))
-        if NOT_A_GAME.search(searchable):
-            continue
-        end = _parse(tile.get("End"))
-        duration = end - start if end and end > start and end.year < 2999 else None
-        key = (tile.get("EventId") or tile.get("Id"), start, title)
-        if key in seen:
-            continue
-        seen.add(key)
-        out.append({
-            "start": start,
-            "on_air_for": duration,
-            "title": title,
-            "competition": _competition(tile),
-            "sport": _sport(tile),
-            "channels": _channels(tile),
-        })
+        for programme in _programmes(tile):
+            # IsLive alone is insufficient: DAZN marks live studio/talk
+            # blocks too. ProgramType alone is insufficient: recorded games
+            # are Sports event. Both together mean a live sporting event.
+            if (programme.get("IsLive") is not True
+                    or programme.get("ProgramType") != "Sports event"):
+                continue
+            start = _parse(programme.get("Start"))
+            end = _parse(programme.get("End"))
+            if not start or not end or end <= start:
+                continue
+            if floor and start < floor or ceiling and start >= ceiling:
+                continue
+            competition = norm(str(programme.get("Title") or "DAZN Portugal"))
+            title = norm(str(programme.get("EpisodeTitle") or competition))
+            searchable = " ".join(str(programme.get(key) or "")
+                                  for key in ("Title", "EpisodeTitle",
+                                              "Description"))
+            if not title or NOT_A_GAME.search(searchable):
+                continue
+            key = (channel, start, title)
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append({
+                "start": start,
+                "on_air_for": end - start,
+                "title": title,
+                "competition": competition,
+                "sport": _sport(programme),
+                "channels": [channel],
+            })
 
     log(f"dazn Portugal: {len(out)} live/scheduled event(s); official "
         f"linear channels available: {', '.join(LINEAR_CHANNELS)}")
