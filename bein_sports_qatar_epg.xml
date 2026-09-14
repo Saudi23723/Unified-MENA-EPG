@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260913045800 +0000" stop="20260913064900 +0000" channel="beIN4K.qa">
-    <title lang="en">Everton v Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Everton have won just three of their last 22 Premier League matches against Manchester United, though one was last season when they won 1-0 at Old Trafford. Manchester United have won six of their last eight Premier League games against Everton, keeping a clean sheet in five of those wins.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260913064900 +0000" stop="20260913084000 +0000" channel="beIN4K.qa">
     <title lang="en">Arsenal v Chelsea - English Premier League 2026/2027</title>
     <desc lang="en">Arsenal are unbeaten in their last nine Premier League matches against Chelsea, their best unbeaten run against the Blues since a run of 19 between 1995 and 2005. Chelsea have lost their last four away Premier League games against Arsenal by an aggregate score of 11-2. Their last win there was in August 2021, a 2-0 victory.</desc>
@@ -371,12 +365,6 @@ American Express Stadium Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260913033000 +0000" stop="20260913064500 +0000" channel="beINSports.qa">
-    <title lang="en">Chinese Taipei vs Qatar - Basketball Men - Asian Games Aichi-Nagoya 2026 - BKB06 ‎• Live 🔵‎</title>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260913064500 +0000" stop="20260913100000 +0000" channel="beINSports.qa">
     <title lang="en">Saudi Arabia vs Indonesia - Basketball Men - Asian Games Aichi-Nagoya 2026 - BKB07 ‎• Live 🔵‎</title>
@@ -642,12 +630,6 @@ American Express Stadium Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260913044900 +0000" stop="20260913070400 +0000" channel="beINSports1.qa">
-    <title lang="en">Tottenham Hotspur vs Everton - English Premier League 2026/2027 - Week 4</title>
-    <desc lang="en">Tottenham Hotspur have only lost one of their last 17 Premier League home games against Everton, winning their last five since a 0-1 defeat in September 2020. Everton lost both Premier League meetings with Tottenham Hotspur last season by an aggregate score of 4-0, but have never lost three in a row to Spurs without scoring in their league history.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260913070400 +0000" stop="20260913095300 +0000" channel="beINSports1.qa">
     <title lang="en">Sunderland vs Arsenal - English Premier League 2026/2027 - Week 4</title>
@@ -2907,6 +2889,12 @@ Elland Road Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
+  <programme start="20260920070000 +0000" stop="20260920115000 +0000" channel="beINSports4.qa">
+    <title lang="en">Table Tennis  - Asian Games Aichi-Nagoya 2026 - W/M ‎• Live 🔵‎</title>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
   <programme start="20260913043000 +0000" stop="20260913071300 +0000" channel="beINSports5.qa">
     <title lang="en">Crystal Palace vs Ipswich Town - English Premier League 2026/2027 - Week 4</title>
     <desc lang="en">Crystal Palace won both of their Premier League meetings with Ipswich Town 1-0 in 2024-25, last winning three league games in a row against them in February 1995. Ipswich have lost both of their last two league visits to Crystal Palace, only losing three in a row away to the Eagles in November 1994.</desc>
@@ -3379,6 +3367,12 @@ Barcelona are the two-time defending champions, having won their 29th title last
   </programme>
   <programme start="20260920050000 +0000" stop="20260920070000 +0000" channel="beINSports5.qa">
     <title lang="en">Iran vs China - Football Men - Asian Games Aichi-Nagoya 2026 - FBL16 ‎• Live 🔵‎</title>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920100000 +0000" channel="beINSports5.qa">
+    <title lang="en">Hong Kong vs Thailand - Football Men - Asian Games Aichi-Nagoya 2026 - FBL15 ‎• Live 🔵‎</title>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
@@ -4390,6 +4384,12 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260920040000 +0000" stop="20260920070000 +0000" channel="beINSports7.qa">
+    <title lang="en">Volleyball Women's  - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920110000 +0000" channel="beINSports7.qa">
     <title lang="en">Volleyball Women's  - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
@@ -6306,12 +6306,6 @@ American Express Stadium Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260913063000 +0000" stop="20260913070000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">EN ATP Tour: This Week 2026 Ep.35</title>
-    <desc lang="en">The official source for the latest news from the ATP Tour and the world of men's professional tennis.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260913070000 +0000" stop="20260913074500 +0000" channel="beINSportsEn2.qa">
     <title lang="en">EN Spirit of Sport Series 11 | E10</title>
     <category lang="ar">مسلسلات</category>
@@ -7124,12 +7118,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913050000 +0000" stop="20260913070000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260913070000 +0000" stop="20260913090000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -7383,12 +7371,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916190000 +0000" stop="20260916205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260913050000 +0000" stop="20260913070000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -7652,12 +7634,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913050000 +0000" stop="20260913070000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260913070000 +0000" stop="20260913090000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -7911,12 +7887,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916190000 +0000" stop="20260916205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260913050000 +0000" stop="20260913070000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8180,12 +8150,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913050000 +0000" stop="20260913070000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260913070000 +0000" stop="20260913090000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8439,12 +8403,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916190000 +0000" stop="20260916205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260913050000 +0000" stop="20260913070000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8707,12 +8665,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">The Issue of The Day</title>
-    <desc lang="en">All the latest news and previews from the world of the Big Five European Football Leagues. Ahead of the weekend's action, Sports News  provides a preview every Friday of all the latest from the European big leagues.  All the latest from  the Premier League in England, the Bundesliga in Germany, La Liga in Spain, Serie A in Italy, and Ligue 1 in Fra</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260913070000 +0000" stop="20260913080000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassad</title>
@@ -10462,11 +10414,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الأخبار الرياضية</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassad</title>
+    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
+    <category lang="ar">الأخبار الرياضية</category>
+    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260913070000 +0000" stop="20260913080000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -11401,12 +11353,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260913070000 +0000" stop="20260913080000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -12385,12 +12331,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920060000 +0000" stop="20260920071000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13378,7 +13318,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14375,7 +14315,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15415,7 +15355,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16449,7 +16389,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17247,7 +17187,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18045,7 +17985,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260913060000 +0000" stop="20260913070000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18843,4 +18783,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-<programme start="20260913205959 +0000" stop="20260914144417 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260913205959 +0000" stop="20260914144417 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+<programme start="20260913205959 +0000" stop="20260914150527 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260913205959 +0000" stop="20260914150527 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
