@@ -77,11 +77,23 @@ def wear_this_channel(**also):
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every live contest the six screens carry inside the window."""
     events = sporttv_pt.events(session, floor, ceiling)
-    kept = [event for event in events if event.get("sport") in RANK]
-    if len(kept) != len(events):
-        log(f"  sporttv: {len(events) - len(kept)} row(s) in a sport this "
-            f"channel does not carry")
-    return sorted(kept, key=lambda e: (e["start"], RANK[e["sport"]]))
+    sport_kept = [event for event in events if event.get("sport") in RANK]
+    rejected_sport = len(events) - len(sport_kept)
+    if rejected_sport:
+        log(f"  sporttv: {rejected_sport} row(s) in a sport this channel "
+            "does not carry")
+
+    # SPORT TV's source marks scheduled broadcasts as DIRETO too. The
+    # Portugal channel is intentionally LIVE ONLY: do not publish NEXT or
+    # FINISHED rows into its guide or boards.
+    now = datetime.now(base.UTC)
+    live = [event for event in sport_kept
+            if event["start"] <= now < event["start"] + base.on_air_span(event)]
+    removed = len(sport_kept) - len(live)
+    if removed:
+        log(f"  sporttv: removed {removed} scheduled/finished row(s); "
+            f"{len(live)} currently live")
+    return sorted(live, key=lambda e: (e["start"], RANK[e["sport"]]))
 
 
 def build() -> int:
