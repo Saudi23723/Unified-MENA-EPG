@@ -973,9 +973,10 @@ def encode_segment(board: str, out: str, place: int = 0,
         "-shortest", "-t", f"{hold:.6f}", "-muxdelay", "0",
         "-muxpreload", "0",
         # Where this board sits in the reel, so the reel is one timeline.
-        # Measured step, and a step of headroom so board zero is not
-        # asked for a negative timestamp and silently clamped.
-        "-output_ts_offset", f"{(place + 1) * (step or HOLD):.6f}",
+        # Page zero MUST start at timestamp 0. Adding one step here made the
+        # first HLS segment begin at 20/25/35 seconds; players then opened on
+        # page 1 and appeared to skip page 0 on every dashboard channel.
+        "-output_ts_offset", f"{place * (step or HOLD):.6f}",
         "-f", "mpegts", out,
     ]
     done = subprocess.run(command, check=False, capture_output=True, text=True)
