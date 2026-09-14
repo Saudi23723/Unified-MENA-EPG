@@ -70,20 +70,23 @@ LOOP_MINUTES = float(os.environ.get("LOOP_MINUTES", "55"))
 CADENCE_SECONDS = float(os.environ.get("CADENCE_SECONDS", "150"))
 SKIP_PUBLISH = os.environ.get("SKIP_PUBLISH") == "1"
 
-# The two guides whose marks go stale at a kickoff. Each one writes
+# The three guides whose marks go stale at a kickoff. Each one writes
 # both clocks' XML and both clocks' boards in the same run, so one
 # rebuild refreshes the Los Angeles link and the Dubai link together.
-# The news and the weather are deliberately absent: neither carries a
-# live mark that a kickoff can flip, and the full pass the workflow
-# already ran — and the next queued cron's — rebuilds both of them.
-GUIDES = ("today_matches_epg.py", "other_sports_epg.py")
+# Sport TV is included here because its rows carry the same LIVE/NEXT/
+# ENDED board marks, including the DAZN rows it merges. The news and the
+# weather are deliberately absent: neither carries a live mark that a
+# kickoff can flip, and the full pass the workflow already ran — and the
+# next queued cron's — rebuilds both of them.
+GUIDES = ("today_matches_epg.py", "other_sports_epg.py", "sporttv_epg.py")
 
-# The four screens those two guides feed, both clocks again. The
+# The six screens those three guides feed, both clocks again. The
 # encoders are fingerprint-gated: a board that did not change costs a
 # stamp check and nothing else, so running all four every pass is nearly
 # free when nothing is happening and exactly right when something is.
 SCREENS = ("today_matches", "other_sports",
-           "dubai_matches", "dubai_sports")
+           "dubai_matches", "dubai_sports",
+           "sporttv", "dubai_sporttv")
 
 # The playlists point players at the screens; rewritten only when their
 # content really changed, and staging an identical file stages nothing.
