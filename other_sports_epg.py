@@ -308,10 +308,36 @@ NOT_LIVE = re.compile(
     r"season\s+preview|30\s+for\s+30|embedded|countdown\s+to)\b"
     r"|\bshow\b", re.I)
 
+# Some TV grids rebroadcast a completed event under its clean event title,
+# without saying "replay".  The row then looks live to the generic filter
+# because the broadcaster assigned the replay a new start time.
+#
+# Formula 1 races are held on the weekend (including the occasional Saturday
+# race), never Monday-Wednesday.  Grand Slam singles finals are weekend events;
+# a clean "Men's Final"/"Women's Final" listing on Monday-Friday is a replay.
+# Keep practices, qualifying, round coverage and ordinary tennis matches out of
+# this rule: it is intentionally limited to the two stale rows observed in
+# broadcaster schedules.
+A_REBROADCAST_F1_RACE = re.compile(
+    r"\bformula\s*(?:one|1)\b.*\bgrand\s+prix\b", re.I)
+A_REBROADCAST_MAJOR_FINAL = re.compile(
+    r"\b(?:australian\s+open|french\s+open|roland\s+garros|wimbledon|"
+    r"us\s+open)\b.*\b(?:men'?s|women'?s)\s+final\b", re.I)
+
 
 def a_live_event(title: str) -> bool:
     """Whether this row is sport happening, rather than sport discussed."""
     return not NOT_LIVE.search(title or "")
+
+
+def an_obvious_rebroadcast(event: dict) -> bool:
+    """Reject clean-title reruns whose calendar day proves they are reruns."""
+    title = event.get("title") or ""
+    weekday = event["start"].astimezone(VIEWER).weekday()
+    if A_REBROADCAST_F1_RACE.search(title) and weekday in (0, 1, 2):
+        return True
+    return bool(A_REBROADCAST_MAJOR_FINAL.search(title)
+                and weekday in (0, 1, 2, 3, 4))
 
 
 # The two broadcasters snooker was asked for on, matched at the start of
@@ -389,6 +415,8 @@ def wanted(event: dict) -> bool:
     if off_this_board(event):
         return False
     if not a_live_event(event.get("title", "")):
+        return False
+    if an_obvious_rebroadcast(event):
         return False
     if not event.get("channels") and event.get("source") not in (
             "worldball", "fivb", "uww", "majorgames", "bkfc"):
