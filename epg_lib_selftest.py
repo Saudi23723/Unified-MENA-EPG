@@ -412,6 +412,68 @@ def main() -> int:
           and empty[0][1] - empty[0][0] == timedelta(days=3),
           f"{len(empty)} rows")
 
+    # ------------------------------------------------ manual status ticker
+    print("\none_pass — a manual repair cannot leave status marks frozen")
+    import one_pass as P
+
+    manual = {"GITHUB_ACTIONS": "true",
+              "GITHUB_EVENT_NAME": "workflow_dispatch"}
+    scheduled = {"GITHUB_ACTIONS": "true",
+                 "GITHUB_EVENT_NAME": "schedule"}
+    child = {**manual, P.TICKER_CHILD: "1"}
+    check("a manual Actions run owns a ticker",
+          P.manual_ticker_needed(manual))
+    check("a scheduled run leaves the ticker to the workflow",
+          not P.manual_ticker_needed(scheduled))
+    check("a child full pass cannot recurse into another ticker",
+          not P.manual_ticker_needed(child))
+
+    fake_now = [0.0]
+    calls = []
+
+    def fake_clock():
+        return fake_now[0]
+
+    def fake_sleep(seconds):
+        fake_now[0] += seconds
+
+    def fake_call(command, env=None):
+        calls.append((command[-1], dict(env or {})))
+        if command[-1] == "one_pass.py":
+            fake_now[0] += 30
+        return 0
+
+    old_actions = os.environ.get("GITHUB_ACTIONS")
+    old_event = os.environ.get("GITHUB_EVENT_NAME")
+    old_child = os.environ.get(P.TICKER_CHILD)
+    try:
+        os.environ["GITHUB_ACTIONS"] = "true"
+        os.environ["GITHUB_EVENT_NAME"] = "workflow_dispatch"
+        os.environ.pop(P.TICKER_CHILD, None)
+        with contextlib.redirect_stdout(io.StringIO()):
+            P.keep_manual_run_alive(
+                window_seconds=620, mark_cadence=60, pass_cadence=300,
+                clock=fake_clock, sleeper=fake_sleep, caller=fake_call)
+    finally:
+        for key, value in (
+                ("GITHUB_ACTIONS", old_actions),
+                ("GITHUB_EVENT_NAME", old_event),
+                (P.TICKER_CHILD, old_child)):
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+
+    flips = [name for name, _ in calls if name == "flip_marks.py"]
+    passes = [env for name, env in calls if name == "one_pass.py"]
+    check("the manual ticker checks marks every minute",
+          len(flips) == 9, f"{len(flips)} flips")
+    check("the manual ticker starts the five-minute full pass",
+          len(passes) == 1, f"{len(passes)} passes")
+    check("the full-pass child carries the recursion guard",
+          bool(passes) and passes[0].get(P.TICKER_CHILD) == "1",
+          passes[0].get(P.TICKER_CHILD) if passes else "no child")
+
     print()
     if failures:
         print(f"{len(failures)} check(s) failed: {', '.join(failures)}")

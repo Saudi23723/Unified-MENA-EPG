@@ -31,9 +31,14 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 GATE_LOG = "/tmp/gate.log"
+MANUAL_TICKER_WINDOW = 165 * 60
+MARK_CADENCE = 60
+FULL_PASS_CADENCE = 5 * 60
+TICKER_CHILD = "ONE_PASS_TICKER_CHILD"
 
 
 def run(*command: str) -> int:
@@ -80,6 +85,75 @@ def catch_up() -> None:
     elif was != now:
         print(f"───── caught up to main: {was[:8]} -> {now[:8]} ─────",
               flush=True)
+
+
+def manual_ticker_needed(environ=None) -> bool:
+    """A manual Actions run must cover the same window as a scheduled one.
+
+    GitHub keeps only one pending run in a concurrency group. A manual
+    repair can replace the pending scheduled successor; if the manual run
+    exits after its first pass, LIVE/NEXT/FINISHED then freeze until another
+    cron event happens to arrive. A child full pass must not start another
+    ticker recursively.
+    """
+    environ = os.environ if environ is None else environ
+    return (
+        environ.get("GITHUB_ACTIONS") == "true"
+        and environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
+        and environ.get(TICKER_CHILD) != "1"
+    )
+
+
+def keep_manual_run_alive(
+        *, window_seconds=MANUAL_TICKER_WINDOW,
+        mark_cadence=MARK_CADENCE,
+        pass_cadence=FULL_PASS_CADENCE,
+        clock=time.monotonic, sleeper=time.sleep,
+        caller=subprocess.call) -> None:
+    """Keep a manual repair publishing until its queued successor can run.
+
+    This mirrors the scheduled workflow's ticker without requiring workflow
+    file permissions: marks are checked every minute and the full source,
+    board, HLS and gate pass is rerun every five minutes. Full-pass children
+    carry TICKER_CHILD so they return normally instead of recursing.
+
+    The injected clock/sleeper/caller make the timing testable instantly.
+    """
+    if not manual_ticker_needed():
+        return
+
+    deadline = clock() + window_seconds
+    last_pass = clock()
+    pass_no = 1
+    print("\n───── manual run owns the status ticker ─────", flush=True)
+
+    while clock() < deadline:
+        while (clock() - last_pass < pass_cadence
+               and clock() < deadline):
+            sleeper(min(mark_cadence, max(0, deadline - clock())))
+            if clock() >= deadline:
+                break
+            code = caller([sys.executable, "-u", "flip_marks.py"])
+            if code != 0:
+                print("::warning::a flip did not finish — the next full "
+                      "pass redraws it")
+
+        if clock() >= deadline:
+            break
+
+        last_pass = clock()
+        pass_no += 1
+        print(f"───── manual ticker pass {pass_no} ─────", flush=True)
+        child_env = os.environ.copy()
+        child_env[TICKER_CHILD] = "1"
+        code = caller(
+            [sys.executable, "-u", "one_pass.py"], env=child_env)
+        if code != 0:
+            print(f"::warning::manual ticker pass {pass_no} did not finish "
+                  "— whatever it published stands")
+
+    print(f"───── manual ticker window ended after {pass_no} pass(es) ─────",
+          flush=True)
 
 
 def main() -> int:
@@ -198,4 +272,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    status = main()
+    if status == 0:
+        keep_manual_run_alive()
+    sys.exit(status)
