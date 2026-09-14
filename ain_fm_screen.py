@@ -151,7 +151,11 @@ def encode(image: str, out: str) -> bool:
         "-muxdelay", "0", "-muxpreload", "0",
         "-f", "mpegts", out,
     ]
-    done = subprocess.run(command, capture_output=True, text=True)
+    try:
+        done = subprocess.run(command, capture_output=True, text=True)
+    except OSError as exc:
+        warn(f"ffmpeg is not available for the Ain FM still: {exc}")
+        return False
     if done.returncode:
         warn(f"ffmpeg would not encode the Ain FM still: "
              f"{done.stderr.strip().splitlines()[-1:] or done.returncode}")
@@ -171,7 +175,8 @@ def playlists() -> None:
              "#EXT-X-VERSION:3",
              "#EXT-X-PLAYLIST-TYPE:VOD",
              f"#EXT-X-TARGETDURATION:{SEGMENT}",
-             "#EXT-X-MEDIA-SEQUENCE:0"]
+             "#EXT-X-MEDIA-SEQUENCE:0",
+             "#EXT-X-DISCONTINUITY-SEQUENCE:0"]
     for number in range(SEGMENTS):
         if number:
             # One file named twice is one set of timestamps twice, and a
@@ -185,10 +190,12 @@ def playlists() -> None:
 
     write(AUDIO, ["#EXTM3U",
                   "#EXT-X-VERSION:3",
+                  "#EXT-X-PLAYLIST-TYPE:VOD",
                   "#EXT-X-TARGETDURATION:86400",
                   "#EXT-X-MEDIA-SEQUENCE:0",
                   "#EXTINF:86400.0,",
-                  LIVE + "?stream.mp3"])
+                  LIVE,
+                  "#EXT-X-ENDLIST"])
 
     write(MASTER, [
         "#EXTM3U",
@@ -208,9 +215,15 @@ def build() -> int:
 
     os.makedirs(OUT_DIR, exist_ok=True)
     image = os.path.join(OUT_DIR, "ain_fm_board.png")
-    board(image)
-    made = encode(image, STILL)
-    os.remove(image)
+    made = False
+    try:
+        board(image)
+        made = encode(image, STILL)
+    finally:
+        try:
+            os.remove(image)
+        except FileNotFoundError:
+            pass
     if not made:
         return 1
 
