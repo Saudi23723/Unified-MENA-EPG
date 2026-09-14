@@ -6783,6 +6783,7 @@ def main() -> int:
     if FAILURES:
         print(f"{len(FAILURES)} gate(s) let something through:\n")
         for f in FAILURES:
+            print(f"::error::{f}")
             print(f"  {f}")
         print("\nA guide that publishes another channel's match is worse than "
               "one that publishes nothing. Fix the gate, do not widen the test.")
