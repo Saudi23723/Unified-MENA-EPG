@@ -1566,7 +1566,7 @@ def vsport_day_label(title: str, day: date, now: datetime, viewer,
 def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
                       live_for, *, title: str, subtitle: str, weekday: str,
                       page: int = 1, pages: int = 1,
-                      accent=None) -> Image.Image:
+                      accent=None, show_page_count: bool = False) -> Image.Image:
     """A board in the shape of a broadcaster's own now-and-next screen.
 
     THERE IS NO "NEXT UP" BLOCK ABOVE THE LIST, and there was.
@@ -1588,8 +1588,10 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     pen = ImageDraw.Draw(board)
 
     y = PAD - 8
-    vsport_chip(board, pen, PAD, y,
-                vsport_day_label(title, day, now, viewer, weekday))
+    day_label = vsport_day_label(title, day, now, viewer, weekday)
+    if show_page_count:
+        day_label = f"{day_label} · {page}/{pages}"
+    vsport_chip(board, pen, PAD, y, day_label
     y += 40 + 8
 
     # The next row is the first that has not started; it wears التالي and
