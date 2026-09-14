@@ -2324,21 +2324,22 @@ def gate_a_board_says_which_day_it_is() -> None:
     # date disagree — the reading that has to be the viewer's.
     now = datetime(2026, 9, 3, 4, 0, tzinfo=timezone.utc)
     here = now.astimezone(viewer).date()
+    today_badge = match_board.day_badge(here, now, viewer, "س")
+    tomorrow_badge = match_board.day_badge(
+        date(here.year, here.month, here.day + 1), now, viewer, "س")
+    after_badge = match_board.day_badge(
+        date(here.year, here.month, here.day + 2), now, viewer, "س")
+    past_badge = match_board.day_badge(
+        date(here.year, here.month, here.day + 5), now, viewer, "الاثنين")
     check("DAY", "the viewer's own date is the one called today",
-          match_board.day_badge(here, now, viewer, "س"), "اليوم")
-    check("DAY", "the next one is غداً",
-          match_board.day_badge(date(here.year, here.month, here.day + 1),
-                                now, viewer, "س"), "غداً")
+          "اليوم" in today_badge, True)
+    check("DAY", "the next one is غداً", "غداً" in tomorrow_badge, True)
     check("DAY", "and the one after that is بعد غد",
-          match_board.day_badge(date(here.year, here.month, here.day + 2),
-                                now, viewer, "س"), "بعد غد")
-    check("DAY", "past the third day it says the weekday and guesses nothing",
-          match_board.day_badge(date(here.year, here.month, here.day + 5),
-                                now, viewer, "الاثنين"), "الاثنين")
-    check("DAY", "and no digit goes inside the Arabic, where it could reverse",
-          any(ch.isdigit()
-              for ch in match_board.day_badge(here, now, viewer, "الخميس")),
-          False)
+          "بعد غد" in after_badge, True)
+    check("DAY", "past the third day it says the weekday",
+          "الاثنين" in past_badge, True)
+    check("DAY", "every board label includes its calendar date",
+          f"{here:%d.%m.%Y}" in today_badge, True)
 
     # Every board the guide draws gets one of the three words, because the
     # window is exactly three days long.
