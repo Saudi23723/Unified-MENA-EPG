@@ -70,23 +70,43 @@ LOOP_MINUTES = float(os.environ.get("LOOP_MINUTES", "55"))
 CADENCE_SECONDS = float(os.environ.get("CADENCE_SECONDS", "150"))
 SKIP_PUBLISH = os.environ.get("SKIP_PUBLISH") == "1"
 
-# The three guides whose marks go stale at a kickoff. Each one writes
+# The seven sports guides whose marks go stale at a kickoff. Each one writes
 # both clocks' XML and both clocks' boards in the same run, so one
 # rebuild refreshes the Los Angeles link and the Dubai link together.
-# Sport TV is included here because its rows carry the same LIVE/NEXT/
-# ENDED board marks, including the DAZN rows it merges. The news and the
-# weather are deliberately absent: neither carries a live mark that a
-# kickoff can flip, and the full pass the workflow already ran — and the
-# next queued cron's — rebuilds both of them.
-GUIDES = ("today_matches_epg.py", "other_sports_epg.py", "sporttv_epg.py")
+# This list deliberately contains no weather, news, prayer, or flight
+# tracker guide: those are not sports status boards and do not belong in
+# the kickoff refresh path.
+GUIDES = (
+    "today_matches_epg.py",
+    "other_sports_epg.py",
+    "sporttv_epg.py",
+    "ball_sports_epg.py",
+    "hoops_gridiron_epg.py",
+    "f1_epg.py",
+    "turkish_ppv_epg.py",
+)
 
-# The six screens those three guides feed, both clocks again. The
+# The fourteen sports screens those seven guides feed, both clocks again.
 # encoders are fingerprint-gated: a board that did not change costs a
-# stamp check and nothing else, so running all four every pass is nearly
-# free when nothing is happening and exactly right when something is.
-SCREENS = ("today_matches", "other_sports",
-           "dubai_matches", "dubai_sports",
-           "sporttv", "dubai_sporttv")
+# stamp check and nothing else, so running the complete sports set every
+# pass is nearly free when nothing is happening and exactly right when
+# something is.
+SCREENS = (
+    "today_matches",
+    "other_sports",
+    "dubai_matches",
+    "dubai_sports",
+    "sporttv",
+    "dubai_sporttv",
+    "ball_sports",
+    "dubai_ball_sports",
+    "hoops_gridiron",
+    "dubai_hoops_gridiron",
+    "f1",
+    "dubai_f1",
+    "turkish_ppv",
+    "dubai_turkish_ppv",
+)
 
 # The playlists point players at the screens; rewritten only when their
 # content really changed, and staging an identical file stages nothing.
