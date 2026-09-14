@@ -1048,10 +1048,28 @@ def add_programme(
     ET.SubElement(p, "category", lang="en").text = category
 
 
+def status_title(day: date, events: list[dict], moment: datetime) -> str:
+    """Return the state that is true at this exact XMLTV block."""
+    live = [event for event in events
+            if epg_lib.status_of(event, moment) == "live"]
+    if live:
+        return f"🔴 LIVE · {live[-1]['title']}"
+
+    upcoming = [event for event in events if event["start"] > moment]
+    if upcoming:
+        return f"⏳ NEXT · {upcoming[0]['title']}"
+
+    finished = [event for event in events
+                if epg_lib.status_of(event, moment) == "over"]
+    if finished:
+        return f"✅ FINISHED · {finished[-1]['title']}"
+    return "Jordan Sports"
+
+
 def write_xml(events: list[dict]) -> None:
     root = ET.Element(
         "tv",
-        generator_info_name="Jordan Sports conservative EPG",
+        generator_info_name="Jordan Sports time-aware EPG",
     )
 
     ch = ET.SubElement(root, "channel", id=CHANNEL_ID)
@@ -1059,91 +1077,45 @@ def write_xml(events: list[dict]) -> None:
     ET.SubElement(ch, "display-name", lang="ar").text = CHANNEL_NAME
     ET.SubElement(ch, "display-name", lang="en").text = "Jordan Sport"
 
+    # epg_lib.status_of() owns the single live/next/finished clock used by
+    # the rest of this repository. Give it the source's duration explicitly.
+    timed_events = [
+        {**event, "on_air_for": timedelta(
+            minutes=int(event.get("duration_minutes", 60)))}
+        for event in events
+    ]
+
     today_amman = utc_now().astimezone(AMMAN).date()
     first_day = today_amman - timedelta(days=DAYS_BACK)
     last_day = today_amman + timedelta(days=DAYS_FORWARD)
-
     by_day: dict[date, list[dict]] = {}
-    for ev in events:
-        d = ev["start"].astimezone(AMMAN).date()
-        by_day.setdefault(d, []).append(ev)
+    for event in timed_events:
+        day = event["start"].astimezone(AMMAN).date()
+        by_day.setdefault(day, []).append(event)
 
     for off in range((last_day - first_day).days + 1):
-        d = first_day + timedelta(days=off)
-        day_events = sorted(by_day.get(d, []), key=lambda x: x["start"])
-        desc = build_day_description(d, day_events)
-
-        day_start_local = datetime(
-            d.year, d.month, d.day, 0, 0, tzinfo=AMMAN
-        )
+        day = first_day + timedelta(days=off)
+        day_events = sorted(by_day.get(day, []), key=lambda x: x["start"])
+        day_start_local = datetime(day.year, day.month, day.day, 0, 0,
+                                   tzinfo=AMMAN)
         day_end_local = day_start_local + timedelta(days=1)
         day_start = day_start_local.astimezone(UTC)
         day_end = day_end_local.astimezone(UTC)
 
-        if not day_events:
-            add_programme(
-                root,
-                day_start,
-                day_end,
-                "الأردن الرياضية",
-                desc,
-                category="Sports",
-            )
-            continue
-
-        cursor = day_start
-
-        for ev in day_events:
-            ev_start = ev["start"].astimezone(UTC)
-
-            # If a live match overlaps a lower-priority ordinary programme,
-            # the higher-priority event starts at its actual time; XML remains
-            # non-overlapping by trimming/skipping the filler around it.
-            if ev_start > cursor:
-                add_programme(
-                    root,
-                    cursor,
-                    ev_start,
-                    "الأردن الرياضية",
-                    desc,
-                    category="Sports",
-                )
-
-            duration = int(ev.get("duration_minutes", 60))
-            ev_stop = min(
-                ev_start + timedelta(minutes=duration),
-                day_end,
-            )
-            if ev_stop <= cursor:
-                continue
-
-            if ev_start < cursor:
-                ev_start = cursor
-
-            am = ev_start.astimezone(AMMAN)
-            title = f"{ev['title']} | {am:%H:%M} الأردن"
-            if LIVE_LABEL and ev["category"] != PROGRAMME_CATEGORY:
-                title = f"{title} {ltr(LIVE_LABEL)}"
-
-            add_programme(
-                root,
-                ev_start,
-                ev_stop,
-                title,
-                desc,
-                category=ev["category"],
-            )
-            cursor = max(cursor, ev_stop)
-
-        if cursor < day_end:
-            add_programme(
-                root,
-                cursor,
-                day_end,
-                "الأردن الرياضية",
-                desc,
-                category="Sports",
-            )
+        # Carry a programme that started before the viewer day into the new
+        # day until its real end, so LIVE does not disappear at midnight.
+        shown = epg_lib.still_on_air_at(timed_events, day_start) + day_events
+        shown.sort(key=lambda x: x["start"])
+        day_desc = build_day_description(day, shown)
+        epg_lib.add_day_in_blocks(
+            root,
+            CHANNEL_ID,
+            day_start,
+            day_end,
+            shown,
+            lambda moment, d=day, rows=shown, desc=day_desc: (
+                status_title(d, rows, moment), desc),
+        )
 
     try:
         ET.indent(root, space="  ")
@@ -1155,8 +1127,6 @@ def write_xml(events: list[dict]) -> None:
         encoding="utf-8",
         xml_declaration=True,
     )
-
-    # Refuse to silently produce malformed XML.
     ET.parse(OUTPUT)
     log(f"Written and XML-validated: {OUTPUT}")
 
