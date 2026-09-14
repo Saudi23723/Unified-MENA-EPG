@@ -401,7 +401,7 @@ def boards(prefix: str) -> list[str]:
 #       stand for Mixkit track 568, "Focus on Yourself", the same
 #       140.000 s -20 LUFS recipe. The dubai_news screen shares the
 #       file, so both news screens change together.
-ENCODER_REVISION = 10
+ENCODER_REVISION = 11
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -972,6 +972,10 @@ def encode_segment(board: str, out: str, place: int = 0,
         *maps,
         "-shortest", "-t", f"{hold:.6f}", "-muxdelay", "0",
         "-muxpreload", "0",
+        # MPEG-TS may preserve the audio/video encoder clock even when the
+        # requested output offset is zero. Normalize the muxed segment so
+        # page zero is genuinely timestamped at 0 rather than one page late.
+        "-avoid_negative_ts", "make_zero",
         # Where this board sits in the reel, so the reel is one timeline.
         # Page zero MUST start at timestamp 0. Adding one step here made the
         # first HLS segment begin at 20/25/35 seconds; players then opened on
