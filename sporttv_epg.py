@@ -51,6 +51,11 @@ DUBAI_OUTPUT = "dubai_sporttv_epg.xml"
 DUBAI_CHANNEL_ID = "SportTVPTDubai"
 DUBAI_BOARD_PREFIX = "dubai_sporttv_"
 
+# Keep a real multi-day EPG while excluding programmes that already ended.
+# The source feed supplies current and scheduled broadcasts; a live-only
+# snapshot was the reason this channel appeared to contain one day only.
+PORTUGAL_DAYS = 7
+
 # The sports this channel may carry, in the order it shows them. A sport
 # absent here can never reach the board — the same rule every channel
 # wearing this generator follows. Football leads because it is most of
@@ -84,29 +89,36 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         log(f"  sporttv: {rejected_sport} row(s) in a sport this channel "
             "does not carry")
 
-    # SPORT TV's source marks scheduled broadcasts as DIRETO too. The
-    # Portugal channel is intentionally LIVE ONLY: do not publish NEXT or
-    # FINISHED rows into its guide or boards.
+    # Keep current and upcoming SPORTS broadcasts for the EPG. The source
+    # marks scheduled rows as DIRETO too; that is useful here because an EPG
+    # must show the next games, but finished rows must never remain published.
+    # DAZN applies the same rule after its own Live/UpComing and editorial
+    # filters, so both sources share one final time-window gate.
     now = datetime.now(base.UTC)
-    live = [event for event in sport_kept
-            if event["start"] <= now < event["start"] + base.on_air_span(event)]
-    removed = len(sport_kept) - len(live)
+    current_or_upcoming = [
+        event for event in sport_kept
+        if event["start"] + base.on_air_span(event) > now
+    ]
+    removed = len(sport_kept) - len(current_or_upcoming)
     if removed:
-        log(f"  sporttv: removed {removed} scheduled/finished row(s); "
-            f"{len(live)} currently live")
-    return sorted(live, key=lambda e: (e["start"], RANK[e["sport"]]))
+        log(f"  sporttv: removed {removed} finished row(s); "
+            f"{len(current_or_upcoming)} current/upcoming sports row(s)")
+    return sorted(current_or_upcoming,
+                  key=lambda e: (e["start"], RANK[e["sport"]]))
 
 
 def build() -> int:
     now = datetime.now(base.UTC)
     with wear_this_channel():
-        days = base.days_of(now)
+        viewer_day = now.astimezone(base.VIEWER).date()
+        days = [viewer_day + timedelta(days=n)
+                for n in range(PORTUGAL_DAYS)]
         floor = base.start_of_day(days[0])
         ceiling = base.start_of_day(days[-1] + timedelta(days=1))
 
         session = new_session()
         events = collect(session, floor, ceiling)
-        ok = base.publish_all(events, now) == 0
+        ok = base.publish_all(events, now, days=days) == 0
 
         # THE SECOND CLOCK — the same rows with every time printed in the
         # Gulf's, on its own link, exactly as the other channels do.
@@ -117,8 +129,11 @@ def build() -> int:
                 BOARD_PREFIX=DUBAI_BOARD_PREFIX):
             try:
                 base.publish_all(events, now,
-                                 days=dubai_time.days_the_events_span(
-                                     now, events, dubai_time.DUBAI))
+                                 days=[
+                                     now.astimezone(dubai_time.DUBAI).date()
+                                     + timedelta(days=n)
+                                     for n in range(PORTUGAL_DAYS)
+                                 ])
             except Exception as exc:                          # noqa: BLE001
                 warn(f"the UAE-clock Sport TV guide could not be written "
                      f"({exc}) — the published one is unchanged")
