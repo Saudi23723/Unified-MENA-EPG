@@ -643,8 +643,9 @@ def gate_the_screen_cannot_go_stale() -> None:
     import os as _os
     import re as _re
 
-    # AND THE PLAYLIST MUST BE A COMPLETE VOD REEL, which is what makes a
-    # channel open on board zero every time it is tuned in.
+    # AND THE PLAYLIST MUST REMAIN REFRESHABLE, because status indicators
+    # are painted into the board segments. EVENT keeps board zero first
+    # while omitting ENDLIST makes players reload the manifest.
     #
     # It was live for a while — a sliding window with a moving
     # MEDIA-SEQUENCE and no ENDLIST — so the television could roll into
@@ -653,9 +654,7 @@ def gate_the_screen_cannot_go_stale() -> None:
     # join the window near its end, so the channel opened on page four or
     # five, read as "بشطب صفحات". EXT-X-START, the one tag that pins the
     # open point, took all three channels off the air twice and may not be
-    # used. So the reel is published as VOD: PLAYLIST-TYPE:VOD and
-    # EXT-X-ENDLIST tell every player the recording is complete, and a
-    # complete recording is opened at its FIRST segment, every time.
+    # used. The reel is therefore published as an updateable EVENT.
     import match_screen_video as screen
     import tempfile as _tempfile
 
@@ -664,20 +663,20 @@ def gate_the_screen_cannot_go_stale() -> None:
     screen.write_playlist(drawn, written, now=1788400000)
     live = open(written, encoding="utf-8").read()
 
-    check("SCREEN", "ENDLIST — a complete reel a player opens at the front",
-          "EXT-X-ENDLIST" in live, True)
-    check("SCREEN", "and it is declared a finished recording",
-          "PLAYLIST-TYPE:VOD" in live, True)
+    check("SCREEN", "the manifest stays open for automatic refresh",
+          "EXT-X-ENDLIST" in live, False)
+    check("SCREEN", "and it is declared an updateable event",
+          "PLAYLIST-TYPE:EVENT" in live, True)
 
-    # A VOD reel is the whole of the day's boards, once — the viewer sees
-    # board zero first and plays through to the last.
+    # The event reel still carries the whole day's boards once, with board
+    # zero first, while the player remains allowed to refresh it.
     check("SCREEN", "the reel carries every board once",
           live.count("#EXTINF:"), len(drawn))
 
     # MEDIA-SEQUENCE is fixed at zero and never slides: the list is the
-    # whole reel, not a window onto a stream, so a rebuild does not move
-    # it. The day's content changes in place; a reopened channel picks up
-    # the new reel and still opens on board zero.
+    # whole reel, not a sliding window, so a refresh does not move its
+    # opening point. The day's content changes in place and a player can
+    # pick up the new reel without a channel reopen.
     screen.write_playlist(drawn, written, now=1788400000 + 600)
     after = open(written, encoding="utf-8").read()
 
@@ -3233,21 +3232,19 @@ def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
           ["beIN 1", "Sky Sports F1", "TRT Spor"])
 
 def gate_the_window_keeps_moving() -> None:
-    """The channel opens on board zero, and the reel is a complete VOD.
+    """The channel opens on board zero and the reel remains refreshable.
 
     A reader photographed a spinner on the last board: the screen played
     through, reached the end, and sat on a loading circle instead of
     starting again. That was a LIVE playlist run dry — a sliding window
     whose MEDIA-SEQUENCE stopped moving once the boards stopped changing.
 
-    The live window is gone. The reel is published as VOD instead:
-    PLAYLIST-TYPE:VOD, MEDIA-SEQUENCE:0 fixed, EXT-X-ENDLIST at the end.
-    A player opens a complete recording at its FIRST segment and plays it
-    to the end — board zero every time, on every device — and the daily
-    rebuild changes the files, which a reopened channel picks up. This
-    gate holds that shape and the encoder settings the boards depend on.
+    The reel is published as EVENT: PLAYLIST-TYPE:EVENT, MEDIA-SEQUENCE:0
+    fixed, and no EXT-X-ENDLIST. A player starts at board zero but continues
+    polling the manifest, so a changed LIVE/Next/Finished segment is picked
+    up without reopening the channel.
     """
-    print("\nThe reel is a complete VOD that opens on board zero — match_screen_video")
+    print("\nThe reel refreshes automatically and opens on board zero — match_screen_video")
     import match_screen_video as video
 
     def sequence_of(text):
@@ -3266,12 +3263,11 @@ def gate_the_window_keeps_moving() -> None:
         video.write_playlist(segments, out, now=1_000_000 + 600)
         second = open(out, encoding="utf-8").read()
 
-        # A VOD reel does not slide: MEDIA-SEQUENCE is pinned at zero and
-        # a rebuild ten minutes later produces the same reel, so a player
-        # that reopens the channel still starts at board zero.
-        check("VOD", "MEDIA-SEQUENCE is pinned at zero",
+        # An EVENT reel does not slide: MEDIA-SEQUENCE is pinned at zero and
+        # a refresh ten minutes later still starts at board zero.
+        check("EVENT", "MEDIA-SEQUENCE is pinned at zero",
               (sequence_of(first), sequence_of(second)), (0, 0))
-        check("VOD", "and a rebuild does not move it",
+        check("EVENT", "and a refresh does not move it",
               sequence_of(second) - sequence_of(first), 0)
 
         def played(text):
@@ -3279,7 +3275,7 @@ def gate_the_window_keeps_moving() -> None:
                     if line.strip().endswith(".ts")]
 
         # The reel is the whole of the day's boards, once and in order.
-        check("VOD", "the reel carries every board exactly once, in order",
+        check("EVENT", "the reel carries every board exactly once, in order",
               played(second),
               [os.path.basename(s) for s in segments])
 
@@ -3292,27 +3288,29 @@ def gate_the_window_keeps_moving() -> None:
         # DISCONTINUITY" is a prefix of "#EXT-X-DISCONTINUITY-SEQUENCE".
         breaks = sum(1 for line in second.splitlines()
                      if line.strip() == "#EXT-X-DISCONTINUITY")
-        check("VOD", "one break, at the head of the reel",
+        check("EVENT", "one break, at the head of the reel",
               breaks, 1)
 
-        check("VOD", "and the player is told it may read ahead",
+        check("EVENT", "and the player is told it may read ahead",
               "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
 
-        # THE TAGS THAT MAKE IT A COMPLETE RECORDING, so every player
-        # opens it at the front: both must be present.
-        for tag in ("#EXT-X-ENDLIST", "#EXT-X-PLAYLIST-TYPE:VOD"):
-            check("VOD", f"{tag} is present", tag in second, True)
+        # EVENT keeps the manifest open so a player reloads it as statuses
+        # change; ENDLIST would permanently freeze the first fetched state.
+        check("EVENT", "ENDLIST is absent so clients keep polling",
+              "#EXT-X-ENDLIST" in second, False)
+        check("EVENT", "the playlist is declared updateable",
+              "#EXT-X-PLAYLIST-TYPE:EVENT" in second, True)
 
         # EXT-X-START may not come back — it took all three channels off
         # the air twice, and a VOD reel does not need it: the front IS
         # the open point.
-        check("VOD", "and EXT-X-START stays out of the playlist",
+        check("EVENT", "and EXT-X-START stays out of the playlist",
               "EXT-X-START" in second, False)
 
         # A DISCONTINUITY-SEQUENCE header belongs to a sliding window; a
         # fixed VOD reel has no breaks scrolling off, so it must not
         # reappear.
-        check("VOD", "no rolling-window DISCONTINUITY-SEQUENCE header",
+        check("EVENT", "no rolling-window DISCONTINUITY-SEQUENCE header",
               any(line.startswith("#EXT-X-DISCONTINUITY-SEQUENCE:")
                   for line in second.splitlines()), False)
 
@@ -3323,11 +3321,11 @@ def gate_the_window_keeps_moving() -> None:
         # re-syncing. So every entry declares the length it MEASURED.
         import inspect as _inspect
         writer = _inspect.getsource(video.write_playlist)
-        check("VOD", "each entry declares the length it MEASURED",
+        check("EVENT", "each entry declares the length it MEASURED",
               "real[place]" in writer, True)
-        check("VOD", "measured off the file, not off the constant",
+        check("EVENT", "measured off the file, not off the constant",
               "seconds_of" in writer, True)
-        check("VOD", "and TARGETDURATION covers the longest of them",
+        check("EVENT", "and TARGETDURATION covers the longest of them",
               "math.ceil(max(real))" in writer, True)
 
     # The pass that encodes nothing must still write the playlist. Proved
@@ -5517,11 +5515,8 @@ def gate_a_viewer_always_arrives_at_the_first_board() -> None:
     # under test is the GEOMETRY of the reel — which board a player opens
     # on — and that does not depend on what a board measures.
     #
-    # A VOD reel opens on its FIRST segment, always: PLAYLIST-TYPE:VOD
-    # and EXT-X-ENDLIST tell every player the recording is complete, and
-    # a complete recording is played from the front. There is no window
-    # to join near the end and no live edge to hang back from, so board
-    # zero is the open point on every reel length, at every tick.
+    # An EVENT reel keeps MEDIA-SEQUENCE at zero, so its first segment is
+    # still board zero, while the absent ENDLIST keeps status updates live.
     measured, video.seconds_of = video.seconds_of, lambda one: 20.032
     with tempfile.TemporaryDirectory() as room:
         out = os.path.join(room, "start.m3u8")
@@ -5551,17 +5546,17 @@ def gate_a_viewer_always_arrives_at_the_first_board() -> None:
         check("START", "the reel opens on board zero, and ends on the last",
               wrong, [])
 
-        # A COMPLETE RECORDING, so the player opens it at the front rather
-        # than being free to join a window wherever it likes.
+        # The event stays open for refresh, but its fixed sequence still
+        # anchors the opening point at board zero.
         segments = [f"today_matches_{n}.aa.ts" for n in range(6)]
         video.write_playlist(segments, out, now=base)
         text = open(out, encoding="utf-8").read()
-        check("START", "the reel is declared a complete VOD recording",
-              "#EXT-X-PLAYLIST-TYPE:VOD" in text
-              and "#EXT-X-ENDLIST" in text, True)
+        check("START", "the reel is declared an updateable event",
+              "#EXT-X-PLAYLIST-TYPE:EVENT" in text
+              and "#EXT-X-ENDLIST" not in text, True)
 
         # THE TAG THAT WOULD HAVE DONE THIS DIRECTLY STAYS OUT — it took
-        # all three channels off the air twice, and VOD does not need it.
+        # all three channels off the air twice, and fixed sequence is enough.
         check("START", "and EXT-X-START is still nowhere in the playlist",
               "EXT-X-START" in text, False)
     video.seconds_of = measured

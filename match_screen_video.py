@@ -1016,45 +1016,28 @@ def seconds_of(segment: str) -> float:
 
 
 def write_playlist(segments: list[str], out: str, now=None) -> int:
-    """A VOD playlist, so the channel ALWAYS opens on board zero.
+    """Write a refreshable event playlist whose first segment is board zero.
 
-    This was live for a while — a sliding window with a moving
-    MEDIA-SEQUENCE and no ENDLIST — so the television could show the next
-    day without the viewer reopening the channel. The cost was the one
-    fault asked about more than any other:
+    This used to be published as VOD. That made every player treat the
+    manifest as permanently complete: after it was first fetched, the
+    player had no reason to poll it again, so LIVE, التالي and انتهى stayed
+    frozen until the viewer reopened the channel. The status is painted into
+    the board segments, therefore the manifest must remain refreshable.
 
         "خليهم دائما لما افتح اي قناة يبدا من الاول عشان ما بخربط"
 
-    A live client is free to join a window near its END (RFC 8216 §6.3.3
-    starts it about three target durations back), and EXT-X-START — the
-    one tag that pins the open point — took all three channels off the
-    air twice and cannot be used. So "always from the first page" and a
-    live window are not both achievable on the television in question,
-    and the first is what was actually asked for.
+    An EVENT playlist is the compromise that fixes both requirements:
+    MEDIA-SEQUENCE remains pinned at zero, so the reel still starts with
+    board zero, while omitting ENDLIST tells a player that the event is
+    still being updated and makes it reload the manifest automatically.
+    When a board status changes, its content-addressed segment name changes;
+    the next manifest fetch then moves the player to the new status without
+    requiring a channel reopen. The repository's five-minute raw-content
+    cache is the maximum propagation delay, not a permanent freeze.
 
-    A VOD playlist settles it with no tag a player may refuse:
-
-      PLAYLIST-TYPE:VOD and EXT-X-ENDLIST say the reel is complete, so
-      every player opens it at the FIRST segment and plays to the end —
-      board zero, every time, on every device.
-      MEDIA-SEQUENCE:0, fixed, because the list is the whole reel and
-      never slides.
-      ONE EXT-X-DISCONTINUITY at the top only. The segments are stamped
-      as one continuous timeline (encode_segment places each at its
-      offset), and a VOD reel does not wrap, so there is no interior
-      point where the timeline goes backwards.
-
-    THE TRADE, written down rather than glossed: a viewer already
-    watching does NOT see the next day roll in on its own — the daily
-    rebuild changes these files, and the player picks the new reel up
-    the next time the channel is opened. For a board that changes once a
-    day that is the right side of the trade; a channel that reliably
-    opens on page one beats one that updates in place but opens wherever
-    it likes.
-
-    raw.githubusercontent still serves with a five-minute cache, which
-    only delays when a reopened channel sees the new reel — it does not
-    affect the open point.
+    ONE EXT-X-DISCONTINUITY at the head remains correct. The segments carry
+    their position in one continuous timeline, and the event playlist never
+    slides or deletes the active reel.
     """
     now = now or time.time()
     reel = max(1, len(segments))
@@ -1067,7 +1050,7 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{max(HOLD, math.ceil(max(real)))}",
         "#EXT-X-MEDIA-SEQUENCE:0",
-        "#EXT-X-PLAYLIST-TYPE:VOD",
+        "#EXT-X-PLAYLIST-TYPE:EVENT",
         "#EXT-X-INDEPENDENT-SEGMENTS",
         # One break at the head of the reel, where the timeline begins.
         "#EXT-X-DISCONTINUITY",
@@ -1075,10 +1058,10 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     for place in range(reel):
         lines += [f"#EXTINF:{real[place]:.3f},",
                   os.path.basename(segments[place])]
-    lines.append("#EXT-X-ENDLIST")
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
-    # One pass over the reel — a VOD playlist is exactly one cycle.
+    # One pass over the reel; the event remains refreshable after its last
+    # segment instead of being declared permanently finished.
     return 1.0
 
 
