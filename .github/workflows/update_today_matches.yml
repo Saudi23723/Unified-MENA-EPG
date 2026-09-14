@@ -136,7 +136,11 @@ jobs:
       # published pass behind it, and it stays right when a pass gets
       # slower or faster — which it does, with the number of matches.
       - name: Keep publishing while the scheduler is quiet
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        # Scheduled runs own the 165-minute ticker. A manual repair run has
+        # already built, gated and published every channel in the step above;
+        # keeping it alive for nearly three hours only makes a completed fix
+        # look stuck and blocks the next repair behind concurrency.
+        if: github.event_name == 'schedule'
         run: |
           # Ten minutes inside the job's own timeout, so the last pass
           # finishes and pushes rather than being cut off part-way.
