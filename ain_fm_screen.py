@@ -194,7 +194,7 @@ def playlists() -> None:
                   "#EXT-X-TARGETDURATION:86400",
                   "#EXT-X-MEDIA-SEQUENCE:0",
                   "#EXTINF:86400.0,",
-                  LIVE,
+                  LIVE + "?stream.mp3",
                   "#EXT-X-ENDLIST"])
 
     write(MASTER, [
