@@ -127,6 +127,7 @@ CHANNEL_AR = "رياضات اليوم"
 # to رياضات اليوم mid-card had to guess which row was on the air.
 LIVE_MARK = "🔴"
 NEXT_MARK = "⏳"
+FINISHED_MARK = "✅"
 # Same reason as the football channel's: a blank mark is one width in a
 # text file and another on a television that renders the emoji as a wide
 # cell, which is how the waiting rows' clocks came to sit one column off
@@ -486,15 +487,13 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
             f"{NEXT_MARK} بعد {countdown_label(minutes)} {isolate('·')} "
             f"{isolate(row_title(card))}",
             names=row_title(card))
-    # THIS DAY'S OWN EVENTS. A card still being played when the day turns
-    # over is handed to the new day as well, so its live mark does not
-    # vanish at the boundary — still_on_air_at — but it belongs to the day
-    # it started on and is not one of the new day's own once it ends.
-    own = [e for e in events if e["start"].astimezone(VIEWER).date() == day]
-    if not own:
-        return f"{CHANNEL_AR} — لا يوجد حدث"
-    return f"{CHANNEL_AR} — " + arabic_count(
-        len(own), "حدث", "حدثان", "أحداث", "حدثاً")
+    finished = [e for e in events if status_of(e, now) == "over"]
+    if finished:
+        return in_reading_order(
+            f"{FINISHED_MARK} FINISHED {isolate('·')} "
+            f"{isolate(row_title(finished[-1]))}",
+            names=row_title(finished[-1]))
+    return f"{CHANNEL_AR} — لا يوجد حدث"
 
 
 def day_page(day: date, events: list[dict], now: datetime) -> str:
@@ -516,7 +515,7 @@ def day_page(day: date, events: list[dict], now: datetime) -> str:
         elif event is coming:
             mark = NEXT_MARK
         else:
-            mark = WAIT_MARK
+            mark = FINISHED_MARK
         lines.append(f"{mark} {when:%H:%M}  {row_title(event)}")
         lines.append(f"        {channels}")
     if not events:
