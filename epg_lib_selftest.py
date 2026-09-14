@@ -319,6 +319,44 @@ def main() -> int:
           (lambda t: t.count(L.FSI) + t.count(L.LRI) + t.count(L.RLI)
            == t.count(L.PDI))(L.countdown_title(three, 930)), "unbalanced")
 
+    # ----------------------------------------------------- status blocks
+    print("\nadd_day_in_blocks — live and next never freeze")
+    block_root = ET.Element("tv")
+    ET.SubElement(block_root, "channel", id="status")
+    block_open = datetime(2026, 8, 28, 0, 0, tzinfo=L.UTC)
+    kickoff = block_open + timedelta(hours=2)
+    event = {"start": kickoff, "on_air_for": timedelta(hours=1),
+             "title": "A - B"}
+
+    def describe_status(moment):
+        state = L.status_of(event, moment)
+        if state == "upcoming":
+            minutes = int((kickoff - moment).total_seconds() // 60)
+            return f"NEXT {L.countdown_label(minutes)}", ""
+        return ("FINISHED" if state == "over" else state.upper()), ""
+
+    L.add_day_in_blocks(block_root, "status", block_open,
+                        block_open + timedelta(hours=6), [event],
+                        describe_status)
+    block_starts = [
+        row.attrib["start"] for row in block_root.findall("programme")
+    ]
+    expected_cuts = [
+        L.xmltv_time(block_open + timedelta(minutes=60)),
+        L.xmltv_time(block_open + timedelta(minutes=90)),
+        L.xmltv_time(kickoff),
+        L.xmltv_time(kickoff + timedelta(hours=1)),
+    ]
+    check("countdown blocks are cut before kickoff",
+          all(cut in block_starts for cut in expected_cuts),
+          ", ".join(block_starts))
+    titles = [row.findtext("title") or ""
+              for row in block_root.findall("programme")]
+    check("the same blocks transition NEXT, LIVE and FINISHED",
+          any(title.startswith("NEXT") for title in titles)
+          and "LIVE" in titles and "FINISHED" in titles,
+          " | ".join(titles))
+
     # -------------------------------------------------------- fill_wait
     #
     # 17 matches were being published as 640 rows, 623 of them countdown
