@@ -2325,13 +2325,13 @@ def gate_a_board_says_which_day_it_is() -> None:
     now = datetime(2026, 9, 3, 4, 0, tzinfo=timezone.utc)
     here = now.astimezone(viewer).date()
     check("DAY", "the viewer's own date is the one called today",
-          match_board.day_badge(here, now, viewer, "س"), "اليوم · س")
+          match_board.day_badge(here, now, viewer, "س"), "اليوم")
     check("DAY", "the next one is غداً",
           match_board.day_badge(date(here.year, here.month, here.day + 1),
-                                now, viewer, "س"), "غداً · س")
+                                now, viewer, "س"), "غداً")
     check("DAY", "and the one after that is بعد غد",
           match_board.day_badge(date(here.year, here.month, here.day + 2),
-                                now, viewer, "س"), "بعد غد · س")
+                                now, viewer, "س"), "بعد غد")
     check("DAY", "past the third day it says the weekday and guesses nothing",
           match_board.day_badge(date(here.year, here.month, here.day + 5),
                                 now, viewer, "الاثنين"), "الاثنين")
