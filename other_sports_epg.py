@@ -1850,9 +1850,22 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # and a card keeps the carriers it was shown with while it is still on
     inside = remember_who_carries_a_card(inside)
     kept = [event for event in inside if wanted(event)]
+
+    # A source can leave a completed broadcast in its schedule, and the
+    # title does not always say replay or recorded. Use the same shared
+    # on-air clock as the LIVE mark so finished rows never reach the board
+    # or the EPG, even when the source calls them a current listing.
+    now = datetime.now(UTC)
+    live_or_upcoming = [
+        event for event in kept if status_of(event, now) != "over"
+    ]
+    removed_finished = len(kept) - len(live_or_upcoming)
+    if removed_finished:
+        log(f"  other sports: removed {removed_finished} finished/recorded "
+            f"row(s); {len(live_or_upcoming)} live/upcoming remain")
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
-        f"{len(kept)} in a sport asked for and naming a channel")
-    return in_the_readers_order(kept)
+        f"{len(live_or_upcoming)} in a sport asked for and naming a channel")
+    return in_the_readers_order(live_or_upcoming)
 
 
 def publish_all(events: list[dict], now: datetime,
