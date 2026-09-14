@@ -401,7 +401,7 @@ def boards(prefix: str) -> list[str]:
 #       stand for Mixkit track 568, "Focus on Yourself", the same
 #       140.000 s -20 LUFS recipe. The dubai_news screen shares the
 #       file, so both news screens change together.
-ENCODER_REVISION = 11
+ENCODER_REVISION = 14
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -946,6 +946,12 @@ def encode_segment(board: str, out: str, place: int = 0,
         "-g", str(FPS * KEYFRAME_SECONDS),
         "-keyint_min", str(FPS * KEYFRAME_SECONDS),
         "-sc_threshold", "0",
+        # These are still dashboard pages, not motion video. B-frames add a
+        # decode-time lead at each independently encoded TS page; ffprobe
+        # measured the previous page ending 135 ms after the next began and
+        # the HLS demuxer reported corrupt packets at every boundary. With no
+        # B-frames, DTS and PTS remain monotonic across adjacent pages.
+        "-bf", "0",
         # HOW SHARP THE LETTERS ARE, and it is the only lever there is.
         # A board is small type on flat panels — the case h.264 handles
         # worst — and at CRF 32 the encoder was spending so little on it
@@ -972,15 +978,22 @@ def encode_segment(board: str, out: str, place: int = 0,
         *maps,
         "-shortest", "-t", f"{hold:.6f}", "-muxdelay", "0",
         "-muxpreload", "0",
-        # MPEG-TS may preserve the audio/video encoder clock even when the
-        # requested output offset is zero. Normalize the muxed segment so
-        # page zero is genuinely timestamped at 0 rather than one page late.
-        "-avoid_negative_ts", "make_zero",
         # Where this board sits in the reel, so the reel is one timeline.
         # Page zero MUST start at timestamp 0. Adding one step here made the
         # first HLS segment begin at 20/25/35 seconds; players then opened on
         # page 1 and appeared to skip page 0 on every dashboard channel.
+        # Do not use -avoid_negative_ts make_zero here: it normalizes EACH
+        # separately encoded page back to zero and makes the clock jump
+        # backwards at every HLS boundary, which televisions report as
+        # buffering. Only page zero has offset zero; every following page
+        # continues at place * measured segment length.
         "-output_ts_offset", f"{place * (step or HOLD):.6f}",
+        # Every page is encoded as its own transport stream, so its MPEG-TS
+        # continuity counters begin again even though media timestamps carry
+        # on. Mark that reset in the transport packets; without it ffmpeg's
+        # HLS demuxer reports a corrupt packet at every otherwise-clean page
+        # boundary, and stricter television players may buffer there.
+        "-mpegts_flags", "+initial_discontinuity",
         "-f", "mpegts", out,
     ]
     done = subprocess.run(command, check=False, capture_output=True, text=True)
@@ -1021,31 +1034,41 @@ def seconds_of(segment: str) -> float:
 
 
 def write_playlist(segments: list[str], out: str, now=None) -> int:
-    """Write a refreshable event playlist whose first segment is board zero.
+    """Write a live window that loops forever and always opens on page zero.
 
-    This used to be published as VOD. That made every player treat the
-    manifest as permanently complete: after it was first fetched, the
-    player had no reason to poll it again, so LIVE, التالي and انتهى stayed
-    frozen until the viewer reopened the channel. The status is painted into
-    the board segments, therefore the manifest must remain refreshable.
+    A one-lap EVENT playlist is not a loop. It reaches its last entry and
+    waits for the manifest to append another one; a two-page Sport TV reel
+    therefore showed a loading spinner after forty seconds. MEDIA-SEQUENCE
+    fixed at zero also gives a client no evidence that a refreshed manifest
+    supersedes the one it already has.
 
-        "خليهم دائما لما افتح اي قناة يبدا من الاول عشان ما بخربط"
+    This is a real sliding live window. Its sequence advances only in whole
+    reels, and the entries advance with it, so an existing viewer retains a
+    consistent segment-number-to-page mapping. The window is long enough to
+    survive missed GitHub schedules and contains repeated complete reels.
 
-    An EVENT playlist is the compromise that fixes both requirements:
-    MEDIA-SEQUENCE remains pinned at zero, so the reel still starts with
-    board zero, while omitting ENDLIST tells a player that the event is
-    still being updated and makes it reload the manifest automatically.
-    When a board status changes, its content-addressed segment name changes;
-    the next manifest fetch then moves the player to the new status without
-    requiring a channel reopen. The repository's five-minute raw-content
-    cache is the maximum propagation delay, not a permanent freeze.
+    New players normally join either at the requested EXT-X-START position or
+    about three target durations behind the end. EXT-X-START uses the RFC
+    attribute syntax ``TIME-OFFSET=0.0``; the historical version used a
+    second colon instead of ``=`` and the television correctly rejected that
+    malformed line with ParserException. The window geometry is also a
+    fallback: both its front and three-entries-back position are page zero.
 
-    ONE EXT-X-DISCONTINUITY at the head remains correct. The segments carry
-    their position in one continuous timeline, and the event playlist never
-    slides or deletes the active reel.
+    Each page segment carries its position within a reel. A discontinuity is
+    emitted only when the reel wraps to page zero, where timestamps genuinely
+    reset. There is no decoder reset between ordinary adjacent pages.
     """
     now = now or time.time()
     reel = max(1, len(segments))
+
+    # Move only by complete reels. Both the first listed entry and the usual
+    # live join point (three target durations behind the end) are page zero.
+    ticks = int(now // HOLD)
+    opens_at = (ticks // reel) * reel
+    least = max(reel, (WINDOW_MINUTES * 60) // HOLD)
+    laps = max(1, -(-(least - JOIN_BACK) // reel))
+    long_enough = laps * reel + JOIN_BACK
+    breaks_gone = opens_at // reel
 
     # Measured once per board, not once per entry.
     real = [seconds_of(one) for one in segments]
@@ -1054,20 +1077,22 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         "#EXTM3U",
         "#EXT-X-VERSION:3",
         f"#EXT-X-TARGETDURATION:{max(HOLD, math.ceil(max(real)))}",
-        "#EXT-X-MEDIA-SEQUENCE:0",
-        "#EXT-X-PLAYLIST-TYPE:EVENT",
+        f"#EXT-X-MEDIA-SEQUENCE:{opens_at}",
+        f"#EXT-X-DISCONTINUITY-SEQUENCE:{breaks_gone}",
         "#EXT-X-INDEPENDENT-SEGMENTS",
-        # One break at the head of the reel, where the timeline begins.
-        "#EXT-X-DISCONTINUITY",
+        # Standards-compliant attribute syntax. Do not change '=' to ':';
+        # that malformed spelling was the ParserException seen on the TV.
+        "#EXT-X-START:TIME-OFFSET=0.0,PRECISE=YES",
     ]
-    for place in range(reel):
+    for step in range(long_enough):
+        place = (opens_at + step) % reel
+        if place == 0:
+            lines.append("#EXT-X-DISCONTINUITY")
         lines += [f"#EXTINF:{real[place]:.3f},",
                   os.path.basename(segments[place])]
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
-    # One pass over the reel; the event remains refreshable after its last
-    # segment instead of being declared permanently finished.
-    return 1.0
+    return long_enough / reel
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1184,8 +1209,8 @@ def main(argv: list[str] | None = None) -> int:
         # player is asking to be told.
         write_playlist(segments, out)
         log(f"{which}: the screen already shows these boards — not "
-            f"re-encoded, VOD playlist rewritten so the channel opens "
-            f"on board zero ({len(segments)} segment(s))")
+            f"re-encoded, live window advanced on a page-zero boundary "
+            f"({len(segments)} page segment(s))")
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -1248,7 +1273,7 @@ def main(argv: list[str] | None = None) -> int:
     bytes_on_disk = os.path.getsize(out) + sum(os.path.getsize(s)
                                                for s in segments)
     log(f"{which}: {len(segments) - kept} segment(s) encoded, {kept} kept "
-        f"as they were, {len(segments)} at {HOLD}s in the VOD reel that "
+        f"as they were, {len(segments)} at {HOLD}s in the live reel that "
         f"opens on board zero, {bytes_on_disk // 1024} KB on disk in total")
     return 0
 

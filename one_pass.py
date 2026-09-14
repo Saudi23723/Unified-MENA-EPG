@@ -175,6 +175,15 @@ def main() -> int:
                   "nothing is published on this pass")
             return 1
 
+    # Source-level invariants are not enough for a transport stream. Decode
+    # every generated screen through ffmpeg across a complete reel and its
+    # wrap, and refuse publication on missing pages, malformed live-window
+    # geometry, B-frame overlap, corrupt TS boundaries or non-monotonic DTS.
+    if run("tools/audit_dashboard_hls.py") != 0:
+        print("::error::dashboard HLS playback audit failed — nothing is "
+              "published on this pass")
+        return 1
+
     # ---- the playlists, then the push ---------------------------------
     # Written AFTER the gate so a quarantined screen is not listed
     # pointing at a stream that was put back. Tolerated if it fails and

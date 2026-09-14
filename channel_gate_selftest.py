@@ -643,18 +643,11 @@ def gate_the_screen_cannot_go_stale() -> None:
     import os as _os
     import re as _re
 
-    # AND THE PLAYLIST MUST REMAIN REFRESHABLE, because status indicators
-    # are painted into the board segments. EVENT keeps board zero first
-    # while omitting ENDLIST makes players reload the manifest.
-    #
-    # It was live for a while — a sliding window with a moving
-    # MEDIA-SEQUENCE and no ENDLIST — so the television could roll into
-    # the next day without the viewer reopening the channel. The cost was
-    # the fault asked about more than any other: a live client is free to
-    # join the window near its end, so the channel opened on page four or
-    # five, read as "بشطب صفحات". EXT-X-START, the one tag that pins the
-    # open point, took all three channels off the air twice and may not be
-    # used. The reel is therefore published as an updateable EVENT.
+    # THE PLAYLIST MUST REMAIN LIVE AND LONG ENOUGH TO LOOP. A one-lap
+    # EVENT playlist reaches its last page and waits there, which is the
+    # buffering spinner photographed on Sport TV. The moving window repeats
+    # whole reels, advances its sequence on reel boundaries and keeps both
+    # supported join points aligned to board zero.
     import match_screen_video as screen
     import tempfile as _tempfile
 
@@ -665,26 +658,27 @@ def gate_the_screen_cannot_go_stale() -> None:
 
     check("SCREEN", "the manifest stays open for automatic refresh",
           "EXT-X-ENDLIST" in live, False)
-    check("SCREEN", "and it is declared an updateable event",
-          "PLAYLIST-TYPE:EVENT" in live, True)
+    check("SCREEN", "and it is a live playlist, not a finite event",
+          "PLAYLIST-TYPE:" in live, False)
 
-    # The event reel still carries the whole day's boards once, with board
-    # zero first, while the player remains allowed to refresh it.
-    check("SCREEN", "the reel carries every board once",
-          live.count("#EXTINF:"), len(drawn))
+    # The window carries many complete laps so it cannot run dry between
+    # GitHub publishes.
+    check("SCREEN", "the live window carries more than one reel",
+          live.count("#EXTINF:") > len(drawn), True)
 
-    # MEDIA-SEQUENCE is fixed at zero and never slides: the list is the
-    # whole reel, not a sliding window, so a refresh does not move its
-    # opening point. The day's content changes in place and a player can
-    # pick up the new reel without a channel reopen.
+    # MEDIA-SEQUENCE moves only in whole reels. The player sees progress,
+    # while sequence modulo reel stays zero and therefore page identity does
+    # not shift beneath an existing viewer.
     screen.write_playlist(drawn, written, now=1788400000 + 600)
     after = open(written, encoding="utf-8").read()
 
     def sequence(text):
         return int(_re.search(r"MEDIA-SEQUENCE:(\d+)", text).group(1))
 
-    check("SCREEN", "the sequence stays pinned at zero across rebuilds",
-          (sequence(live), sequence(after)), (0, 0))
+    check("SCREEN", "the sequence advances in whole reels",
+          sequence(after) > sequence(live)
+          and sequence(live) % len(drawn) == 0
+          and sequence(after) % len(drawn) == 0, True)
 
     boards_dir, stream_dir = "boards", "stream"
     # ALL EIGHT SCREENS, because there are two clocks now and each clock
@@ -3232,17 +3226,15 @@ def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
           ["beIN 1", "Sky Sports F1", "TRT Spor"])
 
 def gate_the_window_keeps_moving() -> None:
-    """The channel opens on board zero and the reel remains refreshable.
+    """The channel loops, refreshes and opens on board zero.
 
     A reader photographed a spinner on the last board: the screen played
-    through, reached the end, and sat on a loading circle instead of
-    starting again. That was a LIVE playlist run dry — a sliding window
-    whose MEDIA-SEQUENCE stopped moving once the boards stopped changing.
+    through a short EVENT playlist, reached the end, and sat on a loading
+    circle because no next segment existed.
 
-    The reel is published as EVENT: PLAYLIST-TYPE:EVENT, MEDIA-SEQUENCE:0
-    fixed, and no EXT-X-ENDLIST. A player starts at board zero but continues
-    polling the manifest, so a changed LIVE/Next/Finished segment is picked
-    up without reopening the channel.
+    The repaired live window repeats complete reels for two hours and moves
+    its MEDIA-SEQUENCE on whole-reel boundaries. Both the front and the
+    normal three-segments-from-the-end join point are board zero.
     """
     print("\nThe reel refreshes automatically and opens on board zero — match_screen_video")
     import match_screen_video as video
@@ -3263,56 +3255,58 @@ def gate_the_window_keeps_moving() -> None:
         video.write_playlist(segments, out, now=1_000_000 + 600)
         second = open(out, encoding="utf-8").read()
 
-        # An EVENT reel does not slide: MEDIA-SEQUENCE is pinned at zero and
-        # a refresh ten minutes later still starts at board zero.
-        check("EVENT", "MEDIA-SEQUENCE is pinned at zero",
-              (sequence_of(first), sequence_of(second)), (0, 0))
-        check("EVENT", "and a refresh does not move it",
-              sequence_of(second) - sequence_of(first), 0)
+        # It advances, but only by complete reels, so a sequence number never
+        # changes which page it identifies.
+        check("LIVE", "MEDIA-SEQUENCE advances across refreshes",
+              sequence_of(second) > sequence_of(first), True)
+        check("LIVE", "and both windows begin on a reel boundary",
+              (sequence_of(first) % len(segments),
+               sequence_of(second) % len(segments)), (0, 0))
 
         def played(text):
             return [line for line in text.splitlines()
                     if line.strip().endswith(".ts")]
 
-        # The reel is the whole of the day's boards, once and in order.
-        check("EVENT", "the reel carries every board exactly once, in order",
-              played(second),
-              [os.path.basename(s) for s in segments])
+        pages = played(second)
+        expected_reel = [os.path.basename(s) for s in segments]
+        check("LIVE", "the window is long enough not to run dry",
+              len(pages) > len(segments), True)
+        check("LIVE", "the front is a complete reel beginning at page zero",
+              pages[:len(segments)], expected_reel)
+        check("LIVE", "the normal three-segment live join point is page zero",
+              pages[-video.JOIN_BACK:], expected_reel[:video.JOIN_BACK])
 
-        # ONE break, at the head of the reel, where the timeline begins.
-        # The segments carry their place in the reel (encode_segment
-        # stamps each at its offset), so a VOD reel is one continuous
-        # timeline with nothing to declare inside it — and it does not
-        # wrap, so there is no interior point going backwards.
+        # One break per reel, where timestamps genuinely wrap to page zero;
+        # there must be no decoder reset between adjacent pages.
         # COUNTED AS WHOLE LINES, not as a substring: "#EXT-X-
         # DISCONTINUITY" is a prefix of "#EXT-X-DISCONTINUITY-SEQUENCE".
         breaks = sum(1 for line in second.splitlines()
                      if line.strip() == "#EXT-X-DISCONTINUITY")
-        check("EVENT", "one break, at the head of the reel",
-              breaks, 1)
+        check("LIVE", "one discontinuity per complete reel",
+              breaks, len(pages) // len(segments))
 
-        check("EVENT", "and the player is told it may read ahead",
+        check("LIVE", "and the player is told it may read ahead",
               "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
 
-        # EVENT keeps the manifest open so a player reloads it as statuses
-        # change; ENDLIST would permanently freeze the first fetched state.
-        check("EVENT", "ENDLIST is absent so clients keep polling",
+        # A live playlist has neither ENDLIST nor a finite playlist type.
+        check("LIVE", "ENDLIST is absent so clients keep polling",
               "#EXT-X-ENDLIST" in second, False)
-        check("EVENT", "the playlist is declared updateable",
-              "#EXT-X-PLAYLIST-TYPE:EVENT" in second, True)
+        check("LIVE", "no finite playlist type can make the reel run dry",
+              "#EXT-X-PLAYLIST-TYPE:" in second, False)
 
-        # EXT-X-START may not come back — it took all three channels off
-        # the air twice, and a VOD reel does not need it: the front IS
-        # the open point.
-        check("EVENT", "and EXT-X-START stays out of the playlist",
-              "EXT-X-START" in second, False)
+        # The old line used a colon between the attribute name and value and
+        # was invalid HLS. Require the standard '=' syntax and forbid the
+        # malformed spelling that produced ParserException on the TV.
+        check("LIVE", "EXT-X-START uses valid HLS attribute syntax",
+              "#EXT-X-START:TIME-OFFSET=0.0,PRECISE=YES" in second, True)
+        check("LIVE", "the malformed start syntax cannot return",
+              "#EXT-X-START:TIME-OFFSET:" in second, False)
 
-        # A DISCONTINUITY-SEQUENCE header belongs to a sliding window; a
-        # fixed VOD reel has no breaks scrolling off, so it must not
-        # reappear.
-        check("EVENT", "no rolling-window DISCONTINUITY-SEQUENCE header",
+        # Sliding past whole reels also slides past their discontinuities;
+        # clients need this counter to keep decoder resets aligned.
+        check("LIVE", "the rolling window declares discontinuity sequence",
               any(line.startswith("#EXT-X-DISCONTINUITY-SEQUENCE:")
-                  for line in second.splitlines()), False)
+                  for line in second.splitlines()), True)
 
         # THE PLAYLIST MUST NOT LIE ABOUT HOW LONG A BOARD IS. Declared
         # 20.0 and measured 20.032, the playlist says a board ends while
@@ -3321,12 +3315,18 @@ def gate_the_window_keeps_moving() -> None:
         # re-syncing. So every entry declares the length it MEASURED.
         import inspect as _inspect
         writer = _inspect.getsource(video.write_playlist)
-        check("EVENT", "each entry declares the length it MEASURED",
+        check("LIVE", "each entry declares the length it MEASURED",
               "real[place]" in writer, True)
-        check("EVENT", "measured off the file, not off the constant",
+        check("LIVE", "measured off the file, not off the constant",
               "seconds_of" in writer, True)
-        check("EVENT", "and TARGETDURATION covers the longest of them",
+        check("LIVE", "and TARGETDURATION covers the longest of them",
               "math.ceil(max(real))" in writer, True)
+
+        encoder = _inspect.getsource(video.encode_segment)
+        check("LIVE", "dashboard video has no B-frame boundary overlap",
+              '"-bf", "0"' in encoder, True)
+        check("LIVE", "each independent TS page marks its counter reset",
+              '"+initial_discontinuity"' in encoder, True)
 
     # The pass that encodes nothing must still write the playlist. Proved
     # on the source, because reaching this path needs an ffmpeg and a
@@ -5494,10 +5494,9 @@ def gate_a_viewer_always_arrives_at_the_first_board() -> None:
     own list is indistinguishable from one that has lost the front of it,
     and it was read as the second — "بشطب صفحات", pages being skipped.
 
-    EXT-X-START IS THE TAG FOR THIS AND IT MAY NOT BE USED. It took all
-    three channels off the air twice in one hour, once as an offset from
-    the wrong end and once as a ParserException photographed off the
-    television. The gate below still forbids it.
+    EXT-X-START is written with valid HLS attribute syntax, while playlist
+    geometry also places board zero at the front and three entries behind the
+    end as a fallback for clients that ignore the optional directive.
 
     So the arrival point is chosen by choosing what is AT it. A player
     begins at one of two places — the front of the window, or three
@@ -5515,50 +5514,57 @@ def gate_a_viewer_always_arrives_at_the_first_board() -> None:
     # under test is the GEOMETRY of the reel — which board a player opens
     # on — and that does not depend on what a board measures.
     #
-    # An EVENT reel keeps MEDIA-SEQUENCE at zero, so its first segment is
-    # still board zero, while the absent ENDLIST keeps status updates live.
+    # The durations are stubbed because this test concerns only playlist
+    # geometry, sequence alignment and page order.
     measured, video.seconds_of = video.seconds_of, lambda one: 20.032
     with tempfile.TemporaryDirectory() as room:
         out = os.path.join(room, "start.m3u8")
 
-        def front_of(reel, at):
+        def joins_of(reel, at):
             segments = [f"today_matches_{n}.aa.ts" for n in range(reel)]
             video.write_playlist(segments, out, now=at)
             played = [line.strip()
                       for line in open(out, encoding="utf-8").read().splitlines()
                       if line.strip().endswith(".ts")]
-            return played[0], played[-1]
+            return played[0], played[-video.JOIN_BACK], played
 
         # Every ten minutes of a whole day, on every reel length the
-        # channels have carried — the front is always board zero and the
-        # reel always ends on the last board (it does not wrap).
+        # channels have carried: both places a live client may join are page
+        # zero, and every full lap remains in exact numeric order.
         base = 1788400000
         wrong = []
         for reel in (1, 2, 3, 5, 6, 7, 10, 11, 13, 18, 24, 29, 37):
             for step in range(0, 24 * 6):
-                front, last = front_of(reel, base + step * 600 + 7)
+                front, live_join, played = joins_of(
+                    reel, base + step * 600 + 7)
                 if not front.endswith("_0.aa.ts"):
                     wrong.append(f"reel {reel} opens on {front}")
                     break
-                if not last.endswith(f"_{reel - 1}.aa.ts"):
-                    wrong.append(f"reel {reel} ends on {last}")
+                if not live_join.endswith("_0.aa.ts"):
+                    wrong.append(f"reel {reel} live-joins on {live_join}")
                     break
-        check("START", "the reel opens on board zero, and ends on the last",
+                expected = [f"today_matches_{n}.aa.ts"
+                            for n in range(reel)]
+                if played[:reel] != expected:
+                    wrong.append(f"reel {reel} is out of order at its front")
+                    break
+        check("START", "both live join points are board zero, without skips",
               wrong, [])
 
-        # The event stays open for refresh, but its fixed sequence still
-        # anchors the opening point at board zero.
+        # The live window stays open, repeats and advances; it is not a
+        # finite EVENT that can run dry.
         segments = [f"today_matches_{n}.aa.ts" for n in range(6)]
         video.write_playlist(segments, out, now=base)
         text = open(out, encoding="utf-8").read()
-        check("START", "the reel is declared an updateable event",
-              "#EXT-X-PLAYLIST-TYPE:EVENT" in text
-              and "#EXT-X-ENDLIST" not in text, True)
+        check("START", "the reel is a repeatable live window",
+              "#EXT-X-PLAYLIST-TYPE:" not in text
+              and "#EXT-X-ENDLIST" not in text
+              and text.count("#EXTINF:") > len(segments), True)
 
         # THE TAG THAT WOULD HAVE DONE THIS DIRECTLY STAYS OUT — it took
         # all three channels off the air twice, and fixed sequence is enough.
-        check("START", "and EXT-X-START is still nowhere in the playlist",
-              "EXT-X-START" in text, False)
+        check("START", "and the valid page-zero start directive is present",
+              "#EXT-X-START:TIME-OFFSET=0.0,PRECISE=YES" in text, True)
     video.seconds_of = measured
 
     # AND A PAGE STAYS UP LONG ENOUGH TO BE READ, which is not the same
