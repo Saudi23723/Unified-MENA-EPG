@@ -28,10 +28,14 @@ LINEAR_CHANNELS = tuple(f"DAZN {n}" for n in range(1, 6))
 # events, not talk shows, previews, weigh-ins, press conferences, analysis,
 # or magazine blocks.
 NOT_A_GAME = re.compile(
-    r"\ban[áa]lise\b|\bpreview\b|\bmagazine\b|\bhighlights?\b"
-    r"|\bshow\b|\bpub\b|\bconfer[êe]ncia de imprensa\b"
-    r"|\bpesagem\b|\bpaddock club\b|\bgera[çc][ãa]o nfl\b"
-    r"|\btop ou nem por isso\b|\bthe premier pub\b|\bmanningcast\b", re.I)
+        r"\ban[áa]lise\b|\bpreview\b|\bmagazine\b|\bhighlights?\b"
+        r"|\bshow\b|\bpub\b|\bconfer[êe]ncia de imprensa\b"
+        r"|\bpesagem\b|\bpaddock club\b|\bgera[çc][ãa]o nfl\b"
+        r"|\btop ou nem por isso\b|\bthe premier pub\b|\bmanningcast\b"
+        r"|\bentrevista\b|\binterview\b|\btalk\b|\best[úu]dio\b"
+        r"|\bnot[íi]cias\b|\bdebate\b|\bdocument[áa]rio\b"
+        r"|\bpress\s+conference\b|\breplay\b|\brecorded\b"
+        r"|\bgravado\b|\brepeti[çc][ãa]o\b", re.I)
 
 SPORTS = {
     "futebol": "Football", "football": "Football", "soccer": "Football",
@@ -73,7 +77,31 @@ def _competition(tile: dict) -> str:
     return norm(str(value or "DAZN Portugal"))
 
 
-def events(session, floor: datetime | None = None,
+def _channels(tile: dict) -> list[str]:
+        """Return real DAZN linear channels when the feed maps one.
+
+        Event tiles often have no linear assignment. In that case keep the
+        honest DAZN Portugal label instead of copying one event onto DAZN 1
+        through 5. If the official feed supplies a channel field, preserve it.
+        """
+        found: list[str] = []
+        for key in ("ChannelName", "ChannelTitle", "Channel",
+                    "LinearChannel", "Channels"):
+            value = tile.get(key)
+            values = value if isinstance(value, list) else [value]
+            for item in values:
+                if isinstance(item, dict):
+                    item = (item.get("Title") or item.get("Name")
+                            or item.get("title") or item.get("name"))
+                label = norm(str(item or ""))
+                match = re.search(r"\bDAZN\s*(?:Portugal\s*)?([1-5])\b",
+                                  label, re.I)
+                if match:
+                    found.append(f"DAZN {match.group(1)}")
+        return list(dict.fromkeys(found)) or [CHANNEL]
+
+
+    def events(session, floor: datetime | None = None,
            ceiling: datetime | None = None) -> list[dict]:
     now = datetime.now(timezone.utc)
     start = (floor or now - timedelta(hours=6)).date()
@@ -131,7 +159,7 @@ def events(session, floor: datetime | None = None,
             "title": title,
             "competition": _competition(tile),
             "sport": _sport(tile),
-            "channels": [CHANNEL],
+            "channels": _channels(tile),
         })
 
     log(f"dazn Portugal: {len(out)} live/scheduled event(s); official "
