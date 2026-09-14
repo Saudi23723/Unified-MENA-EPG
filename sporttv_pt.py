@@ -40,10 +40,9 @@ deliberately not here.
 ONLY WHAT IS BEING PLAYED, asked for in those words. The site says so
 itself in the rows this refuses: SEM TRANSMISSÃO is no broadcast at
 all, INFORMAÇÃO is the news category, and RESCALDO is the aftermath
-programme. tipoEmissao is the field that should settle it outright and
-its values were not readable in the probe, so every distinct value this
-sees is LOGGED on each build: the day it shows a word for "live", this
-reader uses it and the name list stops mattering.
+programme. The store's tipoEmissao is now used as the authoritative gate:
+only DIRETO survives, while Recorded, Magazine, Long Summary, replay, and
+empty-state rows are rejected.
 """
 from __future__ import annotations
 
@@ -53,6 +52,7 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 
 from epg_lib import fetch, log, norm, warn
+import dazn_pt
 
 BASE = "https://www.sporttv.pt"
 
@@ -87,6 +87,11 @@ NOT_A_CONTEST = re.compile(
     r"sem\s+transmiss[ãa]o|informa[çc][ãa]o|not[íi]cias"
     r"|rescaldo|antevis[ãa]o|magazine|resumo|highlights"
     r"|melhores\s+momentos|reda[çc][ãa]o|estúdio|estudio", re.I)
+
+# The broadcaster's own state is authoritative. Only DIRETO is a live
+# broadcast; Recorded, Magazine, Long Summary, replay, and empty-state rows
+# are never allowed onto this channel.
+LIVE_BROADCAST = "DIRETO"
 
 
 def biggest_json(text: str) -> str:
@@ -181,6 +186,9 @@ def one_channel(session, cid: str, slug: str, shown: str,
             # in this store too and were not asked for.
             continue
 
+        if str(at(row.get("tipoEmissao")) or "").strip().upper() != LIVE_BROADCAST:
+            continue
+
         when = at(row.get("data"))
         if not isinstance(when, int) or when < 1_000_000_000_000:
             continue
@@ -225,7 +233,7 @@ def one_channel(session, cid: str, slug: str, shown: str,
 
 def events(session, floor: datetime | None = None,
            ceiling: datetime | None = None) -> list[dict]:
-    """Every live contest the six channels carry, inside the window."""
+    """Live Sport TV contests plus live/scheduled DAZN Portugal events."""
     seen_types: Counter = Counter()
     seen_canal: Counter = Counter()
     out: list[dict] = []
@@ -264,6 +272,8 @@ def events(session, floor: datetime | None = None,
 
     if floor and ceiling:
         out = [e for e in out if floor <= e["start"] < ceiling]
-    log(f"sporttv: {len(out)} live contest(s) across "
-        f"{len(CHANNELS)} channel(s)")
+    dazn = dazn_pt.events(session, floor, ceiling)
+    out.extend(dazn)
+    log(f"sporttv Portugal: {len(out)} live/scheduled event(s), including "
+        f"{len(dazn)} from DAZN Portugal")
     return out
