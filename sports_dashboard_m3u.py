@@ -29,6 +29,7 @@ in today_matches_epg.xml. Nothing was lost by taking the rows out.
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import re
 import sys
@@ -288,6 +289,21 @@ def display(value: str) -> str:
     return clean(value).replace(",", " ·")
 
 
+def versioned_stream_url(path: str, url: str) -> str:
+    """Change the public HLS URL whenever its playlist content changes.
+
+    raw.githubusercontent.com permits a five-minute cache. Some IPTV
+    players keep the URL longer than that and can therefore continue
+    showing an older one-board reel after the repository already contains
+    three boards. A content-derived query gives every new HLS manifest a
+    new URL while leaving unchanged streams stable.
+    """
+    with open(path, "rb") as stream:
+        version = hashlib.sha256(stream.read()).hexdigest()[:12]
+    separator = "&" if "?" in url else "?"
+    return f"{url}{separator}v={version}"
+
+
 def write_the_playlist(screens, output: str, group: str) -> int:
     """Write one playlist from one set of screens, or leave it alone.
 
@@ -312,7 +328,7 @@ def write_the_playlist(screens, output: str, group: str) -> int:
             f'#EXTINF:-1 tvg-id="{attribute(channel_id)}" '
             f'tvg-name="{attribute(guide_name)}" tvg-logo="{mark}" '
             f'group-title="{attribute(group)}",{display(shown)}')
-        lines.append(url)
+        lines.append(versioned_stream_url(path, url))
         written += 1
 
     if not written:
