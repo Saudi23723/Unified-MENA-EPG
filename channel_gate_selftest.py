@@ -4679,9 +4679,11 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
     if not match_board.has_arabic_face():
         return
 
-    # And the colour. Held on the drawing, because the point is what a
-    # viewer sees: the same three rows an hour later must not look the
-    # same.
+    # Dashboard artwork is deliberately neutral: it contains only the
+    # scheduled time, listing, competition and source. Status changes are
+    # handled by the HLS occurrence planner, not by recolouring a cached
+    # board. The image must therefore stay byte-stable as the same rows move
+    # from upcoming to finished.
     viewer = timezone.utc
 
     def board(at):
@@ -4695,12 +4697,8 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
 
     morning = board(datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc))
     evening = board(datetime(2026, 9, 5, 23, 0, tzinfo=timezone.utc))
-    check("MIDNIGHT", "the same rows look different once they are played",
-          morning != evening, True)
-    check("MIDNIGHT", "and red is not the green it used to be",
-          match_board.OVER != match_board.ACCENT, True)
-    check("MIDNIGHT", "red is red",
-          (match_board.OVER[0] > 200 and match_board.OVER[1] < 140), True)
+    check("MIDNIGHT", "the same rows stay stable once time passes",
+          morning == evening, True)
 
 def gate_midnight_is_not_a_kickoff() -> None:
     """Four Turkish matches on one instant, and that instant was midnight.
