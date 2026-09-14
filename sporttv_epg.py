@@ -37,7 +37,7 @@ from datetime import datetime, timedelta
 import dubai_time
 import other_sports_epg as base
 import sporttv_pt
-from epg_lib import log, new_session, warn
+from epg_lib import log, new_session, on_air_span, warn
 
 CHANNEL_ID = "SportTVPT"
 CHANNEL_AR = "🇵🇹 Sport TV"
@@ -105,7 +105,7 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     now = datetime.now(base.UTC)
     current_or_upcoming = [
         event for event in sport_kept
-        if event["start"] + base.on_air_span(event) > now
+        if event["start"] + on_air_span(event) > now
     ]
     removed = len(sport_kept) - len(current_or_upcoming)
     if removed:
