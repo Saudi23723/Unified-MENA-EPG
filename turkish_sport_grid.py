@@ -48,10 +48,12 @@ broadcasts +03:00, which is Europe/Istanbul, and that is read from the tz
 database rather than written down as a number so the hour stays right
 across a daylight-saving change. A gate holds it.
 
-ONLY TODAY. The site's day links — /home/day/2026-09-06 and the rest —
-all return the identical eighty rows: the date is applied in the browser,
-so the server has only ever one day to give. This reads that day. The
-board's other two days are filled by the sources that can reach them.
+MULTI-DAY. The site's rendered HTML contains only today's rows even when
+opening a dated route. Its browser client, however, reads the public
+``/events/upcoming`` API. This reader discovers the public client
+parameters from the site's current JavaScript bundle and requests enough
+rows to cover the rolling schedule, falling back to today's HTML if that
+API or its bundle changes.
 """
 from __future__ import annotations
 
@@ -64,6 +66,7 @@ from bs4 import BeautifulSoup
 from epg_lib import fetch, log, norm, warn
 
 SOURCE = "https://www.sporekrani.com/"
+API = "https://api.sporekrani.com/v4.1/events/upcoming"
 
 # The page prints Turkey's clock. Proven, not assumed: its own ld+json
 # stamps every broadcast +03:00.
@@ -265,13 +268,89 @@ def collect(html: str, today: datetime | None = None) -> list[dict]:
     return out
 
 
+def collect_api(rows: list[dict]) -> list[dict]:
+    """Parse the site's own multi-day upcoming-events API."""
+    out: list[dict] = []
+    seen = wrong_sport = not_event = no_channel = 0
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        seen += 1
+        sport = A_SPORT.get(norm(str(row.get("sport_name") or "")).casefold())
+        if not sport:
+            wrong_sport += 1
+            continue
+        league = norm(str(row.get("league_name") or ""))
+        title = norm(str(row.get("name") or ""))
+        if A_PROGRAMME.search(f"{league} {title}"):
+            not_event += 1
+            continue
+        channels = []
+        for channel in row.get("channels") or []:
+            name = norm(str(channel.get("name") or "")) if isinstance(
+                channel, dict) else ""
+            if name and name not in channels:
+                channels.append(name)
+        if not channels:
+            no_channel += 1
+            continue
+        try:
+            start = datetime.fromisoformat(str(row.get("date_time") or ""))
+        except ValueError:
+            continue
+        start = (start.replace(tzinfo=ISTANBUL) if start.tzinfo is None
+                 else start.astimezone(ISTANBUL))
+        out.append({
+            "start": start.astimezone(timezone.utc),
+            "title": title or league,
+            "competition": league,
+            "sport": sport,
+            "channels": channels,
+            "source": "sporekrani",
+        })
+    log(f"  sporekrani API: {seen} row(s), {wrong_sport} another sport, "
+        f"{not_event} a programme, {no_channel} with no broadcaster, "
+        f"{len(out)} kept")
+    return out
+
+
+def _public_api_params(session, homepage: str) -> dict[str, str]:
+    """Read the public browser-client parameters without storing them here."""
+    main = re.search(r'/(assets/index-[A-Za-z0-9_-]+\.js)', homepage)
+    if not main:
+        raise ValueError("main JavaScript bundle not named")
+    main_js = fetch(
+        session, f"https://www.sporekrani.com/{main.group(1)}").text
+    axios = re.search(r'assets/(axios-[A-Za-z0-9_-]+\.js)', main_js)
+    if not axios:
+        raise ValueError("Axios configuration bundle not named")
+    config = fetch(
+        session, f"https://www.sporekrani.com/assets/{axios.group(1)}").text
+    app_id = re.search(r'app_id:"([^"]+)"', config)
+    api_key = re.search(r'api_key:"([^"]+)"', config)
+    if not app_id or not api_key:
+        raise ValueError("public API parameters not found")
+    return {"app_id": app_id.group(1), "api_key": api_key.group(1),
+            "limit": "500"}
+
+
 def events(session) -> list[dict]:
-    """The grid's own rows for the two competitions, or nothing at all."""
+    """The grid's multi-day rows, with today's HTML as a safe fallback."""
     try:
         got = fetch(session, SOURCE)
         if (got.encoding or "").lower() in ("", "iso-8859-1", "latin-1"):
             got.encoding = "utf-8"
-        return collect(got.text)
+        try:
+            params = _public_api_params(session, got.text)
+            payload = fetch(session, API, params=params).json()
+            rows = payload.get("data", []) if isinstance(payload, dict) else []
+            if rows:
+                return collect_api(rows)
+            raise ValueError("upcoming API returned no rows")
+        except Exception as exc:                                # noqa: BLE001
+            warn(f"sporekrani multi-day API unreadable ({exc}) — using "
+                 f"today's HTML")
+            return collect(got.text)
     except Exception as exc:                                   # noqa: BLE001
         warn(f"sporekrani is unreachable ({exc}) — the board keeps what "
              f"the other sources gave it")

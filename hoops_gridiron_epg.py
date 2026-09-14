@@ -44,6 +44,8 @@ DUBAI_BOARD_PREFIX = "dubai_hoops_gridiron_"
 # sport absent from here can never reach the board.
 IN_ORDER = ("NBA", "NFL")
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
+EVENT_DAYS = 3
+LOOKAHEAD_DAYS = 8
 
 
 def wear_this_channel(**also):
@@ -89,17 +91,31 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
 def build() -> int:
     now = datetime.now(base.UTC)
     with wear_this_channel():
-        days = base.days_of(now)
+        first = now.astimezone(base.VIEWER).date()
+        days = [first + timedelta(days=step)
+                for step in range(LOOKAHEAD_DAYS)]
         floor = base.start_of_day(days[0])
         ceiling = base.start_of_day(days[-1] + timedelta(days=1))
 
         session = new_session()
         events = collect(session, floor, ceiling)
+        event_days = sorted({
+            event["start"].astimezone(base.VIEWER).date()
+            for event in events
+        })[:EVENT_DAYS]
+        if event_days:
+            events = [
+                event for event in events
+                if event["start"].astimezone(base.VIEWER).date() in event_days
+            ]
+            days = event_days
+        else:
+            days = [first]
         for event in events:
             event["channels"] = [shorter(name) for name
                                  in channels_in_order(event["channels"])]
 
-        ok = base.publish_all(events, now) == 0
+        ok = base.publish_all(events, now, days=days) == 0
 
         # THE SECOND CLOCK — the same games with every time printed in
         # the Gulf's, on its own link, exactly as the other channels do.
