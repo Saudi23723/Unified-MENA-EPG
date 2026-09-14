@@ -179,7 +179,7 @@ def picture(kept: dict, now: datetime) -> bytes:
             "vsport": draw_board_vsport}.get(kept["style"], draw_board)
     extra = {}
     if kept["style"] == "vsport":
-        extra["show_page_count"] = kept.get("show_page_count", False)
+        extra["show_page_count"] = kept.get("show_page_count", True)
     board = draw(
         date.fromisoformat(kept["day"]), kept["rows"], now,
         ZoneInfo(kept["viewer"]), on_air_for,

@@ -169,7 +169,7 @@ BOARD_COLOURS = 64
 # any channel wearing this module picks one by this word.
 BOARD_STYLE = "vsport"
 # Portuguese Sport TV/DAZN shows a daily page counter; other channels do not.
-SHOW_PAGE_COUNT = False
+SHOW_PAGE_COUNT = True
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #
 # Asked for outright — "ما تعجق الصورة … بتنقسم على صفحتين ورا بعض عادي".

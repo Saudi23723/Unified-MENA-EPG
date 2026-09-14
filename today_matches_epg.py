@@ -2218,6 +2218,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
         "viewer": str(VIEWER), "title": CHANNEL_AR,
         "subtitle": f"بث اليوم المباشر · {VIEWER_NAME}",
         "weekday": ARABIC_DAY[day.weekday()], "page": page, "pages": pages,
+        "show_page_count": True,
         "colours": BOARD_COLOURS, "accent": None,
         "board_dir": BOARD_DIR, "board_url": BOARD_URL,
     }

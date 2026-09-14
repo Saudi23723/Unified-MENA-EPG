@@ -464,19 +464,13 @@ def draw_day_chip(pen, day: date, now: datetime, viewer, weekday: str,
 
 
 def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
-    """Which of the three days this board is, said in words.
-
-    No digits: the date is already set on the right, and a number inside
-    Arabic is the one thing that can come out reversed.
-
-    Dashboard pages use only the relative day names. The board already
-    has its own clock, so a weekday or numeric date adds noise rather than
-    helping a viewer identify the page.
-    """
+    """Name the board with its relative label, weekday, and calendar date."""
     away = (day - now.astimezone(viewer).date()).days
-    relative = RELATIVE_DAY.get(away, "")
-    return relative or weekday
-
+    relative = RELATIVE_DAY.get(away)
+    date_text = f"{day:%d.%m.%Y}"
+    if relative:
+        return f"{relative} · {weekday} {date_text}"
+    return f"{weekday} {date_text}"
 
 # ---- crests ------------------------------------------------------------
 # A MATCH IS TWO CLUBS, SO THE ROW SHOWS TWO CLUBS. The board used to
@@ -1523,30 +1517,8 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
 
 def vsport_day_label(title: str, day: date, now: datetime, viewer,
                      weekday: str) -> str:
-    """What the chip over the list says about the day it is showing.
-
-    THE DAY IS ALWAYS NAMED, and the word "اليوم" never appears.
-
-    The channels are NAMED "مباريات اليوم" and "رياضات اليوم", and the
-    reel carries a board for every day of the window — so the name said
-    "today" on Tuesday's board. Saying it only on today's board was
-    half a fix: a viewer flicking through a reel has no way to know
-    which board is today's, so "اليوم" on one of them and a weekday on
-    the next is exactly the confusion it was meant to end. "اليوم / يوم
-    المفروض او خلص بس ينكتب الأحد، الاثنين … و التاريخ عشان ما يصير
-    خربطة".
-
-    So every board names its own day outright — الأحد 13.09, الاثنين
-    14.09 — whether or not it is today, and the date beside it settles
-    any doubt. "مباريات اليوم" becomes "مباريات الأحد"; "رياضات اليوم"
-    becomes "رياضات الأحد".
-
-    A channel whose name does not carry "اليوم" — Turkish PPV — keeps
-    its name and takes the weekday beside it, which reads the same way.
-    """
-    away = (day - now.astimezone(viewer).date()).days
-    return RELATIVE_DAY.get(away, weekday)
-
+    """Return the relative label plus the board's weekday and date."""
+    return day_badge(day, now, viewer, weekday)
 
 def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
                       live_for, *, title: str, subtitle: str, weekday: str,
