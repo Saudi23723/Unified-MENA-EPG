@@ -83,11 +83,19 @@ def wear_this_channel(**also):
 def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     """Every live contest the six screens carry inside the window."""
     events = sporttv_pt.events(session, floor, ceiling)
-    sport_kept = [event for event in events if event.get("sport") in RANK]
-    rejected_sport = len(events) - len(sport_kept)
-    if rejected_sport:
-        log(f"  sporttv: {rejected_sport} row(s) in a sport this channel "
-            "does not carry")
+    # Do not discard a valid live/upcoming event merely because a source
+    # introduces a new sport label. The source parsers already reject rows
+    # without a contest or with editorial content; this mapping is only for
+    # display order, not an eligibility gate.
+    source_sports = sorted({event.get("sport") for event in events
+                            if event.get("sport")})
+    new_sports = [sport for sport in source_sports if sport not in RANK]
+    for sport in new_sports:
+        RANK[sport] = len(RANK)
+    sport_kept = [event for event in events if event.get("sport")]
+    if new_sports:
+        log("  sporttv: retained new source sport label(s): "
+            + ", ".join(new_sports))
 
     # Keep current and upcoming SPORTS broadcasts for the EPG. The source
     # marks scheduled rows as DIRETO too; that is useful here because an EPG
