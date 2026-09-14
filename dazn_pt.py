@@ -31,7 +31,7 @@ NOT_A_GAME = re.compile(
     r"\ban[áa]lise\b|\bpreview\b|\bmagazine\b|\bhighlights?\b"
     r"|\bshow\b|\bpub\b|\bconfer[êe]ncia de imprensa\b"
     r"|\bpesagem\b|\bpaddock club\b|\bgera[çc][ãa]o nfl\b"
-    r"|\btop ou nem por isso\b|\bthe premier pub\b", re.I)
+    r"|\btop ou nem por isso\b|\bthe premier pub\b|\bmanningcast\b", re.I)
 
 SPORTS = {
     "futebol": "Football", "football": "Football", "soccer": "Football",

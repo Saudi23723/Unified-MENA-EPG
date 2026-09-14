@@ -82,7 +82,9 @@ def fetch(session: requests.Session, url: str, *, params=None, headers=None,
     """GET/POST with retries + exponential backoff. Raises on final failure.
 
     `json_body` sends a JSON body; `data` sends a form-encoded (or raw)
-    body — pass at most one of them.
+    body — pass at most one of them. A 403 is a permanent access/blocking
+    response, not a transient network failure: retrying it wastes the shared
+    build budget and causes later channel generators to be skipped.
     """
     last: Exception | None = None
     for attempt in range(1, retries + 1):
@@ -95,6 +97,10 @@ def fetch(session: requests.Session, url: str, *, params=None, headers=None,
             return r
         except Exception as exc:  # noqa: BLE001 - deliberately broad, retried
             last = exc
+            response = getattr(exc, "response", None)
+            if response is not None and response.status_code == 403:
+                warn(f"permanent 403 — not retrying {url}")
+                break
             if attempt < retries:
                 wait = HTTP_BACKOFF * attempt
                 warn(f"retry {attempt}/{retries - 1} after {wait:.0f}s | {url} | {exc}")
@@ -1630,4 +1636,3 @@ def group_concurrent(events: list[dict], key="start") -> dict:
     for ev in events:
         slots.setdefault(ev[key], []).append(ev)
     return slots
-
