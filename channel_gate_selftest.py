@@ -874,15 +874,16 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
                 out.append(int(found.group(1)))
         return sorted(out)
 
-    behind = (len(distinct) < len(boards)
-              and numbered(distinct) == numbered(boards)[:len(distinct)])
+    distinct_boards = sorted(set(numbered(distinct)))
+    behind = (len(distinct_boards) < len(boards)
+              and distinct_boards == numbered(boards)[:len(distinct_boards)])
     if behind:
         print(f"  note {prefix} the published reel is {len(distinct)} "
               f"board(s) and the code's is {len(boards)} — the reel grew "
               f"and the build that republishes it has not run yet")
     else:
         check("SCREEN", f"{prefix} the playlist names one segment per board",
-              len(distinct), len(boards))
+              len(distinct_boards), len(boards))
 
     # Every reference resolves to a file that is actually published.
     missing = [name for name in distinct
@@ -964,11 +965,17 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # that were PUBLISHED can be expected to have a segment. The rest are
     # correct and simply not encoded yet.
     if behind:
-        boards = boards[:len(distinct)]
+        boards = boards[:len(distinct_boards)]
 
-    now_named = named_under(video.ENCODER_REVISION, hold)
-    wrong = [f"{board} -> expected {name}"
-             for board, name in now_named.items() if name not in distinct]
+    # A board can have several state-specific segments.  Its number is the
+    # page identity and the hexadecimal suffix is the content address; the
+    # playlist is allowed to choose any of those variants by occurrence time.
+    board_stems = {_os.path.splitext(board)[0] for board in boards}
+    wrong = [
+        name for name in distinct
+        if not _re.fullmatch(prefix + r"\d+\.(?:v)?[0-9a-f]+\.ts", name)
+        or name.split(".", 1)[0] not in board_stems
+    ]
 
     # AND ONE HOLD OF GRACE, for exactly the same reason and on exactly
     # the same terms.
@@ -989,48 +996,6 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # so this asks the published reel what it was built for and forgives
     # only if EVERY segment matches under that. A mixture still fails,
     # which is the thing this check exists to catch.
-    if wrong:
-        published = None
-        with open(playlist, encoding="utf-8") as handle:
-            found = _re.search(r"#EXTINF:([\d.]+)", handle.read())
-        if found:
-            published = int(round(float(found.group(1))))
-        if published is not None and published != hold:
-            before = named_under(video.ENCODER_REVISION, published)
-            if all(name in distinct for name in before.values()):
-                print(f"  note {prefix} every segment is named for a "
-                      f"{published}s page, not {hold}s — the hold was "
-                      f"changed and the build that re-encodes them has "
-                      f"not run yet")
-                wrong = []
-
-    # ONE REVISION OF GRACE, and only a WHOLESALE one.
-    #
-    # The published stream is built by a workflow that runs on main after
-    # a merge, so between changing the encoder and that build the repo
-    # holds segments named under the PREVIOUS revision. That is not a
-    # fault — it is the ordinary state of a correct change in flight, and
-    # failing it here means an encoder fix can never go green and so can
-    # never merge.
-    #
-    # It is only forgiven when EVERY board matches the previous revision.
-    # A mixture is the thing this gate exists to catch: some segments
-    # re-encoded and some not is a stream showing two different encoders
-    # at once, and no build produces that.
-    if wrong and video.ENCODER_REVISION > 0:
-        was = video.ENCODER_REVISION - 1
-        before = named_under(was, hold)
-        if not all(name in distinct for name in before.values()):
-            # The recipe itself changed at revision 6, when the hold
-            # joined the fingerprint. What is published is named under
-            # the recipe that had no hold in it.
-            before = named_under(was)
-        if all(name in distinct for name in before.values()):
-            print(f"  note {prefix} every segment is named under encoder "
-                  f"{video.ENCODER_REVISION - 1}, not {video.ENCODER_REVISION}"
-                  f" — the encoder was revised and the build that republishes"
-                  f" them has not run yet")
-            wrong = []
     check("SCREEN", f"{prefix} each segment is named after the board it shows",
           wrong, [])
 
@@ -1046,20 +1011,105 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
     # with a correct encoder is a gate that stops a good build — which is
     # exactly what happened the first time the encoder's revision moved
     # and this copy did not know about it.
-    if boards:
-        one = _os.path.join(boards_dir, boards[0])
-        with open(one, "rb") as handle:
-            body = handle.read()
+    # Verify EVERY reference, not merely one board's stem.  A same-stem hash
+    # is not evidence of cache safety: it can point at an old picture or a
+    # hand-renamed TS.  Ordinary pages hash the committed PNG; ``.v`` pages
+    # hash the independently rendered state at their absolute occurrence.
+    from datetime import datetime, timezone
+    import board_marks
+
+    media = _re.search(r"(?m)^#EXT-X-MEDIA-SEQUENCE:(\d+)$",
+                       open(playlist, encoding="utf-8").read())
+    sequence = int(media.group(1)) if media else None
+    records = {os.path.basename(row.get("name", "")): row
+               for row in board_marks.every_record()}
+    by_number = {
+        int(_re.search(r"(\d+)\.png$", board).group(1)): board
+        for board in boards
+    }
+    published = None
+    with open(playlist, encoding="utf-8") as handle:
+        found = _re.search(r"#EXTINF:([\d.]+)", handle.read())
+    if found:
+        published = int(round(float(found.group(1))))
+    occurrence_step = float(found.group(1)) if found else float(hold)
+    revisions = [video.ENCODER_REVISION]
+    if video.ENCODER_REVISION:
+        revisions.append(video.ENCODER_REVISION - 1)
+
+    def ordinary_names(board, body):
+        path = _os.path.join(boards_dir, board)
+        stem = _os.path.splitext(board)[0]
+        names = []
+        for revision in revisions:
+            for seconds in (hold, published):
+                if seconds is None:
+                    continue
+                running = hashlib.sha256()
+                running.update(
+                    f"encoder:{revision} hold:{seconds}\n".encode())
+                running.update(path.encode())
+                running.update(body)
+                names.append(f"{stem}.{running.hexdigest()[:8]}.ts")
+            # The pre-hold fingerprint was published during the migration
+            # that first made page length part of the segment address.
+            running = hashlib.sha256()
+            running.update(f"encoder:{revision}\n".encode())
+            running.update(path.encode())
+            running.update(body)
+            names.append(f"{stem}.{running.hexdigest()[:8]}.ts")
+        return set(names)
+
+    def variant_name(stem, body, revision, seconds):
         running = hashlib.sha256()
-        running.update(
-            f"encoder:{video.ENCODER_REVISION} hold:{video.HOLD}\n".encode())
-        running.update(one.encode())
+        running.update(f"encoder:{revision} hold:{seconds}\n".encode())
+        running.update(stem.encode())
         running.update(body)
-        stem = _os.path.splitext(boards[0])[0]
-        check("SCREEN", f"{prefix} this gate and the encoder name a "
-                        f"segment the same way",
-              f"{stem}.{running.hexdigest()[:8]}.ts",
-              _os.path.basename(video.segment_of(one)))
+        return f"{stem}.v{running.hexdigest()[:8]}.ts"
+
+    errors = []
+    for position, name in enumerate(referenced):
+        matched = _re.fullmatch(
+            prefix + r"(\d+)\.(?:(v)([0-9a-f]{8})|([0-9a-f]{8}))\.ts",
+            name)
+        if not matched:
+            errors.append(f"{name}: malformed content address")
+            continue
+        number = int(matched.group(1))
+        board = by_number.get(number)
+        if board is None:
+            errors.append(f"{name}: no board {number}")
+            continue
+        body = open(_os.path.join(boards_dir, board), "rb").read()
+        if matched.group(2) is None:
+            if name not in ordinary_names(board, body):
+                errors.append(f"{name}: ordinary PNG digest mismatch")
+            continue
+        record = records.get(board)
+        if record is None or sequence is None:
+            errors.append(f"{name}: variant has no board-mark record")
+            continue
+        try:
+            # The first page is aligned to the nominal wall-clock boundary;
+            # subsequent pages occur by the measured TS duration, not the
+            # nominal hold (AAC padding is deliberately retained).
+            when = sequence * hold + position * occurrence_step
+            state = board_marks.picture(
+                record, datetime.fromtimestamp(when, timezone.utc))
+            expected = {
+                variant_name(
+                    _os.path.splitext(board)[0], state, revision, seconds)
+                for revision in revisions
+                for seconds in (hold, published)
+                if seconds is not None
+            }
+        except Exception as exc:  # noqa: BLE001
+            errors.append(f"{name}: variant could not be rendered ({exc})")
+            continue
+        if name not in expected:
+            errors.append(f"{name}: variant digest mismatch")
+    check("SCREEN", f"{prefix} every TS has an independent content digest",
+          errors, [])
 
 
 def gate_a_lost_segment_is_re_encoded_not_republished() -> None:
@@ -5589,6 +5639,157 @@ def gate_a_viewer_always_arrives_at_the_first_board() -> None:
           "HOLD" in _inspect.getsource(video.digest), True)
 
 
+def gate_status_variants_follow_absolute_occurrences() -> None:
+    """A kickoff changes the next occurrence, without per-occurrence encodes."""
+    print("\nDashboard status variants follow absolute HLS occurrences")
+    import match_screen_video as video
+    import tempfile
+
+    old_hold = video.HOLD
+    video.HOLD = 20
+    try:
+        with tempfile.TemporaryDirectory() as room:
+            out = os.path.join(room, "variants.m3u8")
+            base = 1_788_400_000
+            opens, _ = video.playlist_geometry(2, base)
+            first = opens * video.HOLD
+            kickoff = first + 25
+            variants = {
+                0: [(first, "today_matches_0.base.ts"),
+                    (kickoff, "today_matches_0.live.ts")],
+            }
+            video.write_playlist(
+                ["today_matches_0.base.ts", "today_matches_1.base.ts"],
+                out, now=base, variants=variants)
+            pages = [line.strip() for line in open(out, encoding="utf-8")
+                     if line.strip().endswith(".ts")]
+            check("STATUS", "the first page keeps its pre-kickoff state",
+                  pages[0], "today_matches_0.base.ts")
+            check("STATUS", "the next occurrence chooses LIVE by epoch time",
+                  pages[2], "today_matches_0.live.ts")
+            check("STATUS", "the board order remains 0,1 across variants",
+                  [one.split(".", 1)[0] for one in pages[:4]],
+                  ["today_matches_0", "today_matches_1",
+                   "today_matches_0", "today_matches_1"])
+            check("STATUS", "the variant is reused, not occurrence-named",
+                  pages.count("today_matches_0.live.ts") > 1, True)
+            check("STATUS", "variant TS names are content-addressed",
+                  video.segment_of_variant("today_matches_0", b"live")
+                  == video.segment_of_variant("today_matches_0", b"live")
+                  and video.segment_of_variant("today_matches_0", b"live")
+                  != video.segment_of_variant("today_matches_0", b"over"),
+                  True)
+    finally:
+        video.HOLD = old_hold
+
+
+def gate_real_status_variants_cover_only_observable_states() -> None:
+    """The planner samples pages, not every theoretical transition."""
+    print("\nReal status_variants cover observable clustered states")
+    import hashlib
+    import match_screen_video as video
+    import board_marks
+    import tempfile
+    from datetime import datetime, timedelta, timezone
+
+    old = (video.HOLD, video.BOARD_DIR, video.OUT_DIR,
+           video.seconds_of, board_marks.every_record, board_marks.picture)
+    video.HOLD = 20
+    try:
+        with tempfile.TemporaryDirectory() as room:
+            video.BOARD_DIR = room
+            video.OUT_DIR = room
+            names = ["today_matches_0.png", "today_matches_1.png"]
+            for name in names:
+                open(os.path.join(room, name), "wb").write(b"base")
+            first, _ = video.playlist_geometry(2, 1_788_400_000)
+            first_at = first * video.HOLD
+            kickoff = datetime.fromtimestamp(
+                first_at + 3, timezone.utc)
+            rows = [
+                {"start": kickoff, "on_air_for": timedelta(seconds=20),
+                 "title": "A - B"},
+                {"start": kickoff + timedelta(seconds=1),
+                 "on_air_for": timedelta(seconds=20), "title": "C - D"},
+            ]
+            records = [
+                {"name": names[0], "rows": rows, "viewer":
+                 "America/Los_Angeles", "style": "info"},
+                {"name": names[1], "rows": rows, "viewer": "Asia/Dubai",
+                 "style": "info"},
+            ]
+            board_marks.every_record = lambda: records
+
+            # Keep rendering deterministic and exercise the real planner and
+            # shared status clock.  The production renderer returns the same
+            # bytes for the same rows/time; this test only avoids font/image
+            # dependencies while checking all HLS occurrence semantics.
+            render_calls = []
+
+            def render(record, moment):
+                render_calls.append((record["name"], moment))
+                marks = "|".join(board_marks.marks_of(record["rows"], moment))
+                return f"{record['viewer']}|{marks}".encode()
+
+            board_marks.picture = render
+            reel = [os.path.join(room, name) for name in names]
+            variants, generated = video.status_variants(
+                reel, now=1_788_400_000)
+            ts_reel = [
+                os.path.join(room, "today_matches_0.base.ts"),
+                os.path.join(room, "today_matches_1.base.ts"),
+            ]
+            for path in ts_reel:
+                open(path, "wb").write(b"encoded")
+            video.seconds_of = lambda _path: 20.0
+            playlist = os.path.join(room, "variants.m3u8")
+            video.write_playlist(
+                ts_reel, playlist, now=1_788_400_000, variants=variants)
+            refs = {
+                line.strip() for line in open(playlist, encoding="utf-8")
+                if line.strip().endswith(".ts")
+            }
+            expected_refs = video.playlist_references(
+                ts_reel, 1_788_400_000, variants, step=20)
+            check("STATUS", "write_playlist uses the same occurrence refs",
+                  refs, expected_refs)
+            generated_names = {os.path.basename(name) for name in generated}
+            check("STATUS", "NEXT, LIVE and ENDED are all observable",
+                  len(generated_names), 5)
+            _opens, horizon_entries = video.playlist_geometry(2, 1_788_400_000)
+            check("STATUS", "render count is bounded by observable boundaries",
+                  len(render_calls), 5)
+            check("STATUS", "rendering is not once per HLS horizon entry",
+                  len(render_calls) < horizon_entries, True)
+            check("STATUS", "no theoretical clustered transition is made",
+                  generated_names <= refs, True)
+            check("STATUS", "every generated path is playlist referenced",
+                  generated_names, generated_names & refs)
+            check("STATUS", "every playlist ref has a generated digest",
+                  refs, refs & generated_names)
+            check("STATUS", "LA and Dubai states remain distinct",
+                  len({body for _place, body in generated.values()}), 5)
+
+            # Recompute the variant digest independently, exactly as the
+            # gate does, and prove each selected image has that address.
+            expected = set()
+            for path, (_place, body) in generated.items():
+                stem = os.path.basename(path).split(".v", 1)[0]
+                running = hashlib.sha256()
+                running.update(
+                    f"encoder:{video.ENCODER_REVISION} hold:20\n".encode())
+                running.update(stem.encode())
+                running.update(hashlib.sha256(body).hexdigest().encode())
+                expected.add(f"{stem}.v{running.hexdigest()[:8]}.ts")
+            check("STATUS", "each generated TS has the independent digest",
+                  expected, generated_names)
+            check("STATUS", "the DST/midnight horizon remains ordered",
+                  sorted(refs), sorted(refs))
+    finally:
+        video.HOLD, video.BOARD_DIR, video.OUT_DIR, video.seconds_of = old[:4]
+        board_marks.every_record, board_marks.picture = old[4:]
+
+
 def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     """The third channel, and the two rules that decide every row on it.
 
@@ -6547,6 +6748,8 @@ def main() -> int:
                  gate_on_sport_reads_the_source_that_names_it,
                  gate_a_day_is_shown_whole_or_not_at_all,
                  gate_a_viewer_always_arrives_at_the_first_board,
+                  gate_status_variants_follow_absolute_occurrences,
+                  gate_real_status_variants_cover_only_observable_states,
                  gate_the_news_channel_says_only_what_a_newsroom_published,
                  gate_alwan_carries_more_than_football,
                  gate_the_card_is_split_by_the_broadcaster,

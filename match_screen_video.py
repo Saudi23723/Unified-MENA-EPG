@@ -51,9 +51,12 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
+from datetime import datetime, timezone
 
 from epg_lib import log, warn
+import board_marks
 
 BOARD_DIR = "boards"
 OUT_DIR = "stream"
@@ -571,6 +574,27 @@ def segment_of(board: str) -> str:
     return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
 
 
+def segment_of_variant(stem: str, picture: bytes) -> str:
+    """The content-addressed segment name for a clock-selected picture.
+
+    Ordinary boards keep the historical ``segment_of`` name, including its
+    path in the digest, so an old published reel remains auditable.  A
+    generated status picture has no stable path (it is deliberately a
+    temporary PNG), therefore its TS name is derived from the stable board
+    stem and the picture bytes instead.  The encoder recipe and page hold
+    are part of the address for the same cache-safety reason as
+    :func:`segment_of`.
+    """
+    running = hashlib.sha256()
+    running.update(f"encoder:{ENCODER_REVISION} hold:{HOLD}\n".encode())
+    running.update(stem.encode())
+    # Store the inner picture digest in the filename rather than the whole
+    # rendered PNG.  The published variant manifest can therefore reproduce
+    # this address from compact evidence without retaining ephemeral PNGs.
+    running.update(hashlib.sha256(picture).hexdigest().encode())
+    return os.path.join(OUT_DIR, f"{stem}.v{running.hexdigest()[:8]}.ts")
+
+
 # HOW LONG A SEGMENT LIVES AFTER IT LEAVES THE PLAYLIST.
 #
 # THIS USED TO BE "ONE PASS" AND ONE PASS IS NOT A LENGTH OF TIME. It was
@@ -1033,7 +1057,162 @@ def seconds_of(segment: str) -> float:
         return float(HOLD)
 
 
-def write_playlist(segments: list[str], out: str, now=None) -> int:
+def playlist_geometry(reel: int, now: float | datetime | None = None
+                      ) -> tuple[int, int]:
+    """Return the first media sequence and number of entries in the window."""
+    if now is None:
+        now = time.time()
+    if isinstance(now, datetime):
+        now = now.timestamp()
+    reel = max(1, reel)
+    ticks = int(now // HOLD)
+    opens_at = (ticks // reel) * reel
+    least = max(reel, (WINDOW_MINUTES * 60) // HOLD)
+    laps = max(1, -(-(least - JOIN_BACK) // reel))
+    return opens_at, laps * reel + JOIN_BACK
+
+
+def status_variants(
+        reel: list[str], now: float | datetime | None = None,
+        step: float | None = None
+        ) -> tuple[dict[int, list[tuple[float, str]]],
+                   dict[str, tuple[int, bytes]]]:
+    """Precompute the distinct clock states used by this HLS window.
+
+    The returned first mapping is ``board index -> (absolute time, segment)``
+    changes.  ``write_playlist`` applies the last change at or before each
+    page occurrence.  The second mapping contains the bytes that have to be
+    encoded for generated segments, keyed by their content-addressed path.
+
+    A board is rendered once for each distinct state, not once for every
+    occurrence in the live window.  Boards without a ``board_marks`` record
+    (news, weather, prayer and the deliberately static F1 screens) retain
+    their ordinary segment for every occurrence.  ``step`` is the measured
+    TS duration when the base reel is already available; it prevents AAC
+    padding from shifting a transition onto the wrong page.
+    """
+    if now is None:
+        now = time.time()
+    if isinstance(now, datetime):
+        now = now.timestamp()
+    opens_at, entries = playlist_geometry(len(reel), now)
+    occurrence_step = step if step is not None else float(HOLD)
+    records = {os.path.basename(row.get("name", "")): row
+               for row in board_marks.every_record()}
+    selected: dict[int, list[tuple[float, str]]] = {}
+    generated: dict[str, tuple[int, bytes]] = {}
+
+    for place, board in enumerate(reel):
+        record = records.get(os.path.basename(board))
+        if not record or not record.get("rows"):
+            continue
+        occurrences = [
+            opens_at * HOLD + ordinal * occurrence_step
+            for ordinal in range(entries)
+            if ordinal % max(1, len(reel)) == place
+        ]
+        if not occurrences:
+            continue
+        base = os.path.splitext(os.path.basename(board))[0]
+        with open(board, "rb") as handle:
+            original = handle.read()
+        base_segment = segment_of(board)
+        changes: list[tuple[float, str]] = []
+        state_paths: dict[bytes, str] = {}
+        first, last = occurrences[0], occurrences[-1]
+        boundaries = set(board_marks.transition_times(record["rows"]))
+        # ``picture`` also paints the relative day chip.  A local midnight
+        # is therefore a visual transition even when no fixture starts
+        # there.  It is mapped to the first page occurrence at or after it,
+        # just like kickoff and end boundaries.
+        try:
+            viewer = timezone.utc
+            if record.get("viewer"):
+                from zoneinfo import ZoneInfo
+                viewer = ZoneInfo(record["viewer"])
+            local_start = datetime.fromtimestamp(
+                first, timezone.utc).astimezone(viewer).date()
+            local_end = datetime.fromtimestamp(
+                last, timezone.utc).astimezone(viewer).date()
+            cursor = local_start
+            while cursor <= local_end:
+                boundaries.add(datetime.combine(
+                    cursor, datetime.min.time(), viewer))
+                cursor = cursor.fromordinal(cursor.toordinal() + 1)
+        except (KeyError, TypeError, ValueError):
+            pass
+        observable = {first}
+        for boundary in boundaries:
+            when = boundary.timestamp()
+            if when <= first:
+                observable.add(first)
+            elif when <= last:
+                observable.add(next(
+                    occurrence for occurrence in occurrences
+                    if occurrence >= when))
+        # The only states worth rendering are the states a viewer can
+        # actually observe: the first page and the page at/after each
+        # boundary.  Clustered transitions collapse onto one observation,
+        # while a later return to an earlier state still gets its own page.
+        for when in sorted(observable):
+            drawn = board_marks.picture(
+                record, datetime.fromtimestamp(when, timezone.utc))
+            segment = state_paths.get(drawn)
+            if segment is None:
+                if drawn == original:
+                    segment = base_segment
+                else:
+                    segment = segment_of_variant(base, drawn)
+                    generated.setdefault(segment, (place, drawn))
+                state_paths[drawn] = segment
+            # A later occurrence can legitimately return to an earlier state;
+            # retain that transition while still reusing its TS path.
+            if not changes or changes[-1][1] != segment:
+                changes.append((when, segment))
+        if changes:
+            selected[place] = changes
+    return selected, generated
+
+
+def _variant_at(
+        base: str, changes: list[tuple[float, str]], occurrence: float
+        ) -> str:
+    """Choose the latest precomputed state for one absolute occurrence."""
+    chosen = base
+    for when, segment in changes:
+        if occurrence < when:
+            break
+        chosen = segment
+    return chosen
+
+
+def playlist_references(
+        segments: list[str],
+        now: float | datetime | None = None,
+        variants: dict[int, list[tuple[float, str]]] | None = None,
+        step: float | None = None,
+        ) -> set[str]:
+    """The exact TS paths named by the current playlist window."""
+    if now is None:
+        now = time.time()
+    if isinstance(now, datetime):
+        now = now.timestamp()
+    opens_at, entries = playlist_geometry(len(segments), now)
+    occurrence_step = step if step is not None else (
+        seconds_of(segments[0]) if segments else float(HOLD))
+    found = set()
+    for step in range(entries):
+        place = (opens_at + step) % max(1, len(segments))
+        occurrence = opens_at * HOLD + step * occurrence_step
+        found.add(os.path.basename(
+            segments[place] if not variants or place not in variants
+            else _variant_at(segments[place], variants[place], occurrence)))
+    return found
+
+
+def write_playlist(
+        segments: list[str], out: str, now=None,
+        variants: dict[int, list[tuple[float, str]]] | None = None) -> int:
     """Write a live window that loops forever and always opens on page zero.
 
     A one-lap EVENT playlist is not a loop. It reaches its last entry and
@@ -1058,16 +1237,14 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
     emitted only when the reel wraps to page zero, where timestamps genuinely
     reset. There is no decoder reset between ordinary adjacent pages.
     """
-    now = now or time.time()
+    now = time.time() if now is None else now
+    if isinstance(now, datetime):
+        now = now.timestamp()
     reel = max(1, len(segments))
 
     # Move only by complete reels. Both the first listed entry and the usual
     # live join point (three target durations behind the end) are page zero.
-    ticks = int(now // HOLD)
-    opens_at = (ticks // reel) * reel
-    least = max(reel, (WINDOW_MINUTES * 60) // HOLD)
-    laps = max(1, -(-(least - JOIN_BACK) // reel))
-    long_enough = laps * reel + JOIN_BACK
+    opens_at, long_enough = playlist_geometry(reel, now)
     breaks_gone = opens_at // reel
 
     # Measured once per board, not once per entry.
@@ -1088,11 +1265,42 @@ def write_playlist(segments: list[str], out: str, now=None) -> int:
         place = (opens_at + step) % reel
         if place == 0:
             lines.append("#EXT-X-DISCONTINUITY")
+        occurrence = opens_at * HOLD + step * real[0]
+        segment = (segments[place] if not variants or place not in variants
+                   else _variant_at(segments[place], variants[place],
+                                    occurrence))
         lines += [f"#EXTINF:{real[place]:.3f},",
-                  os.path.basename(segments[place])]
+                  os.path.basename(segment)]
     with open(out, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(lines) + "\n")
     return long_enough / reel
+
+
+def encode_variants(
+        generated: dict[str, tuple[int, bytes]], step: float
+        ) -> tuple[bool, int]:
+    """Encode each distinct generated picture at most once."""
+    encoded = 0
+    for segment, (place, picture) in generated.items():
+        if already_encoded(segment, step):
+            continue
+        os.makedirs(OUT_DIR, exist_ok=True)
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                    mode="wb", suffix=".png", delete=False) as handle:
+                handle.write(picture)
+                temporary = handle.name
+            if not encode_segment(temporary, segment, place, step):
+                return False, encoded
+            encoded += 1
+        finally:
+            if temporary:
+                try:
+                    os.remove(temporary)
+                except OSError:
+                    pass
+    return True, encoded
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1131,6 +1339,7 @@ def main(argv: list[str] | None = None) -> int:
         warn(f"no board has been drawn for {which} — nothing to encode")
         return 0
 
+    playlist_now = time.time()
     fingerprint = digest(reel)
     was = ""
     if os.path.exists(stamp):
@@ -1185,7 +1394,14 @@ def main(argv: list[str] | None = None) -> int:
         # matched the fingerprint, returned here, and never looked. The
         # screen gate found them days later.
         segments = wanted_segments
-        dropped = forget_old_segments(segments, prefix)
+        step = step_of(segments[0]) if segments else float(HOLD)
+        variants, generated = status_variants(reel, playlist_now, step)
+        ok, made = encode_variants(generated, step)
+        if not ok:
+            return 1
+        current = playlist_references(segments, playlist_now, variants, step)
+        dropped = forget_old_segments(
+            [os.path.join(OUT_DIR, name) for name in current], prefix)
         if dropped:
             log(f"  {dropped} segment(s) nothing points at any more, removed")
 
@@ -1207,10 +1423,11 @@ def main(argv: list[str] | None = None) -> int:
         # identical and none is re-encoded — and moves the window forward
         # by the ten minutes that passed, which is exactly what the
         # player is asking to be told.
-        write_playlist(segments, out)
+        write_playlist(segments, out, now=playlist_now, variants=variants)
         log(f"{which}: the screen already shows these boards — not "
-            f"re-encoded, live window advanced on a page-zero boundary "
-            f"({len(segments)} page segment(s))")
+            f"re-encoded, {made} distinct status variant(s) encoded, live "
+            f"window advanced on a page-zero boundary ({len(segments)} page "
+            f"segment(s))")
         return 0
 
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -1263,17 +1480,24 @@ def main(argv: list[str] | None = None) -> int:
         log(f"  {kept} of {len(reel)} board(s) unchanged — their segments "
             f"are reused, not re-encoded")
 
-    write_playlist(segments, out)
-    dropped = forget_old_segments(segments, prefix)
+    variants, generated = status_variants(reel, playlist_now, step)
+    ok, made = encode_variants(generated, step)
+    if not ok:
+        return 1
+    write_playlist(segments, out, now=playlist_now, variants=variants)
+    current = playlist_references(segments, playlist_now, variants, step)
+    dropped = forget_old_segments(
+        [os.path.join(OUT_DIR, name) for name in current], prefix)
     if dropped:
         log(f"  {dropped} segment(s) nothing points at any more, removed")
 
     with open(stamp, "w", encoding="utf-8") as handle:
         handle.write(fingerprint + "\n")
-    bytes_on_disk = os.path.getsize(out) + sum(os.path.getsize(s)
-                                               for s in segments)
-    log(f"{which}: {len(segments) - kept} segment(s) encoded, {kept} kept "
-        f"as they were, {len(segments)} at {HOLD}s in the live reel that "
+    bytes_on_disk = os.path.getsize(out) + sum(
+        os.path.getsize(os.path.join(OUT_DIR, name)) for name in current)
+    log(f"{which}: {len(segments) - kept} segment(s) encoded, {kept} kept, "
+        f"{made} distinct status variant(s) encoded, "
+        f"{len(segments)} at {HOLD}s in the live reel that "
         f"opens on board zero, {bytes_on_disk // 1024} KB on disk in total")
     return 0
 
