@@ -1336,9 +1336,30 @@ def add_day_in_blocks(tv, channel_id, opens, closes, events, describe, *,
     cuts = {opens}
     for event in events:
         span = on_air_span(event, live_for)
-        for moment in (event["start"], event["start"] + span):
+        start = event["start"]
+        stop = start + span
+        for moment in (start, stop):
             if opens < moment < closes:
                 cuts.add(moment)
+
+        # NEXT is also time-dependent. A block that starts three hours before
+        # kickoff must not keep saying the original countdown until kickoff;
+        # cut it at the shared countdown steps so the title on every dashboard
+        # remains true even when the XML file is not downloaded again.
+        if start > opens:
+            countdown_from = start - COUNTDOWN_HORIZON
+            if opens < countdown_from < closes:
+                cuts.add(countdown_from)
+            cursor = max(opens, countdown_from)
+            while cursor < start:
+                if opens < cursor < closes:
+                    cuts.add(cursor)
+                remaining = start - cursor
+                step = countdown_step(remaining)
+                following = min(cursor + step, start)
+                if following <= cursor:
+                    break
+                cursor = following
 
     blocks: list[list] = []
     edges = sorted(cuts) + [closes]
