@@ -1591,7 +1591,7 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     day_label = vsport_day_label(title, day, now, viewer, weekday)
     if show_page_count:
         day_label = f"{day_label} · {page}/{pages}"
-    vsport_chip(board, pen, PAD, y, day_label
+    vsport_chip(board, pen, PAD, y, day_label)
     y += 40 + 8
 
     # The next row is the first that has not started; it wears التالي and
