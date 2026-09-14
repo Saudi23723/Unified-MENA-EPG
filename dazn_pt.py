@@ -78,30 +78,29 @@ def _competition(tile: dict) -> str:
 
 
 def _channels(tile: dict) -> list[str]:
-        """Return real DAZN linear channels when the feed maps one.
+    """Return real DAZN linear channels when the feed maps one.
 
-        Event tiles often have no linear assignment. In that case keep the
-        honest DAZN Portugal label instead of copying one event onto DAZN 1
-        through 5. If the official feed supplies a channel field, preserve it.
-        """
-        found: list[str] = []
-        for key in ("ChannelName", "ChannelTitle", "Channel",
-                    "LinearChannel", "Channels"):
-            value = tile.get(key)
-            values = value if isinstance(value, list) else [value]
-            for item in values:
-                if isinstance(item, dict):
-                    item = (item.get("Title") or item.get("Name")
-                            or item.get("title") or item.get("name"))
-                label = norm(str(item or ""))
-                match = re.search(r"\bDAZN\s*(?:Portugal\s*)?([1-5])\b",
-                                  label, re.I)
-                if match:
-                    found.append(f"DAZN {match.group(1)}")
-        return list(dict.fromkeys(found)) or [CHANNEL]
+    Event tiles often have no linear assignment. In that case keep the
+    honest DAZN Portugal label instead of copying one event onto DAZN 1
+    through 5. If the official feed supplies a channel field, preserve it.
+    """
+    found: list[str] = []
+    for key in ("ChannelName", "ChannelTitle", "Channel",
+                "LinearChannel", "Channels"):
+        value = tile.get(key)
+        values = value if isinstance(value, list) else [value]
+        for item in values:
+            if isinstance(item, dict):
+                item = (item.get("Title") or item.get("Name")
+                        or item.get("title") or item.get("name"))
+            label = norm(str(item or ""))
+            match = re.search(r"\bDAZN\s*(?:Portugal\s*)?([1-5])\b",
+                              label, re.I)
+            if match:
+                found.append(f"DAZN {match.group(1)}")
+    return list(dict.fromkeys(found)) or [CHANNEL]
 
-
-    def events(session, floor: datetime | None = None,
+def events(session, floor: datetime | None = None,
            ceiling: datetime | None = None) -> list[dict]:
     now = datetime.now(timezone.utc)
     start = (floor or now - timedelta(hours=6)).date()
