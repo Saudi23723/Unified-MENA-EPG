@@ -57,11 +57,12 @@ DUBAI_BOARD_PREFIX = "dubai_sporttv_"
 # what these six screens play; the rest are in the order the reader's
 # other channels use.
 IN_ORDER = (
-    "Football", "Futsal", "Handball", "Basketball", "Volleyball",
-    "Motorsport", "Tennis", "Padel", "Golf", "Snooker", "Darts",
-    "Rugby", "Hockey", "Boxing", "MMA",
-    "Cycling", "Athletics", "Swimming", "Triathlon", "Sailing",
-)
+        "Football", "American Football", "Baseball", "Softball",
+        "Wrestling", "Futsal", "Handball", "Basketball", "Volleyball",
+        "Motorsport", "Tennis", "Padel", "Golf", "Snooker", "Darts",
+        "Rugby", "Hockey", "Boxing", "MMA",
+        "Cycling", "Athletics", "Swimming", "Triathlon", "Sailing",
+    )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
 
