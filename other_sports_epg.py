@@ -168,6 +168,8 @@ BOARD_COLOURS = 64
 # "Turkish keep the old style". All three are drawn by match_board and
 # any channel wearing this module picks one by this word.
 BOARD_STYLE = "vsport"
+# Portuguese Sport TV/DAZN shows a daily page counter; other channels do not.
+SHOW_PAGE_COUNT = False
 # EIGHT ROWS, and a day with more of them becomes two boards, or three.
 #
 # Asked for outright — "ما تعجق الصورة … بتنقسم على صفحتين ورا بعض عادي".
@@ -573,6 +575,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
         "viewer": str(VIEWER), "title": CHANNEL_AR,
         "subtitle": f"{SUBTITLE} · {VIEWER_NAME}",
         "weekday": ARABIC_DAY[day.weekday()], "page": page, "pages": pages,
+        "show_page_count": SHOW_PAGE_COUNT,
         "colours": BOARD_COLOURS, "accent": [167, 139, 250, 255],
         "board_dir": BOARD_DIR, "board_url": BOARD_URL,
     }
