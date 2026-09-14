@@ -469,15 +469,13 @@ def day_badge(day: date, now: datetime, viewer, weekday: str) -> str:
     No digits: the date is already set on the right, and a number inside
     Arabic is the one thing that can come out reversed.
 
-    UNCHANGED, and deliberately. The now-and-next boards were asked to
-    name their day outright instead of saying "اليوم" — but that was
-    asked of the NEW boards, not of these: "لا مش القنوات القديمة / بس
-    الجديدة". The classic and info boards keep the wording they have
-    always had, and the channels wearing them keep what they show.
+    Dashboard pages use only the relative day names. The board already
+    has its own clock, so a weekday or numeric date adds noise rather than
+    helping a viewer identify the page.
     """
     away = (day - now.astimezone(viewer).date()).days
     relative = RELATIVE_DAY.get(away, "")
-    return f"{relative} · {weekday}" if relative else weekday
+    return relative or weekday
 
 
 # ---- crests ------------------------------------------------------------
@@ -863,7 +861,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                       thin=True), 21, MUTED, thin=True)
 
     right = W - PAD
-    date_chip(pen, right, PAD - 6, f"{day:%d.%m.%Y}")
+    # The centered badge is the only day marker: اليوم، غداً، بعد غد.
     # THE CLOCK. A board is a still picture, so the digits are painted on
     # frame by frame by the encoder (match_screen_video) and tick while
     # the channel is playing. All that is drawn here is the well they sit
@@ -981,7 +979,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # made to read every line to find out.
         over = _is_over(event, now, live_for)
         band = [PAD - 12, y, W - PAD + 12, y + height - 6]
-        if live:
+        if False:
             # ON THE AIR, AND IT LOOKS LIKE IT. A viewer looking at the
             # board in bed, at arm's length, in the dark, asked why a
             # match being played right now looked exactly like one that
@@ -1004,7 +1002,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             pen.rounded_rectangle([band[0] + 3, band[1] + 7,
                                    band[0] + 11, band[3] - 7],
                                   radius=3, fill=LIVE_TAG)
-        elif over:
+        elif False:
             # FINISHED, AND IT LOOKS LIKE IT TOO. The live row got a red
             # room; the finished one gets the opposite of that: a grey
             # band dimmer than the panels around it, so an evening board
@@ -1075,7 +1073,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # its own outlined tablet at the head of the row — a shape the
         # eye finds without reading, the way a departures board is read
         # by the column of times and not the column of destinations.
-        clock_ink = LIVE_RED if live else (OVER if over else accent)
+        clock_ink = accent
         clock_px = max(17, min(29 if tall_row else 23, height - 32))
         tab_h = min(clock_px + 16, height - 16)
         tab = [PAD + 4, middle - tab_h // 2, time_x + 22, middle + tab_h // 2]
@@ -1101,11 +1099,11 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # that pokes out of the row, which is the thing asked to stop.
         slot_y = min(max(head_y, y + 3 + slot_half),
                      y + height - 6 - 3 - slot_half)
-        if live:
+        if False:
             word, fill = "مباشر", LIVE_TAG
-        elif over:
+        elif False:
             word, fill = "انتهى", OVER_TAG
-        elif today and not coming_seen:
+        elif False:
             # THE NEXT KICKOFF, SAID SO. The red room says "on now";
             # everything else on today's board is either finished or
             # waiting, and the waiting row a viewer is actually after is
@@ -1118,6 +1116,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # cannot keep.
             word, fill = "التالي", NEXT_TAG
             coming_seen = True
+        word = ""
         if word:
             pen.rounded_rectangle(
                 [slot_x, slot_y - slot_half, slot_x + slot_w,
@@ -1129,7 +1128,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # row would wear التالي; leaving the slot empty on every row
         # would waste the widest word's width of name room, so the name
         # takes the slot's x on the days it is never used.
-        head = slot_x + slot_w + 14 if (word or today) else name_x
+        head = name_x
 
         # THE CHANNELS BESIDE THE NAME, NOT UNDER IT. They used to drop
         # to the competition line on any row tall enough for two lines,
@@ -1253,7 +1252,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             if (fight or box >= 22) and side_room > 60:
                 # A played match steps back in grey; red is kept
                 # for the clock, where it means "over" already.
-                ink = PILL_INK if over else WHITE
+                ink = WHITE
                 home_txt = clipped(home, fitted, side_room)
                 away_txt = clipped(away, fitted, side_room)
                 if not fight:
@@ -1263,7 +1262,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
                 draw_text(pen, (chip_left, head_y), home_txt, fitted, ink,
                           anchor="lm")
                 draw_text(pen, (centre, head_y), "VS", max(14, fitted - 5),
-                          LIVE_TAG if live else MUTED, anchor="mm",
+                          MUTED, anchor="mm",
                           weight="heavy")
                 if not fight:
                     draw_crest(board, pen, away, right_edge - box // 2,
@@ -1497,30 +1496,17 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
     left, right = PAD + VS_GAP, W - PAD - VS_GAP
 
     draw_text(pen, (left, middle), clock, VS_CLOCK_SIZE,
-              MUTED if over else VS_CLOCK, anchor="lm", weight="mid")
-
-    # THE MARK BOX, the same width on every row whether it holds a word
-    # or nothing, so the channels beside it line up down the board.
-    word, ink = "", WHITE
-    if live:
-        word = "LIVE"
-    elif nxt:
-        word, ink = "التالي", VS_CHIP
-    elif over:
-        word, ink = "انتهى", MUTED
-    if word:
-        draw_text(pen, (right, middle), word, VS_MARK_SIZE, ink, anchor="rm",
-                  weight="heavy" if live else "mid")
+              VS_CLOCK, anchor="lm", weight="mid")
 
     if where:
-        draw_text(pen, (right - VS_MARK_W, middle),
+        draw_text(pen, (right, middle),
                   clipped(where, VS_WHERE_SIZE, VS_WHERE_W, weight="mid"),
                   VS_WHERE_SIZE, MUTED if over else VS_WHERE,
                   anchor="rm", weight="mid")
 
     x = left + VS_CLOCK_W
-    room = right - VS_MARK_W - VS_WHERE_W - VS_GAP - x
-    ink = MUTED if over else WHITE
+    room = right - VS_WHERE_W - VS_GAP - x
+    ink = WHITE
     if detail:
         draw_text(pen, (x, middle - height // 5),
                   clipped(bold, VS_BOLD_SIZE, room, weight="heavy"),
@@ -1558,9 +1544,8 @@ def vsport_day_label(title: str, day: date, now: datetime, viewer,
     A channel whose name does not carry "اليوم" — Turkish PPV — keeps
     its name and takes the weekday beside it, which reads the same way.
     """
-    if "اليوم" in title:
-        return f"{title.replace('اليوم', weekday)} {day:%d.%m}"
-    return f"{title} · {weekday} {day:%d.%m}"
+    away = (day - now.astimezone(viewer).date()).days
+    return RELATIVE_DAY.get(away, weekday)
 
 
 def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
@@ -1594,15 +1579,9 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
     vsport_chip(board, pen, PAD, y, day_label)
     y += 40 + 8
 
-    # The next row is the first that has not started; it wears التالي and
-    # nothing else does.
-    coming = next((e for e in events
-                   if status_of(e, now, live_for) == "upcoming"), None)
-
     room = H - 64 - y
     fits = max(1, room // (VS_ROW_H + VS_ROW_GAP))
     for index, event in enumerate(events[:fits]):
-        state = status_of(event, now, live_for)
         if index:
             pen.line([(PAD, y - VS_ROW_GAP + 1),
                       (W - PAD, y - VS_ROW_GAP + 1)], fill=VS_LINE, width=2)
@@ -1610,8 +1589,7 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
                    event["start"].astimezone(viewer).strftime("%H:%M"),
                    *_vsport_halves(event),
                    vsport_where(event.get("channels")),
-                   live=state == "live", over=state == "over",
-                   nxt=event is coming)
+                   live=False, over=False, nxt=False)
         y += VS_ROW_H + VS_ROW_GAP
 
     if not events:
@@ -1655,6 +1633,14 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
     panel on the reading side, what is COMING listed beside it, and the
     competitions signed along the foot. That is this board now.
     """
+    # The dashboard contract is now the same for every match-board style:
+    # time, listing, and source only. Reuse the neutral list renderer rather
+    # than allowing the legacy info layout to reintroduce state labels.
+    return draw_board_vsport(
+        day, events, now, viewer, live_for, title=title, subtitle=subtitle,
+        weekday=weekday, page=page, pages=pages, accent=accent,
+        show_page_count=pages > 1)
+
     accent = accent or ACCENT
     events = without_repeats([dict(event) for event in events])
     board = backdrop()
