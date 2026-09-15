@@ -62,11 +62,15 @@ def catch_up() -> None:
     cancel the run and dispatch another by hand. Which is what I kept
     doing, and what "Everything to be automatic from now on" is about.
 
-    So every pass starts by fast-forwarding to main. FAST-FORWARD ONLY,
-    deliberately: if this run has a commit of its own that has not been
-    pushed yet — a pass whose publish failed — the merge refuses and
-    the pass carries on with what it has rather than throwing that work
-    away. Nothing is ever discarded to take an update.
+    So every pass starts by fast-forwarding to main, and where it
+    cannot, by replaying this run's own unpushed commit on top of main.
+    Nothing is ever discarded to take an update — but neither is an
+    update refused merely because this run has something of its own.
+
+    That refusal is how a run stayed on broken code for four hours:
+    publish_screens commits before it gates, so one refused pass left an
+    unpushed commit, and from then on every catch-up in the window
+    declined the update and re-ran the code that had just failed.
     """
     fetched = subprocess.call(["git", "fetch", "--quiet", "origin", "main"])
     if fetched != 0:
@@ -77,12 +81,44 @@ def catch_up() -> None:
                          capture_output=True).stdout.strip()
     moved = subprocess.call(["git", "merge", "--ff-only", "--quiet",
                              "origin/main"])
+
+    # AND IF IT CANNOT FAST-FORWARD, IT REBASES RATHER THAN GIVING UP.
+    #
+    # THIS IS HOW A RUN GETS STUCK ON BROKEN CODE FOR ITS WHOLE WINDOW.
+    # publish_screens commits BEFORE it gates, so a pass the gate refuses
+    # leaves an unpushed commit behind. From that moment --ff-only can
+    # never succeed again, this returned early every five minutes with
+    # "keeping it and building on the code in hand", and the run spent
+    # the remaining four hours re-running the exact code that had just
+    # failed — while the fix for it sat merged on main.
+    #
+    # Measured: the variant-address fix merged at 20:2x would not have
+    # reached run #955 at all. The boards would have stayed on 14.09
+    # until 23:45, when that run's window finally closed.
+    #
+    # Nothing is discarded, which is what --ff-only was protecting: the
+    # run's own commit is replayed on top of main, so it keeps its work
+    # AND takes the update. A rebase that cannot be done cleanly is
+    # aborted, which puts the run back exactly where it was, and then
+    # this behaves as it did before — the pass carries on with the code
+    # in hand and says so.
+    if moved != 0:
+        rebased = subprocess.run(
+            ["git", "rebase", "origin/main"],
+            text=True, capture_output=True)
+        if rebased.returncode != 0:
+            subprocess.call(["git", "rebase", "--abort"])
+            print("::warning::this run has work of its own that will not "
+                  "replay onto main — keeping it and building on the code "
+                  "in hand")
+        else:
+            moved = 0
+            print("───── replayed this run's own commit onto main ─────",
+                  flush=True)
+
     now = subprocess.run(["git", "rev-parse", "HEAD"], text=True,
                          capture_output=True).stdout.strip()
-    if moved != 0:
-        print("::warning::this run has work of its own not yet pushed — "
-              "keeping it and building on the code in hand")
-    elif was != now:
+    if moved == 0 and was != now:
         print(f"───── caught up to main: {was[:8]} -> {now[:8]} ─────",
               flush=True)
 
