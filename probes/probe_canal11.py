@@ -147,6 +147,80 @@ def read_the_rows(body: str) -> None:
     print(f"  still ahead of now:       {ahead}")
 
 
+def where_does_each_row_live(body: str) -> None:
+    """WHOSE rows are these? Round one found Saudi matches on a Portuguese
+    federation channel — Al Ain x Al Nassr and Al Hilal x Al Gharafa — and
+    that is either livesoccertv saying Canal 11 carries the AFC Champions
+    League, or a selector that reached past this channel's own table into
+    a "more matches today" block beside it.
+
+    The difference decides whether a reader may be written at all, so the
+    page is asked which table each row sits in, what heading stands above
+    it, and what the row itself claims about its channel.
+    """
+    soup = BeautifulSoup(body, "html.parser")
+    rows = soup.select("tr.matchrow")
+    print(f"\n  each of the {len(rows)} rows, and the table it sits in:\n")
+    for row in rows:
+        link = row.select_one("td.matchcol a[title]")
+        title = (link.get("title") if link else "") or "?"
+        # Climb to the table and look for whatever names it.
+        table = row.find_parent("table")
+        table_id = (table.get("id") or "") if table else ""
+        table_cls = " ".join(table.get("class") or []) if table else ""
+        # The nearest heading above this table, whatever its level.
+        heading = ""
+        node = table
+        while node is not None and not heading:
+            previous = node.find_previous(
+                ["h1", "h2", "h3", "h4", "caption", "th"])
+            if previous is not None:
+                heading = " ".join(previous.get_text(" ", strip=True).split())
+            node = node.find_parent("table") if previous is None else None
+        # And anything the row itself says about a channel.
+        chans = [a.get_text(strip=True) for a in row.select("a")
+                 if "/channels/" in (a.get("href") or "")]
+        print(f"    {title[:44]:44}")
+        print(f"      table id={table_id!r} class={table_cls[:40]!r}")
+        print(f"      heading above: {heading[:70]!r}")
+        print(f"      channel links on the row: {chans[:6]}")
+
+
+def read_futebolnatv(body: str) -> None:
+    """The Portuguese fixtures page, since it named Canal 11 46 times.
+
+    81% of its clocks are on the hour, which on a football page is not
+    the same warning it was on a TV grid — kickoffs really do cluster at
+    :00 and :30. So this asks for structure rather than trusting the
+    share: what repeating block carries a fixture, and does it print a
+    date this reader could place.
+    """
+    soup = BeautifulSoup(body, "html.parser")
+    for guess in ("table tr", "div.jogo", "article", "li",
+                  "[class*=jogo]", "[class*=match]", "[class*=game]",
+                  "time", "[datetime]"):
+        found = soup.select(guess)
+        if found:
+            print(f"    {guess:18} -> {len(found):>4}")
+    # Print the first few blocks that mention Canal 11 with a clock beside.
+    print("\n    blocks naming Canal 11 with a time in them:")
+    shown = 0
+    for node in soup.find_all(True):
+        if shown >= 8:
+            break
+        text = " ".join(node.get_text(" ", strip=True).split())
+        if not (60 < len(text) < 260):
+            continue
+        if SAYS_CANAL_11.search(text) and A_CLOCK.search(text):
+            kids = [c for c in node.find_all(True)]
+            if len(kids) > 14:
+                continue
+            print(f"      <{node.name}> {text[:150]}")
+            shown += 1
+    if not shown:
+        print("      none in that size range — the page is shaped otherwise")
+
+
 def main() -> int:
     print("Canal 11 — the Portuguese federation's channel. Which page has")
     print("its fixtures, and does that page publish an INSTANT or a clock?\n")
@@ -167,10 +241,19 @@ def main() -> int:
         print("  that the two disagree by four hours. The first three rows")
         print("  print both so the gap is visible rather than assumed.")
         read_the_rows(bodies["livesoccertv channel"])
+
+        print("\n\nWHOSE ROWS ARE THESE?")
+        print("─" * 21)
+        where_does_each_row_live(bodies["livesoccertv channel"])
     else:
         print("\nThe livesoccertv channel page did not answer 200, so the")
         print("row shape could not be read. Whatever else answered above is")
         print("what the next probe should be pointed at.")
+
+    if "futebolnatv" in bodies:
+        print("\n\nFUTEBOLNATV, THE PORTUGUESE FIXTURES PAGE")
+        print("─" * 41)
+        read_futebolnatv(bodies["futebolnatv"])
 
     print("\nHOW TO READ THIS")
     print("─" * 16)
