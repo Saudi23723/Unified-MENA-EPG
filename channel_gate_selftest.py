@@ -2052,10 +2052,9 @@ def gate_a_row_names_two_channels() -> None:
                                           "Fox Sports 1", "DAZN"]}),
           "beIN 1 · Sky+ · Fox Sports 1 · DAZN")
     check("TWO", "the thirteenth is counted only after twelve are shown",
-          today.channels_of({"channels": [f"Channel {n}" for n in range(1, 14)]}),
-          "Channel 1 · Channel 2 · Channel 3 · Channel 4 · Channel 5 · "
-          "Channel 6 · Channel 7 · Channel 8 · Channel 9 · Channel 10 · "
-          "Channel 11 · Channel 12 +1")
+          today.channels_of({"channels": [f"Feed {n}" for n in range(1, 14)]}),
+          "Feed 1 · Feed 2 · Feed 3 · Feed 4 · Feed 5 · Feed 6 · Feed 7 · "
+          "Feed 8 · Feed 9 · Feed 10 · Feed 11 · Feed 12 +1")
     check("TWO", "one channel is still one channel",
           today.channels_of({"channels": ["DAZN"]}), "DAZN")
     check("TWO", "and the app the reader asked to stop seeing is not one",
@@ -2093,7 +2092,7 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "and they outrank Scandinavia and Denmark",
           today.channels_of({"channels": ["beIN SPORTS 2", "V Sport 1",
                                           "Optus Sport", "TV2 Denmark"]}),
-          "beIN 2 · Optus Sport · V Sport 1 +1")
+          "beIN 2 · Optus Sport · V Sport 1 · TV2 Denmark")
     # "English" is Sky and TNT — the channels that carry English football
     # in England. A beIN feed with English commentary is Doha's channel
     # and belongs with the Arabic ones, and reading it as British put it
@@ -2141,7 +2140,7 @@ def gate_a_row_names_two_channels() -> None:
           today.channels_of({"channels": ["beIN SPORTS Xtra 1",
                                           "beIN SPORTS 4 TR", "Ligue1+",
                                           "Sportsnet One"]}),
-          "Sportsnet One · beIN 4 TR · Ligue1+ +1")
+          "Sportsnet One · beIN 4 TR · Ligue1+ · beIN Xtra 1")
     check("TWO", "but a match that has only Xtra still names it",
           today.channels_of({"channels": ["beIN SPORTS Xtra 1"]}),
           "beIN Xtra 1")
@@ -2165,12 +2164,12 @@ def gate_a_row_names_two_channels() -> None:
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 TR",
                                           "Sky Sports+"]}),
-          "beIN 3 · Sky+ · USA Network +2")
-    check("TWO", "Arabic, British, American — the three a viewer can open",
+          "beIN 3 · Sky+ · USA Network · beIN 1 TR · beIN 2")
+    check("TWO", "Arabic, British, American still lead the full list",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
                                           "USA Network", "beIN SPORTS 1 EN",
                                           "beIN SPORTS 1 TR", "Sky Sports+"]}),
-          "beIN 3 · Sky+ · USA Network +3")
+          "beIN 3 · Sky+ · USA Network · beIN 1 TR · beIN 1 EN · beIN 2")
     check("TWO", "and still in the reader's order: American before Turkish",
           today.in_the_readers_order(["beIN SPORTS 3", "beIN SPORTS 1 TR",
                                       "Fox Sports 1"])[1], "Fox Sports 1")
@@ -2226,7 +2225,7 @@ def gate_a_row_names_two_channels() -> None:
     check("TWO", "a TNT takes the slot beIN's English feed had",
           today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 1 EN",
                                           "TNT Sports 1", "USA Network"]}),
-          "beIN 3 · TNT 1 · USA Network +1")
+          "beIN 3 · TNT 1 · USA Network · beIN 1 EN")
     check("TWO", "and so does a TSN",
           today.channels_of({"channels": ["beIN SPORTS 4", "beIN SPORTS FR 2",
                                           "TSN 4"]}),
