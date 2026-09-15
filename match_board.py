@@ -973,7 +973,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # made to read every line to find out.
         over = _is_over(event, now, live_for)
         band = [PAD - 12, y, W - PAD + 12, y + height - 6]
-        if False:
+        if live:
             # ON THE AIR, AND IT LOOKS LIKE IT. A viewer looking at the
             # board in bed, at arm's length, in the dark, asked why a
             # match being played right now looked exactly like one that
@@ -996,7 +996,7 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             pen.rounded_rectangle([band[0] + 3, band[1] + 7,
                                    band[0] + 11, band[3] - 7],
                                   radius=3, fill=LIVE_TAG)
-        elif False:
+        elif over:
             # FINISHED, AND IT LOOKS LIKE IT TOO. The live row got a red
             # room; the finished one gets the opposite of that: a grey
             # band dimmer than the panels around it, so an evening board
@@ -1093,11 +1093,11 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # that pokes out of the row, which is the thing asked to stop.
         slot_y = min(max(head_y, y + 3 + slot_half),
                      y + height - 6 - 3 - slot_half)
-        if False:
+        if live:
             word, fill = "مباشر", LIVE_TAG
-        elif False:
+        elif over:
             word, fill = "انتهى", OVER_TAG
-        elif False:
+        elif today and not coming_seen:
             # THE NEXT KICKOFF, SAID SO. The red room says "on now";
             # everything else on today's board is either finished or
             # waiting, and the waiting row a viewer is actually after is
@@ -1110,7 +1110,6 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
             # cannot keep.
             word, fill = "التالي", NEXT_TAG
             coming_seen = True
-        word = ""
         if word:
             pen.rounded_rectangle(
                 [slot_x, slot_y - slot_half, slot_x + slot_w,
