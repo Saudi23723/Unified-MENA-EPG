@@ -937,72 +937,16 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     time_x, name_x = PAD + 128, PAD + 168
     y = top + 8 + lead + spare // 2
 
-    # THE INDICATOR IS VISUAL, not another word the row has to carry.
-    # The live board already says enough in text — the fixture, the
-    # competition and the channels — and the state is stronger as colour:
-    # a red room and red clock for what is on now, a dim grey row for what
-    # is over, and one teal marker for the next kickoff on today's page.
-    #
-    # That keeps the state moving on the clock — the row colours and the
-    # marker are still redrawn through board_marks — without putting
-    # "LIVE/مباشر/التالي/انتهى" into the rendered text of channels that
-    # were asked to keep this classic board.
-    marker_r = max(4, min(6, (height - 18) // 2))
-    today = day == now.astimezone(viewer).date()
-    coming_seen = False
+    # THE CLASSIC BOARD IS DISPLAY-ONLY now: time, listing, competition,
+    # source. The live state is carried by the guide and HLS scheduling,
+    # not by recolouring the cached PNG, so the picture stays byte-stable
+    # for the same rows however the clock moves.
 
     for index, event in enumerate(rows):
-        live = _is_live(event, now, live_for)
-        # OVER, AND SAID SO IN RED. Asked for outright. A board carries
-        # the whole day, so by the evening most of it has been played —
-        # and every one of those rows was printing its clock in the same
-        # green as the match that has not started yet. Green is the
-        # colour this board uses for "coming"; a match that is finished
-        # is not coming, and a viewer scanning for what is next was being
-        # made to read every line to find out.
-        over = _is_over(event, now, live_for)
         band = [PAD - 12, y, W - PAD + 12, y + height - 6]
-        if live:
-            # ON THE AIR, AND IT LOOKS LIKE IT. A viewer looking at the
-            # board in bed, at arm's length, in the dark, asked why a
-            # match being played right now looked exactly like one that
-            # starts at nine. It did: the live band was a green so close
-            # to the panel either side of it that the only difference was
-            # a hairline a pixel wide, and the clock stayed green — the
-            # colour of "not started yet".
-            #
-            # So the band is red now, in the one shade a television
-            # viewer already knows means "on the air", with a red
-            # مباشر pill beside the clock and the clock itself red. Red
-            # was already the board's word for "over"; it stays there as
-            # a muted letter and comes here as a lit room, so "over" is
-            # read and "on now" is seen.
-            pen.rounded_rectangle(band, radius=12, fill=LIVE_BG,
-                                  outline=LIVE_TAG, width=2)
-            # A thick lit edge on the reading side — six times the
-            # hairline it was — so the eye lands on the row that is on
-            # before it reads a word on it.
-            pen.rounded_rectangle([band[0] + 3, band[1] + 7,
-                                   band[0] + 11, band[3] - 7],
-                                  radius=3, fill=LIVE_TAG)
-        elif over:
-            # FINISHED, AND IT LOOKS LIKE IT TOO. The live row got a red
-            # room; the finished one gets the opposite of that: a grey
-            # band dimmer than the panels around it, so an evening board
-            # full of played matches reads as "already been" at a glance
-            # and the green rows are the ones the eye goes to. The clock
-            # keeps its red — "over" stays red as it always was — but
-            # the row itself steps back, and the انتهى pill below says
-            # what the colour is saying.
-            pen.rounded_rectangle(band, radius=12, fill=OVER_BG,
-                                  outline=OVER_TAG, width=1)
-            pen.rounded_rectangle([band[0] + 3, band[1] + 7,
-                                   band[0] + 11, band[3] - 7],
-                                  radius=3, fill=OVER_TAG)
-        else:
-            fill = PANEL if index % 2 == 0 else PANEL_ALT
-            pen.rounded_rectangle(band, radius=12, fill=fill,
-                                  outline=RULE, width=1)
+        fill = PANEL if index % 2 == 0 else PANEL_ALT
+        pen.rounded_rectangle(band, radius=12, fill=fill,
+                              outline=RULE, width=1)
 
         middle = y + (height - 6) // 2
 
@@ -1065,23 +1009,6 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         draw_text(pen, ((tab[0] + tab[2]) // 2, middle), clock, clock_px,
                   clock_ink, anchor="mm", weight="heavy")
 
-        # ONE MARKER, inside the clock tablet the row already has. The
-        # state stays visible and the text stays to the fixture itself.
-        marker = None
-        if live:
-            marker = LIVE_TAG
-        elif over:
-            marker = OVER_TAG
-        elif today and not coming_seen:
-            # THE NEXT KICKOFF ALONE gets the teal mark on today's board.
-            # A second one would be a second promise this page cannot keep.
-            marker = NEXT_TAG
-            coming_seen = True
-        if marker:
-            dot_x = tab[2] - 16
-            pen.ellipse([dot_x - marker_r, middle - marker_r,
-                         dot_x + marker_r, middle + marker_r],
-                        fill=marker)
         head = name_x
 
         # THE CHANNELS BESIDE THE NAME, NOT UNDER IT. They used to drop
