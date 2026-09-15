@@ -2043,26 +2043,29 @@ def gate_a_row_names_two_channels() -> None:
 
     import today_matches_epg as today
 
-    check("TWO", "three channels are printed, not one and a digit",
+    check("TWO", "three channels are still printed in full",
           today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
                                           "Fox Sports 1"]}),
           "beIN 1 · Sky+ · Fox Sports 1")
-    check("TWO", "a fourth is counted, not dropped",
+    check("TWO", "a fourth is printed, not counted away",
           today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
                                           "Fox Sports 1", "DAZN"]}),
-          "beIN 1 · Sky+ · Fox Sports 1 +1")
+          "beIN 1 · Sky+ · Fox Sports 1 · DAZN")
+    check("TWO", "the thirteenth is counted only after twelve are shown",
+          today.channels_of({"channels": [f"Channel {n}" for n in range(1, 14)]}),
+          "Channel 1 · Channel 2 · Channel 3 · Channel 4 · Channel 5 · "
+          "Channel 6 · Channel 7 · Channel 8 · Channel 9 · Channel 10 · "
+          "Channel 11 · Channel 12 +1")
     check("TWO", "one channel is still one channel",
           today.channels_of({"channels": ["DAZN"]}), "DAZN")
     check("TWO", "and the app the reader asked to stop seeing is not one",
           today.channels_of({"channels": ["OneFootball", "beIN SPORTS 1"]}),
           "beIN 1")
 
-    # The drawn board gives a row three pills, so the picture and the
-    # line agree on how many a viewer is shown. Three was refused once on
-    # an unmeasured claim that a twelve-match day could not fit them; it
-    # can, because a crowded row draws its pills smaller too.
+    # The drawn board and the printed line now share the same ceiling:
+    # twelve shown, then a count if there are more.
     check("TWO", "the board draws as many as the line prints",
-          today.MAX_CHANNELS, 3)
+          today.MAX_CHANNELS, 12)
 
     # The reader's order: Arabic, English, American, Turkish, the rest.
     # It was source order, which is the order a British listings page

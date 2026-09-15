@@ -1045,15 +1045,16 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         # side of the board look like spare change; a broadcaster on a
         # real sports channel gets a lit bar the width of the column,
         # the same on every row, carrying every channel the match is on.
-        # Nothing is dropped — two or three names share the bar.
+        # Nothing is dropped — however many names the row has share the bar.
         channel_x = W - PAD - CHANNEL_ZONE
-        if shown_any := event["channels"][:3]:
+        if shown_any := [name for name in event["channels"] if name]:
             bar = [channel_x, middle - (pill_half + 4), W - PAD,
                    middle + (pill_half + 4)]
             pen.rounded_rectangle(bar, radius=8, fill=CHANNEL_BAR,
                                   outline=CHANNEL_EDGE, width=2)
-            joined = clipped("  ·  ".join(shown_any), pill_size,
-                             CHANNEL_ZONE - 24, weight="mid")
+            joined = "  ·  ".join(shown_any)
+            pill_size = size_that_fits(joined, pill_size, 10, CHANNEL_ZONE - 24)
+            joined = clipped(joined, pill_size, CHANNEL_ZONE - 24, weight="mid")
             draw_text(pen, ((bar[0] + bar[2]) // 2, middle), joined,
                       pill_size, WHITE, anchor="mm", weight="mid")
 
@@ -1677,10 +1678,11 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
                           readable(comp_colour(comp)), anchor="rm",
                           weight="mid")
         if event["channels"]:
+            joined = "  ·  ".join(name for name in event["channels"] if name)
+            where_size = size_that_fits(joined, 16 if tall else 14, 10, room)
             draw_text(pen, (inner, y + (128 if tall else 76)),
-                      clipped("  ·  ".join(event["channels"][:3]),
-                              16 if tall else 14, room, weight="mid"),
-                      16 if tall else 14, PILL_INK, anchor="lm",
+                      clipped(joined, where_size, room, weight="mid"),
+                      where_size, PILL_INK, anchor="lm",
                       weight="mid")
 
     if lanes == 2:
@@ -1787,14 +1789,15 @@ def draw_board_info(day: date, events: list[dict], now: datetime, viewer,
             tag = "مباشر"
         elif today and not coming:
             tag, coming = "التالي", True
-        chan = "  ·  ".join(event["channels"][:3])
+        chan = "  ·  ".join(name for name in event["channels"] if name)
         chan_room = 340 if height >= 66 else 260
-        chan_w = (min(chan_room, width_of(chan, chan_size, weight="mid"))
+        where_size = size_that_fits(chan, chan_size, 10, chan_room) if chan else chan_size
+        chan_w = (min(chan_room, width_of(chan, where_size, weight="mid"))
                   if chan else 0)
         if chan:
             draw_text(pen, (W - PAD - 16, middle),
-                      clipped(chan, chan_size, chan_room, weight="mid"),
-                      chan_size, MUTED if over else PILL_INK,
+                      clipped(chan, where_size, chan_room, weight="mid"),
+                      where_size, MUTED if over else PILL_INK,
                       anchor="rm", weight="mid")
         stop = W - PAD - 30 - chan_w
         if tag:

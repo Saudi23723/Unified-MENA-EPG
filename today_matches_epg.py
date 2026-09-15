@@ -205,20 +205,18 @@ ARABIC_DAY = ("الاثنين", "الثلاثاء", "الأربعاء", "الخ�
 # arithmetic fault. A day that gets a board must get the whole of that day.
 DAYS_AHEAD = 2
 
-# Three channels per match — Arabic, English, American, which is the
-# whole of what a viewer here is likely to be able to open.
+# Up to twelve channels per match, because that is what the dashboard was
+# asked to show rather than collapsing the rest into a count.
 #
 # One was chosen when a match rarely had a second to show. Two was chosen
-# next, and three was REFUSED on the grounds that a twelve-match day
-# draws 38px rows and could not fit them. That was asserted and never
-# measured, and it was wrong: drawn at twelve rows with the longest
-# fixture the board carries — "Wolverhampton Wanderers - Nottingham
-# Forest" — three full pills clear the title with room to spare, because
-# a crowded row draws its pills smaller too.
+# next, and the rest were collapsed into a count on the grounds that a
+# crowded board could not carry a longer watch list. That was the part the
+# viewer pushed back on: the request is twelve channels on the dashboard,
+# so the line now keeps twelve before it falls back to "+N".
 #
-# Beyond the third the count returns, honest about there being more
+# Beyond the twelfth the count returns, honest about there being more
 # without spending a line on it.
-MAX_CHANNELS = 3
+MAX_CHANNELS = 12
 
 # How wide a line may get before a television wraps it onto a second one.
 # Simultaneous kickoffs share a line only while they stay inside this:
