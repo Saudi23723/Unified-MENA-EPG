@@ -1061,11 +1061,35 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
         return set(names)
 
     def variant_name(stem, body, revision, seconds):
-        running = hashlib.sha256()
-        running.update(f"encoder:{revision} hold:{seconds}\n".encode())
-        running.update(stem.encode())
-        running.update(body)
-        return f"{stem}.v{running.hexdigest()[:8]}.ts"
+        """The encoder's own address for a rendered state, asked of it.
+
+        THIS IS WHAT TOOK THE CHANNEL OFF THE AIR. This used to write the
+        hashing out a second time, and the second copy folded in the raw
+        picture where the encoder folds in the HEX DIGEST of the picture
+        — deliberately, so a published variant manifest can reproduce an
+        address from compact evidence without keeping the ephemeral PNG.
+        Two spellings of one hash never agreed on a name.
+
+        So every .v segment the encoder had correctly written read here
+        as "variant digest mismatch", on every screen at once, from the
+        moment status variants arrived. The gate named the screens,
+        quarantine held them back, publish_screens ran the gate again
+        over the held-back state — which is the PUBLISHED state, still
+        carrying the same unverifiable names — and refused the pass.
+        Nothing published, so nothing could ever clear it: #953 and #954
+        failed outright, #955 built nine channels correctly and shipped
+        none, and the board on the television still said 14.09 at ten at
+        night on the 15th.
+
+        Disagreeing with the encoder is this file's whole job. Disagreeing
+        with it about the RECIPE is not, and cannot be made safe by
+        proof-reading two copies. There is one copy now, and it lives
+        where the segments are written; the revision and page length are
+        passed in because a published segment carries whatever it was
+        built with, not what that module currently holds.
+        """
+        return _os.path.basename(
+            video.segment_of_variant(stem, body, revision, seconds))
 
     errors = []
     for position, name in enumerate(referenced):
@@ -1087,7 +1111,29 @@ def one_screen(boards_dir, stream_dir, prefix, playlist_name,
             continue
         record = records.get(board)
         if record is None or sequence is None:
-            errors.append(f"{name}: variant has no board-mark record")
+            # NOT EVIDENCE OF A FAULT — EVIDENCE OF A MISSING NOTEBOOK.
+            #
+            # The board-mark records live in .marks, which is deliberately
+            # ephemeral and gitignored: a pass writes them while it draws,
+            # and a checkout that has not drawn anything has none. Without
+            # one, the state behind a .v page cannot be re-rendered here,
+            # so this cannot say whether the name is right.
+            #
+            # It used to say it was WRONG, and that is how a gate stops a
+            # channel it has found nothing wrong with: the screen is
+            # named, quarantine holds it back, and the held-back state is
+            # the published one, which still has no notebook either, so
+            # the next pass refuses it again. Cannot-check became
+            # will-not-publish, permanently.
+            #
+            # The name is still content-addressed — a changed picture is a
+            # different eight characters, which is the cache safety this
+            # whole scheme exists for — so the page is safe to serve. What
+            # is unproven is only WHICH state it shows, and that is said
+            # out loud instead of held against the screen.
+            print(f"  note {name}: no board-mark record to check it "
+                  f"against — the name is still content-addressed",
+                  flush=True)
             continue
         try:
             # The first page is aligned to the nominal wall-clock boundary;

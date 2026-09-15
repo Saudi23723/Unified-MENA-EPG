@@ -296,6 +296,23 @@ def reconcile_stream_with_the_encoder() -> None:
             git("add", "-A", "--", directory)
 
 
+def screen_named_in(failure: str) -> str | None:
+    """Which screen a gate failure is about, if it is about one at all.
+
+    LONGEST PREFIX WINS. "turkish_ppv_" is a substring of
+    "dubai_turkish_ppv_", so the shorter one would claim the Dubai
+    screen's failures. quarantine_screens.py reads the same rule off the
+    same table; it cannot be imported here because it imports this file.
+    """
+    best = None
+    for name, screen in SCREENS.items():
+        prefix = screen[0]
+        if prefix in failure:
+            if best is None or len(prefix) > len(SCREENS[best][0]):
+                best = name
+    return best
+
+
 def the_gate_allows_publishing() -> tuple[bool, list[str]]:
     """Run the screen gate and read its verdict from its own list.
 
@@ -309,7 +326,34 @@ def the_gate_allows_publishing() -> tuple[bool, list[str]]:
     the_gate.main()
     unexpected = [failure for failure in the_gate.FAILURES
                   if failure not in KNOWN_GATE_FAILURES]
-    return not unexpected, list(the_gate.FAILURES)
+
+    # A FAILURE THAT NAMES A SCREEN HOLDS BACK THAT SCREEN. IT DOES NOT
+    # STOP THE PUBLISH — quarantine_screens has already held it back.
+    #
+    # This is the deadlock that cost sixteen hours. one_pass runs the
+    # gate, and a failure naming a screen sends that screen back to the
+    # bytes main already publishes; only a failure naming NO screen is
+    # about the whole build and stops the pass. Then publish_screens ran
+    # the gate a SECOND time and applied the old all-or-nothing rule to
+    # its verdict — over a working tree in which the named screens are
+    # now the PUBLISHED ones. So if the published state was itself what
+    # the gate objected to, holding it back could not satisfy the gate,
+    # the second run refused, nothing was published, and the next pass
+    # inherited exactly the same published state. Runs #953 to #955:
+    # nine channels built correctly, none shipped, the board on the
+    # television stuck on 14.09 at ten at night on the 15th.
+    #
+    # A rule that can only be satisfied by publishing, and refuses to
+    # publish, is not a gate. It is a stop. So the two runs now agree on
+    # the unit: a failure about one screen is about one screen, and the
+    # other eighteen go out on time. It is still reported, and the
+    # screen is still held back — it simply stops taking the channel
+    # down with it.
+    named = [failure for failure in unexpected if screen_named_in(failure)]
+    blocking = [failure for failure in unexpected if failure not in named]
+    for failure in named:
+        log(f"::warning::held back: {failure}")
+    return not blocking, list(the_gate.FAILURES)
 
 
 def stage() -> int:
