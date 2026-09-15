@@ -38,6 +38,9 @@ GATE_LOG = "/tmp/gate.log"
 MANUAL_TICKER_WINDOW = 165 * 60
 MARK_CADENCE = 60
 FULL_PASS_CADENCE = 5 * 60
+# How much of the window a full pass needs in front of it before it may
+# start. Measured: 4m51s on a quiet pass, 8m13s on run 955's opening one.
+ROOM_FOR_A_PASS = 10 * 60
 TICKER_CHILD = "ONE_PASS_TICKER_CHILD"
 
 
@@ -144,6 +147,7 @@ def keep_manual_run_alive(
         *, window_seconds=MANUAL_TICKER_WINDOW,
         mark_cadence=MARK_CADENCE,
         pass_cadence=FULL_PASS_CADENCE,
+        room_for_a_pass=ROOM_FOR_A_PASS,
         clock=time.monotonic, sleeper=time.sleep,
         caller=subprocess.call) -> None:
     """Keep a manual repair publishing until its queued successor can run.
@@ -178,6 +182,28 @@ def keep_manual_run_alive(
             break
 
         last_pass = clock()
+
+        # A PASS NEEDS ROOM TO FINISH — the same rule the workflow's own
+        # ticker follows, and for the same reason. Both windows stop ten
+        # minutes inside the job's 175-minute timeout, and both used to
+        # ask only whether the deadline had ARRIVED. A pass takes 4m51s
+        # quiet and 8m13s busy, so one starting a second before the
+        # deadline runs eight minutes past it, through the timeout, and
+        # the job is killed mid-build: run 955, conclusion "cancelled" at
+        # 20:41:12, with nothing published from that pass and no chance
+        # to hand the window on.
+        #
+        # This matters MORE here than in the shell, because a run that
+        # was asked for by its predecessor arrives as workflow_dispatch
+        # and is therefore ticked by this function rather than by the
+        # workflow's step.
+        #
+        # The remaining minutes stay useful: the loop above goes on
+        # flipping marks every sixty seconds until the deadline. It just
+        # does not begin work it cannot finish.
+        if deadline - last_pass <= room_for_a_pass:
+            continue
+
         pass_no += 1
         print(f"───── manual ticker pass {pass_no} ─────", flush=True)
         child_env = os.environ.copy()
