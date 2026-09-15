@@ -99,7 +99,9 @@ jobs:
       # quarantine, playlists, publish — so the first pass and the ticker
       # cannot drift: they are the same file.
       - name: Build, verify and publish every channel
-        run: python -u one_pass.py
+        run: |
+          python -u one_pass.py \
+          || echo "::warning::first pass did not finish — keeping scheduled recovery loop alive"
 
       # ─── AND AGAIN, EVERY FIVE MINUTES, FOR THE WHOLE WINDOW ─────────
       #

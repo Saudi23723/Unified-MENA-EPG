@@ -1372,12 +1372,38 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
     the WHOLE middle column, which is what "الأسماء تبع النوادي و الفرق
     تبين كاملة مش مقصوصة" needs.
     """
-    pen.rectangle([PAD, y, W - PAD, y + height], fill=VS_ROW)
+    band = VS_ROW
+    clock_ink = VS_CLOCK
+    if live:
+        band = LIVE_BG
+        clock_ink = LIVE_RED
+    elif over:
+        band = OVER_BG
+        clock_ink = MUTED
+    pen.rectangle([PAD, y, W - PAD, y + height], fill=band)
     middle = y + height // 2
     left, right = PAD + VS_GAP, W - PAD - VS_GAP
 
     draw_text(pen, (left, middle), clock, VS_CLOCK_SIZE,
-              VS_CLOCK, anchor="lm", weight="mid")
+              clock_ink, anchor="lm", weight="mid")
+
+    mark = ""
+    mark_bg = None
+    if live:
+        mark, mark_bg = "مباشر", LIVE_TAG
+    elif nxt:
+        mark, mark_bg = "التالي", NEXT_TAG
+    elif over:
+        mark, mark_bg = "انتهى", OVER_TAG
+
+    mark_w = 0
+    if mark and mark_bg:
+        mark_w = width_of(mark, 15, weight="mid") + 20
+        pill = [left + VS_CLOCK_W, middle - 14,
+                left + VS_CLOCK_W + mark_w, middle + 14]
+        pen.rounded_rectangle(pill, radius=9, fill=mark_bg)
+        draw_text(pen, ((pill[0] + pill[2]) // 2, middle), mark, 15, WHITE,
+                  anchor="mm", weight="mid")
 
     if where:
         draw_text(pen, (right, middle),
@@ -1385,7 +1411,7 @@ def vsport_row(pen, y: int, height: int, clock: str, bold: str, detail: str,
                   VS_WHERE_SIZE, MUTED if over else VS_WHERE,
                   anchor="rm", weight="mid")
 
-    x = left + VS_CLOCK_W
+    x = left + VS_CLOCK_W + mark_w + (12 if mark_w else 0)
     room = right - VS_WHERE_W - VS_GAP - x
     ink = WHITE
     if detail:
@@ -1444,11 +1470,13 @@ def draw_board_vsport(day: date, events: list[dict], now: datetime, viewer,
         if index:
             pen.line([(PAD, y - VS_ROW_GAP + 1),
                       (W - PAD, y - VS_ROW_GAP + 1)], fill=VS_LINE, width=2)
-        vsport_row(pen, y, VS_ROW_H,
-                   event["start"].astimezone(viewer).strftime("%H:%M"),
-                   *_vsport_halves(event),
-                   vsport_where(event.get("channels")),
-                   live=False, over=False, nxt=False)
+        state = status_of(event, now, live_for)
+        vsport_row(
+            pen, y, VS_ROW_H,
+            event["start"].astimezone(viewer).strftime("%H:%M"),
+            *_vsport_halves(event),
+            vsport_where(event.get("channels")),
+            live=state == "live", over=state == "over", nxt=state == "next")
         y += VS_ROW_H + VS_ROW_GAP
 
     if not events:
