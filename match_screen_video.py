@@ -574,7 +574,9 @@ def segment_of(board: str) -> str:
     return os.path.join(OUT_DIR, f"{stem}.{digest([board])[:8]}.ts")
 
 
-def segment_of_variant(stem: str, picture: bytes) -> str:
+def segment_of_variant(stem: str, picture: bytes,
+                       revision: int | None = None,
+                       hold: int | None = None) -> str:
     """The content-addressed segment name for a clock-selected picture.
 
     Ordinary boards keep the historical ``segment_of`` name, including its
@@ -585,8 +587,19 @@ def segment_of_variant(stem: str, picture: bytes) -> str:
     are part of the address for the same cache-safety reason as
     :func:`segment_of`.
     """
+    # THE RECIPE IS A PARAMETER SO THERE IS ONLY ONE COPY OF IT.
+    # channel_gate_selftest has to reproduce this address for an already
+    # published segment, whose revision and page length are whatever it
+    # was built with rather than what this module currently holds. It
+    # used to reproduce it by writing the hashing out a second time, and
+    # the second copy folded in the raw picture instead of its digest —
+    # so every correct .v segment read as "variant digest mismatch", the
+    # gate refused every screen at once, and the boards stood still for
+    # sixteen hours. Two copies of a hash is two chances to be wrong.
+    revision = ENCODER_REVISION if revision is None else revision
+    hold = HOLD if hold is None else hold
     running = hashlib.sha256()
-    running.update(f"encoder:{ENCODER_REVISION} hold:{HOLD}\n".encode())
+    running.update(f"encoder:{revision} hold:{hold}\n".encode())
     running.update(stem.encode())
     # Store the inner picture digest in the filename rather than the whole
     # rendered PNG.  The published variant manifest can therefore reproduce
@@ -1303,6 +1316,41 @@ def encode_variants(
     return True, encoded
 
 
+def marked_reel(reel, playlist_now, step):
+    """The status variants for this window, or none at all — never a stop.
+
+    A VARIANT IS A MARK ON A PAGE. 🔴 مباشر appearing at kickoff and
+    clearing at the whistle is the thing the reader asked for twice —
+    "ما يوقف و يضل يحدث تلقائي" — and it is still what this builds. But
+    it is a mark on a page, and a mark that cannot be drawn is not a
+    reason to take the page off the air.
+
+    It was. Both callers read `if not ok: return 1`, so a variant that
+    failed to render or encode aborted the whole screen — no playlist
+    written, no segments rotated, the channel left on whatever it was
+    showing before. The cosmetic layer could stop the service, which is
+    exactly backwards: the service is the fixtures, the mark is an
+    improvement on them.
+
+    So a failure here costs the marks for one pass and nothing else. The
+    plain reel goes out, the boards are today's, the next pass tries the
+    marks again — and because flip_marks runs every minute, "the next
+    pass" is a minute away, not an hour.
+    """
+    try:
+        variants, generated = status_variants(reel, playlist_now, step)
+        ok, made = encode_variants(generated, step)
+    except Exception as exc:                                # noqa: BLE001
+        warn(f"the status marks could not be drawn ({exc}) — publishing "
+             f"this pass without them; the next pass tries again")
+        return {}, 0
+    if not ok:
+        warn("a status mark did not encode — publishing this pass without "
+             "them; the next pass tries again")
+        return {}, 0
+    return variants, made
+
+
 def main(argv: list[str] | None = None) -> int:
     which = (argv or sys.argv[1:] or ["today_matches"])[0]
     if which not in SCREENS:
@@ -1395,10 +1443,7 @@ def main(argv: list[str] | None = None) -> int:
         # screen gate found them days later.
         segments = wanted_segments
         step = step_of(segments[0]) if segments else float(HOLD)
-        variants, generated = status_variants(reel, playlist_now, step)
-        ok, made = encode_variants(generated, step)
-        if not ok:
-            return 1
+        variants, made = marked_reel(reel, playlist_now, step)
         current = playlist_references(segments, playlist_now, variants, step)
         dropped = forget_old_segments(
             [os.path.join(OUT_DIR, name) for name in current], prefix)
@@ -1480,10 +1525,7 @@ def main(argv: list[str] | None = None) -> int:
         log(f"  {kept} of {len(reel)} board(s) unchanged — their segments "
             f"are reused, not re-encoded")
 
-    variants, generated = status_variants(reel, playlist_now, step)
-    ok, made = encode_variants(generated, step)
-    if not ok:
-        return 1
+    variants, made = marked_reel(reel, playlist_now, step)
     write_playlist(segments, out, now=playlist_now, variants=variants)
     current = playlist_references(segments, playlist_now, variants, step)
     dropped = forget_old_segments(
