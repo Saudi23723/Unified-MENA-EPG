@@ -370,15 +370,36 @@ def stage() -> int:
               "anything")
         return 1
     git("add", "--", "today_matches_epg.xml")
-    for path in ("ball_sports_epg.xml", "dubai_ball_sports_epg.xml",
-                 "hoops_gridiron_epg.xml", "dubai_hoops_gridiron_epg.xml",
-                 "turkish_ppv_epg.xml", "dubai_turkish_ppv_epg.xml",
-                 "f1_epg.xml", "dubai_f1_epg.xml",
-                 "other_sports_epg.xml", "news_epg.xml", "weather_epg.xml",
-                 "prayer_epg.xml",
-                 "dubai_matches_epg.xml", "dubai_sports_epg.xml",
-                 "dubai_news_epg.xml", "dubai_weather_epg.xml",
-                 *SHARED_FILES):
+
+    # EVERY SCREEN'S GUIDE, TAKEN FROM THE SCREEN TABLE — NOT FROM A
+    # LIST TYPED OUT BY HAND BESIDE IT.
+    #
+    # The hand-written list had sixteen guides on it. SCREENS has
+    # nineteen. The three that were never added are Sport TV's, and this
+    # is what that cost: boards/ and stream/ are staged WHOLESALE, so
+    # every pass published Sport TV's boards, its manifest, its segments
+    # and its playlist — and never its guide. sporttv_epg.xml was last
+    # committed on 14 September at 13:07, by hand, in a pull request.
+    # Not once by the workflow that is supposed to publish it.
+    #
+    # A guide frozen under boards that keep moving is not a stale guide,
+    # it is a WRONG one: the icons name boards whose contents changed
+    # underneath them, and its day manifest describes a build two days
+    # gone. That is the pair the screen gate kept reporting —
+    #
+    #   sporttv_ one manifest line per day the guide programmes
+    #       -> 2, expected 3
+    #   sporttv_ each programme points at its day's first board
+    #       -> [0, 1, 2], expected [0, 2]
+    #
+    # — and it was right every time. The twelfth channel was added to
+    # channels.BUILDS, to publish_screens.SCREENS, to the video encoder
+    # and to the dashboard playlists, and missed the one list that is
+    # not derived from anything. So this stops being a list.
+    for _name, screen in SCREENS.items():
+        if os.path.exists(screen[1]):
+            git("add", "--", screen[1])
+    for path in SHARED_FILES:
         if os.path.exists(path):
             git("add", "--", path)
     for directory in ("boards", "stream"):
