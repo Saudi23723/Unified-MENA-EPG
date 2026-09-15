@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260914172400 +0000" stop="20260914190800 +0000" channel="beIN4K.qa">
-    <title lang="en">Sunderland v Arsenal - English Premier League 2026/2027</title>
-    <desc lang="en">Sunderland have won just one of their last 29 Premier League meetings with Arsenal, and are winless in 17  since a 1-0 victory in November 2009 after Darren Bent’s goal. Arsenal have only lost one of their last 14 league visits to Sunderland, winning five of their last seven, although did draw this exact fixture last season 2-2.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260914190800 +0000" stop="20260914211300 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Spanish Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -528,11 +522,6 @@ Craven Cottage Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSports.qa">
-    <title lang="en">Chinese Taipei vs Vietnam - Football Women's  - Asian Games Aichi-Nagoya 2026  - FBL01</title>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914210000 +0000" channel="beINSports.qa">
     <title lang="en">Japan vs Thailand - Football Women's  - Asian Games Aichi-Nagoya 2026 - FBL01</title>
@@ -1653,6 +1642,12 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
+  <programme start="20260921190000 +0000" stop="20260921193000 +0000" channel="beINSports1.qa">
+    <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
+    <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
   <programme start="20260914183000 +0000" stop="20260914213000 +0000" channel="beINSports2.qa">
     <title lang="en">Leeds United vs Newcastle United - English Premier League 2026/2027 - Week 4 ‎• Live 🔵‎</title>
     <desc lang="en">Leeds United are winless in six Premier League games against Newcastle United  since a 2-1 victory at St. James’ Park in January 2021. Newcastle United have only lost one of their last eight Premier League visits to Leeds, a 5-2 defeat at Elland Road in December 2020.</desc>
@@ -2234,21 +2229,15 @@ Arkadag Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260915230000 +0000" stop="20260916010000 +0000" channel="beINSports3.qa">
+  <programme start="20260915230000 +0000" stop="20260916021300 +0000" channel="beINSports3.qa">
     <title lang="en">Al Ain (UAE) vs Al Nassr (KSA) - AFC Champions League Elite 2026/2027 - MD1</title>
     <desc lang="en">Al Ain have won two of their five AFC Champions League Elite meetings with Al-Nassr, both by a 1-0 margin; however, they have conceded 11 goals across their three losses. Al-Nassr lost their most recent AFC Champions League Elite game, last losing back-to-back games between April 2016 and March 2019 ; however, they have lost their opening game of a</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916010000 +0000" stop="20260916030000 +0000" channel="beINSports3.qa">
+  <programme start="20260916021300 +0000" stop="20260916050000 +0000" channel="beINSports3.qa">
     <title lang="en">Al Hilal (KSA) vs Al Gharafa  (QAT) - AFC Champions League Elite 2026/2027 - MD1</title>
     <desc lang="en">Al-Hilal have won six of their eight meetings with Al Gharafa in the AFC Champions League Elite, including each of the last three on the bounce; in fact, they have failed to score multiple goals in just one of their eight clashes with Al Gharafa. Al Gharafa have failed to score in each of their last two AFC Champions League Elite matches, registeri</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260916030000 +0000" stop="20260916050000 +0000" channel="beINSports3.qa">
-    <title lang="en">Gamba Osaka (JPN) vs Cong An Ha Noi (VIE) - AFC Champions League Elite 2026/2027 - MD1</title>
-    <desc lang="en">This will be the first AFC Champions League Elite meeting between Gamba Osaka and Công An Hà Nội; Gamba Osaka have won both their previous meetings with sides from Vietnam, scoring 20 goals across two games, conceding only one goal. This will be Gamba Osaka’s 11th participation in the AFC Champions League Elite, joining Kawasaki Frontale as the sid</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -2265,7 +2254,9 @@ Arkadag Stadium Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916065000 +0000" stop="20260916090000 +0000" channel="beINSports3.qa">
-    <title lang="en">South Korea vs Hong Kong - Volleyball Women's  - Asian Games Aichi-Nagoya 2026 - ‎• Live 🔵‎</title>
+    <title lang="en">South Korea vs Hong Kong - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
@@ -2278,6 +2269,8 @@ Arkadag Stadium Stadium</desc>
   </programme>
   <programme start="20260916095000 +0000" stop="20260916120500 +0000" channel="beINSports3.qa">
     <title lang="en">China vs North Korea. - Football Men - Asian Games Aichi-Nagoya 2026 - FBL08 ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
@@ -2290,18 +2283,17 @@ Arkadag Stadium Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916143000 +0000" stop="20260916150000 +0000" channel="beINSports3.qa">
-    <title lang="en">Levante vs Barcelona - Spanish LaLiga 2026/2027 - Week 5</title>
+    <title lang="en">Elche vs Real Madrid - Spanish LaLiga 2026/2027 - Week 6</title>
     <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
 Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260916150000 +0000" stop="20260916153000 +0000" channel="beINSports3.qa">
-    <title lang="en">Real Madrid vs Rayo Vallecono - Spanish LaLiga 2026/2027 - Week 5</title>
-    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
-Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
+    <title lang="en">Tottenham Hotspur vs Everton - English Premier League 2026/2027 - Week 4</title>
+    <desc lang="en">Tottenham Hotspur have only lost one of their last 17 Premier League home games against Everton, winning their last five since a 0-1 defeat in September 2020. Everton lost both Premier League meetings with Tottenham Hotspur last season by an aggregate score of 4-0, but have never lost three in a row to Spurs without scoring in their league history.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260916153000 +0000" stop="20260916181300 +0000" channel="beINSports3.qa">
     <title lang="en">Al Wahda FC (UAE) vs Kuwait SC (KUW) - AFC Champions League Two 2026/2027 - MD1 ‎• Live 🔵‎</title>
@@ -2316,7 +2308,7 @@ Al Nahyan Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916181300 +0000" stop="20260916210000 +0000" channel="beINSports3.qa">
+  <programme start="20260916181300 +0000" stop="20260916204500 +0000" channel="beINSports3.qa">
     <title lang="en">Al Rayyan SC (QAT) vs Al Faisaly (JOR) - AFC Champions League Two 2026/2027 - MD1 ‎• Live 🔵‎</title>
     <desc lang="en">Al Rayyan vs Al-Faisaly (JOR)
 At 16-9-2026, MECCA 21:15, GMT 18:15
@@ -2328,6 +2320,12 @@ Ahmad bin Ali Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916204500 +0000" stop="20260916210000 +0000" channel="beINSports3.qa">
+    <title lang="en">Liverpool vs Fulham - English Premier League 2026/2027 - Week 4</title>
+    <desc lang="en">Liverpool have only lost two of 33 previous home league games against Fulham, 1-0 defeats in May 2012 and March 2021. Since completing the double over Liverpool in 2011-12, Fulham have won just two of 16 Premier League games versus the Reds.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260916210000 +0000" stop="20260916215000 +0000" channel="beINSports3.qa">
     <title lang="en">Levante vs Barcelona - Spanish LaLiga 2026/2027 - Week 5</title>
@@ -3976,7 +3974,7 @@ Diyarbakir Stadyumu Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260914183000 +0000" stop="20260914210000 +0000" channel="beINSports7.qa">
+  <programme start="20260914182900 +0000" stop="20260914210000 +0000" channel="beINSports7.qa">
     <title lang="en">Aryna Sabalenka vs Elena Rybakina  - Arthur Ashe Court - Tennis US Open 2026 - Women's Singles Final</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
@@ -4082,13 +4080,13 @@ Diyarbakir Stadyumu Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916125000 +0000" stop="20260916161500 +0000" channel="beINSports7.qa">
+  <programme start="20260916125000 +0000" stop="20260916161000 +0000" channel="beINSports7.qa">
     <title lang="en">Taylor Fritz (USA) vs Rafael Jodar (ESP) - Final - ATP 500 Mubadala Citi DC Open 2026</title>
     <desc lang="en">The Mubadala Citi DC Open 2026 takes place from 27 July to 2 August at Rock Creek Park Tennis Center in Washington, D.C. Played on outdoor hard courts, the ATP 500 event brings top men’s players to the U.S. capital to compete for the title in one of North America’s key summer tournaments.</desc>
     <category lang="ar">كرة التنس - فئة 500</category>
     <category lang="en">Tennis - ATP 500</category>
   </programme>
-  <programme start="20260916161500 +0000" stop="20260916180500 +0000" channel="beINSports7.qa">
+  <programme start="20260916161000 +0000" stop="20260916180500 +0000" channel="beINSports7.qa">
     <title lang="en">Arthur Fery (GBR) vs Ignacio Buse (PER) - Final - ATP 250 Winston-Salem Open 2026</title>
     <desc lang="en">The ATP 250 Series is the entry-level tier of the ATP Tour, featuring tournaments held throughout the season across hard, clay and grass courts. These events provide emerging talents and established players with opportunities to compete for valuable ranking points and titles. With a global calendar spanning multiple continents, the series delivers</desc>
     <category lang="ar">تنس -  فئة 250</category>
@@ -4108,7 +4106,7 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916203000 +0000" stop="20260916210000 +0000" channel="beINSports7.qa">
-    <title lang="en">D15 - Mini Matches - Tennis US Open 2026</title>
+    <title lang="en">Alexander Zverev x Ben Shelton - Mini Matches - Tennis US Open 2026</title>
     <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -4167,7 +4165,7 @@ Al Nahyan Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917095000 +0000" stop="20260917141500 +0000" channel="beINSports7.qa">
+  <programme start="20260917095000 +0000" stop="20260917120000 +0000" channel="beINSports7.qa">
     <title lang="en">Lion City Sailors (SGP) vs BG Pathum United (THA) - AFC Champions League Two 2026/2027 - MD1 ‎• Live 🔵‎</title>
     <desc lang="en">Lion City Sailors vs BG Pathum United
 At 17-9-2026, MECCA 13:00, GMT 10:00
@@ -4180,12 +4178,26 @@ Jalan Besar Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917141500 +0000" stop="20260917163500 +0000" channel="beINSports7.qa">
+  <programme start="20260917120000 +0000" stop="20260917140000 +0000" channel="beINSports7.qa">
+    <title lang="en">Philippines vs Kazakhstan - Basketball Women's  - Asian Games Aichi-Nagoya 2026</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260917140000 +0000" stop="20260917144500 +0000" channel="beINSports7.qa">
+    <title lang="en">Barcelona vs Racing Club - Spanish LaLiga 2026/2027 - Week 6</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
+  </programme>
+  <programme start="20260917144500 +0000" stop="20260917163500 +0000" channel="beINSports7.qa">
     <title lang="en">Brazil vs USA - FIFA U-20 Women World Cup - 2026</title>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260917163500 +0000" stop="20260917220000 +0000" channel="beINSports7.qa">
+  <programme start="20260917163500 +0000" stop="20260917190000 +0000" channel="beINSports7.qa">
     <title lang="en">OFI Crete vs Hoffenheim - UEFA Europa League 2026/2027 - MD1 ‎• Live 🔵‎</title>
     <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
 36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
@@ -4193,19 +4205,26 @@ Jalan Besar Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260917220000 +0000" stop="20260918000000 +0000" channel="beINSports7.qa">
+  <programme start="20260917190000 +0000" stop="20260917210000 +0000" channel="beINSports7.qa">
+    <title lang="en">Uzbekistan vs China - Football Women's - Asian Games Aichi-Nagoya 2026  - FBL11</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260917210000 +0000" stop="20260917230000 +0000" channel="beINSports7.qa">
     <title lang="en">Brazil vs USA - FIFA U-20 Women World Cup - 2026</title>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918020000 +0000" channel="beINSports7.qa">
+  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSports7.qa">
     <title lang="en">Sturm Graz vs Rennes - UEFA Europa League 2026/2027 - MD1</title>
     <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
 36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260918020000 +0000" stop="20260918040000 +0000" channel="beINSports7.qa">
+  <programme start="20260918010000 +0000" stop="20260918030000 +0000" channel="beINSports7.qa">
     <title lang="en">Lion City Sailors (SGP) vs BG Pathum United (THA) - AFC Champions League Two 2026/2027 - MD1</title>
     <desc lang="en">Lion City Sailors vs BG Pathum United
 At 17-9-2026, MECCA 13:00, GMT 10:00
@@ -4217,7 +4236,7 @@ Jalan Besar Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918040000 +0000" stop="20260918054500 +0000" channel="beINSports7.qa">
+  <programme start="20260918030000 +0000" stop="20260918050000 +0000" channel="beINSports7.qa">
     <title lang="en">Al Rayyan SC (QAT) vs Al Faisaly (JOR) - AFC Champions League Two 2026/2027 - MD1</title>
     <desc lang="en">Al Rayyan vs Al-Faisaly (JOR)
 At 16-9-2026, MECCA 21:15, GMT 18:15
@@ -4229,21 +4248,19 @@ Ahmad bin Ali Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918054500 +0000" stop="20260918073000 +0000" channel="beINSports7.qa">
-    <title lang="en">Bayer Leverkusen vs Celje - UEFA Europa League 2026/2027 - MD1</title>
+  <programme start="20260918050000 +0000" stop="20260918070000 +0000" channel="beINSports7.qa">
+    <title lang="en">Brazil vs USA - FIFA U-20 Women World Cup - 2026</title>
+    <category lang="ar">كأس العالم للسيدات</category>
+    <category lang="en">FIFA World Cup (Women)</category>
+  </programme>
+  <programme start="20260918070000 +0000" stop="20260918090000 +0000" channel="beINSports7.qa">
+    <title lang="en">Sturm Graz vs Rennes - UEFA Europa League 2026/2027 - MD1</title>
     <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
 36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260918073000 +0000" stop="20260918091500 +0000" channel="beINSports7.qa">
-    <title lang="en">Olympiacos Piraeus vs Jagiellonia - UEFA Europa League 2026/2027 - MD1</title>
-    <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
-36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
-    <category lang="ar">الدوري الأوروبي</category>
-    <category lang="en">UEFA Europa League</category>
-  </programme>
-  <programme start="20260918091500 +0000" stop="20260918110000 +0000" channel="beINSports7.qa">
+  <programme start="20260918090000 +0000" stop="20260918110000 +0000" channel="beINSports7.qa">
     <title lang="en">Lillestrom vs Torreense - UEFA Europa League 2026/2027 - MD1</title>
     <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
 36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
@@ -4263,13 +4280,13 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260918130000 +0000" stop="20260918150000 +0000" channel="beINSports7.qa">
-    <title lang="en">Czechia vs USA  - Singles - Davis Cup 2nd Qualifier - 2026 - MD1 ‎• Live 🔵‎</title>
+    <title lang="en">Czechia vs USA - Singles - Davis Cup 2nd Qualifier - 2026 - MD1 ‎• Live 🔵‎</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260918150000 +0000" stop="20260918171500 +0000" channel="beINSports7.qa">
-    <title lang="en">Czechia vs USA  - Singles - Davis Cup 2nd Qualifier - 2026 - MD1 ‎• Live 🔵‎</title>
+    <title lang="en">Czechia vs USA - Singles - Davis Cup 2nd Qualifier - 2026 - MD1 ‎• Live 🔵‎</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
@@ -4304,26 +4321,59 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918230000 +0000" stop="20260919120000 +0000" channel="beINSports7.qa">
+  <programme start="20260918230000 +0000" stop="20260919010000 +0000" channel="beINSports7.qa">
     <title lang="en">Canada vs France - Singles - Davis Cup 2nd Qualifier - 2026 - MD1 ‎• Live 🔵‎</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260919010000 +0000" stop="20260919030000 +0000" channel="beINSports7.qa">
+    <title lang="en">OFI Crete vs Hoffenheim - UEFA Europa League 2026/2027 - MD1</title>
+    <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
+36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
+    <category lang="ar">الدوري الأوروبي</category>
+    <category lang="en">UEFA Europa League</category>
+  </programme>
+  <programme start="20260919030000 +0000" stop="20260919050000 +0000" channel="beINSports7.qa">
+    <title lang="en">Czechia vs USA - Singles - Davis Cup 2nd Qualifier - 2026 - MD1</title>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919050000 +0000" stop="20260919070000 +0000" channel="beINSports7.qa">
+    <title lang="en">Czechia vs USA - Singles - Davis Cup 2nd Qualifier - 2026 - MD1</title>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919070000 +0000" stop="20260919090000 +0000" channel="beINSports7.qa">
+    <title lang="en">Canada vs France - Singles - Davis Cup 2nd Qualifier - 2026 - MD1</title>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919090000 +0000" stop="20260919111500 +0000" channel="beINSports7.qa">
+    <title lang="en">Canada vs France - Singles - Davis Cup 2nd Qualifier - 2026 - MD1</title>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919111500 +0000" stop="20260919120000 +0000" channel="beINSports7.qa">
+    <title lang="en">Alexander Zverev x Ben Shelton - Mini Matches - Tennis US Open 2026</title>
+    <desc lang="en">The Grand Slam tournaments are the four most prestigious events in tennis: the Australian Open, Roland-Garros, Wimbledon and the US Open. Bringing together the world’s best players, each tournament offers the highest level of competition, major ranking points and prize money. Played across hard, clay and grass courts, the Grand Slams represent the</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260919120000 +0000" stop="20260919140000 +0000" channel="beINSports7.qa">
-    <title lang="en">Czechia vs USA  - Doubles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
+    <title lang="en">Czechia vs USA - Doubles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260919140000 +0000" stop="20260919160000 +0000" channel="beINSports7.qa">
-    <title lang="en">Czechia vs USA  - Singles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
+    <title lang="en">Czechia vs USA - Singles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260919160000 +0000" stop="20260919180000 +0000" channel="beINSports7.qa">
-    <title lang="en">Czechia vs USA  - Singles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
+    <title lang="en">Czechia vs USA - Singles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
@@ -4346,23 +4396,54 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260920000000 +0000" stop="20260920040000 +0000" channel="beINSports7.qa">
+  <programme start="20260920000000 +0000" stop="20260920031500 +0000" channel="beINSports7.qa">
     <title lang="en">SF - Cricket - T20 Women's  - Asian Games Aichi-Nagoya 2026 - CKT05 ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260920040000 +0000" stop="20260920070000 +0000" channel="beINSports7.qa">
-    <title lang="en">Volleyball Women's  - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
+  <programme start="20260920031500 +0000" stop="20260920040000 +0000" channel="beINSports7.qa">
+    <title lang="en">Arab Participation In Asian Games</title>
+    <desc lang="en">A focused program highlighting the presence of Arab athletes at the Asian Games, showcasing key performances, medal moments, and breakthrough achievements across multiple sports. It reflects the growth of Arab representation on the continental stage, featuring standout stories, national milestones, and the competitive impact of Arab delegations in</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260920040000 +0000" stop="20260920061500 +0000" channel="beINSports7.qa">
+    <title lang="en">Volleyball Women's - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260920070000 +0000" stop="20260920110000 +0000" channel="beINSports7.qa">
-    <title lang="en">Volleyball Women's  - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
+  <programme start="20260920061500 +0000" stop="20260920070000 +0000" channel="beINSports7.qa">
+    <title lang="en">Asian Sports Discipline</title>
+    <desc lang="en">A focused program exploring the wide range of sports featured at the Asian Games, highlighting the diversity, identity, and competitive depth of the continent’s sporting landscape. From core disciplines to region-specific events, it showcases their format, appeal, and cultural significance, while following the nations and athletes who shape competi</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920090000 +0000" channel="beINSports7.qa">
+    <title lang="en">Volleyball Women's - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260920090000 +0000" stop="20260920103000 +0000" channel="beINSports7.qa">
+    <title lang="en">Japan vs Vietnam - Handball Womens - Asian Games Aichi-Nagoya 2026</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260920103000 +0000" stop="20260920110000 +0000" channel="beINSports7.qa">
+    <title lang="en">Qatar's Creation At Asian Games 2022</title>
+    <desc lang="en">A dedicated program following Qatar’s journey at the Asian Games 2022, highlighting the nation’s performances across multiple disciplines. It showcases key results, medal achievements, and standout moments, while reflecting the development of Qatari sport and its growing competitiveness on the continental stage.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920110000 +0000" stop="20260920130000 +0000" channel="beINSports7.qa">
     <title lang="en">Great Britain vs Ecuador - Doubles - Davis Cup 2nd Qualifier - 2026 - MD2 ‎• Live 🔵‎</title>
@@ -4383,76 +4464,204 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920170000 +0000" stop="20260920200000 +0000" channel="beINSports7.qa">
-    <title lang="en">Pitsburgh Steelers @ New England Patriots - NFL -National Footbal League  - 2026/27 ‎• Live 🔵‎</title>
+    <title lang="en">Pitsburgh Steelers @ New England Patriots - NFL - National Footbal League - 2026/27 ‎• Live 🔵‎</title>
     <category lang="ar">دوري كرة القدم الأمريكية</category>
     <category lang="en">Live</category>
     <category lang="en">NFL- National Football League</category>
   </programme>
-  <programme start="20260920200000 +0000" stop="20260921030000 +0000" channel="beINSports7.qa">
+  <programme start="20260920200000 +0000" stop="20260920220000 +0000" channel="beINSports7.qa">
     <title lang="en">Washington vs Indiana - Women's National Basketball Association - WNBA ‎• Live 🔵‎</title>
     <desc lang="en">The 2026 season marks the league’s 30th campaign, running from 8 May to 24 September, with 15 teams following the addition of Portland Fire and Toronto Tempo. The competition features elite women’s basketball across the regular season and playoffs, as teams chase the championship in a growing league with expanded reach and rising global attention.</desc>
     <category lang="ar">كرة السلة</category>
     <category lang="en">Live</category>
     <category lang="en">Basketball</category>
   </programme>
+  <programme start="20260920220000 +0000" stop="20260921000000 +0000" channel="beINSports7.qa">
+    <title lang="en">Volleyball Women's - Asian Games Aichi-Nagoya 2026 - QF</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921000000 +0000" stop="20260921020000 +0000" channel="beINSports7.qa">
+    <title lang="en">Volleyball Women's - Asian Games Aichi-Nagoya 2026 - QF</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921020000 +0000" stop="20260921023000 +0000" channel="beINSports7.qa">
+    <title lang="en">Qatar's Creation At Asian Games 2022</title>
+    <desc lang="en">A dedicated program following Qatar’s journey at the Asian Games 2022, highlighting the nation’s performances across multiple disciplines. It showcases key results, medal achievements, and standout moments, while reflecting the development of Qatari sport and its growing competitiveness on the continental stage.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260921023000 +0000" stop="20260921030000 +0000" channel="beINSports7.qa">
+    <title lang="en">The Games Of Your Life</title>
+    <desc lang="en">A special program revisiting the Asian Games hosted in Doha, capturing the spirit, scale, and lasting impact of a landmark edition for Qatar and the region. It reflects on memorable moments, standout performances, and the atmosphere that defined the event, highlighting how Doha presented the continent’s premier multi-sport gathering under the banne</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260921030000 +0000" stop="20260921032500 +0000" channel="beINSports7.qa">
-    <title lang="en">SGP vs INA - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <title lang="en">SGP vs INA - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260921032500 +0000" stop="20260921035000 +0000" channel="beINSports7.qa">
-    <title lang="en">THA vs KOR - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <title lang="en">THA vs KOR - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260921035000 +0000" stop="20260921041500 +0000" channel="beINSports7.qa">
-    <title lang="en">MGL vs PHI - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <title lang="en">MGL vs PHI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260921041500 +0000" stop="20260921044000 +0000" channel="beINSports7.qa">
-    <title lang="en">JAZ vs SRI - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <title lang="en">JAZ vs SRI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260921044000 +0000" stop="20260921050500 +0000" channel="beINSports7.qa">
-    <title lang="en">SGP vs THA - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <title lang="en">SGP vs THA - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260921050500 +0000" stop="20260921053000 +0000" channel="beINSports7.qa">
-    <title lang="en">INA vs KOR - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <title lang="en">INA vs KOR - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260921053000 +0000" stop="20260921055500 +0000" channel="beINSports7.qa">
-    <title lang="en">MGL vs KAZ - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <title lang="en">MGL vs KAZ - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260921055500 +0000" stop="20260921070000 +0000" channel="beINSports7.qa">
-    <title lang="en">PHI vs  SRI - 3x3 Basketball  - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+  <programme start="20260921055500 +0000" stop="20260921063000 +0000" channel="beINSports7.qa">
+    <title lang="en">PHI vs SRI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260921070000 +0000" stop="20260921093000 +0000" channel="beINSports7.qa">
-    <title lang="en">China vs Philippines - Football Women's  - Asian Games Aichi-Nagoya 2026 ‎• Live 🔵‎</title>
+  <programme start="20260921063000 +0000" stop="20260921070000 +0000" channel="beINSports7.qa">
+    <title lang="en">Qatar's Creation At Asian Games 2022</title>
+    <desc lang="en">A dedicated program following Qatar’s journey at the Asian Games 2022, highlighting the nation’s performances across multiple disciplines. It showcases key results, medal achievements, and standout moments, while reflecting the development of Qatari sport and its growing competitiveness on the continental stage.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260921070000 +0000" stop="20260921090000 +0000" channel="beINSports7.qa">
+    <title lang="en">China vs Philippines - Football Women's - Asian Games Aichi-Nagoya 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260921093000 +0000" stop="20260921205959 +0000" channel="beINSports7.qa">
+  <programme start="20260921090000 +0000" stop="20260921093000 +0000" channel="beINSports7.qa">
+    <title lang="en">The Games Of Your Life</title>
+    <desc lang="en">A special program revisiting the Asian Games hosted in Doha, capturing the spirit, scale, and lasting impact of a landmark edition for Qatar and the region. It reflects on memorable moments, standout performances, and the atmosphere that defined the event, highlighting how Doha presented the continent’s premier multi-sport gathering under the banne</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260921093000 +0000" stop="20260921123000 +0000" channel="beINSports7.qa">
     <title lang="en">South Korea vs Chinese Taipei - Baseball - Asian Games Aichi-Nagoya 2026 - M - BBL03 ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921123000 +0000" stop="20260921125500 +0000" channel="beINSports7.qa">
+    <title lang="en">SGP vs INA - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921125500 +0000" stop="20260921132000 +0000" channel="beINSports7.qa">
+    <title lang="en">THA vs KOR - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921132000 +0000" stop="20260921134500 +0000" channel="beINSports7.qa">
+    <title lang="en">MGL vs PHI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921134500 +0000" stop="20260921141000 +0000" channel="beINSports7.qa">
+    <title lang="en">JAZ vs SRI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921141000 +0000" stop="20260921143500 +0000" channel="beINSports7.qa">
+    <title lang="en">SGP vs THA - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921143500 +0000" stop="20260921150000 +0000" channel="beINSports7.qa">
+    <title lang="en">INA vs KOR - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921150000 +0000" stop="20260921152500 +0000" channel="beINSports7.qa">
+    <title lang="en">MGL vs KAZ - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921152500 +0000" stop="20260921160000 +0000" channel="beINSports7.qa">
+    <title lang="en">PHI vs SRI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921160000 +0000" stop="20260921180000 +0000" channel="beINSports7.qa">
+    <title lang="en">China vs Philippines - Football Women's - Asian Games Aichi-Nagoya 2026</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260921180000 +0000" stop="20260921210000 +0000" channel="beINSports7.qa">
+    <title lang="en">South Korea vs Chinese Taipei - Baseball - Asian Games Aichi-Nagoya 2026 - M - BBL03</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260914183500 +0000" stop="20260914210000 +0000" channel="beINSports8.qa">
@@ -6759,13 +6968,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914165500 +0000" stop="20260914190000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Gaziantep vs Fenerbahce - Championnat de Turquie - J05 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260914190000 +0000" stop="20260914210000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Brest vs PSG - Ligue 1 - J04 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -6867,12 +7069,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914210000 +0000" channel="beINSportsMax1.qa">
@@ -7092,12 +7288,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260917190000 +0000" stop="20260917205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -7325,12 +7515,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260914190000 +0000" stop="20260914210000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -7548,12 +7732,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260917190000 +0000" stop="20260917205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -7781,12 +7959,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260914190000 +0000" stop="20260914210000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8004,12 +8176,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260917190000 +0000" stop="20260917205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260914170000 +0000" stop="20260914190000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8236,13 +8402,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Nine O'Clock bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914191500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Jawla ‎• Live 🔵‎</title>
@@ -9949,10 +10108,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260921190000 +0000" stop="20260921191500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Jawla ‎• Live 🔵‎</title>
+    <desc lang="en">Al Jawla covers the latest news and stories from sporting events across the planet. Including latest results and latest scores from the most recent games taking place. This daily look at the latest stories provides a fast paced update to sporting events.</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260914190000 +0000" stop="20260914200000 +0000" channel="beINSportsXtra1.qa">
@@ -10195,19 +10355,49 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916110000 +0000" stop="20260916124500 +0000" channel="beINSportsXtra1.qa">
+  <programme start="20260916110000 +0000" stop="20260916120000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916124500 +0000" stop="20260916150000 +0000" channel="beINSportsXtra1.qa">
+  <programme start="20260916120000 +0000" stop="20260916121000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916121000 +0000" stop="20260916122000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916122000 +0000" stop="20260916123000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916123000 +0000" stop="20260916124500 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916124500 +0000" stop="20260916145500 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">Brazil vs USA - FIFA U-20 Women World Cup - 2026 ‎• Live 🔵‎</title>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">Live</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260916150000 +0000" stop="20260916170000 +0000" channel="beINSportsXtra1.qa">
+  <programme start="20260916145500 +0000" stop="20260916155500 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916155500 +0000" stop="20260916170000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10215,16 +10405,14 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260916170000 +0000" stop="20260916193000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">Deportivo La Coruna  vs Sevilla - Spanish LaLiga 2026/2027 - Week 6 ‎• Live 🔵‎</title>
-    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
-Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <desc lang="en">Sevilla are not only enjoying their best unbeaten run against Deportivo de A Coruña in LaLiga history, but should they avoid defeat, it would become their longest unbeaten streak against a single opponent in the competition's history. Sevilla have won five of their last 10 away games against Deportivo de A Coruña in LaLiga, twice as many as they ma</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260916193000 +0000" stop="20260916210000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">Levante  vs Athletic Bilbao -Spanish LaLiga 2026/2027 - Week 6 ‎• Live 🔵‎</title>
-    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
-Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <desc lang="en">Levante have not won any of their last nine LaLiga games against Athletic Club, their worst winless run against the Rojiblancos in the competition's history. Athletic Club are unbeaten in their last two LaLiga away games in the Valencian Community, and have only once gone three consecutive away games without conceding in this region.</desc>
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Primera División</category>
@@ -10825,7 +11013,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11101,11 +11289,23 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916161500 +0000" stop="20260916190000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260916161500 +0000" stop="20260916183500 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">Spain vs Portugal - 20 Women World Cup - 2026 ‎• Live 🔵‎</title>
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">Live</category>
     <category lang="en">FIFA World Cup (Women)</category>
+  </programme>
+  <programme start="20260916183500 +0000" stop="20260916184500 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916184500 +0000" stop="20260916190000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260916190000 +0000" stop="20260916210000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">Sturm Graz vs Rennes - UEFA Europa League 2026/2027 - MD1 ‎• Live 🔵‎</title>
@@ -11783,7 +11983,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -12071,7 +12271,31 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916180000 +0000" stop="20260916190000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260916180000 +0000" stop="20260916181000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916181000 +0000" stop="20260916182000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916182000 +0000" stop="20260916183000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916183000 +0000" stop="20260916184000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916184000 +0000" stop="20260916190000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -12782,7 +13006,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13070,7 +13294,25 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916180000 +0000" stop="20260916190000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260916180000 +0000" stop="20260916181000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916181000 +0000" stop="20260916182000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916182000 +0000" stop="20260916184000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260916184000 +0000" stop="20260916190000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13780,7 +14022,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14794,7 +15036,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15808,7 +16050,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16822,7 +17064,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17836,7 +18078,7 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260914180000 +0000" stop="20260914190000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18850,4 +19092,10 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-<programme start="20260915205959 +0000" stop="20260916025412 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915205959 +0000" stop="20260916025412 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260921190000 +0000" stop="20260921200000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+<programme start="20260915205959 +0000" stop="20260916031410 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915205959 +0000" stop="20260916031410 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
