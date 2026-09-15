@@ -453,6 +453,13 @@ def main() -> int:
         with contextlib.redirect_stdout(io.StringIO()):
             P.keep_manual_run_alive(
                 window_seconds=620, mark_cadence=60, pass_cadence=300,
+                # Scaled to this miniature window like everything else
+                # around it. The real margin is ten minutes against a
+                # 165-minute window; here a fake pass takes 30 seconds,
+                # so sixty is the same shape. Left at the real 600 it
+                # would be most of a 620-second window and no pass could
+                # ever start — which is the check below.
+                room_for_a_pass=60,
                 clock=fake_clock, sleeper=fake_sleep, caller=fake_call)
     finally:
         for key, value in (
@@ -473,6 +480,61 @@ def main() -> int:
     check("the full-pass child carries the recursion guard",
           bool(passes) and passes[0].get(P.TICKER_CHILD) == "1",
           passes[0].get(P.TICKER_CHILD) if passes else "no child")
+
+    # AND NO PASS BEGINS WORK IT CANNOT FINISH.
+    #
+    # Run 955 died of this: a pass started a second inside the window and
+    # ran eight minutes past it, through the job's 175-minute timeout,
+    # killed mid-build with nothing published.
+    #
+    # THE NUMBERS BELOW ARE CHOSEN SO THIS CAN FAIL. A 900-second window
+    # on a 300-second cadence puts its last start exactly ON the deadline,
+    # where the loop stops anyway — so it passes whether the margin is
+    # honoured or not, and proves nothing. 950 puts a start at 900, fifty
+    # seconds inside a window the pass needs 120 to finish: with the
+    # margin the pass is not begun, without it the pass ends at 1020,
+    # seventy past the window, which is run 955 in miniature.
+    late = []
+    slow_now = [0.0]
+    takes = 120
+
+    def slow_clock():
+        return slow_now[0]
+
+    def slow_sleep(seconds):
+        slow_now[0] += seconds
+
+    def slow_call(command, env=None):
+        if command[-1] == "one_pass.py":
+            late.append(slow_now[0])
+            slow_now[0] += takes
+        return 0
+
+    try:
+        os.environ["GITHUB_ACTIONS"] = "true"
+        os.environ["GITHUB_EVENT_NAME"] = "workflow_dispatch"
+        os.environ.pop(P.TICKER_CHILD, None)
+        with contextlib.redirect_stdout(io.StringIO()):
+            P.keep_manual_run_alive(
+                window_seconds=950, mark_cadence=60, pass_cadence=300,
+                room_for_a_pass=takes,
+                clock=slow_clock, sleeper=slow_sleep, caller=slow_call)
+    finally:
+        for key, value in (
+                ("GITHUB_ACTIONS", old_actions),
+                ("GITHUB_EVENT_NAME", old_event),
+                (P.TICKER_CHILD, old_child)):
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+
+    overran = [at for at in late if at + takes > 950]
+    check("no pass begins without a whole pass of window left",
+          overran == [], f"{overran} would finish past the window")
+    check("and the ticker still fills the window it is given",
+          bool(late) and slow_now[0] == 950,
+          f"{len(late)} pass(es), clock stopped at {slow_now[0]:.0f}s")
 
     print()
     if failures:

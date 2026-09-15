@@ -57,6 +57,9 @@ concurrency:
 
 permissions:
   contents: write
+  # THE RUN STARTS ITS OWN SUCCESSOR, so the chain never waits on a
+  # cron slot GitHub decided not to deliver. See the last step.
+  actions: write
 
 jobs:
   build:
@@ -76,6 +79,10 @@ jobs:
       - name: Install rendering tools
         run: |
           tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core ffmpeg
+      # When this run began, for the anti-spin floor in the last step.
+      - name: Mark the start
+        run: echo "STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"
+
       - name: Identify committer
         run: |
           git config user.name "github-actions[bot]"
@@ -147,6 +154,9 @@ jobs:
           # Ten minutes inside the job's own timeout, so the last pass
           # finishes and pushes rather than being cut off part-way.
           deadline=$(( $(date +%s) + 165 * 60 ))
+          # How much room a full pass needs. Measured: 4m51s quiet, 8m13s
+          # on run 955's opening pass. Ten minutes is that with headroom.
+          A_PASS=600
           pass=1
           # A PASS EVERY FIVE MINUTES, not five minutes between passes.
           #
@@ -180,9 +190,98 @@ jobs:
               || echo "::warning::a flip did not finish — the next pass redraws it"
             done
             last=$(date +%s)
+
+            # A PASS NEEDS ROOM TO FINISH, and the margin was not enough.
+            #
+            # The deadline is ten minutes inside the job timeout, which
+            # assumed a pass is comfortably shorter than ten minutes. Run
+            # 955's first pass took 8m13s, and the loop only asked whether
+            # the deadline had ARRIVED — so a pass could start one second
+            # before it and run eight minutes past, straight through the
+            # 175-minute timeout. That is what killed run 955: conclusion
+            # "cancelled" at 20:41:12, mid-pass, with no chance to publish
+            # what it had built or to start its successor.
+            #
+            # So a pass starts only with a pass's worth of time left. The
+            # minutes that remain are not idle — the loop above keeps
+            # flipping marks every sixty seconds until the deadline — they
+            # simply do not begin work that cannot finish.
+            if [ $(( deadline - last )) -le "$A_PASS" ]; then
+              continue
+            fi
+
             pass=$(( pass + 1 ))
             echo "───── pass $pass ─────"
             python -u one_pass.py \
             || echo "::warning::pass $pass did not finish — whatever it published stands, and the next one follows"
           done
           echo "───── $pass pass(es) published; the window is up ─────"
+
+      # THE RUN STARTS THE NEXT RUN. THE CRON IS ONLY A COLD START.
+      #
+      # THE FAULT THIS REPLACES, measured over runs 907 to 955. The cron
+      # is "11,41 * * * *" — forty-eight slots a day. Five to eight of
+      # them became runs. GitHub delivers scheduled events on a best
+      # effort and drops most of these, which the comment at the top of
+      # this file already says; what nobody had counted is what it costs.
+      #
+      # Asked of every one of those nineteen run-endings: was a successor
+      # already queued when this run ended?
+      #
+      #   a successor was waiting      8
+      #   nothing was waiting         11
+      #
+      # and the eleven are not near misses. 09-13 03:14 to 06:45, 211
+      # minutes. 09-13 07:23 to 12:42, 319. 09-14 12:46 to 16:33, 227.
+      # 09-15 07:47 to 13:30, 343. 09-15 13:36 to 17:45, 249. Twenty-eight
+      # hours and thirty-seven minutes with no run of this workflow alive
+      # at all, inside three days — two fifths of the clock. The boards
+      # stand still for every minute of it, and the reader sees a live
+      # mark that has not moved since the last run died.
+      #
+      # Queueing the successor was the right idea and it is not enough,
+      # because it still needs a cron slot to LAND while a run is up. So
+      # the run asks for its own successor outright. GitHub blocks events
+      # raised with GITHUB_TOKEN from starting new runs — deliberately,
+      # against recursion — and names two exceptions: workflow_dispatch
+      # and repository_dispatch "always create workflow runs". So this
+      # needs no personal token and no new secret, only actions: write,
+      # which keepalive.yml already holds on the same token.
+      #
+      # It cannot pile runs up: the group above is cancel-in-progress
+      # false, so the successor waits for this run to exit, and GitHub
+      # holds exactly one pending run per group.
+      #
+      # AND IT CANNOT SPIN. A run that dies in its first minutes would
+      # otherwise ask for another immediately, and a broken build would
+      # burn a run every two minutes all night. So a short run waits out
+      # the difference first: no successor is ever asked for less than
+      # fifteen minutes after this one began, which caps the chain at
+      # four runs an hour however badly a build is failing.
+      #
+      # if: always() so a failed pass still hands on. A job killed by the
+      # 175-minute timeout skips this, which is why the ticker above now
+      # refuses to start a pass it cannot finish.
+      - name: Hand the window on to the next run
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          # No STARTED_AT means the run died before it was even marked —
+          # a checkout or an install. That is the case most likely to
+          # repeat immediately, so it waits the whole floor rather than
+          # none of it.
+          if [ -z "${STARTED_AT:-}" ]; then
+            echo "this run did not reach the start mark — waiting the full floor"
+            sleep 900
+          else
+            alive=$(( $(date +%s) - STARTED_AT ))
+            if [ "$alive" -lt 900 ]; then
+              echo "this run lived ${alive}s — waiting out $(( 900 - alive ))s"
+              sleep $(( 900 - alive ))
+            fi
+          fi
+          gh workflow run update_today_matches.yml --ref "$GITHUB_REF_NAME" \
+            && echo "───── successor requested ─────" \
+            || echo "::warning::could not ask for a successor — the cron is the fallback"
