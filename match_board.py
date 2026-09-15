@@ -937,28 +937,17 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
     time_x, name_x = PAD + 128, PAD + 168
     y = top + 8 + lead + spare // 2
 
-    # THE STATUS SLOT. One line for مباشر, التالي and انتهى — asked for
-    # outright, twice, in the same breath: "التالي و المباشر مش على نفس
-    # الخط" and "make them a bit smaller to make it fit inside the lines".
-    # The old pill sat before the name only on live and finished rows, so
-    # a live row's name started some ninety pixels right of its
-    # neighbours', and the pill itself stood taller than the band it sat
-    # in — on a two-line row the name line sits above centre, so the pill
-    # rode up and poked through the row's own outline. One slot on every
-    # row, the same width on every row, is the only shape in which
-    # "on the air" and "next" can be read on the same line at all.
-    tag_px = max(11, min(13, height - 30)) if height >= 42 else 11
-    # The same width for all three words — the widest of them sets it —
-    # so a مباشر pill and a التالي pill occupy exactly the same box and
-    # the name behind them starts on exactly the same pixel.
-    slot_w = max(width_of(word, tag_px, weight="mid")
-                 for word in ("مباشر", "انتهى", "التالي")) + 18
-    slot_x = name_x
-    # The pill rides at the name line's height on a two-line row and the
-    # row's middle on a one-line one — never above the band's top edge,
-    # whatever the row's height: a pill that pokes out of the line is the
-    # thing that was asked to stop.
-    slot_half = min(tag_px + 5, (height - 6) // 2 - 2)
+    # THE INDICATOR IS VISUAL, not another word the row has to carry.
+    # The live board already says enough in text — the fixture, the
+    # competition and the channels — and the state is stronger as colour:
+    # a red room and red clock for what is on now, a dim grey row for what
+    # is over, and one teal marker for the next kickoff on today's page.
+    #
+    # That keeps the state moving on the clock — the row colours and the
+    # marker are still redrawn through board_marks — without putting
+    # "LIVE/مباشر/التالي/انتهى" into the rendered text of channels that
+    # were asked to keep this classic board.
+    marker_r = max(4, min(6, (height - 18) // 2))
     today = day == now.astimezone(viewer).date()
     coming_seen = False
 
@@ -1076,51 +1065,23 @@ def draw_board(day: date, events: list[dict], now: datetime, viewer,
         draw_text(pen, ((tab[0] + tab[2]) // 2, middle), clock, clock_px,
                   clock_ink, anchor="mm", weight="heavy")
 
-        # THREE WORDS, ONE SLOT, ONE SIZE. The pill is drawn in the slot
-        # every row carries, at the slot's fixed width: مباشر red for the
-        # row on the air, التالي teal for the next kickoff on today's
-        # board, انتهى slate for the finished one — and nothing drawn at
-        # all for a plain upcoming row on a future day, where "next" is
-        # every row and would say nothing. The word sits at the name
-        # line's height on a two-line row and the row's middle on a
-        # one-line one, and the box it sits in never stands taller than
-        # the band around it — the pill that rode out of the row line was
-        # the thing asked out of the picture.
-        word, fill = "", LIVE_TAG
-        # The pill sits at the name line's height where that is inside
-        # the band, and at the band's own centre otherwise — a pill
-        # centred on a line that sits near the band's edge is a pill
-        # that pokes out of the row, which is the thing asked to stop.
-        slot_y = min(max(head_y, y + 3 + slot_half),
-                     y + height - 6 - 3 - slot_half)
+        # ONE MARKER, inside the clock tablet the row already has. The
+        # state stays visible and the text stays to the fixture itself.
+        marker = None
         if live:
-            word, fill = "مباشر", LIVE_TAG
+            marker = LIVE_TAG
         elif over:
-            word, fill = "انتهى", OVER_TAG
+            marker = OVER_TAG
         elif today and not coming_seen:
-            # THE NEXT KICKOFF, SAID SO. The red room says "on now";
-            # everything else on today's board is either finished or
-            # waiting, and the waiting row a viewer is actually after is
-            # the next one to kick off. It wears the coming green the
-            # board has always used for a clock still to come, in the
-            # same slot and the same size as the red word, so "which one
-            # is next?" and "which one is on?" are answered on one line
-            # by the same shape. Only the first upcoming row wears it —
-            # a second التالي would be a second promise this board
-            # cannot keep.
-            word, fill = "التالي", NEXT_TAG
+            # THE NEXT KICKOFF ALONE gets the teal mark on today's board.
+            # A second one would be a second promise this page cannot keep.
+            marker = NEXT_TAG
             coming_seen = True
-        if word:
-            pen.rounded_rectangle(
-                [slot_x, slot_y - slot_half, slot_x + slot_w,
-                 slot_y + slot_half],
-                radius=slot_half, fill=fill)
-            draw_text(pen, (slot_x + slot_w // 2, slot_y), word,
-                      tag_px, WHITE, anchor="mm", weight="mid")
-        # On a future day's board nothing is live or over and only one
-        # row would wear التالي; leaving the slot empty on every row
-        # would waste the widest word's width of name room, so the name
-        # takes the slot's x on the days it is never used.
+        if marker:
+            dot_x = tab[2] - 16
+            pen.ellipse([dot_x - marker_r, middle - marker_r,
+                         dot_x + marker_r, middle + marker_r],
+                        fill=marker)
         head = name_x
 
         # THE CHANNELS BESIDE THE NAME, NOT UNDER IT. They used to drop
