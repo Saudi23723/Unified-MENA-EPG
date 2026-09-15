@@ -80,13 +80,17 @@ A_SPORT = {
     "DARDOS": "Darts", "TRIATLO": "Triathlon",
 }
 
-# NOT A CONTEST. The site's own words for the things around a fixture:
-# no broadcast at all, the news category, the aftermath and the preview,
-# the magazine and the round-up.
-NOT_A_CONTEST = re.compile(
-    r"sem\s+transmiss[ãa]o|informa[çc][ãa]o|not[íi]cias"
-    r"|rescaldo|antevis[ãa]o|magazine|resumo|highlights"
-    r"|melhores\s+momentos|reda[çc][ãa]o|estúdio|estudio", re.I)
+# NOT A CONTEST — the shared Portuguese vocabulary, not a second copy.
+#
+# This list used to be this module's own, and it was missing the four
+# words that matter most to "إعادة لا": repetição, replay, gravado
+# and recorded. DAZN's reader had them; this one did not, so a repeat on
+# SPORT TV was stopped only by the store's tipoEmissao — the field whose
+# values the note below says were not readable in the probe.
+#
+# Both readers now ask the same question with the same words. See
+# dazn_pt.NOT_A_LIVE_CONTEST for which words, and why each is there.
+NOT_A_CONTEST = dazn_pt.NOT_A_LIVE_CONTEST
 
 # The broadcaster's own state is authoritative. Only DIRETO is a live
 # broadcast; Recorded, Magazine, Long Summary, replay, and empty-state rows

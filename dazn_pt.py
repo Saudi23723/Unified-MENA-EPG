@@ -32,19 +32,49 @@ RAIL_HEADERS = {
     "Referer": "https://www.dazn.com/",
 }
 
-# The official feed also labels studio/editorial programming as live or
-# upcoming. The requested Portuguese channel is for games and sporting
-# events, not talk shows, previews, weigh-ins, press conferences, analysis,
-# or magazine blocks.
-NOT_A_GAME = re.compile(
-        r"\ban[áa]lise\b|\bpreview\b|\bmagazine\b|\bhighlights?\b"
-        r"|\bshow\b|\bpub\b|\bconfer[êe]ncia de imprensa\b"
+# NOT A LIVE CONTEST — ONE VOCABULARY FOR BOTH PORTUGUESE SOURCES.
+#
+# "المباشر الان و المباشر الي جاي ل ٣ ايام ، إعادة لا ، مجلة لا ،
+# برامج لا". The twelfth channel reads two Portuguese feeds, and each
+# one used to keep its own list of the words that mean "this is not a
+# match". Neither list was a superset of the other, so each source let
+# through exactly what the other rejected:
+#
+#   only DAZN knew      repetição, replay, gravado, recorded, análise,
+#                       entrevista, debate, documentário, pesagem,
+#                       conferência de imprensa, talk, preview
+#   only SPORT TV knew  rescaldo, antevisão, resumo, melhores momentos,
+#                       redação, informação, sem transmissão
+#
+# The four in the first column are the words for إعادة, and SPORT TV
+# was the source that did not have them. Its only guard against a repeat
+# was the store's own tipoEmissao — a field this reader's own note says
+# "was not readable in the probe", which is not a guard to rest a
+# promise on. So the two lists become one, the union of both plus
+# diferido and reposição, the ordinary Portuguese for a broadcast that
+# is not going out now.
+#
+# A word is added here only when it cannot name a fixture. Nothing that
+# could be part of a club, a competition or a card belongs in it.
+NOT_A_LIVE_CONTEST = re.compile(
+        # إعادة — a repeat, a recording, a delayed broadcast
+        r"\brepeti[çc][ãa]o\b|\breposi[çc][ãa]o\b|\breplay\b"
+        r"|\brecorded\b|\bgravado\b|\bdiferido\b"
+        # مجلة — the magazine, the round-up, the highlights
+        r"|\bmagazine\b|\bhighlights?\b|\bresumo\b"
+        r"|\bmelhores\s+momentos\b|\brescaldo\b|\bantevis[ãa]o\b"
+        # برامج — the studio, the talk, the news, the build-up
+        r"|\ban[áa]lise\b|\bpreview\b|\bshow\b|\bpub\b"
+        r"|\bconfer[êe]ncia de imprensa\b|\bpress\s+conference\b"
         r"|\bpesagem\b|\bpaddock club\b|\bgera[çc][ãa]o nfl\b"
         r"|\btop ou nem por isso\b|\bthe premier pub\b|\bmanningcast\b"
         r"|\bentrevista\b|\binterview\b|\btalk\b|\best[úu]dio\b"
-        r"|\bnot[íi]cias\b|\bdebate\b|\bdocument[áa]rio\b"
-        r"|\bpress\s+conference\b|\breplay\b|\brecorded\b"
-        r"|\bgravado\b|\brepeti[çc][ãa]o\b", re.I)
+        r"|\bestudio\b|\bnot[íi]cias\b|\bdebate\b"
+        r"|\bdocument[áa]rio\b|\breda[çc][ãa]o\b"
+        r"|\binforma[çc][ãa]o\b|\bsem\s+transmiss[ãa]o\b", re.I)
+
+# The name this module used before the two lists were merged.
+NOT_A_GAME = NOT_A_LIVE_CONTEST
 
 SPORTS = {
     "futebol": "Football", "football": "Football", "soccer": "Football",
