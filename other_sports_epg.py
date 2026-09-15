@@ -519,8 +519,17 @@ def day_title(day: date, events: list[dict], now: datetime) -> str:
             names=row_title(card))
     finished = [e for e in events if status_of(e, now) == "over"]
     if finished:
+        # انتهى, NOT "FINISHED". "Fix it once and for all Live, التالي،
+        # انتهى for all the dashboard channels" — and this line was the
+        # one place that answered in English. The board underneath it has
+        # always drawn the انتهى pill (match_board.OVER_TAG); only the
+        # guide row said FINISHED, so a viewer scrolling the EPG met an
+        # English word on channel two, the baseball channel, the NBA/NFL
+        # one, Turkish PPV, Sport TV and every one of their UAE clocks —
+        # every channel that wears this generator, which is all of them
+        # but the first.
         return in_reading_order(
-            f"{FINISHED_MARK} FINISHED {isolate('·')} "
+            f"{FINISHED_MARK} انتهى {isolate('·')} "
             f"{isolate(row_title(finished[-1]))}",
             names=row_title(finished[-1]))
     return f"{CHANNEL_AR} — لا يوجد حدث"
