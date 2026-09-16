@@ -52,6 +52,10 @@ from datetime import datetime, timedelta, timezone
 from bs4 import BeautifulSoup
 from PIL import Image
 
+# Run from the repo root, the way probe_alwan does -- the modules
+# this reuses live there, not beside this file.
+sys.path.insert(0, ".")
+
 import update_fajer_sports_epg as fajer
 
 PAGES = 2
