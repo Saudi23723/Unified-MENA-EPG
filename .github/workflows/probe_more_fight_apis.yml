@@ -1,0 +1,23 @@
+# Ask four candidate fight sources the one question that decides them:
+# do they name the broadcaster? It commits nothing and publishes nothing.
+name: Probe the fight APIs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_more_fight_apis.py"
+      - ".github/workflows/probe_more_fight_apis.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_more_fight_apis.py
