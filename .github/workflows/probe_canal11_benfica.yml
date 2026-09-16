@@ -1,0 +1,23 @@
+# Ask Canal 11's page whose rows these are and what instant they carry.
+# It commits nothing and publishes nothing.
+name: Probe Canal 11 Benfica
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_canal11_benfica.py"
+      - ".github/workflows/probe_canal11_benfica.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_canal11_benfica.py
