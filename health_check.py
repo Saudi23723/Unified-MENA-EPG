@@ -27,17 +27,18 @@ What counts as a failure:
     keeps whichever it reads first and silently drops the other
   * a channel that exists in a source file but is missing from the merged
     guide
-  * a guide made up of more stand-in than guide_ceilings.json allows it.
-    A stand-in is a title that fills time instead of describing a
-    broadcast, and a guide that turns mostly into them has usually lost a
-    source rather than run out of sport. ON Sport sat at 94 per cent for
-    days after FilGoal shut off its feed, warning every run into a log
-    nobody read, while every other check here passed
-
 What is only reported:
 
   * a guide with less than two days ahead of now — thin, not broken
   * a channel with no programmes at all
+  * a guide made up of more stand-in than guide_ceilings.json allows it.
+    A stand-in is a title that fills time instead of describing a
+    broadcast, and a guide that turns mostly into them has usually lost a
+    source rather than run out of sport. ON Sport sat at 94 per cent for
+    days after FilGoal shut off its feed. This FAILED the run until 16
+    September 2026 and now only reports: empty hours are not a fault, and
+    a red run twice a day saying so buries the ones that matter. See
+    check_ceilings for what that trade gives up
 
 Run it with no arguments. Exit code 1 means something needs attention.
 
@@ -314,10 +315,22 @@ def check_live_coverage(now: datetime) -> None:
 
 
 def check_ceilings(now: datetime) -> None:
-    """Fail a guide that has turned mostly into stand-in.
+    """Measure how much of each guide is stand-in and report it.
 
-    This is the check that would have caught FilGoal on the first run
-    after it was shut off, instead of days later and on a television.
+    This REPORTS, it does not fail. The share is still measured, still
+    printed in the table below with an OVER mark, and still the fastest
+    way to see that a source has stopped answering — it is what would
+    have caught FilGoal on the first run after its feed was shut off,
+    instead of days later and on a television.
+
+    It stopped failing on 16 September 2026, at the reader's word and
+    repeated twice: a quiet stretch with no fixtures is not a fault, and
+    a red run every twelve hours saying so buries the runs that mean
+    something. What it costs is the FilGoal alarm: a guide whose source
+    dies now fills with stand-in and says so only in this log, where
+    nobody is watching. The reader was told that in those words and
+    chose this. Restoring the alarm means turning these back into fail()
+    — do that only if he asks.
     """
     if not os.path.exists(CEILINGS_FILE):
         note(f"{CEILINGS_FILE} is missing — no guide is held to a "
@@ -352,7 +365,7 @@ def check_ceilings(now: datetime) -> None:
         mark = "  OVER" if share > ceiling else ""
         print(f"{path:34} {share:>8}% {ceiling:>7}%{mark}")
         if share > ceiling:
-            fail(f"{path}: {share}% of its rows are stand-in, above the "
+            note(f"{path}: {share}% of its rows are stand-in, above the "
                  f"{ceiling}% this guide is held to. A guide does not "
                  f"usually fill up with stand-in because there is no sport "
                  f"— check whether one of its sources has stopped "
