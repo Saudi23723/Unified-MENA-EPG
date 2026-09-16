@@ -52,6 +52,7 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 
 from epg_lib import fetch, log, norm, warn
+import canal11_pt
 import dazn_pt
 
 BASE = "https://www.sporttv.pt"
@@ -278,6 +279,16 @@ def events(session, floor: datetime | None = None,
         out = [e for e in out if floor <= e["start"] < ceiling]
     dazn = dazn_pt.events(session, floor, ceiling)
     out.extend(dazn)
+
+    # AND THE FEDERATION'S OWN CHANNEL. Canal 11 carries the national
+    # teams and the under-21s, Liga 3, the Campeonato de Portugal, Liga
+    # Revelação and the women's game — none of which is on SPORT TV's six
+    # live pages or DAZN's rail, so none of it was reaching this channel.
+    # See canal11_pt.py for which page it is read from and why, and for
+    # the two rounds of probing that proved the rows are that channel's.
+    onze = canal11_pt.events(session, floor, ceiling)
+    out.extend(onze)
+
     log(f"sporttv Portugal: {len(out)} live/scheduled event(s), including "
-        f"{len(dazn)} from DAZN Portugal")
+        f"{len(dazn)} from DAZN Portugal and {len(onze)} from Canal 11")
     return out
