@@ -82,10 +82,23 @@ SECONDS = 15
 
 # "key": "2026-09-12T09:00:00+0000" — the key is what tells a fixture
 # from a file date, so it is captured with the value.
+# AND THE QUOTES MAY BE ESCAPED. Round three's first attempt found
+# ZERO key/date pairs on a blob round two had already counted 82 ISO
+# dates in — which was this pattern's fault, not the site's. A React
+# state dump is often a JS STRING holding JSON, so every quote arrives
+# as \" rather than ". The pattern now accepts either, and the failure
+# is left recorded here because a probe that reports "nothing found"
+# when its own regex is wrong is worse than no probe at all.
 A_DATED_KEY = re.compile(
-    r'"([A-Za-z_][A-Za-z0-9_]{2,40})"\s*:\s*'
-    r'"(20\d\d-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d(?::[0-5]\d)?'
-    r'(?:Z|[+-][0-2]\d:?[0-5]\d)?)"')
+    r'\\?"([A-Za-z_][A-Za-z0-9_]{2,40})\\?"\s*:\s*'
+    r'\\?"(20\d\d-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d(?::[0-5]\d)?'
+    r'(?:Z|[+-][0-2]\d:?[0-5]\d)?)\\?"')
+
+# A plain sweep for any ISO date at all, as the control: if this finds
+# dates and the pattern above finds none, the pattern is wrong again.
+ANY_ISO = re.compile(
+    r'(20\d\d-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d(?::[0-5]\d)?'
+    r'(?:Z|[+-][0-2]\d:?[0-5]\d)?)')
 
 NOW = datetime.now(timezone.utc)
 
@@ -132,8 +145,19 @@ def read_one(label: str, url: str) -> None:
     print(f"  {label}: {got.status_code}, blob {len(blob):,} chars")
 
     pairs = A_DATED_KEY.findall(blob)
+    loose = ANY_ISO.findall(blob)
+    print(f"    control: {len(loose)} ISO date(s) anywhere in the blob")
     if not pairs:
-        print("    no key/date pairs at all — nothing to judge")
+        print(f"    but 0 under a readable key.")
+        if loose:
+            print("    THE PATTERN IS STILL WRONG, not the page — the dates")
+            print("    are there. Printing them bare so the answer is not lost:")
+            whens = [w for w in (when_of(r) for r in loose) if w]
+            ahead = [w for w in whens if w > NOW]
+            print(f"      {len(whens)} parseable, {len(ahead)} AHEAD of now")
+            for w in sorted(set(whens))[-6:]:
+                mark = "AHEAD" if w > NOW else "past "
+                print(f"        {mark}  {w:%d.%m.%Y %H:%M}Z")
         return
 
     future, past, unparsed = [], [], 0
