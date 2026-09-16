@@ -106,11 +106,20 @@ def main():
             passes = live is True and kind == "Sports event"
 
             hit = any(w in title + episode for w in INTERESTING)
-            mark = "  <== " if hit else "      "
 
-            print(f"{mark}{str(start)[:16]} {span:>7} "
-                  f"live={str(live):<5} type={str(kind):<14} "
-                  f"pass={'Y' if passes else 'n'} | {(episode or title)[:52]}")
+            # A contest does not run for three hours. Anything longer is
+            # a channel placeholder, and it is printed even when it is
+            # not the suspect row -- if span alone can refuse these, that
+            # is the cheapest fix available.
+            long_run = bool(start and end
+                            and (end - start).total_seconds() > 3 * 3600)
+
+            if hit or long_run or passes:
+                mark = "  <== " if hit else "      "
+                print(f"{mark}{str(start)[:16]} {span:>7} "
+                      f"live={str(live):<5} type={str(kind):<14} "
+                      f"pass={'Y' if passes else 'n'} | "
+                      f"{(episode or title)[:52]}")
 
             if not hit:
                 continue
