@@ -93,13 +93,7 @@
     <display-name lang="ar">أبوظبي فايت</display-name>
     <icon src="https://starzplay-img-prod-ssl.akamaized.net/prd-peg-data/default/images/logos/live/v2/adfight/active/148e429d490678b682f11eb5046f99ca.png" />
   </channel>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_admnadsports1">
-    <title lang="en">ADNOC Pro League 2026-2027</title>
-    <desc lang="en">ADNOC Pro League 2026-2027</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260915080000 +0000" stop="20260915083000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260915080500 +0000" stop="20260915083000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Invincible 2026 : Season 1 (Ar)</title>
     <desc lang="en">Invincible 2026 : Season 1 (Ar)</desc>
     <category lang="en">Sport</category>
@@ -417,7 +411,7 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915083000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260915080500 +0000" stop="20260915083000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -687,14 +681,7 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915075500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Torino x Roma - Serie A</title>
-    <title lang="ar">تورينو × روما - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260915075500 +0000" stop="20260915081000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260915080500 +0000" stop="20260915081000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 3 - Serie A Highlights</title>
     <title lang="ar">الجولة 3 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -1440,7 +1427,13 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915084000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="Starz_starzplaysports1">
+    <title lang="en">StarzPLAY Sports 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
+  </programme>
+  <programme start="20260915080500 +0000" stop="20260915084000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Inter x Udinese - Serie A</title>
     <title lang="ar">إنتر × أودينيزي - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -2102,7 +2095,13 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915090000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="Starz_starzplaysports2">
+    <title lang="en">StarzPLAY Sports 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
+  </programme>
+  <programme start="20260915080500 +0000" stop="20260915090000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -2711,7 +2710,14 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915082600 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="Starz_starzplaysport1">
+    <title lang="en">Starzplay Sports 3</title>
+    <title lang="ar">ستارزبلاي سبورتس 3</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
+  </programme>
+  <programme start="20260915080500 +0000" stop="20260915082600 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Japan vs. Italy - Nations Championship 2026</title>
     <desc lang="en">Japan vs. Italy - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -2975,7 +2981,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915090000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260915080500 +0000" stop="20260915090000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Salwa Subah Club X 6 October Club - Fatima Bint Mubarak Volleyball Cup</title>
     <title lang="ar">نادي سلوى صباح × نادي 6 أكتوبر - كأس فاطمة بنت مبارك للكرة الطائرة</title>
     <desc lang="en">Don't miss the Fatima Bint Mubarak Academy Volleyball Cup for Ladies.</desc>
@@ -3598,14 +3604,14 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915075200 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">5th T20: England vs. India - T20 Cricket</title>
-    <title lang="ar">تي٢٠ كريكيت</title>
-    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
+  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Abu Dhabi Sports Asia 1</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260915075200 +0000" stop="20260915094200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260915080500 +0000" stop="20260915094200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">1st Test: Sri Lanka vs. India - Test Cricket</title>
     <title lang="ar">تست كريكيت</title>
     <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
@@ -4556,14 +4562,14 @@
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_wedosports">
-    <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
-    <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
-    <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
+  <programme start="20260919075500 +0000" stop="20260919081900 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd T20: England vs Sri Lanka - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p3608998_b_h8_aq.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260915080000 +0000" stop="20260915082900 +0000" channel="Starz_wedosports">
+  <programme start="20260915080500 +0000" stop="20260915082900 +0000" channel="Starz_wedosports">
     <title lang="en">Sports Programme</title>
     <title lang="ar">سبورتس بروغرام</title>
     <desc lang="en">Sports Programme</desc>
@@ -5028,13 +5034,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_criclife1">
-    <title lang="en">Gujarat Titans vs. Mumbai Indians - Tata IPL Rewinds</title>
-    <desc lang="en">S2024 , Ep.Gujarat Titans vs. Mumbai Indians :</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260915080000 +0000" stop="20260915083000 +0000" channel="Starz_criclife1">
+  <programme start="20260915080500 +0000" stop="20260915083000 +0000" channel="Starz_criclife1">
     <title lang="en">Sunrisers Hyderabad vs Delhi Capitals - Tata IPL Rewinds</title>
     <desc lang="en">S2025 , Ep.Sunrisers Hyderabad vs Delhi Capitals :</desc>
     <category lang="en">Sport</category>
@@ -5774,14 +5774,14 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_criclife3">
-    <title lang="en">3rd ODI: England v Ireland - Women's One-Day International Cricket</title>
-    <title lang="ar">سكند أو دي آي: أستراليا فيرسز إنديا</title>
-    <desc lang="en">Women's national cricket teams compete against each other in a one-day international in a bid to emerge victorious and win the title.</desc>
+  <programme start="20260919080000 +0000" stop="20260919110000 +0000" channel="Starz_criclife1">
+    <title lang="en">STARZPLAY Cricket</title>
+    <title lang="ar">ستارزبلاي كريكيت</title>
+    <desc lang="en">STARZPLAY Cricket</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p11931627_b_h8_ab.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260915080000 +0000" stop="20260915083200 +0000" channel="Starz_criclife3">
+  <programme start="20260915080500 +0000" stop="20260915083200 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Challenger: San Francisco Unicorns vs Washington Freedom - Major League Cricket Match Highlights</title>
     <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
     <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
@@ -6758,7 +6758,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915123200 +0000" channel="Starz_golflife">
+  <programme start="20260915080500 +0000" stop="20260915123200 +0000" channel="Starz_golflife">
     <title lang="en">Solheim Cup: Day 2 - Ladies Euro Tour Golf</title>
     <title lang="ar">ليديز يورو تور غولف</title>
     <desc lang="en">Elite women golfers compete across Europe's best courses, showcasing skill, strategy, and talent in prestigious tournaments.</desc>
@@ -7039,14 +7039,14 @@
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">New York, USA - Sail Grand Prix</title>
-    <title lang="ar">نيويورك، أمريكا - سباق الجائزة الكبرى للشراع</title>
-    <desc lang="en">Special coverage of the Sail Grand Prix.</desc>
+  <programme start="20260919080000 +0000" stop="20260919110000 +0000" channel="Starz_golflife">
+    <title lang="en">Sports Programme</title>
+    <title lang="ar">سبورتس بروغرام</title>
+    <desc lang="en">Sports Programme</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG518592_landscape10-c2893686-a0ce-4b56-ab97-818553489df7.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260915080000 +0000" stop="20260915100000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260915080500 +0000" stop="20260915100000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Al-Ain Camel Race Festival</title>
     <title lang="ar">مهرجان العين لسباقات الهجن</title>
     <desc lang="en">Stay tuned to Al-Ain Camel Race Festival.</desc>
@@ -7648,7 +7648,14 @@
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915085008 +0000" channel="Starz_awsn">
+  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Abu Dhabi Sports Asia 2</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+  </programme>
+  <programme start="20260915080500 +0000" stop="20260915085008 +0000" channel="Starz_awsn">
     <title lang="en">2026: Pittsburgh Passion vs. D.C. Divas</title>
     <desc lang="en">Women&amp;apos;s professional football at its highest level as the Pittsburgh Passion take on the D.C. Divas.</desc>
     <category lang="en">Sport</category>
@@ -7855,637 +7862,618 @@
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916101609 +0000" stop="20260916101824 +0000" channel="Starz_awsn">
+  <programme start="20260916101609 +0000" stop="20260916101839 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916101824 +0000" stop="20260916120224 +0000" channel="Starz_awsn">
-    <title lang="en">Vixens vs. Mavericks Round 13</title>
-    <desc lang="en">Melbourne Vixens welcome the Melbourne Mavericks at John Cain Arena in round 13.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260916120224 +0000" stop="20260916120329 +0000" channel="Starz_awsn">
-    <title lang="en">No program available</title>
-    <title lang="ar">المحتوى غير متوفر</title>
-    <desc lang="en">No program available</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260916120329 +0000" stop="20260916140325 +0000" channel="Starz_awsn">
+  <programme start="20260916120211 +0000" stop="20260916140208 +0000" channel="Starz_awsn">
     <title lang="en">2026 R14: Lightning vs Thunderbirds</title>
     <desc lang="en">Sunshine Coast Lightning face off against the Adelaide Thunderbirds at UniSC Arena in round 14.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916140325 +0000" stop="20260916140430 +0000" channel="Starz_awsn">
+  <programme start="20260916140208 +0000" stop="20260916140858 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916141016 +0000" stop="20260916160203 +0000" channel="Starz_awsn">
+  <programme start="20260916140858 +0000" stop="20260916160046 +0000" channel="Starz_awsn">
     <title lang="en">2026 R14: Vixens vs. Fever</title>
     <desc lang="en">Melbourne Vixens welcome the West Coast Fever at John Cain Arena in round 14.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916160203 +0000" stop="20260916160324 +0000" channel="Starz_awsn">
+  <programme start="20260916160046 +0000" stop="20260916160206 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916160324 +0000" stop="20260916174723 +0000" channel="Starz_awsn">
+  <programme start="20260916160206 +0000" stop="20260916174606 +0000" channel="Starz_awsn">
     <title lang="en">Vixens vs. Mavericks Round 13</title>
     <desc lang="en">Melbourne Vixens welcome the Melbourne Mavericks at John Cain Arena in round 13.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916174723 +0000" stop="20260916174823 +0000" channel="Starz_awsn">
+  <programme start="20260916174606 +0000" stop="20260916174706 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916174823 +0000" stop="20260916175608 +0000" channel="Starz_awsn">
+  <programme start="20260916174706 +0000" stop="20260916175451 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: US Women&amp;apos;s Basketball</title>
     <desc lang="en">US Women&amp;apos;s Basketball 1996-2021.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916175608 +0000" stop="20260916175708 +0000" channel="Starz_awsn">
+  <programme start="20260916175451 +0000" stop="20260916175551 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916180106 +0000" stop="20260916201806 +0000" channel="Starz_awsn">
+  <programme start="20260916175948 +0000" stop="20260916201648 +0000" channel="Starz_awsn">
     <title lang="en">WSWC &amp;apos;26: Group Oklahoma Final</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Group Oklahoma continues with Mexico facing off China on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916201806 +0000" stop="20260916201826 +0000" channel="Starz_awsn">
+  <programme start="20260916201648 +0000" stop="20260916201708 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916201826 +0000" stop="20260916203701 +0000" channel="Starz_awsn">
+  <programme start="20260916201708 +0000" stop="20260916203543 +0000" channel="Starz_awsn">
     <title lang="en">Mike Tyson Invitational 1</title>
     <desc lang="en">Mike Tyson presents live boxing featuring top American amateurs. Alexis Tangaro and Mandy Hernandez headline.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916203701 +0000" stop="20260916203721 +0000" channel="Starz_awsn">
+  <programme start="20260916203543 +0000" stop="20260916203603 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916204807 +0000" stop="20260916210040 +0000" channel="Starz_awsn">
+  <programme start="20260916204649 +0000" stop="20260916205922 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Serena Williams 2014-2015</title>
     <desc lang="en">In 2015 Serena Slam dominated, winning three of the four Grand Slams that year while also securing a second Serena Slam.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916210040 +0000" stop="20260916210108 +0000" channel="Starz_awsn">
+  <programme start="20260916205922 +0000" stop="20260916205950 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916210108 +0000" stop="20260916231808 +0000" channel="Starz_awsn">
+  <programme start="20260916205950 +0000" stop="20260916231650 +0000" channel="Starz_awsn">
     <title lang="en">WSWC &amp;apos;26: Group Oklahoma 3rd Pl. Qaul.</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Group Oklahoma continues with Mexico facing off China on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916231808 +0000" stop="20260916231836 +0000" channel="Starz_awsn">
+  <programme start="20260916231650 +0000" stop="20260916231718 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916232441 +0000" stop="20260916234608 +0000" channel="Starz_awsn">
+  <programme start="20260916232324 +0000" stop="20260916234451 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Mariana Pajon</title>
     <desc lang="en">What happens when you direct pure Colombian talent and guts at BMX? You get Mariana Pajón.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260916234608 +0000" stop="20260916234809 +0000" channel="Starz_awsn">
+  <programme start="20260916234451 +0000" stop="20260916234651 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916234809 +0000" stop="20260917000050 +0000" channel="Starz_awsn">
+  <programme start="20260916234651 +0000" stop="20260916235932 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Serena Williams 2014-2015</title>
     <desc lang="en">In 2015 Serena Slam dominated, winning three of the four Grand Slams that year while also securing a second Serena Slam.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917000050 +0000" stop="20260917000230 +0000" channel="Starz_awsn">
+  <programme start="20260916235932 +0000" stop="20260917000112 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917000230 +0000" stop="20260917024555 +0000" channel="Starz_awsn">
+  <programme start="20260917000112 +0000" stop="20260917024437 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group AUS vs. CAN</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Prague Group continues with Australia and Canada going head to head on day 2.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917024555 +0000" stop="20260917024735 +0000" channel="Starz_awsn">
+  <programme start="20260917024437 +0000" stop="20260917024617 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917025250 +0000" stop="20260917054130 +0000" channel="Starz_awsn">
+  <programme start="20260917025133 +0000" stop="20260917054012 +0000" channel="Starz_awsn">
     <title lang="en">Lima Group 2026: JPN vs. PR</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Lima Group continues with Japan taking on Puerto Rico on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917054130 +0000" stop="20260917054731 +0000" channel="Starz_awsn">
+  <programme start="20260917054012 +0000" stop="20260917054613 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917054731 +0000" stop="20260917080040 +0000" channel="Starz_awsn">
+  <programme start="20260917054613 +0000" stop="20260917075923 +0000" channel="Starz_awsn">
     <title lang="en">2026: Madrid CCF vs. Real Madrid</title>
     <desc lang="en">Madrid CCF take on Real Madrid in a Liga F 2026 matchup.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917080040 +0000" stop="20260917080226 +0000" channel="Starz_awsn">
+  <programme start="20260917075923 +0000" stop="20260917080108 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917080226 +0000" stop="20260917081454 +0000" channel="Starz_awsn">
+  <programme start="20260917080108 +0000" stop="20260917081336 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Mariana Pajon</title>
     <desc lang="en">What happens when you direct pure Colombian talent and guts at BMX? You get Mariana Pajón.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917081454 +0000" stop="20260917081640 +0000" channel="Starz_awsn">
+  <programme start="20260917081336 +0000" stop="20260917081521 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917081724 +0000" stop="20260917084525 +0000" channel="Starz_awsn">
+  <programme start="20260917081606 +0000" stop="20260917084407 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Serena Williams 2014-2015</title>
     <desc lang="en">In 2015 Serena Slam dominated, winning three of the four Grand Slams that year while also securing a second Serena Slam.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917084525 +0000" stop="20260917084730 +0000" channel="Starz_awsn">
+  <programme start="20260917084407 +0000" stop="20260917084613 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917084730 +0000" stop="20260917132121 +0000" channel="Starz_awsn">
+  <programme start="20260917084613 +0000" stop="20260917132004 +0000" channel="Starz_awsn">
     <title lang="en">Discraft&amp;apos;s Supreme Flight Open - Round 1</title>
     <desc lang="en">Discraft&amp;apos;s Supreme Flight Open kicks off the 2026 season at Olympus Disc Golf Course in Brooksville, Florida.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917132121 +0000" stop="20260917132326 +0000" channel="Starz_awsn">
+  <programme start="20260917132004 +0000" stop="20260917132210 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917133024 +0000" stop="20260917173224 +0000" channel="Starz_awsn">
+  <programme start="20260917132906 +0000" stop="20260917173106 +0000" channel="Starz_awsn">
     <title lang="en">DGPT &amp;apos;26: Green Mountain Championship R1</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Group Oklahoma continues with Mexico facing off China on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917173224 +0000" stop="20260917173229 +0000" channel="Starz_awsn">
+  <programme start="20260917173106 +0000" stop="20260917173111 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917173229 +0000" stop="20260917201554 +0000" channel="Starz_awsn">
+  <programme start="20260917173111 +0000" stop="20260917201436 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group AUS vs. CAN</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Prague Group continues with Australia and Canada going head to head on day 2.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917201554 +0000" stop="20260917201559 +0000" channel="Starz_awsn">
+  <programme start="20260917201436 +0000" stop="20260917201441 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917202250 +0000" stop="20260917231129 +0000" channel="Starz_awsn">
+  <programme start="20260917202132 +0000" stop="20260917231011 +0000" channel="Starz_awsn">
     <title lang="en">Lima Group 2026: JPN vs. PR</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Lima Group continues with Japan taking on Puerto Rico on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917231129 +0000" stop="20260917231725 +0000" channel="Starz_awsn">
+  <programme start="20260917231011 +0000" stop="20260917231607 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917231725 +0000" stop="20260917233006 +0000" channel="Starz_awsn">
+  <programme start="20260917231607 +0000" stop="20260917232848 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Serena Williams 2014-2015</title>
     <desc lang="en">In 2015 Serena Slam dominated, winning three of the four Grand Slams that year while also securing a second Serena Slam.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917233006 +0000" stop="20260917233224 +0000" channel="Starz_awsn">
+  <programme start="20260917232848 +0000" stop="20260917233106 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260917233224 +0000" stop="20260917235626 +0000" channel="Starz_awsn">
+  <programme start="20260917233106 +0000" stop="20260917235508 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: US Women&amp;apos;s Basketball</title>
     <desc lang="en">US Women&amp;apos;s Basketball 1996-2021.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260917235626 +0000" stop="20260917235844 +0000" channel="Starz_awsn">
+  <programme start="20260917235508 +0000" stop="20260917235726 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918000230 +0000" stop="20260918021435 +0000" channel="Starz_awsn">
+  <programme start="20260918000113 +0000" stop="20260918021318 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 1</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918021435 +0000" stop="20260918021941 +0000" channel="Starz_awsn">
+  <programme start="20260918021318 +0000" stop="20260918021823 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918021941 +0000" stop="20260918024441 +0000" channel="Starz_awsn">
+  <programme start="20260918021823 +0000" stop="20260918024323 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: Serena Williams 2014-2015</title>
     <desc lang="en">In 2015 Serena Slam dominated, winning three of the four Grand Slams that year while also securing a second Serena Slam.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918024441 +0000" stop="20260918024656 +0000" channel="Starz_awsn">
+  <programme start="20260918024323 +0000" stop="20260918024539 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918024656 +0000" stop="20260918034207 +0000" channel="Starz_awsn">
+  <programme start="20260918024539 +0000" stop="20260918034050 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 2</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918034207 +0000" stop="20260918034422 +0000" channel="Starz_awsn">
+  <programme start="20260918034050 +0000" stop="20260918034306 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918034715 +0000" stop="20260918035220 +0000" channel="Starz_awsn">
+  <programme start="20260918034557 +0000" stop="20260918035102 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 3</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918035220 +0000" stop="20260918035320 +0000" channel="Starz_awsn">
+  <programme start="20260918035102 +0000" stop="20260918035202 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918035320 +0000" stop="20260918035820 +0000" channel="Starz_awsn">
+  <programme start="20260918035202 +0000" stop="20260918035702 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_Surfing_SallyFitzgibbons_5mins_IKO.mp4</title>
     <desc lang="en">AWSN_Filler_SportsWoman_Surfing_SallyFitzgibbons_5mins_IKO.mp4</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918035820 +0000" stop="20260918035920 +0000" channel="Starz_awsn">
+  <programme start="20260918035702 +0000" stop="20260918035802 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918040350 +0000" stop="20260918062119 +0000" channel="Starz_awsn">
+  <programme start="20260918040233 +0000" stop="20260918062002 +0000" channel="Starz_awsn">
     <title lang="en">Lima Group 2026: GBR vs. PR</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Lima Group continues with Great Britain taking on Puerto Rico on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918062119 +0000" stop="20260918062319 +0000" channel="Starz_awsn">
+  <programme start="20260918062002 +0000" stop="20260918062202 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918062319 +0000" stop="20260918062819 +0000" channel="Starz_awsn">
+  <programme start="20260918062202 +0000" stop="20260918062702 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_Golf_LexiThompson_5mins_IKO-002.mov</title>
     <desc lang="en">AWSN_Filler_SportsWoman_Golf_LexiThompson_5mins_IKO-002.mov</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918062819 +0000" stop="20260918063019 +0000" channel="Starz_awsn">
+  <programme start="20260918062702 +0000" stop="20260918062902 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918063250 +0000" stop="20260918085138 +0000" channel="Starz_awsn">
+  <programme start="20260918063132 +0000" stop="20260918085020 +0000" channel="Starz_awsn">
     <title lang="en">2025: Al Nassr vs Al Ittihad</title>
     <desc lang="en">The 2025/2026 Saudi Women&amp;apos;s Premier League season features a match between Al Nassr and Al Ittihad at the Al Nassr Club Stadium.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918085138 +0000" stop="20260918085338 +0000" channel="Starz_awsn">
+  <programme start="20260918085020 +0000" stop="20260918085221 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918085338 +0000" stop="20260918085838 +0000" channel="Starz_awsn">
+  <programme start="20260918085221 +0000" stop="20260918085721 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins_IKO-004.mov</title>
     <desc lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins_IKO-004.mov</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918085838 +0000" stop="20260918090038 +0000" channel="Starz_awsn">
+  <programme start="20260918085721 +0000" stop="20260918085922 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918090254 +0000" stop="20260918132610 +0000" channel="Starz_awsn">
+  <programme start="20260918090136 +0000" stop="20260918132452 +0000" channel="Starz_awsn">
     <title lang="en">Discraft&amp;apos;s  Supreme Flight Open - Round 2</title>
     <desc lang="en">Discraft&amp;apos;s Supreme Flight Open 2026 brings day 2 at Olympus Disc Golf Course in Brooksville, Florida.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918132610 +0000" stop="20260918133026 +0000" channel="Starz_awsn">
+  <programme start="20260918132452 +0000" stop="20260918132907 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918133120 +0000" stop="20260918173320 +0000" channel="Starz_awsn">
+  <programme start="20260918133003 +0000" stop="20260918173203 +0000" channel="Starz_awsn">
     <title lang="en">Disc Golf Pro Tour: 2026 Green Mountain Championship - Round 2 (LIVE)</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Group Oklahoma continues with Mexico facing off China on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918173320 +0000" stop="20260918173436 +0000" channel="Starz_awsn">
+  <programme start="20260918173203 +0000" stop="20260918173318 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918173436 +0000" stop="20260918194641 +0000" channel="Starz_awsn">
+  <programme start="20260918173318 +0000" stop="20260918194523 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 1</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918194641 +0000" stop="20260918194757 +0000" channel="Starz_awsn">
+  <programme start="20260918194523 +0000" stop="20260918194638 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918195346 +0000" stop="20260918195846 +0000" channel="Starz_awsn">
+  <programme start="20260918195228 +0000" stop="20260918195728 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins_IKO-004.mov</title>
     <desc lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins_IKO-004.mov</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918195846 +0000" stop="20260918200247 +0000" channel="Starz_awsn">
+  <programme start="20260918195728 +0000" stop="20260918200129 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918200247 +0000" stop="20260918200747 +0000" channel="Starz_awsn">
+  <programme start="20260918200129 +0000" stop="20260918200629 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_S01EP07_Tennis_VictoriaAzarenka_5mins_IKO.mov</title>
     <desc lang="en">AWSN_Filler_SportsWoman_S01EP07_Tennis_VictoriaAzarenka_5mins_IKO.mov</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918200747 +0000" stop="20260918201148 +0000" channel="Starz_awsn">
+  <programme start="20260918200629 +0000" stop="20260918201030 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">AWSN_Filler_SportsWoman_S02EP07_Basketball_TeamUSA_5mins</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918201802 +0000" stop="20260918211313 +0000" channel="Starz_awsn">
+  <programme start="20260918201644 +0000" stop="20260918211155 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 2</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918211313 +0000" stop="20260918211810 +0000" channel="Starz_awsn">
+  <programme start="20260918211155 +0000" stop="20260918211653 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918211810 +0000" stop="20260918212315 +0000" channel="Starz_awsn">
+  <programme start="20260918211653 +0000" stop="20260918212158 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 3</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918212315 +0000" stop="20260918212531 +0000" channel="Starz_awsn">
+  <programme start="20260918212158 +0000" stop="20260918212413 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918212531 +0000" stop="20260918234259 +0000" channel="Starz_awsn">
+  <programme start="20260918212413 +0000" stop="20260918234142 +0000" channel="Starz_awsn">
     <title lang="en">Lima Group 2026: GBR vs. PR</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Lima Group continues with Great Britain taking on Puerto Rico on day 4.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918234259 +0000" stop="20260918234500 +0000" channel="Starz_awsn">
+  <programme start="20260918234142 +0000" stop="20260918234342 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918234500 +0000" stop="20260918235000 +0000" channel="Starz_awsn">
+  <programme start="20260918234342 +0000" stop="20260918234842 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins</title>
     <desc lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260918235000 +0000" stop="20260918235201 +0000" channel="Starz_awsn">
+  <programme start="20260918234842 +0000" stop="20260918235042 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">AWSN_Filler_SportsWoman_Golf_LexiThompson_5mins_IKO-002.mov</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918235500 +0000" stop="20260919000000 +0000" channel="Starz_awsn">
+  <programme start="20260918235342 +0000" stop="20260918235842 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_S02EP07_Basketball_TeamUSA_5mins</title>
     <desc lang="en">AWSN_Filler_SportsWoman_S02EP07_Basketball_TeamUSA_5mins</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919000235 +0000" stop="20260919020617 +0000" channel="Starz_awsn">
+  <programme start="20260919000117 +0000" stop="20260919020500 +0000" channel="Starz_awsn">
     <title lang="en">Lima Group 2026: Final B2 vs. B1</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Lima Group continues with the Finals on day 5.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919020617 +0000" stop="20260919020818 +0000" channel="Starz_awsn">
+  <programme start="20260919020500 +0000" stop="20260919020700 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919020818 +0000" stop="20260919021318 +0000" channel="Starz_awsn">
+  <programme start="20260919020700 +0000" stop="20260919021200 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins</title>
     <desc lang="en">AWSN_Filler_SportsWoman_Football_LucyBronze_5mins</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919021318 +0000" stop="20260919021336 +0000" channel="Starz_awsn">
+  <programme start="20260919021200 +0000" stop="20260919021218 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919021336 +0000" stop="20260919021836 +0000" channel="Starz_awsn">
+  <programme start="20260919021218 +0000" stop="20260919021718 +0000" channel="Starz_awsn">
     <title lang="en">AWSN_Filler_SportsWoman_S01EP07_Tennis_VictoriaAzarenka_5mins_IKO.mov</title>
     <desc lang="en">AWSN_Filler_SportsWoman_S01EP07_Tennis_VictoriaAzarenka_5mins_IKO.mov</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919021836 +0000" stop="20260919021854 +0000" channel="Starz_awsn">
+  <programme start="20260919021718 +0000" stop="20260919021736 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919022305 +0000" stop="20260919043156 +0000" channel="Starz_awsn">
+  <programme start="20260919022147 +0000" stop="20260919043039 +0000" channel="Starz_awsn">
     <title lang="en">2026: Al-Ittihad vs. Al-Nassr</title>
     <desc lang="en">Al-Ittihad Club vs. Al-Nassr FC in round 10 of the Saudi Women&amp;apos;s Premier League 2025/2026 season.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919043156 +0000" stop="20260919043625 +0000" channel="Starz_awsn">
+  <programme start="20260919043039 +0000" stop="20260919043508 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919043846 +0000" stop="20260919045847 +0000" channel="Starz_awsn">
+  <programme start="20260919043728 +0000" stop="20260919045729 +0000" channel="Starz_awsn">
     <title lang="en">Invincible: US Women&amp;apos;s Basketball</title>
     <desc lang="en">US Women&amp;apos;s Basketball 1996-2021.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919045847 +0000" stop="20260919045915 +0000" channel="Starz_awsn">
+  <programme start="20260919045729 +0000" stop="20260919045758 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919045915 +0000" stop="20260919065219 +0000" channel="Starz_awsn">
+  <programme start="20260919045758 +0000" stop="20260919065101 +0000" channel="Starz_awsn">
     <title lang="en">2025: Al Ahli vs Al Hilal</title>
     <desc lang="en">The 2025-2026 Saudi Women&amp;apos;s Premier League continues with Al Ahli vs. Al Hilal at the Al Ahli Club Stadium.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919065219 +0000" stop="20260919065247 +0000" channel="Starz_awsn">
+  <programme start="20260919065101 +0000" stop="20260919065130 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919070231 +0000" stop="20260919084931 +0000" channel="Starz_awsn">
+  <programme start="20260919070114 +0000" stop="20260919084813 +0000" channel="Starz_awsn">
     <title lang="en">Vixens vs. Mavericks Round 13</title>
     <desc lang="en">Melbourne Vixens welcome the Melbourne Mavericks at John Cain Arena in round 13.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260919084931 +0000" stop="20260919085943 +0000" channel="Starz_awsn">
+  <programme start="20260919084813 +0000" stop="20260919085826 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_redbulltv">
-    <title lang="en">Red Bull TV</title>
-    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
-  </programme>
-  <programme start="20260915080000 +0000" stop="20260915090000 +0000" channel="Starz_redbulltv">
+  <programme start="20260915080500 +0000" stop="20260915090000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -9061,7 +9049,13 @@
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915090000 +0000" channel="Starz_daznringside">
+  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="Starz_redbulltv">
+    <title lang="en">Red Bull TV</title>
+    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+  </programme>
+  <programme start="20260915080500 +0000" stop="20260915090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -9259,7 +9253,7 @@
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915083849 +0000" channel="Starz_fifaplus">
+  <programme start="20260915080500 +0000" stop="20260915083849 +0000" channel="Starz_fifaplus">
     <title lang="en">Poland v Argentina | Group C | FIFA World Cup Qatar 2022™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Poland and Argentina played at Stadium 974, Doha on Wednesday, 30 November 2022 at 22:00.</desc>
     <category lang="en">Sport</category>
@@ -9637,13 +9631,13 @@
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123256.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915080000 +0000" channel="Starz_admnyastv">
-    <title lang="en">The Boat Show (Ar) 2026</title>
-    <desc lang="en">The Boat Show (Ar) 2026</desc>
+  <programme start="20260919075325 +0000" stop="20260919083501 +0000" channel="Starz_fifaplus">
+    <title lang="en">FACTS: Germany v Brazil | Korea/Japan 2002</title>
+    <desc lang="en">Germany dazzles to secure a record fourth title against Brazil in Yokohama.</desc>
     <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
+    <icon src="https://dki01q1l7yn3y.cloudfront.net/thumbnails-platform-prod/assets/cs::content::episodemeta/41290-43338/84852323-Image-1_v1.jpg" />
   </programme>
-  <programme start="20260915080000 +0000" stop="20260915101500 +0000" channel="Starz_admnyastv">
+  <programme start="20260915080500 +0000" stop="20260915101500 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
@@ -9985,7 +9979,7 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260915074500 +0000" stop="20260915114500 +0000" channel="Starz_adfight">
+  <programme start="20260915080500 +0000" stop="20260915114500 +0000" channel="Starz_adfight">
     <title lang="en">UAE Kickboxing Championship 2026</title>
     <desc lang="en">UAE Kickboxing Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -10111,4 +10105,4 @@
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-<programme start="20260915085008 +0000" stop="20260915085227 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915110632 +0000" stop="20260915112812 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915144748 +0000" stop="20260915144950 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915172412 +0000" stop="20260915173756 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915213814 +0000" stop="20260915214429 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916001007 +0000" stop="20260916021822 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916084820 +0000" stop="20260916084920 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916100215 +0000" stop="20260916100340 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916140430 +0000" stop="20260916141016 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916175708 +0000" stop="20260916180106 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916203721 +0000" stop="20260916204807 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916231836 +0000" stop="20260916232441 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917024735 +0000" stop="20260917025250 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917132326 +0000" stop="20260917133024 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917201559 +0000" stop="20260917202250 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917235844 +0000" stop="20260918000230 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918034422 +0000" stop="20260918034715 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918035920 +0000" stop="20260918040350 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918063019 +0000" stop="20260918063250 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918090038 +0000" stop="20260918090254 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918194757 +0000" stop="20260918195346 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918201148 +0000" stop="20260918201802 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918235201 +0000" stop="20260918235500 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919000000 +0000" stop="20260919000235 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919021854 +0000" stop="20260919022305 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919043625 +0000" stop="20260919043846 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919065247 +0000" stop="20260919070231 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260915085008 +0000" stop="20260915085227 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915110632 +0000" stop="20260915112812 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915144748 +0000" stop="20260915144950 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915172412 +0000" stop="20260915173756 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260915213814 +0000" stop="20260915214429 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916001007 +0000" stop="20260916021822 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916084820 +0000" stop="20260916084920 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916100215 +0000" stop="20260916100340 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916101839 +0000" stop="20260916120211 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916175551 +0000" stop="20260916175948 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916203603 +0000" stop="20260916204649 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260916231718 +0000" stop="20260916232324 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917024617 +0000" stop="20260917025133 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917132210 +0000" stop="20260917132906 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917201441 +0000" stop="20260917202132 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917235726 +0000" stop="20260918000113 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918034306 +0000" stop="20260918034557 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918035802 +0000" stop="20260918040233 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918062902 +0000" stop="20260918063132 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918085922 +0000" stop="20260918090136 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918194638 +0000" stop="20260918195228 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918201030 +0000" stop="20260918201644 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918235042 +0000" stop="20260918235342 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260918235842 +0000" stop="20260919000117 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919021736 +0000" stop="20260919022147 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919043508 +0000" stop="20260919043728 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260919065130 +0000" stop="20260919070114 +0000" channel="Starz_awsn"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
