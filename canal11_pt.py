@@ -96,6 +96,33 @@ def sides_of(row) -> str:
     return ""
 
 
+# WHAT A REPEAT LOOKS LIKE, in the page's own markup:
+#
+#   <tr class="matchrow repeatrow" data-has-tv="0" ...>
+#     <span class="livecell repeat" title="Repeat Broadcast">Repeat</span>
+#
+# The page says it twice and says it plainly, and the reader was taking
+# all of it: on 2026-09-16 Canal 11 carried Benfica - Sporting CP three
+# times over, at 00:30, 13:05 and 00:30 Lisbon time. None of those is a
+# kick-off; all three were rebroadcasts of one derby.
+#
+# find_all("tr", class_="matchrow") matches a row whose class list merely
+# CONTAINS matchrow, so "matchrow repeatrow" came through with the rest.
+# The class is checked on the row itself rather than searched for as a
+# word in the html, because "Repeat" in a club or competition name must
+# never cost a real fixture.
+REPEAT_ROW = "repeatrow"
+REPEAT_MARK = "Repeat Broadcast"
+
+
+def is_a_repeat(row) -> bool:
+    """Does the page itself call this row a rebroadcast?"""
+    if REPEAT_ROW in (row.get("class") or []):
+        return True
+    mark = row.find(title=REPEAT_MARK)
+    return mark is not None
+
+
 def collect(html: str) -> list[dict]:
     """Every fixture the channel page publishes, as the board's rows."""
     soup = BeautifulSoup(html, "html.parser")
@@ -106,7 +133,13 @@ def collect(html: str) -> list[dict]:
     out: list[dict] = []
     no_instant = 0
     not_a_contest = 0
+    repeats = 0
     for row in rows:
+        # A rebroadcast is not a fixture. The page marks its own, so this
+        # is read rather than inferred from an implausible kick-off time.
+        if is_a_repeat(row):
+            repeats += 1
+            continue
         clock = row.find("span", class_="ts")
         start = instant(clock.get("dv")) if clock else None
         title = sides_of(row)
@@ -128,8 +161,9 @@ def collect(html: str) -> list[dict]:
             "channels": [CHANNEL],
         })
 
-    log(f"  canal11: {len(rows)} row(s), {no_instant} with no instant or "
-        f"no fixture, {not_a_contest} not a contest, {len(out)} kept")
+    log(f"  canal11: {len(rows)} row(s), {repeats} repeat broadcast(s), "
+        f"{no_instant} with no instant or no fixture, "
+        f"{not_a_contest} not a contest, {len(out)} kept")
     return out
 
 
