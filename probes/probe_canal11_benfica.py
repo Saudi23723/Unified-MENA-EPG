@@ -117,6 +117,14 @@ def main():
         print(f"      tournament: {(row.get('data-tournament') or '')[:50]}")
         print(f"      table     : {where}  |  under: {head}")
 
+        # Three airings of one derby, none at a plausible Lisbon
+        # kick-off. If the page marks a repeat ANYWHERE, it is in this
+        # row and not in the link title the reader currently reads.
+        if "Benfica" in raw:
+            print("      ---- the whole row, verbatim ----")
+            print("      " + " ".join(str(row).split())[:1400])
+            print("      --------------------------------")
+
     print(f"\n  tables seen: {len(tables)}")
 
     for where, head in tables.items():
