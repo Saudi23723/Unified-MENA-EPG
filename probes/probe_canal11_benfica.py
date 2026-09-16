@@ -45,6 +45,20 @@ clock, its dv attribute, what instant() makes of it, the tournament, and
 the table and heading it sits under. Then it runs canal11_pt.events()
 itself and prints what the build would actually take today.
 
+ANSWERED, 2026-09-16. The page lists the derby THREE times — 16/09 23:30,
+17/09 12:05 and 19/09 23:30 UTC — all in one table under the Canal 11
+heading, so the selector is sound and instant() converts correctly. All
+three are rebroadcasts, and the page says so in its own markup:
+
+    <tr class="matchrow repeatrow" data-has-tv="0" ...>
+      <span class="livecell repeat" title="Repeat Broadcast">Repeat</span>
+
+find_all("tr", class_="matchrow") matches any row whose class list
+CONTAINS matchrow, so every repeatrow came through with the rest.
+canal11_pt.is_a_repeat now refuses them. This probe stays as the way to
+re-ask the page: after the fix, events() should return the U23 fixture
+and no derby at all.
+
 Wired to nothing. It prints; a human reads.
 """
 
