@@ -1,0 +1,31 @@
+# Ask every source channel 2 reads whether it is still answering, and what
+# the board then refuses. Runs HERE rather than in a session container
+# because the container's egress proxy answers 403 for sixteen of the
+# nineteen hosts — measured 2026-09-17, and it made every one of them look
+# dead when only the network between them and the container was.
+# Commits nothing, publishes nothing — it prints.
+name: Probe channel 2
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_channel2_sources.py"
+      - "probes/probe_channel2_dropped.py"
+      - ".github/workflows/probe_channel2.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Which sources still answer
+        run: python -u probes/probe_channel2_sources.py
+      - name: And what the board refuses
+        run: python -u probes/probe_channel2_dropped.py
