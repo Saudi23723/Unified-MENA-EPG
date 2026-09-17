@@ -1123,15 +1123,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260915235800 +0000" stop="20260916020300 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Spanish Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260916020300 +0000" stop="20260916034600 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United v Manchester City - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United won this exact fixture last season 2-0 but haven’t beaten rivals Manchester City twice in a row at home in the Premier League since a run of three under Alex Ferguson from 2008-09 to 2010-11. Manchester City have won just one of their last four Premier League games against Manchester United, this after winning five of their six be</desc>
@@ -1492,19 +1483,25 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260916210000 +0000" stop="20260916221500 +0000" channel="beINSports.qa">
+  <programme start="20260916210000 +0000" stop="20260916221300 +0000" channel="beINSports.qa">
     <title lang="en">Vietnam vs Qatar - Volleyball Women's - Asian Games Aichi-Nagoya 2026 -</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
 46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260916221500 +0000" stop="20260917003000 +0000" channel="beINSports.qa">
+  <programme start="20260916221300 +0000" stop="20260917001000 +0000" channel="beINSports.qa">
     <title lang="en">China vs Saudi Arabia - Quarter Final - Basketball Men - Asian Games Aichi-Nagoya 2026 - BSK21</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
 46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260917001000 +0000" stop="20260917003000 +0000" channel="beINSports.qa">
+    <title lang="en">Qatar's Weightlifting Team</title>
+    <desc lang="en">A focused program following Qatar’s national weightlifting team in the build-up to the Asian Games, highlighting their preparation, ambitions, and competitive mindset. It revisits their best results from previous editions, showcasing key achievements, standout lifts, and the progress of Qatari athletes as they aim to make an impact on the continent</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260917003000 +0000" stop="20260917024000 +0000" channel="beINSports.qa">
     <title lang="en">Chineese Taipei vs Japan - Quarter Final - Basketball Men - Asian Games Aichi-Nagoya 2026 - BSK22</title>
@@ -1576,19 +1573,68 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260917194500 +0000" stop="20260918060000 +0000" channel="beINSports.qa">
+  <programme start="20260917194500 +0000" stop="20260917214500 +0000" channel="beINSports.qa">
     <title lang="en">South Korea vs Qatar - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - VV03</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
 46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260918060000 +0000" stop="20260919010000 +0000" channel="beINSports.qa">
+  <programme start="20260917214500 +0000" stop="20260917234500 +0000" channel="beINSports.qa">
+    <title lang="en">Thailand vs Chinese Taipei - Football Women's - Asian Games Aichi-Nagoya 2026 - FBL09</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260917234500 +0000" stop="20260918014500 +0000" channel="beINSports.qa">
+    <title lang="en">Indonesia vs Nepal - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - VV03</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918014500 +0000" stop="20260918035000 +0000" channel="beINSports.qa">
+    <title lang="en">Chinese Taipei vs Mongolia - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - VV04</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918035000 +0000" stop="20260918060000 +0000" channel="beINSports.qa">
+    <title lang="en">South Korea vs Qatar - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - VV03</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918060000 +0000" stop="20260918120000 +0000" channel="beINSports.qa">
     <title lang="en">All -Sports  - Asian Games Aichi-Nagoya 2026 ‎• Live 🔵‎</title>
     <desc lang="en">Daily studio covering the events taking place at the 20th Asian Games from Aichi Prefecture and Nagoya, Japan between September 19 and October 4, 2026.
 The six-hour continuous studio includes live coverage from Japan with reaction from the participating athletes, studio guests and best of the day’s events.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918120000 +0000" stop="20260918140000 +0000" channel="beINSports.qa">
+    <title lang="en">Qatar vs Hong Kong - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - DX01</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918140000 +0000" stop="20260918200000 +0000" channel="beINSports.qa">
+    <title lang="en">All -Sports  - Asian Games Aichi-Nagoya 2026</title>
+    <desc lang="en">Daily studio covering the events taking place at the 20th Asian Games from Aichi Prefecture and Nagoya, Japan between September 19 and October 4, 2026.
+The six-hour continuous studio includes live coverage from Japan with reaction from the participating athletes, studio guests and best of the day’s events.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260918200000 +0000" stop="20260919010000 +0000" channel="beINSports.qa">
+    <title lang="en">Saudi Arabia vs Qatar - Football Men - Asian Games Aichi-Nagoya 2026 - DX05</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260919010000 +0000" stop="20260919033000 +0000" channel="beINSports.qa">
@@ -1729,10 +1775,18 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260922060000 +0000" stop="20260922205959 +0000" channel="beINSports.qa">
+  <programme start="20260922060000 +0000" stop="20260922223000 +0000" channel="beINSports.qa">
     <title lang="en">All - Sports  - Asian Games Aichi-Nagoya 2026 ‎• Live 🔵‎</title>
     <desc lang="en">Daily studio covering the events taking place at the 20th Asian Games from Aichi Prefecture and Nagoya, Japan between September 19 and October 4, 2026.
 The six-hour continuous studio includes live coverage from Japan with reaction from the participating athletes, studio guests and best of the day’s events.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
+  </programme>
+  <programme start="20260922223000 +0000" stop="20260923033000 +0000" channel="beINSports.qa">
+    <title lang="en">Race Walk Half Marathon Walk M - Finals  - Asian Games Aichi-Nagoya 2026 - W/M ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
@@ -2977,12 +3031,6 @@ Mestalla Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260915230000 +0000" stop="20260916020700 +0000" channel="beINSports3.qa">
-    <title lang="en">Al Ain (UAE) vs Al Nassr (KSA) - AFC Champions League Elite 2026/2027 - MD1</title>
-    <desc lang="en">Al Ain have won two of their five AFC Champions League Elite meetings with Al-Nassr, both by a 1-0 margin; however, they have conceded 11 goals across their three losses. Al-Nassr lost their most recent AFC Champions League Elite game, last losing back-to-back games between April 2016 and March 2019 ; however, they have lost their opening game of a</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260916020700 +0000" stop="20260916050000 +0000" channel="beINSports3.qa">
     <title lang="en">Al Hilal (KSA) vs Al Gharafa  (QAT) - AFC Champions League Elite 2026/2027 - MD1</title>
     <desc lang="en">Al-Hilal have won six of their eight meetings with Al Gharafa in the AFC Champions League Elite, including each of the last three on the bounce; in fact, they have failed to score multiple goals in just one of their eight clashes with Al Gharafa. Al Gharafa have failed to score in each of their last two AFC Champions League Elite matches, registeri</desc>
@@ -4206,12 +4254,6 @@ ABANCA-Riazor Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260916003000 +0000" stop="20260916022000 +0000" channel="beINSports5.qa">
-    <title lang="en">Auxerre vs Nice - French Ligue 1 2026/2027 - Week 4</title>
-    <desc lang="en">Following their 2-1 victory last May, Auxerre could win two Ligue 1 matches against Nice in the same calendar year for only the second time in the 21st century, after 2010. Auxerre have won 73% of their 26 home games against Nice in all competitions ; this is their highest ratio against any opponent they have hosted 20+ times.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260916022000 +0000" stop="20260916041500 +0000" channel="beINSports5.qa">
     <title lang="en">West Ham vs Fulham - Carabao Cup 2026 / 2027 - Round 3</title>
@@ -6112,12 +6154,6 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260916013000 +0000" stop="20260916022000 +0000" channel="beINSports8.qa">
-    <title lang="en">Sprint Race - Madrid Round - FIA Formula 3 Championship</title>
-    <desc lang="en">Formula 3 is one of the most competitive stages in the development of young racing talent, bringing together emerging drivers from around the world. Competing in identical single-seater cars, drivers showcase their speed, race craft and consistency while battling for victories and championship points. The series provides an important pathway toward</desc>
-    <category lang="ar">رياضة السيارات</category>
-    <category lang="en">MotorSports</category>
-  </programme>
   <programme start="20260916022000 +0000" stop="20260916040000 +0000" channel="beINSports8.qa">
     <title lang="en">Feature Race 1 - Madrid Round - FIA Formula 3 Championship</title>
     <desc lang="en">Formula 3 is one of the most competitive stages in the development of young racing talent, bringing together emerging drivers from around the world. Competing in identical single-seater cars, drivers showcase their speed, race craft and consistency while battling for victories and championship points. The series provides an important pathway toward</desc>
@@ -6600,11 +6636,6 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260916000000 +0000" stop="20260916020300 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Riesenbeck  Jumping - Class 2</title>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260916020300 +0000" stop="20260916033500 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - Riesenbeck  Jumping - Global Champion League of Riesenbeck - Round</title>
@@ -9064,7 +9095,79 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918190000 +0000" stop="20260918205959 +0000" channel="beINSportsMax3.qa">
+  <programme start="20260918190000 +0000" stop="20260918210000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918210000 +0000" stop="20260918230000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918230000 +0000" stop="20260919010000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919010000 +0000" stop="20260919030000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919030000 +0000" stop="20260919050000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919050000 +0000" stop="20260919070000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919070000 +0000" stop="20260919090000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919090000 +0000" stop="20260919110000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919110000 +0000" stop="20260919130000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919130000 +0000" stop="20260919150000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919150000 +0000" stop="20260919170000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919170000 +0000" stop="20260919190000 +0000" channel="beINSportsMax3.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919190000 +0000" stop="20260919205959 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9268,7 +9371,79 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918190000 +0000" stop="20260918205959 +0000" channel="beINSportsMax4.qa">
+  <programme start="20260918190000 +0000" stop="20260918210000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918210000 +0000" stop="20260918230000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918230000 +0000" stop="20260919010000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919010000 +0000" stop="20260919030000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919030000 +0000" stop="20260919050000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919050000 +0000" stop="20260919070000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919070000 +0000" stop="20260919090000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919090000 +0000" stop="20260919110000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919110000 +0000" stop="20260919130000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919130000 +0000" stop="20260919150000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919150000 +0000" stop="20260919170000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919170000 +0000" stop="20260919190000 +0000" channel="beINSportsMax4.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919190000 +0000" stop="20260919205959 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9472,7 +9647,79 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918190000 +0000" stop="20260918205959 +0000" channel="beINSportsMax5.qa">
+  <programme start="20260918190000 +0000" stop="20260918210000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918210000 +0000" stop="20260918230000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260918230000 +0000" stop="20260919010000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919010000 +0000" stop="20260919030000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919030000 +0000" stop="20260919050000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919050000 +0000" stop="20260919070000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919070000 +0000" stop="20260919090000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919090000 +0000" stop="20260919110000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919110000 +0000" stop="20260919130000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919130000 +0000" stop="20260919150000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919150000 +0000" stop="20260919170000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919170000 +0000" stop="20260919190000 +0000" channel="beINSportsMax5.qa">
+    <title lang="en">beIN Sports MAX</title>
+    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260919190000 +0000" stop="20260919205959 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13058,7 +13305,37 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260922200000 +0000" stop="20260922205959 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260922200000 +0000" stop="20260922210000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260922220000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922220000 +0000" stop="20260922230000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922230000 +0000" stop="20260923000000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923010000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923010000 +0000" stop="20260923025500 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15887,11 +16164,43 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260922200000 +0000" stop="20260922205959 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260922200000 +0000" stop="20260922210000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260922220000 +0000" channel="beINSportsXtra5.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922220000 +0000" stop="20260922230000 +0000" channel="beINSportsXtra5.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922230000 +0000" stop="20260923000000 +0000" channel="beINSportsXtra5.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923010000 +0000" channel="beINSportsXtra5.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923010000 +0000" stop="20260923060000 +0000" channel="beINSportsXtra5.qa">
+    <title lang="en">Karate - Asian Games Aichi-Nagoya 2026 - W/M ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260916020000 +0000" stop="20260916030000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -16847,7 +17156,43 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260922200000 +0000" stop="20260922205959 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260922200000 +0000" stop="20260922210000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260922220000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922220000 +0000" stop="20260922230000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260922230000 +0000" stop="20260923000000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923010000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923010000 +0000" stop="20260923020000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260923020000 +0000" stop="20260923030000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17981,435 +18326,219 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916210000 +0000" stop="20260916220000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260916210000 +0000" stop="20260916230000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916220000 +0000" stop="20260916230000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260916230000 +0000" stop="20260917010000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916230000 +0000" stop="20260917000000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917010000 +0000" stop="20260917030000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917000000 +0000" stop="20260917010000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917030000 +0000" stop="20260917050000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917010000 +0000" stop="20260917020000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917050000 +0000" stop="20260917070000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917020000 +0000" stop="20260917030000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917070000 +0000" stop="20260917090000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917030000 +0000" stop="20260917040000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917090000 +0000" stop="20260917110000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917040000 +0000" stop="20260917050000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917110000 +0000" stop="20260917130000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917050000 +0000" stop="20260917060000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917130000 +0000" stop="20260917150000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917060000 +0000" stop="20260917070000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917150000 +0000" stop="20260917170000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917070000 +0000" stop="20260917080000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917170000 +0000" stop="20260917190000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917080000 +0000" stop="20260917090000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917190000 +0000" stop="20260917210000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917090000 +0000" stop="20260917100000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917210000 +0000" stop="20260917230000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917100000 +0000" stop="20260917110000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917110000 +0000" stop="20260917120000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918010000 +0000" stop="20260918030000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917120000 +0000" stop="20260917130000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918030000 +0000" stop="20260918050000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918050000 +0000" stop="20260918070000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917140000 +0000" stop="20260917150000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918070000 +0000" stop="20260918090000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917150000 +0000" stop="20260917160000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918090000 +0000" stop="20260918110000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917160000 +0000" stop="20260917170000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918110000 +0000" stop="20260918130000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917170000 +0000" stop="20260917180000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918130000 +0000" stop="20260918150000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917180000 +0000" stop="20260917190000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918150000 +0000" stop="20260918170000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917190000 +0000" stop="20260917200000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918170000 +0000" stop="20260918190000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917200000 +0000" stop="20260917210000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918190000 +0000" stop="20260918210000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917210000 +0000" stop="20260917220000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918210000 +0000" stop="20260918230000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917220000 +0000" stop="20260917230000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260918230000 +0000" stop="20260919010000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917230000 +0000" stop="20260918000000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919010000 +0000" stop="20260919030000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919030000 +0000" stop="20260919050000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918010000 +0000" stop="20260918020000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919050000 +0000" stop="20260919070000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918020000 +0000" stop="20260918030000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919070000 +0000" stop="20260919090000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918030000 +0000" stop="20260918040000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919090000 +0000" stop="20260919110000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918040000 +0000" stop="20260918050000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919110000 +0000" stop="20260919130000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918050000 +0000" stop="20260918060000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919130000 +0000" stop="20260919150000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918060000 +0000" stop="20260918070000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919150000 +0000" stop="20260919170000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918070000 +0000" stop="20260918080000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919170000 +0000" stop="20260919190000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918080000 +0000" stop="20260918090000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918090000 +0000" stop="20260918100000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918100000 +0000" stop="20260918110000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918110000 +0000" stop="20260918120000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918120000 +0000" stop="20260918130000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918130000 +0000" stop="20260918140000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918140000 +0000" stop="20260918150000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918150000 +0000" stop="20260918160000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918160000 +0000" stop="20260918170000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918170000 +0000" stop="20260918180000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918180000 +0000" stop="20260918190000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918190000 +0000" stop="20260918200000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918200000 +0000" stop="20260918210000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918210000 +0000" stop="20260918220000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918220000 +0000" stop="20260918230000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918230000 +0000" stop="20260919000000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919000000 +0000" stop="20260919010000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919010000 +0000" stop="20260919020000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919020000 +0000" stop="20260919030000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919030000 +0000" stop="20260919040000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919040000 +0000" stop="20260919050000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919050000 +0000" stop="20260919060000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919060000 +0000" stop="20260919070000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919070000 +0000" stop="20260919080000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919080000 +0000" stop="20260919090000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919090000 +0000" stop="20260919100000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919100000 +0000" stop="20260919110000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919110000 +0000" stop="20260919120000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919120000 +0000" stop="20260919130000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919130000 +0000" stop="20260919140000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919140000 +0000" stop="20260919150000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919150000 +0000" stop="20260919160000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919160000 +0000" stop="20260919170000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919170000 +0000" stop="20260919180000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919180000 +0000" stop="20260919190000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919190000 +0000" stop="20260919200000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260919200000 +0000" stop="20260919210000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260919190000 +0000" stop="20260919210000 +0000" channel="beINSportsXtra8.qa">
+    <title lang="en">beIN Sports XTRA</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -19895,10 +20024,10 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260916205959 +0000" stop="20260917100125 +0000" channel="beINSportsFr1.qa">
+  <programme start="20260916205959 +0000" stop="20260917102127 +0000" channel="beINSportsFr1.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260916205959 +0000" stop="20260917100125 +0000" channel="beINSportsFr2.qa">
+  <programme start="20260916205959 +0000" stop="20260917102127 +0000" channel="beINSportsFr2.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260916024500 +0000" stop="20260916030000 +0000" channel="beINSPORTS1.tr">
@@ -44643,11 +44772,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نشرة الأخبار الليلية</title>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916021304 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260916021304 +0000" stop="20260916023510 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
@@ -59044,7 +59168,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260917131500 +0000" stop="20260917133000 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916033000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260916022000 +0000" stop="20260916033000 +0000" channel="Starz_admnadsports1">
     <title lang="en">ADNOC Pro League 2026-2027</title>
     <desc lang="en">ADNOC Pro League 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -59368,7 +59492,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916031500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260916022000 +0000" stop="20260916031500 +0000" channel="Starz_admnadsports2">
     <title lang="en">KBMZ Jiu-Jitsu Championship 2026</title>
     <desc lang="en">KBMZ Jiu-Jitsu Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -59668,14 +59792,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916021500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Lazio X Milan - Serie A</title>
-    <title lang="ar">لاتسيو × ميلان - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260916021500 +0000" stop="20260916024500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260916022000 +0000" stop="20260916024500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 4 - Serie A Highlights</title>
     <title lang="ar">الجولة 4 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -60335,7 +60452,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916024000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260916022000 +0000" stop="20260916024000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Torino x Roma - Serie A</title>
     <title lang="ar">تورينو × روما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -61008,7 +61125,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916025000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260916022000 +0000" stop="20260916025000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Silva X Delgado - Prelims - UFC Fight Night</title>
     <title lang="ar">سيلفا × ديلغادو - التمهيدات المبكرة - يو إف سي فايت نايت</title>
     <desc lang="en">UFC Fight Night brings you the best MMA action from around the world.</desc>
@@ -61673,7 +61790,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916044600 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260916022000 +0000" stop="20260916044600 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Hollywoodbets Sharks vs. Maori All Blacks - Rugby Union</title>
     <desc lang="en">Hollywoodbets Sharks vs. Maori All Blacks - Rugby Union</desc>
     <category lang="en">Sport</category>
@@ -61913,7 +62030,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916025500 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260916022000 +0000" stop="20260916025500 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Day 3 - Session 3 - Goodwood Festival of Speed</title>
     <title lang="ar">اليوم 3 - الجلسة 3 - غوودوود فيستيفال أوف سبييد</title>
     <desc lang="en">Follow the excitement and action of the latest cars races of the Goodwood Festival Of Speed.</desc>
@@ -62536,14 +62653,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916021600 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Texas Super Kings vs. Los Angeles Knight Riders - Major League Cricket Match Highlights</title>
-    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
-    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260916021600 +0000" stop="20260916024100 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260916022000 +0000" stop="20260916024100 +0000" channel="Starz_cricbuzz1">
     <title lang="en">3rd T20I: West Indies vs. Sri Lanka - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -63484,14 +63594,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916020600 +0000" channel="Starz_wedosports">
-    <title lang="en">Clubland</title>
-    <title lang="ar">كلبلاند</title>
-    <desc lang="en">S1 , Ep.Liverpool FC, Internazionale Milano : Welcome to Clubland, a show devoted to the greatest football teams. Rivalries, traditions, heroes and controversial players, TRACE Sport Stars explores the most legendary clubs in the history of football.</desc>
+  <programme start="20260920021500 +0000" stop="20260920025300 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">3rd ODI: India v New Zealand - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260916020600 +0000" stop="20260916023600 +0000" channel="Starz_wedosports">
+  <programme start="20260916022000 +0000" stop="20260916023600 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
     <title lang="ar">كلوبلاند</title>
     <desc lang="en">S1 , E15 : A look at the biggest leagues and their traditions, rivalries, villains and heroes that make supporters love their sport and their champions so much.</desc>
@@ -63876,7 +63986,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916023000 +0000" channel="Starz_criclife1">
+  <programme start="20260916022000 +0000" stop="20260916023000 +0000" channel="Starz_criclife1">
     <title lang="en">2024: England vs. Scotland - ICC Women's T20 World Cup Highlights</title>
     <title lang="ar">آي سي سي وومنز تي٢٠ ورلد كب هايلايتس</title>
     <desc lang="en">Highlights of the matches played in the ICC Women's T20 World Cup, wherein the national women's cricket teams compete to win the trophy.</desc>
@@ -64480,7 +64590,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916022300 +0000" channel="Starz_criclife3">
+  <programme start="20260916022000 +0000" stop="20260916022300 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Texas Super Kings vs. Los Angeles Knight Riders - Major League Cricket Match Highlights</title>
     <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
     <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
@@ -65563,7 +65673,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916064900 +0000" channel="Starz_golflife">
+  <programme start="20260916022000 +0000" stop="20260916064900 +0000" channel="Starz_golflife">
     <title lang="en">Amgen Irish Open, First Round - DP World Tour Golf</title>
     <title lang="ar">دي بي ورلد تور غولف</title>
     <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
@@ -65831,14 +65941,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916021500 +0000" channel="Starz_adsportsasia02">
-    <title lang="en">120 Km Dubai Crown Prince Endurance Cup - Endurance Race</title>
-    <title lang="ar">سباق ولي عهد دبي للقدرة - مساقة 120 كم - سباق القدرة</title>
-    <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG278998_landscape10_MASTER298708.jpg" />
-  </programme>
-  <programme start="20260916021500 +0000" stop="20260916034500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260916022000 +0000" stop="20260916034500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">New York, USA - Sail Grand Prix</title>
     <title lang="ar">نيويورك، أمريكا - سباق الجائزة الكبرى للشراع</title>
     <desc lang="en">Special coverage of the Sail Grand Prix.</desc>
@@ -66433,7 +66536,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916041648 +0000" channel="Starz_awsn">
+  <programme start="20260916022000 +0000" stop="20260916041648 +0000" channel="Starz_awsn">
     <title lang="en">Lima Group 2026: PER vs. PR</title>
     <desc lang="en">Women&amp;apos;s Softball World Cup Lima Group continues with Peru and Puerto Rico going head to head on day 1.</desc>
     <category lang="en">Sport</category>
@@ -67316,7 +67419,20 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916030000 +0000" channel="Starz_redbulltv">
+  <programme start="20260920021453 +0000" stop="20260920040428 +0000" channel="Starz_awsn">
+    <title lang="en">2026 Cambridge Turbos vs. Eastern Ontario Capitals</title>
+    <desc lang="en">Cambridge Turbos vs. Eastern Ontario Capitals in the National Ringette League 2025-2026 season.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
+  </programme>
+  <programme start="20260920040428 +0000" stop="20260920040932 +0000" channel="Starz_awsn">
+    <title lang="en">No program available</title>
+    <title lang="ar">المحتوى غير متوفر</title>
+    <desc lang="en">No program available</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
+  </programme>
+  <programme start="20260916022000 +0000" stop="20260916030000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -67898,7 +68014,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916030000 +0000" channel="Starz_daznringside">
+  <programme start="20260916022000 +0000" stop="20260916030000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -68096,7 +68212,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916030216 +0000" channel="Starz_fifaplus">
+  <programme start="20260916022000 +0000" stop="20260916030216 +0000" channel="Starz_fifaplus">
     <title lang="en">Canada v Australia | Group B | FIFA Women's World Cup Australia &amp; New Zealand 2023™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Canada and Australia played at Melbourne Rectangular Stadium, Melbourne / Naarm on Monday, July 31, 2023 at 8:00 PM (local time).</desc>
     <category lang="en">Sport</category>
@@ -68462,7 +68578,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://dki01q1l7yn3y.cloudfront.net/thumbnails-platform-prod/assets/cs::content::episodemeta/45076-47124/92702517-Image-1_v1.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916040000 +0000" channel="Starz_admnyastv">
+  <programme start="20260916022000 +0000" stop="20260916040000 +0000" channel="Starz_admnyastv">
     <title lang="en">Al Ain Camel Race Festival 2026</title>
     <desc lang="en">Al Ain Camel Race Festival 2026</desc>
     <category lang="en">Sport</category>
@@ -68870,7 +68986,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260916020000 +0000" stop="20260916033000 +0000" channel="Starz_adfight">
+  <programme start="20260916022000 +0000" stop="20260916033000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -69084,6 +69200,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260919233243 +0000" stop="20260919233611 +0000" channel="Starz_awsn">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260920021207 +0000" stop="20260920021453 +0000" channel="Starz_awsn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260915210000 +0000" stop="20260916170000 +0000" channel="FajerSport1">
@@ -69429,242 +69548,354 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 لا توجد مباراة معلنة في هذا الوقت.</desc>
   </programme>
   <programme start="20260917000000 +0300" stop="20260918000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨Bayern Munich - Union Berlin⁩⁩</title>
+    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-17
 
 لا توجد مباريات مجدولة.</desc>
   </programme>
-  <programme start="20260918000000 +0300" stop="20260918183000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨Bayern Munich - Union Berlin⁩⁩</title>
+  <programme start="20260918000000 +0300" stop="20260918163000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-18
 
-21:30 | Bayern Munich - Union Berlin — Bundesliga</desc>
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
   </programme>
-  <programme start="20260918183000 +0300" stop="20260918193000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayern Munich - Union Berlin⁩ ⁨·⁩ بعد 3 ساعات⁩</title>
+  <programme start="20260918163000 +0300" stop="20260918173000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩ ⁨·⁩ بعد 3 ساعات⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-18
 
-21:30 | Bayern Munich - Union Berlin — Bundesliga</desc>
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
   </programme>
-  <programme start="20260918193000 +0300" stop="20260918203000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayern Munich - Union Berlin⁩ ⁨·⁩ بعد ساعتين⁩</title>
+  <programme start="20260918173000 +0300" stop="20260918183000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩ ⁨·⁩ بعد ساعتين⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-18
 
-21:30 | Bayern Munich - Union Berlin — Bundesliga</desc>
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
   </programme>
-  <programme start="20260918203000 +0300" stop="20260918210000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayern Munich - Union Berlin⁩ ⁨·⁩ بعد ساعة⁩</title>
+  <programme start="20260918183000 +0300" stop="20260918190000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩ ⁨·⁩ بعد ساعة⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-18
 
-21:30 | Bayern Munich - Union Berlin — Bundesliga</desc>
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
   </programme>
-  <programme start="20260918210000 +0300" stop="20260918213000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayern Munich - Union Berlin⁩ ⁨·⁩ بعد 30 دقيقة⁩</title>
+  <programme start="20260918190000 +0300" stop="20260918193000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩ ⁨·⁩ بعد 30 دقيقة⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-18
 
-21:30 | Bayern Munich - Union Berlin — Bundesliga</desc>
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
+  </programme>
+  <programme start="20260918193000 +0300" stop="20260918213000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁨A) Greuther Fürth - Magdeburg⁩  ⁨B) Wolfsburg - Darmstadt 98⁩ ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-09-18
+
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
   </programme>
   <programme start="20260918213000 +0300" stop="20260919000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁨Bayern Munich - Union Berlin⁩ ‎• Live 🔵‎</title>
+    <title lang="ar">⁨Bayern München - Union Berlin⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-18
 
-21:30 | Bayern Munich - Union Berlin — Bundesliga</desc>
+12:30 | Greuther Fürth - Magdeburg
+12:30 | Wolfsburg - Darmstadt 98
+14:30 | Bayern München - Union Berlin — Bundesliga</desc>
   </programme>
-  <programme start="20260919000000 +0300" stop="20260919130000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨Mamelodi Sundowns - Al Ahli⁩⁩</title>
+  <programme start="20260919000000 +0300" stop="20260919110000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨A) Holstein Kiel - Osnabrück⁩  ⁨B) Kaiserslautern - Eintracht Braunschweig⁩  ⁨C) Karlsruher SC - Nürnberg⁩⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260919130000 +0300" stop="20260919140000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Mamelodi Sundowns - Al Ahli⁩ ⁨·⁩ بعد 3 ساعات⁩</title>
+  <programme start="20260919110000 +0300" stop="20260919120000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Holstein Kiel - Osnabrück⁩  ⁨B) Kaiserslautern - Eintracht Braunschweig⁩  ⁨C) Karlsruher SC - Nürnberg⁩ ⁨·⁩ بعد 3 ساعات⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260919140000 +0300" stop="20260919150000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Mamelodi Sundowns - Al Ahli⁩ ⁨·⁩ بعد ساعتين⁩</title>
+  <programme start="20260919120000 +0300" stop="20260919130000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Holstein Kiel - Osnabrück⁩  ⁨B) Kaiserslautern - Eintracht Braunschweig⁩  ⁨C) Karlsruher SC - Nürnberg⁩ ⁨·⁩ بعد ساعتين⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260919150000 +0300" stop="20260919153000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Mamelodi Sundowns - Al Ahli⁩ ⁨·⁩ بعد ساعة⁩</title>
+  <programme start="20260919130000 +0300" stop="20260919133000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Holstein Kiel - Osnabrück⁩  ⁨B) Kaiserslautern - Eintracht Braunschweig⁩  ⁨C) Karlsruher SC - Nürnberg⁩ ⁨·⁩ بعد ساعة⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260919153000 +0300" stop="20260919160000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Mamelodi Sundowns - Al Ahli⁩ ⁨·⁩ بعد 30 دقيقة⁩</title>
+  <programme start="20260919133000 +0300" stop="20260919140000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Holstein Kiel - Osnabrück⁩  ⁨B) Kaiserslautern - Eintracht Braunschweig⁩  ⁨C) Karlsruher SC - Nürnberg⁩ ⁨·⁩ بعد 30 دقيقة⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
+  </programme>
+  <programme start="20260919140000 +0300" stop="20260919160000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁨A) Holstein Kiel - Osnabrück⁩  ⁨B) Kaiserslautern - Eintracht Braunschweig⁩  ⁨C) Karlsruher SC - Nürnberg⁩ ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-09-19
+
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
   <programme start="20260919160000 +0300" stop="20260919163000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁨Mamelodi Sundowns - Al Ahli⁩ ‎• Live 🔵‎</title>
+    <title lang="ar">⁨Mamelodi Sundowns - Al-Ahli⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
   <programme start="20260919163000 +0300" stop="20260919193000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁨A) B. Monchengladbach - Mainz⁩  ⁨B) Eintracht Frankfurt - Freiburg⁩  ⁨C) Hamburger SV - FC Koln⁩  ⁨D) Werder Bremen - Augsburg⁩ ‎• Live 🔵‎</title>
+    <title lang="ar">⁨A) Borussia M'gladbach - Mainz 05⁩  ⁨B) Eintracht Frankfurt - Freiburg⁩  ⁨C) Hamburger SV - Köln⁩  ⁨D) Werder Bremen - Augsburg⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260919193000 +0300" stop="20260919223000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁨Stuttgart - Dortmund⁩ ‎• Live 🔵‎</title>
+  <programme start="20260919193000 +0300" stop="20260919213000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁨Stuttgart - Borussia Dortmund⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260919223000 +0300" stop="20260920000000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨Bayer Leverkusen - RB Leipzig⁩⁩</title>
+  <programme start="20260919213000 +0300" stop="20260920000000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁨Dynamo Dresden - Hertha BSC⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-19
 
-16:00 | Mamelodi Sundowns - Al Ahli — FIFA Intercontinental Cup
-16:30 | B. Monchengladbach - Mainz — Bundesliga
-16:30 | Eintracht Frankfurt - Freiburg — Bundesliga
-16:30 | Hamburger SV - FC Koln — Bundesliga
-16:30 | Werder Bremen - Augsburg — Bundesliga
-19:30 | Stuttgart - Dortmund — Bundesliga</desc>
+07:00 | Holstein Kiel - Osnabrück
+07:00 | Kaiserslautern - Eintracht Braunschweig
+07:00 | Karlsruher SC - Nürnberg
+09:00 | Mamelodi Sundowns - Al-Ahli — FIFA Intercontinental Cup
+09:30 | Borussia M'gladbach - Mainz 05 — Bundesliga
+09:30 | Eintracht Frankfurt - Freiburg — Bundesliga
+09:30 | Hamburger SV - Köln — Bundesliga
+09:30 | Werder Bremen - Augsburg — Bundesliga
+12:30 | Stuttgart - Borussia Dortmund — Bundesliga
+14:30 | Dynamo Dresden - Hertha BSC</desc>
   </programme>
-  <programme start="20260920000000 +0300" stop="20260920133000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨Bayer Leverkusen - RB Leipzig⁩⁩</title>
+  <programme start="20260920000000 +0300" stop="20260920113000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ المباراة القادمة ⁨·⁩ ⁨A) Arminia Bielefeld - Heidenheim⁩  ⁨B) Energie Cottbus - St. Pauli⁩  ⁨C) Hannover 96 - Bochum⁩⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
-  <programme start="20260920133000 +0300" stop="20260920143000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayer Leverkusen - RB Leipzig⁩ ⁨·⁩ بعد 3 ساعات⁩</title>
+  <programme start="20260920113000 +0300" stop="20260920123000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Arminia Bielefeld - Heidenheim⁩  ⁨B) Energie Cottbus - St. Pauli⁩  ⁨C) Hannover 96 - Bochum⁩ ⁨·⁩ بعد 3 ساعات⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
-  <programme start="20260920143000 +0300" stop="20260920153000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayer Leverkusen - RB Leipzig⁩ ⁨·⁩ بعد ساعتين⁩</title>
+  <programme start="20260920123000 +0300" stop="20260920133000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Arminia Bielefeld - Heidenheim⁩  ⁨B) Energie Cottbus - St. Pauli⁩  ⁨C) Hannover 96 - Bochum⁩ ⁨·⁩ بعد ساعتين⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
-  <programme start="20260920153000 +0300" stop="20260920160000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayer Leverkusen - RB Leipzig⁩ ⁨·⁩ بعد ساعة⁩</title>
+  <programme start="20260920133000 +0300" stop="20260920140000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Arminia Bielefeld - Heidenheim⁩  ⁨B) Energie Cottbus - St. Pauli⁩  ⁨C) Hannover 96 - Bochum⁩ ⁨·⁩ بعد ساعة⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
-  <programme start="20260920160000 +0300" stop="20260920163000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁦⏰ ⁨Bayer Leverkusen - RB Leipzig⁩ ⁨·⁩ بعد 30 دقيقة⁩</title>
+  <programme start="20260920140000 +0300" stop="20260920143000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁦⏰ ⁨A) Arminia Bielefeld - Heidenheim⁩  ⁨B) Energie Cottbus - St. Pauli⁩  ⁨C) Hannover 96 - Bochum⁩ ⁨·⁩ بعد 30 دقيقة⁩</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+  </programme>
+  <programme start="20260920143000 +0300" stop="20260920163000 +0300" channel="ShahidSportsGuide">
+    <title lang="ar">⁨A) Arminia Bielefeld - Heidenheim⁩  ⁨B) Energie Cottbus - St. Pauli⁩  ⁨C) Hannover 96 - Bochum⁩ ‎• Live 🔵‎</title>
+    <category lang="en">Sports</category>
+    <desc lang="ar">مباريات Shahid Sports - 2026-09-20
+
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
   <programme start="20260920163000 +0300" stop="20260920183000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">⁨Bayer Leverkusen - RB Leipzig⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
   <programme start="20260920183000 +0300" stop="20260920203000 +0300" channel="ShahidSportsGuide">
-    <title lang="ar">⁨Schalke - Elversberg⁩ ‎• Live 🔵‎</title>
+    <title lang="ar">⁨Schalke 04 - Elversberg⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
   <programme start="20260920203000 +0300" stop="20260920233000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">⁨Paderborn - Hoffenheim⁩ ‎• Live 🔵‎</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
   <programme start="20260920233000 +0300" stop="20260921000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباراة معلنة بعد</title>
     <category lang="en">Sports</category>
     <desc lang="ar">مباريات Shahid Sports - 2026-09-20
 
-16:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
-18:30 | Schalke - Elversberg — Bundesliga
-20:30 | Paderborn - Hoffenheim — Bundesliga</desc>
+07:30 | Arminia Bielefeld - Heidenheim
+07:30 | Energie Cottbus - St. Pauli
+07:30 | Hannover 96 - Bochum
+09:30 | Bayer Leverkusen - RB Leipzig — Bundesliga
+11:30 | Schalke 04 - Elversberg — Bundesliga
+13:30 | Paderborn - Hoffenheim — Bundesliga</desc>
   </programme>
   <programme start="20260921000000 +0300" stop="20260922000000 +0300" channel="ShahidSportsGuide">
     <title lang="ar">لا توجد مباراة معلنة بعد</title>
@@ -83367,7 +83598,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260917010000 +0000" stop="20260917020000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم · مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المت</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:56 — بتوقيتك
 
 مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المتحدة
         سترفض إدارة الرئيس الأمريكي دونالد ترامب مرة أخرى منح تأشيرات دخول لرئيس السلطة الفلسطينية محمود عباس (أبو مازن) ومسؤولين في السلطة للسفر إلى…
@@ -83375,48 +83606,48 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 واشنطن ترفض منح الرئيس الفلسطيني تأشيرة لحضور اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
         رفضت الولايات المتحدة، للعام الثاني على التوالي، منح رئيس السلطة الفلسطينية محمود عباس تأشيرة دخول للمشاركة في اجتماعات الجمعية العامة للأمم المتحدة…
         تركيا · TRT عربي
-"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
+دراسة جديدة تربط شيخوخة الدماغ بمخاطر ألزهايمر - أخبار 24
         الإمارات · الإمارات
-Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
-        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
-        أمريكا · ABC News
-Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
-        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+Fiji declares national HIV emergency as Pacific nation grapples with surge in cases
+        Government estimates that one in 60 adults in Fiji now living with HIV, as escalating use of methamphetamine fuels ‘epidemic’ Fiji has declared a…
         بريطانيا · Guardian
+Maryland family speaks out after ‘4-foot-long’ rabid beaver attacks 13-year-old boy
+        Family said a beaver attacked without provocation at Cunningham Falls State Park in Frederick County before testing positive for rabies.
+        أمريكا · Fox News
 Ministry convenes top panel to address rehabilitation centre pressures
         Jordan's interior minister chaired a meeting Wednesday to address overcrowding and reform policies at the country's rehabilitation centres.
         الأردن · Jordan News
 روسيا تشن هجوماً صاروخياً واسعاً على كييف
         استأنفت روسيا هجماتها بالصواريخ الباليستية على أوكرانيا بعد توقف استمر عدة ليال، وتعرضت العاصمة كييف لقصف في وقت مبكر من صباح اليوم الخميس.
         عربي · الشرق الأوسط
-«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
         الإمارات · الإمارات
 إدانات واسعة لمحاولة استهداف مكة المكرمة.. وتحذيرات من تداعيات التصعيد
         توالت، الأربعاء، الإدانات العربية والإسلامية والدولية لمحاولة استهداف مكة المكرمة بطائرة حوثية مسيّرة
         تركيا · TRT عربي
-WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
-        The U.S. is now urgently investigating whether Iran played a role.
+Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
+        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
         أمريكا · ABC News
-Lena Dunham announces birth of first baby via surrogacy
-        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
-        بريطانيا · BBC
+Ukraine war briefing: Drone kills Russian commander just decorated after fake victory claim
+        Maj Gen Anton Grunis was praised by Vladimir Putin for purported capture of Kostiantynivka; UK names intel officer who died in Ukraine road crash
+        بريطانيا · Guardian
 Meta Develops Camera-Free Smart Glasses to Address Privacy Concerns
         Meta's smart glasses have struggled to earn user trust. Since their release, some individuals have used them to record others without notification,…
         الأردن · Jordan News
 تصعيد بين السعودية والحوثيين بعد اتهام الجماعة بمحاولة استهداف مكة
         على وقع تصعيد متسارع في اليمن، تبادلت السعودية والحوثيون الاتهامات بشأن استهداف مكة وغارات جوية ومعارك ميدانية
         عربي · فرانس 24
+«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+        الإمارات · الإمارات
 بعيداً عن واشنطن.. كندا تطلب الانضمام إلى قوة عسكرية بقيادة بريطانيا
         أعلن مكتب رئيس الوزراء الكندي مارك كارني اليوم الأربعاء أن بلاده تقدمت بطلب رسمي للانضمام إلى القوة الاستكشافية المشتركة
         تركيا · TRT عربي
-كندا تطلب رسميا الانضمام إلى "القوة الاستكشافية المشتركة" - سكاي نيوز عربية
-        الإمارات · الإمارات
-Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
-        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
-        أمريكا · Fox News
-US interest rates raised for first time in three years
-        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
-        بريطانيا · BBC
+WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
+        The U.S. is now urgently investigating whether Iran played a role.
+        أمريكا · ABC News
+Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
+        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+        بريطانيا · Guardian
 Meta Launches Meta One Subscription With Over 50 Paid Features
         After months of testing, Meta has officially launched its comprehensive subscription service, Meta One, which bundles paid features across its…
         الأردن · Jordan News
@@ -83428,11 +83659,11 @@ Meta Launches Meta One Subscription With Over 50 Paid Features
 التصعيد العسكري يفاقم النزوح في اليمن.. أكثر من 122 ألف شخص خلال أسبوعين
         أعلنت الوحدة التنفيذية لإدارة مخيمات النازحين باليمن، مساء الأربعاء، نزوح أكثر من 122 ألف شخص في 8 محافظات خلال النصف الأول من سبتمبر/ أيلول الجاري
         تركيا · TRT عربي
-Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
-        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
-        أمريكا · NYT
-Why Trump's hand-picked Fed chair defied him by raising interest rates
-        The .25% increase comes despite fierce opposition from the US president, who has called for rates to be cut.
+Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
+        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
+        أمريكا · Fox News
+Lena Dunham announces birth of first baby via surrogacy
+        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
         بريطانيا · BBC
 Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
         Massimo Moratti, former president of Italy's Inter Milan, has revealed an extraordinary attempt he made in 2012 to sign Lionel Messi, when the…
@@ -83440,16 +83671,16 @@ Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
 إدانات واسعة لاستهداف الحوثيين مكة المكرمة
         عبَّرت دول ومنظمات عربية وإسلامية عدة، عن إدانتها لاستهداف الحوثيين مكة المكرمة بطائرة مسيّرة
         عربي · الشرق الأوسط
-وزير الطاقة الأمريكي: تدفقات نفط الخليج تسجل 18 مليون برميل في يوم واحد - الجزيرة نت
+كندا تتقدم بطلب للانضمام إلى تحالف عسكري بقيادة بريطانيا - الشرق الأوسط
         الإمارات · الإمارات
 الجامعة العربية: استهداف مكة "أمر بالغ الخطورة" وتصعيد يهدد أمن المنطقة
         الأمين العام لجامعة الدول العربية نبيل فهمي شدد على أن "أمن السعودية واستقرارها يمثلان ركيزة أساسية لأمن واستقرار المنطقة"
         تركيا · الأناضول
-House passes Russia and Iran sanctions bill championed by Sen. Lindsey Graham
-        The House passed a Russia and Iran sanctions bill championed by late Sen. Lindsey Graham Wednesday night.
-        أمريكا · ABC News
-EU chief backs plan for Canada to become 'associate member'
-        Trump, who has frequently clashed with Canada's PM, threatens to cut trade with the European Union in response to the proposal.
+Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
+        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
+        أمريكا · NYT
+US interest rates raised for first time in three years
+        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
         بريطانيا · BBC
 7 Medications That May Interact With Green Tea
         Green tea is known for its health benefits, and many people make a point of drinking it daily, either as a beverage or in supplement form
@@ -83475,7 +83706,7 @@ Third Round of Professional Football League Kicks Off Thursday
   </programme>
   <programme start="20260917020000 +0000" stop="20260917030000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:56 — بتوقيتك
 
 مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المتحدة
         سترفض إدارة الرئيس الأمريكي دونالد ترامب مرة أخرى منح تأشيرات دخول لرئيس السلطة الفلسطينية محمود عباس (أبو مازن) ومسؤولين في السلطة للسفر إلى…
@@ -83483,48 +83714,48 @@ Third Round of Professional Football League Kicks Off Thursday
 واشنطن ترفض منح الرئيس الفلسطيني تأشيرة لحضور اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
         رفضت الولايات المتحدة، للعام الثاني على التوالي، منح رئيس السلطة الفلسطينية محمود عباس تأشيرة دخول للمشاركة في اجتماعات الجمعية العامة للأمم المتحدة…
         تركيا · TRT عربي
-"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
+دراسة جديدة تربط شيخوخة الدماغ بمخاطر ألزهايمر - أخبار 24
         الإمارات · الإمارات
-Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
-        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
-        أمريكا · ABC News
-Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
-        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+Fiji declares national HIV emergency as Pacific nation grapples with surge in cases
+        Government estimates that one in 60 adults in Fiji now living with HIV, as escalating use of methamphetamine fuels ‘epidemic’ Fiji has declared a…
         بريطانيا · Guardian
+Maryland family speaks out after ‘4-foot-long’ rabid beaver attacks 13-year-old boy
+        Family said a beaver attacked without provocation at Cunningham Falls State Park in Frederick County before testing positive for rabies.
+        أمريكا · Fox News
 Ministry convenes top panel to address rehabilitation centre pressures
         Jordan's interior minister chaired a meeting Wednesday to address overcrowding and reform policies at the country's rehabilitation centres.
         الأردن · Jordan News
 روسيا تشن هجوماً صاروخياً واسعاً على كييف
         استأنفت روسيا هجماتها بالصواريخ الباليستية على أوكرانيا بعد توقف استمر عدة ليال، وتعرضت العاصمة كييف لقصف في وقت مبكر من صباح اليوم الخميس.
         عربي · الشرق الأوسط
-«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
         الإمارات · الإمارات
 إدانات واسعة لمحاولة استهداف مكة المكرمة.. وتحذيرات من تداعيات التصعيد
         توالت، الأربعاء، الإدانات العربية والإسلامية والدولية لمحاولة استهداف مكة المكرمة بطائرة حوثية مسيّرة
         تركيا · TRT عربي
-WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
-        The U.S. is now urgently investigating whether Iran played a role.
+Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
+        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
         أمريكا · ABC News
-Lena Dunham announces birth of first baby via surrogacy
-        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
-        بريطانيا · BBC
+Ukraine war briefing: Drone kills Russian commander just decorated after fake victory claim
+        Maj Gen Anton Grunis was praised by Vladimir Putin for purported capture of Kostiantynivka; UK names intel officer who died in Ukraine road crash
+        بريطانيا · Guardian
 Meta Develops Camera-Free Smart Glasses to Address Privacy Concerns
         Meta's smart glasses have struggled to earn user trust. Since their release, some individuals have used them to record others without notification,…
         الأردن · Jordan News
 تصعيد بين السعودية والحوثيين بعد اتهام الجماعة بمحاولة استهداف مكة
         على وقع تصعيد متسارع في اليمن، تبادلت السعودية والحوثيون الاتهامات بشأن استهداف مكة وغارات جوية ومعارك ميدانية
         عربي · فرانس 24
+«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+        الإمارات · الإمارات
 بعيداً عن واشنطن.. كندا تطلب الانضمام إلى قوة عسكرية بقيادة بريطانيا
         أعلن مكتب رئيس الوزراء الكندي مارك كارني اليوم الأربعاء أن بلاده تقدمت بطلب رسمي للانضمام إلى القوة الاستكشافية المشتركة
         تركيا · TRT عربي
-كندا تطلب رسميا الانضمام إلى "القوة الاستكشافية المشتركة" - سكاي نيوز عربية
-        الإمارات · الإمارات
-Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
-        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
-        أمريكا · Fox News
-US interest rates raised for first time in three years
-        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
-        بريطانيا · BBC
+WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
+        The U.S. is now urgently investigating whether Iran played a role.
+        أمريكا · ABC News
+Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
+        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+        بريطانيا · Guardian
 Meta Launches Meta One Subscription With Over 50 Paid Features
         After months of testing, Meta has officially launched its comprehensive subscription service, Meta One, which bundles paid features across its…
         الأردن · Jordan News
@@ -83536,11 +83767,11 @@ Meta Launches Meta One Subscription With Over 50 Paid Features
 التصعيد العسكري يفاقم النزوح في اليمن.. أكثر من 122 ألف شخص خلال أسبوعين
         أعلنت الوحدة التنفيذية لإدارة مخيمات النازحين باليمن، مساء الأربعاء، نزوح أكثر من 122 ألف شخص في 8 محافظات خلال النصف الأول من سبتمبر/ أيلول الجاري
         تركيا · TRT عربي
-Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
-        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
-        أمريكا · NYT
-Why Trump's hand-picked Fed chair defied him by raising interest rates
-        The .25% increase comes despite fierce opposition from the US president, who has called for rates to be cut.
+Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
+        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
+        أمريكا · Fox News
+Lena Dunham announces birth of first baby via surrogacy
+        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
         بريطانيا · BBC
 Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
         Massimo Moratti, former president of Italy's Inter Milan, has revealed an extraordinary attempt he made in 2012 to sign Lionel Messi, when the…
@@ -83548,16 +83779,16 @@ Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
 إدانات واسعة لاستهداف الحوثيين مكة المكرمة
         عبَّرت دول ومنظمات عربية وإسلامية عدة، عن إدانتها لاستهداف الحوثيين مكة المكرمة بطائرة مسيّرة
         عربي · الشرق الأوسط
-وزير الطاقة الأمريكي: تدفقات نفط الخليج تسجل 18 مليون برميل في يوم واحد - الجزيرة نت
+كندا تتقدم بطلب للانضمام إلى تحالف عسكري بقيادة بريطانيا - الشرق الأوسط
         الإمارات · الإمارات
 الجامعة العربية: استهداف مكة "أمر بالغ الخطورة" وتصعيد يهدد أمن المنطقة
         الأمين العام لجامعة الدول العربية نبيل فهمي شدد على أن "أمن السعودية واستقرارها يمثلان ركيزة أساسية لأمن واستقرار المنطقة"
         تركيا · الأناضول
-House passes Russia and Iran sanctions bill championed by Sen. Lindsey Graham
-        The House passed a Russia and Iran sanctions bill championed by late Sen. Lindsey Graham Wednesday night.
-        أمريكا · ABC News
-EU chief backs plan for Canada to become 'associate member'
-        Trump, who has frequently clashed with Canada's PM, threatens to cut trade with the European Union in response to the proposal.
+Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
+        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
+        أمريكا · NYT
+US interest rates raised for first time in three years
+        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
         بريطانيا · BBC
 7 Medications That May Interact With Green Tea
         Green tea is known for its health benefits, and many people make a point of drinking it daily, either as a beverage or in supplement form
@@ -83583,7 +83814,7 @@ Third Round of Professional Football League Kicks Off Thursday
   </programme>
   <programme start="20260917030000 +0000" stop="20260917040000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:56 — بتوقيتك
 
 مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المتحدة
         سترفض إدارة الرئيس الأمريكي دونالد ترامب مرة أخرى منح تأشيرات دخول لرئيس السلطة الفلسطينية محمود عباس (أبو مازن) ومسؤولين في السلطة للسفر إلى…
@@ -83591,48 +83822,48 @@ Third Round of Professional Football League Kicks Off Thursday
 واشنطن ترفض منح الرئيس الفلسطيني تأشيرة لحضور اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
         رفضت الولايات المتحدة، للعام الثاني على التوالي، منح رئيس السلطة الفلسطينية محمود عباس تأشيرة دخول للمشاركة في اجتماعات الجمعية العامة للأمم المتحدة…
         تركيا · TRT عربي
-"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
+دراسة جديدة تربط شيخوخة الدماغ بمخاطر ألزهايمر - أخبار 24
         الإمارات · الإمارات
-Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
-        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
-        أمريكا · ABC News
-Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
-        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+Fiji declares national HIV emergency as Pacific nation grapples with surge in cases
+        Government estimates that one in 60 adults in Fiji now living with HIV, as escalating use of methamphetamine fuels ‘epidemic’ Fiji has declared a…
         بريطانيا · Guardian
+Maryland family speaks out after ‘4-foot-long’ rabid beaver attacks 13-year-old boy
+        Family said a beaver attacked without provocation at Cunningham Falls State Park in Frederick County before testing positive for rabies.
+        أمريكا · Fox News
 Ministry convenes top panel to address rehabilitation centre pressures
         Jordan's interior minister chaired a meeting Wednesday to address overcrowding and reform policies at the country's rehabilitation centres.
         الأردن · Jordan News
 روسيا تشن هجوماً صاروخياً واسعاً على كييف
         استأنفت روسيا هجماتها بالصواريخ الباليستية على أوكرانيا بعد توقف استمر عدة ليال، وتعرضت العاصمة كييف لقصف في وقت مبكر من صباح اليوم الخميس.
         عربي · الشرق الأوسط
-«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
         الإمارات · الإمارات
 إدانات واسعة لمحاولة استهداف مكة المكرمة.. وتحذيرات من تداعيات التصعيد
         توالت، الأربعاء، الإدانات العربية والإسلامية والدولية لمحاولة استهداف مكة المكرمة بطائرة حوثية مسيّرة
         تركيا · TRT عربي
-WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
-        The U.S. is now urgently investigating whether Iran played a role.
+Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
+        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
         أمريكا · ABC News
-Lena Dunham announces birth of first baby via surrogacy
-        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
-        بريطانيا · BBC
+Ukraine war briefing: Drone kills Russian commander just decorated after fake victory claim
+        Maj Gen Anton Grunis was praised by Vladimir Putin for purported capture of Kostiantynivka; UK names intel officer who died in Ukraine road crash
+        بريطانيا · Guardian
 Meta Develops Camera-Free Smart Glasses to Address Privacy Concerns
         Meta's smart glasses have struggled to earn user trust. Since their release, some individuals have used them to record others without notification,…
         الأردن · Jordan News
 تصعيد بين السعودية والحوثيين بعد اتهام الجماعة بمحاولة استهداف مكة
         على وقع تصعيد متسارع في اليمن، تبادلت السعودية والحوثيون الاتهامات بشأن استهداف مكة وغارات جوية ومعارك ميدانية
         عربي · فرانس 24
+«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+        الإمارات · الإمارات
 بعيداً عن واشنطن.. كندا تطلب الانضمام إلى قوة عسكرية بقيادة بريطانيا
         أعلن مكتب رئيس الوزراء الكندي مارك كارني اليوم الأربعاء أن بلاده تقدمت بطلب رسمي للانضمام إلى القوة الاستكشافية المشتركة
         تركيا · TRT عربي
-كندا تطلب رسميا الانضمام إلى "القوة الاستكشافية المشتركة" - سكاي نيوز عربية
-        الإمارات · الإمارات
-Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
-        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
-        أمريكا · Fox News
-US interest rates raised for first time in three years
-        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
-        بريطانيا · BBC
+WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
+        The U.S. is now urgently investigating whether Iran played a role.
+        أمريكا · ABC News
+Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
+        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+        بريطانيا · Guardian
 Meta Launches Meta One Subscription With Over 50 Paid Features
         After months of testing, Meta has officially launched its comprehensive subscription service, Meta One, which bundles paid features across its…
         الأردن · Jordan News
@@ -83644,11 +83875,11 @@ Meta Launches Meta One Subscription With Over 50 Paid Features
 التصعيد العسكري يفاقم النزوح في اليمن.. أكثر من 122 ألف شخص خلال أسبوعين
         أعلنت الوحدة التنفيذية لإدارة مخيمات النازحين باليمن، مساء الأربعاء، نزوح أكثر من 122 ألف شخص في 8 محافظات خلال النصف الأول من سبتمبر/ أيلول الجاري
         تركيا · TRT عربي
-Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
-        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
-        أمريكا · NYT
-Why Trump's hand-picked Fed chair defied him by raising interest rates
-        The .25% increase comes despite fierce opposition from the US president, who has called for rates to be cut.
+Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
+        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
+        أمريكا · Fox News
+Lena Dunham announces birth of first baby via surrogacy
+        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
         بريطانيا · BBC
 Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
         Massimo Moratti, former president of Italy's Inter Milan, has revealed an extraordinary attempt he made in 2012 to sign Lionel Messi, when the…
@@ -83656,16 +83887,16 @@ Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
 إدانات واسعة لاستهداف الحوثيين مكة المكرمة
         عبَّرت دول ومنظمات عربية وإسلامية عدة، عن إدانتها لاستهداف الحوثيين مكة المكرمة بطائرة مسيّرة
         عربي · الشرق الأوسط
-وزير الطاقة الأمريكي: تدفقات نفط الخليج تسجل 18 مليون برميل في يوم واحد - الجزيرة نت
+كندا تتقدم بطلب للانضمام إلى تحالف عسكري بقيادة بريطانيا - الشرق الأوسط
         الإمارات · الإمارات
 الجامعة العربية: استهداف مكة "أمر بالغ الخطورة" وتصعيد يهدد أمن المنطقة
         الأمين العام لجامعة الدول العربية نبيل فهمي شدد على أن "أمن السعودية واستقرارها يمثلان ركيزة أساسية لأمن واستقرار المنطقة"
         تركيا · الأناضول
-House passes Russia and Iran sanctions bill championed by Sen. Lindsey Graham
-        The House passed a Russia and Iran sanctions bill championed by late Sen. Lindsey Graham Wednesday night.
-        أمريكا · ABC News
-EU chief backs plan for Canada to become 'associate member'
-        Trump, who has frequently clashed with Canada's PM, threatens to cut trade with the European Union in response to the proposal.
+Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
+        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
+        أمريكا · NYT
+US interest rates raised for first time in three years
+        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
         بريطانيا · BBC
 7 Medications That May Interact With Green Tea
         Green tea is known for its health benefits, and many people make a point of drinking it daily, either as a beverage or in supplement form
@@ -83691,7 +83922,7 @@ Third Round of Professional Football League Kicks Off Thursday
   </programme>
   <programme start="20260917040000 +0000" stop="20260917050000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:56 — بتوقيتك
 
 مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المتحدة
         سترفض إدارة الرئيس الأمريكي دونالد ترامب مرة أخرى منح تأشيرات دخول لرئيس السلطة الفلسطينية محمود عباس (أبو مازن) ومسؤولين في السلطة للسفر إلى…
@@ -83699,48 +83930,48 @@ Third Round of Professional Football League Kicks Off Thursday
 واشنطن ترفض منح الرئيس الفلسطيني تأشيرة لحضور اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
         رفضت الولايات المتحدة، للعام الثاني على التوالي، منح رئيس السلطة الفلسطينية محمود عباس تأشيرة دخول للمشاركة في اجتماعات الجمعية العامة للأمم المتحدة…
         تركيا · TRT عربي
-"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
+دراسة جديدة تربط شيخوخة الدماغ بمخاطر ألزهايمر - أخبار 24
         الإمارات · الإمارات
-Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
-        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
-        أمريكا · ABC News
-Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
-        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+Fiji declares national HIV emergency as Pacific nation grapples with surge in cases
+        Government estimates that one in 60 adults in Fiji now living with HIV, as escalating use of methamphetamine fuels ‘epidemic’ Fiji has declared a…
         بريطانيا · Guardian
+Maryland family speaks out after ‘4-foot-long’ rabid beaver attacks 13-year-old boy
+        Family said a beaver attacked without provocation at Cunningham Falls State Park in Frederick County before testing positive for rabies.
+        أمريكا · Fox News
 Ministry convenes top panel to address rehabilitation centre pressures
         Jordan's interior minister chaired a meeting Wednesday to address overcrowding and reform policies at the country's rehabilitation centres.
         الأردن · Jordan News
 روسيا تشن هجوماً صاروخياً واسعاً على كييف
         استأنفت روسيا هجماتها بالصواريخ الباليستية على أوكرانيا بعد توقف استمر عدة ليال، وتعرضت العاصمة كييف لقصف في وقت مبكر من صباح اليوم الخميس.
         عربي · الشرق الأوسط
-«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
         الإمارات · الإمارات
 إدانات واسعة لمحاولة استهداف مكة المكرمة.. وتحذيرات من تداعيات التصعيد
         توالت، الأربعاء، الإدانات العربية والإسلامية والدولية لمحاولة استهداف مكة المكرمة بطائرة حوثية مسيّرة
         تركيا · TRT عربي
-WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
-        The U.S. is now urgently investigating whether Iran played a role.
+Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
+        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
         أمريكا · ABC News
-Lena Dunham announces birth of first baby via surrogacy
-        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
-        بريطانيا · BBC
+Ukraine war briefing: Drone kills Russian commander just decorated after fake victory claim
+        Maj Gen Anton Grunis was praised by Vladimir Putin for purported capture of Kostiantynivka; UK names intel officer who died in Ukraine road crash
+        بريطانيا · Guardian
 Meta Develops Camera-Free Smart Glasses to Address Privacy Concerns
         Meta's smart glasses have struggled to earn user trust. Since their release, some individuals have used them to record others without notification,…
         الأردن · Jordan News
 تصعيد بين السعودية والحوثيين بعد اتهام الجماعة بمحاولة استهداف مكة
         على وقع تصعيد متسارع في اليمن، تبادلت السعودية والحوثيون الاتهامات بشأن استهداف مكة وغارات جوية ومعارك ميدانية
         عربي · فرانس 24
+«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+        الإمارات · الإمارات
 بعيداً عن واشنطن.. كندا تطلب الانضمام إلى قوة عسكرية بقيادة بريطانيا
         أعلن مكتب رئيس الوزراء الكندي مارك كارني اليوم الأربعاء أن بلاده تقدمت بطلب رسمي للانضمام إلى القوة الاستكشافية المشتركة
         تركيا · TRT عربي
-كندا تطلب رسميا الانضمام إلى "القوة الاستكشافية المشتركة" - سكاي نيوز عربية
-        الإمارات · الإمارات
-Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
-        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
-        أمريكا · Fox News
-US interest rates raised for first time in three years
-        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
-        بريطانيا · BBC
+WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
+        The U.S. is now urgently investigating whether Iran played a role.
+        أمريكا · ABC News
+Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
+        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+        بريطانيا · Guardian
 Meta Launches Meta One Subscription With Over 50 Paid Features
         After months of testing, Meta has officially launched its comprehensive subscription service, Meta One, which bundles paid features across its…
         الأردن · Jordan News
@@ -83752,11 +83983,11 @@ Meta Launches Meta One Subscription With Over 50 Paid Features
 التصعيد العسكري يفاقم النزوح في اليمن.. أكثر من 122 ألف شخص خلال أسبوعين
         أعلنت الوحدة التنفيذية لإدارة مخيمات النازحين باليمن، مساء الأربعاء، نزوح أكثر من 122 ألف شخص في 8 محافظات خلال النصف الأول من سبتمبر/ أيلول الجاري
         تركيا · TRT عربي
-Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
-        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
-        أمريكا · NYT
-Why Trump's hand-picked Fed chair defied him by raising interest rates
-        The .25% increase comes despite fierce opposition from the US president, who has called for rates to be cut.
+Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
+        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
+        أمريكا · Fox News
+Lena Dunham announces birth of first baby via surrogacy
+        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
         بريطانيا · BBC
 Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
         Massimo Moratti, former president of Italy's Inter Milan, has revealed an extraordinary attempt he made in 2012 to sign Lionel Messi, when the…
@@ -83764,16 +83995,16 @@ Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
 إدانات واسعة لاستهداف الحوثيين مكة المكرمة
         عبَّرت دول ومنظمات عربية وإسلامية عدة، عن إدانتها لاستهداف الحوثيين مكة المكرمة بطائرة مسيّرة
         عربي · الشرق الأوسط
-وزير الطاقة الأمريكي: تدفقات نفط الخليج تسجل 18 مليون برميل في يوم واحد - الجزيرة نت
+كندا تتقدم بطلب للانضمام إلى تحالف عسكري بقيادة بريطانيا - الشرق الأوسط
         الإمارات · الإمارات
 الجامعة العربية: استهداف مكة "أمر بالغ الخطورة" وتصعيد يهدد أمن المنطقة
         الأمين العام لجامعة الدول العربية نبيل فهمي شدد على أن "أمن السعودية واستقرارها يمثلان ركيزة أساسية لأمن واستقرار المنطقة"
         تركيا · الأناضول
-House passes Russia and Iran sanctions bill championed by Sen. Lindsey Graham
-        The House passed a Russia and Iran sanctions bill championed by late Sen. Lindsey Graham Wednesday night.
-        أمريكا · ABC News
-EU chief backs plan for Canada to become 'associate member'
-        Trump, who has frequently clashed with Canada's PM, threatens to cut trade with the European Union in response to the proposal.
+Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
+        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
+        أمريكا · NYT
+US interest rates raised for first time in three years
+        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
         بريطانيا · BBC
 7 Medications That May Interact With Green Tea
         Green tea is known for its health benefits, and many people make a point of drinking it daily, either as a beverage or in supplement form
@@ -83799,7 +84030,7 @@ Third Round of Professional Football League Kicks Off Thursday
   </programme>
   <programme start="20260917050000 +0000" stop="20260917060000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:56 — بتوقيتك
 
 مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المتحدة
         سترفض إدارة الرئيس الأمريكي دونالد ترامب مرة أخرى منح تأشيرات دخول لرئيس السلطة الفلسطينية محمود عباس (أبو مازن) ومسؤولين في السلطة للسفر إلى…
@@ -83807,48 +84038,48 @@ Third Round of Professional Football League Kicks Off Thursday
 واشنطن ترفض منح الرئيس الفلسطيني تأشيرة لحضور اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
         رفضت الولايات المتحدة، للعام الثاني على التوالي، منح رئيس السلطة الفلسطينية محمود عباس تأشيرة دخول للمشاركة في اجتماعات الجمعية العامة للأمم المتحدة…
         تركيا · TRT عربي
-"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
+دراسة جديدة تربط شيخوخة الدماغ بمخاطر ألزهايمر - أخبار 24
         الإمارات · الإمارات
-Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
-        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
-        أمريكا · ABC News
-Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
-        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+Fiji declares national HIV emergency as Pacific nation grapples with surge in cases
+        Government estimates that one in 60 adults in Fiji now living with HIV, as escalating use of methamphetamine fuels ‘epidemic’ Fiji has declared a…
         بريطانيا · Guardian
+Maryland family speaks out after ‘4-foot-long’ rabid beaver attacks 13-year-old boy
+        Family said a beaver attacked without provocation at Cunningham Falls State Park in Frederick County before testing positive for rabies.
+        أمريكا · Fox News
 Ministry convenes top panel to address rehabilitation centre pressures
         Jordan's interior minister chaired a meeting Wednesday to address overcrowding and reform policies at the country's rehabilitation centres.
         الأردن · Jordan News
 روسيا تشن هجوماً صاروخياً واسعاً على كييف
         استأنفت روسيا هجماتها بالصواريخ الباليستية على أوكرانيا بعد توقف استمر عدة ليال، وتعرضت العاصمة كييف لقصف في وقت مبكر من صباح اليوم الخميس.
         عربي · الشرق الأوسط
-«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
         الإمارات · الإمارات
 إدانات واسعة لمحاولة استهداف مكة المكرمة.. وتحذيرات من تداعيات التصعيد
         توالت، الأربعاء، الإدانات العربية والإسلامية والدولية لمحاولة استهداف مكة المكرمة بطائرة حوثية مسيّرة
         تركيا · TRT عربي
-WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
-        The U.S. is now urgently investigating whether Iran played a role.
+Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
+        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
         أمريكا · ABC News
-Lena Dunham announces birth of first baby via surrogacy
-        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
-        بريطانيا · BBC
+Ukraine war briefing: Drone kills Russian commander just decorated after fake victory claim
+        Maj Gen Anton Grunis was praised by Vladimir Putin for purported capture of Kostiantynivka; UK names intel officer who died in Ukraine road crash
+        بريطانيا · Guardian
 Meta Develops Camera-Free Smart Glasses to Address Privacy Concerns
         Meta's smart glasses have struggled to earn user trust. Since their release, some individuals have used them to record others without notification,…
         الأردن · Jordan News
 تصعيد بين السعودية والحوثيين بعد اتهام الجماعة بمحاولة استهداف مكة
         على وقع تصعيد متسارع في اليمن، تبادلت السعودية والحوثيون الاتهامات بشأن استهداف مكة وغارات جوية ومعارك ميدانية
         عربي · فرانس 24
+«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+        الإمارات · الإمارات
 بعيداً عن واشنطن.. كندا تطلب الانضمام إلى قوة عسكرية بقيادة بريطانيا
         أعلن مكتب رئيس الوزراء الكندي مارك كارني اليوم الأربعاء أن بلاده تقدمت بطلب رسمي للانضمام إلى القوة الاستكشافية المشتركة
         تركيا · TRT عربي
-كندا تطلب رسميا الانضمام إلى "القوة الاستكشافية المشتركة" - سكاي نيوز عربية
-        الإمارات · الإمارات
-Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
-        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
-        أمريكا · Fox News
-US interest rates raised for first time in three years
-        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
-        بريطانيا · BBC
+WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
+        The U.S. is now urgently investigating whether Iran played a role.
+        أمريكا · ABC News
+Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
+        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+        بريطانيا · Guardian
 Meta Launches Meta One Subscription With Over 50 Paid Features
         After months of testing, Meta has officially launched its comprehensive subscription service, Meta One, which bundles paid features across its…
         الأردن · Jordan News
@@ -83860,11 +84091,11 @@ Meta Launches Meta One Subscription With Over 50 Paid Features
 التصعيد العسكري يفاقم النزوح في اليمن.. أكثر من 122 ألف شخص خلال أسبوعين
         أعلنت الوحدة التنفيذية لإدارة مخيمات النازحين باليمن، مساء الأربعاء، نزوح أكثر من 122 ألف شخص في 8 محافظات خلال النصف الأول من سبتمبر/ أيلول الجاري
         تركيا · TRT عربي
-Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
-        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
-        أمريكا · NYT
-Why Trump's hand-picked Fed chair defied him by raising interest rates
-        The .25% increase comes despite fierce opposition from the US president, who has called for rates to be cut.
+Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
+        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
+        أمريكا · Fox News
+Lena Dunham announces birth of first baby via surrogacy
+        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
         بريطانيا · BBC
 Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
         Massimo Moratti, former president of Italy's Inter Milan, has revealed an extraordinary attempt he made in 2012 to sign Lionel Messi, when the…
@@ -83872,16 +84103,16 @@ Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
 إدانات واسعة لاستهداف الحوثيين مكة المكرمة
         عبَّرت دول ومنظمات عربية وإسلامية عدة، عن إدانتها لاستهداف الحوثيين مكة المكرمة بطائرة مسيّرة
         عربي · الشرق الأوسط
-وزير الطاقة الأمريكي: تدفقات نفط الخليج تسجل 18 مليون برميل في يوم واحد - الجزيرة نت
+كندا تتقدم بطلب للانضمام إلى تحالف عسكري بقيادة بريطانيا - الشرق الأوسط
         الإمارات · الإمارات
 الجامعة العربية: استهداف مكة "أمر بالغ الخطورة" وتصعيد يهدد أمن المنطقة
         الأمين العام لجامعة الدول العربية نبيل فهمي شدد على أن "أمن السعودية واستقرارها يمثلان ركيزة أساسية لأمن واستقرار المنطقة"
         تركيا · الأناضول
-House passes Russia and Iran sanctions bill championed by Sen. Lindsey Graham
-        The House passed a Russia and Iran sanctions bill championed by late Sen. Lindsey Graham Wednesday night.
-        أمريكا · ABC News
-EU chief backs plan for Canada to become 'associate member'
-        Trump, who has frequently clashed with Canada's PM, threatens to cut trade with the European Union in response to the proposal.
+Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
+        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
+        أمريكا · NYT
+US interest rates raised for first time in three years
+        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
         بريطانيا · BBC
 7 Medications That May Interact With Green Tea
         Green tea is known for its health benefits, and many people make a point of drinking it daily, either as a beverage or in supplement form
@@ -83907,7 +84138,7 @@ Third Round of Professional Football League Kicks Off Thursday
   </programme>
   <programme start="20260917060000 +0000" stop="20260917070000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 18:56 — بتوقيتك
 
 مجدداً.. إدارة ترامب تمنع محمود عباس من حضور اجتماعات جمعية الأمم المتحدة
         سترفض إدارة الرئيس الأمريكي دونالد ترامب مرة أخرى منح تأشيرات دخول لرئيس السلطة الفلسطينية محمود عباس (أبو مازن) ومسؤولين في السلطة للسفر إلى…
@@ -83915,48 +84146,48 @@ Third Round of Professional Football League Kicks Off Thursday
 واشنطن ترفض منح الرئيس الفلسطيني تأشيرة لحضور اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
         رفضت الولايات المتحدة، للعام الثاني على التوالي، منح رئيس السلطة الفلسطينية محمود عباس تأشيرة دخول للمشاركة في اجتماعات الجمعية العامة للأمم المتحدة…
         تركيا · TRT عربي
-"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
+دراسة جديدة تربط شيخوخة الدماغ بمخاطر ألزهايمر - أخبار 24
         الإمارات · الإمارات
-Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
-        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
-        أمريكا · ABC News
-Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
-        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+Fiji declares national HIV emergency as Pacific nation grapples with surge in cases
+        Government estimates that one in 60 adults in Fiji now living with HIV, as escalating use of methamphetamine fuels ‘epidemic’ Fiji has declared a…
         بريطانيا · Guardian
+Maryland family speaks out after ‘4-foot-long’ rabid beaver attacks 13-year-old boy
+        Family said a beaver attacked without provocation at Cunningham Falls State Park in Frederick County before testing positive for rabies.
+        أمريكا · Fox News
 Ministry convenes top panel to address rehabilitation centre pressures
         Jordan's interior minister chaired a meeting Wednesday to address overcrowding and reform policies at the country's rehabilitation centres.
         الأردن · Jordan News
 روسيا تشن هجوماً صاروخياً واسعاً على كييف
         استأنفت روسيا هجماتها بالصواريخ الباليستية على أوكرانيا بعد توقف استمر عدة ليال، وتعرضت العاصمة كييف لقصف في وقت مبكر من صباح اليوم الخميس.
         عربي · الشرق الأوسط
-«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+"إيران ترغب بشدة في إبرام اتفاق لإنهاء الحرب".. ماذا قال ترامب لـ CNN عن المفاوضات؟ - CNN Arabic
         الإمارات · الإمارات
 إدانات واسعة لمحاولة استهداف مكة المكرمة.. وتحذيرات من تداعيات التصعيد
         توالت، الأربعاء، الإدانات العربية والإسلامية والدولية لمحاولة استهداف مكة المكرمة بطائرة حوثية مسيّرة
         تركيا · TRT عربي
-WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
-        The U.S. is now urgently investigating whether Iran played a role.
+Trump says Kennedy Center could be 'ripped down' if he doesn't get 'recognition'
+        The president's comments come after a federal judge on Tuesday blocked the performing arts center's board from adding a tribute to Trump on the…
         أمريكا · ABC News
-Lena Dunham announces birth of first baby via surrogacy
-        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
-        بريطانيا · BBC
+Ukraine war briefing: Drone kills Russian commander just decorated after fake victory claim
+        Maj Gen Anton Grunis was praised by Vladimir Putin for purported capture of Kostiantynivka; UK names intel officer who died in Ukraine road crash
+        بريطانيا · Guardian
 Meta Develops Camera-Free Smart Glasses to Address Privacy Concerns
         Meta's smart glasses have struggled to earn user trust. Since their release, some individuals have used them to record others without notification,…
         الأردن · Jordan News
 تصعيد بين السعودية والحوثيين بعد اتهام الجماعة بمحاولة استهداف مكة
         على وقع تصعيد متسارع في اليمن، تبادلت السعودية والحوثيون الاتهامات بشأن استهداف مكة وغارات جوية ومعارك ميدانية
         عربي · فرانس 24
+«الشارقة للفنون»: الفرصة الأخيرة لزيارة «تدابير الجسد» - الإمارات اليوم
+        الإمارات · الإمارات
 بعيداً عن واشنطن.. كندا تطلب الانضمام إلى قوة عسكرية بقيادة بريطانيا
         أعلن مكتب رئيس الوزراء الكندي مارك كارني اليوم الأربعاء أن بلاده تقدمت بطلب رسمي للانضمام إلى القوة الاستكشافية المشتركة
         تركيا · TRT عربي
-كندا تطلب رسميا الانضمام إلى "القوة الاستكشافية المشتركة" - سكاي نيوز عربية
-        الإمارات · الإمارات
-Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
-        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
-        أمريكا · Fox News
-US interest rates raised for first time in three years
-        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
-        بريطانيا · BBC
+WATCH: Urgent investigation into cyberattacks targeting U.S.-bound oil tankers
+        The U.S. is now urgently investigating whether Iran played a role.
+        أمريكا · ABC News
+Trump calls EU offer to Canada of associate membership ‘laughable’, while threatening tariffs
+        The US president call the move a ‘hostile act’, as Canada seeks to move closer to the EU and diversify its defence ties Donald Trump has threatened…
+        بريطانيا · Guardian
 Meta Launches Meta One Subscription With Over 50 Paid Features
         After months of testing, Meta has officially launched its comprehensive subscription service, Meta One, which bundles paid features across its…
         الأردن · Jordan News
@@ -83968,11 +84199,11 @@ Meta Launches Meta One Subscription With Over 50 Paid Features
 التصعيد العسكري يفاقم النزوح في اليمن.. أكثر من 122 ألف شخص خلال أسبوعين
         أعلنت الوحدة التنفيذية لإدارة مخيمات النازحين باليمن، مساء الأربعاء، نزوح أكثر من 122 ألف شخص في 8 محافظات خلال النصف الأول من سبتمبر/ أيلول الجاري
         تركيا · TRT عربي
-Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
-        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
-        أمريكا · NYT
-Why Trump's hand-picked Fed chair defied him by raising interest rates
-        The .25% increase comes despite fierce opposition from the US president, who has called for rates to be cut.
+Amanda Seyfried and Thomas Sadoski say separation is 'right move' for family after nearly 10 years of marriage
+        Amanda Seyfried and Thomas Sadoski said they've been separated "for a while" in a joint statement, calling their split the right move for their…
+        أمريكا · Fox News
+Lena Dunham announces birth of first baby via surrogacy
+        The writer and actress announced the birth of her daughter in an op-ed published by Vogue on Wednesday.
         بريطانيا · BBC
 Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
         Massimo Moratti, former president of Italy's Inter Milan, has revealed an extraordinary attempt he made in 2012 to sign Lionel Messi, when the…
@@ -83980,16 +84211,16 @@ Moratti: Messi Turned Down Half a Billion to Retire at Barcelona!
 إدانات واسعة لاستهداف الحوثيين مكة المكرمة
         عبَّرت دول ومنظمات عربية وإسلامية عدة، عن إدانتها لاستهداف الحوثيين مكة المكرمة بطائرة مسيّرة
         عربي · الشرق الأوسط
-وزير الطاقة الأمريكي: تدفقات نفط الخليج تسجل 18 مليون برميل في يوم واحد - الجزيرة نت
+كندا تتقدم بطلب للانضمام إلى تحالف عسكري بقيادة بريطانيا - الشرق الأوسط
         الإمارات · الإمارات
 الجامعة العربية: استهداف مكة "أمر بالغ الخطورة" وتصعيد يهدد أمن المنطقة
         الأمين العام لجامعة الدول العربية نبيل فهمي شدد على أن "أمن السعودية واستقرارها يمثلان ركيزة أساسية لأمن واستقرار المنطقة"
         تركيا · الأناضول
-House passes Russia and Iran sanctions bill championed by Sen. Lindsey Graham
-        The House passed a Russia and Iran sanctions bill championed by late Sen. Lindsey Graham Wednesday night.
-        أمريكا · ABC News
-EU chief backs plan for Canada to become 'associate member'
-        Trump, who has frequently clashed with Canada's PM, threatens to cut trade with the European Union in response to the proposal.
+Peter Max, Trippy Artist of Counterculture Era and Beyond, Dies at 88
+        With work that breathed the spirit of the 1960s, he became fabulously wealthy from licensing his paintings and posters in all their euphoric Day-Glo…
+        أمريكا · NYT
+US interest rates raised for first time in three years
+        Rates were hiked in a unanimous decision despite fierce opposition from President Donald Trump, who had called for a cut.
         بريطانيا · BBC
 7 Medications That May Interact With Green Tea
         Green tea is known for its health benefits, and many people make a point of drinking it daily, either as a beverage or in supplement form
@@ -84013,7 +84244,7 @@ Third Round of Professional Football League Kicks Off Thursday
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260917070000 +0000" stop="20260917093840 +0000" channel="TodayNews">
+  <programme start="20260917070000 +0000" stop="20260917095613 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260915183000 +0300" stop="20260915190500 +0300" channel="ThmanyahGuide">
@@ -89525,7 +89756,7 @@ Third Round of Professional Football League Kicks Off Thursday
   </programme>
   <programme start="20260917010000 +0000" stop="20260917020000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 18:56 — بتوقيتك
 
 الأردن
 عمّان 24° · صافٍ · رطوبة 31% · رياح 6 كم/سا · احتمال المطر 0%
@@ -89534,20 +89765,20 @@ Third Round of Professional Football League Kicks Off Thursday
 أبو ظبي 31° · صافٍ · رطوبة 80% · رياح 5 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · غائم جزئياً · رطوبة 71% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 14° · غائم جزئياً · رطوبة 72% · رياح 14 كم/سا · احتمال المطر 0%
 مانشستر 13° · غائم · رطوبة 82% · رياح 16 كم/سا · احتمال المطر 15%
 أمريكا
 نيويورك 22° · صافٍ · رطوبة 87% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 22° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم جزئياً · رطوبة 91% · رياح 7 كم/سا · احتمال المطر 3%
-لاس فيغاس 34° · صافٍ · رطوبة 16% · رياح 25 كم/سا · احتمال المطر 1%
+لوس أنجلوس 22° · صافٍ · رطوبة 69% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ غالباً · رطوبة 91% · رياح 9 كم/سا · احتمال المطر 3%
+لاس فيغاس 33° · صافٍ · رطوبة 17% · رياح 24 كم/سا · احتمال المطر 1%
 هيوستن 29° · صافٍ · رطوبة 75% · رياح 7 كم/سا · احتمال المطر 1%
-سان فرانسيسكو 16° · غائم · رطوبة 87% · رياح 13 كم/سا · احتمال المطر 0%</desc>
+سان فرانسيسكو 16° · غائم · رطوبة 88% · رياح 12 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260917020000 +0000" stop="20260917030000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 18:56 — بتوقيتك
 
 الأردن
 عمّان 24° · صافٍ · رطوبة 31% · رياح 6 كم/سا · احتمال المطر 0%
@@ -89556,20 +89787,20 @@ Third Round of Professional Football League Kicks Off Thursday
 أبو ظبي 31° · صافٍ · رطوبة 80% · رياح 5 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · غائم جزئياً · رطوبة 71% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 14° · غائم جزئياً · رطوبة 72% · رياح 14 كم/سا · احتمال المطر 0%
 مانشستر 13° · غائم · رطوبة 82% · رياح 16 كم/سا · احتمال المطر 15%
 أمريكا
 نيويورك 22° · صافٍ · رطوبة 87% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 22° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم جزئياً · رطوبة 91% · رياح 7 كم/سا · احتمال المطر 3%
-لاس فيغاس 34° · صافٍ · رطوبة 16% · رياح 25 كم/سا · احتمال المطر 1%
+لوس أنجلوس 22° · صافٍ · رطوبة 69% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ غالباً · رطوبة 91% · رياح 9 كم/سا · احتمال المطر 3%
+لاس فيغاس 33° · صافٍ · رطوبة 17% · رياح 24 كم/سا · احتمال المطر 1%
 هيوستن 29° · صافٍ · رطوبة 75% · رياح 7 كم/سا · احتمال المطر 1%
-سان فرانسيسكو 16° · غائم · رطوبة 87% · رياح 13 كم/سا · احتمال المطر 0%</desc>
+سان فرانسيسكو 16° · غائم · رطوبة 88% · رياح 12 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260917030000 +0000" stop="20260917040000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 18:56 — بتوقيتك
 
 الأردن
 عمّان 24° · صافٍ · رطوبة 31% · رياح 6 كم/سا · احتمال المطر 0%
@@ -89578,20 +89809,20 @@ Third Round of Professional Football League Kicks Off Thursday
 أبو ظبي 31° · صافٍ · رطوبة 80% · رياح 5 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · غائم جزئياً · رطوبة 71% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 14° · غائم جزئياً · رطوبة 72% · رياح 14 كم/سا · احتمال المطر 0%
 مانشستر 13° · غائم · رطوبة 82% · رياح 16 كم/سا · احتمال المطر 15%
 أمريكا
 نيويورك 22° · صافٍ · رطوبة 87% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 22° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم جزئياً · رطوبة 91% · رياح 7 كم/سا · احتمال المطر 3%
-لاس فيغاس 34° · صافٍ · رطوبة 16% · رياح 25 كم/سا · احتمال المطر 1%
+لوس أنجلوس 22° · صافٍ · رطوبة 69% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ غالباً · رطوبة 91% · رياح 9 كم/سا · احتمال المطر 3%
+لاس فيغاس 33° · صافٍ · رطوبة 17% · رياح 24 كم/سا · احتمال المطر 1%
 هيوستن 29° · صافٍ · رطوبة 75% · رياح 7 كم/سا · احتمال المطر 1%
-سان فرانسيسكو 16° · غائم · رطوبة 87% · رياح 13 كم/سا · احتمال المطر 0%</desc>
+سان فرانسيسكو 16° · غائم · رطوبة 88% · رياح 12 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260917040000 +0000" stop="20260917050000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 18:56 — بتوقيتك
 
 الأردن
 عمّان 24° · صافٍ · رطوبة 31% · رياح 6 كم/سا · احتمال المطر 0%
@@ -89600,20 +89831,20 @@ Third Round of Professional Football League Kicks Off Thursday
 أبو ظبي 31° · صافٍ · رطوبة 80% · رياح 5 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · غائم جزئياً · رطوبة 71% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 14° · غائم جزئياً · رطوبة 72% · رياح 14 كم/سا · احتمال المطر 0%
 مانشستر 13° · غائم · رطوبة 82% · رياح 16 كم/سا · احتمال المطر 15%
 أمريكا
 نيويورك 22° · صافٍ · رطوبة 87% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 22° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم جزئياً · رطوبة 91% · رياح 7 كم/سا · احتمال المطر 3%
-لاس فيغاس 34° · صافٍ · رطوبة 16% · رياح 25 كم/سا · احتمال المطر 1%
+لوس أنجلوس 22° · صافٍ · رطوبة 69% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ غالباً · رطوبة 91% · رياح 9 كم/سا · احتمال المطر 3%
+لاس فيغاس 33° · صافٍ · رطوبة 17% · رياح 24 كم/سا · احتمال المطر 1%
 هيوستن 29° · صافٍ · رطوبة 75% · رياح 7 كم/سا · احتمال المطر 1%
-سان فرانسيسكو 16° · غائم · رطوبة 87% · رياح 13 كم/سا · احتمال المطر 0%</desc>
+سان فرانسيسكو 16° · غائم · رطوبة 88% · رياح 12 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260917050000 +0000" stop="20260917060000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 18:56 — بتوقيتك
 
 الأردن
 عمّان 24° · صافٍ · رطوبة 31% · رياح 6 كم/سا · احتمال المطر 0%
@@ -89622,20 +89853,20 @@ Third Round of Professional Football League Kicks Off Thursday
 أبو ظبي 31° · صافٍ · رطوبة 80% · رياح 5 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · غائم جزئياً · رطوبة 71% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 14° · غائم جزئياً · رطوبة 72% · رياح 14 كم/سا · احتمال المطر 0%
 مانشستر 13° · غائم · رطوبة 82% · رياح 16 كم/سا · احتمال المطر 15%
 أمريكا
 نيويورك 22° · صافٍ · رطوبة 87% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 22° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم جزئياً · رطوبة 91% · رياح 7 كم/سا · احتمال المطر 3%
-لاس فيغاس 34° · صافٍ · رطوبة 16% · رياح 25 كم/سا · احتمال المطر 1%
+لوس أنجلوس 22° · صافٍ · رطوبة 69% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ غالباً · رطوبة 91% · رياح 9 كم/سا · احتمال المطر 3%
+لاس فيغاس 33° · صافٍ · رطوبة 17% · رياح 24 كم/سا · احتمال المطر 1%
 هيوستن 29° · صافٍ · رطوبة 75% · رياح 7 كم/سا · احتمال المطر 1%
-سان فرانسيسكو 16° · غائم · رطوبة 87% · رياح 13 كم/سا · احتمال المطر 0%</desc>
+سان فرانسيسكو 16° · غائم · رطوبة 88% · رياح 12 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260917060000 +0000" stop="20260917070000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 18:38 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 18:56 — بتوقيتك
 
 الأردن
 عمّان 24° · صافٍ · رطوبة 31% · رياح 6 كم/سا · احتمال المطر 0%
@@ -89644,18 +89875,18 @@ Third Round of Professional Football League Kicks Off Thursday
 أبو ظبي 31° · صافٍ · رطوبة 80% · رياح 5 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 14° · غائم جزئياً · رطوبة 71% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 14° · غائم جزئياً · رطوبة 72% · رياح 14 كم/سا · احتمال المطر 0%
 مانشستر 13° · غائم · رطوبة 82% · رياح 16 كم/سا · احتمال المطر 15%
 أمريكا
 نيويورك 22° · صافٍ · رطوبة 87% · رياح 6 كم/سا · احتمال المطر 0%
-لوس أنجلوس 22° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم جزئياً · رطوبة 91% · رياح 7 كم/سا · احتمال المطر 3%
-لاس فيغاس 34° · صافٍ · رطوبة 16% · رياح 25 كم/سا · احتمال المطر 1%
+لوس أنجلوس 22° · صافٍ · رطوبة 69% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 19° · صافٍ غالباً · رطوبة 91% · رياح 9 كم/سا · احتمال المطر 3%
+لاس فيغاس 33° · صافٍ · رطوبة 17% · رياح 24 كم/سا · احتمال المطر 1%
 هيوستن 29° · صافٍ · رطوبة 75% · رياح 7 كم/سا · احتمال المطر 1%
-سان فرانسيسكو 16° · غائم · رطوبة 87% · رياح 13 كم/سا · احتمال المطر 0%</desc>
+سان فرانسيسكو 16° · غائم · رطوبة 88% · رياح 12 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260917070000 +0000" stop="20260917093842 +0000" channel="TodayWeather">
+  <programme start="20260917070000 +0000" stop="20260917095614 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260917010000 +0000" stop="20260917020000 +0000" channel="TodayPrayer">
@@ -89802,4 +90033,4 @@ Istanbul (إسطنبول) — الفجر 05:13 · الشروق 06:39 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260917100125 +0000" stop="20260917100511 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917100125 +0000" stop="20260917100511 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917093840 +0000" stop="20260917100511 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917093842 +0000" stop="20260917100511 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260917102127 +0000" stop="20260917102604 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917102127 +0000" stop="20260917102604 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917095613 +0000" stop="20260917102604 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260917095614 +0000" stop="20260917102604 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
