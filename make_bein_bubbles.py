@@ -50,37 +50,57 @@ otherwise overwrite all forty with the pictures they came from.
 
 from __future__ import annotations
 
+import math
 import os
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont
 
 OUT_DIR = "logos"
 ORB = os.path.join(OUT_DIR, "bein_orb.png")
-# Outfit Bold: every label here is Latin ("1", "MAX 1", "XTRA 1"), and its
-# wider counters stay open when a television scales the icon down. A label
-# that ever needs Arabic has to come back to fonts/Tajawal-*.ttf.
-FONT_PATH = os.path.join("fonts", "Outfit-Bold.ttf")
+# Big Shoulders Bold, condensed. It is here for a measured reason: capped at
+# the wordmark's own letter height, a normal-width face lets "XTRA 1" reach
+# only 74px while a bare "1" reaches 110, so the long names shrink to half
+# the short ones and the roster stops looking like one set. Condensed, every
+# label reaches 99-110. Twenty-nine of the forty carry a name rather than a
+# bare number, so that is the majority.
+FONT_PATH = os.path.join("fonts", "BigShoulders-Bold.ttf")
 
 SIZE = 512
 
-# Where the number sits: the clear purple under the white band. The band's
-# lower edge is tilted, so the centre is placed below its lowest point.
-LABEL_CENTRE = .745
-LABEL_MAX_W = .60
-LABEL_MAX_H = .20
-TRACKING = .03
+# The number is never taller than the beIN lettering above it. 110px on this
+# 512 canvas, measured off the artwork against a ruler — the ascender at
+# y=148, the baseline at y=258.
+BEIN_CAP = 110 / 512
 
-INK = (253, 252, 255)
-SHADOW = (18, 6, 40, 205)
-SHADOW_OFFSET = .005   # across, as a fraction of the canvas
-SHADOW_DROP = .007     # and down
-SHADOW_BLUR = .005
+BAND_GAP = .045        # clear of the band's lower edge
+RIM_KEEP = .90         # how close to the rim the type may come
+TRACKING = .02
+SUPERSAMPLE = 3        # the type is drawn big and brought down
+
+INK = (255, 254, 252)
+# The number is cut the way the beIN wordmark is cut: lit from the upper
+# left, shadowed to the lower right. Flat white sat ON the picture; this
+# sits IN it.
+EMBOSS_LIGHT = (255, 248, 230, 150)
+EMBOSS_DARK = (34, 10, 62, 215)
+EMBOSS_OFFSET = .016   # of the type size, across
+EMBOSS_DROP = .022     # and down
+DROP_SHADOW = (12, 3, 30, 170)
+SHADOW_BLUR = .010
+SHADOW_SHIFT = .003
+SHADOW_DROP = .009
+
+# Reading the band's lower edge off the orb. It is sampled only at the two
+# sides, where the band is clear of the beIN lettering, and a line is fitted
+# through those samples.
+BAND_LEVEL = 200
+BAND_MIN_RUN = .08
+SIDE_SHARE = .22       # how much of each side is sampled
 
 # The orb is a render, not flat art, so PNG cannot compress it: in full
-# colour it weighs 283 KB a file, over 11 MB for the roster. The RGB is
-# reduced to a dithered palette and the alpha kept intact — saving as a
-# palette PNG instead carries only one transparent index, which jagged the
-# rim when it was tried.
+# colour the roster came to 11.3 MB. Saving as a palette PNG carries only
+# one transparent index, which jagged the rim; reducing just the RGB and
+# keeping the 8-bit alpha holds the soft edge.
 COLOURS = 256
 
 SPECS = [
@@ -143,39 +163,120 @@ def _spans(px, y: int, size: int):
     return (xs[0], xs[-1]) if len(xs) >= 60 else None
 
 
-def largest_fit(draw: ImageDraw.ImageDraw, text: str):
-    """The biggest face whose tracked text fits the space under the band."""
-    for px in range(int(SIZE * .36), 8, -1):
+def band_line(orb: Image.Image) -> tuple[float, float]:
+    """The band's lower edge, as a line y = slope*x + intercept.
+
+    The band is tilted, so the number cannot simply be placed at a fixed
+    height: it would foul the band on one side and float on the other. The
+    edge is sampled only at the two sides, where no lettering interrupts
+    the white, and a line is fitted through those samples.
+    """
+    px = orb.load()
+    size = orb.width
+    need = size * BAND_MIN_RUN
+    pts = []
+    for x in range(size):
+        if not (x < size * SIDE_SHARE or x > size * (1 - SIDE_SHARE)):
+            continue
+        column = [y for y in range(size) if px[x, y][3] >= 150]
+        if not column:
+            continue
+        run = last = None
+        found = None
+        for y in range(column[0], column[-1] + 1):
+            p = px[x, y]
+            if p[0] > BAND_LEVEL and p[1] > BAND_LEVEL - 5 and p[2] > BAND_LEVEL:
+                if run is None:
+                    run = y
+                last = y
+            elif run is not None:
+                if last - run >= need:
+                    found = last
+                run = None
+        if run is not None and last - run >= need:
+            found = last
+        if found is not None:
+            pts.append((x, found))
+    if len(pts) < 40:
+        raise SystemExit("could not find the band's lower edge on the orb")
+    n = len(pts)
+    sx = sum(x for x, _ in pts); sy = sum(y for _, y in pts)
+    sxx = sum(x * x for x, _ in pts); sxy = sum(x * y for x, y in pts)
+    slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
+    return slope, (sy - slope * sx) / n
+
+
+def place(width: float, height: float, slope: float, inter: float):
+    """Where the number's box goes, or None if it will not fit.
+
+    It is CENTRED in the clear purple rather than tucked under the band:
+    hugging the band put the type high on the ball and left a gap beneath
+    it. The space runs from the band's lowest corner down to where the
+    box's own corners would leave the rim.
+    """
+    x0, x1 = (SIZE - width) / 2, (SIZE + width) / 2
+    radius = SIZE / 2.0 * RIM_KEEP
+    top = max(slope * x0 + inter, slope * x1 + inter) + SIZE * BAND_GAP
+    reach = radius * radius - (width / 2.0) ** 2
+    if reach <= 0:
+        return None
+    bottom = SIZE / 2.0 + math.sqrt(reach)
+    if bottom - top < height:
+        return None
+    return top + (bottom - top - height) / 2.0
+
+
+def largest_fit(text: str, slope: float, inter: float):
+    """The biggest face that clears the band, the rim, and beIN's own height."""
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    for px in range(int(SIZE * .70), 8, -1):
         font = ImageFont.truetype(FONT_PATH, px)
         track = px * TRACKING
-        width = (sum(draw.textlength(c, font=font) for c in text)
+        width = (sum(probe.textlength(c, font=font) for c in text)
                  + track * (len(text) - 1))
-        box = draw.textbbox((0, 0), text, font=font)
-        if width <= SIZE * LABEL_MAX_W and (box[3] - box[1]) <= SIZE * LABEL_MAX_H:
-            return font, track, width, box
-    return font, track, width, box
+        box = probe.textbbox((0, 0), text, font=font)
+        height = box[3] - box[1]
+        if height > SIZE * BEIN_CAP:
+            continue
+        top = place(width, height, slope, inter)
+        if top is not None:
+            return px, track, top
+    raise SystemExit(f"no size fits {text!r} on the orb")
 
 
-def label_on(img: Image.Image, text: str) -> None:
-    """Print the channel's number, with a shadow so it sits on the surface."""
-    draw = ImageDraw.Draw(img)
-    font, track, width, box = largest_fit(draw, text)
-    x0 = (SIZE - width) / 2
-    y = SIZE * LABEL_CENTRE - (box[3] - box[1]) / 2 - box[1]
+def label_on(img: Image.Image, text: str, slope: float, inter: float) -> None:
+    """Print the channel's number, cut into the surface rather than onto it."""
+    px, track, top = largest_fit(text, slope, inter)
+    big = SIZE * SUPERSAMPLE
+    layer = Image.new("RGBA", (big, big), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    font = ImageFont.truetype(FONT_PATH, px * SUPERSAMPLE)
+    step = track * SUPERSAMPLE
+    box = draw.textbbox((0, 0), text, font=font)
+    run = (sum(draw.textlength(c, font=font) for c in text)
+           + step * (len(text) - 1))
+    x0 = (big - run) / 2
+    y0 = top * SUPERSAMPLE - box[1]
+    size = px * SUPERSAMPLE
+    for dx, dy, colour in ((-size * EMBOSS_OFFSET, -size * EMBOSS_DROP, EMBOSS_LIGHT),
+                           (size * EMBOSS_OFFSET, size * EMBOSS_DROP, EMBOSS_DARK)):
+        x = x0
+        for ch in text:
+            draw.text((x + dx, y0 + dy), ch, font=font, fill=colour)
+            x += draw.textlength(ch, font=font) + step
+    x = x0
+    for ch in text:
+        draw.text((x, y0), ch, font=font, fill=INK)
+        x += draw.textlength(ch, font=font) + step
+    flat = layer.resize((SIZE, SIZE), Image.LANCZOS)
 
     shade = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-    sd = ImageDraw.Draw(shade)
-    x = x0
-    for ch in text:
-        sd.text((x + SIZE * SHADOW_OFFSET, y + SIZE * SHADOW_DROP),
-                ch, font=font, fill=SHADOW)
-        x += sd.textlength(ch, font=font) + track
-    img.alpha_composite(shade.filter(ImageFilter.GaussianBlur(SIZE * SHADOW_BLUR)))
-
-    x = x0
-    for ch in text:
-        draw.text((x, y), ch, font=font, fill=INK)
-        x += draw.textlength(ch, font=font) + track
+    shade.paste(Image.new("RGBA", (SIZE, SIZE), DROP_SHADOW), (0, 0), flat)
+    img.alpha_composite(
+        shade.filter(ImageFilter.GaussianBlur(SIZE * SHADOW_BLUR))
+             .transform((SIZE, SIZE), Image.AFFINE,
+                        (1, 0, -SIZE * SHADOW_SHIFT, 0, 1, -SIZE * SHADOW_DROP)))
+    img.alpha_composite(flat)
 
 
 def save(img: Image.Image, path: str) -> None:
@@ -193,16 +294,24 @@ def main() -> int:
     orb = Image.open(ORB).convert("RGBA")
     if orb.size != (SIZE, SIZE):
         orb = orb.resize((SIZE, SIZE), Image.LANCZOS)
+    alpha = orb.getchannel("A")
+    slope, inter = band_line(orb)
 
+    tallest = 0
     for stem, label in SPECS:
         path = os.path.join(OUT_DIR, f"{stem}.png")
         img = orb.copy()
         if label:
-            label_on(img, label)
+            px, _, _ = largest_fit(label, slope, inter)
+            tallest = max(tallest, px)
+            label_on(img, label, slope, inter)
+            img.putalpha(ImageChops.darker(img.getchannel("A"), alpha))
         save(img, path)
         print(f"  {path:28} {label or '(orb as supplied)'}")
 
-    print(f"\nprinted {len(SPECS)} marks on the orb")
+    print(f"\nprinted {len(SPECS)} marks  ·  band edge y = {slope:.4f}x + "
+          f"{inter:.1f}  ·  largest face {tallest}px, capped at "
+          f"{int(SIZE * BEIN_CAP)}px of letter height")
     return 0
 
 
