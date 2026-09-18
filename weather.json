@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T01:55:54.167Z",
+  "updated_at": "2026-09-18T02:03:45.359Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,26 +7,26 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 23.1,
-      "humidity": 43,
-      "wind_speed": 6.2,
+      "temperature_c": 22.9,
+      "humidity": 44,
+      "wind_speed": 6.5,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-18T04:45"
+      "observed_at": "2026-09-18T05:00"
     },
     {
       "city": "العقبة",
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 29.1,
-      "humidity": 29,
-      "wind_speed": 4.5,
+      "temperature_c": 28.9,
+      "humidity": 31,
+      "wind_speed": 5.0,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-18T04:45"
+      "observed_at": "2026-09-18T05:00"
     },
     {
       "city": "أبو ظبي",
@@ -35,11 +35,11 @@
       "longitude": 54.3773,
       "temperature_c": 29.6,
       "humidity": 85,
-      "wind_speed": 4.5,
+      "wind_speed": 4.3,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-18T05:45"
+      "observed_at": "2026-09-18T06:00"
     },
     {
       "city": "دبي",
@@ -48,11 +48,11 @@
       "longitude": 55.2708,
       "temperature_c": 27.4,
       "humidity": 86,
-      "wind_speed": 8.5,
+      "wind_speed": 8.7,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-18T05:45"
+      "observed_at": "2026-09-18T06:00"
     },
     {
       "city": "لندن",
@@ -60,103 +60,103 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 14.2,
-      "humidity": 73,
-      "wind_speed": 10.8,
+      "humidity": 74,
+      "wind_speed": 10.4,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-18T02:45"
+      "observed_at": "2026-09-18T03:00"
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 13.1,
-      "humidity": 80,
+      "temperature_c": 13.2,
+      "humidity": 79,
       "wind_speed": 13.0,
-      "rain_chance": 2,
+      "rain_chance": 14,
       "condition": "غائم",
       "weather_code": 3,
-      "observed_at": "2026-09-18T02:45"
+      "observed_at": "2026-09-18T03:00"
     },
     {
       "city": "نيويورك",
       "country": "أمريكا",
       "latitude": 40.7128,
       "longitude": -74.006,
-      "temperature_c": 24.5,
-      "humidity": 89,
-      "wind_speed": 4.7,
-      "rain_chance": 6,
+      "temperature_c": 24.2,
+      "humidity": 86,
+      "wind_speed": 7.6,
+      "rain_chance": 8,
       "condition": "غائم",
       "weather_code": 3,
-      "observed_at": "2026-09-17T21:45"
+      "observed_at": "2026-09-17T22:00"
     },
     {
       "city": "لوس أنجلوس",
       "country": "أمريكا",
       "latitude": 34.0522,
       "longitude": -118.2437,
-      "temperature_c": 21.8,
-      "humidity": 64,
-      "wind_speed": 11.3,
+      "temperature_c": 21.5,
+      "humidity": 61,
+      "wind_speed": 10.7,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-17T18:45"
+      "observed_at": "2026-09-17T19:00"
     },
     {
       "city": "شيكاغو",
       "country": "أمريكا",
       "latitude": 41.8781,
       "longitude": -87.6298,
-      "temperature_c": 19.3,
+      "temperature_c": 19.2,
       "humidity": 96,
-      "wind_speed": 13.4,
-      "rain_chance": 0,
+      "wind_speed": 14.2,
+      "rain_chance": 2,
       "condition": "غائم",
       "weather_code": 3,
-      "observed_at": "2026-09-17T20:45"
+      "observed_at": "2026-09-17T21:00"
     },
     {
       "city": "لاس فيغاس",
       "country": "أمريكا",
       "latitude": 36.1699,
       "longitude": -115.1398,
-      "temperature_c": 31.6,
-      "humidity": 29,
-      "wind_speed": 20.7,
-      "rain_chance": 2,
+      "temperature_c": 31.1,
+      "humidity": 31,
+      "wind_speed": 19.5,
+      "rain_chance": 1,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-09-17T18:45"
+      "observed_at": "2026-09-17T19:00"
     },
     {
       "city": "هيوستن",
       "country": "أمريكا",
       "latitude": 29.7604,
       "longitude": -95.3698,
-      "temperature_c": 27.4,
-      "humidity": 90,
-      "wind_speed": 4.1,
-      "rain_chance": 1,
+      "temperature_c": 27.2,
+      "humidity": 88,
+      "wind_speed": 5.5,
+      "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
-      "observed_at": "2026-09-17T20:45"
+      "observed_at": "2026-09-17T21:00"
     },
     {
       "city": "سان فرانسيسكو",
       "country": "أمريكا",
       "latitude": 37.7749,
       "longitude": -122.4194,
-      "temperature_c": 18.0,
-      "humidity": 86,
-      "wind_speed": 13.8,
+      "temperature_c": 17.5,
+      "humidity": 81,
+      "wind_speed": 13.1,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
-      "observed_at": "2026-09-17T18:45"
+      "condition": "صافٍ",
+      "weather_code": 0,
+      "observed_at": "2026-09-17T19:00"
     }
   ]
 }
