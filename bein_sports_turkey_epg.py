@@ -139,13 +139,17 @@ CHANNELS = [
 LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
 
 # These marks used to be the Qatar files, shared on the reasoning that
-# beIN SPORTS 1 is beIN SPORTS 1 either side of the border. It is not:
-# this file says so itself a few lines up, and the guide keeps the two
-# rosters apart everywhere else. The sharing only went unnoticed while
-# both wore the same flat wordmark. Qatar's forty are now drawn as
-# numbered Arabic bubbles by make_bein_bubbles.py, so Türkiye carries its
-# own bein_tr*.png copies of that wordmark and is unaffected by the draw.
-# HABER is Türkiye-only and has its own file.
+# beIN SPORTS 1 is beIN SPORTS 1 either side of the border. It is not, and
+# own_guides.py opens by saying so: beIN SPORTS 1 in Istanbul and beIN
+# SPORTS 1 in Doha are different channels showing different football. That
+# is why the board marks the Turkish rows " TR". The logos were the one
+# place the two were still treated as one, which went unnoticed only
+# because both wore the same flat wordmark.
+#
+# Qatar's forty are now drawn as numbered Arabic bubbles by
+# make_bein_bubbles.py, so Türkiye carries its own bein_tr*.png copies of
+# that wordmark and is untouched by the draw. HABER is Türkiye-only and
+# has its own fetched file.
 LOGO_KEYS = {
     "beIN SPORTS 1": "bein_tr1",
     "beIN SPORTS 2": "bein_tr2",
