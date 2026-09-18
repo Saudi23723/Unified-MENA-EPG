@@ -56,57 +56,84 @@ BODY = (92, 45, 145)
 LIT = (140, 92, 200)
 PLATE_INK = (74, 28, 116)
 
-# (logo file stem, what its plate reads)
+# Gold is not the purple ramp with the hue moved. Metal does not shade
+# linearly: it runs dark, flares to a narrow bright band and falls away
+# again, so it needs stops rather than two ends. A straight dark-to-light
+# lerp in gold reads as plastic.
+GOLD_STOPS = [(52, 32, 4), (120, 80, 14), (176, 128, 36),
+              (236, 196, 96), (255, 243, 200), (214, 168, 66)]
+GOLD_INK = (245, 214, 120)
+GOLD_RING = (222, 184, 86)
+
+# The wordmark goes DARK on gold, not white. White on light metal has
+# almost no contrast, and at the 64px a set-top box actually draws a
+# channel icon it collapses into a pale smudge — measured against four
+# other treatments before this one was chosen. Purple on gold is both the
+# legible pairing and the brand's own.
+GOLD_MARK_INK = (58, 22, 92)
+
+# How a channel is dressed.
+PURPLE = "purple"      # the plain bubble
+GOLD = "gold"          # the whole ball in metal
+RINGED = "ringed"      # the plain bubble inside a gold band
+
+# (logo file stem, what its plate reads, how it is dressed)
 #
 # The nine Arabic channels carry the box's own wording, "HD n Ar", because
 # that is the set the owner was looking at. Every other family is named
 # the way beIN names it, so a plate never has to be decoded.
+#
+# The dress is what tells the families apart in a long channel list, and
+# it is deliberately coarse: gold for the nine Arabic channels and the two
+# 4K feeds, a gold band for MAX, and the plain bubble for everything else.
+# Marking more than that would mark nothing — a list where every icon is
+# gold distinguishes no channel from another.
 SPECS = [
-    ("bein_1", "HD 1 Ar"),
-    ("bein_2", "HD 2 Ar"),
-    ("bein_3", "HD 3 Ar"),
-    ("bein_4", "HD 4 Ar"),
-    ("bein_5", "HD 5 Ar"),
-    ("bein_6", "HD 6 Ar"),
-    ("bein_7", "HD 7 Ar"),
-    ("bein_8", "HD 8 Ar"),
-    ("bein_9", "HD 9 Ar"),
+    ("bein_1", "HD 1 Ar", GOLD),
+    ("bein_2", "HD 2 Ar", GOLD),
+    ("bein_3", "HD 3 Ar", GOLD),
+    ("bein_4", "HD 4 Ar", GOLD),
+    ("bein_5", "HD 5 Ar", GOLD),
+    ("bein_6", "HD 6 Ar", GOLD),
+    ("bein_7", "HD 7 Ar", GOLD),
+    ("bein_8", "HD 8 Ar", GOLD),
+    ("bein_9", "HD 9 Ar", GOLD),
 
-    ("bein_xtra1", "XTRA 1"),
-    ("bein_xtra2", "XTRA 2"),
-    ("bein_xtra3", "XTRA 3"),
-    ("bein_xtra4", "XTRA 4"),
-    ("bein_xtra5", "XTRA 5"),
-    ("bein_xtra6", "XTRA 6"),
-    ("bein_xtra7", "XTRA 7"),
-    ("bein_xtra8", "XTRA 8"),
-    ("bein_xtra9", "XTRA 9"),
+    ("bein_xtra1", "XTRA 1", PURPLE),
+    ("bein_xtra2", "XTRA 2", PURPLE),
+    ("bein_xtra3", "XTRA 3", PURPLE),
+    ("bein_xtra4", "XTRA 4", PURPLE),
+    ("bein_xtra5", "XTRA 5", PURPLE),
+    ("bein_xtra6", "XTRA 6", PURPLE),
+    ("bein_xtra7", "XTRA 7", PURPLE),
+    ("bein_xtra8", "XTRA 8", PURPLE),
+    ("bein_xtra9", "XTRA 9", PURPLE),
 
-    ("bein_max1", "MAX 1"),
-    ("bein_max2", "MAX 2"),
-    ("bein_max3", "MAX 3"),
-    ("bein_max4", "MAX 4"),
-    ("bein_max5", "MAX 5"),
-    ("bein_max6", "MAX 6"),
+    ("bein_max1", "MAX 1", RINGED),
+    ("bein_max2", "MAX 2", RINGED),
+    ("bein_max3", "MAX 3", RINGED),
+    ("bein_max4", "MAX 4", RINGED),
+    ("bein_max5", "MAX 5", RINGED),
+    ("bein_max6", "MAX 6", RINGED),
 
-    ("bein_afc", "AFC"),
-    ("bein_afc1", "AFC 1"),
-    ("bein_afc2", "AFC 2"),
-    ("bein_afc3", "AFC 3"),
-    ("bein_afc4", "AFC 4"),
-    ("bein_afc5", "AFC 5"),
-    ("bein_afc6", "AFC 6"),
+    ("bein_afc", "AFC", PURPLE),
+    ("bein_afc1", "AFC 1", PURPLE),
+    ("bein_afc2", "AFC 2", PURPLE),
+    ("bein_afc3", "AFC 3", PURPLE),
+    ("bein_afc4", "AFC 4", PURPLE),
+    ("bein_afc5", "AFC 5", PURPLE),
+    ("bein_afc6", "AFC 6", PURPLE),
 
-    ("bein_en1", "EN 1"),
-    ("bein_en2", "EN 2"),
-    ("bein_fr1", "FR 1"),
-    ("bein_fr2", "FR 2"),
+    ("bein_en1", "EN 1", PURPLE),
+    ("bein_en2", "EN 2", PURPLE),
+    ("bein_fr1", "FR 1", PURPLE),
+    ("bein_fr2", "FR 2", PURPLE),
 
-    ("bein_brand", "Ar"),
-    ("bein_4k", "4K"),
-    ("bein_4khdr", "4K HDR"),
-    ("bein_nba", "NBA"),
-    ("bein_news", "NEWS"),
+    ("bein_brand", "Ar", PURPLE),
+    ("bein_4k", "4K", GOLD),
+    ("bein_4khdr", "4K HDR", GOLD),
+    ("bein_nba", "NBA", PURPLE),
+    ("bein_news", "NEWS", PURPLE),
 ]
 
 
@@ -138,6 +165,50 @@ def ball(size: int) -> Image.Image:
     return img
 
 
+def metal_ball(size: int, stops: list[tuple[int, int, int]],
+               gamma: float = 1.05) -> Image.Image:
+    """Shade a sphere through a list of colour stops rather than two ends.
+
+    Same geometry as ball(); only the mapping from the light term to a
+    colour differs. See GOLD_STOPS for why metal needs the extra stops.
+    """
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    px = img.load()
+    r = size / 2.0
+    lx, ly, lz = -0.45, -0.55, 0.70
+    last = len(stops) - 1
+    for y in range(size):
+        for x in range(size):
+            dx, dy = (x - r + .5) / r, (y - r + .5) / r
+            d2 = dx * dx + dy * dy
+            if d2 > 1.0:
+                continue
+            dz = math.sqrt(max(0.0, 1.0 - d2))
+            t = min(0.99999, max(0.0, dx * lx + dy * ly + dz * lz) ** gamma) * last
+            i = int(t)
+            frac = t - i
+            a, b = stops[i], stops[i + 1]
+            col = [a[k] + (b[k] - a[k]) * frac for k in range(3)]
+            alpha = 255 if d2 < .965 else int(255 * (1 - (d2 - .965) / .035))
+            px[x, y] = (int(col[0]), int(col[1]), int(col[2]), max(0, alpha))
+    return img
+
+
+def band(size: int, width_frac: float = .055) -> Image.Image:
+    """The gold band that marks a MAX channel.
+
+    A band rather than a tinted plate or wordmark: at icon size only a
+    change to the OUTLINE carries. Anything inside the disc is too small
+    to see.
+    """
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    w = size * width_frac
+    ImageDraw.Draw(img).ellipse(
+        [w / 2, w / 2, size - 1 - w / 2, size - 1 - w / 2],
+        outline=GOLD_RING + (255,), width=int(w))
+    return img
+
+
 def gloss(size: int) -> Image.Image:
     """The specular cap across the top of the ball."""
     mask = Image.new("L", (size, size), 0)
@@ -149,8 +220,8 @@ def gloss(size: int) -> Image.Image:
     return cap
 
 
-def wordmark(height: int) -> Image.Image:
-    """bein_brand.png recoloured to solid white, keeping its own alpha.
+def wordmark(height: int, ink: tuple[int, int, int] = (255, 255, 255)) -> Image.Image:
+    """bein_wordmark.png recoloured to a solid ink, keeping its own alpha.
 
     The file on disk is the purple gradient mark. Only its alpha carries
     the letterforms, so replacing the colour channels wholesale is exact,
@@ -158,13 +229,16 @@ def wordmark(height: int) -> Image.Image:
     """
     src = Image.open(WORDMARK).convert("RGBA")
     src = src.resize((int(src.width * height / src.height), height), Image.LANCZOS)
-    white = Image.new("RGBA", src.size, (255, 255, 255, 255))
-    white.putalpha(src.getchannel("A"))
-    return white
+    flat = Image.new("RGBA", src.size, ink + (255,))
+    flat.putalpha(src.getchannel("A"))
+    return flat
 
 
-def plate(text: str, font: ImageFont.FreeTypeFont, size: int) -> Image.Image:
-    """The white tab naming the channel."""
+def plate(text: str, font: ImageFont.FreeTypeFont, size: int,
+          fill: tuple[int, int, int] = (255, 255, 255),
+          ink: tuple[int, int, int] = PLATE_INK,
+          opacity: int = 240) -> Image.Image:
+    """The tab naming the channel."""
     height = int(size * .145)
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
     width = max(int(size * .30),
@@ -172,20 +246,22 @@ def plate(text: str, font: ImageFont.FreeTypeFont, size: int) -> Image.Image:
     tab = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     d = ImageDraw.Draw(tab)
     d.rounded_rectangle([0, 0, width - 1, height - 1],
-                        radius=height * .22, fill=(255, 255, 255, 240))
+                        radius=height * .22, fill=fill + (opacity,))
     box = d.textbbox((0, 0), text, font=font)
     d.text(((width - (box[2] - box[0])) / 2 - box[0],
             (height - (box[3] - box[1])) / 2 - box[1]),
-           text, font=font, fill=PLATE_INK)
+           text, font=font, fill=ink)
     return tab
 
 
 def bubble(label: str, sphere: Image.Image, cap: Image.Image,
-           mark: Image.Image, font: ImageFont.FreeTypeFont) -> Image.Image:
+           mark: Image.Image, tab: Image.Image,
+           ring: Image.Image | None = None) -> Image.Image:
     img = sphere.copy()
     img.alpha_composite(cap)
+    if ring is not None:
+        img.alpha_composite(ring)
     img.alpha_composite(mark, ((SIZE - mark.width) // 2, int(SIZE * .30)))
-    tab = plate(label, font, SIZE)
     img.alpha_composite(tab, ((SIZE - tab.width) // 2, int(SIZE * .615)))
     # A long plate would otherwise hang over the edge of the ball.
     img.putalpha(Image.composite(img.getchannel("A"),
@@ -194,23 +270,49 @@ def bubble(label: str, sphere: Image.Image, cap: Image.Image,
     return img
 
 
+def fit(mark: Image.Image) -> Image.Image:
+    """Keep the wordmark inside the ball's usable width."""
+    if mark.width <= SIZE * .66:
+        return mark
+    return mark.resize((int(SIZE * .66), int(mark.height * SIZE * .66 / mark.width)),
+                       Image.LANCZOS)
+
+
 def main() -> int:
     os.makedirs(OUT_DIR, exist_ok=True)
-    sphere, cap = ball(SIZE), gloss(SIZE)
     font = ImageFont.truetype(FONT_PATH, int(SIZE * .095))
+    cap = gloss(SIZE)
 
-    mark = wordmark(int(SIZE * .30))
-    if mark.width > SIZE * .66:
-        mark = mark.resize(
-            (int(SIZE * .66), int(mark.height * SIZE * .66 / mark.width)),
-            Image.LANCZOS)
+    # Both spheres and the band are drawn once and shared; only the plate
+    # differs per channel.
+    purple_ball = ball(SIZE)
+    gold_ball = metal_ball(SIZE, GOLD_STOPS)
+    ring = band(SIZE)
 
-    for stem, label in SPECS:
+    white_mark = fit(wordmark(int(SIZE * .30)))
+    dark_mark = fit(wordmark(int(SIZE * .30), GOLD_MARK_INK))
+
+    drawn = {PURPLE: 0, GOLD: 0, RINGED: 0}
+    for stem, label, style in SPECS:
+        if style == GOLD:
+            sphere, mark, ring_arg = gold_ball, dark_mark, None
+            tab = plate(label, font, SIZE, fill=GOLD_MARK_INK, ink=GOLD_INK,
+                        opacity=245)
+        elif style == RINGED:
+            sphere, mark, ring_arg = purple_ball, white_mark, ring
+            tab = plate(label, font, SIZE)
+        else:
+            sphere, mark, ring_arg = purple_ball, white_mark, None
+            tab = plate(label, font, SIZE)
+
         path = os.path.join(OUT_DIR, f"{stem}.png")
-        bubble(label, sphere, cap, mark, font).save(path, "PNG", optimize=True)
-        print(f"  {path:28} {label}")
+        bubble(label, sphere, cap, mark, tab, ring_arg).save(
+            path, "PNG", optimize=True)
+        drawn[style] += 1
+        print(f"  {path:28} {label:10} {style}")
 
-    print(f"\ndrew {len(SPECS)} marks")
+    print(f"\ndrew {len(SPECS)} marks: "
+          f"{drawn[GOLD]} gold, {drawn[RINGED]} ringed, {drawn[PURPLE]} plain")
     return 0
 
 
