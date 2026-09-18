@@ -421,24 +421,11 @@ def wanted(event: dict) -> bool:
     if an_obvious_rebroadcast(event):
         return False
     if not event.get("channels") and event.get("source") not in (
-            "worldball", "fivb", "fivb-indoor", "uww", "majorgames", "bkfc"):
+            "worldball", "fivb", "uww", "majorgames", "bkfc"):
         # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
         # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
         # listings page reaches, and the board's PPV fallback labels
         # them honestly. Every other source still has to name a channel.
-        #
-        # "fivb-indoor" IS THE WOMEN'S INDOOR VOLLEYBALL, and it was
-        # missing from this list for as long as the feed has existed.
-        # beach_volley_fivb.py tags its rows "fivb" and comes through;
-        # womens_volley_fivb.py tags its own "fivb-indoor", a string that
-        # appeared in exactly one place in the repository — the line that
-        # sets it — and was read by nothing. So the indoor rows the
-        # federation publishes without a broadcaster were refused here,
-        # silently, while the beach rows beside them were kept. Measured
-        # on the runner 2026-09-17: 28 rows offered, 22 refused for
-        # naming no channel. They are the same federation's own service,
-        # added on the same request ("Add women's international
-        # volleyball to channel 2"), and belong through the same door.
         return False
 
     # SNOOKER, ONLY WHERE THE READER ASKED FOR IT: "add Snooker from TNT
