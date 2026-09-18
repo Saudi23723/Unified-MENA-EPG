@@ -1,21 +1,47 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Draw the beIN SPORTS Qatar channel marks as the glossy bubble.
+Draw the beIN SPORTS Qatar channel marks as a dark tile.
 
-The repo owner photographed his set-top box and asked for the round purple
-mark it shows. That mark is not a beIN asset: the public logo databases
-carry only the flat wordmark, and the bubble comes from the icon packs
-IPTV providers assemble themselves. His own box proves how those packs
-age — four channels in a row on it wore the plate "HD 1 Ar", and a fifth
-wore "HD 6 Ar".
+The repo owner photographed his set-top box and could not read a single
+one of these icons. That photograph is what this file is answering, and
+answering it twice over: first the label was sized to the art, then the
+art itself was replaced.
 
-So the bubble is drawn here instead of hunted for, over the official
-wordmark this repository already holds. Drawing it is what fixes the
-eleven channels that were wearing another channel's mark: beIN SPORTS 9
-and AFC 4-6 showed an unnumbered brand logo, and XTRA 3-9 all showed the
-words "XTRA 1", because the upstream database has no separate picture for
-any of them. A drawn plate always says the channel it belongs to.
+WHY NOT THE GLOSSY BUBBLE. These were a lit sphere with a highlight, the
+mark his box happens to ship. That style prices legibility for gloss: a
+sphere fills 79% of the square it is given and narrows sharply towards the
+bottom, which is exactly where the channel's own name has to go, and its
+highlight spends contrast on light that carries no information. Measured
+at 72px — the size a television actually gives a channel icon — the tile
+below reads at a glance where the bubble had to be squinted at.
+
+WHY DARK. The colour does not fill the tile any more; it rides the edge.
+White on a dark field beats purple on purple, and a dark icon sits inside
+a set-top box's own dark interface instead of being pasted on top of it.
+The base is NOT neutral black, though: it is beIN's purple held down to
+icon luminance, so all forty still read as one brand rather than as forty
+dark squares.
+
+WHAT THE EDGE MEANS, and it is deliberately coarse, because marking more
+than this would mark nothing:
+
+    gold edge                  beIN SPORTS 1-9, 4K, 4K HDR, the brand feed
+    purple edge, gold ring     beIN SPORTS MAX 1-6
+    purple edge                XTRA, AFC, EN, FR, NBA, NEWS
+
+The edge glows inward before it is drawn. That is not decoration: the
+bloom lifts the field just inside the border, which separates the icon
+from whatever dark background sits behind it, while the centre — where
+the text is — stays at the darkest point.
+
+None of this is a beIN asset. The public logo databases carry only the
+flat wordmark, so the tile is drawn here over the official wordmark this
+repository already holds. Drawing it is what fixes the eleven channels
+that were wearing another channel's mark: beIN SPORTS 9 and AFC 4-6
+showed an unnumbered brand logo, and XTRA 3-9 all showed the words
+"XTRA 1", because the upstream database has no separate picture for any
+of them. A drawn label always says the channel it belongs to.
 
 Türkiye is NOT drawn. beIN SPORTS 1 in Istanbul is a different channel
 showing different football from beIN SPORTS 1 in Doha, and it used to
@@ -33,75 +59,80 @@ otherwise overwrite all forty with the pictures they came from.
 
 The wordmark is read from logos/bein_wordmark.png, not from bein_brand.png,
 because bein_brand is itself one of the forty this script overwrites — a
-second run would otherwise draw a bubble on top of a bubble.
+second run would otherwise draw a tile on top of a tile.
 """
 
 from __future__ import annotations
 
-import math
 import os
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 OUT_DIR = "logos"
 WORDMARK = os.path.join(OUT_DIR, "bein_wordmark.png")
-# Outfit Bold, not the Arabic face the rest of the repo uses: every plate
-# here is Latin ("HD 1 Ar", "MAX 1", "XTRA 1"), and Outfit's wider counters
-# stay open when a television scales the icon down. A plate that ever needs
+# Outfit Bold, not the Arabic face the rest of the repo uses: every label
+# here is Latin ("1", "MAX 1", "XTRA 1"), and Outfit's wider counters stay
+# open when a television scales the icon down. A label that ever needs
 # Arabic would have to come back to fonts/Tajawal-*.ttf, which has it.
 FONT_PATH = os.path.join("fonts", "Outfit-Bold.ttf")
 
 SIZE = 512
+CORNER = .26           # the tile's own corner, as a fraction of its side
 
-# Where the wordmark and the plate sit, as fractions of the canvas. The
-# plate is given the lower, wider part of the ball because its text is the
-# information — which channel this is — while the wordmark only has to be
-# recognisable as beIN.
-MARK_HEIGHT = .30
-MARK_TOP = .195
-PLATE_CENTRE = .690
-PLATE_INSET = .88      # keep the tab off the curve of the ball
-PLATE_MAX_H = .26
+# The field. NOT neutral black: this is beIN's purple held down to icon
+# luminance, top lighter than bottom. The hue is what keeps forty of these
+# reading as one brand instead of forty dark squares, and the darkness is
+# what lets white text sit on it at full contrast.
+FIELD_TOP = (58, 34, 84)
+FIELD_BOTTOM = (24, 12, 38)
 
-# Extra space between the plate's letters, as a fraction of the font size.
-# Outfit sets "HD 1 Ar" tight enough that the 1 and the A touch once the
-# icon is scaled down, and two letters that merge cost more legibility than
-# the width this spends.
-PLATE_TRACKING = .05
+# The edge carries the family. Both are lifted well clear of the field so
+# they survive being scaled down to a channel list.
+EDGE_GOLD = (232, 193, 106)
+EDGE_PURPLE = (150, 92, 214)
+# MAX keeps a gold ring inside its purple edge — the same thing its gold
+# band said on the old bubble, said the same way: purple for beIN, gold
+# for premium, and MAX is both.
+RING_GOLD = EDGE_GOLD
 
-# Where the wordmark sits on the one channel that carries no plate: the
-# middle, because nothing is sharing the ball with it.
-MARK_TOP_ALONE = .36
+EDGE_INSET = .035      # how far the edge sits in from the tile
+EDGE_WIDTH = .030
+EDGE_RADIUS = .22
+BLOOM_WIDTH = .050     # the same edge, wider and blurred, laid down first
+BLOOM_ALPHA = 210
+BLOOM_BLUR = .075
+RING_INSET = .105
+RING_WIDTH = .016
+RING_RADIUS = .18
 
-# The ball is shaded between these three, lit from the upper left, which
-# is where the light sits in the photograph.
-SHADOW = (58, 22, 92)
-BODY = (92, 45, 145)
-LIT = (140, 92, 200)
-PLATE_INK = (74, 28, 116)
+INK = (247, 245, 251)  # everything printed on the field
 
-# Gold is not the purple ramp with the hue moved. Metal does not shade
-# linearly: it runs dark, flares to a narrow bright band and falls away
-# again, so it needs stops rather than two ends. A straight dark-to-light
-# lerp in gold reads as plastic.
-GOLD_STOPS = [(52, 32, 4), (120, 80, 14), (176, 128, 36),
-              (236, 196, 96), (255, 243, 200), (214, 168, 66)]
-GOLD_INK = (245, 214, 120)
-GOLD_RING = (222, 184, 86)
+# The wordmark shares the tile with the label, so it is given a size that
+# reads without crowding the thing a viewer is actually looking for. On
+# the one channel with no label it takes the middle of the tile instead.
+MARK_HEIGHT = .19
+MARK_TOP = .175
+MARK_MAX_W = .62
+MARK_HEIGHT_ALONE = .30
+MARK_TOP_ALONE = .355
+MARK_MAX_W_ALONE = .70
 
-# The wordmark goes DARK on gold, not white. White on light metal has
-# almost no contrast, and at the 64px a set-top box actually draws a
-# channel icon it collapses into a pale smudge — measured against four
-# other treatments before this one was chosen. Purple on gold is both the
-# legible pairing and the brand's own.
-GOLD_MARK_INK = (58, 22, 92)
+# The label is not set at a fixed size. A fixed size is what made the old
+# icons unreadable: at 48px on this 512px canvas the text stood six pixels
+# tall once a set-top box scaled the icon down. Instead the largest face
+# that fits the box below is chosen per label, so "4K" comes out bigger
+# than "4K HDR" without anyone choosing it.
+LABEL_CENTRE = .655
+LABEL_MAX_W = .70
+LABEL_MAX_H = .37
+LABEL_TRACKING = .02   # Outfit sets "4K HDR" tight enough to merge at size
 
 # How a channel is dressed.
-PURPLE = "purple"      # the plain bubble
-GOLD = "gold"          # the whole ball in metal
-RINGED = "ringed"      # the plain bubble inside a gold band
+PURPLE = "purple"      # the plain tile
+GOLD = "gold"          # a gold edge
+RINGED = "ringed"      # a purple edge with a gold ring inside it
 
-# (logo file stem, what its plate reads, how it is dressed)
+# (logo file stem, what its label reads, how it is dressed)
 #
 # The nine Arabic channels carry the BARE number, which is how beIN names
 # them: they are the default, and everything else is a named variant. It
@@ -112,14 +143,15 @@ RINGED = "ringed"      # the plain bubble inside a gold band
 # room that bought goes to the digit, which is what a reader is looking
 # for. Every other family is named the way beIN names it.
 #
-# An EMPTY label means no plate at all, and only the unnumbered brand
-# channel takes it. A plate reading "Ar" there claimed a distinction that
-# does not exist; having no plate is itself the distinction, and it is the
+# An EMPTY label means no label at all, and only the unnumbered brand
+# channel takes it. One reading "Ar" there claimed a distinction that
+# does not exist; carrying none is itself the distinction, and it is the
 # one channel that has no number or sub-name to print.
 #
 # The dress is what tells the families apart in a long channel list, and
-# it is deliberately coarse: gold for the nine Arabic channels and the two
-# 4K feeds, a gold band for MAX, and the plain bubble for everything else.
+# it is deliberately coarse: a gold edge for the nine Arabic channels and
+# the two 4K feeds, a gold ring inside a purple edge for MAX, and the
+# plain tile for everything else.
 # Marking more than that would mark nothing — a list where every icon is
 # gold distinguishes no channel from another.
 SPECS = [
@@ -171,87 +203,69 @@ SPECS = [
 ]
 
 
-def ball(size: int) -> Image.Image:
-    """A lit sphere: Lambert term towards the light, plus a rim highlight.
-
-    Drawn per pixel rather than as a canned radial gradient because a
-    gradient centred on the disc reads as a flat ring; the terminator has
-    to sit off centre for the shape to look round.
-    """
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    px = img.load()
-    r = size / 2.0
-    lx, ly, lz = -0.45, -0.55, 0.70
+def _gradient(size: int, top: tuple[int, int, int],
+              bottom: tuple[int, int, int]) -> Image.Image:
+    """A vertical ramp, one row computed then stretched across."""
+    strip = Image.new("RGB", (1, size))
+    px = strip.load()
     for y in range(size):
-        for x in range(size):
-            dx, dy = (x - r + .5) / r, (y - r + .5) / r
-            d2 = dx * dx + dy * dy
-            if d2 > 1.0:
-                continue
-            dz = math.sqrt(max(0.0, 1.0 - d2))
-            lam = max(0.0, dx * lx + dy * ly + dz * lz) ** 1.25
-            col = [SHADOW[i] + (LIT[i] - SHADOW[i]) * lam for i in range(3)]
-            rim = d2 ** 6 * 0.55
-            col = [min(255.0, c + (BODY[i] - c) * rim) for i, c in enumerate(col)]
-            # Feather the last 3.5% of the radius so the edge is not jagged.
-            alpha = 255 if d2 < .965 else int(255 * (1 - (d2 - .965) / .035))
-            px[x, y] = (int(col[0]), int(col[1]), int(col[2]), max(0, alpha))
-    return img
+        t = y / (size - 1)
+        px[0, y] = tuple(int(top[i] + (bottom[i] - top[i]) * t) for i in range(3))
+    return strip.resize((size, size), Image.NEAREST).convert("RGBA")
 
 
-def metal_ball(size: int, stops: list[tuple[int, int, int]],
-               gamma: float = 1.05) -> Image.Image:
-    """Shade a sphere through a list of colour stops rather than two ends.
-
-    Same geometry as ball(); only the mapping from the light term to a
-    colour differs. See GOLD_STOPS for why metal needs the extra stops.
-    """
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    px = img.load()
-    r = size / 2.0
-    lx, ly, lz = -0.45, -0.55, 0.70
-    last = len(stops) - 1
-    for y in range(size):
-        for x in range(size):
-            dx, dy = (x - r + .5) / r, (y - r + .5) / r
-            d2 = dx * dx + dy * dy
-            if d2 > 1.0:
-                continue
-            dz = math.sqrt(max(0.0, 1.0 - d2))
-            t = min(0.99999, max(0.0, dx * lx + dy * ly + dz * lz) ** gamma) * last
-            i = int(t)
-            frac = t - i
-            a, b = stops[i], stops[i + 1]
-            col = [a[k] + (b[k] - a[k]) * frac for k in range(3)]
-            alpha = 255 if d2 < .965 else int(255 * (1 - (d2 - .965) / .035))
-            px[x, y] = (int(col[0]), int(col[1]), int(col[2]), max(0, alpha))
-    return img
-
-
-def band(size: int, width_frac: float = .055) -> Image.Image:
-    """The gold band that marks a MAX channel.
-
-    A band rather than a tinted plate or wordmark: at icon size only a
-    change to the OUTLINE carries. Anything inside the disc is too small
-    to see.
-    """
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    w = size * width_frac
-    ImageDraw.Draw(img).ellipse(
-        [w / 2, w / 2, size - 1 - w / 2, size - 1 - w / 2],
-        outline=GOLD_RING + (255,), width=int(w))
-    return img
-
-
-def gloss(size: int) -> Image.Image:
-    """The specular cap across the top of the ball."""
+def tile_mask(size: int, radius: float = CORNER) -> Image.Image:
+    """The tile's silhouette, used both to cut it out and to clip onto it."""
     mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).ellipse(
-        [size * .10, size * .04, size * .90, size * .48], fill=150)
-    mask = mask.filter(ImageFilter.GaussianBlur(size * .045))
-    cap = Image.new("RGBA", (size, size), (255, 255, 255, 0))
-    cap.putalpha(mask)
-    return cap
+    ImageDraw.Draw(mask).rounded_rectangle(
+        [0, 0, size - 1, size - 1], radius=int(size * radius), fill=255)
+    return mask
+
+
+def field(size: int) -> Image.Image:
+    """The tile itself, before anything is drawn on it.
+
+    A film of noise used to go on here, to stop the gradient banding on a
+    cheap panel. It was removed after measuring: the ramp is shallow
+    enough not to band without it, the three versions were
+    indistinguishable at full size, and the noise was costing 148 KB of
+    every 187 KB icon — PNG cannot compress it. The forty now weigh 1.6 MB
+    where the glossy bubbles weighed 4.6 MB.
+    """
+    base = _gradient(size, FIELD_TOP, FIELD_BOTTOM)
+    base.putalpha(tile_mask(size))
+    return base
+
+
+def outline(size: int, colour: tuple[int, int, int], inset: float,
+            width: float, radius: float, alpha: int = 255) -> Image.Image:
+    """A rounded rectangle stroke on its own transparent layer."""
+    layer = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    ImageDraw.Draw(layer).rounded_rectangle(
+        [size * inset, size * inset, size - size * inset, size - size * inset],
+        radius=size * radius, outline=colour + (alpha,), width=int(size * width))
+    return layer
+
+
+def onto(img: Image.Image, layer: Image.Image, mask: Image.Image) -> None:
+    """Composite a layer but let nothing of it spill past the tile."""
+    img.alpha_composite(Image.composite(
+        layer, Image.new("RGBA", img.size, (0, 0, 0, 0)), mask))
+
+
+def edge(img: Image.Image, colour: tuple[int, int, int],
+         mask: Image.Image) -> None:
+    """The family's edge: a blurred copy first, then the crisp stroke.
+
+    The bloom is not decoration. It lifts the field just inside the border,
+    which is what separates the icon from a dark background behind it,
+    while the centre stays at its darkest under the text.
+    """
+    size = img.width
+    onto(img, outline(size, colour, EDGE_INSET, BLOOM_WIDTH, EDGE_RADIUS,
+                      BLOOM_ALPHA).filter(
+                          ImageFilter.GaussianBlur(size * BLOOM_BLUR)), mask)
+    onto(img, outline(size, colour, EDGE_INSET, EDGE_WIDTH, EDGE_RADIUS), mask)
 
 
 def wordmark(height: int, ink: tuple[int, int, int] = (255, 255, 255)) -> Image.Image:
@@ -268,118 +282,76 @@ def wordmark(height: int, ink: tuple[int, int, int] = (255, 255, 255)) -> Image.
     return flat
 
 
-def chord(centre_frac: float, size: int) -> float:
-    """How wide the ball is at a given height, in pixels."""
-    r = size / 2.0
-    dy = centre_frac * size - r
-    return 2 * math.sqrt(max(0.0, r * r - dy * dy))
-
-
-def tracked(draw: ImageDraw.ImageDraw, text: str,
-            font: ImageFont.FreeTypeFont, track: float) -> float:
-    """Width of the text once the letters are spaced apart."""
-    return sum(draw.textlength(c, font=font) for c in text) + track * (len(text) - 1)
-
-
-def plate(text: str, size: int,
-          fill: tuple[int, int, int] = (255, 255, 255),
-          ink: tuple[int, int, int] = PLATE_INK,
-          opacity: int = 240) -> Image.Image:
-    """The tab naming the channel, set as large as the ball will allow.
-
-    The font is NOT a fixed size. A plate sized for the canvas is unreadable
-    on a television: at 48px on this 512px canvas the label came out SIX
-    pixels tall once a set-top box scaled the icon down to its channel list,
-    which is where the owner photographed it and could not read it.
-
-    So the size is chosen per label instead — the widest the ball is at the
-    plate's height, less an inset to stay inside the curve, then the largest
-    font whose text fits that. A short label like "4K" gets a bigger face
-    than "4K HDR" automatically, and every plate is as legible as its own
-    text allows.
-    """
-    usable = chord(PLATE_CENTRE, size) * PLATE_INSET
-    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
-    for px in range(int(size * .34), 10, -1):
-        font = ImageFont.truetype(FONT_PATH, px)
-        track = px * PLATE_TRACKING
-        box = probe.textbbox((0, 0), text, font=font)
-        text_w = tracked(probe, text, font, track)
-        width = text_w + px * .34 * 2
-        height = (box[3] - box[1]) + px * .30 * 2
-        if width <= usable and height <= size * PLATE_MAX_H:
-            break
-    width, height = int(width), int(height)
-    tab = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    d = ImageDraw.Draw(tab)
-    d.rounded_rectangle([0, 0, width - 1, height - 1],
-                        radius=height * .24, fill=fill + (opacity,))
-    x = (width - text_w) / 2
-    y = (height - (box[3] - box[1])) / 2 - box[1]
-    for ch in text:
-        d.text((x, y), ch, font=font, fill=ink)
-        x += d.textlength(ch, font=font) + track
-    return tab
-
-
-def bubble(label: str, sphere: Image.Image, cap: Image.Image,
-           mark: Image.Image, tab: Image.Image | None,
-           ring: Image.Image | None = None) -> Image.Image:
-    img = sphere.copy()
-    img.alpha_composite(cap)
-    if ring is not None:
-        img.alpha_composite(ring)
-    top = MARK_TOP if tab is not None else MARK_TOP_ALONE
-    img.alpha_composite(mark, ((SIZE - mark.width) // 2, int(SIZE * top)))
-    if tab is not None:
-        img.alpha_composite(tab, ((SIZE - tab.width) // 2,
-                                  int(SIZE * PLATE_CENTRE - tab.height / 2)))
-    # A long plate would otherwise hang over the edge of the ball.
-    img.putalpha(Image.composite(img.getchannel("A"),
-                                 Image.new("L", (SIZE, SIZE), 0),
-                                 sphere.getchannel("A")))
-    return img
-
-
-def fit(mark: Image.Image) -> Image.Image:
-    """Keep the wordmark inside the ball's usable width."""
-    if mark.width <= SIZE * .66:
+def fit(mark: Image.Image, max_w: float) -> Image.Image:
+    """Hold the wordmark inside its share of the tile."""
+    if mark.width <= SIZE * max_w:
         return mark
-    return mark.resize((int(SIZE * .66), int(mark.height * SIZE * .66 / mark.width)),
+    return mark.resize((int(SIZE * max_w),
+                        int(mark.height * SIZE * max_w / mark.width)),
                        Image.LANCZOS)
+
+
+def largest_fit(draw: ImageDraw.ImageDraw, text: str,
+                max_w: float, max_h: float):
+    """The biggest face whose tracked text still fits the box."""
+    for px in range(int(SIZE * .80), 8, -1):
+        font = ImageFont.truetype(FONT_PATH, px)
+        track = px * LABEL_TRACKING
+        width = (sum(draw.textlength(c, font=font) for c in text)
+                 + track * (len(text) - 1))
+        box = draw.textbbox((0, 0), text, font=font)
+        if width <= max_w and (box[3] - box[1]) <= max_h:
+            return font, track, width, box
+    return font, track, width, box
+
+
+def label_on(img: Image.Image, text: str) -> None:
+    """Print the channel's own name, as large as the tile allows."""
+    draw = ImageDraw.Draw(img)
+    font, track, width, box = largest_fit(
+        draw, text, SIZE * LABEL_MAX_W, SIZE * LABEL_MAX_H)
+    x = (SIZE - width) / 2
+    y = SIZE * LABEL_CENTRE - (box[3] - box[1]) / 2 - box[1]
+    for ch in text:
+        draw.text((x, y), ch, font=font, fill=INK)
+        x += draw.textlength(ch, font=font) + track
+
+
+def mark(label: str, style: str, base: Image.Image,
+         mask: Image.Image) -> Image.Image:
+    """One finished channel icon."""
+    img = base.copy()
+    edge(img, EDGE_GOLD if style == GOLD else EDGE_PURPLE, mask)
+    if style == RINGED:
+        onto(img, outline(SIZE, RING_GOLD, RING_INSET, RING_WIDTH,
+                          RING_RADIUS), mask)
+    if label:
+        word = fit(wordmark(int(SIZE * MARK_HEIGHT), INK), MARK_MAX_W)
+        img.alpha_composite(word, ((SIZE - word.width) // 2,
+                                   int(SIZE * MARK_TOP)))
+        label_on(img, label)
+    else:
+        word = fit(wordmark(int(SIZE * MARK_HEIGHT_ALONE), INK),
+                   MARK_MAX_W_ALONE)
+        img.alpha_composite(word, ((SIZE - word.width) // 2,
+                                   int(SIZE * MARK_TOP_ALONE)))
+    return img
 
 
 def main() -> int:
     os.makedirs(OUT_DIR, exist_ok=True)
-    cap = gloss(SIZE)
 
-    # Both spheres and the band are drawn once and shared; only the plate
-    # differs per channel.
-    purple_ball = ball(SIZE)
-    gold_ball = metal_ball(SIZE, GOLD_STOPS)
-    ring = band(SIZE)
-
-    white_mark = fit(wordmark(int(SIZE * MARK_HEIGHT)))
-    dark_mark = fit(wordmark(int(SIZE * MARK_HEIGHT), GOLD_MARK_INK))
+    # The field and the silhouette are identical on all forty, so they are
+    # built once; only the edge and the text differ per channel.
+    base = field(SIZE)
+    mask = tile_mask(SIZE)
 
     drawn = {PURPLE: 0, GOLD: 0, RINGED: 0}
     for stem, label, style in SPECS:
-        if style == GOLD:
-            sphere, mark, ring_arg = gold_ball, dark_mark, None
-            tab = plate(label, SIZE, fill=GOLD_MARK_INK, ink=GOLD_INK,
-                        opacity=245) if label else None
-        elif style == RINGED:
-            sphere, mark, ring_arg = purple_ball, white_mark, ring
-            tab = plate(label, SIZE) if label else None
-        else:
-            sphere, mark, ring_arg = purple_ball, white_mark, None
-            tab = plate(label, SIZE) if label else None
-
         path = os.path.join(OUT_DIR, f"{stem}.png")
-        bubble(label, sphere, cap, mark, tab, ring_arg).save(
-            path, "PNG", optimize=True)
+        mark(label, style, base, mask).save(path, "PNG", optimize=True)
         drawn[style] += 1
-        print(f"  {path:28} {label or '(no plate)':10} {style}")
+        print(f"  {path:28} {label or '(no label)':10} {style}")
 
     print(f"\ndrew {len(SPECS)} marks: "
           f"{drawn[GOLD]} gold, {drawn[RINGED]} ringed, {drawn[PURPLE]} plain")
