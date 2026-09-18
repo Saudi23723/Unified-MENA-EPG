@@ -1,65 +1,51 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Draw the beIN SPORTS Qatar channel marks as a dark tile.
+Print each beIN SPORTS Qatar channel's number onto the supplied orb.
 
-The repo owner photographed his set-top box and could not read a single
-one of these icons. That photograph is what this file is answering, and
-answering it twice over: first the label was sized to the art, then the
-art itself was replaced.
+The owner photographed his set-top box and could not read a single one of
+these icons. Four designs were drawn here and rejected — a sized label on
+the old bubble, a dark tile, a tile with a sweep, a plain sphere — before
+he supplied the orb he actually wanted: a rendered purple sphere with a
+white band carrying the beIN wordmark, and nothing under it. This script
+does the last step only. It is a compositor, not a renderer.
 
-WHY NOT THE GLOSSY BUBBLE. These were a lit sphere with a highlight, the
-mark his box happens to ship. That style prices legibility for gloss: a
-sphere fills 79% of the square it is given and narrows sharply towards the
-bottom, which is exactly where the channel's own name has to go, and its
-highlight spends contrast on light that carries no information. Measured
-at 72px — the size a television actually gives a channel icon — the tile
-below reads at a glance where the bubble had to be squinted at.
+logos/bein_orb.png is that orb with its background removed. The circle was
+found by walking rays out from the centre and taking the median radius at
+which the rim's brightness steps, then kept a few pixels inside so no
+background came with it; the cut was checked against black, white and
+purple before being committed.
 
-WHY DARK. The colour does not fill the tile any more; it rides the edge.
-White on a dark field beats purple on purple, and a dark icon sits inside
-a set-top box's own dark interface instead of being pasted on top of it.
-The base is NOT neutral black, though: it is beIN's purple held down to
-icon luminance, so all forty still read as one brand rather than as forty
-dark squares.
+The channel's number goes in the empty purple below the band, with a soft
+drop shadow so it sits on the surface rather than floating over it. An
+earlier version of the artwork carried the word SPORTS there and had to be
+painted out; four ways of finding that word failed, because the band and
+the word are both white and the beIN lettering inside the band breaks any
+run test. None of that is needed now — the space is already clear, which
+is the whole reason this orb replaced it.
 
-WHAT THE EDGE MEANS, and it is deliberately coarse, because marking more
-than this would mark nothing:
+ALL FORTY SHARE ONE ORB. The families are no longer dressed apart; the
+supplied artwork has one colourway, and the number is the only thing that
+differs, which is why it is set as large as the space allows.
 
-    gold edge                  beIN SPORTS 1-9, 4K, 4K HDR, the brand feed
-    purple edge, gold ring     beIN SPORTS MAX 1-6
-    purple edge                XTRA, AFC, EN, FR, NBA, NEWS
+The orb is not a beIN asset; the public logo databases carry only the flat
+wordmark. Printing the numbers here is what fixes the eleven channels that
+were wearing another channel's mark: beIN SPORTS 9 and AFC 4-6 showed an
+unnumbered brand logo, and XTRA 3-9 all showed the words "XTRA 1", because
+the upstream database has no separate picture for any of them.
 
-The edge glows inward before it is drawn. That is not decoration: the
-bloom lifts the field just inside the border, which separates the icon
-from whatever dark background sits behind it, while the centre — where
-the text is — stays at the darkest point.
-
-None of this is a beIN asset. The public logo databases carry only the
-flat wordmark, so the tile is drawn here over the official wordmark this
-repository already holds. Drawing it is what fixes the eleven channels
-that were wearing another channel's mark: beIN SPORTS 9 and AFC 4-6
-showed an unnumbered brand logo, and XTRA 3-9 all showed the words
-"XTRA 1", because the upstream database has no separate picture for any
-of them. A drawn label always says the channel it belongs to.
-
-Türkiye is NOT drawn. beIN SPORTS 1 in Istanbul is a different channel
-showing different football from beIN SPORTS 1 in Doha, and it used to
-share these seven files; it now has its own bein_tr*.png copies of the
-flat mark, so redrawing Doha leaves Istanbul alone.
+Türkiye is NOT touched. beIN SPORTS 1 in Istanbul is a different channel
+showing different football from beIN SPORTS 1 in Doha; it has its own
+bein_tr*.png copies of the flat mark.
 
 Run it after adding a channel to bein_sports_qatar_epg.LOGO_KEYS:
 
     python make_bein_bubbles.py
 
-It writes only the stems listed in SPECS, so it cannot touch a logo that
-belongs to another broadcaster. fetch_logos.py no longer lists these keys
-for the same reason it does not list tabii: a future run of it would
+It writes only the stems listed in SPECS, so it can touch neither another
+broadcaster's logo nor bein_orb.png itself. fetch_logos.py does not list
+these keys, for the same reason it does not list tabii: a run of it would
 otherwise overwrite all forty with the pictures they came from.
-
-The wordmark is read from logos/bein_wordmark.png, not from bein_brand.png,
-because bein_brand is itself one of the forty this script overwrites — a
-second run would otherwise draw a tile on top of a tile.
 """
 
 from __future__ import annotations
@@ -69,292 +55,154 @@ import os
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 OUT_DIR = "logos"
-WORDMARK = os.path.join(OUT_DIR, "bein_wordmark.png")
-# Outfit Bold, not the Arabic face the rest of the repo uses: every label
-# here is Latin ("1", "MAX 1", "XTRA 1"), and Outfit's wider counters stay
-# open when a television scales the icon down. A label that ever needs
-# Arabic would have to come back to fonts/Tajawal-*.ttf, which has it.
+ORB = os.path.join(OUT_DIR, "bein_orb.png")
+# Outfit Bold: every label here is Latin ("1", "MAX 1", "XTRA 1"), and its
+# wider counters stay open when a television scales the icon down. A label
+# that ever needs Arabic has to come back to fonts/Tajawal-*.ttf.
 FONT_PATH = os.path.join("fonts", "Outfit-Bold.ttf")
 
 SIZE = 512
-CORNER = .26           # the tile's own corner, as a fraction of its side
 
-# The field. NOT neutral black: this is beIN's purple held down to icon
-# luminance, top lighter than bottom. The hue is what keeps forty of these
-# reading as one brand instead of forty dark squares, and the darkness is
-# what lets white text sit on it at full contrast.
-FIELD_TOP = (58, 34, 84)
-FIELD_BOTTOM = (24, 12, 38)
+# Where the number sits: the clear purple under the white band. The band's
+# lower edge is tilted, so the centre is placed below its lowest point.
+LABEL_CENTRE = .745
+LABEL_MAX_W = .60
+LABEL_MAX_H = .20
+TRACKING = .03
 
-# The edge carries the family. Both are lifted well clear of the field so
-# they survive being scaled down to a channel list.
-EDGE_GOLD = (232, 193, 106)
-EDGE_PURPLE = (150, 92, 214)
-# MAX keeps a gold ring inside its purple edge — the same thing its gold
-# band said on the old bubble, said the same way: purple for beIN, gold
-# for premium, and MAX is both.
-RING_GOLD = EDGE_GOLD
+INK = (253, 252, 255)
+SHADOW = (18, 6, 40, 205)
+SHADOW_OFFSET = .005   # across, as a fraction of the canvas
+SHADOW_DROP = .007     # and down
+SHADOW_BLUR = .005
 
-EDGE_INSET = .035      # how far the edge sits in from the tile
-EDGE_WIDTH = .030
-EDGE_RADIUS = .22
-BLOOM_WIDTH = .050     # the same edge, wider and blurred, laid down first
-BLOOM_ALPHA = 210
-BLOOM_BLUR = .075
-RING_INSET = .105
-RING_WIDTH = .016
-RING_RADIUS = .18
+# The orb is a render, not flat art, so PNG cannot compress it: in full
+# colour it weighs 283 KB a file, over 11 MB for the roster. The RGB is
+# reduced to a dithered palette and the alpha kept intact — saving as a
+# palette PNG instead carries only one transparent index, which jagged the
+# rim when it was tried.
+COLOURS = 256
 
-INK = (247, 245, 251)  # everything printed on the field
-
-# The wordmark shares the tile with the label, so it is given a size that
-# reads without crowding the thing a viewer is actually looking for. On
-# the one channel with no label it takes the middle of the tile instead.
-MARK_HEIGHT = .19
-MARK_TOP = .175
-MARK_MAX_W = .62
-MARK_HEIGHT_ALONE = .30
-MARK_TOP_ALONE = .355
-MARK_MAX_W_ALONE = .70
-
-# The label is not set at a fixed size. A fixed size is what made the old
-# icons unreadable: at 48px on this 512px canvas the text stood six pixels
-# tall once a set-top box scaled the icon down. Instead the largest face
-# that fits the box below is chosen per label, so "4K" comes out bigger
-# than "4K HDR" without anyone choosing it.
-LABEL_CENTRE = .655
-LABEL_MAX_W = .70
-LABEL_MAX_H = .37
-LABEL_TRACKING = .02   # Outfit sets "4K HDR" tight enough to merge at size
-
-# How a channel is dressed.
-PURPLE = "purple"      # the plain tile
-GOLD = "gold"          # a gold edge
-RINGED = "ringed"      # a purple edge with a gold ring inside it
-
-# (logo file stem, what its label reads, how it is dressed)
-#
-# The nine Arabic channels carry the BARE number, which is how beIN names
-# them: they are the default, and everything else is a named variant. It
-# started as "HD 1 Ar" after the owner's set-top box, and the suffix was
-# dropped because it said nothing the icon did not already say — the
-# English feeds carry their own "EN 1", so a bare number can only be the
-# Arabic channel, and no other plate in the roster is a bare number. The
-# room that bought goes to the digit, which is what a reader is looking
-# for. Every other family is named the way beIN names it.
-#
-# An EMPTY label means no label at all, and only the unnumbered brand
-# channel takes it. One reading "Ar" there claimed a distinction that
-# does not exist; carrying none is itself the distinction, and it is the
-# one channel that has no number or sub-name to print.
-#
-# The dress is what tells the families apart in a long channel list, and
-# it is deliberately coarse: a gold edge for the nine Arabic channels and
-# the two 4K feeds, a gold ring inside a purple edge for MAX, and the
-# plain tile for everything else.
-# Marking more than that would mark nothing — a list where every icon is
-# gold distinguishes no channel from another.
 SPECS = [
-    ("bein_1", "1", GOLD),
-    ("bein_2", "2", GOLD),
-    ("bein_3", "3", GOLD),
-    ("bein_4", "4", GOLD),
-    ("bein_5", "5", GOLD),
-    ("bein_6", "6", GOLD),
-    ("bein_7", "7", GOLD),
-    ("bein_8", "8", GOLD),
-    ("bein_9", "9", GOLD),
+    ("bein_1", "1"),
+    ("bein_2", "2"),
+    ("bein_3", "3"),
+    ("bein_4", "4"),
+    ("bein_5", "5"),
+    ("bein_6", "6"),
+    ("bein_7", "7"),
+    ("bein_8", "8"),
+    ("bein_9", "9"),
 
-    ("bein_xtra1", "XTRA 1", PURPLE),
-    ("bein_xtra2", "XTRA 2", PURPLE),
-    ("bein_xtra3", "XTRA 3", PURPLE),
-    ("bein_xtra4", "XTRA 4", PURPLE),
-    ("bein_xtra5", "XTRA 5", PURPLE),
-    ("bein_xtra6", "XTRA 6", PURPLE),
-    ("bein_xtra7", "XTRA 7", PURPLE),
-    ("bein_xtra8", "XTRA 8", PURPLE),
-    ("bein_xtra9", "XTRA 9", PURPLE),
+    ("bein_xtra1", "XTRA 1"),
+    ("bein_xtra2", "XTRA 2"),
+    ("bein_xtra3", "XTRA 3"),
+    ("bein_xtra4", "XTRA 4"),
+    ("bein_xtra5", "XTRA 5"),
+    ("bein_xtra6", "XTRA 6"),
+    ("bein_xtra7", "XTRA 7"),
+    ("bein_xtra8", "XTRA 8"),
+    ("bein_xtra9", "XTRA 9"),
 
-    ("bein_max1", "MAX 1", RINGED),
-    ("bein_max2", "MAX 2", RINGED),
-    ("bein_max3", "MAX 3", RINGED),
-    ("bein_max4", "MAX 4", RINGED),
-    ("bein_max5", "MAX 5", RINGED),
-    ("bein_max6", "MAX 6", RINGED),
+    ("bein_max1", "MAX 1"),
+    ("bein_max2", "MAX 2"),
+    ("bein_max3", "MAX 3"),
+    ("bein_max4", "MAX 4"),
+    ("bein_max5", "MAX 5"),
+    ("bein_max6", "MAX 6"),
 
-    ("bein_afc", "AFC", PURPLE),
-    ("bein_afc1", "AFC 1", PURPLE),
-    ("bein_afc2", "AFC 2", PURPLE),
-    ("bein_afc3", "AFC 3", PURPLE),
-    ("bein_afc4", "AFC 4", PURPLE),
-    ("bein_afc5", "AFC 5", PURPLE),
-    ("bein_afc6", "AFC 6", PURPLE),
+    ("bein_afc", "AFC"),
+    ("bein_afc1", "AFC 1"),
+    ("bein_afc2", "AFC 2"),
+    ("bein_afc3", "AFC 3"),
+    ("bein_afc4", "AFC 4"),
+    ("bein_afc5", "AFC 5"),
+    ("bein_afc6", "AFC 6"),
 
-    ("bein_en1", "EN 1", PURPLE),
-    ("bein_en2", "EN 2", PURPLE),
-    ("bein_fr1", "FR 1", PURPLE),
-    ("bein_fr2", "FR 2", PURPLE),
+    ("bein_en1", "EN 1"),
+    ("bein_en2", "EN 2"),
 
-    ("bein_brand", "", GOLD),
-    ("bein_4k", "4K", GOLD),
-    ("bein_4khdr", "4K HDR", GOLD),
-    ("bein_nba", "NBA", PURPLE),
-    ("bein_news", "NEWS", PURPLE),
+    ("bein_fr1", "FR 1"),
+    ("bein_fr2", "FR 2"),
+
+    ("bein_brand", ""),
+
+    ("bein_4k", "4K"),
+
+    ("bein_4khdr", "4K HDR"),
+
+    ("bein_nba", "NBA"),
+
+    ("bein_news", "NEWS"),
 ]
 
 
-def _gradient(size: int, top: tuple[int, int, int],
-              bottom: tuple[int, int, int]) -> Image.Image:
-    """A vertical ramp, one row computed then stretched across."""
-    strip = Image.new("RGB", (1, size))
-    px = strip.load()
-    for y in range(size):
-        t = y / (size - 1)
-        px[0, y] = tuple(int(top[i] + (bottom[i] - top[i]) * t) for i in range(3))
-    return strip.resize((size, size), Image.NEAREST).convert("RGBA")
+def _spans(px, y: int, size: int):
+    """Where the orb starts and ends on one row, or None off the sphere."""
+    xs = [x for x in range(size) if px[x, y][3] > 150]
+    return (xs[0], xs[-1]) if len(xs) >= 60 else None
 
 
-def tile_mask(size: int, radius: float = CORNER) -> Image.Image:
-    """The tile's silhouette, used both to cut it out and to clip onto it."""
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).rounded_rectangle(
-        [0, 0, size - 1, size - 1], radius=int(size * radius), fill=255)
-    return mask
-
-
-def field(size: int) -> Image.Image:
-    """The tile itself, before anything is drawn on it.
-
-    A film of noise used to go on here, to stop the gradient banding on a
-    cheap panel. It was removed after measuring: the ramp is shallow
-    enough not to band without it, the three versions were
-    indistinguishable at full size, and the noise was costing 148 KB of
-    every 187 KB icon — PNG cannot compress it. The forty now weigh 1.6 MB
-    where the glossy bubbles weighed 4.6 MB.
-    """
-    base = _gradient(size, FIELD_TOP, FIELD_BOTTOM)
-    base.putalpha(tile_mask(size))
-    return base
-
-
-def outline(size: int, colour: tuple[int, int, int], inset: float,
-            width: float, radius: float, alpha: int = 255) -> Image.Image:
-    """A rounded rectangle stroke on its own transparent layer."""
-    layer = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    ImageDraw.Draw(layer).rounded_rectangle(
-        [size * inset, size * inset, size - size * inset, size - size * inset],
-        radius=size * radius, outline=colour + (alpha,), width=int(size * width))
-    return layer
-
-
-def onto(img: Image.Image, layer: Image.Image, mask: Image.Image) -> None:
-    """Composite a layer but let nothing of it spill past the tile."""
-    img.alpha_composite(Image.composite(
-        layer, Image.new("RGBA", img.size, (0, 0, 0, 0)), mask))
-
-
-def edge(img: Image.Image, colour: tuple[int, int, int],
-         mask: Image.Image) -> None:
-    """The family's edge: a blurred copy first, then the crisp stroke.
-
-    The bloom is not decoration. It lifts the field just inside the border,
-    which is what separates the icon from a dark background behind it,
-    while the centre stays at its darkest under the text.
-    """
-    size = img.width
-    onto(img, outline(size, colour, EDGE_INSET, BLOOM_WIDTH, EDGE_RADIUS,
-                      BLOOM_ALPHA).filter(
-                          ImageFilter.GaussianBlur(size * BLOOM_BLUR)), mask)
-    onto(img, outline(size, colour, EDGE_INSET, EDGE_WIDTH, EDGE_RADIUS), mask)
-
-
-def wordmark(height: int, ink: tuple[int, int, int] = (255, 255, 255)) -> Image.Image:
-    """bein_wordmark.png recoloured to a solid ink, keeping its own alpha.
-
-    The file on disk is the purple gradient mark. Only its alpha carries
-    the letterforms, so replacing the colour channels wholesale is exact,
-    where a per-pixel recolour would leave the antialiasing purple.
-    """
-    src = Image.open(WORDMARK).convert("RGBA")
-    src = src.resize((int(src.width * height / src.height), height), Image.LANCZOS)
-    flat = Image.new("RGBA", src.size, ink + (255,))
-    flat.putalpha(src.getchannel("A"))
-    return flat
-
-
-def fit(mark: Image.Image, max_w: float) -> Image.Image:
-    """Hold the wordmark inside its share of the tile."""
-    if mark.width <= SIZE * max_w:
-        return mark
-    return mark.resize((int(SIZE * max_w),
-                        int(mark.height * SIZE * max_w / mark.width)),
-                       Image.LANCZOS)
-
-
-def largest_fit(draw: ImageDraw.ImageDraw, text: str,
-                max_w: float, max_h: float):
-    """The biggest face whose tracked text still fits the box."""
-    for px in range(int(SIZE * .80), 8, -1):
+def largest_fit(draw: ImageDraw.ImageDraw, text: str):
+    """The biggest face whose tracked text fits the space under the band."""
+    for px in range(int(SIZE * .36), 8, -1):
         font = ImageFont.truetype(FONT_PATH, px)
-        track = px * LABEL_TRACKING
+        track = px * TRACKING
         width = (sum(draw.textlength(c, font=font) for c in text)
                  + track * (len(text) - 1))
         box = draw.textbbox((0, 0), text, font=font)
-        if width <= max_w and (box[3] - box[1]) <= max_h:
+        if width <= SIZE * LABEL_MAX_W and (box[3] - box[1]) <= SIZE * LABEL_MAX_H:
             return font, track, width, box
     return font, track, width, box
 
 
 def label_on(img: Image.Image, text: str) -> None:
-    """Print the channel's own name, as large as the tile allows."""
+    """Print the channel's number, with a shadow so it sits on the surface."""
     draw = ImageDraw.Draw(img)
-    font, track, width, box = largest_fit(
-        draw, text, SIZE * LABEL_MAX_W, SIZE * LABEL_MAX_H)
-    x = (SIZE - width) / 2
+    font, track, width, box = largest_fit(draw, text)
+    x0 = (SIZE - width) / 2
     y = SIZE * LABEL_CENTRE - (box[3] - box[1]) / 2 - box[1]
+
+    shade = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(shade)
+    x = x0
+    for ch in text:
+        sd.text((x + SIZE * SHADOW_OFFSET, y + SIZE * SHADOW_DROP),
+                ch, font=font, fill=SHADOW)
+        x += sd.textlength(ch, font=font) + track
+    img.alpha_composite(shade.filter(ImageFilter.GaussianBlur(SIZE * SHADOW_BLUR)))
+
+    x = x0
     for ch in text:
         draw.text((x, y), ch, font=font, fill=INK)
         x += draw.textlength(ch, font=font) + track
 
 
-def mark(label: str, style: str, base: Image.Image,
-         mask: Image.Image) -> Image.Image:
-    """One finished channel icon."""
-    img = base.copy()
-    edge(img, EDGE_GOLD if style == GOLD else EDGE_PURPLE, mask)
-    if style == RINGED:
-        onto(img, outline(SIZE, RING_GOLD, RING_INSET, RING_WIDTH,
-                          RING_RADIUS), mask)
-    if label:
-        word = fit(wordmark(int(SIZE * MARK_HEIGHT), INK), MARK_MAX_W)
-        img.alpha_composite(word, ((SIZE - word.width) // 2,
-                                   int(SIZE * MARK_TOP)))
-        label_on(img, label)
-    else:
-        word = fit(wordmark(int(SIZE * MARK_HEIGHT_ALONE), INK),
-                   MARK_MAX_W_ALONE)
-        img.alpha_composite(word, ((SIZE - word.width) // 2,
-                                   int(SIZE * MARK_TOP_ALONE)))
-    return img
+def save(img: Image.Image, path: str) -> None:
+    """Write the mark with its palette reduced but its alpha untouched."""
+    alpha = img.getchannel("A")
+    flat = img.convert("RGB").quantize(
+        colors=COLOURS, method=Image.FASTOCTREE,
+        dither=Image.FLOYDSTEINBERG).convert("RGB").convert("RGBA")
+    flat.putalpha(alpha)
+    flat.save(path, "PNG", optimize=True)
 
 
 def main() -> int:
     os.makedirs(OUT_DIR, exist_ok=True)
+    orb = Image.open(ORB).convert("RGBA")
+    if orb.size != (SIZE, SIZE):
+        orb = orb.resize((SIZE, SIZE), Image.LANCZOS)
 
-    # The field and the silhouette are identical on all forty, so they are
-    # built once; only the edge and the text differ per channel.
-    base = field(SIZE)
-    mask = tile_mask(SIZE)
-
-    drawn = {PURPLE: 0, GOLD: 0, RINGED: 0}
-    for stem, label, style in SPECS:
+    for stem, label in SPECS:
         path = os.path.join(OUT_DIR, f"{stem}.png")
-        mark(label, style, base, mask).save(path, "PNG", optimize=True)
-        drawn[style] += 1
-        print(f"  {path:28} {label or '(no label)':10} {style}")
+        img = orb.copy()
+        if label:
+            label_on(img, label)
+        save(img, path)
+        print(f"  {path:28} {label or '(orb as supplied)'}")
 
-    print(f"\ndrew {len(SPECS)} marks: "
-          f"{drawn[GOLD]} gold, {drawn[RINGED]} ringed, {drawn[PURPLE]} plain")
+    print(f"\nprinted {len(SPECS)} marks on the orb")
     return 0
 
 
