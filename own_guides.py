@@ -300,13 +300,47 @@ def fixture_in(title: str) -> tuple[str, str]:
     return sides[0], sides[1]
 
 
+# AN AGE TAG IS PART OF WHO IS PLAYING, not a decoration on the name.
+# The list below is today_matches_epg.A_YOUTH_MATCH's, held here as well
+# rather than imported, because that module imports THIS one and the
+# circle would not close. "premier league 2" is left out: it names a
+# competition, and this asks about the two sides.
+A_YOUTH_SIDE = re.compile(
+    r"\bu-?1[5-9]\b|\bu-?2[0-3]\b|under[- ]?1[5-9]\b|under[- ]?2[0-3]\b"
+    r"|\byouth\b|\bacademy\b|\breserves?\b|\bprimavera\b"
+    r"|\bjuniors?\b|\bjuvenil\b"
+    r"|شباب|ناشئ|تحت\s*\d{2}|أكاديمي|رديف",
+    re.I)
+
+
 def one_club_matches(first: str, second: str) -> bool:
     """Whether these two fixtures share a club, across the scripts.
 
     epg_lib's strict answer, asked of each side. One side is enough: a
     club cannot be playing two matches at the same minute, so an exact
     match at an agreed minute identifies the fixture.
+
+    THAT REASONING HOLDS ONLY BETWEEN TEAMS OF THE SAME AGE. A club's
+    under-21 side and its first team are two teams sharing one name, and
+    they do play within an hour of each other — so the sentence above is
+    false across that line and the match must be refused before it is
+    asked.
+
+    Measured on the published board, 18 September 2026: the row
+    "Manchester United U21 - Brentford U21" was showing Alwan 1 and Fajer
+    1, and neither guide carried the fixture at all. What they carried
+    was "برينتفورد - تشيلسي" an hour later, inside the two-hour SLACK, and
+    the U21 row took its channels.
+
+    The leak was CROSS-SCRIPT only, which is why it survived so long:
+    club_skeleton("Brentford U21") is brantfarda and does not equal
+    brantfard, so Latin against Latin already refused it — but
+    same_club() reads the Arabic برينتفورد against "Brentford U21" and
+    the age tag does not survive the transliteration. Refusing on the age
+    tag closes it in both scripts at once.
     """
+    if bool(A_YOUTH_SIDE.search(first)) != bool(A_YOUTH_SIDE.search(second)):
+        return False
     left, right = fixture_in(first), fixture_in(second)
     if not all(left) or not all(right):
         return False
