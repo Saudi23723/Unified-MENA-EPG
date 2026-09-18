@@ -45,9 +45,19 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 OUT_DIR = "logos"
 WORDMARK = os.path.join(OUT_DIR, "bein_wordmark.png")
-FONT_PATH = os.path.join("fonts", "Tajawal-Bold.ttf")
+FONT_PATH = os.path.join("fonts", "Tajawal-ExtraBold.ttf")
 
 SIZE = 512
+
+# Where the wordmark and the plate sit, as fractions of the canvas. The
+# plate is given the lower, wider part of the ball because its text is the
+# information — which channel this is — while the wordmark only has to be
+# recognisable as beIN.
+MARK_HEIGHT = .24
+MARK_TOP = .235
+PLATE_CENTRE = .665
+PLATE_INSET = .88      # keep the tab off the curve of the ball
+PLATE_MAX_H = .26
 
 # The ball is shaded between these three, lit from the upper left, which
 # is where the light sits in the photograph.
@@ -234,20 +244,44 @@ def wordmark(height: int, ink: tuple[int, int, int] = (255, 255, 255)) -> Image.
     return flat
 
 
-def plate(text: str, font: ImageFont.FreeTypeFont, size: int,
+def chord(centre_frac: float, size: int) -> float:
+    """How wide the ball is at a given height, in pixels."""
+    r = size / 2.0
+    dy = centre_frac * size - r
+    return 2 * math.sqrt(max(0.0, r * r - dy * dy))
+
+
+def plate(text: str, size: int,
           fill: tuple[int, int, int] = (255, 255, 255),
           ink: tuple[int, int, int] = PLATE_INK,
           opacity: int = 240) -> Image.Image:
-    """The tab naming the channel."""
-    height = int(size * .145)
+    """The tab naming the channel, set as large as the ball will allow.
+
+    The font is NOT a fixed size. A plate sized for the canvas is unreadable
+    on a television: at 48px on this 512px canvas the label came out SIX
+    pixels tall once a set-top box scaled the icon down to its channel list,
+    which is where the owner photographed it and could not read it.
+
+    So the size is chosen per label instead — the widest the ball is at the
+    plate's height, less an inset to stay inside the curve, then the largest
+    font whose text fits that. A short label like "4K" gets a bigger face
+    than "4K HDR" automatically, and every plate is as legible as its own
+    text allows.
+    """
+    usable = chord(PLATE_CENTRE, size) * PLATE_INSET
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
-    width = max(int(size * .30),
-                probe.textbbox((0, 0), text, font=font)[2] + int(size * .085))
+    for px in range(int(size * .30), 10, -1):
+        font = ImageFont.truetype(FONT_PATH, px)
+        box = probe.textbbox((0, 0), text, font=font)
+        width = (box[2] - box[0]) + px * .42 * 2
+        height = (box[3] - box[1]) + px * .34 * 2
+        if width <= usable and height <= size * PLATE_MAX_H:
+            break
+    width, height = int(width), int(height)
     tab = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     d = ImageDraw.Draw(tab)
     d.rounded_rectangle([0, 0, width - 1, height - 1],
-                        radius=height * .22, fill=fill + (opacity,))
-    box = d.textbbox((0, 0), text, font=font)
+                        radius=height * .24, fill=fill + (opacity,))
     d.text(((width - (box[2] - box[0])) / 2 - box[0],
             (height - (box[3] - box[1])) / 2 - box[1]),
            text, font=font, fill=ink)
@@ -261,8 +295,9 @@ def bubble(label: str, sphere: Image.Image, cap: Image.Image,
     img.alpha_composite(cap)
     if ring is not None:
         img.alpha_composite(ring)
-    img.alpha_composite(mark, ((SIZE - mark.width) // 2, int(SIZE * .30)))
-    img.alpha_composite(tab, ((SIZE - tab.width) // 2, int(SIZE * .615)))
+    img.alpha_composite(mark, ((SIZE - mark.width) // 2, int(SIZE * MARK_TOP)))
+    img.alpha_composite(tab, ((SIZE - tab.width) // 2,
+                              int(SIZE * PLATE_CENTRE - tab.height / 2)))
     # A long plate would otherwise hang over the edge of the ball.
     img.putalpha(Image.composite(img.getchannel("A"),
                                  Image.new("L", (SIZE, SIZE), 0),
@@ -280,7 +315,6 @@ def fit(mark: Image.Image) -> Image.Image:
 
 def main() -> int:
     os.makedirs(OUT_DIR, exist_ok=True)
-    font = ImageFont.truetype(FONT_PATH, int(SIZE * .095))
     cap = gloss(SIZE)
 
     # Both spheres and the band are drawn once and shared; only the plate
@@ -289,21 +323,21 @@ def main() -> int:
     gold_ball = metal_ball(SIZE, GOLD_STOPS)
     ring = band(SIZE)
 
-    white_mark = fit(wordmark(int(SIZE * .30)))
-    dark_mark = fit(wordmark(int(SIZE * .30), GOLD_MARK_INK))
+    white_mark = fit(wordmark(int(SIZE * MARK_HEIGHT)))
+    dark_mark = fit(wordmark(int(SIZE * MARK_HEIGHT), GOLD_MARK_INK))
 
     drawn = {PURPLE: 0, GOLD: 0, RINGED: 0}
     for stem, label, style in SPECS:
         if style == GOLD:
             sphere, mark, ring_arg = gold_ball, dark_mark, None
-            tab = plate(label, font, SIZE, fill=GOLD_MARK_INK, ink=GOLD_INK,
+            tab = plate(label, SIZE, fill=GOLD_MARK_INK, ink=GOLD_INK,
                         opacity=245)
         elif style == RINGED:
             sphere, mark, ring_arg = purple_ball, white_mark, ring
-            tab = plate(label, font, SIZE)
+            tab = plate(label, SIZE)
         else:
             sphere, mark, ring_arg = purple_ball, white_mark, None
-            tab = plate(label, font, SIZE)
+            tab = plate(label, SIZE)
 
         path = os.path.join(OUT_DIR, f"{stem}.png")
         bubble(label, sphere, cap, mark, tab, ring_arg).save(
