@@ -124,15 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260917120100 +0000" stop="20260917140600 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Spanish Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260917140600 +0000" stop="20260917154900 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United v Manchester City - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United won this exact fixture last season 2-0 but haven’t beaten rivals Manchester City twice in a row at home in the Premier League since a run of three under Alex Ferguson from 2008-09 to 2010-11. Manchester City have won just one of their last four Premier League games against Manchester United, this after winning five of their six be</desc>
@@ -1978,6 +1969,13 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <desc lang="en">Highlights of the Premier League Matchweek from an alternative angle. A look back at every goal from every game using the best ISOs and Slow Motion angles.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20260924140000 +0000" stop="20260924143000 +0000" channel="beINSports1.qa">
+    <title lang="en">Sevilla vs Barcelona - Spanish LaLiga 2026/2027 - Week 7</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20260917120500 +0000" stop="20260917141500 +0000" channel="beINSports2.qa">
     <title lang="en">Kitchee SC (HKG) vs Gangwon FC (KOR) - AFC Champions League Two 2026/2027 - MD1 ‎• Live 🔵‎</title>
@@ -5362,13 +5360,6 @@ Diyarbakir Stadyumu Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260917115000 +0000" stop="20260917135000 +0000" channel="beINSports7.qa">
-    <title lang="en">Philippines vs Kazakhstan - Basketball Women's - Asian Games Aichi-Nagoya 2026</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260917135000 +0000" stop="20260917163500 +0000" channel="beINSports7.qa">
     <title lang="en">Brazil vs USA - FIFA U-20 Women World Cup - 2026</title>
     <category lang="ar">كأس العالم للسيدات</category>
@@ -7822,6 +7813,11 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
+  <programme start="20260924140000 +0000" stop="20260924143000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">EN Ligue 1 Show 2026/27 | E6</title>
+    <category lang="ar">مسلسلات</category>
+    <category lang="en">Series</category>
+  </programme>
   <programme start="20260917124500 +0000" stop="20260917150000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">England vs Nigeria - FIFA U-20 Women World Cup - 2026 ‎• Live 🔵‎</title>
     <category lang="ar">كأس العالم للسيدات</category>
@@ -8484,12 +8480,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">كأس العالم للسيدات</category>
     <category lang="en">FIFA World Cup (Women)</category>
   </programme>
-  <programme start="20260917120000 +0000" stop="20260917140000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Rennes vs Marseille - Ligue 1 - J04 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260917140000 +0000" stop="20260917150000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Achat - Magazine 2026</title>
     <desc lang="en">Sport.</desc>
@@ -8722,12 +8712,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   </programme>
   <programme start="20260919201500 +0000" stop="20260919205959 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Rennes vs Marseille - Ligue 1 - J04 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260917120000 +0000" stop="20260917140000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">St Etienne vs USL Dunkerque - Ligue 2 - J06 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
@@ -10374,18 +10358,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917133000 +0000" stop="20260917134500 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Special Interview  - 17/09/26</title>
-    <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260917134500 +0000" stop="20260917140000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Special Report - 17/09/26</title>
-    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260917140000 +0000" stop="20260917143000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin ‎• Live 🔵‎</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
@@ -11953,10 +11925,17 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20260924134500 +0000" stop="20260924140000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 24/09/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260924140000 +0000" stop="20260924143000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin ‎• Live 🔵‎</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260917140000 +0000" stop="20260917150000 +0000" channel="beINSportsXtra1.qa">
@@ -12921,7 +12900,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -13843,7 +13822,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14731,7 +14710,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15633,7 +15612,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16611,7 +16590,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17626,7 +17605,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18640,7 +18619,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19654,7 +19633,7 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917130000 +0000" stop="20260917140000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20663,6 +20642,12 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260924130000 +0000" stop="20260924140000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
