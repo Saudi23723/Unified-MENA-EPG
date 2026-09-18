@@ -17,6 +17,13 @@ number printed into the empty upper half. Nothing else in that artwork
 is touched. That is 1-9, XTRA 1-9, MAX 1-6, EN 1-2 and the unnumbered
 brand mark — everything the owner watches.
 
+XTRA 1-9 GET A RED PILL. Set as one line, "XTRA 1" squeezed the digit
+down to 84px while a bare "1" got 187, which is backwards: the digit is
+the thing being read. So the word is a small cap line in a red pill at
+the top and the digit is set on its own beneath it, near the size 1-9
+get. Red carries no other meaning in beIN's artwork, so it names the
+family from across a room without altering the mark.
+
 THE REST wear a plate: the same purple above, the lockup below on a
 silver band. AFC, AFC 1-6, FR 1-2, 4K, 4K HDR, NBA and NEWS. Bands in
 three colours were tried first, one per family; one colour reads better,
@@ -78,10 +85,27 @@ TRACKING = .02
 SUPERSAMPLE = 3
 
 INK = (255, 255, 255)
+RED = (176, 32, 44)
 SHADOW = (20, 6, 44, 170)
 SHADOW_OFFSET = .004
 SHADOW_DROP = .006
 SHADOW_BLUR = .005
+
+# XTRA. Nine channels whose label used to be the whole line "XTRA 1", which
+# squeezed the digit down to 84px while a bare "1" got 187. The word is a
+# small cap line in a red pill instead, and the digit is set on its own at
+# something near the size 1-9 get, which is what the eye is looking for.
+# Red because none of beIN's own artwork is red, so it names XTRA across a
+# room without touching the mark.
+XTRA_WORD = "XTRA"
+XTRA_WORD_CENTRE = .105
+XTRA_WORD_MAX_W = .38
+XTRA_WORD_MAX_H = .066
+XTRA_PILL_PAD_W = .085
+XTRA_PILL_PAD_H = .062
+XTRA_NUMBER_CENTRE = .325
+XTRA_NUMBER_MAX_W = .50
+XTRA_NUMBER_MAX_H = .24
 
 # The plate. Purple is read off the app icon so the two kinds of mark
 # sit together — it is the flat (79, 24, 129) the icon's top half is
@@ -199,24 +223,27 @@ def plate(mark: Image.Image) -> Image.Image:
     return img
 
 
-def largest_fit(text: str):
-    """The biggest face whose tracked text fits the clear purple."""
+def largest_fit(text: str, max_w: float = LABEL_MAX_W,
+                max_h: float = LABEL_MAX_H, tracking: float = TRACKING):
+    """The biggest face whose tracked text fits the space it is given."""
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
     font = track = None
     for px in range(int(SIZE * .90), 8, -1):
         font = ImageFont.truetype(FONT_PATH, px)
-        track = px * TRACKING
+        track = px * tracking
         width = (sum(probe.textlength(c, font=font) for c in text)
                  + track * (len(text) - 1))
         box = probe.textbbox((0, 0), text, font=font)
-        if width <= SIZE * LABEL_MAX_W and (box[3] - box[1]) <= SIZE * LABEL_MAX_H:
+        if width <= SIZE * max_w and (box[3] - box[1]) <= SIZE * max_h:
             return px, track
     return px, track
 
 
-def label_on(img: Image.Image, text: str, centre: float) -> int:
+def label_on(img: Image.Image, text: str, centre: float,
+             max_w: float = LABEL_MAX_W, max_h: float = LABEL_MAX_H,
+             ink=INK, shadow: bool = True) -> int:
     """Print the channel's number, with a shadow so it lifts off the purple."""
-    px, track = largest_fit(text)
+    px, track = largest_fit(text, max_w, max_h)
     big = SIZE * SUPERSAMPLE
     layer = Image.new("RGBA", (big, big), (0, 0, 0, 0))
     draw = ImageDraw.Draw(layer)
@@ -229,18 +256,45 @@ def label_on(img: Image.Image, text: str, centre: float) -> int:
     y0 = big * centre - (box[3] - box[1]) / 2 - box[1]
     x = x0
     for ch in text:
-        draw.text((x, y0), ch, font=font, fill=INK)
+        draw.text((x, y0), ch, font=font, fill=ink)
         x += draw.textlength(ch, font=font) + step
     flat = layer.resize((SIZE, SIZE), Image.LANCZOS)
 
-    shade = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-    shade.paste(Image.new("RGBA", (SIZE, SIZE), SHADOW), (0, 0), flat)
-    img.alpha_composite(
-        shade.filter(ImageFilter.GaussianBlur(SIZE * SHADOW_BLUR))
-             .transform((SIZE, SIZE), Image.AFFINE,
-                        (1, 0, -SIZE * SHADOW_OFFSET, 0, 1, -SIZE * SHADOW_DROP)))
+    if shadow:
+        shade = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+        shade.paste(Image.new("RGBA", (SIZE, SIZE), SHADOW), (0, 0), flat)
+        img.alpha_composite(
+            shade.filter(ImageFilter.GaussianBlur(SIZE * SHADOW_BLUR))
+                 .transform((SIZE, SIZE), Image.AFFINE,
+                            (1, 0, -SIZE * SHADOW_OFFSET,
+                             0, 1, -SIZE * SHADOW_DROP)))
     img.alpha_composite(flat)
     return px
+
+
+def xtra_on(img: Image.Image, digit: str) -> int:
+    """The word in a red pill, the digit on its own underneath it."""
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    px, track = largest_fit(XTRA_WORD, XTRA_WORD_MAX_W, XTRA_WORD_MAX_H)
+    font = ImageFont.truetype(FONT_PATH, px)
+    box = probe.textbbox((0, 0), XTRA_WORD, font=font)
+    run = (sum(probe.textlength(c, font=font) for c in XTRA_WORD)
+           + track * (len(XTRA_WORD) - 1))
+    width = run + SIZE * XTRA_PILL_PAD_W
+    height = (box[3] - box[1]) + SIZE * XTRA_PILL_PAD_H
+    centre = SIZE * XTRA_WORD_CENTRE
+
+    pill = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+    ImageDraw.Draw(pill).rounded_rectangle(
+        [(SIZE - width) / 2, centre - height / 2,
+         (SIZE + width) / 2, centre + height / 2],
+        radius=height / 2, fill=RED + (255,))
+    img.alpha_composite(pill)
+
+    label_on(img, XTRA_WORD, XTRA_WORD_CENTRE,
+             XTRA_WORD_MAX_W, XTRA_WORD_MAX_H, shadow=False)
+    return label_on(img, digit, XTRA_NUMBER_CENTRE,
+                    XTRA_NUMBER_MAX_W, XTRA_NUMBER_MAX_H)
 
 
 def save(img: Image.Image, path: str) -> None:
@@ -269,9 +323,14 @@ def main() -> int:
             img, mask, centre, dress = tile.copy(), tile_alpha, TILE_CENTRE, "icon"
         else:
             img, mask, centre, dress = plate(mark), MASK, PLATE_CENTRE, "silver"
+        if stem.startswith("bein_xtra"):
+            dress = "xtra"
         tally[dress] = tally.get(dress, 0) + 1
         if label:
-            sizes.append(label_on(img, label, centre))
+            if dress == "xtra":
+                sizes.append(xtra_on(img, label.split()[-1]))
+            else:
+                sizes.append(label_on(img, label, centre))
             img.putalpha(ImageChops.darker(img.getchannel("A"), mask))
         save(img, path)
         print(f"  {path:28} {dress:7} {label or '(icon as supplied)'}")
