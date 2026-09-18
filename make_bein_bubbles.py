@@ -17,12 +17,21 @@ number printed into the empty upper half. Nothing else in that artwork
 is touched. That is 1-9, XTRA 1-9, MAX 1-6 and the unnumbered brand
 mark — everything the owner watches.
 
-XTRA 1-9 GET A RED CORNER. Their label reads "XTRA 1" on one line like
-every other channel's; what sets them apart is a red wedge across the
-top-right corner. Red carries no other meaning in beIN's artwork, so it
-names the family from across a room. A red pill around the word was
-tried instead and dropped: it bought a bigger digit but put a second
-object in the middle of the icon.
+A CORNER CARRIES THE COLOUR, and which corner says which kind:
+
+    top-RIGHT, always red     XTRA 1-9
+    top-LEFT, a colour each   MAX 1-6 and AFC 1-6
+
+The colour on the left names the NUMBER, not the family: MAX 1 and AFC 1
+are both gold, MAX 2 and AFC 2 both green. Nothing is lost by sharing,
+because the two never look alike — MAX wears the app icon and AFC wears
+the silver plate. The unnumbered AFC takes no wedge, having no number for
+one to name.
+
+Red is XTRA's alone and sits on the other side, so neither the hue nor
+the corner can be mistaken. A red pill around XTRA's word was tried
+instead and dropped: it bought a bigger digit but put a second object in
+the middle of the icon.
 
 THE REST wear a plate: the same purple above, the lockup below on a
 silver band. AFC, AFC 1-6, EN 1-2, FR 1-2, 4K, 4K HDR, NBA and NEWS. Bands in
@@ -91,10 +100,22 @@ SHADOW_OFFSET = .004
 SHADOW_DROP = .006
 SHADOW_BLUR = .005
 
-# XTRA's corner: how far down each of the two top-right edges the red
-# reaches. Top-right because the label is centred and the lockup is
-# centred, so that corner is the only one nothing else is using.
-XTRA_WEDGE = .30
+# The corners. WEDGE is how far down each of a corner's two edges the
+# colour reaches. Top-right and top-left because the label is centred and
+# the lockup is centred, so the two top corners are all that is free.
+WEDGE = .30
+
+# Six hues that hold apart at the 72px a TV gives these, none of them
+# near XTRA's red and none near the purple they sit on.
+NUMBER_COLOURS = {
+    1: (212, 170, 84),     # gold
+    2: (26, 148, 96),      # green
+    3: (34, 170, 208),     # cyan
+    4: (232, 124, 36),     # orange
+    5: (232, 92, 152),     # pink
+    6: (232, 234, 242),    # white
+}
+NUMBERED_CORNERS = ("bein_max", "bein_afc")
 
 # The plate. Purple is read off the app icon so the two kinds of mark
 # sit together — it is the flat (79, 24, 129) the icon's top half is
@@ -255,19 +276,30 @@ def label_on(img: Image.Image, text: str, centre: float) -> int:
     return px
 
 
-def wedge_on(img: Image.Image, rim: Image.Image) -> None:
-    """Red across the top-right corner, cut to the artwork's own rim.
+def wedge_on(img: Image.Image, rim: Image.Image, colour,
+             left: bool) -> None:
+    """Colour across a top corner, cut to the artwork's own rim.
 
     It is a diagonal, so it is drawn at SUPERSAMPLE and scaled down; cut
     straight at 512 the hypotenuse stairsteps.
     """
     big = SIZE * SUPERSAMPLE
-    reach = big * XTRA_WEDGE
+    reach = big * WEDGE
+    corner = ([(0, 0), (reach, 0), (0, reach)] if left
+              else [(big, 0), (big - reach, 0), (big, reach)])
     layer = Image.new("L", (big, big), 0)
-    ImageDraw.Draw(layer).polygon(
-        [(big, 0), (big - reach, 0), (big, reach)], fill=255)
+    ImageDraw.Draw(layer).polygon(corner, fill=255)
     mask = ImageChops.darker(layer.resize((SIZE, SIZE), Image.LANCZOS), rim)
-    img.paste(Image.new("RGBA", (SIZE, SIZE), RED + (255,)), (0, 0), mask)
+    img.paste(Image.new("RGBA", (SIZE, SIZE), colour + (255,)), (0, 0), mask)
+
+
+def corner_of(stem: str):
+    """The wedge this stem wears, as (colour, left), or None for none."""
+    if stem.startswith("bein_xtra"):
+        return RED, False
+    if stem.startswith(NUMBERED_CORNERS) and stem[-1].isdigit():
+        return NUMBER_COLOURS[int(stem[-1])], True
+    return None
 
 
 def save(img: Image.Image, path: str) -> None:
@@ -296,15 +328,16 @@ def main() -> int:
             img, mask, centre, dress = tile.copy(), tile_alpha, TILE_CENTRE, "icon"
         else:
             img, mask, centre, dress = plate(mark), MASK, PLATE_CENTRE, "silver"
-        if stem.startswith("bein_xtra"):
-            wedge_on(img, mask)
-            dress = "xtra"
+        corner = corner_of(stem)
+        if corner:
+            wedge_on(img, mask, *corner)
+            dress = f"{dress} + corner"
         tally[dress] = tally.get(dress, 0) + 1
         if label:
             sizes.append(label_on(img, label, centre))
             img.putalpha(ImageChops.darker(img.getchannel("A"), mask))
         save(img, path)
-        print(f"  {path:28} {dress:7} {label or '(icon as supplied)'}")
+        print(f"  {path:28} {dress:17} {label or '(icon as supplied)'}")
 
     spread = "  ".join(f"{n}× {k}" for k, n in sorted(tally.items()))
     print(f"\ndrew {len(SPECS)} beIN marks  ·  {spread}  ·  "
