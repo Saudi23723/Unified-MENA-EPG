@@ -758,9 +758,20 @@ A_KEPT_YOUTH_COMPETITION = re.compile(
 AN_MLS_LEAGUE = re.compile(r"\bmls\b|major league soccer|الدوري الأمريكي",
                            re.I)
 
-# The two cities kept, both clubs of New York among them.
+# The cities kept, both clubs of New York among them. Minnesota United
+# joined them on 18 September 2026, asked for by name: "Add MLS team
+# matches : Minnesota United FC".
+#
+# "minnesota" on its own is enough and is safe, because this list is only
+# ever consulted INSIDE the MLS branch below — a Minnesota Twins or
+# Minnesota Lynx row never reaches it, and both of those live on another
+# channel anyway. Bare is also what catches the spellings a listings page
+# actually prints: "Minnesota United", "Minnesota Utd", "Minnesota United
+# FC", and the plain "Minnesota" a crowded grid falls back to.
 A_KEPT_MLS_CLUB = re.compile(
-    r"new york|nycfc|red bulls|inter miami|miami|نيويورك|ميامي", re.I)
+    r"new york|nycfc|red bulls|inter miami|miami"
+    r"|minnesota|mnufc"
+    r"|نيويورك|ميامي|مينيسوتا", re.I)
 
 
 def wanted(event: dict) -> bool:
