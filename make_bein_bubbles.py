@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Draw the forty beIN SPORTS Qatar channel marks, keyed by family.
+Draw the forty beIN SPORTS Qatar channel marks.
 
 The owner photographed his set-top box and could not read a single one of
 these icons. Several designs were drawn here and rejected — a sized label
@@ -12,24 +12,22 @@ of it. Both source files came from him unaltered:
     logos/bein_tile.png   the official app icon, purple, wordmark low
     logos/bein_mark.png   the beIN SPORT lockup alone, white on nothing
 
-CHANNELS 1-9 WEAR THE APP ICON as it ships, with only the channel number
-printed into the empty upper half. Nothing else in that artwork is
-touched.
+MOST CHANNELS WEAR THE APP ICON as it ships, with only the channel
+number printed into the empty upper half. Nothing else in that artwork
+is touched. That is 1-9, XTRA 1-9, MAX 1-6, EN 1-2 and the unnumbered
+brand mark — everything the owner watches.
 
-EVERY OTHER CHANNEL wears a two-tone plate: the same purple above, the
-lockup below on a band whose colour names the family at a glance, so a
-row of forty icons sorts itself before it is read.
-
-    silver   the default
-    red      XTRA 1-9
-    gold     MAX, AFC, EN and FR
+THE REST wear a plate: the same purple above, the lockup below on a
+silver band. AFC, AFC 1-6, FR 1-2, 4K, 4K HDR, NBA and NEWS. Bands in
+three colours were tried first, one per family; one colour reads better,
+because the thing the eye is sorting by is the band being there at all.
 
 WHERE THE NUMBER GOES was measured, not guessed. Against a ruler the
 lockup sits LOW in the app icon — beIN spans y 250-395 and SPORTS 400-450
 on a 512 canvas — which leaves the whole upper half empty. The number goes
 there. A first attempt placed it at .735 and landed it on the wordmark.
-On the two-tone plate the band starts at .44, so the number centres at .22,
-the middle of the purple.
+On the plate the band starts at .44, so the number centres at .22, the
+middle of the purple.
 
 It is set in white with a soft drop shadow, and sized to the space rather
 than to a fixed point size, so a bare "1" comes out larger than "XTRA 1"
@@ -85,7 +83,7 @@ SHADOW_OFFSET = .004
 SHADOW_DROP = .006
 SHADOW_BLUR = .005
 
-# The plate. Purple is read off the app icon so the two halves of the set
+# The plate. Purple is read off the app icon so the two kinds of mark
 # sit together — it is the flat (79, 24, 129) the icon's top half is
 # filled with, sampled, not chosen — and the corner is measured off it
 # too: on a 512 canvas its opaque box runs x 2-509 and its left edge
@@ -93,8 +91,6 @@ SHADOW_BLUR = .005
 # than that reads as a different app sitting in the same row.
 PURPLE = (79, 24, 129)
 SILVER, SILVER_INK = (196, 198, 206), (34, 34, 42)
-GOLD, GOLD_INK = (212, 170, 84), (44, 28, 6)
-RED, RED_INK = (176, 32, 44), (255, 255, 255)
 SPLIT = .44
 CORNER = 67 / 512
 MARK_WIDTH = .72
@@ -106,9 +102,16 @@ MARK_TOP = .52
 # a single transparent index and jags them.
 COLOURS = 256
 
-# 1-9 keep beIN's own icon. So does the unnumbered brand mark: a plate
-# with no number on it would be the lockup twice over.
-AS_SUPPLIED = {f"bein_{n}" for n in range(1, 10)} | {"bein_brand"}
+# The channels that wear beIN's own icon, number printed and nothing else
+# touched: 1-9, XTRA, MAX, EN, and the unnumbered brand mark, which would
+# otherwise be a plate carrying the lockup twice over.
+AS_SUPPLIED = (
+    {f"bein_{n}" for n in range(1, 10)}
+    | {f"bein_xtra{n}" for n in range(1, 10)}
+    | {f"bein_max{n}" for n in range(1, 7)}
+    | {"bein_en1", "bein_en2"}
+    | {"bein_brand"}
+)
 
 SPECS = [
     ("bein_1", "1"),
@@ -163,18 +166,6 @@ SPECS = [
     ("bein_news", "NEWS"),
 ]
 
-GOLD_FAMILIES = ("bein_max", "bein_afc", "bein_en", "bein_fr")
-
-
-def family(stem: str):
-    """The band colour, the ink the lockup takes on it, and its name."""
-    if stem.startswith("bein_xtra"):
-        return RED, RED_INK, "red"
-    if stem.startswith(GOLD_FAMILIES):
-        return GOLD, GOLD_INK, "gold"
-    return SILVER, SILVER_INK, "silver"
-
-
 def plate_mask() -> Image.Image:
     """The rounded square the plate is cut to, drawn big and shrunk.
 
@@ -192,16 +183,16 @@ def plate_mask() -> Image.Image:
 MASK = plate_mask()
 
 
-def plate(lower, ink, mark: Image.Image) -> Image.Image:
-    """Purple above, the family's colour below, the lockup sitting on it."""
+def plate(mark: Image.Image) -> Image.Image:
+    """Purple above, silver below, the lockup sitting dark on the silver."""
     img = Image.new("RGBA", (SIZE, SIZE), PURPLE + (255,))
     ImageDraw.Draw(img).rectangle(
-        [0, int(SIZE * SPLIT), SIZE, SIZE], fill=lower + (255,))
+        [0, int(SIZE * SPLIT), SIZE, SIZE], fill=SILVER + (255,))
 
     width = int(SIZE * MARK_WIDTH)
     art = mark.resize((width, round(mark.height * width / mark.width)),
                       Image.LANCZOS)
-    tint = Image.new("RGBA", art.size, ink + (255,))
+    tint = Image.new("RGBA", art.size, SILVER_INK + (255,))
     tint.putalpha(art.getchannel("A"))
     img.alpha_composite(tint, ((SIZE - width) // 2, int(SIZE * MARK_TOP)))
     img.putalpha(MASK)
@@ -277,8 +268,7 @@ def main() -> int:
         if stem in AS_SUPPLIED:
             img, mask, centre, dress = tile.copy(), tile_alpha, TILE_CENTRE, "icon"
         else:
-            lower, ink, dress = family(stem)
-            img, mask, centre = plate(lower, ink, mark), MASK, PLATE_CENTRE
+            img, mask, centre, dress = plate(mark), MASK, PLATE_CENTRE, "silver"
         tally[dress] = tally.get(dress, 0) + 1
         if label:
             sizes.append(label_on(img, label, centre))
