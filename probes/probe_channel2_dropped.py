@@ -41,7 +41,8 @@ import other_sports_epg as ch2
 from epg_lib import new_session, status_of
 
 UTC = timezone.utc
-ALLOWED_WITHOUT_CHANNEL = ("worldball", "fivb", "uww", "majorgames", "bkfc")
+ALLOWED_WITHOUT_CHANNEL = ("worldball", "fivb", "fivb-indoor", "uww",
+                          "majorgames", "bkfc")
 
 
 def offered_rows(session, floor, ceiling):
