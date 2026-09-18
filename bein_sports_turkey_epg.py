@@ -138,17 +138,22 @@ CHANNELS = [
 
 LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos"
 
-# beIN SPORTS 1 is beIN SPORTS 1 either side of the border, so the Türkiye
-# roster reuses the marks already fetched for Qatar rather than duplicating
-# them. HABER is Türkiye-only and has its own file.
+# These marks used to be the Qatar files, shared on the reasoning that
+# beIN SPORTS 1 is beIN SPORTS 1 either side of the border. It is not:
+# this file says so itself a few lines up, and the guide keeps the two
+# rosters apart everywhere else. The sharing only went unnoticed while
+# both wore the same flat wordmark. Qatar's forty are now drawn as
+# numbered Arabic bubbles by make_bein_bubbles.py, so Türkiye carries its
+# own bein_tr*.png copies of that wordmark and is unaffected by the draw.
+# HABER is Türkiye-only and has its own file.
 LOGO_KEYS = {
-    "beIN SPORTS 1": "bein_1",
-    "beIN SPORTS 2": "bein_2",
-    "beIN SPORTS 3": "bein_3",
-    "beIN SPORTS 4": "bein_4",
-    "beIN SPORTS 5": "bein_5",
-    "beIN SPORTS MAX 1": "bein_max1",
-    "beIN SPORTS MAX 2": "bein_max2",
+    "beIN SPORTS 1": "bein_tr1",
+    "beIN SPORTS 2": "bein_tr2",
+    "beIN SPORTS 3": "bein_tr3",
+    "beIN SPORTS 4": "bein_tr4",
+    "beIN SPORTS 5": "bein_tr5",
+    "beIN SPORTS MAX 1": "bein_trmax1",
+    "beIN SPORTS MAX 2": "bein_trmax2",
     "beIN SPORTS HABER": "bein_haber",
 }
 
