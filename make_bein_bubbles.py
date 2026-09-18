@@ -69,6 +69,10 @@ PLATE_MAX_H = .26
 # the width this spends.
 PLATE_TRACKING = .05
 
+# Where the wordmark sits on the one channel that carries no plate: the
+# middle, because nothing is sharing the ball with it.
+MARK_TOP_ALONE = .36
+
 # The ball is shaded between these three, lit from the upper left, which
 # is where the light sits in the photograph.
 SHADOW = (58, 22, 92)
@@ -99,9 +103,19 @@ RINGED = "ringed"      # the plain bubble inside a gold band
 
 # (logo file stem, what its plate reads, how it is dressed)
 #
-# The nine Arabic channels carry the box's own wording, "HD n Ar", because
-# that is the set the owner was looking at. Every other family is named
-# the way beIN names it, so a plate never has to be decoded.
+# The nine Arabic channels carry the BARE number, which is how beIN names
+# them: they are the default, and everything else is a named variant. It
+# started as "HD 1 Ar" after the owner's set-top box, and the suffix was
+# dropped because it said nothing the icon did not already say — the
+# English feeds carry their own "EN 1", so a bare number can only be the
+# Arabic channel, and no other plate in the roster is a bare number. The
+# room that bought goes to the digit, which is what a reader is looking
+# for. Every other family is named the way beIN names it.
+#
+# An EMPTY label means no plate at all, and only the unnumbered brand
+# channel takes it. A plate reading "Ar" there claimed a distinction that
+# does not exist; having no plate is itself the distinction, and it is the
+# one channel that has no number or sub-name to print.
 #
 # The dress is what tells the families apart in a long channel list, and
 # it is deliberately coarse: gold for the nine Arabic channels and the two
@@ -109,15 +123,15 @@ RINGED = "ringed"      # the plain bubble inside a gold band
 # Marking more than that would mark nothing — a list where every icon is
 # gold distinguishes no channel from another.
 SPECS = [
-    ("bein_1", "HD 1 Ar", GOLD),
-    ("bein_2", "HD 2 Ar", GOLD),
-    ("bein_3", "HD 3 Ar", GOLD),
-    ("bein_4", "HD 4 Ar", GOLD),
-    ("bein_5", "HD 5 Ar", GOLD),
-    ("bein_6", "HD 6 Ar", GOLD),
-    ("bein_7", "HD 7 Ar", GOLD),
-    ("bein_8", "HD 8 Ar", GOLD),
-    ("bein_9", "HD 9 Ar", GOLD),
+    ("bein_1", "1", GOLD),
+    ("bein_2", "2", GOLD),
+    ("bein_3", "3", GOLD),
+    ("bein_4", "4", GOLD),
+    ("bein_5", "5", GOLD),
+    ("bein_6", "6", GOLD),
+    ("bein_7", "7", GOLD),
+    ("bein_8", "8", GOLD),
+    ("bein_9", "9", GOLD),
 
     ("bein_xtra1", "XTRA 1", PURPLE),
     ("bein_xtra2", "XTRA 2", PURPLE),
@@ -149,7 +163,7 @@ SPECS = [
     ("bein_fr1", "FR 1", PURPLE),
     ("bein_fr2", "FR 2", PURPLE),
 
-    ("bein_brand", "Ar", PURPLE),
+    ("bein_brand", "", GOLD),
     ("bein_4k", "4K", GOLD),
     ("bein_4khdr", "4K HDR", GOLD),
     ("bein_nba", "NBA", PURPLE),
@@ -309,15 +323,17 @@ def plate(text: str, size: int,
 
 
 def bubble(label: str, sphere: Image.Image, cap: Image.Image,
-           mark: Image.Image, tab: Image.Image,
+           mark: Image.Image, tab: Image.Image | None,
            ring: Image.Image | None = None) -> Image.Image:
     img = sphere.copy()
     img.alpha_composite(cap)
     if ring is not None:
         img.alpha_composite(ring)
-    img.alpha_composite(mark, ((SIZE - mark.width) // 2, int(SIZE * MARK_TOP)))
-    img.alpha_composite(tab, ((SIZE - tab.width) // 2,
-                              int(SIZE * PLATE_CENTRE - tab.height / 2)))
+    top = MARK_TOP if tab is not None else MARK_TOP_ALONE
+    img.alpha_composite(mark, ((SIZE - mark.width) // 2, int(SIZE * top)))
+    if tab is not None:
+        img.alpha_composite(tab, ((SIZE - tab.width) // 2,
+                                  int(SIZE * PLATE_CENTRE - tab.height / 2)))
     # A long plate would otherwise hang over the edge of the ball.
     img.putalpha(Image.composite(img.getchannel("A"),
                                  Image.new("L", (SIZE, SIZE), 0),
@@ -351,19 +367,19 @@ def main() -> int:
         if style == GOLD:
             sphere, mark, ring_arg = gold_ball, dark_mark, None
             tab = plate(label, SIZE, fill=GOLD_MARK_INK, ink=GOLD_INK,
-                        opacity=245)
+                        opacity=245) if label else None
         elif style == RINGED:
             sphere, mark, ring_arg = purple_ball, white_mark, ring
-            tab = plate(label, SIZE)
+            tab = plate(label, SIZE) if label else None
         else:
             sphere, mark, ring_arg = purple_ball, white_mark, None
-            tab = plate(label, SIZE)
+            tab = plate(label, SIZE) if label else None
 
         path = os.path.join(OUT_DIR, f"{stem}.png")
         bubble(label, sphere, cap, mark, tab, ring_arg).save(
             path, "PNG", optimize=True)
         drawn[style] += 1
-        print(f"  {path:28} {label:10} {style}")
+        print(f"  {path:28} {label or '(no plate)':10} {style}")
 
     print(f"\ndrew {len(SPECS)} marks: "
           f"{drawn[GOLD]} gold, {drawn[RINGED]} ringed, {drawn[PURPLE]} plain")
