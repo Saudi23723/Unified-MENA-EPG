@@ -77,6 +77,14 @@ RIM_KEEP = .90         # how close to the rim the type may come
 TRACKING = .02
 SUPERSAMPLE = 3        # the type is drawn big and brought down
 
+# With the height capped at the wordmark's, a short label leaves width
+# unused: "1" filled barely a third of the room it had. The set type is
+# therefore stretched sideways until its corners reach the same limits the
+# size does, which widens "1", "9" and "4K" by about a third and leaves the
+# long names alone — they had no room to give.
+STRETCH_LIMIT = 1.35
+STRETCH_STEP = .02
+
 INK = (255, 254, 252)
 # The number is cut the way the beIN wordmark is cut: lit from the upper
 # left, shadowed to the lower right. Flat white sat ON the picture; this
@@ -244,19 +252,44 @@ def largest_fit(text: str, slope: float, inter: float):
     raise SystemExit(f"no size fits {text!r} on the orb")
 
 
-def label_on(img: Image.Image, text: str, slope: float, inter: float) -> None:
+def stretch_for(text: str, px: int, track: float, height: float,
+                slope: float, inter: float) -> float:
+    """How far this label can be widened before it leaves the sphere."""
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    font = ImageFont.truetype(FONT_PATH, px)
+    width = (sum(probe.textlength(c, font=font) for c in text)
+             + track * (len(text) - 1))
+    factor = 1.0
+    while factor + STRETCH_STEP <= STRETCH_LIMIT:
+        trial = factor + STRETCH_STEP
+        if place(width * trial, height, slope, inter) is None:
+            break
+        factor = trial
+    return factor
+
+
+def label_on(img: Image.Image, text: str, slope: float, inter: float) -> float:
     """Print the channel's number, cut into the surface rather than onto it."""
-    px, track, top = largest_fit(text, slope, inter)
+    px, track, _ = largest_fit(text, slope, inter)
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    face = ImageFont.truetype(FONT_PATH, px)
+    box = probe.textbbox((0, 0), text, font=face)
+    height = box[3] - box[1]
+    factor = stretch_for(text, px, track, height, slope, inter)
+    top = place((sum(probe.textlength(c, font=face) for c in text)
+                 + track * (len(text) - 1)) * factor,
+                height, slope, inter)
+
     big = SIZE * SUPERSAMPLE
     layer = Image.new("RGBA", (big, big), (0, 0, 0, 0))
     draw = ImageDraw.Draw(layer)
     font = ImageFont.truetype(FONT_PATH, px * SUPERSAMPLE)
     step = track * SUPERSAMPLE
-    box = draw.textbbox((0, 0), text, font=font)
+    bounds = draw.textbbox((0, 0), text, font=font)
     run = (sum(draw.textlength(c, font=font) for c in text)
            + step * (len(text) - 1))
     x0 = (big - run) / 2
-    y0 = top * SUPERSAMPLE - box[1]
+    y0 = top * SUPERSAMPLE - bounds[1]
     size = px * SUPERSAMPLE
     for dx, dy, colour in ((-size * EMBOSS_OFFSET, -size * EMBOSS_DROP, EMBOSS_LIGHT),
                            (size * EMBOSS_OFFSET, size * EMBOSS_DROP, EMBOSS_DARK)):
@@ -270,6 +303,12 @@ def label_on(img: Image.Image, text: str, slope: float, inter: float) -> None:
         x += draw.textlength(ch, font=font) + step
     flat = layer.resize((SIZE, SIZE), Image.LANCZOS)
 
+    if factor > 1.0:
+        # widen about the centre, so the label stays where it was placed
+        wide = int(SIZE * factor)
+        flat = flat.resize((wide, SIZE), Image.LANCZOS).crop(
+            ((wide - SIZE) // 2, 0, (wide - SIZE) // 2 + SIZE, SIZE))
+
     shade = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
     shade.paste(Image.new("RGBA", (SIZE, SIZE), DROP_SHADOW), (0, 0), flat)
     img.alpha_composite(
@@ -277,6 +316,7 @@ def label_on(img: Image.Image, text: str, slope: float, inter: float) -> None:
              .transform((SIZE, SIZE), Image.AFFINE,
                         (1, 0, -SIZE * SHADOW_SHIFT, 0, 1, -SIZE * SHADOW_DROP)))
     img.alpha_composite(flat)
+    return factor
 
 
 def save(img: Image.Image, path: str) -> None:
@@ -298,20 +338,22 @@ def main() -> int:
     slope, inter = band_line(orb)
 
     tallest = 0
+    widest = 1.0
     for stem, label in SPECS:
         path = os.path.join(OUT_DIR, f"{stem}.png")
         img = orb.copy()
         if label:
             px, _, _ = largest_fit(label, slope, inter)
             tallest = max(tallest, px)
-            label_on(img, label, slope, inter)
+            widest = max(widest, label_on(img, label, slope, inter))
             img.putalpha(ImageChops.darker(img.getchannel("A"), alpha))
         save(img, path)
         print(f"  {path:28} {label or '(orb as supplied)'}")
 
     print(f"\nprinted {len(SPECS)} marks  ·  band edge y = {slope:.4f}x + "
           f"{inter:.1f}  ·  largest face {tallest}px, capped at "
-          f"{int(SIZE * BEIN_CAP)}px of letter height")
+          f"{int(SIZE * BEIN_CAP)}px of letter height  ·  widened up to "
+          f"{widest:.2f}x")
     return 0
 
 
