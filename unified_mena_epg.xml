@@ -1920,12 +1920,6 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260918170000 +0000" stop="20260918173000 +0000" channel="beINSports1.qa">
-    <title lang="en">Tottenham Hotspur vs Everton - English Premier League 2026/2027 - Week 4</title>
-    <desc lang="en">Tottenham Hotspur have only lost one of their last 17 Premier League home games against Everton, winning their last five since a 0-1 defeat in September 2020. Everton lost both Premier League meetings with Tottenham Hotspur last season by an aggregate score of 4-0, but have never lost three in a row to Spurs without scoring in their league history.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260918173000 +0000" stop="20260918180000 +0000" channel="beINSports1.qa">
     <title lang="en">Highlights - UEFA Europa League 2026/2027</title>
     <category lang="ar">الدوري الأوروبي</category>
@@ -6589,6 +6583,12 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
+  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="beINSports7.qa">
+    <title lang="en">Qatar's Creation At Asian Games 2022</title>
+    <desc lang="en">A dedicated program following Qatar’s journey at the Asian Games 2022, highlighting the nation’s performances across multiple disciplines. It showcases key results, medal achievements, and standout moments, while reflecting the development of Qatari sport and its growing competitiveness on the continental stage.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260918153000 +0000" stop="20260918180000 +0000" channel="beINSports8.qa">
     <title lang="en">Main Race - Spanish Grand Prix - 2026</title>
     <desc lang="en">Formula 1 is the pinnacle of international single-seater motorsport, bringing together the world’s leading drivers and constructors in a championship defined by speed, technology, strategy and precision. Across a global calendar, teams compete through a combination of practice sessions, qualifying and Grand Prix races, with every point contributing</desc>
@@ -8832,6 +8832,11 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
+  <programme start="20260925173500 +0000" stop="20260925183500 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">EN T100 2026 Highlights | E6 - French Riviera</title>
+    <category lang="ar">مسلسلات</category>
+    <category lang="en">Series</category>
+  </programme>
   <programme start="20260918171500 +0000" stop="20260918175500 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Avant Match Multiligue vs 2 - Ligue 2 - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sport.</desc>
@@ -10647,13 +10652,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918170000 +0000" stop="20260918173000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">A special News Bulletin from the beIN SPORTS News Room with the addition of sign language for the hard of hearing.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918173000 +0000" stop="20260918180000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Ligue 1 Show - 2026/2027</title>
     <desc lang="en">All of the greatest moments from a weekend full of action in Ligue 1, with reviews of table and results. Also discusses players of the week, best play, best save, worst blooper, who is in the hot seat, and who was the revelation of the round.</desc>
@@ -12137,6 +12135,12 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
+    <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260918170000 +0000" stop="20260918180000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -56736,10 +56740,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/713/kloKfQeffViJlwO.jpg" />
   </programme>
-  <programme start="20260918164500 +0000" stop="20260918173000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">نشرة الأخبار المسائية</title>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260918173000 +0000" stop="20260918193000 +0000" channel="AlJadeed.lb">
     <title lang="ar">برامج الجديد — لم تُعلن التفاصيل</title>
     <category lang="ar">منوعات</category>
@@ -57590,6 +57590,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20260920003810 +0000" stop="20260920005815 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20260920005815 +0000" stop="20260920011818 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
@@ -62399,7 +62403,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260920205847 +0000" stop="20260920210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920005815 +0000" stop="20260920011818 +0000" channel="AlJazeera.qa">
+  <programme start="20260920011818 +0000" stop="20260920013809 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260917210000 +0000" stop="20260918210000 +0000" channel="JordanSports">
@@ -64313,66 +64317,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">القناة: Alwan Sport 3
 المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260918202500 +0300" stop="20260918213000 +0300" channel="Alwan4_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 4
-المصدر: existing XML</desc>
   </programme>
   <programme start="20260918213000 +0300" stop="20260918232500 +0300" channel="Alwan4_sport">
     <title lang="ar">بايرن - ي.برلين ‎🔴 LIVE‎</title>
@@ -71798,31 +71742,31 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassOne.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassOne.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassTwo.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassTwo.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassThree.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassFour.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassFive.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassSix.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassSeven.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919210000 +0000" stop="20260920011845 +0000" channel="AlkassEight.qa">
+  <programme start="20260919210000 +0000" stop="20260920013832 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918190000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260918173500 +0000" stop="20260918190000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Euroleague Basketball SuperCup Abu Dhabi 2026</title>
     <desc lang="en">Euroleague Basketball SuperCup Abu Dhabi 2026</desc>
     <category lang="en">Sport</category>
@@ -72272,13 +72216,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918173000 +0000" channel="Starz_admnadsports2">
-    <title lang="en">UCI MTB World Championship 2026</title>
-    <desc lang="en">UCI MTB World Championship 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260918173000 +0000" stop="20260918183000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260918173500 +0000" stop="20260918183000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Max Power 2026</title>
     <desc lang="en">Max Power 2026</desc>
     <category lang="en">Sport</category>
@@ -72626,7 +72564,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Inter x Udinese - Serie A</title>
     <title lang="ar">إنتر × أودينيزي - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -73219,7 +73157,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Como x Parma - Serie A</title>
     <title lang="ar">كومو × بارما - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -73833,7 +73771,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918181000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260918173500 +0000" stop="20260918181000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -74561,7 +74499,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Second Semifinal: Japan vs. United States - 2026 World Rugby Pacific Nations Cup</title>
     <desc lang="en">Second Semifinal: Japan vs. United States - 2026 World Rugby Pacific Nations Cup</desc>
     <category lang="en">Sport</category>
@@ -74759,14 +74697,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918172800 +0000" channel="Starz_golflife">
-    <title lang="en">PGA TOUR: The CUT</title>
-    <title lang="ar">ذا كت</title>
-    <desc lang="en">S2026 , E24 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
-  </programme>
-  <programme start="20260918172800 +0000" stop="20260918182700 +0000" channel="Starz_golflife">
+  <programme start="20260918173500 +0000" stop="20260918182700 +0000" channel="Starz_golflife">
     <title lang="en">Corales Puntacana Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E157 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -75202,7 +75133,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918173600 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260918173500 +0000" stop="20260918173600 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2nd T20: England vs Sri Lanka - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -75836,7 +75767,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918174500 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260918173500 +0000" stop="20260918174500 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Al Wahda x Sharjah - ADNOC Pro League</title>
     <title lang="ar">الوحدة × الشارقة - دوري أدنوك للمحترفين</title>
     <desc lang="en">Stay tuned to watch the best of football from the Adnoc Pro League.</desc>
@@ -76459,7 +76390,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918190000 +0000" channel="Starz_wedosports">
+  <programme start="20260918173500 +0000" stop="20260918190000 +0000" channel="Starz_wedosports">
     <title lang="en">3ICE World Cup Hockey - LIVE</title>
     <desc lang="en">3ICE World Cup Hockey - LIVE</desc>
     <category lang="en">Sport</category>
@@ -76846,7 +76777,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p10144660_b_h8_ah.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_criclife1">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_criclife1">
     <title lang="en">TATA IPL 2026: Sunrisers Hyderabad vs. Rajasthan Royals - Prime Time Smash</title>
     <desc lang="en">TATA IPL 2026: Sunrisers Hyderabad vs. Rajasthan Royals - Prime Time Smash</desc>
     <category lang="en">Sport</category>
@@ -77718,14 +77649,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918172100 +0000" channel="Starz_criclife3">
-    <title lang="en">Final: Trent Rockets vs. Manchester Super Giants - Men's The Hundred</title>
-    <title lang="ar">منز ذا هاندرد</title>
-    <desc lang="en">S2026 , Ep.Final: Trent Rockets vs. Manchester Super Giants : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260918172100 +0000" stop="20260918174500 +0000" channel="Starz_criclife3">
+  <programme start="20260918173500 +0000" stop="20260918174500 +0000" channel="Starz_criclife3">
     <title lang="en">Final - Women's CPL T20</title>
     <desc lang="en">Final - Women's CPL T20</desc>
     <category lang="en">Sport</category>
@@ -78467,7 +78391,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918181500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260918173500 +0000" stop="20260918181500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Four-Star Event - UAE Horse Show Jumping Champion</title>
     <title lang="ar">فئة الأربع نجوم - بطولة الإمارات لسباق قفز الحواجز</title>
     <desc lang="en">Follow UAE Horse Show Jumping Champion.</desc>
@@ -79027,7 +78951,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918191243 +0000" channel="Starz_awsn">
+  <programme start="20260918173500 +0000" stop="20260918191243 +0000" channel="Starz_awsn">
     <title lang="en">2026: Prague Group A2 vs. A1 Final Part 1</title>
     <desc lang="en">Competition heats up in the Prague Group Finals, with the winner clinching a spot at the LA28 Olympic Games.</desc>
     <category lang="en">Sport</category>
@@ -79806,7 +79730,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_redbulltv">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -80388,7 +80312,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_daznringside">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -80586,7 +80510,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180930 +0000" channel="Starz_fifaplus">
+  <programme start="20260918173500 +0000" stop="20260918180930 +0000" channel="Starz_fifaplus">
     <title lang="en">Spain v Brazil | Final | FIFA World Youth Championship UAE 2003™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Spain and Brazil played at Zayed Sports City Stadium, Abu Dhabi on Friday, 19 December 2003 at 20:45 (local time).</desc>
     <category lang="en">Sport</category>
@@ -80994,7 +80918,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123912.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918180000 +0000" channel="Starz_admnyastv">
+  <programme start="20260918173500 +0000" stop="20260918180000 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE President's Endurance Cup Highlights 2026</title>
     <desc lang="en">UAE President's Endurance Cup Highlights 2026</desc>
     <category lang="en">Sport</category>
@@ -81318,13 +81242,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260918171500 +0000" stop="20260918173000 +0000" channel="Starz_adfight">
-    <title lang="en">UAE Kickboxing Championship 2026</title>
-    <desc lang="en">UAE Kickboxing Championship 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260918173000 +0000" stop="20260919022000 +0000" channel="Starz_adfight">
+  <programme start="20260918173500 +0000" stop="20260919022000 +0000" channel="Starz_adfight">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</title>
     <desc lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</desc>
     <category lang="en">Sport</category>
@@ -81420,7 +81338,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921191000 +0000" stop="20260922171500 +0000" channel="Starz_adfight">
+  <programme start="20260921191000 +0000" stop="20260922173500 +0000" channel="Starz_adfight">
     <title lang="en">Hexagone MMA 2026</title>
     <desc lang="en">Hexagone MMA 2026</desc>
     <category lang="en">Sport</category>
@@ -90154,8 +90072,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ⏳ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -90212,7 +90128,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -90276,8 +90192,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ⏳ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -90334,7 +90248,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -90392,14 +90306,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 5</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
   </programme>
-  <programme start="20260919101000 +0000" stop="20260919110000 +0000" channel="TodaySports">
+  <programme start="20260919101000 +0000" stop="20260919111000 +0000" channel="TodaySports">
     <title lang="ar">⁦⏳ بعد ساعتين ⁨·⁩ ⁨MMA Laura Burgos vs Bryony Soden⁩⁩</title>
     <desc lang="ar">رياضات اليوم · السبت 19.09.2026
 
 ⏳ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -90456,129 +90368,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
-        DAZN
-✅ 18:00  UFC 331
-        TNT 1 · HBO Max
-✅ 18:50  India vs Uzbekistan - Hockey Men's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 19:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 19:50  India vs Uzbekistan - Hockey Women's - Asian Games Aichi-Nagoya 2026
-        beIN 2
-✅ 20:20  Kazakhstan vs Bahrain - Handball Men's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 20:50  Malaysia vs Uzbekistan - Hockey Men's - Asian Games Aichi-Nagoya 2026
-        beIN
-✅ 21:00  Aichi-Nagoya 2026 — Volleyball
-        PPV
-✅ 21:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 21:20  South Korea vs Kazakhstan - Handball Women's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 21:30  Aichi-Nagoya 2026 — Cycling - Road
-        PPV
-✅ 21:30  Aichi-Nagoya 2026 — Handball
-        PPV
-✅ 21:50  Iran vs China - Football Men - Asian Games Aichi-Nagoya 2026 - FBL16
-        beIN 5
-✅ 21:50  Kazakhstan vs Japan - Basketball - Asian Games Aichi-Nagoya 2026 - W
-        beIN 3
-✅ 22:00  Aichi-Nagoya 2026 — Shooting - Rifle, Pistol, Shot Gun
-        PPV
-✅ 22:00  Aichi-Nagoya 2026 — Cricket - T20
-        PPV
-✅ 22:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 22:30  Shooting - Rifle, Pistol, Shot Gun- Asian Games Aichi-Nagoya 2026 - W
-        beIN 2 · beIN EN 2
-✅ 22:30  Aichi-Nagoya 2026 — Volleyball - Beach Volleyball
-        PPV
-✅ 22:30  Aichi-Nagoya 2026 — Aquatics - Water Polo
-        PPV
-✅ 22:30  Aichi-Nagoya 2026 — Rowing
-        PPV
-✅ 22:50  China vs Japan - Handball Men's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 23:00  All - Sports - Asian Games Aichi-Nagoya 2026
-        beIN · beIN NEWS
-✅ 23:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 23:20  Vietnam vs Hong Kong - Handball Women's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 23:30  Aichi-Nagoya 2026 — Handball
-        PPV
-✅ 23:45  Harley Davidson Bagger World Cup Race 2 - Spielberg, Austria
-        TNT 5 · HBO Max
-✅ 23:50  Hong Kong vs Thailand - Football Men - Asian Games Aichi-Nagoya 2026 - FBL15
-        beIN 5</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
-  </programme>
-  <programme start="20260919110000 +0000" stop="20260919111000 +0000" channel="TodaySports">
-    <title lang="ar">⁦⏳ بعد ساعة و10 دقائق ⁨·⁩ ⁨MMA Laura Burgos vs Bryony Soden⁩⁩</title>
-    <desc lang="ar">رياضات اليوم · السبت 19.09.2026
-
-⏳ 05:10  MMA Laura Burgos vs Bryony Soden
-        DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
-✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
-        TNT 1 · HBO Max · TNT 7
-✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
-        ITV4 · ITVX
-✅ 11:00  Live Boxing Pat Brown vs John Hedges
-        DAZN
-✅ 11:30  UCI Mountain Bike World Series Women's Elite Cross-Country Short Track Race - Salt Lake City
-        TNT 1 · HBO Max
-✅ 12:45  UCI Mountain Bike World Series Men's Elite Cross-Country Short Track Race - Salt Lake City
-        TNT 1 · HBO Max
-✅ 14:00  UFC 331: Van vs. Pantoja 2
-        Paramount+
-✅ 16:00  UFC 331 - Van vs. Pantoja 2 Prelims
-        TNT 1 · Sportsnet 360
-✅ 16:30  Aichi-Nagoya 2026 — Triathlon
-        PPV
-✅ 16:50  China vs Bangladesh - Hockey Women's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 17:00  SF - Cricket - T20 Women's - Asian Games Aichi-Nagoya 2026 - CKT05
-        beIN 7
-✅ 17:00  Aichi-Nagoya 2026 — Shooting - Rifle, Pistol, Shot Gun
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Volleyball - Beach Volleyball
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Tennis - Soft Tennis
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Cycling - Road
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Cricket - T20
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Sepaktakraw
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Rowing
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 17:00  Live Boxing Isaac Cruz Gonzalez vs Nestor Bravo Velazquez
-        DAZN
-✅ 17:30  Aichi-Nagoya 2026 — Badminton
-        PPV
-✅ 17:50  Hong Kong vs Philippines - Basketball - Asian Games Aichi-Nagoya 2026 - W
-        beIN 3 · beIN EN 1
-✅ 17:50  Karate - Kata- Kumite - Asian Games Aichi-Nagoya 2026 - Women/ Men Finals
-        beIN 9
-✅ 18:00  Combat sports - Mixed Martial Arts - Asian Games Aichi-Nagoya 2026 - W/M
-        beIN XTRA 2
-✅ 18:00  Aichi-Nagoya 2026 — Aquatics - Swimming
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Karate - Kumite
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Combat sports
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Table Tennis
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Volleyball
-        PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -90642,8 +90432,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ⏳ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -90700,7 +90488,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -90764,8 +90552,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ⏳ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -90822,7 +90608,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -90880,14 +90666,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 5</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
   </programme>
-  <programme start="20260919114000 +0000" stop="20260919120000 +0000" channel="TodaySports">
+  <programme start="20260919114000 +0000" stop="20260919121000 +0000" channel="TodaySports">
     <title lang="ar">⁦⏳ بعد 30 دقيقة ⁨·⁩ ⁨MMA Laura Burgos vs Bryony Soden⁩⁩</title>
     <desc lang="ar">رياضات اليوم · السبت 19.09.2026
 
 ⏳ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -90944,7 +90728,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91002,258 +90786,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 5</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
   </programme>
-  <programme start="20260919120000 +0000" stop="20260919121000 +0000" channel="TodaySports">
-    <title lang="ar">⁦⏳ بعد 10 دقائق ⁨·⁩ ⁨MMA Laura Burgos vs Bryony Soden⁩⁩</title>
-    <desc lang="ar">رياضات اليوم · السبت 19.09.2026
-
-⏳ 05:10  MMA Laura Burgos vs Bryony Soden
-        DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
-✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
-        TNT 1 · HBO Max · TNT 7
-✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
-        ITV4 · ITVX
-✅ 11:00  Live Boxing Pat Brown vs John Hedges
-        DAZN
-✅ 11:30  UCI Mountain Bike World Series Women's Elite Cross-Country Short Track Race - Salt Lake City
-        TNT 1 · HBO Max
-✅ 12:45  UCI Mountain Bike World Series Men's Elite Cross-Country Short Track Race - Salt Lake City
-        TNT 1 · HBO Max
-✅ 14:00  UFC 331: Van vs. Pantoja 2
-        Paramount+
-✅ 16:00  UFC 331 - Van vs. Pantoja 2 Prelims
-        TNT 1 · Sportsnet 360
-✅ 16:30  Aichi-Nagoya 2026 — Triathlon
-        PPV
-✅ 16:50  China vs Bangladesh - Hockey Women's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 17:00  SF - Cricket - T20 Women's - Asian Games Aichi-Nagoya 2026 - CKT05
-        beIN 7
-✅ 17:00  Aichi-Nagoya 2026 — Shooting - Rifle, Pistol, Shot Gun
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Volleyball - Beach Volleyball
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Tennis - Soft Tennis
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Cycling - Road
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Cricket - T20
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Sepaktakraw
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Rowing
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 17:00  Live Boxing Isaac Cruz Gonzalez vs Nestor Bravo Velazquez
-        DAZN
-✅ 17:30  Aichi-Nagoya 2026 — Badminton
-        PPV
-✅ 17:50  Hong Kong vs Philippines - Basketball - Asian Games Aichi-Nagoya 2026 - W
-        beIN 3 · beIN EN 1
-✅ 17:50  Karate - Kata- Kumite - Asian Games Aichi-Nagoya 2026 - Women/ Men Finals
-        beIN 9
-✅ 18:00  Combat sports - Mixed Martial Arts - Asian Games Aichi-Nagoya 2026 - W/M
-        beIN XTRA 2
-✅ 18:00  Aichi-Nagoya 2026 — Aquatics - Swimming
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Karate - Kumite
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Combat sports
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Table Tennis
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Volleyball
-        PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
-        DAZN
-✅ 18:00  UFC 331
-        TNT 1 · HBO Max
-✅ 18:50  India vs Uzbekistan - Hockey Men's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 19:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 19:50  India vs Uzbekistan - Hockey Women's - Asian Games Aichi-Nagoya 2026
-        beIN 2
-✅ 20:20  Kazakhstan vs Bahrain - Handball Men's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 20:50  Malaysia vs Uzbekistan - Hockey Men's - Asian Games Aichi-Nagoya 2026
-        beIN
-✅ 21:00  Aichi-Nagoya 2026 — Volleyball
-        PPV
-✅ 21:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 21:20  South Korea vs Kazakhstan - Handball Women's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 21:30  Aichi-Nagoya 2026 — Cycling - Road
-        PPV
-✅ 21:30  Aichi-Nagoya 2026 — Handball
-        PPV
-✅ 21:50  Iran vs China - Football Men - Asian Games Aichi-Nagoya 2026 - FBL16
-        beIN 5
-✅ 21:50  Kazakhstan vs Japan - Basketball - Asian Games Aichi-Nagoya 2026 - W
-        beIN 3
-✅ 22:00  Aichi-Nagoya 2026 — Shooting - Rifle, Pistol, Shot Gun
-        PPV
-✅ 22:00  Aichi-Nagoya 2026 — Cricket - T20
-        PPV
-✅ 22:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 22:30  Shooting - Rifle, Pistol, Shot Gun- Asian Games Aichi-Nagoya 2026 - W
-        beIN 2 · beIN EN 2
-✅ 22:30  Aichi-Nagoya 2026 — Volleyball - Beach Volleyball
-        PPV
-✅ 22:30  Aichi-Nagoya 2026 — Aquatics - Water Polo
-        PPV
-✅ 22:30  Aichi-Nagoya 2026 — Rowing
-        PPV
-✅ 22:50  China vs Japan - Handball Men's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 23:00  All - Sports - Asian Games Aichi-Nagoya 2026
-        beIN · beIN NEWS
-✅ 23:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 23:20  Vietnam vs Hong Kong - Handball Women's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 23:30  Aichi-Nagoya 2026 — Handball
-        PPV
-✅ 23:45  Harley Davidson Bagger World Cup Race 2 - Spielberg, Austria
-        TNT 5 · HBO Max
-✅ 23:50  Hong Kong vs Thailand - Football Men - Asian Games Aichi-Nagoya 2026 - FBL15
-        beIN 5</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
-  </programme>
-  <programme start="20260919121000 +0000" stop="20260919140000 +0000" channel="TodaySports">
+  <programme start="20260919121000 +0000" stop="20260919141500 +0000" channel="TodaySports">
     <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨MMA Laura Burgos vs Bryony Soden⁩⁩</title>
     <desc lang="ar">رياضات اليوم · السبت 19.09.2026
 
 🔴 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-⏳ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
-✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
-        TNT 1 · HBO Max · TNT 7
-✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
-        ITV4 · ITVX
-✅ 11:00  Live Boxing Pat Brown vs John Hedges
-        DAZN
-✅ 11:30  UCI Mountain Bike World Series Women's Elite Cross-Country Short Track Race - Salt Lake City
-        TNT 1 · HBO Max
-✅ 12:45  UCI Mountain Bike World Series Men's Elite Cross-Country Short Track Race - Salt Lake City
-        TNT 1 · HBO Max
-✅ 14:00  UFC 331: Van vs. Pantoja 2
-        Paramount+
-✅ 16:00  UFC 331 - Van vs. Pantoja 2 Prelims
-        TNT 1 · Sportsnet 360
-✅ 16:30  Aichi-Nagoya 2026 — Triathlon
-        PPV
-✅ 16:50  China vs Bangladesh - Hockey Women's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 17:00  SF - Cricket - T20 Women's - Asian Games Aichi-Nagoya 2026 - CKT05
-        beIN 7
-✅ 17:00  Aichi-Nagoya 2026 — Shooting - Rifle, Pistol, Shot Gun
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Volleyball - Beach Volleyball
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Tennis - Soft Tennis
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Cycling - Road
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Cricket - T20
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Sepaktakraw
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Rowing
-        PPV
-✅ 17:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 17:00  Live Boxing Isaac Cruz Gonzalez vs Nestor Bravo Velazquez
-        DAZN
-✅ 17:30  Aichi-Nagoya 2026 — Badminton
-        PPV
-✅ 17:50  Hong Kong vs Philippines - Basketball - Asian Games Aichi-Nagoya 2026 - W
-        beIN 3 · beIN EN 1
-✅ 17:50  Karate - Kata- Kumite - Asian Games Aichi-Nagoya 2026 - Women/ Men Finals
-        beIN 9
-✅ 18:00  Combat sports - Mixed Martial Arts - Asian Games Aichi-Nagoya 2026 - W/M
-        beIN XTRA 2
-✅ 18:00  Aichi-Nagoya 2026 — Aquatics - Swimming
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Karate - Kumite
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Combat sports
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Table Tennis
-        PPV
-✅ 18:00  Aichi-Nagoya 2026 — Volleyball
-        PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
-        DAZN
-✅ 18:00  UFC 331
-        TNT 1 · HBO Max
-✅ 18:50  India vs Uzbekistan - Hockey Men's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 19:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 19:50  India vs Uzbekistan - Hockey Women's - Asian Games Aichi-Nagoya 2026
-        beIN 2
-✅ 20:20  Kazakhstan vs Bahrain - Handball Men's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 20:50  Malaysia vs Uzbekistan - Hockey Men's - Asian Games Aichi-Nagoya 2026
-        beIN
-✅ 21:00  Aichi-Nagoya 2026 — Volleyball
-        PPV
-✅ 21:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 21:20  South Korea vs Kazakhstan - Handball Women's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 21:30  Aichi-Nagoya 2026 — Cycling - Road
-        PPV
-✅ 21:30  Aichi-Nagoya 2026 — Handball
-        PPV
-✅ 21:50  Iran vs China - Football Men - Asian Games Aichi-Nagoya 2026 - FBL16
-        beIN 5
-✅ 21:50  Kazakhstan vs Japan - Basketball - Asian Games Aichi-Nagoya 2026 - W
-        beIN 3
-✅ 22:00  Aichi-Nagoya 2026 — Shooting - Rifle, Pistol, Shot Gun
-        PPV
-✅ 22:00  Aichi-Nagoya 2026 — Cricket - T20
-        PPV
-✅ 22:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 22:30  Shooting - Rifle, Pistol, Shot Gun- Asian Games Aichi-Nagoya 2026 - W
-        beIN 2 · beIN EN 2
-✅ 22:30  Aichi-Nagoya 2026 — Volleyball - Beach Volleyball
-        PPV
-✅ 22:30  Aichi-Nagoya 2026 — Aquatics - Water Polo
-        PPV
-✅ 22:30  Aichi-Nagoya 2026 — Rowing
-        PPV
-✅ 22:50  China vs Japan - Handball Men's - Asian Games Aichi-Nagoya 2026
-        beIN 1
-✅ 23:00  All - Sports - Asian Games Aichi-Nagoya 2026
-        beIN · beIN NEWS
-✅ 23:00  Aichi-Nagoya 2026 — Hockey
-        PPV
-✅ 23:20  Vietnam vs Hong Kong - Handball Women's - Asian Games Aichi-Nagoya 2026
-        beIN 8
-✅ 23:30  Aichi-Nagoya 2026 — Handball
-        PPV
-✅ 23:45  Harley Davidson Bagger World Cup Race 2 - Spielberg, Austria
-        TNT 5 · HBO Max
-✅ 23:50  Hong Kong vs Thailand - Football Men - Asian Games Aichi-Nagoya 2026 - FBL15
-        beIN 5</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_0.png" />
-  </programme>
-  <programme start="20260919140000 +0000" stop="20260919141500 +0000" channel="TodaySports">
-    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria⁩⁩</title>
-    <desc lang="ar">رياضات اليوم · السبت 19.09.2026
-
-🔴 05:10  MMA Laura Burgos vs Bryony Soden
-        DAZN
-🔴 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ⏳ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -91310,7 +90848,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91374,8 +90912,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 🔴 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-🔴 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 🔴 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ⏳ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -91432,7 +90968,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91496,8 +91032,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 🔴 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 🔴 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 🔴 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -91554,7 +91088,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91618,8 +91152,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 🔴 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 🔴 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -91676,7 +91208,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91740,8 +91272,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 🔴 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 🔴 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -91798,7 +91328,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91862,8 +91392,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 🔴 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 🔴 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -91920,7 +91448,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -91984,8 +91512,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 🔴 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 🔴 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92042,7 +91568,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92106,8 +91632,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 🔴 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92164,7 +91688,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92228,8 +91752,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92286,7 +91808,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92350,8 +91872,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92408,7 +91928,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92472,8 +91992,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92530,7 +92048,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92594,8 +92112,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92652,7 +92168,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92716,8 +92232,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92774,7 +92288,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92838,8 +92352,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -92896,7 +92408,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -92960,8 +92472,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93018,7 +92528,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93082,8 +92592,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93140,7 +92648,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93204,8 +92712,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93262,7 +92768,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93326,8 +92832,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93384,7 +92888,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93448,8 +92952,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93506,7 +93008,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93570,8 +93072,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93628,7 +93128,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93692,8 +93192,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93750,7 +93248,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93814,8 +93312,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93872,7 +93368,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -93936,8 +93432,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -93994,7 +93488,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94058,8 +93552,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94116,7 +93608,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94180,8 +93672,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94238,7 +93728,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94302,8 +93792,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94360,7 +93848,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94424,8 +93912,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94482,7 +93968,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 🔴 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94546,8 +94032,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94604,7 +94088,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94668,8 +94152,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94726,7 +94208,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94790,8 +94272,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94848,7 +94328,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -94912,8 +94392,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -94970,7 +94448,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-🔴 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+🔴 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 🔴 18:00  UFC 331
         TNT 1 · HBO Max
@@ -95034,8 +94512,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -95092,7 +94568,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -95156,8 +94632,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -95214,7 +94688,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -95278,8 +94752,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -95336,7 +94808,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -95400,8 +94872,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -95458,7 +94928,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -95522,8 +94992,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 
 ✅ 05:10  MMA Laura Burgos vs Bryony Soden
         DAZN
-✅ 07:00  Harley Davidson Bagger World Cup Race 1 - Spielberg, Austria
-        TNT 10 · HBO Max
 ✅ 07:15  Stage 4 - 2026 Skoda Tour of Luxembourg
         TNT 1 · HBO Max · TNT 7
 ✅ 10:00  World Series of Darts Finals - AFAS Live, Amsterdam
@@ -95580,7 +95048,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         PPV
 ✅ 18:00  Aichi-Nagoya 2026 — Volleyball
         PPV
-✅ 18:00  Isaac Cruz vs Nestor Bravo, Jesus Ramos vs Meiirim Nursultanov, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez
+✅ 18:00  Isaac Cruz vs Nestor Bravo, Daniel Blancas vs Sergio Jimenez, Marco Verde vs Guillermo Hernandez, Eumir Marcial vs Omar Ulises Huerta
         DAZN
 ✅ 18:00  UFC 331
         TNT 1 · HBO Max
@@ -121440,217 +120908,109 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_19.png" />
   </programme>
-  <programme start="20260919160000 +0000" stop="20260919170000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · «الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 09:48 — بتوقيتك
-
-«الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر
-        بعد 15 عاماً من الدعايات الحماسية للكتاب الإلكتروني بأنه سيقضي على الورق، ويحول المكتبات التقليدية إلى مجرد مدافن لمحتويات تأكلها الغبار...
-        عربي · الشرق الأوسط
-تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
-        برفقة كوماندوز أتراك
-        تركيا · الأناضول
-كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
-        الإمارات · الإمارات
-Major seaside hotel fire treated as suspicious
-        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
-        بريطانيا · BBC
-Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
-        A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
-        أمريكا · NYT
-AI Hallucination Nearly Sparked a US Military Operation
-        Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
-        الأردن · Jordan News
-قلق ليبي من تأثيرات سلبية للمياه الجوفية على مشروعات الإعمار
-        يزداد القلق في ليبيا من تأثيرات ارتفاع منسوب المياه الجوفية على مشروعات الإعمار، وسط شكاوى من غرق منازل وشوارع وتضرر أراضٍ زراعية.
-        عربي · الشرق الأوسط
-صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
-        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
-        تركيا · الأناضول
-لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
-        الإمارات · الإمارات
-All but four constituencies would support reversing Brexit and rejoining the EU, major poll shows
-        New in-depth polling finds 35 per cent of voters would choose EU membership as their preferred policy option – with just 11 per cent wanting looser…
-        بريطانيا · Independent
-Carrot Top hospitalized, forced to cancel weekend performances
-        Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
-        أمريكا · Fox News
-Italian Caprese Salad
-        One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
-        الأردن · Jordan News
-ترمب يعلن «سيطرة دائمة» لواشنطن على أمن غرينلاند
-        اعتبرت كوبنهاغن، السبت، أن الاتفاق «الملزم» الذي تم التوصل إليه مع واشنطن حول غرينلاند «يعزز الأمن» في منطقة القطب الشمالي بأكملها.
-        عربي · الشرق الأوسط
-أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
-        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
-        تركيا · TRT عربي
-سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
-        الإمارات · الإمارات
-Lindsay Clancy ex-husband says ‘I think I did the best I could’
-        Patrick Clancy and wife Rachel Danis to speak publicly on 60 Minutes on Sunday about Massachusetts murder trial Patrick Clancy and his wife Rachel…
-        بريطانيا · Guardian
-Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
-        Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
-        أمريكا · Fox News
-New Water Violations Detected in Azraq and Sahab
-        The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
-        الأردن · Jordan News
-«أرواحهم في المفكرة» لنبيل سليمان
-        صدر للروائي والناقد السوري نبيل سليمان كتاب جديد بعنوان «أرواحهم في المفكرة»
-        عربي · الشرق الأوسط
-الجيش السوداني يعلن إسقاط مسيرة "استراتيجية" للدعم السريع في الكرمك
-        بولاية النيل الأزرق جنوب شرقي البلاد وفق بيان الفرقة الرابعة مشاة، دون تعقيب فوري من قوات الدعم السريع
-        تركيا · الأناضول
-ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
-        الإمارات · الإمارات
-England crush Sri Lanka to top T20 world rankings
-        England steamroller Sri Lanka in the third T20 to complete a 3-0 series clean sweep and return to number one in the world rankings.
-        بريطانيا · BBC
-MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
-        President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
-        أمريكا · ABC News
-Security Researchers Used Claude to Hack OpenAI, Received Bounty
-        AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
-        الأردن · Jordan News
-تشديد مصري متكرر على وحدة السودان وسط تعقيدات الحرب
-        تشديد مصري جديد على أهمية وحدة السودان في محادثات جديدة مع واشنطن
-        عربي · الشرق الأوسط
-وزير الرياضة يشهد افتتاح دورة الألعاب الآسيوية "آيتشي-ناغويا 2026" - Sharjah24
-        الإمارات · الإمارات
-الرئيس أردوغان: ماضون بحزم في مسار "تركيا بلا إرهاب" وتحقيق الاستقرار
-        قال الرئيس التركي رجب طيب أردوغان السبت، إن بلاده ماضية في مسار "تركيا بلا إرهاب" للقضاء بشكل كامل على آفة الإرهاب
-        تركيا · TRT عربي
-CNN, MS NOW and Politico staffers barred from White House after Trump ban
-        President Trump said Friday that three outlets would be banned from the White House, "effective immediately."
-        أمريكا · CBS
-Jim Ratcliffe: UK is ‘on the slide’ from days when it had world’s ‘greatest empire’
-        Co-owner of Manchester United says Britain is in decline because of high taxes and immigration Manchester United’s Muslim supporters’ club (MUMSC)…
-        بريطانيا · Guardian
-Brentford Thrash Chelsea 3-0, Piling Pressure on Alonso
-        Brentford dealt a major blow to Chelsea’s ambitions with a convincing 3-0 victory at the Gtech Community Stadium, highlighting the difficult early…
-        الأردن · Jordan News
-«البريميرليغ»: سقوط مدوٍّ لآرسنال... ونيوكاسل ينتصر
-        صدم برايتون ضيفه آرسنال حامل اللقب وأوقع به الخسارة الأولى هذا الموسم 3-0، السبت، في المرحلة الخامسة من الدوري الإنجليزي لكرة القدم.
-        عربي · الشرق الأوسط
-قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
-        الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
-        تركيا · الأناضول
-الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
-        الإمارات · الإمارات
-Everton hold off Ipswich thanks to Thierno Barry goal despite VAR controversy
-        After the trials and tribulations of the transfer window Everton can be content to reach the international break unbeaten and up to fifth courtesy of…
-        بريطانيا · Guardian
-Entire California high school football team suspended after mascot's obscene gesture
-        Another Football Friday passed without Victor Valley High School after its entire team and coaching staff were suspended for unsportsmanlike conduct.
-        أمريكا · Fox News
-Ronaldo Named in Portugal Squad for Nations League
-        Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
-        الأردن · Jordan News</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
-  </programme>
   <programme start="20260919170000 +0000" stop="20260919180000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 09:48 — بتوقيتك
+    <title lang="ar">أخبار اليوم · العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:10 — بتوقيتك
 
-«الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر
-        بعد 15 عاماً من الدعايات الحماسية للكتاب الإلكتروني بأنه سيقضي على الورق، ويحول المكتبات التقليدية إلى مجرد مدافن لمحتويات تأكلها الغبار...
+العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء
+        دخل السودان منعطفاً جديداً مع التراجع الحاد في سعر صرف عملته الجنيه أمام العملات الأجنبية، وتجاوز سعر الدولار 9 آلاف جنيه
         عربي · الشرق الأوسط
-تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
-        برفقة كوماندوز أتراك
-        تركيا · الأناضول
+الولايات المتحدة ترفع آخر قيود حظر الأسلحة والتمويل العسكري عن سوريا
+        رفعت الولايات المتحدة آخر قيدين متبقيين من عقوبات كانت مفروضة على سوريا بموجب قانون أمريكي لمكافحة الأسلحة الكيميائية والبيولوجية
+        تركيا · TRT عربي
+ماذا نعرف عن انتخابات مجلس الدوما الروسية؟ - BBC
+        الإمارات · الإمارات
+Aqaba Airport Welcomes First Flights from Abu Dhabi
+        King Hussein International Airport in Aqaba welcomed its first regular direct flights from the UAE capital Abu Dhabi on Friday evening
+        الأردن · Jordan News
+Zack Polanski speaks Bengali in bid to reach Holburn and St Pancras by-election voters
+        The Green Party leader was mocked by the Mayor of London Sadiq Khan for his Urdu-speaking video earlier this week
+        بريطانيا · Independent
+U.S. touts 1 billion barrels of oil escorted out of Strait of Hormuz
+        Adm. Brad Cooper provided updates on U.S. efforts to get oil out of the Persian Gulf after a bad week of news on the energy markets.
+        أمريكا · CBS
+​ رسائل تحذيرية وصلت.. حراك في الشارع اللبناني؟
+        في المشهد السياسي تتجه الأنظار الى الولايات المتحدة وزيارة رئيس الحكومة نواف سلام، المحمل بمواضيع مفصلية ترتبط باليونيفيل وما بعدها
+        عربي · الجديد
+بمشاركة واسعة.. تركيا تسجل ثالث أكبر حضور في معرض إفريقيا للدفاع بجنوب إفريقيا
+        سجلت تركيا حضوراً واسعاً في "معرض إفريقيا للطيران والدفاع" المقام في العاصمة الجنوب إفريقية بريتوريا
+        تركيا · TRT عربي
 كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
         الإمارات · الإمارات
-Major seaside hotel fire treated as suspicious
-        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
-        بريطانيا · BBC
+Hotel fire that sparked mass evacuation being treated as suspicious
+        A fire that forced nearly 300 people to be evacuated from a Folkestone hotel is being treated as suspicious, say police.
+        بريطانيا · Sky News
 Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
         A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
         أمريكا · NYT
 AI Hallucination Nearly Sparked a US Military Operation
         Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
         الأردن · Jordan News
-قلق ليبي من تأثيرات سلبية للمياه الجوفية على مشروعات الإعمار
-        يزداد القلق في ليبيا من تأثيرات ارتفاع منسوب المياه الجوفية على مشروعات الإعمار، وسط شكاوى من غرق منازل وشوارع وتضرر أراضٍ زراعية.
+كاظم الساهر يحتفل بألبومه الجديد وعيد ميلاده مع جمهوره المصري
+        بحنجرة ذهبية تحمل ألحاناً وكلمات فصحى عميقة، صدح «القيصر»، كاظم الساهر، في القاهرة بباقة مميزة من أجمل أغنياته.
         عربي · الشرق الأوسط
-صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
-        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
+        برفقة كوماندوز أتراك
         تركيا · الأناضول
 لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
         الإمارات · الإمارات
-All but four constituencies would support reversing Brexit and rejoining the EU, major poll shows
-        New in-depth polling finds 35 per cent of voters would choose EU membership as their preferred policy option – with just 11 per cent wanting looser…
-        بريطانيا · Independent
+England’s historic winning streak ends after Red Roses draw with Canada
+        WXV: England 26-26 Canada Canadians end Red Roses’ run of 39 successive wins Still unbeaten, yes, but for England this was anything but business as…
+        بريطانيا · Guardian
 Carrot Top hospitalized, forced to cancel weekend performances
         Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
         أمريكا · Fox News
 Italian Caprese Salad
         One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
         الأردن · Jordan News
-ترمب يعلن «سيطرة دائمة» لواشنطن على أمن غرينلاند
-        اعتبرت كوبنهاغن، السبت، أن الاتفاق «الملزم» الذي تم التوصل إليه مع واشنطن حول غرينلاند «يعزز الأمن» في منطقة القطب الشمالي بأكملها.
+رافينيا يوافق على تمديد عقده مع برشلونة حتى 2030
+        أكّد ديكو، المدير الرياضي لبرشلونة، السبت، أن النجم البرازيلي رافينيا توصل إلى اتفاق للبقاء مع الفريق حتى عام 2030.
         عربي · الشرق الأوسط
-أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
-        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
-        تركيا · TRT عربي
+صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
+        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+        تركيا · الأناضول
 سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
         الإمارات · الإمارات
-Lindsay Clancy ex-husband says ‘I think I did the best I could’
-        Patrick Clancy and wife Rachel Danis to speak publicly on 60 Minutes on Sunday about Massachusetts murder trial Patrick Clancy and his wife Rachel…
-        بريطانيا · Guardian
+Major seaside hotel fire treated as suspicious
+        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
+        بريطانيا · BBC
 Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
         Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
         أمريكا · Fox News
 New Water Violations Detected in Azraq and Sahab
         The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
         الأردن · Jordan News
-«أرواحهم في المفكرة» لنبيل سليمان
-        صدر للروائي والناقد السوري نبيل سليمان كتاب جديد بعنوان «أرواحهم في المفكرة»
+غياب التوافق الليبي يثير تكهنات حول اللجوء لمجلس الأمن بشأن الانتخابات
+        لم تلُح في الأفق، حتى الآن، ملامح على وجود توافق في المواقف بين مجلسي النواب و«الأعلى للدولة» بشأن تمرير اتفاق لممثلي طرفي الصراع في ليبيا.
         عربي · الشرق الأوسط
-الجيش السوداني يعلن إسقاط مسيرة "استراتيجية" للدعم السريع في الكرمك
-        بولاية النيل الأزرق جنوب شرقي البلاد وفق بيان الفرقة الرابعة مشاة، دون تعقيب فوري من قوات الدعم السريع
-        تركيا · الأناضول
+أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
+        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
+        تركيا · TRT عربي
 ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
         الإمارات · الإمارات
-England crush Sri Lanka to top T20 world rankings
-        England steamroller Sri Lanka in the third T20 to complete a 3-0 series clean sweep and return to number one in the world rankings.
-        بريطانيا · BBC
+Jos Buttler blasts England to world No 1 spot in T20s with Sri Lanka whitewash
+        And with a one-handed six from Jos Buttler, that was it. England leapt over India to became the No 1 T20 team in the world
+        بريطانيا · Guardian
 MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
         President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
         أمريكا · ABC News
 Security Researchers Used Claude to Hack OpenAI, Received Bounty
         AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
         الأردن · Jordan News
-تشديد مصري متكرر على وحدة السودان وسط تعقيدات الحرب
-        تشديد مصري جديد على أهمية وحدة السودان في محادثات جديدة مع واشنطن
-        عربي · الشرق الأوسط
-وزير الرياضة يشهد افتتاح دورة الألعاب الآسيوية "آيتشي-ناغويا 2026" - Sharjah24
-        الإمارات · الإمارات
-الرئيس أردوغان: ماضون بحزم في مسار "تركيا بلا إرهاب" وتحقيق الاستقرار
-        قال الرئيس التركي رجب طيب أردوغان السبت، إن بلاده ماضية في مسار "تركيا بلا إرهاب" للقضاء بشكل كامل على آفة الإرهاب
-        تركيا · TRT عربي
-CNN, MS NOW and Politico staffers barred from White House after Trump ban
-        President Trump said Friday that three outlets would be banned from the White House, "effective immediately."
-        أمريكا · CBS
-Jim Ratcliffe: UK is ‘on the slide’ from days when it had world’s ‘greatest empire’
-        Co-owner of Manchester United says Britain is in decline because of high taxes and immigration Manchester United’s Muslim supporters’ club (MUMSC)…
-        بريطانيا · Guardian
-Brentford Thrash Chelsea 3-0, Piling Pressure on Alonso
-        Brentford dealt a major blow to Chelsea’s ambitions with a convincing 3-0 victory at the Gtech Community Stadium, highlighting the difficult early…
-        الأردن · Jordan News
-«البريميرليغ»: سقوط مدوٍّ لآرسنال... ونيوكاسل ينتصر
-        صدم برايتون ضيفه آرسنال حامل اللقب وأوقع به الخسارة الأولى هذا الموسم 3-0، السبت، في المرحلة الخامسة من الدوري الإنجليزي لكرة القدم.
+مورينيو ينفي التواصل مع زيدان لاستبعاد تشواميني
+        نفى جوزيه مورينيو، مدرب ريال مدريد، أن يكون قد حدث تواصل بينه وبين زين الدين زيدان مدرب فرنسا بشأن اللاعب أوريلين تشواميني.
         عربي · الشرق الأوسط
 قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
         الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
         تركيا · الأناضول
 الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
         الإمارات · الإمارات
-Everton hold off Ipswich thanks to Thierno Barry goal despite VAR controversy
-        After the trials and tribulations of the transfer window Everton can be content to reach the international break unbeaten and up to fifth courtesy of…
-        بريطانيا · Guardian
-Entire California high school football team suspended after mascot's obscene gesture
-        Another Football Friday passed without Victor Valley High School after its entire team and coaching staff were suspended for unsportsmanlike conduct.
+Bet365 Bonus Code: Bet $10, Get $365 on UFC 331, Van vs Pantoja
+        Watch Joshua Van vs. Alexandre Pantoja at UFC 331 and claim the Bet365 bonus code offer
         أمريكا · Fox News
+Millwall and West Ham arrest update after 400 police officers deployed to heated London derby
+        The Met Police threw a “ring of steel” at The Den on Saturday, to ensure there was no repeat of the violence which has marred this fixture in…
+        بريطانيا · Independent
 Ronaldo Named in Portugal Squad for Nations League
         Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
         الأردن · Jordan News</desc>
@@ -121658,107 +121018,107 @@ Ronaldo Named in Portugal Squad for Nations League
   </programme>
   <programme start="20260919180000 +0000" stop="20260919190000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:10 — بتوقيتك
 
-«الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر
-        بعد 15 عاماً من الدعايات الحماسية للكتاب الإلكتروني بأنه سيقضي على الورق، ويحول المكتبات التقليدية إلى مجرد مدافن لمحتويات تأكلها الغبار...
+العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء
+        دخل السودان منعطفاً جديداً مع التراجع الحاد في سعر صرف عملته الجنيه أمام العملات الأجنبية، وتجاوز سعر الدولار 9 آلاف جنيه
         عربي · الشرق الأوسط
-تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
-        برفقة كوماندوز أتراك
-        تركيا · الأناضول
+الولايات المتحدة ترفع آخر قيود حظر الأسلحة والتمويل العسكري عن سوريا
+        رفعت الولايات المتحدة آخر قيدين متبقيين من عقوبات كانت مفروضة على سوريا بموجب قانون أمريكي لمكافحة الأسلحة الكيميائية والبيولوجية
+        تركيا · TRT عربي
+ماذا نعرف عن انتخابات مجلس الدوما الروسية؟ - BBC
+        الإمارات · الإمارات
+Aqaba Airport Welcomes First Flights from Abu Dhabi
+        King Hussein International Airport in Aqaba welcomed its first regular direct flights from the UAE capital Abu Dhabi on Friday evening
+        الأردن · Jordan News
+Zack Polanski speaks Bengali in bid to reach Holburn and St Pancras by-election voters
+        The Green Party leader was mocked by the Mayor of London Sadiq Khan for his Urdu-speaking video earlier this week
+        بريطانيا · Independent
+U.S. touts 1 billion barrels of oil escorted out of Strait of Hormuz
+        Adm. Brad Cooper provided updates on U.S. efforts to get oil out of the Persian Gulf after a bad week of news on the energy markets.
+        أمريكا · CBS
+​ رسائل تحذيرية وصلت.. حراك في الشارع اللبناني؟
+        في المشهد السياسي تتجه الأنظار الى الولايات المتحدة وزيارة رئيس الحكومة نواف سلام، المحمل بمواضيع مفصلية ترتبط باليونيفيل وما بعدها
+        عربي · الجديد
+بمشاركة واسعة.. تركيا تسجل ثالث أكبر حضور في معرض إفريقيا للدفاع بجنوب إفريقيا
+        سجلت تركيا حضوراً واسعاً في "معرض إفريقيا للطيران والدفاع" المقام في العاصمة الجنوب إفريقية بريتوريا
+        تركيا · TRT عربي
 كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
         الإمارات · الإمارات
-Major seaside hotel fire treated as suspicious
-        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
-        بريطانيا · BBC
+Hotel fire that sparked mass evacuation being treated as suspicious
+        A fire that forced nearly 300 people to be evacuated from a Folkestone hotel is being treated as suspicious, say police.
+        بريطانيا · Sky News
 Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
         A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
         أمريكا · NYT
 AI Hallucination Nearly Sparked a US Military Operation
         Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
         الأردن · Jordan News
-قلق ليبي من تأثيرات سلبية للمياه الجوفية على مشروعات الإعمار
-        يزداد القلق في ليبيا من تأثيرات ارتفاع منسوب المياه الجوفية على مشروعات الإعمار، وسط شكاوى من غرق منازل وشوارع وتضرر أراضٍ زراعية.
+كاظم الساهر يحتفل بألبومه الجديد وعيد ميلاده مع جمهوره المصري
+        بحنجرة ذهبية تحمل ألحاناً وكلمات فصحى عميقة، صدح «القيصر»، كاظم الساهر، في القاهرة بباقة مميزة من أجمل أغنياته.
         عربي · الشرق الأوسط
-صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
-        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
+        برفقة كوماندوز أتراك
         تركيا · الأناضول
 لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
         الإمارات · الإمارات
-All but four constituencies would support reversing Brexit and rejoining the EU, major poll shows
-        New in-depth polling finds 35 per cent of voters would choose EU membership as their preferred policy option – with just 11 per cent wanting looser…
-        بريطانيا · Independent
+England’s historic winning streak ends after Red Roses draw with Canada
+        WXV: England 26-26 Canada Canadians end Red Roses’ run of 39 successive wins Still unbeaten, yes, but for England this was anything but business as…
+        بريطانيا · Guardian
 Carrot Top hospitalized, forced to cancel weekend performances
         Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
         أمريكا · Fox News
 Italian Caprese Salad
         One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
         الأردن · Jordan News
-ترمب يعلن «سيطرة دائمة» لواشنطن على أمن غرينلاند
-        اعتبرت كوبنهاغن، السبت، أن الاتفاق «الملزم» الذي تم التوصل إليه مع واشنطن حول غرينلاند «يعزز الأمن» في منطقة القطب الشمالي بأكملها.
+رافينيا يوافق على تمديد عقده مع برشلونة حتى 2030
+        أكّد ديكو، المدير الرياضي لبرشلونة، السبت، أن النجم البرازيلي رافينيا توصل إلى اتفاق للبقاء مع الفريق حتى عام 2030.
         عربي · الشرق الأوسط
-أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
-        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
-        تركيا · TRT عربي
+صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
+        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+        تركيا · الأناضول
 سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
         الإمارات · الإمارات
-Lindsay Clancy ex-husband says ‘I think I did the best I could’
-        Patrick Clancy and wife Rachel Danis to speak publicly on 60 Minutes on Sunday about Massachusetts murder trial Patrick Clancy and his wife Rachel…
-        بريطانيا · Guardian
+Major seaside hotel fire treated as suspicious
+        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
+        بريطانيا · BBC
 Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
         Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
         أمريكا · Fox News
 New Water Violations Detected in Azraq and Sahab
         The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
         الأردن · Jordan News
-«أرواحهم في المفكرة» لنبيل سليمان
-        صدر للروائي والناقد السوري نبيل سليمان كتاب جديد بعنوان «أرواحهم في المفكرة»
+غياب التوافق الليبي يثير تكهنات حول اللجوء لمجلس الأمن بشأن الانتخابات
+        لم تلُح في الأفق، حتى الآن، ملامح على وجود توافق في المواقف بين مجلسي النواب و«الأعلى للدولة» بشأن تمرير اتفاق لممثلي طرفي الصراع في ليبيا.
         عربي · الشرق الأوسط
-الجيش السوداني يعلن إسقاط مسيرة "استراتيجية" للدعم السريع في الكرمك
-        بولاية النيل الأزرق جنوب شرقي البلاد وفق بيان الفرقة الرابعة مشاة، دون تعقيب فوري من قوات الدعم السريع
-        تركيا · الأناضول
+أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
+        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
+        تركيا · TRT عربي
 ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
         الإمارات · الإمارات
-England crush Sri Lanka to top T20 world rankings
-        England steamroller Sri Lanka in the third T20 to complete a 3-0 series clean sweep and return to number one in the world rankings.
-        بريطانيا · BBC
+Jos Buttler blasts England to world No 1 spot in T20s with Sri Lanka whitewash
+        And with a one-handed six from Jos Buttler, that was it. England leapt over India to became the No 1 T20 team in the world
+        بريطانيا · Guardian
 MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
         President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
         أمريكا · ABC News
 Security Researchers Used Claude to Hack OpenAI, Received Bounty
         AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
         الأردن · Jordan News
-تشديد مصري متكرر على وحدة السودان وسط تعقيدات الحرب
-        تشديد مصري جديد على أهمية وحدة السودان في محادثات جديدة مع واشنطن
-        عربي · الشرق الأوسط
-وزير الرياضة يشهد افتتاح دورة الألعاب الآسيوية "آيتشي-ناغويا 2026" - Sharjah24
-        الإمارات · الإمارات
-الرئيس أردوغان: ماضون بحزم في مسار "تركيا بلا إرهاب" وتحقيق الاستقرار
-        قال الرئيس التركي رجب طيب أردوغان السبت، إن بلاده ماضية في مسار "تركيا بلا إرهاب" للقضاء بشكل كامل على آفة الإرهاب
-        تركيا · TRT عربي
-CNN, MS NOW and Politico staffers barred from White House after Trump ban
-        President Trump said Friday that three outlets would be banned from the White House, "effective immediately."
-        أمريكا · CBS
-Jim Ratcliffe: UK is ‘on the slide’ from days when it had world’s ‘greatest empire’
-        Co-owner of Manchester United says Britain is in decline because of high taxes and immigration Manchester United’s Muslim supporters’ club (MUMSC)…
-        بريطانيا · Guardian
-Brentford Thrash Chelsea 3-0, Piling Pressure on Alonso
-        Brentford dealt a major blow to Chelsea’s ambitions with a convincing 3-0 victory at the Gtech Community Stadium, highlighting the difficult early…
-        الأردن · Jordan News
-«البريميرليغ»: سقوط مدوٍّ لآرسنال... ونيوكاسل ينتصر
-        صدم برايتون ضيفه آرسنال حامل اللقب وأوقع به الخسارة الأولى هذا الموسم 3-0، السبت، في المرحلة الخامسة من الدوري الإنجليزي لكرة القدم.
+مورينيو ينفي التواصل مع زيدان لاستبعاد تشواميني
+        نفى جوزيه مورينيو، مدرب ريال مدريد، أن يكون قد حدث تواصل بينه وبين زين الدين زيدان مدرب فرنسا بشأن اللاعب أوريلين تشواميني.
         عربي · الشرق الأوسط
 قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
         الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
         تركيا · الأناضول
 الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
         الإمارات · الإمارات
-Everton hold off Ipswich thanks to Thierno Barry goal despite VAR controversy
-        After the trials and tribulations of the transfer window Everton can be content to reach the international break unbeaten and up to fifth courtesy of…
-        بريطانيا · Guardian
-Entire California high school football team suspended after mascot's obscene gesture
-        Another Football Friday passed without Victor Valley High School after its entire team and coaching staff were suspended for unsportsmanlike conduct.
+Bet365 Bonus Code: Bet $10, Get $365 on UFC 331, Van vs Pantoja
+        Watch Joshua Van vs. Alexandre Pantoja at UFC 331 and claim the Bet365 bonus code offer
         أمريكا · Fox News
+Millwall and West Ham arrest update after 400 police officers deployed to heated London derby
+        The Met Police threw a “ring of steel” at The Den on Saturday, to ensure there was no repeat of the violence which has marred this fixture in…
+        بريطانيا · Independent
 Ronaldo Named in Portugal Squad for Nations League
         Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
         الأردن · Jordan News</desc>
@@ -121766,107 +121126,107 @@ Ronaldo Named in Portugal Squad for Nations League
   </programme>
   <programme start="20260919190000 +0000" stop="20260919200000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:10 — بتوقيتك
 
-«الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر
-        بعد 15 عاماً من الدعايات الحماسية للكتاب الإلكتروني بأنه سيقضي على الورق، ويحول المكتبات التقليدية إلى مجرد مدافن لمحتويات تأكلها الغبار...
+العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء
+        دخل السودان منعطفاً جديداً مع التراجع الحاد في سعر صرف عملته الجنيه أمام العملات الأجنبية، وتجاوز سعر الدولار 9 آلاف جنيه
         عربي · الشرق الأوسط
-تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
-        برفقة كوماندوز أتراك
-        تركيا · الأناضول
+الولايات المتحدة ترفع آخر قيود حظر الأسلحة والتمويل العسكري عن سوريا
+        رفعت الولايات المتحدة آخر قيدين متبقيين من عقوبات كانت مفروضة على سوريا بموجب قانون أمريكي لمكافحة الأسلحة الكيميائية والبيولوجية
+        تركيا · TRT عربي
+ماذا نعرف عن انتخابات مجلس الدوما الروسية؟ - BBC
+        الإمارات · الإمارات
+Aqaba Airport Welcomes First Flights from Abu Dhabi
+        King Hussein International Airport in Aqaba welcomed its first regular direct flights from the UAE capital Abu Dhabi on Friday evening
+        الأردن · Jordan News
+Zack Polanski speaks Bengali in bid to reach Holburn and St Pancras by-election voters
+        The Green Party leader was mocked by the Mayor of London Sadiq Khan for his Urdu-speaking video earlier this week
+        بريطانيا · Independent
+U.S. touts 1 billion barrels of oil escorted out of Strait of Hormuz
+        Adm. Brad Cooper provided updates on U.S. efforts to get oil out of the Persian Gulf after a bad week of news on the energy markets.
+        أمريكا · CBS
+​ رسائل تحذيرية وصلت.. حراك في الشارع اللبناني؟
+        في المشهد السياسي تتجه الأنظار الى الولايات المتحدة وزيارة رئيس الحكومة نواف سلام، المحمل بمواضيع مفصلية ترتبط باليونيفيل وما بعدها
+        عربي · الجديد
+بمشاركة واسعة.. تركيا تسجل ثالث أكبر حضور في معرض إفريقيا للدفاع بجنوب إفريقيا
+        سجلت تركيا حضوراً واسعاً في "معرض إفريقيا للطيران والدفاع" المقام في العاصمة الجنوب إفريقية بريتوريا
+        تركيا · TRT عربي
 كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
         الإمارات · الإمارات
-Major seaside hotel fire treated as suspicious
-        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
-        بريطانيا · BBC
+Hotel fire that sparked mass evacuation being treated as suspicious
+        A fire that forced nearly 300 people to be evacuated from a Folkestone hotel is being treated as suspicious, say police.
+        بريطانيا · Sky News
 Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
         A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
         أمريكا · NYT
 AI Hallucination Nearly Sparked a US Military Operation
         Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
         الأردن · Jordan News
-قلق ليبي من تأثيرات سلبية للمياه الجوفية على مشروعات الإعمار
-        يزداد القلق في ليبيا من تأثيرات ارتفاع منسوب المياه الجوفية على مشروعات الإعمار، وسط شكاوى من غرق منازل وشوارع وتضرر أراضٍ زراعية.
+كاظم الساهر يحتفل بألبومه الجديد وعيد ميلاده مع جمهوره المصري
+        بحنجرة ذهبية تحمل ألحاناً وكلمات فصحى عميقة، صدح «القيصر»، كاظم الساهر، في القاهرة بباقة مميزة من أجمل أغنياته.
         عربي · الشرق الأوسط
-صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
-        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
+        برفقة كوماندوز أتراك
         تركيا · الأناضول
 لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
         الإمارات · الإمارات
-All but four constituencies would support reversing Brexit and rejoining the EU, major poll shows
-        New in-depth polling finds 35 per cent of voters would choose EU membership as their preferred policy option – with just 11 per cent wanting looser…
-        بريطانيا · Independent
+England’s historic winning streak ends after Red Roses draw with Canada
+        WXV: England 26-26 Canada Canadians end Red Roses’ run of 39 successive wins Still unbeaten, yes, but for England this was anything but business as…
+        بريطانيا · Guardian
 Carrot Top hospitalized, forced to cancel weekend performances
         Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
         أمريكا · Fox News
 Italian Caprese Salad
         One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
         الأردن · Jordan News
-ترمب يعلن «سيطرة دائمة» لواشنطن على أمن غرينلاند
-        اعتبرت كوبنهاغن، السبت، أن الاتفاق «الملزم» الذي تم التوصل إليه مع واشنطن حول غرينلاند «يعزز الأمن» في منطقة القطب الشمالي بأكملها.
+رافينيا يوافق على تمديد عقده مع برشلونة حتى 2030
+        أكّد ديكو، المدير الرياضي لبرشلونة، السبت، أن النجم البرازيلي رافينيا توصل إلى اتفاق للبقاء مع الفريق حتى عام 2030.
         عربي · الشرق الأوسط
-أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
-        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
-        تركيا · TRT عربي
+صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
+        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+        تركيا · الأناضول
 سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
         الإمارات · الإمارات
-Lindsay Clancy ex-husband says ‘I think I did the best I could’
-        Patrick Clancy and wife Rachel Danis to speak publicly on 60 Minutes on Sunday about Massachusetts murder trial Patrick Clancy and his wife Rachel…
-        بريطانيا · Guardian
+Major seaside hotel fire treated as suspicious
+        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
+        بريطانيا · BBC
 Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
         Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
         أمريكا · Fox News
 New Water Violations Detected in Azraq and Sahab
         The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
         الأردن · Jordan News
-«أرواحهم في المفكرة» لنبيل سليمان
-        صدر للروائي والناقد السوري نبيل سليمان كتاب جديد بعنوان «أرواحهم في المفكرة»
+غياب التوافق الليبي يثير تكهنات حول اللجوء لمجلس الأمن بشأن الانتخابات
+        لم تلُح في الأفق، حتى الآن، ملامح على وجود توافق في المواقف بين مجلسي النواب و«الأعلى للدولة» بشأن تمرير اتفاق لممثلي طرفي الصراع في ليبيا.
         عربي · الشرق الأوسط
-الجيش السوداني يعلن إسقاط مسيرة "استراتيجية" للدعم السريع في الكرمك
-        بولاية النيل الأزرق جنوب شرقي البلاد وفق بيان الفرقة الرابعة مشاة، دون تعقيب فوري من قوات الدعم السريع
-        تركيا · الأناضول
+أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
+        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
+        تركيا · TRT عربي
 ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
         الإمارات · الإمارات
-England crush Sri Lanka to top T20 world rankings
-        England steamroller Sri Lanka in the third T20 to complete a 3-0 series clean sweep and return to number one in the world rankings.
-        بريطانيا · BBC
+Jos Buttler blasts England to world No 1 spot in T20s with Sri Lanka whitewash
+        And with a one-handed six from Jos Buttler, that was it. England leapt over India to became the No 1 T20 team in the world
+        بريطانيا · Guardian
 MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
         President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
         أمريكا · ABC News
 Security Researchers Used Claude to Hack OpenAI, Received Bounty
         AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
         الأردن · Jordan News
-تشديد مصري متكرر على وحدة السودان وسط تعقيدات الحرب
-        تشديد مصري جديد على أهمية وحدة السودان في محادثات جديدة مع واشنطن
-        عربي · الشرق الأوسط
-وزير الرياضة يشهد افتتاح دورة الألعاب الآسيوية "آيتشي-ناغويا 2026" - Sharjah24
-        الإمارات · الإمارات
-الرئيس أردوغان: ماضون بحزم في مسار "تركيا بلا إرهاب" وتحقيق الاستقرار
-        قال الرئيس التركي رجب طيب أردوغان السبت، إن بلاده ماضية في مسار "تركيا بلا إرهاب" للقضاء بشكل كامل على آفة الإرهاب
-        تركيا · TRT عربي
-CNN, MS NOW and Politico staffers barred from White House after Trump ban
-        President Trump said Friday that three outlets would be banned from the White House, "effective immediately."
-        أمريكا · CBS
-Jim Ratcliffe: UK is ‘on the slide’ from days when it had world’s ‘greatest empire’
-        Co-owner of Manchester United says Britain is in decline because of high taxes and immigration Manchester United’s Muslim supporters’ club (MUMSC)…
-        بريطانيا · Guardian
-Brentford Thrash Chelsea 3-0, Piling Pressure on Alonso
-        Brentford dealt a major blow to Chelsea’s ambitions with a convincing 3-0 victory at the Gtech Community Stadium, highlighting the difficult early…
-        الأردن · Jordan News
-«البريميرليغ»: سقوط مدوٍّ لآرسنال... ونيوكاسل ينتصر
-        صدم برايتون ضيفه آرسنال حامل اللقب وأوقع به الخسارة الأولى هذا الموسم 3-0، السبت، في المرحلة الخامسة من الدوري الإنجليزي لكرة القدم.
+مورينيو ينفي التواصل مع زيدان لاستبعاد تشواميني
+        نفى جوزيه مورينيو، مدرب ريال مدريد، أن يكون قد حدث تواصل بينه وبين زين الدين زيدان مدرب فرنسا بشأن اللاعب أوريلين تشواميني.
         عربي · الشرق الأوسط
 قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
         الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
         تركيا · الأناضول
 الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
         الإمارات · الإمارات
-Everton hold off Ipswich thanks to Thierno Barry goal despite VAR controversy
-        After the trials and tribulations of the transfer window Everton can be content to reach the international break unbeaten and up to fifth courtesy of…
-        بريطانيا · Guardian
-Entire California high school football team suspended after mascot's obscene gesture
-        Another Football Friday passed without Victor Valley High School after its entire team and coaching staff were suspended for unsportsmanlike conduct.
+Bet365 Bonus Code: Bet $10, Get $365 on UFC 331, Van vs Pantoja
+        Watch Joshua Van vs. Alexandre Pantoja at UFC 331 and claim the Bet365 bonus code offer
         أمريكا · Fox News
+Millwall and West Ham arrest update after 400 police officers deployed to heated London derby
+        The Met Police threw a “ring of steel” at The Den on Saturday, to ensure there was no repeat of the violence which has marred this fixture in…
+        بريطانيا · Independent
 Ronaldo Named in Portugal Squad for Nations League
         Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
         الأردن · Jordan News</desc>
@@ -121874,107 +121234,107 @@ Ronaldo Named in Portugal Squad for Nations League
   </programme>
   <programme start="20260919200000 +0000" stop="20260919210000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:10 — بتوقيتك
 
-«الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر
-        بعد 15 عاماً من الدعايات الحماسية للكتاب الإلكتروني بأنه سيقضي على الورق، ويحول المكتبات التقليدية إلى مجرد مدافن لمحتويات تأكلها الغبار...
+العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء
+        دخل السودان منعطفاً جديداً مع التراجع الحاد في سعر صرف عملته الجنيه أمام العملات الأجنبية، وتجاوز سعر الدولار 9 آلاف جنيه
         عربي · الشرق الأوسط
-تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
-        برفقة كوماندوز أتراك
-        تركيا · الأناضول
+الولايات المتحدة ترفع آخر قيود حظر الأسلحة والتمويل العسكري عن سوريا
+        رفعت الولايات المتحدة آخر قيدين متبقيين من عقوبات كانت مفروضة على سوريا بموجب قانون أمريكي لمكافحة الأسلحة الكيميائية والبيولوجية
+        تركيا · TRT عربي
+ماذا نعرف عن انتخابات مجلس الدوما الروسية؟ - BBC
+        الإمارات · الإمارات
+Aqaba Airport Welcomes First Flights from Abu Dhabi
+        King Hussein International Airport in Aqaba welcomed its first regular direct flights from the UAE capital Abu Dhabi on Friday evening
+        الأردن · Jordan News
+Zack Polanski speaks Bengali in bid to reach Holburn and St Pancras by-election voters
+        The Green Party leader was mocked by the Mayor of London Sadiq Khan for his Urdu-speaking video earlier this week
+        بريطانيا · Independent
+U.S. touts 1 billion barrels of oil escorted out of Strait of Hormuz
+        Adm. Brad Cooper provided updates on U.S. efforts to get oil out of the Persian Gulf after a bad week of news on the energy markets.
+        أمريكا · CBS
+​ رسائل تحذيرية وصلت.. حراك في الشارع اللبناني؟
+        في المشهد السياسي تتجه الأنظار الى الولايات المتحدة وزيارة رئيس الحكومة نواف سلام، المحمل بمواضيع مفصلية ترتبط باليونيفيل وما بعدها
+        عربي · الجديد
+بمشاركة واسعة.. تركيا تسجل ثالث أكبر حضور في معرض إفريقيا للدفاع بجنوب إفريقيا
+        سجلت تركيا حضوراً واسعاً في "معرض إفريقيا للطيران والدفاع" المقام في العاصمة الجنوب إفريقية بريتوريا
+        تركيا · TRT عربي
 كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
         الإمارات · الإمارات
-Major seaside hotel fire treated as suspicious
-        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
-        بريطانيا · BBC
+Hotel fire that sparked mass evacuation being treated as suspicious
+        A fire that forced nearly 300 people to be evacuated from a Folkestone hotel is being treated as suspicious, say police.
+        بريطانيا · Sky News
 Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
         A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
         أمريكا · NYT
 AI Hallucination Nearly Sparked a US Military Operation
         Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
         الأردن · Jordan News
-قلق ليبي من تأثيرات سلبية للمياه الجوفية على مشروعات الإعمار
-        يزداد القلق في ليبيا من تأثيرات ارتفاع منسوب المياه الجوفية على مشروعات الإعمار، وسط شكاوى من غرق منازل وشوارع وتضرر أراضٍ زراعية.
+كاظم الساهر يحتفل بألبومه الجديد وعيد ميلاده مع جمهوره المصري
+        بحنجرة ذهبية تحمل ألحاناً وكلمات فصحى عميقة، صدح «القيصر»، كاظم الساهر، في القاهرة بباقة مميزة من أجمل أغنياته.
         عربي · الشرق الأوسط
-صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
-        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
+        برفقة كوماندوز أتراك
         تركيا · الأناضول
 لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
         الإمارات · الإمارات
-All but four constituencies would support reversing Brexit and rejoining the EU, major poll shows
-        New in-depth polling finds 35 per cent of voters would choose EU membership as their preferred policy option – with just 11 per cent wanting looser…
-        بريطانيا · Independent
+England’s historic winning streak ends after Red Roses draw with Canada
+        WXV: England 26-26 Canada Canadians end Red Roses’ run of 39 successive wins Still unbeaten, yes, but for England this was anything but business as…
+        بريطانيا · Guardian
 Carrot Top hospitalized, forced to cancel weekend performances
         Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
         أمريكا · Fox News
 Italian Caprese Salad
         One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
         الأردن · Jordan News
-ترمب يعلن «سيطرة دائمة» لواشنطن على أمن غرينلاند
-        اعتبرت كوبنهاغن، السبت، أن الاتفاق «الملزم» الذي تم التوصل إليه مع واشنطن حول غرينلاند «يعزز الأمن» في منطقة القطب الشمالي بأكملها.
+رافينيا يوافق على تمديد عقده مع برشلونة حتى 2030
+        أكّد ديكو، المدير الرياضي لبرشلونة، السبت، أن النجم البرازيلي رافينيا توصل إلى اتفاق للبقاء مع الفريق حتى عام 2030.
         عربي · الشرق الأوسط
-أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
-        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
-        تركيا · TRT عربي
+صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
+        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+        تركيا · الأناضول
 سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
         الإمارات · الإمارات
-Lindsay Clancy ex-husband says ‘I think I did the best I could’
-        Patrick Clancy and wife Rachel Danis to speak publicly on 60 Minutes on Sunday about Massachusetts murder trial Patrick Clancy and his wife Rachel…
-        بريطانيا · Guardian
+Major seaside hotel fire treated as suspicious
+        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
+        بريطانيا · BBC
 Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
         Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
         أمريكا · Fox News
 New Water Violations Detected in Azraq and Sahab
         The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
         الأردن · Jordan News
-«أرواحهم في المفكرة» لنبيل سليمان
-        صدر للروائي والناقد السوري نبيل سليمان كتاب جديد بعنوان «أرواحهم في المفكرة»
+غياب التوافق الليبي يثير تكهنات حول اللجوء لمجلس الأمن بشأن الانتخابات
+        لم تلُح في الأفق، حتى الآن، ملامح على وجود توافق في المواقف بين مجلسي النواب و«الأعلى للدولة» بشأن تمرير اتفاق لممثلي طرفي الصراع في ليبيا.
         عربي · الشرق الأوسط
-الجيش السوداني يعلن إسقاط مسيرة "استراتيجية" للدعم السريع في الكرمك
-        بولاية النيل الأزرق جنوب شرقي البلاد وفق بيان الفرقة الرابعة مشاة، دون تعقيب فوري من قوات الدعم السريع
-        تركيا · الأناضول
+أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
+        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
+        تركيا · TRT عربي
 ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
         الإمارات · الإمارات
-England crush Sri Lanka to top T20 world rankings
-        England steamroller Sri Lanka in the third T20 to complete a 3-0 series clean sweep and return to number one in the world rankings.
-        بريطانيا · BBC
+Jos Buttler blasts England to world No 1 spot in T20s with Sri Lanka whitewash
+        And with a one-handed six from Jos Buttler, that was it. England leapt over India to became the No 1 T20 team in the world
+        بريطانيا · Guardian
 MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
         President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
         أمريكا · ABC News
 Security Researchers Used Claude to Hack OpenAI, Received Bounty
         AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
         الأردن · Jordan News
-تشديد مصري متكرر على وحدة السودان وسط تعقيدات الحرب
-        تشديد مصري جديد على أهمية وحدة السودان في محادثات جديدة مع واشنطن
-        عربي · الشرق الأوسط
-وزير الرياضة يشهد افتتاح دورة الألعاب الآسيوية "آيتشي-ناغويا 2026" - Sharjah24
-        الإمارات · الإمارات
-الرئيس أردوغان: ماضون بحزم في مسار "تركيا بلا إرهاب" وتحقيق الاستقرار
-        قال الرئيس التركي رجب طيب أردوغان السبت، إن بلاده ماضية في مسار "تركيا بلا إرهاب" للقضاء بشكل كامل على آفة الإرهاب
-        تركيا · TRT عربي
-CNN, MS NOW and Politico staffers barred from White House after Trump ban
-        President Trump said Friday that three outlets would be banned from the White House, "effective immediately."
-        أمريكا · CBS
-Jim Ratcliffe: UK is ‘on the slide’ from days when it had world’s ‘greatest empire’
-        Co-owner of Manchester United says Britain is in decline because of high taxes and immigration Manchester United’s Muslim supporters’ club (MUMSC)…
-        بريطانيا · Guardian
-Brentford Thrash Chelsea 3-0, Piling Pressure on Alonso
-        Brentford dealt a major blow to Chelsea’s ambitions with a convincing 3-0 victory at the Gtech Community Stadium, highlighting the difficult early…
-        الأردن · Jordan News
-«البريميرليغ»: سقوط مدوٍّ لآرسنال... ونيوكاسل ينتصر
-        صدم برايتون ضيفه آرسنال حامل اللقب وأوقع به الخسارة الأولى هذا الموسم 3-0، السبت، في المرحلة الخامسة من الدوري الإنجليزي لكرة القدم.
+مورينيو ينفي التواصل مع زيدان لاستبعاد تشواميني
+        نفى جوزيه مورينيو، مدرب ريال مدريد، أن يكون قد حدث تواصل بينه وبين زين الدين زيدان مدرب فرنسا بشأن اللاعب أوريلين تشواميني.
         عربي · الشرق الأوسط
 قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
         الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
         تركيا · الأناضول
 الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
         الإمارات · الإمارات
-Everton hold off Ipswich thanks to Thierno Barry goal despite VAR controversy
-        After the trials and tribulations of the transfer window Everton can be content to reach the international break unbeaten and up to fifth courtesy of…
-        بريطانيا · Guardian
-Entire California high school football team suspended after mascot's obscene gesture
-        Another Football Friday passed without Victor Valley High School after its entire team and coaching staff were suspended for unsportsmanlike conduct.
+Bet365 Bonus Code: Bet $10, Get $365 on UFC 331, Van vs Pantoja
+        Watch Joshua Van vs. Alexandre Pantoja at UFC 331 and claim the Bet365 bonus code offer
         أمريكا · Fox News
+Millwall and West Ham arrest update after 400 police officers deployed to heated London derby
+        The Met Police threw a “ring of steel” at The Den on Saturday, to ensure there was no repeat of the violence which has marred this fixture in…
+        بريطانيا · Independent
 Ronaldo Named in Portugal Squad for Nations League
         Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
         الأردن · Jordan News</desc>
@@ -121982,113 +121342,221 @@ Ronaldo Named in Portugal Squad for Nations League
   </programme>
   <programme start="20260919210000 +0000" stop="20260919220000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:10 — بتوقيتك
 
-«الكتاب الورقي» يربح المعركة و«الإلكتروني» يتعثر
-        بعد 15 عاماً من الدعايات الحماسية للكتاب الإلكتروني بأنه سيقضي على الورق، ويحول المكتبات التقليدية إلى مجرد مدافن لمحتويات تأكلها الغبار...
+العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء
+        دخل السودان منعطفاً جديداً مع التراجع الحاد في سعر صرف عملته الجنيه أمام العملات الأجنبية، وتجاوز سعر الدولار 9 آلاف جنيه
         عربي · الشرق الأوسط
-تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
-        برفقة كوماندوز أتراك
-        تركيا · الأناضول
+الولايات المتحدة ترفع آخر قيود حظر الأسلحة والتمويل العسكري عن سوريا
+        رفعت الولايات المتحدة آخر قيدين متبقيين من عقوبات كانت مفروضة على سوريا بموجب قانون أمريكي لمكافحة الأسلحة الكيميائية والبيولوجية
+        تركيا · TRT عربي
+ماذا نعرف عن انتخابات مجلس الدوما الروسية؟ - BBC
+        الإمارات · الإمارات
+Aqaba Airport Welcomes First Flights from Abu Dhabi
+        King Hussein International Airport in Aqaba welcomed its first regular direct flights from the UAE capital Abu Dhabi on Friday evening
+        الأردن · Jordan News
+Zack Polanski speaks Bengali in bid to reach Holburn and St Pancras by-election voters
+        The Green Party leader was mocked by the Mayor of London Sadiq Khan for his Urdu-speaking video earlier this week
+        بريطانيا · Independent
+U.S. touts 1 billion barrels of oil escorted out of Strait of Hormuz
+        Adm. Brad Cooper provided updates on U.S. efforts to get oil out of the Persian Gulf after a bad week of news on the energy markets.
+        أمريكا · CBS
+​ رسائل تحذيرية وصلت.. حراك في الشارع اللبناني؟
+        في المشهد السياسي تتجه الأنظار الى الولايات المتحدة وزيارة رئيس الحكومة نواف سلام، المحمل بمواضيع مفصلية ترتبط باليونيفيل وما بعدها
+        عربي · الجديد
+بمشاركة واسعة.. تركيا تسجل ثالث أكبر حضور في معرض إفريقيا للدفاع بجنوب إفريقيا
+        سجلت تركيا حضوراً واسعاً في "معرض إفريقيا للطيران والدفاع" المقام في العاصمة الجنوب إفريقية بريتوريا
+        تركيا · TRT عربي
 كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
         الإمارات · الإمارات
-Major seaside hotel fire treated as suspicious
-        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
-        بريطانيا · BBC
+Hotel fire that sparked mass evacuation being treated as suspicious
+        A fire that forced nearly 300 people to be evacuated from a Folkestone hotel is being treated as suspicious, say police.
+        بريطانيا · Sky News
 Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
         A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
         أمريكا · NYT
 AI Hallucination Nearly Sparked a US Military Operation
         Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
         الأردن · Jordan News
-قلق ليبي من تأثيرات سلبية للمياه الجوفية على مشروعات الإعمار
-        يزداد القلق في ليبيا من تأثيرات ارتفاع منسوب المياه الجوفية على مشروعات الإعمار، وسط شكاوى من غرق منازل وشوارع وتضرر أراضٍ زراعية.
+كاظم الساهر يحتفل بألبومه الجديد وعيد ميلاده مع جمهوره المصري
+        بحنجرة ذهبية تحمل ألحاناً وكلمات فصحى عميقة، صدح «القيصر»، كاظم الساهر، في القاهرة بباقة مميزة من أجمل أغنياته.
         عربي · الشرق الأوسط
-صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
-        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
+        برفقة كوماندوز أتراك
         تركيا · الأناضول
 لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
         الإمارات · الإمارات
-All but four constituencies would support reversing Brexit and rejoining the EU, major poll shows
-        New in-depth polling finds 35 per cent of voters would choose EU membership as their preferred policy option – with just 11 per cent wanting looser…
-        بريطانيا · Independent
+England’s historic winning streak ends after Red Roses draw with Canada
+        WXV: England 26-26 Canada Canadians end Red Roses’ run of 39 successive wins Still unbeaten, yes, but for England this was anything but business as…
+        بريطانيا · Guardian
 Carrot Top hospitalized, forced to cancel weekend performances
         Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
         أمريكا · Fox News
 Italian Caprese Salad
         One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
         الأردن · Jordan News
-ترمب يعلن «سيطرة دائمة» لواشنطن على أمن غرينلاند
-        اعتبرت كوبنهاغن، السبت، أن الاتفاق «الملزم» الذي تم التوصل إليه مع واشنطن حول غرينلاند «يعزز الأمن» في منطقة القطب الشمالي بأكملها.
+رافينيا يوافق على تمديد عقده مع برشلونة حتى 2030
+        أكّد ديكو، المدير الرياضي لبرشلونة، السبت، أن النجم البرازيلي رافينيا توصل إلى اتفاق للبقاء مع الفريق حتى عام 2030.
         عربي · الشرق الأوسط
-أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
-        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
-        تركيا · TRT عربي
+صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
+        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+        تركيا · الأناضول
 سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
         الإمارات · الإمارات
-Lindsay Clancy ex-husband says ‘I think I did the best I could’
-        Patrick Clancy and wife Rachel Danis to speak publicly on 60 Minutes on Sunday about Massachusetts murder trial Patrick Clancy and his wife Rachel…
-        بريطانيا · Guardian
+Major seaside hotel fire treated as suspicious
+        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
+        بريطانيا · BBC
 Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
         Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
         أمريكا · Fox News
 New Water Violations Detected in Azraq and Sahab
         The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
         الأردن · Jordan News
-«أرواحهم في المفكرة» لنبيل سليمان
-        صدر للروائي والناقد السوري نبيل سليمان كتاب جديد بعنوان «أرواحهم في المفكرة»
+غياب التوافق الليبي يثير تكهنات حول اللجوء لمجلس الأمن بشأن الانتخابات
+        لم تلُح في الأفق، حتى الآن، ملامح على وجود توافق في المواقف بين مجلسي النواب و«الأعلى للدولة» بشأن تمرير اتفاق لممثلي طرفي الصراع في ليبيا.
         عربي · الشرق الأوسط
-الجيش السوداني يعلن إسقاط مسيرة "استراتيجية" للدعم السريع في الكرمك
-        بولاية النيل الأزرق جنوب شرقي البلاد وفق بيان الفرقة الرابعة مشاة، دون تعقيب فوري من قوات الدعم السريع
-        تركيا · الأناضول
+أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
+        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
+        تركيا · TRT عربي
 ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
         الإمارات · الإمارات
-England crush Sri Lanka to top T20 world rankings
-        England steamroller Sri Lanka in the third T20 to complete a 3-0 series clean sweep and return to number one in the world rankings.
-        بريطانيا · BBC
+Jos Buttler blasts England to world No 1 spot in T20s with Sri Lanka whitewash
+        And with a one-handed six from Jos Buttler, that was it. England leapt over India to became the No 1 T20 team in the world
+        بريطانيا · Guardian
 MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
         President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
         أمريكا · ABC News
 Security Researchers Used Claude to Hack OpenAI, Received Bounty
         AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
         الأردن · Jordan News
-تشديد مصري متكرر على وحدة السودان وسط تعقيدات الحرب
-        تشديد مصري جديد على أهمية وحدة السودان في محادثات جديدة مع واشنطن
-        عربي · الشرق الأوسط
-وزير الرياضة يشهد افتتاح دورة الألعاب الآسيوية "آيتشي-ناغويا 2026" - Sharjah24
-        الإمارات · الإمارات
-الرئيس أردوغان: ماضون بحزم في مسار "تركيا بلا إرهاب" وتحقيق الاستقرار
-        قال الرئيس التركي رجب طيب أردوغان السبت، إن بلاده ماضية في مسار "تركيا بلا إرهاب" للقضاء بشكل كامل على آفة الإرهاب
-        تركيا · TRT عربي
-CNN, MS NOW and Politico staffers barred from White House after Trump ban
-        President Trump said Friday that three outlets would be banned from the White House, "effective immediately."
-        أمريكا · CBS
-Jim Ratcliffe: UK is ‘on the slide’ from days when it had world’s ‘greatest empire’
-        Co-owner of Manchester United says Britain is in decline because of high taxes and immigration Manchester United’s Muslim supporters’ club (MUMSC)…
-        بريطانيا · Guardian
-Brentford Thrash Chelsea 3-0, Piling Pressure on Alonso
-        Brentford dealt a major blow to Chelsea’s ambitions with a convincing 3-0 victory at the Gtech Community Stadium, highlighting the difficult early…
-        الأردن · Jordan News
-«البريميرليغ»: سقوط مدوٍّ لآرسنال... ونيوكاسل ينتصر
-        صدم برايتون ضيفه آرسنال حامل اللقب وأوقع به الخسارة الأولى هذا الموسم 3-0، السبت، في المرحلة الخامسة من الدوري الإنجليزي لكرة القدم.
+مورينيو ينفي التواصل مع زيدان لاستبعاد تشواميني
+        نفى جوزيه مورينيو، مدرب ريال مدريد، أن يكون قد حدث تواصل بينه وبين زين الدين زيدان مدرب فرنسا بشأن اللاعب أوريلين تشواميني.
         عربي · الشرق الأوسط
 قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
         الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
         تركيا · الأناضول
 الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
         الإمارات · الإمارات
-Everton hold off Ipswich thanks to Thierno Barry goal despite VAR controversy
-        After the trials and tribulations of the transfer window Everton can be content to reach the international break unbeaten and up to fifth courtesy of…
-        بريطانيا · Guardian
-Entire California high school football team suspended after mascot's obscene gesture
-        Another Football Friday passed without Victor Valley High School after its entire team and coaching staff were suspended for unsportsmanlike conduct.
+Bet365 Bonus Code: Bet $10, Get $365 on UFC 331, Van vs Pantoja
+        Watch Joshua Van vs. Alexandre Pantoja at UFC 331 and claim the Bet365 bonus code offer
         أمريكا · Fox News
+Millwall and West Ham arrest update after 400 police officers deployed to heated London derby
+        The Met Police threw a “ring of steel” at The Den on Saturday, to ensure there was no repeat of the violence which has marred this fixture in…
+        بريطانيا · Independent
 Ronaldo Named in Portugal Squad for Nations League
         Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260919220000 +0000" stop="20260920004853 +0000" channel="TodayNews">
+  <programme start="20260919220000 +0000" stop="20260919230000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 10:10 — بتوقيتك
+
+العملة السودانية تهوي إلى 9 آلاف جنيه أمام الدولار في السوق السوداء
+        دخل السودان منعطفاً جديداً مع التراجع الحاد في سعر صرف عملته الجنيه أمام العملات الأجنبية، وتجاوز سعر الدولار 9 آلاف جنيه
+        عربي · الشرق الأوسط
+الولايات المتحدة ترفع آخر قيود حظر الأسلحة والتمويل العسكري عن سوريا
+        رفعت الولايات المتحدة آخر قيدين متبقيين من عقوبات كانت مفروضة على سوريا بموجب قانون أمريكي لمكافحة الأسلحة الكيميائية والبيولوجية
+        تركيا · TRT عربي
+ماذا نعرف عن انتخابات مجلس الدوما الروسية؟ - BBC
+        الإمارات · الإمارات
+Aqaba Airport Welcomes First Flights from Abu Dhabi
+        King Hussein International Airport in Aqaba welcomed its first regular direct flights from the UAE capital Abu Dhabi on Friday evening
+        الأردن · Jordan News
+Zack Polanski speaks Bengali in bid to reach Holburn and St Pancras by-election voters
+        The Green Party leader was mocked by the Mayor of London Sadiq Khan for his Urdu-speaking video earlier this week
+        بريطانيا · Independent
+U.S. touts 1 billion barrels of oil escorted out of Strait of Hormuz
+        Adm. Brad Cooper provided updates on U.S. efforts to get oil out of the Persian Gulf after a bad week of news on the energy markets.
+        أمريكا · CBS
+​ رسائل تحذيرية وصلت.. حراك في الشارع اللبناني؟
+        في المشهد السياسي تتجه الأنظار الى الولايات المتحدة وزيارة رئيس الحكومة نواف سلام، المحمل بمواضيع مفصلية ترتبط باليونيفيل وما بعدها
+        عربي · الجديد
+بمشاركة واسعة.. تركيا تسجل ثالث أكبر حضور في معرض إفريقيا للدفاع بجنوب إفريقيا
+        سجلت تركيا حضوراً واسعاً في "معرض إفريقيا للطيران والدفاع" المقام في العاصمة الجنوب إفريقية بريتوريا
+        تركيا · TRT عربي
+كم يجب أن يعرف الذكاء الاصطناعى عن حياتنا؟ - بوابة الشروق
+        الإمارات · الإمارات
+Hotel fire that sparked mass evacuation being treated as suspicious
+        A fire that forced nearly 300 people to be evacuated from a Folkestone hotel is being treated as suspicious, say police.
+        بريطانيا · Sky News
+Creating a Kill Switch to Shut Down a Rogue A.I. Is Harder Than It Sounds
+        A bipartisan group in Congress and Gov. Gavin Newsom of California have floated ideas for building a mechanism that would instantly power down an…
+        أمريكا · NYT
+AI Hallucination Nearly Sparked a US Military Operation
+        Military aircraft had already taken off during the past spring, when US officials discovered something alarming: the intelligence underlying an armed…
+        الأردن · Jordan News
+كاظم الساهر يحتفل بألبومه الجديد وعيد ميلاده مع جمهوره المصري
+        بحنجرة ذهبية تحمل ألحاناً وكلمات فصحى عميقة، صدح «القيصر»، كاظم الساهر، في القاهرة بباقة مميزة من أجمل أغنياته.
+        عربي · الشرق الأوسط
+تركيا.. جنود صوماليون ضيوف ينفذون انتقالا تكتيكيا إلى جبل أرجيس
+        برفقة كوماندوز أتراك
+        تركيا · الأناضول
+لماذا رفع الفيدرالي أسعار الفائدة في خضم صدمة العرض؟ - Investing.com
+        الإمارات · الإمارات
+England’s historic winning streak ends after Red Roses draw with Canada
+        WXV: England 26-26 Canada Canadians end Red Roses’ run of 39 successive wins Still unbeaten, yes, but for England this was anything but business as…
+        بريطانيا · Guardian
+Carrot Top hospitalized, forced to cancel weekend performances
+        Carrot Top was hospitalized in Las Vegas, forcing cancellations of his residency shows. His rep says the comedian is recovering and asks for privacy.
+        أمريكا · Fox News
+Italian Caprese Salad
+        One of the most famous Italian salads, Caprese salad stands out for its fresh ingredients and balanced flavor
+        الأردن · Jordan News
+رافينيا يوافق على تمديد عقده مع برشلونة حتى 2030
+        أكّد ديكو، المدير الرياضي لبرشلونة، السبت، أن النجم البرازيلي رافينيا توصل إلى اتفاق للبقاء مع الفريق حتى عام 2030.
+        عربي · الشرق الأوسط
+صندوق النقد يتوقع انكماش الاقتصاد اللبناني ويحذر من زيادة الرواتب
+        بعثة صندوق النقد الدولي، التي اختتمت سلسلة اجتماعات في لبنان استمرت من 15 إلى 18 سبتمبر الجاري، تحث على إقرار زيادة ضريبية..
+        تركيا · الأناضول
+سر الألوان الغريبة على المريخ.. لماذا ظهر بالوردي والبنفسجي؟ - albayan.ae
+        الإمارات · الإمارات
+Major seaside hotel fire treated as suspicious
+        About 280 people were evacuated from the premises at Folkestone's Grand Burstin Hotel.
+        بريطانيا · BBC
+Miami QB Darian Mensah continues to set records, but could soft schedule cost him a Heisman?
+        Darian Mensah set an ACC record with 24 straight completions, but the Miami Hurricanes' soft schedule could hurt his Heisman finalist chances.
+        أمريكا · Fox News
+New Water Violations Detected in Azraq and Sahab
+        The Ministry of Water and Irrigation and the Water Authority said Saturday that an ongoing campaign by the Internal Control Unit, in cooperation with…
+        الأردن · Jordan News
+غياب التوافق الليبي يثير تكهنات حول اللجوء لمجلس الأمن بشأن الانتخابات
+        لم تلُح في الأفق، حتى الآن، ملامح على وجود توافق في المواقف بين مجلسي النواب و«الأعلى للدولة» بشأن تمرير اتفاق لممثلي طرفي الصراع في ليبيا.
+        عربي · الشرق الأوسط
+أسيلسان التركية تطور "سماش 300" لمواجهة المسيّرات والتهديدات السطحية
+        طورت شركة الصناعات الدفاعية التركية "أسيلسان" منظومة "سماش 300" البحرية الموجهة عن بعد، لتعزيز قدراتها في مواجهة التهديدات السطحية
+        تركيا · TRT عربي
+ترامب يوقّع مشروع قانون "ليندسي غراهام" الهادف لـ"معاقبة روسيا والضغط على بوتين".. ماذا نعرف عنه؟ - CNN Arabic
+        الإمارات · الإمارات
+Jos Buttler blasts England to world No 1 spot in T20s with Sri Lanka whitewash
+        And with a one-handed six from Jos Buttler, that was it. England leapt over India to became the No 1 T20 team in the world
+        بريطانيا · Guardian
+MS NOW, CNN, Politico reporters barred from White House after Trump announces ban
+        President Donald Trump said in a social media post Friday that he is "banning" CNN, MS NOW and Politico from the White House "effective immediately."
+        أمريكا · ABC News
+Security Researchers Used Claude to Hack OpenAI, Received Bounty
+        AI-powered chatbots appear to have become remarkably skilled at breaching systems, and OpenAI found that out the hard way.
+        الأردن · Jordan News
+مورينيو ينفي التواصل مع زيدان لاستبعاد تشواميني
+        نفى جوزيه مورينيو، مدرب ريال مدريد، أن يكون قد حدث تواصل بينه وبين زين الدين زيدان مدرب فرنسا بشأن اللاعب أوريلين تشواميني.
+        عربي · الشرق الأوسط
+قدم.. صنداونز يهزم الأهلي السعودي ويبلغ نصف نهائي كأس القارات للأندية
+        الفريق الجنوب إفريقي حسم المواجهة 2-1 ليتوج بلقب كأس القارات الثلاث ويضرب موعدا مع بطل الأمريكتين
+        تركيا · الأناضول
+الأهلي السعودي يودع كأس القارات بعد خسارته من صن داونز - سكاي نيوز عربية
+        الإمارات · الإمارات
+Bet365 Bonus Code: Bet $10, Get $365 on UFC 331, Van vs Pantoja
+        Watch Joshua Van vs. Alexandre Pantoja at UFC 331 and claim the Bet365 bonus code offer
+        أمريكا · Fox News
+Millwall and West Ham arrest update after 400 police officers deployed to heated London derby
+        The Met Police threw a “ring of steel” at The Den on Saturday, to ensure there was no repeat of the violence which has marred this fixture in…
+        بريطانيا · Independent
+Ronaldo Named in Portugal Squad for Nations League
+        Cristiano Ronaldo has been called up to Portugal’s squad for the first four rounds of the UEFA Nations League, according to a list announced Friday…
+        الأردن · Jordan News</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260919230000 +0000" stop="20260920011007 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260919183500 +0300" stop="20260919200000 +0300" channel="ThmanyahGuide">
@@ -127609,152 +127077,140 @@ Ronaldo Named in Portugal Squad for Nations League
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-  <programme start="20260919160000 +0000" stop="20260919170000 +0000" channel="TodayWeather">
-    <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 09:48 — بتوقيتك
-
-الأردن
-عمّان 23° · صافٍ · رطوبة 64% · رياح 12 كم/سا · احتمال المطر 0%
-العقبة 32° · صافٍ · رطوبة 32% · رياح 14 كم/سا · احتمال المطر 0%
-الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
-دبي 32° · صافٍ · رطوبة 67% · رياح 6 كم/سا · احتمال المطر 0%
-بريطانيا
-لندن 21° · غائم · رطوبة 76% · رياح 18 كم/سا · احتمال المطر 5%
-مانشستر 18° · غائم · رطوبة 58% · رياح 24 كم/سا · احتمال المطر 0%
-أمريكا
-نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 75% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم · رطوبة 97% · رياح 4 كم/سا · احتمال المطر 66%
-لاس فيغاس 29° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
-هيوستن 30° · صافٍ · رطوبة 62% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · صافٍ · رطوبة 83% · رياح 5 كم/سا · احتمال المطر 0%</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
-  </programme>
   <programme start="20260919170000 +0000" stop="20260919180000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 10:10 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 64% · رياح 12 كم/سا · احتمال المطر 0%
-العقبة 32° · صافٍ · رطوبة 32% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 22° · صافٍ · رطوبة 66% · رياح 12 كم/سا · احتمال المطر 0%
+العقبة 32° · صافٍ · رطوبة 32% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
 أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
-دبي 32° · صافٍ · رطوبة 67% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 68% · رياح 6 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 21° · غائم · رطوبة 76% · رياح 18 كم/سا · احتمال المطر 5%
-مانشستر 18° · غائم · رطوبة 58% · رياح 24 كم/سا · احتمال المطر 0%
+لندن 21° · غائم · رطوبة 77% · رياح 18 كم/سا · احتمال المطر 10%
+مانشستر 18° · غائم · رطوبة 59% · رياح 24 كم/سا · احتمال المطر 0%
 أمريكا
 نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 75% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم · رطوبة 97% · رياح 4 كم/سا · احتمال المطر 66%
-لاس فيغاس 29° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
-هيوستن 30° · صافٍ · رطوبة 62% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · صافٍ · رطوبة 83% · رياح 5 كم/سا · احتمال المطر 0%</desc>
+لوس أنجلوس 22° · غائم · رطوبة 74% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 19° · مطر غزير · رطوبة 98% · رياح 6 كم/سا · احتمال المطر 63%
+لاس فيغاس 30° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
+هيوستن 30° · صافٍ · رطوبة 58% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 17° · صافٍ · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260919180000 +0000" stop="20260919190000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 10:10 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 64% · رياح 12 كم/سا · احتمال المطر 0%
-العقبة 32° · صافٍ · رطوبة 32% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 22° · صافٍ · رطوبة 66% · رياح 12 كم/سا · احتمال المطر 0%
+العقبة 32° · صافٍ · رطوبة 32% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
 أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
-دبي 32° · صافٍ · رطوبة 67% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 68% · رياح 6 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 21° · غائم · رطوبة 76% · رياح 18 كم/سا · احتمال المطر 5%
-مانشستر 18° · غائم · رطوبة 58% · رياح 24 كم/سا · احتمال المطر 0%
+لندن 21° · غائم · رطوبة 77% · رياح 18 كم/سا · احتمال المطر 10%
+مانشستر 18° · غائم · رطوبة 59% · رياح 24 كم/سا · احتمال المطر 0%
 أمريكا
 نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 75% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم · رطوبة 97% · رياح 4 كم/سا · احتمال المطر 66%
-لاس فيغاس 29° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
-هيوستن 30° · صافٍ · رطوبة 62% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · صافٍ · رطوبة 83% · رياح 5 كم/سا · احتمال المطر 0%</desc>
+لوس أنجلوس 22° · غائم · رطوبة 74% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 19° · مطر غزير · رطوبة 98% · رياح 6 كم/سا · احتمال المطر 63%
+لاس فيغاس 30° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
+هيوستن 30° · صافٍ · رطوبة 58% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 17° · صافٍ · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260919190000 +0000" stop="20260919200000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 10:10 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 64% · رياح 12 كم/سا · احتمال المطر 0%
-العقبة 32° · صافٍ · رطوبة 32% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 22° · صافٍ · رطوبة 66% · رياح 12 كم/سا · احتمال المطر 0%
+العقبة 32° · صافٍ · رطوبة 32% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
 أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
-دبي 32° · صافٍ · رطوبة 67% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 68% · رياح 6 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 21° · غائم · رطوبة 76% · رياح 18 كم/سا · احتمال المطر 5%
-مانشستر 18° · غائم · رطوبة 58% · رياح 24 كم/سا · احتمال المطر 0%
+لندن 21° · غائم · رطوبة 77% · رياح 18 كم/سا · احتمال المطر 10%
+مانشستر 18° · غائم · رطوبة 59% · رياح 24 كم/سا · احتمال المطر 0%
 أمريكا
 نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 75% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم · رطوبة 97% · رياح 4 كم/سا · احتمال المطر 66%
-لاس فيغاس 29° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
-هيوستن 30° · صافٍ · رطوبة 62% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · صافٍ · رطوبة 83% · رياح 5 كم/سا · احتمال المطر 0%</desc>
+لوس أنجلوس 22° · غائم · رطوبة 74% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 19° · مطر غزير · رطوبة 98% · رياح 6 كم/سا · احتمال المطر 63%
+لاس فيغاس 30° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
+هيوستن 30° · صافٍ · رطوبة 58% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 17° · صافٍ · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260919200000 +0000" stop="20260919210000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 10:10 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 64% · رياح 12 كم/سا · احتمال المطر 0%
-العقبة 32° · صافٍ · رطوبة 32% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 22° · صافٍ · رطوبة 66% · رياح 12 كم/سا · احتمال المطر 0%
+العقبة 32° · صافٍ · رطوبة 32% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
 أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
-دبي 32° · صافٍ · رطوبة 67% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 68% · رياح 6 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 21° · غائم · رطوبة 76% · رياح 18 كم/سا · احتمال المطر 5%
-مانشستر 18° · غائم · رطوبة 58% · رياح 24 كم/سا · احتمال المطر 0%
+لندن 21° · غائم · رطوبة 77% · رياح 18 كم/سا · احتمال المطر 10%
+مانشستر 18° · غائم · رطوبة 59% · رياح 24 كم/سا · احتمال المطر 0%
 أمريكا
 نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 75% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم · رطوبة 97% · رياح 4 كم/سا · احتمال المطر 66%
-لاس فيغاس 29° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
-هيوستن 30° · صافٍ · رطوبة 62% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · صافٍ · رطوبة 83% · رياح 5 كم/سا · احتمال المطر 0%</desc>
+لوس أنجلوس 22° · غائم · رطوبة 74% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 19° · مطر غزير · رطوبة 98% · رياح 6 كم/سا · احتمال المطر 63%
+لاس فيغاس 30° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
+هيوستن 30° · صافٍ · رطوبة 58% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 17° · صافٍ · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260919210000 +0000" stop="20260919220000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 09:48 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 10:10 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 64% · رياح 12 كم/سا · احتمال المطر 0%
-العقبة 32° · صافٍ · رطوبة 32% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 22° · صافٍ · رطوبة 66% · رياح 12 كم/سا · احتمال المطر 0%
+العقبة 32° · صافٍ · رطوبة 32% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
 أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
-دبي 32° · صافٍ · رطوبة 67% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 68% · رياح 6 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 21° · غائم · رطوبة 76% · رياح 18 كم/سا · احتمال المطر 5%
-مانشستر 18° · غائم · رطوبة 58% · رياح 24 كم/سا · احتمال المطر 0%
+لندن 21° · غائم · رطوبة 77% · رياح 18 كم/سا · احتمال المطر 10%
+مانشستر 18° · غائم · رطوبة 59% · رياح 24 كم/سا · احتمال المطر 0%
 أمريكا
 نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 75% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 19° · غائم · رطوبة 97% · رياح 4 كم/سا · احتمال المطر 66%
-لاس فيغاس 29° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
-هيوستن 30° · صافٍ · رطوبة 62% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · صافٍ · رطوبة 83% · رياح 5 كم/سا · احتمال المطر 0%</desc>
+لوس أنجلوس 22° · غائم · رطوبة 74% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 19° · مطر غزير · رطوبة 98% · رياح 6 كم/سا · احتمال المطر 63%
+لاس فيغاس 30° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
+هيوستن 30° · صافٍ · رطوبة 58% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 17° · صافٍ · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260919220000 +0000" stop="20260920004917 +0000" channel="TodayWeather">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
+  <programme start="20260919220000 +0000" stop="20260919230000 +0000" channel="TodayWeather">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">طقس اليوم · آخر تحديث 10:10 — بتوقيتك
+
+الأردن
+عمّان 22° · صافٍ · رطوبة 66% · رياح 12 كم/سا · احتمال المطر 0%
+العقبة 32° · صافٍ · رطوبة 32% · رياح 13 كم/سا · احتمال المطر 0%
+الإمارات
+أبو ظبي 33° · صافٍ · رطوبة 71% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 68% · رياح 6 كم/سا · احتمال المطر 0%
+بريطانيا
+لندن 21° · غائم · رطوبة 77% · رياح 18 كم/سا · احتمال المطر 10%
+مانشستر 18° · غائم · رطوبة 59% · رياح 24 كم/سا · احتمال المطر 0%
+أمريكا
+نيويورك 21° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
+لوس أنجلوس 22° · غائم · رطوبة 74% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 19° · مطر غزير · رطوبة 98% · رياح 6 كم/سا · احتمال المطر 63%
+لاس فيغاس 30° · صافٍ · رطوبة 15% · رياح 14 كم/سا · احتمال المطر 0%
+هيوستن 30° · صافٍ · رطوبة 58% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 17° · صافٍ · رطوبة 79% · رياح 4 كم/سا · احتمال المطر 0%</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260919160000 +0000" stop="20260919170000 +0000" channel="TodayPrayer">
-    <title lang="ar">🕌 مواقيت الصلاة</title>
-    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
-
-Amman (عمّان) — الفجر 05:01 · الشروق 06:23 · الظهر 12:30 · العصر 16:00 · المغرب 18:42 · العشاء 19:59
-Abu Dhabi (أبو ظبي) — الفجر 04:53 · الشروق 06:10 · الظهر 12:19 · العصر 15:44 · المغرب 18:25 · العشاء 19:39
-Henderson NV (هندرسون · نيفادا) — الفجر 05:15 · الشروق 06:26 · الظهر 12:34 · العصر 16:03 · المغرب 18:41 · العشاء 19:52
-Istanbul (إسطنبول) — الفجر 05:15 · الشروق 06:41 · الظهر 13:03 · العصر 16:31 · المغرب 19:14 · العشاء 20:34
-
-المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  <programme start="20260919230000 +0000" stop="20260920011031 +0000" channel="TodayWeather">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260919170000 +0000" stop="20260919180000 +0000" channel="TodayPrayer">
     <title lang="ar">🕌 مواقيت الصلاة</title>
@@ -127888,4 +127344,16 @@ Istanbul (إسطنبول) — الفجر 05:15 · الشروق 06:41 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260920011818 +0000" stop="20260920012123 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011845 +0000" stop="20260920012123 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920004853 +0000" stop="20260920012123 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920004917 +0000" stop="20260920012123 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260920040000 +0000" stop="20260920050000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+Amman (عمّان) — الفجر 05:01 · الشروق 06:23 · الظهر 12:30 · العصر 16:00 · المغرب 18:42 · العشاء 19:59
+Abu Dhabi (أبو ظبي) — الفجر 04:53 · الشروق 06:10 · الظهر 12:19 · العصر 15:44 · المغرب 18:25 · العشاء 19:39
+Henderson NV (هندرسون · نيفادا) — الفجر 05:15 · الشروق 06:26 · الظهر 12:34 · العصر 16:03 · المغرب 18:41 · العشاء 19:52
+Istanbul (إسطنبول) — الفجر 05:15 · الشروق 06:41 · الظهر 13:03 · العصر 16:31 · المغرب 19:14 · العشاء 20:34
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
+  </programme>
+<programme start="20260920013809 +0000" stop="20260920014109 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920013832 +0000" stop="20260920014109 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011007 +0000" stop="20260920014109 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260920011031 +0000" stop="20260920014109 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
