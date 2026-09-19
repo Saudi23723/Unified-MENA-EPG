@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260917230200 +0000" stop="20260918004200 +0000" channel="beIN4K.qa">
-    <title lang="en">Liverpool v Fulham - English Premier League 2026/2027</title>
-    <desc lang="en">Liverpool have only lost two of 33 previous home league games against Fulham, 1-0 defeats in May 2012 and March 2021. Since completing the double over Liverpool in 2011-12, Fulham have won just two of 16 Premier League games versus the Reds.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260918004200 +0000" stop="20260918022700 +0000" channel="beIN4K.qa">
     <title lang="en">Sunderland v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Sunderland have won just one of their last 29 Premier League meetings with Arsenal, and are winless in 17  since a 1-0 victory in November 2009 after Darren Bent’s goal. Arsenal have only lost one of their last 14 league visits to Sunderland, winning five of their last seven, although did draw this exact fixture last season 2-2.</desc>
@@ -3257,12 +3251,6 @@ Estadi de la FAF d'Encamp Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918003000 +0000" stop="20260918005000 +0000" channel="beINSports4.qa">
-    <title lang="en">The Games Of Your Life</title>
-    <desc lang="en">A special program revisiting the Asian Games hosted in Doha, capturing the spirit, scale, and lasting impact of a landmark edition for Qatar and the region. It reflects on memorable moments, standout performances, and the atmosphere that defined the event, highlighting how Doha presented the continent’s premier multi-sport gathering under the banne</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918005000 +0000" stop="20260918031500 +0000" channel="beINSports4.qa">
     <title lang="en">South Korea vs Malaysia - Basketball Women's - Asian Games Aichi-Nagoya 2026 -BSK00 ‎• Live 🔵‎</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -4407,6 +4395,14 @@ Estadio Abanca-Balaídos Stadium</desc>
     <desc lang="en">This will be the first competitive meeting between Kosovo and Republic of Ireland, with the hosts losing just one of their last nine home internationals against European nations. Republic of Ireland are unbeaten across their last four competitive internationals against European sides, last enjoying a longer such run between September 2021 and Novem</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260925010000 +0000" stop="20260925030000 +0000" channel="beINSports5.qa">
+    <title lang="en">Weightlifting - W - 57kg &amp; 61kg P/Ls - W - 57kg &amp; 61kg P/Ls - Asian Games Aichi-Nagoya 2026 - W ‎• Live 🔵‎</title>
+    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
+46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
+    <category lang="ar">دورة الألعاب الآسيوية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260917233600 +0000" stop="20260918013000 +0000" channel="beINSports6.qa">
     <title lang="en">Manchester City vs Norwich - Carabao Cup 2026 / 2027 - Round 3</title>
@@ -5816,12 +5812,6 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260917231700 +0000" stop="20260918004000 +0000" channel="beINSports8.qa">
-    <title lang="en">Feature Race - Madrid Round - FIA Formula 2 Championship- 2026</title>
-    <desc lang="en">Formula 2 is the key stepping stone to Formula 1, featuring some of the world’s most promising young drivers competing in identical single-seater cars. The championship combines speed, strategy and close racing, with drivers battling for race victories, podiums and valuable championship points. With a demanding calendar and competitive field, F2 pr</desc>
-    <category lang="ar">رياضة السيارات</category>
-    <category lang="en">MotorSports</category>
-  </programme>
   <programme start="20260918004000 +0000" stop="20260918023000 +0000" channel="beINSports8.qa">
     <title lang="en">Plzen vs Royale Union SG - UEFA Europa League 2026/2027 - MD1</title>
     <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
@@ -6287,12 +6277,6 @@ Papara Park Stadium</desc>
     <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
     <category lang="en">Live</category>
     <category lang="en">AFCON Qualifiers</category>
-  </programme>
-  <programme start="20260917220000 +0000" stop="20260918004500 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Mexico City Jumping - Trofeo banorte Against the clock with Jump Of</title>
-    <desc lang="en">Held at Campo Marte in Mexico City, featuring CSI5* show jumping with fences up to 1.60m. The program includes the Global Champions League team competition and the Grand Prix, where riders earn ranking points toward the season standings. Competition takes place at altitude, impacting horse performance and pace.</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260918004500 +0000" stop="20260918033000 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - Mexico City Jumping - Grand Prix</title>
@@ -8284,12 +8268,6 @@ Raiffeisen Arena Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918010000 +0000" stop="20260918030000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8489,12 +8467,6 @@ Raiffeisen Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920190000 +0000" stop="20260920205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8704,12 +8676,6 @@ Raiffeisen Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918010000 +0000" stop="20260918030000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8909,12 +8875,6 @@ Raiffeisen Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920190000 +0000" stop="20260920205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9124,12 +9084,6 @@ Raiffeisen Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918010000 +0000" stop="20260918030000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9329,12 +9283,6 @@ Raiffeisen Arena Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920190000 +0000" stop="20260920205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN Sports MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260917230000 +0000" stop="20260918010000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN Sports MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9543,12 +9491,6 @@ Raiffeisen Arena Stadium</desc>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">The Issue of The Day</title>
-    <desc lang="en">The Issue Of The Day, from the beIn Sports News Team, takes an in depth look at the the main story form the world of sport from the last 24 hours.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20260918010000 +0000" stop="20260918020000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassad</title>
@@ -11072,12 +11014,6 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918010000 +0000" stop="20260918020000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -11991,12 +11927,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918010000 +0000" stop="20260918020000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -12889,12 +12819,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260918010000 +0000" stop="20260918020000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -13748,12 +13672,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260924200000 +0000" stop="20260924205959 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14626,12 +14544,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260924200000 +0000" stop="20260924205959 +0000" channel="beINSportsXtra4.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15580,12 +15492,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260924200000 +0000" stop="20260924205959 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16571,12 +16477,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260924200000 +0000" stop="20260924205959 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17590,7 +17490,7 @@ Rheinpark Stadion Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20260925010000 +0000" stop="20260925020000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18604,7 +18504,7 @@ Rheinpark Stadion Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260918000000 +0000" stop="20260918010000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20260925010000 +0000" stop="20260925020000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19613,6 +19513,12 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260925000000 +0000" stop="20260925010000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260925010000 +0000" stop="20260925020000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
