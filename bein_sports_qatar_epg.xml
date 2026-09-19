@@ -927,12 +927,6 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="en">Live</category>
     <category lang="en">Handball</category>
   </programme>
-  <programme start="20260918180000 +0000" stop="20260918183000 +0000" channel="beINSports1.qa">
-    <title lang="en">Liverpool vs Fulham - English Premier League 2026/2027 - Week 4</title>
-    <desc lang="en">Liverpool have only lost two of 33 previous home league games against Fulham, 1-0 defeats in May 2012 and March 2021. Since completing the double over Liverpool in 2011-12, Fulham have won just two of 16 Premier League games versus the Reds.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260918183000 +0000" stop="20260918213000 +0000" channel="beINSports1.qa">
     <title lang="en">Brentford vs Chelsea - English Premier League 2026/2027 - Week 5 ‎• Live 🔵‎</title>
     <desc lang="en">Brentford are winless in all five of their Premier League home games against Chelsea, with each of the last four finishing level. Having lost three of their first five Premier League games against Brentford, Chelsea are now unbeaten in their last five against the Bees.</desc>
@@ -1775,6 +1769,12 @@ Barcelona are the two-time defending champions, having won their 29th title last
   </programme>
   <programme start="20260925153000 +0000" stop="20260925183000 +0000" channel="beINSports1.qa">
     <title lang="en">Sudan vs Ethiopia - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD1 ‎• Live 🔵‎</title>
+    <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
+    <category lang="en">Live</category>
+    <category lang="en">AFCON Qualifiers</category>
+  </programme>
+  <programme start="20260925183000 +0000" stop="20260925205959 +0000" channel="beINSports1.qa">
+    <title lang="en">Egypt vs Angola - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD1 ‎• Live 🔵‎</title>
     <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
     <category lang="en">Live</category>
     <category lang="en">AFCON Qualifiers</category>
@@ -3098,13 +3098,6 @@ Estadi de la FAF d'Encamp Stadium</desc>
     <desc lang="en">While Coventry City have waited 25 years for their return to the top-flight, it’s been a lifetime’s work for Sky Blues striker Brandon Thomas-Asante. Having toiled hard in the lower leagues for a number of years, the Ghana international made his World Cup debut this summer and can now look forward to a first Premier League appearance at the home of</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260918163000 +0000" stop="20260918183500 +0000" channel="beINSports4.qa">
-    <title lang="en">Crystal Palace vs Lech Poznan - UEFA Europa League 2026/2027 - MD1</title>
-    <desc lang="en">The Europa League draw will take place, followed immediately by the Conference League in Monaco on Friday 28 August in Monaco
-36 teams will be drawn in each competition, in four pots for the Europa League, and six pots for the Conference League.</desc>
-    <category lang="ar">الدوري الأوروبي</category>
-    <category lang="en">UEFA Europa League</category>
   </programme>
   <programme start="20260918183500 +0000" stop="20260918210000 +0000" channel="beINSports4.qa">
     <title lang="en">Monaco vs Lens - French Ligue 1 2026/2027 - Week 5 ‎• Live 🔵‎</title>
@@ -4875,6 +4868,19 @@ Vazgen Sargsyan Republican Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260925183500 +0000" stop="20260925205959 +0000" channel="beINSports6.qa">
+    <title lang="en">Italy vs Belgium - UEFA Nations League 2026/27 - Match Day 1 ‎• Live 🔵‎</title>
+    <desc lang="en">Italy vs Belgium
+At 25-9-2026, MECCA 21:45, GMT 18:45
+UEFA Nations League
+Season 2026/2027
+Qualifier Round
+Group A1
+Stadio Olimpico Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260918171500 +0000" stop="20260918190000 +0000" channel="beINSports7.qa">
     <title lang="en">Lion City Sailors (SGP) vs BG Pathum United (THA) - AFC Champions League Two 2026/2027 - MD1</title>
     <desc lang="en">Lion City Sailors vs BG Pathum United
@@ -6084,6 +6090,19 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Formula One World Championship</category>
   </programme>
+  <programme start="20260925183500 +0000" stop="20260925205959 +0000" channel="beINSports8.qa">
+    <title lang="en">Poland vs Bosnia-Herzegovina - UEFA Nations League 2026/27 - Match Day 1 ‎• Live 🔵‎</title>
+    <desc lang="en">Poland vs Bosnia-Herzegovina
+At 25-9-2026, MECCA 21:45, GMT 18:45
+UEFA Nations League
+Season 2026/2027
+Qualifier Round
+Group B4
+PGE Narodowy Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260918175500 +0000" stop="20260918200000 +0000" channel="beINSports9.qa">
     <title lang="en">Tremblay vs Saint-Raphaël - Daikin StarLigue - French Handball - 2026 ‎• Live 🔵‎</title>
     <category lang="ar">كرة اليد</category>
@@ -6600,11 +6619,6 @@ Al-Zawraa Stadium Stadium</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Live</category>
     <category lang="en">Equestrian</category>
-  </programme>
-  <programme start="20260918180200 +0000" stop="20260918183000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN EPL Stories 2026/27 | E16 - John Stones</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260918183000 +0000" stop="20260918213000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Brentford vs Chelsea - English Premier League 2026/2027 - Week 5 ‎• Live 🔵‎</title>
@@ -7847,6 +7861,19 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">مسلسلات</category>
     <category lang="en">Series</category>
   </programme>
+  <programme start="20260925183500 +0000" stop="20260925205959 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Sweden vs Romania - UEFA Nations League 2026/27 - Match Day 1 ‎• Live 🔵‎</title>
+    <desc lang="en">Sweden vs Romania
+At 25-9-2026, MECCA 21:45, GMT 18:45
+UEFA Nations League
+Season 2026/2027
+Qualifier Round
+Group B4
+Strawberry Arena Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260918175500 +0000" stop="20260918200000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Multiplex - Ligue 2 - J07 - Football 2026-2027 ‎• Live 🔵‎</title>
     <desc lang="en">Sport.</desc>
@@ -8098,13 +8125,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <title lang="en">Séville vs Barcelonne - Liga - J06 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260918170000 +0000" stop="20260918184000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Tchequie États-Unis P03 - Coupe Davis - Tennis 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260918184000 +0000" stop="20260918203000 +0000" channel="beINSportsFr2.qa">
@@ -12893,6 +12913,19 @@ Rheinpark Stadion Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260925183500 +0000" stop="20260925205959 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">Hungary vs Ukraine - UEFA Nations League 2026/27 - Match Day 1 ‎• Live 🔵‎</title>
+    <desc lang="en">Hungary vs Ukraine
+At 25-9-2026, MECCA 21:45, GMT 18:45
+UEFA Nations League
+Season 2026/2027
+Qualifier Round
+Group B2
+Puskás Aréna Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260918180000 +0000" stop="20260918190000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -13783,6 +13816,19 @@ Rheinpark Stadion Stadium</desc>
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260925183500 +0000" stop="20260925205959 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">Montenegro vs Cyprus - UEFA Nations League 2026/27 - Match Day 1 ‎• Live 🔵‎</title>
+    <desc lang="en">Montenegro vs Cyprus
+At 25-9-2026, MECCA 21:45, GMT 18:45
+UEFA Nations League
+Season 2026/2027
+Qualifier Round
+Group C2
+Podgorica City Stadium Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260918180000 +0000" stop="20260918190000 +0000" channel="beINSportsXtra4.qa">
