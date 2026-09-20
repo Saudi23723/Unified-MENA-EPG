@@ -46,6 +46,11 @@ TELEGRAM_URL = f"https://t.me/s/{CHANNEL_SLUG}"
 KEEP_DAYS_BACK = 1
 KEEP_DAYS_FORWARD = 7
 
+# How far a written date may sit from the post that carries it before the
+# YEAR in it is treated as a typo rather than as a fact. See
+# believable_year.
+YEAR_SLACK_DAYS = 180
+
 # How many Telegram preview pages to walk back through.
 # Page 1 = newest ~20 posts. Each extra page goes ~20 posts further back.
 TELEGRAM_PAGES = 3
@@ -382,6 +387,40 @@ def telegram_post_date(post):
     return NOW.date()
 
 
+def believable_year(found, reference):
+    """The same day and month, in the year nearest the post itself.
+
+    THE YEAR IN THE HEADER IS NOT ALWAYS THE YEAR. Measured 2026-09-20:
+    Alwan posted "جدول مباريات الغد 20-9-2029" on 19/09/2026 — the day
+    and the month right, the year mistyped. Read literally that put a
+    whole day's card three years out, in_window threw away every fixture
+    in the post, and all ten channels read "لا توجد مباراة مجدولة" while
+    Alwan had in fact published twenty matches.
+
+    So a year that lands the date more than half a year from the post is
+    not believed, and the nearest of (year-1, year, year+1) to the post's
+    own date is used instead. Nothing publishable is lost by this: the
+    guide only ever carries KEEP_DAYS_FORWARD days, so a date that far
+    out is dropped either way — the only thing that changes is whether a
+    mistyped year takes the day and the month down with it.
+    """
+    if abs((found - reference).days) <= YEAR_SLACK_DAYS:
+        return found
+
+    best = found
+
+    for year in (reference.year - 1, reference.year, reference.year + 1):
+        try:
+            candidate = found.replace(year=year)
+        except ValueError:          # 29 February in a common year
+            continue
+
+        if abs((candidate - reference).days) < abs((best - reference).days):
+            best = candidate
+
+    return best
+
+
 def parse_explicit_date(text, reference):
     text = norm(text)
     low = text.lower()
@@ -392,7 +431,7 @@ def parse_explicit_date(text, reference):
         day, month, year = map(int, m.groups())
 
         try:
-            return date(year, month, day)
+            return believable_year(date(year, month, day), reference)
         except ValueError:
             pass
 
@@ -418,7 +457,7 @@ def parse_explicit_date(text, reference):
 
         if found:
             # A bare "12 مارس" near a year boundary should roll forward.
-            if not m.group(3) and (found - reference).days < -180:
+            if not m.group(3) and (found - reference).days < -YEAR_SLACK_DAYS:
                 try:
                     found = date(year + 1, month, day)
                 except ValueError:
