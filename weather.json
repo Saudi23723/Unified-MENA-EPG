@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T01:17:09.739Z",
+  "updated_at": "2026-09-20T01:24:03.627Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -59,9 +59,9 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 18.0,
-      "humidity": 72,
-      "wind_speed": 12.6,
+      "temperature_c": 18.1,
+      "humidity": 69,
+      "wind_speed": 13.7,
       "rain_chance": 31,
       "condition": "غائم",
       "weather_code": 3,
@@ -72,12 +72,12 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 14.4,
-      "humidity": 71,
-      "wind_speed": 14.0,
+      "temperature_c": 14.3,
+      "humidity": 72,
+      "wind_speed": 15.1,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-09-20T02:15"
     },
     {
@@ -88,7 +88,7 @@
       "temperature_c": 16.8,
       "humidity": 82,
       "wind_speed": 9.4,
-      "rain_chance": 1,
+      "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-09-19T21:15"
@@ -114,7 +114,7 @@
       "temperature_c": 19.1,
       "humidity": 98,
       "wind_speed": 2.6,
-      "rain_chance": 57,
+      "rain_chance": 71,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-09-19T20:15"
