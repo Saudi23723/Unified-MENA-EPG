@@ -4913,11 +4913,28 @@ def gate_turkey_comes_from_the_sources_asked_for() -> None:
     # feed has each on its own day. The guide now carries every
     # competition beIN marks live, so this asks about Turkey's rather
     # than about everything.
+    #
+    # AND IT ASKS ABOUT INSTANTS, ONLY WHEN THERE ARE SEVERAL TO COMPARE.
+    #
+    # Written as "more than one DAY", this failed on honest data twice
+    # over, and a gate that names no screen stops the WHOLE build:
+    # measured 2026-09-20, beIN's guide held exactly ONE Turkish live
+    # airing — Fenerbahçe - Eyüpspor, 20/09 13:50 — so the day count was
+    # 1, the gate failed, quarantine_screens could narrow it to nothing,
+    # and every board on every channel stood still from 19:23 while pass
+    # after pass published nothing. One fixture cannot be spread over two
+    # days, and a normal Süper Lig Sunday puts several on one day by
+    # design; neither is the fault this replaces.
+    #
+    # The fault WAS four fixtures landing on one INSTANT while beIN's
+    # feed had each at its own time. So that is what is asked, and only
+    # when there are at least two airings to collapse.
     turkish = [event for event in got
                if "التركي" in event["competition"]]
-    days = {event["start"].date() for event in turkish}
-    check("TURKEY", "and Turkey's are NOT all on one day, which is the "
-                    "fault this replaces", len(days) > 1, True)
+    starts = {event["start"] for event in turkish}
+    check("TURKEY", "and Turkey's are NOT all on one instant, which is "
+                    "the fault this replaces",
+          len(starts) > 1 if len(turkish) > 1 else True, True)
     check("TURKEY", "every one names the channel beIN itself names",
           all(event["channels"] and "beIN" in event["channels"][0]
               for event in got), True)
