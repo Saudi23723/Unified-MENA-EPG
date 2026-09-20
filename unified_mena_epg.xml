@@ -1123,12 +1123,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260919180700 +0000" stop="20260919195100 +0000" channel="beIN4K.qa">
-    <title lang="en">Sunderland v Arsenal - English Premier League 2026/2027</title>
-    <desc lang="en">Sunderland have won just one of their last 29 Premier League meetings with Arsenal, and are winless in 17  since a 1-0 victory in November 2009 after Darren Bent’s goal. Arsenal have only lost one of their last 14 league visits to Sunderland, winning five of their last seven, although did draw this exact fixture last season 2-2.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260919195100 +0000" stop="20260919215600 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Spanish Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -11436,6 +11430,12 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
   <programme start="20260926193000 +0000" stop="20260926194500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Interview  - 26/09/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260926194500 +0000" stop="20260926200000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 26/09/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -22579,7 +22579,7 @@ Podgorica City Stadium Stadium</desc>
   <programme start="20260920191500 +0000" stop="20260920210000 +0000" channel="beINSPORTS3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920205900 +0000" stop="20260921033647 +0000" channel="beINSPORTS5.tr">
+  <programme start="20260920205900 +0000" stop="20260921035646 +0000" channel="beINSPORTS5.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260920183000 +0000" stop="20260920210000 +0000" channel="beINSPORTSMAX1.tr">
@@ -47510,6 +47510,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
+  <programme start="20260921031733 +0000" stop="20260921033732 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
   <programme start="20260918210000 +0000" stop="20260919000000 +0000" channel="Maraya.shahid">
     <title lang="en">Program 24/7</title>
     <desc lang="ar">مرايا ياسر العظمة — بث مستمر ٢٤/٧.
@@ -52310,7 +52314,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-  <programme start="20260920213000 +0000" stop="20260921033732 +0000" channel="Roya_RoyaNews">
+  <programme start="20260920213000 +0000" stop="20260921035729 +0000" channel="Roya_RoyaNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260925205558 +0000" stop="20260925210000 +0000" channel="Roya_Ch13">
@@ -52319,10 +52323,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260920205847 +0000" stop="20260920210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033732 +0000" channel="Roya_Documentaries">
+  <programme start="20260920210000 +0000" stop="20260921035729 +0000" channel="Roya_Documentaries">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260921031733 +0000" stop="20260921033732 +0000" channel="AlJazeera.qa">
+  <programme start="20260921033732 +0000" stop="20260921035729 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260918210000 +0000" stop="20260919210000 +0000" channel="JordanSports">
@@ -60461,37 +60465,31 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassOne.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassOne.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassTwo.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassTwo.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassThree.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassFour.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassFive.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassSix.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassSeven.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260920210000 +0000" stop="20260921033759 +0000" channel="AlkassEight.qa">
+  <programme start="20260920210000 +0000" stop="20260921035756 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919194500 +0000" channel="Starz_admnadsports1">
-    <title lang="en">Goalassimo (Ar) 2025</title>
-    <desc lang="en">Goalassimo (Ar) 2025: Ep  45</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260919194500 +0000" stop="20260919200000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Serie A: Inside Tactics (Ar) 2026 - 2027</title>
     <desc lang="en">Serie A: Inside Tactics (Ar) 2026 - 2027</desc>
     <category lang="en">Sport</category>
@@ -60815,7 +60813,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919200000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI MTB World Championship 2026</title>
     <desc lang="en">UCI MTB World Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -61109,7 +61107,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919203000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260919195500 +0000" stop="20260919203000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Venezia X Lazio - Serie A</title>
     <title lang="ar">فينيسيا × لاتسيو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -61775,7 +61773,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919203000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260919195500 +0000" stop="20260919203000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Venezia X Lazio - Serie A</title>
     <title lang="ar">فينيسيا × لاتسيو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -62421,14 +62419,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919194500 +0000" channel="Starz_starzplaysport1">
-    <title lang="en">Van X Pantoja 2 - UFC 331</title>
-    <title lang="ar">فان × بانتوجا 2 - يو إف سي 331</title>
-    <desc lang="en">Stay tuned to UFC 331.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG642200_landscape10-bd41dc1c-ac45-457d-bdbb-fdd82b5a6837.jpg" />
-  </programme>
-  <programme start="20260919194500 +0000" stop="20260919200000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Starzplay Sports 3</title>
     <title lang="ar">ستارزبلاي سبورتس 3</title>
     <desc lang="en">Sports coverage from around the globe.</desc>
@@ -63065,7 +63056,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919210300 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260919195500 +0000" stop="20260919210300 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Wales U20 vs. Uruguay U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">Wales U20 vs. Uruguay U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -63323,13 +63314,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919195400 +0000" channel="Starz_golflife">
-    <title lang="en">Dicks Open - PGA Tour Champions Highlights</title>
-    <desc lang="en">S2026 , Ep.Dicks Open :</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p12586095_b_h8_ai.jpg" />
-  </programme>
-  <programme start="20260919195400 +0000" stop="20260919204800 +0000" channel="Starz_golflife">
+  <programme start="20260919195500 +0000" stop="20260919204800 +0000" channel="Starz_golflife">
     <title lang="en">Travelers Championship Challenge - PGA Tour Golf</title>
     <title lang="ar">بي جي إيه تور غولف</title>
     <desc lang="en">S2026 , E158 : Professional golfers compete against one another in the PGA Tour tournament in order to emerge victorious and win the coveted title.</desc>
@@ -63711,7 +63696,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919200000 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_cricbuzz1">
     <title lang="en">1st Test: West Indies v Sri Lanka - Test Cricket</title>
     <title lang="ar">تست كريكيت</title>
     <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
@@ -64160,7 +64145,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919200000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Follow The Flow</title>
     <title lang="ar">أكشن في إسبوع</title>
     <desc lang="en">Stay tuned to this program, 'Follow The Flow'.</desc>
@@ -64748,7 +64733,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919213500 +0000" channel="Starz_wedosports">
+  <programme start="20260919195500 +0000" stop="20260919213500 +0000" channel="Starz_wedosports">
     <title lang="en">Kilmarnock v Heart of Midlothian - Scottish Premier League Football</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز</title>
     <desc lang="en">Kilmarnock v Heart of Midlothian - Scottish Premier League Football</desc>
@@ -65133,13 +65118,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p24326880_b_h10_aa.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919193700 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Cricket 360</title>
-    <desc lang="en">ICC Cricket 360</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260919193700 +0000" stop="20260919200700 +0000" channel="Starz_criclife1">
+  <programme start="20260919195500 +0000" stop="20260919200700 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Cricket 360</title>
     <desc lang="en">ICC Cricket 360</desc>
     <category lang="en">Sport</category>
@@ -65796,13 +65775,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919194200 +0000" channel="Starz_criclife3">
-    <title lang="en">Best Of MLC 2026</title>
-    <desc lang="en">Best Of MLC 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260919194200 +0000" stop="20260919200000 +0000" channel="Starz_criclife3">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_criclife3">
     <title lang="en">Best Of MLC 2026</title>
     <desc lang="en">Best Of MLC 2026</desc>
     <category lang="en">Sport</category>
@@ -66302,7 +66275,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919203000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260919195500 +0000" stop="20260919203000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">UAE President Cup - Flat Races</title>
     <title lang="ar">كأس رئيس الدولة للخيول العربية الأصيلة</title>
     <desc lang="en">Stay tuned to the latest events from UAE President Cup - Flat Races.</desc>
@@ -66862,50 +66835,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919194017 +0000" channel="Starz_awsn">
-    <title lang="en">AWSN_Filler_SportsWoman_Surfing_SallyFitzgibbons_5mins_IKO.mp4</title>
-    <desc lang="en">AWSN_Filler_SportsWoman_Surfing_SallyFitzgibbons_5mins_IKO.mp4</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260919194117 +0000" stop="20260919194617 +0000" channel="Starz_awsn">
-    <title lang="en">AWSN_Filler_SportsWoman_Soccer_MeganRapinoe_5mins_IKO-006.mov</title>
-    <desc lang="en">AWSN_Filler_SportsWoman_Soccer_MeganRapinoe_5mins_IKO-006.mov</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260919194617 +0000" stop="20260919194636 +0000" channel="Starz_awsn">
-    <title lang="en">No program available</title>
-    <title lang="ar">المحتوى غير متوفر</title>
-    <desc lang="en">No program available</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260919194636 +0000" stop="20260919195136 +0000" channel="Starz_awsn">
-    <title lang="en">AWSN_Filler_SportsWoman_S02EP07_Basketball_TeamUSA_5mins_IKO-007.mov</title>
-    <desc lang="en">AWSN_Filler_SportsWoman_S02EP07_Basketball_TeamUSA_5mins_IKO-007.mov</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260919195136 +0000" stop="20260919195155 +0000" channel="Starz_awsn">
-    <title lang="en">No program available</title>
-    <title lang="ar">المحتوى غير متوفر</title>
-    <desc lang="en">No program available</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260919195825 +0000" stop="20260919211854 +0000" channel="Starz_awsn">
+  <programme start="20260919195500 +0000" stop="20260919211854 +0000" channel="Starz_awsn">
     <title lang="en">Juan Manuel Marquez Promotions 1</title>
     <desc lang="en">Ambar Mendoza and Abigail Gonzalez Ibarra risk their perfect records in an epic women’s boxing event</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260919211854 +0000" stop="20260919212543 +0000" channel="Starz_awsn">
-    <title lang="en">No program available</title>
-    <title lang="ar">المحتوى غير متوفر</title>
-    <desc lang="en">No program available</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
   <programme start="20260919213332 +0000" stop="20260919225201 +0000" channel="Starz_awsn">
     <title lang="en">Manny Pacquiao Promotions 1</title>
@@ -67544,7 +67478,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919200000 +0000" channel="Starz_redbulltv">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -68126,7 +68060,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919210000 +0000" channel="Starz_daznringside">
+  <programme start="20260919195500 +0000" stop="20260919210000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -68324,7 +68258,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919213900 +0000" channel="Starz_fifaplus">
+  <programme start="20260919195500 +0000" stop="20260919213900 +0000" channel="Starz_fifaplus">
     <title lang="en">Seven Games from Glory | The Official Film of the 2002 FIFA World Cup™</title>
     <desc lang="en">Go behind the scenes with Ronaldo and the heroes of the 2002 FIFA World Cup™ to see how fairy tales were written in the Far East.</desc>
     <category lang="en">Sport</category>
@@ -68732,7 +68666,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/124112.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260919200000 +0000" channel="Starz_admnyastv">
+  <programme start="20260919195500 +0000" stop="20260919200000 +0000" channel="Starz_admnyastv">
     <title lang="en">Camel Race 2026-2027</title>
     <desc lang="en">Camel Race 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -68954,13 +68888,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260922200000 +0000" stop="20260923193500 +0000" channel="Starz_admnyastv">
+  <programme start="20260922200000 +0000" stop="20260923195500 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919193500 +0000" stop="20260920035000 +0000" channel="Starz_adfight">
+  <programme start="20260919195500 +0000" stop="20260920035000 +0000" channel="Starz_adfight">
     <title lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</title>
     <desc lang="en">Abu Dhabi Grand Slam Jiu Jitsu 2025-2026</desc>
     <category lang="en">Sport</category>
@@ -69020,19 +68954,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921191000 +0000" stop="20260923193500 +0000" channel="Starz_adfight">
+  <programme start="20260921191000 +0000" stop="20260923195500 +0000" channel="Starz_adfight">
     <title lang="en">Hexagone MMA 2026</title>
     <desc lang="en">Hexagone MMA 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260919194017 +0000" stop="20260919194117 +0000" channel="Starz_awsn">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260919195155 +0000" stop="20260919195825 +0000" channel="Starz_awsn">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260919212543 +0000" stop="20260919213332 +0000" channel="Starz_awsn">
+  <programme start="20260919211854 +0000" stop="20260919213332 +0000" channel="Starz_awsn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260919231033 +0000" stop="20260919231233 +0000" channel="Starz_awsn">
@@ -102681,136 +102609,64 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
         beIN 5</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_17.png" />
   </programme>
-  <programme start="20260920180000 +0000" stop="20260920190000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السو</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 11:59 — بتوقيتك
-
-أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
-        عربي · الشرق الأوسط
-لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
-        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
-        تركيا · الأناضول
-ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
-        الإمارات · الإمارات
-US-China Talks Ahead of Trump-Xi Summit
-        U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
-        الأردن · Jordan News
-Trump to meet Mamdani tomorrow in New York City
-        New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
-        أمريكا · CBS
-Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
-        Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
-        بريطانيا · Guardian
-تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
-        تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
-        عربي · الشرق الأوسط
-إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
-        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
-        تركيا · الأناضول
-عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
-        الإمارات · الإمارات
-Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
-        On this "Face the Nation with Margaret Brennan" broadcast, Reps. Ro Khanna and Maria Elvira Salazar join Margaret Brennan.
-        أمريكا · CBS
-German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
-        Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
-        بريطانيا · BBC
-Qatar Condemns Houthi Attacks on Saudi Arabia
-        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
-        الأردن · Jordan News
-نيويورك تستضيف ثالث لقاء بين ممداني وترامب
-        أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
-        عربي · CNN عربية
-استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
-        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
-        تركيا · الأناضول
-الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
-        الإمارات · الإمارات
-Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brennan," Sept. 20, 2026
-        The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
-        أمريكا · CBS
-Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
-        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We’ll come to JJ Spaun and Jeremy Clarkson later
-        بريطانيا · Guardian
-Turkey Dismantles $3 Billion Fraud Network
-        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
-        الأردن · Jordan News
-"دبور السماء" يباغت الحوثيين.. ماذا جرى في اليمن؟ | شاهد التقرير
-        عربي · الجديد
-الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
-        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
-        تركيا · الأناضول
-الممر اللوجستي بين الشارقة وعُمان يسجل نمواً بـ66% في قيمة البضائع في 3 أشهر - الاتحاد للأخبار
-        الإمارات · الإمارات
-Troy Jackson, a Progressive Brawler, Tries to Flip a Senate Seat in Maine
-        Mr. Jackson landed in the race unexpectedly. Democrats are hoping he can unseat Susan Collins, a Republican, in their bid to retake the Senate.
-        أمريكا · NYT
-Earl Spencer says he has ‘never got over’ the death of Diana
-        Earl says it ‘really breaks him up’ to think about what happened to his sister
-        بريطانيا · Independent
-102,000 New Voters Could Shape Israel Election
-        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
-        الأردن · Jordan News
-كمائن على طريق المطار.. تبدأ بحجرة وتنتهي بجريمة! | شاهد التقرير
-        عربي · الجديد
-محافظة القدس: 992 مستوطنا يقتحمون الأقصى ويؤدون صلاة علنية وجماعية
-        عشية يوم الغفران العبري..
-        تركيا · الأناضول
-غوتيريش لـ"العربية": ندين بشدة هجمات الحوثيين على السعودية - العربية
-        الإمارات · الإمارات
-Bessent meets with Chinese counterpart ahead of Trump-Xi summit
-        Treasury Secretary Scott Bessent is meeting with Chinese Vice Premier He Lifeng, ahead of the planned summit between President Trump and Chinese…
-        أمريكا · CBS
-Christopher Kane and Mulberry make swaggering joint comeback at London fashion week
-        Appointment of Kane as creative director signals the return of serious style ambition for former It-bag brand With spicy leather mini-dresses and…
-        بريطانيا · Guardian
-Russia Says Kyiv Intelligence and Missile Sites Hit
-        Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
-        الأردن · Jordan News
-«الدوري الفرنسي»: الجزائري عمورة يمنح نيس انتصاره الأول
-        سجّل المهاجم الجزائري محمد الأمين عمورة هدفاً ليمنح فريقه نيس أول انتصار له في الدوري الفرنسي لكرة القدم هذا الموسم بفوز ثمين على ليل.
-        عربي · الشرق الأوسط
-«البوندسليغا»: شالكه يتعادل مع إيلفيرسبيرغ
-        فرض التعادل بدون أهداف نفسه على لقاء شالكه مع ضيفه إيلفيرسبيرغ، الأحد، ببطولة الدوري الألماني لكرة القدم (بوندسليغا).
-        عربي · الشرق الأوسط
-هذا ما فعله لاعبو ريال مدريد بعد الخسارة من أتلتيكو - CNN Arabic
-        الإمارات · الإمارات
-قدم.. أتلتيكو يحسم "ديربي مدريد" ويسقط الريال في الدوري الإسباني
-        "الروخي بلانكوس" تغلب على جاره 2-1 وحقق انتصاره الثالث تواليا، ليتقدم إلى وصافة الترتيب فيما تراجع الفريق الملكي للمركز الثالث
-        تركيا · الأناضول
-Kevin Costner sparks romance rumors after grocery run with lifestyle coach
-        Kevin Costner was photographed grocery shopping in Santa Barbara with 40-year-old lifestyle coach Jennifer Milburn, sparking new romance rumors.
-        أمريكا · Fox News
-Cunha strikes late to deny Fulham and salvage point for Manchester United
-        To paraphrase a former Manchester United manager, Michael Carrick knew that the storm would come
-        بريطانيا · Guardian</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
-  </programme>
   <programme start="20260920190000 +0000" stop="20260920200000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 11:59 — بتوقيتك
+    <title lang="ar">أخبار اليوم · إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 12:11 — بتوقيتك
 
-أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات
+        تم إعلان حزب روسيا الموحدة المدعوم من الكرملين فائزاً في الانتخابات البرلمانية الروسية، بعدما حصل على 49.4 في المائة من الأصوات.
         عربي · الشرق الأوسط
-لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
-        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
-        تركيا · الأناضول
-ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+ترمب يدرس خياراته بشأن إيران ويبدي استعداداً للقاء بزشكيان.. وطهران تحدد شروط فتح هرمز
+        أبدى الرئيس الأمريكي دونالد ترمب انفتاحه على لقاء الرئيس الإيراني مسعود بزشكيان على هامش اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
+        تركيا · TRT عربي
+حزب "روسيا الموحدة" يتجه نحو الفوز بالانتخابات التشريعية - سكاي نيوز عربية
         الإمارات · الإمارات
+Ms Rachel calls Gaza journalist ‘friend’ in resurfaced clip after he admits hiding Oct 7 hostage footage
+        Children's YouTube star Ms. Rachel faces scrutiny after a resurfaced video shows her calling Motaz Azaiza her "friend" amid his Oct. 7 revelations.
+        أمريكا · Fox News
 US-China Talks Ahead of Trump-Xi Summit
         U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
         الأردن · Jordan News
+Middle East braces for more violence as Iran claims US is planning to renew bombing campaign
+        Tensions grow as Trump tells Fox News he is considering ‘wiping Iran out’ after attacks on Riyadh by Houthi rebels Governments across the Middle East…
+        بريطانيا · Guardian
+"هل هذا الانتصار الذي نريده؟".. باسيل يحمّل الحزب المسؤولية | شاهد الفيديو
+        عربي · الجديد
+لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
+        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
+        تركيا · الأناضول
+حمدان بن محمد بن زايد يشهد العرس الجماعي لقبيلة العوامر - alkhaleej.ae
+        الإمارات · الإمارات
+Fat Bear Week bracket is set: meet the heavyweights, underdogs and defending champ in this year's tournament
+        Forget March Madness. Fat Bear Week returns to Katmai National Park with 16 brown bears as defending champ Chunk faces rising star Bucky on Wednesday.
+        أمريكا · Fox News
+Andy Burnham faces a weakened Trump – but the president remains unpredictable
+        The PM hopes to be firmer with the US leader than his predecessor without provoking diplomatic warfare, as the Iran war weighs on the UK economy No…
+        بريطانيا · Guardian
+Qatar Condemns Houthi Attacks on Saudi Arabia
+        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+        الأردن · Jordan News
+أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+        عربي · الشرق الأوسط
+إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
+        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+        تركيا · الأناضول
+ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+        الإمارات · الإمارات
 Trump to meet Mamdani tomorrow in New York City
         New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
         أمريكا · CBS
 Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
         Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
         بريطانيا · Guardian
+Turkey Dismantles $3 Billion Fraud Network
+        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
+        الأردن · Jordan News
 تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
         تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
         عربي · الشرق الأوسط
-إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
-        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
+        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
         تركيا · الأناضول
 عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
         الإمارات · الإمارات
@@ -102820,14 +102676,14 @@ Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
 German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
         Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
         بريطانيا · BBC
-Qatar Condemns Houthi Attacks on Saudi Arabia
-        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+102,000 New Voters Could Shape Israel Election
+        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
         الأردن · Jordan News
 نيويورك تستضيف ثالث لقاء بين ممداني وترامب
         أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
         عربي · CNN عربية
-استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
-        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
+الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
+        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
         تركيا · الأناضول
 الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
         الإمارات · الإمارات
@@ -102835,39 +102691,7 @@ Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brenna
         The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
         أمريكا · CBS
 Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
-        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We’ll come to JJ Spaun and Jeremy Clarkson later
-        بريطانيا · Guardian
-Turkey Dismantles $3 Billion Fraud Network
-        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
-        الأردن · Jordan News
-"دبور السماء" يباغت الحوثيين.. ماذا جرى في اليمن؟ | شاهد التقرير
-        عربي · الجديد
-الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
-        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
-        تركيا · الأناضول
-الممر اللوجستي بين الشارقة وعُمان يسجل نمواً بـ66% في قيمة البضائع في 3 أشهر - الاتحاد للأخبار
-        الإمارات · الإمارات
-Troy Jackson, a Progressive Brawler, Tries to Flip a Senate Seat in Maine
-        Mr. Jackson landed in the race unexpectedly. Democrats are hoping he can unseat Susan Collins, a Republican, in their bid to retake the Senate.
-        أمريكا · NYT
-Earl Spencer says he has ‘never got over’ the death of Diana
-        Earl says it ‘really breaks him up’ to think about what happened to his sister
-        بريطانيا · Independent
-102,000 New Voters Could Shape Israel Election
-        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
-        الأردن · Jordan News
-كمائن على طريق المطار.. تبدأ بحجرة وتنتهي بجريمة! | شاهد التقرير
-        عربي · الجديد
-محافظة القدس: 992 مستوطنا يقتحمون الأقصى ويؤدون صلاة علنية وجماعية
-        عشية يوم الغفران العبري..
-        تركيا · الأناضول
-غوتيريش لـ"العربية": ندين بشدة هجمات الحوثيين على السعودية - العربية
-        الإمارات · الإمارات
-Bessent meets with Chinese counterpart ahead of Trump-Xi summit
-        Treasury Secretary Scott Bessent is meeting with Chinese Vice Premier He Lifeng, ahead of the planned summit between President Trump and Chinese…
-        أمريكا · CBS
-Christopher Kane and Mulberry make swaggering joint comeback at London fashion week
-        Appointment of Kane as creative director signals the return of serious style ambition for former It-bag brand With spicy leather mini-dresses and…
+        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We will come to JJ Spaun and Jeremy Clarkson later
         بريطانيا · Guardian
 Russia Says Kyiv Intelligence and Missile Sites Hit
         Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
@@ -102893,29 +102717,62 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920200000 +0000" stop="20260920210000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 12:11 — بتوقيتك
 
-أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات
+        تم إعلان حزب روسيا الموحدة المدعوم من الكرملين فائزاً في الانتخابات البرلمانية الروسية، بعدما حصل على 49.4 في المائة من الأصوات.
         عربي · الشرق الأوسط
-لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
-        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
-        تركيا · الأناضول
-ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+ترمب يدرس خياراته بشأن إيران ويبدي استعداداً للقاء بزشكيان.. وطهران تحدد شروط فتح هرمز
+        أبدى الرئيس الأمريكي دونالد ترمب انفتاحه على لقاء الرئيس الإيراني مسعود بزشكيان على هامش اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
+        تركيا · TRT عربي
+حزب "روسيا الموحدة" يتجه نحو الفوز بالانتخابات التشريعية - سكاي نيوز عربية
         الإمارات · الإمارات
+Ms Rachel calls Gaza journalist ‘friend’ in resurfaced clip after he admits hiding Oct 7 hostage footage
+        Children's YouTube star Ms. Rachel faces scrutiny after a resurfaced video shows her calling Motaz Azaiza her "friend" amid his Oct. 7 revelations.
+        أمريكا · Fox News
 US-China Talks Ahead of Trump-Xi Summit
         U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
         الأردن · Jordan News
+Middle East braces for more violence as Iran claims US is planning to renew bombing campaign
+        Tensions grow as Trump tells Fox News he is considering ‘wiping Iran out’ after attacks on Riyadh by Houthi rebels Governments across the Middle East…
+        بريطانيا · Guardian
+"هل هذا الانتصار الذي نريده؟".. باسيل يحمّل الحزب المسؤولية | شاهد الفيديو
+        عربي · الجديد
+لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
+        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
+        تركيا · الأناضول
+حمدان بن محمد بن زايد يشهد العرس الجماعي لقبيلة العوامر - alkhaleej.ae
+        الإمارات · الإمارات
+Fat Bear Week bracket is set: meet the heavyweights, underdogs and defending champ in this year's tournament
+        Forget March Madness. Fat Bear Week returns to Katmai National Park with 16 brown bears as defending champ Chunk faces rising star Bucky on Wednesday.
+        أمريكا · Fox News
+Andy Burnham faces a weakened Trump – but the president remains unpredictable
+        The PM hopes to be firmer with the US leader than his predecessor without provoking diplomatic warfare, as the Iran war weighs on the UK economy No…
+        بريطانيا · Guardian
+Qatar Condemns Houthi Attacks on Saudi Arabia
+        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+        الأردن · Jordan News
+أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+        عربي · الشرق الأوسط
+إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
+        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+        تركيا · الأناضول
+ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+        الإمارات · الإمارات
 Trump to meet Mamdani tomorrow in New York City
         New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
         أمريكا · CBS
 Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
         Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
         بريطانيا · Guardian
+Turkey Dismantles $3 Billion Fraud Network
+        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
+        الأردن · Jordan News
 تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
         تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
         عربي · الشرق الأوسط
-إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
-        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
+        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
         تركيا · الأناضول
 عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
         الإمارات · الإمارات
@@ -102925,14 +102782,14 @@ Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
 German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
         Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
         بريطانيا · BBC
-Qatar Condemns Houthi Attacks on Saudi Arabia
-        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+102,000 New Voters Could Shape Israel Election
+        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
         الأردن · Jordan News
 نيويورك تستضيف ثالث لقاء بين ممداني وترامب
         أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
         عربي · CNN عربية
-استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
-        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
+الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
+        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
         تركيا · الأناضول
 الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
         الإمارات · الإمارات
@@ -102940,39 +102797,7 @@ Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brenna
         The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
         أمريكا · CBS
 Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
-        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We’ll come to JJ Spaun and Jeremy Clarkson later
-        بريطانيا · Guardian
-Turkey Dismantles $3 Billion Fraud Network
-        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
-        الأردن · Jordan News
-"دبور السماء" يباغت الحوثيين.. ماذا جرى في اليمن؟ | شاهد التقرير
-        عربي · الجديد
-الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
-        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
-        تركيا · الأناضول
-الممر اللوجستي بين الشارقة وعُمان يسجل نمواً بـ66% في قيمة البضائع في 3 أشهر - الاتحاد للأخبار
-        الإمارات · الإمارات
-Troy Jackson, a Progressive Brawler, Tries to Flip a Senate Seat in Maine
-        Mr. Jackson landed in the race unexpectedly. Democrats are hoping he can unseat Susan Collins, a Republican, in their bid to retake the Senate.
-        أمريكا · NYT
-Earl Spencer says he has ‘never got over’ the death of Diana
-        Earl says it ‘really breaks him up’ to think about what happened to his sister
-        بريطانيا · Independent
-102,000 New Voters Could Shape Israel Election
-        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
-        الأردن · Jordan News
-كمائن على طريق المطار.. تبدأ بحجرة وتنتهي بجريمة! | شاهد التقرير
-        عربي · الجديد
-محافظة القدس: 992 مستوطنا يقتحمون الأقصى ويؤدون صلاة علنية وجماعية
-        عشية يوم الغفران العبري..
-        تركيا · الأناضول
-غوتيريش لـ"العربية": ندين بشدة هجمات الحوثيين على السعودية - العربية
-        الإمارات · الإمارات
-Bessent meets with Chinese counterpart ahead of Trump-Xi summit
-        Treasury Secretary Scott Bessent is meeting with Chinese Vice Premier He Lifeng, ahead of the planned summit between President Trump and Chinese…
-        أمريكا · CBS
-Christopher Kane and Mulberry make swaggering joint comeback at London fashion week
-        Appointment of Kane as creative director signals the return of serious style ambition for former It-bag brand With spicy leather mini-dresses and…
+        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We will come to JJ Spaun and Jeremy Clarkson later
         بريطانيا · Guardian
 Russia Says Kyiv Intelligence and Missile Sites Hit
         Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
@@ -102998,29 +102823,62 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920210000 +0000" stop="20260920220000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 12:11 — بتوقيتك
 
-أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات
+        تم إعلان حزب روسيا الموحدة المدعوم من الكرملين فائزاً في الانتخابات البرلمانية الروسية، بعدما حصل على 49.4 في المائة من الأصوات.
         عربي · الشرق الأوسط
-لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
-        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
-        تركيا · الأناضول
-ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+ترمب يدرس خياراته بشأن إيران ويبدي استعداداً للقاء بزشكيان.. وطهران تحدد شروط فتح هرمز
+        أبدى الرئيس الأمريكي دونالد ترمب انفتاحه على لقاء الرئيس الإيراني مسعود بزشكيان على هامش اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
+        تركيا · TRT عربي
+حزب "روسيا الموحدة" يتجه نحو الفوز بالانتخابات التشريعية - سكاي نيوز عربية
         الإمارات · الإمارات
+Ms Rachel calls Gaza journalist ‘friend’ in resurfaced clip after he admits hiding Oct 7 hostage footage
+        Children's YouTube star Ms. Rachel faces scrutiny after a resurfaced video shows her calling Motaz Azaiza her "friend" amid his Oct. 7 revelations.
+        أمريكا · Fox News
 US-China Talks Ahead of Trump-Xi Summit
         U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
         الأردن · Jordan News
+Middle East braces for more violence as Iran claims US is planning to renew bombing campaign
+        Tensions grow as Trump tells Fox News he is considering ‘wiping Iran out’ after attacks on Riyadh by Houthi rebels Governments across the Middle East…
+        بريطانيا · Guardian
+"هل هذا الانتصار الذي نريده؟".. باسيل يحمّل الحزب المسؤولية | شاهد الفيديو
+        عربي · الجديد
+لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
+        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
+        تركيا · الأناضول
+حمدان بن محمد بن زايد يشهد العرس الجماعي لقبيلة العوامر - alkhaleej.ae
+        الإمارات · الإمارات
+Fat Bear Week bracket is set: meet the heavyweights, underdogs and defending champ in this year's tournament
+        Forget March Madness. Fat Bear Week returns to Katmai National Park with 16 brown bears as defending champ Chunk faces rising star Bucky on Wednesday.
+        أمريكا · Fox News
+Andy Burnham faces a weakened Trump – but the president remains unpredictable
+        The PM hopes to be firmer with the US leader than his predecessor without provoking diplomatic warfare, as the Iran war weighs on the UK economy No…
+        بريطانيا · Guardian
+Qatar Condemns Houthi Attacks on Saudi Arabia
+        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+        الأردن · Jordan News
+أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+        عربي · الشرق الأوسط
+إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
+        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+        تركيا · الأناضول
+ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+        الإمارات · الإمارات
 Trump to meet Mamdani tomorrow in New York City
         New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
         أمريكا · CBS
 Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
         Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
         بريطانيا · Guardian
+Turkey Dismantles $3 Billion Fraud Network
+        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
+        الأردن · Jordan News
 تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
         تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
         عربي · الشرق الأوسط
-إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
-        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
+        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
         تركيا · الأناضول
 عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
         الإمارات · الإمارات
@@ -103030,14 +102888,14 @@ Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
 German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
         Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
         بريطانيا · BBC
-Qatar Condemns Houthi Attacks on Saudi Arabia
-        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+102,000 New Voters Could Shape Israel Election
+        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
         الأردن · Jordan News
 نيويورك تستضيف ثالث لقاء بين ممداني وترامب
         أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
         عربي · CNN عربية
-استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
-        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
+الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
+        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
         تركيا · الأناضول
 الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
         الإمارات · الإمارات
@@ -103045,39 +102903,7 @@ Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brenna
         The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
         أمريكا · CBS
 Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
-        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We’ll come to JJ Spaun and Jeremy Clarkson later
-        بريطانيا · Guardian
-Turkey Dismantles $3 Billion Fraud Network
-        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
-        الأردن · Jordan News
-"دبور السماء" يباغت الحوثيين.. ماذا جرى في اليمن؟ | شاهد التقرير
-        عربي · الجديد
-الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
-        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
-        تركيا · الأناضول
-الممر اللوجستي بين الشارقة وعُمان يسجل نمواً بـ66% في قيمة البضائع في 3 أشهر - الاتحاد للأخبار
-        الإمارات · الإمارات
-Troy Jackson, a Progressive Brawler, Tries to Flip a Senate Seat in Maine
-        Mr. Jackson landed in the race unexpectedly. Democrats are hoping he can unseat Susan Collins, a Republican, in their bid to retake the Senate.
-        أمريكا · NYT
-Earl Spencer says he has ‘never got over’ the death of Diana
-        Earl says it ‘really breaks him up’ to think about what happened to his sister
-        بريطانيا · Independent
-102,000 New Voters Could Shape Israel Election
-        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
-        الأردن · Jordan News
-كمائن على طريق المطار.. تبدأ بحجرة وتنتهي بجريمة! | شاهد التقرير
-        عربي · الجديد
-محافظة القدس: 992 مستوطنا يقتحمون الأقصى ويؤدون صلاة علنية وجماعية
-        عشية يوم الغفران العبري..
-        تركيا · الأناضول
-غوتيريش لـ"العربية": ندين بشدة هجمات الحوثيين على السعودية - العربية
-        الإمارات · الإمارات
-Bessent meets with Chinese counterpart ahead of Trump-Xi summit
-        Treasury Secretary Scott Bessent is meeting with Chinese Vice Premier He Lifeng, ahead of the planned summit between President Trump and Chinese…
-        أمريكا · CBS
-Christopher Kane and Mulberry make swaggering joint comeback at London fashion week
-        Appointment of Kane as creative director signals the return of serious style ambition for former It-bag brand With spicy leather mini-dresses and…
+        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We will come to JJ Spaun and Jeremy Clarkson later
         بريطانيا · Guardian
 Russia Says Kyiv Intelligence and Missile Sites Hit
         Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
@@ -103103,29 +102929,62 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920220000 +0000" stop="20260920230000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 12:11 — بتوقيتك
 
-أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات
+        تم إعلان حزب روسيا الموحدة المدعوم من الكرملين فائزاً في الانتخابات البرلمانية الروسية، بعدما حصل على 49.4 في المائة من الأصوات.
         عربي · الشرق الأوسط
-لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
-        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
-        تركيا · الأناضول
-ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+ترمب يدرس خياراته بشأن إيران ويبدي استعداداً للقاء بزشكيان.. وطهران تحدد شروط فتح هرمز
+        أبدى الرئيس الأمريكي دونالد ترمب انفتاحه على لقاء الرئيس الإيراني مسعود بزشكيان على هامش اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
+        تركيا · TRT عربي
+حزب "روسيا الموحدة" يتجه نحو الفوز بالانتخابات التشريعية - سكاي نيوز عربية
         الإمارات · الإمارات
+Ms Rachel calls Gaza journalist ‘friend’ in resurfaced clip after he admits hiding Oct 7 hostage footage
+        Children's YouTube star Ms. Rachel faces scrutiny after a resurfaced video shows her calling Motaz Azaiza her "friend" amid his Oct. 7 revelations.
+        أمريكا · Fox News
 US-China Talks Ahead of Trump-Xi Summit
         U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
         الأردن · Jordan News
+Middle East braces for more violence as Iran claims US is planning to renew bombing campaign
+        Tensions grow as Trump tells Fox News he is considering ‘wiping Iran out’ after attacks on Riyadh by Houthi rebels Governments across the Middle East…
+        بريطانيا · Guardian
+"هل هذا الانتصار الذي نريده؟".. باسيل يحمّل الحزب المسؤولية | شاهد الفيديو
+        عربي · الجديد
+لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
+        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
+        تركيا · الأناضول
+حمدان بن محمد بن زايد يشهد العرس الجماعي لقبيلة العوامر - alkhaleej.ae
+        الإمارات · الإمارات
+Fat Bear Week bracket is set: meet the heavyweights, underdogs and defending champ in this year's tournament
+        Forget March Madness. Fat Bear Week returns to Katmai National Park with 16 brown bears as defending champ Chunk faces rising star Bucky on Wednesday.
+        أمريكا · Fox News
+Andy Burnham faces a weakened Trump – but the president remains unpredictable
+        The PM hopes to be firmer with the US leader than his predecessor without provoking diplomatic warfare, as the Iran war weighs on the UK economy No…
+        بريطانيا · Guardian
+Qatar Condemns Houthi Attacks on Saudi Arabia
+        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+        الأردن · Jordan News
+أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+        عربي · الشرق الأوسط
+إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
+        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+        تركيا · الأناضول
+ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+        الإمارات · الإمارات
 Trump to meet Mamdani tomorrow in New York City
         New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
         أمريكا · CBS
 Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
         Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
         بريطانيا · Guardian
+Turkey Dismantles $3 Billion Fraud Network
+        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
+        الأردن · Jordan News
 تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
         تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
         عربي · الشرق الأوسط
-إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
-        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
+        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
         تركيا · الأناضول
 عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
         الإمارات · الإمارات
@@ -103135,14 +102994,14 @@ Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
 German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
         Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
         بريطانيا · BBC
-Qatar Condemns Houthi Attacks on Saudi Arabia
-        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+102,000 New Voters Could Shape Israel Election
+        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
         الأردن · Jordan News
 نيويورك تستضيف ثالث لقاء بين ممداني وترامب
         أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
         عربي · CNN عربية
-استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
-        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
+الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
+        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
         تركيا · الأناضول
 الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
         الإمارات · الإمارات
@@ -103150,39 +103009,7 @@ Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brenna
         The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
         أمريكا · CBS
 Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
-        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We’ll come to JJ Spaun and Jeremy Clarkson later
-        بريطانيا · Guardian
-Turkey Dismantles $3 Billion Fraud Network
-        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
-        الأردن · Jordan News
-"دبور السماء" يباغت الحوثيين.. ماذا جرى في اليمن؟ | شاهد التقرير
-        عربي · الجديد
-الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
-        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
-        تركيا · الأناضول
-الممر اللوجستي بين الشارقة وعُمان يسجل نمواً بـ66% في قيمة البضائع في 3 أشهر - الاتحاد للأخبار
-        الإمارات · الإمارات
-Troy Jackson, a Progressive Brawler, Tries to Flip a Senate Seat in Maine
-        Mr. Jackson landed in the race unexpectedly. Democrats are hoping he can unseat Susan Collins, a Republican, in their bid to retake the Senate.
-        أمريكا · NYT
-Earl Spencer says he has ‘never got over’ the death of Diana
-        Earl says it ‘really breaks him up’ to think about what happened to his sister
-        بريطانيا · Independent
-102,000 New Voters Could Shape Israel Election
-        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
-        الأردن · Jordan News
-كمائن على طريق المطار.. تبدأ بحجرة وتنتهي بجريمة! | شاهد التقرير
-        عربي · الجديد
-محافظة القدس: 992 مستوطنا يقتحمون الأقصى ويؤدون صلاة علنية وجماعية
-        عشية يوم الغفران العبري..
-        تركيا · الأناضول
-غوتيريش لـ"العربية": ندين بشدة هجمات الحوثيين على السعودية - العربية
-        الإمارات · الإمارات
-Bessent meets with Chinese counterpart ahead of Trump-Xi summit
-        Treasury Secretary Scott Bessent is meeting with Chinese Vice Premier He Lifeng, ahead of the planned summit between President Trump and Chinese…
-        أمريكا · CBS
-Christopher Kane and Mulberry make swaggering joint comeback at London fashion week
-        Appointment of Kane as creative director signals the return of serious style ambition for former It-bag brand With spicy leather mini-dresses and…
+        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We will come to JJ Spaun and Jeremy Clarkson later
         بريطانيا · Guardian
 Russia Says Kyiv Intelligence and Missile Sites Hit
         Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
@@ -103208,29 +103035,62 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920230000 +0000" stop="20260921000000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 12:11 — بتوقيتك
 
-أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات
+        تم إعلان حزب روسيا الموحدة المدعوم من الكرملين فائزاً في الانتخابات البرلمانية الروسية، بعدما حصل على 49.4 في المائة من الأصوات.
         عربي · الشرق الأوسط
-لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
-        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
-        تركيا · الأناضول
-ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+ترمب يدرس خياراته بشأن إيران ويبدي استعداداً للقاء بزشكيان.. وطهران تحدد شروط فتح هرمز
+        أبدى الرئيس الأمريكي دونالد ترمب انفتاحه على لقاء الرئيس الإيراني مسعود بزشكيان على هامش اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
+        تركيا · TRT عربي
+حزب "روسيا الموحدة" يتجه نحو الفوز بالانتخابات التشريعية - سكاي نيوز عربية
         الإمارات · الإمارات
+Ms Rachel calls Gaza journalist ‘friend’ in resurfaced clip after he admits hiding Oct 7 hostage footage
+        Children's YouTube star Ms. Rachel faces scrutiny after a resurfaced video shows her calling Motaz Azaiza her "friend" amid his Oct. 7 revelations.
+        أمريكا · Fox News
 US-China Talks Ahead of Trump-Xi Summit
         U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
         الأردن · Jordan News
+Middle East braces for more violence as Iran claims US is planning to renew bombing campaign
+        Tensions grow as Trump tells Fox News he is considering ‘wiping Iran out’ after attacks on Riyadh by Houthi rebels Governments across the Middle East…
+        بريطانيا · Guardian
+"هل هذا الانتصار الذي نريده؟".. باسيل يحمّل الحزب المسؤولية | شاهد الفيديو
+        عربي · الجديد
+لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
+        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
+        تركيا · الأناضول
+حمدان بن محمد بن زايد يشهد العرس الجماعي لقبيلة العوامر - alkhaleej.ae
+        الإمارات · الإمارات
+Fat Bear Week bracket is set: meet the heavyweights, underdogs and defending champ in this year's tournament
+        Forget March Madness. Fat Bear Week returns to Katmai National Park with 16 brown bears as defending champ Chunk faces rising star Bucky on Wednesday.
+        أمريكا · Fox News
+Andy Burnham faces a weakened Trump – but the president remains unpredictable
+        The PM hopes to be firmer with the US leader than his predecessor without provoking diplomatic warfare, as the Iran war weighs on the UK economy No…
+        بريطانيا · Guardian
+Qatar Condemns Houthi Attacks on Saudi Arabia
+        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+        الأردن · Jordan News
+أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+        عربي · الشرق الأوسط
+إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
+        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+        تركيا · الأناضول
+ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+        الإمارات · الإمارات
 Trump to meet Mamdani tomorrow in New York City
         New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
         أمريكا · CBS
 Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
         Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
         بريطانيا · Guardian
+Turkey Dismantles $3 Billion Fraud Network
+        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
+        الأردن · Jordan News
 تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
         تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
         عربي · الشرق الأوسط
-إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
-        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
+        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
         تركيا · الأناضول
 عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
         الإمارات · الإمارات
@@ -103240,14 +103100,14 @@ Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
 German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
         Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
         بريطانيا · BBC
-Qatar Condemns Houthi Attacks on Saudi Arabia
-        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+102,000 New Voters Could Shape Israel Election
+        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
         الأردن · Jordan News
 نيويورك تستضيف ثالث لقاء بين ممداني وترامب
         أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
         عربي · CNN عربية
-استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
-        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
+الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
+        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
         تركيا · الأناضول
 الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
         الإمارات · الإمارات
@@ -103255,39 +103115,7 @@ Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brenna
         The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
         أمريكا · CBS
 Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
-        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We’ll come to JJ Spaun and Jeremy Clarkson later
-        بريطانيا · Guardian
-Turkey Dismantles $3 Billion Fraud Network
-        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
-        الأردن · Jordan News
-"دبور السماء" يباغت الحوثيين.. ماذا جرى في اليمن؟ | شاهد التقرير
-        عربي · الجديد
-الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
-        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
-        تركيا · الأناضول
-الممر اللوجستي بين الشارقة وعُمان يسجل نمواً بـ66% في قيمة البضائع في 3 أشهر - الاتحاد للأخبار
-        الإمارات · الإمارات
-Troy Jackson, a Progressive Brawler, Tries to Flip a Senate Seat in Maine
-        Mr. Jackson landed in the race unexpectedly. Democrats are hoping he can unseat Susan Collins, a Republican, in their bid to retake the Senate.
-        أمريكا · NYT
-Earl Spencer says he has ‘never got over’ the death of Diana
-        Earl says it ‘really breaks him up’ to think about what happened to his sister
-        بريطانيا · Independent
-102,000 New Voters Could Shape Israel Election
-        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
-        الأردن · Jordan News
-كمائن على طريق المطار.. تبدأ بحجرة وتنتهي بجريمة! | شاهد التقرير
-        عربي · الجديد
-محافظة القدس: 992 مستوطنا يقتحمون الأقصى ويؤدون صلاة علنية وجماعية
-        عشية يوم الغفران العبري..
-        تركيا · الأناضول
-غوتيريش لـ"العربية": ندين بشدة هجمات الحوثيين على السعودية - العربية
-        الإمارات · الإمارات
-Bessent meets with Chinese counterpart ahead of Trump-Xi summit
-        Treasury Secretary Scott Bessent is meeting with Chinese Vice Premier He Lifeng, ahead of the planned summit between President Trump and Chinese…
-        أمريكا · CBS
-Christopher Kane and Mulberry make swaggering joint comeback at London fashion week
-        Appointment of Kane as creative director signals the return of serious style ambition for former It-bag brand With spicy leather mini-dresses and…
+        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We will come to JJ Spaun and Jeremy Clarkson later
         بريطانيا · Guardian
 Russia Says Kyiv Intelligence and Missile Sites Hit
         Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
@@ -103311,7 +103139,113 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
         بريطانيا · Guardian</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260921000000 +0000" stop="20260921025938 +0000" channel="TodayNews">
+  <programme start="20260921000000 +0000" stop="20260921010000 +0000" channel="TodayNews">
+    <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 12:11 — بتوقيتك
+
+إعلان حزب «روسيا الموحدة» المؤيد للكرملين فائزاً في الانتخابات
+        تم إعلان حزب روسيا الموحدة المدعوم من الكرملين فائزاً في الانتخابات البرلمانية الروسية، بعدما حصل على 49.4 في المائة من الأصوات.
+        عربي · الشرق الأوسط
+ترمب يدرس خياراته بشأن إيران ويبدي استعداداً للقاء بزشكيان.. وطهران تحدد شروط فتح هرمز
+        أبدى الرئيس الأمريكي دونالد ترمب انفتاحه على لقاء الرئيس الإيراني مسعود بزشكيان على هامش اجتماعات الجمعية العامة للأمم المتحدة في نيويورك
+        تركيا · TRT عربي
+حزب "روسيا الموحدة" يتجه نحو الفوز بالانتخابات التشريعية - سكاي نيوز عربية
+        الإمارات · الإمارات
+Ms Rachel calls Gaza journalist ‘friend’ in resurfaced clip after he admits hiding Oct 7 hostage footage
+        Children's YouTube star Ms. Rachel faces scrutiny after a resurfaced video shows her calling Motaz Azaiza her "friend" amid his Oct. 7 revelations.
+        أمريكا · Fox News
+US-China Talks Ahead of Trump-Xi Summit
+        U.S. Treasury Secretary Scott Bessent and Chinese Vice Premier He Lifeng began crucial talks in New York on Sunday ahead of an expected summit this…
+        الأردن · Jordan News
+Middle East braces for more violence as Iran claims US is planning to renew bombing campaign
+        Tensions grow as Trump tells Fox News he is considering ‘wiping Iran out’ after attacks on Riyadh by Houthi rebels Governments across the Middle East…
+        بريطانيا · Guardian
+"هل هذا الانتصار الذي نريده؟".. باسيل يحمّل الحزب المسؤولية | شاهد الفيديو
+        عربي · الجديد
+لجنة (4+4) الليبية تبحث في تونس تنفيذ اتفاقها وصولا إلى الانتخابات
+        خلال اجتماع عقدة أعضاء اللجنة في العاصمة التونسية..
+        تركيا · الأناضول
+حمدان بن محمد بن زايد يشهد العرس الجماعي لقبيلة العوامر - alkhaleej.ae
+        الإمارات · الإمارات
+Fat Bear Week bracket is set: meet the heavyweights, underdogs and defending champ in this year's tournament
+        Forget March Madness. Fat Bear Week returns to Katmai National Park with 16 brown bears as defending champ Chunk faces rising star Bucky on Wednesday.
+        أمريكا · Fox News
+Andy Burnham faces a weakened Trump – but the president remains unpredictable
+        The PM hopes to be firmer with the US leader than his predecessor without provoking diplomatic warfare, as the Iran war weighs on the UK economy No…
+        بريطانيا · Guardian
+Qatar Condemns Houthi Attacks on Saudi Arabia
+        Qatar strongly condemned the Houthi group’s targeting of Riyadh, the capital of Saudi Arabia, with a ballistic missile, as well as attempts to target…
+        الأردن · Jordan News
+أدوات الرقابة البرلمانية تحت المجهر في جلسة الاستماع لوزير الطاقة السوري
+        عربي · الشرق الأوسط
+إسرائيل تُخضع موقعا إسلاميا بالضفة لسلطتها وفلسطين تطالب بتدخل "عاجل"
+        "مقام بنات يعقوب" في طولكرم، وفق وكالة الأنباء الفلسطينية "وفا" وبيان لوزارة الأوقاف
+        تركيا · الأناضول
+ترمب يلوح بخيارات حاسمة تجاه إيران وطهران تتوعد - الجزيرة نت
+        الإمارات · الإمارات
+Trump to meet Mamdani tomorrow in New York City
+        New York City Mayor Zohran Mamdani and President Trump have met at least twice since Mamdani was elected last year.
+        أمريكا · CBS
+Friedrich Merz vows to stay in office after CDU ‘disaster’ in German state elections
+        Far-right AfD wins in Mecklenburg-Western Pomerania and leftwing Die Linke on course for victory in Berlin Germany’s embattled chancellor, Friedrich…
+        بريطانيا · Guardian
+Turkey Dismantles $3 Billion Fraud Network
+        Turkish authorities have dismantled an international fraud network accused of luring investors with fake foreign exchange and cryptocurrency trading…
+        الأردن · Jordan News
+تساؤلات حول تشكيل السلطة التنفيذية الجديدة في ليبيا بعد اتفاق «4+4»
+        تترقب ليبيا تحديد آلية تشكيل سلطة تنفيذية موحدة وفق اتفاق «4+4» لإجراء الانتخابات خلال عامين، فيما يرجح محللون تشكيل لجنة حوار جديدة لحسم الملف.
+        عربي · الشرق الأوسط
+استخبارات فرنسا ترجح هجوما روسيا كبيرا بحلول خريف 2027
+        قناة "فرانس تلفزيون" عن مصادر استخباراتية فرنسية قالت إن التقديرات قدمت الموعد المحتمل لهجوم روسي واسع النطاق من عام 2030، كما كان متوقعا سابقا
+        تركيا · الأناضول
+عاجل | المستشار الألماني: نتيجة الانتخابات في ولاية مكلنبورغ فوربومرن كارثة بالنسبة لنا - الجزيرة نت
+        الإمارات · الإمارات
+Full transcript of "Face the Nation with Margaret Brennan," Sept. 20, 2026
+        On this "Face the Nation with Margaret Brennan" broadcast, Reps. Ro Khanna and Maria Elvira Salazar join Margaret Brennan.
+        أمريكا · CBS
+German Chancellor Merz calls state election a 'disaster' for his party but vows to stay on
+        Exit polls show damaging losses for Merz's centre-right CDU party in the states of Berlin and Mecklenburg-Vorpommern.
+        بريطانيا · BBC
+102,000 New Voters Could Shape Israel Election
+        More than 102,000 immigrants from Russia and Ukraine who are over the age of 18 and have moved to Israel since the outbreak of the Russia-Ukraine war…
+        الأردن · Jordan News
+نيويورك تستضيف ثالث لقاء بين ممداني وترامب
+        أعلن مكتب عمدة مدينة نيويورك زهران ممداني، الأحد، أن الأخير سوف يلتقي الرئيس دونالد ترامب غدا الاثنين، وذلك قبيل انعقاد الجمعية العامة للأمم المتحدة.
+        عربي · CNN عربية
+الكويت: اقتحام ين غفير للأقصى انتهاك جسيم وممارسات استفزازية
+        الخارجية الكويتية دعت المجتمع الدولي إلى تحمّل مسؤولياته لوقف هذه الانتهاكات...
+        تركيا · الأناضول
+الأرصاد: طقس الاثنين صحو إلى غائم جزئياً ورطب ليلاً وصباحاً - Sharjah24
+        الإمارات · الإمارات
+Transcript: IBM vice chairman Gary Cohn on "Face the Nation with Margaret Brennan," Sept. 20, 2026
+        The following is the transcript of the interview with IBM vice chair Gary Cohn, who served as an economic adviser in President Trump's first term,…
+        أمريكا · CBS
+Elvira’s fairytale crumbles at the last to hand Spaun PGA Championship title
+        World No 294 lets victory slip in agonising fashion JJ Spaun triumphs by two shots at Wentworth We will come to JJ Spaun and Jeremy Clarkson later
+        بريطانيا · Guardian
+Russia Says Kyiv Intelligence and Missile Sites Hit
+        Russia’s Defense Ministry said on Sunday that its forces carried out overnight strikes using precision-guided air-launched weapons and attack drones…
+        الأردن · Jordan News
+«الدوري الفرنسي»: الجزائري عمورة يمنح نيس انتصاره الأول
+        سجّل المهاجم الجزائري محمد الأمين عمورة هدفاً ليمنح فريقه نيس أول انتصار له في الدوري الفرنسي لكرة القدم هذا الموسم بفوز ثمين على ليل.
+        عربي · الشرق الأوسط
+«البوندسليغا»: شالكه يتعادل مع إيلفيرسبيرغ
+        فرض التعادل بدون أهداف نفسه على لقاء شالكه مع ضيفه إيلفيرسبيرغ، الأحد، ببطولة الدوري الألماني لكرة القدم (بوندسليغا).
+        عربي · الشرق الأوسط
+هذا ما فعله لاعبو ريال مدريد بعد الخسارة من أتلتيكو - CNN Arabic
+        الإمارات · الإمارات
+قدم.. أتلتيكو يحسم "ديربي مدريد" ويسقط الريال في الدوري الإسباني
+        "الروخي بلانكوس" تغلب على جاره 2-1 وحقق انتصاره الثالث تواليا، ليتقدم إلى وصافة الترتيب فيما تراجع الفريق الملكي للمركز الثالث
+        تركيا · الأناضول
+Kevin Costner sparks romance rumors after grocery run with lifestyle coach
+        Kevin Costner was photographed grocery shopping in Santa Barbara with 40-year-old lifestyle coach Jennifer Milburn, sparking new romance rumors.
+        أمريكا · Fox News
+Cunha strikes late to deny Fulham and salvage point for Manchester United
+        To paraphrase a former Manchester United manager, Michael Carrick knew that the storm would come
+        بريطانيا · Guardian</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
+  </programme>
+  <programme start="20260921010000 +0000" stop="20260921031143 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260920184500 +0300" stop="20260920185500 +0300" channel="ThmanyahGuide">
@@ -108993,45 +108927,23 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
     <category lang="en">Sports</category>
     <desc lang="ar">لا توجد مباريات معلنة على شبكة ثمانية لهذا اليوم.</desc>
   </programme>
-  <programme start="20260920180000 +0000" stop="20260920190000 +0000" channel="TodayWeather">
-    <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 11:59 — بتوقيتك
-
-الأردن
-عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
-العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 78% · رياح 4 كم/سا · احتمال المطر 0%
-بريطانيا
-لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
-مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
-أمريكا
-نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 44%
-لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 74%
-لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
-هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
-  </programme>
   <programme start="20260920190000 +0000" stop="20260920200000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 12:11 — بتوقيتك
 
 الأردن
 عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
 العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 78% · رياح 4 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 74% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 31° · صافٍ · رطوبة 71% · رياح 3 كم/سا · احتمال المطر 0%
 بريطانيا
 لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
 مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 44%
+نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 50%
 لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 74%
+شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 72%
 لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
 هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
@@ -109039,21 +108951,21 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920200000 +0000" stop="20260920210000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 12:11 — بتوقيتك
 
 الأردن
 عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
 العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 78% · رياح 4 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 74% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 31° · صافٍ · رطوبة 71% · رياح 3 كم/سا · احتمال المطر 0%
 بريطانيا
 لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
 مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 44%
+نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 50%
 لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 74%
+شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 72%
 لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
 هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
@@ -109061,21 +108973,21 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920210000 +0000" stop="20260920220000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 12:11 — بتوقيتك
 
 الأردن
 عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
 العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 78% · رياح 4 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 74% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 31° · صافٍ · رطوبة 71% · رياح 3 كم/سا · احتمال المطر 0%
 بريطانيا
 لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
 مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 44%
+نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 50%
 لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 74%
+شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 72%
 لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
 هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
@@ -109083,21 +108995,21 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920220000 +0000" stop="20260920230000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 12:11 — بتوقيتك
 
 الأردن
 عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
 العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 78% · رياح 4 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 74% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 31° · صافٍ · رطوبة 71% · رياح 3 كم/سا · احتمال المطر 0%
 بريطانيا
 لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
 مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 44%
+نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 50%
 لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 74%
+شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 72%
 لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
 هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
@@ -109105,27 +109017,49 @@ Cunha strikes late to deny Fulham and salvage point for Manchester United
   </programme>
   <programme start="20260920230000 +0000" stop="20260921000000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 11:59 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 12:11 — بتوقيتك
 
 الأردن
 عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
 العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 78% · رياح 4 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 74% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 31° · صافٍ · رطوبة 71% · رياح 3 كم/سا · احتمال المطر 0%
 بريطانيا
 لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
 مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 44%
+نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 50%
 لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 74%
+شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 72%
 لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
 هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260921000000 +0000" stop="20260921030005 +0000" channel="TodayWeather">
+  <programme start="20260921000000 +0000" stop="20260921010000 +0000" channel="TodayWeather">
+    <title lang="ar">🌡️ طقس اليوم للمدن</title>
+    <desc lang="ar">طقس اليوم · آخر تحديث 12:11 — بتوقيتك
+
+الأردن
+عمّان 22° · صافٍ · رطوبة 69% · رياح 2 كم/سا · احتمال المطر 0%
+العقبة 31° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
+الإمارات
+أبو ظبي 32° · صافٍ · رطوبة 74% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 31° · صافٍ · رطوبة 71% · رياح 3 كم/سا · احتمال المطر 0%
+بريطانيا
+لندن 18° · صافٍ · رطوبة 40% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 15° · غائم · رطوبة 63% · رياح 8 كم/سا · احتمال المطر 0%
+أمريكا
+نيويورك 20° · رذاذ كثيف · رطوبة 87% · رياح 7 كم/سا · احتمال المطر 50%
+لوس أنجلوس 23° · غائم · رطوبة 72% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 18° · رذاذ خفيف · رطوبة 92% · رياح 18 كم/سا · احتمال المطر 72%
+لاس فيغاس 33° · صافٍ · رطوبة 10% · رياح 13 كم/سا · احتمال المطر 0%
+هيوستن 33° · صافٍ · رطوبة 59% · رياح 4 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 16° · غائم · رطوبة 86% · رياح 10 كم/سا · احتمال المطر 0%</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
+  </programme>
+  <programme start="20260921010000 +0000" stop="20260921031144 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260920190000 +0000" stop="20260920200000 +0000" channel="TodayPrayer">
@@ -109272,4 +109206,4 @@ Istanbul (إسطنبول) — الفجر 05:17 · الشروق 06:42 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260921033647 +0000" stop="20260921034053 +0000" channel="beINSPORTS5.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033732 +0000" stop="20260921034053 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033732 +0000" stop="20260921034053 +0000" channel="Roya_Documentaries"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033732 +0000" stop="20260921034053 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921033759 +0000" stop="20260921034053 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921025938 +0000" stop="20260921034053 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921030005 +0000" stop="20260921034053 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260921035646 +0000" stop="20260921040116 +0000" channel="beINSPORTS5.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035729 +0000" stop="20260921040116 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035729 +0000" stop="20260921040116 +0000" channel="Roya_Documentaries"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035729 +0000" stop="20260921040116 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921035756 +0000" stop="20260921040116 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921031143 +0000" stop="20260921040116 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921031144 +0000" stop="20260921040116 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
