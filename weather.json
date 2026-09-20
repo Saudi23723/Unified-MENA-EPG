@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T00:06:54.429Z",
+  "updated_at": "2026-09-20T00:14:31.641Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,7 +7,7 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 18.5,
+      "temperature_c": 18.3,
       "humidity": 82,
       "wind_speed": 3.6,
       "rain_chance": 0,
@@ -22,10 +22,10 @@
       "longitude": 35.006,
       "temperature_c": 26.5,
       "humidity": 59,
-      "wind_speed": 10.7,
+      "wind_speed": 9.9,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-09-20T03:00"
     },
     {
@@ -88,7 +88,7 @@
       "temperature_c": 16.8,
       "humidity": 77,
       "wind_speed": 9.7,
-      "rain_chance": 1,
+      "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-09-19T20:00"
@@ -114,7 +114,7 @@
       "temperature_c": 19.0,
       "humidity": 98,
       "wind_speed": 11.0,
-      "rain_chance": 44,
+      "rain_chance": 48,
       "condition": "مطر",
       "weather_code": 63,
       "observed_at": "2026-09-19T19:00"
