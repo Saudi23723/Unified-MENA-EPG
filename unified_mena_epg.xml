@@ -4330,14 +4330,6 @@ Futbal Tatran Arena Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260920045000 +0000" stop="20260920065000 +0000" channel="beINSports5.qa">
-    <title lang="en">Iran vs China - Football Men - Asian Games Aichi-Nagoya 2026 - FBL16 ‎• Live 🔵‎</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260920065000 +0000" stop="20260920090400 +0000" channel="beINSports5.qa">
     <title lang="en">Hong Kong vs Thailand - Football Men - Asian Games Aichi-Nagoya 2026 - FBL15 ‎• Live 🔵‎</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -5393,12 +5385,6 @@ Stadio Olimpico Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260920061400 +0000" stop="20260920065000 +0000" channel="beINSports7.qa">
-    <title lang="en">Asian Sports Discipline</title>
-    <desc lang="en">A focused program exploring the wide range of sports featured at the Asian Games, highlighting the diversity, identity, and competitive depth of the continent’s sporting landscape. From core disciplines to region-specific events, it showcases their format, appeal, and cultural significance, while following the nations and athletes who shape competi</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260920065000 +0000" stop="20260920090000 +0000" channel="beINSports7.qa">
     <title lang="en">Kazakhstan vs South Korea - Volleyball Women's - Asian Games Aichi-Nagoya 2026 - QF ‎• Live 🔵‎</title>
@@ -14052,12 +14038,6 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260927060000 +0000" stop="20260927070000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260920063000 +0000" stop="20260920064000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -23222,6 +23202,187 @@ Podgorica City Stadium Stadium</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1714/1QRiYwUqB1iiOny.webp" />
   </programme>
   <programme start="20260920210000 +0000" stop="20260920213000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">رؤيا الإخبارية</title>
+    <desc lang="ar">نقدم لكم تغطية مباشرة لأهم الأحداث الإخبارية على المستوى المحلي والعالمي ضمن مواجز ونشرات إخبارية بالإضافة إلى برامج سياسية حوارية واجتماعية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1273/RDyosmVFGJOMT6k.webp" />
+  </programme>
+  <programme start="20260920213000 +0000" stop="20260920223000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نبض البلد</title>
+    <desc lang="ar">برنامج سياسي يتناول العديد من القضايا المحلية، العربية والعالمية باستضافة أشخاص متخصصين ويعرض البرنامج تقارير ميدانية ويتواصل مع الجمهور من خلال التعليقات عبر مواقع التواصل الاجتماعي ويطرحها على الضيوف خلال الحلقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/59/UtXrub3W7oIYzYX.webp" />
+  </programme>
+  <programme start="20260920223000 +0000" stop="20260920233000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">قبل المنتصف</title>
+    <desc lang="ar">قبل المنتصف</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2137/g53NdrWDTLx1Hh6.webp" />
+  </programme>
+  <programme start="20260920233000 +0000" stop="20260921000000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">من هنا نبدأ</title>
+    <desc lang="ar">"تسعى مبادرة 'من هنا نبدأ' إلى تسليط الضوء على المشكلات التي نواجهها يومياً وتقديم حلول محتملة لها. نحقق في التحديات التي تؤثر على المملكة ونكشف عن جوانب متعددة لهذه التحديات.
+نعتبر أنفسنا مرآة صادقة وشفافة تعكس أصوات المواطنين وتبرز صعوباتهم في مجالات مثل التعليم، والتنمية، والصحة، والبنية التحتية. هدفنا المستمر هو تقديم حلول عملية تلبي تطلعاتهم.
+نراقب ونكشف، مع التركيز على اكتشاف طرق لتحسين واقعنا."
+من السبت الى الخميس</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
+  </programme>
+  <programme start="20260921000000 +0000" stop="20260921010000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">الفيلم الوثائقي - معاهدة وادي عربة</title>
+    <desc lang="ar">لم تكن معاهدة وادي عربة هي اول معاهدة بين دولة عربية والاحتلال، فقد سبقتها معاهدات كامب ديفيد واتفاقيات اوسلو، لكن معاهدة وادي عربة فتحت امالاً عريضة بسلام واف يؤدي الى انتعاش اقتصادي وانفتاح سياسي ويقود الى سلام شامل، الا ان تلك الامآل انصدمت بواقع مختلف.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/908/Fkbh76KFYGjrioS.jpg" />
+  </programme>
+  <programme start="20260921010000 +0000" stop="20260921020000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نبض البلد</title>
+    <desc lang="ar">برنامج سياسي يتناول العديد من القضايا المحلية، العربية والعالمية باستضافة أشخاص متخصصين ويعرض البرنامج تقارير ميدانية ويتواصل مع الجمهور من خلال التعليقات عبر مواقع التواصل الاجتماعي ويطرحها على الضيوف خلال الحلقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/59/UtXrub3W7oIYzYX.webp" />
+  </programme>
+  <programme start="20260921020000 +0000" stop="20260921023000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">كرفان</title>
+    <desc lang="ar">جمعة شبابية، راح ياخدكم فيها كرفان في لفة سريعة بتتوقف على كل "ما يهمنا" إحنا الشباب من أخبار مواقع التواصل الإجتماعي، للمصاريف وهمها، للأكل وصحاب المزاج بالطبيخ، ومن ثم لأصحاب الذوق الرفيع في اللبس والترتيب، لنعيش مغامرات جديدة وبعدين نشارك في إستفتاءات غريبة، على قناة رؤيا الفضائية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/76/Qvl8sLa13lToYFq.webp" />
+  </programme>
+  <programme start="20260921023000 +0000" stop="20260921033000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">من هنا نبدأ</title>
+    <desc lang="ar">"تسعى مبادرة 'من هنا نبدأ' إلى تسليط الضوء على المشكلات التي نواجهها يومياً وتقديم حلول محتملة لها. نحقق في التحديات التي تؤثر على المملكة ونكشف عن جوانب متعددة لهذه التحديات.
+نعتبر أنفسنا مرآة صادقة وشفافة تعكس أصوات المواطنين وتبرز صعوباتهم في مجالات مثل التعليم، والتنمية، والصحة، والبنية التحتية. هدفنا المستمر هو تقديم حلول عملية تلبي تطلعاتهم.
+نراقب ونكشف، مع التركيز على اكتشاف طرق لتحسين واقعنا."
+من السبت الى الخميس</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
+  </programme>
+  <programme start="20260921033000 +0000" stop="20260921040000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">رؤيا الإخبارية</title>
+    <desc lang="ar">نقدم لكم تغطية مباشرة لأهم الأحداث الإخبارية على المستوى المحلي والعالمي ضمن مواجز ونشرات إخبارية بالإضافة إلى برامج سياسية حوارية واجتماعية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1273/RDyosmVFGJOMT6k.webp" />
+  </programme>
+  <programme start="20260921040000 +0000" stop="20260921050000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">أخبار السابعة</title>
+    <desc lang="ar">تبث نشرة أخبار السابعة من السبت إلى الخميس على الهواء في تمام الساعة 07:00 صباحاً بتوقيت العاصمة الأردنية عمان، حيث يتم استعراض أحدث الأخبار المحلية بالإضافة استعراض لحالة الطقس المتوقعة .
+نشرة أخبار السابعة  تقديم كل من : مهند القسوس، محمد عمر، اخلاص عتوم، رشا دواغرة و رفاه جواد .</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1228/ZwEbzTGF7Tajrw0.webp" />
+  </programme>
+  <programme start="20260921050000 +0000" stop="20260921054000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921054000 +0000" stop="20260921063000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">حكي سياسي - الموسم الثالث</title>
+    <desc lang="ar">برنامج حواري سياسي يناقش أبرز القضايا والأحداث على الساحة العالمية، من خلال استضافة خبراء ومحللين لتقديم رؤى مختلفة وتحليل عميق يساعد المشاهد على فهم ما يجري من حوله بشكل أوضح وبأسلوب مبسط وجذاب.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2121/41eNLFznP1mE3aQ.webp" />
+  </programme>
+  <programme start="20260921063000 +0000" stop="20260921064000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921064000 +0000" stop="20260921073000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">من هنا نبدأ</title>
+    <desc lang="ar">"تسعى مبادرة 'من هنا نبدأ' إلى تسليط الضوء على المشكلات التي نواجهها يومياً وتقديم حلول محتملة لها. نحقق في التحديات التي تؤثر على المملكة ونكشف عن جوانب متعددة لهذه التحديات.
+نعتبر أنفسنا مرآة صادقة وشفافة تعكس أصوات المواطنين وتبرز صعوباتهم في مجالات مثل التعليم، والتنمية، والصحة، والبنية التحتية. هدفنا المستمر هو تقديم حلول عملية تلبي تطلعاتهم.
+نراقب ونكشف، مع التركيز على اكتشاف طرق لتحسين واقعنا."
+من السبت الى الخميس</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
+  </programme>
+  <programme start="20260921073000 +0000" stop="20260921074000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921074000 +0000" stop="20260921083000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">قبل المنتصف</title>
+    <desc lang="ar">قبل المنتصف</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2137/g53NdrWDTLx1Hh6.webp" />
+  </programme>
+  <programme start="20260921083000 +0000" stop="20260921084000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921084000 +0000" stop="20260921093000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نبض البلد</title>
+    <desc lang="ar">برنامج سياسي يتناول العديد من القضايا المحلية، العربية والعالمية باستضافة أشخاص متخصصين ويعرض البرنامج تقارير ميدانية ويتواصل مع الجمهور من خلال التعليقات عبر مواقع التواصل الاجتماعي ويطرحها على الضيوف خلال الحلقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/59/UtXrub3W7oIYzYX.webp" />
+  </programme>
+  <programme start="20260921093000 +0000" stop="20260921104000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921104000 +0000" stop="20260921113000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">من هنا نبدأ</title>
+    <desc lang="ar">"تسعى مبادرة 'من هنا نبدأ' إلى تسليط الضوء على المشكلات التي نواجهها يومياً وتقديم حلول محتملة لها. نحقق في التحديات التي تؤثر على المملكة ونكشف عن جوانب متعددة لهذه التحديات.
+نعتبر أنفسنا مرآة صادقة وشفافة تعكس أصوات المواطنين وتبرز صعوباتهم في مجالات مثل التعليم، والتنمية، والصحة، والبنية التحتية. هدفنا المستمر هو تقديم حلول عملية تلبي تطلعاتهم.
+نراقب ونكشف، مع التركيز على اكتشاف طرق لتحسين واقعنا."
+من السبت الى الخميس</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
+  </programme>
+  <programme start="20260921113000 +0000" stop="20260921114000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921114000 +0000" stop="20260921123000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">قبل المنتصف</title>
+    <desc lang="ar">قبل المنتصف</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2137/g53NdrWDTLx1Hh6.webp" />
+  </programme>
+  <programme start="20260921123000 +0000" stop="20260921124000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">موجز الأخبار</title>
+    <desc lang="ar">أبرز الأحداث المحلية والعربية والعالمية تتابعونها في موجز إخباري على مدار الساعة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1462/lVvsiefcKLNq6Fm.webp" />
+  </programme>
+  <programme start="20260921124000 +0000" stop="20260921133000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نبض البلد</title>
+    <desc lang="ar">برنامج سياسي يتناول العديد من القضايا المحلية، العربية والعالمية باستضافة أشخاص متخصصين ويعرض البرنامج تقارير ميدانية ويتواصل مع الجمهور من خلال التعليقات عبر مواقع التواصل الاجتماعي ويطرحها على الضيوف خلال الحلقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/59/UtXrub3W7oIYzYX.webp" />
+  </programme>
+  <programme start="20260921133000 +0000" stop="20260921140000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نشرة الأخبار</title>
+    <desc lang="ar">تبث يومياً على الهواء مباشرة الساعة 7:30 مساءً بتوقيت العاصمة الأردنية عمان، تتألف من أخبار سياسية، اجتماعية، اقتصادية، رياضية محلية وفلسطينية وعربية ودولية بالإضافة استعراض لحالة الطقس المتوقعة .</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1311/aipIE3NoteApdKO.webp" />
+  </programme>
+  <programme start="20260921140000 +0000" stop="20260921150000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">بودكاست بلا اسم</title>
+    <desc lang="ar">بودكاست، يقدمه اسماعيل السيلاوي ويفتح من خلاله مساحة حوار صادقة مع ضيوف يحملون قصصًا وتجارب تستحق أن تُروى، مقدّمًا نقاشات عميقة تكشف جوانب إنسانية ومعرفية قد لا تُطرح في الإعلام التقليدي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2117/sB4qvJLNArhGkSd.webp" />
+  </programme>
+  <programme start="20260921150000 +0000" stop="20260921153500 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">رؤيا الإخبارية</title>
+    <desc lang="ar">نقدم لكم تغطية مباشرة لأهم الأحداث الإخبارية على المستوى المحلي والعالمي ضمن مواجز ونشرات إخبارية بالإضافة إلى برامج سياسية حوارية واجتماعية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1273/RDyosmVFGJOMT6k.webp" />
+  </programme>
+  <programme start="20260921153500 +0000" stop="20260921163000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">من هنا نبدأ</title>
+    <desc lang="ar">"تسعى مبادرة 'من هنا نبدأ' إلى تسليط الضوء على المشكلات التي نواجهها يومياً وتقديم حلول محتملة لها. نحقق في التحديات التي تؤثر على المملكة ونكشف عن جوانب متعددة لهذه التحديات.
+نعتبر أنفسنا مرآة صادقة وشفافة تعكس أصوات المواطنين وتبرز صعوباتهم في مجالات مثل التعليم، والتنمية، والصحة، والبنية التحتية. هدفنا المستمر هو تقديم حلول عملية تلبي تطلعاتهم.
+نراقب ونكشف، مع التركيز على اكتشاف طرق لتحسين واقعنا."
+من السبت الى الخميس</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1450/ILQcgscP4j2MKET.webp" />
+  </programme>
+  <programme start="20260921163000 +0000" stop="20260921173000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نشرة الأخبار</title>
+    <desc lang="ar">تبث يومياً على الهواء مباشرة الساعة 7:30 مساءً بتوقيت العاصمة الأردنية عمان، تتألف من أخبار سياسية، اجتماعية، اقتصادية، رياضية محلية وفلسطينية وعربية ودولية بالإضافة استعراض لحالة الطقس المتوقعة .</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1311/aipIE3NoteApdKO.webp" />
+  </programme>
+  <programme start="20260921173000 +0000" stop="20260921183000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">نبض البلد</title>
+    <desc lang="ar">برنامج سياسي يتناول العديد من القضايا المحلية، العربية والعالمية باستضافة أشخاص متخصصين ويعرض البرنامج تقارير ميدانية ويتواصل مع الجمهور من خلال التعليقات عبر مواقع التواصل الاجتماعي ويطرحها على الضيوف خلال الحلقة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/59/UtXrub3W7oIYzYX.webp" />
+  </programme>
+  <programme start="20260921183000 +0000" stop="20260921190000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">رؤيا الإخبارية</title>
+    <desc lang="ar">نقدم لكم تغطية مباشرة لأهم الأحداث الإخبارية على المستوى المحلي والعالمي ضمن مواجز ونشرات إخبارية بالإضافة إلى برامج سياسية حوارية واجتماعية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1273/RDyosmVFGJOMT6k.webp" />
+  </programme>
+  <programme start="20260921190000 +0000" stop="20260921193000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">كرفان</title>
+    <desc lang="ar">جمعة شبابية، راح ياخدكم فيها كرفان في لفة سريعة بتتوقف على كل "ما يهمنا" إحنا الشباب من أخبار مواقع التواصل الإجتماعي، للمصاريف وهمها، للأكل وصحاب المزاج بالطبيخ، ومن ثم لأصحاب الذوق الرفيع في اللبس والترتيب، لنعيش مغامرات جديدة وبعدين نشارك في إستفتاءات غريبة، على قناة رؤيا الفضائية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/76/Qvl8sLa13lToYFq.webp" />
+  </programme>
+  <programme start="20260921193000 +0000" stop="20260921203000 +0000" channel="Roya_RoyaNews">
+    <title lang="ar">قبل المنتصف</title>
+    <desc lang="ar">قبل المنتصف</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2137/g53NdrWDTLx1Hh6.webp" />
+  </programme>
+  <programme start="20260921203000 +0000" stop="20260921210000 +0000" channel="Roya_RoyaNews">
     <title lang="ar">رؤيا الإخبارية</title>
     <desc lang="ar">نقدم لكم تغطية مباشرة لأهم الأحداث الإخبارية على المستوى المحلي والعالمي ضمن مواجز ونشرات إخبارية بالإضافة إلى برامج سياسية حوارية واجتماعية.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1273/RDyosmVFGJOMT6k.webp" />
@@ -37628,6 +37789,511 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">فقرة اسأل مجرب، ضمن برنامج كرفان، نستمع خلالها إلى اراء الشارع الأردني في عدد من القضايا التي تهمهم.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1243/8DwqwuRwtVtustl.jpg" />
   </programme>
+  <programme start="20260920210000 +0000" stop="20260920215455 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260920215455 +0000" stop="20260920224711 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260920224711 +0000" stop="20260920233854 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260920233854 +0000" stop="20260921000226 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260921000226 +0000" stop="20260921002513 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260921002513 +0000" stop="20260921004838 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260921004838 +0000" stop="20260921014358 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260921014358 +0000" stop="20260921023914 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260921023914 +0000" stop="20260921033430 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260921033430 +0000" stop="20260921042152 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260921042152 +0000" stop="20260921051152 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260921051152 +0000" stop="20260921060149 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260921060149 +0000" stop="20260921064508 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الهدف صفر</title>
+    <desc lang="ar">تدور أحداث الفيلم الوثائقي حول قصة فيروس كورونا، وعلاقته بالرقم صفر، وهو الرقم المفصلي في الاشارة إلى انتهاء مرحلة انتشار الفيروس، كيف انتشر الفيروس، وكيف المحاولة لايقافه وايجاد اللقاح.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1077/NoiZoTzKXTJ0r0e.jpg" />
+  </programme>
+  <programme start="20260921064508 +0000" stop="20260921072623 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الهدف صفر</title>
+    <desc lang="ar">تدور أحداث الفيلم الوثائقي حول قصة فيروس كورونا، وعلاقته بالرقم صفر، وهو الرقم المفصلي في الاشارة إلى انتهاء مرحلة انتشار الفيروس، كيف انتشر الفيروس، وكيف المحاولة لايقافه وايجاد اللقاح.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1077/NoiZoTzKXTJ0r0e.jpg" />
+  </programme>
+  <programme start="20260921072623 +0000" stop="20260921080938 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الهدف صفر</title>
+    <desc lang="ar">تدور أحداث الفيلم الوثائقي حول قصة فيروس كورونا، وعلاقته بالرقم صفر، وهو الرقم المفصلي في الاشارة إلى انتهاء مرحلة انتشار الفيروس، كيف انتشر الفيروس، وكيف المحاولة لايقافه وايجاد اللقاح.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1077/NoiZoTzKXTJ0r0e.jpg" />
+  </programme>
+  <programme start="20260921080938 +0000" stop="20260921090250 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم النكسة</title>
+    <desc lang="ar">فيلم يتحدث عن أحداث النكسة في فلسطين في عام ١٩٦٧م.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/161/8xWIIHttEkld72r.jpg" />
+  </programme>
+  <programme start="20260921090250 +0000" stop="20260921095745 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260921095745 +0000" stop="20260921105001 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260921105001 +0000" stop="20260921114144 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260921114144 +0000" stop="20260921120516 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260921120516 +0000" stop="20260921122803 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260921122803 +0000" stop="20260921125128 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260921125128 +0000" stop="20260921134648 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260921134648 +0000" stop="20260921144204 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260921144204 +0000" stop="20260921153720 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260921153720 +0000" stop="20260921162442 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260921162442 +0000" stop="20260921171442 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260921171442 +0000" stop="20260921180439 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260921180439 +0000" stop="20260921184758 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الهدف صفر</title>
+    <desc lang="ar">تدور أحداث الفيلم الوثائقي حول قصة فيروس كورونا، وعلاقته بالرقم صفر، وهو الرقم المفصلي في الاشارة إلى انتهاء مرحلة انتشار الفيروس، كيف انتشر الفيروس، وكيف المحاولة لايقافه وايجاد اللقاح.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1077/NoiZoTzKXTJ0r0e.jpg" />
+  </programme>
+  <programme start="20260921184758 +0000" stop="20260921192913 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الهدف صفر</title>
+    <desc lang="ar">تدور أحداث الفيلم الوثائقي حول قصة فيروس كورونا، وعلاقته بالرقم صفر، وهو الرقم المفصلي في الاشارة إلى انتهاء مرحلة انتشار الفيروس، كيف انتشر الفيروس، وكيف المحاولة لايقافه وايجاد اللقاح.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1077/NoiZoTzKXTJ0r0e.jpg" />
+  </programme>
+  <programme start="20260921192913 +0000" stop="20260921201228 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الهدف صفر</title>
+    <desc lang="ar">تدور أحداث الفيلم الوثائقي حول قصة فيروس كورونا، وعلاقته بالرقم صفر، وهو الرقم المفصلي في الاشارة إلى انتهاء مرحلة انتشار الفيروس، كيف انتشر الفيروس، وكيف المحاولة لايقافه وايجاد اللقاح.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1077/NoiZoTzKXTJ0r0e.jpg" />
+  </programme>
+  <programme start="20260921201228 +0000" stop="20260921210000 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم النكسة</title>
+    <desc lang="ar">فيلم يتحدث عن أحداث النكسة في فلسطين في عام ١٩٦٧م.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/161/8xWIIHttEkld72r.jpg" />
+  </programme>
+  <programme start="20260921210000 +0000" stop="20260921210540 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم النكسة</title>
+    <desc lang="ar">فيلم يتحدث عن أحداث النكسة في فلسطين في عام ١٩٦٧م.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/161/8xWIIHttEkld72r.jpg" />
+  </programme>
+  <programme start="20260921210540 +0000" stop="20260921215740 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260921215740 +0000" stop="20260921224800 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260921224800 +0000" stop="20260921234158 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260921234158 +0000" stop="20260922000430 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260922000430 +0000" stop="20260922002722 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260922002722 +0000" stop="20260922005012 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260922005012 +0000" stop="20260922014542 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260922014542 +0000" stop="20260922024024 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260922024024 +0000" stop="20260922031017 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260922031017 +0000" stop="20260922035917 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260922035917 +0000" stop="20260922045746 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260922045746 +0000" stop="20260922054535 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم أصل الشرور</title>
+    <desc lang="ar">"أصل الشرور" فيلم وثائقي يتحدث عن الذكرى المئوية لوعد بلفور.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/421/vBNkzQWRGJpLT2Z.webp" />
+  </programme>
+  <programme start="20260922054535 +0000" stop="20260922063657 +0000" channel="Roya_Documentaries">
+    <title lang="ar">القدس جوهر الصراع والمواجهة</title>
+    <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/713/kloKfQeffViJlwO.jpg" />
+  </programme>
+  <programme start="20260922063657 +0000" stop="20260922072836 +0000" channel="Roya_Documentaries">
+    <title lang="ar">الحسين بن طلال - سنوات من الحُكم والحكمة</title>
+    <desc lang="ar">الحسين بن طلال، سنوات من الحكم والحكمة.. 46 عاماً من الحكم والحكمة في منطقة ملتهبة وظروف قاسية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/756/2VGtL8mtKxurXRJ.jpg" />
+  </programme>
+  <programme start="20260922072836 +0000" stop="20260922081625 +0000" channel="Roya_Documentaries">
+    <title lang="ar">معركة الكرامة القصة الكبيرة</title>
+    <desc lang="ar">معركة فاصلة وانتصارٌ كبير كسر شوكة الجيش الذي ادعى انه لا يُقهر .. معركة حطمت اسطورة الخامس من حزيران .. واثبت فيها جيشنا انه على قدر التحدي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/787/YJ1fr7yEU9k2kVq.jpg" />
+  </programme>
+  <programme start="20260922081625 +0000" stop="20260922091102 +0000" channel="Roya_Documentaries">
+    <title lang="ar">عبدالله الاول بن الحسين | الملك الشهيد</title>
+    <desc lang="ar">صاحب رؤية متميزة وطموح لا حد له، بقدرته وحنكته انقذ الاردن من وعد بلفور، الملك الشهيد عبدالله الاول بن الحسين.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/829/Oy89EKiZa4slCgT.jpg" />
+  </programme>
+  <programme start="20260922091102 +0000" stop="20260922100302 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260922100302 +0000" stop="20260922105322 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260922105322 +0000" stop="20260922114720 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260922114720 +0000" stop="20260922120952 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260922120952 +0000" stop="20260922123244 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260922123244 +0000" stop="20260922125534 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260922125534 +0000" stop="20260922135104 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260922135104 +0000" stop="20260922144546 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260922144546 +0000" stop="20260922151539 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إندونيسيا واكتشاف المجهول</title>
+    <desc lang="ar">تتحدث هذه السلسلة عن رحلة المغامر العربي لؤي العتيبي في اندونيسيا وعن تجربته في زيارة الجزر النائية الواقعة بين المحيطيْن الهندي و الهادي حيث قدم لمحة تعريفية عن الحياة البرية و الحيوانات الغريبة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/585/8asVJv1ZRYwhfui.jpg" />
+  </programme>
+  <programme start="20260922151539 +0000" stop="20260922160439 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260922160439 +0000" stop="20260922170308 +0000" channel="Roya_Documentaries">
+    <title lang="ar">تاريخ الإمارات</title>
+    <desc lang="ar">لأول مرة على الإطلاق، يتم تتبع وتجسيد التاريخ القديم للإمارات العربية المتحدة في سلسلة وثائقية من خمسة أجزاء بعنوان &amp;rdquo;تاريخ الإمارات&amp;ldquo;. تقوم هذه السلسلة الغنية بمحتواها، الذي يؤرخ حوالي 125,000 سنة من تاريخ الإمارات، بتسليط الضوء على حقب تاريخية مختلفة، منذ العصر الحجري القديم وصولاً إلى قيام الاتحاد في عام 1971.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/902/Xro7AJkS3VeFv9H.jpg" />
+  </programme>
+  <programme start="20260922170308 +0000" stop="20260922175057 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم أصل الشرور</title>
+    <desc lang="ar">"أصل الشرور" فيلم وثائقي يتحدث عن الذكرى المئوية لوعد بلفور.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/421/vBNkzQWRGJpLT2Z.webp" />
+  </programme>
+  <programme start="20260922175057 +0000" stop="20260922184219 +0000" channel="Roya_Documentaries">
+    <title lang="ar">القدس جوهر الصراع والمواجهة</title>
+    <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/713/kloKfQeffViJlwO.jpg" />
+  </programme>
+  <programme start="20260922184219 +0000" stop="20260922193358 +0000" channel="Roya_Documentaries">
+    <title lang="ar">الحسين بن طلال - سنوات من الحُكم والحكمة</title>
+    <desc lang="ar">الحسين بن طلال، سنوات من الحكم والحكمة.. 46 عاماً من الحكم والحكمة في منطقة ملتهبة وظروف قاسية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/756/2VGtL8mtKxurXRJ.jpg" />
+  </programme>
+  <programme start="20260922193358 +0000" stop="20260922202147 +0000" channel="Roya_Documentaries">
+    <title lang="ar">معركة الكرامة القصة الكبيرة</title>
+    <desc lang="ar">معركة فاصلة وانتصارٌ كبير كسر شوكة الجيش الذي ادعى انه لا يُقهر .. معركة حطمت اسطورة الخامس من حزيران .. واثبت فيها جيشنا انه على قدر التحدي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/787/YJ1fr7yEU9k2kVq.jpg" />
+  </programme>
+  <programme start="20260922202147 +0000" stop="20260922210000 +0000" channel="Roya_Documentaries">
+    <title lang="ar">عبدالله الاول بن الحسين | الملك الشهيد</title>
+    <desc lang="ar">صاحب رؤية متميزة وطموح لا حد له، بقدرته وحنكته انقذ الاردن من وعد بلفور، الملك الشهيد عبدالله الاول بن الحسين.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/829/Oy89EKiZa4slCgT.jpg" />
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260922211624 +0000" channel="Roya_Documentaries">
+    <title lang="ar">عبدالله الاول بن الحسين | الملك الشهيد</title>
+    <desc lang="ar">صاحب رؤية متميزة وطموح لا حد له، بقدرته وحنكته انقذ الاردن من وعد بلفور، الملك الشهيد عبدالله الاول بن الحسين.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/829/Oy89EKiZa4slCgT.jpg" />
+  </programme>
+  <programme start="20260922211624 +0000" stop="20260922220346 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260922220346 +0000" stop="20260922225909 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260922225909 +0000" stop="20260922235153 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260922235153 +0000" stop="20260923004404 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260923004404 +0000" stop="20260923010654 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923010654 +0000" stop="20260923012934 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923012934 +0000" stop="20260923015138 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923015138 +0000" stop="20260923021345 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923021345 +0000" stop="20260923030538 +0000" channel="Roya_Documentaries">
+    <title lang="ar">الفيلم الوثائقي - معاهدة وادي عربة</title>
+    <desc lang="ar">لم تكن معاهدة وادي عربة هي اول معاهدة بين دولة عربية والاحتلال، فقد سبقتها معاهدات كامب ديفيد واتفاقيات اوسلو، لكن معاهدة وادي عربة فتحت امالاً عريضة بسلام واف يؤدي الى انتعاش اقتصادي وانفتاح سياسي ويقود الى سلام شامل، الا ان تلك الامآل انصدمت بواقع مختلف.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/908/Fkbh76KFYGjrioS.jpg" />
+  </programme>
+  <programme start="20260923030538 +0000" stop="20260923035451 +0000" channel="Roya_Documentaries">
+    <title lang="ar">الفيلم الوثائقي - عمان جارة العين</title>
+    <desc lang="ar">عمان تعتبر من أقدم مدن العالم المأهولة بالسكان إلى يومنا هذا، هي مدينة قديمة أقيمت على أنقاض مدينة عرفت باسم "ربّة عمّون" ثم "فيلادلفيا" ثم "عمّان" اشتقاقاً من "ربة عمّون"، واتخذها العمّونيون عاصمة لهم. يعود تاريخ عمّان إلى أكثر من 7000 سنة قبل الميلاد. وقد مرّت عليها حضارات عديدة دلّت عليها الآثار المنتشرة في أرجاء المدينة. وخلال هذه الفترة الطويلة، شهدت المدينة الكثير من الحضارات، كان أهمها العمونيون. يُعد المدرج الروماني أحد أكبر الآثار المتبقية في المدينة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/912/NtnvnIxI8Ep3L63.jpg" />
+  </programme>
+  <programme start="20260923035451 +0000" stop="20260923040245 +0000" channel="Roya_Documentaries">
+    <title lang="ar">لن ننسى ... في ذكرى الملك الحسين</title>
+    <desc lang="ar">السلام على روحك يا سليل المجد لنجعل الصورة جامدة لحظات قليلة نود أن نتأمل ملامح وجهك ما نسيناها أبدا ما نسيناها مجرد تأمل في الملامح الله ما أبهاك بين ذكرى ميلادك وذكرى رحيلك زمن تعرفه الدنيا بأنه زمن الحسين ويعرفه الأردنيين أكثر من غيرهم ها أنت لا تغادر ذاكرتهم لأنك لا يمكن ان تغادر وجدان تاريخهم كأنه نهر ينساب من زمزم يروي كل روح مشتاقة للصفا والسرب المتأصل من الهواشم كنت فيه نسرا يطارحه الحمام هديلا كنت فينا عز ديرتنا وشيخ القبيلة والقبيلة أمة من المحيط إلى الخليج تصبرعلى الضاد فلا تحني الجباه إلا لخالقها كم من الأجيال أفاق على صوتك تنادي حي على البناء وكم شيدت ساعداك من الصروح في هذه الربوع سميناك سيدنا حين ملأت قلوبنا محبة ورحمة وأملا وبصيرة كان الحب عهدنا الذي جعل قلوبنا وقلبك ينبض على إيقاع قلب رجل واحد كنا نحن أنت وكنت أنت نحن فكان الأردن بيتنا الطيب المحصن بالآيات والسواعد السلام على روحك يا سليل المجد لنجعل الصورة جامدة لحظات قليلة نود أن نتأمل ملامح وجهك ما نسيناها أبدا ما نسيناها مجرد تأمل في الملامح الله ما أبهاك بين ذكرى ميلادك وذكرى رحيلك زمن تعرفه الدنيا بأنه زمن الحسين ويعرفه الأردنيين أكثر من غيرهم ها أنت لا تغادر ذاكرتهم لأنك لا يمكن ان تغادر وجدان تاريخهم كأنه نهر ينساب من زمزم يروي كل روح مشتاقة للصفا والسرب المتأصل من الهواشم كنت فيه نسرا يطارحه الحمام هديلا كنت فينا عز ديرتنا وشيخ القبيلة والقبيلة أمة من المحيط إلى الخليج تصبرعلى الضاد فلا تحني الجباه إلا لخالقها كم من الأجيال أفاق على صوتك تنادي حي على البناء وكم شيدت ساعداك من الصروح في هذه الربوع سميناك سيدنا حين ملأت قلوبنا محبة ورحمة وأملا وبصيرة كان الحب عهدنا الذي جعل قلوبنا وقلبك ينبض على إيقاع قلب رجل واحد كنا نحن أنت وكنت أنت نحن فكان الأردن بيتنا الطيب المحصن بالآيات والسواعد</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/917/Zk3dDYQX4Ah5HwK.jpg" />
+  </programme>
+  <programme start="20260923040245 +0000" stop="20260923045233 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الجدار العنصري</title>
+    <desc lang="ar">حصار اضافي للشعب الفلسطيني تحت الاحتلال .. جدار جعل الارض الفلسطينية سجناً كبيراً والدولة الفلسطينية اكثر بعداً.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/919/wfJ2M5Arl5wcAO6.jpg" />
+  </programme>
+  <programme start="20260923045233 +0000" stop="20260923054219 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم المسيرة المثمرة</title>
+    <desc lang="ar">لماذا اخفقت الديمقراطية الاردنية في الخمسينات، هل وصلنا الى مرحلة الحكومة البرلمانية، ولماذا أُبعد الجيش عن الانتخابات؟ المسيرة المثمرة وثائقي حول الحياة البرلمانية والحزبية الاردنية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/921/xi6v97GBUf2D63R.jpg" />
+  </programme>
+  <programme start="20260923054219 +0000" stop="20260923063711 +0000" channel="Roya_Documentaries">
+    <title lang="ar">عائدون  "النكبة"</title>
+    <desc lang="ar">يروي هذا الوثائقي تاريخ النكبة الفلسطينية التي حدثت عام ١٩٤٨م.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/633/8TUC3zJZdoxnLf5.jpg" />
+  </programme>
+  <programme start="20260923063711 +0000" stop="20260923073147 +0000" channel="Roya_Documentaries">
+    <title lang="ar">في ذكرى أوسلو أين فلسطين؟</title>
+    <desc lang="ar">اتفاق فاجئ الجميع، وخيب ظن الجميع، مصافحة تاريخية، نوبل للسلام لكن من دون سلام. ماذا حقق اتفاق اوسلو بعد مرور ٢٥ عام على توقيعه؟ الفلسطينيون يتسائلون، أين فلسطين؟ وثائقي خاص من انتاج رؤيا يتحدث عن اتفاقية اوسلو.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/693/jlrYLcjaHyTySTRLzvsyNhAzLFhnlba2FhToOABl.jpeg" />
+  </programme>
+  <programme start="20260923073147 +0000" stop="20260923080500 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم "إحسان" من الحرم المكي</title>
+    <desc lang="ar">فيلم وثائقي من تقديم الإعلامي أحمد الشقيري، ويسلط الضوء حول جوانب الخدمات المتوفرة لزوار الحرم المكي خلال عام الحج ومناسك العمرة، كما يكشف معلومات غير معروفة للكثيرين عن المسجد الحرام، بعضها اتسم بالغرابة، والبعض الأخر لمدى الدهشة في الإنجاز.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/671/gQC4LSJ0OPdbrx3.jpg" />
+  </programme>
+  <programme start="20260923080500 +0000" stop="20260923090004 +0000" channel="Roya_Documentaries">
+    <title lang="ar">سيرة حياة هزاع المجالي</title>
+    <desc lang="ar">فيلم وثائقي يتحدث عن سيرة حياة هزاع المجالي.  هزاع المجالي هو سياسي أردني ورئيس وزراء أردني سابق، اغتيل بتفجير يقال أنه استهدف الملك حسين وكان لا زال في منصبه.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/654/lMzDYq60dllc1UW.jpg" />
+  </programme>
+  <programme start="20260923090004 +0000" stop="20260923092030 +0000" channel="Roya_Documentaries">
+    <title lang="ar">سيرة حياة هزاع المجالي</title>
+    <desc lang="ar">فيلم وثائقي يتحدث عن سيرة حياة هزاع المجالي.  هزاع المجالي هو سياسي أردني ورئيس وزراء أردني سابق، اغتيل بتفجير يقال أنه استهدف الملك حسين وكان لا زال في منصبه.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/654/lMzDYq60dllc1UW.jpg" />
+  </programme>
+  <programme start="20260923092030 +0000" stop="20260923100752 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260923100752 +0000" stop="20260923110315 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260923110315 +0000" stop="20260923115559 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260923115559 +0000" stop="20260923124810 +0000" channel="Roya_Documentaries">
+    <title lang="ar">إثيوبيا على الأقدام</title>
+    <desc lang="ar">فيلم وثائقي سجله الإعلامي الأردني لؤي العتيبي وهو يروي رحلته الى افريقيا بعيون عربية، حيث تعد هذه السلسلة هي الأولى من نوعها في العالم العربي.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/466/DrVDKy4D8dSpOajQusgjaMkJT1U8LJW61sQIB7MP.jpeg" />
+  </programme>
+  <programme start="20260923124810 +0000" stop="20260923131100 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923131100 +0000" stop="20260923133340 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923133340 +0000" stop="20260923135544 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923135544 +0000" stop="20260923141751 +0000" channel="Roya_Documentaries">
+    <title lang="ar">العالم الكبير - عربي</title>
+    <desc lang="ar">"برنامج العالم الكبير" وثائقي تجوب فيه عدسة "رؤيا" العديد من الدول حول العالم، لتجذب من هناك حضارات وثقافات دول العالم لتكون أقرب للمشاهد، للتعرف على الجانب الآخر من العالم الذي تم التقاطها بعدسة رؤيا الخاصة. كما يتناول البرنامج عادات وتقاليد ومعتقدات شعوب العالم لسرد حقائق علمية وتاريخية وسياسية ودينية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1269/7Wpd0JP1nrdA9rR.webp" />
+  </programme>
+  <programme start="20260923141751 +0000" stop="20260923150944 +0000" channel="Roya_Documentaries">
+    <title lang="ar">الفيلم الوثائقي - معاهدة وادي عربة</title>
+    <desc lang="ar">لم تكن معاهدة وادي عربة هي اول معاهدة بين دولة عربية والاحتلال، فقد سبقتها معاهدات كامب ديفيد واتفاقيات اوسلو، لكن معاهدة وادي عربة فتحت امالاً عريضة بسلام واف يؤدي الى انتعاش اقتصادي وانفتاح سياسي ويقود الى سلام شامل، الا ان تلك الامآل انصدمت بواقع مختلف.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/908/Fkbh76KFYGjrioS.jpg" />
+  </programme>
+  <programme start="20260923150944 +0000" stop="20260923155857 +0000" channel="Roya_Documentaries">
+    <title lang="ar">الفيلم الوثائقي - عمان جارة العين</title>
+    <desc lang="ar">عمان تعتبر من أقدم مدن العالم المأهولة بالسكان إلى يومنا هذا، هي مدينة قديمة أقيمت على أنقاض مدينة عرفت باسم "ربّة عمّون" ثم "فيلادلفيا" ثم "عمّان" اشتقاقاً من "ربة عمّون"، واتخذها العمّونيون عاصمة لهم. يعود تاريخ عمّان إلى أكثر من 7000 سنة قبل الميلاد. وقد مرّت عليها حضارات عديدة دلّت عليها الآثار المنتشرة في أرجاء المدينة. وخلال هذه الفترة الطويلة، شهدت المدينة الكثير من الحضارات، كان أهمها العمونيون. يُعد المدرج الروماني أحد أكبر الآثار المتبقية في المدينة.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/912/NtnvnIxI8Ep3L63.jpg" />
+  </programme>
+  <programme start="20260923155857 +0000" stop="20260923160651 +0000" channel="Roya_Documentaries">
+    <title lang="ar">لن ننسى ... في ذكرى الملك الحسين</title>
+    <desc lang="ar">السلام على روحك يا سليل المجد لنجعل الصورة جامدة لحظات قليلة نود أن نتأمل ملامح وجهك ما نسيناها أبدا ما نسيناها مجرد تأمل في الملامح الله ما أبهاك بين ذكرى ميلادك وذكرى رحيلك زمن تعرفه الدنيا بأنه زمن الحسين ويعرفه الأردنيين أكثر من غيرهم ها أنت لا تغادر ذاكرتهم لأنك لا يمكن ان تغادر وجدان تاريخهم كأنه نهر ينساب من زمزم يروي كل روح مشتاقة للصفا والسرب المتأصل من الهواشم كنت فيه نسرا يطارحه الحمام هديلا كنت فينا عز ديرتنا وشيخ القبيلة والقبيلة أمة من المحيط إلى الخليج تصبرعلى الضاد فلا تحني الجباه إلا لخالقها كم من الأجيال أفاق على صوتك تنادي حي على البناء وكم شيدت ساعداك من الصروح في هذه الربوع سميناك سيدنا حين ملأت قلوبنا محبة ورحمة وأملا وبصيرة كان الحب عهدنا الذي جعل قلوبنا وقلبك ينبض على إيقاع قلب رجل واحد كنا نحن أنت وكنت أنت نحن فكان الأردن بيتنا الطيب المحصن بالآيات والسواعد السلام على روحك يا سليل المجد لنجعل الصورة جامدة لحظات قليلة نود أن نتأمل ملامح وجهك ما نسيناها أبدا ما نسيناها مجرد تأمل في الملامح الله ما أبهاك بين ذكرى ميلادك وذكرى رحيلك زمن تعرفه الدنيا بأنه زمن الحسين ويعرفه الأردنيين أكثر من غيرهم ها أنت لا تغادر ذاكرتهم لأنك لا يمكن ان تغادر وجدان تاريخهم كأنه نهر ينساب من زمزم يروي كل روح مشتاقة للصفا والسرب المتأصل من الهواشم كنت فيه نسرا يطارحه الحمام هديلا كنت فينا عز ديرتنا وشيخ القبيلة والقبيلة أمة من المحيط إلى الخليج تصبرعلى الضاد فلا تحني الجباه إلا لخالقها كم من الأجيال أفاق على صوتك تنادي حي على البناء وكم شيدت ساعداك من الصروح في هذه الربوع سميناك سيدنا حين ملأت قلوبنا محبة ورحمة وأملا وبصيرة كان الحب عهدنا الذي جعل قلوبنا وقلبك ينبض على إيقاع قلب رجل واحد كنا نحن أنت وكنت أنت نحن فكان الأردن بيتنا الطيب المحصن بالآيات والسواعد</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/917/Zk3dDYQX4Ah5HwK.jpg" />
+  </programme>
+  <programme start="20260923160651 +0000" stop="20260923165639 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم الجدار العنصري</title>
+    <desc lang="ar">حصار اضافي للشعب الفلسطيني تحت الاحتلال .. جدار جعل الارض الفلسطينية سجناً كبيراً والدولة الفلسطينية اكثر بعداً.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/919/wfJ2M5Arl5wcAO6.jpg" />
+  </programme>
+  <programme start="20260923165639 +0000" stop="20260923174625 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم المسيرة المثمرة</title>
+    <desc lang="ar">لماذا اخفقت الديمقراطية الاردنية في الخمسينات، هل وصلنا الى مرحلة الحكومة البرلمانية، ولماذا أُبعد الجيش عن الانتخابات؟ المسيرة المثمرة وثائقي حول الحياة البرلمانية والحزبية الاردنية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/921/xi6v97GBUf2D63R.jpg" />
+  </programme>
+  <programme start="20260923174625 +0000" stop="20260923184117 +0000" channel="Roya_Documentaries">
+    <title lang="ar">عائدون  "النكبة"</title>
+    <desc lang="ar">يروي هذا الوثائقي تاريخ النكبة الفلسطينية التي حدثت عام ١٩٤٨م.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/633/8TUC3zJZdoxnLf5.jpg" />
+  </programme>
+  <programme start="20260923184117 +0000" stop="20260923193553 +0000" channel="Roya_Documentaries">
+    <title lang="ar">في ذكرى أوسلو أين فلسطين؟</title>
+    <desc lang="ar">اتفاق فاجئ الجميع، وخيب ظن الجميع، مصافحة تاريخية، نوبل للسلام لكن من دون سلام. ماذا حقق اتفاق اوسلو بعد مرور ٢٥ عام على توقيعه؟ الفلسطينيون يتسائلون، أين فلسطين؟ وثائقي خاص من انتاج رؤيا يتحدث عن اتفاقية اوسلو.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/693/jlrYLcjaHyTySTRLzvsyNhAzLFhnlba2FhToOABl.jpeg" />
+  </programme>
+  <programme start="20260923193553 +0000" stop="20260923200906 +0000" channel="Roya_Documentaries">
+    <title lang="ar">فيلم "إحسان" من الحرم المكي</title>
+    <desc lang="ar">فيلم وثائقي من تقديم الإعلامي أحمد الشقيري، ويسلط الضوء حول جوانب الخدمات المتوفرة لزوار الحرم المكي خلال عام الحج ومناسك العمرة، كما يكشف معلومات غير معروفة للكثيرين عن المسجد الحرام، بعضها اتسم بالغرابة، والبعض الأخر لمدى الدهشة في الإنجاز.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/671/gQC4LSJ0OPdbrx3.jpg" />
+  </programme>
+  <programme start="20260923200906 +0000" stop="20260923210000 +0000" channel="Roya_Documentaries">
+    <title lang="ar">القدس جوهر الصراع والمواجهة</title>
+    <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/713/kloKfQeffViJlwO.jpg" />
+  </programme>
   <programme start="20260920053000 +0000" stop="20260920073000 +0000" channel="AlJadeed.lb">
     <title lang="ar">صباح اليوم</title>
     <category lang="ar">منوعات</category>
@@ -38374,11 +39040,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20260926203000 +0000" stop="20260926205900 +0000" channel="AlJadeed.lb">
     <title lang="ar">نشرة الأخبار الليلية</title>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20260920060000 +0000" stop="20260920070000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="AlJazeera.qa">
@@ -43402,13 +44063,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-  <programme start="20260920213000 +0000" stop="20260921144026 +0000" channel="Roya_RoyaNews">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
   <programme start="20260925205558 +0000" stop="20260925210000 +0000" channel="Roya_Ch13">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260921054026 +0000" stop="20260921144026 +0000" channel="Roya_Documentaries">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260919210000 +0000" stop="20260920170000 +0000" channel="JordanSports">
@@ -51867,7 +52522,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">tawasol</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920080000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Euroleague Basketball SuperCup Abu Dhabi 2026</title>
     <desc lang="en">Euroleague Basketball SuperCup Abu Dhabi 2026</desc>
     <category lang="en">Sport</category>
@@ -52143,12 +52798,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_admnadsports2">
-    <title lang="en">Motor Sport Mundial 2026</title>
-    <desc lang="en">Motor Sport Mundial 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
-  </programme>
   <programme start="20260920070000 +0000" stop="20260920120000 +0000" channel="Starz_admnadsports2">
     <title lang="en">KBMZ Jiu-Jitsu Championship 2026</title>
     <desc lang="en">KBMZ Jiu-Jitsu Championship 2026</desc>
@@ -52413,7 +53062,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920071500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260920070000 +0000" stop="20260920071500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Bologna X Torino - Serie A</title>
     <title lang="ar">بولونيا × تورينو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -53082,7 +53731,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920071500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Starz_starzplaysports1">
+    <title lang="en">StarzPLAY Sports 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920071500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Udinese x Cagliari - Serie A</title>
     <title lang="ar">أودينيزي × كالياري - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -53731,7 +54386,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920072500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Starz_starzplaysports2">
+    <title lang="en">StarzPLAY Sports 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920072500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Thrive in Chaos - UFC: The Ultimate Fighter</title>
     <title lang="ar">الازدهار وسط الفوضى - بطولة القتال النهائي: المقاتل النهائي</title>
     <desc lang="en">Stay tuned to UFC: The Ultimate Fighter.</desc>
@@ -54354,7 +55015,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920073000 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Starz_starzplaysport1">
+    <title lang="en">Starzplay Sports 3</title>
+    <title lang="ar">ستارزبلاي سبورتس 3</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920073000 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Hollywoodbets Sharks vs. Maori All Blacks - Rugby Union</title>
     <desc lang="en">Hollywoodbets Sharks vs. Maori All Blacks - Rugby Union</desc>
     <category lang="en">Sport</category>
@@ -54600,7 +55268,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920070800 +0000" channel="Starz_golflife">
+  <programme start="20260920070000 +0000" stop="20260920070800 +0000" channel="Starz_golflife">
     <title lang="en">Rocket Classic - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E169 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -54918,12 +55586,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">Sports Programme</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
-  </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Qualifier: Team TBA - ETPL Highlights</title>
-    <desc lang="en">2026: Qualifier: Team TBA - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33925191_b_h10_aa.jpg" />
   </programme>
   <programme start="20260920070000 +0000" stop="20260920072400 +0000" channel="Starz_cricbuzz1">
     <title lang="en">3rd T20: Afghanistan vs India - T20 Cricket</title>
@@ -56166,12 +56828,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Astana, Kazakhstan - Games of the Future</title>
-    <title lang="ar">أستانا، كازاخستان - ألعاب المستقبل</title>
-    <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
+  <programme start="20260924064400 +0000" stop="20260924070800 +0000" channel="Starz_cricbuzz1">
+    <title lang="en">2nd T20: Afghanistan vs India - T20 Cricket</title>
+    <title lang="ar">تي٢٠ كريكيت</title>
+    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG631827_landscape10-444f307b-5b94-4666-8862-62aebc021b44.jpg" />
+    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
   <programme start="20260920070000 +0000" stop="20260920073000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Arsenal Invincibles - Invincible</title>
@@ -56796,12 +57458,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_wedosports">
-    <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
-    <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
-    <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Starz_adsportsasia01">
+    <title lang="en">Abu Dhabi Sports Asia 1</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 1</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p3608998_b_h8_aq.jpg" />
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
   <programme start="20260920070000 +0000" stop="20260920090500 +0000" channel="Starz_wedosports">
     <title lang="en">Clubland</title>
@@ -57200,11 +57862,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p3608998_b_h8_aq.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's ODI World Cup 2023: England vs. South Africa - Kick-Off Classics</title>
-    <desc lang="en">ICC Men's ODI World Cup 2023: England vs. South Africa - Kick-Off Classics</desc>
+  <programme start="20260924065600 +0000" stop="20260924090600 +0000" channel="Starz_wedosports">
+    <title lang="en">Valencia, Qualifying - FIA TCR World Tour - LIVE</title>
+    <desc lang="en">Valencia, Qualifying - FIA TCR World Tour - LIVE</desc>
     <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
+    <icon src="https://stap.tmsimg.com/assets/p25439127_b_h10_ab.jpg" />
   </programme>
   <programme start="20260920070000 +0000" stop="20260920073000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Mens T20 World Cup 2024: Papua New Guinea vs Uganda - Kick-Off Classics</title>
@@ -57773,14 +58435,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920065500 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Qualifier 2 Jamaica Kingsmen vs Guyana Amazon Warriors - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
-  </programme>
-  <programme start="20260920065500 +0000" stop="20260920071900 +0000" channel="Starz_criclife3">
+  <programme start="20260920070000 +0000" stop="20260920071900 +0000" channel="Starz_criclife3">
     <title lang="en">3rd T20: England vs Sri Lanka - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -59011,7 +59666,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33925191_b_h10_aa.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920071000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260920070000 +0000" stop="20260920071000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">CEN 120km Abu Dhabi Festival Endurance Cup - HH President’s Cup Endurance Ride</title>
     <title lang="ar">كأس أبوظبي للمهرجان للقدرة – 120 كم - كأس صاحب السمو رئيس الدولة للقدرة والتحمل</title>
     <desc lang="en">Don't miss one of the most prestigious events in the annual UAE endurance racing calendar - the HH President’s Cup Endurance Ride.</desc>
@@ -59592,7 +60247,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920071927 +0000" channel="Starz_awsn">
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Starz_adsportsasia02">
+    <title lang="en">Abu Dhabi Sports Asia 2</title>
+    <title lang="ar">أبوظبي الرياضية آسيا 2</title>
+    <desc lang="en">Sports coverage from around the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920071927 +0000" channel="Starz_awsn">
     <title lang="en">2026: Tampa Bay vs Pittsburgh</title>
     <desc lang="en">Women&amp;apos;s professional football at its highest level as Tampa Bay takes on Pittsburgh.</desc>
     <category lang="en">Sport</category>
@@ -60228,18 +60890,25 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
   </programme>
-  <programme start="20260924062556 +0000" stop="20260924064000 +0000" channel="Starz_awsn">
+  <programme start="20260924062556 +0000" stop="20260924063454 +0000" channel="Starz_awsn">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_redbulltv">
-    <title lang="en">Red Bull TV</title>
-    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+  <programme start="20260924064006 +0000" stop="20260924083120 +0000" channel="Starz_awsn">
+    <title lang="en">2026: Al-Ittihad vs. Al-Nassr</title>
+    <desc lang="en">Al-Ittihad Club vs. Al-Nassr FC in round 10 of the Saudi Women&amp;apos;s Premier League 2025/2026 season.</desc>
     <category lang="en">Sport</category>
-    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
+  </programme>
+  <programme start="20260924083120 +0000" stop="20260924084530 +0000" channel="Starz_awsn">
+    <title lang="en">No program available</title>
+    <title lang="ar">المحتوى غير متوفر</title>
+    <desc lang="en">No program available</desc>
+    <category lang="en">Sport</category>
+    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
   <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
@@ -60817,7 +61486,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920090000 +0000" channel="Starz_daznringside">
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Starz_redbulltv">
+    <title lang="en">Red Bull TV</title>
+    <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -61015,7 +61690,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920080412 +0000" channel="Starz_fifaplus">
+  <programme start="20260920070000 +0000" stop="20260920080412 +0000" channel="Starz_fifaplus">
     <title lang="en">Brazil v Scotland | Group Matches | 1990 FIFA World Cup Italy™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Brazil and Scotland played at Stadio delle Alpi, Turin.</desc>
     <category lang="en">Sport</category>
@@ -61423,7 +62098,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://dki01q1l7yn3y.cloudfront.net/thumbnails-platform-prod/assets/cs::content::episodemeta/41428-43476/85137630-default_v1.jpg" />
   </programme>
-  <programme start="20260920064000 +0000" stop="20260920080000 +0000" channel="Starz_admnyastv">
+  <programme start="20260924065151 +0000" stop="20260924085240 +0000" channel="Starz_fifaplus">
+    <title lang="en">Mamelodi Sundowns FC v Borussia Dortmund | Group F | FIFA Club World Cup 2025™ | Full Match Replay</title>
+    <desc lang="en">Watch the full match replay between Mamelodi Sundowns FC and Borussia Dortmund played at TQL Stadium, Cincinnati on Saturday, 21 June 2025 at 12:00 (local time).</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/141960.jpg" />
+  </programme>
+  <programme start="20260920070000 +0000" stop="20260920080000 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE President Cup Flat Races 2026</title>
     <desc lang="en">UAE President Cup Flat Races 2026</desc>
     <category lang="en">Sport</category>
@@ -61591,17 +62272,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260922200000 +0000" stop="20260924064000 +0000" channel="Starz_admnyastv">
+  <programme start="20260922200000 +0000" stop="20260924070000 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
-  </programme>
-  <programme start="20260920064000 +0000" stop="20260920070000 +0000" channel="Starz_adfight">
-    <title lang="en">UAE Warriors 2026</title>
-    <desc lang="en">UAE Warriors 2026</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
   <programme start="20260920070000 +0000" stop="20260920120000 +0000" channel="Starz_adfight">
     <title lang="en">KBMZ Jiu-Jitsu Championship 2026</title>
@@ -61651,7 +62326,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921191000 +0000" stop="20260924064000 +0000" channel="Starz_adfight">
+  <programme start="20260921191000 +0000" stop="20260924070000 +0000" channel="Starz_adfight">
     <title lang="en">Hexagone MMA 2026</title>
     <desc lang="en">Hexagone MMA 2026</desc>
     <category lang="en">Sport</category>
@@ -61724,6 +62399,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260924061517 +0000" stop="20260924062056 +0000" channel="Starz_awsn">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260924063454 +0000" stop="20260924064006 +0000" channel="Starz_awsn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260919210000 +0000" stop="20260920141052 +0000" channel="FajerSport1">
@@ -92850,88 +93528,89 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_14.png" />
   </programme>
   <programme start="20260921060000 +0000" stop="20260921070000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <title lang="ar">أخبار اليوم · أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:26 — بتوقيتك
 
-هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
-        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
-        عربي · CNN عربية
-تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
-        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب
+        قال قائد عمليات حلب في مديرية الطوارئ وإدارة الكوارث فيصل محمد علي، في ‏تصريح لـ سانا: إن استمرار الانفجارات عرقل وصول فرق الإسعاف والإنقاذ
+        عربي · BBC عربي
+مندوب واشنطن الأممي: الباب مفتوح أمام عودة إيران للمفاوضات
+        مايك والتز قال إن عامل الوقت يصب في مصلحة بلاده..
         تركيا · الأناضول
-مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
+حزب بوتين يحتفظ بهيمنته على مجلس الدوما - الشرق الأوسط
         الإمارات · الإمارات
-Lindsay Clancy's ex-husband explains why he forgave her over children's killings
-        The husband of the US mother who strangled her three young children discusses his grief in an interview with CBS News.
-        بريطانيا · BBC
-Patrick Clancy Describes Grief in First Interview Since Mistrial
-        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
-        أمريكا · NYT
-Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
-        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
-        الأردن · Jordan News
-إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
-        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
-        تركيا · الأناضول
-أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
-        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
-        عربي · الشرق الأوسط
-هيئة البيئة – أبوظبي والمعهد العالمي للنمو الأخضر يمدِّدان اتفاقية "التعاون بشأن النمو الأخضر في أبوظبي" - Zawya
-        الإمارات · الإمارات
-US and China discuss AI safety plan ahead of Trump-Xi summit
-        Top US and Chinese officials held talks in New York on Sunday ahead of a Trump-Xi summit this week.
-        بريطانيا · BBC
-Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
-        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
-        أمريكا · NYT
-Eight Police Officers Injured in Riots in Central France
-        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
-        الأردن · Jordan News
-مجلس دبي الرياضي وأكاديمية الاقتصاد الجديد يطلقان "برنامج ريادة الأعمال في القطاع الرياضي" - Zawya
-        الإمارات · الإمارات
-الضفة.. اقتحامات واسعة للجيش الإسرائيلي واعتقال فلسطينييَن أحدهما طفل
-        جنوبي ووسط وشمالي الضفة، ناهيك عن اعتداءات متفرقة للمستوطنين، وفق إعلام فلسطيني حكومي
-        تركيا · الأناضول
-روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
-        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
-        عربي · فرانس 24
-Weather mapped: Where temperatures could hit 24C in final blast of summer sun
-        A ‘heat dome’ pushing up from North Africa will bring a final spell of summer warmth, the Met Office said
-        بريطانيا · Independent
-Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
-        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
-        أمريكا · Fox News
-CNN: US Rules Out Strikes on Houthis
-        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
-        الأردن · Jordan News
-الجيش اليمني: تدمير 5 مركبات للحوثيين بجبهة كهبوب المشرفة على المضيق
-        قوات العمالقة التابعة للجيش أكدت مقتل جميع من كانوا على متن العربات العسكرية في جبهة كهبوب الجبلية التابعة لمنطقة باب المندب
-        تركيا · الأناضول
-"نهاية كل فساد ودكتاتورية".. مقتدى الصدر يعلق على موعد انسحاب القوات الأمريكية من العراق
-        قال الزعيم الشيعي العراقي مقتدى الصدر، مساء الأحد، إن موعد انتهاء تواجد القوات الأمريكية وقوات التحالف للدولي في العراق في 30 سبتمبر /أيلول الجاري
-        عربي · CNN عربية
-سوريا: 4 إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب - BBC
-        الإمارات · الإمارات
-Presley Gerber, Cindy Crawford's son, dies aged 27
-        His family asked for privacy during a "very difficult and painful time" following the model's death.
+Nvidia boss rejects AI extinction fears as 'doomsday narratives'
+        Jensen Huang's comments come after warnings from AI researchers that the technology could lead to human extinction.
         بريطانيا · BBC
 Presley Gerber, son of Cindy Crawford and Rande Gerber, dies at 27
         Presley Gerber, the son of Cindy Crawford and Rande Gerber, has died at 27, a family spokesperson has confirmed.
         أمريكا · CBS
+Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
+        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
+        الأردن · Jordan News
+مباشر: الحوثيون يوسعون هجماتهم على السعودية وتصعيد أمريكي إيراني يفاقم التوتر الإقليمي
+        أعادت هجمات الحوثيين على الرياض وينبع مخاطر اتساع المواجهة في الشرق الأوسط إلى الواجهة
+        عربي · فرانس 24
+أسعار صرف العملات الرئيسية مقابل الليرة التركية
+        في تعاملات الاثنين بمدينة إسطنبول
+        تركيا · الأناضول
+"الشارقة للعمل التطوعي" تعرّف شرطة الشارقة بفئاتها وآليات المشاركة - sharjah24.ae
+        الإمارات · الإمارات
+Man who weighed 49st and wore 72-inch-waist trousers loses 32 stone after doctor’s stark warning
+        Tiny said he got his ‘ironic’ nickname of Tiny aged 10 because he has ‘always stood out in a crowd’ for his height and weight
+        بريطانيا · Independent
+Patrick Clancy Describes Grief in First Interview Since Mistrial
+        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
+        أمريكا · NYT
+Eight Police Officers Injured in Riots in Central France
+        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
+        الأردن · Jordan News
+إسرائيل تعتقل 53 فلسطينيا ببلدة بدو عقب هجوم "حلميش"
+        وفق محافظة القدس الفلسطينية
+        تركيا · الأناضول
+هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
+        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
+        عربي · CNN عربية
+الخرف في الأمازون.. سر انخفاضه الظاهري - سكاي نيوز عربية
+        الخرف في الأمازون.. سر انخفاضه الظاهري سكاي نيوز عربية
+        الإمارات · الإمارات
+Exhausted by optimisation, I’m seeking solace in the past. As Sibelius’s swans soar skywards, so do my spirits | Joseph Earp
+        Humans have always been capable of transcending the lock box of daily life with little more technology at their side than wood, string, a baton and…
+        بريطانيا · Guardian
+Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
+        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
+        أمريكا · NYT
+CNN: US Rules Out Strikes on Houthis
+        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
+        الأردن · Jordan News
+تباطؤ عبور السفن لمضيق هرمز مع استمرار التوتر في الشرق الأوسط - العربية
+        الإمارات · الإمارات
+تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
+        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+        تركيا · الأناضول
+أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
+        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
+        عربي · الشرق الأوسط
+Legend of the White Dragon review – Power Rangers alumni back for more in low-budget superhero retread
+        Simple but emphatic martial arts and a couple of classy cameos are all that give this blandly modern action film a fighting chance Despite featuring…
+        بريطانيا · Guardian
+Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
+        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
+        أمريكا · Fox News
 Russian Artist Describes Three Years Under FSB Pressure
         It began with blackmail and death threats intended to force her cooperation, followed by a series of increasingly serious assignments: spying on…
         الأردن · Jordan News
-إسرائيل تغلق شوارع وحواجز بين القدس والضفة تزامنا مع "يوم الغفران"
-        الإغلاقات شملت شوارع ومحاور رئيسية في القدس، وسط انتشار مكثف للقوات الإسرائيلية وتشديد الإجراءات الأمنية في أنحاء المدينة، وفق شهود عيان..
+إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
+        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
         تركيا · الأناضول
-لماذا تتزايد مخاطر الدين الفرنسي؟
-        دخلت السندات الفرنسية منطقة من المخاطر لم تشهدها منذ أزمة ديون منطقة اليورو بعد تجاوز الفارق بين عوائدها وعوائد السندات الألمانية لـ10 سنوات حاجز 100…
-        عربي · الشرق الأوسط
-ارتفاع أسعار النفط و"برنت" يتجاوز 104 دولارات للبرميل - البيان
+مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
         الإمارات · الإمارات
-Royal family news live: Sussexes should get security as ‘unpleasant’ press treatment echoes that of Diana, says Earl Spencer
-        Princess Diana’s brother has insisted he is ‘telling the truth’ about his bombshell allegations
-        بريطانيا · Independent
+روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
+        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
+        عربي · فرانس 24
+Coco Khan and Nish Kumar take on England flags: best podcasts of the week
+        Bestselling book The Good Immigrant launches a series of thoughtful explorations of race – starting with the hosts of Pod Save the Uk
+        بريطانيا · Guardian
 ICE officer shoots and injures DoorDash delivery driver in Austin: Police
         A man was shot and injured in an Immigration and Customs Enforcement incident in Austin, Texas, on Sunday, according to officials.
         أمريكا · ABC News
@@ -92949,8 +93628,8 @@ Iran Warns US and Regional States of ‘Painful Attacks’
         تركيا · الأناضول
 كيف أفلت النهائي من الأهلي في كأس القارات للأندية؟ - الشرق الأوسط
         الإمارات · الإمارات
-'I've asked for forgiveness' - Eckert and Southampton braced for Spygate verdict
-        As Southampton manager Tonda Eckert awaits the FA hearing into his 'Spygate' misconduct conduct charge BBC sports editor Dan Roan speaks to him and…
+Chiefs back in business as star QBs go down - five things from NFL week two
+        Patrick Mahomes and the Kansas City Chiefs look back to their best but Caleb Williams and Jayden Daniels suffer serious injuries
         بريطانيا · BBC
 Taylor Swift has savage celebration after Travis Kelce scores first touchdown of 2026 season
         Travis Kelce scored his first touchdown of the season and NBC cameras caught Taylor Swift pointing to her wedding ring during the end zone…
@@ -92959,87 +93638,88 @@ Taylor Swift has savage celebration after Travis Kelce scores first touchdown of
   </programme>
   <programme start="20260921070000 +0000" stop="20260921080000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:26 — بتوقيتك
 
-هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
-        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
-        عربي · CNN عربية
-تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
-        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب
+        قال قائد عمليات حلب في مديرية الطوارئ وإدارة الكوارث فيصل محمد علي، في ‏تصريح لـ سانا: إن استمرار الانفجارات عرقل وصول فرق الإسعاف والإنقاذ
+        عربي · BBC عربي
+مندوب واشنطن الأممي: الباب مفتوح أمام عودة إيران للمفاوضات
+        مايك والتز قال إن عامل الوقت يصب في مصلحة بلاده..
         تركيا · الأناضول
-مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
+حزب بوتين يحتفظ بهيمنته على مجلس الدوما - الشرق الأوسط
         الإمارات · الإمارات
-Lindsay Clancy's ex-husband explains why he forgave her over children's killings
-        The husband of the US mother who strangled her three young children discusses his grief in an interview with CBS News.
-        بريطانيا · BBC
-Patrick Clancy Describes Grief in First Interview Since Mistrial
-        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
-        أمريكا · NYT
-Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
-        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
-        الأردن · Jordan News
-إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
-        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
-        تركيا · الأناضول
-أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
-        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
-        عربي · الشرق الأوسط
-هيئة البيئة – أبوظبي والمعهد العالمي للنمو الأخضر يمدِّدان اتفاقية "التعاون بشأن النمو الأخضر في أبوظبي" - Zawya
-        الإمارات · الإمارات
-US and China discuss AI safety plan ahead of Trump-Xi summit
-        Top US and Chinese officials held talks in New York on Sunday ahead of a Trump-Xi summit this week.
-        بريطانيا · BBC
-Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
-        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
-        أمريكا · NYT
-Eight Police Officers Injured in Riots in Central France
-        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
-        الأردن · Jordan News
-مجلس دبي الرياضي وأكاديمية الاقتصاد الجديد يطلقان "برنامج ريادة الأعمال في القطاع الرياضي" - Zawya
-        الإمارات · الإمارات
-الضفة.. اقتحامات واسعة للجيش الإسرائيلي واعتقال فلسطينييَن أحدهما طفل
-        جنوبي ووسط وشمالي الضفة، ناهيك عن اعتداءات متفرقة للمستوطنين، وفق إعلام فلسطيني حكومي
-        تركيا · الأناضول
-روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
-        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
-        عربي · فرانس 24
-Weather mapped: Where temperatures could hit 24C in final blast of summer sun
-        A ‘heat dome’ pushing up from North Africa will bring a final spell of summer warmth, the Met Office said
-        بريطانيا · Independent
-Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
-        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
-        أمريكا · Fox News
-CNN: US Rules Out Strikes on Houthis
-        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
-        الأردن · Jordan News
-الجيش اليمني: تدمير 5 مركبات للحوثيين بجبهة كهبوب المشرفة على المضيق
-        قوات العمالقة التابعة للجيش أكدت مقتل جميع من كانوا على متن العربات العسكرية في جبهة كهبوب الجبلية التابعة لمنطقة باب المندب
-        تركيا · الأناضول
-"نهاية كل فساد ودكتاتورية".. مقتدى الصدر يعلق على موعد انسحاب القوات الأمريكية من العراق
-        قال الزعيم الشيعي العراقي مقتدى الصدر، مساء الأحد، إن موعد انتهاء تواجد القوات الأمريكية وقوات التحالف للدولي في العراق في 30 سبتمبر /أيلول الجاري
-        عربي · CNN عربية
-سوريا: 4 إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب - BBC
-        الإمارات · الإمارات
-Presley Gerber, Cindy Crawford's son, dies aged 27
-        His family asked for privacy during a "very difficult and painful time" following the model's death.
+Nvidia boss rejects AI extinction fears as 'doomsday narratives'
+        Jensen Huang's comments come after warnings from AI researchers that the technology could lead to human extinction.
         بريطانيا · BBC
 Presley Gerber, son of Cindy Crawford and Rande Gerber, dies at 27
         Presley Gerber, the son of Cindy Crawford and Rande Gerber, has died at 27, a family spokesperson has confirmed.
         أمريكا · CBS
+Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
+        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
+        الأردن · Jordan News
+مباشر: الحوثيون يوسعون هجماتهم على السعودية وتصعيد أمريكي إيراني يفاقم التوتر الإقليمي
+        أعادت هجمات الحوثيين على الرياض وينبع مخاطر اتساع المواجهة في الشرق الأوسط إلى الواجهة
+        عربي · فرانس 24
+أسعار صرف العملات الرئيسية مقابل الليرة التركية
+        في تعاملات الاثنين بمدينة إسطنبول
+        تركيا · الأناضول
+"الشارقة للعمل التطوعي" تعرّف شرطة الشارقة بفئاتها وآليات المشاركة - sharjah24.ae
+        الإمارات · الإمارات
+Man who weighed 49st and wore 72-inch-waist trousers loses 32 stone after doctor’s stark warning
+        Tiny said he got his ‘ironic’ nickname of Tiny aged 10 because he has ‘always stood out in a crowd’ for his height and weight
+        بريطانيا · Independent
+Patrick Clancy Describes Grief in First Interview Since Mistrial
+        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
+        أمريكا · NYT
+Eight Police Officers Injured in Riots in Central France
+        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
+        الأردن · Jordan News
+إسرائيل تعتقل 53 فلسطينيا ببلدة بدو عقب هجوم "حلميش"
+        وفق محافظة القدس الفلسطينية
+        تركيا · الأناضول
+هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
+        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
+        عربي · CNN عربية
+الخرف في الأمازون.. سر انخفاضه الظاهري - سكاي نيوز عربية
+        الخرف في الأمازون.. سر انخفاضه الظاهري سكاي نيوز عربية
+        الإمارات · الإمارات
+Exhausted by optimisation, I’m seeking solace in the past. As Sibelius’s swans soar skywards, so do my spirits | Joseph Earp
+        Humans have always been capable of transcending the lock box of daily life with little more technology at their side than wood, string, a baton and…
+        بريطانيا · Guardian
+Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
+        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
+        أمريكا · NYT
+CNN: US Rules Out Strikes on Houthis
+        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
+        الأردن · Jordan News
+تباطؤ عبور السفن لمضيق هرمز مع استمرار التوتر في الشرق الأوسط - العربية
+        الإمارات · الإمارات
+تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
+        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+        تركيا · الأناضول
+أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
+        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
+        عربي · الشرق الأوسط
+Legend of the White Dragon review – Power Rangers alumni back for more in low-budget superhero retread
+        Simple but emphatic martial arts and a couple of classy cameos are all that give this blandly modern action film a fighting chance Despite featuring…
+        بريطانيا · Guardian
+Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
+        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
+        أمريكا · Fox News
 Russian Artist Describes Three Years Under FSB Pressure
         It began with blackmail and death threats intended to force her cooperation, followed by a series of increasingly serious assignments: spying on…
         الأردن · Jordan News
-إسرائيل تغلق شوارع وحواجز بين القدس والضفة تزامنا مع "يوم الغفران"
-        الإغلاقات شملت شوارع ومحاور رئيسية في القدس، وسط انتشار مكثف للقوات الإسرائيلية وتشديد الإجراءات الأمنية في أنحاء المدينة، وفق شهود عيان..
+إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
+        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
         تركيا · الأناضول
-لماذا تتزايد مخاطر الدين الفرنسي؟
-        دخلت السندات الفرنسية منطقة من المخاطر لم تشهدها منذ أزمة ديون منطقة اليورو بعد تجاوز الفارق بين عوائدها وعوائد السندات الألمانية لـ10 سنوات حاجز 100…
-        عربي · الشرق الأوسط
-ارتفاع أسعار النفط و"برنت" يتجاوز 104 دولارات للبرميل - البيان
+مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
         الإمارات · الإمارات
-Royal family news live: Sussexes should get security as ‘unpleasant’ press treatment echoes that of Diana, says Earl Spencer
-        Princess Diana’s brother has insisted he is ‘telling the truth’ about his bombshell allegations
-        بريطانيا · Independent
+روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
+        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
+        عربي · فرانس 24
+Coco Khan and Nish Kumar take on England flags: best podcasts of the week
+        Bestselling book The Good Immigrant launches a series of thoughtful explorations of race – starting with the hosts of Pod Save the Uk
+        بريطانيا · Guardian
 ICE officer shoots and injures DoorDash delivery driver in Austin: Police
         A man was shot and injured in an Immigration and Customs Enforcement incident in Austin, Texas, on Sunday, according to officials.
         أمريكا · ABC News
@@ -93057,8 +93737,8 @@ Iran Warns US and Regional States of ‘Painful Attacks’
         تركيا · الأناضول
 كيف أفلت النهائي من الأهلي في كأس القارات للأندية؟ - الشرق الأوسط
         الإمارات · الإمارات
-'I've asked for forgiveness' - Eckert and Southampton braced for Spygate verdict
-        As Southampton manager Tonda Eckert awaits the FA hearing into his 'Spygate' misconduct conduct charge BBC sports editor Dan Roan speaks to him and…
+Chiefs back in business as star QBs go down - five things from NFL week two
+        Patrick Mahomes and the Kansas City Chiefs look back to their best but Caleb Williams and Jayden Daniels suffer serious injuries
         بريطانيا · BBC
 Taylor Swift has savage celebration after Travis Kelce scores first touchdown of 2026 season
         Travis Kelce scored his first touchdown of the season and NBC cameras caught Taylor Swift pointing to her wedding ring during the end zone…
@@ -93067,87 +93747,88 @@ Taylor Swift has savage celebration after Travis Kelce scores first touchdown of
   </programme>
   <programme start="20260921080000 +0000" stop="20260921090000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:26 — بتوقيتك
 
-هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
-        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
-        عربي · CNN عربية
-تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
-        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب
+        قال قائد عمليات حلب في مديرية الطوارئ وإدارة الكوارث فيصل محمد علي، في ‏تصريح لـ سانا: إن استمرار الانفجارات عرقل وصول فرق الإسعاف والإنقاذ
+        عربي · BBC عربي
+مندوب واشنطن الأممي: الباب مفتوح أمام عودة إيران للمفاوضات
+        مايك والتز قال إن عامل الوقت يصب في مصلحة بلاده..
         تركيا · الأناضول
-مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
+حزب بوتين يحتفظ بهيمنته على مجلس الدوما - الشرق الأوسط
         الإمارات · الإمارات
-Lindsay Clancy's ex-husband explains why he forgave her over children's killings
-        The husband of the US mother who strangled her three young children discusses his grief in an interview with CBS News.
-        بريطانيا · BBC
-Patrick Clancy Describes Grief in First Interview Since Mistrial
-        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
-        أمريكا · NYT
-Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
-        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
-        الأردن · Jordan News
-إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
-        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
-        تركيا · الأناضول
-أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
-        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
-        عربي · الشرق الأوسط
-هيئة البيئة – أبوظبي والمعهد العالمي للنمو الأخضر يمدِّدان اتفاقية "التعاون بشأن النمو الأخضر في أبوظبي" - Zawya
-        الإمارات · الإمارات
-US and China discuss AI safety plan ahead of Trump-Xi summit
-        Top US and Chinese officials held talks in New York on Sunday ahead of a Trump-Xi summit this week.
-        بريطانيا · BBC
-Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
-        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
-        أمريكا · NYT
-Eight Police Officers Injured in Riots in Central France
-        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
-        الأردن · Jordan News
-مجلس دبي الرياضي وأكاديمية الاقتصاد الجديد يطلقان "برنامج ريادة الأعمال في القطاع الرياضي" - Zawya
-        الإمارات · الإمارات
-الضفة.. اقتحامات واسعة للجيش الإسرائيلي واعتقال فلسطينييَن أحدهما طفل
-        جنوبي ووسط وشمالي الضفة، ناهيك عن اعتداءات متفرقة للمستوطنين، وفق إعلام فلسطيني حكومي
-        تركيا · الأناضول
-روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
-        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
-        عربي · فرانس 24
-Weather mapped: Where temperatures could hit 24C in final blast of summer sun
-        A ‘heat dome’ pushing up from North Africa will bring a final spell of summer warmth, the Met Office said
-        بريطانيا · Independent
-Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
-        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
-        أمريكا · Fox News
-CNN: US Rules Out Strikes on Houthis
-        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
-        الأردن · Jordan News
-الجيش اليمني: تدمير 5 مركبات للحوثيين بجبهة كهبوب المشرفة على المضيق
-        قوات العمالقة التابعة للجيش أكدت مقتل جميع من كانوا على متن العربات العسكرية في جبهة كهبوب الجبلية التابعة لمنطقة باب المندب
-        تركيا · الأناضول
-"نهاية كل فساد ودكتاتورية".. مقتدى الصدر يعلق على موعد انسحاب القوات الأمريكية من العراق
-        قال الزعيم الشيعي العراقي مقتدى الصدر، مساء الأحد، إن موعد انتهاء تواجد القوات الأمريكية وقوات التحالف للدولي في العراق في 30 سبتمبر /أيلول الجاري
-        عربي · CNN عربية
-سوريا: 4 إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب - BBC
-        الإمارات · الإمارات
-Presley Gerber, Cindy Crawford's son, dies aged 27
-        His family asked for privacy during a "very difficult and painful time" following the model's death.
+Nvidia boss rejects AI extinction fears as 'doomsday narratives'
+        Jensen Huang's comments come after warnings from AI researchers that the technology could lead to human extinction.
         بريطانيا · BBC
 Presley Gerber, son of Cindy Crawford and Rande Gerber, dies at 27
         Presley Gerber, the son of Cindy Crawford and Rande Gerber, has died at 27, a family spokesperson has confirmed.
         أمريكا · CBS
+Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
+        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
+        الأردن · Jordan News
+مباشر: الحوثيون يوسعون هجماتهم على السعودية وتصعيد أمريكي إيراني يفاقم التوتر الإقليمي
+        أعادت هجمات الحوثيين على الرياض وينبع مخاطر اتساع المواجهة في الشرق الأوسط إلى الواجهة
+        عربي · فرانس 24
+أسعار صرف العملات الرئيسية مقابل الليرة التركية
+        في تعاملات الاثنين بمدينة إسطنبول
+        تركيا · الأناضول
+"الشارقة للعمل التطوعي" تعرّف شرطة الشارقة بفئاتها وآليات المشاركة - sharjah24.ae
+        الإمارات · الإمارات
+Man who weighed 49st and wore 72-inch-waist trousers loses 32 stone after doctor’s stark warning
+        Tiny said he got his ‘ironic’ nickname of Tiny aged 10 because he has ‘always stood out in a crowd’ for his height and weight
+        بريطانيا · Independent
+Patrick Clancy Describes Grief in First Interview Since Mistrial
+        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
+        أمريكا · NYT
+Eight Police Officers Injured in Riots in Central France
+        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
+        الأردن · Jordan News
+إسرائيل تعتقل 53 فلسطينيا ببلدة بدو عقب هجوم "حلميش"
+        وفق محافظة القدس الفلسطينية
+        تركيا · الأناضول
+هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
+        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
+        عربي · CNN عربية
+الخرف في الأمازون.. سر انخفاضه الظاهري - سكاي نيوز عربية
+        الخرف في الأمازون.. سر انخفاضه الظاهري سكاي نيوز عربية
+        الإمارات · الإمارات
+Exhausted by optimisation, I’m seeking solace in the past. As Sibelius’s swans soar skywards, so do my spirits | Joseph Earp
+        Humans have always been capable of transcending the lock box of daily life with little more technology at their side than wood, string, a baton and…
+        بريطانيا · Guardian
+Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
+        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
+        أمريكا · NYT
+CNN: US Rules Out Strikes on Houthis
+        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
+        الأردن · Jordan News
+تباطؤ عبور السفن لمضيق هرمز مع استمرار التوتر في الشرق الأوسط - العربية
+        الإمارات · الإمارات
+تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
+        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+        تركيا · الأناضول
+أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
+        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
+        عربي · الشرق الأوسط
+Legend of the White Dragon review – Power Rangers alumni back for more in low-budget superhero retread
+        Simple but emphatic martial arts and a couple of classy cameos are all that give this blandly modern action film a fighting chance Despite featuring…
+        بريطانيا · Guardian
+Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
+        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
+        أمريكا · Fox News
 Russian Artist Describes Three Years Under FSB Pressure
         It began with blackmail and death threats intended to force her cooperation, followed by a series of increasingly serious assignments: spying on…
         الأردن · Jordan News
-إسرائيل تغلق شوارع وحواجز بين القدس والضفة تزامنا مع "يوم الغفران"
-        الإغلاقات شملت شوارع ومحاور رئيسية في القدس، وسط انتشار مكثف للقوات الإسرائيلية وتشديد الإجراءات الأمنية في أنحاء المدينة، وفق شهود عيان..
+إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
+        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
         تركيا · الأناضول
-لماذا تتزايد مخاطر الدين الفرنسي؟
-        دخلت السندات الفرنسية منطقة من المخاطر لم تشهدها منذ أزمة ديون منطقة اليورو بعد تجاوز الفارق بين عوائدها وعوائد السندات الألمانية لـ10 سنوات حاجز 100…
-        عربي · الشرق الأوسط
-ارتفاع أسعار النفط و"برنت" يتجاوز 104 دولارات للبرميل - البيان
+مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
         الإمارات · الإمارات
-Royal family news live: Sussexes should get security as ‘unpleasant’ press treatment echoes that of Diana, says Earl Spencer
-        Princess Diana’s brother has insisted he is ‘telling the truth’ about his bombshell allegations
-        بريطانيا · Independent
+روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
+        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
+        عربي · فرانس 24
+Coco Khan and Nish Kumar take on England flags: best podcasts of the week
+        Bestselling book The Good Immigrant launches a series of thoughtful explorations of race – starting with the hosts of Pod Save the Uk
+        بريطانيا · Guardian
 ICE officer shoots and injures DoorDash delivery driver in Austin: Police
         A man was shot and injured in an Immigration and Customs Enforcement incident in Austin, Texas, on Sunday, according to officials.
         أمريكا · ABC News
@@ -93165,8 +93846,8 @@ Iran Warns US and Regional States of ‘Painful Attacks’
         تركيا · الأناضول
 كيف أفلت النهائي من الأهلي في كأس القارات للأندية؟ - الشرق الأوسط
         الإمارات · الإمارات
-'I've asked for forgiveness' - Eckert and Southampton braced for Spygate verdict
-        As Southampton manager Tonda Eckert awaits the FA hearing into his 'Spygate' misconduct conduct charge BBC sports editor Dan Roan speaks to him and…
+Chiefs back in business as star QBs go down - five things from NFL week two
+        Patrick Mahomes and the Kansas City Chiefs look back to their best but Caleb Williams and Jayden Daniels suffer serious injuries
         بريطانيا · BBC
 Taylor Swift has savage celebration after Travis Kelce scores first touchdown of 2026 season
         Travis Kelce scored his first touchdown of the season and NBC cameras caught Taylor Swift pointing to her wedding ring during the end zone…
@@ -93175,87 +93856,88 @@ Taylor Swift has savage celebration after Travis Kelce scores first touchdown of
   </programme>
   <programme start="20260921090000 +0000" stop="20260921100000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:26 — بتوقيتك
 
-هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
-        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
-        عربي · CNN عربية
-تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
-        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب
+        قال قائد عمليات حلب في مديرية الطوارئ وإدارة الكوارث فيصل محمد علي، في ‏تصريح لـ سانا: إن استمرار الانفجارات عرقل وصول فرق الإسعاف والإنقاذ
+        عربي · BBC عربي
+مندوب واشنطن الأممي: الباب مفتوح أمام عودة إيران للمفاوضات
+        مايك والتز قال إن عامل الوقت يصب في مصلحة بلاده..
         تركيا · الأناضول
-مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
+حزب بوتين يحتفظ بهيمنته على مجلس الدوما - الشرق الأوسط
         الإمارات · الإمارات
-Lindsay Clancy's ex-husband explains why he forgave her over children's killings
-        The husband of the US mother who strangled her three young children discusses his grief in an interview with CBS News.
-        بريطانيا · BBC
-Patrick Clancy Describes Grief in First Interview Since Mistrial
-        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
-        أمريكا · NYT
-Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
-        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
-        الأردن · Jordan News
-إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
-        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
-        تركيا · الأناضول
-أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
-        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
-        عربي · الشرق الأوسط
-هيئة البيئة – أبوظبي والمعهد العالمي للنمو الأخضر يمدِّدان اتفاقية "التعاون بشأن النمو الأخضر في أبوظبي" - Zawya
-        الإمارات · الإمارات
-US and China discuss AI safety plan ahead of Trump-Xi summit
-        Top US and Chinese officials held talks in New York on Sunday ahead of a Trump-Xi summit this week.
-        بريطانيا · BBC
-Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
-        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
-        أمريكا · NYT
-Eight Police Officers Injured in Riots in Central France
-        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
-        الأردن · Jordan News
-مجلس دبي الرياضي وأكاديمية الاقتصاد الجديد يطلقان "برنامج ريادة الأعمال في القطاع الرياضي" - Zawya
-        الإمارات · الإمارات
-الضفة.. اقتحامات واسعة للجيش الإسرائيلي واعتقال فلسطينييَن أحدهما طفل
-        جنوبي ووسط وشمالي الضفة، ناهيك عن اعتداءات متفرقة للمستوطنين، وفق إعلام فلسطيني حكومي
-        تركيا · الأناضول
-روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
-        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
-        عربي · فرانس 24
-Weather mapped: Where temperatures could hit 24C in final blast of summer sun
-        A ‘heat dome’ pushing up from North Africa will bring a final spell of summer warmth, the Met Office said
-        بريطانيا · Independent
-Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
-        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
-        أمريكا · Fox News
-CNN: US Rules Out Strikes on Houthis
-        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
-        الأردن · Jordan News
-الجيش اليمني: تدمير 5 مركبات للحوثيين بجبهة كهبوب المشرفة على المضيق
-        قوات العمالقة التابعة للجيش أكدت مقتل جميع من كانوا على متن العربات العسكرية في جبهة كهبوب الجبلية التابعة لمنطقة باب المندب
-        تركيا · الأناضول
-"نهاية كل فساد ودكتاتورية".. مقتدى الصدر يعلق على موعد انسحاب القوات الأمريكية من العراق
-        قال الزعيم الشيعي العراقي مقتدى الصدر، مساء الأحد، إن موعد انتهاء تواجد القوات الأمريكية وقوات التحالف للدولي في العراق في 30 سبتمبر /أيلول الجاري
-        عربي · CNN عربية
-سوريا: 4 إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب - BBC
-        الإمارات · الإمارات
-Presley Gerber, Cindy Crawford's son, dies aged 27
-        His family asked for privacy during a "very difficult and painful time" following the model's death.
+Nvidia boss rejects AI extinction fears as 'doomsday narratives'
+        Jensen Huang's comments come after warnings from AI researchers that the technology could lead to human extinction.
         بريطانيا · BBC
 Presley Gerber, son of Cindy Crawford and Rande Gerber, dies at 27
         Presley Gerber, the son of Cindy Crawford and Rande Gerber, has died at 27, a family spokesperson has confirmed.
         أمريكا · CBS
+Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
+        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
+        الأردن · Jordan News
+مباشر: الحوثيون يوسعون هجماتهم على السعودية وتصعيد أمريكي إيراني يفاقم التوتر الإقليمي
+        أعادت هجمات الحوثيين على الرياض وينبع مخاطر اتساع المواجهة في الشرق الأوسط إلى الواجهة
+        عربي · فرانس 24
+أسعار صرف العملات الرئيسية مقابل الليرة التركية
+        في تعاملات الاثنين بمدينة إسطنبول
+        تركيا · الأناضول
+"الشارقة للعمل التطوعي" تعرّف شرطة الشارقة بفئاتها وآليات المشاركة - sharjah24.ae
+        الإمارات · الإمارات
+Man who weighed 49st and wore 72-inch-waist trousers loses 32 stone after doctor’s stark warning
+        Tiny said he got his ‘ironic’ nickname of Tiny aged 10 because he has ‘always stood out in a crowd’ for his height and weight
+        بريطانيا · Independent
+Patrick Clancy Describes Grief in First Interview Since Mistrial
+        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
+        أمريكا · NYT
+Eight Police Officers Injured in Riots in Central France
+        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
+        الأردن · Jordan News
+إسرائيل تعتقل 53 فلسطينيا ببلدة بدو عقب هجوم "حلميش"
+        وفق محافظة القدس الفلسطينية
+        تركيا · الأناضول
+هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
+        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
+        عربي · CNN عربية
+الخرف في الأمازون.. سر انخفاضه الظاهري - سكاي نيوز عربية
+        الخرف في الأمازون.. سر انخفاضه الظاهري سكاي نيوز عربية
+        الإمارات · الإمارات
+Exhausted by optimisation, I’m seeking solace in the past. As Sibelius’s swans soar skywards, so do my spirits | Joseph Earp
+        Humans have always been capable of transcending the lock box of daily life with little more technology at their side than wood, string, a baton and…
+        بريطانيا · Guardian
+Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
+        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
+        أمريكا · NYT
+CNN: US Rules Out Strikes on Houthis
+        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
+        الأردن · Jordan News
+تباطؤ عبور السفن لمضيق هرمز مع استمرار التوتر في الشرق الأوسط - العربية
+        الإمارات · الإمارات
+تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
+        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+        تركيا · الأناضول
+أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
+        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
+        عربي · الشرق الأوسط
+Legend of the White Dragon review – Power Rangers alumni back for more in low-budget superhero retread
+        Simple but emphatic martial arts and a couple of classy cameos are all that give this blandly modern action film a fighting chance Despite featuring…
+        بريطانيا · Guardian
+Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
+        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
+        أمريكا · Fox News
 Russian Artist Describes Three Years Under FSB Pressure
         It began with blackmail and death threats intended to force her cooperation, followed by a series of increasingly serious assignments: spying on…
         الأردن · Jordan News
-إسرائيل تغلق شوارع وحواجز بين القدس والضفة تزامنا مع "يوم الغفران"
-        الإغلاقات شملت شوارع ومحاور رئيسية في القدس، وسط انتشار مكثف للقوات الإسرائيلية وتشديد الإجراءات الأمنية في أنحاء المدينة، وفق شهود عيان..
+إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
+        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
         تركيا · الأناضول
-لماذا تتزايد مخاطر الدين الفرنسي؟
-        دخلت السندات الفرنسية منطقة من المخاطر لم تشهدها منذ أزمة ديون منطقة اليورو بعد تجاوز الفارق بين عوائدها وعوائد السندات الألمانية لـ10 سنوات حاجز 100…
-        عربي · الشرق الأوسط
-ارتفاع أسعار النفط و"برنت" يتجاوز 104 دولارات للبرميل - البيان
+مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
         الإمارات · الإمارات
-Royal family news live: Sussexes should get security as ‘unpleasant’ press treatment echoes that of Diana, says Earl Spencer
-        Princess Diana’s brother has insisted he is ‘telling the truth’ about his bombshell allegations
-        بريطانيا · Independent
+روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
+        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
+        عربي · فرانس 24
+Coco Khan and Nish Kumar take on England flags: best podcasts of the week
+        Bestselling book The Good Immigrant launches a series of thoughtful explorations of race – starting with the hosts of Pod Save the Uk
+        بريطانيا · Guardian
 ICE officer shoots and injures DoorDash delivery driver in Austin: Police
         A man was shot and injured in an Immigration and Customs Enforcement incident in Austin, Texas, on Sunday, according to officials.
         أمريكا · ABC News
@@ -93273,8 +93955,8 @@ Iran Warns US and Regional States of ‘Painful Attacks’
         تركيا · الأناضول
 كيف أفلت النهائي من الأهلي في كأس القارات للأندية؟ - الشرق الأوسط
         الإمارات · الإمارات
-'I've asked for forgiveness' - Eckert and Southampton braced for Spygate verdict
-        As Southampton manager Tonda Eckert awaits the FA hearing into his 'Spygate' misconduct conduct charge BBC sports editor Dan Roan speaks to him and…
+Chiefs back in business as star QBs go down - five things from NFL week two
+        Patrick Mahomes and the Kansas City Chiefs look back to their best but Caleb Williams and Jayden Daniels suffer serious injuries
         بريطانيا · BBC
 Taylor Swift has savage celebration after Travis Kelce scores first touchdown of 2026 season
         Travis Kelce scored his first touchdown of the season and NBC cameras caught Taylor Swift pointing to her wedding ring during the end zone…
@@ -93283,87 +93965,88 @@ Taylor Swift has savage celebration after Travis Kelce scores first touchdown of
   </programme>
   <programme start="20260921100000 +0000" stop="20260921110000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:26 — بتوقيتك
 
-هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
-        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
-        عربي · CNN عربية
-تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
-        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب
+        قال قائد عمليات حلب في مديرية الطوارئ وإدارة الكوارث فيصل محمد علي، في ‏تصريح لـ سانا: إن استمرار الانفجارات عرقل وصول فرق الإسعاف والإنقاذ
+        عربي · BBC عربي
+مندوب واشنطن الأممي: الباب مفتوح أمام عودة إيران للمفاوضات
+        مايك والتز قال إن عامل الوقت يصب في مصلحة بلاده..
         تركيا · الأناضول
-مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
+حزب بوتين يحتفظ بهيمنته على مجلس الدوما - الشرق الأوسط
         الإمارات · الإمارات
-Lindsay Clancy's ex-husband explains why he forgave her over children's killings
-        The husband of the US mother who strangled her three young children discusses his grief in an interview with CBS News.
-        بريطانيا · BBC
-Patrick Clancy Describes Grief in First Interview Since Mistrial
-        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
-        أمريكا · NYT
-Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
-        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
-        الأردن · Jordan News
-إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
-        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
-        تركيا · الأناضول
-أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
-        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
-        عربي · الشرق الأوسط
-هيئة البيئة – أبوظبي والمعهد العالمي للنمو الأخضر يمدِّدان اتفاقية "التعاون بشأن النمو الأخضر في أبوظبي" - Zawya
-        الإمارات · الإمارات
-US and China discuss AI safety plan ahead of Trump-Xi summit
-        Top US and Chinese officials held talks in New York on Sunday ahead of a Trump-Xi summit this week.
-        بريطانيا · BBC
-Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
-        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
-        أمريكا · NYT
-Eight Police Officers Injured in Riots in Central France
-        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
-        الأردن · Jordan News
-مجلس دبي الرياضي وأكاديمية الاقتصاد الجديد يطلقان "برنامج ريادة الأعمال في القطاع الرياضي" - Zawya
-        الإمارات · الإمارات
-الضفة.. اقتحامات واسعة للجيش الإسرائيلي واعتقال فلسطينييَن أحدهما طفل
-        جنوبي ووسط وشمالي الضفة، ناهيك عن اعتداءات متفرقة للمستوطنين، وفق إعلام فلسطيني حكومي
-        تركيا · الأناضول
-روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
-        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
-        عربي · فرانس 24
-Weather mapped: Where temperatures could hit 24C in final blast of summer sun
-        A ‘heat dome’ pushing up from North Africa will bring a final spell of summer warmth, the Met Office said
-        بريطانيا · Independent
-Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
-        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
-        أمريكا · Fox News
-CNN: US Rules Out Strikes on Houthis
-        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
-        الأردن · Jordan News
-الجيش اليمني: تدمير 5 مركبات للحوثيين بجبهة كهبوب المشرفة على المضيق
-        قوات العمالقة التابعة للجيش أكدت مقتل جميع من كانوا على متن العربات العسكرية في جبهة كهبوب الجبلية التابعة لمنطقة باب المندب
-        تركيا · الأناضول
-"نهاية كل فساد ودكتاتورية".. مقتدى الصدر يعلق على موعد انسحاب القوات الأمريكية من العراق
-        قال الزعيم الشيعي العراقي مقتدى الصدر، مساء الأحد، إن موعد انتهاء تواجد القوات الأمريكية وقوات التحالف للدولي في العراق في 30 سبتمبر /أيلول الجاري
-        عربي · CNN عربية
-سوريا: 4 إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب - BBC
-        الإمارات · الإمارات
-Presley Gerber, Cindy Crawford's son, dies aged 27
-        His family asked for privacy during a "very difficult and painful time" following the model's death.
+Nvidia boss rejects AI extinction fears as 'doomsday narratives'
+        Jensen Huang's comments come after warnings from AI researchers that the technology could lead to human extinction.
         بريطانيا · BBC
 Presley Gerber, son of Cindy Crawford and Rande Gerber, dies at 27
         Presley Gerber, the son of Cindy Crawford and Rande Gerber, has died at 27, a family spokesperson has confirmed.
         أمريكا · CBS
+Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
+        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
+        الأردن · Jordan News
+مباشر: الحوثيون يوسعون هجماتهم على السعودية وتصعيد أمريكي إيراني يفاقم التوتر الإقليمي
+        أعادت هجمات الحوثيين على الرياض وينبع مخاطر اتساع المواجهة في الشرق الأوسط إلى الواجهة
+        عربي · فرانس 24
+أسعار صرف العملات الرئيسية مقابل الليرة التركية
+        في تعاملات الاثنين بمدينة إسطنبول
+        تركيا · الأناضول
+"الشارقة للعمل التطوعي" تعرّف شرطة الشارقة بفئاتها وآليات المشاركة - sharjah24.ae
+        الإمارات · الإمارات
+Man who weighed 49st and wore 72-inch-waist trousers loses 32 stone after doctor’s stark warning
+        Tiny said he got his ‘ironic’ nickname of Tiny aged 10 because he has ‘always stood out in a crowd’ for his height and weight
+        بريطانيا · Independent
+Patrick Clancy Describes Grief in First Interview Since Mistrial
+        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
+        أمريكا · NYT
+Eight Police Officers Injured in Riots in Central France
+        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
+        الأردن · Jordan News
+إسرائيل تعتقل 53 فلسطينيا ببلدة بدو عقب هجوم "حلميش"
+        وفق محافظة القدس الفلسطينية
+        تركيا · الأناضول
+هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
+        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
+        عربي · CNN عربية
+الخرف في الأمازون.. سر انخفاضه الظاهري - سكاي نيوز عربية
+        الخرف في الأمازون.. سر انخفاضه الظاهري سكاي نيوز عربية
+        الإمارات · الإمارات
+Exhausted by optimisation, I’m seeking solace in the past. As Sibelius’s swans soar skywards, so do my spirits | Joseph Earp
+        Humans have always been capable of transcending the lock box of daily life with little more technology at their side than wood, string, a baton and…
+        بريطانيا · Guardian
+Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
+        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
+        أمريكا · NYT
+CNN: US Rules Out Strikes on Houthis
+        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
+        الأردن · Jordan News
+تباطؤ عبور السفن لمضيق هرمز مع استمرار التوتر في الشرق الأوسط - العربية
+        الإمارات · الإمارات
+تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
+        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+        تركيا · الأناضول
+أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
+        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
+        عربي · الشرق الأوسط
+Legend of the White Dragon review – Power Rangers alumni back for more in low-budget superhero retread
+        Simple but emphatic martial arts and a couple of classy cameos are all that give this blandly modern action film a fighting chance Despite featuring…
+        بريطانيا · Guardian
+Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
+        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
+        أمريكا · Fox News
 Russian Artist Describes Three Years Under FSB Pressure
         It began with blackmail and death threats intended to force her cooperation, followed by a series of increasingly serious assignments: spying on…
         الأردن · Jordan News
-إسرائيل تغلق شوارع وحواجز بين القدس والضفة تزامنا مع "يوم الغفران"
-        الإغلاقات شملت شوارع ومحاور رئيسية في القدس، وسط انتشار مكثف للقوات الإسرائيلية وتشديد الإجراءات الأمنية في أنحاء المدينة، وفق شهود عيان..
+إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
+        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
         تركيا · الأناضول
-لماذا تتزايد مخاطر الدين الفرنسي؟
-        دخلت السندات الفرنسية منطقة من المخاطر لم تشهدها منذ أزمة ديون منطقة اليورو بعد تجاوز الفارق بين عوائدها وعوائد السندات الألمانية لـ10 سنوات حاجز 100…
-        عربي · الشرق الأوسط
-ارتفاع أسعار النفط و"برنت" يتجاوز 104 دولارات للبرميل - البيان
+مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
         الإمارات · الإمارات
-Royal family news live: Sussexes should get security as ‘unpleasant’ press treatment echoes that of Diana, says Earl Spencer
-        Princess Diana’s brother has insisted he is ‘telling the truth’ about his bombshell allegations
-        بريطانيا · Independent
+روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
+        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
+        عربي · فرانس 24
+Coco Khan and Nish Kumar take on England flags: best podcasts of the week
+        Bestselling book The Good Immigrant launches a series of thoughtful explorations of race – starting with the hosts of Pod Save the Uk
+        بريطانيا · Guardian
 ICE officer shoots and injures DoorDash delivery driver in Austin: Police
         A man was shot and injured in an Immigration and Customs Enforcement incident in Austin, Texas, on Sunday, according to officials.
         أمريكا · ABC News
@@ -93381,8 +94064,8 @@ Iran Warns US and Regional States of ‘Painful Attacks’
         تركيا · الأناضول
 كيف أفلت النهائي من الأهلي في كأس القارات للأندية؟ - الشرق الأوسط
         الإمارات · الإمارات
-'I've asked for forgiveness' - Eckert and Southampton braced for Spygate verdict
-        As Southampton manager Tonda Eckert awaits the FA hearing into his 'Spygate' misconduct conduct charge BBC sports editor Dan Roan speaks to him and…
+Chiefs back in business as star QBs go down - five things from NFL week two
+        Patrick Mahomes and the Kansas City Chiefs look back to their best but Caleb Williams and Jayden Daniels suffer serious injuries
         بريطانيا · BBC
 Taylor Swift has savage celebration after Travis Kelce scores first touchdown of 2026 season
         Travis Kelce scored his first touchdown of the season and NBC cameras caught Taylor Swift pointing to her wedding ring during the end zone…
@@ -93391,87 +94074,88 @@ Taylor Swift has savage celebration after Travis Kelce scores first touchdown of
   </programme>
   <programme start="20260921110000 +0000" stop="20260921120000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 23:26 — بتوقيتك
 
-هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
-        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
-        عربي · CNN عربية
-تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
-        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+أربع إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب
+        قال قائد عمليات حلب في مديرية الطوارئ وإدارة الكوارث فيصل محمد علي، في ‏تصريح لـ سانا: إن استمرار الانفجارات عرقل وصول فرق الإسعاف والإنقاذ
+        عربي · BBC عربي
+مندوب واشنطن الأممي: الباب مفتوح أمام عودة إيران للمفاوضات
+        مايك والتز قال إن عامل الوقت يصب في مصلحة بلاده..
         تركيا · الأناضول
-مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
+حزب بوتين يحتفظ بهيمنته على مجلس الدوما - الشرق الأوسط
         الإمارات · الإمارات
-Lindsay Clancy's ex-husband explains why he forgave her over children's killings
-        The husband of the US mother who strangled her three young children discusses his grief in an interview with CBS News.
-        بريطانيا · BBC
-Patrick Clancy Describes Grief in First Interview Since Mistrial
-        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
-        أمريكا · NYT
-Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
-        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
-        الأردن · Jordan News
-إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
-        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
-        تركيا · الأناضول
-أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
-        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
-        عربي · الشرق الأوسط
-هيئة البيئة – أبوظبي والمعهد العالمي للنمو الأخضر يمدِّدان اتفاقية "التعاون بشأن النمو الأخضر في أبوظبي" - Zawya
-        الإمارات · الإمارات
-US and China discuss AI safety plan ahead of Trump-Xi summit
-        Top US and Chinese officials held talks in New York on Sunday ahead of a Trump-Xi summit this week.
-        بريطانيا · BBC
-Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
-        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
-        أمريكا · NYT
-Eight Police Officers Injured in Riots in Central France
-        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
-        الأردن · Jordan News
-مجلس دبي الرياضي وأكاديمية الاقتصاد الجديد يطلقان "برنامج ريادة الأعمال في القطاع الرياضي" - Zawya
-        الإمارات · الإمارات
-الضفة.. اقتحامات واسعة للجيش الإسرائيلي واعتقال فلسطينييَن أحدهما طفل
-        جنوبي ووسط وشمالي الضفة، ناهيك عن اعتداءات متفرقة للمستوطنين، وفق إعلام فلسطيني حكومي
-        تركيا · الأناضول
-روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
-        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
-        عربي · فرانس 24
-Weather mapped: Where temperatures could hit 24C in final blast of summer sun
-        A ‘heat dome’ pushing up from North Africa will bring a final spell of summer warmth, the Met Office said
-        بريطانيا · Independent
-Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
-        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
-        أمريكا · Fox News
-CNN: US Rules Out Strikes on Houthis
-        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
-        الأردن · Jordan News
-الجيش اليمني: تدمير 5 مركبات للحوثيين بجبهة كهبوب المشرفة على المضيق
-        قوات العمالقة التابعة للجيش أكدت مقتل جميع من كانوا على متن العربات العسكرية في جبهة كهبوب الجبلية التابعة لمنطقة باب المندب
-        تركيا · الأناضول
-"نهاية كل فساد ودكتاتورية".. مقتدى الصدر يعلق على موعد انسحاب القوات الأمريكية من العراق
-        قال الزعيم الشيعي العراقي مقتدى الصدر، مساء الأحد، إن موعد انتهاء تواجد القوات الأمريكية وقوات التحالف للدولي في العراق في 30 سبتمبر /أيلول الجاري
-        عربي · CNN عربية
-سوريا: 4 إصابات "حصيلة أولية" لانفجارات متتالية في موقع عسكري قرب حلب - BBC
-        الإمارات · الإمارات
-Presley Gerber, Cindy Crawford's son, dies aged 27
-        His family asked for privacy during a "very difficult and painful time" following the model's death.
+Nvidia boss rejects AI extinction fears as 'doomsday narratives'
+        Jensen Huang's comments come after warnings from AI researchers that the technology could lead to human extinction.
         بريطانيا · BBC
 Presley Gerber, son of Cindy Crawford and Rande Gerber, dies at 27
         Presley Gerber, the son of Cindy Crawford and Rande Gerber, has died at 27, a family spokesperson has confirmed.
         أمريكا · CBS
+Canada’s Carney Mocks Trump With ‘Accordion Hands’ Gesture
+        Canadian Prime Minister Mark Carney poked fun at U.S. President Donald Trump by mimicking his well-known “accordion hands” gesture during a speech in…
+        الأردن · Jordan News
+مباشر: الحوثيون يوسعون هجماتهم على السعودية وتصعيد أمريكي إيراني يفاقم التوتر الإقليمي
+        أعادت هجمات الحوثيين على الرياض وينبع مخاطر اتساع المواجهة في الشرق الأوسط إلى الواجهة
+        عربي · فرانس 24
+أسعار صرف العملات الرئيسية مقابل الليرة التركية
+        في تعاملات الاثنين بمدينة إسطنبول
+        تركيا · الأناضول
+"الشارقة للعمل التطوعي" تعرّف شرطة الشارقة بفئاتها وآليات المشاركة - sharjah24.ae
+        الإمارات · الإمارات
+Man who weighed 49st and wore 72-inch-waist trousers loses 32 stone after doctor’s stark warning
+        Tiny said he got his ‘ironic’ nickname of Tiny aged 10 because he has ‘always stood out in a crowd’ for his height and weight
+        بريطانيا · Independent
+Patrick Clancy Describes Grief in First Interview Since Mistrial
+        Mr. Clancy said in a “60 Minutes” interview that he dreams “all the time” about his three children, who were strangled to death in 2023 by his former…
+        أمريكا · NYT
+Eight Police Officers Injured in Riots in Central France
+        Eight police officers were injured during riots that broke out in central France, BFM TV reported, citing sources.
+        الأردن · Jordan News
+إسرائيل تعتقل 53 فلسطينيا ببلدة بدو عقب هجوم "حلميش"
+        وفق محافظة القدس الفلسطينية
+        تركيا · الأناضول
+هدى ابراهيم الخميس..ثلاثون عامًا من الفن والثقافة بين الشرق والغرب
+        من بيروت مرورًا بالرياض وباريس، وصولًا إلى أبوظبي، تروي هدى إبراهيم الخميس، مؤسِّس مجموعة أبوظبي للثقافة والفنون
+        عربي · CNN عربية
+الخرف في الأمازون.. سر انخفاضه الظاهري - سكاي نيوز عربية
+        الخرف في الأمازون.. سر انخفاضه الظاهري سكاي نيوز عربية
+        الإمارات · الإمارات
+Exhausted by optimisation, I’m seeking solace in the past. As Sibelius’s swans soar skywards, so do my spirits | Joseph Earp
+        Humans have always been capable of transcending the lock box of daily life with little more technology at their side than wood, string, a baton and…
+        بريطانيا · Guardian
+Houthis Push to Expand Territory as Tensions With Saudi Arabia Rise
+        The Iranian-backed militia was engaged in fierce battles with Saudi-backed government forces in Yemen on Sunday, as it seeks to maintain momentum in…
+        أمريكا · NYT
+CNN: US Rules Out Strikes on Houthis
+        The United States is ruling out offensive strikes against Houthi positions and believes Saudi Arabia is currently receiving the resources it needs…
+        الأردن · Jordan News
+تباطؤ عبور السفن لمضيق هرمز مع استمرار التوتر في الشرق الأوسط - العربية
+        الإمارات · الإمارات
+تخرجت من تركيا.. كوادر صحية سورية تفتتح مركزا طبيا باللاذقية
+        شارك في مراسم افتتاح المركز مدير الصحة باللاذقية بشير تاج الدين..
+        تركيا · الأناضول
+أسهم التكنولوجيا الآسيوية تصعد بدعم من تفاؤل الذكاء الاصطناعي
+        ارتفعت أسهم الأسواق الناشئة الآسيوية في بداية تعاملات الأسبوع، مدفوعة بمكاسب أسهم التكنولوجيا والرقائق.
+        عربي · الشرق الأوسط
+Legend of the White Dragon review – Power Rangers alumni back for more in low-budget superhero retread
+        Simple but emphatic martial arts and a couple of classy cameos are all that give this blandly modern action film a fighting chance Despite featuring…
+        بريطانيا · Guardian
+Presley Gerber, son of Cindy Crawford and Rande Gerber, dead at 27
+        Cindy Crawford and Rande Gerber's son Presley Gerber, who signed with IMG Models and walked for Moschino and Calvin Klein, has died at age 27.
+        أمريكا · Fox News
 Russian Artist Describes Three Years Under FSB Pressure
         It began with blackmail and death threats intended to force her cooperation, followed by a series of increasingly serious assignments: spying on…
         الأردن · Jordan News
-إسرائيل تغلق شوارع وحواجز بين القدس والضفة تزامنا مع "يوم الغفران"
-        الإغلاقات شملت شوارع ومحاور رئيسية في القدس، وسط انتشار مكثف للقوات الإسرائيلية وتشديد الإجراءات الأمنية في أنحاء المدينة، وفق شهود عيان..
+إيران تعلن إسقاط مسيّرة أمريكية فوق مضيق هرمز
+        بحسب بيان صادر عن الحرس الثوري الإيراني، فيما لم يصدر تعليق فوري من واشنطن..
         تركيا · الأناضول
-لماذا تتزايد مخاطر الدين الفرنسي؟
-        دخلت السندات الفرنسية منطقة من المخاطر لم تشهدها منذ أزمة ديون منطقة اليورو بعد تجاوز الفارق بين عوائدها وعوائد السندات الألمانية لـ10 سنوات حاجز 100…
-        عربي · الشرق الأوسط
-ارتفاع أسعار النفط و"برنت" يتجاوز 104 دولارات للبرميل - البيان
+مديرة صندوق النقد الدولي: الاقتصاد العالمي يواجه مخاطر متعددة رغم مرونته - العربية
         الإمارات · الإمارات
-Royal family news live: Sussexes should get security as ‘unpleasant’ press treatment echoes that of Diana, says Earl Spencer
-        Princess Diana’s brother has insisted he is ‘telling the truth’ about his bombshell allegations
-        بريطانيا · Independent
+روسيا: فوز حزب بوتين بغالبية ساحقة في انتخابات تشريعية شهدت هجمات أوكرانية
+        احتفظ حزب بوتين بسيطرته على مجلس الدوما، بعد فوزه دون مفاجآت بغالبية ساحقة في الانتخابات التشريعية الروسية التي جرت الأحد
+        عربي · فرانس 24
+Coco Khan and Nish Kumar take on England flags: best podcasts of the week
+        Bestselling book The Good Immigrant launches a series of thoughtful explorations of race – starting with the hosts of Pod Save the Uk
+        بريطانيا · Guardian
 ICE officer shoots and injures DoorDash delivery driver in Austin: Police
         A man was shot and injured in an Immigration and Customs Enforcement incident in Austin, Texas, on Sunday, according to officials.
         أمريكا · ABC News
@@ -93489,15 +94173,15 @@ Iran Warns US and Regional States of ‘Painful Attacks’
         تركيا · الأناضول
 كيف أفلت النهائي من الأهلي في كأس القارات للأندية؟ - الشرق الأوسط
         الإمارات · الإمارات
-'I've asked for forgiveness' - Eckert and Southampton braced for Spygate verdict
-        As Southampton manager Tonda Eckert awaits the FA hearing into his 'Spygate' misconduct conduct charge BBC sports editor Dan Roan speaks to him and…
+Chiefs back in business as star QBs go down - five things from NFL week two
+        Patrick Mahomes and the Kansas City Chiefs look back to their best but Caleb Williams and Jayden Daniels suffer serious injuries
         بريطانيا · BBC
 Taylor Swift has savage celebration after Travis Kelce scores first touchdown of 2026 season
         Travis Kelce scored his first touchdown of the season and NBC cameras caught Taylor Swift pointing to her wedding ring during the end zone…
         أمريكا · Fox News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260921120000 +0000" stop="20260921140328 +0000" channel="TodayNews">
+  <programme start="20260921120000 +0000" stop="20260921142705 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260920184500 +0300" stop="20260920185500 +0300" channel="ThmanyahGuide">
@@ -99181,137 +99865,137 @@ Taylor Swift has savage celebration after Travis Kelce scores first touchdown of
   </programme>
   <programme start="20260921060000 +0000" stop="20260921070000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 23:27 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 51% · رياح 5 كم/سا · احتمال المطر 0%
-العقبة 27° · صافٍ · رطوبة 53% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 24° · صافٍ · رطوبة 51% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 52% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 38% · رياح 13 كم/سا · احتمال المطر 0%
+أبو ظبي 37° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 12° · غائم جزئياً · رطوبة 62% · رياح 1 كم/سا · احتمال المطر 0%
-مانشستر 12° · صافٍ غالباً · رطوبة 79% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 12° · غائم · رطوبة 62% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 12° · صافٍ غالباً · رطوبة 78% · رياح 5 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 18° · رذاذ خفيف · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 38%
-لوس أنجلوس 19° · غائم جزئياً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 3%
+نيويورك 18° · غائم · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 34%
+لوس أنجلوس 19° · صافٍ غالباً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 2%
 لاس فيغاس 26° · غائم · رطوبة 10% · رياح 8 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 84% · رياح 7 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 89% · رياح 14 كم/سا · احتمال المطر 0%</desc>
+هيوستن 26° · غائم · رطوبة 84% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 90% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260921070000 +0000" stop="20260921080000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 23:27 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 51% · رياح 5 كم/سا · احتمال المطر 0%
-العقبة 27° · صافٍ · رطوبة 53% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 24° · صافٍ · رطوبة 51% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 52% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 38% · رياح 13 كم/سا · احتمال المطر 0%
+أبو ظبي 37° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 12° · غائم جزئياً · رطوبة 62% · رياح 1 كم/سا · احتمال المطر 0%
-مانشستر 12° · صافٍ غالباً · رطوبة 79% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 12° · غائم · رطوبة 62% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 12° · صافٍ غالباً · رطوبة 78% · رياح 5 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 18° · رذاذ خفيف · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 38%
-لوس أنجلوس 19° · غائم جزئياً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 3%
+نيويورك 18° · غائم · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 34%
+لوس أنجلوس 19° · صافٍ غالباً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 2%
 لاس فيغاس 26° · غائم · رطوبة 10% · رياح 8 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 84% · رياح 7 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 89% · رياح 14 كم/سا · احتمال المطر 0%</desc>
+هيوستن 26° · غائم · رطوبة 84% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 90% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260921080000 +0000" stop="20260921090000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 23:27 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 51% · رياح 5 كم/سا · احتمال المطر 0%
-العقبة 27° · صافٍ · رطوبة 53% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 24° · صافٍ · رطوبة 51% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 52% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 38% · رياح 13 كم/سا · احتمال المطر 0%
+أبو ظبي 37° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 12° · غائم جزئياً · رطوبة 62% · رياح 1 كم/سا · احتمال المطر 0%
-مانشستر 12° · صافٍ غالباً · رطوبة 79% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 12° · غائم · رطوبة 62% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 12° · صافٍ غالباً · رطوبة 78% · رياح 5 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 18° · رذاذ خفيف · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 38%
-لوس أنجلوس 19° · غائم جزئياً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 3%
+نيويورك 18° · غائم · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 34%
+لوس أنجلوس 19° · صافٍ غالباً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 2%
 لاس فيغاس 26° · غائم · رطوبة 10% · رياح 8 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 84% · رياح 7 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 89% · رياح 14 كم/سا · احتمال المطر 0%</desc>
+هيوستن 26° · غائم · رطوبة 84% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 90% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260921090000 +0000" stop="20260921100000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 23:27 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 51% · رياح 5 كم/سا · احتمال المطر 0%
-العقبة 27° · صافٍ · رطوبة 53% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 24° · صافٍ · رطوبة 51% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 52% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 38% · رياح 13 كم/سا · احتمال المطر 0%
+أبو ظبي 37° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 12° · غائم جزئياً · رطوبة 62% · رياح 1 كم/سا · احتمال المطر 0%
-مانشستر 12° · صافٍ غالباً · رطوبة 79% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 12° · غائم · رطوبة 62% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 12° · صافٍ غالباً · رطوبة 78% · رياح 5 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 18° · رذاذ خفيف · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 38%
-لوس أنجلوس 19° · غائم جزئياً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 3%
+نيويورك 18° · غائم · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 34%
+لوس أنجلوس 19° · صافٍ غالباً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 2%
 لاس فيغاس 26° · غائم · رطوبة 10% · رياح 8 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 84% · رياح 7 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 89% · رياح 14 كم/سا · احتمال المطر 0%</desc>
+هيوستن 26° · غائم · رطوبة 84% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 90% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260921100000 +0000" stop="20260921110000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 23:27 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 51% · رياح 5 كم/سا · احتمال المطر 0%
-العقبة 27° · صافٍ · رطوبة 53% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 24° · صافٍ · رطوبة 51% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 52% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 38% · رياح 13 كم/سا · احتمال المطر 0%
+أبو ظبي 37° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 12° · غائم جزئياً · رطوبة 62% · رياح 1 كم/سا · احتمال المطر 0%
-مانشستر 12° · صافٍ غالباً · رطوبة 79% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 12° · غائم · رطوبة 62% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 12° · صافٍ غالباً · رطوبة 78% · رياح 5 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 18° · رذاذ خفيف · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 38%
-لوس أنجلوس 19° · غائم جزئياً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 3%
+نيويورك 18° · غائم · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 34%
+لوس أنجلوس 19° · صافٍ غالباً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 2%
 لاس فيغاس 26° · غائم · رطوبة 10% · رياح 8 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 84% · رياح 7 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 89% · رياح 14 كم/سا · احتمال المطر 0%</desc>
+هيوستن 26° · غائم · رطوبة 84% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 90% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260921110000 +0000" stop="20260921120000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 23:03 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 23:27 — بتوقيتك
 
 الأردن
-عمّان 23° · صافٍ · رطوبة 51% · رياح 5 كم/سا · احتمال المطر 0%
-العقبة 27° · صافٍ · رطوبة 53% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 24° · صافٍ · رطوبة 51% · رياح 4 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 52% · رياح 13 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 36° · صافٍ · رطوبة 36% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 37° · صافٍ · رطوبة 38% · رياح 13 كم/سا · احتمال المطر 0%
+أبو ظبي 37° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
+دبي 38° · صافٍ · رطوبة 34% · رياح 12 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 12° · غائم جزئياً · رطوبة 62% · رياح 1 كم/سا · احتمال المطر 0%
-مانشستر 12° · صافٍ غالباً · رطوبة 79% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 12° · غائم · رطوبة 62% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 12° · صافٍ غالباً · رطوبة 78% · رياح 5 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 18° · رذاذ خفيف · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 38%
-لوس أنجلوس 19° · غائم جزئياً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
-شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 3%
+نيويورك 18° · غائم · رطوبة 91% · رياح 14 كم/سا · احتمال المطر 34%
+لوس أنجلوس 19° · صافٍ غالباً · رطوبة 81% · رياح 3 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 81% · رياح 30 كم/سا · احتمال المطر 2%
 لاس فيغاس 26° · غائم · رطوبة 10% · رياح 8 كم/سا · احتمال المطر 0%
-هيوستن 26° · غائم · رطوبة 84% · رياح 7 كم/سا · احتمال المطر 2%
-سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 89% · رياح 14 كم/سا · احتمال المطر 0%</desc>
+هيوستن 26° · غائم · رطوبة 84% · رياح 4 كم/سا · احتمال المطر 3%
+سان فرانسيسكو 13° · صافٍ غالباً · رطوبة 90% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260921120000 +0000" stop="20260921140352 +0000" channel="TodayWeather">
+  <programme start="20260921120000 +0000" stop="20260921142729 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260921060000 +0000" stop="20260921070000 +0000" channel="TodayPrayer">
@@ -99458,4 +100142,4 @@ Istanbul (إسطنبول) — الفجر 05:18 · الشروق 06:43 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260921144026 +0000" stop="20260921144345 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921144026 +0000" stop="20260921144345 +0000" channel="Roya_Documentaries"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921140328 +0000" stop="20260921144345 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921140352 +0000" stop="20260921144345 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260921142705 +0000" stop="20260921150347 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260921142729 +0000" stop="20260921150347 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
