@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260921030700 +0000" stop="20260921044500 +0000" channel="beIN4K.qa">
-    <title lang="en">Tottenham Hotspur v Aston Villa - English Premier League 2026/2027</title>
-    <desc lang="en">None of the last 22 Premier League meetings between Spurs  and Aston Villa  have been drawn. Spurs have lost five of the last eight, more than they had in their previous 29 against the Villans. Aston Villa have won four of their last six Premier League away games against Spurs, more than they had in their previous 21 visits.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260921044500 +0000" stop="20260921064200 +0000" channel="beIN4K.qa">
     <title lang="en">Brighton &amp; Hove Albion v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Brighton are winless in their last six Premier League home games against Arsenal, having been unbeaten in their first three against the Gunners at the Amex Stadium. Arsenal have won four of their last six Premier League games against Brighton, as many as they had in their first 12 against the Seagulls.</desc>
@@ -4363,14 +4357,6 @@ Stadio Olimpico Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260921041500 +0000" stop="20260921044000 +0000" channel="beINSports7.qa">
-    <title lang="en">JAZ vs SRI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260921044000 +0000" stop="20260921050500 +0000" channel="beINSports7.qa">
     <title lang="en">SGP vs THA - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -5690,11 +5676,6 @@ PGE Narodowy Stadium</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Live</category>
     <category lang="en">Equestrian</category>
-  </programme>
-  <programme start="20260921042000 +0000" stop="20260921045000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN EPL The Big Interview 2026/27 | E5</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260921045000 +0000" stop="20260921053000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Match Officials Mic'd Up 2026/27 | E1</title>
@@ -10235,6 +10216,12 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
   <programme start="20260928043000 +0000" stop="20260928044500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Interview  - 27/09/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260928044500 +0000" stop="20260928050000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 27/09/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>

@@ -1123,12 +1123,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260921030700 +0000" stop="20260921044500 +0000" channel="beIN4K.qa">
-    <title lang="en">Tottenham Hotspur v Aston Villa - English Premier League 2026/2027</title>
-    <desc lang="en">None of the last 22 Premier League meetings between Spurs  and Aston Villa  have been drawn. Spurs have lost five of the last eight, more than they had in their previous 29 against the Villans. Aston Villa have won four of their last six Premier League away games against Spurs, more than they had in their previous 21 visits.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260921044500 +0000" stop="20260921064200 +0000" channel="beIN4K.qa">
     <title lang="en">Brighton &amp; Hove Albion v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Brighton are winless in their last six Premier League home games against Arsenal, having been unbeaten in their first three against the Gunners at the Amex Stadium. Arsenal have won four of their last six Premier League games against Brighton, as many as they had in their first 12 against the Seagulls.</desc>
@@ -5362,14 +5356,6 @@ Stadio Olimpico Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260921041500 +0000" stop="20260921044000 +0000" channel="beINSports7.qa">
-    <title lang="en">JAZ vs SRI - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  M ‎• Live 🔵‎</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260921044000 +0000" stop="20260921050500 +0000" channel="beINSports7.qa">
     <title lang="en">SGP vs THA - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W ‎• Live 🔵‎</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -6689,11 +6675,6 @@ PGE Narodowy Stadium</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Live</category>
     <category lang="en">Equestrian</category>
-  </programme>
-  <programme start="20260921042000 +0000" stop="20260921045000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN EPL The Big Interview 2026/27 | E5</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20260921045000 +0000" stop="20260921053000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Match Officials Mic'd Up 2026/27 | E1</title>
@@ -11234,6 +11215,12 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
   <programme start="20260928043000 +0000" stop="20260928044500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Interview  - 27/09/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260928044500 +0000" stop="20260928050000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 27/09/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -19239,55 +19226,47 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921070000 +0000" stop="20260921084500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Kocaelispor - Gaziantep FK</title>
+    <title lang="en">SUPER LIG (26-27) 6. HAFTA KOCAELISPOR - GAZIANTEP FK - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921084500 +0000" stop="20260921090000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <title lang="en">Süper Lig Haftanın Golleri (26-27) 6.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921090000 +0000" stop="20260921103000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Ankaragücü - Siirt</title>
+    <title lang="en">Ankaragücü - Siirt (00-01) 22.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921103000 +0000" stop="20260921110000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">TFF 1.Lig Maç Özetleri</title>
+    <title lang="en">TFF 1.Lig Maç Özetleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921110000 +0000" stop="20260921124500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">beIN Süper Lig</title>
+    <title lang="en">beIN Süper Lig Maç Sonu (26-27) 06.Hafta Pazar / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921124500 +0000" stop="20260921141500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trio</title>
+    <title lang="en">Trio (26-27) 6.Hafta - Pazar / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921141500 +0000" stop="20260921143000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <title lang="en">Süper Lig Haftanın Golleri (26-27) 6.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921143000 +0000" stop="20260921150000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">TFF 1.Lig Maç Özetleri</title>
+    <title lang="en">TFF 1.Lig Maç Özetleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921150000 +0000" stop="20260921165000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Amedspor - Beşiktaş</title>
+    <title lang="en">SUPER LIG (26-27) 6. HAFTA AMEDSPOR - BESIKTAS - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921165000 +0000" stop="20260921170400 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <title lang="en">Süper Lig Haftanın Golleri (26-27) 6.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921170400 +0000" stop="20260921184500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Fenerbahçe - Eyüpspor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921184500 +0000" stop="20260921190000 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Süper Lig Haftanın Golleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921190000 +0000" stop="20260921204500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trabzonspor - Galatasaray</title>
+  <programme start="20260921170400 +0000" stop="20260921210000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 6. HAFTA FENERBAHCE - EYUPSPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921210200 +0000" stop="20260921224500 +0000" channel="beINSPORTS1.tr">
@@ -19389,7 +19368,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922190000 +0000" stop="20260922204500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Göztepe - Ç. Rizespor</title>
+    <title lang="en">Kasımpaşa - T. Konyaspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922204500 +0000" stop="20260923064500 +0000" channel="beINSPORTS1.tr">
@@ -19401,7 +19380,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923070000 +0000" stop="20260923084500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Trabzonspor - Galatasaray</title>
+    <title lang="en">Erzurumspor FK - Samsunspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923084500 +0000" stop="20260923103000 +0000" channel="beINSPORTS1.tr">
@@ -19449,7 +19428,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923190000 +0000" stop="20260923204500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Başakşehir FK - Gençlerbirliği</title>
+    <title lang="en">Amedspor - Beşiktaş</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923204500 +0000" stop="20260924064500 +0000" channel="beINSPORTS1.tr">
@@ -19461,7 +19440,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924070000 +0000" stop="20260924084500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Kocaelispor - Gaziantep FK</title>
+    <title lang="en">Başakşehir FK - Gençlerbirliği</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924084500 +0000" stop="20260924103000 +0000" channel="beINSPORTS1.tr">
@@ -19485,7 +19464,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924130000 +0000" stop="20260924144500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Fenerbahçe - Eyüpspor</title>
+    <title lang="en">Erzurumspor FK - Samsunspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924144500 +0000" stop="20260924150000 +0000" channel="beINSPORTS1.tr">
@@ -19513,71 +19492,111 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924190000 +0000" stop="20260924204500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">A. Çorum FK - C. Alanyaspor</title>
+    <title lang="en">Fenerbahçe - Eyüpspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921044500 +0000" stop="20260921050000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+  <programme start="20260924204500 +0000" stop="20260925064500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925064500 +0000" stop="20260925070000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925084500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Amedspor - Başakşehir FK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925084500 +0000" stop="20260925110000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925110000 +0000" stop="20260925120000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Gamer</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925130000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Garaj</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925130000 +0000" stop="20260925144500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Beşiktaş - Erzurumspor FK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925144500 +0000" stop="20260925150000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925164500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">T. Konyaspor - Trabzonspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925164500 +0000" stop="20260925170000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925184500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Galatasaray - Kocaelispor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925184500 +0000" stop="20260925190000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925190000 +0000" stop="20260925204500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Gaziantep FK - Fenerbahçe</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921050000 +0000" stop="20260921064500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Mardin 1969 - Kayserispor</title>
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA MARDIN 1969 - KAYSERISPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921064500 +0000" stop="20260921070000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921070000 +0000" stop="20260921084500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Antalyaspor - Vanspor FK</title>
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA ANTALYASPOR - VANSPOR FK - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921084500 +0000" stop="20260921090000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921090000 +0000" stop="20260921104500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - Ümraniyespor</title>
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA BANDIRMASPOR - UMRANIYESPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921104500 +0000" stop="20260921110000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921110000 +0000" stop="20260921124500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Muğlaspor - Igdır FK</title>
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA MUGLASPOR - IGDIR FK - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921124500 +0000" stop="20260921130000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921130000 +0000" stop="20260921144500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Pendikspor - Bodrum FK</title>
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA PENDIKSPOR - BODRUMSPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921144500 +0000" stop="20260921150000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921150000 +0000" stop="20260921164500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Manisa FK - İstanbulspor</title>
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA MANISA FK - ISTANBULSPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921164500 +0000" stop="20260921170000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921170000 +0000" stop="20260921184500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Mardin 1969 - Kayserispor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921184500 +0000" stop="20260921190000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921190000 +0000" stop="20260921204500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Antalyaspor - Vanspor FK</title>
+  <programme start="20260921170000 +0000" stop="20260921210000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 8. HAFTA MARDIN 1969 - KAYSERISPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921210000 +0000" stop="20260921224500 +0000" channel="beINSPORTS2.tr">
@@ -19664,15 +19683,15 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Tff 1.lig (26-27) 8. Hafta Bandirmaspor - Umraniyespor - Bant -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922184500 +0000" stop="20260922190000 +0000" channel="beINSPORTS2.tr">
+  <programme start="20260922185000 +0000" stop="20260922190500 +0000" channel="beINSPORTS2.tr">
     <title lang="en">TFF 1.Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922190000 +0000" stop="20260922204500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">A. Keçiörengücü - Sivasspor</title>
+  <programme start="20260922190500 +0000" stop="20260922205000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Muğlaspor - Igdır FK</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922204500 +0000" stop="20260923044500 +0000" channel="beINSPORTS2.tr">
+  <programme start="20260922205000 +0000" stop="20260923044500 +0000" channel="beINSPORTS2.tr">
     <title lang="en">TFF 1.Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
@@ -19681,7 +19700,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923050000 +0000" stop="20260923064500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Mardin 1969 - Kayserispor</title>
+    <title lang="en">Pendikspor - Bodrum FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923064500 +0000" stop="20260923070000 +0000" channel="beINSPORTS2.tr">
@@ -19689,7 +19708,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923070000 +0000" stop="20260923084500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Antalyaspor - Vanspor FK</title>
+    <title lang="en">Manisa FK - İstanbulspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923084500 +0000" stop="20260923090000 +0000" channel="beINSPORTS2.tr">
@@ -19697,7 +19716,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923090000 +0000" stop="20260923104500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - Ümraniyespor</title>
+    <title lang="en">Mardin 1969 - Kayserispor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923104500 +0000" stop="20260923110000 +0000" channel="beINSPORTS2.tr">
@@ -19705,7 +19724,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923110000 +0000" stop="20260923124500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Muğlaspor - Igdır FK</title>
+    <title lang="en">Antalyaspor - Vanspor FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923124500 +0000" stop="20260923130000 +0000" channel="beINSPORTS2.tr">
@@ -19713,7 +19732,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923130000 +0000" stop="20260923144500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sarıyer - Boluspor</title>
+    <title lang="en">Bandırmaspor - Ümraniyespor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923144500 +0000" stop="20260923150000 +0000" channel="beINSPORTS2.tr">
@@ -19721,7 +19740,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923150000 +0000" stop="20260923164500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">A. Keçiörengücü - Sivasspor</title>
+    <title lang="en">Muğlaspor - Igdır FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923164500 +0000" stop="20260923170000 +0000" channel="beINSPORTS2.tr">
@@ -19729,7 +19748,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923170000 +0000" stop="20260923184500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Batman P. - Bursaspor</title>
+    <title lang="en">Sarıyer - Boluspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923184500 +0000" stop="20260923190000 +0000" channel="beINSPORTS2.tr">
@@ -19737,7 +19756,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923190000 +0000" stop="20260923204500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">E. Erokspor - F. Karagümrük</title>
+    <title lang="en">A. Keçiörengücü - Sivasspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923204500 +0000" stop="20260924044500 +0000" channel="beINSPORTS2.tr">
@@ -19749,7 +19768,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924050000 +0000" stop="20260924064500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Bandırmaspor - Ümraniyespor</title>
+    <title lang="en">Mardin 1969 - Kayserispor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924064500 +0000" stop="20260924070000 +0000" channel="beINSPORTS2.tr">
@@ -19757,7 +19776,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924070000 +0000" stop="20260924084500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Muğlaspor - Igdır FK</title>
+    <title lang="en">Antalyaspor - Vanspor FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924084500 +0000" stop="20260924090000 +0000" channel="beINSPORTS2.tr">
@@ -19765,7 +19784,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924090000 +0000" stop="20260924104500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Sarıyer - Boluspor</title>
+    <title lang="en">Bandırmaspor - Ümraniyespor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924104500 +0000" stop="20260924110000 +0000" channel="beINSPORTS2.tr">
@@ -19773,7 +19792,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924110000 +0000" stop="20260924124500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">A. Keçiörengücü - Sivasspor</title>
+    <title lang="en">Muğlaspor - Igdır FK</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924124500 +0000" stop="20260924130000 +0000" channel="beINSPORTS2.tr">
@@ -19781,7 +19800,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924130000 +0000" stop="20260924144500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Batman P. - Bursaspor</title>
+    <title lang="en">Sarıyer - Boluspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924144500 +0000" stop="20260924150000 +0000" channel="beINSPORTS2.tr">
@@ -19789,7 +19808,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924150000 +0000" stop="20260924164500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">E. Erokspor - F. Karagümrük</title>
+    <title lang="en">A. Keçiörengücü - Sivasspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924164500 +0000" stop="20260924170000 +0000" channel="beINSPORTS2.tr">
@@ -19797,7 +19816,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924170000 +0000" stop="20260924184500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Pendikspor - Bodrum FK</title>
+    <title lang="en">Batman P. - Bursaspor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924184500 +0000" stop="20260924190000 +0000" channel="beINSPORTS2.tr">
@@ -19805,79 +19824,127 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924190000 +0000" stop="20260924204500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">E. Erokspor - F. Karagümrük</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924204500 +0000" stop="20260925044500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925044500 +0000" stop="20260925050000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925050000 +0000" stop="20260925064500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Sarıyer - Boluspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925064500 +0000" stop="20260925070000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925084500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">A. Keçiörengücü - Sivasspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925084500 +0000" stop="20260925090000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925104500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Batman P. - Bursaspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925104500 +0000" stop="20260925110000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925110000 +0000" stop="20260925124500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">E. Erokspor - F. Karagümrük</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925124500 +0000" stop="20260925130000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925130000 +0000" stop="20260925144500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Pendikspor - Bodrum FK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925144500 +0000" stop="20260925150000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925164500 +0000" channel="beINSPORTS2.tr">
     <title lang="en">Manisa FK - İstanbulspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921044500 +0000" stop="20260921050000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+  <programme start="20260925164500 +0000" stop="20260925170000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925184500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Antalyaspor - Vanspor FK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925184500 +0000" stop="20260925190000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925190000 +0000" stop="20260925204500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Bandırmaspor - Ümraniyespor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921050000 +0000" stop="20260921064500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Brentford - Chelsea</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA BRENTFORD - CHELSEA - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921064500 +0000" stop="20260921070000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League National Pride</title>
+    <title lang="en">Premier League National Pride 5.Bölüm</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921070000 +0000" stop="20260921090000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Tottenham - Aston Villa</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA TOTTENHAM - VILLA - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921090000 +0000" stop="20260921104500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Man City - Sunderland</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA MAN CITY - SUNDERLAND - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921104500 +0000" stop="20260921110000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+    <title lang="en">Premier League Haftanın Golleri (26-27) 05.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921110000 +0000" stop="20260921124500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Bournemouth - Liverpool</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA BOURNEMOUTH - LIVERPOOL - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921124500 +0000" stop="20260921130000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+    <title lang="en">Premier League Haftanın Golleri (26-27) 05.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921130000 +0000" stop="20260921144500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Leeds - C. Palace</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA LEEDS - PALACE - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921144500 +0000" stop="20260921150000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+    <title lang="en">Premier League Haftanın Golleri (26-27) 05.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921150000 +0000" stop="20260921164500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Fulham - Man Utd</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA FULHAM - MAN UTD - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921164500 +0000" stop="20260921170000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Golleri</title>
+    <title lang="en">Premier League Haftanın Golleri (26-27) 05.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921170000 +0000" stop="20260921173000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Brighton - Arsenal</title>
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA BRIGHTON - ARSENAL - GENIS OZET -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921173000 +0000" stop="20260921180000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Newcastle - Hull City</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921180000 +0000" stop="20260921183000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Everton - Ipswich</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921183000 +0000" stop="20260921190000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Nott'm Forest - Coventry</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921190000 +0000" stop="20260921193000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Man City - Sunderland</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921193000 +0000" stop="20260921200000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Premier League Netbusters</title>
+  <programme start="20260921173000 +0000" stop="20260921210000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA NEWCASTLE - HULL - GENIS OZET -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921210100 +0000" stop="20260921224500 +0000" channel="beINSPORTS3.tr">
@@ -19965,14 +20032,14 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922190000 +0000" stop="20260922193000 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Nott'm Forest - Coventry</title>
+    <title lang="en">Brighton - Arsenal</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922193000 +0000" stop="20260922200500 +0000" channel="beINSPORTS3.tr">
+  <programme start="20260922193000 +0000" stop="20260922200000 +0000" channel="beINSPORTS3.tr">
     <title lang="en">Premier League Netbusters</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922200500 +0000" stop="20260923044500 +0000" channel="beINSPORTS3.tr">
+  <programme start="20260922200000 +0000" stop="20260923044500 +0000" channel="beINSPORTS3.tr">
     <title lang="en">Premier League Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
@@ -20052,92 +20119,148 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Premier League Netbusters</title>
     <category lang="en">Sports</category>
   </programme>
+  <programme start="20260923200000 +0000" stop="20260924050000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924050000 +0000" stop="20260924070000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Nott'm Forest - Coventry</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924070000 +0000" stop="20260924090000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Man City - Sunderland</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924110000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Bournemouth - Liverpool</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924110000 +0000" stop="20260924130000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Leeds - C. Palace</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924130000 +0000" stop="20260924150000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Fulham - Man Utd</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924170000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Brentford - Chelsea</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924170000 +0000" stop="20260924173000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Tottenham - Aston Villa</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924173000 +0000" stop="20260924180000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Brighton - Arsenal</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924183000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Newcastle - Hull City</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924183000 +0000" stop="20260924190000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Everton - Ipswich</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924190000 +0000" stop="20260924193000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Nott'm Forest - Coventry</title>
+    <category lang="en">Sports</category>
+  </programme>
   <programme start="20260921061500 +0000" stop="20260921080000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Paris FC - Strasbourg</title>
+    <title lang="en">LIGUE 1 (26-27) 5. HAFTA PARIS FC - STRASBOURG - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921080000 +0000" stop="20260921084500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Maç Özetleri</title>
+    <title lang="en">Ligue 1 Maç Özetleri (26-27) 05.Hafta / Haber</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921084500 +0000" stop="20260921090000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Portekiz Ligi Haftanın Golleri</title>
+    <title lang="en">Liga Portugal Haftanın Golleri (26-27) 7.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921090000 +0000" stop="20260921104500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Porto - Benfica</title>
+    <title lang="en">PORTEKIZ LIG (26-27) 7. HAFTA PORTO - BENFICA - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921104500 +0000" stop="20260921110000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Portekiz Ligi Haftanın Golleri</title>
+    <title lang="en">Liga Portugal Haftanın Golleri (26-27) 7.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921110000 +0000" stop="20260921124500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Auxerre - Brest</title>
+    <title lang="en">LIGUE 1 (26-27) 5. HAFTA AUXERRE - BREST - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921124500 +0000" stop="20260921130000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 2 Haftanın Golleri</title>
+    <title lang="en">Ligue 2 Haftanın Golleri (26-27) 7.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921130000 +0000" stop="20260921144500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Marseille - PSG</title>
+    <title lang="en">LIGUE 1 (26-27) 5. HAFTA MARSEILLE - PARIS SG - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921144500 +0000" stop="20260921150000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 05.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921150000 +0000" stop="20260921164500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Nice - Lille</title>
+    <title lang="en">LIGUE 1 (26-27) 5. HAFTA NICE - LILLE - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921164500 +0000" stop="20260921170000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 05.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921170000 +0000" stop="20260921173000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Sporting CP - Arouca</title>
+    <title lang="en">PORTEKIZ LIG (26-27) 7. HAFTA SPORTING - AROUCA - GENIS OZET -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921173000 +0000" stop="20260921180000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Lyon - Rennes</title>
+  <programme start="20260921173000 +0000" stop="20260921210000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 5. HAFTA LYON - RENNES - GENIS OZET -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921180000 +0000" stop="20260921183000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Toulouse - Le Havre</title>
+  <programme start="20260921210000 +0000" stop="20260921230000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 5. HAFTA MARSEILLE - PARIS SG - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921183000 +0000" stop="20260921190000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Angers - Troyes</title>
+  <programme start="20260921230000 +0000" stop="20260922010000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PORTEKIZ LIG (26-27) 7. HAFTA SPORTING - AROUCA - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921190000 +0000" stop="20260921194500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Portekiz Ligi Maç Özetleri</title>
+  <programme start="20260922024500 +0000" stop="20260922030000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921194500 +0000" stop="20260921203000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Maç Özetleri</title>
+  <programme start="20260922030000 +0000" stop="20260922044500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Nice - Lille</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921203000 +0000" stop="20260922030000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 2 Maç Özetleri</title>
+  <programme start="20260922044500 +0000" stop="20260922050000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922030000 +0000" stop="20260922050000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260922050000 +0000" stop="20260922064500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Marseille - PSG</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260922064500 +0000" stop="20260922070000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260922070000 +0000" stop="20260922084500 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Monaco - Lens</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922050000 +0000" stop="20260922070000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Paris FC - Strasbourg</title>
+  <programme start="20260922084500 +0000" stop="20260922090000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922070000 +0000" stop="20260922090000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Lyon - Rennes</title>
+  <programme start="20260922090000 +0000" stop="20260922104500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Sporting CP - Arouca</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922090000 +0000" stop="20260922110000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Santa Clara - Braga</title>
+  <programme start="20260922104500 +0000" stop="20260922110000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Portekiz Ligi Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922110000 +0000" stop="20260922124500 +0000" channel="beINSPORTS4.tr">
@@ -20145,11 +20268,11 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922124500 +0000" stop="20260922130000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <title lang="en">Ligue 2 Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922130000 +0000" stop="20260922144500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Toulouse - Le Havre</title>
+    <title lang="en">Paris FC - Strasbourg</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922144500 +0000" stop="20260922150000 +0000" channel="beINSPORTS4.tr">
@@ -20157,7 +20280,7 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922150000 +0000" stop="20260922164500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Angers - Troyes</title>
+    <title lang="en">Lyon - Rennes</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922164500 +0000" stop="20260922170000 +0000" channel="beINSPORTS4.tr">
@@ -20165,30 +20288,30 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922170000 +0000" stop="20260922173000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Santa Clara - Braga</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260922173000 +0000" stop="20260922175900 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Toulouse - Le Havre</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260922175900 +0000" stop="20260922182900 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Angers - Troyes</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260922182900 +0000" stop="20260922185900 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Le Mans - Lorient</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922173000 +0000" stop="20260922180000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260922185900 +0000" stop="20260922192900 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Auxerre - Brest</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922180000 +0000" stop="20260922183000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Nice - Lille</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260922183000 +0000" stop="20260922190000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Marseille - PSG</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260922190000 +0000" stop="20260922193000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Monaco - Lens</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260922193000 +0000" stop="20260922200000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260922192900 +0000" stop="20260922201400 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Portekiz Ligi Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922200000 +0000" stop="20260923030000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20260922201400 +0000" stop="20260923030000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Ligue 1 Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
@@ -20266,6 +20389,70 @@ Podgorica City Stadium Stadium</desc>
   </programme>
   <programme start="20260923200000 +0000" stop="20260923203000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Portekiz Ligi Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260923203000 +0000" stop="20260924054500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924054500 +0000" stop="20260924060000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924081500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Azerbaycan</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924081500 +0000" stop="20260924083000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924083000 +0000" stop="20260924094500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Azerbaycan GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924094500 +0000" stop="20260924100000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924100000 +0000" stop="20260924114500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Azerbaycan</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924114500 +0000" stop="20260924120000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260925040000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Azerbaycan GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925040000 +0000" stop="20260925041500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925041500 +0000" stop="20260925081500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Azerbaycan</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925081500 +0000" stop="20260925083000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925083000 +0000" stop="20260925100000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Azerbaycan GP</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925100000 +0000" stop="20260925101500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925101500 +0000" stop="20260925114500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Azerbaycan</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260925114500 +0000" stop="20260925120000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921053000 +0000" stop="20260921071800 +0000" channel="beINSPORTS5.tr">
@@ -20533,67 +20720,51 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921050000 +0000" stop="20260921060000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri</title>
+    <title lang="en">Premier League Maç Özetleri (26-27) 05.Hafta - Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921060000 +0000" stop="20260921070000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Sabah</title>
+  <programme start="20260921060000 +0000" stop="20260921073000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Sabah / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921070000 +0000" stop="20260921080000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Sabah</title>
+  <programme start="20260921073000 +0000" stop="20260921080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TFF 1.Lig Maç Özetleri (26-27) 08.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921080000 +0000" stop="20260921090000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Manşet</title>
+    <title lang="en">beIN Manşet / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921090000 +0000" stop="20260921100000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Süper Lig Maç Özetleri</title>
+    <title lang="en">Süper Lig Maç Özetleri (26-27) 06.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921100000 +0000" stop="20260921113000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Gün Ortası</title>
+  <programme start="20260921100000 +0000" stop="20260921120000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Gün Ortası / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921120000 +0000" stop="20260921130000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
+  <programme start="20260921120000 +0000" stop="20260921134500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">SUPER LIG (26-27) 6. HAFTA TRABZONSPOR - GALATASARAY - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921133000 +0000" stop="20260921140000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+  <programme start="20260921134500 +0000" stop="20260921140000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Liga Portugal Haftanın Golleri (26-27) 7.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921140000 +0000" stop="20260921143000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921143000 +0000" stop="20260921150000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
+  <programme start="20260921140000 +0000" stop="20260921150000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Tenis (26-27) 7.Bölüm / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921150000 +0000" stop="20260921160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Haber</title>
+    <title lang="en">Haber 56 DK - Canlı</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921160000 +0000" stop="20260921170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
+    <title lang="en">beIN Tenis (26-27) 7.Bölüm / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260921170000 +0000" stop="20260921180000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921184500 +0000" stop="20260921203000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921203000 +0000" stop="20260921210000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260921210000 +0000" stop="20260921213000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi</title>
+  <programme start="20260921170000 +0000" stop="20260921213000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">beIN Akşam / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260921213000 +0000" stop="20260921214500 +0000" channel="beINSPORTSHABER.tr">
@@ -20686,20 +20857,16 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Sports</category>
     <category lang="en">Live</category>
   </programme>
-  <programme start="20260922190000 +0000" stop="20260922191600 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Keşfet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260922191600 +0000" stop="20260922193000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Özel Röportaj</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260922193000 +0000" stop="20260922200000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260922183000 +0000" stop="20260922184500 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Süper Lig Raporu</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260922203000 +0000" stop="20260922204500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Keşfet</title>
+  <programme start="20260922184500 +0000" stop="20260922203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Skor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260922203000 +0000" stop="20260922210000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260922210000 +0000" stop="20260923040000 +0000" channel="beINSPORTSHABER.tr">
@@ -20814,32 +20981,12 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260923210000 +0000" stop="20260923220000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+  <programme start="20260923210000 +0000" stop="20260924040000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">-</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260923220000 +0000" stop="20260924000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924000000 +0000" stop="20260924010000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924010000 +0000" stop="20260924030000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924030000 +0000" stop="20260924034500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Surf League</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924034500 +0000" stop="20260924041500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Formula 1</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924041500 +0000" stop="20260924050000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Maç Özetleri</title>
+  <programme start="20260924040000 +0000" stop="20260924050000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bundesliga Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924050000 +0000" stop="20260924060000 +0000" channel="beINSPORTSHABER.tr">
@@ -20854,64 +21001,104 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260924070000 +0000" stop="20260924090000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Sabah</title>
+  <programme start="20260924070000 +0000" stop="20260924071500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260924090000 +0000" stop="20260924100000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+  <programme start="20260924071500 +0000" stop="20260924080000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TSBSL Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924080000 +0000" stop="20260924083000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924083000 +0000" stop="20260924084500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bundesliga Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924084500 +0000" stop="20260924090000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bundesliga 2 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924091500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Özel Yayın</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924091500 +0000" stop="20260924093000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol 1. Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924093000 +0000" stop="20260924094500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924094500 +0000" stop="20260924100000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924100000 +0000" stop="20260924113000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Gün Ortası</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260924113000 +0000" stop="20260924114500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Futbol: Lig 2</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924114500 +0000" stop="20260924120000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924120000 +0000" stop="20260924130000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
+  <programme start="20260924113000 +0000" stop="20260924130000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Muhabir Masası</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924130000 +0000" stop="20260924133000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Haber</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260924133000 +0000" stop="20260924143000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924143000 +0000" stop="20260924150000 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260924133000 +0000" stop="20260924140000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260924150000 +0000" stop="20260924160000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Premier League Maç Özetleri</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924160000 +0000" stop="20260924170000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Ana Haber</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924170000 +0000" stop="20260924180000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924180000 +0000" stop="20260924181500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Keşfet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260924181500 +0000" stop="20260924184500 +0000" channel="beINSPORTSHABER.tr">
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260924184500 +0000" stop="20260924203000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Skor</title>
+  <programme start="20260924150000 +0000" stop="20260924153000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ana Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924153000 +0000" stop="20260924160000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">2. Bundesliga Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924160000 +0000" stop="20260924161500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924161500 +0000" stop="20260924170000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TSBSL Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924170000 +0000" stop="20260924173000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Haber</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924173000 +0000" stop="20260924174500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Bundesliga Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924174500 +0000" stop="20260924180000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Ligue 1 Haftanın Golleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924183000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Going Pro</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924183000 +0000" stop="20260924190000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Sail GP : Racing on the Edge</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924190000 +0000" stop="20260924200000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol Süper Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20260924200000 +0000" stop="20260924203000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260924203000 +0000" stop="20260924210000 +0000" channel="beINSPORTSHABER.tr">
@@ -21670,6 +21857,86 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Kulis</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260924210000 +0000" stop="20260924223000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Tommy</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924223000 +0000" stop="20260925001500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925001500 +0000" stop="20260925020000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kütahyaspor- Erzincan Futbol Yatırımları</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925020000 +0000" stop="20260925034500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Shakhtar - LNZ</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925034500 +0000" stop="20260925053000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Kulis</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925053000 +0000" stop="20260925063000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925063000 +0000" stop="20260925070000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925080000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Haberler</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925080000 +0000" stop="20260925093000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Spor Arası</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925093000 +0000" stop="20260925103000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Arctic Race Of Norway</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925103000 +0000" stop="20260925123000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Her Gün Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925123000 +0000" stop="20260925130000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Dünyadan Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925130000 +0000" stop="20260925143000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Lokal Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925143000 +0000" stop="20260925150000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925163000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Ana Haber</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925163000 +0000" stop="20260925170000 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Football Nation</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925184500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Her Akşam Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925184500 +0000" stop="20260925194500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Tım Rıchmond to The Limit</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925194500 +0000" stop="20260925204500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Çekya Bisiklet Turu</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925204500 +0000" stop="20260925221500 +0000" channel="TivibuSpor.tr">
+    <title lang="en">Orta Nokta</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260921041500 +0000" stop="20260921060000 +0000" channel="TivibuSpor1.tr">
     <title lang="en">Arnavutköy Belediyesi- Çorlu Spor 1947</title>
     <category lang="en">Spor</category>
@@ -21706,8 +21973,12 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">MKE Ankaragücü - Serik spor</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260921200000 +0000" stop="20260921220000 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260921200000 +0000" stop="20260921214500 +0000" channel="TivibuSpor1.tr">
     <title lang="en">Orduspor 1967 - Beykoz İshaklı Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260921214500 +0000" stop="20260921220000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260921220000 +0000" stop="20260921221221 +0000" channel="TivibuSpor1.tr">
@@ -21722,8 +21993,12 @@ Podgorica City Stadium Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922014830 +0000" stop="20260922020826 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260922014830 +0000" stop="20260922014900 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922014900 +0000" stop="20260922020826 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Bad Boys</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260922020826 +0000" stop="20260922022828 +0000" channel="TivibuSpor1.tr">
@@ -21742,16 +22017,24 @@ Podgorica City Stadium Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922032826 +0000" stop="20260922034825 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260922032826 +0000" stop="20260922034500 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922034500 +0000" stop="20260922034825 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Arnavutköy Belediyesi- Çorlu Spor 1947</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260922034825 +0000" stop="20260922040824 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922040824 +0000" stop="20260922053301 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260922040824 +0000" stop="20260922053000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922053000 +0000" stop="20260922053301 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Seza Çimento Elazığspor - Aliaağa Futbol</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260922053301 +0000" stop="20260922055302 +0000" channel="TivibuSpor1.tr">
@@ -21774,8 +22057,12 @@ Podgorica City Stadium Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922071301 +0000" stop="20260922073303 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260922071301 +0000" stop="20260922071500 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922071500 +0000" stop="20260922073303 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Ayos Osmaniyespor - Malatya Yeşilyurt</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260922073303 +0000" stop="20260922075259 +0000" channel="TivibuSpor1.tr">
@@ -21790,8 +22077,12 @@ Podgorica City Stadium Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922085224 +0000" stop="20260922091227 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260922085224 +0000" stop="20260922090000 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922090000 +0000" stop="20260922091227 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Balıkesirspor - Uşak Spor</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260922091227 +0000" stop="20260922093223 +0000" channel="TivibuSpor1.tr">
@@ -21810,12 +22101,196 @@ Podgorica City Stadium Stadium</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922103226 +0000" stop="20260922105226 +0000" channel="TivibuSpor1.tr">
+  <programme start="20260922103226 +0000" stop="20260922104500 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922104500 +0000" stop="20260922105226 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Etimesgut - Bucaspor 1928</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260922105226 +0000" stop="20260922111227 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922111227 +0000" stop="20260922123000 +0000" channel="TivibuSpor1.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922123000 +0000" stop="20260922141500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Akedaş Kahramanmaraş İstiklal Spor - Sakaryaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922141500 +0000" stop="20260922160000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Kütahyaspor- Erzincan Futbol Yatırımları</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922160000 +0000" stop="20260922174500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">MKE Ankaragücü - Serik spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922174500 +0000" stop="20260922193000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Gaziemir G.O.G. Spor - Denizli İdmanyurdu 1959</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922193000 +0000" stop="20260922211500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Orduspor 1967 - Beykoz İshaklı Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922211500 +0000" stop="20260923011500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923011500 +0000" stop="20260923030000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Arnavutköy Belediyesi- Çorlu Spor 1947</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923044500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Seza Çimento Elazığspor - Aliaağa Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923044500 +0000" stop="20260923063000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Ayos Osmaniyespor - Malatya Yeşilyurt</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923063000 +0000" stop="20260923073000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Arctic Race Of Norway</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923073000 +0000" stop="20260923091500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Etimesgut - Bucaspor 1928</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923091500 +0000" stop="20260923110000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Balıkesirspor - Uşak Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923110000 +0000" stop="20260923124500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Akedaş Kahramanmaraş İstiklal Spor - Sakaryaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923124500 +0000" stop="20260923134500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Tour Of Hainan</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923134500 +0000" stop="20260923153000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">MKE Ankaragücü - Serik spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923153000 +0000" stop="20260923171500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Kütahyaspor- Erzincan Futbol Yatırımları</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923171500 +0000" stop="20260923190000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Orduspor 1967 - Beykoz İshaklı Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923190000 +0000" stop="20260923193000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Spartan Ultra Championship</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923193000 +0000" stop="20260923211500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Gaziemir G.O.G. Spor - Denizli İdmanyurdu 1959</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260923211500 +0000" stop="20260924010500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924010500 +0000" stop="20260924024500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">O.J.: Made in America</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924024500 +0000" stop="20260924043000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Seza Çimento Elazığspor - Aliaağa Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924043000 +0000" stop="20260924061500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Ayos Osmaniyespor - Malatya Yeşilyurt</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924061500 +0000" stop="20260924080000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Arnavutköy Belediyesi- Çorlu Spor 1947</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924080000 +0000" stop="20260924094500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Etimesgut - Bucaspor 1928</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924094500 +0000" stop="20260924113000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Akedaş Kahramanmaraş İstiklal Spor - Sakaryaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924113000 +0000" stop="20260924131500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Balıkesirspor - Uşak Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924131500 +0000" stop="20260924150000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">MKE Ankaragücü - Serik spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924164500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Shakhtar - LNZ</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924164500 +0000" stop="20260924183000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Orduspor 1967 - Beykoz İshaklı Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924183000 +0000" stop="20260924201500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Kütahyaspor- Erzincan Futbol Yatırımları</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924201500 +0000" stop="20260924220000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Gaziemir G.O.G. Spor - Denizli İdmanyurdu 1959</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924220000 +0000" stop="20260925020000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Türk Telekom - eSüper Lig</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925020000 +0000" stop="20260925034500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Seza Çimento Elazığspor - Aliaağa Futbol</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925034500 +0000" stop="20260925053000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Arnavutköy Belediyesi- Çorlu Spor 1947</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925053000 +0000" stop="20260925071500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Ayos Osmaniyespor - Malatya Yeşilyurt</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925071500 +0000" stop="20260925090000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Shakhtar - LNZ</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925104500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Etimesgut - Bucaspor 1928</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925104500 +0000" stop="20260925123000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Akedaş Kahramanmaraş İstiklal Spor - Sakaryaspor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925123000 +0000" stop="20260925141500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">MKE Ankaragücü - Serik spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925141500 +0000" stop="20260925160000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Balıkesirspor - Uşak Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925160000 +0000" stop="20260925174500 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Orduspor 1967 - Beykoz İshaklı Spor</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925174500 +0000" stop="20260925193000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Gaziemir G.O.G. Spor - Denizli İdmanyurdu 1959</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925193000 +0000" stop="20260925213000 +0000" channel="TivibuSpor1.tr">
+    <title lang="en">Kütahyaspor- Erzincan Futbol Yatırımları</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260921020000 +0000" stop="20260921070000 +0000" channel="TivibuSpor2.tr">
@@ -21870,11 +22345,19 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922073000 +0000" stop="20260922093000 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260922073000 +0000" stop="20260922080000 +0000" channel="TivibuSpor2.tr">
     <title lang="en">Türk Telekom Ankara Open</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922093000 +0000" stop="20260922113000 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260922080000 +0000" stop="20260922093000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Türk Telekom Ankara Open</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922093000 +0000" stop="20260922100000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Türk Telekom Ankara Open</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922100000 +0000" stop="20260922113000 +0000" channel="TivibuSpor2.tr">
     <title lang="en">Türk Telekom Ankara Open</title>
     <category lang="en">Spor</category>
   </programme>
@@ -21886,7 +22369,11 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922133000 +0000" stop="20260922160000 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260922133000 +0000" stop="20260922140000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Türk Telekom Ankara Open</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922140000 +0000" stop="20260922160000 +0000" channel="TivibuSpor2.tr">
     <title lang="en">Türk Telekom Ankara Open</title>
     <category lang="en">Spor</category>
   </programme>
@@ -21894,7 +22381,11 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260922170000 +0000" stop="20260922210000 +0000" channel="TivibuSpor2.tr">
+  <programme start="20260922170000 +0000" stop="20260922180000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922180000 +0000" stop="20260922210000 +0000" channel="TivibuSpor2.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
@@ -21967,6 +22458,42 @@ Podgorica City Stadium Stadium</desc>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20260924170000 +0000" stop="20260924210000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925020000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925020000 +0000" stop="20260925070000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925073000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925073000 +0000" stop="20260925093000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Türk Telekom Ankara Open</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925093000 +0000" stop="20260925113000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Türk Telekom Ankara Open</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925113000 +0000" stop="20260925120000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Türk Telekom Ankara Open</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925140000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925140000 +0000" stop="20260925170000 +0000" channel="TivibuSpor2.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925210000 +0000" channel="TivibuSpor2.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
@@ -22046,6 +22573,26 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20260924210000 +0000" stop="20260925020000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925020000 +0000" stop="20260925070000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925120000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925170000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925210000 +0000" channel="TivibuSpor3.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20260921020000 +0000" stop="20260921070000 +0000" channel="TivibuSpor4.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
@@ -22122,16 +22669,36 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260921204500 +0000" stop="20260921210200 +0000" channel="beINSPORTS1.tr">
+  <programme start="20260924210000 +0000" stop="20260925020000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925020000 +0000" stop="20260925070000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925120000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925170000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925210000 +0000" channel="TivibuSpor4.tr">
+    <title lang="en">Tivibu Spor Tanıtım</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260921210000 +0000" stop="20260921210200 +0000" channel="beINSPORTS1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260921204500 +0000" stop="20260921210000 +0000" channel="beINSPORTS2.tr">
+  <programme start="20260922183000 +0000" stop="20260922185000 +0000" channel="beINSPORTS2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260922183000 +0000" stop="20260922184500 +0000" channel="beINSPORTS2.tr">
+  <programme start="20260921210000 +0000" stop="20260921210100 +0000" channel="beINSPORTS3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260921200000 +0000" stop="20260921210100 +0000" channel="beINSPORTS3.tr">
+  <programme start="20260922010000 +0000" stop="20260922024500 +0000" channel="beINSPORTS4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260922183000 +0000" stop="20260922210000 +0000" channel="beINSPORTSMAX1.tr">
@@ -22140,31 +22707,10 @@ Podgorica City Stadium Stadium</desc>
   <programme start="20260922183000 +0000" stop="20260922210000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260921113000 +0000" stop="20260921120000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260921130000 +0000" stop="20260921133000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260921180000 +0000" stop="20260921184500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260922183000 +0000" stop="20260922190000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260922200000 +0000" stop="20260922203000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260922204500 +0000" stop="20260922210000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
   <programme start="20260923204500 +0000" stop="20260923210000 +0000" channel="beINSPORTSHABER.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926204500 +0000" stop="20260926210000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260922111227 +0000" stop="20260922123414 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260921210000 +0000" stop="20260921213000 +0000" channel="Roya_RoyaTV">
@@ -50928,10 +51474,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نشرة الأخبار الليلية</title>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20260921041725 +0000" stop="20260921044558 +0000" channel="AlJazeera.qa">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260921044558 +0000" stop="20260921050000 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
@@ -63241,7 +63783,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260922164000 +0000" stop="20260922170000 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921050000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260921045500 +0000" stop="20260921050000 +0000" channel="Starz_admnadsports1">
     <title lang="en">ADIB Cup 2026-2027</title>
     <desc lang="en">ADIB Cup 2026-2027</desc>
     <category lang="en">Sport</category>
@@ -63445,7 +63987,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921083500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260921045500 +0000" stop="20260921083500 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -63637,7 +64179,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921051500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260921045500 +0000" stop="20260921051500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Juventus X Atalanta - Serie A</title>
     <title lang="ar">يوفنتوس × أتلانتا - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -64357,14 +64899,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921044500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Parma x Genoa - Serie A</title>
-    <title lang="ar">بارما × جنوى - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260921044500 +0000" stop="20260921050000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260921045500 +0000" stop="20260921050000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Round 3 - Serie A Highlights</title>
     <title lang="ar">الجولة 3 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -65071,7 +65606,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921064500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260921045500 +0000" stop="20260921064500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">UFC - Dana White's Contender Series</title>
     <title lang="ar">يو إف سي - سلسلة منافسي دانا وايت</title>
     <desc lang="en">Tune in to the latest events from the UFC - Dana White's Contender Series.</desc>
@@ -65666,7 +66201,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921052100 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260921045500 +0000" stop="20260921052100 +0000" channel="Starz_starzplayrugby">
     <title lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -65870,7 +66405,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921045800 +0000" channel="Starz_golflife">
+  <programme start="20260921045500 +0000" stop="20260921045800 +0000" channel="Starz_golflife">
     <title lang="en">TOUR Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E195 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -66102,14 +66637,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921043700 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Qualifier - San Francisco Unicorns vs Los Angeles Knight Riders - Major League Cricket Match Highlights</title>
-    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
-    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260921043700 +0000" stop="20260921051100 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260921045500 +0000" stop="20260921051100 +0000" channel="Starz_cricbuzz1">
     <title lang="en">4th T20: India v New Zealand - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -67362,7 +67890,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921060000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260921045500 +0000" stop="20260921060000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Phygital Basketball / Battle Royale: PU... - Games of the Future</title>
     <title lang="ar">فيجيتال باسكتبول / باتل رويال: ببجي... - ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -68006,14 +68534,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921043700 +0000" channel="Starz_wedosports">
-    <title lang="en">Emirates Great Britain Grand Prix - Day 1 - SailGP - LIVE</title>
-    <title lang="ar">سباق الجائزة الكبرى للإبحار - مباشر</title>
-    <desc lang="en">Top-performing athletes from all over the globe showcase their skills as they compete in the SailGP to win the coveted title.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p19827810_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260921043700 +0000" stop="20260921070000 +0000" channel="Starz_wedosports">
+  <programme start="20260921045500 +0000" stop="20260921070000 +0000" channel="Starz_wedosports">
     <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
@@ -68441,7 +68962,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p19827810_b_h10_ab.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921050000 +0000" channel="Starz_criclife1">
+  <programme start="20260925043700 +0000" stop="20260925070000 +0000" channel="Starz_wedosports">
+    <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
+    <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
+    <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p3608998_b_h8_aq.jpg" />
+  </programme>
+  <programme start="20260921045500 +0000" stop="20260921050000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Greatest Matches 1999 - ICC Specials</title>
     <desc lang="en">ICC Greatest Matches 1999 - ICC Specials</desc>
     <category lang="en">Sport</category>
@@ -69017,13 +69545,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921045400 +0000" channel="Starz_criclife3">
-    <title lang="en">Final - Women's CPL T20</title>
-    <desc lang="en">Final - Women's CPL T20</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p22773637_b_h8_ac.jpg" />
-  </programme>
-  <programme start="20260921045400 +0000" stop="20260921051800 +0000" channel="Starz_criclife3">
+  <programme start="20260921045500 +0000" stop="20260921051800 +0000" channel="Starz_criclife3">
     <title lang="en">2nd T20: England vs Sri Lanka - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -70105,7 +70627,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921060000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260925044700 +0000" stop="20260925051400 +0000" channel="Starz_criclife3">
+    <title lang="en">2026: Final Trinbago Knight Riders vs Guyana Amazon Warriors - Women's CPL T20</title>
+    <desc lang="en">2026: Final Trinbago Knight Riders vs Guyana Amazon Warriors - Women's CPL T20</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p22773637_b_h8_ac.jpg" />
+  </programme>
+  <programme start="20260921045500 +0000" stop="20260921060000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Four-Star Event - UAE Horse Show Jumping Champion</title>
     <title lang="ar">فئة الأربع نجوم - بطولة الإمارات لسباق قفز الحواجز</title>
     <desc lang="en">Follow UAE Horse Show Jumping Champion.</desc>
@@ -70735,7 +71263,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921061254 +0000" channel="Starz_awsn">
+  <programme start="20260921045500 +0000" stop="20260921061254 +0000" channel="Starz_awsn">
     <title lang="en">2026: Al-Ittihad vs. Al-Nassr</title>
     <desc lang="en">Al-Ittihad Club vs. Al-Nassr FC in round 10 of the Saudi Women&amp;apos;s Premier League 2025/2026 season.</desc>
     <category lang="en">Sport</category>
@@ -71423,7 +71951,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921050000 +0000" channel="Starz_redbulltv">
+  <programme start="20260921045500 +0000" stop="20260921050000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -72005,7 +72533,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921060000 +0000" channel="Starz_daznringside">
+  <programme start="20260921045500 +0000" stop="20260921060000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -72203,7 +72731,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921052955 +0000" channel="Starz_fifaplus">
+  <programme start="20260921045500 +0000" stop="20260921052955 +0000" channel="Starz_fifaplus">
     <title lang="en">Norway v Canada | Group C | FIFA Women's World Cup China 2007™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Norway and Canada played at Hangzhou Dragon Stadium, Hangzhou on Wednesday, 12 September 2007 at 20:00.</desc>
     <category lang="en">Sport</category>
@@ -72593,7 +73121,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/116394.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921053000 +0000" channel="Starz_admnyastv">
+  <programme start="20260921045500 +0000" stop="20260921053000 +0000" channel="Starz_admnyastv">
     <title lang="en">Al Ain Camel Race Festival 2026</title>
     <desc lang="en">Al Ain Camel Race Festival 2026</desc>
     <category lang="en">Sport</category>
@@ -72653,13 +73181,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260922200000 +0000" stop="20260925043500 +0000" channel="Starz_admnyastv">
+  <programme start="20260922200000 +0000" stop="20260925045500 +0000" channel="Starz_admnyastv">
     <title lang="en">UAE Show Jumping 2026 Highlights</title>
     <desc lang="en">UAE Show Jumping 2026 Highlights</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNYASY2025MAR/ADMNYASY2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921043500 +0000" stop="20260921102000 +0000" channel="Starz_adfight">
+  <programme start="20260921045500 +0000" stop="20260921102000 +0000" channel="Starz_adfight">
     <title lang="en">IMMAF Youth MMA Championship 2026</title>
     <desc lang="en">IMMAF Youth MMA Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -72683,7 +73211,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADFIGHTY2026MAR/ADMNADFIGHTY2026MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260921191000 +0000" stop="20260925043500 +0000" channel="Starz_adfight">
+  <programme start="20260921191000 +0000" stop="20260925045500 +0000" channel="Starz_adfight">
     <title lang="en">Hexagone MMA 2026</title>
     <desc lang="en">Hexagone MMA 2026</desc>
     <category lang="en">Sport</category>
@@ -103214,100 +103742,98 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/other_sports_16.png" />
   </programme>
   <programme start="20260922040000 +0000" stop="20260922050000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 21:10 — بتوقيتك
+    <title lang="ar">أخبار اليوم · إلى سالكي ضهر البيدر.. انتبهوا!</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 21:24 — بتوقيتك
 
-المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
-        جاء في صحيفة الديار:
+إلى سالكي ضهر البيدر.. انتبهوا!
+        أفادت غرفة التحكم المروري
+        عربي · الجديد
+أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
+        في كلمة ألقاها الرئيس أردوغان خلال فعالية بعنوان "100 عام من الصداقة: التركية-الأمريكية" في نيويورك
+        تركيا · الأناضول
+ليست مصيرًا حتميًّا.. كيف تُغيّر البيئة والعمر تأثير جيناتنا الاجتماعية؟ - إرم نيوز
+        الإمارات · الإمارات
+Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
+        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
+        أمريكا · NYT
+Trump seeks ‘massive’ Belarus fertiliser deal amid Canada trade war
+        Trump’s announcement on Russia ally comes as he steps up his trade war with Canada, a long-term US ally and top supplier of potash President Donald…
+        بريطانيا · Guardian
+Embassy in Amman Celebrates 250 Years of American Independence
+        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
+        الأردن · Jordan News
+لقاء بين سلام والرئيس الإيراني؟ (المدن)
+        علمت "المدن" أن لقاء سيعقد بين رئيس الحكومة نواف سلام والرئيس الإيراني مسعود بزشكيان
         عربي · الجديد
 فيدان يشارك في اجتماع وزراء خارجية تركيا ومصر وباكستان والسعودية في نيويورك
         شارك وزير الخارجية التركي هاكان فيدان في الاجتماع السادس لوزراء خارجية تركيا ومصر وباكستان والسعودية.
         تركيا · TRT عربي
 أمل جديد لمرضى القلب.. دراسة تكشف "مفتاح التعافي" من النوبات القاتلة - إرم نيوز
         الإمارات · الإمارات
-Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
-        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
-        أمريكا · NYT
-The Papers: 'Air traffic out of control' and 'RAF to help Saudis'
-        A second glitch this month in the national air traffic system and the PM's first major foreign policy move lead the papers.
-        بريطانيا · BBC
-Embassy in Amman Celebrates 250 Years of American Independence
-        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
-        الأردن · Jordan News
-بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
-        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
-        عربي · الشرق الأوسط
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
-        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
-        تركيا · TRT عربي
-ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - arabic.cnn.com
-        الإمارات · الإمارات
 Earl Spencer Book Blasts Diana’s Treatment by UK Royal Family
         The decades have not lessened Earl Spencer’s anger over the House of Windsor’s treatment of the former Princess of Wales
         أمريكا · NYT
-Piers Morgan ‘snarled with annoyance’ at being uninvited to Diana’s funeral over press intrusion
-        The broadcaster and former newspaper editor was reportedly ‘surly’ on the phone to Earl Spencer
-        بريطانيا · Independent
+The truth about Sean Combs: ‘No is not a stopping point for him’
+        Cheyenne Roundtree, an investigative reporter at Rolling Stone, was as shocked as anyone when allegations of rape and sexual abuse were made against…
+        بريطانيا · Guardian
 Jordan Proposes New Renewable Energy Rules
         The Jordanian government has proposed amendments to regulations governing the connection of renewable energy facilities to the electricity grid,…
         الأردن · Jordan News
-أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
-        أكد الرئيس رجب طيب أردوغان أن تركيا أصبحت بفضل الإنجازات التي حققتها في مجال الصناعات الدفاعية
+المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
+        جاء في صحيفة الديار:
+        عربي · الجديد
+وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
+        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
         تركيا · TRT عربي
-بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
-        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
-        عربي · الشرق الأوسط
-جين جديد مرتبط بمقاومة الأدوية في علاج سرطان الدم. - Vietnam.vn
+ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - CNN Arabic
         الإمارات · الإمارات
 Takeaways From Charles Spencer’s Memoir, “Swan Song,” About Princess Diana
         Nearly 30 years after Princess Diana died, her brother has written a book about her life, her marriage to Prince Charles and the suffering she…
         أمريكا · NYT
-Watch: Six-year-old girl from China sets new Rubik's Cube world record
-        Lian Yunzhi broke the women's world record twice in three days at World Cube Association competitions.
-        بريطانيا · BBC
+Youth review – Sharon Horgan is back … and she’s better than ever
+        This brutal, hilarious new show about life as a fiftysomething is full of all the heart and humour of human life
+        بريطانيا · Guardian
 Olive Harvest Season to Begin Next Month
         The olive harvest season is expected to begin in mid-October, with the price of a tin of olive oil projected to range between JD 100 and JD 110…
         الأردن · Jordan News
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف تسليح الحوثيين
-        دعا وزراء خارجية مجموعة السبع إيران أمس الاثنين إلى وقف تسليحها ودعمها للحوثيين في اليمن
+بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
+        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
         عربي · الشرق الأوسط
+"جوجل" تطلق حواسيب مدعومة بالذكاء الاصطناعي - أخبار 24
+        الإمارات · الإمارات
 قبل وصول قادة العالم.. عطل مفاجئ يربك مطارات نيويورك وبوسطن
         أوقفت إدارة الطيران الاتحادية، الاثنين، حركة الطيران في المطارات المزدحمة على الساحل الشرقي للولايات المتحدة
         تركيا · TRT عربي
-«الختم الفلكي» يرصد سديم «الهلال» في سماء الدولة - الإمارات اليوم
-        الإمارات · الإمارات
 Princeton Is No Longer No. 1 in the U.S. News Rankings
         The Massachusetts Institute for Technology pulled ahead on a set of criteria that are as contentious as they are influential.
         أمريكا · NYT
-Solar and wind generation meet record 80% of power demand on Australia’s national grid
-        Rooftop solar alone generates more than half of all power used, as clear sunny days and low demand drive record-breaking surge Follow our Australia…
+Grief, trauma and solidarity as South African running club mourns member killed in wave of femicides
+        A week after Elizabeth ‘Tsontso’ Moselakgomo’s body was found, runners took part in a morning run to honour her name and demand more protection The…
         بريطانيا · Guardian
 Pakistan Interior Minister Visits Tehran Today
         Pakistani Interior Minister Mohsin Naqvi traveled to Iran on Monday on an official visit.
         الأردن · Jordan News
-مصادر لـCNN: جهاز أمني أمريكي سيتولى تأمين رئيس إيران خلال اجتماعات الأمم المتحدة
-        كشف مسؤولون أمريكيون، لشبكة CNN، الاثنين، عن أن جهاز الخدمة السرية الأمريكي سيتولى مهمة تأمين الرئيس الإيراني مسعود بزشكيان خلال انعقاد الجمعية…
-        عربي · CNN عربية
-معالم شامخة - الإمارات اليوم
-        معالم شامخة الإمارات اليوم
+بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
+        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
+        عربي · الشرق الأوسط
+«دبي الصحية» تطلق منظومة ذكية لإدارة المواقف.. والبداية من مستشفى راشد - الإمارات اليوم
         الإمارات · الإمارات
 أمينة أردوغان تبحث مع عقيلة رئيس سيراليون قضايا البيئة والتعليم
         في "البيت التركي" بنيويورك..
         تركيا · الأناضول
+‘Good music is good music, and most music is not!’ As he hits 90, master minimalist Steve Reich looks back
+        At 14, he heard Stravinsky and resolved to be a composer. As Reich approaches his 10th decade, the man revered by the likes of David Bowie reflects…
+        بريطانيا · Guardian
 German Leaders Prepare to Deny Far Right Access to Secret War Plan
         With the Alternative for Germany party close to power in a German state, federal officials are planning to limit the group’s access to classified…
         أمريكا · NYT
-Political fight over gun buyback after boy, 11, shot in the face and neck in Sydney apartment
-        Police don’t know if shooting was accidental as Labor attacks opposition vow to scrap gun buyback announced after Bondi massacre Follow our Australia…
-        بريطانيا · Guardian
 UNIFIL: Security Situation in Lebanon Remains Fragile
         Candice Ardell, spokesperson for the United Nations Interim Force in Lebanon (UNIFIL), said the security situation in southern Lebanon remains…
         الأردن · Jordan News
 الأرجنتين تتهم سبعة إيرانيين ولبنانيا في تفجير استهدف مركزا يهوديا في بوينس آيرس عام 1994
         بعد أكثر من ثلاثة عقود على تفجير مركز "أميا" اليهودي في بوينس آيرس، وجّه القضاء الأرجنتيني اتهامات رسمية إلى سبعة إيرانيين ولبناني للاشتباه في تورطهم…
         عربي · فرانس 24
-ليما: نشارك في «خليجي 27» لحصد اللقب - الإمارات اليوم
-        ليما: نشارك في «خليجي 27» لحصد اللقب الإمارات اليوم عبدالرحمن الحداد: كأس الخليج فرصة لإظهار تطور «الأبيض» البيان سلطان راشد: زلاتكو محظوظ بكم…
+المنتخب يؤدي أول تدريب في جدة اليوم استعداداً لـ «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
 لبنان.. إسرائيل تشن غارات وتنسف منازل وتقصف مناطق جنوبية بالفوسفور
         العمليات طالت مناطق في أقضية صور والنبطية وبنت جبيل ومرجعيون، وشملت قصفا جويا ومدفعيا وتفجيرات وإحراق منازل وتحركات عسكرية وفق وكالة الأنباء…
@@ -103325,99 +103851,97 @@ Spain rewards Luis de la Fuente with historic contract
   </programme>
   <programme start="20260922050000 +0000" stop="20260922060000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 21:24 — بتوقيتك
 
-المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
-        جاء في صحيفة الديار:
+إلى سالكي ضهر البيدر.. انتبهوا!
+        أفادت غرفة التحكم المروري
+        عربي · الجديد
+أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
+        في كلمة ألقاها الرئيس أردوغان خلال فعالية بعنوان "100 عام من الصداقة: التركية-الأمريكية" في نيويورك
+        تركيا · الأناضول
+ليست مصيرًا حتميًّا.. كيف تُغيّر البيئة والعمر تأثير جيناتنا الاجتماعية؟ - إرم نيوز
+        الإمارات · الإمارات
+Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
+        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
+        أمريكا · NYT
+Trump seeks ‘massive’ Belarus fertiliser deal amid Canada trade war
+        Trump’s announcement on Russia ally comes as he steps up his trade war with Canada, a long-term US ally and top supplier of potash President Donald…
+        بريطانيا · Guardian
+Embassy in Amman Celebrates 250 Years of American Independence
+        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
+        الأردن · Jordan News
+لقاء بين سلام والرئيس الإيراني؟ (المدن)
+        علمت "المدن" أن لقاء سيعقد بين رئيس الحكومة نواف سلام والرئيس الإيراني مسعود بزشكيان
         عربي · الجديد
 فيدان يشارك في اجتماع وزراء خارجية تركيا ومصر وباكستان والسعودية في نيويورك
         شارك وزير الخارجية التركي هاكان فيدان في الاجتماع السادس لوزراء خارجية تركيا ومصر وباكستان والسعودية.
         تركيا · TRT عربي
 أمل جديد لمرضى القلب.. دراسة تكشف "مفتاح التعافي" من النوبات القاتلة - إرم نيوز
         الإمارات · الإمارات
-Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
-        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
-        أمريكا · NYT
-The Papers: 'Air traffic out of control' and 'RAF to help Saudis'
-        A second glitch this month in the national air traffic system and the PM's first major foreign policy move lead the papers.
-        بريطانيا · BBC
-Embassy in Amman Celebrates 250 Years of American Independence
-        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
-        الأردن · Jordan News
-بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
-        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
-        عربي · الشرق الأوسط
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
-        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
-        تركيا · TRT عربي
-ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - arabic.cnn.com
-        الإمارات · الإمارات
 Earl Spencer Book Blasts Diana’s Treatment by UK Royal Family
         The decades have not lessened Earl Spencer’s anger over the House of Windsor’s treatment of the former Princess of Wales
         أمريكا · NYT
-Piers Morgan ‘snarled with annoyance’ at being uninvited to Diana’s funeral over press intrusion
-        The broadcaster and former newspaper editor was reportedly ‘surly’ on the phone to Earl Spencer
-        بريطانيا · Independent
+The truth about Sean Combs: ‘No is not a stopping point for him’
+        Cheyenne Roundtree, an investigative reporter at Rolling Stone, was as shocked as anyone when allegations of rape and sexual abuse were made against…
+        بريطانيا · Guardian
 Jordan Proposes New Renewable Energy Rules
         The Jordanian government has proposed amendments to regulations governing the connection of renewable energy facilities to the electricity grid,…
         الأردن · Jordan News
-أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
-        أكد الرئيس رجب طيب أردوغان أن تركيا أصبحت بفضل الإنجازات التي حققتها في مجال الصناعات الدفاعية
+المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
+        جاء في صحيفة الديار:
+        عربي · الجديد
+وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
+        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
         تركيا · TRT عربي
-بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
-        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
-        عربي · الشرق الأوسط
-جين جديد مرتبط بمقاومة الأدوية في علاج سرطان الدم. - Vietnam.vn
+ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - CNN Arabic
         الإمارات · الإمارات
 Takeaways From Charles Spencer’s Memoir, “Swan Song,” About Princess Diana
         Nearly 30 years after Princess Diana died, her brother has written a book about her life, her marriage to Prince Charles and the suffering she…
         أمريكا · NYT
-Watch: Six-year-old girl from China sets new Rubik's Cube world record
-        Lian Yunzhi broke the women's world record twice in three days at World Cube Association competitions.
-        بريطانيا · BBC
+Youth review – Sharon Horgan is back … and she’s better than ever
+        This brutal, hilarious new show about life as a fiftysomething is full of all the heart and humour of human life
+        بريطانيا · Guardian
 Olive Harvest Season to Begin Next Month
         The olive harvest season is expected to begin in mid-October, with the price of a tin of olive oil projected to range between JD 100 and JD 110…
         الأردن · Jordan News
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف تسليح الحوثيين
-        دعا وزراء خارجية مجموعة السبع إيران أمس الاثنين إلى وقف تسليحها ودعمها للحوثيين في اليمن
+بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
+        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
         عربي · الشرق الأوسط
+"جوجل" تطلق حواسيب مدعومة بالذكاء الاصطناعي - أخبار 24
+        الإمارات · الإمارات
 قبل وصول قادة العالم.. عطل مفاجئ يربك مطارات نيويورك وبوسطن
         أوقفت إدارة الطيران الاتحادية، الاثنين، حركة الطيران في المطارات المزدحمة على الساحل الشرقي للولايات المتحدة
         تركيا · TRT عربي
-«الختم الفلكي» يرصد سديم «الهلال» في سماء الدولة - الإمارات اليوم
-        الإمارات · الإمارات
 Princeton Is No Longer No. 1 in the U.S. News Rankings
         The Massachusetts Institute for Technology pulled ahead on a set of criteria that are as contentious as they are influential.
         أمريكا · NYT
-Solar and wind generation meet record 80% of power demand on Australia’s national grid
-        Rooftop solar alone generates more than half of all power used, as clear sunny days and low demand drive record-breaking surge Follow our Australia…
+Grief, trauma and solidarity as South African running club mourns member killed in wave of femicides
+        A week after Elizabeth ‘Tsontso’ Moselakgomo’s body was found, runners took part in a morning run to honour her name and demand more protection The…
         بريطانيا · Guardian
 Pakistan Interior Minister Visits Tehran Today
         Pakistani Interior Minister Mohsin Naqvi traveled to Iran on Monday on an official visit.
         الأردن · Jordan News
-مصادر لـCNN: جهاز أمني أمريكي سيتولى تأمين رئيس إيران خلال اجتماعات الأمم المتحدة
-        كشف مسؤولون أمريكيون، لشبكة CNN، الاثنين، عن أن جهاز الخدمة السرية الأمريكي سيتولى مهمة تأمين الرئيس الإيراني مسعود بزشكيان خلال انعقاد الجمعية…
-        عربي · CNN عربية
-معالم شامخة - الإمارات اليوم
-        معالم شامخة الإمارات اليوم
+بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
+        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
+        عربي · الشرق الأوسط
+«دبي الصحية» تطلق منظومة ذكية لإدارة المواقف.. والبداية من مستشفى راشد - الإمارات اليوم
         الإمارات · الإمارات
 أمينة أردوغان تبحث مع عقيلة رئيس سيراليون قضايا البيئة والتعليم
         في "البيت التركي" بنيويورك..
         تركيا · الأناضول
+‘Good music is good music, and most music is not!’ As he hits 90, master minimalist Steve Reich looks back
+        At 14, he heard Stravinsky and resolved to be a composer. As Reich approaches his 10th decade, the man revered by the likes of David Bowie reflects…
+        بريطانيا · Guardian
 German Leaders Prepare to Deny Far Right Access to Secret War Plan
         With the Alternative for Germany party close to power in a German state, federal officials are planning to limit the group’s access to classified…
         أمريكا · NYT
-Political fight over gun buyback after boy, 11, shot in the face and neck in Sydney apartment
-        Police don’t know if shooting was accidental as Labor attacks opposition vow to scrap gun buyback announced after Bondi massacre Follow our Australia…
-        بريطانيا · Guardian
 UNIFIL: Security Situation in Lebanon Remains Fragile
         Candice Ardell, spokesperson for the United Nations Interim Force in Lebanon (UNIFIL), said the security situation in southern Lebanon remains…
         الأردن · Jordan News
 الأرجنتين تتهم سبعة إيرانيين ولبنانيا في تفجير استهدف مركزا يهوديا في بوينس آيرس عام 1994
         بعد أكثر من ثلاثة عقود على تفجير مركز "أميا" اليهودي في بوينس آيرس، وجّه القضاء الأرجنتيني اتهامات رسمية إلى سبعة إيرانيين ولبناني للاشتباه في تورطهم…
         عربي · فرانس 24
-ليما: نشارك في «خليجي 27» لحصد اللقب - الإمارات اليوم
-        ليما: نشارك في «خليجي 27» لحصد اللقب الإمارات اليوم عبدالرحمن الحداد: كأس الخليج فرصة لإظهار تطور «الأبيض» البيان سلطان راشد: زلاتكو محظوظ بكم…
+المنتخب يؤدي أول تدريب في جدة اليوم استعداداً لـ «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
 لبنان.. إسرائيل تشن غارات وتنسف منازل وتقصف مناطق جنوبية بالفوسفور
         العمليات طالت مناطق في أقضية صور والنبطية وبنت جبيل ومرجعيون، وشملت قصفا جويا ومدفعيا وتفجيرات وإحراق منازل وتحركات عسكرية وفق وكالة الأنباء…
@@ -103435,99 +103959,97 @@ Spain rewards Luis de la Fuente with historic contract
   </programme>
   <programme start="20260922060000 +0000" stop="20260922070000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 21:24 — بتوقيتك
 
-المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
-        جاء في صحيفة الديار:
+إلى سالكي ضهر البيدر.. انتبهوا!
+        أفادت غرفة التحكم المروري
+        عربي · الجديد
+أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
+        في كلمة ألقاها الرئيس أردوغان خلال فعالية بعنوان "100 عام من الصداقة: التركية-الأمريكية" في نيويورك
+        تركيا · الأناضول
+ليست مصيرًا حتميًّا.. كيف تُغيّر البيئة والعمر تأثير جيناتنا الاجتماعية؟ - إرم نيوز
+        الإمارات · الإمارات
+Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
+        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
+        أمريكا · NYT
+Trump seeks ‘massive’ Belarus fertiliser deal amid Canada trade war
+        Trump’s announcement on Russia ally comes as he steps up his trade war with Canada, a long-term US ally and top supplier of potash President Donald…
+        بريطانيا · Guardian
+Embassy in Amman Celebrates 250 Years of American Independence
+        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
+        الأردن · Jordan News
+لقاء بين سلام والرئيس الإيراني؟ (المدن)
+        علمت "المدن" أن لقاء سيعقد بين رئيس الحكومة نواف سلام والرئيس الإيراني مسعود بزشكيان
         عربي · الجديد
 فيدان يشارك في اجتماع وزراء خارجية تركيا ومصر وباكستان والسعودية في نيويورك
         شارك وزير الخارجية التركي هاكان فيدان في الاجتماع السادس لوزراء خارجية تركيا ومصر وباكستان والسعودية.
         تركيا · TRT عربي
 أمل جديد لمرضى القلب.. دراسة تكشف "مفتاح التعافي" من النوبات القاتلة - إرم نيوز
         الإمارات · الإمارات
-Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
-        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
-        أمريكا · NYT
-The Papers: 'Air traffic out of control' and 'RAF to help Saudis'
-        A second glitch this month in the national air traffic system and the PM's first major foreign policy move lead the papers.
-        بريطانيا · BBC
-Embassy in Amman Celebrates 250 Years of American Independence
-        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
-        الأردن · Jordan News
-بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
-        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
-        عربي · الشرق الأوسط
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
-        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
-        تركيا · TRT عربي
-ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - arabic.cnn.com
-        الإمارات · الإمارات
 Earl Spencer Book Blasts Diana’s Treatment by UK Royal Family
         The decades have not lessened Earl Spencer’s anger over the House of Windsor’s treatment of the former Princess of Wales
         أمريكا · NYT
-Piers Morgan ‘snarled with annoyance’ at being uninvited to Diana’s funeral over press intrusion
-        The broadcaster and former newspaper editor was reportedly ‘surly’ on the phone to Earl Spencer
-        بريطانيا · Independent
+The truth about Sean Combs: ‘No is not a stopping point for him’
+        Cheyenne Roundtree, an investigative reporter at Rolling Stone, was as shocked as anyone when allegations of rape and sexual abuse were made against…
+        بريطانيا · Guardian
 Jordan Proposes New Renewable Energy Rules
         The Jordanian government has proposed amendments to regulations governing the connection of renewable energy facilities to the electricity grid,…
         الأردن · Jordan News
-أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
-        أكد الرئيس رجب طيب أردوغان أن تركيا أصبحت بفضل الإنجازات التي حققتها في مجال الصناعات الدفاعية
+المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
+        جاء في صحيفة الديار:
+        عربي · الجديد
+وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
+        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
         تركيا · TRT عربي
-بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
-        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
-        عربي · الشرق الأوسط
-جين جديد مرتبط بمقاومة الأدوية في علاج سرطان الدم. - Vietnam.vn
+ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - CNN Arabic
         الإمارات · الإمارات
 Takeaways From Charles Spencer’s Memoir, “Swan Song,” About Princess Diana
         Nearly 30 years after Princess Diana died, her brother has written a book about her life, her marriage to Prince Charles and the suffering she…
         أمريكا · NYT
-Watch: Six-year-old girl from China sets new Rubik's Cube world record
-        Lian Yunzhi broke the women's world record twice in three days at World Cube Association competitions.
-        بريطانيا · BBC
+Youth review – Sharon Horgan is back … and she’s better than ever
+        This brutal, hilarious new show about life as a fiftysomething is full of all the heart and humour of human life
+        بريطانيا · Guardian
 Olive Harvest Season to Begin Next Month
         The olive harvest season is expected to begin in mid-October, with the price of a tin of olive oil projected to range between JD 100 and JD 110…
         الأردن · Jordan News
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف تسليح الحوثيين
-        دعا وزراء خارجية مجموعة السبع إيران أمس الاثنين إلى وقف تسليحها ودعمها للحوثيين في اليمن
+بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
+        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
         عربي · الشرق الأوسط
+"جوجل" تطلق حواسيب مدعومة بالذكاء الاصطناعي - أخبار 24
+        الإمارات · الإمارات
 قبل وصول قادة العالم.. عطل مفاجئ يربك مطارات نيويورك وبوسطن
         أوقفت إدارة الطيران الاتحادية، الاثنين، حركة الطيران في المطارات المزدحمة على الساحل الشرقي للولايات المتحدة
         تركيا · TRT عربي
-«الختم الفلكي» يرصد سديم «الهلال» في سماء الدولة - الإمارات اليوم
-        الإمارات · الإمارات
 Princeton Is No Longer No. 1 in the U.S. News Rankings
         The Massachusetts Institute for Technology pulled ahead on a set of criteria that are as contentious as they are influential.
         أمريكا · NYT
-Solar and wind generation meet record 80% of power demand on Australia’s national grid
-        Rooftop solar alone generates more than half of all power used, as clear sunny days and low demand drive record-breaking surge Follow our Australia…
+Grief, trauma and solidarity as South African running club mourns member killed in wave of femicides
+        A week after Elizabeth ‘Tsontso’ Moselakgomo’s body was found, runners took part in a morning run to honour her name and demand more protection The…
         بريطانيا · Guardian
 Pakistan Interior Minister Visits Tehran Today
         Pakistani Interior Minister Mohsin Naqvi traveled to Iran on Monday on an official visit.
         الأردن · Jordan News
-مصادر لـCNN: جهاز أمني أمريكي سيتولى تأمين رئيس إيران خلال اجتماعات الأمم المتحدة
-        كشف مسؤولون أمريكيون، لشبكة CNN، الاثنين، عن أن جهاز الخدمة السرية الأمريكي سيتولى مهمة تأمين الرئيس الإيراني مسعود بزشكيان خلال انعقاد الجمعية…
-        عربي · CNN عربية
-معالم شامخة - الإمارات اليوم
-        معالم شامخة الإمارات اليوم
+بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
+        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
+        عربي · الشرق الأوسط
+«دبي الصحية» تطلق منظومة ذكية لإدارة المواقف.. والبداية من مستشفى راشد - الإمارات اليوم
         الإمارات · الإمارات
 أمينة أردوغان تبحث مع عقيلة رئيس سيراليون قضايا البيئة والتعليم
         في "البيت التركي" بنيويورك..
         تركيا · الأناضول
+‘Good music is good music, and most music is not!’ As he hits 90, master minimalist Steve Reich looks back
+        At 14, he heard Stravinsky and resolved to be a composer. As Reich approaches his 10th decade, the man revered by the likes of David Bowie reflects…
+        بريطانيا · Guardian
 German Leaders Prepare to Deny Far Right Access to Secret War Plan
         With the Alternative for Germany party close to power in a German state, federal officials are planning to limit the group’s access to classified…
         أمريكا · NYT
-Political fight over gun buyback after boy, 11, shot in the face and neck in Sydney apartment
-        Police don’t know if shooting was accidental as Labor attacks opposition vow to scrap gun buyback announced after Bondi massacre Follow our Australia…
-        بريطانيا · Guardian
 UNIFIL: Security Situation in Lebanon Remains Fragile
         Candice Ardell, spokesperson for the United Nations Interim Force in Lebanon (UNIFIL), said the security situation in southern Lebanon remains…
         الأردن · Jordan News
 الأرجنتين تتهم سبعة إيرانيين ولبنانيا في تفجير استهدف مركزا يهوديا في بوينس آيرس عام 1994
         بعد أكثر من ثلاثة عقود على تفجير مركز "أميا" اليهودي في بوينس آيرس، وجّه القضاء الأرجنتيني اتهامات رسمية إلى سبعة إيرانيين ولبناني للاشتباه في تورطهم…
         عربي · فرانس 24
-ليما: نشارك في «خليجي 27» لحصد اللقب - الإمارات اليوم
-        ليما: نشارك في «خليجي 27» لحصد اللقب الإمارات اليوم عبدالرحمن الحداد: كأس الخليج فرصة لإظهار تطور «الأبيض» البيان سلطان راشد: زلاتكو محظوظ بكم…
+المنتخب يؤدي أول تدريب في جدة اليوم استعداداً لـ «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
 لبنان.. إسرائيل تشن غارات وتنسف منازل وتقصف مناطق جنوبية بالفوسفور
         العمليات طالت مناطق في أقضية صور والنبطية وبنت جبيل ومرجعيون، وشملت قصفا جويا ومدفعيا وتفجيرات وإحراق منازل وتحركات عسكرية وفق وكالة الأنباء…
@@ -103545,99 +104067,97 @@ Spain rewards Luis de la Fuente with historic contract
   </programme>
   <programme start="20260922070000 +0000" stop="20260922080000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 21:24 — بتوقيتك
 
-المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
-        جاء في صحيفة الديار:
+إلى سالكي ضهر البيدر.. انتبهوا!
+        أفادت غرفة التحكم المروري
+        عربي · الجديد
+أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
+        في كلمة ألقاها الرئيس أردوغان خلال فعالية بعنوان "100 عام من الصداقة: التركية-الأمريكية" في نيويورك
+        تركيا · الأناضول
+ليست مصيرًا حتميًّا.. كيف تُغيّر البيئة والعمر تأثير جيناتنا الاجتماعية؟ - إرم نيوز
+        الإمارات · الإمارات
+Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
+        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
+        أمريكا · NYT
+Trump seeks ‘massive’ Belarus fertiliser deal amid Canada trade war
+        Trump’s announcement on Russia ally comes as he steps up his trade war with Canada, a long-term US ally and top supplier of potash President Donald…
+        بريطانيا · Guardian
+Embassy in Amman Celebrates 250 Years of American Independence
+        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
+        الأردن · Jordan News
+لقاء بين سلام والرئيس الإيراني؟ (المدن)
+        علمت "المدن" أن لقاء سيعقد بين رئيس الحكومة نواف سلام والرئيس الإيراني مسعود بزشكيان
         عربي · الجديد
 فيدان يشارك في اجتماع وزراء خارجية تركيا ومصر وباكستان والسعودية في نيويورك
         شارك وزير الخارجية التركي هاكان فيدان في الاجتماع السادس لوزراء خارجية تركيا ومصر وباكستان والسعودية.
         تركيا · TRT عربي
 أمل جديد لمرضى القلب.. دراسة تكشف "مفتاح التعافي" من النوبات القاتلة - إرم نيوز
         الإمارات · الإمارات
-Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
-        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
-        أمريكا · NYT
-The Papers: 'Air traffic out of control' and 'RAF to help Saudis'
-        A second glitch this month in the national air traffic system and the PM's first major foreign policy move lead the papers.
-        بريطانيا · BBC
-Embassy in Amman Celebrates 250 Years of American Independence
-        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
-        الأردن · Jordan News
-بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
-        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
-        عربي · الشرق الأوسط
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
-        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
-        تركيا · TRT عربي
-ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - arabic.cnn.com
-        الإمارات · الإمارات
 Earl Spencer Book Blasts Diana’s Treatment by UK Royal Family
         The decades have not lessened Earl Spencer’s anger over the House of Windsor’s treatment of the former Princess of Wales
         أمريكا · NYT
-Piers Morgan ‘snarled with annoyance’ at being uninvited to Diana’s funeral over press intrusion
-        The broadcaster and former newspaper editor was reportedly ‘surly’ on the phone to Earl Spencer
-        بريطانيا · Independent
+The truth about Sean Combs: ‘No is not a stopping point for him’
+        Cheyenne Roundtree, an investigative reporter at Rolling Stone, was as shocked as anyone when allegations of rape and sexual abuse were made against…
+        بريطانيا · Guardian
 Jordan Proposes New Renewable Energy Rules
         The Jordanian government has proposed amendments to regulations governing the connection of renewable energy facilities to the electricity grid,…
         الأردن · Jordan News
-أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
-        أكد الرئيس رجب طيب أردوغان أن تركيا أصبحت بفضل الإنجازات التي حققتها في مجال الصناعات الدفاعية
+المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
+        جاء في صحيفة الديار:
+        عربي · الجديد
+وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
+        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
         تركيا · TRT عربي
-بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
-        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
-        عربي · الشرق الأوسط
-جين جديد مرتبط بمقاومة الأدوية في علاج سرطان الدم. - Vietnam.vn
+ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - CNN Arabic
         الإمارات · الإمارات
 Takeaways From Charles Spencer’s Memoir, “Swan Song,” About Princess Diana
         Nearly 30 years after Princess Diana died, her brother has written a book about her life, her marriage to Prince Charles and the suffering she…
         أمريكا · NYT
-Watch: Six-year-old girl from China sets new Rubik's Cube world record
-        Lian Yunzhi broke the women's world record twice in three days at World Cube Association competitions.
-        بريطانيا · BBC
+Youth review – Sharon Horgan is back … and she’s better than ever
+        This brutal, hilarious new show about life as a fiftysomething is full of all the heart and humour of human life
+        بريطانيا · Guardian
 Olive Harvest Season to Begin Next Month
         The olive harvest season is expected to begin in mid-October, with the price of a tin of olive oil projected to range between JD 100 and JD 110…
         الأردن · Jordan News
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف تسليح الحوثيين
-        دعا وزراء خارجية مجموعة السبع إيران أمس الاثنين إلى وقف تسليحها ودعمها للحوثيين في اليمن
+بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
+        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
         عربي · الشرق الأوسط
+"جوجل" تطلق حواسيب مدعومة بالذكاء الاصطناعي - أخبار 24
+        الإمارات · الإمارات
 قبل وصول قادة العالم.. عطل مفاجئ يربك مطارات نيويورك وبوسطن
         أوقفت إدارة الطيران الاتحادية، الاثنين، حركة الطيران في المطارات المزدحمة على الساحل الشرقي للولايات المتحدة
         تركيا · TRT عربي
-«الختم الفلكي» يرصد سديم «الهلال» في سماء الدولة - الإمارات اليوم
-        الإمارات · الإمارات
 Princeton Is No Longer No. 1 in the U.S. News Rankings
         The Massachusetts Institute for Technology pulled ahead on a set of criteria that are as contentious as they are influential.
         أمريكا · NYT
-Solar and wind generation meet record 80% of power demand on Australia’s national grid
-        Rooftop solar alone generates more than half of all power used, as clear sunny days and low demand drive record-breaking surge Follow our Australia…
+Grief, trauma and solidarity as South African running club mourns member killed in wave of femicides
+        A week after Elizabeth ‘Tsontso’ Moselakgomo’s body was found, runners took part in a morning run to honour her name and demand more protection The…
         بريطانيا · Guardian
 Pakistan Interior Minister Visits Tehran Today
         Pakistani Interior Minister Mohsin Naqvi traveled to Iran on Monday on an official visit.
         الأردن · Jordan News
-مصادر لـCNN: جهاز أمني أمريكي سيتولى تأمين رئيس إيران خلال اجتماعات الأمم المتحدة
-        كشف مسؤولون أمريكيون، لشبكة CNN، الاثنين، عن أن جهاز الخدمة السرية الأمريكي سيتولى مهمة تأمين الرئيس الإيراني مسعود بزشكيان خلال انعقاد الجمعية…
-        عربي · CNN عربية
-معالم شامخة - الإمارات اليوم
-        معالم شامخة الإمارات اليوم
+بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
+        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
+        عربي · الشرق الأوسط
+«دبي الصحية» تطلق منظومة ذكية لإدارة المواقف.. والبداية من مستشفى راشد - الإمارات اليوم
         الإمارات · الإمارات
 أمينة أردوغان تبحث مع عقيلة رئيس سيراليون قضايا البيئة والتعليم
         في "البيت التركي" بنيويورك..
         تركيا · الأناضول
+‘Good music is good music, and most music is not!’ As he hits 90, master minimalist Steve Reich looks back
+        At 14, he heard Stravinsky and resolved to be a composer. As Reich approaches his 10th decade, the man revered by the likes of David Bowie reflects…
+        بريطانيا · Guardian
 German Leaders Prepare to Deny Far Right Access to Secret War Plan
         With the Alternative for Germany party close to power in a German state, federal officials are planning to limit the group’s access to classified…
         أمريكا · NYT
-Political fight over gun buyback after boy, 11, shot in the face and neck in Sydney apartment
-        Police don’t know if shooting was accidental as Labor attacks opposition vow to scrap gun buyback announced after Bondi massacre Follow our Australia…
-        بريطانيا · Guardian
 UNIFIL: Security Situation in Lebanon Remains Fragile
         Candice Ardell, spokesperson for the United Nations Interim Force in Lebanon (UNIFIL), said the security situation in southern Lebanon remains…
         الأردن · Jordan News
 الأرجنتين تتهم سبعة إيرانيين ولبنانيا في تفجير استهدف مركزا يهوديا في بوينس آيرس عام 1994
         بعد أكثر من ثلاثة عقود على تفجير مركز "أميا" اليهودي في بوينس آيرس، وجّه القضاء الأرجنتيني اتهامات رسمية إلى سبعة إيرانيين ولبناني للاشتباه في تورطهم…
         عربي · فرانس 24
-ليما: نشارك في «خليجي 27» لحصد اللقب - الإمارات اليوم
-        ليما: نشارك في «خليجي 27» لحصد اللقب الإمارات اليوم عبدالرحمن الحداد: كأس الخليج فرصة لإظهار تطور «الأبيض» البيان سلطان راشد: زلاتكو محظوظ بكم…
+المنتخب يؤدي أول تدريب في جدة اليوم استعداداً لـ «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
 لبنان.. إسرائيل تشن غارات وتنسف منازل وتقصف مناطق جنوبية بالفوسفور
         العمليات طالت مناطق في أقضية صور والنبطية وبنت جبيل ومرجعيون، وشملت قصفا جويا ومدفعيا وتفجيرات وإحراق منازل وتحركات عسكرية وفق وكالة الأنباء…
@@ -103655,99 +104175,97 @@ Spain rewards Luis de la Fuente with historic contract
   </programme>
   <programme start="20260922080000 +0000" stop="20260922090000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 21:24 — بتوقيتك
 
-المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
-        جاء في صحيفة الديار:
+إلى سالكي ضهر البيدر.. انتبهوا!
+        أفادت غرفة التحكم المروري
+        عربي · الجديد
+أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
+        في كلمة ألقاها الرئيس أردوغان خلال فعالية بعنوان "100 عام من الصداقة: التركية-الأمريكية" في نيويورك
+        تركيا · الأناضول
+ليست مصيرًا حتميًّا.. كيف تُغيّر البيئة والعمر تأثير جيناتنا الاجتماعية؟ - إرم نيوز
+        الإمارات · الإمارات
+Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
+        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
+        أمريكا · NYT
+Trump seeks ‘massive’ Belarus fertiliser deal amid Canada trade war
+        Trump’s announcement on Russia ally comes as he steps up his trade war with Canada, a long-term US ally and top supplier of potash President Donald…
+        بريطانيا · Guardian
+Embassy in Amman Celebrates 250 Years of American Independence
+        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
+        الأردن · Jordan News
+لقاء بين سلام والرئيس الإيراني؟ (المدن)
+        علمت "المدن" أن لقاء سيعقد بين رئيس الحكومة نواف سلام والرئيس الإيراني مسعود بزشكيان
         عربي · الجديد
 فيدان يشارك في اجتماع وزراء خارجية تركيا ومصر وباكستان والسعودية في نيويورك
         شارك وزير الخارجية التركي هاكان فيدان في الاجتماع السادس لوزراء خارجية تركيا ومصر وباكستان والسعودية.
         تركيا · TRT عربي
 أمل جديد لمرضى القلب.. دراسة تكشف "مفتاح التعافي" من النوبات القاتلة - إرم نيوز
         الإمارات · الإمارات
-Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
-        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
-        أمريكا · NYT
-The Papers: 'Air traffic out of control' and 'RAF to help Saudis'
-        A second glitch this month in the national air traffic system and the PM's first major foreign policy move lead the papers.
-        بريطانيا · BBC
-Embassy in Amman Celebrates 250 Years of American Independence
-        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
-        الأردن · Jordan News
-بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
-        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
-        عربي · الشرق الأوسط
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
-        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
-        تركيا · TRT عربي
-ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - arabic.cnn.com
-        الإمارات · الإمارات
 Earl Spencer Book Blasts Diana’s Treatment by UK Royal Family
         The decades have not lessened Earl Spencer’s anger over the House of Windsor’s treatment of the former Princess of Wales
         أمريكا · NYT
-Piers Morgan ‘snarled with annoyance’ at being uninvited to Diana’s funeral over press intrusion
-        The broadcaster and former newspaper editor was reportedly ‘surly’ on the phone to Earl Spencer
-        بريطانيا · Independent
+The truth about Sean Combs: ‘No is not a stopping point for him’
+        Cheyenne Roundtree, an investigative reporter at Rolling Stone, was as shocked as anyone when allegations of rape and sexual abuse were made against…
+        بريطانيا · Guardian
 Jordan Proposes New Renewable Energy Rules
         The Jordanian government has proposed amendments to regulations governing the connection of renewable energy facilities to the electricity grid,…
         الأردن · Jordan News
-أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
-        أكد الرئيس رجب طيب أردوغان أن تركيا أصبحت بفضل الإنجازات التي حققتها في مجال الصناعات الدفاعية
+المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
+        جاء في صحيفة الديار:
+        عربي · الجديد
+وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
+        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
         تركيا · TRT عربي
-بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
-        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
-        عربي · الشرق الأوسط
-جين جديد مرتبط بمقاومة الأدوية في علاج سرطان الدم. - Vietnam.vn
+ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - CNN Arabic
         الإمارات · الإمارات
 Takeaways From Charles Spencer’s Memoir, “Swan Song,” About Princess Diana
         Nearly 30 years after Princess Diana died, her brother has written a book about her life, her marriage to Prince Charles and the suffering she…
         أمريكا · NYT
-Watch: Six-year-old girl from China sets new Rubik's Cube world record
-        Lian Yunzhi broke the women's world record twice in three days at World Cube Association competitions.
-        بريطانيا · BBC
+Youth review – Sharon Horgan is back … and she’s better than ever
+        This brutal, hilarious new show about life as a fiftysomething is full of all the heart and humour of human life
+        بريطانيا · Guardian
 Olive Harvest Season to Begin Next Month
         The olive harvest season is expected to begin in mid-October, with the price of a tin of olive oil projected to range between JD 100 and JD 110…
         الأردن · Jordan News
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف تسليح الحوثيين
-        دعا وزراء خارجية مجموعة السبع إيران أمس الاثنين إلى وقف تسليحها ودعمها للحوثيين في اليمن
+بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
+        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
         عربي · الشرق الأوسط
+"جوجل" تطلق حواسيب مدعومة بالذكاء الاصطناعي - أخبار 24
+        الإمارات · الإمارات
 قبل وصول قادة العالم.. عطل مفاجئ يربك مطارات نيويورك وبوسطن
         أوقفت إدارة الطيران الاتحادية، الاثنين، حركة الطيران في المطارات المزدحمة على الساحل الشرقي للولايات المتحدة
         تركيا · TRT عربي
-«الختم الفلكي» يرصد سديم «الهلال» في سماء الدولة - الإمارات اليوم
-        الإمارات · الإمارات
 Princeton Is No Longer No. 1 in the U.S. News Rankings
         The Massachusetts Institute for Technology pulled ahead on a set of criteria that are as contentious as they are influential.
         أمريكا · NYT
-Solar and wind generation meet record 80% of power demand on Australia’s national grid
-        Rooftop solar alone generates more than half of all power used, as clear sunny days and low demand drive record-breaking surge Follow our Australia…
+Grief, trauma and solidarity as South African running club mourns member killed in wave of femicides
+        A week after Elizabeth ‘Tsontso’ Moselakgomo’s body was found, runners took part in a morning run to honour her name and demand more protection The…
         بريطانيا · Guardian
 Pakistan Interior Minister Visits Tehran Today
         Pakistani Interior Minister Mohsin Naqvi traveled to Iran on Monday on an official visit.
         الأردن · Jordan News
-مصادر لـCNN: جهاز أمني أمريكي سيتولى تأمين رئيس إيران خلال اجتماعات الأمم المتحدة
-        كشف مسؤولون أمريكيون، لشبكة CNN، الاثنين، عن أن جهاز الخدمة السرية الأمريكي سيتولى مهمة تأمين الرئيس الإيراني مسعود بزشكيان خلال انعقاد الجمعية…
-        عربي · CNN عربية
-معالم شامخة - الإمارات اليوم
-        معالم شامخة الإمارات اليوم
+بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
+        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
+        عربي · الشرق الأوسط
+«دبي الصحية» تطلق منظومة ذكية لإدارة المواقف.. والبداية من مستشفى راشد - الإمارات اليوم
         الإمارات · الإمارات
 أمينة أردوغان تبحث مع عقيلة رئيس سيراليون قضايا البيئة والتعليم
         في "البيت التركي" بنيويورك..
         تركيا · الأناضول
+‘Good music is good music, and most music is not!’ As he hits 90, master minimalist Steve Reich looks back
+        At 14, he heard Stravinsky and resolved to be a composer. As Reich approaches his 10th decade, the man revered by the likes of David Bowie reflects…
+        بريطانيا · Guardian
 German Leaders Prepare to Deny Far Right Access to Secret War Plan
         With the Alternative for Germany party close to power in a German state, federal officials are planning to limit the group’s access to classified…
         أمريكا · NYT
-Political fight over gun buyback after boy, 11, shot in the face and neck in Sydney apartment
-        Police don’t know if shooting was accidental as Labor attacks opposition vow to scrap gun buyback announced after Bondi massacre Follow our Australia…
-        بريطانيا · Guardian
 UNIFIL: Security Situation in Lebanon Remains Fragile
         Candice Ardell, spokesperson for the United Nations Interim Force in Lebanon (UNIFIL), said the security situation in southern Lebanon remains…
         الأردن · Jordan News
 الأرجنتين تتهم سبعة إيرانيين ولبنانيا في تفجير استهدف مركزا يهوديا في بوينس آيرس عام 1994
         بعد أكثر من ثلاثة عقود على تفجير مركز "أميا" اليهودي في بوينس آيرس، وجّه القضاء الأرجنتيني اتهامات رسمية إلى سبعة إيرانيين ولبناني للاشتباه في تورطهم…
         عربي · فرانس 24
-ليما: نشارك في «خليجي 27» لحصد اللقب - الإمارات اليوم
-        ليما: نشارك في «خليجي 27» لحصد اللقب الإمارات اليوم عبدالرحمن الحداد: كأس الخليج فرصة لإظهار تطور «الأبيض» البيان سلطان راشد: زلاتكو محظوظ بكم…
+المنتخب يؤدي أول تدريب في جدة اليوم استعداداً لـ «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
 لبنان.. إسرائيل تشن غارات وتنسف منازل وتقصف مناطق جنوبية بالفوسفور
         العمليات طالت مناطق في أقضية صور والنبطية وبنت جبيل ومرجعيون، وشملت قصفا جويا ومدفعيا وتفجيرات وإحراق منازل وتحركات عسكرية وفق وكالة الأنباء…
@@ -103765,99 +104283,97 @@ Spain rewards Luis de la Fuente with historic contract
   </programme>
   <programme start="20260922090000 +0000" stop="20260922100000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 21:24 — بتوقيتك
 
-المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
-        جاء في صحيفة الديار:
+إلى سالكي ضهر البيدر.. انتبهوا!
+        أفادت غرفة التحكم المروري
+        عربي · الجديد
+أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
+        في كلمة ألقاها الرئيس أردوغان خلال فعالية بعنوان "100 عام من الصداقة: التركية-الأمريكية" في نيويورك
+        تركيا · الأناضول
+ليست مصيرًا حتميًّا.. كيف تُغيّر البيئة والعمر تأثير جيناتنا الاجتماعية؟ - إرم نيوز
+        الإمارات · الإمارات
+Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
+        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
+        أمريكا · NYT
+Trump seeks ‘massive’ Belarus fertiliser deal amid Canada trade war
+        Trump’s announcement on Russia ally comes as he steps up his trade war with Canada, a long-term US ally and top supplier of potash President Donald…
+        بريطانيا · Guardian
+Embassy in Amman Celebrates 250 Years of American Independence
+        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
+        الأردن · Jordan News
+لقاء بين سلام والرئيس الإيراني؟ (المدن)
+        علمت "المدن" أن لقاء سيعقد بين رئيس الحكومة نواف سلام والرئيس الإيراني مسعود بزشكيان
         عربي · الجديد
 فيدان يشارك في اجتماع وزراء خارجية تركيا ومصر وباكستان والسعودية في نيويورك
         شارك وزير الخارجية التركي هاكان فيدان في الاجتماع السادس لوزراء خارجية تركيا ومصر وباكستان والسعودية.
         تركيا · TRT عربي
 أمل جديد لمرضى القلب.. دراسة تكشف "مفتاح التعافي" من النوبات القاتلة - إرم نيوز
         الإمارات · الإمارات
-Book Review: “Swan Song: Diana, My Sister,” by Charles Spencer
-        “Swan Song,” Charles Spencer’s memoir of Lady Diana, is full of love and vengeance.
-        أمريكا · NYT
-The Papers: 'Air traffic out of control' and 'RAF to help Saudis'
-        A second glitch this month in the national air traffic system and the PM's first major foreign policy move lead the papers.
-        بريطانيا · BBC
-Embassy in Amman Celebrates 250 Years of American Independence
-        Amman, Jordan – September 21, 2026 – The U.S. Embassy in Amman celebrated the 250th anniversary of American independence, bringing together members…
-        الأردن · Jordan News
-بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
-        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
-        عربي · الشرق الأوسط
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
-        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
-        تركيا · TRT عربي
-ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - arabic.cnn.com
-        الإمارات · الإمارات
 Earl Spencer Book Blasts Diana’s Treatment by UK Royal Family
         The decades have not lessened Earl Spencer’s anger over the House of Windsor’s treatment of the former Princess of Wales
         أمريكا · NYT
-Piers Morgan ‘snarled with annoyance’ at being uninvited to Diana’s funeral over press intrusion
-        The broadcaster and former newspaper editor was reportedly ‘surly’ on the phone to Earl Spencer
-        بريطانيا · Independent
+The truth about Sean Combs: ‘No is not a stopping point for him’
+        Cheyenne Roundtree, an investigative reporter at Rolling Stone, was as shocked as anyone when allegations of rape and sexual abuse were made against…
+        بريطانيا · Guardian
 Jordan Proposes New Renewable Energy Rules
         The Jordanian government has proposed amendments to regulations governing the connection of renewable energy facilities to the electricity grid,…
         الأردن · Jordan News
-أردوغان: تركيا أصبحت فاعلا يحظى بإشادة العالم في الصناعات الدفاعية
-        أكد الرئيس رجب طيب أردوغان أن تركيا أصبحت بفضل الإنجازات التي حققتها في مجال الصناعات الدفاعية
+المنطقة على فوهة حرب جديدة.. ترامب اقتنع بخطة نتنياهو؟ (الديار)
+        جاء في صحيفة الديار:
+        عربي · الجديد
+وزراء خارجية مجموعة السبع يدعون إيران إلى وقف دعم جماعة الحوثي
+        دعا وزراء خارجية مجموعة السبع إيران الاثنين إلى وقف “تسليحها ودعمها” للحوثيين في اليمن
         تركيا · TRT عربي
-بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
-        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
-        عربي · الشرق الأوسط
-جين جديد مرتبط بمقاومة الأدوية في علاج سرطان الدم. - Vietnam.vn
+ترامب يرد على رفع CNN وMSNBC وPolitico دعوى قضائية ضد منعهم من دخول البيت الأبيض - CNN Arabic
         الإمارات · الإمارات
 Takeaways From Charles Spencer’s Memoir, “Swan Song,” About Princess Diana
         Nearly 30 years after Princess Diana died, her brother has written a book about her life, her marriage to Prince Charles and the suffering she…
         أمريكا · NYT
-Watch: Six-year-old girl from China sets new Rubik's Cube world record
-        Lian Yunzhi broke the women's world record twice in three days at World Cube Association competitions.
-        بريطانيا · BBC
+Youth review – Sharon Horgan is back … and she’s better than ever
+        This brutal, hilarious new show about life as a fiftysomething is full of all the heart and humour of human life
+        بريطانيا · Guardian
 Olive Harvest Season to Begin Next Month
         The olive harvest season is expected to begin in mid-October, with the price of a tin of olive oil projected to range between JD 100 and JD 110…
         الأردن · Jordan News
-وزراء خارجية مجموعة السبع يدعون إيران إلى وقف تسليح الحوثيين
-        دعا وزراء خارجية مجموعة السبع إيران أمس الاثنين إلى وقف تسليحها ودعمها للحوثيين في اليمن
+بيونغ يانغ تختبر صاروخا جديدا وكيم يتوعد أعداءه بـ«صداع لا يُعالج»
+        قال الزعيم الكوري الشمالي كيم جونغ أون إن تطوير السلاح سيعزز جاهزية بلاده للحرب، وسيسبب لأعدائها «صداعا لا يمكن علاجه».
         عربي · الشرق الأوسط
+"جوجل" تطلق حواسيب مدعومة بالذكاء الاصطناعي - أخبار 24
+        الإمارات · الإمارات
 قبل وصول قادة العالم.. عطل مفاجئ يربك مطارات نيويورك وبوسطن
         أوقفت إدارة الطيران الاتحادية، الاثنين، حركة الطيران في المطارات المزدحمة على الساحل الشرقي للولايات المتحدة
         تركيا · TRT عربي
-«الختم الفلكي» يرصد سديم «الهلال» في سماء الدولة - الإمارات اليوم
-        الإمارات · الإمارات
 Princeton Is No Longer No. 1 in the U.S. News Rankings
         The Massachusetts Institute for Technology pulled ahead on a set of criteria that are as contentious as they are influential.
         أمريكا · NYT
-Solar and wind generation meet record 80% of power demand on Australia’s national grid
-        Rooftop solar alone generates more than half of all power used, as clear sunny days and low demand drive record-breaking surge Follow our Australia…
+Grief, trauma and solidarity as South African running club mourns member killed in wave of femicides
+        A week after Elizabeth ‘Tsontso’ Moselakgomo’s body was found, runners took part in a morning run to honour her name and demand more protection The…
         بريطانيا · Guardian
 Pakistan Interior Minister Visits Tehran Today
         Pakistani Interior Minister Mohsin Naqvi traveled to Iran on Monday on an official visit.
         الأردن · Jordan News
-مصادر لـCNN: جهاز أمني أمريكي سيتولى تأمين رئيس إيران خلال اجتماعات الأمم المتحدة
-        كشف مسؤولون أمريكيون، لشبكة CNN، الاثنين، عن أن جهاز الخدمة السرية الأمريكي سيتولى مهمة تأمين الرئيس الإيراني مسعود بزشكيان خلال انعقاد الجمعية…
-        عربي · CNN عربية
-معالم شامخة - الإمارات اليوم
-        معالم شامخة الإمارات اليوم
+بلومبرغ: «باينانس» تحت تدقيق أميركي بشأن انتهاكات محتملة لعقوبات إيران
+        ذكرت وكالة بلومبرغ نيوز أمس الاثنين نقلا عن مصادر مطلعة أن ممثلي ادعاء اتحاديين في الولايات المتحدة يحققون في ما إذا كانت منصة باينانس انتهكت…
+        عربي · الشرق الأوسط
+«دبي الصحية» تطلق منظومة ذكية لإدارة المواقف.. والبداية من مستشفى راشد - الإمارات اليوم
         الإمارات · الإمارات
 أمينة أردوغان تبحث مع عقيلة رئيس سيراليون قضايا البيئة والتعليم
         في "البيت التركي" بنيويورك..
         تركيا · الأناضول
+‘Good music is good music, and most music is not!’ As he hits 90, master minimalist Steve Reich looks back
+        At 14, he heard Stravinsky and resolved to be a composer. As Reich approaches his 10th decade, the man revered by the likes of David Bowie reflects…
+        بريطانيا · Guardian
 German Leaders Prepare to Deny Far Right Access to Secret War Plan
         With the Alternative for Germany party close to power in a German state, federal officials are planning to limit the group’s access to classified…
         أمريكا · NYT
-Political fight over gun buyback after boy, 11, shot in the face and neck in Sydney apartment
-        Police don’t know if shooting was accidental as Labor attacks opposition vow to scrap gun buyback announced after Bondi massacre Follow our Australia…
-        بريطانيا · Guardian
 UNIFIL: Security Situation in Lebanon Remains Fragile
         Candice Ardell, spokesperson for the United Nations Interim Force in Lebanon (UNIFIL), said the security situation in southern Lebanon remains…
         الأردن · Jordan News
 الأرجنتين تتهم سبعة إيرانيين ولبنانيا في تفجير استهدف مركزا يهوديا في بوينس آيرس عام 1994
         بعد أكثر من ثلاثة عقود على تفجير مركز "أميا" اليهودي في بوينس آيرس، وجّه القضاء الأرجنتيني اتهامات رسمية إلى سبعة إيرانيين ولبناني للاشتباه في تورطهم…
         عربي · فرانس 24
-ليما: نشارك في «خليجي 27» لحصد اللقب - الإمارات اليوم
-        ليما: نشارك في «خليجي 27» لحصد اللقب الإمارات اليوم عبدالرحمن الحداد: كأس الخليج فرصة لإظهار تطور «الأبيض» البيان سلطان راشد: زلاتكو محظوظ بكم…
+المنتخب يؤدي أول تدريب في جدة اليوم استعداداً لـ «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
 لبنان.. إسرائيل تشن غارات وتنسف منازل وتقصف مناطق جنوبية بالفوسفور
         العمليات طالت مناطق في أقضية صور والنبطية وبنت جبيل ومرجعيون، وشملت قصفا جويا ومدفعيا وتفجيرات وإحراق منازل وتحركات عسكرية وفق وكالة الأنباء…
@@ -103873,7 +104389,7 @@ Spain rewards Luis de la Fuente with historic contract
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_news_0.png" />
   </programme>
-  <programme start="20260922100000 +0000" stop="20260922121046 +0000" channel="TodayNews">
+  <programme start="20260922100000 +0000" stop="20260922122447 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260920184500 +0300" stop="20260920185500 +0300" channel="ThmanyahGuide">
@@ -109557,137 +110073,137 @@ Spain rewards Luis de la Fuente with historic contract
   </programme>
   <programme start="20260922040000 +0000" stop="20260922050000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 21:24 — بتوقيتك
 
 الأردن
-عمّان 18° · صافٍ غالباً · رطوبة 90% · رياح 3 كم/سا · احتمال المطر 0%
-العقبة 26° · صافٍ · رطوبة 66% · رياح 7 كم/سا · احتمال المطر 0%
+عمّان 18° · صافٍ غالباً · رطوبة 89% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 26° · صافٍ · رطوبة 65% · رياح 8 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 71% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 51% · رياح 13 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 17° · غائم · رطوبة 68% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 17° · غائم جزئياً · رطوبة 71% · رياح 4 كم/سا · احتمال المطر 0%
 مانشستر 14° · صافٍ · رطوبة 97% · رياح 2 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 16° · غائم · رطوبة 76% · رياح 9 كم/سا · احتمال المطر 7%
-لوس أنجلوس 20° · صافٍ · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
-شيكاغو 14° · غائم · رطوبة 70% · رياح 27 كم/سا · احتمال المطر 0%
-لاس فيغاس 26° · غائم · رطوبة 38% · رياح 30 كم/سا · احتمال المطر 14%
-هيوستن 27° · صافٍ · رطوبة 82% · رياح 2 كم/سا · احتمال المطر 0%
+نيويورك 16° · غائم · رطوبة 76% · رياح 10 كم/سا · احتمال المطر 7%
+لوس أنجلوس 19° · صافٍ · رطوبة 77% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · غائم · رطوبة 71% · رياح 29 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · غائم جزئياً · رطوبة 46% · رياح 27 كم/سا · احتمال المطر 14%
+هيوستن 27° · صافٍ · رطوبة 83% · رياح 2 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 14° · صافٍ غالباً · رطوبة 94% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260922050000 +0000" stop="20260922060000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 21:24 — بتوقيتك
 
 الأردن
-عمّان 18° · صافٍ غالباً · رطوبة 90% · رياح 3 كم/سا · احتمال المطر 0%
-العقبة 26° · صافٍ · رطوبة 66% · رياح 7 كم/سا · احتمال المطر 0%
+عمّان 18° · صافٍ غالباً · رطوبة 89% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 26° · صافٍ · رطوبة 65% · رياح 8 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 71% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 51% · رياح 13 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 17° · غائم · رطوبة 68% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 17° · غائم جزئياً · رطوبة 71% · رياح 4 كم/سا · احتمال المطر 0%
 مانشستر 14° · صافٍ · رطوبة 97% · رياح 2 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 16° · غائم · رطوبة 76% · رياح 9 كم/سا · احتمال المطر 7%
-لوس أنجلوس 20° · صافٍ · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
-شيكاغو 14° · غائم · رطوبة 70% · رياح 27 كم/سا · احتمال المطر 0%
-لاس فيغاس 26° · غائم · رطوبة 38% · رياح 30 كم/سا · احتمال المطر 14%
-هيوستن 27° · صافٍ · رطوبة 82% · رياح 2 كم/سا · احتمال المطر 0%
+نيويورك 16° · غائم · رطوبة 76% · رياح 10 كم/سا · احتمال المطر 7%
+لوس أنجلوس 19° · صافٍ · رطوبة 77% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · غائم · رطوبة 71% · رياح 29 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · غائم جزئياً · رطوبة 46% · رياح 27 كم/سا · احتمال المطر 14%
+هيوستن 27° · صافٍ · رطوبة 83% · رياح 2 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 14° · صافٍ غالباً · رطوبة 94% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260922060000 +0000" stop="20260922070000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 21:24 — بتوقيتك
 
 الأردن
-عمّان 18° · صافٍ غالباً · رطوبة 90% · رياح 3 كم/سا · احتمال المطر 0%
-العقبة 26° · صافٍ · رطوبة 66% · رياح 7 كم/سا · احتمال المطر 0%
+عمّان 18° · صافٍ غالباً · رطوبة 89% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 26° · صافٍ · رطوبة 65% · رياح 8 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 71% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 51% · رياح 13 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 17° · غائم · رطوبة 68% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 17° · غائم جزئياً · رطوبة 71% · رياح 4 كم/سا · احتمال المطر 0%
 مانشستر 14° · صافٍ · رطوبة 97% · رياح 2 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 16° · غائم · رطوبة 76% · رياح 9 كم/سا · احتمال المطر 7%
-لوس أنجلوس 20° · صافٍ · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
-شيكاغو 14° · غائم · رطوبة 70% · رياح 27 كم/سا · احتمال المطر 0%
-لاس فيغاس 26° · غائم · رطوبة 38% · رياح 30 كم/سا · احتمال المطر 14%
-هيوستن 27° · صافٍ · رطوبة 82% · رياح 2 كم/سا · احتمال المطر 0%
+نيويورك 16° · غائم · رطوبة 76% · رياح 10 كم/سا · احتمال المطر 7%
+لوس أنجلوس 19° · صافٍ · رطوبة 77% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · غائم · رطوبة 71% · رياح 29 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · غائم جزئياً · رطوبة 46% · رياح 27 كم/سا · احتمال المطر 14%
+هيوستن 27° · صافٍ · رطوبة 83% · رياح 2 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 14° · صافٍ غالباً · رطوبة 94% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260922070000 +0000" stop="20260922080000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 21:24 — بتوقيتك
 
 الأردن
-عمّان 18° · صافٍ غالباً · رطوبة 90% · رياح 3 كم/سا · احتمال المطر 0%
-العقبة 26° · صافٍ · رطوبة 66% · رياح 7 كم/سا · احتمال المطر 0%
+عمّان 18° · صافٍ غالباً · رطوبة 89% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 26° · صافٍ · رطوبة 65% · رياح 8 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 71% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 51% · رياح 13 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 17° · غائم · رطوبة 68% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 17° · غائم جزئياً · رطوبة 71% · رياح 4 كم/سا · احتمال المطر 0%
 مانشستر 14° · صافٍ · رطوبة 97% · رياح 2 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 16° · غائم · رطوبة 76% · رياح 9 كم/سا · احتمال المطر 7%
-لوس أنجلوس 20° · صافٍ · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
-شيكاغو 14° · غائم · رطوبة 70% · رياح 27 كم/سا · احتمال المطر 0%
-لاس فيغاس 26° · غائم · رطوبة 38% · رياح 30 كم/سا · احتمال المطر 14%
-هيوستن 27° · صافٍ · رطوبة 82% · رياح 2 كم/سا · احتمال المطر 0%
+نيويورك 16° · غائم · رطوبة 76% · رياح 10 كم/سا · احتمال المطر 7%
+لوس أنجلوس 19° · صافٍ · رطوبة 77% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · غائم · رطوبة 71% · رياح 29 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · غائم جزئياً · رطوبة 46% · رياح 27 كم/سا · احتمال المطر 14%
+هيوستن 27° · صافٍ · رطوبة 83% · رياح 2 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 14° · صافٍ غالباً · رطوبة 94% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260922080000 +0000" stop="20260922090000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 21:24 — بتوقيتك
 
 الأردن
-عمّان 18° · صافٍ غالباً · رطوبة 90% · رياح 3 كم/سا · احتمال المطر 0%
-العقبة 26° · صافٍ · رطوبة 66% · رياح 7 كم/سا · احتمال المطر 0%
+عمّان 18° · صافٍ غالباً · رطوبة 89% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 26° · صافٍ · رطوبة 65% · رياح 8 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 71% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 51% · رياح 13 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 17° · غائم · رطوبة 68% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 17° · غائم جزئياً · رطوبة 71% · رياح 4 كم/سا · احتمال المطر 0%
 مانشستر 14° · صافٍ · رطوبة 97% · رياح 2 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 16° · غائم · رطوبة 76% · رياح 9 كم/سا · احتمال المطر 7%
-لوس أنجلوس 20° · صافٍ · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
-شيكاغو 14° · غائم · رطوبة 70% · رياح 27 كم/سا · احتمال المطر 0%
-لاس فيغاس 26° · غائم · رطوبة 38% · رياح 30 كم/سا · احتمال المطر 14%
-هيوستن 27° · صافٍ · رطوبة 82% · رياح 2 كم/سا · احتمال المطر 0%
+نيويورك 16° · غائم · رطوبة 76% · رياح 10 كم/سا · احتمال المطر 7%
+لوس أنجلوس 19° · صافٍ · رطوبة 77% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · غائم · رطوبة 71% · رياح 29 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · غائم جزئياً · رطوبة 46% · رياح 27 كم/سا · احتمال المطر 14%
+هيوستن 27° · صافٍ · رطوبة 83% · رياح 2 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 14° · صافٍ غالباً · رطوبة 94% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
   <programme start="20260922090000 +0000" stop="20260922100000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 21:10 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 21:24 — بتوقيتك
 
 الأردن
-عمّان 18° · صافٍ غالباً · رطوبة 90% · رياح 3 كم/سا · احتمال المطر 0%
-العقبة 26° · صافٍ · رطوبة 66% · رياح 7 كم/سا · احتمال المطر 0%
+عمّان 18° · صافٍ غالباً · رطوبة 89% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 26° · صافٍ · رطوبة 65% · رياح 8 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 32° · صافٍ · رطوبة 73% · رياح 6 كم/سا · احتمال المطر 0%
-دبي 31° · صافٍ · رطوبة 57% · رياح 12 كم/سا · احتمال المطر 0%
+أبو ظبي 32° · صافٍ · رطوبة 71% · رياح 6 كم/سا · احتمال المطر 0%
+دبي 32° · صافٍ · رطوبة 51% · رياح 13 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 17° · غائم · رطوبة 68% · رياح 5 كم/سا · احتمال المطر 0%
+لندن 17° · غائم جزئياً · رطوبة 71% · رياح 4 كم/سا · احتمال المطر 0%
 مانشستر 14° · صافٍ · رطوبة 97% · رياح 2 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 16° · غائم · رطوبة 76% · رياح 9 كم/سا · احتمال المطر 7%
-لوس أنجلوس 20° · صافٍ · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
-شيكاغو 14° · غائم · رطوبة 70% · رياح 27 كم/سا · احتمال المطر 0%
-لاس فيغاس 26° · غائم · رطوبة 38% · رياح 30 كم/سا · احتمال المطر 14%
-هيوستن 27° · صافٍ · رطوبة 82% · رياح 2 كم/سا · احتمال المطر 0%
+نيويورك 16° · غائم · رطوبة 76% · رياح 10 كم/سا · احتمال المطر 7%
+لوس أنجلوس 19° · صافٍ · رطوبة 77% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · غائم · رطوبة 71% · رياح 29 كم/سا · احتمال المطر 0%
+لاس فيغاس 25° · غائم جزئياً · رطوبة 46% · رياح 27 كم/سا · احتمال المطر 14%
+هيوستن 27° · صافٍ · رطوبة 83% · رياح 2 كم/سا · احتمال المطر 0%
 سان فرانسيسكو 14° · صافٍ غالباً · رطوبة 94% · رياح 15 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260922100000 +0000" stop="20260922121111 +0000" channel="TodayWeather">
+  <programme start="20260922100000 +0000" stop="20260922122449 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260922040000 +0000" stop="20260922050000 +0000" channel="TodayPrayer">
@@ -109834,4 +110350,4 @@ Istanbul (إسطنبول) — الفجر 05:19 · الشروق 06:44 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260922123414 +0000" stop="20260922124019 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260922121046 +0000" stop="20260922124019 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260922121111 +0000" stop="20260922124019 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260922122447 +0000" stop="20260922130022 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260922122449 +0000" stop="20260922130022 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
