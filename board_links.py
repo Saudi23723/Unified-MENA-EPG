@@ -40,6 +40,7 @@ PUBLISHED: set[str] = {
     "sporttv_", "dubai_sporttv_",
     "turkish_ppv_", "dubai_turkish_ppv_",
     "today_matches_", "dubai_matches_",
+    "other_sports_", "dubai_sports_",
 }
 
 UNTRACKED: set[str] = set()
