@@ -4,3 +4,7 @@
 # relative names on disk. See tools/segment_branch.py; each line matches
 # a playlist in its MOVED.
 stream/prayer.m3u8 filter=hlsseg
+stream/news.m3u8 filter=hlsseg
+stream/dubai_news.m3u8 filter=hlsseg
+stream/sports.m3u8 filter=hlsseg
+stream/dubai_sports.m3u8 filter=hlsseg

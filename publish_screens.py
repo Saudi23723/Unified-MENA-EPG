@@ -70,7 +70,21 @@ from glob import glob
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "tools"))
+import importlib  # noqa: E402
+
 import segment_branch  # noqa: E402
+
+
+def segments():
+    """tools/segment_branch.py as it is on disk NOW, not as it was imported.
+
+    A rejected push resets this checkout onto main, and main may have
+    moved more screens since this process started. The clean filter runs
+    the file on disk, so everything else about the segments has to read
+    the same file — or a playlist gets its new addresses while its
+    segments are left behind by the old list.
+    """
+    return importlib.reload(segment_branch)
 
 # The eight screens this workflow publishes. Each entry is the screen's
 # board prefix, its XML, and the playlist and stamp files its encoder
@@ -261,7 +275,7 @@ def restore(ours: str, changed: list[str]) -> None:
                 # A segment kept on hls-segments is not on main at all:
                 # its deletion in our commit is main letting go of it, and
                 # `git rm -f` would take this pass's own copy off the disk.
-                if segment_branch.moved_prefix(os.path.basename(path)):
+                if segments().moved_prefix(os.path.basename(path)):
                     continue
                 git("rm", "-f", "--quiet", "--ignore-unmatch", "--", path)
 
@@ -414,7 +428,7 @@ def stage() -> int:
     for directory in ("boards", "stream"):
         if os.path.isdir(directory):
             git("add", "--", directory)
-    segment_branch.untrack()
+    segments().untrack()
     return 0
 
 
@@ -469,14 +483,14 @@ def publish() -> int:
         # naming a segment the branch does not hold, or naming one by a
         # relative path main no longer carries — is not pushed at all.
         # The next pass is minutes away and builds from scratch.
-        problems = segment_branch.head_problems()
+        problems = segments().head_problems()
         if problems:
             for problem in problems:
                 error(problem)
             error("this commit would point a playlist at a missing "
                   "segment — nothing is published")
             return 1
-        if not segment_branch.publish():
+        if not segments().publish():
             error("the segments could not be published, so the playlists "
                   "naming them are not published either")
             return 1
@@ -501,11 +515,11 @@ def publish() -> int:
         # A reset brings the winning run's playlists but not the segments
         # they name that live on hls-segments; put those on disk, as the
         # reset itself used to.
-        segment_branch.hydrate()
+        segments().hydrate()
 
         restore(ours, changed)
         reconcile_stream_with_the_encoder()
-        segment_branch.untrack()
+        segments().untrack()
 
         if nothing_is_staged():
             log(f"{BRANCH} already carries this pass.")
