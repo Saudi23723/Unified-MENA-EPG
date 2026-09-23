@@ -27,6 +27,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import board_links
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -52,8 +53,8 @@ BOARD_DIR = "boards"
 BOARD_PREFIX = "today_prayer_"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_prayer.png")
-RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/boards/" + BOARD_PREFIX + "{n}.png")
+# Where the board is linked: board_links.py decides, one table for all.
+RAW_BOARD = board_links.link(BOARD_PREFIX + "{n}.png")
 
 API = "https://api.aladhan.com/v1/timings/{date}"
 SOURCE = "Aladhan"

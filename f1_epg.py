@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import json
 import os
+import board_links
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -67,8 +68,8 @@ OUTPUT = "f1_epg.xml"
 BOARD_PREFIX = "f1_"
 BOARD_DIR = "boards"
 STATE = "f1_state.json"
-RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-       "main/boards/f1_0.png")
+# Where the board is linked: board_links.py decides, one table for all.
+RAW = board_links.link(BOARD_PREFIX + "0.png")
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/f1.png")
 
@@ -81,8 +82,7 @@ LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 DUBAI_OUTPUT = "dubai_f1_epg.xml"
 DUBAI_CHANNEL_ID = "Formula1Dubai"
 DUBAI_BOARD_PREFIX = "dubai_f1_"
-DUBAI_RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/boards/dubai_f1_0.png")
+DUBAI_RAW = board_links.link(DUBAI_BOARD_PREFIX + "0.png")
 
 JOLPICA = "https://api.jolpi.ca/ergast/f1"
 OPENF1 = "https://api.openf1.org/v1"
