@@ -34,3 +34,7 @@ stream_map.json
 # Screen segments that live on the hls-segments branch, not on main.
 # See tools/segment_branch.py; each line matches a prefix in its MOVED.
 stream/today_prayer_*.ts
+stream/today_news_*.ts
+stream/dubai_news_*.ts
+stream/other_sports_*.ts
+stream/dubai_sports_*.ts

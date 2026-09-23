@@ -73,6 +73,11 @@ FILTER = "hlsseg"
 # checks: its segments in .gitignore, and its playlist in .gitattributes.
 MOVED: dict[str, str] = {
     "today_prayer_": "prayer.m3u8",
+    # The four that change every pass, and so almost all of the growth.
+    "today_news_": "news.m3u8",
+    "dubai_news_": "dubai_news.m3u8",
+    "other_sports_": "sports.m3u8",
+    "dubai_sports_": "dubai_sports.m3u8",
 }
 
 # A segment nothing names any more is still kept this long after it first
