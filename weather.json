@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23T08:14:45.353Z",
+  "updated_at": "2026-09-23T08:21:58.316Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -86,7 +86,7 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 11.6,
-      "humidity": 74,
+      "humidity": 72,
       "wind_speed": 14.2,
       "rain_chance": 0,
       "condition": "غائم",
@@ -99,11 +99,11 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 18.3,
-      "humidity": 95,
+      "humidity": 97,
       "wind_speed": 2.6,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-09-23T01:15"
     },
     {
@@ -112,11 +112,11 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 13.6,
-      "humidity": 74,
+      "humidity": 72,
       "wind_speed": 22.0,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-09-23T03:15"
     },
     {
@@ -125,7 +125,7 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 23.8,
-      "humidity": 33,
+      "humidity": 31,
       "wind_speed": 13.2,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -138,7 +138,7 @@
       "latitude": 29.7604,
       "longitude": -95.3698,
       "temperature_c": 26.7,
-      "humidity": 88,
+      "humidity": 87,
       "wind_speed": 3.7,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -151,11 +151,11 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 13.7,
-      "humidity": 90,
+      "humidity": 97,
       "wind_speed": 6.6,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-09-23T01:15"
     }
   ]
