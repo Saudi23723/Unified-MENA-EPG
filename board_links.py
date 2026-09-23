@@ -32,6 +32,7 @@ BRANCH = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 
 PUBLISHED: set[str] = {
     "today_prayer_",
+    "today_weather_", "dubai_weather_",
 }
 
 UNTRACKED: set[str] = set()
