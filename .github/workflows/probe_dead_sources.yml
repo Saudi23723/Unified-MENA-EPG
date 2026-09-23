@@ -1,0 +1,28 @@
+# Print what every source behind the stalled guides answers from a runner.
+#
+# It commits nothing and publishes nothing.
+name: Probe dead sources
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/epg-channels-not-updating-pa2732]
+    paths:
+      - "probes/probe_dead_sources.py"
+      - ".github/workflows/probe_dead_sources.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            probes
+            requirements.txt
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests beautifulsoup4
+      - run: python -u probes/probe_dead_sources.py
