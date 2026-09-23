@@ -68,6 +68,10 @@ import sys
 import time
 from glob import glob
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "tools"))
+import segment_branch  # noqa: E402
+
 # The eight screens this workflow publishes. Each entry is the screen's
 # board prefix, its XML, and the playlist and stamp files its encoder
 # owns inside stream/. Kept here rather than read out of
@@ -254,6 +258,11 @@ def restore(ours: str, changed: list[str]) -> None:
         # the first time.
         for path in changed:
             if belongs_to_screen(path, screen) and path not in owned_set:
+                # A segment kept on hls-segments is not on main at all:
+                # its deletion in our commit is main letting go of it, and
+                # `git rm -f` would take this pass's own copy off the disk.
+                if segment_branch.moved_prefix(os.path.basename(path)):
+                    continue
                 git("rm", "-f", "--quiet", "--ignore-unmatch", "--", path)
 
         # Segments ours does not have, left on disk by the winning run,
@@ -405,6 +414,7 @@ def stage() -> int:
     for directory in ("boards", "stream"):
         if os.path.isdir(directory):
             git("add", "--", directory)
+    segment_branch.untrack()
     return 0
 
 
@@ -452,6 +462,24 @@ def publish() -> int:
         return 1
 
     for attempt in range(1, ATTEMPTS + 1):
+        # THE SEGMENTS GO FIRST, AND MAIN ONLY IF THEY ALL WENT. Some
+        # screens' segments live on hls-segments, and main's playlists
+        # name them there. So they are pushed before the commit that
+        # names them, and a commit that is not safe to push — a playlist
+        # naming a segment the branch does not hold, or naming one by a
+        # relative path main no longer carries — is not pushed at all.
+        # The next pass is minutes away and builds from scratch.
+        problems = segment_branch.head_problems()
+        if problems:
+            for problem in problems:
+                error(problem)
+            error("this commit would point a playlist at a missing "
+                  "segment — nothing is published")
+            return 1
+        if not segment_branch.publish():
+            error("the segments could not be published, so the playlists "
+                  "naming them are not published either")
+            return 1
         pushed = git("push", "origin", f"HEAD:{BRANCH}")
         if pushed.returncode == 0:
             log(f"Pushed on attempt {attempt}")
@@ -470,9 +498,14 @@ def publish() -> int:
                    .stdout.splitlines() if line.strip()]
         git("fetch", "origin", BRANCH)
         git("reset", "--hard", f"origin/{BRANCH}")
+        # A reset brings the winning run's playlists but not the segments
+        # they name that live on hls-segments; put those on disk, as the
+        # reset itself used to.
+        segment_branch.hydrate()
 
         restore(ours, changed)
         reconcile_stream_with_the_encoder()
+        segment_branch.untrack()
 
         if nothing_is_staged():
             log(f"{BRANCH} already carries this pass.")
