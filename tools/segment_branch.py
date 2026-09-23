@@ -54,6 +54,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -65,6 +66,9 @@ STREAM = "stream"
 RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
        f"{BRANCH}/{STREAM}/")
 MANIFEST = f"{STREAM}/segments.json"
+BOARDS = "boards"
+BOARD_RAW = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             f"{BRANCH}/{BOARDS}/")
 FILTER = "hlsseg"
 
 # The screens whose segments live on hls-segments: board prefix -> the
@@ -321,7 +325,8 @@ def publish() -> bool:
         before: dict[str, str] = {}
         manifest: dict[str, float] = {}
         if tip:
-            for line in out(git("ls-tree", "-r", tip, "--", STREAM)).splitlines():
+            for line in out(git("ls-tree", "-r", tip, "--", STREAM,
+                                BOARDS)).splitlines():
                 meta, _, path = line.partition("\t")
                 parts = meta.split()
                 if len(parts) == 3 and parts[1] == "blob":
@@ -344,7 +349,7 @@ def publish() -> bool:
         after: dict[str, str] = {}
         seen: dict[str, float] = {}
         for path, blob in before.items():
-            if path == MANIFEST:
+            if path == MANIFEST or path.startswith(BOARDS + "/"):
                 continue
             name = os.path.basename(path)
             first = manifest.get(name, now)
@@ -358,6 +363,18 @@ def publish() -> bool:
                 return False
             after[f"{STREAM}/{name}"] = out(done)
             seen.setdefault(name, manifest.get(name, now))
+
+        after.update(boards_wanted(before))
+        # A guide in that commit linking a picture that is not here is a
+        # broken image in a player's guide — said loudly, but NOT a reason
+        # to hold back every screen: a missing picture is cosmetic, and the
+        # text of the guide and every channel are whole without it.
+        unlinked = sorted(path for path in linked_boards()
+                          if "{" not in path and path not in after)
+        if unlinked:
+            log(f"::warning::the commit for main links {len(unlinked)} "
+                f"board(s) that are neither on disk nor on {BRANCH}: "
+                f"{', '.join(unlinked[:5])}")
 
         # What the commit about to go to main names must ALL be here, or
         # main is not pushed: that is a playlist pointing at a 404.
@@ -465,6 +482,61 @@ def consistency() -> list[str]:
         if git("check-ignore", "-q", "--no-index", "--", probe).returncode != 0:
             problems.append(f"{STREAM}/{prefix}*.ts is not in .gitignore")
     return problems
+
+
+def board_table():
+    """board_links.py as it is on disk now — see segments() in
+    publish_screens for why a long-running pass must not use a stale one."""
+    import importlib
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    import board_links
+    return importlib.reload(board_links)
+
+
+def boards_wanted(before: dict[str, str]) -> dict[str, str]:
+    """The boards hls-segments should hold: path -> blob.
+
+    Only screens in board_links.PUBLISHED. A board this pass redrew — its
+    screen changed in HEAD — replaces the branch's copy; a board the
+    branch does not have yet is added; otherwise the branch keeps its own,
+    which another run published and this one did not touch. A board is
+    never dropped: the names are page numbers, so they are few and
+    reused, and a guide still linking an old page must keep finding it.
+    """
+    table = board_table()
+    published = table.PUBLISHED
+    wanted = {path: blob for path, blob in before.items()
+              if path.startswith(BOARDS + "/")}
+    if not published or not os.path.isdir(BOARDS):
+        return wanted
+    changed = out(git("diff", "--name-only", "HEAD^", "HEAD")).splitlines()
+    touched = set()
+    for path in changed:
+        prefix = table.prefix_of(os.path.basename(path), published)
+        if prefix:
+            touched.add(prefix)
+    for name in sorted(os.listdir(BOARDS)):
+        prefix = table.prefix_of(name, published)
+        path = f"{BOARDS}/{name}"
+        if not prefix or not os.path.isfile(path):
+            continue
+        if prefix in touched or path not in wanted:
+            done = git("hash-object", "-w", "--", path)
+            if done.returncode == 0:
+                wanted[path] = out(done)
+    return wanted
+
+
+def linked_boards() -> set[str]:
+    """Every board HEAD's guides link on hls-segments, as boards/<name>."""
+    done = git("grep", "-h", "-o", "-I", "-E",
+               re.escape(BOARD_RAW) + r"[A-Za-z0-9_.{}-]+", "HEAD", "--",
+               "*.xml")
+    return {f"{BOARDS}/" + hit.split(":", 1)[-1][len(BOARD_RAW):]
+            if hit.startswith("HEAD:") else f"{BOARDS}/" + hit[len(BOARD_RAW):]
+            for hit in out(done).splitlines() if BOARD_RAW in hit}
 
 
 def git_dir() -> str:

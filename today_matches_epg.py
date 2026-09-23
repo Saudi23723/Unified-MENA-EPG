@@ -46,6 +46,8 @@ be added later without touching what is here.
 from __future__ import annotations
 
 import os
+
+import board_links
 import re
 import sys
 from collections import Counter, defaultdict
@@ -2238,7 +2240,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
     except Exception as exc:
         warn(f"the board for {day} could not be drawn ({exc}) — the day "
              f"still publishes as text")
-        return BOARD_URL + "/" + name if os.path.exists(path) else None
+        return board_links.link(name) if os.path.exists(path) else None
     board_marks.remember(record, events, now)
 
     os.makedirs(BOARD_DIR, exist_ok=True)
@@ -2246,7 +2248,7 @@ def publish_board(index: int, day: date, events: list[dict], now: datetime,
         with open(path, "wb") as out:
             out.write(fresh)
         log(f"  board {name} redrawn ({len(fresh) // 1024} KB)")
-    return f"{BOARD_URL}/{name}"
+    return board_links.link(name)
 
 
 def say_what_was_dropped(everything: list[dict], days: list[date]) -> None:

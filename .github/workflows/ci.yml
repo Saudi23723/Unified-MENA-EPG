@@ -52,6 +52,15 @@ jobs:
         run: python -u epg_lib_selftest.py
         continue-on-error: true
 
+      # The screens' segments live on hls-segments, and their playlists on
+      # main name them by address. The publishing pass puts both back the
+      # way the gate below reads them — relative names, segments on disk —
+      # and a checkout here has to do the same, or every screen check
+      # fails on a file that was never meant to be on main.
+      - name: Put the screens' segments where the gate reads them
+        run: python -u tools/segment_branch.py hydrate
+        continue-on-error: true
+
       # No guide may publish another broadcaster's match. This exists
       # because one did: ON Time Sports carried Liverpool - Nottingham
       # for an afternoon because a gate read a number before a name.

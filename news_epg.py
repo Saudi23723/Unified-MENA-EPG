@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import os
 import sys
+import board_links
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -49,8 +50,8 @@ BOARD_DIR = "boards"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/today_news.png")
 BOARD_PREFIX = "today_news_"
-RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/boards/" + BOARD_PREFIX + "{n}.png")
+# Where the boards are linked: board_links.py decides, one table for all.
+RAW_BOARD = board_links.link(BOARD_PREFIX + "{n}.png")
 
 # THE SECOND CLOCK'S OUTPUTS — the same bulletin, every clock it prints
 # in the Gulf's (Asia/Dubai): "copy full links for 4 channels + second
@@ -63,8 +64,7 @@ RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 DUBAI_OUTPUT = "dubai_news_epg.xml"
 DUBAI_CHANNEL_ID = "TodayNewsDubai"
 DUBAI_BOARD_PREFIX = "dubai_news_"
-DUBAI_RAW_BOARD = ("https://raw.githubusercontent.com/Saudi23723/"
-                   "Unified-MENA-EPG/main/boards/dubai_news_{n}.png")
+DUBAI_RAW_BOARD = board_links.link(DUBAI_BOARD_PREFIX + "{n}.png")
 
 # HOW MUCH IS SHOWN. "اعمل الصفحات اكثر شوي 5 - 6 صفحات" — so six
 # pages of six, thirty-six headlines against the eighteen before.
