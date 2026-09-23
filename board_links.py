@@ -36,6 +36,7 @@ PUBLISHED: set[str] = {
     "today_news_", "dubai_news_",
     "f1_", "dubai_f1_",
     "hoops_gridiron_", "dubai_hoops_gridiron_",
+    "ball_sports_", "dubai_ball_sports_",
 }
 
 UNTRACKED: set[str] = set()
