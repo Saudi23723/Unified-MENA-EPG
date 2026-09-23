@@ -34,6 +34,7 @@ PUBLISHED: set[str] = {
     "today_prayer_",
     "today_weather_", "dubai_weather_",
     "today_news_", "dubai_news_",
+    "f1_", "dubai_f1_",
 }
 
 UNTRACKED: set[str] = set()
