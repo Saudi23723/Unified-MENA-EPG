@@ -30,3 +30,7 @@ stream_map.json
 # See board_marks.py: one small file per board, rewritten every pass, read
 # only by the flip pass on the same machine.
 .marks/
+
+# Screen segments that live on the hls-segments branch, not on main.
+# See tools/segment_branch.py; each line matches a prefix in its MOVED.
+stream/today_prayer_*.ts

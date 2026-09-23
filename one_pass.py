@@ -221,6 +221,15 @@ def keep_manual_run_alive(
 def main() -> int:
     catch_up()
 
+    # THE SEGMENTS OF SOME SCREENS ARE NOT ON MAIN ANY MORE. They live on
+    # hls-segments (tools/segment_branch.py says why), so a checkout or a
+    # catch-up no longer brings them. This puts back every one a playlist
+    # or a ledger on disk names, so the encoder, the gate and the audit
+    # below see stream/ exactly as they did when main carried it. It only
+    # ever adds a file, and a failure here costs nothing the gate will
+    # not catch: a missing segment is one the encoder re-encodes.
+    run("tools/segment_branch.py", "hydrate")
+
     import channels
     import match_screen_video
 

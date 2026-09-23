@@ -1,0 +1,6 @@
+# Playlists whose segments live on the hls-segments branch. The filter
+# writes each segment's full hls-segments address into what is committed
+# and takes it back out of what is checked out, so a pass still sees
+# relative names on disk. See tools/segment_branch.py; each line matches
+# a playlist in its MOVED.
+stream/prayer.m3u8 filter=hlsseg
