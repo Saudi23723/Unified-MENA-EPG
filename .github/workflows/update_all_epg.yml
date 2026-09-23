@@ -63,10 +63,16 @@ jobs:
     timeout-minutes: 190
 
     steps:
+      # THE LATEST COMMIT ONLY. fetch-depth: 0 downloaded the whole
+      # history — gigabytes of screen segments committed every few
+      # minutes — and measured on 2026-09-23 that took nineteen minutes
+      # before a single guide was built, long enough for the next event to
+      # cancel the run mid-checkout. Nothing here reads history: the build
+      # compares against HEAD, and a rejected push fetches main and
+      # rebuilds on top of it, which a shallow clone does exactly as
+      # "Build today's matches" already does every five minutes.
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
