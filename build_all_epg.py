@@ -258,14 +258,47 @@ def run(script: str, budget_left: timedelta) -> tuple[str, float]:
     return "ok", seconds
 
 
+def stop_of(programme) -> datetime | None:
+    """When a programme ends, in UTC, or None if it does not say."""
+    value = programme.get("stop") or ""
+    raw, offset = value[:14], value[-5:]
+    if len(raw) != 14:
+        return None
+    try:
+        stop = datetime.strptime(raw, "%Y%m%d%H%M%S")
+    except ValueError:
+        return None
+    if len(offset) == 5 and offset[0] in "+-":
+        sign = 1 if offset[0] == "+" else -1
+        stop = stop.replace(tzinfo=timezone(sign * timedelta(
+            hours=int(offset[1:3]), minutes=int(offset[3:5]))))
+    else:
+        stop = stop.replace(tzinfo=UTC)
+    return stop.astimezone(UTC)
+
+
 def count(root) -> tuple[int, int, int]:
     """(programmes, rows that say the guide does not know, real broadcasts).
 
     One function, so a rebuild and the file it is compared against are
     always counted the same way.
+
+    Only what has not finished yet is counted. Counting the whole file
+    locked guides for good: once the guard kept a published file, the
+    matches in it that had already aired went on counting against every
+    later rebuild, the published file never moved again, so its count
+    never fell — and a quiet day with no games froze Alwan, Shahid,
+    Shasha, tabii and Thmanyah from 21 September, discarding the real
+    matches their sources were still finding. Counting only what is still
+    to come, a kept file's count falls as its matches air, and the guard
+    lets go by itself.
     """
+    now = datetime.now(UTC)
     per: dict[str, list] = {}
     for programme in root.findall("programme"):
+        stop = stop_of(programme)
+        if stop is not None and stop <= now:
+            continue
         title = (programme.findtext("title") or "").strip()
         slot = per.setdefault(programme.get("channel"), [0, 0, set(), 0])
         slot[0] += 1
@@ -416,21 +449,9 @@ def describe(path: str, now: datetime) -> tuple[str, str, str]:
     programmes = 0
     for programme in root.findall("programme"):
         programmes += 1
-        raw = (programme.get("stop") or "")[:14]
-        offset = (programme.get("stop") or "")[-5:]
-        if len(raw) != 14:
+        stop = stop_of(programme)
+        if stop is None:
             continue
-        try:
-            stop = datetime.strptime(raw, "%Y%m%d%H%M%S")
-        except ValueError:
-            continue
-        if len(offset) == 5 and offset[0] in "+-":
-            sign = 1 if offset[0] == "+" else -1
-            stop = stop.replace(tzinfo=timezone(sign * timedelta(
-                hours=int(offset[1:3]), minutes=int(offset[3:5]))))
-        else:
-            stop = stop.replace(tzinfo=UTC)
-        stop = stop.astimezone(UTC)
         if newest is None or stop > newest:
             newest = stop
 
