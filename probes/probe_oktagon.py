@@ -1,47 +1,45 @@
-"""Which public feeds schedule OSN's channels, and how well. Never fails."""
-import gzip
+"""OSN: clock check between the two Egypt feeds, and the best logo each source offers. Never fails."""
+import base64
+import io
 import re
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime
 
 import requests
+from PIL import Image
 
 S = requests.Session()
 S.headers["User-Agent"] = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
-WANT = re.compile(r"\bosn\b|أو إس إن|او اس ان", re.I)
-FEEDS = [f"https://epgshare01.online/epgshare01/epg_ripper_{c}.xml.gz" for c in ("AE1", "SA2", "EG1")]
-FEEDS += [f"https://www.open-epg.com/files/{c}.xml" for c in
-          ("uae1", "uae2", "saudiarabia1", "saudiarabia2", "egypt1", "egypt2", "qatar1")]
-now = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
-for url in FEEDS:
-    try:
-        r = S.get(url, timeout=90)
-        raw = r.content
-        if raw[:2] == b"\x1f\x8b":
-            raw = gzip.decompress(raw)
-        t = raw.decode("utf-8", "replace")
-        print("==", url, r.status_code, len(t))
-        chans = {}
-        for m in re.finditer(r'<channel id="([^"]+)"[^>]*>(.*?)</channel>', t, re.S):
-            names = re.findall(r"<display-name[^>]*>(.*?)</display-name>", m.group(2), re.S)
-            if WANT.search(m.group(1) + " " + " ".join(names)):
-                chans[m.group(1)] = " | ".join(names)[:40]
-        if not chans:
-            print("   none")
-            continue
-        future = Counter(); distinct = {}; last = {}; first = {}
-        for m in re.finditer(r'<programme start="(\d{14})([^"]*)" stop="(\d{14})[^"]*" channel="([^"]+)"(.*?)</programme>', t, re.S):
-            c = m.group(4)
-            if c in chans:
-                first.setdefault(c, m.group(1) + m.group(2))
-                if m.group(3) > now:
-                    future[c] += 1
-                    last[c] = max(last.get(c, ""), m.group(3))
-                    tt = re.search(r"<title[^>]*>(.*?)</title>", m.group(5), re.S)
-                    distinct.setdefault(c, set()).add(tt.group(1) if tt else "")
-        print(f"   {len(chans)} OSN channels, {sum(1 for c in chans if future[c])} with future rows; first raw start {next(iter(first.values()), '')}")
-        for c, n in sorted(chans.items()):
-            print(f"   {c:34} future={future[c]:4} last={last.get(c,'')[:12]} distinct={len(distinct.get(c, []))} {list(distinct.get(c, []))[:2]}")
-    except Exception as exc:
-        print("== ERR", url, type(exc).__name__, str(exc)[:150])
+E1 = S.get("https://www.open-epg.com/files/egypt1.xml", timeout=60).text
+E2 = S.get("https://www.open-epg.com/files/egypt2.xml", timeout=60).text
+
+
+def rows(t, cid):
+    out = []
+    for m in re.finditer(r'<programme start="([^"]+)" stop="[^"]+" channel="%s"(.*?)</programme>' % re.escape(cid), t, re.S):
+        tt = re.search(r"<title[^>]*>(.*?)</title>", m.group(2), re.S)
+        out.append((datetime.strptime(m.group(1), "%Y%m%d%H%M%S %z"), (tt.group(1) if tt else "").strip().casefold()))
+    return out
+
+
+for a, b in (("أو إس إن وان.eg", "OSN TV One.eg"), ("أو إس إن موفيز أكشن.eg", "OSN TV Movies Action.eg"),
+             ("أو إس إن كوميدي.eg", "OSN TV Comedy.eg")):
+    ra, rb = rows(E1, a), rows(E2, b)
+    ca = Counter(t for _, t in ra); cb = Counter(t for _, t in rb)
+    ua = {t: s for s, t in ra if ca[t] == 1}; ub = {t: s for s, t in rb if cb[t] == 1}
+    d = Counter(int((ua[t] - ub[t]).total_seconds() // 60) for t in set(ua) & set(ub))
+    print("CLOCK", b, "shared", sum(d.values()), d.most_common(3))
+
+for t, name in ((E1, "E1"), (E2, "E2")):
+    for m in re.finditer(r'<channel id="([^"]*(?:OSN|Osn|أو إس إن)[^"]*)"[^>]*>(.*?)</channel>', t, re.S):
+        icon = re.search(r'<icon src="([^"]+)"', m.group(2))
+        print("ICON", name, m.group(1), icon.group(1) if icon else "-")
+
+page = S.get("https://www.elcinema.com/tvguide/", timeout=30).text
+for m in re.finditer(r'href="/tvguide/(\d+)/"[^>]*>(.*?)</a>', page, re.S):
+    n = re.sub(r"<[^>]+>|\s+", " ", m.group(2)).strip()
+    if re.search(r"osn|أو إس إن|او اس ان", n, re.I):
+        print("ELC", m.group(1), n)
+imgs = sorted(set(re.findall(r'(https://media\d+\.elcinema\.com/tvguide/\d+_\d+\.(?:png|jpg))', page)))
+print("ELC-IMGS", len(imgs), imgs[:5])
