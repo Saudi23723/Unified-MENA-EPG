@@ -53,6 +53,7 @@ from epg_lib import (
 import aljadeed_epg
 import aljazeera_epg
 import filler_epg
+import mbc_epg
 
 OUTPUT = "roya_jordan_epg.xml"
 UTC = timezone.utc
@@ -298,7 +299,8 @@ def build() -> int:
     # inside its own try, so one broken source costs only its own channel.
     for name, reader in (("Al Jadeed", aljadeed_epg),
                          ("Al Jazeera", aljazeera_epg),
-                         ("Filler", filler_epg)):
+                         ("Filler", filler_epg),
+                         ("MBC", mbc_epg)):
         try:
             total += reader.emit(root, reader.collect(session, OUTPUT))
         except Exception as exc:
