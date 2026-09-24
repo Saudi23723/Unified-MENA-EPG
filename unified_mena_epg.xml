@@ -722,6 +722,31 @@
     <display-name lang="ar">أو إس إن ياهلا بالعربي</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/osn_yahala_bilarabi_v2.png" />
   </channel>
+  <channel id="Nick Jr">
+    <display-name lang="ar">Nick Jr</display-name>
+    <display-name lang="en">Nick Jr</display-name>
+    <display-name lang="en">OSN Nick Jr</display-name>
+    <display-name lang="en">Nick Jr.</display-name>
+    <display-name lang="ar">نك جونيور</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/nick_jr_v2.png" />
+  </channel>
+  <channel id="Discovery ID">
+    <display-name lang="ar">Discovery ID</display-name>
+    <display-name lang="en">Discovery ID</display-name>
+    <display-name lang="en">OSN Discovery IDX</display-name>
+    <display-name lang="en">Investigation Discovery</display-name>
+    <display-name lang="en">ID</display-name>
+    <display-name lang="ar">ديسكفري آي دي</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/discovery_id_v2.png" />
+  </channel>
+  <channel id="Fatafeat">
+    <display-name lang="ar">Fatafeat</display-name>
+    <display-name lang="en">Fatafeat</display-name>
+    <display-name lang="en">OSN Fatafeat</display-name>
+    <display-name lang="en">OSN FATAFET</display-name>
+    <display-name lang="ar">فتافيت</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/fatafeat_v2.png" />
+  </channel>
   <channel id="JordanSports">
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/jordan_sport.png" />
     <display-name lang="ar">Jordan Sport | الأردن الرياضية</display-name>
@@ -8096,12 +8121,6 @@ Fortuna Arena Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260923063000 +0000" stop="20260923072000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">Premier Padel Highlights 2026 - Paris Major</title>
-    <desc lang="en">Highlights from the Miami P1, held in Miami, USA, from 22–29 March. Staged at the Miami Beach Convention Center, this Premier Padel P1 event features men’s and women’s main-draw action through to the finals. As a P1 tournament, it offers 1,000 ranking points to the winners and a total prize fund of €479,068.</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
   </programme>
   <programme start="20260923072000 +0000" stop="20260923080000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">FOIL Indv SF - Fencing - Asian Games Aichi-Nagoya 2026 - W ‎• Live 🔵‎</title>
@@ -59779,10 +59798,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">موليز غيم</title>
     <desc lang="ar">أدارت مولي بلوم أخطر لعبة ورق عالية في العالم لمدة عقد من الزمن، وكان من بين لاعبيها ملوك هوليوود ونجوم الرياضة وعمالقة الأعمال، وأخيراً الغوغاء الروس، دون علمها. ألقى (17) من عملاء مكتب التحقيقات الفيدرالي القبض عليها في منتصف الليل.</desc>
   </programme>
-  <programme start="20260923070000 +0000" stop="20260923071300 +0000" channel="MBC 3">
-    <title lang="ar">كوكونات التنين الصغير — الحلقة 37</title>
-    <desc lang="ar">يعيش التنين كوكونات في جزيرة خاصة تشكل موطناً للعديد من التنانين. حيث يعيشون مغامرات رائعة ويشكلون صداقات متينة.</desc>
-  </programme>
   <programme start="20260923071300 +0000" stop="20260923073100 +0000" channel="MBC 3">
     <title lang="ar">كوكونات التنين الصغير — الحلقة 38</title>
     <desc lang="ar">يعيش التنين كوكونات في جزيرة خاصة تشكل موطناً للعديد من التنانين. حيث يعيشون مغامرات رائعة ويشكلون صداقات متينة.</desc>
@@ -60807,10 +60822,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">كوكونات التنين الصغير — الحلقة 47</title>
     <desc lang="ar">يعيش التنين كوكونات في جزيرة خاصة تشكل موطناً للعديد من التنانين. حيث يعيشون مغامرات رائعة ويشكلون صداقات متينة.</desc>
   </programme>
-  <programme start="20260923063500 +0000" stop="20260923071000 +0000" channel="MBC 4">
-    <title lang="ar">ورود وذنوب — الحلقة 73</title>
-    <desc lang="ar">يتصاعد الخلاف بين نشأت وزينب حول حماية قمر، بينما تدفع إشاعات مصطفى نحو قرار يغيّر مسار الجميع.</desc>
-  </programme>
   <programme start="20260923071000 +0000" stop="20260923080000 +0000" channel="MBC 4">
     <title lang="ar">إش إش — الحلقة 13</title>
     <desc lang="ar">مجبرة على الرقص، تحلم إش إش بمستقبل أفضل. في الوقت الضائع، يمنحها عملها الجديد في منزل الجريتلي اللقب الذي طالما رغبت به: ميس إش إش.</desc>
@@ -61354,10 +61365,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Hayat</title>
     <desc lang="en">A girl full of ambition, Hayat is forced to raise her younger siblings, care for her sick mother, and save her addict father from the trouble he always brings upon himself. Despite all that, she remains optimistic.</desc>
   </programme>
-  <programme start="20260923063400 +0000" stop="20260923070600 +0000" channel="MBC Action">
-    <title lang="ar">كينغدوم — الحلقة 2</title>
-    <desc lang="ar">مسلسل أنيمي تاريخي رائع تدور أحداثه في حقبة الممالك المتحاربة في الصين القديمة. عدد من الشخصيات سيكون لها الأثر الكبير على مجرى التاريخ، من أهمها شاب يافع يدعى شين الذي يكبر ليصبح رئيساً عسكرياً عظيماً.</desc>
-  </programme>
   <programme start="20260923070600 +0000" stop="20260923080100 +0000" channel="MBC Action">
     <title lang="ar">التعشيقة الخامسة — الحلقة 4</title>
     <desc lang="ar">بينما يختبر جايسن أسرع سيارة ذات أربعة أبواب في العالم، تقود ``فيكي`` سيارة من طراز فيات باندا 100HP لمعرفة إذا كانت سرعتها تفوق سرعة سيارة فيراري.</desc>
@@ -61705,10 +61712,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926033000 +0000" stop="20260926042000 +0000" channel="MBC Action">
     <title lang="ar">موناكو غراند بري هيستوريك</title>
     <desc lang="ar">سلسلة سباقات تشارك فيها أنواع مختلفة من السيارات الكلاسيكية.</desc>
-  </programme>
-  <programme start="20260923062800 +0000" stop="20260923071300 +0000" channel="MBC Bollywood">
-    <title lang="ar">بارينيتي — الحلقة 117</title>
-    <desc lang="ar">قصة معقدة تأسر القلوب تدور حول صديقين مقربين تتشابك حياتهما بطريقة غير متوقعة.</desc>
   </programme>
   <programme start="20260923071300 +0000" stop="20260923080600 +0000" channel="MBC Bollywood">
     <title lang="ar">سر الحنين — الحلقة 152</title>
@@ -62233,10 +62236,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926040000 +0000" stop="20260926050000 +0000" channel="MBC Drama">
     <title lang="ar">وتقابل حبيب — الحلقة 8</title>
     <desc lang="ar">تجد ليلى القاضي نفسها أمام معضلة بعد انفصالها عن زوجها الثري وبقائها في المنزل؛ حيث تتطور مشاعرها بشكل غير متوقع نحو شقيقه فارس، ما يخلق صراعاً عائلياً عالي الوتيرة بسبب رفض الجميع لارتباط هذا الثنائي.</desc>
-  </programme>
-  <programme start="20260923063100 +0000" stop="20260923071500 +0000" channel="MBC+ Drama">
-    <title lang="ar">الهيبة — الحلقة 15</title>
-    <desc lang="ar">مسلسل دراما، اجتماعي، أكشن لا يخلو من الرومانسية. أناس يعيشون في الجبل، يتزعمهم (جبل) رأس العشيرة وابن (الشامية)، تجارتهم الرئيسية السلاح، مناطقهم الافتراضية تقع على الحدود اللبنانية/ السورية المشتركة. يتحكمون بكل شيء إما بقوة المال والفساد أو بأزيز الرصاص!</desc>
   </programme>
   <programme start="20260923071500 +0000" stop="20260923080100 +0000" channel="MBC+ Drama">
     <title lang="ar">بارينيتي — الحلقة 402</title>
@@ -64173,10 +64172,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926040500 +0000" stop="20260926060000 +0000" channel="MBC Max">
     <title lang="ar">أوبيريشن فورتشن: روز دي غير</title>
     <desc lang="ar">يُكلّف الجاسوس أورسون فورتشن بتعقّب سلاح متطور قبل أن يقع في أيدي تاجر أسلحة ملياردير. وبرفقة نخبة من العملاء ونجم هوليوودي شهير، ينطلق في مهمة سرية مليئة بالخداع والمطاردات لإنقاذ العالم.</desc>
-  </programme>
-  <programme start="20260923065900 +0000" stop="20260923072200 +0000" channel="MBC Variety">
-    <title lang="ar">ديمون سلييَر: كيميتسو نو ييبا:الحلقة 20</title>
-    <desc lang="ar">تتعرض عائلة لهجوم تقوم به مخلوقات خرافية غريبة، تقضي على الجميع ماعدا اثنان يبقيان على قيد الحياة - تانجيرو وشقيقته نيزوكو، التي بدأت هي أيضاً تتحول إلى مخلوق غريب مثلهم بشكل تدريجي. ينطلق تانجيرو ليصبح قاتلاً متوحشاً بهدف الانتقام لعائلته والعثور على علاج لأخته.</desc>
   </programme>
   <programme start="20260923072200 +0000" stop="20260923075800 +0000" channel="MBC Variety">
     <title lang="ar">ديمون سلييَر: كيميتسو نو ييبا:الحلقة 21</title>
@@ -67728,6 +67723,1169 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926060000 +0000" stop="20260926064500 +0000" channel="OSN Ya Hala Bil Arabi">
     <title lang="en">Forbidden Apple S4</title>
     <desc lang="en">In season four new, events unfold, including Halit wanting to return to Yildiz, while she is interested in Kerim. Ender and Kaya get married and eventually separate, while Ender and Sahika become new partners of the company.</desc>
+  </programme>
+  <programme start="20260923070000 +0000" stop="20260923072500 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: توي / أستروفولز / مول</title>
+  </programme>
+  <programme start="20260923072500 +0000" stop="20260923073500 +0000" channel="Nick Jr">
+    <title lang="ar">تيم راكس إن سبايس: بيتس</title>
+  </programme>
+  <programme start="20260923073500 +0000" stop="20260923075500 +0000" channel="Nick Jr">
+    <title lang="ar">بان أند هولي فيري ليتل كيندغدوم: دايزي أند بوبي</title>
+  </programme>
+  <programme start="20260923075500 +0000" stop="20260923081500 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: بيبر لاندسكيبز / كاوغيرل</title>
+  </programme>
+  <programme start="20260923081500 +0000" stop="20260923084000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: إينوفيشن ميلتنغ بوت / ميك أب يور مايند باربازو</title>
+  </programme>
+  <programme start="20260923084000 +0000" stop="20260923090000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: ريبيلز / بارباساينس</title>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923092500 +0000" channel="Nick Jr">
+    <title lang="ar">مستر كروكودايل: كوستوم كروك / بلانت سيتير كروك</title>
+  </programme>
+  <programme start="20260923092500 +0000" stop="20260923094500 +0000" channel="Nick Jr">
+    <title lang="ar">ذا كريايتشر كايسز</title>
+  </programme>
+  <programme start="20260923094500 +0000" stop="20260923095500 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260923095500 +0000" stop="20260923101000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260923101000 +0000" stop="20260923103000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو: ذا كرو بيلدس اي سكيت بارك</title>
+  </programme>
+  <programme start="20260923103000 +0000" stop="20260923105500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: ببس سيف اي بوكس فورت</title>
+  </programme>
+  <programme start="20260923105500 +0000" stop="20260923112000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: دانسينغ وذ لوك ستارز</title>
+  </programme>
+  <programme start="20260923112000 +0000" stop="20260923114000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا بارابابا تري</title>
+  </programme>
+  <programme start="20260923114000 +0000" stop="20260923120500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: بادا بام</title>
+  </programme>
+  <programme start="20260923120500 +0000" stop="20260923122500 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز</title>
+  </programme>
+  <programme start="20260923122500 +0000" stop="20260923125000 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: تو ذا لايتهاوس/ ذا غولدن جاينت</title>
+  </programme>
+  <programme start="20260923125000 +0000" stop="20260923131500 +0000" channel="Nick Jr">
+    <title lang="ar">دير سكواد: كابتن ستيل/ ووش آوت</title>
+  </programme>
+  <programme start="20260923131500 +0000" stop="20260923133500 +0000" channel="Nick Jr">
+    <title lang="ar">ذا كريايتشر كايسز</title>
+  </programme>
+  <programme start="20260923133500 +0000" stop="20260923134000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: مستر بول ذا تيتشر</title>
+  </programme>
+  <programme start="20260923134000 +0000" stop="20260923134500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: لوكِنغ فور ثِينغز</title>
+  </programme>
+  <programme start="20260923134500 +0000" stop="20260923135000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: بويمز</title>
+  </programme>
+  <programme start="20260923135000 +0000" stop="20260923135500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: بليز أند ثانك يو</title>
+  </programme>
+  <programme start="20260923135500 +0000" stop="20260923140000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: آيس كريم</title>
+  </programme>
+  <programme start="20260923140000 +0000" stop="20260923140500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: ساينس ميوزيوم</title>
+  </programme>
+  <programme start="20260923140500 +0000" stop="20260923141000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: جوكبوكس</title>
+  </programme>
+  <programme start="20260923141000 +0000" stop="20260923141500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: ويندميلز</title>
+  </programme>
+  <programme start="20260923141500 +0000" stop="20260923142000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: ماندي ماوسز بيرثداي</title>
+  </programme>
+  <programme start="20260923142000 +0000" stop="20260923142500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ: ذا ساندكاستل</title>
+  </programme>
+  <programme start="20260923142500 +0000" stop="20260923143000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260923143000 +0000" stop="20260923145000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: رينفوريست ريس / بوك بوك بيرثداي</title>
+  </programme>
+  <programme start="20260923145000 +0000" stop="20260923150000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا</title>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923152500 +0000" channel="Nick Jr">
+    <title lang="ar">مستر كروكودايل: غراني زاني / كروك غتس إي جوب</title>
+  </programme>
+  <programme start="20260923152500 +0000" stop="20260923154500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: غريدغاتس/ وار إيز بالي؟</title>
+  </programme>
+  <programme start="20260923154500 +0000" stop="20260923160000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!</title>
+  </programme>
+  <programme start="20260923160000 +0000" stop="20260923161000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260923161000 +0000" stop="20260923162000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260923162000 +0000" stop="20260923163000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو: ذا كرو بيلدس اي دك بريدج</title>
+  </programme>
+  <programme start="20260923163000 +0000" stop="20260923165000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260923165000 +0000" stop="20260923170500 +0000" channel="Nick Jr">
+    <title lang="ar">يوميات موسم الرياض</title>
+  </programme>
+  <programme start="20260923170500 +0000" stop="20260923172500 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: برنساي اند ذا بايرت بابي/ كاراكول كوف</title>
+  </programme>
+  <programme start="20260923172500 +0000" stop="20260923173000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ : ذا توث فيري</title>
+  </programme>
+  <programme start="20260923173000 +0000" stop="20260923173500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ : ذا نيو كار</title>
+  </programme>
+  <programme start="20260923173500 +0000" stop="20260923174000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260923174000 +0000" stop="20260923174500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260923174500 +0000" stop="20260923180500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا بارابابا تري</title>
+  </programme>
+  <programme start="20260923180500 +0000" stop="20260923182000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: غريديغاتس</title>
+  </programme>
+  <programme start="20260923182000 +0000" stop="20260923184000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: ببس ستوب اي سوبر شيكر</title>
+  </programme>
+  <programme start="20260923184000 +0000" stop="20260923185500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260923185500 +0000" stop="20260923191500 +0000" channel="Nick Jr">
+    <title lang="ar">روبل أند كرو: ذا كرو بيلدز إي سي وال</title>
+  </programme>
+  <programme start="20260923191500 +0000" stop="20260923194000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260923194000 +0000" stop="20260923200000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: تايني دانسر</title>
+  </programme>
+  <programme start="20260923200000 +0000" stop="20260923202500 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: ذا ليتشيز تربل</title>
+  </programme>
+  <programme start="20260923202500 +0000" stop="20260923204500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: باربازوو كانت ساي نو</title>
+  </programme>
+  <programme start="20260923204500 +0000" stop="20260923211000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: باربارافو إز نوت فيلينغ ويل/ بي بايشنت بارباب</title>
+  </programme>
+  <programme start="20260923211000 +0000" stop="20260923213000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا سيفن فودس/ ذا بيرفكت بورتريه</title>
+  </programme>
+  <programme start="20260923213000 +0000" stop="20260923215500 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: موفينغ ميشن / باربابرايتس إنفينشن</title>
+  </programme>
+  <programme start="20260923215500 +0000" stop="20260923221500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!</title>
+  </programme>
+  <programme start="20260923221500 +0000" stop="20260923224000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو: ذا كرو بيلدز إي بايريت</title>
+  </programme>
+  <programme start="20260923224000 +0000" stop="20260923230000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260923230000 +0000" stop="20260923232500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: بابس سيف أيه ويتر-بوت/ بابس ستوب أيه باي-كلون</title>
+  </programme>
+  <programme start="20260923232500 +0000" stop="20260923235000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260923235000 +0000" stop="20260924001000 +0000" channel="Nick Jr">
+    <title lang="ar">دير سكواد: ستيل انتلرس/ بيري باد</title>
+  </programme>
+  <programme start="20260924001000 +0000" stop="20260924003500 +0000" channel="Nick Jr">
+    <title lang="ar">بان أند هولي فيري ليتل كيندغدوم</title>
+  </programme>
+  <programme start="20260924003500 +0000" stop="20260924005500 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: بريزنت/ موفي/ فيني</title>
+  </programme>
+  <programme start="20260924005500 +0000" stop="20260924012000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924012000 +0000" stop="20260924014000 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: ذا ليجاند اوف كابتن كالافر</title>
+  </programme>
+  <programme start="20260924014000 +0000" stop="20260924020500 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: ران سنثيا ران / دورا إن سبيس</title>
+  </programme>
+  <programme start="20260924020500 +0000" stop="20260924022500 +0000" channel="Nick Jr">
+    <title lang="ar">بلايز اند ذا مونستر ماشينز</title>
+  </programme>
+  <programme start="20260924022500 +0000" stop="20260924025000 +0000" channel="Nick Jr">
+    <title lang="ar">مستر كروكودايل: تايني كروك / كامبينج كروك</title>
+  </programme>
+  <programme start="20260924025000 +0000" stop="20260924031500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا تريجر هانت / غوينغ انتو ذا وايلد</title>
+  </programme>
+  <programme start="20260924031500 +0000" stop="20260924033500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا فانشيا اوشن/ زيرو ويست</title>
+  </programme>
+  <programme start="20260924033500 +0000" stop="20260924040000 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: تريجر/ روار/ ماموث</title>
+  </programme>
+  <programme start="20260924040000 +0000" stop="20260924042000 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: روكيت رايس/ ماجيك/ بارينتس</title>
+  </programme>
+  <programme start="20260924042000 +0000" stop="20260924044300 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: بوتس/ مون باروت/ تايلبول</title>
+  </programme>
+  <programme start="20260924044300 +0000" stop="20260924045300 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924045300 +0000" stop="20260924051000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924051000 +0000" stop="20260924053000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924053000 +0000" stop="20260924055500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260924055500 +0000" stop="20260924061500 +0000" channel="Nick Jr">
+    <title lang="ar">دير سكواد: تورنيب فور ذا بوكس/ ماغنت مايلستورم</title>
+  </programme>
+  <programme start="20260924061500 +0000" stop="20260924064000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا</title>
+  </programme>
+  <programme start="20260924064000 +0000" stop="20260924070000 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: ذا ماجك سبايغلاس/ ذا ستون أوف لايف</title>
+  </programme>
+  <programme start="20260924070000 +0000" stop="20260924072500 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: سيرف / سبايسشيب / بيتزا</title>
+  </programme>
+  <programme start="20260924072500 +0000" stop="20260924073500 +0000" channel="Nick Jr">
+    <title lang="ar">تيم راكس إن سبايس: أستروبامكن</title>
+  </programme>
+  <programme start="20260924073500 +0000" stop="20260924075500 +0000" channel="Nick Jr">
+    <title lang="ar">بان أند هولي فيري ليتل كيندغدوم</title>
+  </programme>
+  <programme start="20260924075500 +0000" stop="20260924081500 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: ذا باربابابيز هاف غوت تالنت / تربل سويتشيرو</title>
+  </programme>
+  <programme start="20260924081500 +0000" stop="20260924084000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: فاندل! / تومبلز، وير ديد يو غو؟</title>
+  </programme>
+  <programme start="20260924084000 +0000" stop="20260924090000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: آيم نوت أي باربابيبي أنيمور / روبوكس مان</title>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924092500 +0000" channel="Nick Jr">
+    <title lang="ar">مستر كروكودايل: ستك أون يو / بست فريند</title>
+  </programme>
+  <programme start="20260924092500 +0000" stop="20260924094500 +0000" channel="Nick Jr">
+    <title lang="ar">ذا كريايتشر كايسز</title>
+  </programme>
+  <programme start="20260924094500 +0000" stop="20260924095500 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924095500 +0000" stop="20260924101000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924101000 +0000" stop="20260924103000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو: ذا كرو بيلدس اي بوب كورن كافيه</title>
+  </programme>
+  <programme start="20260924103000 +0000" stop="20260924105500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: ببس سيف ذا كيتيز اند ذا كيديز</title>
+  </programme>
+  <programme start="20260924105500 +0000" stop="20260924112000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: ببس سيف ذا فلوتينغ غودوايز</title>
+  </programme>
+  <programme start="20260924112000 +0000" stop="20260924114000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: بوريس / بورن تو بي وايلد</title>
+  </programme>
+  <programme start="20260924114000 +0000" stop="20260924120500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ماكينغ بريد</title>
+  </programme>
+  <programme start="20260924120500 +0000" stop="20260924122500 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: ذا ماجك سبايغلاس/ ذا ستون أوف لايف</title>
+  </programme>
+  <programme start="20260924122500 +0000" stop="20260924125000 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: برنساي اند ذا بايرت بابي/ كاراكول كوف</title>
+  </programme>
+  <programme start="20260924125000 +0000" stop="20260924131500 +0000" channel="Nick Jr">
+    <title lang="ar">دير سكواد: غرافيتي كالاماتي/ بول اوف كايوس</title>
+  </programme>
+  <programme start="20260924131500 +0000" stop="20260924133500 +0000" channel="Nick Jr">
+    <title lang="ar">ذا كريايتشر كايسز</title>
+  </programme>
+  <programme start="20260924133500 +0000" stop="20260924134000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924134000 +0000" stop="20260924134500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924134500 +0000" stop="20260924135000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924135000 +0000" stop="20260924135500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924135500 +0000" stop="20260924140000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924140000 +0000" stop="20260924140500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924140500 +0000" stop="20260924141000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924141000 +0000" stop="20260924141500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924141500 +0000" stop="20260924142000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924142000 +0000" stop="20260924142500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924142500 +0000" stop="20260924143000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924143000 +0000" stop="20260924145000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: توو ماني سوايبرز / باتيوز هوم رن</title>
+  </programme>
+  <programme start="20260924145000 +0000" stop="20260924150000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا</title>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924152500 +0000" channel="Nick Jr">
+    <title lang="ar">مستر كروكوديل</title>
+  </programme>
+  <programme start="20260924152500 +0000" stop="20260924154500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: بارابرايت هاز أيه سيكرت/ سوبر دوبر كول</title>
+  </programme>
+  <programme start="20260924154500 +0000" stop="20260924160000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!</title>
+  </programme>
+  <programme start="20260924160000 +0000" stop="20260924161000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924161000 +0000" stop="20260924162000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924162000 +0000" stop="20260924163000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو: ذا كرو بيلدس اي بيتزا بارلور</title>
+  </programme>
+  <programme start="20260924163000 +0000" stop="20260924165000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260924165000 +0000" stop="20260924170500 +0000" channel="Nick Jr">
+    <title lang="ar">يوميات موسم الرياض</title>
+  </programme>
+  <programme start="20260924170500 +0000" stop="20260924172500 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: ذا نايت أوف ذا تيرتلز/ سنتياغوز ريغيتا</title>
+  </programme>
+  <programme start="20260924172500 +0000" stop="20260924173000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ</title>
+  </programme>
+  <programme start="20260924173000 +0000" stop="20260924173500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ : وايندي كاسل</title>
+  </programme>
+  <programme start="20260924173500 +0000" stop="20260924174000 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ : ماي كوزن كلوي</title>
+  </programme>
+  <programme start="20260924174000 +0000" stop="20260924174500 +0000" channel="Nick Jr">
+    <title lang="ar">بيبا بيغ : بانكيكس</title>
+  </programme>
+  <programme start="20260924174500 +0000" stop="20260924180500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: بادا بام</title>
+  </programme>
+  <programme start="20260924180500 +0000" stop="20260924182000 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: وير إز بالي؟</title>
+  </programme>
+  <programme start="20260924182000 +0000" stop="20260924184000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: ببس سيف اي بوكس فورت</title>
+  </programme>
+  <programme start="20260924184000 +0000" stop="20260924185500 +0000" channel="Nick Jr">
+    <title lang="ar">باو باترول: بابس ستوب ذا رتيرن أوف همسكواتش</title>
+  </programme>
+  <programme start="20260924185500 +0000" stop="20260924191500 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924191500 +0000" stop="20260924194000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924194000 +0000" stop="20260924200000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: كروك اي باي بيبي</title>
+  </programme>
+  <programme start="20260924200000 +0000" stop="20260924202500 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: وونكي ويشينغ واند/ بيب بيبز بيغ شوو</title>
+  </programme>
+  <programme start="20260924202500 +0000" stop="20260924204500 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: سمر كامب 1 / سمر كامب 2</title>
+  </programme>
+  <programme start="20260924204500 +0000" stop="20260924211000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: دريمز أند إيلوجنز/ دريمينغ أبرنتايسز</title>
+  </programme>
+  <programme start="20260924211000 +0000" stop="20260924213000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: آه! ماي بيوتيفول كاسل / ذا ساند إز رانينغ أواي</title>
+  </programme>
+  <programme start="20260924213000 +0000" stop="20260924215500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا بيرث / ذا ريفوليوشن</title>
+  </programme>
+  <programme start="20260924215500 +0000" stop="20260924221500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: ذا بارابابا فاميلي</title>
+  </programme>
+  <programme start="20260924221500 +0000" stop="20260924224000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924224000 +0000" stop="20260924230000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260924230000 +0000" stop="20260924232500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول: بابس سيف ذا سكايدايفرز/بابس سيف ذا كابكيكس</title>
+  </programme>
+  <programme start="20260924232500 +0000" stop="20260924235000 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260924235000 +0000" stop="20260925001000 +0000" channel="Nick Jr">
+    <title lang="ar">دير سكواد: تورنيب فور ذا بوكس/ ماغنت مايلستورم</title>
+  </programme>
+  <programme start="20260925001000 +0000" stop="20260925003500 +0000" channel="Nick Jr">
+    <title lang="ar">بان أند هولي فيري ليتل كيندغدوم</title>
+  </programme>
+  <programme start="20260925003500 +0000" stop="20260925005500 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: روكيت رايس/ ماجيك/ بارينتس</title>
+  </programme>
+  <programme start="20260925005500 +0000" stop="20260925012000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260925012000 +0000" stop="20260925014000 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز</title>
+  </programme>
+  <programme start="20260925014000 +0000" stop="20260925020500 +0000" channel="Nick Jr">
+    <title lang="ar">دورا: باكباكز شارم / لوست بانانا بلانكي</title>
+  </programme>
+  <programme start="20260925020500 +0000" stop="20260925022500 +0000" channel="Nick Jr">
+    <title lang="ar">بلايز اند ذا مونستر ماشينز</title>
+  </programme>
+  <programme start="20260925022500 +0000" stop="20260925025000 +0000" channel="Nick Jr">
+    <title lang="ar">مستر كروكودايل: بريتند فريند / كروك أوتا واتر</title>
+  </programme>
+  <programme start="20260925025000 +0000" stop="20260925031500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: هيكوبيزم/ سايلنس بليز</title>
+  </programme>
+  <programme start="20260925031500 +0000" stop="20260925033500 +0000" channel="Nick Jr">
+    <title lang="ar">باربابابا- ون بيغ هابي فاميلي!: وار ديد ات غو بربابرافو؟/ ذا بيغ هان</title>
+  </programme>
+  <programme start="20260925033500 +0000" stop="20260925040000 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: دابل بوكد/ بوغويد/ برايز</title>
+  </programme>
+  <programme start="20260925040000 +0000" stop="20260925042000 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: مون كاو/ نيبوليتور/ سبايس بَج</title>
+  </programme>
+  <programme start="20260925042000 +0000" stop="20260925044300 +0000" channel="Nick Jr">
+    <title lang="ar">تايم ريكس إن سبيس: سبيسلاند/ نيو روكيت/ بيبي سيتينغ</title>
+  </programme>
+  <programme start="20260925044300 +0000" stop="20260925051000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو</title>
+  </programme>
+  <programme start="20260925051000 +0000" stop="20260925053000 +0000" channel="Nick Jr">
+    <title lang="ar">رابل آند كرو: ذا كرو بيلدز إي بيتزا</title>
+  </programme>
+  <programme start="20260925053000 +0000" stop="20260925055500 +0000" channel="Nick Jr">
+    <title lang="ar">بو باترول</title>
+  </programme>
+  <programme start="20260925055500 +0000" stop="20260925061500 +0000" channel="Nick Jr">
+    <title lang="ar">دير سكواد: اوفر ذا رينبو/ وير توست</title>
+  </programme>
+  <programme start="20260925061500 +0000" stop="20260925064000 +0000" channel="Nick Jr">
+    <title lang="ar">دورا</title>
+  </programme>
+  <programme start="20260925064000 +0000" stop="20260925070000 +0000" channel="Nick Jr">
+    <title lang="ar">سانتياغو اوف ذا سيز: برنساي اند ذا بايرت بابي/ كاراكول كوف</title>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925072500 +0000" channel="Nick Jr">
+    <title lang="ar">تيم راكس إن سبايس</title>
+  </programme>
+  <programme start="20260925072500 +0000" stop="20260925073500 +0000" channel="Nick Jr">
+    <title lang="ar">تيم راكس إن سبايس</title>
+  </programme>
+  <programme start="20260925073500 +0000" stop="20260925075500 +0000" channel="Nick Jr">
+    <title lang="ar">بان أند هولي فيري ليتل كيندغدوم</title>
+  </programme>
+  <programme start="20260925075500 +0000" stop="20260925081500 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: باتركب / وي نيد تو سيف ذا كورالز</title>
+  </programme>
+  <programme start="20260925081500 +0000" stop="20260925084000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: ذا بابيت / غلووب غلووب آه-آه</title>
+  </programme>
+  <programme start="20260925084000 +0000" stop="20260925090000 +0000" channel="Nick Jr">
+    <title lang="ar">بربابابا- وان بيغ هابي فاميلي!: ليفنغ توغيذر / هولي ذا سنومان</title>
+  </programme>
+  <programme start="20260923070000 +0000" stop="20260923080000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود السويد:نات تيلينغ ذا تروث</title>
+    <desc lang="ar">يعبر آلاف الأشخاص حدود السويد كل يوم. يتابع البرنامج المحققين وموظفي الجمارك والكشافة ومدربي الكلاب البوليسية الذين يقومون بتأمين حدود السويد وموانئها ومطاراتها بشكل يومي.</desc>
+  </programme>
+  <programme start="20260923080000 +0000" stop="20260923090000 +0000" channel="Discovery ID">
+    <title lang="ar">مين غيرل ميردرز:مينيسوتا فيشَس</title>
+    <desc lang="ar">الأم المراهقة (شايان) تنال الاهتمام والقبول في حشد جديد حين انتقلت للسكن مع فتاتين وصديقيهما. لكن بعد أن عثرت شايان على الاهتمام من الشاب، يؤدي أمر انعدام الثقة، إلى الموت.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923100000 +0000" channel="Discovery ID">
+    <title lang="ar">مين غيرل ميردرز:قاتل معسكر الكنيسة</title>
+    <desc lang="ar">تبدأ مجموعة من الفتيات صداقات تدوم مدى الحياة في معسكر الكنيسة. ثم تأخذهن الحياة إلى طرق مختلفة وتبقى روابطهن قائمة، إلى لحظة اختفاء إحداهن.</desc>
+  </programme>
+  <programme start="20260923100000 +0000" stop="20260923110000 +0000" channel="Discovery ID">
+    <title lang="ar">جرائم شارع إلم الحقيقية:لدينا قتلة متسلسلون</title>
+    <desc lang="ar">اشتعلت النيران في منزل بشارع إلم، مما أسفر عن مقتل شخصين. تسابق الشرطة الزمن للقبض على القاتل قبل أن يضرب مرة أخرى.</desc>
+  </programme>
+  <programme start="20260923110000 +0000" stop="20260923120000 +0000" channel="Discovery ID">
+    <title lang="ar">جرائم شارع إلم الحقيقية:رعب الهالووين</title>
+    <desc lang="ar">العثور على جد عزيز ميت داخل شاحنته في عيد الهالووين. يكتشف المحققون أنهم يتعقبون شخصاً قد يكون ارتكب جريمة قتل، من قبل.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923130000 +0000" channel="Discovery ID">
+    <title lang="ar">القضية الغريبة لنتاليا غرايس:بارنيت ضد بارنيت</title>
+    <desc lang="ar">يوجه مايكل بارنيت اللوم إلى زوجته السابقة كريستين، فيما يعثر الادعاء على والدة ناتاليا البيولوجية الحقيقية التي أنجبتها.</desc>
+  </programme>
+  <programme start="20260923130000 +0000" stop="20260923140000 +0000" channel="Discovery ID">
+    <title lang="ar">القضية الغريبة لنتاليا غرايس:وجّه لكمة أو تتعرض للكمة</title>
+    <desc lang="ar">على مايكل بارنيت أن يواجه عواقب أفعاله، وكريستين هي التالية.</desc>
+  </programme>
+  <programme start="20260923140000 +0000" stop="20260923150000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ديڤيل سبيكس:بيريد آت ذا رانش</title>
+    <desc lang="ar">مسلسل من وقائع الحياة، يستخدم تسجيلات صوتية حقيقية لمساعدة المحققين في حل القضايا، من مقابلات أجرتها الشرطة إلى تسجيلات هاتفية، وسواها الكثير.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923160000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ديڤيل سبيكس:ليك أوف لايز</title>
+    <desc lang="ar">مسلسل من وقائع الحياة، يستخدم تسجيلات صوتية حقيقية لمساعدة المحققين في حل القضايا، من مقابلات أجرتها الشرطة إلى تسجيلات هاتفية، وسواها الكثير.</desc>
+  </programme>
+  <programme start="20260923160000 +0000" stop="20260923170000 +0000" channel="Discovery ID">
+    <title lang="ar">وير ميردَر لايز:فاميلي لايز</title>
+    <desc lang="ar">تتعلق هذه السلسلة بقصص تحقيقات في جرائم قتل، كشفت بالتدريج حقيقة تلو الأخرى.</desc>
+  </programme>
+  <programme start="20260923170000 +0000" stop="20260923180000 +0000" channel="Discovery ID">
+    <title lang="ar">وير ميردَر لايز:دايابوليكال ديفل</title>
+    <desc lang="ar">تتعلق هذه السلسلة بقصص تحقيقات في جرائم قتل، كشفت بالتدريج حقيقة تلو الأخرى.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923190000 +0000" channel="Discovery ID">
+    <title lang="ar">أشرطة القتل:ذا غريت دون لويس</title>
+    <desc lang="ar">مسلسل ريادي جرى فيه تأريخ التحقيقات في جرائم القتل من خلال لقطات درامية من واقع الحياة. يتابع مشاهدوه عن قرب كل قضية باستخدام لقطات خام كما هي غير منقحة، من كاميرات مثبتة على الملابس من مسرح الجريمة، وكاميرات المراقبة وغرف الاستجواب.</desc>
+  </programme>
+  <programme start="20260923190000 +0000" stop="20260923200000 +0000" channel="Discovery ID">
+    <title lang="ar">911: هل اتصل القاتل؟:الموت والإنكار</title>
+    <desc lang="ar">ثلاث مكالمات مختلفة للرقم 911، اكتشف أي منها من القاتل الحقيقي.</desc>
+  </programme>
+  <programme start="20260923200000 +0000" stop="20260923210000 +0000" channel="Discovery ID">
+    <title lang="ar">ديد سايلانت:سِيم باسنجر</title>
+    <desc lang="ar">هنا مكان الأساطير الحضرية والرعب حين يصطدم مع قتلة من واقع الحياة! سلسلة تصور أسرار الجريمة والإرهاب النفسي لجرائم وقعت في أماكن مهجورة.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260923213000 +0000" channel="Discovery ID">
+    <title lang="ar">علامات الاضطراب النفسي:أظن أنني مهووس</title>
+    <desc lang="ar">يعيش الأشخاص المصابون بالاضطراب النفسي بيننا، ويحاولون قدر الإمكان التصرف مثل الأشخاص العاديين، ولكن هناك دائماً بعض العلامات التي تستطيع كشف حقيقتهم.</desc>
+  </programme>
+  <programme start="20260923213000 +0000" stop="20260923220000 +0000" channel="Discovery ID">
+    <title lang="ar">علامات الاضطراب النفسي:لا أنتمي إلى هنا</title>
+    <desc lang="ar">يعيش الأشخاص المصابون بالاضطراب النفسي بيننا، ويحاولون قدر الإمكان التصرف مثل الأشخاص العاديين، ولكن هناك دائماً بعض العلامات التي تستطيع كشف حقيقتهم.</desc>
+  </programme>
+  <programme start="20260923220000 +0000" stop="20260923230000 +0000" channel="Discovery ID">
+    <title lang="ar">جرائم يوم المباراة:مؤامرة باردة كالثلج</title>
+    <desc lang="ar">يُعتقل لاعب دوري الهوكي مايك دانتون بعد كشف السلطات عن مخطط إجرامي خطير لاستهداف شخص مقابل المال.</desc>
+  </programme>
+  <programme start="20260923230000 +0000" stop="20260924000000 +0000" channel="Discovery ID">
+    <title lang="ar">911: هل اتصل القاتل؟:الموت والإنكار</title>
+    <desc lang="ar">ثلاث مكالمات مختلفة للرقم 911، اكتشف أي منها من القاتل الحقيقي.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924010000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:غاردن أوف إيفل</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260924010000 +0000" stop="20260924020000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:إكسبوزد</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260924020000 +0000" stop="20260924030000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:هاي سكول ري يونيون</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924040000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:فيكسر آبر</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260924040000 +0000" stop="20260924050000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ريل ديث إن بيرادايس:سيشل: جثة في المنتزه</title>
+    <desc lang="ar">بعدما تم العثور على جثة أحد البحارة - من البحرية الملكية - داخل حديقة في سيشيل؛ اعتقد والداه أن حدثاً شريراً وقع له، ليلة وفاته.</desc>
+  </programme>
+  <programme start="20260924050000 +0000" stop="20260924060000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ريل ديث إن بيرادايس:مصر: إرهاب في المنتجع</title>
+    <desc lang="ar">تحطمت عطلة الزوجين في شرم الشيخ - مصر، عندما انفجرت سلسلة من القنابل في المكان.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924070000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود السويد:فوربيدن فوودس</title>
+    <desc lang="ar">يعبر آلاف الأشخاص حدود السويد كل يوم. يتابع البرنامج المحققين وموظفي الجمارك والكشافة ومدربي الكلاب البوليسية الذين يقومون بتأمين حدود السويد وموانئها ومطاراتها بشكل يومي.</desc>
+  </programme>
+  <programme start="20260924070000 +0000" stop="20260924080000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود السويد:هيدن بَبّيز</title>
+    <desc lang="ar">يعبر آلاف الأشخاص حدود السويد كل يوم. يتابع البرنامج المحققين وموظفي الجمارك والكشافة ومدربي الكلاب البوليسية الذين يقومون بتأمين حدود السويد وموانئها ومطاراتها بشكل يومي.</desc>
+  </programme>
+  <programme start="20260924080000 +0000" stop="20260924090000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ديڤيل سبيكس:بيريد آت ذا رانش</title>
+    <desc lang="ar">مسلسل من وقائع الحياة، يستخدم تسجيلات صوتية حقيقية لمساعدة المحققين في حل القضايا، من مقابلات أجرتها الشرطة إلى تسجيلات هاتفية، وسواها الكثير.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924100000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ديڤيل سبيكس:ليك أوف لايز</title>
+    <desc lang="ar">مسلسل من وقائع الحياة، يستخدم تسجيلات صوتية حقيقية لمساعدة المحققين في حل القضايا، من مقابلات أجرتها الشرطة إلى تسجيلات هاتفية، وسواها الكثير.</desc>
+  </programme>
+  <programme start="20260924100000 +0000" stop="20260924110000 +0000" channel="Discovery ID">
+    <title lang="ar">إكستريم فورينسيكس:رنينغ فور هير لايف</title>
+    <desc lang="ar">يمر أطباء الطب الشرعي بحالات غريبة للغاية تبدأ من مسرح الجريمة كمحققين مع الشهود، ويبحث خبراء الطب الشرعي عن القرائن قبل الادعاء على ضحية أخرى ؟</desc>
+  </programme>
+  <programme start="20260924110000 +0000" stop="20260924120000 +0000" channel="Discovery ID">
+    <title lang="ar">إكستريم فورينسيكس:إلليغال إليوجِن</title>
+    <desc lang="ar">يمر أطباء الطب الشرعي بحالات غريبة للغاية تبدأ من مسرح الجريمة كمحققين مع الشهود، ويبحث خبراء الطب الشرعي عن القرائن قبل الادعاء على ضحية أخرى ؟</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924130000 +0000" channel="Discovery ID">
+    <title lang="ar">ميردَر آندر ذا فرايداي نايت لايتس:غيلت ويل غيت يو</title>
+    <desc lang="ar">مسلسل يستكشف بعض الجرائم المأساوية المروّعة التي وقعت وهزّت المجتمعات المتماسكة لمشجعي كرة القدم في المدارس الثانوية. فعندما كانت الكرة الشعبية هي شريان حياة المدينة، كانت الدماء الحقيقية تُبذل وتُراق على الأرض مترافقة معها، وبسببها.</desc>
+  </programme>
+  <programme start="20260924130000 +0000" stop="20260924140000 +0000" channel="Discovery ID">
+    <title lang="ar">ميردَر آندر ذا فرايداي نايت لايتس:فيتشرز رويند</title>
+    <desc lang="ar">مسلسل يستكشف بعض الجرائم المأساوية المروّعة التي وقعت وهزّت المجتمعات المتماسكة لمشجعي كرة القدم في المدارس الثانوية. فعندما كانت الكرة الشعبية هي شريان حياة المدينة، كانت الدماء الحقيقية تُبذل وتُراق على الأرض مترافقة معها، وبسببها.</desc>
+  </programme>
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="Discovery ID">
+    <title lang="ar">آندركافَر آندر-إيدج:تريبل ثريت</title>
+    <desc lang="ar">في مهمة نبيلة لفضح الممارسات والإساءات واستهداف الأطفال عبر الإنترنت وكيف تتم معاملتهم، تتحول (رو باول) ومعها فريق لا يهدف للربح، إلى شخصيات على الإنترنت كفتيات قاصرات ليتمكّن من التعامل مع المحتالين، بهدف حماية الفئات الأصغر والأضعف في المجتمع.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924160000 +0000" channel="Discovery ID">
+    <title lang="ar">آي وينت آندركافَر:ذا هيتّ أوف هانديمان</title>
+    <desc lang="ar">قصص الأشخاص العاديين الذين يتخفون للمساعدة سراً في حل جريمة قتل. يكشفون كيف عملوا مع الشرطة من أجل تقديم قاتل خطير إلى العدالة.</desc>
+  </programme>
+  <programme start="20260924160000 +0000" stop="20260924170000 +0000" channel="Discovery ID">
+    <title lang="ar">نايتمير نيكست دور:ميردر آت صانرايز</title>
+    <desc lang="ar">سلسلة تلفزيونية تصور قصصاً عن ضحايا اختفوا فجأة من مجتمعاتهم ثم تم العثور عليهم مقتولين بوحشية.. والفاعل المجرم يعرفونه جيداً.</desc>
+  </programme>
+  <programme start="20260924170000 +0000" stop="20260924180000 +0000" channel="Discovery ID">
+    <title lang="ar">نايتمير نيكست دور:فولين ستار</title>
+    <desc lang="ar">سلسلة تلفزيونية تصور قصصاً عن ضحايا اختفوا فجأة من مجتمعاتهم ثم تم العثور عليهم مقتولين بوحشية.. والفاعل المجرم يعرفونه جيداً.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924190000 +0000" channel="Discovery ID">
+    <title lang="ar">أشرطة القتل:دو يو وونت تو سميل هيومان بلاد؟</title>
+    <desc lang="ar">مسلسل ريادي جرى فيه تأريخ التحقيقات في جرائم القتل من خلال لقطات درامية من واقع الحياة. يتابع مشاهدوه عن قرب كل قضية باستخدام لقطات خام كما هي غير منقحة، من كاميرات مثبتة على الملابس من مسرح الجريمة، وكاميرات المراقبة وغرف الاستجواب.</desc>
+  </programme>
+  <programme start="20260924190000 +0000" stop="20260924200000 +0000" channel="Discovery ID">
+    <title lang="ar">القضية الغريبة لنتاليا غرايس:تراما بوند</title>
+    <desc lang="ar">سلسلة أكثر غرابة من الخيال تقلب التوقعات رأساَ على عقب، نستكشف فيها إن كانت ناتاليا بارنيت طفلة أوكرانية مستغَلة تعاني من التقزم، أم بالغة وخطيرة تتنكر كطفلة.</desc>
+  </programme>
+  <programme start="20260924200000 +0000" stop="20260924210000 +0000" channel="Discovery ID">
+    <title lang="ar">القضية الغريبة لنتاليا غرايس:وَن دورّ كلوزيز</title>
+    <desc lang="ar">سلسلة أكثر غرابة من الخيال تقلب التوقعات رأساَ على عقب، نستكشف فيها إن كانت ناتاليا بارنيت طفلة أوكرانية مستغَلة تعاني من التقزم، أم بالغة وخطيرة تتنكر كطفلة.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260924220000 +0000" channel="Discovery ID">
+    <title lang="ar">911: هل اتصل القاتل؟:الموت والإنكار</title>
+    <desc lang="ar">ثلاث مكالمات مختلفة للرقم 911، اكتشف أي منها من القاتل الحقيقي.</desc>
+  </programme>
+  <programme start="20260924220000 +0000" stop="20260924230000 +0000" channel="Discovery ID">
+    <title lang="ar">القضية الغريبة لنتاليا غرايس:تراما بوند</title>
+    <desc lang="ar">سلسلة أكثر غرابة من الخيال تقلب التوقعات رأساَ على عقب، نستكشف فيها إن كانت ناتاليا بارنيت طفلة أوكرانية مستغَلة تعاني من التقزم، أم بالغة وخطيرة تتنكر كطفلة.</desc>
+  </programme>
+  <programme start="20260924230000 +0000" stop="20260925000000 +0000" channel="Discovery ID">
+    <title lang="ar">القضية الغريبة لنتاليا غرايس:وَن دورّ كلوزيز</title>
+    <desc lang="ar">سلسلة أكثر غرابة من الخيال تقلب التوقعات رأساَ على عقب، نستكشف فيها إن كانت ناتاليا بارنيت طفلة أوكرانية مستغَلة تعاني من التقزم، أم بالغة وخطيرة تتنكر كطفلة.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925010000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:ايه دينجيراس مايند</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260925010000 +0000" stop="20260925020000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:ذي أوليمبك كرِيب</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260925020000 +0000" stop="20260925030000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:كانت ليت غو</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925040000 +0000" channel="Discovery ID">
+    <title lang="ar">الوحش الأمريكي:لغز جريمة ألاباما</title>
+    <desc lang="ar">يمكن للقتلة والمجرمين أن يختبؤوا خلف قناع الابتسامة الجميلة، ويحتمل أن يتواجدوا ضمن أي شارع في الولايات المتحدة الأمريكية. لقطات فيديو تعرض للمرة الأولى تنظر مباشرة في أعين المجرمين الذين يختبؤون في الظلام.</desc>
+  </programme>
+  <programme start="20260925040000 +0000" stop="20260925050000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ريل ديث إن بيرادايس:غرينادا: جثة في الحقيبة</title>
+    <desc lang="ar">تختفي أم شابة من منزلها على بيتها في جزيرة غرينادا. تتحدث عائلتها عن بحثهم اليائس للعثور عليها، على قيد الحياة.</desc>
+  </programme>
+  <programme start="20260925050000 +0000" stop="20260925060000 +0000" channel="Discovery ID">
+    <title lang="ar">ذا ريل ديث إن بيرادايس:تنزانيا: سقوط من السماء</title>
+    <desc lang="ar">ساعد طيار المروحية روجر جاور في اكتشاف صيادين مخالفين للقوانين المرعية في تنزانيا. في عام 2016، روجر قام بمهمته الروتينية، ولم يعد.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925070000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود السويد — الحلقة 9</title>
+    <desc lang="ar">يعبر آلاف الأشخاص حدود السويد كل يوم. يتابع البرنامج المحققين وموظفي الجمارك والكشافة ومدربي الكلاب البوليسية الذين يقومون بتأمين حدود السويد وموانئها ومطاراتها بشكل يومي.</desc>
+  </programme>
+  <programme start="20260925070000 +0000" stop="20260925080000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود السويد — الحلقة 10</title>
+    <desc lang="ar">يعبر آلاف الأشخاص حدود السويد كل يوم. يتابع البرنامج المحققين وموظفي الجمارك والكشافة ومدربي الكلاب البوليسية الذين يقومون بتأمين حدود السويد وموانئها ومطاراتها بشكل يومي.</desc>
+  </programme>
+  <programme start="20260925080000 +0000" stop="20260925090000 +0000" channel="Discovery ID">
+    <title lang="ar">نايتمير نيكست دور:ميردر آت صانرايز</title>
+    <desc lang="ar">سلسلة تلفزيونية تصور قصصاً عن ضحايا اختفوا فجأة من مجتمعاتهم ثم تم العثور عليهم مقتولين بوحشية.. والفاعل المجرم يعرفونه جيداً.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925100000 +0000" channel="Discovery ID">
+    <title lang="ar">نايتمير نيكست دور:فولين ستار</title>
+    <desc lang="ar">سلسلة تلفزيونية تصور قصصاً عن ضحايا اختفوا فجأة من مجتمعاتهم ثم تم العثور عليهم مقتولين بوحشية.. والفاعل المجرم يعرفونه جيداً.</desc>
+  </programme>
+  <programme start="20260925100000 +0000" stop="20260925110000 +0000" channel="Discovery ID">
+    <title lang="ar">أشرطة القتل:جرائم قتل المسنّين</title>
+    <desc lang="ar">جرائم قتل رجلين مسنّين تترك المحققين يبحثون عن إجابات.</desc>
+  </programme>
+  <programme start="20260925110000 +0000" stop="20260925120000 +0000" channel="Discovery ID">
+    <title lang="ar">أشرطة القتل:قاتل أمام الكاميرا</title>
+    <desc lang="ar">إطلاق نار في حانة يطلق تحقيقًا مليئًا بالتقلبات والمفاجآت.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925123000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود: إسبانيا:الحلقة 17</title>
+    <desc lang="ar">على حدود إسبانيا، تقع على عاتق خدمات الأمن والجمارك مسؤولية كشف التهديدات الناتجة عن مواد غير قانونية ومقتنيات محظورة وأشخاص يُشتبه في خطورتهم.</desc>
+  </programme>
+  <programme start="20260925123000 +0000" stop="20260925130000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود: إسبانيا:الحلقة 13</title>
+    <desc lang="ar">على حدود إسبانيا، تقع على عاتق خدمات الأمن والجمارك مسؤولية كشف التهديدات الناتجة عن مواد غير قانونية ومقتنيات محظورة وأشخاص يُشتبه في خطورتهم.</desc>
+  </programme>
+  <programme start="20260925130000 +0000" stop="20260925133000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود: إسبانيا:الحلقة 18</title>
+    <desc lang="ar">على حدود إسبانيا، تقع على عاتق خدمات الأمن والجمارك مسؤولية كشف التهديدات الناتجة عن مواد غير قانونية ومقتنيات محظورة وأشخاص يُشتبه في خطورتهم.</desc>
+  </programme>
+  <programme start="20260925133000 +0000" stop="20260925140000 +0000" channel="Discovery ID">
+    <title lang="ar">مراقبة الحدود: إسبانيا:الحلقة 14</title>
+    <desc lang="ar">على حدود إسبانيا، تقع على عاتق خدمات الأمن والجمارك مسؤولية كشف التهديدات الناتجة عن مواد غير قانونية ومقتنيات محظورة وأشخاص يُشتبه في خطورتهم.</desc>
+  </programme>
+  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="Discovery ID">
+    <title lang="ar">كايوس إن كورت:بويلينغ بوينت</title>
+    <desc lang="ar">يعرض هذا المسلسل مقاطع من لحظات درامية مؤثرة، غير متوقعة، شهدتها قاعات المحاكم.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925160000 +0000" channel="Discovery ID">
+    <title lang="ar">كايوس إن كورت:إناف إز إناف</title>
+    <desc lang="ar">يعرض هذا المسلسل مقاطع من لحظات درامية مؤثرة، غير متوقعة، شهدتها قاعات المحاكم.</desc>
+  </programme>
+  <programme start="20260925160000 +0000" stop="20260925170000 +0000" channel="Discovery ID">
+    <title lang="ar">القاتل بجانبي:زهور في البحيرة</title>
+    <desc lang="ar">سلسلة تسلط الضوء على الجانب المظلم من الشر في مكان العمل وتفضحه، حين يبلغ التنافس أو الرومانسية أو إساءة استخدام السلطة إلى ذروة عالية تصل لحدّ القتل الوحشي. كل حلقة هنا تعيد سرد الأحداث المرعبة التي أدت لارتكاب جريمة قتل مروّعة في مكان العمل.</desc>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925180000 +0000" channel="Discovery ID">
+    <title lang="ar">القاتل بجانبي:سكوولد إن ميردر</title>
+    <desc lang="ar">سلسلة تسلط الضوء على الجانب المظلم من الشر في مكان العمل وتفضحه، حين يبلغ التنافس أو الرومانسية أو إساءة استخدام السلطة إلى ذروة عالية تصل لحدّ القتل الوحشي. كل حلقة هنا تعيد سرد الأحداث المرعبة التي أدت لارتكاب جريمة قتل مروّعة في مكان العمل.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925190000 +0000" channel="Discovery ID">
+    <title lang="ar">أشرطة القتل:سو هيتفول</title>
+    <desc lang="ar">مسلسل ريادي جرى فيه تأريخ التحقيقات في جرائم القتل من خلال لقطات درامية من واقع الحياة. يتابع مشاهدوه عن قرب كل قضية باستخدام لقطات خام كما هي غير منقحة، من كاميرات مثبتة على الملابس من مسرح الجريمة، وكاميرات المراقبة وغرف الاستجواب.</desc>
+  </programme>
+  <programme start="20260925190000 +0000" stop="20260925200000 +0000" channel="Discovery ID">
+    <title lang="ar">قاتل بين أصدقاء:تدبير جريمة قتل</title>
+    <desc lang="ar">يشتبه المحققون في تورط اثنين من أعضاء فريق عمل مسرحي في كاليفورنيا في جريمة قتل.</desc>
+  </programme>
+  <programme start="20260925200000 +0000" stop="20260925210000 +0000" channel="Discovery ID">
+    <title lang="ar">هل يمكنني القتل يا أمي؟:تسع رصاصات...</title>
+    <desc lang="ar">عملية إعدام وحشية بتسع طلقات لا يوجد متعلق بها سوى اثنين من المشتبه بهما، زوجة الضحية السابقة وابنهما. تكشف الشرطة عن تاريخ عائلي مسموم، وغضب الأم القاتل.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260925220000 +0000" channel="Discovery ID">
+    <title lang="ar">جرائم يوم المباراة:مؤامرة باردة كالثلج</title>
+    <desc lang="ar">يُعتقل لاعب دوري الهوكي مايك دانتون بعد كشف السلطات عن مخطط إجرامي خطير لاستهداف شخص مقابل المال.</desc>
+  </programme>
+  <programme start="20260925220000 +0000" stop="20260925230000 +0000" channel="Discovery ID">
+    <title lang="ar">مين غيرل ميردرز:معركة هيئات الشاطئ</title>
+    <desc lang="ar">تكتشف فتاتان مراهقتان أنهما تواعدان نفس الصبي، ما يؤدي لدخولهما في حرب طاحنة مع بعضهما البعض على وسائل التواصل الاجتماعي، وفي الحياة الواقعية؛ مما يؤدي لعواقب مأساوية.</desc>
+  </programme>
+  <programme start="20260925230000 +0000" stop="20260926000000 +0000" channel="Discovery ID">
+    <title lang="ar">قاتل بين أصدقاء:تدبير جريمة قتل</title>
+    <desc lang="ar">يشتبه المحققون في تورط اثنين من أعضاء فريق عمل مسرحي في كاليفورنيا في جريمة قتل.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926010000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:ماريد تو ذا ديفل</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260926010000 +0000" stop="20260926020000 +0000" channel="Discovery ID">
+    <title lang="ar">أوبسيشن: دارك ديزايرز:ايه مان أند هيز غانّ</title>
+    <desc lang="ar">كن شاهداً على قصص مخيفة وقعت لأناس مختلفين متعددين بسبب أشخاص تطاردهم خلسة لأسباب غير واضحة!</desc>
+  </programme>
+  <programme start="20260926020000 +0000" stop="20260926030000 +0000" channel="Discovery ID">
+    <title lang="ar">القاتل بجانبي:زهور في البحيرة</title>
+    <desc lang="ar">سلسلة تسلط الضوء على الجانب المظلم من الشر في مكان العمل وتفضحه، حين يبلغ التنافس أو الرومانسية أو إساءة استخدام السلطة إلى ذروة عالية تصل لحدّ القتل الوحشي. كل حلقة هنا تعيد سرد الأحداث المرعبة التي أدت لارتكاب جريمة قتل مروّعة في مكان العمل.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926040000 +0000" channel="Discovery ID">
+    <title lang="ar">الوحش الأمريكي:عيد الحب الأخير</title>
+    <desc lang="ar">يمكن للقتلة والمجرمين أن يختبؤوا خلف قناع الابتسامة الجميلة، ويحتمل أن يتواجدوا ضمن أي شارع في الولايات المتحدة الأمريكية. لقطات فيديو تعرض للمرة الأولى تنظر مباشرة في أعين المجرمين الذين يختبؤون في الظلام.</desc>
+  </programme>
+  <programme start="20260926040000 +0000" stop="20260926050000 +0000" channel="Discovery ID">
+    <title lang="ar">دوغ ديتكتيفز:أنبريكبل بوند</title>
+    <desc lang="ar">استكشاف القدرات المذهلة للكلاب البوليسية المدرَّبة على الشم، حيث يستخدم هؤلاء المحققون ذوو الفراء حاسة شمهم الاستثنائية لكشف عمليات التهريب المخفية، والعثور على الأشخاص المفقودين، وإحباط الأنشطة الإجرامية في جميع أنحاء العالم.</desc>
+  </programme>
+  <programme start="20260923063000 +0000" stop="20260923072500 +0000" channel="Fatafeat">
+    <title lang="ar">دوق من يدي — الحلقة 1</title>
+    <desc lang="ar">تقدم الشيف آسيا عثمان وصفات مميزة وتقليدية عابقة بالتاريخ والتراث من جواهر المطبخ المغربي.</desc>
+  </programme>
+  <programme start="20260923072500 +0000" stop="20260923082000 +0000" channel="Fatafeat">
+    <title lang="ar">ولا أحلى مع لولو — الحلقة 1</title>
+    <desc lang="ar">برنامج طبخ تقدمه الشيف السعودية لولوة العزة، تعدّ فيه أصناف الطعام العربية والعالمية، باستخدام طرق بسيطة وسريعة وسهلة التحضير. وعلى عكس برامج الطبخ الأخرى التي تتسم بالجدية، يتميز أسلوب لولوة بتحضير الطعام بطريقة مرحة ومحببة وممتعة.</desc>
+  </programme>
+  <programme start="20260923082000 +0000" stop="20260923085000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 7</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923085000 +0000" stop="20260923091500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 6</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923091500 +0000" stop="20260923100500 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 3</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260923100500 +0000" stop="20260923110000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 7</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260923110000 +0000" stop="20260923115000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 18</title>
+    <desc lang="ar">تحضر الشيف منال العالم متبل القرنبيط المشوي، فيليه الدجاج مع الأرز، حلى الكراميل.</desc>
+  </programme>
+  <programme start="20260923115000 +0000" stop="20260923122000 +0000" channel="Fatafeat">
+    <title lang="ar">حكايات مطبخ -نكهات من الخليج</title>
+    <desc lang="ar">تقدم الشيف شهرزاد والشيف لينا مجموعة من الأطباق المبتكرة والمحببة للأطفال، والتي يمكن إعدادها لوجبات المدرسة الخفيفة وصناديق الغداء والوجبات اليومية، مع أفكار بسيطة تجعل تحضير الطعام أسهل وأكثر متعة للعائلات.</desc>
+  </programme>
+  <programme start="20260923122000 +0000" stop="20260923125000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923125000 +0000" stop="20260923131500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 7</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923131500 +0000" stop="20260923141000 +0000" channel="Fatafeat">
+    <title lang="ar">أكل شوارع — الحلقة 2</title>
+    <desc lang="ar">يحضر الشيف عمرو حلمي أشهر وأشهى الأطباق الشعبية، ويكشف أسرار نكهاتها الخاصة التي يعشقها جميع أفراد المجتمع.</desc>
+  </programme>
+  <programme start="20260923141000 +0000" stop="20260923150500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ مي — الحلقة 4</title>
+    <desc lang="ar">تتجاوز مي يعقوبي عتبة برامج الطهي التقليدية والعادية، حيث أنها تربط في برنامجها هذا المكونات الرئيسية لوصفاتها الشهية والوصفات المبتكرة بلحظات وذكريات سعيدة مرت بها.</desc>
+  </programme>
+  <programme start="20260923150500 +0000" stop="20260923160000 +0000" channel="Fatafeat">
+    <title lang="ar">أفنان الطبخ — الحلقة 3</title>
+    <desc lang="ar">تساعدكم طاهية المعجنات السعودية الشابة ومصممة الكعكات أفنان الجعدي في جعل مائدة إفطاركم أكثر لذة هذا العام. مع قائمة متنوعة ومجموعة مذهلة من الحساء والسلطات والأطباق الرئيسية والحلويات، استعدوا للاستمتاع بالشهر الكريم.</desc>
+  </programme>
+  <programme start="20260923160000 +0000" stop="20260923170000 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 4</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260923170000 +0000" stop="20260923180000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 8</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923183000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923183000 +0000" stop="20260923190000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 7</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923190000 +0000" stop="20260923195500 +0000" channel="Fatafeat">
+    <title lang="ar">أكل شوارع — الحلقة 2</title>
+    <desc lang="ar">يحضر الشيف عمرو حلمي أشهر وأشهى الأطباق الشعبية، ويكشف أسرار نكهاتها الخاصة التي يعشقها جميع أفراد المجتمع.</desc>
+  </programme>
+  <programme start="20260923195500 +0000" stop="20260923205000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ مي — الحلقة 4</title>
+    <desc lang="ar">تتجاوز مي يعقوبي عتبة برامج الطهي التقليدية والعادية، حيث أنها تربط في برنامجها هذا المكونات الرئيسية لوصفاتها الشهية والوصفات المبتكرة بلحظات وذكريات سعيدة مرت بها.</desc>
+  </programme>
+  <programme start="20260923205000 +0000" stop="20260923214000 +0000" channel="Fatafeat">
+    <title lang="ar">أفنان الطبخ — الحلقة 3</title>
+    <desc lang="ar">تساعدكم طاهية المعجنات السعودية الشابة ومصممة الكعكات أفنان الجعدي في جعل مائدة إفطاركم أكثر لذة هذا العام. مع قائمة متنوعة ومجموعة مذهلة من الحساء والسلطات والأطباق الرئيسية والحلويات، استعدوا للاستمتاع بالشهر الكريم.</desc>
+  </programme>
+  <programme start="20260923214000 +0000" stop="20260923223000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 18</title>
+    <desc lang="ar">تحضر الشيف منال العالم متبل القرنبيط المشوي، فيليه الدجاج مع الأرز، حلى الكراميل.</desc>
+  </programme>
+  <programme start="20260923223000 +0000" stop="20260923232500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 8</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260923232500 +0000" stop="20260923235500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260923235500 +0000" stop="20260924002000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 7</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924002000 +0000" stop="20260924011500 +0000" channel="Fatafeat">
+    <title lang="ar">أكل شوارع — الحلقة 2</title>
+    <desc lang="ar">يحضر الشيف عمرو حلمي أشهر وأشهى الأطباق الشعبية، ويكشف أسرار نكهاتها الخاصة التي يعشقها جميع أفراد المجتمع.</desc>
+  </programme>
+  <programme start="20260924011500 +0000" stop="20260924021000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ مي — الحلقة 4</title>
+    <desc lang="ar">تتجاوز مي يعقوبي عتبة برامج الطهي التقليدية والعادية، حيث أنها تربط في برنامجها هذا المكونات الرئيسية لوصفاتها الشهية والوصفات المبتكرة بلحظات وذكريات سعيدة مرت بها.</desc>
+  </programme>
+  <programme start="20260924021000 +0000" stop="20260924030000 +0000" channel="Fatafeat">
+    <title lang="ar">أفنان الطبخ — الحلقة 3</title>
+    <desc lang="ar">تساعدكم طاهية المعجنات السعودية الشابة ومصممة الكعكات أفنان الجعدي في جعل مائدة إفطاركم أكثر لذة هذا العام. مع قائمة متنوعة ومجموعة مذهلة من الحساء والسلطات والأطباق الرئيسية والحلويات، استعدوا للاستمتاع بالشهر الكريم.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924035000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 18</title>
+    <desc lang="ar">تحضر الشيف منال العالم متبل القرنبيط المشوي، فيليه الدجاج مع الأرز، حلى الكراميل.</desc>
+  </programme>
+  <programme start="20260924035000 +0000" stop="20260924044500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 8</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260924044500 +0000" stop="20260924053500 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 4</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260924053500 +0000" stop="20260924063000 +0000" channel="Fatafeat">
+    <title lang="ar">أفنان الطبخ — الحلقة 3</title>
+    <desc lang="ar">تساعدكم طاهية المعجنات السعودية الشابة ومصممة الكعكات أفنان الجعدي في جعل مائدة إفطاركم أكثر لذة هذا العام. مع قائمة متنوعة ومجموعة مذهلة من الحساء والسلطات والأطباق الرئيسية والحلويات، استعدوا للاستمتاع بالشهر الكريم.</desc>
+  </programme>
+  <programme start="20260924063000 +0000" stop="20260924072500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ مي — الحلقة 4</title>
+    <desc lang="ar">تتجاوز مي يعقوبي عتبة برامج الطهي التقليدية والعادية، حيث أنها تربط في برنامجها هذا المكونات الرئيسية لوصفاتها الشهية والوصفات المبتكرة بلحظات وذكريات سعيدة مرت بها.</desc>
+  </programme>
+  <programme start="20260924072500 +0000" stop="20260924082000 +0000" channel="Fatafeat">
+    <title lang="ar">أكل شوارع — الحلقة 2</title>
+    <desc lang="ar">يحضر الشيف عمرو حلمي أشهر وأشهى الأطباق الشعبية، ويكشف أسرار نكهاتها الخاصة التي يعشقها جميع أفراد المجتمع.</desc>
+  </programme>
+  <programme start="20260924082000 +0000" stop="20260924085000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924085000 +0000" stop="20260924091500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 7</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924091500 +0000" stop="20260924100500 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 4</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260924100500 +0000" stop="20260924110000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 8</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260924110000 +0000" stop="20260924115000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 19</title>
+    <desc lang="ar">تحضر الشيف منال العالم شباتي سهل وسريع، فيليه السمك مع البرغل، جلاش بالكاسترد.</desc>
+  </programme>
+  <programme start="20260924115000 +0000" stop="20260924122000 +0000" channel="Fatafeat">
+    <title lang="ar">حكايات مطبخ -نكهات من الخليج</title>
+    <desc lang="ar">تقدم الشيف شهرزاد والشيف لينا مجموعة من الأطباق المبتكرة والمحببة للأطفال، والتي يمكن إعدادها لوجبات المدرسة الخفيفة وصناديق الغداء والوجبات اليومية، مع أفكار بسيطة تجعل تحضير الطعام أسهل وأكثر متعة للعائلات.</desc>
+  </programme>
+  <programme start="20260924122000 +0000" stop="20260924125000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924125000 +0000" stop="20260924131500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924131500 +0000" stop="20260924141000 +0000" channel="Fatafeat">
+    <title lang="ar">نكهات طيبة — الحلقة 12</title>
+    <desc lang="ar">وفيق بلعيد ابن قرمبالية، منطقة تونسية شهيرة بتراثها في الطهي؛ يسعى لإبراز جمال وطنه عبر مهاراته في إعداد وصفات شهية ولذيذة من أرضها، وبصفته الشيف الرسمي للفريق الوطني التونسي لكرة القدم، ورافقه برحلاته حول العالم. يضم إلى جانبه ضيفة (دمية) صديقة تضيف لمسة خاصة من الترفيه لبرنامجه المفيد.</desc>
+  </programme>
+  <programme start="20260924141000 +0000" stop="20260924150500 +0000" channel="Fatafeat">
+    <title lang="ar">شواية مطر — الحلقة 11</title>
+    <desc lang="ar">يقدم الشيف حاتم مطر مع ابنتيه الصغيرتين هذا البرنامج المتخصص بالشواء. بعد أن تعلم الطبخ من والدته عندما كان طفلاً، يقوم الآن بنقل معرفته إلى أطفاله، حيث يعلمهم الوصفات التقليدية والأسرار. الكثير من وقت العائلة والوصفات اللذيذة في هذا البرنامج!</desc>
+  </programme>
+  <programme start="20260924150500 +0000" stop="20260924160000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخنا العربي — الحلقة 26</title>
+    <desc lang="ar">بعد الاستكشاف والتطلع لاستكشاف أساليب طهي علمية متنوعة، يقرر الشيف محمد أورفه لي العودة إلى الجذور، ويحفر في أعماق ثقافة الغذاء وفنون الطهي في بلدان المشرق العربي.</desc>
+  </programme>
+  <programme start="20260924160000 +0000" stop="20260924170000 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 5</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260924170000 +0000" stop="20260924180000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 9</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924183000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924183000 +0000" stop="20260924190000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924190000 +0000" stop="20260924195500 +0000" channel="Fatafeat">
+    <title lang="ar">نكهات طيبة — الحلقة 12</title>
+    <desc lang="ar">وفيق بلعيد ابن قرمبالية، منطقة تونسية شهيرة بتراثها في الطهي؛ يسعى لإبراز جمال وطنه عبر مهاراته في إعداد وصفات شهية ولذيذة من أرضها، وبصفته الشيف الرسمي للفريق الوطني التونسي لكرة القدم، ورافقه برحلاته حول العالم. يضم إلى جانبه ضيفة (دمية) صديقة تضيف لمسة خاصة من الترفيه لبرنامجه المفيد.</desc>
+  </programme>
+  <programme start="20260924195500 +0000" stop="20260924205000 +0000" channel="Fatafeat">
+    <title lang="ar">شواية مطر — الحلقة 11</title>
+    <desc lang="ar">يقدم الشيف حاتم مطر مع ابنتيه الصغيرتين هذا البرنامج المتخصص بالشواء. بعد أن تعلم الطبخ من والدته عندما كان طفلاً، يقوم الآن بنقل معرفته إلى أطفاله، حيث يعلمهم الوصفات التقليدية والأسرار. الكثير من وقت العائلة والوصفات اللذيذة في هذا البرنامج!</desc>
+  </programme>
+  <programme start="20260924205000 +0000" stop="20260924214000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخنا العربي — الحلقة 26</title>
+    <desc lang="ar">بعد الاستكشاف والتطلع لاستكشاف أساليب طهي علمية متنوعة، يقرر الشيف محمد أورفه لي العودة إلى الجذور، ويحفر في أعماق ثقافة الغذاء وفنون الطهي في بلدان المشرق العربي.</desc>
+  </programme>
+  <programme start="20260924214000 +0000" stop="20260924223000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 19</title>
+    <desc lang="ar">تحضر الشيف منال العالم شباتي سهل وسريع، فيليه السمك مع البرغل، جلاش بالكاسترد.</desc>
+  </programme>
+  <programme start="20260924223000 +0000" stop="20260924232500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 9</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260924232500 +0000" stop="20260924235500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260924235500 +0000" stop="20260925002000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925002000 +0000" stop="20260925011500 +0000" channel="Fatafeat">
+    <title lang="ar">نكهات طيبة — الحلقة 12</title>
+    <desc lang="ar">وفيق بلعيد ابن قرمبالية، منطقة تونسية شهيرة بتراثها في الطهي؛ يسعى لإبراز جمال وطنه عبر مهاراته في إعداد وصفات شهية ولذيذة من أرضها، وبصفته الشيف الرسمي للفريق الوطني التونسي لكرة القدم، ورافقه برحلاته حول العالم. يضم إلى جانبه ضيفة (دمية) صديقة تضيف لمسة خاصة من الترفيه لبرنامجه المفيد.</desc>
+  </programme>
+  <programme start="20260925011500 +0000" stop="20260925021000 +0000" channel="Fatafeat">
+    <title lang="ar">شواية مطر — الحلقة 11</title>
+    <desc lang="ar">يقدم الشيف حاتم مطر مع ابنتيه الصغيرتين هذا البرنامج المتخصص بالشواء. بعد أن تعلم الطبخ من والدته عندما كان طفلاً، يقوم الآن بنقل معرفته إلى أطفاله، حيث يعلمهم الوصفات التقليدية والأسرار. الكثير من وقت العائلة والوصفات اللذيذة في هذا البرنامج!</desc>
+  </programme>
+  <programme start="20260925021000 +0000" stop="20260925030000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخنا العربي — الحلقة 26</title>
+    <desc lang="ar">بعد الاستكشاف والتطلع لاستكشاف أساليب طهي علمية متنوعة، يقرر الشيف محمد أورفه لي العودة إلى الجذور، ويحفر في أعماق ثقافة الغذاء وفنون الطهي في بلدان المشرق العربي.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925035000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 19</title>
+    <desc lang="ar">تحضر الشيف منال العالم شباتي سهل وسريع، فيليه السمك مع البرغل، جلاش بالكاسترد.</desc>
+  </programme>
+  <programme start="20260925035000 +0000" stop="20260925044500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 9</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260925044500 +0000" stop="20260925053500 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 5</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260925053500 +0000" stop="20260925063000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخنا العربي — الحلقة 26</title>
+    <desc lang="ar">بعد الاستكشاف والتطلع لاستكشاف أساليب طهي علمية متنوعة، يقرر الشيف محمد أورفه لي العودة إلى الجذور، ويحفر في أعماق ثقافة الغذاء وفنون الطهي في بلدان المشرق العربي.</desc>
+  </programme>
+  <programme start="20260925063000 +0000" stop="20260925072500 +0000" channel="Fatafeat">
+    <title lang="ar">شواية مطر — الحلقة 11</title>
+    <desc lang="ar">يقدم الشيف حاتم مطر مع ابنتيه الصغيرتين هذا البرنامج المتخصص بالشواء. بعد أن تعلم الطبخ من والدته عندما كان طفلاً، يقوم الآن بنقل معرفته إلى أطفاله، حيث يعلمهم الوصفات التقليدية والأسرار. الكثير من وقت العائلة والوصفات اللذيذة في هذا البرنامج!</desc>
+  </programme>
+  <programme start="20260925072500 +0000" stop="20260925082000 +0000" channel="Fatafeat">
+    <title lang="ar">نكهات طيبة — الحلقة 12</title>
+    <desc lang="ar">وفيق بلعيد ابن قرمبالية، منطقة تونسية شهيرة بتراثها في الطهي؛ يسعى لإبراز جمال وطنه عبر مهاراته في إعداد وصفات شهية ولذيذة من أرضها، وبصفته الشيف الرسمي للفريق الوطني التونسي لكرة القدم، ورافقه برحلاته حول العالم. يضم إلى جانبه ضيفة (دمية) صديقة تضيف لمسة خاصة من الترفيه لبرنامجه المفيد.</desc>
+  </programme>
+  <programme start="20260925082000 +0000" stop="20260925085000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925085000 +0000" stop="20260925091500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 8</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925091500 +0000" stop="20260925100500 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 5</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260925100500 +0000" stop="20260925110000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 9</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260925110000 +0000" stop="20260925115000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 20</title>
+    <desc lang="ar">تحضر الشيف منال العالم شوربة السباغيتي، أفخاذ الدجاج بالزعفران، تاريت كريمة الشوكولاتة.</desc>
+  </programme>
+  <programme start="20260925115000 +0000" stop="20260925122000 +0000" channel="Fatafeat">
+    <title lang="ar">حكايات مطبخ -نكهات من الخليج</title>
+    <desc lang="ar">تقدم الشيف شهرزاد والشيف لينا مجموعة من الأطباق المبتكرة والمحببة للأطفال، والتي يمكن إعدادها لوجبات المدرسة الخفيفة وصناديق الغداء والوجبات اليومية، مع أفكار بسيطة تجعل تحضير الطعام أسهل وأكثر متعة للعائلات.</desc>
+  </programme>
+  <programme start="20260925122000 +0000" stop="20260925125000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 10</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925125000 +0000" stop="20260925131500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925131500 +0000" stop="20260925141000 +0000" channel="Fatafeat">
+    <title lang="ar">شو بحب الأورف — الحلقة 16</title>
+    <desc lang="ar">يقوم الشيف (محمد أورفه لي) بإعداد وتقديم عدد كبير من وصفاته المفضلة في مطبخه الخاص. في كل حلقة يُعد ثلاث وصفات منتقاة بعناية، بمشاركة أصدقائه الذين يعرفونه جيداً ويتبادلون الأحاديث الممتعة مع بعضهم البعض.</desc>
+  </programme>
+  <programme start="20260925141000 +0000" stop="20260925150500 +0000" channel="Fatafeat">
+    <title lang="ar">صحتك على بالي — الحلقة 9</title>
+    <desc lang="ar">نصائح وإرشادات حول كيفية تحسين الصحة العقلية والبدنية في عالم اليوم الذي يمضي سريع الخطى.</desc>
+  </programme>
+  <programme start="20260925150500 +0000" stop="20260925160000 +0000" channel="Fatafeat">
+    <title lang="ar">تسلم الأيادي</title>
+    <desc lang="ar">في رحلة لإعادة اكتشاف المطبخ، يأخذنا برنامج تسلم الأيادي في جولة بين التسوق والأكلات التقليدية ومطابخ الفنادق والحلويات، مع حلول سريعة لتحضير الطعام يومياً.</desc>
+  </programme>
+  <programme start="20260925160000 +0000" stop="20260925170000 +0000" channel="Fatafeat">
+    <title lang="ar">بيت الحلويات — الحلقة 6</title>
+    <desc lang="ar">كل امرأة ناجحة في المطبخ كانت ذات يوم فتاة صغيرة تخبز مع أمها وتتعلم منها. مضيفة البرنامج موهبة شابة (لينا مسعد) تعتبر برنامج بيت الحلويات شغفها والحنين لما يعنيه الخَبز وصنع الكعك والحلويات بأصنافها المتنوعة. ترافقها مضيفة مساعدة صغيرة (سينا) عمرها 7 أعوام.</desc>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925180000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 10</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925183000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 10</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925183000 +0000" stop="20260925190000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925190000 +0000" stop="20260925195500 +0000" channel="Fatafeat">
+    <title lang="ar">شو بحب الأورف — الحلقة 16</title>
+    <desc lang="ar">يقوم الشيف (محمد أورفه لي) بإعداد وتقديم عدد كبير من وصفاته المفضلة في مطبخه الخاص. في كل حلقة يُعد ثلاث وصفات منتقاة بعناية، بمشاركة أصدقائه الذين يعرفونه جيداً ويتبادلون الأحاديث الممتعة مع بعضهم البعض.</desc>
+  </programme>
+  <programme start="20260925195500 +0000" stop="20260925205000 +0000" channel="Fatafeat">
+    <title lang="ar">صحتك على بالي — الحلقة 9</title>
+    <desc lang="ar">نصائح وإرشادات حول كيفية تحسين الصحة العقلية والبدنية في عالم اليوم الذي يمضي سريع الخطى.</desc>
+  </programme>
+  <programme start="20260925205000 +0000" stop="20260925214000 +0000" channel="Fatafeat">
+    <title lang="ar">تسلم الأيادي</title>
+    <desc lang="ar">في رحلة لإعادة اكتشاف المطبخ، يأخذنا برنامج تسلم الأيادي في جولة بين التسوق والأكلات التقليدية ومطابخ الفنادق والحلويات، مع حلول سريعة لتحضير الطعام يومياً.</desc>
+  </programme>
+  <programme start="20260925214000 +0000" stop="20260925223000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 20</title>
+    <desc lang="ar">تحضر الشيف منال العالم شوربة السباغيتي، أفخاذ الدجاج بالزعفران، تاريت كريمة الشوكولاتة.</desc>
+  </programme>
+  <programme start="20260925223000 +0000" stop="20260925232500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 10</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
+  </programme>
+  <programme start="20260925232500 +0000" stop="20260925235500 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 10</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260925235500 +0000" stop="20260926002000 +0000" channel="Fatafeat">
+    <title lang="ar">100 لحمة — الحلقة 9</title>
+    <desc lang="ar">يطل عليكم الشيف طارق في برنامجه الجديد 100 لحمة، احتفالاً بقدوم شهر رمضان الكريم.</desc>
+  </programme>
+  <programme start="20260926002000 +0000" stop="20260926011500 +0000" channel="Fatafeat">
+    <title lang="ar">شو بحب الأورف — الحلقة 16</title>
+    <desc lang="ar">يقوم الشيف (محمد أورفه لي) بإعداد وتقديم عدد كبير من وصفاته المفضلة في مطبخه الخاص. في كل حلقة يُعد ثلاث وصفات منتقاة بعناية، بمشاركة أصدقائه الذين يعرفونه جيداً ويتبادلون الأحاديث الممتعة مع بعضهم البعض.</desc>
+  </programme>
+  <programme start="20260926011500 +0000" stop="20260926021000 +0000" channel="Fatafeat">
+    <title lang="ar">صحتك على بالي — الحلقة 9</title>
+    <desc lang="ar">نصائح وإرشادات حول كيفية تحسين الصحة العقلية والبدنية في عالم اليوم الذي يمضي سريع الخطى.</desc>
+  </programme>
+  <programme start="20260926021000 +0000" stop="20260926030000 +0000" channel="Fatafeat">
+    <title lang="ar">تسلم الأيادي</title>
+    <desc lang="ar">في رحلة لإعادة اكتشاف المطبخ، يأخذنا برنامج تسلم الأيادي في جولة بين التسوق والأكلات التقليدية ومطابخ الفنادق والحلويات، مع حلول سريعة لتحضير الطعام يومياً.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926035000 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم — الحلقة 20</title>
+    <desc lang="ar">تحضر الشيف منال العالم شوربة السباغيتي، أفخاذ الدجاج بالزعفران، تاريت كريمة الشوكولاتة.</desc>
+  </programme>
+  <programme start="20260926035000 +0000" stop="20260926044500 +0000" channel="Fatafeat">
+    <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 10</title>
+    <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
   </programme>
   <programme start="20260926202946 +0000" stop="20260926210000 +0000" channel="Roya_RoyaTV">
     <title lang="ar">لم يُعلن البث — No listing published</title>
@@ -75229,7 +76387,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260923225500 +0000" stop="20260923230000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923113000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260923072000 +0000" stop="20260923113000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Special Program: Al Fareeq Al Tasee' 2026</title>
     <desc lang="en">Special Program: Al Fareeq Al Tasee' 2026</desc>
     <category lang="en">Sport</category>
@@ -75307,13 +76465,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925144000 +0000" stop="20260927070500 +0000" channel="Starz_admnadsports1">
+  <programme start="20260925144000 +0000" stop="20260927072000 +0000" channel="Starz_admnadsports1">
     <title lang="en">News - Sports Segment 2026</title>
     <desc lang="en">News - Sports Segment 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923100000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260923072000 +0000" stop="20260923100000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -75397,14 +76555,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260926090000 +0000" stop="20260927070500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260926090000 +0000" stop="20260927072000 +0000" channel="Starz_admnadsports2">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923073000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260923072000 +0000" stop="20260923073000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Round 5 - Serie A Highlights</title>
     <title lang="ar">الجولة 5 - مقتطفات من الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -75995,7 +77153,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923074500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260923072000 +0000" stop="20260923074500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Bologna X Torino - Serie A</title>
     <title lang="ar">بولونيا × تورينو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -76565,7 +77723,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923073500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260923072000 +0000" stop="20260923073500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">UFC - Dana White's Contender Series</title>
     <title lang="ar">يو إف سي - سلسلة منافسي دانا وايت</title>
     <desc lang="en">Tune in to the latest events from the UFC - Dana White's Contender Series.</desc>
@@ -77139,7 +78297,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923085300 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260923072000 +0000" stop="20260923085300 +0000" channel="Starz_starzplayrugby">
     <title lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">England U20 vs. Ireland U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -77343,7 +78501,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923073500 +0000" channel="Starz_golflife">
+  <programme start="20260923072000 +0000" stop="20260923073500 +0000" channel="Starz_golflife">
     <title lang="en">Biltmore Championship Asheville, First Round - PGA Tour Golf</title>
     <title lang="ar">بي جي إيه تور غولف</title>
     <desc lang="en">Biltmore Championship Asheville, First Round - PGA Tour Golf</desc>
@@ -77684,7 +78842,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923072100 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260923072000 +0000" stop="20260923072100 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2nd T20: Afghanistan vs India - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -78917,7 +80075,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923080000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260923072000 +0000" stop="20260923080000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Phygital Basketball / Battle Royale: PU... - Games of the Future</title>
     <title lang="ar">فيجيتال باسكتبول / باتل رويال: ببجي... - ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -79477,7 +80635,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923080000 +0000" channel="Starz_wedosports">
+  <programme start="20260923072000 +0000" stop="20260923080000 +0000" channel="Starz_wedosports">
     <title lang="en">Valencia, Qualifying - FIA TCR World Tour - LIVE</title>
     <desc lang="en">Valencia, Qualifying - FIA TCR World Tour - LIVE</desc>
     <category lang="en">Sport</category>
@@ -79881,7 +81039,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923073000 +0000" channel="Starz_criclife1">
+  <programme start="20260923072000 +0000" stop="20260923073000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's T20 World Cup 2024: Namibia vs Scotland - Kick-Off Classics</title>
     <desc lang="en">ICC Men's T20 World Cup 2024: Namibia vs Scotland - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
@@ -80450,7 +81608,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923072800 +0000" channel="Starz_criclife3">
+  <programme start="20260923072000 +0000" stop="20260923072800 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Final Trinbago Knight Riders vs Guyana Amazon Warriors - Women's CPL T20</title>
     <desc lang="en">2026: Final Trinbago Knight Riders vs Guyana Amazon Warriors - Women's CPL T20</desc>
     <category lang="en">Sport</category>
@@ -81648,7 +82806,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p33925191_b_h10_aa.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923080500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260927071900 +0000" stop="20260927075100 +0000" channel="Starz_criclife3">
+    <title lang="en">1st ODI: South Africa v Australia - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260923072000 +0000" stop="20260923080500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Geneva, Switzerland - Sail Grand Prix</title>
     <title lang="ar">جنيف، سويسرا - سباق الجائزة الكبرى للشراع</title>
     <desc lang="en">Special coverage of the Sail Grand Prix.</desc>
@@ -82222,7 +83387,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923082316 +0000" channel="Starz_awsn">
+  <programme start="20260923072000 +0000" stop="20260923082316 +0000" channel="Starz_awsn">
     <title lang="en">2025: Al Ahli vs Al Hilal</title>
     <desc lang="en">The 2025-2026 Saudi Women&amp;apos;s Premier League continues with Al Ahli vs. Al Hilal at the Al Ahli Club Stadium.</desc>
     <category lang="en">Sport</category>
@@ -82838,7 +84003,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923080000 +0000" channel="Starz_redbulltv">
+  <programme start="20260923072000 +0000" stop="20260923080000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -83420,7 +84585,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923090000 +0000" channel="Starz_daznringside">
+  <programme start="20260923072000 +0000" stop="20260923090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -83618,7 +84783,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260923084516 +0000" channel="Starz_fifaplus">
+  <programme start="20260923072000 +0000" stop="20260923084516 +0000" channel="Starz_fifaplus">
     <title lang="en">Canada v Cameroon | Group E | FIFA Women's World Cup France 2019™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Canada and Cameroon played at Stade de la Mosson, Montpellier on Monday, 10 June 2019 at 21:00.</desc>
     <category lang="en">Sport</category>
@@ -83936,7 +85101,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123227.jpg" />
   </programme>
-  <programme start="20260923070500 +0000" stop="20260927070500 +0000" channel="Starz_adfight">
+  <programme start="20260927071443 +0000" stop="20260927093307 +0000" channel="Starz_fifaplus">
+    <title lang="en">U20 FIFA World Cup, Women 2026 - Ghana U20 v Korean Republic U20</title>
+    <desc lang="en">U20 FIFA World Cup, Women 2026 - Ghana U20 v Korean Republic U20</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123198.jpg" />
+  </programme>
+  <programme start="20260923072000 +0000" stop="20260927072000 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
     <category lang="en">Sport</category>
@@ -127351,4 +128522,4 @@ Istanbul (إسطنبول) — الفجر 05:21 · الشروق 06:46 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260924124345 +0000" stop="20260924150923 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924124410 +0000" stop="20260924150923 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260924124345 +0000" stop="20260924152636 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924124410 +0000" stop="20260924152636 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
