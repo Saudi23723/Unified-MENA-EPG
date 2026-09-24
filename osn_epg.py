@@ -107,6 +107,14 @@ CHANNELS = [
      [("sa_ar", "Discovery ID.sa"), ("sa_en", "Discovery ID.sa")]),
     ("OSNFatafeat.osn", "fatafeat", ["OSN Fatafeat", "OSN: FATAFEAT", "OSN: FATAFET", "OSN Fatafet", "Fatafeat", "OSN FATAFET", "فتافيت"],
      [("sa_ar", "Fatafeat.sa"), ("sa_en", "Fatafeat.sa")]),
+    # ANIMAL PLANET, asked for after the rest. saudiarabia2 carries it in
+    # English and saudiarabia1 in Arabic ("Animal Planet HD.sa"), both
+    # clocks measured for the MBC guide; uae2 and epgshare SA1 list it
+    # with nothing under it.
+    ("OSNAnimalPlanet.osn", "animal_planet",
+     ["OSN Animal Planet", "Animal Planet", "OSN: ANIMAL PLANET", "Animal Planet HD",
+      "أنيمال بلانيت"],
+     [("sa_en", "Animal Planet HD.sa"), ("sa_ar", "Animal Planet HD.sa")]),
 ]
 
 KEEP_BEHIND = timedelta(days=1)
