@@ -44,7 +44,8 @@ from datetime import datetime, timedelta, timezone
 
 import xml.etree.ElementTree as ET
 
-from epg_lib import add_programme, fetch, log, norm, resolve_overlaps, utc_now, warn
+from epg_lib import (add_programme, fetch, log, new_session, norm, resolve_overlaps,
+                     run_main, utc_now, warn, write_xml_atomic)
 
 UTC = timezone.utc
 XMLTV_TIME = "%Y%m%d%H%M%S %z"
@@ -248,3 +249,28 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
             total += 1
     log(f"MBC: {len(per_channel)}/{len(CHANNELS)} channels, {total} programmes")
     return total
+
+
+# A LINK OF ITS OWN, as well. The channels were on the Roya link and the
+# reader's player listed none of them — searched in English and in Arabic,
+# after an update and a cleared cache — while the same file's other
+# channels were there. A small file of their own is a source the player
+# reads fresh, and it does not depend on whatever that player does with
+# the end of a four-megabyte guide.
+OUTPUT = "mbc_epg.xml"
+
+
+def build() -> int:
+    session = new_session()
+    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — MBC"})
+    per_channel = collect(session, OUTPUT)
+    if not emit(root, per_channel):
+        warn("MBC: nothing to publish — the previous file is kept")
+        return 1
+    write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — MBC")
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(run_main(build, OUTPUT))

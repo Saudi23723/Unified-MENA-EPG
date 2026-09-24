@@ -116,6 +116,7 @@ GENERATORS: list[tuple[str, str, str]] = [
     ("Shasha",              "update_shasha_epg.py",            "shasha_epg.xml"),
     ("tabii Spor",          "update_tabii_epg.py",             "tabii_spor_1_10_epg.xml"),
     ("Thmanyah",            "update_thmanyah_epg.py",          "thmanyah_epg.xml"),
+    ("MBC",                 "mbc_epg.py",                      "mbc_epg.xml"),
 ]
 
 # مباريات اليوم is deliberately NOT in the list above, and that is the fix
