@@ -47,7 +47,7 @@ FEEDS = {
     "uae2": "https://www.open-epg.com/files/uae2.xml",
 }
 
-LOGO_VERSION = "v3"
+LOGO_VERSION = "v2"
 
 # THE IDS HAVE NO SPACES. They were the channels' plain names ("OSN Comedy")
 # until a player searching its guide list for "osn" found every other
