@@ -71,6 +71,60 @@
     <display-name lang="ar">تيفيبو سبور 4</display-name>
     <display-name lang="ar">تيفيبو سبور ٤</display-name>
   </channel>
+  <channel id="Mozaik.bein.tr">
+    <display-name lang="en">Mozaik</display-name>
+    <display-name lang="en">MOZAIK</display-name>
+    <display-name lang="en">beIN Mozaik</display-name>
+    <display-name lang="en">TR: Mozaik</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/mozaik.png" />
+  </channel>
+  <channel id="Guide.bein.tr">
+    <display-name lang="en">Guide</display-name>
+    <display-name lang="en">GUIDE</display-name>
+    <display-name lang="en">beIN Guide</display-name>
+    <display-name lang="en">TR: Guide</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/guide.png" />
+  </channel>
+  <channel id="beINSportsVIP1.bein.tr">
+    <display-name lang="en">beIN SPORTS VIP 1</display-name>
+    <display-name lang="en">VIP 1</display-name>
+    <display-name lang="en">beIN VIP 1</display-name>
+    <display-name lang="en">VIP Match 1</display-name>
+    <display-name lang="en">TR: beIN SPORTS VIP 1</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip1.png" />
+  </channel>
+  <channel id="beINSportsVIP2.bein.tr">
+    <display-name lang="en">beIN SPORTS VIP 2</display-name>
+    <display-name lang="en">VIP 2</display-name>
+    <display-name lang="en">beIN VIP 2</display-name>
+    <display-name lang="en">VIP Match 2</display-name>
+    <display-name lang="en">TR: beIN SPORTS VIP 2</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip2.png" />
+  </channel>
+  <channel id="beINSportsVIP3.bein.tr">
+    <display-name lang="en">beIN SPORTS VIP 3</display-name>
+    <display-name lang="en">VIP 3</display-name>
+    <display-name lang="en">beIN VIP 3</display-name>
+    <display-name lang="en">VIP Match 3</display-name>
+    <display-name lang="en">TR: beIN SPORTS VIP 3</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip3.png" />
+  </channel>
+  <channel id="beINSportsVIP4.bein.tr">
+    <display-name lang="en">beIN SPORTS VIP 4</display-name>
+    <display-name lang="en">VIP 4</display-name>
+    <display-name lang="en">beIN VIP 4</display-name>
+    <display-name lang="en">VIP Match 4</display-name>
+    <display-name lang="en">TR: beIN SPORTS VIP 4</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip4.png" />
+  </channel>
+  <channel id="beINSportsVIP5.bein.tr">
+    <display-name lang="en">beIN SPORTS VIP 5</display-name>
+    <display-name lang="en">VIP 5</display-name>
+    <display-name lang="en">beIN VIP 5</display-name>
+    <display-name lang="en">VIP Match 5</display-name>
+    <display-name lang="en">TR: beIN SPORTS VIP 5</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip5.png" />
+  </channel>
   <programme start="20260923044500 +0000" stop="20260923050000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Süper Lig Haftanın Golleri (26-27) 6.Hafta</title>
     <category lang="en">Sports</category>
@@ -835,10 +889,6 @@
     <title lang="en">Yarış Başlıyor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260923040000 +0000" stop="20260923054500 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">Türkiye Sigorta 25-26 BSL 27.Hafta Onvo Büyükçekmece Basketbol - Esenler Erokspor</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260923054500 +0000" stop="20260923074500 +0000" channel="beINSPORTS5.tr">
     <title lang="en">Türkiye Sigorta 25-26 BSL 27.Hafta Fenerbahçe Beko - Trabzonspor</title>
     <category lang="en">Sports</category>
@@ -1102,10 +1152,6 @@
   </programme>
   <programme start="20260925010000 +0000" stop="20260925030000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="en">beIN Sports Max 2</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260923040000 +0000" stop="20260923043000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Bundesliga Maç Özetleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260923043000 +0000" stop="20260923060000 +0000" channel="beINSPORTSHABER.tr">
@@ -1981,10 +2027,6 @@
     <title lang="en">Skor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260923020000 +0000" stop="20260923034500 +0000" channel="TivibuSpor.tr">
-    <title lang="en">MKE Ankaragücü - Serik spor</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260923034500 +0000" stop="20260923053000 +0000" channel="TivibuSpor.tr">
     <title lang="en">Akedaş Kahramanmaraş İstiklal Spor - Sakaryaspor</title>
     <category lang="en">Spor</category>
@@ -2556,5 +2598,2245 @@
   <programme start="20260925170000 +0000" stop="20260925210000 +0000" channel="TivibuSpor4.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="Mozaik.bein.tr">
+    <title lang="en">4 Channel live</title>
+    <desc lang="ar">Mozaik — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="Guide.bein.tr">
+    <title lang="en">Program 24/7</title>
+    <desc lang="ar">Guide — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="beINSportsVIP1.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 1 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="beINSportsVIP2.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 2 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="beINSportsVIP3.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 3 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="beINSportsVIP4.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 4 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923000000 +0000" stop="20260923030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923030000 +0000" stop="20260923060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923060000 +0000" stop="20260923090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923090000 +0000" stop="20260923120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923120000 +0000" stop="20260923150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923150000 +0000" stop="20260923180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260924000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924000000 +0000" stop="20260924030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924030000 +0000" stop="20260924060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924060000 +0000" stop="20260924090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924090000 +0000" stop="20260924120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925000000 +0000" stop="20260925030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925030000 +0000" stop="20260925060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925060000 +0000" stop="20260925090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925090000 +0000" stop="20260925120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260926000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926000000 +0000" stop="20260926030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926030000 +0000" stop="20260926060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926060000 +0000" stop="20260926090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926090000 +0000" stop="20260926120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926180000 +0000" stop="20260926210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260926210000 +0000" stop="20260927000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927000000 +0000" stop="20260927030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927030000 +0000" stop="20260927060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927060000 +0000" stop="20260927090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927090000 +0000" stop="20260927120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927150000 +0000" stop="20260927180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927180000 +0000" stop="20260927210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260927210000 +0000" stop="20260928000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928030000 +0000" stop="20260928060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928060000 +0000" stop="20260928090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928090000 +0000" stop="20260928120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928120000 +0000" stop="20260928150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928150000 +0000" stop="20260928180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928180000 +0000" stop="20260928210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929030000 +0000" stop="20260929060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929090000 +0000" stop="20260929120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929150000 +0000" stop="20260929180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929180000 +0000" stop="20260929210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260930000000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930030000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930060000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930090000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930090000 +0000" stop="20260930120000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930150000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930150000 +0000" stop="20260930180000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
+  </programme>
+  <programme start="20260930180000 +0000" stop="20260930210000 +0000" channel="beINSportsVIP5.bein.tr">
+    <title lang="en">VIP Match</title>
+    <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
+هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
 <programme start="20260923204500 +0000" stop="20260923210000 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924183000 +0000" stop="20260924190000 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260923204500 +0000" stop="20260923210000 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924183000 +0000" stop="20260924184500 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260923200000 +0000" stop="20260923210100 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924193000 +0000" stop="20260924210000 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924183000 +0000" stop="20260924210000 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924183000 +0000" stop="20260924210000 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260923083000 +0000" stop="20260923090000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260923120000 +0000" stop="20260923130000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260923184500 +0000" stop="20260923190000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260923200000 +0000" stop="20260923210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924183000 +0000" stop="20260924190000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924203000 +0000" stop="20260924210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926204500 +0000" stop="20260926210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929201500 +0000" stop="20260929210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
