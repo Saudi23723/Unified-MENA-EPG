@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260923180000 +0000" stop="20260923194500 +0000" channel="beIN4K.qa">
-    <title lang="en">Fulham v Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Fulham are winless in their last 10 Premier League home games against Manchester United  since winning back-to-back matches against them at Craven Cottage in 2009. Manchester United have lost just one of their last 21 Premier League games against Fulham, going down 2-1 at Old Trafford in February 2024.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20260923194500 +0000" stop="20260923213600 +0000" channel="beIN4K.qa">
     <title lang="en">Marseille vs PSG - French Ligue 1 2026/2027</title>
     <desc lang="en">Marseille have lost 38 matches against Paris SG in all competitions in the 21st century, which is 15 more than against any other opponent. OM have won just one of their last 13 home Ligue 1 games against PSG, though this was their most recent encounter, almost exactly one year ago on 22 September 2025. Marseille have lost three of their first four</desc>
@@ -658,12 +652,6 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260923184500 +0000" stop="20260923194500 +0000" channel="beINSports1.qa">
-    <title lang="en">EPL Weekly Review - 2026/2027 - EP 5</title>
-    <desc lang="en">Each EPL Match week is condensed into a 52-minute highlights show. Every game, goal, penalty, red card and everything in between is squeezed into an action-packed hour to ensure no football fan misses a kick across the game season.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20260923194500 +0000" stop="20260923201500 +0000" channel="beINSports1.qa">
     <title lang="en">Sevilla vs Barcelona - Spanish LaLiga 2026/2027 - Week 7</title>
@@ -1758,6 +1746,12 @@ Fortuna Arena Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20260930193000 +0000" stop="20260930205959 +0000" channel="beINSports1.qa">
+    <title lang="en">Bela: King of Padel</title>
+    <desc lang="en">Through archival footage, match highlights, and personal interviews with Bela, his family, and key rivals, the documentary captures his relentless mental toughness, physical sacrifices, and the unique drive that kept him at the peak of the sport for over two decades</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20260923185000 +0000" stop="20260923210000 +0000" channel="beINSports2.qa">
     <title lang="en">Barcelona vs Paris - UEFA Women’s Champions League 2026/2027 ‎• Live 🔵‎</title>
     <desc lang="en">The UEFA Women's Champions League is a European women's association football competition. It involves the top club teams from countries affiliated with the European governing body UEFA. This is the second season under a new format, which has 18 participating teams, playing six games each against different opponents in a league phase, all in a joint</desc>
@@ -2186,13 +2180,6 @@ Ramón Sánchez-Pizjuán Stadium</desc>
     <category lang="ar">دوري أبطال أوروبا - سيدات</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Champions League - (Women)</category>
-  </programme>
-  <programme start="20260923184500 +0000" stop="20260923193000 +0000" channel="beINSports3.qa">
-    <title lang="en">Sabre Ind SF - Fencing - Asian Games Aichi-Nagoya 2026 - M</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260923193000 +0000" stop="20260923200000 +0000" channel="beINSports3.qa">
     <title lang="en">Foil Final - Fencing - Asian Games Aichi-Nagoya 2026 - W</title>
@@ -4716,12 +4703,6 @@ Stadionul Zimbru Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260923174500 +0000" stop="20260923193500 +0000" channel="beINSports7.qa">
-    <title lang="en">Washington vs Indiana - Women's National Basketball Association - WNBA</title>
-    <desc lang="en">The 2026 season marks the league’s 30th campaign, running from 8 May to 24 September, with 15 teams following the addition of Portland Fire and Toronto Tempo. The competition features elite women’s basketball across the regular season and playoffs, as teams chase the championship in a growing league with expanded reach and rising global attention.</desc>
-    <category lang="ar">كرة السلة</category>
-    <category lang="en">Basketball</category>
-  </programme>
   <programme start="20260923193500 +0000" stop="20260923210000 +0000" channel="beINSports7.qa">
     <title lang="en">Squash  - Asian Games Aichi-Nagoya 2026</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -5244,13 +5225,6 @@ Košická futbalová aréna (KFA) Stadium</desc>
     <desc lang="en">The ATP 500 Series is the second-highest tier of the ATP Tour, featuring 16 tournaments across the season. Held on hard, clay and grass courts, these events attract many of the world’s top players, offering high-level competition, valuable ranking points and substantial prize money. The series spans major tennis markets worldwide, including Doha, D</desc>
     <category lang="ar">كرة التنس - فئة 500</category>
     <category lang="en">Tennis - ATP 500</category>
-  </programme>
-  <programme start="20260923163000 +0000" stop="20260923193000 +0000" channel="beINSports8.qa">
-    <title lang="en">Palestine vs China  - Softball - Baseball - Asian Games Aichi-Nagoya 2026 - M</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260923193000 +0000" stop="20260923200000 +0000" channel="beINSports8.qa">
     <title lang="en">UEFA Nations League 2026/27 - Magazine EP1</title>
@@ -7030,12 +7004,6 @@ Ramón Sánchez-Pizjuán Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Champions League - (Women)</category>
   </programme>
-  <programme start="20260923173000 +0000" stop="20260923193000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Séville vs Barcelonne - Liga - J06 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260923193000 +0000" stop="20260923213500 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Marseille vs PSG - Ligue 1 - J05 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -8695,12 +8663,6 @@ Ramón Sánchez-Pizjuán Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260923191500 +0000" stop="20260923193000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">The summary 1 - 23/09/26</title>
-    <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260923193000 +0000" stop="20260923200000 +0000" channel="beINSportsNews.qa">
     <title lang="ar">E1 | S1 البطل</title>
     <desc lang="ar">محمد جود موهبة كروية واعدة يتميز بمهاراته واجتهاده. يسعى للوصول إلى النجومية وتحقيق البطولات والإنجازات في عالم كرة القدم.</desc>
@@ -10122,6 +10084,18 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
   <programme start="20260930191500 +0000" stop="20260930193000 +0000" channel="beINSportsNews.qa">
     <title lang="en">The summary 1 - 30/09/26</title>
     <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260930193000 +0000" stop="20260930194500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Interview  - 30/09/26</title>
+    <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20260930194500 +0000" stop="20260930200000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 30/09/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
