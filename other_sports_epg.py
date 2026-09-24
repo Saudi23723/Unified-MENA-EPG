@@ -69,6 +69,8 @@ import spanish_sport_grid
 import world_ball_feed
 import bkfc
 import oktagon
+import pfl_events
+import brave_cf
 import beach_volley_fivb
 import womens_volley_fivb
 import wrestling_uww
@@ -424,7 +426,8 @@ def wanted(event: dict) -> bool:
     if an_obvious_rebroadcast(event):
         return False
     if not event.get("channels") and event.get("source") not in (
-            "worldball", "fivb", "uww", "majorgames", "bkfc", "oktagon"):
+            "worldball", "fivb", "uww", "majorgames", "bkfc", "oktagon",
+            "pfl", "brave"):
         # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
         # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
         # listings page reaches, and the board's PPV fallback labels
@@ -1814,6 +1817,14 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # PPV.
     if can_fetch:
         everything += oktagon.events(session, floor, ceiling)
+
+    # AND THE PFL'S AND BRAVE CF'S OWN PAGES, asked for the same way:
+    # "add PFL and BRAVE the same way". Each promotion's own site, each
+    # card on the clock it prints beside it, no channel invented — the
+    # row says PPV. See pfl_events.py and brave_cf.py.
+    if can_fetch:
+        everything += pfl_events.events(session, floor, ceiling)
+        everything += brave_cf.events(session, floor, ceiling)
 
     # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
     # for by name ("TSN AND SPORTSNET events matches to be added on
