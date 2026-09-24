@@ -44,7 +44,7 @@ FEEDS = {
     "eg_ar": "https://www.open-epg.com/files/egypt1.xml",
 }
 
-LOGO_VERSION = "v1"
+LOGO_VERSION = "v2"
 
 # (xmltv id = the name a player shows, logo stem, [names],
 #  [(feed, the feed's channel id), ... in order of preference])
