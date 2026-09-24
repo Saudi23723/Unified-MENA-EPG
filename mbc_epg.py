@@ -58,6 +58,11 @@ FEEDS = {
 
 LOGO_BASE = ("https://raw.githubusercontent.com/Saudi23723/"
              "Unified-MENA-EPG/main/logos")
+# Round marks, drawn as large as the circle allows: the mark's bounding box
+# reaches 84% of the diameter whatever its shape, so a wide mark like
+# MBC Action is read at arm's length rather than sitting small in the
+# middle. On a dark disc where the mark itself is light.
+LOGO_VERSION = "v2"
 
 # THE ID IS THE CHANNEL'S OWN NAME. Some players list a guide's channels
 # by id rather than by display-name, and "MBC1.mbc" read as a code nobody
@@ -240,8 +245,11 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
         for name in names:
             lang = "en" if name.isascii() else "ar"
             ET.SubElement(channel, "display-name", lang=lang).text = name
-        if os.path.exists(os.path.join("logos", f"{key}.png")):
-            ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{key}.png")
+        # The version is in the file name because players cache a logo by
+        # its URL: a redrawn mark under the old name is never fetched again.
+        logo = f"{key}_{LOGO_VERSION}.png"
+        if os.path.exists(os.path.join("logos", logo)):
+            ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{logo}")
         for event in resolve_overlaps(sorted(rows, key=lambda e: e["start"])):
             add_programme(root, xmltv_id, event["start"], event["stop"],
                           event["title"], event.get("desc", ""))
