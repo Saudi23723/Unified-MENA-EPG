@@ -54,6 +54,55 @@ ODDALERTS_ZAIN = "https://www.oddalerts.com/leagues/kuwait/zain-premier-league/f
 
 KSW_HOME = "https://www.kswmma.com/en"
 
+# SHASHA'S OWN LISTING — every match the channel carries, whatever the
+# competition: Gulf Cup 27, Serie A, the Portuguese league, the Kuwaiti
+# league when it plays. The per-competition sources below it could only
+# ever know the competitions somebody remembered to add, and the one for
+# Serie A read a PDF that Lega Serie A stopped publishing: from 21
+# September 2026 this guide showed a single KSW card while Shasha was
+# carrying the Gulf Cup live every evening.
+#
+# The clock is the visible one, read as Riyadh's. today_matches_epg.py
+# measured this site: the printed clock is the Gulf's all year and the
+# schema.org startDate beside it is off by an hour, so the markup is not
+# used. Riyadh keeps no summer time, so this does not drift in winter.
+LFTV_SHASHA = "https://www.livefootballtv.info/channel/shasha-tv"
+LFTV_CLOCK = ZoneInfo("Asia/Riyadh")
+LFTV_DAY = re.compile(r"^[A-Za-z]+,\s*(\d{1,2})/(\d{1,2})/(20\d{2})$")
+LFTV_TIME = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
+LFTV_STAGE = re.compile(
+    r"^(?:group stage|group [a-h]|matchday \d+|round \d+|round of \d+|"
+    r"quarter-?finals?|semi-?finals?|final|third place|play-?offs?|"
+    r"1st leg|2nd leg|week \d+)$", re.I)
+# COMPETITIONS SHASHA CARRIES WHOLE. The channel's own page lists a match
+# only once it has been shown, and the site's front page — which does list
+# what is coming, days ahead, on the same Gulf clock — prints only the first
+# few broadcasters of each match, so Shasha is rarely named there. For the
+# competitions Shasha holds the rights to outright, every upcoming match is
+# therefore taken from the front page. Anything else Shasha shows comes from
+# its own page, where it is named. Matched against the front page's
+# competition heading.
+SHASHA_CARRIES_WHOLE = re.compile(
+    r"^(?:arabian gulf cup|gulf cup(?: of nations)?|italian serie a|serie a|"
+    r"kuwait(?:i)? premier league|zain premier league|"
+    r"primeira liga|liga portugal(?: betclic)?|portuguese (?:primeira )?liga)$",
+    re.I)
+
+LFTV_COMPETITIONS = {
+    "italian serie a": "Serie A",
+    "arabian gulf cup": "Gulf Cup",
+    "kuwaiti premier league": "Zain Premier League",
+    "kuwait premier league": "Zain Premier League",
+    "primeira liga": "Primeira Liga",
+    "liga portugal": "Primeira Liga",
+    "liga portugal betclic": "Primeira Liga",
+    "portuguese primeira liga": "Primeira Liga",
+    "gulf cup of nations": "Gulf Cup",
+    "gulf cup": "Gulf Cup",
+    "serie a": "Serie A",
+    "zain premier league": "Zain Premier League",
+}
+
 session = requests.Session()
 session.headers.update({
     "User-Agent": USER_AGENT,
@@ -116,6 +165,14 @@ def team_name(s: str) -> str:
         "Kazma SC": "Kazma",
         "Al Jahra SC": "Al Jahra",
         "Al Nasr SC": "Al Nasr",
+        # livefootballtv's front page writes some Gulf sides in Spanish.
+        "EAU": "UAE",
+        "Emiratos Árabes Unidos": "UAE",
+        "Bahrein": "Bahrain",
+        "Omán": "Oman",
+        "Irak": "Iraq",
+        "Arabia Saudí": "Saudi Arabia",
+        "Arabia Saudita": "Saudi Arabia",
     }
     return aliases.get(s, s)
 
@@ -136,6 +193,7 @@ def dedupe(events: list[dict]) -> list[dict]:
         out.append(ev)
 
     priority = {
+        "LiveFootballTV-Shasha": 130,
         "KSWOfficial": 120,
         "LegaSerieAOfficial": 120,
         "FotMob-Zain": 105,
@@ -177,6 +235,8 @@ def xmltv_time(dt: datetime) -> str:
 def competition_ar(c: str) -> str:
     return {
         "Serie A": "الدوري الإيطالي Serie A",
+        "Gulf Cup": "كأس الخليج العربي",
+        "Primeira Liga": "الدوري البرتغالي",
         "Zain Premier League": "دوري زين الكويتي",
         "KSW": "KSW MMA",
     }.get(c, c)
@@ -464,6 +524,110 @@ def _parse_soccerway_zain() -> list[dict]:
     return events
 
 
+def parse_shasha_channel(html: str | None = None) -> list[dict]:
+    """Every match livefootballtv lists on Shasha, timed on Riyadh's clock.
+
+    The page is walked in the order it is written: a day header
+    ("Wednesday, 23/09/2026"), then for each match a clock, the
+    competition, sometimes a stage, the two sides, and the channels
+    carrying it. A match counts only if Shasha is among those channels.
+    """
+    if html is None:
+        html = fetch_text(LFTV_SHASHA)
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+    lines = [norm(x) for x in soup.stripped_strings]
+    lines = [x for x in lines if x]
+
+    events = []
+    day = None
+    i = 0
+    while i < len(lines):
+        found = LFTV_DAY.match(lines[i])
+        if found:
+            dd, mm, yy = map(int, found.groups())
+            try:
+                day = date(yy, mm, dd)
+            except ValueError:
+                day = None
+            i += 1
+            continue
+        clock = LFTV_TIME.match(lines[i])
+        if not clock or day is None:
+            i += 1
+            continue
+        block = []
+        j = i + 1
+        while j < len(lines) and j <= i + 30 \
+                and not LFTV_TIME.match(lines[j]) and not LFTV_DAY.match(lines[j]):
+            block.append(lines[j])
+            j += 1
+        i = j
+        if not any("shasha" in x.casefold() or "شاشا" in x for x in block):
+            continue
+        if len(block) < 3:
+            continue
+        competition_raw = block[0]
+        rest = block[1:]
+        if rest and LFTV_STAGE.match(rest[0]):
+            rest = rest[1:]
+        if len(rest) < 2:
+            continue
+        home, away = rest[0], rest[1]
+        if "shasha" in (home + away).casefold() or "شاشا" in home + away:
+            continue
+        hh, mi = map(int, clock.groups())
+        start = datetime(day.year, day.month, day.day, hh, mi,
+                         tzinfo=LFTV_CLOCK).astimezone(UTC)
+        if not in_window(start):
+            continue
+        competition = LFTV_COMPETITIONS.get(competition_raw.casefold(),
+                                            competition_raw)
+        events.append({
+            "start": start,
+            "title": f"{team_name(home)} - {team_name(away)}",
+            "competition": competition,
+            "source_name": "LiveFootballTV-Shasha",
+            "source": LFTV_SHASHA,
+            "duration_minutes": 135,
+        })
+    events = dedupe(events)
+    log(f"Shasha's own listing: {len(events)} match(es) in the window")
+    return events
+
+
+def parse_shasha_upcoming() -> list[dict]:
+    """Every upcoming match of a competition Shasha carries whole.
+
+    Read off livefootballtv's front page with today_matches_epg's own row
+    reader, which already knows this page's clock (the Gulf's, printed)
+    and the markup's one-hour error — one reader, not two that can drift.
+    """
+    import today_matches_epg as front
+    floor, ceiling = window_bounds()
+    rows = front.collect(fetch_text(front.SOURCE), utc_now(), floor, ceiling)
+    events = []
+    for row in rows:
+        heading = norm(row.get("competition") or "")
+        if not SHASHA_CARRIES_WHOLE.match(heading):
+            continue
+        home, _, away = row["title"].partition(" - ")
+        if not home or not away:
+            continue
+        events.append({
+            "start": row["start"],
+            "title": f"{team_name(home)} - {team_name(away)}",
+            "competition": LFTV_COMPETITIONS.get(heading.casefold(), heading),
+            "source_name": "LiveFootballTV-Shasha",
+            "source": front.SOURCE,
+            "duration_minutes": 135,
+        })
+    events = dedupe(events)
+    log(f"Upcoming matches of competitions Shasha carries: {len(events)}")
+    return events
+
+
 def parse_zain() -> list[dict]:
     # Official KFA page is the season/competition validation source.
     try:
@@ -679,6 +843,14 @@ def main():
     )
 
     events = []
+    try:
+        events.extend(parse_shasha_channel())
+    except Exception as exc:
+        warn(f"Shasha's own listing failed: {exc} — the other sources carry on")
+    try:
+        events.extend(parse_shasha_upcoming())
+    except Exception as exc:
+        warn(f"The front page failed: {exc} — the other sources carry on")
     events.extend(parse_serie_a())
     events.extend(parse_zain())
     events.extend(parse_ksw())
