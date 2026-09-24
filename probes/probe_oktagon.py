@@ -1,26 +1,30 @@
-"""UFC BJJ's own page and Wikipedia's event list, printed. Never fails."""
-import os, re, sys, html
+"""Find Animal Planet in the MENA feeds, from a runner. Never fails."""
+import gzip, io, os, re, sys, traceback
+from datetime import datetime, timezone
+import xml.etree.ElementTree as ET
 sys.path.insert(0, os.getcwd())
 from epg_lib import new_session
 S = new_session()
-def text(h):
-    h = re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", h)
-    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", h)))
-r = S.get("https://www.ufc.com/ufcbjj", timeout=60)
-h = r.text
-print("UFCBJJ", r.status_code, len(h))
-for m in re.finditer(r'data-[a-z-]*timestamp="(\d+)"', h):
-    print("  TS", m.group(0), h[max(0,m.start()-300):m.start()].replace("\n"," ")[-300:])
-for m in re.finditer(r'href="(/event/[^"]+)"', h):
-    print("  EVENTLINK", m.group(1))
-t = text(h)
-for m in re.finditer(r"(?i)(upcoming|road to the title|ufc bjj \d|invitational|fight pass)", t):
-    print("  TXT", t[max(0,m.start()-150):m.start()+250])
-    break
-print("TEXT HEAD", t[:3000])
-w = S.get("https://en.wikipedia.org/wiki/UFC_BJJ", timeout=60).text
-wt = text(w)
-i = wt.find("Events")
-for key in ("Scheduled events", "Upcoming events", "Past events", "Event list", "List of events"):
-    j = wt.find(key)
-    print("WIKI", key, j, wt[j:j+1500] if j >= 0 else "")
+now = datetime.now(timezone.utc)
+URLS = [f"https://www.open-epg.com/files/{n}.xml" for n in
+        ("egypt1", "egypt2", "saudiarabia1", "saudiarabia2", "uae1", "uae2",
+         "kuwait1", "qatar1", "bahrain1", "oman1", "jordan1", "lebanon1")]
+URLS += [f"https://epgshare01.online/epgshare01/epg_ripper_{c}.xml.gz" for c in
+         ("AE1", "SA1", "SA2", "EG1", "QA1", "KW1")]
+for url in URLS:
+    try:
+        b = S.get(url, timeout=90).content
+        if url.endswith(".gz"):
+            b = gzip.decompress(b)
+        root = ET.fromstring(b)
+        hits = [c for c in root.findall("channel")
+                if re.search(r"animal|planet", (c.get("id") or "") + " ".join(d.text or "" for d in c.findall("display-name")), re.I)]
+        for c in hits:
+            cid = c.get("id")
+            ps = [p for p in root.findall("programme") if p.get("channel") == cid]
+            fut = [p for p in ps if datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z") > now]
+            last = max((p.get("stop") for p in ps), default="-")
+            print(f"HIT {url.split('/')[-1]:32} id={cid!r} names={[d.text for d in c.findall('display-name')][:3]} rows={len(ps)} future={len(fut)} until={last} sample={[p.findtext('title') for p in fut[:4]]}")
+        print(f"DONE {url.split('/')[-1]} channels={len(root.findall('channel'))} hits={len(hits)}")
+    except Exception as exc:
+        print(f"FAIL {url} {exc}")
