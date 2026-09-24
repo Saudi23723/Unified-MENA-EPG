@@ -1,33 +1,26 @@
-"""Where UFC BJJ publishes its upcoming events, from a runner. Never fails."""
-import os, re, sys
+"""UFC BJJ's own page and Wikipedia's event list, printed. Never fails."""
+import os, re, sys, html
 sys.path.insert(0, os.getcwd())
 from epg_lib import new_session
 S = new_session()
-URLS = [
-    "https://www.ufc.com/events",
-    "https://www.ufcbjj.com/",
-    "https://www.ufcbjj.com/events",
-    "https://ufcfightpass.com/",
-    "https://r.jina.ai/https://www.tapology.com/search?term=UFC+BJJ&mainSearchFilter=events",
-    "https://r.jina.ai/https://www.tapology.com/fightcenter?group=tv",
-    "https://r.jina.ai/https://www.tapology.com/fightcenter",
-    "https://r.jina.ai/https://www.ufc.com/events",
-    "https://r.jina.ai/https://ufcfightpass.com/schedule",
-    "https://en.wikipedia.org/wiki/UFC_BJJ",
-    "https://www.sherdog.com/organizations/UFC-BJJ",
-]
-for url in URLS:
-    try:
-        r = S.get(url, timeout=60)
-        t = r.text
-        hits = [m.start() for m in re.finditer(r"(?i)ufc\s*bjj|road to the title|fight pass invitational", t)]
-        print(f"URL {url} status={r.status_code} bytes={len(t)} hits={len(hits)}")
-        seen = 0
-        for h in hits:
-            snip = re.sub(r"\s+", " ", t[max(0, h-200):h+300])
-            print("   ...", snip[:500])
-            seen += 1
-            if seen >= 6:
-                break
-    except Exception as exc:
-        print(f"URL {url} FAIL {exc}")
+def text(h):
+    h = re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", h)
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", h)))
+r = S.get("https://www.ufc.com/ufcbjj", timeout=60)
+h = r.text
+print("UFCBJJ", r.status_code, len(h))
+for m in re.finditer(r'data-[a-z-]*timestamp="(\d+)"', h):
+    print("  TS", m.group(0), h[max(0,m.start()-300):m.start()].replace("\n"," ")[-300:])
+for m in re.finditer(r'href="(/event/[^"]+)"', h):
+    print("  EVENTLINK", m.group(1))
+t = text(h)
+for m in re.finditer(r"(?i)(upcoming|road to the title|ufc bjj \d|invitational|fight pass)", t):
+    print("  TXT", t[max(0,m.start()-150):m.start()+250])
+    break
+print("TEXT HEAD", t[:3000])
+w = S.get("https://en.wikipedia.org/wiki/UFC_BJJ", timeout=60).text
+wt = text(w)
+i = wt.find("Events")
+for key in ("Scheduled events", "Upcoming events", "Past events", "Event list", "List of events"):
+    j = wt.find(key)
+    print("WIKI", key, j, wt[j:j+1500] if j >= 0 else "")
