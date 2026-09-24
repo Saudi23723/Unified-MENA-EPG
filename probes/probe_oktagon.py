@@ -47,7 +47,11 @@ LOGOS = {
     "mbc_variety": "https://i.imgur.com/SfA0YaR.png", "wanasah": "https://i.imgur.com/nLtiXNf.png",
 }
 SIZE = 400
+DARK = {"mbc_plus_drama", "mbc_variety", "mbc_masr_drama"}
+ONLY = DARK
 for key, url in LOGOS.items():
+    if key not in ONLY:
+        continue
     try:
         r = S.get(url, timeout=30)
         src = Image.open(io.BytesIO(r.content)).convert("RGBA")
@@ -59,10 +63,10 @@ for key, url in LOGOS.items():
         ImageDraw.Draw(mask).ellipse([0, 0, SIZE - 1, SIZE - 1], fill=255)
         px = [p for p in src.getdata() if p[3] > 128]
         light = sum(0.299 * r + 0.587 * g + 0.114 * b for r, g, b, _ in px) / max(1, len(px))
-        ground = (22, 24, 34, 255) if light > 165 else (255, 255, 255, 255)
+        ground = (22, 24, 34, 255) if (light > 165 or key in DARK) else (255, 255, 255, 255)
         print("LIGHT", key, round(light))
         disc.paste(Image.new("RGBA", (SIZE, SIZE), ground), (0, 0), mask)
-        box = int(SIZE * 0.66)
+        box = int(SIZE * (0.78 if key == "mbc_masr_drama" else 0.66))
         src.thumbnail((box, box), Image.LANCZOS)
         disc.alpha_composite(src, ((SIZE - src.width) // 2, (SIZE - src.height) // 2))
         ring = ImageDraw.Draw(disc)
