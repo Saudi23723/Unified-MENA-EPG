@@ -1535,12 +1535,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260923194500 +0000" stop="20260923213600 +0000" channel="beIN4K.qa">
-    <title lang="en">Marseille vs PSG - French Ligue 1 2026/2027</title>
-    <desc lang="en">Marseille have lost 38 matches against Paris SG in all competitions in the 21st century, which is 15 more than against any other opponent. OM have won just one of their last 13 home Ligue 1 games against PSG, though this was their most recent encounter, almost exactly one year ago on 22 September 2025. Marseille have lost three of their first four</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
   <programme start="20260923213600 +0000" stop="20260923231800 +0000" channel="beIN4K.qa">
     <title lang="en">Brighton &amp; Hove Albion v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Brighton are winless in their last six Premier League home games against Arsenal, having been unbeaten in their first three against the Gunners at the Amex Stadium. Arsenal have won four of their last six Premier League games against Brighton, as many as they had in their first 12 against the Seagulls.</desc>
@@ -5723,13 +5717,6 @@ Helsinki Olympic Stadium Stadium</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
-  <programme start="20260923183000 +0000" stop="20260923213000 +0000" channel="beINSports6.qa">
-    <title lang="en">Combat sports - Mixed Martial Arts - MMA/ W/M Final - - Asian Games Aichi-Nagoya 2026 - W/M  - Final</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260923213000 +0000" stop="20260923230000 +0000" channel="beINSports6.qa">
     <title lang="en">China vs Japan - Handball Womens - Asian Games Aichi-Nagoya 2026</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -6222,12 +6209,6 @@ Stadionul Zimbru Stadium</desc>
 46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260923210000 +0000" stop="20260923213000 +0000" channel="beINSports7.qa">
-    <title lang="en">Marseille vs PSG - French Ligue 1 2026/2027 - Week 5</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20260923213000 +0000" stop="20260923233000 +0000" channel="beINSports7.qa">
     <title lang="en">Azerbaijan vs Tajikstan - International Friendly - 2026</title>
@@ -8484,12 +8465,6 @@ Ramón Sánchez-Pizjuán Stadium</desc>
     <category lang="ar">دوري أبطال أوروبا - سيدات</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Champions League - (Women)</category>
-  </programme>
-  <programme start="20260923193000 +0000" stop="20260923213500 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Marseille vs PSG - Ligue 1 - J05 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260923213500 +0000" stop="20260924042000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Reims vs Montpellier - Ligue 2 - J07 - FOOTBALL 2026-2027</title>
@@ -60539,8 +60514,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نشرة الأخبار الليلية</title>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20260923212726 +0000" stop="20260923214724 +0000" channel="AlJazeera.qa">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
+  <programme start="20260923210000 +0000" stop="20260923214724 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20260923214724 +0000" stop="20260923220730 +0000" channel="AlJazeera.qa">
@@ -65672,10 +65648,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-  <programme start="20260923200000 +0000" stop="20260923213100 +0000" channel="MBC 1">
-    <title lang="ar">نادينا — الحلقة 45</title>
-    <desc lang="ar">المنصة المثالية للمشجعين للتعبير عن آرائهم، ومشاركة شغفهم، ومناقشة كل ما يتعلق بمباريات الدوري السعودي وأنديتهم المفضلة.</desc>
-  </programme>
   <programme start="20260923213100 +0000" stop="20260923222600 +0000" channel="MBC 1">
     <title lang="ar">ليلة وطن: أوبريت هامة طويق</title>
     <desc lang="ar">حفلات غنائية يقدمها نخبة من نجوم الفن بمناسبة اليوم الوطني السعودي.</desc>
@@ -66916,10 +66888,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">كوكونات التنين الصغير — الحلقة 47</title>
     <desc lang="ar">يعيش التنين كوكونات في جزيرة خاصة تشكل موطناً للعديد من التنانين. حيث يعيشون مغامرات رائعة ويشكلون صداقات متينة.</desc>
   </programme>
-  <programme start="20260923210100 +0000" stop="20260923214000 +0000" channel="MBC 4">
-    <title lang="ar">مون ريفر — الحلقة 1</title>
-    <desc lang="ar">يستيقظ ولي عهد وتاجرة مفعمة بالحيوية ذات صباح على صدمة تهز حياتهما: لقد تبادلا الأجساد! وبينما يكشفان المؤامرات والأسرار الخطيرة، يبدو أن علاقتهما أعمق مما يعتقدان.</desc>
-  </programme>
   <programme start="20260923214000 +0000" stop="20260923221300 +0000" channel="MBC 4">
     <title lang="ar">أنا أم — الحلقة 213</title>
     <desc lang="ar">بعد أذية زوجها لها، تعود كارسو إلى منزل والدتها بعد سنين طويلة مع أطفالها الثلاثة على أمل إعادة بناء حياتها.</desc>
@@ -68086,10 +68054,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926040000 +0000" stop="20260926050000 +0000" channel="MBC Drama">
     <title lang="ar">وتقابل حبيب — الحلقة 8</title>
     <desc lang="ar">تجد ليلى القاضي نفسها أمام معضلة بعد انفصالها عن زوجها الثري وبقائها في المنزل؛ حيث تتطور مشاعرها بشكل غير متوقع نحو شقيقه فارس، ما يخلق صراعاً عائلياً عالي الوتيرة بسبب رفض الجميع لارتباط هذا الثنائي.</desc>
-  </programme>
-  <programme start="20260923210100 +0000" stop="20260923213700 +0000" channel="MBC+ Drama">
-    <title lang="ar">الهيبة — الحلقة 16</title>
-    <desc lang="ar">مسلسل دراما، اجتماعي، أكشن لا يخلو من الرومانسية. أناس يعيشون في الجبل، يتزعمهم (جبل) رأس العشيرة وابن (الشامية)، تجارتهم الرئيسية السلاح، مناطقهم الافتراضية تقع على الحدود اللبنانية/ السورية المشتركة. يتحكمون بكل شيء إما بقوة المال والفساد أو بأزيز الرصاص!</desc>
   </programme>
   <programme start="20260923213700 +0000" stop="20260923221500 +0000" channel="MBC+ Drama">
     <title lang="ar">اللهم إني صايم — الحلقة 16</title>
@@ -69874,10 +69838,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926040500 +0000" stop="20260926060000 +0000" channel="MBC Max">
     <title lang="ar">أوبيريشن فورتشن: روز دي غير</title>
     <desc lang="ar">يُكلّف الجاسوس أورسون فورتشن بتعقّب سلاح متطور قبل أن يقع في أيدي تاجر أسلحة ملياردير. وبرفقة نخبة من العملاء ونجم هوليوودي شهير، ينطلق في مهمة سرية مليئة بالخداع والمطاردات لإنقاذ العالم.</desc>
-  </programme>
-  <programme start="20260923200100 +0000" stop="20260923213500 +0000" channel="MBC Variety">
-    <title lang="ar">لاست كريسماس</title>
-    <desc lang="ar">لا شيء يسير على ما يرام للمغنية الطموحة كيت التي تعمل في وظيفة محصورة داخل متجر لعيد الميلاد على مدار العام. لكن عندما تقابل توم، تأخذ حياتها منعطفاً جديداً ويبدو لها الأمر رائعاً، لدرجة يصعب تصديقها.</desc>
   </programme>
   <programme start="20260923213500 +0000" stop="20260923220200 +0000" channel="MBC Variety">
     <title lang="ar">وورلد أوف موفيز — الحلقة 38</title>
@@ -74114,10 +74074,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">دوغ ديتكتيفز:أنبريكبل بوند</title>
     <desc lang="ar">استكشاف القدرات المذهلة للكلاب البوليسية المدرَّبة على الشم، حيث يستخدم هؤلاء المحققون ذوو الفراء حاسة شمهم الاستثنائية لكشف عمليات التهريب المخفية، والعثور على الأشخاص المفقودين، وإحباط الأنشطة الإجرامية في جميع أنحاء العالم.</desc>
   </programme>
-  <programme start="20260923205000 +0000" stop="20260923214000 +0000" channel="OSNFatafeat.osn">
-    <title lang="ar">أفنان الطبخ — الحلقة 3</title>
-    <desc lang="ar">تساعدكم طاهية المعجنات السعودية الشابة ومصممة الكعكات أفنان الجعدي في جعل مائدة إفطاركم أكثر لذة هذا العام. مع قائمة متنوعة ومجموعة مذهلة من الحساء والسلطات والأطباق الرئيسية والحلويات، استعدوا للاستمتاع بالشهر الكريم.</desc>
-  </programme>
   <programme start="20260923214000 +0000" stop="20260923223000 +0000" channel="OSNFatafeat.osn">
     <title lang="ar">مطبخ منال العالم — الحلقة 18</title>
     <desc lang="ar">تحضر الشيف منال العالم متبل القرنبيط المشوي، فيليه الدجاج مع الأرز، حلى الكراميل.</desc>
@@ -75458,7 +75414,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260927175100 +0000" stop="20260927180000 +0000" channel="MBC Iraq">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924205500 +0000" stop="20260925053026 +0000" channel="OSNKids.osn">
+  <programme start="20260924205500 +0000" stop="20260925055025 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260923210000 +0000" stop="20260924210000 +0000" channel="JordanSports">
@@ -83657,7 +83613,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260924225500 +0000" stop="20260924230000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260923213000 +0000" stop="20260924120000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260923215000 +0000" stop="20260924120000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Special Program: Al Fareeq Al Tasee' 2026</title>
     <desc lang="en">Special Program: Al Fareeq Al Tasee' 2026</desc>
     <category lang="en">Sport</category>
@@ -83711,13 +83667,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925144000 +0000" stop="20260927213000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260925144000 +0000" stop="20260927215000 +0000" channel="Starz_admnadsports1">
     <title lang="en">News - Sports Segment 2026</title>
     <desc lang="en">News - Sports Segment 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923230000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260923215000 +0000" stop="20260923230000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Max Power 2026</title>
     <desc lang="en">Max Power 2026</desc>
     <category lang="en">Sport</category>
@@ -83759,21 +83715,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260926090000 +0000" stop="20260927213000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260926090000 +0000" stop="20260927215000 +0000" channel="Starz_admnadsports2">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923214500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Juventus X Atalanta - Serie A</title>
-    <title lang="ar">يوفنتوس × أتلانتا - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260923214500 +0000" stop="20260923221500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260923215000 +0000" stop="20260923221500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Serie A Preview Show Magazine</title>
     <title lang="ar">مجلة الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -84368,14 +84317,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923214500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Monza X Sassuolo - Serie A</title>
-    <title lang="ar">مونزا × ساسولو - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260923214500 +0000" stop="20260923233000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260923215000 +0000" stop="20260923233000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Udinese x Cagliari - Serie A</title>
     <title lang="ar">أودينيزي × كالياري - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -84969,7 +84911,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923221500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260923215000 +0000" stop="20260923221500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -85571,13 +85513,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923213800 +0000" channel="Starz_starzplayrugby">
-    <title lang="en">Wales U20 vs. Uruguay U20 - World Rugby Under 20 Championship</title>
-    <desc lang="en">Wales U20 vs. Uruguay U20 - World Rugby Under 20 Championship</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/GNLZZGG0037LJQY.jpg" />
-  </programme>
-  <programme start="20260923213800 +0000" stop="20260923233400 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260923215000 +0000" stop="20260923233400 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Argentina U20 vs. Ireland U20 - World Rugby Under 20 Championship</title>
     <desc lang="en">Argentina U20 vs. Ireland U20 - World Rugby Under 20 Championship</desc>
     <category lang="en">Sport</category>
@@ -85757,14 +85693,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923213600 +0000" channel="Starz_golflife">
-    <title lang="en">PGA TOUR: The CUT</title>
-    <title lang="ar">ذا كت</title>
-    <desc lang="en">S2026 , E26 : The host presents an overview of the PGA Tour, a prestigious golf tournament where some of the best players in the sport compete.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p17650562_b_h10_ai.jpg" />
-  </programme>
-  <programme start="20260923213600 +0000" stop="20260923223400 +0000" channel="Starz_golflife">
+  <programme start="20260923215000 +0000" stop="20260923223400 +0000" channel="Starz_golflife">
     <title lang="en">Wyndham Championship - PGA Tour Highlights</title>
     <title lang="ar">بي جي إيه تور</title>
     <desc lang="en">S2026 , E178 : The host presents the PGA Tour's most exciting moments, featuring standout shots and thrilling finishes from top golfers and major tournaments throughout the season.</desc>
@@ -86154,14 +86083,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923214200 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">1st T20: Ireland vs. India - T20 Cricket</title>
-    <title lang="ar">تي٢٠ كريكيت</title>
-    <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260923214200 +0000" stop="20260923220700 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260923215000 +0000" stop="20260923220700 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2026: Texas Super Kings vs. Los Angeles Knight Riders - Major League Cricket Match Highlights</title>
     <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
     <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
@@ -87256,7 +87178,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260924080000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260923215000 +0000" stop="20260924080000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Games of the Future</title>
     <title lang="ar">ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -87760,13 +87682,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923213100 +0000" channel="Starz_wedosports">
-    <title lang="en">Against the Odds</title>
-    <desc lang="en">S1 , E7 : Join a behind-the-scenes journey into the stories of famous athletes, exploring their very personal and emotive aspects of elite sport.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p19671364_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260923213100 +0000" stop="20260923222900 +0000" channel="Starz_wedosports">
+  <programme start="20260923215000 +0000" stop="20260923222900 +0000" channel="Starz_wedosports">
     <title lang="en">Against the Odds</title>
     <desc lang="en">Success stories from people who have overcome obstacles to achieve personal success, including James Earl Jones.</desc>
     <category lang="en">Sport</category>
@@ -88101,7 +88017,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923215500 +0000" channel="Starz_criclife1">
+  <programme start="20260923215000 +0000" stop="20260923215500 +0000" channel="Starz_criclife1">
     <title lang="en">Mumbai Indians vs. Sunrisers Hyderabad - Tata IPL Rewinds</title>
     <desc lang="en">S2025 , Ep.Mumbai Indians vs. Sunrisers Hyderabad :</desc>
     <category lang="en">Sport</category>
@@ -88760,13 +88676,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923213700 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Rotterdam Dockers vs. Dublin Guardians - ETPL Highlights</title>
-    <desc lang="en">2026: Rotterdam Dockers vs. Dublin Guardians - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33925191_b_h10_aa.jpg" />
-  </programme>
-  <programme start="20260923213700 +0000" stop="20260923220400 +0000" channel="Starz_criclife3">
+  <programme start="20260923215000 +0000" stop="20260923220400 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Guyana Amazon Warriors vs Barbados Tridents - Women's CPL T20</title>
     <desc lang="en">2026: Guyana Amazon Warriors vs Barbados Tridents - Women's CPL T20</desc>
     <category lang="en">Sport</category>
@@ -89823,7 +89733,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260924020000 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260923215000 +0000" stop="20260924020000 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Endurance Race</title>
     <title lang="ar">سباق القدرة</title>
     <desc lang="en">Telecast of the main events and activities of the various endurance horse races held around the world, wherein horse riders compete against each other to win the coveted title.</desc>
@@ -90362,7 +90272,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923230816 +0000" channel="Starz_awsn">
+  <programme start="20260923215000 +0000" stop="20260923230816 +0000" channel="Starz_awsn">
     <title lang="en">2025: Al Ahli vs Al Hilal</title>
     <desc lang="en">The 2025-2026 Saudi Women&amp;apos;s Premier League continues with Al Ahli vs. Al Hilal at the Al Ahli Club Stadium.</desc>
     <category lang="en">Sport</category>
@@ -90907,7 +90817,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923220000 +0000" channel="Starz_redbulltv">
+  <programme start="20260923215000 +0000" stop="20260923220000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -91489,7 +91399,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260924000000 +0000" channel="Starz_daznringside">
+  <programme start="20260923215000 +0000" stop="20260924000000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -91687,7 +91597,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260923222348 +0000" channel="Starz_fifaplus">
+  <programme start="20260923215000 +0000" stop="20260923222348 +0000" channel="Starz_fifaplus">
     <title lang="en">Australia v Brazil | Group C | FIFA Women's World Cup France 2019™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Australia and Brazil played at Stade de la Mosson, Montpellier on Thursday, 13 June 2019 at 18:00.</desc>
     <category lang="en">Sport</category>
@@ -92059,7 +91969,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123198.jpg" />
   </programme>
-  <programme start="20260923213000 +0000" stop="20260927213000 +0000" channel="Starz_adfight">
+  <programme start="20260923215000 +0000" stop="20260927215000 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
     <category lang="en">Sport</category>
@@ -96276,13 +96186,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96292,7 +96202,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96313,13 +96223,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96329,7 +96239,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96350,13 +96260,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96366,7 +96276,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96387,13 +96297,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96403,7 +96313,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96424,13 +96334,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96440,7 +96350,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96461,13 +96371,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96477,7 +96387,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96498,13 +96408,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96514,7 +96424,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96533,13 +96443,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96549,7 +96459,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96568,13 +96478,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96584,7 +96494,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96603,13 +96513,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96619,7 +96529,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96638,13 +96548,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦⚪ 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⚪ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96654,7 +96564,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96664,7 +96574,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_0.png" />
   </programme>
   <programme start="20260924160000 +0000" stop="20260924175000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Andorra - Malta · beIN 3 · Fox Soccer Plus · CBC Sport TR +5⁩⁩</title>
+    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Andorra - Malta · beIN 3 · Fox Soccer Plus · fuboTV +4⁩⁩</title>
     <desc lang="ar">مباريات الخميس 24/09 — بتوقيتك
 ⁦🔴 08:55  EAU - Yemen⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
@@ -96673,13 +96583,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦🔴 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⏳ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96689,7 +96599,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96699,20 +96609,20 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_0.png" />
   </programme>
   <programme start="20260924175000 +0000" stop="20260924175500 +0000" channel="TodayMatches">
-    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Andorra - Malta · beIN 3 · Fox Soccer Plus · CBC Sport TR +5⁩⁩</title>
+    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Andorra - Malta · beIN 3 · Fox Soccer Plus · fuboTV +4⁩⁩</title>
     <desc lang="ar">مباريات الخميس 24/09 — بتوقيتك
 ⁦🔴 09:00  Mauritania - Central African Republic⁩
         beIN 2 · fuboTV · Alwan 4 +1
 ⁦🔴 09:00  Libya - Botswana⁩
         beIN 1 · fuboTV · Alwan 3 +1
 ⁦🔴 09:00  Andorra - Malta⁩
-        beIN 3 · Fox Soccer Plus · CBC Sport TR +5
+        beIN 3 · Fox Soccer Plus · fuboTV +4
 ⁦⏳ 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96722,7 +96632,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96739,7 +96649,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96749,7 +96659,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96766,7 +96676,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⏳ 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦⚪ 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦⚪ 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦⚪ 11:45  Serbia - Greece⁩
@@ -96776,7 +96686,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦⚪ 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⚪ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96786,14 +96696,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_0.png" />
   </programme>
   <programme start="20260924184500 +0000" stop="20260924190000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Kosovo - Republic of Ireland · beIN 5 · Sky+ · S Sport Plus TR +4⁩⁩</title>
+    <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Kosovo - Republic of Ireland · beIN 5 · Sky+ · fuboTV +3⁩⁩</title>
     <desc lang="ar">مباريات الخميس 24/09 — بتوقيتك
 ⁦🔴 11:00  Qatar - Bahrein⁩
         الكأس 1 · Sharjah Sports · الكأس 2 +7
 ⁦🔴 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦🔴 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦🔴 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦🔴 11:45  Serbia - Greece⁩
@@ -96803,7 +96713,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦🔴 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦⏳ 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦⚪ 12:00  Ivory Coast - Ghana⁩
@@ -96820,7 +96730,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦🔴 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦🔴 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦🔴 11:45  Serbia - Greece⁩
@@ -96830,7 +96740,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦🔴 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦🔴 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦🔴 12:00  Ivory Coast - Ghana⁩
@@ -96845,7 +96755,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 11:45  Netherlands - Germany⁩
         beIN 2 · Sky+ · fuboTV +4
 ⁦🔴 11:45  Portugal - Wales⁩
-        beIN 3 · BBC One Wales · Fox Soccer Plus +7
+        beIN 3 · Fox Soccer Plus · fuboTV +3
 ⁦🔴 11:45  Norway - Denmark⁩
         beIN 4 · Fox Sports 1 · fuboTV +3
 ⁦🔴 11:45  Serbia - Greece⁩
@@ -96855,7 +96765,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 11:45  Liechtenstein - Lithuania⁩
         Sky+ · fuboTV · beIN XTRA 1 +3
 ⁦🔴 11:45  Kosovo - Republic of Ireland⁩
-        beIN 5 · Sky+ · S Sport Plus TR +4
+        beIN 5 · Sky+ · fuboTV +3
 ⁦🔴 12:00  Tunisia - Uganda⁩
         beIN 1 · fuboTV · Fanatiz Canada +1
 ⁦🔴 12:00  Ivory Coast - Ghana⁩
@@ -96897,15 +96807,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -96936,15 +96846,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -96975,15 +96885,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97014,15 +96924,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97053,15 +96963,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97092,15 +97002,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97127,15 +97037,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97162,15 +97072,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97197,15 +97107,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦⚪ 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⚪ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97232,15 +97142,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 ⁦🔴 09:00  Armenia - Latvia⁩
         beIN 6
 ⁦⏳ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97256,18 +97166,18 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_2.png" />
   </programme>
   <programme start="20260925175500 +0000" stop="20260925180000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 50 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · Alwan 2⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 50 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · A Haber TR · Alwan 2⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 25/09 — بتوقيتك
 ⁦⏳ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97283,18 +97193,18 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_2.png" />
   </programme>
   <programme start="20260925180000 +0000" stop="20260925181500 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 45 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · Alwan 2⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 45 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · A Haber TR · Alwan 2⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 25/09 — بتوقيتك
 ⁦⏳ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97310,18 +97220,18 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_2.png" />
   </programme>
   <programme start="20260925181500 +0000" stop="20260925183000 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 30 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · Alwan 2⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 30 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · A Haber TR · Alwan 2⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 25/09 — بتوقيتك
 ⁦⏳ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97337,18 +97247,18 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_matches_2.png" />
   </programme>
   <programme start="20260925183000 +0000" stop="20260925184500 +0000" channel="TodayMatches">
-    <title lang="ar">⁦⏳ بعد 15 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · Alwan 2⁩⁩</title>
+    <title lang="ar">⁦⏳ بعد 15 دقيقة ⁨·⁩ ⁨Italy - Belgium · beIN 6 · A Haber TR · Alwan 2⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 25/09 — بتوقيتك
 ⁦⏳ 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦⚪ 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦⚪ 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦⚪ 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦⚪ 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦⚪ 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⚪ 12:00  Egypt - Angola⁩
@@ -97367,15 +97277,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Poland - Bosnia &amp; Herzegovina · beIN 8⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 25/09 — بتوقيتك
 ⁦🔴 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦🔴 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦🔴 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦🔴 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦🔴 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦🔴 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦⏳ 12:00  Egypt - Angola⁩
@@ -97394,15 +97304,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">⁦🔴 مباشر ⁨·⁩ ⁨Senegal - Mozambique · beIN 4⁩⁩</title>
     <desc lang="ar">مباريات الجمعة 25/09 — بتوقيتك
 ⁦🔴 11:45  Italy - Belgium⁩
-        beIN 6 · Alwan 2
+        beIN 6 · A Haber TR · Alwan 2
 ⁦🔴 11:45  Sweden - Romania⁩
-        Alwan 7 · beIN EN 2
+        Alwan 7 · A Spor TR · beIN EN 2
 ⁦🔴 11:45  Montenegro - Cyprus⁩
         beIN XTRA 3
 ⁦🔴 11:45  Turkey - France⁩
-        beIN 2 · beIN EN 1
+        beIN 2 · ATV TR · beIN EN 1 +1
 ⁦🔴 11:45  Hungary - Ukraine⁩
-        beIN XTRA 2
+        S Sport Plus TR · beIN XTRA 2
 ⁦🔴 11:45  Poland - Bosnia &amp; Herzegovina⁩
         beIN 8
 ⁦🔴 12:00  Egypt - Angola⁩
@@ -100653,9 +100563,25 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/other_sports_2.png" />
   </programme>
   <programme start="20260924210000 +0000" stop="20260924220000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 14:02 — بتوقيتك
+    <title lang="ar">أخبار اليوم · قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 14:23 — بتوقيتك
 
+قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية
+        ألقى رئيس وزراء الاحتلال الإسرائيلي بنيامين نتنياهو، الخميس، خطابه أمام الجمعية العامة للأمم المتحدة بنيويورك
+        تركيا · TRT عربي
+انقسام داخل إيران بعد تفاوض نيويورك.. انتقادات لعراقجي وبزشكيان يتمسك بالدبلوماسية
+        عربي · العربية
+محمد بن راشد يتقبّل تعازي محمد بن سلمان في وفاة الشيخ أحمد بن راشد خلال اتصال هاتفي - البيان
+        الإمارات · الإمارات
+Netanyahu defends Israeli military actions in Middle East in UN speech
+        Dozens of delegates walked out in protest as he took the podium, with the Israeli leader labelling them "moral cowards".
+        بريطانيا · BBC
+New bill would lower Social Security retirement age for some workers
+        Workers in physically demanding jobs should be able to collect full Social Security retirement benefits at age 60, a Michigan lawmaker says.
+        أمريكا · CBS
+Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
+        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+        الأردن · Jordan News
 مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات
         أكد الجزائري نور الدين ولد علي، المدير الفني لمنتخب اليمن، تحمله مسؤولية الخسارة الثقيلة أمام الإمارات برباعية نظيفة.
         عربي · الشرق الأوسط
@@ -100668,81 +100594,63 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 Anti-migrant activist charged after dinghy slashed in Channel
         Anti-migrant activist Daniel Thomas is charged in connection with an incident in the English Channel.
         بريطانيا · BBC
-Pittsburgh doctor attacked and killed while he slept, wife also stabbed
-        Dr. Idris Evans, a physician and medical director from UPMC Children's Hospital in Pittsburgh, was killed in an overnight stabbing.
+Trump administration urges Supreme Court to revive third-country deportation policy
+        The Trump administration urged the Supreme Court to revive its policy of deporting some migrants to places other than their country of birth.
         أمريكا · CBS
-Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
-        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
+        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
         الأردن · Jordan News
-مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
-        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
-        عربي · الشرق الأوسط
+الخامسة | قمة واشنطن الكبرى.. ترمب وشي يكشفان أوراقهما أمام العالم
+        عربي · العربية
 الإمارات تحتضن أول نسخة لمنتدى «أصوات الشباب من أجل العدالة» - البيان
         الإمارات · الإمارات
 الرئيس الصيني يدعو واشنطن للتعاون وتجنب المواجهة
         شي جين بينغ قال في كلمة بعد لقاء ترامب إنه "لا داع لتجنب التنافس لكن يجب أن يكون صحيا ومضبوطا ضمن حدود"
         تركيا · الأناضول
+Angel mom says blue state DAs are putting illegal immigrant criminals before public safety
+        Cheryl Minter's Change.org petition targets Fairfax County prosecutor Steve Descano after her daughter's accused killer had over 30 prior arrests.
+        أمريكا · Fox News
 Far-right activist Danny Tommo charged after dinghy slashed in the Channel
         The 37-year-old, of no fixed abode, was remanded into custody to appear at Basingstoke Magistrates’ Court on Friday
         بريطانيا · Independent
-DOJ says it's moving to end more than 50 decades-old school desegregation cases
-        The Justice Department said Thursday it was seeking to end more than 50 long-standing consent decrees dating back decades that sought to curb…
-        أمريكا · CBS
-Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
-        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
+Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
+        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
         الأردن · Jordan News
-نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
-        عربي · العربية
+مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
+        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
+        عربي · الشرق الأوسط
 لا راحة في زمن «الواتس آب»: لماذا بات تأخير الأفلام إلى منتصف الليل شجاعة إلزامية - البيان
         الإمارات · الإمارات
 نقابات بلجيكية تستعد للإضراب بـ"يوروفيجن 2027" رفضاً لمشاركة إسرائيل
         إدارة هيئة البث البلجيكية تؤكد أن مشاركتها لا تعني تطبيعاً أو موافقة على ما يحدث في غزة
         تركيا · الأناضول
-Iran live updates: Some diplomats leave UNGA as Netanyahu touts war efforts
-        Israeli Prime Minister Benjamin Netanyahu's speech at the United Nations Thursday got off to a raucous start, as scores of diplomats walked out of…
-        أمريكا · ABC News
-Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
-        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
-        بريطانيا · Sky News
-Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
-        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
+Mamdani Accuses Netanyahu of Spreading ‘Baseless Lies’ After U.N. Speech
+        The Israeli prime minister accused Mayor Zohran Mamdani, an outspoken critic of Israel, of antisemitism
+        أمريكا · NYT
+João Félix strike for Portugal enough to sink Wales but Ronaldo fever falls flat
+        There was a comic-strip feel to another eventful evening in the world of Cristiano Ronaldo
+        بريطانيا · Guardian
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
         الأردن · Jordan News
-ردّاً على اتّهامه بـ"البصق في وجه الحقيقة".. ممداني عن نتنياهو: "لا يزال مطلوباً بتهم ارتكاب جرائم حرب"
-        رد عمدة مدينة نيويورك الأمريكية، زهران ممداني،الخميس، على خطاب رئيس الوزراء الإسرائيلي بنيامين نتنياهو أمام الأمم المتحدة
-        عربي · CNN عربية
+نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
+        عربي · العربية
 منتخب قطر يتخطى البحرين في مستهل مشواره بـ "خليجي 27" - Sharjah24
         الإمارات · الإمارات
 قدم.. الإمارات تكتسح اليمن برباعية في افتتاح مشوارها بـ"خليجي 27"
         "الأبيض" يحصد أول 3 نقاط ويتصدر المجموعة الثانية مؤقتا بقيادة داليتش، وخيمينيز يتألق بثنائية
         تركيا · الأناضول
-Senate again fails to adopt Iran War Powers Resolution despite growing criticism
-        Republican Sens. Lisa Murkowski, Susan Collins, Rand Paul and Thom Tillis joined all but one Democrat, Sen
-        أمريكا · ABC News
-Protest at police station following far-right activist Danny Tommo’s arrest after dinghy slashed in Channel
-        Supporters gather with Union flags chanting ‘free DT’ as government vows to ‘push further and harder’ to stop migrants crossing Channel
-        بريطانيا · Independent
-YouTube Gives Users More Control Over Recommendations
-        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
-        الأردن · Jordan News
-أندي كارول يكشف تعرضه لاعتداء جنسي عام 2021
-        كشف أندي كارول، مهاجم منتخب إنجلترا السابق، في سيرته الذاتية عن تعرضه لاعتداء جنسي من رجل عام 2021.
-        عربي · الشرق الأوسط
-مسعد بولس للجزيرة: لقاءاتي مع البرهان لا تعني اعترافا رسميا بالحكومة السودانية - الجزيرة نت
-        الإمارات · الإمارات
-الجيش السوداني يعلن إسقاط ثاني مسيرة في شمال كردفان خلال يوم
-        من طراز "إف إتش 95"، بعد إعلان مماثل في وقت سابق الخميس، فيما لم يحدد الجيش الجهة التي أطلقت الطائرتين
-        تركيا · الأناضول
-White House Restores Access for CNN, MS NOW and Politico
-        A judge ordered President Trump to reverse his ban on three media outlets, but it took several hours for them to get back in
+In a New Anthropic Lab, A.I. Turns to Biology
+        Scientists at the company announced their first finding: a group of enzymes whose function is unknown.
         أمريكا · NYT
-Jos Buttler injury and Kusal Mendis century derail England as Sri Lanka level ODI series
-        Wicketkeeper sustains hamstring injury while taking run Series set for decider at the Oval on Sunday A beautiful batting surface and a greased…
-        بريطانيا · Guardian
+Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
+        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
+        بريطانيا · Sky News
 Joint Chiefs Chairman Meets Czech Ambassador
         Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
         الأردن · Jordan News
-مانشيني: على إيطاليا تجاوز خيبة تصفيات كأس العالم
-        طالب روبرتو مانشيني، المدير الفني للمنتخب الإيطالي، لاعبيه بطي صفحة الخسارة أمام البوسنة والهرسك.
+مادبو: لم نستعجل أمام البحرين… والتزمنا بتعليمات المدرب
+        أكد عاصم مادبو، لاعب المنتخب القطري، أن التزام لاعبي «العنابي» بتوجيهات الجهاز الفني وعدم الاستعجال كانا من أبرز عوامل الفوز على البحرين بهدفين دون…
         عربي · الشرق الأوسط
 مسؤولة مغربية: تراجع المشاركة في الانتخابات إنذار للمؤسسات المنتخبة
         رئيسة المجلس الوطني لحقوق الإنسان آمنة بوعياش قالت إن النسبة تعكس مستوى الثقة في العملية الانتخابية لتحقيق التطلعات ومدى الإحساس بجدوى التصويت
@@ -100762,8 +100670,24 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924220000 +0000" stop="20260924230000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 14:23 — بتوقيتك
 
+قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية
+        ألقى رئيس وزراء الاحتلال الإسرائيلي بنيامين نتنياهو، الخميس، خطابه أمام الجمعية العامة للأمم المتحدة بنيويورك
+        تركيا · TRT عربي
+انقسام داخل إيران بعد تفاوض نيويورك.. انتقادات لعراقجي وبزشكيان يتمسك بالدبلوماسية
+        عربي · العربية
+محمد بن راشد يتقبّل تعازي محمد بن سلمان في وفاة الشيخ أحمد بن راشد خلال اتصال هاتفي - البيان
+        الإمارات · الإمارات
+Netanyahu defends Israeli military actions in Middle East in UN speech
+        Dozens of delegates walked out in protest as he took the podium, with the Israeli leader labelling them "moral cowards".
+        بريطانيا · BBC
+New bill would lower Social Security retirement age for some workers
+        Workers in physically demanding jobs should be able to collect full Social Security retirement benefits at age 60, a Michigan lawmaker says.
+        أمريكا · CBS
+Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
+        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+        الأردن · Jordan News
 مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات
         أكد الجزائري نور الدين ولد علي، المدير الفني لمنتخب اليمن، تحمله مسؤولية الخسارة الثقيلة أمام الإمارات برباعية نظيفة.
         عربي · الشرق الأوسط
@@ -100776,81 +100700,63 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
 Anti-migrant activist charged after dinghy slashed in Channel
         Anti-migrant activist Daniel Thomas is charged in connection with an incident in the English Channel.
         بريطانيا · BBC
-Pittsburgh doctor attacked and killed while he slept, wife also stabbed
-        Dr. Idris Evans, a physician and medical director from UPMC Children's Hospital in Pittsburgh, was killed in an overnight stabbing.
+Trump administration urges Supreme Court to revive third-country deportation policy
+        The Trump administration urged the Supreme Court to revive its policy of deporting some migrants to places other than their country of birth.
         أمريكا · CBS
-Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
-        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
+        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
         الأردن · Jordan News
-مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
-        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
-        عربي · الشرق الأوسط
+الخامسة | قمة واشنطن الكبرى.. ترمب وشي يكشفان أوراقهما أمام العالم
+        عربي · العربية
 الإمارات تحتضن أول نسخة لمنتدى «أصوات الشباب من أجل العدالة» - البيان
         الإمارات · الإمارات
 الرئيس الصيني يدعو واشنطن للتعاون وتجنب المواجهة
         شي جين بينغ قال في كلمة بعد لقاء ترامب إنه "لا داع لتجنب التنافس لكن يجب أن يكون صحيا ومضبوطا ضمن حدود"
         تركيا · الأناضول
+Angel mom says blue state DAs are putting illegal immigrant criminals before public safety
+        Cheryl Minter's Change.org petition targets Fairfax County prosecutor Steve Descano after her daughter's accused killer had over 30 prior arrests.
+        أمريكا · Fox News
 Far-right activist Danny Tommo charged after dinghy slashed in the Channel
         The 37-year-old, of no fixed abode, was remanded into custody to appear at Basingstoke Magistrates’ Court on Friday
         بريطانيا · Independent
-DOJ says it's moving to end more than 50 decades-old school desegregation cases
-        The Justice Department said Thursday it was seeking to end more than 50 long-standing consent decrees dating back decades that sought to curb…
-        أمريكا · CBS
-Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
-        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
+Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
+        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
         الأردن · Jordan News
-نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
-        عربي · العربية
+مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
+        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
+        عربي · الشرق الأوسط
 لا راحة في زمن «الواتس آب»: لماذا بات تأخير الأفلام إلى منتصف الليل شجاعة إلزامية - البيان
         الإمارات · الإمارات
 نقابات بلجيكية تستعد للإضراب بـ"يوروفيجن 2027" رفضاً لمشاركة إسرائيل
         إدارة هيئة البث البلجيكية تؤكد أن مشاركتها لا تعني تطبيعاً أو موافقة على ما يحدث في غزة
         تركيا · الأناضول
-Iran live updates: Some diplomats leave UNGA as Netanyahu touts war efforts
-        Israeli Prime Minister Benjamin Netanyahu's speech at the United Nations Thursday got off to a raucous start, as scores of diplomats walked out of…
-        أمريكا · ABC News
-Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
-        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
-        بريطانيا · Sky News
-Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
-        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
+Mamdani Accuses Netanyahu of Spreading ‘Baseless Lies’ After U.N. Speech
+        The Israeli prime minister accused Mayor Zohran Mamdani, an outspoken critic of Israel, of antisemitism
+        أمريكا · NYT
+João Félix strike for Portugal enough to sink Wales but Ronaldo fever falls flat
+        There was a comic-strip feel to another eventful evening in the world of Cristiano Ronaldo
+        بريطانيا · Guardian
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
         الأردن · Jordan News
-ردّاً على اتّهامه بـ"البصق في وجه الحقيقة".. ممداني عن نتنياهو: "لا يزال مطلوباً بتهم ارتكاب جرائم حرب"
-        رد عمدة مدينة نيويورك الأمريكية، زهران ممداني،الخميس، على خطاب رئيس الوزراء الإسرائيلي بنيامين نتنياهو أمام الأمم المتحدة
-        عربي · CNN عربية
+نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
+        عربي · العربية
 منتخب قطر يتخطى البحرين في مستهل مشواره بـ "خليجي 27" - Sharjah24
         الإمارات · الإمارات
 قدم.. الإمارات تكتسح اليمن برباعية في افتتاح مشوارها بـ"خليجي 27"
         "الأبيض" يحصد أول 3 نقاط ويتصدر المجموعة الثانية مؤقتا بقيادة داليتش، وخيمينيز يتألق بثنائية
         تركيا · الأناضول
-Senate again fails to adopt Iran War Powers Resolution despite growing criticism
-        Republican Sens. Lisa Murkowski, Susan Collins, Rand Paul and Thom Tillis joined all but one Democrat, Sen
-        أمريكا · ABC News
-Protest at police station following far-right activist Danny Tommo’s arrest after dinghy slashed in Channel
-        Supporters gather with Union flags chanting ‘free DT’ as government vows to ‘push further and harder’ to stop migrants crossing Channel
-        بريطانيا · Independent
-YouTube Gives Users More Control Over Recommendations
-        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
-        الأردن · Jordan News
-أندي كارول يكشف تعرضه لاعتداء جنسي عام 2021
-        كشف أندي كارول، مهاجم منتخب إنجلترا السابق، في سيرته الذاتية عن تعرضه لاعتداء جنسي من رجل عام 2021.
-        عربي · الشرق الأوسط
-مسعد بولس للجزيرة: لقاءاتي مع البرهان لا تعني اعترافا رسميا بالحكومة السودانية - الجزيرة نت
-        الإمارات · الإمارات
-الجيش السوداني يعلن إسقاط ثاني مسيرة في شمال كردفان خلال يوم
-        من طراز "إف إتش 95"، بعد إعلان مماثل في وقت سابق الخميس، فيما لم يحدد الجيش الجهة التي أطلقت الطائرتين
-        تركيا · الأناضول
-White House Restores Access for CNN, MS NOW and Politico
-        A judge ordered President Trump to reverse his ban on three media outlets, but it took several hours for them to get back in
+In a New Anthropic Lab, A.I. Turns to Biology
+        Scientists at the company announced their first finding: a group of enzymes whose function is unknown.
         أمريكا · NYT
-Jos Buttler injury and Kusal Mendis century derail England as Sri Lanka level ODI series
-        Wicketkeeper sustains hamstring injury while taking run Series set for decider at the Oval on Sunday A beautiful batting surface and a greased…
-        بريطانيا · Guardian
+Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
+        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
+        بريطانيا · Sky News
 Joint Chiefs Chairman Meets Czech Ambassador
         Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
         الأردن · Jordan News
-مانشيني: على إيطاليا تجاوز خيبة تصفيات كأس العالم
-        طالب روبرتو مانشيني، المدير الفني للمنتخب الإيطالي، لاعبيه بطي صفحة الخسارة أمام البوسنة والهرسك.
+مادبو: لم نستعجل أمام البحرين… والتزمنا بتعليمات المدرب
+        أكد عاصم مادبو، لاعب المنتخب القطري، أن التزام لاعبي «العنابي» بتوجيهات الجهاز الفني وعدم الاستعجال كانا من أبرز عوامل الفوز على البحرين بهدفين دون…
         عربي · الشرق الأوسط
 مسؤولة مغربية: تراجع المشاركة في الانتخابات إنذار للمؤسسات المنتخبة
         رئيسة المجلس الوطني لحقوق الإنسان آمنة بوعياش قالت إن النسبة تعكس مستوى الثقة في العملية الانتخابية لتحقيق التطلعات ومدى الإحساس بجدوى التصويت
@@ -100870,8 +100776,24 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924230000 +0000" stop="20260925000000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 14:23 — بتوقيتك
 
+قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية
+        ألقى رئيس وزراء الاحتلال الإسرائيلي بنيامين نتنياهو، الخميس، خطابه أمام الجمعية العامة للأمم المتحدة بنيويورك
+        تركيا · TRT عربي
+انقسام داخل إيران بعد تفاوض نيويورك.. انتقادات لعراقجي وبزشكيان يتمسك بالدبلوماسية
+        عربي · العربية
+محمد بن راشد يتقبّل تعازي محمد بن سلمان في وفاة الشيخ أحمد بن راشد خلال اتصال هاتفي - البيان
+        الإمارات · الإمارات
+Netanyahu defends Israeli military actions in Middle East in UN speech
+        Dozens of delegates walked out in protest as he took the podium, with the Israeli leader labelling them "moral cowards".
+        بريطانيا · BBC
+New bill would lower Social Security retirement age for some workers
+        Workers in physically demanding jobs should be able to collect full Social Security retirement benefits at age 60, a Michigan lawmaker says.
+        أمريكا · CBS
+Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
+        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+        الأردن · Jordan News
 مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات
         أكد الجزائري نور الدين ولد علي، المدير الفني لمنتخب اليمن، تحمله مسؤولية الخسارة الثقيلة أمام الإمارات برباعية نظيفة.
         عربي · الشرق الأوسط
@@ -100884,81 +100806,63 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
 Anti-migrant activist charged after dinghy slashed in Channel
         Anti-migrant activist Daniel Thomas is charged in connection with an incident in the English Channel.
         بريطانيا · BBC
-Pittsburgh doctor attacked and killed while he slept, wife also stabbed
-        Dr. Idris Evans, a physician and medical director from UPMC Children's Hospital in Pittsburgh, was killed in an overnight stabbing.
+Trump administration urges Supreme Court to revive third-country deportation policy
+        The Trump administration urged the Supreme Court to revive its policy of deporting some migrants to places other than their country of birth.
         أمريكا · CBS
-Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
-        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
+        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
         الأردن · Jordan News
-مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
-        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
-        عربي · الشرق الأوسط
+الخامسة | قمة واشنطن الكبرى.. ترمب وشي يكشفان أوراقهما أمام العالم
+        عربي · العربية
 الإمارات تحتضن أول نسخة لمنتدى «أصوات الشباب من أجل العدالة» - البيان
         الإمارات · الإمارات
 الرئيس الصيني يدعو واشنطن للتعاون وتجنب المواجهة
         شي جين بينغ قال في كلمة بعد لقاء ترامب إنه "لا داع لتجنب التنافس لكن يجب أن يكون صحيا ومضبوطا ضمن حدود"
         تركيا · الأناضول
+Angel mom says blue state DAs are putting illegal immigrant criminals before public safety
+        Cheryl Minter's Change.org petition targets Fairfax County prosecutor Steve Descano after her daughter's accused killer had over 30 prior arrests.
+        أمريكا · Fox News
 Far-right activist Danny Tommo charged after dinghy slashed in the Channel
         The 37-year-old, of no fixed abode, was remanded into custody to appear at Basingstoke Magistrates’ Court on Friday
         بريطانيا · Independent
-DOJ says it's moving to end more than 50 decades-old school desegregation cases
-        The Justice Department said Thursday it was seeking to end more than 50 long-standing consent decrees dating back decades that sought to curb…
-        أمريكا · CBS
-Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
-        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
+Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
+        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
         الأردن · Jordan News
-نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
-        عربي · العربية
+مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
+        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
+        عربي · الشرق الأوسط
 لا راحة في زمن «الواتس آب»: لماذا بات تأخير الأفلام إلى منتصف الليل شجاعة إلزامية - البيان
         الإمارات · الإمارات
 نقابات بلجيكية تستعد للإضراب بـ"يوروفيجن 2027" رفضاً لمشاركة إسرائيل
         إدارة هيئة البث البلجيكية تؤكد أن مشاركتها لا تعني تطبيعاً أو موافقة على ما يحدث في غزة
         تركيا · الأناضول
-Iran live updates: Some diplomats leave UNGA as Netanyahu touts war efforts
-        Israeli Prime Minister Benjamin Netanyahu's speech at the United Nations Thursday got off to a raucous start, as scores of diplomats walked out of…
-        أمريكا · ABC News
-Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
-        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
-        بريطانيا · Sky News
-Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
-        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
+Mamdani Accuses Netanyahu of Spreading ‘Baseless Lies’ After U.N. Speech
+        The Israeli prime minister accused Mayor Zohran Mamdani, an outspoken critic of Israel, of antisemitism
+        أمريكا · NYT
+João Félix strike for Portugal enough to sink Wales but Ronaldo fever falls flat
+        There was a comic-strip feel to another eventful evening in the world of Cristiano Ronaldo
+        بريطانيا · Guardian
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
         الأردن · Jordan News
-ردّاً على اتّهامه بـ"البصق في وجه الحقيقة".. ممداني عن نتنياهو: "لا يزال مطلوباً بتهم ارتكاب جرائم حرب"
-        رد عمدة مدينة نيويورك الأمريكية، زهران ممداني،الخميس، على خطاب رئيس الوزراء الإسرائيلي بنيامين نتنياهو أمام الأمم المتحدة
-        عربي · CNN عربية
+نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
+        عربي · العربية
 منتخب قطر يتخطى البحرين في مستهل مشواره بـ "خليجي 27" - Sharjah24
         الإمارات · الإمارات
 قدم.. الإمارات تكتسح اليمن برباعية في افتتاح مشوارها بـ"خليجي 27"
         "الأبيض" يحصد أول 3 نقاط ويتصدر المجموعة الثانية مؤقتا بقيادة داليتش، وخيمينيز يتألق بثنائية
         تركيا · الأناضول
-Senate again fails to adopt Iran War Powers Resolution despite growing criticism
-        Republican Sens. Lisa Murkowski, Susan Collins, Rand Paul and Thom Tillis joined all but one Democrat, Sen
-        أمريكا · ABC News
-Protest at police station following far-right activist Danny Tommo’s arrest after dinghy slashed in Channel
-        Supporters gather with Union flags chanting ‘free DT’ as government vows to ‘push further and harder’ to stop migrants crossing Channel
-        بريطانيا · Independent
-YouTube Gives Users More Control Over Recommendations
-        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
-        الأردن · Jordan News
-أندي كارول يكشف تعرضه لاعتداء جنسي عام 2021
-        كشف أندي كارول، مهاجم منتخب إنجلترا السابق، في سيرته الذاتية عن تعرضه لاعتداء جنسي من رجل عام 2021.
-        عربي · الشرق الأوسط
-مسعد بولس للجزيرة: لقاءاتي مع البرهان لا تعني اعترافا رسميا بالحكومة السودانية - الجزيرة نت
-        الإمارات · الإمارات
-الجيش السوداني يعلن إسقاط ثاني مسيرة في شمال كردفان خلال يوم
-        من طراز "إف إتش 95"، بعد إعلان مماثل في وقت سابق الخميس، فيما لم يحدد الجيش الجهة التي أطلقت الطائرتين
-        تركيا · الأناضول
-White House Restores Access for CNN, MS NOW and Politico
-        A judge ordered President Trump to reverse his ban on three media outlets, but it took several hours for them to get back in
+In a New Anthropic Lab, A.I. Turns to Biology
+        Scientists at the company announced their first finding: a group of enzymes whose function is unknown.
         أمريكا · NYT
-Jos Buttler injury and Kusal Mendis century derail England as Sri Lanka level ODI series
-        Wicketkeeper sustains hamstring injury while taking run Series set for decider at the Oval on Sunday A beautiful batting surface and a greased…
-        بريطانيا · Guardian
+Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
+        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
+        بريطانيا · Sky News
 Joint Chiefs Chairman Meets Czech Ambassador
         Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
         الأردن · Jordan News
-مانشيني: على إيطاليا تجاوز خيبة تصفيات كأس العالم
-        طالب روبرتو مانشيني، المدير الفني للمنتخب الإيطالي، لاعبيه بطي صفحة الخسارة أمام البوسنة والهرسك.
+مادبو: لم نستعجل أمام البحرين… والتزمنا بتعليمات المدرب
+        أكد عاصم مادبو، لاعب المنتخب القطري، أن التزام لاعبي «العنابي» بتوجيهات الجهاز الفني وعدم الاستعجال كانا من أبرز عوامل الفوز على البحرين بهدفين دون…
         عربي · الشرق الأوسط
 مسؤولة مغربية: تراجع المشاركة في الانتخابات إنذار للمؤسسات المنتخبة
         رئيسة المجلس الوطني لحقوق الإنسان آمنة بوعياش قالت إن النسبة تعكس مستوى الثقة في العملية الانتخابية لتحقيق التطلعات ومدى الإحساس بجدوى التصويت
@@ -100978,8 +100882,24 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260925000000 +0000" stop="20260925010000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 14:23 — بتوقيتك
 
+قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية
+        ألقى رئيس وزراء الاحتلال الإسرائيلي بنيامين نتنياهو، الخميس، خطابه أمام الجمعية العامة للأمم المتحدة بنيويورك
+        تركيا · TRT عربي
+انقسام داخل إيران بعد تفاوض نيويورك.. انتقادات لعراقجي وبزشكيان يتمسك بالدبلوماسية
+        عربي · العربية
+محمد بن راشد يتقبّل تعازي محمد بن سلمان في وفاة الشيخ أحمد بن راشد خلال اتصال هاتفي - البيان
+        الإمارات · الإمارات
+Netanyahu defends Israeli military actions in Middle East in UN speech
+        Dozens of delegates walked out in protest as he took the podium, with the Israeli leader labelling them "moral cowards".
+        بريطانيا · BBC
+New bill would lower Social Security retirement age for some workers
+        Workers in physically demanding jobs should be able to collect full Social Security retirement benefits at age 60, a Michigan lawmaker says.
+        أمريكا · CBS
+Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
+        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+        الأردن · Jordan News
 مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات
         أكد الجزائري نور الدين ولد علي، المدير الفني لمنتخب اليمن، تحمله مسؤولية الخسارة الثقيلة أمام الإمارات برباعية نظيفة.
         عربي · الشرق الأوسط
@@ -100992,81 +100912,63 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
 Anti-migrant activist charged after dinghy slashed in Channel
         Anti-migrant activist Daniel Thomas is charged in connection with an incident in the English Channel.
         بريطانيا · BBC
-Pittsburgh doctor attacked and killed while he slept, wife also stabbed
-        Dr. Idris Evans, a physician and medical director from UPMC Children's Hospital in Pittsburgh, was killed in an overnight stabbing.
+Trump administration urges Supreme Court to revive third-country deportation policy
+        The Trump administration urged the Supreme Court to revive its policy of deporting some migrants to places other than their country of birth.
         أمريكا · CBS
-Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
-        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
+        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
         الأردن · Jordan News
-مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
-        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
-        عربي · الشرق الأوسط
+الخامسة | قمة واشنطن الكبرى.. ترمب وشي يكشفان أوراقهما أمام العالم
+        عربي · العربية
 الإمارات تحتضن أول نسخة لمنتدى «أصوات الشباب من أجل العدالة» - البيان
         الإمارات · الإمارات
 الرئيس الصيني يدعو واشنطن للتعاون وتجنب المواجهة
         شي جين بينغ قال في كلمة بعد لقاء ترامب إنه "لا داع لتجنب التنافس لكن يجب أن يكون صحيا ومضبوطا ضمن حدود"
         تركيا · الأناضول
+Angel mom says blue state DAs are putting illegal immigrant criminals before public safety
+        Cheryl Minter's Change.org petition targets Fairfax County prosecutor Steve Descano after her daughter's accused killer had over 30 prior arrests.
+        أمريكا · Fox News
 Far-right activist Danny Tommo charged after dinghy slashed in the Channel
         The 37-year-old, of no fixed abode, was remanded into custody to appear at Basingstoke Magistrates’ Court on Friday
         بريطانيا · Independent
-DOJ says it's moving to end more than 50 decades-old school desegregation cases
-        The Justice Department said Thursday it was seeking to end more than 50 long-standing consent decrees dating back decades that sought to curb…
-        أمريكا · CBS
-Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
-        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
+Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
+        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
         الأردن · Jordan News
-نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
-        عربي · العربية
+مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
+        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
+        عربي · الشرق الأوسط
 لا راحة في زمن «الواتس آب»: لماذا بات تأخير الأفلام إلى منتصف الليل شجاعة إلزامية - البيان
         الإمارات · الإمارات
 نقابات بلجيكية تستعد للإضراب بـ"يوروفيجن 2027" رفضاً لمشاركة إسرائيل
         إدارة هيئة البث البلجيكية تؤكد أن مشاركتها لا تعني تطبيعاً أو موافقة على ما يحدث في غزة
         تركيا · الأناضول
-Iran live updates: Some diplomats leave UNGA as Netanyahu touts war efforts
-        Israeli Prime Minister Benjamin Netanyahu's speech at the United Nations Thursday got off to a raucous start, as scores of diplomats walked out of…
-        أمريكا · ABC News
-Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
-        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
-        بريطانيا · Sky News
-Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
-        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
+Mamdani Accuses Netanyahu of Spreading ‘Baseless Lies’ After U.N. Speech
+        The Israeli prime minister accused Mayor Zohran Mamdani, an outspoken critic of Israel, of antisemitism
+        أمريكا · NYT
+João Félix strike for Portugal enough to sink Wales but Ronaldo fever falls flat
+        There was a comic-strip feel to another eventful evening in the world of Cristiano Ronaldo
+        بريطانيا · Guardian
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
         الأردن · Jordan News
-ردّاً على اتّهامه بـ"البصق في وجه الحقيقة".. ممداني عن نتنياهو: "لا يزال مطلوباً بتهم ارتكاب جرائم حرب"
-        رد عمدة مدينة نيويورك الأمريكية، زهران ممداني،الخميس، على خطاب رئيس الوزراء الإسرائيلي بنيامين نتنياهو أمام الأمم المتحدة
-        عربي · CNN عربية
+نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
+        عربي · العربية
 منتخب قطر يتخطى البحرين في مستهل مشواره بـ "خليجي 27" - Sharjah24
         الإمارات · الإمارات
 قدم.. الإمارات تكتسح اليمن برباعية في افتتاح مشوارها بـ"خليجي 27"
         "الأبيض" يحصد أول 3 نقاط ويتصدر المجموعة الثانية مؤقتا بقيادة داليتش، وخيمينيز يتألق بثنائية
         تركيا · الأناضول
-Senate again fails to adopt Iran War Powers Resolution despite growing criticism
-        Republican Sens. Lisa Murkowski, Susan Collins, Rand Paul and Thom Tillis joined all but one Democrat, Sen
-        أمريكا · ABC News
-Protest at police station following far-right activist Danny Tommo’s arrest after dinghy slashed in Channel
-        Supporters gather with Union flags chanting ‘free DT’ as government vows to ‘push further and harder’ to stop migrants crossing Channel
-        بريطانيا · Independent
-YouTube Gives Users More Control Over Recommendations
-        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
-        الأردن · Jordan News
-أندي كارول يكشف تعرضه لاعتداء جنسي عام 2021
-        كشف أندي كارول، مهاجم منتخب إنجلترا السابق، في سيرته الذاتية عن تعرضه لاعتداء جنسي من رجل عام 2021.
-        عربي · الشرق الأوسط
-مسعد بولس للجزيرة: لقاءاتي مع البرهان لا تعني اعترافا رسميا بالحكومة السودانية - الجزيرة نت
-        الإمارات · الإمارات
-الجيش السوداني يعلن إسقاط ثاني مسيرة في شمال كردفان خلال يوم
-        من طراز "إف إتش 95"، بعد إعلان مماثل في وقت سابق الخميس، فيما لم يحدد الجيش الجهة التي أطلقت الطائرتين
-        تركيا · الأناضول
-White House Restores Access for CNN, MS NOW and Politico
-        A judge ordered President Trump to reverse his ban on three media outlets, but it took several hours for them to get back in
+In a New Anthropic Lab, A.I. Turns to Biology
+        Scientists at the company announced their first finding: a group of enzymes whose function is unknown.
         أمريكا · NYT
-Jos Buttler injury and Kusal Mendis century derail England as Sri Lanka level ODI series
-        Wicketkeeper sustains hamstring injury while taking run Series set for decider at the Oval on Sunday A beautiful batting surface and a greased…
-        بريطانيا · Guardian
+Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
+        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
+        بريطانيا · Sky News
 Joint Chiefs Chairman Meets Czech Ambassador
         Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
         الأردن · Jordan News
-مانشيني: على إيطاليا تجاوز خيبة تصفيات كأس العالم
-        طالب روبرتو مانشيني، المدير الفني للمنتخب الإيطالي، لاعبيه بطي صفحة الخسارة أمام البوسنة والهرسك.
+مادبو: لم نستعجل أمام البحرين… والتزمنا بتعليمات المدرب
+        أكد عاصم مادبو، لاعب المنتخب القطري، أن التزام لاعبي «العنابي» بتوجيهات الجهاز الفني وعدم الاستعجال كانا من أبرز عوامل الفوز على البحرين بهدفين دون…
         عربي · الشرق الأوسط
 مسؤولة مغربية: تراجع المشاركة في الانتخابات إنذار للمؤسسات المنتخبة
         رئيسة المجلس الوطني لحقوق الإنسان آمنة بوعياش قالت إن النسبة تعكس مستوى الثقة في العملية الانتخابية لتحقيق التطلعات ومدى الإحساس بجدوى التصويت
@@ -101086,8 +100988,24 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260925010000 +0000" stop="20260925020000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 14:23 — بتوقيتك
 
+قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية
+        ألقى رئيس وزراء الاحتلال الإسرائيلي بنيامين نتنياهو، الخميس، خطابه أمام الجمعية العامة للأمم المتحدة بنيويورك
+        تركيا · TRT عربي
+انقسام داخل إيران بعد تفاوض نيويورك.. انتقادات لعراقجي وبزشكيان يتمسك بالدبلوماسية
+        عربي · العربية
+محمد بن راشد يتقبّل تعازي محمد بن سلمان في وفاة الشيخ أحمد بن راشد خلال اتصال هاتفي - البيان
+        الإمارات · الإمارات
+Netanyahu defends Israeli military actions in Middle East in UN speech
+        Dozens of delegates walked out in protest as he took the podium, with the Israeli leader labelling them "moral cowards".
+        بريطانيا · BBC
+New bill would lower Social Security retirement age for some workers
+        Workers in physically demanding jobs should be able to collect full Social Security retirement benefits at age 60, a Michigan lawmaker says.
+        أمريكا · CBS
+Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
+        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+        الأردن · Jordan News
 مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات
         أكد الجزائري نور الدين ولد علي، المدير الفني لمنتخب اليمن، تحمله مسؤولية الخسارة الثقيلة أمام الإمارات برباعية نظيفة.
         عربي · الشرق الأوسط
@@ -101100,81 +101018,63 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
 Anti-migrant activist charged after dinghy slashed in Channel
         Anti-migrant activist Daniel Thomas is charged in connection with an incident in the English Channel.
         بريطانيا · BBC
-Pittsburgh doctor attacked and killed while he slept, wife also stabbed
-        Dr. Idris Evans, a physician and medical director from UPMC Children's Hospital in Pittsburgh, was killed in an overnight stabbing.
+Trump administration urges Supreme Court to revive third-country deportation policy
+        The Trump administration urged the Supreme Court to revive its policy of deporting some migrants to places other than their country of birth.
         أمريكا · CBS
-Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
-        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
+        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
         الأردن · Jordan News
-مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
-        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
-        عربي · الشرق الأوسط
+الخامسة | قمة واشنطن الكبرى.. ترمب وشي يكشفان أوراقهما أمام العالم
+        عربي · العربية
 الإمارات تحتضن أول نسخة لمنتدى «أصوات الشباب من أجل العدالة» - البيان
         الإمارات · الإمارات
 الرئيس الصيني يدعو واشنطن للتعاون وتجنب المواجهة
         شي جين بينغ قال في كلمة بعد لقاء ترامب إنه "لا داع لتجنب التنافس لكن يجب أن يكون صحيا ومضبوطا ضمن حدود"
         تركيا · الأناضول
+Angel mom says blue state DAs are putting illegal immigrant criminals before public safety
+        Cheryl Minter's Change.org petition targets Fairfax County prosecutor Steve Descano after her daughter's accused killer had over 30 prior arrests.
+        أمريكا · Fox News
 Far-right activist Danny Tommo charged after dinghy slashed in the Channel
         The 37-year-old, of no fixed abode, was remanded into custody to appear at Basingstoke Magistrates’ Court on Friday
         بريطانيا · Independent
-DOJ says it's moving to end more than 50 decades-old school desegregation cases
-        The Justice Department said Thursday it was seeking to end more than 50 long-standing consent decrees dating back decades that sought to curb…
-        أمريكا · CBS
-Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
-        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
+Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
+        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
         الأردن · Jordan News
-نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
-        عربي · العربية
+مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
+        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
+        عربي · الشرق الأوسط
 لا راحة في زمن «الواتس آب»: لماذا بات تأخير الأفلام إلى منتصف الليل شجاعة إلزامية - البيان
         الإمارات · الإمارات
 نقابات بلجيكية تستعد للإضراب بـ"يوروفيجن 2027" رفضاً لمشاركة إسرائيل
         إدارة هيئة البث البلجيكية تؤكد أن مشاركتها لا تعني تطبيعاً أو موافقة على ما يحدث في غزة
         تركيا · الأناضول
-Iran live updates: Some diplomats leave UNGA as Netanyahu touts war efforts
-        Israeli Prime Minister Benjamin Netanyahu's speech at the United Nations Thursday got off to a raucous start, as scores of diplomats walked out of…
-        أمريكا · ABC News
-Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
-        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
-        بريطانيا · Sky News
-Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
-        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
+Mamdani Accuses Netanyahu of Spreading ‘Baseless Lies’ After U.N. Speech
+        The Israeli prime minister accused Mayor Zohran Mamdani, an outspoken critic of Israel, of antisemitism
+        أمريكا · NYT
+João Félix strike for Portugal enough to sink Wales but Ronaldo fever falls flat
+        There was a comic-strip feel to another eventful evening in the world of Cristiano Ronaldo
+        بريطانيا · Guardian
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
         الأردن · Jordan News
-ردّاً على اتّهامه بـ"البصق في وجه الحقيقة".. ممداني عن نتنياهو: "لا يزال مطلوباً بتهم ارتكاب جرائم حرب"
-        رد عمدة مدينة نيويورك الأمريكية، زهران ممداني،الخميس، على خطاب رئيس الوزراء الإسرائيلي بنيامين نتنياهو أمام الأمم المتحدة
-        عربي · CNN عربية
+نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
+        عربي · العربية
 منتخب قطر يتخطى البحرين في مستهل مشواره بـ "خليجي 27" - Sharjah24
         الإمارات · الإمارات
 قدم.. الإمارات تكتسح اليمن برباعية في افتتاح مشوارها بـ"خليجي 27"
         "الأبيض" يحصد أول 3 نقاط ويتصدر المجموعة الثانية مؤقتا بقيادة داليتش، وخيمينيز يتألق بثنائية
         تركيا · الأناضول
-Senate again fails to adopt Iran War Powers Resolution despite growing criticism
-        Republican Sens. Lisa Murkowski, Susan Collins, Rand Paul and Thom Tillis joined all but one Democrat, Sen
-        أمريكا · ABC News
-Protest at police station following far-right activist Danny Tommo’s arrest after dinghy slashed in Channel
-        Supporters gather with Union flags chanting ‘free DT’ as government vows to ‘push further and harder’ to stop migrants crossing Channel
-        بريطانيا · Independent
-YouTube Gives Users More Control Over Recommendations
-        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
-        الأردن · Jordan News
-أندي كارول يكشف تعرضه لاعتداء جنسي عام 2021
-        كشف أندي كارول، مهاجم منتخب إنجلترا السابق، في سيرته الذاتية عن تعرضه لاعتداء جنسي من رجل عام 2021.
-        عربي · الشرق الأوسط
-مسعد بولس للجزيرة: لقاءاتي مع البرهان لا تعني اعترافا رسميا بالحكومة السودانية - الجزيرة نت
-        الإمارات · الإمارات
-الجيش السوداني يعلن إسقاط ثاني مسيرة في شمال كردفان خلال يوم
-        من طراز "إف إتش 95"، بعد إعلان مماثل في وقت سابق الخميس، فيما لم يحدد الجيش الجهة التي أطلقت الطائرتين
-        تركيا · الأناضول
-White House Restores Access for CNN, MS NOW and Politico
-        A judge ordered President Trump to reverse his ban on three media outlets, but it took several hours for them to get back in
+In a New Anthropic Lab, A.I. Turns to Biology
+        Scientists at the company announced their first finding: a group of enzymes whose function is unknown.
         أمريكا · NYT
-Jos Buttler injury and Kusal Mendis century derail England as Sri Lanka level ODI series
-        Wicketkeeper sustains hamstring injury while taking run Series set for decider at the Oval on Sunday A beautiful batting surface and a greased…
-        بريطانيا · Guardian
+Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
+        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
+        بريطانيا · Sky News
 Joint Chiefs Chairman Meets Czech Ambassador
         Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
         الأردن · Jordan News
-مانشيني: على إيطاليا تجاوز خيبة تصفيات كأس العالم
-        طالب روبرتو مانشيني، المدير الفني للمنتخب الإيطالي، لاعبيه بطي صفحة الخسارة أمام البوسنة والهرسك.
+مادبو: لم نستعجل أمام البحرين… والتزمنا بتعليمات المدرب
+        أكد عاصم مادبو، لاعب المنتخب القطري، أن التزام لاعبي «العنابي» بتوجيهات الجهاز الفني وعدم الاستعجال كانا من أبرز عوامل الفوز على البحرين بهدفين دون…
         عربي · الشرق الأوسط
 مسؤولة مغربية: تراجع المشاركة في الانتخابات إنذار للمؤسسات المنتخبة
         رئيسة المجلس الوطني لحقوق الإنسان آمنة بوعياش قالت إن النسبة تعكس مستوى الثقة في العملية الانتخابية لتحقيق التطلعات ومدى الإحساس بجدوى التصويت
@@ -101194,8 +101094,24 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260925020000 +0000" stop="20260925030000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 14:23 — بتوقيتك
 
+قاعة خاوية وشوارع غاضبة.. نتنياهو يخاطب الأمم المتحدة وسط عزلة دولية
+        ألقى رئيس وزراء الاحتلال الإسرائيلي بنيامين نتنياهو، الخميس، خطابه أمام الجمعية العامة للأمم المتحدة بنيويورك
+        تركيا · TRT عربي
+انقسام داخل إيران بعد تفاوض نيويورك.. انتقادات لعراقجي وبزشكيان يتمسك بالدبلوماسية
+        عربي · العربية
+محمد بن راشد يتقبّل تعازي محمد بن سلمان في وفاة الشيخ أحمد بن راشد خلال اتصال هاتفي - البيان
+        الإمارات · الإمارات
+Netanyahu defends Israeli military actions in Middle East in UN speech
+        Dozens of delegates walked out in protest as he took the podium, with the Israeli leader labelling them "moral cowards".
+        بريطانيا · BBC
+New bill would lower Social Security retirement age for some workers
+        Workers in physically demanding jobs should be able to collect full Social Security retirement benefits at age 60, a Michigan lawmaker says.
+        أمريكا · CBS
+Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
+        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+        الأردن · Jordan News
 مدرب اليمن يتحمل مسؤولية الخسارة برباعية أمام الإمارات
         أكد الجزائري نور الدين ولد علي، المدير الفني لمنتخب اليمن، تحمله مسؤولية الخسارة الثقيلة أمام الإمارات برباعية نظيفة.
         عربي · الشرق الأوسط
@@ -101208,81 +101124,63 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
 Anti-migrant activist charged after dinghy slashed in Channel
         Anti-migrant activist Daniel Thomas is charged in connection with an incident in the English Channel.
         بريطانيا · BBC
-Pittsburgh doctor attacked and killed while he slept, wife also stabbed
-        Dr. Idris Evans, a physician and medical director from UPMC Children's Hospital in Pittsburgh, was killed in an overnight stabbing.
+Trump administration urges Supreme Court to revive third-country deportation policy
+        The Trump administration urged the Supreme Court to revive its policy of deporting some migrants to places other than their country of birth.
         أمريكا · CBS
-Jordan Knocks on the Doors of the Japanese Tourism Market with High-Level Meetings with Leading Travel Industry Stakeholders
-        Minister of Tourism and Antiquities Dr. Imad Hejazeen on Thursday began the official program of the Jordanian delegation’s visit to Japan with a…
+Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
+        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
         الأردن · Jordan News
-مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
-        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
-        عربي · الشرق الأوسط
+الخامسة | قمة واشنطن الكبرى.. ترمب وشي يكشفان أوراقهما أمام العالم
+        عربي · العربية
 الإمارات تحتضن أول نسخة لمنتدى «أصوات الشباب من أجل العدالة» - البيان
         الإمارات · الإمارات
 الرئيس الصيني يدعو واشنطن للتعاون وتجنب المواجهة
         شي جين بينغ قال في كلمة بعد لقاء ترامب إنه "لا داع لتجنب التنافس لكن يجب أن يكون صحيا ومضبوطا ضمن حدود"
         تركيا · الأناضول
+Angel mom says blue state DAs are putting illegal immigrant criminals before public safety
+        Cheryl Minter's Change.org petition targets Fairfax County prosecutor Steve Descano after her daughter's accused killer had over 30 prior arrests.
+        أمريكا · Fox News
 Far-right activist Danny Tommo charged after dinghy slashed in the Channel
         The 37-year-old, of no fixed abode, was remanded into custody to appear at Basingstoke Magistrates’ Court on Friday
         بريطانيا · Independent
-DOJ says it's moving to end more than 50 decades-old school desegregation cases
-        The Justice Department said Thursday it was seeking to end more than 50 long-standing consent decrees dating back decades that sought to curb…
-        أمريكا · CBS
-Building a pathway to peace: Working together to return Ukrainian children, detained civilians and prisoners of war
-        Every morning at 9:00 a.m., Ukraine stops. Across cities in Ukraine, loudspeakers normally used to warn of incoming Russian air strikes broadcast the…
+Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
+        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
         الأردن · Jordan News
-نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
-        عربي · العربية
+مفتي السعودية: الحوثيون عصابة شر فاسدة العقيدة والمنهج
+        وصف مفتي عام السعودية الشيخ الدكتور صالح الفوزان، جماعة الحوثي بأنها عصابة شر فاسدة العقيدة والمنهج
+        عربي · الشرق الأوسط
 لا راحة في زمن «الواتس آب»: لماذا بات تأخير الأفلام إلى منتصف الليل شجاعة إلزامية - البيان
         الإمارات · الإمارات
 نقابات بلجيكية تستعد للإضراب بـ"يوروفيجن 2027" رفضاً لمشاركة إسرائيل
         إدارة هيئة البث البلجيكية تؤكد أن مشاركتها لا تعني تطبيعاً أو موافقة على ما يحدث في غزة
         تركيا · الأناضول
-Iran live updates: Some diplomats leave UNGA as Netanyahu touts war efforts
-        Israeli Prime Minister Benjamin Netanyahu's speech at the United Nations Thursday got off to a raucous start, as scores of diplomats walked out of…
-        أمريكا · ABC News
-Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
-        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
-        بريطانيا · Sky News
-Jordan and Rwanda Sign MoU to Enhance Cooperation in Information and Communications Technology
-        The Government of the Hashemite Kingdom of Jordan, represented by the Ministry of Digital Economy and Entrepreneurship, and the Government of the…
+Mamdani Accuses Netanyahu of Spreading ‘Baseless Lies’ After U.N. Speech
+        The Israeli prime minister accused Mayor Zohran Mamdani, an outspoken critic of Israel, of antisemitism
+        أمريكا · NYT
+João Félix strike for Portugal enough to sink Wales but Ronaldo fever falls flat
+        There was a comic-strip feel to another eventful evening in the world of Cristiano Ronaldo
+        بريطانيا · Guardian
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
         الأردن · Jordan News
-ردّاً على اتّهامه بـ"البصق في وجه الحقيقة".. ممداني عن نتنياهو: "لا يزال مطلوباً بتهم ارتكاب جرائم حرب"
-        رد عمدة مدينة نيويورك الأمريكية، زهران ممداني،الخميس، على خطاب رئيس الوزراء الإسرائيلي بنيامين نتنياهو أمام الأمم المتحدة
-        عربي · CNN عربية
+نابولي يتخلى عن "مارادونا" من أجل 70 ألف متفرج
+        عربي · العربية
 منتخب قطر يتخطى البحرين في مستهل مشواره بـ "خليجي 27" - Sharjah24
         الإمارات · الإمارات
 قدم.. الإمارات تكتسح اليمن برباعية في افتتاح مشوارها بـ"خليجي 27"
         "الأبيض" يحصد أول 3 نقاط ويتصدر المجموعة الثانية مؤقتا بقيادة داليتش، وخيمينيز يتألق بثنائية
         تركيا · الأناضول
-Senate again fails to adopt Iran War Powers Resolution despite growing criticism
-        Republican Sens. Lisa Murkowski, Susan Collins, Rand Paul and Thom Tillis joined all but one Democrat, Sen
-        أمريكا · ABC News
-Protest at police station following far-right activist Danny Tommo’s arrest after dinghy slashed in Channel
-        Supporters gather with Union flags chanting ‘free DT’ as government vows to ‘push further and harder’ to stop migrants crossing Channel
-        بريطانيا · Independent
-YouTube Gives Users More Control Over Recommendations
-        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
-        الأردن · Jordan News
-أندي كارول يكشف تعرضه لاعتداء جنسي عام 2021
-        كشف أندي كارول، مهاجم منتخب إنجلترا السابق، في سيرته الذاتية عن تعرضه لاعتداء جنسي من رجل عام 2021.
-        عربي · الشرق الأوسط
-مسعد بولس للجزيرة: لقاءاتي مع البرهان لا تعني اعترافا رسميا بالحكومة السودانية - الجزيرة نت
-        الإمارات · الإمارات
-الجيش السوداني يعلن إسقاط ثاني مسيرة في شمال كردفان خلال يوم
-        من طراز "إف إتش 95"، بعد إعلان مماثل في وقت سابق الخميس، فيما لم يحدد الجيش الجهة التي أطلقت الطائرتين
-        تركيا · الأناضول
-White House Restores Access for CNN, MS NOW and Politico
-        A judge ordered President Trump to reverse his ban on three media outlets, but it took several hours for them to get back in
+In a New Anthropic Lab, A.I. Turns to Biology
+        Scientists at the company announced their first finding: a group of enzymes whose function is unknown.
         أمريكا · NYT
-Jos Buttler injury and Kusal Mendis century derail England as Sri Lanka level ODI series
-        Wicketkeeper sustains hamstring injury while taking run Series set for decider at the Oval on Sunday A beautiful batting surface and a greased…
-        بريطانيا · Guardian
+Anti-migrant activist Danny Tommo charged with criminal damage over 'boat slashing'
+        Anti-migrant activist Daniel Thomas has been charged with criminal damage and failing to disclose his phone PIN, police say.
+        بريطانيا · Sky News
 Joint Chiefs Chairman Meets Czech Ambassador
         Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
         الأردن · Jordan News
-مانشيني: على إيطاليا تجاوز خيبة تصفيات كأس العالم
-        طالب روبرتو مانشيني، المدير الفني للمنتخب الإيطالي، لاعبيه بطي صفحة الخسارة أمام البوسنة والهرسك.
+مادبو: لم نستعجل أمام البحرين… والتزمنا بتعليمات المدرب
+        أكد عاصم مادبو، لاعب المنتخب القطري، أن التزام لاعبي «العنابي» بتوجيهات الجهاز الفني وعدم الاستعجال كانا من أبرز عوامل الفوز على البحرين بهدفين دون…
         عربي · الشرق الأوسط
 مسؤولة مغربية: تراجع المشاركة في الانتخابات إنذار للمؤسسات المنتخبة
         رئيسة المجلس الوطني لحقوق الإنسان آمنة بوعياش قالت إن النسبة تعكس مستوى الثقة في العملية الانتخابية لتحقيق التطلعات ومدى الإحساس بجدوى التصويت
@@ -101300,7 +101198,7 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
-  <programme start="20260925030000 +0000" stop="20260925050208 +0000" channel="TodayNews">
+  <programme start="20260925030000 +0000" stop="20260925052403 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260925000000 +0300" stop="20260925010000 +0300" channel="Thmanyah1.sa">
@@ -106585,137 +106483,137 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924210000 +0000" stop="20260924220000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 14:24 — بتوقيتك
 
 الأردن
-عمّان 20° · صافٍ · رطوبة 80% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 28° · صافٍ · رطوبة 55% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 20° · غائم · رطوبة 80% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 30° · صافٍ · رطوبة 91% · رياح 3 كم/سا · احتمال المطر 0%
+أبو ظبي 30° · صافٍ · رطوبة 92% · رياح 3 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 81% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 18° · غائم · رطوبة 71% · رياح 8 كم/سا · احتمال المطر 0%
+لندن 18° · غائم · رطوبة 72% · رياح 8 كم/سا · احتمال المطر 0%
 مانشستر 16° · صافٍ غالباً · رطوبة 74% · رياح 6 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · غائم · رطوبة 41% · رياح 19 كم/سا · احتمال المطر 0%
-لوس أنجلوس 29° · صافٍ · رطوبة 57% · رياح 10 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 35° · صافٍ · رطوبة 12% · رياح 9 كم/سا · احتمال المطر 0%
-هيوستن 34° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 23° · غائم · رطوبة 56% · رياح 21 كم/سا · احتمال المطر 0%</desc>
+نيويورك 20° · غائم · رطوبة 41% · رياح 18 كم/سا · احتمال المطر 0%
+لوس أنجلوس 29° · صافٍ · رطوبة 56% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 18° · صافٍ · رطوبة 71% · رياح 11 كم/سا · احتمال المطر 0%
+لاس فيغاس 36° · صافٍ غالباً · رطوبة 12% · رياح 8 كم/سا · احتمال المطر 0%
+هيوستن 34° · غائم · رطوبة 47% · رياح 10 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 22° · غائم · رطوبة 57% · رياح 21 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924220000 +0000" stop="20260924230000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 14:24 — بتوقيتك
 
 الأردن
-عمّان 20° · صافٍ · رطوبة 80% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 28° · صافٍ · رطوبة 55% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 20° · غائم · رطوبة 80% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 30° · صافٍ · رطوبة 91% · رياح 3 كم/سا · احتمال المطر 0%
+أبو ظبي 30° · صافٍ · رطوبة 92% · رياح 3 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 81% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 18° · غائم · رطوبة 71% · رياح 8 كم/سا · احتمال المطر 0%
+لندن 18° · غائم · رطوبة 72% · رياح 8 كم/سا · احتمال المطر 0%
 مانشستر 16° · صافٍ غالباً · رطوبة 74% · رياح 6 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · غائم · رطوبة 41% · رياح 19 كم/سا · احتمال المطر 0%
-لوس أنجلوس 29° · صافٍ · رطوبة 57% · رياح 10 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 35° · صافٍ · رطوبة 12% · رياح 9 كم/سا · احتمال المطر 0%
-هيوستن 34° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 23° · غائم · رطوبة 56% · رياح 21 كم/سا · احتمال المطر 0%</desc>
+نيويورك 20° · غائم · رطوبة 41% · رياح 18 كم/سا · احتمال المطر 0%
+لوس أنجلوس 29° · صافٍ · رطوبة 56% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 18° · صافٍ · رطوبة 71% · رياح 11 كم/سا · احتمال المطر 0%
+لاس فيغاس 36° · صافٍ غالباً · رطوبة 12% · رياح 8 كم/سا · احتمال المطر 0%
+هيوستن 34° · غائم · رطوبة 47% · رياح 10 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 22° · غائم · رطوبة 57% · رياح 21 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924230000 +0000" stop="20260925000000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 14:24 — بتوقيتك
 
 الأردن
-عمّان 20° · صافٍ · رطوبة 80% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 28° · صافٍ · رطوبة 55% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 20° · غائم · رطوبة 80% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 30° · صافٍ · رطوبة 91% · رياح 3 كم/سا · احتمال المطر 0%
+أبو ظبي 30° · صافٍ · رطوبة 92% · رياح 3 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 81% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 18° · غائم · رطوبة 71% · رياح 8 كم/سا · احتمال المطر 0%
+لندن 18° · غائم · رطوبة 72% · رياح 8 كم/سا · احتمال المطر 0%
 مانشستر 16° · صافٍ غالباً · رطوبة 74% · رياح 6 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · غائم · رطوبة 41% · رياح 19 كم/سا · احتمال المطر 0%
-لوس أنجلوس 29° · صافٍ · رطوبة 57% · رياح 10 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 35° · صافٍ · رطوبة 12% · رياح 9 كم/سا · احتمال المطر 0%
-هيوستن 34° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 23° · غائم · رطوبة 56% · رياح 21 كم/سا · احتمال المطر 0%</desc>
+نيويورك 20° · غائم · رطوبة 41% · رياح 18 كم/سا · احتمال المطر 0%
+لوس أنجلوس 29° · صافٍ · رطوبة 56% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 18° · صافٍ · رطوبة 71% · رياح 11 كم/سا · احتمال المطر 0%
+لاس فيغاس 36° · صافٍ غالباً · رطوبة 12% · رياح 8 كم/سا · احتمال المطر 0%
+هيوستن 34° · غائم · رطوبة 47% · رياح 10 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 22° · غائم · رطوبة 57% · رياح 21 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260925000000 +0000" stop="20260925010000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 14:24 — بتوقيتك
 
 الأردن
-عمّان 20° · صافٍ · رطوبة 80% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 28° · صافٍ · رطوبة 55% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 20° · غائم · رطوبة 80% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 30° · صافٍ · رطوبة 91% · رياح 3 كم/سا · احتمال المطر 0%
+أبو ظبي 30° · صافٍ · رطوبة 92% · رياح 3 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 81% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 18° · غائم · رطوبة 71% · رياح 8 كم/سا · احتمال المطر 0%
+لندن 18° · غائم · رطوبة 72% · رياح 8 كم/سا · احتمال المطر 0%
 مانشستر 16° · صافٍ غالباً · رطوبة 74% · رياح 6 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · غائم · رطوبة 41% · رياح 19 كم/سا · احتمال المطر 0%
-لوس أنجلوس 29° · صافٍ · رطوبة 57% · رياح 10 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 35° · صافٍ · رطوبة 12% · رياح 9 كم/سا · احتمال المطر 0%
-هيوستن 34° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 23° · غائم · رطوبة 56% · رياح 21 كم/سا · احتمال المطر 0%</desc>
+نيويورك 20° · غائم · رطوبة 41% · رياح 18 كم/سا · احتمال المطر 0%
+لوس أنجلوس 29° · صافٍ · رطوبة 56% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 18° · صافٍ · رطوبة 71% · رياح 11 كم/سا · احتمال المطر 0%
+لاس فيغاس 36° · صافٍ غالباً · رطوبة 12% · رياح 8 كم/سا · احتمال المطر 0%
+هيوستن 34° · غائم · رطوبة 47% · رياح 10 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 22° · غائم · رطوبة 57% · رياح 21 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260925010000 +0000" stop="20260925020000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 14:24 — بتوقيتك
 
 الأردن
-عمّان 20° · صافٍ · رطوبة 80% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 28° · صافٍ · رطوبة 55% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 20° · غائم · رطوبة 80% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 30° · صافٍ · رطوبة 91% · رياح 3 كم/سا · احتمال المطر 0%
+أبو ظبي 30° · صافٍ · رطوبة 92% · رياح 3 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 81% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 18° · غائم · رطوبة 71% · رياح 8 كم/سا · احتمال المطر 0%
+لندن 18° · غائم · رطوبة 72% · رياح 8 كم/سا · احتمال المطر 0%
 مانشستر 16° · صافٍ غالباً · رطوبة 74% · رياح 6 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · غائم · رطوبة 41% · رياح 19 كم/سا · احتمال المطر 0%
-لوس أنجلوس 29° · صافٍ · رطوبة 57% · رياح 10 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 35° · صافٍ · رطوبة 12% · رياح 9 كم/سا · احتمال المطر 0%
-هيوستن 34° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 23° · غائم · رطوبة 56% · رياح 21 كم/سا · احتمال المطر 0%</desc>
+نيويورك 20° · غائم · رطوبة 41% · رياح 18 كم/سا · احتمال المطر 0%
+لوس أنجلوس 29° · صافٍ · رطوبة 56% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 18° · صافٍ · رطوبة 71% · رياح 11 كم/سا · احتمال المطر 0%
+لاس فيغاس 36° · صافٍ غالباً · رطوبة 12% · رياح 8 كم/سا · احتمال المطر 0%
+هيوستن 34° · غائم · رطوبة 47% · رياح 10 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 22° · غائم · رطوبة 57% · رياح 21 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260925020000 +0000" stop="20260925030000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 14:02 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 14:24 — بتوقيتك
 
 الأردن
-عمّان 20° · صافٍ · رطوبة 80% · رياح 4 كم/سا · احتمال المطر 0%
-العقبة 28° · صافٍ · رطوبة 55% · رياح 13 كم/سا · احتمال المطر 0%
+عمّان 20° · غائم · رطوبة 80% · رياح 3 كم/سا · احتمال المطر 0%
+العقبة 28° · صافٍ · رطوبة 56% · رياح 12 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 30° · صافٍ · رطوبة 91% · رياح 3 كم/سا · احتمال المطر 0%
+أبو ظبي 30° · صافٍ · رطوبة 92% · رياح 3 كم/سا · احتمال المطر 0%
 دبي 29° · صافٍ · رطوبة 81% · رياح 8 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 18° · غائم · رطوبة 71% · رياح 8 كم/سا · احتمال المطر 0%
+لندن 18° · غائم · رطوبة 72% · رياح 8 كم/سا · احتمال المطر 0%
 مانشستر 16° · صافٍ غالباً · رطوبة 74% · رياح 6 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 20° · غائم · رطوبة 41% · رياح 19 كم/سا · احتمال المطر 0%
-لوس أنجلوس 29° · صافٍ · رطوبة 57% · رياح 10 كم/سا · احتمال المطر 0%
-شيكاغو 18° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 35° · صافٍ · رطوبة 12% · رياح 9 كم/سا · احتمال المطر 0%
-هيوستن 34° · غائم · رطوبة 47% · رياح 11 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 23° · غائم · رطوبة 56% · رياح 21 كم/سا · احتمال المطر 0%</desc>
+نيويورك 20° · غائم · رطوبة 41% · رياح 18 كم/سا · احتمال المطر 0%
+لوس أنجلوس 29° · صافٍ · رطوبة 56% · رياح 11 كم/سا · احتمال المطر 0%
+شيكاغو 18° · صافٍ · رطوبة 71% · رياح 11 كم/سا · احتمال المطر 0%
+لاس فيغاس 36° · صافٍ غالباً · رطوبة 12% · رياح 8 كم/سا · احتمال المطر 0%
+هيوستن 34° · غائم · رطوبة 47% · رياح 10 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 22° · غائم · رطوبة 57% · رياح 21 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260925030000 +0000" stop="20260925050209 +0000" channel="TodayWeather">
+  <programme start="20260925030000 +0000" stop="20260925052404 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260924210000 +0000" stop="20260924220000 +0000" channel="TodayPrayer">
@@ -106862,4 +106760,4 @@ Istanbul (إسطنبول) — الفجر 05:22 · الشروق 06:47 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260925053026 +0000" stop="20260925053405 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260925050208 +0000" stop="20260925053405 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260925050209 +0000" stop="20260925053405 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260925055025 +0000" stop="20260925055341 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260925052403 +0000" stop="20260925055341 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260925052404 +0000" stop="20260925055341 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
