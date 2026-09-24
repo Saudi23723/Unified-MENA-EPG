@@ -84,7 +84,9 @@ LFTV_STAGE = re.compile(
 # competition heading.
 SHASHA_CARRIES_WHOLE = re.compile(
     r"^(?:arabian gulf cup|gulf cup(?: of nations)?|italian serie a|serie a|"
-    r"kuwait(?:i)? premier league|zain premier league)$", re.I)
+    r"kuwait(?:i)? premier league|zain premier league|"
+    r"primeira liga|liga portugal(?: betclic)?|portuguese (?:primeira )?liga)$",
+    re.I)
 
 LFTV_COMPETITIONS = {
     "italian serie a": "Serie A",
@@ -92,6 +94,9 @@ LFTV_COMPETITIONS = {
     "kuwaiti premier league": "Zain Premier League",
     "kuwait premier league": "Zain Premier League",
     "primeira liga": "Primeira Liga",
+    "liga portugal": "Primeira Liga",
+    "liga portugal betclic": "Primeira Liga",
+    "portuguese primeira liga": "Primeira Liga",
     "gulf cup of nations": "Gulf Cup",
     "gulf cup": "Gulf Cup",
     "serie a": "Serie A",
