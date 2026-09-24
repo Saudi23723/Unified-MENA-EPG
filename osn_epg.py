@@ -49,42 +49,48 @@ FEEDS = {
 
 LOGO_VERSION = "v2"
 
+# THE IDS HAVE NO SPACES. They were the channels' plain names ("OSN Comedy")
+# until a player searching its guide list for "osn" found every other
+# source's OSN channels and none of these. Every id this file shares with
+# a working channel has the dotted, spaceless form — "Aflam.shahid",
+# "AlJazeera.qa" — and so do these now.
+
 # (xmltv id = the name a player shows, logo stem, [names],
 #  [(feed, the feed's channel id), ... in order of preference])
 CHANNELS = [
-    ("OSN One", "osn_one", ["OSN One", "OSN TV One", "OSN 1", "أو إس إن وان"],
+    ("OSNOne.osn", "osn_one", ["OSN One", "OSN TV One", "OSN 1", "أو إس إن وان"],
      [("eg_en", "OSN TV One.eg"), ("eg_ar", "أو إس إن وان.eg")]),
-    ("OSN Showcase", "osn_showcase", ["OSN Showcase", "OSN Showcase 4k", "OSN TV Showcase", "أو إس إن شو كايس"],
+    ("OSNShowcase.osn", "osn_showcase", ["OSN Showcase", "OSN Showcase 4k", "OSN TV Showcase", "أو إس إن شو كايس"],
      [("eg_en", "OSN TV Showcase.eg"), ("eg_ar", "أو إس إن شو كايس.eg")]),
-    ("OSN Now", "osn_now", ["OSN Now", "OSN TV Now", "أو إس إن ناو"],
+    ("OSNNow.osn", "osn_now", ["OSN Now", "OSN TV Now", "أو إس إن ناو"],
      [("eg_en", "OSN TV Now.eg")]),
-    ("OSN Comedy", "osn_comedy", ["OSN Comedy", "OSN Comedy 4k", "OSN TV Comedy", "أو إس إن كوميدي"],
+    ("OSNComedy.osn", "osn_comedy", ["OSN Comedy", "OSN Comedy 4k", "OSN TV Comedy", "أو إس إن كوميدي"],
      [("eg_en", "OSN TV Comedy.eg"), ("eg_ar", "أو إس إن كوميدي.eg")]),
-    ("OSN Crime", "osn_crime", ["OSN Crime", "OSN TV Crime", "أو إس إن كرايم"],
+    ("OSNCrime.osn", "osn_crime", ["OSN Crime", "OSN TV Crime", "أو إس إن كرايم"],
      [("eg_en", "OSN TV Crime.eg"), ("eg_ar", "أو إس إن كرايم.eg")]),
-    ("OSN Kids", "osn_kids", ["OSN Kids", "OSN TV Kids", "أو إس إن كيدز"],
+    ("OSNKids.osn", "osn_kids", ["OSN Kids", "OSN TV Kids", "أو إس إن كيدز"],
      [("eg_en", "OSN TV Kids.eg"), ("eg_ar", "أو إس إن كيدز.eg")]),
-    ("OSN Movies Premiere", "osn_movies_premiere",
+    ("OSNMoviesPremiere.osn", "osn_movies_premiere",
      ["OSN Movies Premiere", "OSN MOVIES Premiere", "OSN TV Movies Premiere", "أو إس إن موفيز بريميير"],
      [("eg_en", "OSN TV Movies Premiere.eg"), ("eg_ar", "أو إس إن موفيز بريميير.eg")]),
-    ("OSN Movies Hollywood", "osn_movies_hollywood",
+    ("OSNMoviesHollywood.osn", "osn_movies_hollywood",
      ["OSN Movies Hollywood", "OSN MOVIES Hollywood", "OSN TV Movies Hollywood", "أو إس إن موفيز هوليوود"],
      [("eg_en", "OSN TV Movies Hollywood.eg"), ("eg_ar", "أو إس إن موفيز هوليوود.eg")]),
-    ("OSN Movies Action", "osn_movies_action",
+    ("OSNMoviesAction.osn", "osn_movies_action",
      ["OSN Movies Action", "OSN TV Movies Action", "أو إس إن موفيز أكشن"],
      [("eg_en", "OSN TV Movies Action.eg"), ("eg_ar", "أو إس إن موفيز أكشن.eg")]),
-    ("OSN Movies Comedy", "osn_movies_comedy",
+    ("OSNMoviesComedy.osn", "osn_movies_comedy",
      ["OSN Movies Comedy", "OSN TV Movies Comedy", "أو إس إن موفيز كوميدي"],
      [("eg_en", "OSN TV Movies Comedy.eg"), ("eg_ar", "أو إس إن موفيز كوميدي.eg")]),
-    ("OSN Movies Family", "osn_movies_family",
+    ("OSNMoviesFamily.osn", "osn_movies_family",
      ["OSN Movies Family", "OSN MOVIES Family", "OSN TV Movies Family", "OSN Family Movies", "أو إس إن فاميلي موفيز"],
      [("eg_en", "OSN TV Movies Family.eg"), ("eg_ar", "أو إس إن فاميلي موفيز.eg")]),
-    ("OSN Ya Hala", "osn_yahala", ["OSN Yahala", "OSN Ya Hala", "OSN TV Yahala", "أو إس إن ياهلا"],
+    ("OSNYaHala.osn", "osn_yahala", ["OSN Yahala", "OSN Ya Hala", "OSN TV Yahala", "أو إس إن ياهلا"],
      [("eg_en", "OSN Ya Hala.eg"), ("eg_ar", "أو إس إن ياهلا.eg")]),
-    ("OSN Ya Hala Aflam", "osn_yahala_aflam",
+    ("OSNYaHalaAflam.osn", "osn_yahala_aflam",
      ["OSN Yahala Aflam", "OSN Ya Hala Aflam", "أو إس إن ياهلا أفلام"],
      [("eg_en", "Osn Ya Hala Aflam.eg"), ("eg_ar", "أو إس إن ياهلا أفلام.eg")]),
-    ("OSN Ya Hala Bil Arabi", "osn_yahala_bilarabi",
+    ("OSNYaHalaBilArabi.osn", "osn_yahala_bilarabi",
      ["OSN Yahala Bil Arabi", "OSN Ya Hala Bil Arabi", "OSN TV Yahala Bil Arabi",
       "أو إس إن ياهلا بالعربي"],
      [("eg_en", "OSN TV Yahala Bil Arabi.eg"), ("eg_ar", "أو إس إن ياهلا بالعربي.eg")]),
@@ -94,12 +100,12 @@ CHANNELS = [
     # measured against egypt1 on OSN Ya Hala: eleven shared titles, delta
     # 0. Al Safwa, Alfa Al Yawm and Discovery Science are listed by the
     # feeds that know them with nothing under them, and are left out.
-    ("Nick Jr", "nick_jr", ["OSN Nick Jr", "Nick Jr", "Nick Jr.", "نك جونيور"],
+    ("OSNNickJr.osn", "nick_jr", ["OSN Nick Jr", "Nick Jr", "Nick Jr.", "نك جونيور"],
      [("uae2", "NickJr.ae")]),
-    ("Discovery ID", "discovery_id",
+    ("OSNDiscoveryID.osn", "discovery_id",
      ["OSN Discovery ID", "Discovery ID", "OSN DISCOVERY ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
      [("sa_ar", "Discovery ID.sa"), ("sa_en", "Discovery ID.sa")]),
-    ("Fatafeat", "fatafeat", ["OSN Fatafeat", "OSN Fatafet", "Fatafeat", "OSN FATAFET", "فتافيت"],
+    ("OSNFatafeat.osn", "fatafeat", ["OSN Fatafeat", "OSN Fatafet", "Fatafeat", "OSN FATAFET", "فتافيت"],
      [("sa_ar", "Fatafeat.sa"), ("sa_en", "Fatafeat.sa")]),
 ]
 
