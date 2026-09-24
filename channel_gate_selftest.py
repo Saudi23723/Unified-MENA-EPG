@@ -4224,12 +4224,20 @@ def gate_no_guide_reads_a_stranger() -> None:
         r"|iptv-org|epgshare|open-epg|xmltv\.net|epg\.pw|epgs?\.best",
         re.I)
 
-    # The two that are already here, with the file that reads each. Adding
+    # The ones that are already here, with the file that reads each. Adding
     # to this is a decision somebody has to make on purpose.
     KNOWN = {
         ("bein_sports_turkey_epg.py", "epgshare01.online"),
         ("bein_sports_turkey_epg.py", "www.open-epg.com"),
         ("tivibu_spor_epg.py", "epgshare01.online"),
+        # MBC and OSN, asked for by name on the Roya link. MBC and OSN
+        # publish no open guide of their own, so these feeds are the only
+        # schedules there are; every feed's clock was measured against
+        # another on shared titles (delta 0) before it was read — see the
+        # docstrings of mbc_epg.py and osn_epg.py.
+        ("mbc_epg.py", "epgshare01.online"),
+        ("mbc_epg.py", "www.open-epg.com"),
+        ("osn_epg.py", "www.open-epg.com"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4256,7 +4264,7 @@ def gate_no_guide_reads_a_stranger() -> None:
 
     check("SOURCES", "this repository publishes to its own raw URL",
           ours > 0, True)
-    check("SOURCES", "and reads nobody's aggregated dump but the two named",
+    check("SOURCES", "and reads nobody's aggregated dump but the ones named",
           sorted(set(strangers)), [])
 
     # The GitHub URLs it does hold must all be its own, and must all be
@@ -4294,13 +4302,14 @@ def gate_no_guide_reads_a_stranger() -> None:
     check("SOURCES", "and no schedule is ever fetched back out of GitHub",
           read_back, [])
 
-    # The two that ARE read are the weakest thing here, and the count
-    # is held so that it can only go down without somebody noticing. It
-    # went to four when وِرْدُ اليوم read a mirrored Quran edition, and
-    # back to three now that channel is gone — which is the direction
-    # this number is supposed to move.
-    check("SOURCES", "exactly three aggregated-feed reads, all declared",
-          len(KNOWN), 3)
+    # The ones that ARE read are the weakest thing here, and the count
+    # is held so that it can only change with somebody noticing. It went
+    # to four when وِرْدُ اليوم read a mirrored Quran edition, back to three
+    # when that channel went, and to six when MBC and OSN were asked for
+    # on the Roya link — two channel families with no open guide of their
+    # own, every feed's clock measured before it was read.
+    check("SOURCES", "exactly six aggregated-feed reads, all declared",
+          len(KNOWN), 6)
 
 
 
