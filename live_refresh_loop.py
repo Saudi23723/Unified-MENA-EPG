@@ -79,6 +79,7 @@ SKIP_PUBLISH = os.environ.get("SKIP_PUBLISH") == "1"
 GUIDES = (
     "today_matches_epg.py",
     "other_sports_epg.py",
+    "multi_sport_epg.py",
     "sporttv_epg.py",
     "ball_sports_epg.py",
     "hoops_gridiron_epg.py",
@@ -106,6 +107,8 @@ SCREENS = (
     "dubai_f1",
     "turkish_ppv",
     "dubai_turkish_ppv",
+    "multi_sport",
+    "dubai_multi_sport",
 )
 
 # The playlists point players at the screens; rewritten only when their

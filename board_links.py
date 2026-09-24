@@ -39,6 +39,7 @@ PUBLISHED: set[str] = {
     "ball_sports_", "dubai_ball_sports_",
     "sporttv_", "dubai_sporttv_",
     "turkish_ppv_", "dubai_turkish_ppv_",
+    "multi_sport_", "dubai_multi_sport_",
     "today_matches_", "dubai_matches_",
     "other_sports_", "dubai_sports_",
 }

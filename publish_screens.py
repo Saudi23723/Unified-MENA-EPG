@@ -145,6 +145,13 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "dubai_turkish_ppv": ("dubai_turkish_ppv_", "dubai_turkish_ppv_epg.xml",
                           "dubai_turkish_ppv.m3u8",
                           "dubai_turkish_ppv.sha256"),
+    # The thirteenth channel — الألعاب الكبرى: the Olympics and the
+    # multi-sport games, off channel 2, in both clocks.
+    "multi_sport": ("multi_sport_", "multi_sport_epg.xml",
+                    "multi_sport.m3u8", "multi_sport.sha256"),
+    "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport_epg.xml",
+                          "dubai_multi_sport.m3u8",
+                          "dubai_multi_sport.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather

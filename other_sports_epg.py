@@ -37,7 +37,9 @@ by simply not having them, rather than by inventing either.
 from __future__ import annotations
 
 import io
+import json
 import os
+import tempfile
 
 import board_links
 import re
@@ -230,17 +232,24 @@ DAYS_AHEAD = 3
 # games (MLB)" and came back off the same way — "its a mess, remove
 # snooker & MLB from channel 2". Inside a day the clock rules anyway and
 # the sport only breaks a tie.
-IN_ORDER = (
+# THE OLYMPICS AND THE MULTI-SPORT GAMES ARE NOT ON THIS CHANNEL. Asked
+# for in those words — a channel of their own "only for multi-sport
+# events, like the Olympics or Asian Nagoya", moved off this one, and
+# this one kept "for the rest of the sports like boxing". They are still
+# COLLECTED here, by every door that finds them, and handed to
+# multi_sport_epg.py at the end of collect(); a sport this list does not
+# name never reaches this board.
+MULTI_SPORT = (
     "Olympics",
-    # Major multi-sport games, asked for by name: Asian Games, Commonwealth,
-    # Pan American, European and African Games. They sit beside Olympics
-    # because they are the same kind of event, in the order the reader
-    # named them.
     "Asian Games",
     "Commonwealth Games",
     "Pan American Games",
     "European Games",
     "African Games",
+)
+MULTI_SPORT_RANK = {sport: place for place, sport in enumerate(MULTI_SPORT)}
+
+IN_ORDER = (
     "F1", "Darts", "Boxing", "MMA", "MotoGP", "Tennis",
     # MLB AND THE WNBA ARE NOT ON THIS CHANNEL. Asked for in those
     # words — they get a channel of their own — and a sport this list
@@ -406,19 +415,24 @@ def off_this_board(event: dict) -> bool:
                 and not A_THE_GAMES.search(said))
 
 
-def wanted(event: dict) -> bool:
+def wanted(event: dict, ranks: dict | None = None) -> bool:
     """Only the sports asked for, live, and only ones that name a channel.
 
     The second half is the rule every board here obeys: an event with no
     published broadcaster is not shown, because the one thing this screen
     must never do is put a viewer on a channel that is not carrying it.
+
+    `ranks` is the list of sports to hold the row against — this
+    channel's own unless another is named, which is how the multi-sport
+    games are judged by exactly the same rules on their way to their own
+    channel.
     """
     # A CARD WITH NO BROADCASTER ANNOUNCED IS STILL ON. Dropping it was
     # costing real fights and real races — a reader counting the day
     # against a scores app sees a missing EVENT, not a missing channel —
     # so it is shown, and the row simply names no channel. This is the
     # rule the football board already follows.
-    if event.get("sport") not in RANK:
+    if event.get("sport") not in (RANK if ranks is None else ranks):
         return False
     if off_this_board(event):
         return False
@@ -1918,6 +1932,16 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     inside = remember_who_carries_a_card(inside)
     kept = [event for event in inside if wanted(event)]
 
+    # THE GAMES GO TO THEIR OWN CHANNEL from here — collected by the same
+    # doors, folded by the same rules, judged by the same wanted() — and
+    # only when this module is wearing its own clothes, so another
+    # channel borrowing this collector can never overwrite the hand-off.
+    if CHANNEL_ID == "TodaySports":
+        hand_off_the_games(
+            [event for event in inside
+             if wanted(event, MULTI_SPORT_RANK)
+             and status_of(event, datetime.now(UTC)) != "over"])
+
     # A source can leave a completed broadcast in its schedule, and the
     # title does not always say replay or recorded. Use the same shared
     # on-air clock as the LIVE mark so finished rows never reach the board
@@ -1933,6 +1957,65 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     log(f"  {len(everything)} event(s) offered, {len(inside)} in the window, "
         f"{len(live_or_upcoming)} in a sport asked for and naming a channel")
     return in_the_readers_order(live_or_upcoming)
+
+
+# WHERE THE GAMES WAIT between this build and multi_sport_epg.py's, which
+# runs straight after it in the same pass (channels.BUILDS and
+# live_refresh_loop.GUIDES both list it next). The temporary directory,
+# not the working tree: nothing here is ever to be committed.
+GAMES_HAND_OFF = os.path.join(tempfile.gettempdir(),
+                              "multi_sport_hand_off.json")
+
+
+def _plain(value):
+    if isinstance(value, datetime):
+        return {"__datetime": value.isoformat()}
+    if isinstance(value, timedelta):
+        return {"__seconds": value.total_seconds()}
+    if isinstance(value, (list, tuple)):
+        return [_plain(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _plain(v) for k, v in value.items()}
+    return value
+
+
+def _unplain(value):
+    if isinstance(value, dict):
+        if "__datetime" in value:
+            return datetime.fromisoformat(value["__datetime"])
+        if "__seconds" in value:
+            return timedelta(seconds=value["__seconds"])
+        return {k: _unplain(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_unplain(v) for v in value]
+    return value
+
+
+def hand_off_the_games(events: list[dict]) -> None:
+    """Leave the multi-sport rows for multi_sport_epg.py to publish."""
+    try:
+        with open(GAMES_HAND_OFF + ".tmp", "w", encoding="utf-8") as out:
+            json.dump({"written": datetime.now(UTC).isoformat(),
+                       "events": [_plain(e) for e in events]}, out)
+        os.replace(GAMES_HAND_OFF + ".tmp", GAMES_HAND_OFF)
+        log(f"  multi-sport games: {len(events)} row(s) handed to their "
+            f"own channel")
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"the multi-sport rows could not be handed on ({exc}) — "
+             f"their channel will collect them itself")
+
+
+def games_handed_off(max_age: timedelta) -> list[dict] | None:
+    """The rows the last build of this channel handed on, if fresh."""
+    try:
+        with open(GAMES_HAND_OFF, encoding="utf-8") as src:
+            data = json.load(src)
+    except (OSError, ValueError):
+        return None
+    written = datetime.fromisoformat(data.get("written", "1970-01-01T00:00:00+00:00"))
+    if datetime.now(UTC) - written > max_age:
+        return None
+    return [_unplain(e) for e in data.get("events", [])]
 
 
 def publish_all(events: list[dict], now: datetime,
