@@ -1,4 +1,4 @@
-"""Find Animal Planet in the MENA feeds, from a runner. Never fails."""
+"""Find TLC in the MENA feeds, from a runner. Never fails."""
 import gzip, io, os, re, sys, traceback
 from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
@@ -18,7 +18,7 @@ for url in URLS:
             b = gzip.decompress(b)
         root = ET.fromstring(b)
         hits = [c for c in root.findall("channel")
-                if re.search(r"animal|planet", (c.get("id") or "") + " ".join(d.text or "" for d in c.findall("display-name")), re.I)]
+                if re.search(r"\btlc\b", (c.get("id") or "") + " ".join(d.text or "" for d in c.findall("display-name")), re.I)]
         for c in hits:
             cid = c.get("id")
             ps = [p for p in root.findall("programme") if p.get("channel") == cid]
