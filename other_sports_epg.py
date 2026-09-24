@@ -71,6 +71,7 @@ import bkfc
 import oktagon
 import pfl_events
 import brave_cf
+import uae_warriors
 import beach_volley_fivb
 import womens_volley_fivb
 import wrestling_uww
@@ -427,7 +428,7 @@ def wanted(event: dict) -> bool:
         return False
     if not event.get("channels") and event.get("source") not in (
             "worldball", "fivb", "uww", "majorgames", "bkfc", "oktagon",
-            "pfl", "brave"):
+            "pfl", "brave", "uaewarriors"):
         # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
         # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
         # listings page reaches, and the board's PPV fallback labels
@@ -1825,6 +1826,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     if can_fetch:
         everything += pfl_events.events(session, floor, ceiling)
         everything += brave_cf.events(session, floor, ceiling)
+        # And UAE Warriors, asked for by name; see uae_warriors.py.
+        everything += uae_warriors.events(session, floor, ceiling)
 
     # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
     # for by name ("TSN AND SPORTSNET events matches to be added on
