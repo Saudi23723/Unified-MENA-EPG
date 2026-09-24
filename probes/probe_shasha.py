@@ -1,10 +1,9 @@
-"""Does livefootballtv's front page name Shasha on upcoming rows? Read with
-today_matches_epg's own row reader. Commits nothing."""
+"""One Gulf Cup row on livefootballtv's front page, raw, and its match
+page: where is the full channel list? Commits nothing."""
 
 import os
 import re
 import sys
-from datetime import datetime, timedelta, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,23 +13,31 @@ import today_matches_epg as tm  # noqa: E402
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"}
-now = datetime.now(timezone.utc)
-html = requests.get(tm.SOURCE, headers=UA, timeout=40).text
-rows = tm.collect(html, now, now - timedelta(days=1), now + timedelta(days=21))
-days = sorted({r["start"].astimezone(tm.GULF).date() for r in rows})
-print(f"front page: {len(rows)} row(s) over {len(days)} day(s): {days[:10]}")
-for r in rows:
-    chans = " / ".join(r["channels"])
-    if re.search(r"shasha|شاشا", chans, re.I) or re.search(r"gulf|serie a|primeira", r["competition"], re.I):
-        print(f"  {r['start'].astimezone(tm.GULF):%a %d/%m %H:%M} KSA | {r['title']} | "
-              f"{r['competition']} | {chans[:160]}")
-
-soup = BeautifulSoup(html, "html.parser")
-for a in soup.find_all("a", href=True):
-    t = a.get_text(" ", strip=True)
-    if re.search(r"gulf|shasha|شاشا|khaleeji", a["href"] + " " + t, re.I):
-        print("link:", repr(t[:60]), a["href"][:120])
-for path in ("/competition/arabian-gulf-cup", "/competition/gulf-cup",
-             "/tournament/arabian-gulf-cup"):
-    r = requests.get("https://www.livefootballtv.info" + path, headers=UA, timeout=30)
-    print(path, r.status_code, len(r.text))
+BASE = "https://www.livefootballtv.info"
+soup = BeautifulSoup(requests.get(tm.SOURCE, headers=UA, timeout=40).text, "html.parser")
+shown = 0
+for row in soup.find_all("tr"):
+    if not tm.is_match(row):
+        continue
+    if not re.search(r"gulf|serie a", tm.competition_of(row), re.I):
+        continue
+    shown += 1
+    print("=" * 70)
+    print(tm.competition_of(row), "|", tm.team_in(row.find("td", class_="local")),
+          "-", tm.team_in(row.find("td", class_="visitante")))
+    print("RAW ROW:", str(row)[:2500])
+    link = next((a["href"] for a in row.find_all("a", href=True)
+                 if "/match" in a["href"] or "/partido" in a["href"]
+                 or re.search(r"/\d{4,}", a["href"])), None)
+    print("match link:", link)
+    if link and shown <= 3:
+        url = link if link.startswith("http") else BASE + link
+        page = requests.get(url, headers=UA, timeout=30)
+        ps = BeautifulSoup(page.text, "html.parser")
+        chans = [li.get("title") or li.get_text(" ", strip=True)
+                 for li in ps.select("ul.listaCanales li")]
+        print("match page", page.status_code, "channels:", chans[:40])
+        print("  shasha on match page:", any(re.search(r"shasha|شاشا", c or "", re.I) for c in chans),
+              "| anywhere in page:", bool(re.search(r"shasha|شاشا", page.text, re.I)))
+    if shown >= 4:
+        break
