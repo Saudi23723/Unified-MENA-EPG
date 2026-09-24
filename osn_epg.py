@@ -115,6 +115,12 @@ CHANNELS = [
      ["OSN Animal Planet", "Animal Planet", "OSN: ANIMAL PLANET", "Animal Planet HD",
       "أنيمال بلانيت"],
      [("sa_en", "Animal Planet HD.sa"), ("sa_ar", "Animal Planet HD.sa")]),
+    # TLC, asked for the same way: saudiarabia2 in English, saudiarabia1 in
+    # Arabic ("TLC HD.sa"). Its title on the air when it was found, "90 Day
+    # Fiance: Happily Ever After?", is the one the user's own screen showed.
+    ("OSNTLC.osn", "tlc",
+     ["OSN TLC", "TLC", "OSN: TLC", "TLC HD", "تي إل سي"],
+     [("sa_en", "TLC HD.sa"), ("sa_ar", "TLC HD.sa")]),
 ]
 
 KEEP_BEHIND = timedelta(days=1)
