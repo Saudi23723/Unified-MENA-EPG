@@ -24,5 +24,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
+      - run: tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core ffmpeg
       - run: python -u probes/probe_oktagon.py
         continue-on-error: true

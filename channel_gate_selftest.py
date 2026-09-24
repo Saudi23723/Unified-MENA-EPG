@@ -4726,11 +4726,13 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
     if not match_board.has_arabic_face():
         return
 
-    # Dashboard artwork is deliberately neutral: it contains only the
-    # scheduled time, listing, competition and source. Status changes are
-    # handled by the HLS occurrence planner, not by recolouring a cached
-    # board. The image must therefore stay byte-stable as the same rows move
-    # from upcoming to finished.
+    # THE CLASSIC BOARD SHOWS WHAT IS ON. Its rows light red while a
+    # match is on the air, dim once it is over, and the next kickoff on
+    # today's page carries the teal mark — asked for again after a
+    # rewrite made the board display-only and the WNBA/MLB screen showed
+    # five live games looking exactly like five still to come. The state
+    # is a function of the clock, drawn through board_marks, so the
+    # encoder's status variants change the picture at each kickoff.
     viewer = timezone.utc
 
     def board(at):
@@ -4743,9 +4745,12 @@ def gate_a_day_that_is_over_leaves_the_screen() -> None:
             weekday="السبت").tobytes()
 
     morning = board(datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc))
-    evening = board(datetime(2026, 9, 5, 23, 0, tzinfo=timezone.utc))
-    check("MIDNIGHT", "the same rows stay stable once time passes",
-          morning == evening, True)
+    during = board(datetime(2026, 9, 5, 10, 30, tzinfo=timezone.utc))
+    check("MIDNIGHT", "a match on the air changes the classic board",
+          morning != during, True)
+    check("MIDNIGHT", "and the same instant draws the same board",
+          during == board(datetime(2026, 9, 5, 10, 30, tzinfo=timezone.utc)),
+          True)
 
 def gate_midnight_is_not_a_kickoff() -> None:
     """Four Turkish matches on one instant, and that instant was midnight.
