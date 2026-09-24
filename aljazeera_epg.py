@@ -78,11 +78,12 @@ CHANNEL_AR = "الجزيرة"
 CHANNEL_EN = "Al Jazeera"
 LOGO_BASE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG"
              "/main/logos")
-# The channel's own gold calligraphy on a round white disc, drawn as large
-# as the circle allows — the same style as the MBC marks on this link. The
-# file it replaces was the website's banner picture, not the channel's
-# mark. The version is in the name because players cache a logo by URL.
-LOGO_FILE = "aljazeera_round_v1.png"
+# The channel's calligraphy in white on a round disc of Al Jazeera's own
+# gold, drawn as large as the circle allows — the design the reader chose
+# of four. The file it replaces was the website's banner picture, not the
+# channel's mark. The version is in the name because players cache a logo
+# by URL.
+LOGO_FILE = "aljazeera_round_v2.png"
 
 # The sentence that anchors the whole file. If Al Jazeera ever stops
 # printing it, the times can no longer be trusted and nothing is read.
