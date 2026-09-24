@@ -1,64 +1,65 @@
-"""Which of Lega Serie A's listed PDFs carry a fixture table this repo's
-parser can read, and what OddAlerts shows for the Kuwaiti league.
-Commits nothing."""
+"""Shasha's own listing on livefootballtv: its page, what it carries, and
+whether each row's time is machine-readable. Commits nothing."""
 
+import json
 import re
-from datetime import datetime, timezone
-from io import BytesIO
-from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
-from pypdf import PdfReader
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"}
-# The exact row pattern update_shasha_epg._parse_lega_pdf uses.
-ROW = re.compile(
-    r"(\d{2}/\d{2}/20\d{2})\s+"
-    r"[A-Za-zÀ-ÿ]+\s+"
-    r"(\d{1,2}[.:]\d{2})\s+"
-    r"([A-Za-zÀ-ÿ\'’ .]+?)\s*-\s*"
-    r"([A-Za-zÀ-ÿ\'’ .]+?)\s*(?:\*{1,3})?\s+"
-    r"(?:DAZN(?:/SKY)?|SKY)",
-    re.I,
-)
-now = datetime.now(timezone.utc)
-rome = ZoneInfo("Europe/Rome")
+BASE = "https://www.livefootballtv.info"
 
-html = requests.get("https://www.legaseriea.it/lega-serie-a/documentazione",
-                    headers=UA, timeout=30).text
-urls = sorted(set(re.findall(
-    r"https://images\.legaseriea\.it/image/private/fl_attachment/prd/[a-z0-9]+\.pdf", html)))
-print(f"=== {len(urls)} PDF(s) listed")
-for url in urls:
-    try:
-        r = requests.get(url, headers=UA, timeout=40)
-        text = "\n".join((p.extract_text() or "") for p in PdfReader(BytesIO(r.content)).pages)
-    except Exception as exc:
-        print(f"- {url[-24:]}: FAILED {exc}")
+pages = set()
+for src in (BASE + "/", BASE + "/channel/mbc-shahid-sports"):
+    soup = BeautifulSoup(requests.get(src, headers=UA, timeout=30).text, "html.parser")
+    for a in soup.find_all("a", href=True):
+        t = a.get_text(" ", strip=True)
+        if "shasha" in a["href"].lower() or "شاشا" in t or "shasha" in t.lower():
+            href = a["href"] if a["href"].startswith("http") else BASE + a["href"]
+            print(f"link on {src[-30:]}: {t!r} -> {href}")
+            if "/channel/" in href:
+                pages.add(href)
+for guess in ("/channel/shasha", "/channel/shasha-tv", "/channel/shahid-shasha"):
+    pages.add(BASE + guess)
+
+for url in sorted(pages):
+    r = requests.get(url, headers=UA, timeout=30)
+    print(f"\n=== {url}  {r.status_code}  {len(r.text)} bytes")
+    if r.status_code != 200:
         continue
-    rows = ROW.findall(text)
-    future = []
-    for d, t, h, a in rows:
+    soup = BeautifulSoup(r.text, "html.parser")
+    print("title:", soup.title.get_text(strip=True) if soup.title else "")
+    # machine-readable events
+    events = []
+    for s in soup.find_all("script", type="application/ld+json"):
         try:
-            hh, mm = map(int, re.split(r"[.:]", t))
-            dd = datetime.strptime(d, "%d/%m/%Y")
-            when = datetime(dd.year, dd.month, dd.day, hh, mm, tzinfo=rome)
-        except ValueError:
+            data = json.loads(s.string or "")
+        except Exception:
             continue
-        if when > now:
-            future.append(f"{when:%Y-%m-%d %H:%M} {h.strip()} - {a.strip()}")
-    head = re.sub(r"\s+", " ", text[:160])
-    print(f"- {url[-24:]}: {len(r.content)//1024} KB, {len(rows)} row(s), "
-          f"{len(future)} still to come | {head!r}")
-    for f in future[:12]:
-        print(f"      {f}")
-
-print("\n=== OddAlerts Zain Premier League")
-soup = BeautifulSoup(requests.get(
-    "https://www.oddalerts.com/leagues/kuwait/zain-premier-league/fixtures",
-    headers=UA, timeout=30).text, "html.parser")
-text = re.sub(r"\s+", " ", soup.get_text(" "))
-i = text.find("Fixtures", 400)
-print(text[i:i + 1500])
+        stack = [data]
+        while stack:
+            x = stack.pop()
+            if isinstance(x, list):
+                stack.extend(x)
+            elif isinstance(x, dict):
+                if "startDate" in x and x.get("name"):
+                    events.append((x.get("startDate"), x.get("name")))
+                stack.extend(x.values())
+    micro = [(m.get("content") or m.get("datetime") or m.get_text(strip=True))
+             for m in soup.select('[itemprop="startDate"]')]
+    print(f"ld+json events: {len(events)}   microdata startDate: {len(micro)}")
+    for e in events[:25]:
+        print("  ld:", e)
+    for m in micro[:10]:
+        print("  micro:", m)
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+    lines = [re.sub(r"\s+", " ", x).strip() for x in soup.stripped_strings]
+    lines = [x for x in lines if x]
+    start = next((i for i, x in enumerate(lines)
+                  if re.match(r"^\d{1,2}:\d{2}$", x)), 0)
+    print("text walk from first time:")
+    for x in lines[max(0, start - 3):start + 90]:
+        print("   |", x[:100])
