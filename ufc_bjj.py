@@ -72,7 +72,10 @@ def collect(page: str, now: datetime) -> list[dict]:
         year_no = int(year) if year else nearest_year(month_no, int(day), now)
         start = datetime(year_no, month_no, int(day), clock, int(minute or 0),
                          tzinfo=EASTERN).astimezone(timezone.utc)
-        title = norm(name)
+        # A write-up prints the card's name twice in a row — once as its
+        # heading, once in the sentence — and only the last one is the
+        # name.
+        title = norm(name[name.casefold().rfind("ufc bjj"):])
         if (title, start) in seen or start < now - timedelta(hours=4):
             continue
         seen.add((title, start))
@@ -85,14 +88,47 @@ def collect(page: str, now: datetime) -> list[dict]:
     return out
 
 
+# EVERY CARD THE PROMOTION HAS WRITTEN UP, NOT ONLY THE NEXT ONE. Asked
+# for in those words — "not just this page or this event, the whole
+# future, automatically". The page leads with one card, but it links the
+# UFC's own write-up of every card it is promoting ("/news/ufc-bjj-11-
+# musumeci-vs-mitchell-fight-card"), and each write-up prints its card's
+# day and Eastern clock the same way. So every such link is followed and
+# read with the same pattern, and a card announced weeks ahead reaches
+# the board the moment its window opens, with no one touching anything.
+# A card that no page gives a clock for is left off, never guessed.
+A_WRITE_UP = re.compile(r'href="((?:https://www\.ufc\.com)?/news/ufc-bjj-\d+[^"#?]*)"',
+                        re.I)
+
+
+def write_ups(page: str) -> list[str]:
+    seen = []
+    for link in A_WRITE_UP.findall(page):
+        url = link if link.startswith("http") else "https://www.ufc.com" + link
+        if url not in seen:
+            seen.append(url)
+    return seen
+
+
 def events(session, floor=None, ceiling=None) -> list[dict]:
-    """UFC BJJ's next card, or none if the page is having a bad day."""
+    """Every UFC BJJ card the promotion has a clock for, or none today."""
+    now = datetime.now(timezone.utc)
     try:
-        out = collect(fetch(session, URL).text, datetime.now(timezone.utc))
+        page = fetch(session, URL).text
     except Exception as exc:                                      # noqa: BLE001
         warn(f"UFC BJJ's own page failed ({exc}) — the board keeps what the "
              f"other sources gave it")
         return []
+    out = collect(page, now)
+    for url in write_ups(page)[:6]:
+        try:
+            more = collect(fetch(session, url).text, now)
+        except Exception as exc:                                  # noqa: BLE001
+            log(f"  ufc bjj: {url} unreadable this pass ({exc})")
+            continue
+        known = {(e["title"].split(":")[0].casefold(), e["start"]) for e in out}
+        out += [e for e in more
+                if (e["title"].split(":")[0].casefold(), e["start"]) not in known]
     for event in out:
         log(f"  ufc bjj: {event['title']}, {event['start']:%d.%m %H:%M} UTC "
             f"on {', '.join(event['channels']) or 'PPV'}")
