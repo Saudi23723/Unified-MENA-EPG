@@ -10,16 +10,11 @@ S = requests.Session()
 S.headers["User-Agent"] = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 LOGOS = {
-    "mbc1": "https://i.imgur.com/CiA3plN.png", "mbc2": "https://i.imgur.com/n9mSHuP.png",
-    "mbc3": "https://i.imgur.com/PVt8OPN.png", "mbc4": "https://i.imgur.com/BcXASJp.png",
-    "mbc5": "https://i.imgur.com/fRWaDyF.png", "mbc_action": "https://i.imgur.com/OWZAghw.png",
-    "mbc_bollywood": "https://i.imgur.com/TTAGFHG.png", "mbc_drama": "https://i.imgur.com/g5PWnqp.png",
-    "mbc_iraq": "https://i.imgur.com/D0LxiPE.png", "mbc_masr": "https://i.imgur.com/o2elx0u.png",
-    "mbc_masr2": "https://i.imgur.com/KHo7Gtn.png", "mbc_masr_drama": "https://media0070.elcinema.com/tvguide/1399_1.png",
-    "mbc_max": "https://i.imgur.com/A02CptP.png", "mbc_plus_drama": "https://i.imgur.com/lxWdjXG.png",
-    "mbc_variety": "https://i.imgur.com/SfA0YaR.png", "wanasah": "https://i.imgur.com/nLtiXNf.png",
+    "aljazeera_a": "https://i.imgur.com/7bRVpnu.png",
+    "aljazeera_b": "https://jiotvimages.cdn.jio.com/dare_images/images/AL_Jazeera.png",
+    "aljazeera_c": "https://dtil.tmsimg.com/assets/s159135_ld_h15_aa.png?lock=720x540",
 }
-DARK = {"mbc_plus_drama", "mbc_variety", "mbc_masr_drama"}
+DARK = set()
 OUT, SS = 512, 4            # final size, supersampling for smooth edges
 BIG = OUT * SS
 FILL = 0.84                 # share of the circle the mark's bounding box may reach
