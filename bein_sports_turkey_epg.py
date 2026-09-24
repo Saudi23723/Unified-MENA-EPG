@@ -86,6 +86,7 @@ from epg_lib import (
     run_main, utc_now, warn, with_live_badge, write_xml_atomic,
 )
 
+import filler_epg
 import tivibu_spor_epg
 
 OUTPUT = "bein_sports_turkey_epg.xml"
@@ -655,6 +656,15 @@ def build() -> int:
     except Exception as exc:
         warn(f"Tivibu Spor failed entirely, the guide is published without "
              f"it: {exc}")
+
+    # The reader's own extras — Mozaik, Guide and VIP 1-5 — a grid with
+    # the words each strip was asked to carry; see filler_epg.py.
+    try:
+        total += filler_epg.emit(root, filler_epg.collect(),
+                                 filler_epg.BEIN_TR_EXTRAS)
+    except Exception as exc:
+        warn(f"The beIN Türkiye extras failed, the guide is published "
+             f"without them: {exc}")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Türkiye")
     return 0

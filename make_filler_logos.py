@@ -53,6 +53,8 @@ SPECS = [
     ("bibasata",     "BIBASATA",  (68, 40, 40)),
     ("alwaq",        "AL WAQ",    (40, 46, 84)),
     ("altawareed",   "TAWAREED",  (44, 66, 40)),
+    ("mozaik",       "MOZAIK",    (18, 64, 92)),
+    ("guide",        "GUIDE",     (40, 40, 48)),
 ]
 
 SUBTITLE = "24/7"
