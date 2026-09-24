@@ -1,45 +1,68 @@
-"""OSN: clock check between the two Egypt feeds, and the best logo each source offers. Never fails."""
+"""OSN: every elcinema logo, measured and drawn round. Never fails."""
 import base64
 import io
+import math
 import re
-from collections import Counter
-from datetime import datetime
 
 import requests
-from PIL import Image
+from PIL import Image, ImageDraw
 
 S = requests.Session()
 S.headers["User-Agent"] = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
-E1 = S.get("https://www.open-epg.com/files/egypt1.xml", timeout=60).text
-E2 = S.get("https://www.open-epg.com/files/egypt2.xml", timeout=60).text
+IDS = [1393, 1394, 1257, 1395, 1232, 1231, 1392, 1205, 1285, 1390, 1211, 1213, 1391]
+OUT, SS = 512, 4
+BIG = OUT * SS
 
 
-def rows(t, cid):
-    out = []
-    for m in re.finditer(r'<programme start="([^"]+)" stop="[^"]+" channel="%s"(.*?)</programme>' % re.escape(cid), t, re.S):
-        tt = re.search(r"<title[^>]*>(.*?)</title>", m.group(2), re.S)
-        out.append((datetime.strptime(m.group(1), "%Y%m%d%H%M%S %z"), (tt.group(1) if tt else "").strip().casefold()))
-    return out
+def trimmed(img):
+    img = img.convert("RGBA")
+    box = img.split()[3].point(lambda a: 255 if a > 24 else 0).getbbox()
+    if box and box != (0, 0) + img.size:
+        return img.crop(box)
+    grey = img.convert("L")
+    for mask in (grey.point(lambda v: 255 if v < 238 else 0), grey.point(lambda v: 255 if v > 18 else 0)):
+        box = mask.getbbox()
+        if box and (box[2] - box[0]) * (box[3] - box[1]) < 0.97 * img.size[0] * img.size[1]:
+            return img.crop(box)
+    return img
 
 
-for a, b in (("أو إس إن وان.eg", "OSN TV One.eg"), ("أو إس إن موفيز أكشن.eg", "OSN TV Movies Action.eg"),
-             ("أو إس إن كوميدي.eg", "OSN TV Comedy.eg")):
-    ra, rb = rows(E1, a), rows(E2, b)
-    ca = Counter(t for _, t in ra); cb = Counter(t for _, t in rb)
-    ua = {t: s for s, t in ra if ca[t] == 1}; ub = {t: s for s, t in rb if cb[t] == 1}
-    d = Counter(int((ua[t] - ub[t]).total_seconds() // 60) for t in set(ua) & set(ub))
-    print("CLOCK", b, "shared", sum(d.values()), d.most_common(3))
+def round_logo(mark):
+    px = [p for p in mark.getdata() if p[3] > 128]
+    light = sum(0.299 * r + 0.587 * g + 0.114 * b for r, g, b, _ in px) / max(1, len(px))
+    dark = light > 165
+    ground = (18, 20, 30, 255) if dark else (255, 255, 255, 255)
+    rim = (70, 74, 92, 255) if dark else (222, 224, 230, 255)
+    canvas = Image.new("RGBA", (BIG, BIG), (0, 0, 0, 0))
+    pen = ImageDraw.Draw(canvas)
+    pen.ellipse([0, 0, BIG - 1, BIG - 1], fill=rim)
+    e = int(BIG * 0.018)
+    pen.ellipse([e, e, BIG - 1 - e, BIG - 1 - e], fill=ground)
+    a = mark.width / mark.height
+    h = BIG * 0.84 / math.sqrt(1 + a * a)
+    s = mark.resize((max(1, int(h * a)), max(1, int(h))), Image.LANCZOS)
+    canvas.alpha_composite(s, ((BIG - s.width) // 2, (BIG - s.height) // 2))
+    mask = Image.new("L", (BIG, BIG), 0)
+    ImageDraw.Draw(mask).ellipse([0, 0, BIG - 1, BIG - 1], fill=255)
+    canvas.putalpha(Image.composite(canvas.split()[3], mask, mask))
+    return canvas.resize((OUT, OUT), Image.LANCZOS)
 
-for t, name in ((E1, "E1"), (E2, "E2")):
-    for m in re.finditer(r'<channel id="([^"]*(?:OSN|Osn|أو إس إن)[^"]*)"[^>]*>(.*?)</channel>', t, re.S):
-        icon = re.search(r'<icon src="([^"]+)"', m.group(2))
-        print("ICON", name, m.group(1), icon.group(1) if icon else "-")
 
-page = S.get("https://www.elcinema.com/tvguide/", timeout=30).text
-for m in re.finditer(r'href="/tvguide/(\d+)/"[^>]*>(.*?)</a>', page, re.S):
-    n = re.sub(r"<[^>]+>|\s+", " ", m.group(2)).strip()
-    if re.search(r"osn|أو إس إن|او اس ان", n, re.I):
-        print("ELC", m.group(1), n)
-imgs = sorted(set(re.findall(r'(https://media\d+\.elcinema\.com/tvguide/\d+_\d+\.(?:png|jpg))', page)))
-print("ELC-IMGS", len(imgs), imgs[:5])
+for cid in IDS:
+    try:
+        page = S.get(f"https://www.elcinema.com/tvguide/{cid}/", timeout=30).text
+        title = re.search(r"<title>(.*?)</title>", page, re.S).group(1).strip()
+        imgs = sorted(set(re.findall(r'(https://media\d+\.elcinema\.com/tvguide/%d_\d+\.(?:png|jpg))' % cid, page)))
+        best = None
+        for u in imgs:
+            im = Image.open(io.BytesIO(S.get(u, timeout=30).content))
+            if not best or im.size[0] * im.size[1] > best[1].size[0] * best[1].size[1]:
+                best = (u, im)
+        print(f"CH {cid} {title[:60]!r} imgs={[(u.rsplit('/',1)[1]) for u in imgs]} best={best and (best[0].rsplit('/',1)[1], best[1].size)}")
+        if best:
+            out = io.BytesIO()
+            round_logo(trimmed(best[1])).save(out, format="PNG", optimize=True)
+            print(f"LOGO e{cid} {base64.b64encode(out.getvalue()).decode()}")
+    except Exception as exc:
+        print("ERR", cid, type(exc).__name__, str(exc)[:100])
