@@ -117,6 +117,28 @@ CHANNELS = [
 ]
 
 
+# THE beIN TÜRKİYE EXTRAS. Channels in the reader's own beIN Turkish list
+# that no source schedules, asked for by name and by the words their strip
+# should carry: "Mozaik" with "4 Channel live", "Guide" with "Program
+# 24/7", and five VIP channels, each under a gold beIN SPORTS mark, with
+# "VIP Match". They ride on bein_sports_turkey_epg.xml — "when I assign it
+# I find it in beIN Turkish" — the same way the channels above ride on
+# the Jordan guide.
+#
+# (xmltv id, logo file stem, [names], the strip's words)
+BEIN_TR_EXTRAS = [
+    ("Mozaik.bein.tr", "mozaik",
+     ["Mozaik", "MOZAIK", "beIN Mozaik", "TR: Mozaik"], "4 Channel live"),
+    ("Guide.bein.tr", "guide",
+     ["Guide", "GUIDE", "beIN Guide", "TR: Guide"], TITLE),
+] + [
+    (f"beINSportsVIP{n}.bein.tr", f"bein_vip{n}",
+     [f"beIN SPORTS VIP {n}", f"VIP {n}", f"beIN VIP {n}",
+      f"VIP Match {n}", f"TR: beIN SPORTS VIP {n}"], "VIP Match")
+    for n in range(1, 6)
+]
+
+
 def blocks(now: datetime) -> list[tuple[datetime, datetime]]:
     """Every three-hour block from DAYS_BACK ago to DAYS_AHEAD from now.
 
@@ -147,13 +169,18 @@ def collect(session=None, previous_path: str = "") -> list[dict]:
     return [{"start": start, "stop": stop} for start, stop in grid]
 
 
-def emit(root: ET.Element, grid: list[dict]) -> int:
-    """Declare the filler channels and write their grid into an existing <tv>."""
+def emit(root: ET.Element, grid: list[dict], channels=None) -> int:
+    """Declare the filler channels and write their grid into an existing <tv>.
+
+    ``channels`` is CHANNELS unless a guide passes its own list; a row may
+    carry a fourth item, the words its strip shows, in place of TITLE.
+    """
+    channels = CHANNELS if channels is None else channels
     if not grid:
         warn("Filler: empty grid, the placeholder channels are left out")
         return 0
 
-    for xmltv_id, key, names in CHANNELS:
+    for xmltv_id, key, names, *_ in channels:
         channel = ET.SubElement(root, "channel", id=xmltv_id)
         # Every spelling gets its own display-name, so a playlist that
         # carries any of them matches. The first is what a player shows.
@@ -169,18 +196,19 @@ def emit(root: ET.Element, grid: list[dict]) -> int:
                  f"missing file")
 
     total = 0
-    for xmltv_id, _key, names in CHANNELS:
+    for xmltv_id, _key, names, *said in channels:
         ar_name = names[0]
         for block in grid:
             add_programme(
-                root, xmltv_id, block["start"], block["stop"], TITLE,
+                root, xmltv_id, block["start"], block["stop"],
+                said[0] if said else TITLE,
                 desc=(f"{ar_name} — بث مستمر ٢٤/٧.\n"
                       "هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، "
                       "وهذا الحقل موجود ليملأ الشبكة فقط."),
             )
             total += 1
 
-    log(f"Filler: {len(CHANNELS)} channels x {len(grid)} blocks of "
+    log(f"Filler: {len(channels)} channels x {len(grid)} blocks of "
         f"{BLOCK_HOURS}h = {total} programmes, "
         f"{grid[0]['start'].astimezone(MECCA):%Y-%m-%d %H:%M} to "
         f"{grid[-1]['stop'].astimezone(MECCA):%Y-%m-%d %H:%M} Mecca")

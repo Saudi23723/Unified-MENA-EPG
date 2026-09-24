@@ -62,7 +62,14 @@
       "TivibuSpor1.tr",
       "TivibuSpor2.tr",
       "TivibuSpor3.tr",
-      "TivibuSpor4.tr"
+      "TivibuSpor4.tr",
+      "Mozaik.bein.tr",
+      "Guide.bein.tr",
+      "beINSportsVIP1.bein.tr",
+      "beINSportsVIP2.bein.tr",
+      "beINSportsVIP3.bein.tr",
+      "beINSportsVIP4.bein.tr",
+      "beINSportsVIP5.bein.tr"
     ]
   },
   "_note_no_source": "Channels their own source declares and never schedules. Measured on 2026-09-03 by fetching epgshare01's TR3 feed directly: it lists TİVİBU.SPOR.1.tr through .4.tr and gives each of them zero programmes, while other channels in the same file carry 37 to 70. So the ids are right and the feed is alive — those four channels simply have nothing in it, and the module's docstring records that every alternative source was already asked and none carries them. Their rows are reported every run and left out of the ratio, because a permanent known-empty channel is not a degradation signal and counting it drowns the eight channels that are. Removing them from the published guide would be visible to every viewer whose player is mapped to them, so that is a decision for the guide's owner, not a side effect of a health check."
