@@ -54,21 +54,21 @@ LOGO_VERSION = "v2"
 CHANNELS = [
     ("OSN One", "osn_one", ["OSN One", "OSN TV One", "OSN 1", "أو إس إن وان"],
      [("eg_en", "OSN TV One.eg"), ("eg_ar", "أو إس إن وان.eg")]),
-    ("OSN Showcase", "osn_showcase", ["OSN Showcase", "OSN TV Showcase", "أو إس إن شو كايس"],
+    ("OSN Showcase", "osn_showcase", ["OSN Showcase", "OSN Showcase 4k", "OSN TV Showcase", "أو إس إن شو كايس"],
      [("eg_en", "OSN TV Showcase.eg"), ("eg_ar", "أو إس إن شو كايس.eg")]),
     ("OSN Now", "osn_now", ["OSN Now", "OSN TV Now", "أو إس إن ناو"],
      [("eg_en", "OSN TV Now.eg")]),
-    ("OSN Comedy", "osn_comedy", ["OSN Comedy", "OSN TV Comedy", "أو إس إن كوميدي"],
+    ("OSN Comedy", "osn_comedy", ["OSN Comedy", "OSN Comedy 4k", "OSN TV Comedy", "أو إس إن كوميدي"],
      [("eg_en", "OSN TV Comedy.eg"), ("eg_ar", "أو إس إن كوميدي.eg")]),
     ("OSN Crime", "osn_crime", ["OSN Crime", "OSN TV Crime", "أو إس إن كرايم"],
      [("eg_en", "OSN TV Crime.eg"), ("eg_ar", "أو إس إن كرايم.eg")]),
     ("OSN Kids", "osn_kids", ["OSN Kids", "OSN TV Kids", "أو إس إن كيدز"],
      [("eg_en", "OSN TV Kids.eg"), ("eg_ar", "أو إس إن كيدز.eg")]),
     ("OSN Movies Premiere", "osn_movies_premiere",
-     ["OSN Movies Premiere", "OSN TV Movies Premiere", "أو إس إن موفيز بريميير"],
+     ["OSN Movies Premiere", "OSN MOVIES Premiere", "OSN TV Movies Premiere", "أو إس إن موفيز بريميير"],
      [("eg_en", "OSN TV Movies Premiere.eg"), ("eg_ar", "أو إس إن موفيز بريميير.eg")]),
     ("OSN Movies Hollywood", "osn_movies_hollywood",
-     ["OSN Movies Hollywood", "OSN TV Movies Hollywood", "أو إس إن موفيز هوليوود"],
+     ["OSN Movies Hollywood", "OSN MOVIES Hollywood", "OSN TV Movies Hollywood", "أو إس إن موفيز هوليوود"],
      [("eg_en", "OSN TV Movies Hollywood.eg"), ("eg_ar", "أو إس إن موفيز هوليوود.eg")]),
     ("OSN Movies Action", "osn_movies_action",
      ["OSN Movies Action", "OSN TV Movies Action", "أو إس إن موفيز أكشن"],
@@ -77,7 +77,7 @@ CHANNELS = [
      ["OSN Movies Comedy", "OSN TV Movies Comedy", "أو إس إن موفيز كوميدي"],
      [("eg_en", "OSN TV Movies Comedy.eg"), ("eg_ar", "أو إس إن موفيز كوميدي.eg")]),
     ("OSN Movies Family", "osn_movies_family",
-     ["OSN Movies Family", "OSN TV Movies Family", "OSN Family Movies", "أو إس إن فاميلي موفيز"],
+     ["OSN Movies Family", "OSN MOVIES Family", "OSN TV Movies Family", "OSN Family Movies", "أو إس إن فاميلي موفيز"],
      [("eg_en", "OSN TV Movies Family.eg"), ("eg_ar", "أو إس إن فاميلي موفيز.eg")]),
     ("OSN Ya Hala", "osn_yahala", ["OSN Ya Hala", "OSN Yahala", "OSN TV Yahala", "أو إس إن ياهلا"],
      [("eg_en", "OSN Ya Hala.eg"), ("eg_ar", "أو إس إن ياهلا.eg")]),
@@ -97,7 +97,7 @@ CHANNELS = [
     ("Nick Jr", "nick_jr", ["Nick Jr", "OSN Nick Jr", "Nick Jr.", "نك جونيور"],
      [("uae2", "NickJr.ae")]),
     ("Discovery ID", "discovery_id",
-     ["Discovery ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
+     ["Discovery ID", "OSN Discovery ID", "OSN DISCOVERY ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
      [("sa_ar", "Discovery ID.sa"), ("sa_en", "Discovery ID.sa")]),
     ("Fatafeat", "fatafeat", ["Fatafeat", "OSN Fatafeat", "OSN FATAFET", "فتافيت"],
      [("sa_ar", "Fatafeat.sa"), ("sa_en", "Fatafeat.sa")]),
@@ -187,7 +187,14 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
         # Arabic shows the first Arabic name, and a search for "OSN" has
         # to find it; see the same note in mbc_epg.emit.
         ET.SubElement(channel, "display-name", lang="ar").text = names[0]
-        for name in names:
+        # Every spelling a playlist uses, and each in capitals too —
+        # "OSN MOVIES ACTION", "OSN Comedy 4k" — so a player matching by
+        # name finds the channel whichever way the list writes it.
+        seen: set[str] = set()
+        for name in names + [n.upper() for n in names if n.isascii()]:
+            if name in seen:
+                continue
+            seen.add(name)
             lang = "en" if name.isascii() else "ar"
             ET.SubElement(channel, "display-name", lang=lang).text = name
         logo = f"{key}_{LOGO_VERSION}.png"
