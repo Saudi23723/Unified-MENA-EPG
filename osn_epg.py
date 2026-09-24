@@ -42,6 +42,9 @@ UTC = timezone.utc
 FEEDS = {
     "eg_en": "https://www.open-epg.com/files/egypt2.xml",
     "eg_ar": "https://www.open-epg.com/files/egypt1.xml",
+    "sa_ar": "https://www.open-epg.com/files/saudiarabia1.xml",
+    "sa_en": "https://www.open-epg.com/files/saudiarabia2.xml",
+    "uae2": "https://www.open-epg.com/files/uae2.xml",
 }
 
 LOGO_VERSION = "v2"
@@ -85,6 +88,19 @@ CHANNELS = [
      ["OSN Ya Hala Bil Arabi", "OSN Yahala Bil Arabi", "OSN TV Yahala Bil Arabi",
       "أو إس إن ياهلا بالعربي"],
      [("eg_en", "OSN TV Yahala Bil Arabi.eg"), ("eg_ar", "أو إس إن ياهلا بالعربي.eg")]),
+    # THREE MORE OF THE PACKAGE, asked for from a photograph of the list.
+    # saudiarabia1 carries Discovery ID and Fatafeat in Arabic (its clock
+    # measured for the MBC guide), uae2 carries Nick Jr — its clock
+    # measured against egypt1 on OSN Ya Hala: eleven shared titles, delta
+    # 0. Al Safwa, Alfa Al Yawm and Discovery Science are listed by the
+    # feeds that know them with nothing under them, and are left out.
+    ("Nick Jr", "nick_jr", ["Nick Jr", "OSN Nick Jr", "Nick Jr.", "نك جونيور"],
+     [("uae2", "NickJr.ae")]),
+    ("Discovery ID", "discovery_id",
+     ["Discovery ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
+     [("sa_ar", "Discovery ID.sa"), ("sa_en", "Discovery ID.sa")]),
+    ("Fatafeat", "fatafeat", ["Fatafeat", "OSN Fatafeat", "OSN FATAFET", "فتافيت"],
+     [("sa_ar", "Fatafeat.sa"), ("sa_en", "Fatafeat.sa")]),
 ]
 
 KEEP_BEHIND = timedelta(days=1)

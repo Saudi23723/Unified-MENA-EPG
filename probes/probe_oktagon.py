@@ -12,10 +12,10 @@ try:
     from epg_lib import new_session
     now = datetime.now(timezone.utc)
     got = osn_epg.collect(new_session(), "roya_jordan_epg.xml")
-    root = ET.Element("tv")
-    print("TOTAL", osn_epg.emit(root, got))
-    for cid, rows in got.items():
+    print("TOTAL", osn_epg.emit(ET.Element("tv"), got))
+    for cid in ("Nick Jr", "Discovery ID", "Fatafeat"):
+        rows = got.get(cid, [])
         cur = [r for r in rows if r["start"] <= now < r["stop"]]
-        print(f"{cid:24} rows={len(rows):4} until={max(r['stop'] for r in rows):%d.%m %H:%M}Z now={cur[0]['title'][:40] if cur else '-'}")
+        print(f"{cid:14} rows={len(rows):4} until={max(r['stop'] for r in rows):%d.%m %H:%M}Z now={cur[0]['title'][:50] if cur else '-'}" if rows else f"{cid} NOTHING")
 except Exception:
     traceback.print_exc()
