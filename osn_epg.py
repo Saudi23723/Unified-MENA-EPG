@@ -79,13 +79,13 @@ CHANNELS = [
     ("OSN Movies Family", "osn_movies_family",
      ["OSN Movies Family", "OSN MOVIES Family", "OSN TV Movies Family", "OSN Family Movies", "أو إس إن فاميلي موفيز"],
      [("eg_en", "OSN TV Movies Family.eg"), ("eg_ar", "أو إس إن فاميلي موفيز.eg")]),
-    ("OSN Ya Hala", "osn_yahala", ["OSN Ya Hala", "OSN Yahala", "OSN TV Yahala", "أو إس إن ياهلا"],
+    ("OSN Ya Hala", "osn_yahala", ["OSN Yahala", "OSN Ya Hala", "OSN TV Yahala", "أو إس إن ياهلا"],
      [("eg_en", "OSN Ya Hala.eg"), ("eg_ar", "أو إس إن ياهلا.eg")]),
     ("OSN Ya Hala Aflam", "osn_yahala_aflam",
-     ["OSN Ya Hala Aflam", "OSN Yahala Aflam", "أو إس إن ياهلا أفلام"],
+     ["OSN Yahala Aflam", "OSN Ya Hala Aflam", "أو إس إن ياهلا أفلام"],
      [("eg_en", "Osn Ya Hala Aflam.eg"), ("eg_ar", "أو إس إن ياهلا أفلام.eg")]),
     ("OSN Ya Hala Bil Arabi", "osn_yahala_bilarabi",
-     ["OSN Ya Hala Bil Arabi", "OSN Yahala Bil Arabi", "OSN TV Yahala Bil Arabi",
+     ["OSN Yahala Bil Arabi", "OSN Ya Hala Bil Arabi", "OSN TV Yahala Bil Arabi",
       "أو إس إن ياهلا بالعربي"],
      [("eg_en", "OSN TV Yahala Bil Arabi.eg"), ("eg_ar", "أو إس إن ياهلا بالعربي.eg")]),
     # THREE MORE OF THE PACKAGE, asked for from a photograph of the list.
@@ -94,12 +94,12 @@ CHANNELS = [
     # measured against egypt1 on OSN Ya Hala: eleven shared titles, delta
     # 0. Al Safwa, Alfa Al Yawm and Discovery Science are listed by the
     # feeds that know them with nothing under them, and are left out.
-    ("Nick Jr", "nick_jr", ["Nick Jr", "OSN Nick Jr", "Nick Jr.", "نك جونيور"],
+    ("Nick Jr", "nick_jr", ["OSN Nick Jr", "Nick Jr", "Nick Jr.", "نك جونيور"],
      [("uae2", "NickJr.ae")]),
     ("Discovery ID", "discovery_id",
-     ["Discovery ID", "OSN Discovery ID", "OSN DISCOVERY ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
+     ["OSN Discovery ID", "Discovery ID", "OSN DISCOVERY ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
      [("sa_ar", "Discovery ID.sa"), ("sa_en", "Discovery ID.sa")]),
-    ("Fatafeat", "fatafeat", ["Fatafeat", "OSN Fatafeat", "OSN FATAFET", "فتافيت"],
+    ("Fatafeat", "fatafeat", ["OSN Fatafeat", "OSN Fatafet", "Fatafeat", "OSN FATAFET", "فتافيت"],
      [("sa_ar", "Fatafeat.sa"), ("sa_en", "Fatafeat.sa")]),
 ]
 
@@ -185,7 +185,9 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
         channel = ET.SubElement(root, "channel", id=xmltv_id)
         # "OSN One" under both language tags first — a player set to
         # Arabic shows the first Arabic name, and a search for "OSN" has
-        # to find it; see the same note in mbc_epg.emit.
+        # to find it; see the same note in mbc_epg.emit. So every first
+        # name starts "OSN" and is spelled the way the playlist spells it
+        # ("OSN Yahala", not "OSN Ya Hala").
         ET.SubElement(channel, "display-name", lang="ar").text = names[0]
         # Every spelling a playlist uses, and each in capitals too —
         # "OSN MOVIES ACTION", "OSN Comedy 4k" — so a player matching by
