@@ -230,6 +230,13 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
         if not rows:
             continue
         channel = ET.SubElement(root, "channel", id=xmltv_id)
+        # THE NAME A PLAYER SHOWS IS "MBC 1" IN EITHER LANGUAGE. A player
+        # set to Arabic shows a channel's first Arabic display-name, and
+        # with "ام بي سي 1" first a search for "MBC" found nothing — the
+        # reader looked and the channels were not there. So the Latin name
+        # is written first under both tags, and the Arabic spelling stays
+        # only as a further name to match against.
+        ET.SubElement(channel, "display-name", lang="ar").text = names[0]
         for name in names:
             lang = "en" if name.isascii() else "ar"
             ET.SubElement(channel, "display-name", lang=lang).text = name
