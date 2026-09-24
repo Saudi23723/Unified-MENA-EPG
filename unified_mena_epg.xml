@@ -820,6 +820,18 @@
     <display-name lang="en">FATAFEAT</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/fatafeat_v2.png" />
   </channel>
+  <channel id="OSNAnimalPlanet.osn">
+    <display-name lang="ar">OSN Animal Planet</display-name>
+    <display-name lang="en">OSN Animal Planet</display-name>
+    <display-name lang="en">Animal Planet</display-name>
+    <display-name lang="en">OSN: ANIMAL PLANET</display-name>
+    <display-name lang="en">Animal Planet HD</display-name>
+    <display-name lang="ar">أنيمال بلانيت</display-name>
+    <display-name lang="en">OSN ANIMAL PLANET</display-name>
+    <display-name lang="en">ANIMAL PLANET</display-name>
+    <display-name lang="en">ANIMAL PLANET HD</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/animal_planet_v2.png" />
+  </channel>
   <channel id="JordanSports">
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/jordan_sport.png" />
     <display-name lang="ar">Jordan Sport | الأردن الرياضية</display-name>
@@ -12684,12 +12696,6 @@ Rheinpark Stadion Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20260930150000 +0000" stop="20260930160000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260923150000 +0000" stop="20260923151000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -69141,6 +69147,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
+  <programme start="20260924225752 +0000" stop="20260924230633 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
   <programme start="20260922210000 +0000" stop="20260923000000 +0000" channel="Maraya.shahid">
     <title lang="en">Program 24/7</title>
     <desc lang="ar">مرايا ياسر العظمة — بث مستمر ٢٤/٧.
@@ -74384,10 +74394,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926040000 +0000" stop="20260926063100 +0000" channel="MBC 2">
     <title lang="ar">موليز غيم</title>
     <desc lang="ar">أدارت مولي بلوم أخطر لعبة ورق عالية في العالم لمدة عقد من الزمن، وكان من بين لاعبيها ملوك هوليوود ونجوم الرياضة وعمالقة الأعمال، وأخيراً الغوغاء الروس، دون علمها. ألقى (17) من عملاء مكتب التحقيقات الفيدرالي القبض عليها في منتصف الليل.</desc>
-  </programme>
-  <programme start="20260923150100 +0000" stop="20260923151400 +0000" channel="MBC 3">
-    <title lang="ar">أكاديمية القراصنة — الحلقة 49</title>
-    <desc lang="ar">ينضم فين وسام وأندرو إلى أكاديمية القراصنة ليتقنوا المهنة! على متن سفينة عملاقة تحولت إلى مدرسة بالقرب من جزيرة مهجورة، يواجهون منافسة شرسة بين طلاب الفصول الأربعة في الأكاديمية.</desc>
   </programme>
   <programme start="20260923151400 +0000" stop="20260923153100 +0000" channel="MBC 3">
     <title lang="ar">أكاديمية القراصنة — الحلقة 50</title>
@@ -82995,6 +83001,334 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 10</title>
     <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
   </programme>
+  <programme start="20260923150000 +0000" stop="20260923160000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pandamonium:Mei Sheng's Tale</title>
+    <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
+  </programme>
+  <programme start="20260923160000 +0000" stop="20260923170000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:Gator Tale</title>
+    <desc lang="en">There’s no such thing as a regular day at Denver's Planned Pethood Plus veterinary clinic. Dr. Jeff Young and his team represent one last hope and possibly the difference between life and death for beloved pets and wild animals.</desc>
+  </programme>
+  <programme start="20260923170000 +0000" stop="20260923180000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Homestead Rescue:Flood, Sweat, &amp; Tears - Part 1</title>
+    <desc lang="en">The concept of living a simple life is becoming increasingly popular, however many budding homesteaders are disappointed at first. In this series survival expert Marty Raney, his daughter Misty and son Matt teach families the essential skills on how to survive.</desc>
+  </programme>
+  <programme start="20260923180000 +0000" stop="20260923190000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Sharkwrecked: Crash Landing</title>
+    <desc lang="en">Paul de Gelder and James Glancy bail out of an aircraft at 3500 feet to experience what it's like to crash land into some of the world's most remote and shark-infested waters.</desc>
+  </programme>
+  <programme start="20260923190000 +0000" stop="20260923200000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Alaskan Bush People:Home Alone</title>
+    <desc lang="en">Billy falls seriously ill and is forced to seek medical help. Meanwhile, the kids are left to fend for themselves and build a large raft to help move lumber.</desc>
+  </programme>
+  <programme start="20260923200000 +0000" stop="20260923210000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">The Gamechangers: Inventing The World:Electric</title>
+    <desc lang="en">Get an inside look into the new world of invention and meet the best and brainiest, coolest and craziest science rebels who are revolutionizing the world with their cutting-edge ideas in ‘Game Changers'.</desc>
+  </programme>
+  <programme start="20260923210000 +0000" stop="20260923220000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Miami Menagerie</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260923220000 +0000" stop="20260923224500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Jungle Shark</title>
+    <desc lang="en">Dr. Craig O'Connell and Andy Casagrande travel up the Serena River to try and find out why young bull sharks swim up the river, and how they avoid the crocodiles living there.</desc>
+  </programme>
+  <programme start="20260923224500 +0000" stop="20260923233000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Stronger Together</title>
+    <desc lang="en">Hunting by our side, dogs have made us the top predator. The Baka tribe is still hunting with their Basenji dogs – much like our forefathers would have done.</desc>
+  </programme>
+  <programme start="20260923233000 +0000" stop="20260924001500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Jeremy Wade's Dark Waters:Return Of The Outback Beast</title>
+    <desc lang="en">Jeremy heads to Australia to investigate an underwater attack. Could it be the work of a giant fresh water predator that many believed to be extinct?</desc>
+  </programme>
+  <programme start="20260924001500 +0000" stop="20260924010000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Philadelphia:Cat Crisis</title>
+    <desc lang="en">Follow law enforcement agents across Philadelphia as they tackle cases of animal cruelty and mount rescue operations.</desc>
+  </programme>
+  <programme start="20260924010000 +0000" stop="20260924014500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Philadelphia:D.O.A.</title>
+    <desc lang="en">Follow law enforcement agents across Philadelphia as they tackle cases of animal cruelty and mount rescue operations.</desc>
+  </programme>
+  <programme start="20260924014500 +0000" stop="20260924023000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Sharkwrecked: Crash Landing</title>
+    <desc lang="en">Paul de Gelder and James Glancy bail out of an aircraft at 3500 feet to experience what it's like to crash land into some of the world's most remote and shark-infested waters.</desc>
+  </programme>
+  <programme start="20260924023000 +0000" stop="20260924031500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Alaskan Bush People:Now Or Never</title>
+    <desc lang="en">As the Browns struggle to get their house built, winter arrives. While working through the snow, a series of setbacks threatens to derail all the hard work.</desc>
+  </programme>
+  <programme start="20260924031500 +0000" stop="20260924040000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">My Cat From Hell:A Scratch From The Past</title>
+    <desc lang="en">Jackson Galaxy brings his unique understanding and compassion to the desperate families on the verge of giving up their furry companions.</desc>
+  </programme>
+  <programme start="20260924040000 +0000" stop="20260924045000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pandamonium:Lu Lu's Tale</title>
+    <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
+  </programme>
+  <programme start="20260924045000 +0000" stop="20260924054000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Amba The Russian Tiger</title>
+    <desc lang="en">Gordon Buchanan searches majestic Vladivostok for the Russian Tiger and meets the people who live with these elusive beasts.</desc>
+  </programme>
+  <programme start="20260924054000 +0000" stop="20260924063000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">The Gamechangers: Inventing The World:Streamlined</title>
+    <desc lang="en">Get an inside look into the new world of invention and meet the best and brainiest, coolest and craziest science rebels who are revolutionizing the world with their cutting-edge ideas in ‘Game Changers'.</desc>
+  </programme>
+  <programme start="20260924063000 +0000" stop="20260924072500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:Mission In South Dakota</title>
+    <desc lang="en">There’s no such thing as a regular day at Denver's Planned Pethood Plus veterinary clinic. Dr. Jeff Young and his team represent one last hope and possibly the difference between life and death for beloved pets and wild animals.</desc>
+  </programme>
+  <programme start="20260924072500 +0000" stop="20260924082000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Tanked:Tanks N' Roses</title>
+    <desc lang="en">Tanked returns to dunk viewers into the rowdy, family business of Acrylic Tank Manufacturing (ATM). Led by brothers-in-law Wayde King and Brett Raymer, ATM has created thousands of aquarium builds for ordinary joes and high-profile clients alike.</desc>
+  </programme>
+  <programme start="20260924082000 +0000" stop="20260924091500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Bear Rescue</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260924091500 +0000" stop="20260924101000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Caught In The Act</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260924101000 +0000" stop="20260924110500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Preposterous Pets:Mr. Lizardlover And Ratty Relatives</title>
+    <desc lang="en">Travel the globe to countries such as Germany, Costa Rica, South Africa and India to meet the world’s most amazing pets and their owners in order to discover what led these people and their families to develop an unbreakable bond with some of the scariest, wildest and fiercest animals!</desc>
+  </programme>
+  <programme start="20260924110500 +0000" stop="20260924120000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Wild Dubai</title>
+    <desc lang="en">Behind modern Dubai lies a hidden treasure - an incredible wildlife that speaks of a timeless connection to the desert, the sea and the history and tradition of its people.</desc>
+  </programme>
+  <programme start="20260924120000 +0000" stop="20260924130000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Treehouse Masters:How 'bout Them Apples</title>
+    <desc lang="en">World-renowned treehouse designer and builder Pete Nelson creates incredible homes and businesses in nature's canopy.</desc>
+  </programme>
+  <programme start="20260924130000 +0000" stop="20260924140000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pit Bulls &amp; Parolees:A Home At Last</title>
+    <desc lang="en">Witness the turbulent drama and bittersweet moments as Tia Torres, founder of a rescue facility for pit bulls that hires ex-convicts, attempt to fulfill her dream of saving pit bulls and giving parolees a chance to repair their reputations and their lives.</desc>
+  </programme>
+  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">My Cat From Hell:My Cat Is A Bully</title>
+    <desc lang="en">Jackson Galaxy brings his unique understanding and compassion to the desperate families on the verge of giving up their furry companions.</desc>
+  </programme>
+  <programme start="20260924150000 +0000" stop="20260924160000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pandamonium:Lu Lu's Tale</title>
+    <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
+  </programme>
+  <programme start="20260924160000 +0000" stop="20260924170000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:Petra's Pigs</title>
+    <desc lang="en">There’s no such thing as a regular day at Denver's Planned Pethood Plus veterinary clinic. Dr. Jeff Young and his team represent one last hope and possibly the difference between life and death for beloved pets and wild animals.</desc>
+  </programme>
+  <programme start="20260924170000 +0000" stop="20260924180000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Homestead Rescue:Flood, Sweat, &amp; Tears - Part 2</title>
+    <desc lang="en">The concept of living a simple life is becoming increasingly popular, however many budding homesteaders are disappointed at first. In this series survival expert Marty Raney, his daughter Misty and son Matt teach families the essential skills on how to survive.</desc>
+  </programme>
+  <programme start="20260924180000 +0000" stop="20260924190000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Guardians Of Rescue:Doggie Drone Deployment</title>
+    <desc lang="en">Meet the guardian angels of the animal world. The Guardians of Rescue are one of the most effective, but least known animal rescue groups in the U.S. - a diverse group of fearless and passionate volunteers united in dedication to animal advocacy.</desc>
+  </programme>
+  <programme start="20260924190000 +0000" stop="20260924200000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Alaskan Bush People:Now Or Never</title>
+    <desc lang="en">As the Browns struggle to get their house built, winter arrives. While working through the snow, a series of setbacks threatens to derail all the hard work.</desc>
+  </programme>
+  <programme start="20260924200000 +0000" stop="20260924210000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">The Gamechangers: Inventing The World:Space</title>
+    <desc lang="en">Get an inside look into the new world of invention and meet the best and brainiest, coolest and craziest science rebels who are revolutionizing the world with their cutting-edge ideas in ‘Game Changers'.</desc>
+  </programme>
+  <programme start="20260924210000 +0000" stop="20260924220000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Betrayal</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260924220000 +0000" stop="20260924224500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal ER — Episode 10</title>
+    <desc lang="en">Go behind the scenes at Glasgow’s 15 million pound Small Animal Hospital as they show you how animals are being operated on with state-of-the-art operating theaters and equipment.</desc>
+  </programme>
+  <programme start="20260924224500 +0000" stop="20260924233000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Billion Dollar Dogs</title>
+    <desc lang="en">Dogs are willing to do almost anything we ask of them. From the front lines of war to medical detection, there has never been a busier time to be a working dog.</desc>
+  </programme>
+  <programme start="20260924233000 +0000" stop="20260925001500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Jeremy Wade's Dark Waters:Cold Water Mystery</title>
+    <desc lang="en">Jeremy Wade, is with a commercial fishing boat in Alaska, searching for giant halibut. Will they catch the sought-after 50-lb halibut?</desc>
+  </programme>
+  <programme start="20260925001500 +0000" stop="20260925010000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Philadelphia:Manhunt</title>
+    <desc lang="en">Follow law enforcement agents across Philadelphia as they tackle cases of animal cruelty and mount rescue operations.</desc>
+  </programme>
+  <programme start="20260925010000 +0000" stop="20260925014500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Philadelphia:Special Edition: Agents In Training</title>
+    <desc lang="en">Follow law enforcement agents across Philadelphia as they tackle cases of animal cruelty and mount rescue operations.</desc>
+  </programme>
+  <programme start="20260925014500 +0000" stop="20260925023000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Great White Kill Zone: Guadalupe</title>
+    <desc lang="en">Great Whites are silent hunters, stalking their prey and attacking by surprise, but in Guadalupe the waters are crystal clear. How do they do it? Using cutting-edge technology and special cameras, scientists record never-before-seen hunting behavior.</desc>
+  </programme>
+  <programme start="20260925023000 +0000" stop="20260925031500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Alaskan Bush People:A Wolfpack Divided</title>
+    <desc lang="en">The Brown family are ready to move into their new home when Ami requires immediate medical attention and must travel to a big city for surgery.</desc>
+  </programme>
+  <programme start="20260925031500 +0000" stop="20260925040000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">My Cat From Hell:Nightmare On Cat Street</title>
+    <desc lang="en">Jackson Galaxy brings his unique understanding and compassion to the desperate families on the verge of giving up their furry companions.</desc>
+  </programme>
+  <programme start="20260925040000 +0000" stop="20260925045000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pandamonium:Tale Ends</title>
+    <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
+  </programme>
+  <programme start="20260925045000 +0000" stop="20260925054000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Saba and the Rhino's Secret</title>
+    <desc lang="en">Join Saba as she walks among the famously bad-tempered and solitary rhinos.</desc>
+  </programme>
+  <programme start="20260925054000 +0000" stop="20260925063000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">The Dark Side Of The Sun</title>
+    <desc lang="en">Scientists have only recently begun to understand the true nature of our 'local star', the Sun. This program discusses its past and future, and its effect on our planet.</desc>
+  </programme>
+  <programme start="20260925063000 +0000" stop="20260925072500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:Jeff And The Jaguar</title>
+    <desc lang="en">There’s no such thing as a regular day at Denver's Planned Pethood Plus veterinary clinic. Dr. Jeff Young and his team represent one last hope and possibly the difference between life and death for beloved pets and wild animals.</desc>
+  </programme>
+  <programme start="20260925072500 +0000" stop="20260925082000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Tanked:Bill Engvall: Here's Your Tank!</title>
+    <desc lang="en">Tanked returns to dunk viewers into the rowdy, family business of Acrylic Tank Manufacturing (ATM). Led by brothers-in-law Wayde King and Brett Raymer, ATM has created thousands of aquarium builds for ordinary joes and high-profile clients alike.</desc>
+  </programme>
+  <programme start="20260925082000 +0000" stop="20260925091500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Miami Menagerie</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260925091500 +0000" stop="20260925101000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Betrayal</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260925101000 +0000" stop="20260925110500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Jungle Shark</title>
+    <desc lang="en">Dr. Craig O'Connell and Andy Casagrande travel up the Serena River to try and find out why young bull sharks swim up the river, and how they avoid the crocodiles living there.</desc>
+  </programme>
+  <programme start="20260925110500 +0000" stop="20260925120000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Wild Costa Rica</title>
+    <desc lang="en">Explore the incredible creatures that inhabit Costa Rica, one of the most ecologically diverse places on earth. Meet the rare and secretive ocelot and puma, and much more.</desc>
+  </programme>
+  <programme start="20260925120000 +0000" stop="20260925130000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Treehouse Masters:Zac Brown's Space Crab</title>
+    <desc lang="en">World-renowned treehouse designer and builder Pete Nelson creates incredible homes and businesses in nature's canopy.</desc>
+  </programme>
+  <programme start="20260925130000 +0000" stop="20260925140000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pit Bulls &amp; Parolees:Young Blood</title>
+    <desc lang="en">Witness the turbulent drama and bittersweet moments as Tia Torres, founder of a rescue facility for pit bulls that hires ex-convicts, attempt to fulfill her dream of saving pit bulls and giving parolees a chance to repair their reputations and their lives.</desc>
+  </programme>
+  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">My Cat From Hell:Big Boi Ruins Our Social Life</title>
+    <desc lang="en">Jackson Galaxy brings his unique understanding and compassion to the desperate families on the verge of giving up their furry companions.</desc>
+  </programme>
+  <programme start="20260925150000 +0000" stop="20260925160000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pandamonium:Tale Ends</title>
+    <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
+  </programme>
+  <programme start="20260925160000 +0000" stop="20260925170000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:Mission In South Dakota</title>
+    <desc lang="en">There’s no such thing as a regular day at Denver's Planned Pethood Plus veterinary clinic. Dr. Jeff Young and his team represent one last hope and possibly the difference between life and death for beloved pets and wild animals.</desc>
+  </programme>
+  <programme start="20260925170000 +0000" stop="20260925180000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Homestead Rescue:Fire &amp; Ice</title>
+    <desc lang="en">The concept of living a simple life is becoming increasingly popular, however many budding homesteaders are disappointed at first. In this series survival expert Marty Raney, his daughter Misty and son Matt teach families the essential skills on how to survive.</desc>
+  </programme>
+  <programme start="20260925180000 +0000" stop="20260925190000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">The Last Alaskans:The Hunted</title>
+    <desc lang="en">A documentary series about some of the most isolated people in America - the last of their kind - as they struggle and thrive in Alaska's untouched wilderness, miles away from civilization.</desc>
+  </programme>
+  <programme start="20260925190000 +0000" stop="20260925200000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Alaskan Bush People:A Wolfpack Divided</title>
+    <desc lang="en">The Brown family are ready to move into their new home when Ami requires immediate medical attention and must travel to a big city for surgery.</desc>
+  </programme>
+  <programme start="20260925200000 +0000" stop="20260925210000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">The Gamechangers: Inventing The World:Streamlined</title>
+    <desc lang="en">Get an inside look into the new world of invention and meet the best and brainiest, coolest and craziest science rebels who are revolutionizing the world with their cutting-edge ideas in ‘Game Changers'.</desc>
+  </programme>
+  <programme start="20260925210000 +0000" stop="20260925220000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Biggest Rescue Ever</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260925220000 +0000" stop="20260925224500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Wild Dubai</title>
+    <desc lang="en">Behind modern Dubai lies a hidden treasure - an incredible wildlife that speaks of a timeless connection to the desert, the sea and the history and tradition of its people.</desc>
+  </programme>
+  <programme start="20260925224500 +0000" stop="20260925233000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Running Free</title>
+    <desc lang="en">Follow stray pups in Thailand through the first weeks of their dangerous lives. And in Kathmandu, dogs are worshipped and dressed with garlands for the Tihar festival.</desc>
+  </programme>
+  <programme start="20260925233000 +0000" stop="20260926001500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Jeremy Wade's Dark Waters:Toxic Invader</title>
+    <desc lang="en">Fisherman and adventurer, Jeremy Wade, travels to western Australia to discover what is wiping out many of the fish in Australia’s Fitzroy River. What will he find?</desc>
+  </programme>
+  <programme start="20260926001500 +0000" stop="20260926010000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Bear Rescue</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260926010000 +0000" stop="20260926014500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Animal Cops: Miami:Caught In The Act</title>
+    <desc lang="en">Follow animal agents across the country as they help prevent animal cruelty.</desc>
+  </programme>
+  <programme start="20260926014500 +0000" stop="20260926023000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Saba and the Rhino's Secret</title>
+    <desc lang="en">Join Saba as she walks among the famously bad-tempered and solitary rhinos.</desc>
+  </programme>
+  <programme start="20260926023000 +0000" stop="20260926031500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Alaskan Bush People:Rise Of Browntown</title>
+    <desc lang="en">Matt creates his own one-of-a-kind tyre house. Meanwhile, Ami enlists the help of an Alaskan matchmaker to find mates for her five grown boys.</desc>
+  </programme>
+  <programme start="20260926031500 +0000" stop="20260926040000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">My Cat From Hell:Feral Shop Cat</title>
+    <desc lang="en">Jackson Galaxy brings his unique understanding and compassion to the desperate families on the verge of giving up their furry companions.</desc>
+  </programme>
+  <programme start="20260926040000 +0000" stop="20260926045000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Survival Of The Friendliest</title>
+    <desc lang="en">How have dogs evolved from wild predators to friendly pets? Plus, a look at parts of the world where dogs are spoiled as much as children.</desc>
+  </programme>
+  <programme start="20260926045000 +0000" stop="20260926054000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Wild Survivors</title>
+    <desc lang="en">36 different species of dog are living in the wild. But what makes a wild dog ‘wild’? Plus, experts uncover how dog’s evolutionary past has shaped the pet at home.</desc>
+  </programme>
+  <programme start="20260926054000 +0000" stop="20260926063000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Stronger Together</title>
+    <desc lang="en">Hunting by our side, dogs have made us the top predator. The Baka tribe is still hunting with their Basenji dogs – much like our forefathers would have done.</desc>
+  </programme>
+  <programme start="20260926063000 +0000" stop="20260926072500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Billion Dollar Dogs</title>
+    <desc lang="en">Dogs are willing to do almost anything we ask of them. From the front lines of war to medical detection, there has never been a busier time to be a working dog.</desc>
+  </programme>
+  <programme start="20260926072500 +0000" stop="20260926082000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dogs: The Untold Story:Running Free</title>
+    <desc lang="en">Follow stray pups in Thailand through the first weeks of their dangerous lives. And in Kathmandu, dogs are worshipped and dressed with garlands for the Tihar festival.</desc>
+  </programme>
+  <programme start="20260926082000 +0000" stop="20260926091500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:Close To Home</title>
+    <desc lang="en">Dr. Jeff helps a remote town in Colorado overwhelmed by feral cats; a staff member's beloved dog needs emergency surgery; Dr. Baier gives some injured birds of prey a second chance; Dr. Jeff races to save the life of a family's precious Chihuahua.</desc>
+  </programme>
+  <programme start="20260926091500 +0000" stop="20260926101000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Dr. Jeff: Rocky Mountain Vet:At Home With Wolves</title>
+    <desc lang="en">There’s no such thing as a regular day at Denver's Planned Pethood Plus veterinary clinic. Dr. Jeff Young and his team represent one last hope and possibly the difference between life and death for beloved pets and wild animals.</desc>
+  </programme>
+  <programme start="20260926101000 +0000" stop="20260926110500 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Preposterous Pets:Lions, Bears, Bison</title>
+    <desc lang="en">Travel the globe to countries such as Germany, Costa Rica, South Africa and India to meet the world’s most amazing pets and their owners in order to discover what led these people and their families to develop an unbreakable bond with some of the scariest, wildest and fiercest animals!</desc>
+  </programme>
+  <programme start="20260926110500 +0000" stop="20260926120000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Preposterous Pets:Petting Jaws</title>
+    <desc lang="en">Travel the globe to countries such as Germany, Costa Rica, South Africa and India to meet the world’s most amazing pets and their owners in order to discover what led these people and their families to develop an unbreakable bond with some of the scariest, wildest and fiercest animals!</desc>
+  </programme>
+  <programme start="20260926120000 +0000" stop="20260926130000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Amba The Russian Tiger</title>
+    <desc lang="en">Gordon Buchanan searches majestic Vladivostok for the Russian Tiger and meets the people who live with these elusive beasts.</desc>
+  </programme>
+  <programme start="20260926130000 +0000" stop="20260926140000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pit Bulls &amp; Parolees:A Girl Named Gun</title>
+    <desc lang="en">Witness the turbulent drama and bittersweet moments as Tia Torres, founder of a rescue facility for pit bulls that hires ex-convicts, attempt to fulfill her dream of saving pit bulls and giving parolees a chance to repair their reputations and their lives.</desc>
+  </programme>
+  <programme start="20260926140000 +0000" stop="20260926150000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">My Cat From Hell:Bitten</title>
+    <desc lang="en">Jackson Galaxy brings his unique understanding and compassion to the desperate families on the verge of giving up their furry companions.</desc>
+  </programme>
+  <programme start="20260926150000 +0000" stop="20260926160000 +0000" channel="OSNAnimalPlanet.osn">
+    <title lang="en">Pandamonium:Welcome To Wolong</title>
+    <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
+  </programme>
   <programme start="20260925205558 +0000" stop="20260925210000 +0000" channel="Roya_Ch13">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -83013,7 +83347,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928205847 +0000" stop="20260928210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924225752 +0000" stop="20260924230633 +0000" channel="AlJazeera.qa">
+  <programme start="20260924230633 +0000" stop="20260924231600 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260924000900 +0000" stop="20260924001500 +0000" channel="MBC Masr Drama">
@@ -83418,7 +83752,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926223500 +0000" stop="20260926224500 +0000" channel="MBC Iraq">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924205500 +0000" stop="20260924230633 +0000" channel="OSNKids.osn">
+  <programme start="20260924205500 +0000" stop="20260924231600 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260922210000 +0000" stop="20260923210000 +0000" channel="JordanSports">
@@ -90357,34 +90691,34 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Almajlis gulf cup</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260924230000 +0000" stop="20260924230657 +0000" channel="AlkassOne.qa">
+  <programme start="20260924230000 +0000" stop="20260924231625 +0000" channel="AlkassOne.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924230000 +0000" stop="20260924230657 +0000" channel="AlkassTwo.qa">
+  <programme start="20260924230000 +0000" stop="20260924231625 +0000" channel="AlkassTwo.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924210000 +0000" stop="20260924230657 +0000" channel="AlkassThree.qa">
+  <programme start="20260924210000 +0000" stop="20260924231625 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260923225500 +0000" stop="20260923230000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924230000 +0000" stop="20260924230657 +0000" channel="AlkassFour.qa">
+  <programme start="20260924230000 +0000" stop="20260924231625 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924210000 +0000" stop="20260924230657 +0000" channel="AlkassFive.qa">
+  <programme start="20260924210000 +0000" stop="20260924231625 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924210000 +0000" stop="20260924230657 +0000" channel="AlkassSix.qa">
+  <programme start="20260924210000 +0000" stop="20260924231625 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924210000 +0000" stop="20260924230657 +0000" channel="AlkassSeven.qa">
+  <programme start="20260924210000 +0000" stop="20260924231625 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260924230000 +0000" stop="20260924230657 +0000" channel="AlkassEight.qa">
+  <programme start="20260924230000 +0000" stop="20260924231625 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923210000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260923151500 +0000" stop="20260923210000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Program: Khaleeji 27 Café 2026</title>
     <desc lang="en">Program: Khaleeji 27 Café 2026</desc>
     <category lang="en">Sport</category>
@@ -90444,13 +90778,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925144000 +0000" stop="20260927150500 +0000" channel="Starz_admnadsports1">
+  <programme start="20260925144000 +0000" stop="20260927151500 +0000" channel="Starz_admnadsports1">
     <title lang="en">News - Sports Segment 2026</title>
     <desc lang="en">News - Sports Segment 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923180000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260923151500 +0000" stop="20260923180000 +0000" channel="Starz_admnadsports2">
     <title lang="en">Invincible 2026 : Season 1 (Ar)</title>
     <desc lang="en">Invincible 2026 : Season 1 (Ar)</desc>
     <category lang="en">Sport</category>
@@ -90504,14 +90838,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260926090000 +0000" stop="20260927150500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260926090000 +0000" stop="20260927151500 +0000" channel="Starz_admnadsports2">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923160000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260923151500 +0000" stop="20260923160000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Udinese x Cagliari - Serie A</title>
     <title lang="ar">أودينيزي × كالياري - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -91105,7 +91439,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923162500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260923151500 +0000" stop="20260923162500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Parma x Genoa - Serie A</title>
     <title lang="ar">بارما × جنوى - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -91691,7 +92025,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923155500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260923151500 +0000" stop="20260923155500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW All Elite Wrestling</title>
     <title lang="ar">ايه إي دبليو أوول إليت ريسلينغ</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -92286,7 +92620,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923152900 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260923151500 +0000" stop="20260923152900 +0000" channel="Starz_starzplayrugby">
     <title lang="en">South Africa vs. England - Nations Championship 2026</title>
     <desc lang="en">South Africa vs. England - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -92484,7 +92818,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923180700 +0000" channel="Starz_golflife">
+  <programme start="20260923151500 +0000" stop="20260923180700 +0000" channel="Starz_golflife">
     <title lang="en">Biltmore Championship Asheville, Final Round - PGA Tour Golf</title>
     <title lang="ar">بي جي إيه تور غولف</title>
     <desc lang="en">Biltmore Championship Asheville, Final Round - PGA Tour Golf</desc>
@@ -92888,7 +93222,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923152300 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260923151500 +0000" stop="20260923152300 +0000" channel="Starz_cricbuzz1">
     <title lang="en">2nd T20: Afghanistan vs India - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -94025,7 +94359,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923173000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260923151500 +0000" stop="20260923173000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Women U23 Individual Time Trial - UCI Road World Championship</title>
     <title lang="ar">سباق فردي ضد الساعة للسيدات تحت 23 سنة - بطولة طواف العالم للدراجات على الطريق</title>
     <desc lang="en">Stay tuned for UCI Road World Championship.</desc>
@@ -94522,7 +94856,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923154300 +0000" channel="Starz_wedosports">
+  <programme start="20260923151500 +0000" stop="20260923154300 +0000" channel="Starz_wedosports">
     <title lang="en">Emirates Great Britain Grand Prix - Day 1 - SailGP - LIVE</title>
     <title lang="ar">سباق الجائزة الكبرى للإبحار - مباشر</title>
     <desc lang="en">Top-performing athletes from all over the globe showcase their skills as they compete in the SailGP to win the coveted title.</desc>
@@ -94898,12 +95232,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">Wedo Sports</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
-  </programme>
-  <programme start="20260923150500 +0000" stop="20260923151500 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Men's T20 World Cup 2016: India vs. Bangladesh - Flashback</title>
-    <desc lang="en">ICC Men's T20 World Cup 2016: India vs. Bangladesh - Flashback</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
   <programme start="20260923151500 +0000" stop="20260923154000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's T20 World Cup: 2016: Semi Final - 2: India vs West Indies - Flashback</title>
@@ -95413,13 +95741,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923151000 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Rotterdam Dockers vs. Dublin Guardians - ETPL Highlights</title>
-    <desc lang="en">2026: Rotterdam Dockers vs. Dublin Guardians - ETPL Highlights</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p33925191_b_h10_aa.jpg" />
-  </programme>
-  <programme start="20260923151000 +0000" stop="20260923162900 +0000" channel="Starz_criclife3">
+  <programme start="20260923151500 +0000" stop="20260923162900 +0000" channel="Starz_criclife3">
     <title lang="en">3rd Test: England v Pakistan - Test Cricket</title>
     <title lang="ar">تست كريكيت</title>
     <desc lang="en">Professional cricket teams from around the world compete against each other to emerge victorious in various Test matches.</desc>
@@ -96531,7 +96853,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923160500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260923151500 +0000" stop="20260923160500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Morocco - UAE President Cup - Flat Races</title>
     <title lang="ar">المغرب - كأس رئيس الدولة للخيول العربية الأصيلة</title>
     <desc lang="en">Stay tuned to the latest events from UAE President Cup - Flat Races.</desc>
@@ -97056,7 +97378,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923164022 +0000" channel="Starz_awsn">
+  <programme start="20260923151500 +0000" stop="20260923164022 +0000" channel="Starz_awsn">
     <title lang="en">2026 Cambridge Turbos vs. Atlantic Attack</title>
     <desc lang="en">Cambridge Turbos vs. Atlantic Attack in the National Ringette League 2025-2026 season.</desc>
     <category lang="en">Sport</category>
@@ -97620,7 +97942,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923160000 +0000" channel="Starz_redbulltv">
+  <programme start="20260923151500 +0000" stop="20260923160000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -98202,7 +98524,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923180000 +0000" channel="Starz_daznringside">
+  <programme start="20260923151500 +0000" stop="20260923180000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -98400,7 +98722,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260923153117 +0000" channel="Starz_fifaplus">
+  <programme start="20260923151500 +0000" stop="20260923153117 +0000" channel="Starz_fifaplus">
     <title lang="en">The Best of FIFA Women's World Cup France 2019™</title>
     <desc lang="en">A showcase of the tournament’s top goals, assists, and award-winning moments from France 2019.</desc>
     <category lang="en">Sport</category>
@@ -98784,7 +99106,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123893.jpg" />
   </programme>
-  <programme start="20260923150500 +0000" stop="20260927150500 +0000" channel="Starz_adfight">
+  <programme start="20260923151500 +0000" stop="20260927151500 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
     <category lang="en">Sport</category>
@@ -142883,61 +143205,78 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/other_sports_21.png" />
   </programme>
   <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 07:41 — بتوقيتك
+    <title lang="ar">أخبار اليوم · «وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 07:59 — بتوقيتك
 
-تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب
-        اتهم تقرير ديمقراطي إدارة ترمب بمنح شركات نفط وغاز إعفاءات ضريبية وتخفيف قيود بيئية، بعد تبرعات بمئات الملايين من الدولارات لحملته الانتخابية.
+«وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات
+        لا تزال «وول ستريت» ترزح تحت ضغوط مصدرها سوق السندات ما دفع الأسهم الأميركية إلى التراجع مجدداً الخميس.
         عربي · الشرق الأوسط
+تطبيق Adobe Premiere يصل إلى هواتف أندرويد بتصوير فيديوهات 4K - الوطن
+        الإمارات · الإمارات
 شهيدان و9 مصابين بغزة وحماس تعلن جاهزيتها لتنفيذ خريطة الطريق وتتهم إسرائيل بتعطيلها
         استشهد فلسطينيان وأصيب 9 آخرون، الخميس، في هجمات إسرائيلية وسط وجنوب قطاع غزة
         تركيا · TRT عربي
+Small boat migrant arrivals reach 781 in one day, breaking 2026 record
+        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
+        بريطانيا · BBC
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
+        الأردن · Jordan News
+FDA commissioner nominee Dr. Heidi Overton appears for confirmation hearing
+        Dr. Heidi Overton is appearing before a Senate committee on Thursday for her confirmation hearing as the next commissioner of the Food and Drug…
+        أمريكا · ABC News
+كيف يعمل "جيش التعاطف الإلكتروني" على دعم من يواجهون السخرية والتنمّر؟
+        عادة ما يُنظر إلى منصات التواصل الاجتماعي باعتبارها مرآة تعكس قسوة البشر، لكن أحدهم بنى جيشاً على منصة تيك توك قوامه 500 ألف مستخدم لتغيير هذه الصورة…
+        عربي · BBC عربي
 هيئة البيئة - أبوظبي تعلن عن الدورة العاشرة لمنتدى أبوظبي لريادة الأعمال المستدامة 2026 - Zawya
         الإمارات · الإمارات
-Trump hosting China's Xi at White House with AI and tariffs on the agenda
-        President Trump is hosting Chinese President Xi Jinping for meetings and a state dinner on Thursday, as the world's two most powerful countries try…
+المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
+        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
+        تركيا · TRT عربي
+White House 'repeatedly violated' court order to restore press access, say media outlets
+        Lawyers for CNN, Politico and MS Now are seeking an emergency court hearing, saying the White House "repeatedly violated" the order.
+        بريطانيا · BBC
+WATCH: Millions of people on alert for powerful Nor'easter along East Coast
+        While the storm is set to hit the East Coast this weekend, coastal areas are already feeling the impact of the nor'easter storm.
+        أمريكا · ABC News
+Joint Chiefs Chairman Meets Czech Ambassador
+        Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
+        الأردن · Jordan News
+موسكو «لن تعلّق» عملياتها العسكرية بأوكرانيا وتنظر مشاركة بوتين في «قمة العشرين»
+        موسكو «لن تعلّق» عملياتها العسكرية في أوكرانيا وتنظر في مشاركة بوتين في «قمة العشرين» وروبيو يحذر من «توسع» الحرب لتشمل دولا أخرى.
+        عربي · الشرق الأوسط
+مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
+        الإمارات · الإمارات
+طلاب أتراك يحصدون المركز الأول في مسابقة للمسيَّرات بالولايات المتحدة
+        الفريق المكون من 12 شخصا كان قد نال المركز الثاني في المسابقة نفسها العام الماضي..
+        تركيا · الأناضول
+Nine prisoners held on indefinite jail terms referred to Court of Appeal by miscarriage of justice watchdog
+        The cases include Carl Lamb, who cut off his own ear with a razor blade in front of a prison officer in protest at his sentence
+        بريطانيا · Independent
+Was Hitler behind niece's death? Documents raise questions about alibi
+        Newly unearthed records have cast doubt on Adolf Hitler's whereabouts at the time of his niece's suspicious 1931 death, Der Spiegel reported.
         أمريكا · CBS
 Bank al Etihad sponsors 4 free open days at the Children’s Museum
         Bank al Etihad is sponsoring 4 free open days at the Children’s Museum between July 2026 and June 2027 as part of its corporate social responsibility…
         الأردن · Jordan News
-Trump-Xi live updates: leaders of US and China to talk AI and trade in major Washington meeting
-        Xi arrived at the White House on Thursday morning ahead of talks, which are expected to cover trade, AI, Taiwan and more In the first row in front of…
-        بريطانيا · Guardian
-عجز الحساب الجاري الأميركي يتسع بشكل حاد في الربع الثاني
-        أظهرت بيانات حكومية يوم الخميس أن عجز الحساب الجاري الأميركي اتسع بشكل حاد خلال الربع الثاني، في ظل قفزة في واردات السلع.
-        عربي · الشرق الأوسط
-المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
-        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
-        تركيا · TRT عربي
-مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
-        الإمارات · الإمارات
-Florida deputies taser sword-wielding burglary suspect, video shows
-        Bodycam video captured the tense moment deputies in Florida tasered sword-wielding suspect Josiah Smith after he allegedly refused commands.
-        أمريكا · Fox News
-Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
-        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
-        بريطانيا · Guardian
-Amr Diab to Film Only “Lola El Banat” From New Album
-        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
-        الأردن · Jordan News
-هدنة التجارة تمنح ترمب وشي وقتاً إضافياً لتسوية الخلافات
-        دخلت الولايات المتحدة والصين جولة جديدة من إدارة التوتر الاقتصادي بينهما، مع وصول الرئيس الصيني إلى واشنطن في أول زيارة له للولايات المتحدة منذ 3…
+الاقتصاد والأمن يتصدران مباحثات رئيس الوزراء اللبناني في نيويورك
+        تصدرت ملفات الإصلاح، والانفتاح الاقتصادي، والاستقرار الأمني لائحة أولويات مباحثات رئيس الحكومة اللبنانية نواف سلام في مباحثاته على هامش الدورة 81…
         عربي · الشرق الأوسط
 "رئة واحدة".. بيروت ودمشق تسعيان لشراكة اقتصادية عابرة للحدود
         تركيا · الأناضول
 بسجادة حمراء وطائرتين B-1.. ترامب وميلانيا يستقبلان رئيس الصين لدى وصوله إلى أمريكا - CNN Arabic
         الإمارات · الإمارات
-Police arrest far-right activist Daniel Thomas after ‘dinghy slashed in Channel’
-        Thirty-seven-year-old in custody on suspicion of crimes including criminal damage with intent to endanger life The far-right agitator and…
+Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
+        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
         بريطانيا · Guardian
-Marineland dolphin dies at Spain aquarium in latest death after rescue
-        Echo, one of four dolphins transferred to Oceanogràfic València from Marineland Canada, died on Wednesday, the Spanish facility said.
+Small businesses roll the dice on Kalshi to manage their risks
+        Hundreds of small businesses are using the prediction market to hedge against a range of business risks, according to Kalshi. Here's how.
         أمريكا · CBS
-Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
-        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
+Amr Diab to Film Only “Lola El Banat” From New Album
+        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
         الأردن · Jordan News
-رئيسة «فيدرالي» كليفلاند: ضغوط التضخم لا تزال تميل نحو الارتفاع
-        قالت بيث هاماك، رئيسة بنك الاحتياطي الفيدرالي في كليفلاند، يوم الخميس، إن ضغوط التضخم لا تزال مرتفعة.
+زلزال بقوة 5.4 درجة جنوب شرقي تركيا يثير الذعر من تكرار كارثة كهرمان ماراش
+        تسبب زلزال بقوة 5.4 درجة على مقياس «ريختر» في ولاية شانلي أورفا في جنوب شرقي تركيا بحالة من الذعر من احتمال تكرار كارثة زلزال كهرمان ماراش في 2023.
         عربي · الشرق الأوسط
 من يتولى حماية بزشكيان في نيويورك؟ - الجزيرة نت
         من يتولى حماية بزشكيان في نيويورك؟ الجزيرة نت بزشكيان يتعهد بعدم الخضوع ويتهم واشنطن بـ"الإرهاب"
@@ -142945,42 +143284,25 @@ Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
 دوران: تصريحات كاتس الوقحة بحق الرئيس أردوغان لن تطمس حقيقة الإبادة في غزة
         قال رئيس دائرة الاتصال بالرئاسة التركية برهان الدين دوران إن العبارات التي أطلقها وزير الدفاع الإسرائيلي يسرائيل كاتس بحق الرئيس رجب طيب أردوغان "لا…
         تركيا · TRT عربي
-Small boat migrant arrivals reach 781 in one day, breaking 2026 record
-        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
-        بريطانيا · BBC
-LIVE: ABC News Live
-        24/7 coverage of breaking news and live events
-        أمريكا · ABC News
-Unified Admission Results to Be Announced Tonight
-        The Unified Admission Coordination Unit will announce Thursday evening the results of unified admission for bachelor's degree programs at Jordan's…
-        الأردن · Jordan News
-بعد منعهم من دخول البيت الأبيض رغم الأمر القضائي.. طلب عاجل من CNN وMSNBC و"بوليتيكو"
-        تقدمت كل من شبكتي CNN وMSNBC وموقع Politico بطلب عاجل لعقد جلسة استماع صباح الخميس، وذلك بعد رفض السماح لها بدخول البيت الأبيض رغم وجود أمر قضائي.
-        عربي · CNN عربية
-ماذا يحدث للاقتصاد عندما تقفز عوائد سندات الخزانة؟ - العربية
-        الإمارات · الإمارات
-بولاط: التجارة التركية الأمريكية قد تبلغ 43 مليار دولار في 2026 و50 ملياراً بنهاية 2028
-        قال وزير التجارة التركي عمر بولاط، الخميس، إن حجم التجارة بين تركيا والولايات المتحدة قد يرتفع إلى نحو 43 مليار دولار خلال العام الجاري
-        تركيا · TRT عربي
-Angie Nixon slams Byron Donalds as he tries to distance himself from Trump
-        Florida Senate Democratic candidate Angie Nixon joins CBS News with her take on Republican gubernatorial hopeful Byron Donalds appearing to step back…
-        أمريكا · CBS
-Japan teenager Shin Ohashi overcomes Covid and fever to smash breaststroke world record
-        Swimmer wins 200m gold at Asian Games with 39C fever Says Covid helped him rest and ‘was a good thing’ The Japanese teenager Shin Ohashi said a bout…
+Nato’s top commander says range of Russian threats means ‘we are all eastern flank countries’ – Europe live
+        Alexus Grynkewich said the US would ⁠continue ​to provide ‘critical but more limited capabilities’ to the alliance In a separate interview with DR,…
         بريطانيا · Guardian
-Water Violations Detected South of Amman
-        The Ministry of Water and Irrigation/Water Authority said Thursday that its teams, during a security campaign in southern Amman, detected violations…
+Israel's Netanyahu set to hit back at widespread criticism in U.N. address
+        Benjamin Netanyahu is expected to focus on Iran, and on defending Israel's actions in Gaza and the West Bank amid condemnation from fellow leaders at…
+        أمريكا · CBS
+Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
+        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
         الأردن · Jordan News
-«مانشستر يونايتد» يخطف موهبة «سيتي» كريم قاسم بعمر 17 عاماً
-        أكمل فريق مانشستر يونايتد الإنجليزي لكرة القدم، اليوم الخميس، التعاقد مع كريم قاسم (17 عاماً) قادماً من مانشستر سيتي.
+فورمولا إي تكشف عن هويتها الجديدة قبل انطلاق موسمها من جدة
+        كشفت بطولة العالم لفورمولا إي، الأربعاء، عن هويتها البصرية الجديدة، قبل انطلاق موسم 2026-2027 من مدينة جدة في ديسمبر المقبل.
         عربي · الشرق الأوسط
 كيفية الحصول على تذاكر قطر ضد البحرين: أسعار كأس الخليج، معلومات المباراة، المبيعات في اللحظات الأخيرة والمزيد - Goal.com
         الإمارات · الإمارات
 "تعسف بحق البشر والشجر".. إسرائيل تقتلع 400 شجرة زيتون بالضفة
         - رئيس بلدية بني زيد الغربية عبد الرحمن الريماوي للأناضول: الأشجار المستهدفة يعود عمرها لمئات السنين
         تركيا · الأناضول
-Falcons and Packers both searching for answers heading into 'Thursday Night Football' in NFL Week 3
-        Michael Penix Jr. takes over for Cooper Rush as the Falcons try to unlock Bijon Robinson, Drake London, and Kyle Pitts in a stalling offense.
+Penguins forward Andrei Kuzmenko's father killed in bear attack on remote Russia fishing trip
+        Andrei Kuzmenko's father, a longtime hockey coach, was fatally attacked by a bear while fishing in a restricted area of Russia's Republic of Tuva.
         أمريكا · Fox News
 Drinking at football matches - would fans welcome it?
         Andy Burnham has long championed a repeal of the ban which prevents football supporters from drinking alcohol in the view of the pitch
@@ -142992,60 +143314,77 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924150000 +0000" stop="20260924160000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 07:41 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 07:59 — بتوقيتك
 
-تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب
-        اتهم تقرير ديمقراطي إدارة ترمب بمنح شركات نفط وغاز إعفاءات ضريبية وتخفيف قيود بيئية، بعد تبرعات بمئات الملايين من الدولارات لحملته الانتخابية.
+«وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات
+        لا تزال «وول ستريت» ترزح تحت ضغوط مصدرها سوق السندات ما دفع الأسهم الأميركية إلى التراجع مجدداً الخميس.
         عربي · الشرق الأوسط
+تطبيق Adobe Premiere يصل إلى هواتف أندرويد بتصوير فيديوهات 4K - الوطن
+        الإمارات · الإمارات
 شهيدان و9 مصابين بغزة وحماس تعلن جاهزيتها لتنفيذ خريطة الطريق وتتهم إسرائيل بتعطيلها
         استشهد فلسطينيان وأصيب 9 آخرون، الخميس، في هجمات إسرائيلية وسط وجنوب قطاع غزة
         تركيا · TRT عربي
+Small boat migrant arrivals reach 781 in one day, breaking 2026 record
+        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
+        بريطانيا · BBC
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
+        الأردن · Jordan News
+FDA commissioner nominee Dr. Heidi Overton appears for confirmation hearing
+        Dr. Heidi Overton is appearing before a Senate committee on Thursday for her confirmation hearing as the next commissioner of the Food and Drug…
+        أمريكا · ABC News
+كيف يعمل "جيش التعاطف الإلكتروني" على دعم من يواجهون السخرية والتنمّر؟
+        عادة ما يُنظر إلى منصات التواصل الاجتماعي باعتبارها مرآة تعكس قسوة البشر، لكن أحدهم بنى جيشاً على منصة تيك توك قوامه 500 ألف مستخدم لتغيير هذه الصورة…
+        عربي · BBC عربي
 هيئة البيئة - أبوظبي تعلن عن الدورة العاشرة لمنتدى أبوظبي لريادة الأعمال المستدامة 2026 - Zawya
         الإمارات · الإمارات
-Trump hosting China's Xi at White House with AI and tariffs on the agenda
-        President Trump is hosting Chinese President Xi Jinping for meetings and a state dinner on Thursday, as the world's two most powerful countries try…
+المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
+        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
+        تركيا · TRT عربي
+White House 'repeatedly violated' court order to restore press access, say media outlets
+        Lawyers for CNN, Politico and MS Now are seeking an emergency court hearing, saying the White House "repeatedly violated" the order.
+        بريطانيا · BBC
+WATCH: Millions of people on alert for powerful Nor'easter along East Coast
+        While the storm is set to hit the East Coast this weekend, coastal areas are already feeling the impact of the nor'easter storm.
+        أمريكا · ABC News
+Joint Chiefs Chairman Meets Czech Ambassador
+        Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
+        الأردن · Jordan News
+موسكو «لن تعلّق» عملياتها العسكرية بأوكرانيا وتنظر مشاركة بوتين في «قمة العشرين»
+        موسكو «لن تعلّق» عملياتها العسكرية في أوكرانيا وتنظر في مشاركة بوتين في «قمة العشرين» وروبيو يحذر من «توسع» الحرب لتشمل دولا أخرى.
+        عربي · الشرق الأوسط
+مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
+        الإمارات · الإمارات
+طلاب أتراك يحصدون المركز الأول في مسابقة للمسيَّرات بالولايات المتحدة
+        الفريق المكون من 12 شخصا كان قد نال المركز الثاني في المسابقة نفسها العام الماضي..
+        تركيا · الأناضول
+Nine prisoners held on indefinite jail terms referred to Court of Appeal by miscarriage of justice watchdog
+        The cases include Carl Lamb, who cut off his own ear with a razor blade in front of a prison officer in protest at his sentence
+        بريطانيا · Independent
+Was Hitler behind niece's death? Documents raise questions about alibi
+        Newly unearthed records have cast doubt on Adolf Hitler's whereabouts at the time of his niece's suspicious 1931 death, Der Spiegel reported.
         أمريكا · CBS
 Bank al Etihad sponsors 4 free open days at the Children’s Museum
         Bank al Etihad is sponsoring 4 free open days at the Children’s Museum between July 2026 and June 2027 as part of its corporate social responsibility…
         الأردن · Jordan News
-Trump-Xi live updates: leaders of US and China to talk AI and trade in major Washington meeting
-        Xi arrived at the White House on Thursday morning ahead of talks, which are expected to cover trade, AI, Taiwan and more In the first row in front of…
-        بريطانيا · Guardian
-عجز الحساب الجاري الأميركي يتسع بشكل حاد في الربع الثاني
-        أظهرت بيانات حكومية يوم الخميس أن عجز الحساب الجاري الأميركي اتسع بشكل حاد خلال الربع الثاني، في ظل قفزة في واردات السلع.
-        عربي · الشرق الأوسط
-المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
-        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
-        تركيا · TRT عربي
-مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
-        الإمارات · الإمارات
-Florida deputies taser sword-wielding burglary suspect, video shows
-        Bodycam video captured the tense moment deputies in Florida tasered sword-wielding suspect Josiah Smith after he allegedly refused commands.
-        أمريكا · Fox News
-Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
-        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
-        بريطانيا · Guardian
-Amr Diab to Film Only “Lola El Banat” From New Album
-        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
-        الأردن · Jordan News
-هدنة التجارة تمنح ترمب وشي وقتاً إضافياً لتسوية الخلافات
-        دخلت الولايات المتحدة والصين جولة جديدة من إدارة التوتر الاقتصادي بينهما، مع وصول الرئيس الصيني إلى واشنطن في أول زيارة له للولايات المتحدة منذ 3…
+الاقتصاد والأمن يتصدران مباحثات رئيس الوزراء اللبناني في نيويورك
+        تصدرت ملفات الإصلاح، والانفتاح الاقتصادي، والاستقرار الأمني لائحة أولويات مباحثات رئيس الحكومة اللبنانية نواف سلام في مباحثاته على هامش الدورة 81…
         عربي · الشرق الأوسط
 "رئة واحدة".. بيروت ودمشق تسعيان لشراكة اقتصادية عابرة للحدود
         تركيا · الأناضول
 بسجادة حمراء وطائرتين B-1.. ترامب وميلانيا يستقبلان رئيس الصين لدى وصوله إلى أمريكا - CNN Arabic
         الإمارات · الإمارات
-Police arrest far-right activist Daniel Thomas after ‘dinghy slashed in Channel’
-        Thirty-seven-year-old in custody on suspicion of crimes including criminal damage with intent to endanger life The far-right agitator and…
+Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
+        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
         بريطانيا · Guardian
-Marineland dolphin dies at Spain aquarium in latest death after rescue
-        Echo, one of four dolphins transferred to Oceanogràfic València from Marineland Canada, died on Wednesday, the Spanish facility said.
+Small businesses roll the dice on Kalshi to manage their risks
+        Hundreds of small businesses are using the prediction market to hedge against a range of business risks, according to Kalshi. Here's how.
         أمريكا · CBS
-Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
-        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
+Amr Diab to Film Only “Lola El Banat” From New Album
+        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
         الأردن · Jordan News
-رئيسة «فيدرالي» كليفلاند: ضغوط التضخم لا تزال تميل نحو الارتفاع
-        قالت بيث هاماك، رئيسة بنك الاحتياطي الفيدرالي في كليفلاند، يوم الخميس، إن ضغوط التضخم لا تزال مرتفعة.
+زلزال بقوة 5.4 درجة جنوب شرقي تركيا يثير الذعر من تكرار كارثة كهرمان ماراش
+        تسبب زلزال بقوة 5.4 درجة على مقياس «ريختر» في ولاية شانلي أورفا في جنوب شرقي تركيا بحالة من الذعر من احتمال تكرار كارثة زلزال كهرمان ماراش في 2023.
         عربي · الشرق الأوسط
 من يتولى حماية بزشكيان في نيويورك؟ - الجزيرة نت
         من يتولى حماية بزشكيان في نيويورك؟ الجزيرة نت بزشكيان يتعهد بعدم الخضوع ويتهم واشنطن بـ"الإرهاب"
@@ -143053,42 +143392,25 @@ Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
 دوران: تصريحات كاتس الوقحة بحق الرئيس أردوغان لن تطمس حقيقة الإبادة في غزة
         قال رئيس دائرة الاتصال بالرئاسة التركية برهان الدين دوران إن العبارات التي أطلقها وزير الدفاع الإسرائيلي يسرائيل كاتس بحق الرئيس رجب طيب أردوغان "لا…
         تركيا · TRT عربي
-Small boat migrant arrivals reach 781 in one day, breaking 2026 record
-        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
-        بريطانيا · BBC
-LIVE: ABC News Live
-        24/7 coverage of breaking news and live events
-        أمريكا · ABC News
-Unified Admission Results to Be Announced Tonight
-        The Unified Admission Coordination Unit will announce Thursday evening the results of unified admission for bachelor's degree programs at Jordan's…
-        الأردن · Jordan News
-بعد منعهم من دخول البيت الأبيض رغم الأمر القضائي.. طلب عاجل من CNN وMSNBC و"بوليتيكو"
-        تقدمت كل من شبكتي CNN وMSNBC وموقع Politico بطلب عاجل لعقد جلسة استماع صباح الخميس، وذلك بعد رفض السماح لها بدخول البيت الأبيض رغم وجود أمر قضائي.
-        عربي · CNN عربية
-ماذا يحدث للاقتصاد عندما تقفز عوائد سندات الخزانة؟ - العربية
-        الإمارات · الإمارات
-بولاط: التجارة التركية الأمريكية قد تبلغ 43 مليار دولار في 2026 و50 ملياراً بنهاية 2028
-        قال وزير التجارة التركي عمر بولاط، الخميس، إن حجم التجارة بين تركيا والولايات المتحدة قد يرتفع إلى نحو 43 مليار دولار خلال العام الجاري
-        تركيا · TRT عربي
-Angie Nixon slams Byron Donalds as he tries to distance himself from Trump
-        Florida Senate Democratic candidate Angie Nixon joins CBS News with her take on Republican gubernatorial hopeful Byron Donalds appearing to step back…
-        أمريكا · CBS
-Japan teenager Shin Ohashi overcomes Covid and fever to smash breaststroke world record
-        Swimmer wins 200m gold at Asian Games with 39C fever Says Covid helped him rest and ‘was a good thing’ The Japanese teenager Shin Ohashi said a bout…
+Nato’s top commander says range of Russian threats means ‘we are all eastern flank countries’ – Europe live
+        Alexus Grynkewich said the US would ⁠continue ​to provide ‘critical but more limited capabilities’ to the alliance In a separate interview with DR,…
         بريطانيا · Guardian
-Water Violations Detected South of Amman
-        The Ministry of Water and Irrigation/Water Authority said Thursday that its teams, during a security campaign in southern Amman, detected violations…
+Israel's Netanyahu set to hit back at widespread criticism in U.N. address
+        Benjamin Netanyahu is expected to focus on Iran, and on defending Israel's actions in Gaza and the West Bank amid condemnation from fellow leaders at…
+        أمريكا · CBS
+Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
+        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
         الأردن · Jordan News
-«مانشستر يونايتد» يخطف موهبة «سيتي» كريم قاسم بعمر 17 عاماً
-        أكمل فريق مانشستر يونايتد الإنجليزي لكرة القدم، اليوم الخميس، التعاقد مع كريم قاسم (17 عاماً) قادماً من مانشستر سيتي.
+فورمولا إي تكشف عن هويتها الجديدة قبل انطلاق موسمها من جدة
+        كشفت بطولة العالم لفورمولا إي، الأربعاء، عن هويتها البصرية الجديدة، قبل انطلاق موسم 2026-2027 من مدينة جدة في ديسمبر المقبل.
         عربي · الشرق الأوسط
 كيفية الحصول على تذاكر قطر ضد البحرين: أسعار كأس الخليج، معلومات المباراة، المبيعات في اللحظات الأخيرة والمزيد - Goal.com
         الإمارات · الإمارات
 "تعسف بحق البشر والشجر".. إسرائيل تقتلع 400 شجرة زيتون بالضفة
         - رئيس بلدية بني زيد الغربية عبد الرحمن الريماوي للأناضول: الأشجار المستهدفة يعود عمرها لمئات السنين
         تركيا · الأناضول
-Falcons and Packers both searching for answers heading into 'Thursday Night Football' in NFL Week 3
-        Michael Penix Jr. takes over for Cooper Rush as the Falcons try to unlock Bijon Robinson, Drake London, and Kyle Pitts in a stalling offense.
+Penguins forward Andrei Kuzmenko's father killed in bear attack on remote Russia fishing trip
+        Andrei Kuzmenko's father, a longtime hockey coach, was fatally attacked by a bear while fishing in a restricted area of Russia's Republic of Tuva.
         أمريكا · Fox News
 Drinking at football matches - would fans welcome it?
         Andy Burnham has long championed a repeal of the ban which prevents football supporters from drinking alcohol in the view of the pitch
@@ -143100,60 +143422,77 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924160000 +0000" stop="20260924170000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 07:41 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 07:59 — بتوقيتك
 
-تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب
-        اتهم تقرير ديمقراطي إدارة ترمب بمنح شركات نفط وغاز إعفاءات ضريبية وتخفيف قيود بيئية، بعد تبرعات بمئات الملايين من الدولارات لحملته الانتخابية.
+«وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات
+        لا تزال «وول ستريت» ترزح تحت ضغوط مصدرها سوق السندات ما دفع الأسهم الأميركية إلى التراجع مجدداً الخميس.
         عربي · الشرق الأوسط
+تطبيق Adobe Premiere يصل إلى هواتف أندرويد بتصوير فيديوهات 4K - الوطن
+        الإمارات · الإمارات
 شهيدان و9 مصابين بغزة وحماس تعلن جاهزيتها لتنفيذ خريطة الطريق وتتهم إسرائيل بتعطيلها
         استشهد فلسطينيان وأصيب 9 آخرون، الخميس، في هجمات إسرائيلية وسط وجنوب قطاع غزة
         تركيا · TRT عربي
+Small boat migrant arrivals reach 781 in one day, breaking 2026 record
+        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
+        بريطانيا · BBC
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
+        الأردن · Jordan News
+FDA commissioner nominee Dr. Heidi Overton appears for confirmation hearing
+        Dr. Heidi Overton is appearing before a Senate committee on Thursday for her confirmation hearing as the next commissioner of the Food and Drug…
+        أمريكا · ABC News
+كيف يعمل "جيش التعاطف الإلكتروني" على دعم من يواجهون السخرية والتنمّر؟
+        عادة ما يُنظر إلى منصات التواصل الاجتماعي باعتبارها مرآة تعكس قسوة البشر، لكن أحدهم بنى جيشاً على منصة تيك توك قوامه 500 ألف مستخدم لتغيير هذه الصورة…
+        عربي · BBC عربي
 هيئة البيئة - أبوظبي تعلن عن الدورة العاشرة لمنتدى أبوظبي لريادة الأعمال المستدامة 2026 - Zawya
         الإمارات · الإمارات
-Trump hosting China's Xi at White House with AI and tariffs on the agenda
-        President Trump is hosting Chinese President Xi Jinping for meetings and a state dinner on Thursday, as the world's two most powerful countries try…
+المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
+        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
+        تركيا · TRT عربي
+White House 'repeatedly violated' court order to restore press access, say media outlets
+        Lawyers for CNN, Politico and MS Now are seeking an emergency court hearing, saying the White House "repeatedly violated" the order.
+        بريطانيا · BBC
+WATCH: Millions of people on alert for powerful Nor'easter along East Coast
+        While the storm is set to hit the East Coast this weekend, coastal areas are already feeling the impact of the nor'easter storm.
+        أمريكا · ABC News
+Joint Chiefs Chairman Meets Czech Ambassador
+        Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
+        الأردن · Jordan News
+موسكو «لن تعلّق» عملياتها العسكرية بأوكرانيا وتنظر مشاركة بوتين في «قمة العشرين»
+        موسكو «لن تعلّق» عملياتها العسكرية في أوكرانيا وتنظر في مشاركة بوتين في «قمة العشرين» وروبيو يحذر من «توسع» الحرب لتشمل دولا أخرى.
+        عربي · الشرق الأوسط
+مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
+        الإمارات · الإمارات
+طلاب أتراك يحصدون المركز الأول في مسابقة للمسيَّرات بالولايات المتحدة
+        الفريق المكون من 12 شخصا كان قد نال المركز الثاني في المسابقة نفسها العام الماضي..
+        تركيا · الأناضول
+Nine prisoners held on indefinite jail terms referred to Court of Appeal by miscarriage of justice watchdog
+        The cases include Carl Lamb, who cut off his own ear with a razor blade in front of a prison officer in protest at his sentence
+        بريطانيا · Independent
+Was Hitler behind niece's death? Documents raise questions about alibi
+        Newly unearthed records have cast doubt on Adolf Hitler's whereabouts at the time of his niece's suspicious 1931 death, Der Spiegel reported.
         أمريكا · CBS
 Bank al Etihad sponsors 4 free open days at the Children’s Museum
         Bank al Etihad is sponsoring 4 free open days at the Children’s Museum between July 2026 and June 2027 as part of its corporate social responsibility…
         الأردن · Jordan News
-Trump-Xi live updates: leaders of US and China to talk AI and trade in major Washington meeting
-        Xi arrived at the White House on Thursday morning ahead of talks, which are expected to cover trade, AI, Taiwan and more In the first row in front of…
-        بريطانيا · Guardian
-عجز الحساب الجاري الأميركي يتسع بشكل حاد في الربع الثاني
-        أظهرت بيانات حكومية يوم الخميس أن عجز الحساب الجاري الأميركي اتسع بشكل حاد خلال الربع الثاني، في ظل قفزة في واردات السلع.
-        عربي · الشرق الأوسط
-المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
-        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
-        تركيا · TRT عربي
-مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
-        الإمارات · الإمارات
-Florida deputies taser sword-wielding burglary suspect, video shows
-        Bodycam video captured the tense moment deputies in Florida tasered sword-wielding suspect Josiah Smith after he allegedly refused commands.
-        أمريكا · Fox News
-Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
-        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
-        بريطانيا · Guardian
-Amr Diab to Film Only “Lola El Banat” From New Album
-        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
-        الأردن · Jordan News
-هدنة التجارة تمنح ترمب وشي وقتاً إضافياً لتسوية الخلافات
-        دخلت الولايات المتحدة والصين جولة جديدة من إدارة التوتر الاقتصادي بينهما، مع وصول الرئيس الصيني إلى واشنطن في أول زيارة له للولايات المتحدة منذ 3…
+الاقتصاد والأمن يتصدران مباحثات رئيس الوزراء اللبناني في نيويورك
+        تصدرت ملفات الإصلاح، والانفتاح الاقتصادي، والاستقرار الأمني لائحة أولويات مباحثات رئيس الحكومة اللبنانية نواف سلام في مباحثاته على هامش الدورة 81…
         عربي · الشرق الأوسط
 "رئة واحدة".. بيروت ودمشق تسعيان لشراكة اقتصادية عابرة للحدود
         تركيا · الأناضول
 بسجادة حمراء وطائرتين B-1.. ترامب وميلانيا يستقبلان رئيس الصين لدى وصوله إلى أمريكا - CNN Arabic
         الإمارات · الإمارات
-Police arrest far-right activist Daniel Thomas after ‘dinghy slashed in Channel’
-        Thirty-seven-year-old in custody on suspicion of crimes including criminal damage with intent to endanger life The far-right agitator and…
+Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
+        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
         بريطانيا · Guardian
-Marineland dolphin dies at Spain aquarium in latest death after rescue
-        Echo, one of four dolphins transferred to Oceanogràfic València from Marineland Canada, died on Wednesday, the Spanish facility said.
+Small businesses roll the dice on Kalshi to manage their risks
+        Hundreds of small businesses are using the prediction market to hedge against a range of business risks, according to Kalshi. Here's how.
         أمريكا · CBS
-Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
-        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
+Amr Diab to Film Only “Lola El Banat” From New Album
+        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
         الأردن · Jordan News
-رئيسة «فيدرالي» كليفلاند: ضغوط التضخم لا تزال تميل نحو الارتفاع
-        قالت بيث هاماك، رئيسة بنك الاحتياطي الفيدرالي في كليفلاند، يوم الخميس، إن ضغوط التضخم لا تزال مرتفعة.
+زلزال بقوة 5.4 درجة جنوب شرقي تركيا يثير الذعر من تكرار كارثة كهرمان ماراش
+        تسبب زلزال بقوة 5.4 درجة على مقياس «ريختر» في ولاية شانلي أورفا في جنوب شرقي تركيا بحالة من الذعر من احتمال تكرار كارثة زلزال كهرمان ماراش في 2023.
         عربي · الشرق الأوسط
 من يتولى حماية بزشكيان في نيويورك؟ - الجزيرة نت
         من يتولى حماية بزشكيان في نيويورك؟ الجزيرة نت بزشكيان يتعهد بعدم الخضوع ويتهم واشنطن بـ"الإرهاب"
@@ -143161,42 +143500,25 @@ Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
 دوران: تصريحات كاتس الوقحة بحق الرئيس أردوغان لن تطمس حقيقة الإبادة في غزة
         قال رئيس دائرة الاتصال بالرئاسة التركية برهان الدين دوران إن العبارات التي أطلقها وزير الدفاع الإسرائيلي يسرائيل كاتس بحق الرئيس رجب طيب أردوغان "لا…
         تركيا · TRT عربي
-Small boat migrant arrivals reach 781 in one day, breaking 2026 record
-        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
-        بريطانيا · BBC
-LIVE: ABC News Live
-        24/7 coverage of breaking news and live events
-        أمريكا · ABC News
-Unified Admission Results to Be Announced Tonight
-        The Unified Admission Coordination Unit will announce Thursday evening the results of unified admission for bachelor's degree programs at Jordan's…
-        الأردن · Jordan News
-بعد منعهم من دخول البيت الأبيض رغم الأمر القضائي.. طلب عاجل من CNN وMSNBC و"بوليتيكو"
-        تقدمت كل من شبكتي CNN وMSNBC وموقع Politico بطلب عاجل لعقد جلسة استماع صباح الخميس، وذلك بعد رفض السماح لها بدخول البيت الأبيض رغم وجود أمر قضائي.
-        عربي · CNN عربية
-ماذا يحدث للاقتصاد عندما تقفز عوائد سندات الخزانة؟ - العربية
-        الإمارات · الإمارات
-بولاط: التجارة التركية الأمريكية قد تبلغ 43 مليار دولار في 2026 و50 ملياراً بنهاية 2028
-        قال وزير التجارة التركي عمر بولاط، الخميس، إن حجم التجارة بين تركيا والولايات المتحدة قد يرتفع إلى نحو 43 مليار دولار خلال العام الجاري
-        تركيا · TRT عربي
-Angie Nixon slams Byron Donalds as he tries to distance himself from Trump
-        Florida Senate Democratic candidate Angie Nixon joins CBS News with her take on Republican gubernatorial hopeful Byron Donalds appearing to step back…
-        أمريكا · CBS
-Japan teenager Shin Ohashi overcomes Covid and fever to smash breaststroke world record
-        Swimmer wins 200m gold at Asian Games with 39C fever Says Covid helped him rest and ‘was a good thing’ The Japanese teenager Shin Ohashi said a bout…
+Nato’s top commander says range of Russian threats means ‘we are all eastern flank countries’ – Europe live
+        Alexus Grynkewich said the US would ⁠continue ​to provide ‘critical but more limited capabilities’ to the alliance In a separate interview with DR,…
         بريطانيا · Guardian
-Water Violations Detected South of Amman
-        The Ministry of Water and Irrigation/Water Authority said Thursday that its teams, during a security campaign in southern Amman, detected violations…
+Israel's Netanyahu set to hit back at widespread criticism in U.N. address
+        Benjamin Netanyahu is expected to focus on Iran, and on defending Israel's actions in Gaza and the West Bank amid condemnation from fellow leaders at…
+        أمريكا · CBS
+Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
+        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
         الأردن · Jordan News
-«مانشستر يونايتد» يخطف موهبة «سيتي» كريم قاسم بعمر 17 عاماً
-        أكمل فريق مانشستر يونايتد الإنجليزي لكرة القدم، اليوم الخميس، التعاقد مع كريم قاسم (17 عاماً) قادماً من مانشستر سيتي.
+فورمولا إي تكشف عن هويتها الجديدة قبل انطلاق موسمها من جدة
+        كشفت بطولة العالم لفورمولا إي، الأربعاء، عن هويتها البصرية الجديدة، قبل انطلاق موسم 2026-2027 من مدينة جدة في ديسمبر المقبل.
         عربي · الشرق الأوسط
 كيفية الحصول على تذاكر قطر ضد البحرين: أسعار كأس الخليج، معلومات المباراة، المبيعات في اللحظات الأخيرة والمزيد - Goal.com
         الإمارات · الإمارات
 "تعسف بحق البشر والشجر".. إسرائيل تقتلع 400 شجرة زيتون بالضفة
         - رئيس بلدية بني زيد الغربية عبد الرحمن الريماوي للأناضول: الأشجار المستهدفة يعود عمرها لمئات السنين
         تركيا · الأناضول
-Falcons and Packers both searching for answers heading into 'Thursday Night Football' in NFL Week 3
-        Michael Penix Jr. takes over for Cooper Rush as the Falcons try to unlock Bijon Robinson, Drake London, and Kyle Pitts in a stalling offense.
+Penguins forward Andrei Kuzmenko's father killed in bear attack on remote Russia fishing trip
+        Andrei Kuzmenko's father, a longtime hockey coach, was fatally attacked by a bear while fishing in a restricted area of Russia's Republic of Tuva.
         أمريكا · Fox News
 Drinking at football matches - would fans welcome it?
         Andy Burnham has long championed a repeal of the ban which prevents football supporters from drinking alcohol in the view of the pitch
@@ -143208,60 +143530,77 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924170000 +0000" stop="20260924180000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 07:41 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 07:59 — بتوقيتك
 
-تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب
-        اتهم تقرير ديمقراطي إدارة ترمب بمنح شركات نفط وغاز إعفاءات ضريبية وتخفيف قيود بيئية، بعد تبرعات بمئات الملايين من الدولارات لحملته الانتخابية.
+«وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات
+        لا تزال «وول ستريت» ترزح تحت ضغوط مصدرها سوق السندات ما دفع الأسهم الأميركية إلى التراجع مجدداً الخميس.
         عربي · الشرق الأوسط
+تطبيق Adobe Premiere يصل إلى هواتف أندرويد بتصوير فيديوهات 4K - الوطن
+        الإمارات · الإمارات
 شهيدان و9 مصابين بغزة وحماس تعلن جاهزيتها لتنفيذ خريطة الطريق وتتهم إسرائيل بتعطيلها
         استشهد فلسطينيان وأصيب 9 آخرون، الخميس، في هجمات إسرائيلية وسط وجنوب قطاع غزة
         تركيا · TRT عربي
+Small boat migrant arrivals reach 781 in one day, breaking 2026 record
+        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
+        بريطانيا · BBC
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
+        الأردن · Jordan News
+FDA commissioner nominee Dr. Heidi Overton appears for confirmation hearing
+        Dr. Heidi Overton is appearing before a Senate committee on Thursday for her confirmation hearing as the next commissioner of the Food and Drug…
+        أمريكا · ABC News
+كيف يعمل "جيش التعاطف الإلكتروني" على دعم من يواجهون السخرية والتنمّر؟
+        عادة ما يُنظر إلى منصات التواصل الاجتماعي باعتبارها مرآة تعكس قسوة البشر، لكن أحدهم بنى جيشاً على منصة تيك توك قوامه 500 ألف مستخدم لتغيير هذه الصورة…
+        عربي · BBC عربي
 هيئة البيئة - أبوظبي تعلن عن الدورة العاشرة لمنتدى أبوظبي لريادة الأعمال المستدامة 2026 - Zawya
         الإمارات · الإمارات
-Trump hosting China's Xi at White House with AI and tariffs on the agenda
-        President Trump is hosting Chinese President Xi Jinping for meetings and a state dinner on Thursday, as the world's two most powerful countries try…
+المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
+        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
+        تركيا · TRT عربي
+White House 'repeatedly violated' court order to restore press access, say media outlets
+        Lawyers for CNN, Politico and MS Now are seeking an emergency court hearing, saying the White House "repeatedly violated" the order.
+        بريطانيا · BBC
+WATCH: Millions of people on alert for powerful Nor'easter along East Coast
+        While the storm is set to hit the East Coast this weekend, coastal areas are already feeling the impact of the nor'easter storm.
+        أمريكا · ABC News
+Joint Chiefs Chairman Meets Czech Ambassador
+        Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
+        الأردن · Jordan News
+موسكو «لن تعلّق» عملياتها العسكرية بأوكرانيا وتنظر مشاركة بوتين في «قمة العشرين»
+        موسكو «لن تعلّق» عملياتها العسكرية في أوكرانيا وتنظر في مشاركة بوتين في «قمة العشرين» وروبيو يحذر من «توسع» الحرب لتشمل دولا أخرى.
+        عربي · الشرق الأوسط
+مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
+        الإمارات · الإمارات
+طلاب أتراك يحصدون المركز الأول في مسابقة للمسيَّرات بالولايات المتحدة
+        الفريق المكون من 12 شخصا كان قد نال المركز الثاني في المسابقة نفسها العام الماضي..
+        تركيا · الأناضول
+Nine prisoners held on indefinite jail terms referred to Court of Appeal by miscarriage of justice watchdog
+        The cases include Carl Lamb, who cut off his own ear with a razor blade in front of a prison officer in protest at his sentence
+        بريطانيا · Independent
+Was Hitler behind niece's death? Documents raise questions about alibi
+        Newly unearthed records have cast doubt on Adolf Hitler's whereabouts at the time of his niece's suspicious 1931 death, Der Spiegel reported.
         أمريكا · CBS
 Bank al Etihad sponsors 4 free open days at the Children’s Museum
         Bank al Etihad is sponsoring 4 free open days at the Children’s Museum between July 2026 and June 2027 as part of its corporate social responsibility…
         الأردن · Jordan News
-Trump-Xi live updates: leaders of US and China to talk AI and trade in major Washington meeting
-        Xi arrived at the White House on Thursday morning ahead of talks, which are expected to cover trade, AI, Taiwan and more In the first row in front of…
-        بريطانيا · Guardian
-عجز الحساب الجاري الأميركي يتسع بشكل حاد في الربع الثاني
-        أظهرت بيانات حكومية يوم الخميس أن عجز الحساب الجاري الأميركي اتسع بشكل حاد خلال الربع الثاني، في ظل قفزة في واردات السلع.
-        عربي · الشرق الأوسط
-المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
-        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
-        تركيا · TRT عربي
-مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
-        الإمارات · الإمارات
-Florida deputies taser sword-wielding burglary suspect, video shows
-        Bodycam video captured the tense moment deputies in Florida tasered sword-wielding suspect Josiah Smith after he allegedly refused commands.
-        أمريكا · Fox News
-Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
-        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
-        بريطانيا · Guardian
-Amr Diab to Film Only “Lola El Banat” From New Album
-        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
-        الأردن · Jordan News
-هدنة التجارة تمنح ترمب وشي وقتاً إضافياً لتسوية الخلافات
-        دخلت الولايات المتحدة والصين جولة جديدة من إدارة التوتر الاقتصادي بينهما، مع وصول الرئيس الصيني إلى واشنطن في أول زيارة له للولايات المتحدة منذ 3…
+الاقتصاد والأمن يتصدران مباحثات رئيس الوزراء اللبناني في نيويورك
+        تصدرت ملفات الإصلاح، والانفتاح الاقتصادي، والاستقرار الأمني لائحة أولويات مباحثات رئيس الحكومة اللبنانية نواف سلام في مباحثاته على هامش الدورة 81…
         عربي · الشرق الأوسط
 "رئة واحدة".. بيروت ودمشق تسعيان لشراكة اقتصادية عابرة للحدود
         تركيا · الأناضول
 بسجادة حمراء وطائرتين B-1.. ترامب وميلانيا يستقبلان رئيس الصين لدى وصوله إلى أمريكا - CNN Arabic
         الإمارات · الإمارات
-Police arrest far-right activist Daniel Thomas after ‘dinghy slashed in Channel’
-        Thirty-seven-year-old in custody on suspicion of crimes including criminal damage with intent to endanger life The far-right agitator and…
+Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
+        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
         بريطانيا · Guardian
-Marineland dolphin dies at Spain aquarium in latest death after rescue
-        Echo, one of four dolphins transferred to Oceanogràfic València from Marineland Canada, died on Wednesday, the Spanish facility said.
+Small businesses roll the dice on Kalshi to manage their risks
+        Hundreds of small businesses are using the prediction market to hedge against a range of business risks, according to Kalshi. Here's how.
         أمريكا · CBS
-Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
-        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
+Amr Diab to Film Only “Lola El Banat” From New Album
+        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
         الأردن · Jordan News
-رئيسة «فيدرالي» كليفلاند: ضغوط التضخم لا تزال تميل نحو الارتفاع
-        قالت بيث هاماك، رئيسة بنك الاحتياطي الفيدرالي في كليفلاند، يوم الخميس، إن ضغوط التضخم لا تزال مرتفعة.
+زلزال بقوة 5.4 درجة جنوب شرقي تركيا يثير الذعر من تكرار كارثة كهرمان ماراش
+        تسبب زلزال بقوة 5.4 درجة على مقياس «ريختر» في ولاية شانلي أورفا في جنوب شرقي تركيا بحالة من الذعر من احتمال تكرار كارثة زلزال كهرمان ماراش في 2023.
         عربي · الشرق الأوسط
 من يتولى حماية بزشكيان في نيويورك؟ - الجزيرة نت
         من يتولى حماية بزشكيان في نيويورك؟ الجزيرة نت بزشكيان يتعهد بعدم الخضوع ويتهم واشنطن بـ"الإرهاب"
@@ -143269,42 +143608,25 @@ Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
 دوران: تصريحات كاتس الوقحة بحق الرئيس أردوغان لن تطمس حقيقة الإبادة في غزة
         قال رئيس دائرة الاتصال بالرئاسة التركية برهان الدين دوران إن العبارات التي أطلقها وزير الدفاع الإسرائيلي يسرائيل كاتس بحق الرئيس رجب طيب أردوغان "لا…
         تركيا · TRT عربي
-Small boat migrant arrivals reach 781 in one day, breaking 2026 record
-        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
-        بريطانيا · BBC
-LIVE: ABC News Live
-        24/7 coverage of breaking news and live events
-        أمريكا · ABC News
-Unified Admission Results to Be Announced Tonight
-        The Unified Admission Coordination Unit will announce Thursday evening the results of unified admission for bachelor's degree programs at Jordan's…
-        الأردن · Jordan News
-بعد منعهم من دخول البيت الأبيض رغم الأمر القضائي.. طلب عاجل من CNN وMSNBC و"بوليتيكو"
-        تقدمت كل من شبكتي CNN وMSNBC وموقع Politico بطلب عاجل لعقد جلسة استماع صباح الخميس، وذلك بعد رفض السماح لها بدخول البيت الأبيض رغم وجود أمر قضائي.
-        عربي · CNN عربية
-ماذا يحدث للاقتصاد عندما تقفز عوائد سندات الخزانة؟ - العربية
-        الإمارات · الإمارات
-بولاط: التجارة التركية الأمريكية قد تبلغ 43 مليار دولار في 2026 و50 ملياراً بنهاية 2028
-        قال وزير التجارة التركي عمر بولاط، الخميس، إن حجم التجارة بين تركيا والولايات المتحدة قد يرتفع إلى نحو 43 مليار دولار خلال العام الجاري
-        تركيا · TRT عربي
-Angie Nixon slams Byron Donalds as he tries to distance himself from Trump
-        Florida Senate Democratic candidate Angie Nixon joins CBS News with her take on Republican gubernatorial hopeful Byron Donalds appearing to step back…
-        أمريكا · CBS
-Japan teenager Shin Ohashi overcomes Covid and fever to smash breaststroke world record
-        Swimmer wins 200m gold at Asian Games with 39C fever Says Covid helped him rest and ‘was a good thing’ The Japanese teenager Shin Ohashi said a bout…
+Nato’s top commander says range of Russian threats means ‘we are all eastern flank countries’ – Europe live
+        Alexus Grynkewich said the US would ⁠continue ​to provide ‘critical but more limited capabilities’ to the alliance In a separate interview with DR,…
         بريطانيا · Guardian
-Water Violations Detected South of Amman
-        The Ministry of Water and Irrigation/Water Authority said Thursday that its teams, during a security campaign in southern Amman, detected violations…
+Israel's Netanyahu set to hit back at widespread criticism in U.N. address
+        Benjamin Netanyahu is expected to focus on Iran, and on defending Israel's actions in Gaza and the West Bank amid condemnation from fellow leaders at…
+        أمريكا · CBS
+Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
+        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
         الأردن · Jordan News
-«مانشستر يونايتد» يخطف موهبة «سيتي» كريم قاسم بعمر 17 عاماً
-        أكمل فريق مانشستر يونايتد الإنجليزي لكرة القدم، اليوم الخميس، التعاقد مع كريم قاسم (17 عاماً) قادماً من مانشستر سيتي.
+فورمولا إي تكشف عن هويتها الجديدة قبل انطلاق موسمها من جدة
+        كشفت بطولة العالم لفورمولا إي، الأربعاء، عن هويتها البصرية الجديدة، قبل انطلاق موسم 2026-2027 من مدينة جدة في ديسمبر المقبل.
         عربي · الشرق الأوسط
 كيفية الحصول على تذاكر قطر ضد البحرين: أسعار كأس الخليج، معلومات المباراة، المبيعات في اللحظات الأخيرة والمزيد - Goal.com
         الإمارات · الإمارات
 "تعسف بحق البشر والشجر".. إسرائيل تقتلع 400 شجرة زيتون بالضفة
         - رئيس بلدية بني زيد الغربية عبد الرحمن الريماوي للأناضول: الأشجار المستهدفة يعود عمرها لمئات السنين
         تركيا · الأناضول
-Falcons and Packers both searching for answers heading into 'Thursday Night Football' in NFL Week 3
-        Michael Penix Jr. takes over for Cooper Rush as the Falcons try to unlock Bijon Robinson, Drake London, and Kyle Pitts in a stalling offense.
+Penguins forward Andrei Kuzmenko's father killed in bear attack on remote Russia fishing trip
+        Andrei Kuzmenko's father, a longtime hockey coach, was fatally attacked by a bear while fishing in a restricted area of Russia's Republic of Tuva.
         أمريكا · Fox News
 Drinking at football matches - would fans welcome it?
         Andy Burnham has long championed a repeal of the ban which prevents football supporters from drinking alcohol in the view of the pitch
@@ -143316,60 +143638,77 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924180000 +0000" stop="20260924190000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 07:41 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 07:59 — بتوقيتك
 
-تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب
-        اتهم تقرير ديمقراطي إدارة ترمب بمنح شركات نفط وغاز إعفاءات ضريبية وتخفيف قيود بيئية، بعد تبرعات بمئات الملايين من الدولارات لحملته الانتخابية.
+«وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات
+        لا تزال «وول ستريت» ترزح تحت ضغوط مصدرها سوق السندات ما دفع الأسهم الأميركية إلى التراجع مجدداً الخميس.
         عربي · الشرق الأوسط
+تطبيق Adobe Premiere يصل إلى هواتف أندرويد بتصوير فيديوهات 4K - الوطن
+        الإمارات · الإمارات
 شهيدان و9 مصابين بغزة وحماس تعلن جاهزيتها لتنفيذ خريطة الطريق وتتهم إسرائيل بتعطيلها
         استشهد فلسطينيان وأصيب 9 آخرون، الخميس، في هجمات إسرائيلية وسط وجنوب قطاع غزة
         تركيا · TRT عربي
+Small boat migrant arrivals reach 781 in one day, breaking 2026 record
+        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
+        بريطانيا · BBC
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
+        الأردن · Jordan News
+FDA commissioner nominee Dr. Heidi Overton appears for confirmation hearing
+        Dr. Heidi Overton is appearing before a Senate committee on Thursday for her confirmation hearing as the next commissioner of the Food and Drug…
+        أمريكا · ABC News
+كيف يعمل "جيش التعاطف الإلكتروني" على دعم من يواجهون السخرية والتنمّر؟
+        عادة ما يُنظر إلى منصات التواصل الاجتماعي باعتبارها مرآة تعكس قسوة البشر، لكن أحدهم بنى جيشاً على منصة تيك توك قوامه 500 ألف مستخدم لتغيير هذه الصورة…
+        عربي · BBC عربي
 هيئة البيئة - أبوظبي تعلن عن الدورة العاشرة لمنتدى أبوظبي لريادة الأعمال المستدامة 2026 - Zawya
         الإمارات · الإمارات
-Trump hosting China's Xi at White House with AI and tariffs on the agenda
-        President Trump is hosting Chinese President Xi Jinping for meetings and a state dinner on Thursday, as the world's two most powerful countries try…
+المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
+        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
+        تركيا · TRT عربي
+White House 'repeatedly violated' court order to restore press access, say media outlets
+        Lawyers for CNN, Politico and MS Now are seeking an emergency court hearing, saying the White House "repeatedly violated" the order.
+        بريطانيا · BBC
+WATCH: Millions of people on alert for powerful Nor'easter along East Coast
+        While the storm is set to hit the East Coast this weekend, coastal areas are already feeling the impact of the nor'easter storm.
+        أمريكا · ABC News
+Joint Chiefs Chairman Meets Czech Ambassador
+        Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
+        الأردن · Jordan News
+موسكو «لن تعلّق» عملياتها العسكرية بأوكرانيا وتنظر مشاركة بوتين في «قمة العشرين»
+        موسكو «لن تعلّق» عملياتها العسكرية في أوكرانيا وتنظر في مشاركة بوتين في «قمة العشرين» وروبيو يحذر من «توسع» الحرب لتشمل دولا أخرى.
+        عربي · الشرق الأوسط
+مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
+        الإمارات · الإمارات
+طلاب أتراك يحصدون المركز الأول في مسابقة للمسيَّرات بالولايات المتحدة
+        الفريق المكون من 12 شخصا كان قد نال المركز الثاني في المسابقة نفسها العام الماضي..
+        تركيا · الأناضول
+Nine prisoners held on indefinite jail terms referred to Court of Appeal by miscarriage of justice watchdog
+        The cases include Carl Lamb, who cut off his own ear with a razor blade in front of a prison officer in protest at his sentence
+        بريطانيا · Independent
+Was Hitler behind niece's death? Documents raise questions about alibi
+        Newly unearthed records have cast doubt on Adolf Hitler's whereabouts at the time of his niece's suspicious 1931 death, Der Spiegel reported.
         أمريكا · CBS
 Bank al Etihad sponsors 4 free open days at the Children’s Museum
         Bank al Etihad is sponsoring 4 free open days at the Children’s Museum between July 2026 and June 2027 as part of its corporate social responsibility…
         الأردن · Jordan News
-Trump-Xi live updates: leaders of US and China to talk AI and trade in major Washington meeting
-        Xi arrived at the White House on Thursday morning ahead of talks, which are expected to cover trade, AI, Taiwan and more In the first row in front of…
-        بريطانيا · Guardian
-عجز الحساب الجاري الأميركي يتسع بشكل حاد في الربع الثاني
-        أظهرت بيانات حكومية يوم الخميس أن عجز الحساب الجاري الأميركي اتسع بشكل حاد خلال الربع الثاني، في ظل قفزة في واردات السلع.
-        عربي · الشرق الأوسط
-المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
-        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
-        تركيا · TRT عربي
-مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
-        الإمارات · الإمارات
-Florida deputies taser sword-wielding burglary suspect, video shows
-        Bodycam video captured the tense moment deputies in Florida tasered sword-wielding suspect Josiah Smith after he allegedly refused commands.
-        أمريكا · Fox News
-Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
-        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
-        بريطانيا · Guardian
-Amr Diab to Film Only “Lola El Banat” From New Album
-        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
-        الأردن · Jordan News
-هدنة التجارة تمنح ترمب وشي وقتاً إضافياً لتسوية الخلافات
-        دخلت الولايات المتحدة والصين جولة جديدة من إدارة التوتر الاقتصادي بينهما، مع وصول الرئيس الصيني إلى واشنطن في أول زيارة له للولايات المتحدة منذ 3…
+الاقتصاد والأمن يتصدران مباحثات رئيس الوزراء اللبناني في نيويورك
+        تصدرت ملفات الإصلاح، والانفتاح الاقتصادي، والاستقرار الأمني لائحة أولويات مباحثات رئيس الحكومة اللبنانية نواف سلام في مباحثاته على هامش الدورة 81…
         عربي · الشرق الأوسط
 "رئة واحدة".. بيروت ودمشق تسعيان لشراكة اقتصادية عابرة للحدود
         تركيا · الأناضول
 بسجادة حمراء وطائرتين B-1.. ترامب وميلانيا يستقبلان رئيس الصين لدى وصوله إلى أمريكا - CNN Arabic
         الإمارات · الإمارات
-Police arrest far-right activist Daniel Thomas after ‘dinghy slashed in Channel’
-        Thirty-seven-year-old in custody on suspicion of crimes including criminal damage with intent to endanger life The far-right agitator and…
+Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
+        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
         بريطانيا · Guardian
-Marineland dolphin dies at Spain aquarium in latest death after rescue
-        Echo, one of four dolphins transferred to Oceanogràfic València from Marineland Canada, died on Wednesday, the Spanish facility said.
+Small businesses roll the dice on Kalshi to manage their risks
+        Hundreds of small businesses are using the prediction market to hedge against a range of business risks, according to Kalshi. Here's how.
         أمريكا · CBS
-Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
-        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
+Amr Diab to Film Only “Lola El Banat” From New Album
+        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
         الأردن · Jordan News
-رئيسة «فيدرالي» كليفلاند: ضغوط التضخم لا تزال تميل نحو الارتفاع
-        قالت بيث هاماك، رئيسة بنك الاحتياطي الفيدرالي في كليفلاند، يوم الخميس، إن ضغوط التضخم لا تزال مرتفعة.
+زلزال بقوة 5.4 درجة جنوب شرقي تركيا يثير الذعر من تكرار كارثة كهرمان ماراش
+        تسبب زلزال بقوة 5.4 درجة على مقياس «ريختر» في ولاية شانلي أورفا في جنوب شرقي تركيا بحالة من الذعر من احتمال تكرار كارثة زلزال كهرمان ماراش في 2023.
         عربي · الشرق الأوسط
 من يتولى حماية بزشكيان في نيويورك؟ - الجزيرة نت
         من يتولى حماية بزشكيان في نيويورك؟ الجزيرة نت بزشكيان يتعهد بعدم الخضوع ويتهم واشنطن بـ"الإرهاب"
@@ -143377,42 +143716,25 @@ Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
 دوران: تصريحات كاتس الوقحة بحق الرئيس أردوغان لن تطمس حقيقة الإبادة في غزة
         قال رئيس دائرة الاتصال بالرئاسة التركية برهان الدين دوران إن العبارات التي أطلقها وزير الدفاع الإسرائيلي يسرائيل كاتس بحق الرئيس رجب طيب أردوغان "لا…
         تركيا · TRT عربي
-Small boat migrant arrivals reach 781 in one day, breaking 2026 record
-        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
-        بريطانيا · BBC
-LIVE: ABC News Live
-        24/7 coverage of breaking news and live events
-        أمريكا · ABC News
-Unified Admission Results to Be Announced Tonight
-        The Unified Admission Coordination Unit will announce Thursday evening the results of unified admission for bachelor's degree programs at Jordan's…
-        الأردن · Jordan News
-بعد منعهم من دخول البيت الأبيض رغم الأمر القضائي.. طلب عاجل من CNN وMSNBC و"بوليتيكو"
-        تقدمت كل من شبكتي CNN وMSNBC وموقع Politico بطلب عاجل لعقد جلسة استماع صباح الخميس، وذلك بعد رفض السماح لها بدخول البيت الأبيض رغم وجود أمر قضائي.
-        عربي · CNN عربية
-ماذا يحدث للاقتصاد عندما تقفز عوائد سندات الخزانة؟ - العربية
-        الإمارات · الإمارات
-بولاط: التجارة التركية الأمريكية قد تبلغ 43 مليار دولار في 2026 و50 ملياراً بنهاية 2028
-        قال وزير التجارة التركي عمر بولاط، الخميس، إن حجم التجارة بين تركيا والولايات المتحدة قد يرتفع إلى نحو 43 مليار دولار خلال العام الجاري
-        تركيا · TRT عربي
-Angie Nixon slams Byron Donalds as he tries to distance himself from Trump
-        Florida Senate Democratic candidate Angie Nixon joins CBS News with her take on Republican gubernatorial hopeful Byron Donalds appearing to step back…
-        أمريكا · CBS
-Japan teenager Shin Ohashi overcomes Covid and fever to smash breaststroke world record
-        Swimmer wins 200m gold at Asian Games with 39C fever Says Covid helped him rest and ‘was a good thing’ The Japanese teenager Shin Ohashi said a bout…
+Nato’s top commander says range of Russian threats means ‘we are all eastern flank countries’ – Europe live
+        Alexus Grynkewich said the US would ⁠continue ​to provide ‘critical but more limited capabilities’ to the alliance In a separate interview with DR,…
         بريطانيا · Guardian
-Water Violations Detected South of Amman
-        The Ministry of Water and Irrigation/Water Authority said Thursday that its teams, during a security campaign in southern Amman, detected violations…
+Israel's Netanyahu set to hit back at widespread criticism in U.N. address
+        Benjamin Netanyahu is expected to focus on Iran, and on defending Israel's actions in Gaza and the West Bank amid condemnation from fellow leaders at…
+        أمريكا · CBS
+Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
+        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
         الأردن · Jordan News
-«مانشستر يونايتد» يخطف موهبة «سيتي» كريم قاسم بعمر 17 عاماً
-        أكمل فريق مانشستر يونايتد الإنجليزي لكرة القدم، اليوم الخميس، التعاقد مع كريم قاسم (17 عاماً) قادماً من مانشستر سيتي.
+فورمولا إي تكشف عن هويتها الجديدة قبل انطلاق موسمها من جدة
+        كشفت بطولة العالم لفورمولا إي، الأربعاء، عن هويتها البصرية الجديدة، قبل انطلاق موسم 2026-2027 من مدينة جدة في ديسمبر المقبل.
         عربي · الشرق الأوسط
 كيفية الحصول على تذاكر قطر ضد البحرين: أسعار كأس الخليج، معلومات المباراة، المبيعات في اللحظات الأخيرة والمزيد - Goal.com
         الإمارات · الإمارات
 "تعسف بحق البشر والشجر".. إسرائيل تقتلع 400 شجرة زيتون بالضفة
         - رئيس بلدية بني زيد الغربية عبد الرحمن الريماوي للأناضول: الأشجار المستهدفة يعود عمرها لمئات السنين
         تركيا · الأناضول
-Falcons and Packers both searching for answers heading into 'Thursday Night Football' in NFL Week 3
-        Michael Penix Jr. takes over for Cooper Rush as the Falcons try to unlock Bijon Robinson, Drake London, and Kyle Pitts in a stalling offense.
+Penguins forward Andrei Kuzmenko's father killed in bear attack on remote Russia fishing trip
+        Andrei Kuzmenko's father, a longtime hockey coach, was fatally attacked by a bear while fishing in a restricted area of Russia's Republic of Tuva.
         أمريكا · Fox News
 Drinking at football matches - would fans welcome it?
         Andy Burnham has long championed a repeal of the ban which prevents football supporters from drinking alcohol in the view of the pitch
@@ -143424,60 +143746,77 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924190000 +0000" stop="20260924200000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 07:41 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 07:59 — بتوقيتك
 
-تقرير: شركات نفط حصلت على امتيازات بعد تبرعاتها لحملة ترمب
-        اتهم تقرير ديمقراطي إدارة ترمب بمنح شركات نفط وغاز إعفاءات ضريبية وتخفيف قيود بيئية، بعد تبرعات بمئات الملايين من الدولارات لحملته الانتخابية.
+«وول ستريت» تتراجع مجدداً تحت ضغط ارتفاع عوائد السندات
+        لا تزال «وول ستريت» ترزح تحت ضغوط مصدرها سوق السندات ما دفع الأسهم الأميركية إلى التراجع مجدداً الخميس.
         عربي · الشرق الأوسط
+تطبيق Adobe Premiere يصل إلى هواتف أندرويد بتصوير فيديوهات 4K - الوطن
+        الإمارات · الإمارات
 شهيدان و9 مصابين بغزة وحماس تعلن جاهزيتها لتنفيذ خريطة الطريق وتتهم إسرائيل بتعطيلها
         استشهد فلسطينيان وأصيب 9 آخرون، الخميس، في هجمات إسرائيلية وسط وجنوب قطاع غزة
         تركيا · TRT عربي
+Small boat migrant arrivals reach 781 in one day, breaking 2026 record
+        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
+        بريطانيا · BBC
+YouTube Gives Users More Control Over Recommendations
+        YouTube announced Wednesday a new feature called “Custom Feeds,” allowing users to describe, in their own words, the type of videos they want YouTube…
+        الأردن · Jordan News
+FDA commissioner nominee Dr. Heidi Overton appears for confirmation hearing
+        Dr. Heidi Overton is appearing before a Senate committee on Thursday for her confirmation hearing as the next commissioner of the Food and Drug…
+        أمريكا · ABC News
+كيف يعمل "جيش التعاطف الإلكتروني" على دعم من يواجهون السخرية والتنمّر؟
+        عادة ما يُنظر إلى منصات التواصل الاجتماعي باعتبارها مرآة تعكس قسوة البشر، لكن أحدهم بنى جيشاً على منصة تيك توك قوامه 500 ألف مستخدم لتغيير هذه الصورة…
+        عربي · BBC عربي
 هيئة البيئة - أبوظبي تعلن عن الدورة العاشرة لمنتدى أبوظبي لريادة الأعمال المستدامة 2026 - Zawya
         الإمارات · الإمارات
-Trump hosting China's Xi at White House with AI and tariffs on the agenda
-        President Trump is hosting Chinese President Xi Jinping for meetings and a state dinner on Thursday, as the world's two most powerful countries try…
+المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
+        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
+        تركيا · TRT عربي
+White House 'repeatedly violated' court order to restore press access, say media outlets
+        Lawyers for CNN, Politico and MS Now are seeking an emergency court hearing, saying the White House "repeatedly violated" the order.
+        بريطانيا · BBC
+WATCH: Millions of people on alert for powerful Nor'easter along East Coast
+        While the storm is set to hit the East Coast this weekend, coastal areas are already feeling the impact of the nor'easter storm.
+        أمريكا · ABC News
+Joint Chiefs Chairman Meets Czech Ambassador
+        Chairman of the Joint Chiefs of Staff Major General Majdi Mohammad Al-Harasais received Czech Ambassador to Jordan Andrea Kuchářová on Thursday at…
+        الأردن · Jordan News
+موسكو «لن تعلّق» عملياتها العسكرية بأوكرانيا وتنظر مشاركة بوتين في «قمة العشرين»
+        موسكو «لن تعلّق» عملياتها العسكرية في أوكرانيا وتنظر في مشاركة بوتين في «قمة العشرين» وروبيو يحذر من «توسع» الحرب لتشمل دولا أخرى.
+        عربي · الشرق الأوسط
+مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
+        الإمارات · الإمارات
+طلاب أتراك يحصدون المركز الأول في مسابقة للمسيَّرات بالولايات المتحدة
+        الفريق المكون من 12 شخصا كان قد نال المركز الثاني في المسابقة نفسها العام الماضي..
+        تركيا · الأناضول
+Nine prisoners held on indefinite jail terms referred to Court of Appeal by miscarriage of justice watchdog
+        The cases include Carl Lamb, who cut off his own ear with a razor blade in front of a prison officer in protest at his sentence
+        بريطانيا · Independent
+Was Hitler behind niece's death? Documents raise questions about alibi
+        Newly unearthed records have cast doubt on Adolf Hitler's whereabouts at the time of his niece's suspicious 1931 death, Der Spiegel reported.
         أمريكا · CBS
 Bank al Etihad sponsors 4 free open days at the Children’s Museum
         Bank al Etihad is sponsoring 4 free open days at the Children’s Museum between July 2026 and June 2027 as part of its corporate social responsibility…
         الأردن · Jordan News
-Trump-Xi live updates: leaders of US and China to talk AI and trade in major Washington meeting
-        Xi arrived at the White House on Thursday morning ahead of talks, which are expected to cover trade, AI, Taiwan and more In the first row in front of…
-        بريطانيا · Guardian
-عجز الحساب الجاري الأميركي يتسع بشكل حاد في الربع الثاني
-        أظهرت بيانات حكومية يوم الخميس أن عجز الحساب الجاري الأميركي اتسع بشكل حاد خلال الربع الثاني، في ظل قفزة في واردات السلع.
-        عربي · الشرق الأوسط
-المغرب.. حزب الأصالة والمعاصرة يتصدر الانتخابات البرلمانية و"العدالة والتنمية" رابعاً
-        أعلنت وزارة الداخلية المغربية، فجر الخميس، تصدر حزب الأصالة والمعاصرة للانتخابات البرلمانية، التي جرت الأربعاء، بحصوله على 97 مقعداً من أصل 395.
-        تركيا · TRT عربي
-مركب من فول الصويا يخفف أضرار الإفراط في الملح - صحيفة الخليج
-        الإمارات · الإمارات
-Florida deputies taser sword-wielding burglary suspect, video shows
-        Bodycam video captured the tense moment deputies in Florida tasered sword-wielding suspect Josiah Smith after he allegedly refused commands.
-        أمريكا · Fox News
-Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
-        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
-        بريطانيا · Guardian
-Amr Diab to Film Only “Lola El Banat” From New Album
-        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
-        الأردن · Jordan News
-هدنة التجارة تمنح ترمب وشي وقتاً إضافياً لتسوية الخلافات
-        دخلت الولايات المتحدة والصين جولة جديدة من إدارة التوتر الاقتصادي بينهما، مع وصول الرئيس الصيني إلى واشنطن في أول زيارة له للولايات المتحدة منذ 3…
+الاقتصاد والأمن يتصدران مباحثات رئيس الوزراء اللبناني في نيويورك
+        تصدرت ملفات الإصلاح، والانفتاح الاقتصادي، والاستقرار الأمني لائحة أولويات مباحثات رئيس الحكومة اللبنانية نواف سلام في مباحثاته على هامش الدورة 81…
         عربي · الشرق الأوسط
 "رئة واحدة".. بيروت ودمشق تسعيان لشراكة اقتصادية عابرة للحدود
         تركيا · الأناضول
 بسجادة حمراء وطائرتين B-1.. ترامب وميلانيا يستقبلان رئيس الصين لدى وصوله إلى أمريكا - CNN Arabic
         الإمارات · الإمارات
-Police arrest far-right activist Daniel Thomas after ‘dinghy slashed in Channel’
-        Thirty-seven-year-old in custody on suspicion of crimes including criminal damage with intent to endanger life The far-right agitator and…
+Palestinian delegation was unlawfully denied entry visas, Mahmoud Abbas tells UN – latest updates
+        Longtime president of Palestinian Authority gives his speech via a pre-recorded video for the second year in a row The Russian foreign minister…
         بريطانيا · Guardian
-Marineland dolphin dies at Spain aquarium in latest death after rescue
-        Echo, one of four dolphins transferred to Oceanogràfic València from Marineland Canada, died on Wednesday, the Spanish facility said.
+Small businesses roll the dice on Kalshi to manage their risks
+        Hundreds of small businesses are using the prediction market to hedge against a range of business risks, according to Kalshi. Here's how.
         أمريكا · CBS
-Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
-        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
+Amr Diab to Film Only “Lola El Banat” From New Album
+        For the first time in his career, Egyptian singer Amr Diab has decided not to film any additional songs from his new album “Habaitak”, choosing…
         الأردن · Jordan News
-رئيسة «فيدرالي» كليفلاند: ضغوط التضخم لا تزال تميل نحو الارتفاع
-        قالت بيث هاماك، رئيسة بنك الاحتياطي الفيدرالي في كليفلاند، يوم الخميس، إن ضغوط التضخم لا تزال مرتفعة.
+زلزال بقوة 5.4 درجة جنوب شرقي تركيا يثير الذعر من تكرار كارثة كهرمان ماراش
+        تسبب زلزال بقوة 5.4 درجة على مقياس «ريختر» في ولاية شانلي أورفا في جنوب شرقي تركيا بحالة من الذعر من احتمال تكرار كارثة زلزال كهرمان ماراش في 2023.
         عربي · الشرق الأوسط
 من يتولى حماية بزشكيان في نيويورك؟ - الجزيرة نت
         من يتولى حماية بزشكيان في نيويورك؟ الجزيرة نت بزشكيان يتعهد بعدم الخضوع ويتهم واشنطن بـ"الإرهاب"
@@ -143485,42 +143824,25 @@ Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
 دوران: تصريحات كاتس الوقحة بحق الرئيس أردوغان لن تطمس حقيقة الإبادة في غزة
         قال رئيس دائرة الاتصال بالرئاسة التركية برهان الدين دوران إن العبارات التي أطلقها وزير الدفاع الإسرائيلي يسرائيل كاتس بحق الرئيس رجب طيب أردوغان "لا…
         تركيا · TRT عربي
-Small boat migrant arrivals reach 781 in one day, breaking 2026 record
-        A total of 781 migrants arrive on Wednesday, but the yearly total is below the same point in 2025.
-        بريطانيا · BBC
-LIVE: ABC News Live
-        24/7 coverage of breaking news and live events
-        أمريكا · ABC News
-Unified Admission Results to Be Announced Tonight
-        The Unified Admission Coordination Unit will announce Thursday evening the results of unified admission for bachelor's degree programs at Jordan's…
-        الأردن · Jordan News
-بعد منعهم من دخول البيت الأبيض رغم الأمر القضائي.. طلب عاجل من CNN وMSNBC و"بوليتيكو"
-        تقدمت كل من شبكتي CNN وMSNBC وموقع Politico بطلب عاجل لعقد جلسة استماع صباح الخميس، وذلك بعد رفض السماح لها بدخول البيت الأبيض رغم وجود أمر قضائي.
-        عربي · CNN عربية
-ماذا يحدث للاقتصاد عندما تقفز عوائد سندات الخزانة؟ - العربية
-        الإمارات · الإمارات
-بولاط: التجارة التركية الأمريكية قد تبلغ 43 مليار دولار في 2026 و50 ملياراً بنهاية 2028
-        قال وزير التجارة التركي عمر بولاط، الخميس، إن حجم التجارة بين تركيا والولايات المتحدة قد يرتفع إلى نحو 43 مليار دولار خلال العام الجاري
-        تركيا · TRT عربي
-Angie Nixon slams Byron Donalds as he tries to distance himself from Trump
-        Florida Senate Democratic candidate Angie Nixon joins CBS News with her take on Republican gubernatorial hopeful Byron Donalds appearing to step back…
-        أمريكا · CBS
-Japan teenager Shin Ohashi overcomes Covid and fever to smash breaststroke world record
-        Swimmer wins 200m gold at Asian Games with 39C fever Says Covid helped him rest and ‘was a good thing’ The Japanese teenager Shin Ohashi said a bout…
+Nato’s top commander says range of Russian threats means ‘we are all eastern flank countries’ – Europe live
+        Alexus Grynkewich said the US would ⁠continue ​to provide ‘critical but more limited capabilities’ to the alliance In a separate interview with DR,…
         بريطانيا · Guardian
-Water Violations Detected South of Amman
-        The Ministry of Water and Irrigation/Water Authority said Thursday that its teams, during a security campaign in southern Amman, detected violations…
+Israel's Netanyahu set to hit back at widespread criticism in U.N. address
+        Benjamin Netanyahu is expected to focus on Iran, and on defending Israel's actions in Gaza and the West Bank amid condemnation from fellow leaders at…
+        أمريكا · CBS
+Saudi Arabia Beat Kuwait 1-0 in Gulf Cup Opener
+        Saudi Arabia, the host nation, began their campaign at the 27th Arabian Gulf Cup with a 1-0 victory over Kuwait on Wednesday, after Youssef Al-Haqan…
         الأردن · Jordan News
-«مانشستر يونايتد» يخطف موهبة «سيتي» كريم قاسم بعمر 17 عاماً
-        أكمل فريق مانشستر يونايتد الإنجليزي لكرة القدم، اليوم الخميس، التعاقد مع كريم قاسم (17 عاماً) قادماً من مانشستر سيتي.
+فورمولا إي تكشف عن هويتها الجديدة قبل انطلاق موسمها من جدة
+        كشفت بطولة العالم لفورمولا إي، الأربعاء، عن هويتها البصرية الجديدة، قبل انطلاق موسم 2026-2027 من مدينة جدة في ديسمبر المقبل.
         عربي · الشرق الأوسط
 كيفية الحصول على تذاكر قطر ضد البحرين: أسعار كأس الخليج، معلومات المباراة، المبيعات في اللحظات الأخيرة والمزيد - Goal.com
         الإمارات · الإمارات
 "تعسف بحق البشر والشجر".. إسرائيل تقتلع 400 شجرة زيتون بالضفة
         - رئيس بلدية بني زيد الغربية عبد الرحمن الريماوي للأناضول: الأشجار المستهدفة يعود عمرها لمئات السنين
         تركيا · الأناضول
-Falcons and Packers both searching for answers heading into 'Thursday Night Football' in NFL Week 3
-        Michael Penix Jr. takes over for Cooper Rush as the Falcons try to unlock Bijon Robinson, Drake London, and Kyle Pitts in a stalling offense.
+Penguins forward Andrei Kuzmenko's father killed in bear attack on remote Russia fishing trip
+        Andrei Kuzmenko's father, a longtime hockey coach, was fatally attacked by a bear while fishing in a restricted area of Russia's Republic of Tuva.
         أمريكا · Fox News
 Drinking at football matches - would fans welcome it?
         Andy Burnham has long championed a repeal of the ban which prevents football supporters from drinking alcohol in the view of the pitch
@@ -143530,7 +143852,7 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
         الأردن · Jordan News</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
-  <programme start="20260924200000 +0000" stop="20260924224206 +0000" channel="TodayNews">
+  <programme start="20260924200000 +0000" stop="20260924225943 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260924000000 +0300" stop="20260924010000 +0300" channel="Thmanyah1.sa">
@@ -148815,150 +149137,138 @@ Salah: We Aim to Keep Making Egyptian Fans Happy
   </programme>
   <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 07:42 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 07:59 — بتوقيتك
 
 الأردن
-عمّان 27° · غائم جزئياً · رطوبة 39% · رياح 15 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 22% · رياح 24 كم/سا · احتمال المطر 0%
+عمّان 26° · غائم جزئياً · رطوبة 49% · رياح 16 كم/سا · احتمال المطر 0%
+العقبة 34° · صافٍ · رطوبة 22% · رياح 23 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 75% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 33° · صافٍ · رطوبة 77% · رياح 8 كم/سا · احتمال المطر 0%
+أبو ظبي 33° · صافٍ · رطوبة 77% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 78% · رياح 7 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 22° · صافٍ غالباً · رطوبة 44% · رياح 6 كم/سا · احتمال المطر 0%
-مانشستر 20° · صافٍ · رطوبة 50% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 22° · صافٍ · رطوبة 42% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 20° · صافٍ · رطوبة 49% · رياح 13 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 14° · غائم جزئياً · رطوبة 70% · رياح 24 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 90% · رياح 6 كم/سا · احتمال المطر 0%
-شيكاغو 15° · غائم · رطوبة 86% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 22° · صافٍ · رطوبة 29% · رياح 7 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 77% · رياح 12 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 14° · صافٍ · رطوبة 73% · رياح 9 كم/سا · احتمال المطر 0%</desc>
+نيويورك 15° · غائم جزئياً · رطوبة 68% · رياح 26 كم/سا · احتمال المطر 0%
+لوس أنجلوس 21° · غائم · رطوبة 89% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 87% · رياح 12 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 28% · رياح 5 كم/سا · احتمال المطر 0%
+هيوستن 28° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 75% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924150000 +0000" stop="20260924160000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 07:42 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 07:59 — بتوقيتك
 
 الأردن
-عمّان 27° · غائم جزئياً · رطوبة 39% · رياح 15 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 22% · رياح 24 كم/سا · احتمال المطر 0%
+عمّان 26° · غائم جزئياً · رطوبة 49% · رياح 16 كم/سا · احتمال المطر 0%
+العقبة 34° · صافٍ · رطوبة 22% · رياح 23 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 75% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 33° · صافٍ · رطوبة 77% · رياح 8 كم/سا · احتمال المطر 0%
+أبو ظبي 33° · صافٍ · رطوبة 77% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 78% · رياح 7 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 22° · صافٍ غالباً · رطوبة 44% · رياح 6 كم/سا · احتمال المطر 0%
-مانشستر 20° · صافٍ · رطوبة 50% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 22° · صافٍ · رطوبة 42% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 20° · صافٍ · رطوبة 49% · رياح 13 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 14° · غائم جزئياً · رطوبة 70% · رياح 24 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 90% · رياح 6 كم/سا · احتمال المطر 0%
-شيكاغو 15° · غائم · رطوبة 86% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 22° · صافٍ · رطوبة 29% · رياح 7 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 77% · رياح 12 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 14° · صافٍ · رطوبة 73% · رياح 9 كم/سا · احتمال المطر 0%</desc>
+نيويورك 15° · غائم جزئياً · رطوبة 68% · رياح 26 كم/سا · احتمال المطر 0%
+لوس أنجلوس 21° · غائم · رطوبة 89% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 87% · رياح 12 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 28% · رياح 5 كم/سا · احتمال المطر 0%
+هيوستن 28° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 75% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924160000 +0000" stop="20260924170000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 07:42 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 07:59 — بتوقيتك
 
 الأردن
-عمّان 27° · غائم جزئياً · رطوبة 39% · رياح 15 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 22% · رياح 24 كم/سا · احتمال المطر 0%
+عمّان 26° · غائم جزئياً · رطوبة 49% · رياح 16 كم/سا · احتمال المطر 0%
+العقبة 34° · صافٍ · رطوبة 22% · رياح 23 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 75% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 33° · صافٍ · رطوبة 77% · رياح 8 كم/سا · احتمال المطر 0%
+أبو ظبي 33° · صافٍ · رطوبة 77% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 78% · رياح 7 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 22° · صافٍ غالباً · رطوبة 44% · رياح 6 كم/سا · احتمال المطر 0%
-مانشستر 20° · صافٍ · رطوبة 50% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 22° · صافٍ · رطوبة 42% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 20° · صافٍ · رطوبة 49% · رياح 13 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 14° · غائم جزئياً · رطوبة 70% · رياح 24 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 90% · رياح 6 كم/سا · احتمال المطر 0%
-شيكاغو 15° · غائم · رطوبة 86% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 22° · صافٍ · رطوبة 29% · رياح 7 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 77% · رياح 12 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 14° · صافٍ · رطوبة 73% · رياح 9 كم/سا · احتمال المطر 0%</desc>
+نيويورك 15° · غائم جزئياً · رطوبة 68% · رياح 26 كم/سا · احتمال المطر 0%
+لوس أنجلوس 21° · غائم · رطوبة 89% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 87% · رياح 12 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 28% · رياح 5 كم/سا · احتمال المطر 0%
+هيوستن 28° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 75% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924170000 +0000" stop="20260924180000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 07:42 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 07:59 — بتوقيتك
 
 الأردن
-عمّان 27° · غائم جزئياً · رطوبة 39% · رياح 15 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 22% · رياح 24 كم/سا · احتمال المطر 0%
+عمّان 26° · غائم جزئياً · رطوبة 49% · رياح 16 كم/سا · احتمال المطر 0%
+العقبة 34° · صافٍ · رطوبة 22% · رياح 23 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 75% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 33° · صافٍ · رطوبة 77% · رياح 8 كم/سا · احتمال المطر 0%
+أبو ظبي 33° · صافٍ · رطوبة 77% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 78% · رياح 7 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 22° · صافٍ غالباً · رطوبة 44% · رياح 6 كم/سا · احتمال المطر 0%
-مانشستر 20° · صافٍ · رطوبة 50% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 22° · صافٍ · رطوبة 42% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 20° · صافٍ · رطوبة 49% · رياح 13 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 14° · غائم جزئياً · رطوبة 70% · رياح 24 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 90% · رياح 6 كم/سا · احتمال المطر 0%
-شيكاغو 15° · غائم · رطوبة 86% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 22° · صافٍ · رطوبة 29% · رياح 7 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 77% · رياح 12 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 14° · صافٍ · رطوبة 73% · رياح 9 كم/سا · احتمال المطر 0%</desc>
+نيويورك 15° · غائم جزئياً · رطوبة 68% · رياح 26 كم/سا · احتمال المطر 0%
+لوس أنجلوس 21° · غائم · رطوبة 89% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 87% · رياح 12 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 28% · رياح 5 كم/سا · احتمال المطر 0%
+هيوستن 28° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 75% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924180000 +0000" stop="20260924190000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 07:42 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 07:59 — بتوقيتك
 
 الأردن
-عمّان 27° · غائم جزئياً · رطوبة 39% · رياح 15 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 22% · رياح 24 كم/سا · احتمال المطر 0%
+عمّان 26° · غائم جزئياً · رطوبة 49% · رياح 16 كم/سا · احتمال المطر 0%
+العقبة 34° · صافٍ · رطوبة 22% · رياح 23 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 75% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 33° · صافٍ · رطوبة 77% · رياح 8 كم/سا · احتمال المطر 0%
+أبو ظبي 33° · صافٍ · رطوبة 77% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 78% · رياح 7 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 22° · صافٍ غالباً · رطوبة 44% · رياح 6 كم/سا · احتمال المطر 0%
-مانشستر 20° · صافٍ · رطوبة 50% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 22° · صافٍ · رطوبة 42% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 20° · صافٍ · رطوبة 49% · رياح 13 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 14° · غائم جزئياً · رطوبة 70% · رياح 24 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 90% · رياح 6 كم/سا · احتمال المطر 0%
-شيكاغو 15° · غائم · رطوبة 86% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 22° · صافٍ · رطوبة 29% · رياح 7 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 77% · رياح 12 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 14° · صافٍ · رطوبة 73% · رياح 9 كم/سا · احتمال المطر 0%</desc>
+نيويورك 15° · غائم جزئياً · رطوبة 68% · رياح 26 كم/سا · احتمال المطر 0%
+لوس أنجلوس 21° · غائم · رطوبة 89% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 87% · رياح 12 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 28% · رياح 5 كم/سا · احتمال المطر 0%
+هيوستن 28° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 75% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260924190000 +0000" stop="20260924200000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 07:42 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 07:59 — بتوقيتك
 
 الأردن
-عمّان 27° · غائم جزئياً · رطوبة 39% · رياح 15 كم/سا · احتمال المطر 0%
-العقبة 35° · صافٍ · رطوبة 22% · رياح 24 كم/سا · احتمال المطر 0%
+عمّان 26° · غائم جزئياً · رطوبة 49% · رياح 16 كم/سا · احتمال المطر 0%
+العقبة 34° · صافٍ · رطوبة 22% · رياح 23 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 33° · صافٍ · رطوبة 75% · رياح 11 كم/سا · احتمال المطر 0%
-دبي 33° · صافٍ · رطوبة 77% · رياح 8 كم/سا · احتمال المطر 0%
+أبو ظبي 33° · صافٍ · رطوبة 77% · رياح 10 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 78% · رياح 7 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 22° · صافٍ غالباً · رطوبة 44% · رياح 6 كم/سا · احتمال المطر 0%
-مانشستر 20° · صافٍ · رطوبة 50% · رياح 13 كم/سا · احتمال المطر 0%
+لندن 22° · صافٍ · رطوبة 42% · رياح 7 كم/سا · احتمال المطر 0%
+مانشستر 20° · صافٍ · رطوبة 49% · رياح 13 كم/سا · احتمال المطر 0%
 أمريكا
-نيويورك 14° · غائم جزئياً · رطوبة 70% · رياح 24 كم/سا · احتمال المطر 0%
-لوس أنجلوس 21° · غائم · رطوبة 90% · رياح 6 كم/سا · احتمال المطر 0%
-شيكاغو 15° · غائم · رطوبة 86% · رياح 11 كم/سا · احتمال المطر 0%
-لاس فيغاس 22° · صافٍ · رطوبة 29% · رياح 7 كم/سا · احتمال المطر 0%
-هيوستن 27° · صافٍ · رطوبة 77% · رياح 12 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 14° · صافٍ · رطوبة 73% · رياح 9 كم/سا · احتمال المطر 0%</desc>
+نيويورك 15° · غائم جزئياً · رطوبة 68% · رياح 26 كم/سا · احتمال المطر 0%
+لوس أنجلوس 21° · غائم · رطوبة 89% · رياح 4 كم/سا · احتمال المطر 0%
+شيكاغو 16° · غائم · رطوبة 87% · رياح 12 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 28% · رياح 5 كم/سا · احتمال المطر 0%
+هيوستن 28° · صافٍ · رطوبة 77% · رياح 11 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 15° · صافٍ · رطوبة 75% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260924200000 +0000" stop="20260924224230 +0000" channel="TodayWeather">
+  <programme start="20260924200000 +0000" stop="20260924230007 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260924140000 +0000" stop="20260924150000 +0000" channel="TodayPrayer">
-    <title lang="ar">🕌 مواقيت الصلاة</title>
-    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
-
-Amman (عمّان) — الفجر 05:04 · الشروق 06:26 · الظهر 12:28 · العصر 15:56 · المغرب 18:36 · العشاء 19:52
-Abu Dhabi (أبو ظبي) — الفجر 04:55 · الشروق 06:12 · الظهر 12:18 · العصر 15:41 · المغرب 18:20 · العشاء 19:34
-Henderson NV (هندرسون · نيفادا) — الفجر 05:19 · الشروق 06:30 · الظهر 12:32 · العصر 15:58 · المغرب 18:34 · العشاء 19:44
-Istanbul (إسطنبول) — الفجر 05:21 · الشروق 06:46 · الظهر 13:01 · العصر 16:25 · المغرب 19:05 · العشاء 20:25
-
-المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
   <programme start="20260924150000 +0000" stop="20260924160000 +0000" channel="TodayPrayer">
     <title lang="ar">🕌 مواقيت الصلاة</title>
@@ -149092,4 +149402,16 @@ Istanbul (إسطنبول) — الفجر 05:21 · الشروق 06:46 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260924230633 +0000" stop="20260924230944 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230633 +0000" stop="20260924230944 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230657 +0000" stop="20260924230944 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924224206 +0000" stop="20260924230944 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924224230 +0000" stop="20260924230944 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260925020000 +0000" stop="20260925030000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+Amman (عمّان) — الفجر 05:04 · الشروق 06:26 · الظهر 12:28 · العصر 15:56 · المغرب 18:36 · العشاء 19:52
+Abu Dhabi (أبو ظبي) — الفجر 04:55 · الشروق 06:12 · الظهر 12:18 · العصر 15:41 · المغرب 18:20 · العشاء 19:34
+Henderson NV (هندرسون · نيفادا) — الفجر 05:19 · الشروق 06:30 · الظهر 12:32 · العصر 15:58 · المغرب 18:34 · العشاء 19:44
+Istanbul (إسطنبول) — الفجر 05:21 · الشروق 06:46 · الظهر 13:01 · العصر 16:25 · المغرب 19:05 · العشاء 20:25
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
+  </programme>
+<programme start="20260924231600 +0000" stop="20260924231913 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231600 +0000" stop="20260924231913 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924231625 +0000" stop="20260924231913 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924225943 +0000" stop="20260924231913 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924230007 +0000" stop="20260924231913 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
