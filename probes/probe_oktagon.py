@@ -1,4 +1,4 @@
-"""What oktagonmma.com publishes about its events, from a runner. Never fails."""
+"""The structure of oktagonmma.com's embedded event data, from a runner. Never fails."""
 import json
 import re
 import traceback
@@ -10,38 +10,53 @@ S.headers["User-Agent"] = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKi
                            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 
 
-def show(url, pats=()):
+def data(url):
+    t = S.get(url, timeout=30).text
+    return json.loads(re.search(r'id="__NEXT_DATA__"[^>]*>(.*?)</script>', t, re.S).group(1))
+
+
+def events_in(node, out):
+    if isinstance(node, dict):
+        if "startDate" in node and "slug" in node:
+            out.append(node)
+        for v in node.values():
+            events_in(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            events_in(v, out)
+
+
+for url in ("https://oktagonmma.com/en/events/", "https://oktagonmma.com/en/",
+            "https://oktagonmma.com/en/events/?type=upcoming"):
     print("=" * 70, "\n--", url)
     try:
-        r = S.get(url, timeout=30)
-        t = r.text
-        print(r.status_code, r.url, len(t), r.headers.get("content-type"))
-        print("title:", re.search(r"<title>(.*?)</title>", t, re.S) and
-              re.search(r"<title>(.*?)</title>", t, re.S).group(1)[:120])
-        for m in re.finditer(r'<script[^>]*type="application/(?:ld\+)?json"[^>]*>(.*?)</script>', t, re.S):
-            print("JSON script:", m.group(1)[:1500])
-        nd = re.search(r'id="__NEXT_DATA__"[^>]*>(.*?)</script>', t, re.S)
-        if nd:
-            print("NEXT_DATA:", nd.group(1)[:3000])
-        print("event links:", sorted(set(re.findall(r'href="([^"]*/events/[^"]+)"', t)))[:40])
-        print("startDate:", re.findall(r'"startDate"\s*:\s*"[^"]+"', t)[:20])
-        print("datetime attrs:", re.findall(r'datetime="[^"]+"', t)[:20])
-        for p in pats:
-            for m in list(re.finditer(p, t, re.I))[:8]:
-                s = max(0, m.start() - 200)
-                print(f"[{p}]", re.sub(r"\s+", " ", t[s:m.end() + 300]))
-        text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", t, flags=re.S)))
-        print("TEXT:", text[:3000])
-        return t
+        d = data(url)
+        for q in d["props"]["pageProps"].get("dehydratedState", {}).get("queries", []):
+            print("QUERY", json.dumps(q.get("queryKey"))[:300])
+        found = []
+        events_in(d, found)
+        seen = set()
+        for e in found:
+            k = (e["slug"], e["startDate"])
+            if k in seen:
+                continue
+            seen.add(k)
+            t = e.get("title") or {}
+            print(" ", e["startDate"], e["slug"], "|", t.get("en") or next(iter(t.values()), ""),
+                  "| state", e.get("state"), "| type", e.get("type"), e.get("eventType"))
+        if found:
+            print("KEYS:", sorted(found[0].keys()))
     except Exception:
         traceback.print_exc()
-        return ""
 
-
-show("https://lnk.bio/oktagonmma")
-show("https://oktagonmma.com/en/events/", (r"\b\d{1,2}[./]\s?\d{1,2}[./]\s?20\d\d", r"\d{1,2}:\d{2}"))
-show("https://oktagonmma.com/en/events/oktagon-94-frankfurt/",
-     (r"\d{1,2}:\d{2}", r"CET|CEST|UTC|GMT", r"oktagon\.tv|dazn|voyo|stream|broadcast|tv"))
-for u in ("https://oktagonmma.com/api/events", "https://oktagonmma.com/en/api/events",
-          "https://api.oktagonmma.com/events", "https://oktagon.tv/", "https://oktagonmma.com/sitemap.xml"):
-    show(u)
+print("=" * 70, "\n-- event 94 detail")
+try:
+    d = data("https://oktagonmma.com/en/events/oktagon-94-frankfurt/")
+    e = d["props"]["pageProps"]["dehydratedState"]["queries"][0]["state"]["data"]
+    for k, v in e.items():
+        if k in ("description",):
+            continue
+        s = json.dumps(v, ensure_ascii=False)
+        print(f"  {k}: {s[:400]}")
+except Exception:
+    traceback.print_exc()
