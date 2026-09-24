@@ -64,6 +64,9 @@ from turkish_ppv_epg import LOGO as TPPV_LOGO
 from prayer_epg import CHANNEL_AR as PRAYER_AR
 from prayer_epg import CHANNEL_ID as PRAYER_ID
 from prayer_epg import LOGO as PRAYER_LOGO
+from multi_sport_epg import CHANNEL_AR as GAMES_AR
+from multi_sport_epg import CHANNEL_ID as GAMES_ID
+from multi_sport_epg import LOGO as GAMES_LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
@@ -160,6 +163,13 @@ SCREENS = (
     (F1_ID, F1_AR, "stream/f1.m3u8",
      f"{RAW}/stream/f1.m3u8", "🏁 Formula 1",
      F1_LOGO),
+    # The thirteenth channel — 🏅 الألعاب الكبرى: the Olympics and the
+    # multi-sport games, off channel 2 and on a screen of their own. Last
+    # in the list, so no channel a viewer already knows by its number
+    # moves.
+    (GAMES_ID, GAMES_AR, "stream/multi_sport.m3u8",
+     f"{RAW}/stream/multi_sport.m3u8", "🏅 Multi-Sport Games",
+     GAMES_LOGO),
 )
 
 
@@ -225,6 +235,9 @@ DUBAI_SCREENS = (
     ("Formula1Dubai", F1_AR, "stream/dubai_f1.m3u8",
      f"{RAW}/stream/dubai_f1.m3u8",
      "🏁 Formula 1 · بتوقيت الإمارات", F1_LOGO),
+    ("MultiSportDubai", GAMES_AR, "stream/dubai_multi_sport.m3u8",
+     f"{RAW}/stream/dubai_multi_sport.m3u8",
+     "🏅 Multi-Sport Games · بتوقيت الإمارات", GAMES_LOGO),
 
 )
 
@@ -249,6 +262,7 @@ PLAYLIST_NAMES = {
     "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
     "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
     "Formula1":       ("Formula 1",       "🏁 Formula 1"),
+    "MultiSport":     ("Multi-Sport Games", "🏅 Multi-Sport Games"),
 }
 
 # The second clock's rows are the same channels under Gulf times, so they

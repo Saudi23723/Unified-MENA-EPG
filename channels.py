@@ -42,6 +42,8 @@ import importlib
 BUILDS: tuple[str, ...] = (
     "today_matches_epg",
     "other_sports_epg",
+    # Straight after channel 2, whose collection it is handed.
+    "multi_sport_epg",
     "ball_sports_epg",
     "hoops_gridiron_epg",
     "turkish_ppv_epg",

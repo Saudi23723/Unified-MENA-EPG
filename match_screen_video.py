@@ -177,6 +177,13 @@ SCREENS = {
                     "turkish_ppv.sha256", 20),
     "dubai_turkish_ppv": ("dubai_turkish_ppv_", "dubai_turkish_ppv.m3u8",
                           "dubai_turkish_ppv.sha256", 20),
+    # THE THIRTEENTH CHANNEL — الألعاب الكبرى: the Olympics and the
+    # multi-sport games, which came off channel 2 to have a screen of
+    # their own. Twenty seconds, like the channel they came from.
+    "multi_sport": ("multi_sport_", "multi_sport.m3u8",
+                    "multi_sport.sha256", 20),
+    "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport.m3u8",
+                          "dubai_multi_sport.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -490,6 +497,8 @@ THEMES = {
     "dubai_sporttv": "audio/theme_sports.m4a",
     "turkish_ppv": "audio/theme_sports.m4a",
     "dubai_turkish_ppv": "audio/theme_sports.m4a",
+    "multi_sport": "audio/theme_sports.m4a",
+    "dubai_multi_sport": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4

@@ -98,6 +98,8 @@ MOVED: dict[str, str] = {
     "dubai_f1_": "dubai_f1.m3u8",
     "turkish_ppv_": "turkish_ppv.m3u8",
     "dubai_turkish_ppv_": "dubai_turkish_ppv.m3u8",
+    "multi_sport_": "multi_sport.m3u8",
+    "dubai_multi_sport_": "dubai_multi_sport.m3u8",
 }
 
 # A segment nothing names any more is still kept this long after it first
