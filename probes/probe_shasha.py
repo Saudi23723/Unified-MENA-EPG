@@ -1,13 +1,16 @@
 """Does livefootballtv's front page name Shasha on upcoming rows? Read with
 today_matches_epg's own row reader. Commits nothing."""
 
+import os
 import re
+import sys
 from datetime import datetime, timedelta, timezone
 
 import requests
 from bs4 import BeautifulSoup
 
-import today_matches_epg as tm
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import today_matches_epg as tm  # noqa: E402
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"}
