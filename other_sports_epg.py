@@ -68,6 +68,7 @@ import spanish_sport_grid
 
 import world_ball_feed
 import bkfc
+import oktagon
 import beach_volley_fivb
 import womens_volley_fivb
 import wrestling_uww
@@ -423,7 +424,7 @@ def wanted(event: dict) -> bool:
     if an_obvious_rebroadcast(event):
         return False
     if not event.get("channels") and event.get("source") not in (
-            "worldball", "fivb", "uww", "majorgames", "bkfc"):
+            "worldball", "fivb", "uww", "majorgames", "bkfc", "oktagon"):
         # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
         # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
         # listings page reaches, and the board's PPV fallback labels
@@ -1803,6 +1804,16 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
     # BKFC sells its own cards, so the row prints the honest PPV word.
     if can_fetch:
         everything += bkfc.events(session, floor, ceiling)
+
+    # AND OKTAGON'S OWN EVENTS PAGE, asked for by name: "on channel 2
+    # like the UFC and the rest ... and where the channel is not known
+    # write PPV". Tapology was the only door OKTAGON came through, and
+    # it answers 403 here. The promotion's page ships every announced
+    # card with its own UTC instant; see oktagon.py. It sells its cards
+    # on its own oktagon.tv, so no channel is invented and the row says
+    # PPV.
+    if can_fetch:
+        everything += oktagon.events(session, floor, ceiling)
 
     # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
     # for by name ("TSN AND SPORTSNET events matches to be added on
