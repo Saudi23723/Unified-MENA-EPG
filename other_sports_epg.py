@@ -74,6 +74,7 @@ import oktagon
 import pfl_events
 import brave_cf
 import uae_warriors
+import ufc_bjj
 import beach_volley_fivb
 import womens_volley_fivb
 import wrestling_uww
@@ -442,7 +443,7 @@ def wanted(event: dict, ranks: dict | None = None) -> bool:
         return False
     if not event.get("channels") and event.get("source") not in (
             "worldball", "fivb", "uww", "majorgames", "bkfc", "oktagon",
-            "pfl", "brave", "uaewarriors"):
+            "pfl", "brave", "uaewarriors", "ufcbjj"):
         # FEDERATION-SIDE FEEDS AND MAJOR-GAMES OFFICIAL SCHEDULES ARE
         # ALLOWED THROUGH WITHOUT A BROADCASTER. They carry events no
         # listings page reaches, and the board's PPV fallback labels
@@ -1842,6 +1843,11 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         everything += brave_cf.events(session, floor, ceiling)
         # And UAE Warriors, asked for by name; see uae_warriors.py.
         everything += uae_warriors.events(session, floor, ceiling)
+        # AND UFC BJJ, the UFC's own grappling cards, asked for by name:
+        # "why doesn't channel 2 have the UFC BJJ events?". No listings
+        # page carries them; ufc.com/ufcbjj leads with the next card, its
+        # Eastern clock and its carrier. See ufc_bjj.py.
+        everything += ufc_bjj.events(session, floor, ceiling)
 
     # AND THE CANADIAN BROADCASTERS' OWN GRIDS — TSN and Sportsnet, asked
     # for by name ("TSN AND SPORTSNET events matches to be added on
