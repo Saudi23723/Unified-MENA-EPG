@@ -1,64 +1,64 @@
-"""What Shasha's sources answer from a runner: ESPN's Serie A and Kuwaiti
-league feeds, and the PDFs Lega Serie A lists. Commits nothing."""
+"""Which of Lega Serie A's listed PDFs carry a fixture table this repo's
+parser can read, and what OddAlerts shows for the Kuwaiti league.
+Commits nothing."""
 
 import re
-from datetime import date, timedelta
+from datetime import datetime, timezone
+from io import BytesIO
+from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
+from pypdf import PdfReader
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"}
-today = date.today()
+# The exact row pattern update_shasha_epg._parse_lega_pdf uses.
+ROW = re.compile(
+    r"(\d{2}/\d{2}/20\d{2})\s+"
+    r"[A-Za-zÀ-ÿ]+\s+"
+    r"(\d{1,2}[.:]\d{2})\s+"
+    r"([A-Za-zÀ-ÿ\'’ .]+?)\s*-\s*"
+    r"([A-Za-zÀ-ÿ\'’ .]+?)\s*(?:\*{1,3})?\s+"
+    r"(?:DAZN(?:/SKY)?|SKY)",
+    re.I,
+)
+now = datetime.now(timezone.utc)
+rome = ZoneInfo("Europe/Rome")
 
-print("=== ESPN Serie A (ita.1), next 10 days")
-for base in ("https://site.api.espn.com", "https://site.web.api.espn.com"):
-    url = f"{base}/apis/site/v2/sports/soccer/ita.1/scoreboard"
-    total = 0
-    for i in range(10):
-        d = today + timedelta(days=i)
-        try:
-            j = requests.get(url, params={"dates": d.strftime("%Y%m%d")},
-                             headers=UA, timeout=20).json()
-        except Exception as exc:
-            print(f"  {base} {d}: FAILED {exc}")
-            continue
-        for ev in j.get("events") or []:
-            total += 1
-            c = (ev.get("competitions") or [{}])[0]
-            sides = {s.get("homeAway"): (s.get("team") or {}).get("displayName")
-                     for s in c.get("competitors") or []}
-            st = ((ev.get("status") or {}).get("type") or {}).get("state")
-            print(f"  {ev.get('date')}  {sides.get('home')} - {sides.get('away')}"
-                  f"  state={st} timeValid={c.get('timeValid')}")
-    print(f"  {base}: {total} event(s)")
-    if total:
-        break
-
-print("\n=== ESPN Kuwait candidates")
-for slug in ("kuw.1", "kwt.1", "kuw.premier"):
-    url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{slug}/scoreboard"
+html = requests.get("https://www.legaseriea.it/lega-serie-a/documentazione",
+                    headers=UA, timeout=30).text
+urls = sorted(set(re.findall(
+    r"https://images\.legaseriea\.it/image/private/fl_attachment/prd/[a-z0-9]+\.pdf", html)))
+print(f"=== {len(urls)} PDF(s) listed")
+for url in urls:
     try:
-        r = requests.get(url, headers=UA, timeout=20)
-        j = r.json() if r.ok else {}
-        lg = (j.get("leagues") or [{}])[0]
-        print(f"  {slug}: {r.status_code} league={lg.get('name')!r} "
-              f"events={len(j.get('events') or [])} "
-              f"calendar={str(lg.get('calendar'))[:120]}")
+        r = requests.get(url, headers=UA, timeout=40)
+        text = "\n".join((p.extract_text() or "") for p in PdfReader(BytesIO(r.content)).pages)
     except Exception as exc:
-        print(f"  {slug}: FAILED {exc}")
+        print(f"- {url[-24:]}: FAILED {exc}")
+        continue
+    rows = ROW.findall(text)
+    future = []
+    for d, t, h, a in rows:
+        try:
+            hh, mm = map(int, re.split(r"[.:]", t))
+            dd = datetime.strptime(d, "%d/%m/%Y")
+            when = datetime(dd.year, dd.month, dd.day, hh, mm, tzinfo=rome)
+        except ValueError:
+            continue
+        if when > now:
+            future.append(f"{when:%Y-%m-%d %H:%M} {h.strip()} - {a.strip()}")
+    head = re.sub(r"\s+", " ", text[:160])
+    print(f"- {url[-24:]}: {len(r.content)//1024} KB, {len(rows)} row(s), "
+          f"{len(future)} still to come | {head!r}")
+    for f in future[:12]:
+        print(f"      {f}")
 
-print("\n=== Lega Serie A documentazione PDFs")
-try:
-    html = requests.get("https://www.legaseriea.it/lega-serie-a/documentazione",
-                        headers=UA, timeout=30).text
-    soup = BeautifulSoup(html, "html.parser")
-    pdfs = [(a.get_text(" ", strip=True)[:90], a["href"]) for a in soup.find_all("a", href=True)
-            if ".pdf" in a["href"].lower()]
-    print(f"  {len(pdfs)} pdf link(s)")
-    for label, href in pdfs[:40]:
-        print(f"  - {label!r} -> {href[:140]}")
-    for m in sorted(set(re.findall(r"https?://[^\"' ]+\.pdf", html)))[:20]:
-        print(f"  raw: {m[:160]}")
-except Exception as exc:
-    print(f"  FAILED {exc}")
+print("\n=== OddAlerts Zain Premier League")
+soup = BeautifulSoup(requests.get(
+    "https://www.oddalerts.com/leagues/kuwait/zain-premier-league/fixtures",
+    headers=UA, timeout=30).text, "html.parser")
+text = re.sub(r"\s+", " ", soup.get_text(" "))
+i = text.find("Fixtures", 400)
+print(text[i:i + 1500])
