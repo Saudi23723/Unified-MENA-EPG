@@ -365,7 +365,7 @@
   <channel id="AlJazeera.qa">
     <display-name lang="ar">الجزيرة</display-name>
     <display-name lang="en">Al Jazeera</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/aljazeera.png" />
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/aljazeera_round_v2.png" />
   </channel>
   <channel id="Maraya.shahid">
     <display-name lang="ar">مرايا ياسر العظمة</display-name>
@@ -2973,6 +2973,12 @@ King Baudouin Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Asian Games</category>
   </programme>
+  <programme start="20260930061500 +0000" stop="20260930094500 +0000" channel="beINSports1.qa">
+    <title lang="en">Uganda vs Libya - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD2</title>
+    <desc lang="en">The 2027 Africa Cup of Nations qualification group stage kicks off in September 2026 to decide the 24 teams for the tournament in Kenya, Uganda, and Tanzania June taking place 19 to July 17, 2027.</desc>
+    <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
+    <category lang="en">AFCON Qualifiers</category>
+  </programme>
   <programme start="20260922185000 +0000" stop="20260923133500 +0000" channel="beINSports2.qa">
     <title lang="en">Real Madrid vs PSG - UEFA Women’s Champions League 2026/2027 ‎• Live 🔵‎</title>
     <desc lang="en">The UEFA Women's Champions League is a European women's association football competition. It involves the top club teams from countries affiliated with the European governing body UEFA. This is the second season under a new format, which has 18 participating teams, playing six games each against different opponents in a league phase, all in a joint</desc>
@@ -4140,13 +4146,6 @@ Fortuna Arena Stadium</desc>
 46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
     <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Live</category>
-    <category lang="en">Asian Games</category>
-  </programme>
-  <programme start="20260923055500 +0000" stop="20260923062100 +0000" channel="beINSports4.qa">
-    <title lang="en">SGP vs KOR - 3x3 Basketball - Asian Games Aichi-Nagoya 2026  W</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
     <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260923062100 +0000" stop="20260923070000 +0000" channel="beINSports4.qa">
@@ -54217,11 +54216,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نشرة الأخبار الليلية</title>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20260923060000 +0000" stop="20260923061456 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260923061456 +0000" stop="20260923063837 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
@@ -59715,10 +59709,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">موليز غيم</title>
     <desc lang="ar">أدارت مولي بلوم أخطر لعبة ورق عالية في العالم لمدة عقد من الزمن، وكان من بين لاعبيها ملوك هوليوود ونجوم الرياضة وعمالقة الأعمال، وأخيراً الغوغاء الروس، دون علمها. ألقى (17) من عملاء مكتب التحقيقات الفيدرالي القبض عليها في منتصف الليل.</desc>
   </programme>
-  <programme start="20260923060100 +0000" stop="20260923061400 +0000" channel="MBC 3">
-    <title lang="ar">هانغري براين — الحلقة 32</title>
-    <desc lang="ar">هذه وجهة جميع الأطفال المتعطشين للمعرفة، فاستعدوا لاكتشاف عالم مليء بالمعلومات عن التاريخ والعلوم والرياضة والحيوانات وألعاب الخفة وأكثر من ذلك بكثير!</desc>
-  </programme>
   <programme start="20260923061400 +0000" stop="20260923063000 +0000" channel="MBC 3">
     <title lang="ar">هانغري براين — الحلقة 33</title>
     <desc lang="ar">هذه وجهة جميع الأطفال المتعطشين للمعرفة، فاستعدوا لاكتشاف عالم مليء بالمعلومات عن التاريخ والعلوم والرياضة والحيوانات وألعاب الخفة وأكثر من ذلك بكثير!</desc>
@@ -61183,121 +61173,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">كريستال — الحلقة 7</title>
     <desc lang="ar">الأولى مصممة أزياء مشهورة والثانية ابنة البستاني، كلتاهما تُعجبان بالرجل نفسه. سرعان ما تتحول المنافسة بينهما إلى صراع مفتوح.</desc>
   </programme>
-  <programme start="20260923060000 +0000" stop="20260923070000 +0000" channel="MBC 5">
-    <title lang="en">Vanshaj</title>
-    <desc lang="en">Yuvika disagrees with her family over giving the inheritance of the family business to male members and demands selecting the successor per their qualifications.</desc>
-  </programme>
-  <programme start="20260923070000 +0000" stop="20260923074500 +0000" channel="MBC 5">
-    <title lang="en">Bahar</title>
-    <desc lang="en">The life of the housewife, Bahar, which is full of disappointments, takes on a new meaning when she returns from the dead and decides to complete the dream she abandoned and confront the society that considered her dead.</desc>
-  </programme>
-  <programme start="20260923074500 +0000" stop="20260923083000 +0000" channel="MBC 5">
-    <title lang="en">Chahadat Milad 2</title>
-    <desc lang="en">In season two, Narjes discovers that Kalthoum and Qasim are not her real parents, and that she was replaced with another child when she was born, which leads to a series of events to unfold.</desc>
-  </programme>
-  <programme start="20260923083000 +0000" stop="20260923091500 +0000" channel="MBC 5">
-    <title lang="en">Family Secrets</title>
-    <desc lang="en">It follows a lawyer and a prosecutor who must work together to investigate a murder to find the killer, which creates an irreversible breaking point in their lives.</desc>
-  </programme>
-  <programme start="20260923091500 +0000" stop="20260923101500 +0000" channel="MBC 5">
-    <title lang="en">El Atawla</title>
-    <desc lang="en">A bloody conflict arises between two brothers due to greed and jealousy, and revenge fills their hearts, causing the destruction of the entire family and putting one of them in prison.</desc>
-  </programme>
-  <programme start="20260923101500 +0000" stop="20260923104500 +0000" channel="MBC 5">
-    <title lang="ar">برنامج شهيوة توندونس موسم 2</title>
-  </programme>
-  <programme start="20260923104500 +0000" stop="20260923111500 +0000" channel="MBC 5">
-    <title lang="en">Jawabak Thahab</title>
-    <desc lang="en">A competition program presented by Morad El Achabi, in which he explores a new city in Morocco in each episode and asks participants questions in three categories: general culture, the city they want to visit, and music.</desc>
-  </programme>
-  <programme start="20260923111500 +0000" stop="20260923121500 +0000" channel="MBC 5">
-    <title lang="ar">برنامج براد وصينية</title>
-  </programme>
-  <programme start="20260923121500 +0000" stop="20260923130000 +0000" channel="MBC 5">
-    <title lang="en">Bahar</title>
-    <desc lang="en">The life of the housewife, Bahar, which is full of disappointments, takes on a new meaning when she returns from the dead and decides to complete the dream she abandoned and confront the society that considered her dead.</desc>
-  </programme>
-  <programme start="20260923130000 +0000" stop="20260923135000 +0000" channel="MBC 5">
-    <title lang="en">Hayat</title>
-    <desc lang="en">A girl full of ambition, Hayat is forced to raise her younger siblings, care for her sick mother, and save her addict father from the trouble he always brings upon himself. Despite all that, she remains optimistic.</desc>
-  </programme>
-  <programme start="20260923135000 +0000" stop="20260923144500 +0000" channel="MBC 5">
-    <title lang="en">El Atawla</title>
-    <desc lang="en">A bloody conflict arises between two brothers due to greed and jealousy, and revenge fills their hearts, causing the destruction of the entire family and putting one of them in prison.</desc>
-  </programme>
-  <programme start="20260923144500 +0000" stop="20260923153000 +0000" channel="MBC 5">
-    <title lang="en">Chahadat Milad 2</title>
-    <desc lang="en">In season two, Narjes discovers that Kalthoum and Qasim are not her real parents, and that she was replaced with another child when she was born, which leads to a series of events to unfold.</desc>
-  </programme>
-  <programme start="20260923153000 +0000" stop="20260923163000 +0000" channel="MBC 5">
-    <title lang="en">Vanshaj</title>
-    <desc lang="en">Yuvika disagrees with her family over giving the inheritance of the family business to male members and demands selecting the successor per their qualifications.</desc>
-  </programme>
-  <programme start="20260923163000 +0000" stop="20260923173000 +0000" channel="MBC 5">
-    <title lang="en">Family Secrets</title>
-    <desc lang="en">It follows a lawyer and a prosecutor who must work together to investigate a murder to find the killer, which creates an irreversible breaking point in their lives.</desc>
-  </programme>
-  <programme start="20260923173000 +0000" stop="20260923183000 +0000" channel="MBC 5">
-    <title lang="en">Hayat</title>
-    <desc lang="en">A girl full of ambition, Hayat is forced to raise her younger siblings, care for her sick mother, and save her addict father from the trouble he always brings upon himself. Despite all that, she remains optimistic.</desc>
-  </programme>
-  <programme start="20260923183000 +0000" stop="20260923190000 +0000" channel="MBC 5">
-    <title lang="ar">برنامج شهيوة توندونس موسم 2</title>
-  </programme>
-  <programme start="20260923190000 +0000" stop="20260923193000 +0000" channel="MBC 5">
-    <title lang="en">Jawabak Thahab</title>
-    <desc lang="en">A competition program presented by Morad El Achabi, in which he explores a new city in Morocco in each episode and asks participants questions in three categories: general culture, the city they want to visit, and music.</desc>
-  </programme>
-  <programme start="20260923193000 +0000" stop="20260923203000 +0000" channel="MBC 5">
-    <title lang="ar">برنامج براد وصينية</title>
-  </programme>
-  <programme start="20260923203000 +0000" stop="20260923213000 +0000" channel="MBC 5">
-    <title lang="en">El Atawla</title>
-    <desc lang="en">A bloody conflict arises between two brothers due to greed and jealousy, and revenge fills their hearts, causing the destruction of the entire family and putting one of them in prison.</desc>
-  </programme>
-  <programme start="20260923213000 +0000" stop="20260923223000 +0000" channel="MBC 5">
-    <title lang="en">Chahadat Milad 2</title>
-    <desc lang="en">In season two, Narjes discovers that Kalthoum and Qasim are not her real parents, and that she was replaced with another child when she was born, which leads to a series of events to unfold.</desc>
-  </programme>
-  <programme start="20260923223000 +0000" stop="20260923230000 +0000" channel="MBC 5">
-    <title lang="en">Bahar</title>
-    <desc lang="en">The life of the housewife, Bahar, which is full of disappointments, takes on a new meaning when she returns from the dead and decides to complete the dream she abandoned and confront the society that considered her dead.</desc>
-  </programme>
-  <programme start="20260923230000 +0000" stop="20260923233000 +0000" channel="MBC 5">
-    <title lang="en">Jawabak Thahab</title>
-    <desc lang="en">A competition program presented by Morad El Achabi, in which he explores a new city in Morocco in each episode and asks participants questions in three categories: general culture, the city they want to visit, and music.</desc>
-  </programme>
-  <programme start="20260923233000 +0000" stop="20260924002000 +0000" channel="MBC 5">
-    <title lang="ar">برنامج براد وصينية</title>
-  </programme>
-  <programme start="20260924002000 +0000" stop="20260924010000 +0000" channel="MBC 5">
-    <title lang="en">Hayat</title>
-    <desc lang="en">A girl full of ambition, Hayat is forced to raise her younger siblings, care for her sick mother, and save her addict father from the trouble he always brings upon himself. Despite all that, she remains optimistic.</desc>
-  </programme>
-  <programme start="20260924010000 +0000" stop="20260924014000 +0000" channel="MBC 5">
-    <title lang="en">Chahadat Milad 2</title>
-    <desc lang="en">In season two, Narjes discovers that Kalthoum and Qasim are not her real parents, and that she was replaced with another child when she was born, which leads to a series of events to unfold.</desc>
-  </programme>
-  <programme start="20260924014000 +0000" stop="20260924023000 +0000" channel="MBC 5">
-    <title lang="en">Vanshaj</title>
-    <desc lang="en">Yuvika disagrees with her family over giving the inheritance of the family business to male members and demands selecting the successor per their qualifications.</desc>
-  </programme>
-  <programme start="20260924023000 +0000" stop="20260924031500 +0000" channel="MBC 5">
-    <title lang="en">Family Secrets</title>
-    <desc lang="en">It follows a lawyer and a prosecutor who must work together to investigate a murder to find the killer, which creates an irreversible breaking point in their lives.</desc>
-  </programme>
-  <programme start="20260924031500 +0000" stop="20260924040000 +0000" channel="MBC 5">
-    <title lang="en">El Atawla</title>
-    <desc lang="en">A bloody conflict arises between two brothers due to greed and jealousy, and revenge fills their hearts, causing the destruction of the entire family and putting one of them in prison.</desc>
-  </programme>
-  <programme start="20260924040000 +0000" stop="20260924044500 +0000" channel="MBC 5">
-    <title lang="en">Bahar</title>
-    <desc lang="en">The life of the housewife, Bahar, which is full of disappointments, takes on a new meaning when she returns from the dead and decides to complete the dream she abandoned and confront the society that considered her dead.</desc>
-  </programme>
-  <programme start="20260924044500 +0000" stop="20260924051500 +0000" channel="MBC 5">
-    <title lang="en">Jawabak Thahab</title>
-    <desc lang="en">A competition program presented by Morad El Achabi, in which he explores a new city in Morocco in each episode and asks participants questions in three categories: general culture, the city they want to visit, and music.</desc>
-  </programme>
   <programme start="20260924051500 +0000" stop="20260924060000 +0000" channel="MBC 5">
     <title lang="en">Hayat</title>
     <desc lang="en">A girl full of ambition, Hayat is forced to raise her younger siblings, care for her sick mother, and save her addict father from the trouble he always brings upon himself. Despite all that, she remains optimistic.</desc>
@@ -61776,10 +61651,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926033000 +0000" stop="20260926042000 +0000" channel="MBC Action">
     <title lang="ar">موناكو غراند بري هيستوريك</title>
     <desc lang="ar">سلسلة سباقات تشارك فيها أنواع مختلفة من السيارات الكلاسيكية.</desc>
-  </programme>
-  <programme start="20260923053100 +0000" stop="20260923062800 +0000" channel="MBC Bollywood">
-    <title lang="ar">بارينيتي — الحلقة 116</title>
-    <desc lang="ar">قصة معقدة تأسر القلوب تدور حول صديقين مقربين تتشابك حياتهما بطريقة غير متوقعة.</desc>
   </programme>
   <programme start="20260923062800 +0000" stop="20260923071300 +0000" channel="MBC Bollywood">
     <title lang="ar">بارينيتي — الحلقة 117</title>
@@ -64268,10 +64139,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926040500 +0000" stop="20260926060000 +0000" channel="MBC Max">
     <title lang="ar">أوبيريشن فورتشن: روز دي غير</title>
     <desc lang="ar">يُكلّف الجاسوس أورسون فورتشن بتعقّب سلاح متطور قبل أن يقع في أيدي تاجر أسلحة ملياردير. وبرفقة نخبة من العملاء ونجم هوليوودي شهير، ينطلق في مهمة سرية مليئة بالخداع والمطاردات لإنقاذ العالم.</desc>
-  </programme>
-  <programme start="20260923060000 +0000" stop="20260923062900 +0000" channel="MBC Variety">
-    <title lang="ar">ميكينغ ذا موفيز — الحلقة 40</title>
-    <desc lang="ar">من خلال عرض قصص حصرية، يسلط هذا المسلسل الضوء على كيفية صنع الأفلام من الألف للياء، ابتداء من التقنيات الرائعة والمواضيع الشيقة وانتهاء بآخر صيحات الإنتاج في هوليوود.</desc>
   </programme>
   <programme start="20260923062900 +0000" stop="20260923065900 +0000" channel="MBC Variety">
     <title lang="ar">فيلم ونجوم — الحلقة 40</title>
@@ -72397,7 +72264,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260923225500 +0000" stop="20260923230000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923113000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260923062500 +0000" stop="20260923113000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Special Program: Al Fareeq Al Tasee' 2026</title>
     <desc lang="en">Special Program: Al Fareeq Al Tasee' 2026</desc>
     <category lang="en">Sport</category>
@@ -72475,13 +72342,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925144000 +0000" stop="20260927060500 +0000" channel="Starz_admnadsports1">
+  <programme start="20260925144000 +0000" stop="20260927062500 +0000" channel="Starz_admnadsports1">
     <title lang="en">News - Sports Segment 2026</title>
     <desc lang="en">News - Sports Segment 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923100000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260923062500 +0000" stop="20260923100000 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -72565,14 +72432,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260926090000 +0000" stop="20260927060500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260926090000 +0000" stop="20260927062500 +0000" channel="Starz_admnadsports2">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923070000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260923062500 +0000" stop="20260923070000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Frosinone X Como - Serie A</title>
     <title lang="ar">فروزينوني × كومو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -73164,7 +73031,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923074500 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260923062500 +0000" stop="20260923074500 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Bologna X Torino - Serie A</title>
     <title lang="ar">بولونيا × تورينو - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -73728,7 +73595,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923073500 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260923062500 +0000" stop="20260923073500 +0000" channel="Starz_starzplaysport1">
     <title lang="en">UFC - Dana White's Contender Series</title>
     <title lang="ar">يو إف سي - سلسلة منافسي دانا وايت</title>
     <desc lang="en">Tune in to the latest events from the UFC - Dana White's Contender Series.</desc>
@@ -74295,7 +74162,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923065700 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260923062500 +0000" stop="20260923065700 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Australia vs. Ireland - Nations Championship 2026</title>
     <desc lang="en">Australia vs. Ireland - Nations Championship 2026</desc>
     <category lang="en">Sport</category>
@@ -74505,7 +74372,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923073500 +0000" channel="Starz_golflife">
+  <programme start="20260923062500 +0000" stop="20260923073500 +0000" channel="Starz_golflife">
     <title lang="en">Biltmore Championship Asheville, First Round - PGA Tour Golf</title>
     <title lang="ar">بي جي إيه تور غولف</title>
     <desc lang="en">Biltmore Championship Asheville, First Round - PGA Tour Golf</desc>
@@ -74846,7 +74713,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923063200 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260923062500 +0000" stop="20260923063200 +0000" channel="Starz_cricbuzz1">
     <title lang="en">1st ODI: England v Sri Lanka - One-Day International Cricket</title>
     <title lang="ar">ون-داي إنترناشونال كريكيت</title>
     <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
@@ -76079,7 +75946,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923080000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260923062500 +0000" stop="20260923080000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Phygital Basketball / Battle Royale: PU... - Games of the Future</title>
     <title lang="ar">فيجيتال باسكتبول / باتل رويال: ببجي... - ألعاب المستقبل</title>
     <desc lang="en">Stay tuned for Games of the Future - A sports event merging physical activities with digital gaming in hybrid challenges.</desc>
@@ -76632,7 +76499,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923065600 +0000" channel="Starz_wedosports">
+  <programme start="20260923062500 +0000" stop="20260923065600 +0000" channel="Starz_wedosports">
     <title lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</title>
     <title lang="ar">الدوري الإسكتلندي الممتاز - مباشر</title>
     <desc lang="en">Partick Thistle v Dunfermline Athletic - Scottish Premier League Football - LIVE</desc>
@@ -77043,7 +76910,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923070000 +0000" channel="Starz_criclife1">
+  <programme start="20260923062500 +0000" stop="20260923070000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's ODI World Cup 2023: South Africa vs. Bangladesh - Kick-Off Classics</title>
     <desc lang="en">ICC Men's ODI World Cup 2023: South Africa vs. Bangladesh - Kick-Off Classics</desc>
     <category lang="en">Sport</category>
@@ -77618,14 +77485,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923061300 +0000" channel="Starz_criclife3">
-    <title lang="en">Final: Trent Rockets vs. Manchester Super Giants - Men's The Hundred</title>
-    <title lang="ar">منز ذا هاندرد</title>
-    <desc lang="en">S2026 , Ep.Final: Trent Rockets vs. Manchester Super Giants : Professional cricket teams compete against one another in The Hundred, hoping to defeat their opponents and win the coveted title.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p28039664_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260923061300 +0000" stop="20260923063700 +0000" channel="Starz_criclife3">
+  <programme start="20260923062500 +0000" stop="20260923063700 +0000" channel="Starz_criclife3">
     <title lang="en">Final - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -78823,7 +78683,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923063500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260927062100 +0000" stop="20260927065500 +0000" channel="Starz_criclife3">
+    <title lang="en">2nd ODI: England v Sri Lanka - One-Day International Cricket</title>
+    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
+    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
+  </programme>
+  <programme start="20260923062500 +0000" stop="20260923063500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Ghantoot International Polo Championship - UAE Polo Cup</title>
     <title lang="ar">بطولة غنتوت الدولية للبولو - كأس الإمارات للبولو</title>
     <desc lang="en">Stay tuned to the latest matches from the UAE Polo Cup.</desc>
@@ -79397,7 +79264,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923082316 +0000" channel="Starz_awsn">
+  <programme start="20260923062500 +0000" stop="20260923082316 +0000" channel="Starz_awsn">
     <title lang="en">2025: Al Ahli vs Al Hilal</title>
     <desc lang="en">The 2025-2026 Saudi Women&amp;apos;s Premier League continues with Al Ahli vs. Al Hilal at the Al Ahli Club Stadium.</desc>
     <category lang="en">Sport</category>
@@ -80013,7 +79880,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923070000 +0000" channel="Starz_redbulltv">
+  <programme start="20260923062500 +0000" stop="20260923070000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -80595,7 +80462,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923090000 +0000" channel="Starz_daznringside">
+  <programme start="20260923062500 +0000" stop="20260923090000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -80793,7 +80660,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260923065152 +0000" channel="Starz_fifaplus">
+  <programme start="20260923062500 +0000" stop="20260923065152 +0000" channel="Starz_fifaplus">
     <title lang="en">Australia v Brazil | Group C | FIFA Women's World Cup France 2019™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Australia and Brazil played at Stade de la Mosson, Montpellier on Thursday, 13 June 2019 at 18:00.</desc>
     <category lang="en">Sport</category>
@@ -81117,7 +80984,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123227.jpg" />
   </programme>
-  <programme start="20260923060500 +0000" stop="20260927060500 +0000" channel="Starz_adfight">
+  <programme start="20260923062500 +0000" stop="20260927062500 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
     <category lang="en">Sport</category>
@@ -124532,4 +124399,4 @@ Istanbul (إسطنبول) — الفجر 05:21 · الشروق 06:46 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260924124345 +0000" stop="20260924141018 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924124410 +0000" stop="20260924141018 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260924124345 +0000" stop="20260924143223 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260924124410 +0000" stop="20260924143223 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
