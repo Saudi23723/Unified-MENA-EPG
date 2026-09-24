@@ -273,6 +273,28 @@ def hydrate() -> int:
             fetched += 1
     if fetched:
         log(f"{fetched} segment(s) brought onto disk from {BRANCH}")
+    # And the boards main no longer carries, so a screen whose build fails
+    # this pass still has the pictures it had — what a checkout used to
+    # give it. Only ever added: a board on disk is this pass's own.
+    if tip:
+        table = board_table()
+        placed = 0
+        for line in out(git("ls-tree", "-r", "--name-only", TRACKING, "--",
+                            BOARDS)).splitlines():
+            name = os.path.basename(line)
+            if not table.prefix_of(name, table.UNTRACKED) \
+                    or os.path.exists(line):
+                continue
+            blob = git("cat-file", "blob", f"{TRACKING}:{line}")
+            if blob.returncode != 0:
+                continue
+            os.makedirs(BOARDS, exist_ok=True)
+            with open(line + ".part", "wb") as handle:
+                handle.write(blob.stdout)
+            os.replace(line + ".part", line)
+            placed += 1
+        if placed:
+            log(f"{placed} board file(s) brought onto disk from {BRANCH}")
     return missing
 
 
@@ -307,6 +329,16 @@ def untrack() -> None:
         git("rm", "--cached", "--quiet", "--", *tracked[start:start + 200])
     if tracked:
         log(f"{len(tracked)} retired segment(s) no longer tracked on main")
+    # Boards of the screens in board_links.UNTRACKED leave main's index —
+    # the guides have linked them on hls-segments for a day and more by
+    # the time a screen is put there, so nothing is asking main for them.
+    table = board_table()
+    boards = [path for path in out(git("ls-files", "--", BOARDS)).splitlines()
+              if table.prefix_of(os.path.basename(path), table.UNTRACKED)]
+    for start in range(0, len(boards), 200):
+        git("rm", "--cached", "--quiet", "--", *boards[start:start + 200])
+    if boards:
+        log(f"{len(boards)} board file(s) no longer tracked on main")
 
 
 # ─── publish ───────────────────────────────────────────────────────────
@@ -481,7 +513,29 @@ def consistency() -> list[str]:
         probe = f"{STREAM}/{prefix}0.00000000.ts"
         if git("check-ignore", "-q", "--no-index", "--", probe).returncode != 0:
             problems.append(f"{STREAM}/{prefix}*.ts is not in .gitignore")
+    table = board_table()
+    for prefix in sorted(table.UNTRACKED):
+        if prefix not in table.PUBLISHED:
+            problems.append(f"board_links: {prefix} is UNTRACKED but not "
+                            f"PUBLISHED — its guides would link a file main "
+                            f"no longer carries")
+        probe = f"{BOARDS}/{prefix}0.png"
+        if git("check-ignore", "-q", "--no-index", "--", probe).returncode != 0:
+            problems.append(f"{BOARDS}/{prefix}* is not in .gitignore")
     return problems
+
+
+def off_main(path: str) -> bool:
+    """Is this path one main no longer carries — a moved segment, or a
+    board of a screen in board_links.UNTRACKED? Such a file on disk is
+    this pass's own copy and nothing git does may take it away."""
+    name = os.path.basename(path)
+    if path.startswith(STREAM + "/") and moved_prefix(name):
+        return True
+    if path.startswith(BOARDS + "/"):
+        table = board_table()
+        return table.prefix_of(name, table.UNTRACKED) is not None
+    return False
 
 
 def board_table():
@@ -513,9 +567,14 @@ def boards_wanted(before: dict[str, str]) -> dict[str, str]:
         return wanted
     changed = out(git("diff", "--name-only", "HEAD^", "HEAD")).splitlines()
     touched = set()
+    playlists = {f"{STREAM}/{playlist}": prefix
+                 for prefix, playlist in MOVED.items()}
     for path in changed:
-        prefix = table.prefix_of(os.path.basename(path), published)
-        if prefix:
+        # Its boards, segments or ledgers by name — or its playlist, which
+        # is how a redraw shows once main no longer carries the boards.
+        prefix = table.prefix_of(os.path.basename(path), published) \
+            or playlists.get(path)
+        if prefix in published:
             touched.add(prefix)
     for name in sorted(os.listdir(BOARDS)):
         prefix = table.prefix_of(name, published)

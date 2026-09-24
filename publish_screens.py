@@ -260,6 +260,10 @@ def restore(ours: str, changed: list[str]) -> None:
             posix = path.replace(os.sep, "/")
             if posix in owned_set:
                 continue
+            # A board main no longer carries is never in `owned` — it is
+            # this pass's own drawing, on disk only, and must stay there.
+            if segments().off_main(posix):
+                continue
             git("rm", "-f", "--quiet", "--ignore-unmatch", "--", posix)
             if os.path.exists(path):
                 try:
@@ -272,10 +276,11 @@ def restore(ours: str, changed: list[str]) -> None:
         # the first time.
         for path in changed:
             if belongs_to_screen(path, screen) and path not in owned_set:
-                # A segment kept on hls-segments is not on main at all:
-                # its deletion in our commit is main letting go of it, and
-                # `git rm -f` would take this pass's own copy off the disk.
-                if segments().moved_prefix(os.path.basename(path)):
+                # A segment or board kept on hls-segments is not on main
+                # at all: its deletion in our commit is main letting go of
+                # it, and `git rm -f` would take this pass's own copy off
+                # the disk.
+                if segments().off_main(path):
                     continue
                 git("rm", "-f", "--quiet", "--ignore-unmatch", "--", path)
 
