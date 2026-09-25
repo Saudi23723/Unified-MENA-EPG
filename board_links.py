@@ -44,7 +44,9 @@ PUBLISHED: set[str] = {
     "other_sports_", "dubai_sports_",
 }
 
-UNTRACKED: set[str] = set()
+UNTRACKED: set[str] = {
+    "today_prayer_",
+}
 
 
 def prefix_of(name: str, prefixes) -> str | None:
