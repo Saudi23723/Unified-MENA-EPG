@@ -45,7 +45,9 @@ PUBLISHED: set[str] = {
 }
 
 UNTRACKED: set[str] = {
+    "dubai_news_",
     "dubai_weather_",
+    "today_news_",
     "today_prayer_",
     "today_weather_",
 }
