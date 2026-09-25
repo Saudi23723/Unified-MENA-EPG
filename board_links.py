@@ -45,6 +45,8 @@ PUBLISHED: set[str] = {
 }
 
 UNTRACKED: set[str] = {
+    "ball_sports_",
+    "dubai_ball_sports_",
     "dubai_f1_",
     "dubai_hoops_gridiron_",
     "dubai_news_",
