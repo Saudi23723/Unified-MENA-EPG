@@ -79,6 +79,13 @@ A_SPORT = {
     "HOQUEI": "Hockey", "HÓQUEI": "Hockey", "BOXE": "Boxing",
     "MMA": "MMA", "VELA": "Sailing", "SNOOKER": "Snooker",
     "DARDOS": "Darts", "TRIATLO": "Triathlon",
+    # "DESPORTOS COMBATE" — combat sports, the word SPORT TV files UFC BJJ
+    # and ONE Championship under ("UFC BJJ - DESPORTOS COMBATE", "BJJ 11 -
+    # MUSUMECI X MITCHELL", live on SPORT TV1, measured 25.09.2026). Left
+    # out of this table, every one of those rows was dropped as a sport
+    # the board does not carry: "why isn't Sport TV showing UFC BJJ live
+    # on Sport TV 1?". They sit with the MMA they are shown beside.
+    "DESPORTOS COMBATE": "MMA", "DESPORTOS DE COMBATE": "MMA",
 }
 
 # NOT A CONTEST — the shared Portuguese vocabulary, not a second copy.

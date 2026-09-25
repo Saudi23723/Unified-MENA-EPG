@@ -1,32 +1,30 @@
-"""Every Sport TV row that mentions UFC/BJJ/jiu-jitsu or a sport word the
-reader does not map, from a runner. Never fails."""
-import json, os, re, sys
-from collections import Counter
+"""Find Animal Planet in the MENA feeds, from a runner. Never fails."""
+import gzip, io, os, re, sys, traceback
 from datetime import datetime, timezone
+import xml.etree.ElementTree as ET
 sys.path.insert(0, os.getcwd())
-import sporttv_pt as st
-from epg_lib import new_session, fetch, norm
+from epg_lib import new_session
 S = new_session()
-unmapped = Counter()
-for cid, slug, shown in st.CHANNELS if hasattr(st, "CHANNELS") else []:
+now = datetime.now(timezone.utc)
+URLS = [f"https://www.open-epg.com/files/{n}.xml" for n in
+        ("egypt1", "egypt2", "saudiarabia1", "saudiarabia2", "uae1", "uae2",
+         "kuwait1", "qatar1", "bahrain1", "oman1", "jordan1", "lebanon1")]
+URLS += [f"https://epgshare01.online/epgshare01/epg_ripper_{c}.xml.gz" for c in
+         ("AE1", "SA1", "SA2", "EG1", "QA1", "KW1")]
+for url in URLS:
     try:
-        got = fetch(S, f"{st.BASE}/live/canal/{cid}/{slug}")
-        table = json.loads(st.biggest_json(got.text)); at = st.follower(table)
+        b = S.get(url, timeout=90).content
+        if url.endswith(".gz"):
+            b = gzip.decompress(b)
+        root = ET.fromstring(b)
+        hits = [c for c in root.findall("channel")
+                if re.search(r"animal|planet", (c.get("id") or "") + " ".join(d.text or "" for d in c.findall("display-name")), re.I)]
+        for c in hits:
+            cid = c.get("id")
+            ps = [p for p in root.findall("programme") if p.get("channel") == cid]
+            fut = [p for p in ps if datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z") > now]
+            last = max((p.get("stop") for p in ps), default="-")
+            print(f"HIT {url.split('/')[-1]:32} id={cid!r} names={[d.text for d in c.findall('display-name')][:3]} rows={len(ps)} future={len(fut)} until={last} sample={[p.findtext('title') for p in fut[:4]]}")
+        print(f"DONE {url.split('/')[-1]} channels={len(root.findall('channel'))} hits={len(hits)}")
     except Exception as exc:
-        print("FAIL", shown, exc); continue
-    for row in table:
-        if not (isinstance(row, dict) and "tipoEmissao" in row):
-            continue
-        ev = at(row.get("evento")) or {}
-        name = (ev.get("nome") or "") if isinstance(ev, dict) else ""
-        fixture = norm(str(at(row.get("descricao")) or ""))
-        mode = at(row.get("modalidade")) or {}
-        word = (mode.get("nomeModalidade") if isinstance(mode, dict) else None) or st.split_event(norm(str(name)))[1]
-        when = at(row.get("data"))
-        t = datetime.fromtimestamp(when/1000, tz=timezone.utc).strftime("%d %H:%M") if isinstance(when, int) else when
-        canal = st.channel_of(at(row.get("canal")))
-        if str(word).strip().upper() not in st.A_SPORT:
-            unmapped[str(word)] += 1
-        if re.search(r"ufc|bjj|jiu|jitsu|grappl|luta|combat", f"{name} {fixture} {word}", re.I):
-            print(f"ROW page={shown} canal={canal} {t} tipo={at(row.get('tipoEmissao'))} word={word!r} name={name!r} fixture={fixture!r} dur={at(row.get('duracao'))}")
-print("UNMAPPED", unmapped.most_common(30))
+        print(f"FAIL {url} {exc}")
