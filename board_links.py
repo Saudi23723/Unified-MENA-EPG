@@ -51,6 +51,7 @@ UNTRACKED: set[str] = {
     "dubai_hoops_gridiron_",
     "dubai_news_",
     "dubai_sporttv_",
+    "dubai_turkish_ppv_",
     "dubai_weather_",
     "f1_",
     "hoops_gridiron_",
@@ -58,6 +59,7 @@ UNTRACKED: set[str] = {
     "today_news_",
     "today_prayer_",
     "today_weather_",
+    "turkish_ppv_",
 }
 
 
