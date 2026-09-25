@@ -46,9 +46,11 @@ PUBLISHED: set[str] = {
 
 UNTRACKED: set[str] = {
     "dubai_f1_",
+    "dubai_hoops_gridiron_",
     "dubai_news_",
     "dubai_weather_",
     "f1_",
+    "hoops_gridiron_",
     "today_news_",
     "today_prayer_",
     "today_weather_",
