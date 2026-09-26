@@ -1,56 +1,44 @@
-"""UAE official schedules, round four. Never fails."""
-import base64, io, os, re, sys, tarfile
-from datetime import datetime, timezone, timedelta
+"""UAE channels: download each broadcaster's own logo; last guesses at the
+Dubai Sports 1 schedule file. Never fails."""
+import base64, io, os, sys, tarfile
 sys.path.insert(0, os.getcwd())
 from epg_lib import new_session
 S = new_session()
 H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-     "(KHTML, like Gecko) Chrome/124 Safari/537.36", "Accept-Language": "ar,en;q=0.8"}
+     "(KHTML, like Gecko) Chrome/124 Safari/537.36"}
+SZ = "https://starzplay-img-prod-ssl.akamaized.net/prd-peg-data/default/images/logos/live/v2/"
+LOGOS = {
+ "dubai_tv": "https://www.dubaitv.ae/content/dam/dubaitv/icons/2023/logo.png",
+ "sama_dubai": "https://www.samadubai.ae/content/dam/samadubai/icons/2023/samadubai_logo.png",
+ "noor_dubai": "https://www.noordubai.com/etc/designs/noordubai/orginal/static/images/logo-noordubai.png",
+ "dubai_one": "https://www.dubaione.ae/content/dam/dubaione/icons/logo-310320/400x170.png",
+ "dubai_sports": "https://www.dubaisports.ae/content/dam/dubaisports/images/logo.png",
+ "dubai_racing": "https://www.dubairacing.ae/content/dam/Common/brands1/dubairacing-logo.png",
+ "dubai_racing_wide": "https://www.dubairacing.ae/etc/designs/dubai-racing/orginal/static/images/logo-wide.png",
+ "abu_dhabi_tv": SZ + "admnabudhabichannel/active/5053dc59a6720698c26127b27e5e2098.png",
+ "al_emarat": SZ + "admnalemarattv/active/2b6092733df431e839de5e8b5acc5170.png",
+ "natgeo_ad": SZ + "nationalgeographicabudhabitv/active/28116b613c9c8ccbb1a27a47cc862b6c.png",
+ "sharjah_tv": "https://sbauae.faulio.com/storage/mediagallery/cb/85/fullhd_85193bcdcc44114327c4f9ad3c0fc9555c72f501.png",
+ "sharqiya_kalba": "https://sbauae.faulio.com/storage/mediagallery/55/38/fullhd_4bfa9ec0919d329eb750401a28b6a2ab4bb1ce52.png",
+ "sharjah_2": "https://sbauae.faulio.com/storage/mediagallery/89/14/fullhd_791cecd44950e87d0558b783273de114cf7656f7.png",
+}
 buf = io.BytesIO(); tar = tarfile.open(fileobj=buf, mode="w:gz")
-def keep(name, body):
-    info = tarfile.TarInfo(name); info.size = len(body); tar.addfile(info, io.BytesIO(body))
-def get(name, url, save=True, **kw):
+for name, url in LOGOS.items():
     try:
-        r = S.get(url, headers=H, timeout=40, **kw)
-        print(f"{name}: {r.status_code} {len(r.content)}B {r.headers.get('content-type','')[:30]} {r.url[:130]}")
-        if save and r.status_code == 200:
-            keep(name, r.content)
-        return r
+        r = S.get(url, headers=H, timeout=40)
+        print(name, r.status_code, len(r.content), r.headers.get("content-type"))
+        if r.status_code == 200:
+            info = tarfile.TarInfo(name + ".img"); info.size = len(r.content); tar.addfile(info, io.BytesIO(r.content))
     except Exception as e:
-        print(f"{name}: ERR {str(e)[:140]}")
-now = datetime.now(timezone.utc)
-# Dubai Media: which json names do the sports / racing / zaman pages' scripts ask for?
-for site, page in (("dubaisports", "https://www.dubaisports.ae/content/dubaisports/schedule/1.html"),
-                   ("dubaisports2", "https://www.dubaisports.ae/content/dubaisports/schedule/2.html"),
-                   ("dubairacing", "https://www.dubairacing.ae/content/dubairacing/ar-ae/home.html"),
-                   ("dubaizaman", "https://www.dubaizaman.ae/content/dubaizaman/ar-ae/schedule.html")):
-    r = get(site + ".html", page)
-    if r is None or r.status_code != 200:
-        continue
-    host = re.match(r"https://[^/]+", r.url).group(0)
-    print("   inline json refs:", sorted(set(re.findall(r"[\w/.-]*\.json", r.text)))[:20])
-    for src in sorted(set(re.findall(r'src="(/[^"]+\.js)"', r.text))):
-        rj = get(site + src.replace("/", "_"), host + src, save=False)
-        if rj is not None and rj.status_code == 200:
-            refs = sorted(set(re.findall(r"[\w/.-]*(?:json|Common)[\w/.-]*", rj.text)))
-            if refs:
-                print("      js refs:", refs[:25])
-for c in ["SPT1", "SPT", "SPT3", "SPT0", "SPRT1", "DSPT", "DSP1", "SPORT", "RAC1", "RAC", "RAC3", "RAC0", "RACE",
-          "RCE", "DRAC", "ZMN", "ZAMN", "ZMAN", "DZMN", "ZAMAN", "DUBZ", "DUB2", "DUB3", "SAMA2", "NOOR2"]:
-    get(f"dm_{c}.json", f"https://www.dubaitv.ae/content/dam/Common/json/{c}.json")
-# Sharjah: the programme grid
-for q in ({}, {"channel": 8}, {"channel_id": 8}, {"channel": 8, "date": f"{now:%Y-%m-%d}"},
-          {"channel_id": 8, "date": f"{now:%Y-%m-%d}"}, {"channel": 8, "day": f"{now:%Y-%m-%d}"}):
-    tag = "_".join(f"{k}{v}" for k, v in q.items()) or "bare"
-    get(f"sba_grid_{tag}.json", "https://sbauae.faulio.com/api/v1/programgrid", params=q)
-get("sba_ch8.json", "https://sbauae.faulio.com/api/v1/channels/8")
-get("sba_ch12.json", "https://sbauae.faulio.com/api/v1/channels/12")
-# Fujairah: how full is a week of its own schedule?
-for d in range(0, 4):
-    day = now + timedelta(days=d)
-    r = get(f"fuj_{day:%m%d}.html", f"https://www.fujairahtv.ae/schedule-channels-date/1/{day:%Y/%m/%d}")
-    if r is not None:
-        print("    cards:", r.text.count("المدة"))
+        print(name, "ERR", str(e)[:120])
+for c in ["SPT1", "DSC", "DSC1", "SPTS", "SPTS1", "SPORT1", "SPORTS1", "SP1", "SP", "DSPORT", "DSPORTS", "DS",
+          "DXS", "DXS1", "SPT1HD", "SPTHD", "SPRT", "SPR1", "SPR", "DUBS", "DSP", "SPO1", "SPO", "DUBSPT", "SPTA"]:
+    try:
+        r = S.get(f"https://www.dubaitv.ae/content/dam/Common/json/{c}.json", headers=H, timeout=30)
+        if r.status_code == 200:
+            print("FOUND", c, len(r.content), r.text[:200])
+    except Exception:
+        pass
 tar.close()
 blob = base64.b64encode(buf.getvalue()).decode()
 print("TAR-BEGIN")
