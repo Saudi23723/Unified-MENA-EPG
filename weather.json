@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T00:37:34.082Z",
+  "updated_at": "2026-09-26T00:43:48.240Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -59,8 +59,8 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 16.6,
-      "humidity": 70,
+      "temperature_c": 16.7,
+      "humidity": 67,
       "wind_speed": 9.7,
       "rain_chance": 0,
       "condition": "غائم",
@@ -72,8 +72,8 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 11.2,
-      "humidity": 90,
+      "temperature_c": 11.4,
+      "humidity": 87,
       "wind_speed": 5.0,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -99,7 +99,7 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 24.0,
-      "humidity": 71,
+      "humidity": 77,
       "wind_speed": 13.3,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -112,11 +112,11 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 13.9,
-      "humidity": 77,
+      "humidity": 78,
       "wind_speed": 9.3,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-09-25T19:30"
     },
     {
@@ -125,11 +125,11 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 34.3,
-      "humidity": 12,
+      "humidity": 11,
       "wind_speed": 20.9,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-09-25T17:30"
     },
     {
@@ -138,11 +138,11 @@
       "latitude": 29.7604,
       "longitude": -95.3698,
       "temperature_c": 27.2,
-      "humidity": 49,
+      "humidity": 47,
       "wind_speed": 9.2,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-09-25T19:30"
     },
     {
@@ -151,11 +151,11 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 18.4,
-      "humidity": 62,
+      "humidity": 67,
       "wind_speed": 24.1,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-09-25T17:30"
     }
   ]
