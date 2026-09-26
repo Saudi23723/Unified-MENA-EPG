@@ -169,6 +169,27 @@ def dubai_rows(session, code: str, floor: datetime) -> list[dict]:
     return out
 
 
+# STARZPLAY ends each ADMN channel's published days with one event that
+# runs to the end of the window it was asked for — "Taw'am Rouhi" for
+# fifty-nine and a half hours on Abu Dhabi TV, measured 26 September 2026.
+# That is the platform filling its grid, not a programme; a real one on
+# these channels never runs past a few hours.
+A_PLACEHOLDER = timedelta(hours=6)
+
+_CATALOGUE: dict[str, dict[str, dict]] = {}
+
+
+def starz_catalogue(session) -> dict[str, dict[str, dict]]:
+    """Every STARZPLAY channel, in Arabic and in English, read once a run
+    however many modules on the link ask for it."""
+    if not _CATALOGUE:
+        now = utc_now()
+        for lang in ("ar", "en"):
+            _CATALOGUE[lang] = {c.get("slug"): c for c in
+                                starzplay_epg.fetch_all_channels(session, now, lang)}
+    return _CATALOGUE
+
+
 def starz_rows(by_lang: dict[str, dict], slug: str, floor: datetime) -> list[dict]:
     ar = by_lang.get("ar", {}).get(slug) or {}
     en = by_lang.get("en", {}).get(slug) or {}
@@ -183,6 +204,8 @@ def starz_rows(by_lang: dict[str, dict], slug: str, floor: datetime) -> list[dic
         title = norm(event.get("title") or "")
         if not title or stop <= start or stop < floor:
             continue
+        if stop - start > A_PLACEHOLDER:
+            continue
         other = norm((english.get(int(event["tsStart"])) or {}).get("title") or "")
         out.append({"start": start, "stop": stop, "title": title,
                     "alt": other if other and other != title else "",
@@ -193,19 +216,13 @@ def starz_rows(by_lang: dict[str, dict], slug: str, floor: datetime) -> list[dic
 def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
     """Every UAE channel's programmes, from its broadcaster's own schedule."""
     floor = utc_now() - KEEP_BEHIND
-    by_lang: dict[str, dict] | None = None
     out: dict[str, list[dict]] = {}
     for xmltv_id, _logo, names, (source, key) in CHANNELS:
         try:
             if source == "dubai":
                 rows = dubai_rows(session, key, floor)
             else:
-                if by_lang is None:
-                    now = utc_now()
-                    by_lang = {lang: {c.get("slug"): c for c in
-                                      starzplay_epg.fetch_all_channels(session, now, lang)}
-                               for lang in ("ar", "en")}
-                rows = starz_rows(by_lang, key, floor)
+                rows = starz_rows(starz_catalogue(session), key, floor)
         except Exception as exc:                                  # noqa: BLE001
             warn(f"UAE: {names[0]} could not be read ({exc}) — left out this run")
             continue
@@ -217,10 +234,11 @@ def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
     return out
 
 
-def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
-    """Declare the UAE channels that have programmes and write them."""
+def write_channels(root: ET.Element, per_channel: dict[str, list[dict]],
+                   channels, logo_dir: str, logo_base: str, label: str) -> int:
+    """Declare the channels that have programmes and write them."""
     total = 0
-    for xmltv_id, logo, names, _source in CHANNELS:
+    for xmltv_id, logo, names, _source in channels:
         rows = per_channel.get(xmltv_id)
         if not rows:
             continue
@@ -237,12 +255,17 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
             seen.add(name)
             ET.SubElement(channel, "display-name",
                           lang="en" if name.isascii() else "ar").text = name
-        if os.path.exists(os.path.join(LOGO_DIR, f"{logo}.png")):
-            ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{logo}.png")
+        if os.path.exists(os.path.join(logo_dir, f"{logo}.png")):
+            ET.SubElement(channel, "icon", src=f"{logo_base}/{logo}.png")
         for event in resolve_overlaps(sorted(rows, key=lambda e: e["start"])):
             add_programme(root, xmltv_id, event["start"], event["stop"],
                           event["title"], event.get("desc", ""),
                           alt_titles=[("en", event["alt"])] if event.get("alt") else None)
             total += 1
-    log(f"UAE: {len(per_channel)}/{len(CHANNELS)} channels, {total} programmes")
+    log(f"{label}: {len(per_channel)}/{len(channels)} channels, {total} programmes")
     return total
+
+
+def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
+    """Declare the UAE channels that have programmes and write them."""
+    return write_channels(root, per_channel, CHANNELS, LOGO_DIR, LOGO_BASE, "UAE")
