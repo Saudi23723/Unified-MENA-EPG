@@ -210,11 +210,31 @@ def the_calendar(session, state, now) -> list[dict]:
     return out
 
 
+_CIRCUITS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "f1_circuits.json")
+
+
+def _kept_circuits() -> dict:
+    try:
+        with open(_CIRCUITS_FILE, encoding="utf-8") as src:
+            return json.load(src)
+    except (OSError, ValueError):
+        return {}
+
+
 def the_shape(session, state, now, meeting) -> tuple[list, int, int]:
     """The circuit as coordinates, from the key the meetings feed names."""
     key = (meeting or {}).get("circuit_key")
     if not key:
         return [], 0, 0
+    # EVERY CIRCUIT OF THE SEASON IS KEPT HERE, asked for in those words:
+    # "save all the race circuits, accurately". f1_circuits.json holds each
+    # track's outline, rotation and corners as MultiViewer published them,
+    # so a board never waits on — or is wrong because of — a live fetch.
+    kept = _kept_circuits().get(str(key))
+    if kept:
+        return ([list(p) for p in kept["points"]], int(kept["rotation"]),
+                len(kept.get("corners") or []))
     data = _ask(session, f"{CIRCUITS}/{key}/{now.year}", state,
                 f"shape:{key}", now, timedelta(days=7))
     if not data or "x" not in data:
@@ -580,7 +600,7 @@ def the_session_detail(session, state, now, colours) -> dict:
     return out
 
 
-def the_meeting(session, state, now) -> dict | None:
+def the_meeting(session, state, now, race=None) -> dict | None:
     """The meeting the paddock is at, for the circuit key and its type.
 
     Between weekends OpenF1's "latest" is the LAST meeting rather than
@@ -590,7 +610,28 @@ def the_meeting(session, state, now) -> dict | None:
     """
     data = _ask(session, f"{OPENF1}/meetings?year={now.year}", state,
                 "meetings", now, SLOWLY)
-    return (data or [None])[-1] if isinstance(data, list) else None
+    if not isinstance(data, list) or not data:
+        return None
+    # THE MEETING OF THE RACE ON THE BOARD, NOT THE SEASON'S LAST. The feed
+    # lists every meeting of the year, published ahead, so its last row is
+    # Abu Dhabi from the first week of the season on — and the board drew
+    # Yas Marina through the Azerbaijan weekend. The meeting whose own
+    # dates hold the race wins; failing that, the one starting nearest it.
+    if race and race.get("race_at"):
+        at = race["race_at"]
+        rows = [m for m in data if m.get("date_start")
+                and "testing" not in (m.get("meeting_name") or "").lower()]
+
+        def start(m):
+            return datetime.fromisoformat(m["date_start"].replace("Z", "+00:00"))
+
+        holding = [m for m in rows
+                   if start(m) <= at <= start(m) + timedelta(days=4)]
+        if holding:
+            return holding[-1]
+        if rows:
+            return min(rows, key=lambda m: abs((start(m) - at).total_seconds()))
+    return None
 
 
 def which_board(now, calendar) -> tuple[str, dict | None, tuple | None]:
@@ -836,7 +877,7 @@ def build() -> int:
         page["next_session"] = ahead
         shape, rotation, corners = [], 0, 0
         live = the_session_now(session, state, now, colours) if mode == "live" else None
-        meeting = live["meeting"] if live else the_meeting(session, state, now)
+        meeting = live["meeting"] if live else the_meeting(session, state, now, race)
         if meeting:
             shape, rotation, corners = the_shape(session, state, now, meeting)
         if live:
