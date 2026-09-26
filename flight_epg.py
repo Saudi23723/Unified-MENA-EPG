@@ -118,7 +118,8 @@ def _read(session, code: str, mode: str, now: datetime) -> list[dict]:
     """Every flight of one airport and direction inside the window."""
     rows, page = [], 1
     while page <= 3:
-        url = API.format(code=code, mode=mode, ts=int(now.timestamp()),
+        url = API.format(code=code, mode=mode,
+                         ts=int((now - BEHIND).timestamp()),
                          page=page)
         got = session.get(url, headers=HEADERS, timeout=40)
         got.raise_for_status()
