@@ -184,6 +184,13 @@ SCREENS = {
                     "multi_sport.sha256", 20),
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256", 20),
+    # THE SIXTH CHANNEL — رحلات اليوم: an airport board, eight flights a
+    # page, held long enough to find one's own flight on it.
+    "flight_tracker": ("flight_tracker_", "flight_tracker.m3u8",
+                       "flight_tracker.sha256", 20),
+    "dubai_flight_tracker": ("dubai_flight_tracker_",
+                             "dubai_flight_tracker.m3u8",
+                             "dubai_flight_tracker.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -499,6 +506,8 @@ THEMES = {
     "dubai_turkish_ppv": "audio/theme_sports.m4a",
     "multi_sport": "audio/theme_sports.m4a",
     "dubai_multi_sport": "audio/theme_sports.m4a",
+    "flight_tracker": "audio/theme_sports.m4a",
+    "dubai_flight_tracker": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4

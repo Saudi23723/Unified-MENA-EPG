@@ -100,6 +100,8 @@ MOVED: dict[str, str] = {
     "dubai_turkish_ppv_": "dubai_turkish_ppv.m3u8",
     "multi_sport_": "multi_sport.m3u8",
     "dubai_multi_sport_": "dubai_multi_sport.m3u8",
+    "flight_tracker_": "flight_tracker.m3u8",
+    "dubai_flight_tracker_": "dubai_flight_tracker.m3u8",
 }
 
 # A segment nothing names any more is still kept this long after it first

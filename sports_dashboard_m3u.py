@@ -92,13 +92,10 @@ AIN_FM_ID = "AinFMJordan"
 AIN_FM_NAME = "Ain FM 98.3"
 AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
 
-# The sixth channel — ✈️ رحلات اليوم. Today's departures and arrivals for
-# Etihad, Emirates, Royal Jordanian, flydubai and Turkish, pulled once a
-# day from AviationStack (tools/fetch_flights.py) and re-drawn every
-# twenty minutes so a plane's status and its place along the route are
-# current rather than a picture of the morning. Encoded here into
-# stream/flight_tracker.m3u8 the same way the boards beside it are, so
-# nothing outside this repository can switch the channel off.
+# The sixth channel — ✈️ رحلات اليوم. Queen Alia (Amman) and Zayed
+# International (Abu Dhabi), departures and arrivals, read from the
+# airports' published schedule by flight_epg.py on every pass and
+# encoded into stream/flight_tracker.m3u8 like every screen beside it.
 FLIGHT_ID = "FlightTracker"
 FLIGHT_NAME = "رحلات اليوم"
 FLIGHT_LOGO = f"{RAW}/logos/flight_tracker.png"

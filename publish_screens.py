@@ -152,6 +152,13 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport_epg.xml",
                           "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256"),
+    # The sixth channel — رحلات اليوم, rebuilt: Queen Alia and Zayed
+    # International's own departures and arrivals, in both clocks.
+    "flight_tracker": ("flight_tracker_", "flight_epg.xml",
+                       "flight_tracker.m3u8", "flight_tracker.sha256"),
+    "dubai_flight_tracker": ("dubai_flight_tracker_", "dubai_flight_epg.xml",
+                             "dubai_flight_tracker.m3u8",
+                             "dubai_flight_tracker.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
