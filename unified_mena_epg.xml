@@ -1904,15 +1904,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260925120200 +0000" stop="20260925140600 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Spanish Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20260925140600 +0000" stop="20260925154600 +0000" channel="beIN4K.qa">
     <title lang="en">Fulham v Manchester United - English Premier League 2026/2027</title>
     <desc lang="en">Fulham are winless in their last 10 Premier League home games against Manchester United  since winning back-to-back matches against them at Craven Cottage in 2009. Manchester United have lost just one of their last 21 Premier League games against Fulham, going down 2-1 at Old Trafford in February 2024.</desc>
@@ -5723,12 +5714,6 @@ Toumba Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925123000 +0000" stop="20260925142000 +0000" channel="beINSports5.qa">
-    <title lang="en">Serbia vs Greece - UEFA Nations League 2026/27 - Match Day 1</title>
-    <desc lang="en">Serbia have won 15 of their last 19 international games against Greece, although they have dropped more points in their last three meetings  than in their previous 16. Serbia have lost their last two matches  but have not lost three consecutive international games since October 2015-March 2016</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260925142000 +0000" stop="20260925151400 +0000" channel="beINSports5.qa">
     <title lang="en">Weightlifting - W - 57kg &amp; 61kg P/Ls - W - 57kg &amp; 61kg P/Ls - Asian Games Aichi-Nagoya 2026 - W</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -6137,13 +6122,6 @@ Ta' Qali National Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20260925114500 +0000" stop="20260925141000 +0000" channel="beINSports6.qa">
-    <title lang="en">Fencing - Foil Team SF &amp; Finals - SF/F - Asian Games Aichi-Nagoya 2026 -W/M</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260925141000 +0000" stop="20260925155000 +0000" channel="beINSports6.qa">
     <title lang="en">Japan vs Thailand - Basketball Women's - QF - Asian Games Aichi-Nagoya 2026</title>
@@ -7527,12 +7505,6 @@ Hristo Botev Stadium, Plovdiv Stadium</desc>
     <category lang="ar">كرة التنس - فئة 500</category>
     <category lang="en">Live</category>
     <category lang="en">Tennis - ATP 500</category>
-  </programme>
-  <programme start="20260925123000 +0000" stop="20260925141500 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Madrid  Jumping - Round 1 - Competition Team</title>
-    <desc lang="en">The 2026 Madrid round takes place from 15–17 May at Club de Campo Villa de Madrid, as part of the elite global show jumping circuit. The event features three days of top-level CSI5* action, highlighted by the LGCT Grand Prix of Madrid on Sunday, where leading riders and horses compete for key championship points.</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20260925141500 +0000" stop="20260925144500 +0000" channel="beINSports9.qa">
     <title lang="en">HL H.H.the Father Amirs prix 2026– Jump – Off 1.55  – Week 4</title>
@@ -20288,10 +20260,6 @@ Podgorica City Stadium Stadium</desc>
     <title lang="en">Orta Nokta</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20260925123000 +0000" stop="20260925141500 +0000" channel="TivibuSpor1.tr">
-    <title lang="en">MKE Ankaragücü - Serik spor</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20260925141500 +0000" stop="20260925160000 +0000" channel="TivibuSpor1.tr">
     <title lang="en">Balıkesirspor - Uşak Spor</title>
     <category lang="en">Spor</category>
@@ -23809,100 +23777,117 @@ Podgorica City Stadium Stadium</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/1273/RDyosmVFGJOMT6k.webp" />
   </programme>
   <programme start="20260925210000 +0000" stop="20260925220000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260925220000 +0000" stop="20260925230000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260925230000 +0000" stop="20260926000000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926000000 +0000" stop="20260926010000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926010000 +0000" stop="20260926020000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926020000 +0000" stop="20260926030000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926030000 +0000" stop="20260926040000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926040000 +0000" stop="20260926050000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926050000 +0000" stop="20260926060000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926060000 +0000" stop="20260926070000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926070000 +0000" stop="20260926080000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926080000 +0000" stop="20260926090000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2160/sUHzWhyVTE9NarR.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926090000 +0000" stop="20260926100000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926100000 +0000" stop="20260926110000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926110000 +0000" stop="20260926120000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926120000 +0000" stop="20260926130000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926130000 +0000" stop="20260926140000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</title>
+    <desc lang="ar">بطولة كأس التجاري للناشئين تحت سن الـ 10</desc>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2038/qO1ILyIL6mcAyQA.webp" />
   </programme>
   <programme start="20260926140000 +0000" stop="20260926150000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926150000 +0000" stop="20260926160000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926160000 +0000" stop="20260926170000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926170000 +0000" stop="20260926180000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926180000 +0000" stop="20260926190000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926190000 +0000" stop="20260926200000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926200000 +0000" stop="20260926210000 +0000" channel="Roya_RoyaSport">
-    <title lang="ar">مباريات كأس الأردن للناشئين تحت 10 أعوام - 2026</title>
-    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/2168/808WD4UXjqosn7C.webp" />
+    <title lang="ar">بطولة غرب آسيا تحت 17 سنة للرجال - الأردن 2026</title>
+    <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/" />
   </programme>
   <programme start="20260926210000 +0000" stop="20260926220000 +0000" channel="Roya_RoyaSport">
     <title lang="ar">مباريات كأس الأردن للناشئين تحت 12 عامًا - 2026</title>
@@ -55495,6 +55480,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
+  <programme start="20260926214450 +0000" stop="20260926220453 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
   <programme start="20260924210000 +0000" stop="20260925000000 +0000" channel="Maraya.shahid">
     <title lang="en">Program 24/7</title>
     <desc lang="ar">مرايا ياسر العظمة — بث مستمر ٢٤/٧.
@@ -60723,10 +60712,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">هيتمانز وايفس باديغارد</title>
     <desc lang="ar">تكملة لفيلم هيتمانز باديغارد. مايكل برايس يتوق شوقاً للمضي قدماً بخط سيره. لولا أن زوجة شريكه السابق داريوس كينكيد المتقلبة غير المتوازنة قامت بتوظيفه لحمايتهم. على الثلاثي العالقين وسط مؤامرة شريرة خطيرة، التعامل مع العصابات والوكلاء المزدوجين والمزيد المزيد، للبقاء على قيد الحياة!</desc>
   </programme>
-  <programme start="20260925140100 +0000" stop="20260925141300 +0000" channel="MBC 3">
-    <title lang="ar">آتوميك بابيت — الحلقة 27</title>
-    <desc lang="ar">كوميديا هزلية ساخرة حول طالب بالثانوية أحمق، يلتقي صدفة بالبطل السابق الذي تحول إلى دمية.. ومغامراتهما كثنائي خارق.</desc>
-  </programme>
   <programme start="20260925141300 +0000" stop="20260925143000 +0000" channel="MBC 3">
     <title lang="ar">آتوميك بابيت — الحلقة 28</title>
     <desc lang="ar">كوميديا هزلية ساخرة حول طالب بالثانوية أحمق، يلتقي صدفة بالبطل السابق الذي تحول إلى دمية.. ومغامراتهما كثنائي خارق.</desc>
@@ -62129,6 +62114,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926212457 +0000" stop="20260926214450 +0000" channel="MBC 5">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
+  <programme start="20260926214450 +0000" stop="20260926220453 +0000" channel="MBC 5">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260925135500 +0000" stop="20260925145000 +0000" channel="MBC Action">
     <title lang="ar">آيل أوف مان تيتي هايلايتس — الحلقة 12</title>
     <desc lang="ar">مقتطفات من سباقات آيل أوف مان تيتي، الحدث الذي لا يفوت لعشاق سباقات السيارات حول العالم.</desc>
@@ -63232,10 +63220,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928033000 +0000" stop="20260928041500 +0000" channel="MBC+ Drama">
     <title lang="ar">بارينيتي — الحلقة 405</title>
     <desc lang="ar">قصة معقدة تأسر القلوب تدور حول صديقين مقربين تتشابك حياتهما بطريقة غير متوقعة.</desc>
-  </programme>
-  <programme start="20260925133600 +0000" stop="20260925142100 +0000" channel="MBC Masr">
-    <title lang="ar">فريد — الحلقة 336</title>
-    <desc lang="ar">لتعليم حفيده المتهور درساً، يقرر كبير العائلة الثري هاليس آغا تزويجه فتاة بسيطة من مسقط رأسه، لكن الوقت وحده هو الذي سيحدد ما إذا كان قراره صائباً أم لا!</desc>
   </programme>
   <programme start="20260925142100 +0000" stop="20260925150000 +0000" channel="MBC Masr">
     <title lang="ar">فريد — الحلقة 337</title>
@@ -66766,6 +66750,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926212457 +0000" stop="20260926214450 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
+  <programme start="20260926214450 +0000" stop="20260926220453 +0000" channel="OSNKids.osn">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260926042000 +0000" stop="20260926061500 +0000" channel="OSNMoviesPremiere.osn">
     <title lang="en">Reminiscence</title>
     <desc lang="en">As a private investigator of an unusual kind helps his clients regain their past memories, he comes upon a grand conspiracy, as searching for loved ones becomes an obsession.</desc>
@@ -68733,10 +68720,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">مراقبة الحدود: إسبانيا:الحلقة 17</title>
     <desc lang="ar">على حدود إسبانيا، تقع على عاتق خدمات الأمن والجمارك مسؤولية كشف التهديدات الناتجة عن مواد غير قانونية ومقتنيات محظورة وأشخاص يُشتبه في خطورتهم.</desc>
   </programme>
-  <programme start="20260925131500 +0000" stop="20260925141000 +0000" channel="OSNFatafeat.osn">
-    <title lang="ar">شو بحب الأورف — الحلقة 16</title>
-    <desc lang="ar">يقوم الشيف (محمد أورفه لي) بإعداد وتقديم عدد كبير من وصفاته المفضلة في مطبخه الخاص. في كل حلقة يُعد ثلاث وصفات منتقاة بعناية، بمشاركة أصدقائه الذين يعرفونه جيداً ويتبادلون الأحاديث الممتعة مع بعضهم البعض.</desc>
-  </programme>
   <programme start="20260925141000 +0000" stop="20260925150500 +0000" channel="OSNFatafeat.osn">
     <title lang="ar">صحتك على بالي — الحلقة 9</title>
     <desc lang="ar">نصائح وإرشادات حول كيفية تحسين الصحة العقلية والبدنية في عالم اليوم الذي يمضي سريع الخطى.</desc>
@@ -69300,10 +69283,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260927150000 +0000" stop="20260927160000 +0000" channel="OSNAnimalPlanet.osn">
     <title lang="en">Pandamonium:Mei Sheng's Tale</title>
     <desc lang="en">Experience the incredible lives of the pandas in Wolong Panda Reserve in China.</desc>
-  </programme>
-  <programme start="20260925133200 +0000" stop="20260925141900 +0000" channel="OSNTLC.osn">
-    <title lang="en">Doubling Down With The Derricos:Let's Talk About Camping Baby</title>
-    <desc lang="en">With four sets of multiples, the Derricos are no average family!</desc>
   </programme>
   <programme start="20260925141900 +0000" stop="20260925155500 +0000" channel="OSNTLC.osn">
     <title lang="en">90 Day Fiance: Happily Ever After? :Bad Blood</title>
@@ -71621,9 +71600,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">الراوي - الحلقة 7</title>
     <desc lang="en">A new season presents historical stories about personalities, landmarks, and artifacts from Dubai and Arab countries, supported by documentary narration and interviews with prominent figures.</desc>
   </programme>
-  <programme start="20260925120450 +0000" stop="20260925140440 +0000" channel="NoorDubai.ae">
-    <title lang="ar">روحك رياضية 2026 - الحلقة 109</title>
-  </programme>
   <programme start="20260925140440 +0000" stop="20260925150000 +0000" channel="NoorDubai.ae">
     <title lang="ar">اثير المحبة 2026 - الحلقة 17</title>
   </programme>
@@ -72872,7 +72848,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928230800 +0000" stop="20260929000800 +0000" channel="DubaiRacing2.ae">
     <title lang="en">Al Shira'a International Show Jumping Championship Abu Dhabi 24/01/2026</title>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">News Bulletin</title>
     <desc lang="en">News bulletin</desc>
   </programme>
@@ -73008,7 +72984,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Wa'ee</title>
     <desc lang="en">An approach to enhance awareness in its holistic meaning and help sculpt stable communities by detecting dysfunctional and negative occurrences within societies, and offering tactics for reform.</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="AlEmaratTV.ae">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="AlEmaratTV.ae">
     <title lang="en">Al-Boom</title>
     <desc lang="en">Shihab paddles his own canoe when he decides to overcome the loss of his sole source of livelihood and sets sail to India atop a vessel whereupon he defies perils of the sea and woes of World War II.</desc>
   </programme>
@@ -73152,7 +73128,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ain Al-Theeb</title>
     <desc lang="en">Sama's marriage was meant to end years of hostility between her tribe &amp; the groom's, but deep-rooted hatred of in-laws has her elope to the desert where a new destiny awaits her with Fares the shepherd</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143000 +0000" channel="NatGeoAbuDhabi.ae">
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="en">Secrets Of The Zoo: Tampa</title>
     <desc lang="en">Secrets Of The Zoo: Tampa 3</desc>
   </programme>
@@ -73311,11 +73287,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926180000 +0000" stop="20260926190000 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="en">Ocean Wreck Investigation</title>
     <desc lang="en">Ocean Wreck Investigation 1</desc>
-  </programme>
-  <programme start="20260925140000 +0000" stop="20260925142300 +0000" channel="SharjahTV.ae">
-    <title lang="ar">دروب</title>
-    <title lang="en">Doroub</title>
-    <desc lang="ar">‫‫يسافر المضيف إلى بلدان مختلفة حول العالم، وذلك بهدف تسليط الضوء على معلومات شيقة حول العديد من الثقافات والمساحات الطبيعية.‬‬</desc>
   </programme>
   <programme start="20260925142300 +0000" stop="20260925144000 +0000" channel="SharjahTV.ae">
     <title lang="ar">أسواقنا</title>
@@ -74077,12 +74048,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Boyoot Al She'r</title>
     <desc lang="ar">‫‫يسلط المضيف الضوء على آخر الفعاليات والمبادرات والأنشطة التي تتعلق بالشعر ويتفاعل مع عدة شعراء ليعرضوا أعمالهم التي تشمل مواضيع مختلفة.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925141400 +0000" channel="SharqiyaKalba.ae">
-    <title lang="ar">برفقة والدي</title>
-    <title lang="en">Be Refqat Walidi</title>
-    <desc lang="ar">‫‫يدعو المضيف والدا برفقة أبنائه لاستكشاف المناطق السياحية الخلابة في المنطقة الشرقية من مدينة كلباء الإماراتية.‬‬</desc>
-  </programme>
-  <programme start="20260925141400 +0000" stop="20260925143000 +0000" channel="SharqiyaKalba.ae">
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="SharqiyaKalba.ae">
     <title lang="ar">من تراثنا تعلمنا</title>
     <title lang="en">Men Torathna Ta'lmna</title>
     <desc lang="ar">‫‫تتعلم مجموعة من أطفال الإمارات كيفية ممارسة الحرف القديمة، وذلك بهدف الحفاظ على تاريخ العادات والتقاليد المحلية.‬‬</desc>
@@ -75007,7 +74973,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Zawaya</title>
     <desc lang="ar">‫‫يسلط فريق التقديم الضوء على مواضيع عدة، فيما يتعلق بالتنمية الذاتية ويقدم معلومات ونصائح قيمة للناس للتحلي بالإيجابية والتغلب على التحديات.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="RotanaClassic.sa">
+  <programme start="20260929141400 +0000" stop="20260929142900 +0000" channel="SharqiyaKalba.ae">
+    <title lang="ar">مفردات تراثية</title>
+    <title lang="en">Mofradat Toratheyah</title>
+    <desc lang="ar">‫‫يلقي فريق التقديم الضوء على مفردات من الثقافة والتراث المحلي في الإمارات، ويتحدث عن أصولها ومعانيها واستخداماتها.‬‬</desc>
+  </programme>
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="RotanaClassic.sa">
     <title lang="ar">الزعيم</title>
     <title lang="en">Al Za'eem</title>
     <desc lang="ar">‫‫يطلق سراح رجل من السجن بعد قضاء عشر سنوات بتهمة ملفقة ليكتشف بأن كل ما عرفه قد انهار، ثم يصبح ممزقا بين سعيه لاستعادة الماضي والتطلع لحياة جديدة.‬‬</desc>
@@ -75352,7 +75323,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Habeeb Al Majhool</title>
     <desc lang="ar">‫‫تعاني الشابة ليلى من مرض القلب، وتقع في حب الشاب حسين الذي يعمل طبيبا. يقرر حسين أن يتزوج من ليلى ويجري لها عملية خطيرة.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="RotanaComedy.sa">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="RotanaComedy.sa">
     <title lang="ar">إسماعيل يس في الجيش</title>
     <title lang="en">Ismail Yassine Fil Geish</title>
     <desc lang="ar">‫‫يتم استدعاء إسماعيل ياسين للتجنيد في الجيش، ولكنه يجد صعوبة في تنفيذ الأوامر، مما يؤدي إلى وقوع العديد من المواقف المضحكة. تتغير حياته عندما يقع في الحب.‬‬</desc>
@@ -75582,7 +75553,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Salama Fi Kheer</title>
     <desc lang="ar">‫‫ينزل ساعي بريد في فندق يعتقد فيه البعض أنه أمير قندهار بسبب التشابه الكبير بينهما. يلتقي الأمير بساعي البريد ويخططان معا للكشف عن أتباع الأمير الخائنين.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="RotanaDrama.sa">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="RotanaDrama.sa">
     <title lang="ar">الحلانجي</title>
     <title lang="en">Al Halanji</title>
     <desc lang="ar">‫م1 ، ح25 : ‫يقع نصاب محترف ضحية لإحدى المؤامرات غير المتوقعة، والتي تتسبب بوضعه خلف القضبان. لاحقا، يقرر بناء حياة جديدة والانتقام من الأشخاص الذين ظلموه.‬‬</desc>
@@ -76067,7 +76038,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Halanji</title>
     <desc lang="ar">‫م1 ، ح29 : ‫يقع نصاب محترف ضحية لإحدى المؤامرات غير المتوقعة، والتي تتسبب بوضعه خلف القضبان. لاحقا، يقرر بناء حياة جديدة والانتقام من الأشخاص الذين ظلموه.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="RotanaKhaleejiah.sa">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="RotanaKhaleejiah.sa">
     <title lang="ar">قبل وبعد</title>
     <title lang="en">Qabel Wa Ba'ed</title>
     <desc lang="ar">‫م1 ، ح25 : ‫يواجه أربعة شركاء في عيادة تجميل العديد من المواقف الطريفة، عندما تصبح واحدة منهم خبيرة في وضع المكياج وتبدأ في الترويج لعيادتهم على منصات التواصل الاجتماعي الخاصة بها.‬‬</desc>
@@ -76537,7 +76508,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Qabel Wa Ba'ed</title>
     <desc lang="ar">‫م1 ، ح29 : ‫يواجه أربعة شركاء في عيادة تجميل العديد من المواقف الطريفة، عندما تصبح واحدة منهم خبيرة في وضع المكياج وتبدأ في الترويج لعيادتهم على منصات التواصل الاجتماعي الخاصة بها.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="RotanaCinemaKSA.sa">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="RotanaCinemaKSA.sa">
     <title lang="ar">لوكاندة المفاجآت</title>
     <title lang="en">Lokandet Al Mofajaat</title>
     <desc lang="ar">‫‫يدير شابان ماهران مكتبا للتحقيقات الجنائية. في وقت لاحق، يواجهان قضية غريبة عندما يتم تعيينهما للبحث عن كلب راقصة مفقود.‬‬</desc>
@@ -76792,7 +76763,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ebn Al Qonsol</title>
     <desc lang="ar">‫‫يقبض رجال الشرطة على شخص خبير في تزوير جوازات السفر يلقب بالقنصل ويقومون باعتقاله. يحاول شاب بمساعدة إحدى الفتيات إقناع القنصل بأنه ابنه.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925160000 +0000" channel="RotanaCinemaEgypt.sa">
+  <programme start="20260925142000 +0000" stop="20260925160000 +0000" channel="RotanaCinemaEgypt.sa">
     <title lang="ar">سي عمر</title>
     <title lang="en">Si Omar</title>
     <desc lang="ar">‫‫يعمل جابر في عزبة عمر الألفي، حيث يكتشف الكثير من السرقات والتلاعب بإيرادات العزبة، لكن المسؤول يكافئه على أمانته بطرده من العمل. تتغير حياة جابر عند ذهابه للقاهرة بحثا عن عمل.‬‬</desc>
@@ -77047,7 +77018,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Code 36</title>
     <desc lang="ar">‫‫يواجه الحارس الشخصي شريف العديد من التحديات عندما يتم توكيله بحماية الشابة نورهان، والتي يتم استهدافها من قبل إحدى الجماعات الإرهابية.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143000 +0000" channel="Saudi1.sa">
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="Saudi1.sa">
     <title lang="ar">صيف ديرتنا</title>
     <title lang="en">Sayf Deratona</title>
     <desc lang="ar">‫‫يقوم المضيف بتسليط الضوء على أحدث المستجدات التي تتعلق بالعديد من أجزاء المملكة العربية السعودية، بالإضافة إلى إبراز مختلف الجوانب الثقافية التي تساهم في تشكيل هوية كل منطقة.‬‬</desc>
@@ -77792,7 +77763,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Sayf Deratona</title>
     <desc lang="ar">‫‫يقوم المضيف بتسليط الضوء على أحدث المستجدات التي تتعلق بالعديد من أجزاء المملكة العربية السعودية، بالإضافة إلى إبراز مختلف الجوانب الثقافية التي تساهم في تشكيل هوية كل منطقة.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925160000 +0000" channel="LBCSat.lb">
+  <programme start="20260925142000 +0000" stop="20260925160000 +0000" channel="LBCSat.lb">
     <title lang="ar">عنتر ابن ابن ابن ابن شداد</title>
     <title lang="en">Antar Ibn Ibn Ibn Ibn Shaddad</title>
     <desc lang="ar">‫‫يشتبك رجل في عراك مع عصابة منافسة له ليكسب قلب الفتاة التي يحبها، بعد اكتشافه أنه حفيد الشاعر الجاهلي عنترة بن شداد العبسي.‬‬</desc>
@@ -78187,7 +78158,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Samir Abu el-Nil</title>
     <desc lang="ar">‫‫يكن جيران الشاب سمير له كرها شديدا بسبب تصرفاته وبخله. لاحقا، يرث سمير مبلغا ماليا من أحد أقاربه ويقرر افتتاح قناة فضائية يناقش من خلالها أمور حياته الاجتماعية.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143000 +0000" channel="KanalDDrama.tr">
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="KanalDDrama.tr">
     <title lang="ar">العشق الفاخر</title>
     <title lang="en">Al Ishq Al Fakhr</title>
     <desc lang="ar">‫م1 ، ح107 : ‫بعد أن تلاحقها فضيحة تدمر حياتها وسمعتها، تجبر عائشة على الزواج من كرم، زير النساء الشاب والطائش الذي ينتمي لعائلة ثرية.‬‬</desc>
@@ -78672,7 +78643,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Ishq Al Fakhr</title>
     <desc lang="ar">‫م1 ، ح109 : ‫بعد أن تلاحقها فضيحة تدمر حياتها وسمعتها، تجبر عائشة على الزواج من كرم، زير النساء الشاب والطائش الذي ينتمي لعائلة ثرية.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143500 +0000" channel="ZeeAlwan.ae">
+  <programme start="20260925142000 +0000" stop="20260925143500 +0000" channel="ZeeAlwan.ae">
     <title lang="en">Qoloub Ananiah S1</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
@@ -79092,7 +79063,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Qoloub Ananiah S1</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925153000 +0000" channel="ZeeAflam.ae">
+  <programme start="20260925142000 +0000" stop="20260925153000 +0000" channel="ZeeAflam.ae">
     <title lang="en">VEERE DI WEDDING</title>
     <desc lang="en">Kareena Kapoor, Sonam Kapoor and Others</desc>
   </programme>
@@ -79240,7 +79211,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Middle Class Love</title>
     <desc lang="en">Prit Kamani, Khushi Joshi and Others</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="MBCPluseLife.ae">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="MBCPluseLife.ae">
     <title lang="ar">سيكرت دينر كلب</title>
     <title lang="en">Secret Dinner Club</title>
     <desc lang="ar">‫م1 ، ح8 : ‫تدعو المضيفة نجوم ومشاهير عربا للمشاركة في محادثات على طريقة الدعوة على العشاء، لمناقشة مجموعة من الشؤون التي تهمهم.‬‬</desc>
@@ -79708,7 +79679,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Lu'lu'</title>
     <desc lang="ar">‫‫تتطلع المرأة البسيطة لؤلؤ لتحقيق النجومية، إذ تضحي بكل ما تملك لتصبح مغنية ناجحة. يتوجب عليها الصمود ومواجهة بعض المواقف الحرجة وغير الاعتيادية خلال استرجاعها لأيامها الماضية التي تتوق إليها.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143000 +0000" channel="AlWoustaAlDhaid.ae">
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="AlWoustaAlDhaid.ae">
     <title lang="ar">جرناس والخرسا</title>
     <title lang="en">Jirnas Wa Al Kharasa</title>
     <desc lang="ar">‫م1 ، ح1 : ‫يتقاطع مسير حياة رجل نشأ يتيما يشعر بأنه لا ينتمي للعائلة التي آوته، وامرأة خرساء اضطرت عائلتها للفرار من قبيلتها في ظل ظروف تعيسة.‬‬</desc>
@@ -80408,7 +80379,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">A'la Qad Al Hal</title>
     <desc lang="ar">‫‫تعمل السيدة رقية خبازة لإعالة أسرتها الفقيرة، في حين تعيش ابنتها سهيلة في توتر دائم ومزاج حاد بسبب تصرفات زوجها الذي يرفض العمل في مجال الطهي بسبب مؤهلاته الموسيقية.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143000 +0000" channel="AlHadath.ae">
+  <programme start="20260929141500 +0000" stop="20260929143000 +0000" channel="AlWoustaAlDhaid.ae">
+    <title lang="ar">عالم الأشجار</title>
+    <title lang="en">A'alam Al Ashjar</title>
+    <desc lang="en">‫‬</desc>
+  </programme>
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="AlHadath.ae">
     <title lang="ar">أخبار الحدث</title>
     <title lang="en">Al Hadath News</title>
     <desc lang="ar">كُن في طليعة متابعي أهم القصص، الأخبار العاجلة، والشؤون الراهنة وكل ما ينبغي معرفته في المنطقة العربية وحول العالم.</desc>
@@ -81113,7 +81089,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Hadath News</title>
     <desc lang="ar">كُن في طليعة متابعي أهم القصص، الأخبار العاجلة، والشؤون الراهنة وكل ما ينبغي معرفته في المنطقة العربية وحول العالم.</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="AlArabiyaBusiness.ae">
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="AlArabiyaBusiness.ae">
     <title lang="ar">العربية Business</title>
     <title lang="en">Al Arabiya Business</title>
     <desc lang="ar">تقدم لكم القناة آخر أخبار المال والأعمال من جميع أنحاء العالم.</desc>
@@ -81573,7 +81549,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al-Aswaq Al-Arabiya</title>
     <desc lang="ar">ابقوا على تواصل مع برنامج (الأسواق العربية).</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925143000 +0000" channel="CNBCArabiya.ae">
+  <programme start="20260925142000 +0000" stop="20260925143000 +0000" channel="CNBCArabiya.ae">
     <title lang="ar">بورصات العالم</title>
     <title lang="en">Borsaat Al A'alam</title>
     <desc lang="ar">‫‫يدعو المضيف عددا من الخبراء من أجل الحديث عن خبراتهم وتحليلاتهم لآخر الأخبار والتطورات في عالم الأموال والاقتصاد.‬‬</desc>
@@ -82420,7 +82396,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Wathaeqi</title>
     <desc lang="ar">‫‫يسلط صانع الأفلام الضوء على مجموعة من الأحداث المهمة والقضايا الجدلية والأحداث الرائدة من حول العالم.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925150000 +0000" channel="CNNInternational.us">
+  <programme start="20260929140200 +0000" stop="20260929143000 +0000" channel="CNBCArabiya.ae">
+    <title lang="ar">بموضوعية</title>
+    <title lang="en">Bi Mawdouiyeh</title>
+    <desc lang="ar">‫‫يدعو المضيف عددا من الخبراء البارزين من أجل الحديث عن تحليلاتهم المفصلة فيما يتعلق بمختلف القضايا في عالم الاقتصاد العربي.‬‬</desc>
+  </programme>
+  <programme start="20260925142000 +0000" stop="20260925150000 +0000" channel="CNNInternational.us">
     <title lang="ar">كونيكت ذا وورلد - مباشر</title>
     <title lang="en">Connect the World - LIVE</title>
     <desc lang="ar">‫‫يسلط فريق التقديم الضوء على الأخبار والأحداث المهمة التي تقع في جميع أنحاء العالم والتي لها تأثير على المستوى الدولي.‬‬</desc>
@@ -83091,7 +83072,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Connect the World - LIVE</title>
     <desc lang="ar">‫‫يسلط فريق التقديم الضوء على الأخبار والأحداث المهمة التي تقع في جميع أنحاء العالم والتي لها تأثير على المستوى الدولي.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925160000 +0000" channel="Spacetoon.ae">
+  <programme start="20260925142000 +0000" stop="20260925160000 +0000" channel="Spacetoon.ae">
     <title lang="ar">المحقق كونان الرجل اللغز</title>
     <title lang="en">Detective Conan: The Last Wizard of the Century</title>
     <desc lang="ar">‫‫يتعين على سوزوكي زايباتسو وكونان حماية بيضة عيد الفصح التي صنعها صائغ مجوهرات روسي. في وقت لاحق، يتلقيان بعض التهديدات لسرقة تلك البيضة.‬‬</desc>
@@ -84271,10 +84252,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Mohaqqeqq Conan</title>
     <desc lang="ar">‫م11 ، ح593 : ‫يستيقظ المحقق سينيشي ليجد نفسه عالقا في جسد طفل يبلغ خمس سنوات، وذلك بعد أن يشهد نشاطا غير قانوني قام به رجلان مشبوهان ويقرر حل هذا الغموض.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925142000 +0000" channel="CartoonNetworkArabic.ae">
-    <title lang="ar">ذا وندرفلي ويرد ورلد أوف غامبول</title>
-    <title lang="en">The Wonderfully Weird World of Gumball</title>
-    <desc lang="ar">‫‫عالم غامبول الغريب حيث تنثني قوانين الواقع، وتتحول فيه روابط العائلة ومغامرات الحياة اليومية إلى شيء استثنائي في بلدة إلمور غريبة الأطوار.‬‬</desc>
+  <programme start="20260929141500 +0000" stop="20260929150000 +0000" channel="Spacetoon.ae">
+    <title lang="ar">أبطال الكرة . فرسان الزمن</title>
+    <title lang="en">Abtal Al Korah..Forsan Al Zaman</title>
+    <desc lang="ar">‫م1 ، ح17 : ‫يسعى مجموعة من الطلاب ليصبحوا لاعبي كرة قدم محترفين. تأخذ الأمور منحى آخر، عندما يحدث ما هو غير متوقع.‬‬</desc>
   </programme>
   <programme start="20260925142000 +0000" stop="20260925163000 +0000" channel="CartoonNetworkArabic.ae">
     <title lang="ar">ذي أميزنغ ورلد أوف غامبول</title>
@@ -84936,20 +84917,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Teen Titans Go!</title>
     <desc lang="ar">‫‫يعشق الأبطال الخارقون روبن وسايبورغ وستارفاير ورايفن وبيست بوي إنقاذ العالم، لكن بعد انتهاء محاربة الجريمة، لا تسير الأمور دائما كما هو مخطط لها.‬‬</desc>
   </programme>
-  <programme start="20260925140000 +0000" stop="20260925140500 +0000" channel="2MMonde.ma">
-    <title lang="ar">طرق العارفين</title>
-    <title lang="en">Toroq Al A'arefeen</title>
-    <desc lang="ar">‫‫يتحدث عالم ديني إسلامي عن مواضيع دينية متنوعة لتعلم القيم واستخلاص الدروس منها لمساعدة المسلمين على عيش حياة أفضل.‬‬</desc>
-  </programme>
-  <programme start="20260925140500 +0000" stop="20260925141000 +0000" channel="2MMonde.ma">
-    <title lang="ar">الإسلام عمل وسلوك</title>
-    <title lang="en">Al Islam A'amal Wa Solook</title>
-    <desc lang="ar">‫‫يناقش عالم إسلامي موضوعات مختلفة تتعلق بالآداب والأخلاق الإسلامية، لمساعدة المسلمين على تقوية إيمانهم بالله.‬‬</desc>
-  </programme>
-  <programme start="20260925141000 +0000" stop="20260925142000 +0000" channel="2MMonde.ma">
-    <title lang="ar">الدين والناس</title>
-    <title lang="en">Al Deen Wa Al Nas</title>
-    <desc lang="ar">‫‫يعظ عالم إسلامي المشاهدين المسلمين حول مجموعة من المواضيع التي تهمهم وتؤثر على حياتهم، مستشهدا بالقرآن الكريم والأحاديث النبوية.‬‬</desc>
+  <programme start="20260929140500 +0000" stop="20260929143000 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">ذي أميزنغ ورلد أوف غامبول</title>
+    <title lang="en">The Amazing World of Gumball</title>
+    <desc lang="ar">‫م6 : ‫يعيش القط غامبول واترسون البالغ ١٢ عاما في إلمور ولديه ميول حول التورط في المشاكل برفقة صديقه العزيز السمكة داروين.‬‬</desc>
   </programme>
   <programme start="20260925142000 +0000" stop="20260925154000 +0000" channel="2MMonde.ma">
     <title lang="ar">عائلتي</title>
@@ -85648,10 +85619,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928205847 +0000" stop="20260928210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926214450 +0000" stop="20260926220453 +0000" channel="AlJazeera.qa">
+  <programme start="20260926220453 +0000" stop="20260926222447 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926214450 +0000" stop="20260926220453 +0000" channel="MBC 5">
+  <programme start="20260926220453 +0000" stop="20260926222447 +0000" channel="MBC 5">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926000200 +0000" stop="20260926001500 +0000" channel="MBC Masr Drama">
@@ -85897,7 +85868,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260929234000 +0000" stop="20260929234500 +0000" channel="MBC Iraq">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926214450 +0000" stop="20260926220453 +0000" channel="OSNKids.osn">
+  <programme start="20260926220453 +0000" stop="20260926222447 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260925192500 +0000" stop="20260926011800 +0000" channel="DubaiRacing.ae">
@@ -85927,13 +85898,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928143500 +0000" stop="20260928202000 +0000" channel="DubaiRacing2.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926190000 +0000" stop="20260926220453 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20260926190000 +0000" stop="20260926222447 +0000" channel="AbuDhabiTV.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926190000 +0000" stop="20260926220453 +0000" channel="AlEmaratTV.ae">
+  <programme start="20260926190000 +0000" stop="20260926222447 +0000" channel="AlEmaratTV.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926190000 +0000" stop="20260926220453 +0000" channel="NatGeoAbuDhabi.ae">
+  <programme start="20260926190000 +0000" stop="20260926222447 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260924210000 +0000" stop="20260925210000 +0000" channel="JordanSports">
@@ -86645,7 +86616,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="ar">IHF Mens Super Globe | بطولة العالم للأندية لكرة اليد</category>
   </programme>
   <programme start="20260929190000 +0000" stop="20260929210000 +0000" channel="ONSport1">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 3 أيام · طنطا‏ - حرس الحدود</title>
     <desc lang="ar">جدول ON Sport 1 | 2026-09-29
 
 • 13:15 — الزمالك - بينهيروس
@@ -86662,24 +86633,51 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260929210000 +0000" stop="20260930210000 +0000" channel="ONSport1">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد يومين · طنطا‏ - حرس الحدود</title>
     <desc lang="ar">ON Sport 1 | 2026-09-30
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260930210000 +0000" stop="20261001210000 +0000" channel="ONSport1">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي غداً · طنطا‏ - حرس الحدود</title>
     <desc lang="ar">ON Sport 1 | 2026-10-01
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261001210000 +0000" stop="20261002210000 +0000" channel="ONSport1">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport 1 | 2026-10-02
+  <programme start="20261001210000 +0000" stop="20261002123000 +0000" channel="ONSport1">
+    <title lang="ar">⏰ التالي اليوم · طنطا‏ - حرس الحدود</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-10-02
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 15:30 — طنطا‏ - حرس الحدود
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261002123000 +0000" stop="20261002143000 +0000" channel="ONSport1">
+    <title lang="ar">طنطا‏ - حرس الحدود ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-10-02
+
+• 15:30 — طنطا‏ - حرس الحدود
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian Second Division | دوري القسم الثاني-أ</category>
+  </programme>
+  <programme start="20261002143000 +0000" stop="20261002210000 +0000" channel="ONSport1">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-10-02
+
+• 15:30 — طنطا‏ - حرس الحدود
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261002210000 +0000" stop="20261003210000 +0000" channel="ONSport1">
@@ -86915,7 +86913,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="ar">IHF Mens Super Globe | بطولة العالم للأندية لكرة اليد</category>
   </programme>
   <programme start="20260927100000 +0000" stop="20260927210000 +0000" channel="ONSportMAX">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 4 أيام · ديروط - الإسماعيلي</title>
     <desc lang="ar">جدول ON Sport MAX | 2026-09-27
 
 • 11:00 — سيدني الاسترالي - لوس أنجلوس
@@ -86926,38 +86924,92 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260927210000 +0000" stop="20260928210000 +0000" channel="ONSportMAX">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 3 أيام · ديروط - الإسماعيلي</title>
     <desc lang="ar">ON Sport MAX | 2026-09-28
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260928210000 +0000" stop="20260929210000 +0000" channel="ONSportMAX">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد يومين · ديروط - الإسماعيلي</title>
     <desc lang="ar">ON Sport MAX | 2026-09-29
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260929210000 +0000" stop="20260930210000 +0000" channel="ONSportMAX">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي غداً · ديروط - الإسماعيلي</title>
     <desc lang="ar">ON Sport MAX | 2026-09-30
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260930210000 +0000" stop="20261001210000 +0000" channel="ONSportMAX">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport MAX | 2026-10-01
+  <programme start="20260930210000 +0000" stop="20261001123000 +0000" channel="ONSportMAX">
+    <title lang="ar">⏰ التالي اليوم · ديروط - الإسماعيلي</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-10-01
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 15:30 — ديروط - الإسماعيلي
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261001210000 +0000" stop="20261002210000 +0000" channel="ONSportMAX">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport MAX | 2026-10-02
+  <programme start="20261001123000 +0000" stop="20261001143000 +0000" channel="ONSportMAX">
+    <title lang="ar">ديروط - الإسماعيلي ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-10-01
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 15:30 — ديروط - الإسماعيلي
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian Second Division | دوري القسم الثاني-أ</category>
+  </programme>
+  <programme start="20261001143000 +0000" stop="20261001210000 +0000" channel="ONSportMAX">
+    <title lang="ar">⏰ التالي غداً · بلدية المحلة - تيم اف سي</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-10-01
+
+• 15:30 — ديروط - الإسماعيلي
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261001210000 +0000" stop="20261002123000 +0000" channel="ONSportMAX">
+    <title lang="ar">⏰ التالي اليوم · بلدية المحلة - تيم اف سي</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-10-02
+
+• 15:30 — بلدية المحلة - تيم اف سي
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261002123000 +0000" stop="20261002143000 +0000" channel="ONSportMAX">
+    <title lang="ar">بلدية المحلة - تيم اف سي ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-10-02
+
+• 15:30 — بلدية المحلة - تيم اف سي
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian Second Division | دوري القسم الثاني-أ</category>
+  </programme>
+  <programme start="20261002143000 +0000" stop="20261002210000 +0000" channel="ONSportMAX">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-10-02
+
+• 15:30 — بلدية المحلة - تيم اف سي
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261002210000 +0000" stop="20261003210000 +0000" channel="ONSportMAX">
@@ -87040,7 +87092,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Egyptian Second Division A</category>
   </programme>
   <programme start="20260925153000 +0000" stop="20260925210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 6 أيام · المنصورة - مسار</title>
     <desc lang="ar">جدول ON Sport PLUS | 2026-09-25
 
 • 16:30 — Tersana SC - Baladiyat El Mahalla
@@ -87051,45 +87103,72 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260925210000 +0000" stop="20260926210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 5 أيام · المنصورة - مسار</title>
     <desc lang="ar">ON Sport PLUS | 2026-09-26
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260926210000 +0000" stop="20260927210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 4 أيام · المنصورة - مسار</title>
     <desc lang="ar">ON Sport PLUS | 2026-09-27
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260927210000 +0000" stop="20260928210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد 3 أيام · المنصورة - مسار</title>
     <desc lang="ar">ON Sport PLUS | 2026-09-28
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260928210000 +0000" stop="20260929210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي بعد يومين · المنصورة - مسار</title>
     <desc lang="ar">ON Sport PLUS | 2026-09-29
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260929210000 +0000" stop="20260930210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <title lang="ar">⏰ التالي غداً · المنصورة - مسار</title>
     <desc lang="ar">ON Sport PLUS | 2026-09-30
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260930210000 +0000" stop="20261001210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport PLUS | 2026-10-01
+  <programme start="20260930210000 +0000" stop="20261001123000 +0000" channel="ONSportPLUS">
+    <title lang="ar">⏰ التالي اليوم · المنصورة - مسار</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-10-01
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 15:30 — المنصورة - مسار
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261001123000 +0000" stop="20261001143000 +0000" channel="ONSportPLUS">
+    <title lang="ar">المنصورة - مسار ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-10-01
+
+• 15:30 — المنصورة - مسار
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian Second Division | دوري القسم الثاني-أ</category>
+  </programme>
+  <programme start="20261001143000 +0000" stop="20261001210000 +0000" channel="ONSportPLUS">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-10-01
+
+• 15:30 — المنصورة - مسار
+  Egyptian Second Division | دوري القسم الثاني-أ
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261001210000 +0000" stop="20261002210000 +0000" channel="ONSportPLUS">
@@ -94280,13 +94359,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926175000 +0000" stop="20260926180000 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926210000 +0000" stop="20260926220525 +0000" channel="AlkassThree.qa">
+  <programme start="20260926210000 +0000" stop="20260926222519 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926174500 +0000" stop="20260926180000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926210000 +0000" stop="20260926220525 +0000" channel="AlkassFour.qa">
+  <programme start="20260926210000 +0000" stop="20260926222519 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926131500 +0000" stop="20260926133000 +0000" channel="AlkassFive.qa">
@@ -94295,7 +94374,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926171500 +0000" stop="20260926173000 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926204500 +0000" stop="20260926220525 +0000" channel="AlkassFive.qa">
+  <programme start="20260926204500 +0000" stop="20260926222519 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926093000 +0000" stop="20260926094500 +0000" channel="AlkassSix.qa">
@@ -94304,25 +94383,25 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926175000 +0000" stop="20260926180000 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926210000 +0000" stop="20260926220525 +0000" channel="AlkassSix.qa">
+  <programme start="20260926210000 +0000" stop="20260926222519 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926145000 +0000" stop="20260926150000 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925144000 +0000" channel="Starz_admnadsports1">
+  <programme start="20260925142500 +0000" stop="20260925144000 +0000" channel="Starz_admnadsports1">
     <title lang="en">Eleven in Arabic (Ar) 2026</title>
     <desc lang="en">Eleven in Arabic (Ar) 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925144000 +0000" stop="20260929140500 +0000" channel="Starz_admnadsports1">
+  <programme start="20260925144000 +0000" stop="20260929142500 +0000" channel="Starz_admnadsports1">
     <title lang="en">News - Sports Segment 2026</title>
     <desc lang="en">News - Sports Segment 2026</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS1Y2025MAR/ADMNADSPORTS1Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260926055959 +0000" channel="Starz_admnadsports2">
+  <programme start="20260925142500 +0000" stop="20260926055959 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -94334,21 +94413,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260926090000 +0000" stop="20260929140500 +0000" channel="Starz_admnadsports2">
+  <programme start="20260926090000 +0000" stop="20260929142500 +0000" channel="Starz_admnadsports2">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925141500 +0000" channel="Starz_starzplaysports1">
-    <title lang="en">Serie A Preview Show Magazine</title>
-    <title lang="ar">مجلة الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG198608_landscape10-55b0588c-cae3-4a65-b9f1-879533b10f00.jpg" />
-  </programme>
-  <programme start="20260925141500 +0000" stop="20260925160000 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260925142500 +0000" stop="20260925160000 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Juventus X Atalanta - Serie A</title>
     <title lang="ar">يوفنتوس × أتلانتا - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -94949,7 +95021,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925155000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260925142500 +0000" stop="20260925155000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Udinese x Cagliari - Serie A</title>
     <title lang="ar">أودينيزي × كالياري - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -95529,7 +95601,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925173000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260925142500 +0000" stop="20260925173000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">Musumeci X Mitchell - UFC BJJ</title>
     <title lang="ar">موسوميتشي × ميتشل - يو إف سي بي جي جي</title>
     <desc lang="en">Professional Brazilian Jiu-Jitsu fights showcasing elite-level grappling competition.</desc>
@@ -96222,7 +96294,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925163000 +0000" channel="Starz_golflife">
+  <programme start="20260925142500 +0000" stop="20260925163000 +0000" channel="Starz_golflife">
     <title lang="en">FedEx Open de France, Second Round - DP World Tour Golf - LIVE</title>
     <title lang="ar">دي بي ورلد تور غولف  - مباشر</title>
     <desc lang="en">Professional golf players from around the world participate in the DP World Tour in order to achieve glory and win the coveted golf trophy.</desc>
@@ -96670,14 +96742,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925141400 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">2026: Qualifier 1 Guyana Amazon Warriors vs Antigua And Barbuda Falcons - CPL T20 Highlights</title>
-    <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
-    <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
-  </programme>
-  <programme start="20260925141400 +0000" stop="20260925144100 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260925142500 +0000" stop="20260925144100 +0000" channel="Starz_cricbuzz1">
     <title lang="en">3rd T20: Afghanistan vs India - T20 Cricket</title>
     <title lang="ar">تي٢٠ كريكيت</title>
     <desc lang="en">Professional players from different cricketing teams play in the Twenty20 format, competing against each other to win the match.</desc>
@@ -97432,14 +97497,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925141000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">FBMA Academy X Fatayat Al Oyoun - Shka. Fatima Women GCC Basketball Cup</title>
-    <title lang="ar">أكاديمية فاطمة بنت مبارك × فتيات العيون - كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
-    <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG607364_landscape10-eba22527-2b2c-44ab-81c9-200e3c7002c9.jpg" />
-  </programme>
-  <programme start="20260925141000 +0000" stop="20260925160000 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260925142500 +0000" stop="20260925160000 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Al Gharafa X 6 October - Shka. Fatima Women GCC Basketball Cup</title>
     <title lang="ar">الغرافة × 6 أكتوبر - كأس الشيخة فاطمة الخليجية لكرة السلة سيدات</title>
     <desc lang="en">Don't miss all the action from the Shikha Fatima Women GCC Basketball Cup.</desc>
@@ -97936,7 +97994,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925160900 +0000" channel="Starz_wedosports">
+  <programme start="20260925142500 +0000" stop="20260925160900 +0000" channel="Starz_wedosports">
     <title lang="en">Steven Gerrard at Rangers - The Icons</title>
     <desc lang="en">Steven Gerrard at Rangers - The Icons</desc>
     <category lang="en">Sport</category>
@@ -98217,7 +98275,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925143000 +0000" channel="Starz_criclife1">
+  <programme start="20260925142500 +0000" stop="20260925143000 +0000" channel="Starz_criclife1">
     <title lang="en">History Of The ICC Men's T20 World Cup 2012-2014 And 2016 - ICC Specials</title>
     <desc lang="en">History Of The ICC Men's T20 World Cup 2012-2014 And 2016 - ICC Specials</desc>
     <category lang="en">Sport</category>
@@ -98909,7 +98967,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925143000 +0000" channel="Starz_criclife3">
+  <programme start="20260925142500 +0000" stop="20260925143000 +0000" channel="Starz_criclife3">
     <title lang="en">2026: Trinbago Knight Riders vs Guyana Amazon Warriors, 22nd Match - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -99642,7 +99700,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925161500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260925142500 +0000" stop="20260925161500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">Studio</title>
     <title lang="ar">استوديو</title>
     <desc lang="en">Stay tuned to all the action and analysis live from the studio.</desc>
@@ -100160,7 +100218,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925173000 +0000" channel="Starz_awsn">
+  <programme start="20260925142500 +0000" stop="20260925173000 +0000" channel="Starz_awsn">
     <title lang="en">DGPT &amp;apos;26: MVP Open R2</title>
     <desc lang="en">Round 2 of the 2026 Disc Golf Pro Tour MVP Open in Leicester, Massachusetts.</desc>
     <category lang="en">Sport</category>
@@ -100633,7 +100691,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925150000 +0000" channel="Starz_redbulltv">
+  <programme start="20260925142500 +0000" stop="20260925150000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -101215,7 +101273,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925150000 +0000" channel="Starz_daznringside">
+  <programme start="20260925142500 +0000" stop="20260925150000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -101413,7 +101471,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925161500 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260925142500 +0000" stop="20260925161500 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Argentina vs. South Africa - Rugby Union Internationals</title>
     <desc lang="en">Argentina vs. South Africa - Rugby Union Internationals</desc>
     <category lang="en">Sport</category>
@@ -101693,13 +101751,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260925142327 +0000" channel="Starz_fifaplus">
-    <title lang="en">Japan v Sweden | Quarter-final | FIFA Women's World Cup 2023 | Full Match Replay</title>
-    <desc lang="en">Watch the full match replay between Japan and Sweden played at Eden Park, Auckland / Tāmaki Makaurau on Friday, August 11, 2023 at 7:30 PM (local time).</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/123062.jpg" />
-  </programme>
-  <programme start="20260925142327 +0000" stop="20260925163315 +0000" channel="Starz_fifaplus">
+  <programme start="20260925142500 +0000" stop="20260925163315 +0000" channel="Starz_fifaplus">
     <title lang="en">Spain v Sweden | Semi-finals | FIFA Women's World Cup Australia &amp; New Zealand 2023™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between Spain and Sweden played at Eden Park, Auckland / Tāmaki Makaurau on Tuesday, August 15, 2023 at 8:00 PM (local time).</desc>
     <category lang="en">Sport</category>
@@ -102083,7 +102135,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/139914.jpg" />
   </programme>
-  <programme start="20260925140500 +0000" stop="20260929140500 +0000" channel="Starz_adfight">
+  <programme start="20260929141845 +0000" stop="20260929145338 +0000" channel="Starz_fifaplus">
+    <title lang="en">The Best of FIFA Women's World Cup France 2019™</title>
+    <desc lang="en">A showcase of the tournament’s top goals, assists, and award-winning moments from France 2019.</desc>
+    <category lang="en">Sport</category>
+    <icon src="https://dki01q1l7yn3y.cloudfront.net/thumbnails-platform-prod/assets/cs::content::episodemeta/46769-48817/96222042-default_v1.jpg" />
+  </programme>
+  <programme start="20260925142500 +0000" stop="20260929142500 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
     <category lang="en">Sport</category>
@@ -110800,654 +110858,654 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/other_sports_6.png" />
   </programme>
   <programme start="20260926130000 +0000" stop="20260926140000 +0000" channel="TodayNews">
-    <title lang="ar">أخبار اليوم · «آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 06:22 — بتوقيتك
+    <title lang="ar">أخبار اليوم · الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره</title>
+    <desc lang="ar">أخبار اليوم · آخر تحديث 06:54 — بتوقيتك
 
-«آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»
-        أكدت العداءة الصينية تشن يوجي، البالغة 17 عاما، أنها لا تعرف «أي حدود»، بعدما هيمنت الجمعة على نهائي سباق 100 م للسيدات بالآسياد.
+الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره
+        أوضحت «المؤسسة الوطنية للنفط» في بيان، السبت، أن إغلاق الصمام رقم 7 على خط «الشرارة - الزاوية» أجبرها على وقف إحدى وحدات التكرير.
         عربي · الشرق الأوسط
-إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
-        وفق بيان لمنظمة "البيدر" الحقوقية..
+خبراء: اتساع الصراع بإثيوبيا قد يؤدي لأزمة جديدة في القرن الإفريقي
+        يحذر خبراء من أن تصاعد التوتر مجددا بين الحكومة الفيدرالية و"جبهة تحرير شعب تيغراي" المتمردة في إقليم تيغراي شمالي إثيوبيا، في حال اتسع نطاقه
         تركيا · الأناضول
-غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
+وكلاء أوبن إيه آي يخترقون مواقع حكومية أمريكية وعشرات المؤسسات الأخرى - الجزيرة نت
         الإمارات · الإمارات
-Met to re-examine CCTV from Jill Dando murder case
-        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+4 American tourists dead after building explosion in Greece
+        The mayor of Athens said the explosion was likely caused by a gas leak.
+        أمريكا · CBS
+Republic of Ireland confirm Israel game will go ahead
+        The Republic of Ireland have confirmed Sunday's Uefa Nations League B3 game against Israel in Debrecen, Hungary will go ahead.
         بريطانيا · BBC
-Live Updates: Powerful Nor’easter Bears Down on East Coast
-        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
-        أمريكا · NYT
 Unified Admission Opens ‘Mischoice’ Applications
         Jordan’s Unified Admission Coordination Unit began receiving applications on Saturday from students nominated for admission, as well as those who…
         الأردن · Jordan News
-أين نزرع الأشجار لتبريد الشوارع بفاعلية أكبر؟
-        توفّر الخرائط الحرارية المعتمدة على الأقمار الاصطناعية للمدن نظرة شاملة، من منظور علوي، إلى درجات حرارة الأسطح.
+خطوة تنفيذية جديدة في المشروع النووي المصري
+        أكدت «هيئة المحطات النووية لتوليد الكهرباء» نجاح عملية تركيب اللوح السفلي لبئر المفاعل للوحدة النووية الثالثة بـ«محطة الضبعة النووية».
         عربي · الشرق الأوسط
-أردوغان: عازمون على إسقاط قناع العقلية الصهيونية الاحتلالية
-        الرئيس التركي رجب طيب أردوغان: مكان مجرمي الحرب ليس منبر الأمم المتحدة بل قاعات المحاكم
-        تركيا · الأناضول
-بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
+أردوغان: مكان مجرمي الحرب قاعات المحاكم لا منبر الأمم المتحدة
+        أكد الرئيس التركي رجب طيب أردوغان، السبت، أن بلاده ستواصل الوقوف إلى جانب الشعب الفلسطيني والمظلومين
+        تركيا · TRT عربي
+غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
         الإمارات · الإمارات
-Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
-        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
-        أمريكا · CBS
+Live Updates: Powerful Nor’easter Bears Down on East Coast
+        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
+        أمريكا · NYT
+Power outages and flooded roads as major storm bears down on US north-east
+        Thousands already without without power as New Jersey, Massachusetts, Delaware and New York brace for nor’easter More than 70,000 customers were…
+        بريطانيا · Guardian
 Applied Science University Highlights Pharmacy’s Future
         On September 25, the world marks World Pharmacists Day, highlighting pharmacy as one of the key pillars of knowledge underpinning modern healthcare…
         الأردن · Jordan News
-Huge crowds greet Pope in Paris ahead of open-air Mass
-        More than half a million people are expected to attend the event in the heart of the French capital.
-        بريطانيا · BBC
-بعد إعادة محاكمته.. القضاء الفرنسي يحكم بسجن سعد لمجرد 10 سنوات
-        أصدرت محكمة الاستئناف الفرنسية حكماً جديداً بحق الفنان المغربي سعد لمجرد في القضية المرتبطة بالفرنسية لورا بريول
-        عربي · الجديد
-البحرين: إيران شنّت 7 آلاف هجوم بالمنطقة ونرفض أي رسوم على الملاحة في مضيق هرمز
-        قال وزير الخارجية البحريني عبد اللطيف الزياني، إن دول مجلس التعاون الخليجي والأردن تعرضت لنحو 7 آلاف هجوم إيراني بالصواريخ والطائرات المسيّرة منذ…
-        تركيا · TRT عربي
-فيلم «ويبقى الأمل» يفوز بجائزة «كان للإعلام 2026» - الاتحاد للأخبار
+أزمة قيادة في «حزب الله» بعد اغتيال نصر الله
+        في الذكرى الثانية لاغتيال الأمين العام السابق لـ«حزب الله» حسن نصر الله، لم ينجح الحزب في أن يتجاوز بالكامل غياب الرجل الذي أمسك بقيادته لأكثر من…
+        عربي · الشرق الأوسط
+أردوغان: اقتصاد تركيا شهد نموا متواصلا على مدى 24 ربعا
+        الرئيس أردوغان قال إن تركيا تحتل حاليا المرتبة الـ16 بين أكبر اقتصادات العالم، والمرتبة الـ6 في أوروبا..
+        تركيا · الأناضول
+بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
         الإمارات · الإمارات
-‘Zombified’ C.D.C., Hobbled by Cuts, Struggles to Fulfill Scientific Mission
-        The agency has lost its independence and nearly a third of its staff, as Health Secretary Robert F. Kennedy Jr. and associates have tightened control.
-        أمريكا · NYT
-British national among six dead in building explosion close to Acropolis in Athens
-        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
+Nor'easter brings powerful winds, severe flooding to the East Coast
+        Tens of millions of people are in the path of the storm, which has canceled flights, concerts and sporting events.
+        أمريكا · CBS
+Huge crowds greet Pope in Paris for open-air Mass
+        More than half a million people are expected to attend the event in the heart of the French capital.
         بريطانيا · BBC
 Saudi-Led Coalition Intercepts Houthi Drones
         The Saudi-led military coalition supporting Yemen’s government said Saturday that it had intercepted two drones launched by the Houthis toward Riyadh.
         الأردن · Jordan News
-الدفاع عن الحياة والكرامة.. محاور سياسة البابا ليون الرابع عشر
-        دعا بابا الفاتيكان ​اليوم الجمعة العالم إلى عدم التعامل ​بلا مبالاة مع المعاناة التي تسببها "آفة الحرب"
-        عربي · فرانس 24
-قطر تدعو لحملة دبلوماسية وإعلامية لكشف الانتهاكات الإسرائيلية بالقدس
-        وفق وزير الدولة بوزارة الخارجية محمد الخليفي خلال اجتماع وزاري على هامش الجمعية العامة للأمم المتحدة في نيويورك..
+الألعاب حين تصبح فناً... قراءة في الذاكرة والمجتمع
+        عند تأمل الأعمال الفنية التي تستلهم ألعاب الأطفال والألعاب الشعبية، يبرز سؤال حول ما الذي يدفع الفنانين إلى استحضار هذه العناصر المألوفة في أعمالهم؟
+        عربي · الشرق الأوسط
+برلماني عراقي يلوح بجلسة استثنائية احتجاجا على حظر الطيران الإيراني
+        النائب الأول لرئيس مجلس النواب العراقي عدنان فيحان الدليمي قال إن العقوبات الأمريكية الأحادية لا تُلزم بغداد تلقائيا
         تركيا · الأناضول
-"إهانة نتنياهو في الأمم المتحدة تشي بأن أيامه باتت معدودة"- مقال في الإندبندنت - bbc.com
+مؤسس «أبوظبي للثقافة والفنون» لـ«الاتحاد»: الإبداع الإماراتي مؤثر ومنافس عالمياً - شبكة تواصل الإخبارية
         الإمارات · الإمارات
-Sylvester Stallone Hid His Struggles for Decades. Now He’s Coming Clean.
-        The legendary actor on his disturbing childhood, his Hollywood missteps and the pain he caused to his loved ones, his body and himself.
-        أمريكا · NYT
-Trump reportedly rejects Iran’s seven-day peace deal to reopen strait of Hormuz
-        Tehran awaits official response to plan, but US president is said to expect renewed strikes after midterms Iran is ⁠awaiting an official US response…
-        بريطانيا · Guardian
+Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
+        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
+        أمريكا · CBS
+Met to re-examine CCTV from Jill Dando murder case
+        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+        بريطانيا · BBC
 New York Contacts Revive Hopes for US-Iran Talks
         Intensive contacts in New York on the sidelines of the United Nations General Assembly meetings have revived hopes of breaking the deadlock in…
         الأردن · Jordan News
-ضغوط على «الأعلى للدولة» الليبي لحسم موقفه من «اتفاق الانتخابات»
-        وضع إقرار مجلس النواب الليبي، خلال الأسبوع الماضي، مخرجات لجنة «4+4»، التي رعتها بعثة الأمم المتحدة، «المجلس الأعلى للدولة» أمام اختبار سياسي صعب.
-        عربي · الشرق الأوسط
-ترمب وشي يتفقان على حوار للذكاء الصناعي وضرورة منع التسلح النووي الإيراني
-        اتفقت الولايات المتحدة والصين، السبت، على إطلاق حوار ثنائي بشأن الذكاء الصناعي
-        تركيا · TRT عربي
-61 % من رأس المال الاستثماري في العالم مخصَّص للذكاء الاصطناعي - صحيفة الخليج
+وسط حالة من الجدل.. إلغاء حفل إد شيران مع وصول عاصفة "نورإيستر" لسواحل أمريكا
+        وصلت عاصفة "نورإيستر" (Nor’easter) قوية، في بداية موسمها، إلى شمال شرق الولايات المتحدة
+        عربي · CNN عربية
+إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
+        وفق بيان لمنظمة "البيدر" الحقوقية..
+        تركيا · الأناضول
+مسؤولة بـ"الفيدرالي": ارتفاع عوائد السندات الأمريكية لا يعود إلى التضخم - جريدة البورصة
         الإمارات · الإمارات
-Economist calls out America’s socialist elite, says they got rich bashing capitalism
-        Stephen Moore says Bernie Sanders, Hasan Piker, and Elizabeth Warren grew wealthy under capitalism while pushing socialist policies they call immoral.
+Dem House hopeful endorsed by activist who said 'evil Jews run the world'
+        Adina Flores, who endorsed Eric Jones for Congress, has posted content about Zionists, Freemasons and LGBTQ ideology across her social media pages.
         أمريكا · Fox News
-Prince Harry says it is 'great' to be back in Britain after six years in US
-        The Duke of Sussex also added that Prince Archie and Princess Lilibet are “happy in school” after returning to the UK a month ago.
+British national among six dead in building explosion close to Acropolis in Athens
+        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
         بريطانيا · BBC
 Trump Rejects 7-Day Iranian Truce Proposal
         US President Donald Trump has rejected an Iranian proposal for a seven-day ceasefire, as Tehran presented a plan to reopen the Strait of Hormuz and…
         الأردن · Jordan News
-عاجل: مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية في شمال غربي باكستان
+مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية شمال غربي باكستان
         لم تعلن أي جهة مسؤوليتها عن الهجوم حتى الآن، فيما يأتي بعد يومين من إعلان باكستان تنفيذ ضربات جوية ضد مسلحين مشتبه بهم في أفغانستان.
         عربي · BBC عربي
-حارس أيرلندا يرفض مواجهة إسرائيل بعد زميله جيسون نايت
-        بسبب الإبادة الإسرائيلية في قطاع غزة، وفق القناة 12 العبرية.. وذلك ضمن منافسات المجموعة الثالثة من دوري الأمم الأوروبية للمستوى الثاني..
+تنسيق لبناني سعودي قبل لقاء روبيو
+        كشفت مصادر في واشنطن لـ"الجديد" عن تنسيق سعودي ـ لبناني مكثف قبل لقاء رئيس الحكومة اللبنانية نواف سلام ووزير الخارجية الأميركي ماركو روبيو.
+        عربي · الجديد
+الضفة.. الخليل تستأنف مهرجان العنب بعد توقف 3 أعوام جراء حرب غزة
+        يقام داخل البلدة القديمة قرب المسجد الإبراهيمي ويهدف إلى دعم المزارعين وتسويق منتجاتهم مباشرة للزوار..
         تركيا · الأناضول
-ماكنرو: يجب السماح للاعبي التنس باختيار جدولهم
-        يرى جون ماكنرو، أسطورة التنس الأميركي السابق، أنه ينبغي السماح للاعبي التنس بتحديد جداول مشاركاتهم بأنفسهم.
-        عربي · الشرق الأوسط
 صافرة كويتية لمباراة الإمارات والبحرين في «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
-Russell wins despite late Verstappen challenge
-        Mercedes' George Russell holds off a late challenge from Red Bull's Max Verstappen to win an Azerbaijan Grand Prix enlivened by two late safety car…
-        بريطانيا · BBC
-Behemoth high school football star slams defender to the ground like a ragdoll after interception
-        Seneca Driver, Oklahoma's prized tight end commit, delivered a violent hit after an interception that has the high school football world buzzing.
-        أمريكا · Fox News</desc>
+Kate Upton retires, high school football game rocked by what some say is a cheap shot &amp; iOSU's new kicker?
+        Saturday Screencaps covers Sydney Sweeney's lingerie nod to Scooter Braun, the Hooters rebrand debate, and a loyal iPhone 8 owner's pushback.
+        أمريكا · Fox News
+No Premier League appetite to strip Man City of titles - but threat remains
+        After being found guilty of the majority of the 115 charges for breaching Premier League, could Manchester city really be stripped of eight trophies?
+        بريطانيا · BBC</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
   <programme start="20260926140000 +0000" stop="20260926150000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 06:54 — بتوقيتك
 
-«آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»
-        أكدت العداءة الصينية تشن يوجي، البالغة 17 عاما، أنها لا تعرف «أي حدود»، بعدما هيمنت الجمعة على نهائي سباق 100 م للسيدات بالآسياد.
+الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره
+        أوضحت «المؤسسة الوطنية للنفط» في بيان، السبت، أن إغلاق الصمام رقم 7 على خط «الشرارة - الزاوية» أجبرها على وقف إحدى وحدات التكرير.
         عربي · الشرق الأوسط
-إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
-        وفق بيان لمنظمة "البيدر" الحقوقية..
+خبراء: اتساع الصراع بإثيوبيا قد يؤدي لأزمة جديدة في القرن الإفريقي
+        يحذر خبراء من أن تصاعد التوتر مجددا بين الحكومة الفيدرالية و"جبهة تحرير شعب تيغراي" المتمردة في إقليم تيغراي شمالي إثيوبيا، في حال اتسع نطاقه
         تركيا · الأناضول
-غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
+وكلاء أوبن إيه آي يخترقون مواقع حكومية أمريكية وعشرات المؤسسات الأخرى - الجزيرة نت
         الإمارات · الإمارات
-Met to re-examine CCTV from Jill Dando murder case
-        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+4 American tourists dead after building explosion in Greece
+        The mayor of Athens said the explosion was likely caused by a gas leak.
+        أمريكا · CBS
+Republic of Ireland confirm Israel game will go ahead
+        The Republic of Ireland have confirmed Sunday's Uefa Nations League B3 game against Israel in Debrecen, Hungary will go ahead.
         بريطانيا · BBC
-Live Updates: Powerful Nor’easter Bears Down on East Coast
-        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
-        أمريكا · NYT
 Unified Admission Opens ‘Mischoice’ Applications
         Jordan’s Unified Admission Coordination Unit began receiving applications on Saturday from students nominated for admission, as well as those who…
         الأردن · Jordan News
-أين نزرع الأشجار لتبريد الشوارع بفاعلية أكبر؟
-        توفّر الخرائط الحرارية المعتمدة على الأقمار الاصطناعية للمدن نظرة شاملة، من منظور علوي، إلى درجات حرارة الأسطح.
+خطوة تنفيذية جديدة في المشروع النووي المصري
+        أكدت «هيئة المحطات النووية لتوليد الكهرباء» نجاح عملية تركيب اللوح السفلي لبئر المفاعل للوحدة النووية الثالثة بـ«محطة الضبعة النووية».
         عربي · الشرق الأوسط
-أردوغان: عازمون على إسقاط قناع العقلية الصهيونية الاحتلالية
-        الرئيس التركي رجب طيب أردوغان: مكان مجرمي الحرب ليس منبر الأمم المتحدة بل قاعات المحاكم
-        تركيا · الأناضول
-بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
+أردوغان: مكان مجرمي الحرب قاعات المحاكم لا منبر الأمم المتحدة
+        أكد الرئيس التركي رجب طيب أردوغان، السبت، أن بلاده ستواصل الوقوف إلى جانب الشعب الفلسطيني والمظلومين
+        تركيا · TRT عربي
+غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
         الإمارات · الإمارات
-Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
-        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
-        أمريكا · CBS
+Live Updates: Powerful Nor’easter Bears Down on East Coast
+        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
+        أمريكا · NYT
+Power outages and flooded roads as major storm bears down on US north-east
+        Thousands already without without power as New Jersey, Massachusetts, Delaware and New York brace for nor’easter More than 70,000 customers were…
+        بريطانيا · Guardian
 Applied Science University Highlights Pharmacy’s Future
         On September 25, the world marks World Pharmacists Day, highlighting pharmacy as one of the key pillars of knowledge underpinning modern healthcare…
         الأردن · Jordan News
-Huge crowds greet Pope in Paris ahead of open-air Mass
-        More than half a million people are expected to attend the event in the heart of the French capital.
-        بريطانيا · BBC
-بعد إعادة محاكمته.. القضاء الفرنسي يحكم بسجن سعد لمجرد 10 سنوات
-        أصدرت محكمة الاستئناف الفرنسية حكماً جديداً بحق الفنان المغربي سعد لمجرد في القضية المرتبطة بالفرنسية لورا بريول
-        عربي · الجديد
-البحرين: إيران شنّت 7 آلاف هجوم بالمنطقة ونرفض أي رسوم على الملاحة في مضيق هرمز
-        قال وزير الخارجية البحريني عبد اللطيف الزياني، إن دول مجلس التعاون الخليجي والأردن تعرضت لنحو 7 آلاف هجوم إيراني بالصواريخ والطائرات المسيّرة منذ…
-        تركيا · TRT عربي
-فيلم «ويبقى الأمل» يفوز بجائزة «كان للإعلام 2026» - الاتحاد للأخبار
+أزمة قيادة في «حزب الله» بعد اغتيال نصر الله
+        في الذكرى الثانية لاغتيال الأمين العام السابق لـ«حزب الله» حسن نصر الله، لم ينجح الحزب في أن يتجاوز بالكامل غياب الرجل الذي أمسك بقيادته لأكثر من…
+        عربي · الشرق الأوسط
+أردوغان: اقتصاد تركيا شهد نموا متواصلا على مدى 24 ربعا
+        الرئيس أردوغان قال إن تركيا تحتل حاليا المرتبة الـ16 بين أكبر اقتصادات العالم، والمرتبة الـ6 في أوروبا..
+        تركيا · الأناضول
+بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
         الإمارات · الإمارات
-‘Zombified’ C.D.C., Hobbled by Cuts, Struggles to Fulfill Scientific Mission
-        The agency has lost its independence and nearly a third of its staff, as Health Secretary Robert F. Kennedy Jr. and associates have tightened control.
-        أمريكا · NYT
-British national among six dead in building explosion close to Acropolis in Athens
-        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
+Nor'easter brings powerful winds, severe flooding to the East Coast
+        Tens of millions of people are in the path of the storm, which has canceled flights, concerts and sporting events.
+        أمريكا · CBS
+Huge crowds greet Pope in Paris for open-air Mass
+        More than half a million people are expected to attend the event in the heart of the French capital.
         بريطانيا · BBC
 Saudi-Led Coalition Intercepts Houthi Drones
         The Saudi-led military coalition supporting Yemen’s government said Saturday that it had intercepted two drones launched by the Houthis toward Riyadh.
         الأردن · Jordan News
-الدفاع عن الحياة والكرامة.. محاور سياسة البابا ليون الرابع عشر
-        دعا بابا الفاتيكان ​اليوم الجمعة العالم إلى عدم التعامل ​بلا مبالاة مع المعاناة التي تسببها "آفة الحرب"
-        عربي · فرانس 24
-قطر تدعو لحملة دبلوماسية وإعلامية لكشف الانتهاكات الإسرائيلية بالقدس
-        وفق وزير الدولة بوزارة الخارجية محمد الخليفي خلال اجتماع وزاري على هامش الجمعية العامة للأمم المتحدة في نيويورك..
+الألعاب حين تصبح فناً... قراءة في الذاكرة والمجتمع
+        عند تأمل الأعمال الفنية التي تستلهم ألعاب الأطفال والألعاب الشعبية، يبرز سؤال حول ما الذي يدفع الفنانين إلى استحضار هذه العناصر المألوفة في أعمالهم؟
+        عربي · الشرق الأوسط
+برلماني عراقي يلوح بجلسة استثنائية احتجاجا على حظر الطيران الإيراني
+        النائب الأول لرئيس مجلس النواب العراقي عدنان فيحان الدليمي قال إن العقوبات الأمريكية الأحادية لا تُلزم بغداد تلقائيا
         تركيا · الأناضول
-"إهانة نتنياهو في الأمم المتحدة تشي بأن أيامه باتت معدودة"- مقال في الإندبندنت - bbc.com
+مؤسس «أبوظبي للثقافة والفنون» لـ«الاتحاد»: الإبداع الإماراتي مؤثر ومنافس عالمياً - شبكة تواصل الإخبارية
         الإمارات · الإمارات
-Sylvester Stallone Hid His Struggles for Decades. Now He’s Coming Clean.
-        The legendary actor on his disturbing childhood, his Hollywood missteps and the pain he caused to his loved ones, his body and himself.
-        أمريكا · NYT
-Trump reportedly rejects Iran’s seven-day peace deal to reopen strait of Hormuz
-        Tehran awaits official response to plan, but US president is said to expect renewed strikes after midterms Iran is ⁠awaiting an official US response…
-        بريطانيا · Guardian
+Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
+        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
+        أمريكا · CBS
+Met to re-examine CCTV from Jill Dando murder case
+        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+        بريطانيا · BBC
 New York Contacts Revive Hopes for US-Iran Talks
         Intensive contacts in New York on the sidelines of the United Nations General Assembly meetings have revived hopes of breaking the deadlock in…
         الأردن · Jordan News
-ضغوط على «الأعلى للدولة» الليبي لحسم موقفه من «اتفاق الانتخابات»
-        وضع إقرار مجلس النواب الليبي، خلال الأسبوع الماضي، مخرجات لجنة «4+4»، التي رعتها بعثة الأمم المتحدة، «المجلس الأعلى للدولة» أمام اختبار سياسي صعب.
-        عربي · الشرق الأوسط
-ترمب وشي يتفقان على حوار للذكاء الصناعي وضرورة منع التسلح النووي الإيراني
-        اتفقت الولايات المتحدة والصين، السبت، على إطلاق حوار ثنائي بشأن الذكاء الصناعي
-        تركيا · TRT عربي
-61 % من رأس المال الاستثماري في العالم مخصَّص للذكاء الاصطناعي - صحيفة الخليج
+وسط حالة من الجدل.. إلغاء حفل إد شيران مع وصول عاصفة "نورإيستر" لسواحل أمريكا
+        وصلت عاصفة "نورإيستر" (Nor’easter) قوية، في بداية موسمها، إلى شمال شرق الولايات المتحدة
+        عربي · CNN عربية
+إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
+        وفق بيان لمنظمة "البيدر" الحقوقية..
+        تركيا · الأناضول
+مسؤولة بـ"الفيدرالي": ارتفاع عوائد السندات الأمريكية لا يعود إلى التضخم - جريدة البورصة
         الإمارات · الإمارات
-Economist calls out America’s socialist elite, says they got rich bashing capitalism
-        Stephen Moore says Bernie Sanders, Hasan Piker, and Elizabeth Warren grew wealthy under capitalism while pushing socialist policies they call immoral.
+Dem House hopeful endorsed by activist who said 'evil Jews run the world'
+        Adina Flores, who endorsed Eric Jones for Congress, has posted content about Zionists, Freemasons and LGBTQ ideology across her social media pages.
         أمريكا · Fox News
-Prince Harry says it is 'great' to be back in Britain after six years in US
-        The Duke of Sussex also added that Prince Archie and Princess Lilibet are “happy in school” after returning to the UK a month ago.
+British national among six dead in building explosion close to Acropolis in Athens
+        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
         بريطانيا · BBC
 Trump Rejects 7-Day Iranian Truce Proposal
         US President Donald Trump has rejected an Iranian proposal for a seven-day ceasefire, as Tehran presented a plan to reopen the Strait of Hormuz and…
         الأردن · Jordan News
-عاجل: مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية في شمال غربي باكستان
+مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية شمال غربي باكستان
         لم تعلن أي جهة مسؤوليتها عن الهجوم حتى الآن، فيما يأتي بعد يومين من إعلان باكستان تنفيذ ضربات جوية ضد مسلحين مشتبه بهم في أفغانستان.
         عربي · BBC عربي
-حارس أيرلندا يرفض مواجهة إسرائيل بعد زميله جيسون نايت
-        بسبب الإبادة الإسرائيلية في قطاع غزة، وفق القناة 12 العبرية.. وذلك ضمن منافسات المجموعة الثالثة من دوري الأمم الأوروبية للمستوى الثاني..
+تنسيق لبناني سعودي قبل لقاء روبيو
+        كشفت مصادر في واشنطن لـ"الجديد" عن تنسيق سعودي ـ لبناني مكثف قبل لقاء رئيس الحكومة اللبنانية نواف سلام ووزير الخارجية الأميركي ماركو روبيو.
+        عربي · الجديد
+الضفة.. الخليل تستأنف مهرجان العنب بعد توقف 3 أعوام جراء حرب غزة
+        يقام داخل البلدة القديمة قرب المسجد الإبراهيمي ويهدف إلى دعم المزارعين وتسويق منتجاتهم مباشرة للزوار..
         تركيا · الأناضول
-ماكنرو: يجب السماح للاعبي التنس باختيار جدولهم
-        يرى جون ماكنرو، أسطورة التنس الأميركي السابق، أنه ينبغي السماح للاعبي التنس بتحديد جداول مشاركاتهم بأنفسهم.
-        عربي · الشرق الأوسط
 صافرة كويتية لمباراة الإمارات والبحرين في «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
-Russell wins despite late Verstappen challenge
-        Mercedes' George Russell holds off a late challenge from Red Bull's Max Verstappen to win an Azerbaijan Grand Prix enlivened by two late safety car…
-        بريطانيا · BBC
-Behemoth high school football star slams defender to the ground like a ragdoll after interception
-        Seneca Driver, Oklahoma's prized tight end commit, delivered a violent hit after an interception that has the high school football world buzzing.
-        أمريكا · Fox News</desc>
+Kate Upton retires, high school football game rocked by what some say is a cheap shot &amp; iOSU's new kicker?
+        Saturday Screencaps covers Sydney Sweeney's lingerie nod to Scooter Braun, the Hooters rebrand debate, and a loyal iPhone 8 owner's pushback.
+        أمريكا · Fox News
+No Premier League appetite to strip Man City of titles - but threat remains
+        After being found guilty of the majority of the 115 charges for breaching Premier League, could Manchester city really be stripped of eight trophies?
+        بريطانيا · BBC</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
   <programme start="20260926150000 +0000" stop="20260926160000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 06:54 — بتوقيتك
 
-«آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»
-        أكدت العداءة الصينية تشن يوجي، البالغة 17 عاما، أنها لا تعرف «أي حدود»، بعدما هيمنت الجمعة على نهائي سباق 100 م للسيدات بالآسياد.
+الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره
+        أوضحت «المؤسسة الوطنية للنفط» في بيان، السبت، أن إغلاق الصمام رقم 7 على خط «الشرارة - الزاوية» أجبرها على وقف إحدى وحدات التكرير.
         عربي · الشرق الأوسط
-إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
-        وفق بيان لمنظمة "البيدر" الحقوقية..
+خبراء: اتساع الصراع بإثيوبيا قد يؤدي لأزمة جديدة في القرن الإفريقي
+        يحذر خبراء من أن تصاعد التوتر مجددا بين الحكومة الفيدرالية و"جبهة تحرير شعب تيغراي" المتمردة في إقليم تيغراي شمالي إثيوبيا، في حال اتسع نطاقه
         تركيا · الأناضول
-غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
+وكلاء أوبن إيه آي يخترقون مواقع حكومية أمريكية وعشرات المؤسسات الأخرى - الجزيرة نت
         الإمارات · الإمارات
-Met to re-examine CCTV from Jill Dando murder case
-        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+4 American tourists dead after building explosion in Greece
+        The mayor of Athens said the explosion was likely caused by a gas leak.
+        أمريكا · CBS
+Republic of Ireland confirm Israel game will go ahead
+        The Republic of Ireland have confirmed Sunday's Uefa Nations League B3 game against Israel in Debrecen, Hungary will go ahead.
         بريطانيا · BBC
-Live Updates: Powerful Nor’easter Bears Down on East Coast
-        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
-        أمريكا · NYT
 Unified Admission Opens ‘Mischoice’ Applications
         Jordan’s Unified Admission Coordination Unit began receiving applications on Saturday from students nominated for admission, as well as those who…
         الأردن · Jordan News
-أين نزرع الأشجار لتبريد الشوارع بفاعلية أكبر؟
-        توفّر الخرائط الحرارية المعتمدة على الأقمار الاصطناعية للمدن نظرة شاملة، من منظور علوي، إلى درجات حرارة الأسطح.
+خطوة تنفيذية جديدة في المشروع النووي المصري
+        أكدت «هيئة المحطات النووية لتوليد الكهرباء» نجاح عملية تركيب اللوح السفلي لبئر المفاعل للوحدة النووية الثالثة بـ«محطة الضبعة النووية».
         عربي · الشرق الأوسط
-أردوغان: عازمون على إسقاط قناع العقلية الصهيونية الاحتلالية
-        الرئيس التركي رجب طيب أردوغان: مكان مجرمي الحرب ليس منبر الأمم المتحدة بل قاعات المحاكم
-        تركيا · الأناضول
-بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
+أردوغان: مكان مجرمي الحرب قاعات المحاكم لا منبر الأمم المتحدة
+        أكد الرئيس التركي رجب طيب أردوغان، السبت، أن بلاده ستواصل الوقوف إلى جانب الشعب الفلسطيني والمظلومين
+        تركيا · TRT عربي
+غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
         الإمارات · الإمارات
-Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
-        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
-        أمريكا · CBS
+Live Updates: Powerful Nor’easter Bears Down on East Coast
+        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
+        أمريكا · NYT
+Power outages and flooded roads as major storm bears down on US north-east
+        Thousands already without without power as New Jersey, Massachusetts, Delaware and New York brace for nor’easter More than 70,000 customers were…
+        بريطانيا · Guardian
 Applied Science University Highlights Pharmacy’s Future
         On September 25, the world marks World Pharmacists Day, highlighting pharmacy as one of the key pillars of knowledge underpinning modern healthcare…
         الأردن · Jordan News
-Huge crowds greet Pope in Paris ahead of open-air Mass
-        More than half a million people are expected to attend the event in the heart of the French capital.
-        بريطانيا · BBC
-بعد إعادة محاكمته.. القضاء الفرنسي يحكم بسجن سعد لمجرد 10 سنوات
-        أصدرت محكمة الاستئناف الفرنسية حكماً جديداً بحق الفنان المغربي سعد لمجرد في القضية المرتبطة بالفرنسية لورا بريول
-        عربي · الجديد
-البحرين: إيران شنّت 7 آلاف هجوم بالمنطقة ونرفض أي رسوم على الملاحة في مضيق هرمز
-        قال وزير الخارجية البحريني عبد اللطيف الزياني، إن دول مجلس التعاون الخليجي والأردن تعرضت لنحو 7 آلاف هجوم إيراني بالصواريخ والطائرات المسيّرة منذ…
-        تركيا · TRT عربي
-فيلم «ويبقى الأمل» يفوز بجائزة «كان للإعلام 2026» - الاتحاد للأخبار
+أزمة قيادة في «حزب الله» بعد اغتيال نصر الله
+        في الذكرى الثانية لاغتيال الأمين العام السابق لـ«حزب الله» حسن نصر الله، لم ينجح الحزب في أن يتجاوز بالكامل غياب الرجل الذي أمسك بقيادته لأكثر من…
+        عربي · الشرق الأوسط
+أردوغان: اقتصاد تركيا شهد نموا متواصلا على مدى 24 ربعا
+        الرئيس أردوغان قال إن تركيا تحتل حاليا المرتبة الـ16 بين أكبر اقتصادات العالم، والمرتبة الـ6 في أوروبا..
+        تركيا · الأناضول
+بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
         الإمارات · الإمارات
-‘Zombified’ C.D.C., Hobbled by Cuts, Struggles to Fulfill Scientific Mission
-        The agency has lost its independence and nearly a third of its staff, as Health Secretary Robert F. Kennedy Jr. and associates have tightened control.
-        أمريكا · NYT
-British national among six dead in building explosion close to Acropolis in Athens
-        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
+Nor'easter brings powerful winds, severe flooding to the East Coast
+        Tens of millions of people are in the path of the storm, which has canceled flights, concerts and sporting events.
+        أمريكا · CBS
+Huge crowds greet Pope in Paris for open-air Mass
+        More than half a million people are expected to attend the event in the heart of the French capital.
         بريطانيا · BBC
 Saudi-Led Coalition Intercepts Houthi Drones
         The Saudi-led military coalition supporting Yemen’s government said Saturday that it had intercepted two drones launched by the Houthis toward Riyadh.
         الأردن · Jordan News
-الدفاع عن الحياة والكرامة.. محاور سياسة البابا ليون الرابع عشر
-        دعا بابا الفاتيكان ​اليوم الجمعة العالم إلى عدم التعامل ​بلا مبالاة مع المعاناة التي تسببها "آفة الحرب"
-        عربي · فرانس 24
-قطر تدعو لحملة دبلوماسية وإعلامية لكشف الانتهاكات الإسرائيلية بالقدس
-        وفق وزير الدولة بوزارة الخارجية محمد الخليفي خلال اجتماع وزاري على هامش الجمعية العامة للأمم المتحدة في نيويورك..
+الألعاب حين تصبح فناً... قراءة في الذاكرة والمجتمع
+        عند تأمل الأعمال الفنية التي تستلهم ألعاب الأطفال والألعاب الشعبية، يبرز سؤال حول ما الذي يدفع الفنانين إلى استحضار هذه العناصر المألوفة في أعمالهم؟
+        عربي · الشرق الأوسط
+برلماني عراقي يلوح بجلسة استثنائية احتجاجا على حظر الطيران الإيراني
+        النائب الأول لرئيس مجلس النواب العراقي عدنان فيحان الدليمي قال إن العقوبات الأمريكية الأحادية لا تُلزم بغداد تلقائيا
         تركيا · الأناضول
-"إهانة نتنياهو في الأمم المتحدة تشي بأن أيامه باتت معدودة"- مقال في الإندبندنت - bbc.com
+مؤسس «أبوظبي للثقافة والفنون» لـ«الاتحاد»: الإبداع الإماراتي مؤثر ومنافس عالمياً - شبكة تواصل الإخبارية
         الإمارات · الإمارات
-Sylvester Stallone Hid His Struggles for Decades. Now He’s Coming Clean.
-        The legendary actor on his disturbing childhood, his Hollywood missteps and the pain he caused to his loved ones, his body and himself.
-        أمريكا · NYT
-Trump reportedly rejects Iran’s seven-day peace deal to reopen strait of Hormuz
-        Tehran awaits official response to plan, but US president is said to expect renewed strikes after midterms Iran is ⁠awaiting an official US response…
-        بريطانيا · Guardian
+Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
+        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
+        أمريكا · CBS
+Met to re-examine CCTV from Jill Dando murder case
+        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+        بريطانيا · BBC
 New York Contacts Revive Hopes for US-Iran Talks
         Intensive contacts in New York on the sidelines of the United Nations General Assembly meetings have revived hopes of breaking the deadlock in…
         الأردن · Jordan News
-ضغوط على «الأعلى للدولة» الليبي لحسم موقفه من «اتفاق الانتخابات»
-        وضع إقرار مجلس النواب الليبي، خلال الأسبوع الماضي، مخرجات لجنة «4+4»، التي رعتها بعثة الأمم المتحدة، «المجلس الأعلى للدولة» أمام اختبار سياسي صعب.
-        عربي · الشرق الأوسط
-ترمب وشي يتفقان على حوار للذكاء الصناعي وضرورة منع التسلح النووي الإيراني
-        اتفقت الولايات المتحدة والصين، السبت، على إطلاق حوار ثنائي بشأن الذكاء الصناعي
-        تركيا · TRT عربي
-61 % من رأس المال الاستثماري في العالم مخصَّص للذكاء الاصطناعي - صحيفة الخليج
+وسط حالة من الجدل.. إلغاء حفل إد شيران مع وصول عاصفة "نورإيستر" لسواحل أمريكا
+        وصلت عاصفة "نورإيستر" (Nor’easter) قوية، في بداية موسمها، إلى شمال شرق الولايات المتحدة
+        عربي · CNN عربية
+إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
+        وفق بيان لمنظمة "البيدر" الحقوقية..
+        تركيا · الأناضول
+مسؤولة بـ"الفيدرالي": ارتفاع عوائد السندات الأمريكية لا يعود إلى التضخم - جريدة البورصة
         الإمارات · الإمارات
-Economist calls out America’s socialist elite, says they got rich bashing capitalism
-        Stephen Moore says Bernie Sanders, Hasan Piker, and Elizabeth Warren grew wealthy under capitalism while pushing socialist policies they call immoral.
+Dem House hopeful endorsed by activist who said 'evil Jews run the world'
+        Adina Flores, who endorsed Eric Jones for Congress, has posted content about Zionists, Freemasons and LGBTQ ideology across her social media pages.
         أمريكا · Fox News
-Prince Harry says it is 'great' to be back in Britain after six years in US
-        The Duke of Sussex also added that Prince Archie and Princess Lilibet are “happy in school” after returning to the UK a month ago.
+British national among six dead in building explosion close to Acropolis in Athens
+        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
         بريطانيا · BBC
 Trump Rejects 7-Day Iranian Truce Proposal
         US President Donald Trump has rejected an Iranian proposal for a seven-day ceasefire, as Tehran presented a plan to reopen the Strait of Hormuz and…
         الأردن · Jordan News
-عاجل: مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية في شمال غربي باكستان
+مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية شمال غربي باكستان
         لم تعلن أي جهة مسؤوليتها عن الهجوم حتى الآن، فيما يأتي بعد يومين من إعلان باكستان تنفيذ ضربات جوية ضد مسلحين مشتبه بهم في أفغانستان.
         عربي · BBC عربي
-حارس أيرلندا يرفض مواجهة إسرائيل بعد زميله جيسون نايت
-        بسبب الإبادة الإسرائيلية في قطاع غزة، وفق القناة 12 العبرية.. وذلك ضمن منافسات المجموعة الثالثة من دوري الأمم الأوروبية للمستوى الثاني..
+تنسيق لبناني سعودي قبل لقاء روبيو
+        كشفت مصادر في واشنطن لـ"الجديد" عن تنسيق سعودي ـ لبناني مكثف قبل لقاء رئيس الحكومة اللبنانية نواف سلام ووزير الخارجية الأميركي ماركو روبيو.
+        عربي · الجديد
+الضفة.. الخليل تستأنف مهرجان العنب بعد توقف 3 أعوام جراء حرب غزة
+        يقام داخل البلدة القديمة قرب المسجد الإبراهيمي ويهدف إلى دعم المزارعين وتسويق منتجاتهم مباشرة للزوار..
         تركيا · الأناضول
-ماكنرو: يجب السماح للاعبي التنس باختيار جدولهم
-        يرى جون ماكنرو، أسطورة التنس الأميركي السابق، أنه ينبغي السماح للاعبي التنس بتحديد جداول مشاركاتهم بأنفسهم.
-        عربي · الشرق الأوسط
 صافرة كويتية لمباراة الإمارات والبحرين في «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
-Russell wins despite late Verstappen challenge
-        Mercedes' George Russell holds off a late challenge from Red Bull's Max Verstappen to win an Azerbaijan Grand Prix enlivened by two late safety car…
-        بريطانيا · BBC
-Behemoth high school football star slams defender to the ground like a ragdoll after interception
-        Seneca Driver, Oklahoma's prized tight end commit, delivered a violent hit after an interception that has the high school football world buzzing.
-        أمريكا · Fox News</desc>
+Kate Upton retires, high school football game rocked by what some say is a cheap shot &amp; iOSU's new kicker?
+        Saturday Screencaps covers Sydney Sweeney's lingerie nod to Scooter Braun, the Hooters rebrand debate, and a loyal iPhone 8 owner's pushback.
+        أمريكا · Fox News
+No Premier League appetite to strip Man City of titles - but threat remains
+        After being found guilty of the majority of the 115 charges for breaching Premier League, could Manchester city really be stripped of eight trophies?
+        بريطانيا · BBC</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
   <programme start="20260926160000 +0000" stop="20260926170000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 06:54 — بتوقيتك
 
-«آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»
-        أكدت العداءة الصينية تشن يوجي، البالغة 17 عاما، أنها لا تعرف «أي حدود»، بعدما هيمنت الجمعة على نهائي سباق 100 م للسيدات بالآسياد.
+الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره
+        أوضحت «المؤسسة الوطنية للنفط» في بيان، السبت، أن إغلاق الصمام رقم 7 على خط «الشرارة - الزاوية» أجبرها على وقف إحدى وحدات التكرير.
         عربي · الشرق الأوسط
-إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
-        وفق بيان لمنظمة "البيدر" الحقوقية..
+خبراء: اتساع الصراع بإثيوبيا قد يؤدي لأزمة جديدة في القرن الإفريقي
+        يحذر خبراء من أن تصاعد التوتر مجددا بين الحكومة الفيدرالية و"جبهة تحرير شعب تيغراي" المتمردة في إقليم تيغراي شمالي إثيوبيا، في حال اتسع نطاقه
         تركيا · الأناضول
-غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
+وكلاء أوبن إيه آي يخترقون مواقع حكومية أمريكية وعشرات المؤسسات الأخرى - الجزيرة نت
         الإمارات · الإمارات
-Met to re-examine CCTV from Jill Dando murder case
-        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+4 American tourists dead after building explosion in Greece
+        The mayor of Athens said the explosion was likely caused by a gas leak.
+        أمريكا · CBS
+Republic of Ireland confirm Israel game will go ahead
+        The Republic of Ireland have confirmed Sunday's Uefa Nations League B3 game against Israel in Debrecen, Hungary will go ahead.
         بريطانيا · BBC
-Live Updates: Powerful Nor’easter Bears Down on East Coast
-        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
-        أمريكا · NYT
 Unified Admission Opens ‘Mischoice’ Applications
         Jordan’s Unified Admission Coordination Unit began receiving applications on Saturday from students nominated for admission, as well as those who…
         الأردن · Jordan News
-أين نزرع الأشجار لتبريد الشوارع بفاعلية أكبر؟
-        توفّر الخرائط الحرارية المعتمدة على الأقمار الاصطناعية للمدن نظرة شاملة، من منظور علوي، إلى درجات حرارة الأسطح.
+خطوة تنفيذية جديدة في المشروع النووي المصري
+        أكدت «هيئة المحطات النووية لتوليد الكهرباء» نجاح عملية تركيب اللوح السفلي لبئر المفاعل للوحدة النووية الثالثة بـ«محطة الضبعة النووية».
         عربي · الشرق الأوسط
-أردوغان: عازمون على إسقاط قناع العقلية الصهيونية الاحتلالية
-        الرئيس التركي رجب طيب أردوغان: مكان مجرمي الحرب ليس منبر الأمم المتحدة بل قاعات المحاكم
-        تركيا · الأناضول
-بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
+أردوغان: مكان مجرمي الحرب قاعات المحاكم لا منبر الأمم المتحدة
+        أكد الرئيس التركي رجب طيب أردوغان، السبت، أن بلاده ستواصل الوقوف إلى جانب الشعب الفلسطيني والمظلومين
+        تركيا · TRT عربي
+غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
         الإمارات · الإمارات
-Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
-        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
-        أمريكا · CBS
+Live Updates: Powerful Nor’easter Bears Down on East Coast
+        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
+        أمريكا · NYT
+Power outages and flooded roads as major storm bears down on US north-east
+        Thousands already without without power as New Jersey, Massachusetts, Delaware and New York brace for nor’easter More than 70,000 customers were…
+        بريطانيا · Guardian
 Applied Science University Highlights Pharmacy’s Future
         On September 25, the world marks World Pharmacists Day, highlighting pharmacy as one of the key pillars of knowledge underpinning modern healthcare…
         الأردن · Jordan News
-Huge crowds greet Pope in Paris ahead of open-air Mass
-        More than half a million people are expected to attend the event in the heart of the French capital.
-        بريطانيا · BBC
-بعد إعادة محاكمته.. القضاء الفرنسي يحكم بسجن سعد لمجرد 10 سنوات
-        أصدرت محكمة الاستئناف الفرنسية حكماً جديداً بحق الفنان المغربي سعد لمجرد في القضية المرتبطة بالفرنسية لورا بريول
-        عربي · الجديد
-البحرين: إيران شنّت 7 آلاف هجوم بالمنطقة ونرفض أي رسوم على الملاحة في مضيق هرمز
-        قال وزير الخارجية البحريني عبد اللطيف الزياني، إن دول مجلس التعاون الخليجي والأردن تعرضت لنحو 7 آلاف هجوم إيراني بالصواريخ والطائرات المسيّرة منذ…
-        تركيا · TRT عربي
-فيلم «ويبقى الأمل» يفوز بجائزة «كان للإعلام 2026» - الاتحاد للأخبار
+أزمة قيادة في «حزب الله» بعد اغتيال نصر الله
+        في الذكرى الثانية لاغتيال الأمين العام السابق لـ«حزب الله» حسن نصر الله، لم ينجح الحزب في أن يتجاوز بالكامل غياب الرجل الذي أمسك بقيادته لأكثر من…
+        عربي · الشرق الأوسط
+أردوغان: اقتصاد تركيا شهد نموا متواصلا على مدى 24 ربعا
+        الرئيس أردوغان قال إن تركيا تحتل حاليا المرتبة الـ16 بين أكبر اقتصادات العالم، والمرتبة الـ6 في أوروبا..
+        تركيا · الأناضول
+بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
         الإمارات · الإمارات
-‘Zombified’ C.D.C., Hobbled by Cuts, Struggles to Fulfill Scientific Mission
-        The agency has lost its independence and nearly a third of its staff, as Health Secretary Robert F. Kennedy Jr. and associates have tightened control.
-        أمريكا · NYT
-British national among six dead in building explosion close to Acropolis in Athens
-        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
+Nor'easter brings powerful winds, severe flooding to the East Coast
+        Tens of millions of people are in the path of the storm, which has canceled flights, concerts and sporting events.
+        أمريكا · CBS
+Huge crowds greet Pope in Paris for open-air Mass
+        More than half a million people are expected to attend the event in the heart of the French capital.
         بريطانيا · BBC
 Saudi-Led Coalition Intercepts Houthi Drones
         The Saudi-led military coalition supporting Yemen’s government said Saturday that it had intercepted two drones launched by the Houthis toward Riyadh.
         الأردن · Jordan News
-الدفاع عن الحياة والكرامة.. محاور سياسة البابا ليون الرابع عشر
-        دعا بابا الفاتيكان ​اليوم الجمعة العالم إلى عدم التعامل ​بلا مبالاة مع المعاناة التي تسببها "آفة الحرب"
-        عربي · فرانس 24
-قطر تدعو لحملة دبلوماسية وإعلامية لكشف الانتهاكات الإسرائيلية بالقدس
-        وفق وزير الدولة بوزارة الخارجية محمد الخليفي خلال اجتماع وزاري على هامش الجمعية العامة للأمم المتحدة في نيويورك..
+الألعاب حين تصبح فناً... قراءة في الذاكرة والمجتمع
+        عند تأمل الأعمال الفنية التي تستلهم ألعاب الأطفال والألعاب الشعبية، يبرز سؤال حول ما الذي يدفع الفنانين إلى استحضار هذه العناصر المألوفة في أعمالهم؟
+        عربي · الشرق الأوسط
+برلماني عراقي يلوح بجلسة استثنائية احتجاجا على حظر الطيران الإيراني
+        النائب الأول لرئيس مجلس النواب العراقي عدنان فيحان الدليمي قال إن العقوبات الأمريكية الأحادية لا تُلزم بغداد تلقائيا
         تركيا · الأناضول
-"إهانة نتنياهو في الأمم المتحدة تشي بأن أيامه باتت معدودة"- مقال في الإندبندنت - bbc.com
+مؤسس «أبوظبي للثقافة والفنون» لـ«الاتحاد»: الإبداع الإماراتي مؤثر ومنافس عالمياً - شبكة تواصل الإخبارية
         الإمارات · الإمارات
-Sylvester Stallone Hid His Struggles for Decades. Now He’s Coming Clean.
-        The legendary actor on his disturbing childhood, his Hollywood missteps and the pain he caused to his loved ones, his body and himself.
-        أمريكا · NYT
-Trump reportedly rejects Iran’s seven-day peace deal to reopen strait of Hormuz
-        Tehran awaits official response to plan, but US president is said to expect renewed strikes after midterms Iran is ⁠awaiting an official US response…
-        بريطانيا · Guardian
+Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
+        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
+        أمريكا · CBS
+Met to re-examine CCTV from Jill Dando murder case
+        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+        بريطانيا · BBC
 New York Contacts Revive Hopes for US-Iran Talks
         Intensive contacts in New York on the sidelines of the United Nations General Assembly meetings have revived hopes of breaking the deadlock in…
         الأردن · Jordan News
-ضغوط على «الأعلى للدولة» الليبي لحسم موقفه من «اتفاق الانتخابات»
-        وضع إقرار مجلس النواب الليبي، خلال الأسبوع الماضي، مخرجات لجنة «4+4»، التي رعتها بعثة الأمم المتحدة، «المجلس الأعلى للدولة» أمام اختبار سياسي صعب.
-        عربي · الشرق الأوسط
-ترمب وشي يتفقان على حوار للذكاء الصناعي وضرورة منع التسلح النووي الإيراني
-        اتفقت الولايات المتحدة والصين، السبت، على إطلاق حوار ثنائي بشأن الذكاء الصناعي
-        تركيا · TRT عربي
-61 % من رأس المال الاستثماري في العالم مخصَّص للذكاء الاصطناعي - صحيفة الخليج
+وسط حالة من الجدل.. إلغاء حفل إد شيران مع وصول عاصفة "نورإيستر" لسواحل أمريكا
+        وصلت عاصفة "نورإيستر" (Nor’easter) قوية، في بداية موسمها، إلى شمال شرق الولايات المتحدة
+        عربي · CNN عربية
+إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
+        وفق بيان لمنظمة "البيدر" الحقوقية..
+        تركيا · الأناضول
+مسؤولة بـ"الفيدرالي": ارتفاع عوائد السندات الأمريكية لا يعود إلى التضخم - جريدة البورصة
         الإمارات · الإمارات
-Economist calls out America’s socialist elite, says they got rich bashing capitalism
-        Stephen Moore says Bernie Sanders, Hasan Piker, and Elizabeth Warren grew wealthy under capitalism while pushing socialist policies they call immoral.
+Dem House hopeful endorsed by activist who said 'evil Jews run the world'
+        Adina Flores, who endorsed Eric Jones for Congress, has posted content about Zionists, Freemasons and LGBTQ ideology across her social media pages.
         أمريكا · Fox News
-Prince Harry says it is 'great' to be back in Britain after six years in US
-        The Duke of Sussex also added that Prince Archie and Princess Lilibet are “happy in school” after returning to the UK a month ago.
+British national among six dead in building explosion close to Acropolis in Athens
+        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
         بريطانيا · BBC
 Trump Rejects 7-Day Iranian Truce Proposal
         US President Donald Trump has rejected an Iranian proposal for a seven-day ceasefire, as Tehran presented a plan to reopen the Strait of Hormuz and…
         الأردن · Jordan News
-عاجل: مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية في شمال غربي باكستان
+مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية شمال غربي باكستان
         لم تعلن أي جهة مسؤوليتها عن الهجوم حتى الآن، فيما يأتي بعد يومين من إعلان باكستان تنفيذ ضربات جوية ضد مسلحين مشتبه بهم في أفغانستان.
         عربي · BBC عربي
-حارس أيرلندا يرفض مواجهة إسرائيل بعد زميله جيسون نايت
-        بسبب الإبادة الإسرائيلية في قطاع غزة، وفق القناة 12 العبرية.. وذلك ضمن منافسات المجموعة الثالثة من دوري الأمم الأوروبية للمستوى الثاني..
+تنسيق لبناني سعودي قبل لقاء روبيو
+        كشفت مصادر في واشنطن لـ"الجديد" عن تنسيق سعودي ـ لبناني مكثف قبل لقاء رئيس الحكومة اللبنانية نواف سلام ووزير الخارجية الأميركي ماركو روبيو.
+        عربي · الجديد
+الضفة.. الخليل تستأنف مهرجان العنب بعد توقف 3 أعوام جراء حرب غزة
+        يقام داخل البلدة القديمة قرب المسجد الإبراهيمي ويهدف إلى دعم المزارعين وتسويق منتجاتهم مباشرة للزوار..
         تركيا · الأناضول
-ماكنرو: يجب السماح للاعبي التنس باختيار جدولهم
-        يرى جون ماكنرو، أسطورة التنس الأميركي السابق، أنه ينبغي السماح للاعبي التنس بتحديد جداول مشاركاتهم بأنفسهم.
-        عربي · الشرق الأوسط
 صافرة كويتية لمباراة الإمارات والبحرين في «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
-Russell wins despite late Verstappen challenge
-        Mercedes' George Russell holds off a late challenge from Red Bull's Max Verstappen to win an Azerbaijan Grand Prix enlivened by two late safety car…
-        بريطانيا · BBC
-Behemoth high school football star slams defender to the ground like a ragdoll after interception
-        Seneca Driver, Oklahoma's prized tight end commit, delivered a violent hit after an interception that has the high school football world buzzing.
-        أمريكا · Fox News</desc>
+Kate Upton retires, high school football game rocked by what some say is a cheap shot &amp; iOSU's new kicker?
+        Saturday Screencaps covers Sydney Sweeney's lingerie nod to Scooter Braun, the Hooters rebrand debate, and a loyal iPhone 8 owner's pushback.
+        أمريكا · Fox News
+No Premier League appetite to strip Man City of titles - but threat remains
+        After being found guilty of the majority of the 115 charges for breaching Premier League, could Manchester city really be stripped of eight trophies?
+        بريطانيا · BBC</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
   <programme start="20260926170000 +0000" stop="20260926180000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 06:54 — بتوقيتك
 
-«آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»
-        أكدت العداءة الصينية تشن يوجي، البالغة 17 عاما، أنها لا تعرف «أي حدود»، بعدما هيمنت الجمعة على نهائي سباق 100 م للسيدات بالآسياد.
+الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره
+        أوضحت «المؤسسة الوطنية للنفط» في بيان، السبت، أن إغلاق الصمام رقم 7 على خط «الشرارة - الزاوية» أجبرها على وقف إحدى وحدات التكرير.
         عربي · الشرق الأوسط
-إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
-        وفق بيان لمنظمة "البيدر" الحقوقية..
+خبراء: اتساع الصراع بإثيوبيا قد يؤدي لأزمة جديدة في القرن الإفريقي
+        يحذر خبراء من أن تصاعد التوتر مجددا بين الحكومة الفيدرالية و"جبهة تحرير شعب تيغراي" المتمردة في إقليم تيغراي شمالي إثيوبيا، في حال اتسع نطاقه
         تركيا · الأناضول
-غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
+وكلاء أوبن إيه آي يخترقون مواقع حكومية أمريكية وعشرات المؤسسات الأخرى - الجزيرة نت
         الإمارات · الإمارات
-Met to re-examine CCTV from Jill Dando murder case
-        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+4 American tourists dead after building explosion in Greece
+        The mayor of Athens said the explosion was likely caused by a gas leak.
+        أمريكا · CBS
+Republic of Ireland confirm Israel game will go ahead
+        The Republic of Ireland have confirmed Sunday's Uefa Nations League B3 game against Israel in Debrecen, Hungary will go ahead.
         بريطانيا · BBC
-Live Updates: Powerful Nor’easter Bears Down on East Coast
-        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
-        أمريكا · NYT
 Unified Admission Opens ‘Mischoice’ Applications
         Jordan’s Unified Admission Coordination Unit began receiving applications on Saturday from students nominated for admission, as well as those who…
         الأردن · Jordan News
-أين نزرع الأشجار لتبريد الشوارع بفاعلية أكبر؟
-        توفّر الخرائط الحرارية المعتمدة على الأقمار الاصطناعية للمدن نظرة شاملة، من منظور علوي، إلى درجات حرارة الأسطح.
+خطوة تنفيذية جديدة في المشروع النووي المصري
+        أكدت «هيئة المحطات النووية لتوليد الكهرباء» نجاح عملية تركيب اللوح السفلي لبئر المفاعل للوحدة النووية الثالثة بـ«محطة الضبعة النووية».
         عربي · الشرق الأوسط
-أردوغان: عازمون على إسقاط قناع العقلية الصهيونية الاحتلالية
-        الرئيس التركي رجب طيب أردوغان: مكان مجرمي الحرب ليس منبر الأمم المتحدة بل قاعات المحاكم
-        تركيا · الأناضول
-بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
+أردوغان: مكان مجرمي الحرب قاعات المحاكم لا منبر الأمم المتحدة
+        أكد الرئيس التركي رجب طيب أردوغان، السبت، أن بلاده ستواصل الوقوف إلى جانب الشعب الفلسطيني والمظلومين
+        تركيا · TRT عربي
+غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
         الإمارات · الإمارات
-Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
-        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
-        أمريكا · CBS
+Live Updates: Powerful Nor’easter Bears Down on East Coast
+        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
+        أمريكا · NYT
+Power outages and flooded roads as major storm bears down on US north-east
+        Thousands already without without power as New Jersey, Massachusetts, Delaware and New York brace for nor’easter More than 70,000 customers were…
+        بريطانيا · Guardian
 Applied Science University Highlights Pharmacy’s Future
         On September 25, the world marks World Pharmacists Day, highlighting pharmacy as one of the key pillars of knowledge underpinning modern healthcare…
         الأردن · Jordan News
-Huge crowds greet Pope in Paris ahead of open-air Mass
-        More than half a million people are expected to attend the event in the heart of the French capital.
-        بريطانيا · BBC
-بعد إعادة محاكمته.. القضاء الفرنسي يحكم بسجن سعد لمجرد 10 سنوات
-        أصدرت محكمة الاستئناف الفرنسية حكماً جديداً بحق الفنان المغربي سعد لمجرد في القضية المرتبطة بالفرنسية لورا بريول
-        عربي · الجديد
-البحرين: إيران شنّت 7 آلاف هجوم بالمنطقة ونرفض أي رسوم على الملاحة في مضيق هرمز
-        قال وزير الخارجية البحريني عبد اللطيف الزياني، إن دول مجلس التعاون الخليجي والأردن تعرضت لنحو 7 آلاف هجوم إيراني بالصواريخ والطائرات المسيّرة منذ…
-        تركيا · TRT عربي
-فيلم «ويبقى الأمل» يفوز بجائزة «كان للإعلام 2026» - الاتحاد للأخبار
+أزمة قيادة في «حزب الله» بعد اغتيال نصر الله
+        في الذكرى الثانية لاغتيال الأمين العام السابق لـ«حزب الله» حسن نصر الله، لم ينجح الحزب في أن يتجاوز بالكامل غياب الرجل الذي أمسك بقيادته لأكثر من…
+        عربي · الشرق الأوسط
+أردوغان: اقتصاد تركيا شهد نموا متواصلا على مدى 24 ربعا
+        الرئيس أردوغان قال إن تركيا تحتل حاليا المرتبة الـ16 بين أكبر اقتصادات العالم، والمرتبة الـ6 في أوروبا..
+        تركيا · الأناضول
+بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
         الإمارات · الإمارات
-‘Zombified’ C.D.C., Hobbled by Cuts, Struggles to Fulfill Scientific Mission
-        The agency has lost its independence and nearly a third of its staff, as Health Secretary Robert F. Kennedy Jr. and associates have tightened control.
-        أمريكا · NYT
-British national among six dead in building explosion close to Acropolis in Athens
-        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
+Nor'easter brings powerful winds, severe flooding to the East Coast
+        Tens of millions of people are in the path of the storm, which has canceled flights, concerts and sporting events.
+        أمريكا · CBS
+Huge crowds greet Pope in Paris for open-air Mass
+        More than half a million people are expected to attend the event in the heart of the French capital.
         بريطانيا · BBC
 Saudi-Led Coalition Intercepts Houthi Drones
         The Saudi-led military coalition supporting Yemen’s government said Saturday that it had intercepted two drones launched by the Houthis toward Riyadh.
         الأردن · Jordan News
-الدفاع عن الحياة والكرامة.. محاور سياسة البابا ليون الرابع عشر
-        دعا بابا الفاتيكان ​اليوم الجمعة العالم إلى عدم التعامل ​بلا مبالاة مع المعاناة التي تسببها "آفة الحرب"
-        عربي · فرانس 24
-قطر تدعو لحملة دبلوماسية وإعلامية لكشف الانتهاكات الإسرائيلية بالقدس
-        وفق وزير الدولة بوزارة الخارجية محمد الخليفي خلال اجتماع وزاري على هامش الجمعية العامة للأمم المتحدة في نيويورك..
+الألعاب حين تصبح فناً... قراءة في الذاكرة والمجتمع
+        عند تأمل الأعمال الفنية التي تستلهم ألعاب الأطفال والألعاب الشعبية، يبرز سؤال حول ما الذي يدفع الفنانين إلى استحضار هذه العناصر المألوفة في أعمالهم؟
+        عربي · الشرق الأوسط
+برلماني عراقي يلوح بجلسة استثنائية احتجاجا على حظر الطيران الإيراني
+        النائب الأول لرئيس مجلس النواب العراقي عدنان فيحان الدليمي قال إن العقوبات الأمريكية الأحادية لا تُلزم بغداد تلقائيا
         تركيا · الأناضول
-"إهانة نتنياهو في الأمم المتحدة تشي بأن أيامه باتت معدودة"- مقال في الإندبندنت - bbc.com
+مؤسس «أبوظبي للثقافة والفنون» لـ«الاتحاد»: الإبداع الإماراتي مؤثر ومنافس عالمياً - شبكة تواصل الإخبارية
         الإمارات · الإمارات
-Sylvester Stallone Hid His Struggles for Decades. Now He’s Coming Clean.
-        The legendary actor on his disturbing childhood, his Hollywood missteps and the pain he caused to his loved ones, his body and himself.
-        أمريكا · NYT
-Trump reportedly rejects Iran’s seven-day peace deal to reopen strait of Hormuz
-        Tehran awaits official response to plan, but US president is said to expect renewed strikes after midterms Iran is ⁠awaiting an official US response…
-        بريطانيا · Guardian
+Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
+        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
+        أمريكا · CBS
+Met to re-examine CCTV from Jill Dando murder case
+        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+        بريطانيا · BBC
 New York Contacts Revive Hopes for US-Iran Talks
         Intensive contacts in New York on the sidelines of the United Nations General Assembly meetings have revived hopes of breaking the deadlock in…
         الأردن · Jordan News
-ضغوط على «الأعلى للدولة» الليبي لحسم موقفه من «اتفاق الانتخابات»
-        وضع إقرار مجلس النواب الليبي، خلال الأسبوع الماضي، مخرجات لجنة «4+4»، التي رعتها بعثة الأمم المتحدة، «المجلس الأعلى للدولة» أمام اختبار سياسي صعب.
-        عربي · الشرق الأوسط
-ترمب وشي يتفقان على حوار للذكاء الصناعي وضرورة منع التسلح النووي الإيراني
-        اتفقت الولايات المتحدة والصين، السبت، على إطلاق حوار ثنائي بشأن الذكاء الصناعي
-        تركيا · TRT عربي
-61 % من رأس المال الاستثماري في العالم مخصَّص للذكاء الاصطناعي - صحيفة الخليج
+وسط حالة من الجدل.. إلغاء حفل إد شيران مع وصول عاصفة "نورإيستر" لسواحل أمريكا
+        وصلت عاصفة "نورإيستر" (Nor’easter) قوية، في بداية موسمها، إلى شمال شرق الولايات المتحدة
+        عربي · CNN عربية
+إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
+        وفق بيان لمنظمة "البيدر" الحقوقية..
+        تركيا · الأناضول
+مسؤولة بـ"الفيدرالي": ارتفاع عوائد السندات الأمريكية لا يعود إلى التضخم - جريدة البورصة
         الإمارات · الإمارات
-Economist calls out America’s socialist elite, says they got rich bashing capitalism
-        Stephen Moore says Bernie Sanders, Hasan Piker, and Elizabeth Warren grew wealthy under capitalism while pushing socialist policies they call immoral.
+Dem House hopeful endorsed by activist who said 'evil Jews run the world'
+        Adina Flores, who endorsed Eric Jones for Congress, has posted content about Zionists, Freemasons and LGBTQ ideology across her social media pages.
         أمريكا · Fox News
-Prince Harry says it is 'great' to be back in Britain after six years in US
-        The Duke of Sussex also added that Prince Archie and Princess Lilibet are “happy in school” after returning to the UK a month ago.
+British national among six dead in building explosion close to Acropolis in Athens
+        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
         بريطانيا · BBC
 Trump Rejects 7-Day Iranian Truce Proposal
         US President Donald Trump has rejected an Iranian proposal for a seven-day ceasefire, as Tehran presented a plan to reopen the Strait of Hormuz and…
         الأردن · Jordan News
-عاجل: مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية في شمال غربي باكستان
+مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية شمال غربي باكستان
         لم تعلن أي جهة مسؤوليتها عن الهجوم حتى الآن، فيما يأتي بعد يومين من إعلان باكستان تنفيذ ضربات جوية ضد مسلحين مشتبه بهم في أفغانستان.
         عربي · BBC عربي
-حارس أيرلندا يرفض مواجهة إسرائيل بعد زميله جيسون نايت
-        بسبب الإبادة الإسرائيلية في قطاع غزة، وفق القناة 12 العبرية.. وذلك ضمن منافسات المجموعة الثالثة من دوري الأمم الأوروبية للمستوى الثاني..
+تنسيق لبناني سعودي قبل لقاء روبيو
+        كشفت مصادر في واشنطن لـ"الجديد" عن تنسيق سعودي ـ لبناني مكثف قبل لقاء رئيس الحكومة اللبنانية نواف سلام ووزير الخارجية الأميركي ماركو روبيو.
+        عربي · الجديد
+الضفة.. الخليل تستأنف مهرجان العنب بعد توقف 3 أعوام جراء حرب غزة
+        يقام داخل البلدة القديمة قرب المسجد الإبراهيمي ويهدف إلى دعم المزارعين وتسويق منتجاتهم مباشرة للزوار..
         تركيا · الأناضول
-ماكنرو: يجب السماح للاعبي التنس باختيار جدولهم
-        يرى جون ماكنرو، أسطورة التنس الأميركي السابق، أنه ينبغي السماح للاعبي التنس بتحديد جداول مشاركاتهم بأنفسهم.
-        عربي · الشرق الأوسط
 صافرة كويتية لمباراة الإمارات والبحرين في «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
-Russell wins despite late Verstappen challenge
-        Mercedes' George Russell holds off a late challenge from Red Bull's Max Verstappen to win an Azerbaijan Grand Prix enlivened by two late safety car…
-        بريطانيا · BBC
-Behemoth high school football star slams defender to the ground like a ragdoll after interception
-        Seneca Driver, Oklahoma's prized tight end commit, delivered a violent hit after an interception that has the high school football world buzzing.
-        أمريكا · Fox News</desc>
+Kate Upton retires, high school football game rocked by what some say is a cheap shot &amp; iOSU's new kicker?
+        Saturday Screencaps covers Sydney Sweeney's lingerie nod to Scooter Braun, the Hooters rebrand debate, and a loyal iPhone 8 owner's pushback.
+        أمريكا · Fox News
+No Premier League appetite to strip Man City of titles - but threat remains
+        After being found guilty of the majority of the 115 charges for breaching Premier League, could Manchester city really be stripped of eight trophies?
+        بريطانيا · BBC</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
   <programme start="20260926180000 +0000" stop="20260926190000 +0000" channel="TodayNews">
     <title lang="ar">أخبار اليوم — نشرة مستمرة</title>
-    <desc lang="ar">أخبار اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">أخبار اليوم · آخر تحديث 06:54 — بتوقيتك
 
-«آسياد 2026»: نجمة السرعة الصينية يوجي لا تضع لنفسها «أي حدود»
-        أكدت العداءة الصينية تشن يوجي، البالغة 17 عاما، أنها لا تعرف «أي حدود»، بعدما هيمنت الجمعة على نهائي سباق 100 م للسيدات بالآسياد.
+الإغلاقات تلاحق قطاع النفط الليبي وتعمّق خسائره
+        أوضحت «المؤسسة الوطنية للنفط» في بيان، السبت، أن إغلاق الصمام رقم 7 على خط «الشرارة - الزاوية» أجبرها على وقف إحدى وحدات التكرير.
         عربي · الشرق الأوسط
-إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
-        وفق بيان لمنظمة "البيدر" الحقوقية..
+خبراء: اتساع الصراع بإثيوبيا قد يؤدي لأزمة جديدة في القرن الإفريقي
+        يحذر خبراء من أن تصاعد التوتر مجددا بين الحكومة الفيدرالية و"جبهة تحرير شعب تيغراي" المتمردة في إقليم تيغراي شمالي إثيوبيا، في حال اتسع نطاقه
         تركيا · الأناضول
-غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
+وكلاء أوبن إيه آي يخترقون مواقع حكومية أمريكية وعشرات المؤسسات الأخرى - الجزيرة نت
         الإمارات · الإمارات
-Met to re-examine CCTV from Jill Dando murder case
-        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+4 American tourists dead after building explosion in Greece
+        The mayor of Athens said the explosion was likely caused by a gas leak.
+        أمريكا · CBS
+Republic of Ireland confirm Israel game will go ahead
+        The Republic of Ireland have confirmed Sunday's Uefa Nations League B3 game against Israel in Debrecen, Hungary will go ahead.
         بريطانيا · BBC
-Live Updates: Powerful Nor’easter Bears Down on East Coast
-        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
-        أمريكا · NYT
 Unified Admission Opens ‘Mischoice’ Applications
         Jordan’s Unified Admission Coordination Unit began receiving applications on Saturday from students nominated for admission, as well as those who…
         الأردن · Jordan News
-أين نزرع الأشجار لتبريد الشوارع بفاعلية أكبر؟
-        توفّر الخرائط الحرارية المعتمدة على الأقمار الاصطناعية للمدن نظرة شاملة، من منظور علوي، إلى درجات حرارة الأسطح.
+خطوة تنفيذية جديدة في المشروع النووي المصري
+        أكدت «هيئة المحطات النووية لتوليد الكهرباء» نجاح عملية تركيب اللوح السفلي لبئر المفاعل للوحدة النووية الثالثة بـ«محطة الضبعة النووية».
         عربي · الشرق الأوسط
-أردوغان: عازمون على إسقاط قناع العقلية الصهيونية الاحتلالية
-        الرئيس التركي رجب طيب أردوغان: مكان مجرمي الحرب ليس منبر الأمم المتحدة بل قاعات المحاكم
-        تركيا · الأناضول
-بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
+أردوغان: مكان مجرمي الحرب قاعات المحاكم لا منبر الأمم المتحدة
+        أكد الرئيس التركي رجب طيب أردوغان، السبت، أن بلاده ستواصل الوقوف إلى جانب الشعب الفلسطيني والمظلومين
+        تركيا · TRT عربي
+غياب محمد صلاح عن منتخب مصر أمام جنوب السودان يشعل الجدل - العربية
         الإمارات · الإمارات
-Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
-        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
-        أمريكا · CBS
+Live Updates: Powerful Nor’easter Bears Down on East Coast
+        Rain, flooding and damaging winds are in the forecast for much of the coastal Northeast, including the New York metropolitan area and Boston.
+        أمريكا · NYT
+Power outages and flooded roads as major storm bears down on US north-east
+        Thousands already without without power as New Jersey, Massachusetts, Delaware and New York brace for nor’easter More than 70,000 customers were…
+        بريطانيا · Guardian
 Applied Science University Highlights Pharmacy’s Future
         On September 25, the world marks World Pharmacists Day, highlighting pharmacy as one of the key pillars of knowledge underpinning modern healthcare…
         الأردن · Jordan News
-Huge crowds greet Pope in Paris ahead of open-air Mass
-        More than half a million people are expected to attend the event in the heart of the French capital.
-        بريطانيا · BBC
-بعد إعادة محاكمته.. القضاء الفرنسي يحكم بسجن سعد لمجرد 10 سنوات
-        أصدرت محكمة الاستئناف الفرنسية حكماً جديداً بحق الفنان المغربي سعد لمجرد في القضية المرتبطة بالفرنسية لورا بريول
-        عربي · الجديد
-البحرين: إيران شنّت 7 آلاف هجوم بالمنطقة ونرفض أي رسوم على الملاحة في مضيق هرمز
-        قال وزير الخارجية البحريني عبد اللطيف الزياني، إن دول مجلس التعاون الخليجي والأردن تعرضت لنحو 7 آلاف هجوم إيراني بالصواريخ والطائرات المسيّرة منذ…
-        تركيا · TRT عربي
-فيلم «ويبقى الأمل» يفوز بجائزة «كان للإعلام 2026» - الاتحاد للأخبار
+أزمة قيادة في «حزب الله» بعد اغتيال نصر الله
+        في الذكرى الثانية لاغتيال الأمين العام السابق لـ«حزب الله» حسن نصر الله، لم ينجح الحزب في أن يتجاوز بالكامل غياب الرجل الذي أمسك بقيادته لأكثر من…
+        عربي · الشرق الأوسط
+أردوغان: اقتصاد تركيا شهد نموا متواصلا على مدى 24 ربعا
+        الرئيس أردوغان قال إن تركيا تحتل حاليا المرتبة الـ16 بين أكبر اقتصادات العالم، والمرتبة الـ6 في أوروبا..
+        تركيا · الأناضول
+بالجلد الأسود.. جورجينا رودريجيز بلوك جريء في أسبوع الموضة بميلانو - Masrawy
         الإمارات · الإمارات
-‘Zombified’ C.D.C., Hobbled by Cuts, Struggles to Fulfill Scientific Mission
-        The agency has lost its independence and nearly a third of its staff, as Health Secretary Robert F. Kennedy Jr. and associates have tightened control.
-        أمريكا · NYT
-British national among six dead in building explosion close to Acropolis in Athens
-        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
+Nor'easter brings powerful winds, severe flooding to the East Coast
+        Tens of millions of people are in the path of the storm, which has canceled flights, concerts and sporting events.
+        أمريكا · CBS
+Huge crowds greet Pope in Paris for open-air Mass
+        More than half a million people are expected to attend the event in the heart of the French capital.
         بريطانيا · BBC
 Saudi-Led Coalition Intercepts Houthi Drones
         The Saudi-led military coalition supporting Yemen’s government said Saturday that it had intercepted two drones launched by the Houthis toward Riyadh.
         الأردن · Jordan News
-الدفاع عن الحياة والكرامة.. محاور سياسة البابا ليون الرابع عشر
-        دعا بابا الفاتيكان ​اليوم الجمعة العالم إلى عدم التعامل ​بلا مبالاة مع المعاناة التي تسببها "آفة الحرب"
-        عربي · فرانس 24
-قطر تدعو لحملة دبلوماسية وإعلامية لكشف الانتهاكات الإسرائيلية بالقدس
-        وفق وزير الدولة بوزارة الخارجية محمد الخليفي خلال اجتماع وزاري على هامش الجمعية العامة للأمم المتحدة في نيويورك..
+الألعاب حين تصبح فناً... قراءة في الذاكرة والمجتمع
+        عند تأمل الأعمال الفنية التي تستلهم ألعاب الأطفال والألعاب الشعبية، يبرز سؤال حول ما الذي يدفع الفنانين إلى استحضار هذه العناصر المألوفة في أعمالهم؟
+        عربي · الشرق الأوسط
+برلماني عراقي يلوح بجلسة استثنائية احتجاجا على حظر الطيران الإيراني
+        النائب الأول لرئيس مجلس النواب العراقي عدنان فيحان الدليمي قال إن العقوبات الأمريكية الأحادية لا تُلزم بغداد تلقائيا
         تركيا · الأناضول
-"إهانة نتنياهو في الأمم المتحدة تشي بأن أيامه باتت معدودة"- مقال في الإندبندنت - bbc.com
+مؤسس «أبوظبي للثقافة والفنون» لـ«الاتحاد»: الإبداع الإماراتي مؤثر ومنافس عالمياً - شبكة تواصل الإخبارية
         الإمارات · الإمارات
-Sylvester Stallone Hid His Struggles for Decades. Now He’s Coming Clean.
-        The legendary actor on his disturbing childhood, his Hollywood missteps and the pain he caused to his loved ones, his body and himself.
-        أمريكا · NYT
-Trump reportedly rejects Iran’s seven-day peace deal to reopen strait of Hormuz
-        Tehran awaits official response to plan, but US president is said to expect renewed strikes after midterms Iran is ⁠awaiting an official US response…
-        بريطانيا · Guardian
+Trump reportedly rejects 7-day plan to reopen Strait of Hormuz
+        Iran's president said Tehran wanted a deal with the U.S. before November's midterm elections, contrary to President Trump's claims.
+        أمريكا · CBS
+Met to re-examine CCTV from Jill Dando murder case
+        Police are reviewing footage of a man at Putney Bridge station after the Crimewatch presenter was shot in 1999.
+        بريطانيا · BBC
 New York Contacts Revive Hopes for US-Iran Talks
         Intensive contacts in New York on the sidelines of the United Nations General Assembly meetings have revived hopes of breaking the deadlock in…
         الأردن · Jordan News
-ضغوط على «الأعلى للدولة» الليبي لحسم موقفه من «اتفاق الانتخابات»
-        وضع إقرار مجلس النواب الليبي، خلال الأسبوع الماضي، مخرجات لجنة «4+4»، التي رعتها بعثة الأمم المتحدة، «المجلس الأعلى للدولة» أمام اختبار سياسي صعب.
-        عربي · الشرق الأوسط
-ترمب وشي يتفقان على حوار للذكاء الصناعي وضرورة منع التسلح النووي الإيراني
-        اتفقت الولايات المتحدة والصين، السبت، على إطلاق حوار ثنائي بشأن الذكاء الصناعي
-        تركيا · TRT عربي
-61 % من رأس المال الاستثماري في العالم مخصَّص للذكاء الاصطناعي - صحيفة الخليج
+وسط حالة من الجدل.. إلغاء حفل إد شيران مع وصول عاصفة "نورإيستر" لسواحل أمريكا
+        وصلت عاصفة "نورإيستر" (Nor’easter) قوية، في بداية موسمها، إلى شمال شرق الولايات المتحدة
+        عربي · CNN عربية
+إرهاب المستوطنين.. بؤرة استيطانية جديدة واقتحام منزل جنوبي الضفة
+        وفق بيان لمنظمة "البيدر" الحقوقية..
+        تركيا · الأناضول
+مسؤولة بـ"الفيدرالي": ارتفاع عوائد السندات الأمريكية لا يعود إلى التضخم - جريدة البورصة
         الإمارات · الإمارات
-Economist calls out America’s socialist elite, says they got rich bashing capitalism
-        Stephen Moore says Bernie Sanders, Hasan Piker, and Elizabeth Warren grew wealthy under capitalism while pushing socialist policies they call immoral.
+Dem House hopeful endorsed by activist who said 'evil Jews run the world'
+        Adina Flores, who endorsed Eric Jones for Congress, has posted content about Zionists, Freemasons and LGBTQ ideology across her social media pages.
         أمريكا · Fox News
-Prince Harry says it is 'great' to be back in Britain after six years in US
-        The Duke of Sussex also added that Prince Archie and Princess Lilibet are “happy in school” after returning to the UK a month ago.
+British national among six dead in building explosion close to Acropolis in Athens
+        Four Americans and a Greek national are among those killed in a suspected gas explosion, officials said.
         بريطانيا · BBC
 Trump Rejects 7-Day Iranian Truce Proposal
         US President Donald Trump has rejected an Iranian proposal for a seven-day ceasefire, as Tehran presented a plan to reopen the Strait of Hormuz and…
         الأردن · Jordan News
-عاجل: مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية في شمال غربي باكستان
+مقتل 11 شخصاً في هجوم بسيارة مفخخة استهدف نقطة أمنية شمال غربي باكستان
         لم تعلن أي جهة مسؤوليتها عن الهجوم حتى الآن، فيما يأتي بعد يومين من إعلان باكستان تنفيذ ضربات جوية ضد مسلحين مشتبه بهم في أفغانستان.
         عربي · BBC عربي
-حارس أيرلندا يرفض مواجهة إسرائيل بعد زميله جيسون نايت
-        بسبب الإبادة الإسرائيلية في قطاع غزة، وفق القناة 12 العبرية.. وذلك ضمن منافسات المجموعة الثالثة من دوري الأمم الأوروبية للمستوى الثاني..
+تنسيق لبناني سعودي قبل لقاء روبيو
+        كشفت مصادر في واشنطن لـ"الجديد" عن تنسيق سعودي ـ لبناني مكثف قبل لقاء رئيس الحكومة اللبنانية نواف سلام ووزير الخارجية الأميركي ماركو روبيو.
+        عربي · الجديد
+الضفة.. الخليل تستأنف مهرجان العنب بعد توقف 3 أعوام جراء حرب غزة
+        يقام داخل البلدة القديمة قرب المسجد الإبراهيمي ويهدف إلى دعم المزارعين وتسويق منتجاتهم مباشرة للزوار..
         تركيا · الأناضول
-ماكنرو: يجب السماح للاعبي التنس باختيار جدولهم
-        يرى جون ماكنرو، أسطورة التنس الأميركي السابق، أنه ينبغي السماح للاعبي التنس بتحديد جداول مشاركاتهم بأنفسهم.
-        عربي · الشرق الأوسط
 صافرة كويتية لمباراة الإمارات والبحرين في «خليجي 27» - الإمارات اليوم
         الإمارات · الإمارات
-Russell wins despite late Verstappen challenge
-        Mercedes' George Russell holds off a late challenge from Red Bull's Max Verstappen to win an Azerbaijan Grand Prix enlivened by two late safety car…
-        بريطانيا · BBC
-Behemoth high school football star slams defender to the ground like a ragdoll after interception
-        Seneca Driver, Oklahoma's prized tight end commit, delivered a violent hit after an interception that has the high school football world buzzing.
-        أمريكا · Fox News</desc>
+Kate Upton retires, high school football game rocked by what some say is a cheap shot &amp; iOSU's new kicker?
+        Saturday Screencaps covers Sydney Sweeney's lingerie nod to Scooter Braun, the Hooters rebrand debate, and a loyal iPhone 8 owner's pushback.
+        أمريكا · Fox News
+No Premier League appetite to strip Man City of titles - but threat remains
+        After being found guilty of the majority of the 115 charges for breaching Premier League, could Manchester city really be stripped of eight trophies?
+        بريطانيا · BBC</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_news_0.png" />
   </programme>
-  <programme start="20260926190000 +0000" stop="20260926212208 +0000" channel="TodayNews">
+  <programme start="20260926190000 +0000" stop="20260926215415 +0000" channel="TodayNews">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926000000 +0300" stop="20260926010000 +0300" channel="Thmanyah1.sa">
@@ -116732,137 +116790,137 @@ Behemoth high school football star slams defender to the ground like a ragdoll a
   </programme>
   <programme start="20260926130000 +0000" stop="20260926140000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 06:54 — بتوقيتك
 
 الأردن
-عمّان 27° · صافٍ غالباً · رطوبة 45% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 26° · صافٍ غالباً · رطوبة 48% · رياح 14 كم/سا · احتمال المطر 0%
 العقبة 34° · صافٍ · رطوبة 32% · رياح 19 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 34° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-دبي 34° · صافٍ · رطوبة 66% · رياح 10 كم/سا · احتمال المطر 0%
+أبو ظبي 34° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 70% · رياح 9 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 20° · صافٍ غالباً · رطوبة 39% · رياح 5 كم/سا · احتمال المطر 0%
-مانشستر 18° · غائم جزئياً · رطوبة 56% · رياح 15 كم/سا · احتمال المطر 51%
+لندن 20° · صافٍ غالباً · رطوبة 38% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 18° · صافٍ غالباً · رطوبة 58% · رياح 12 كم/سا · احتمال المطر 51%
 أمريكا
-نيويورك 14° · غائم · رطوبة 87% · رياح 26 كم/سا · احتمال المطر 65%
-لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 13° · صافٍ · رطوبة 82% · رياح 8 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 23% · رياح 12 كم/سا · احتمال المطر 0%
-هيوستن 22° · مطر خفيف · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 11° · غائم جزئياً · رطوبة 88% · رياح 8 كم/سا · احتمال المطر 0%</desc>
+نيويورك 14° · غائم · رطوبة 83% · رياح 26 كم/سا · احتمال المطر 65%
+لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · صافٍ · رطوبة 80% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 24% · رياح 11 كم/سا · احتمال المطر 0%
+هيوستن 22° · غائم · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 11° · غائم · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260926140000 +0000" stop="20260926150000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 06:54 — بتوقيتك
 
 الأردن
-عمّان 27° · صافٍ غالباً · رطوبة 45% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 26° · صافٍ غالباً · رطوبة 48% · رياح 14 كم/سا · احتمال المطر 0%
 العقبة 34° · صافٍ · رطوبة 32% · رياح 19 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 34° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-دبي 34° · صافٍ · رطوبة 66% · رياح 10 كم/سا · احتمال المطر 0%
+أبو ظبي 34° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 70% · رياح 9 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 20° · صافٍ غالباً · رطوبة 39% · رياح 5 كم/سا · احتمال المطر 0%
-مانشستر 18° · غائم جزئياً · رطوبة 56% · رياح 15 كم/سا · احتمال المطر 51%
+لندن 20° · صافٍ غالباً · رطوبة 38% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 18° · صافٍ غالباً · رطوبة 58% · رياح 12 كم/سا · احتمال المطر 51%
 أمريكا
-نيويورك 14° · غائم · رطوبة 87% · رياح 26 كم/سا · احتمال المطر 65%
-لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 13° · صافٍ · رطوبة 82% · رياح 8 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 23% · رياح 12 كم/سا · احتمال المطر 0%
-هيوستن 22° · مطر خفيف · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 11° · غائم جزئياً · رطوبة 88% · رياح 8 كم/سا · احتمال المطر 0%</desc>
+نيويورك 14° · غائم · رطوبة 83% · رياح 26 كم/سا · احتمال المطر 65%
+لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · صافٍ · رطوبة 80% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 24% · رياح 11 كم/سا · احتمال المطر 0%
+هيوستن 22° · غائم · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 11° · غائم · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260926150000 +0000" stop="20260926160000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 06:54 — بتوقيتك
 
 الأردن
-عمّان 27° · صافٍ غالباً · رطوبة 45% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 26° · صافٍ غالباً · رطوبة 48% · رياح 14 كم/سا · احتمال المطر 0%
 العقبة 34° · صافٍ · رطوبة 32% · رياح 19 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 34° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-دبي 34° · صافٍ · رطوبة 66% · رياح 10 كم/سا · احتمال المطر 0%
+أبو ظبي 34° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 70% · رياح 9 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 20° · صافٍ غالباً · رطوبة 39% · رياح 5 كم/سا · احتمال المطر 0%
-مانشستر 18° · غائم جزئياً · رطوبة 56% · رياح 15 كم/سا · احتمال المطر 51%
+لندن 20° · صافٍ غالباً · رطوبة 38% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 18° · صافٍ غالباً · رطوبة 58% · رياح 12 كم/سا · احتمال المطر 51%
 أمريكا
-نيويورك 14° · غائم · رطوبة 87% · رياح 26 كم/سا · احتمال المطر 65%
-لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 13° · صافٍ · رطوبة 82% · رياح 8 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 23% · رياح 12 كم/سا · احتمال المطر 0%
-هيوستن 22° · مطر خفيف · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 11° · غائم جزئياً · رطوبة 88% · رياح 8 كم/سا · احتمال المطر 0%</desc>
+نيويورك 14° · غائم · رطوبة 83% · رياح 26 كم/سا · احتمال المطر 65%
+لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · صافٍ · رطوبة 80% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 24% · رياح 11 كم/سا · احتمال المطر 0%
+هيوستن 22° · غائم · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 11° · غائم · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260926160000 +0000" stop="20260926170000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 06:54 — بتوقيتك
 
 الأردن
-عمّان 27° · صافٍ غالباً · رطوبة 45% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 26° · صافٍ غالباً · رطوبة 48% · رياح 14 كم/سا · احتمال المطر 0%
 العقبة 34° · صافٍ · رطوبة 32% · رياح 19 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 34° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-دبي 34° · صافٍ · رطوبة 66% · رياح 10 كم/سا · احتمال المطر 0%
+أبو ظبي 34° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 70% · رياح 9 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 20° · صافٍ غالباً · رطوبة 39% · رياح 5 كم/سا · احتمال المطر 0%
-مانشستر 18° · غائم جزئياً · رطوبة 56% · رياح 15 كم/سا · احتمال المطر 51%
+لندن 20° · صافٍ غالباً · رطوبة 38% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 18° · صافٍ غالباً · رطوبة 58% · رياح 12 كم/سا · احتمال المطر 51%
 أمريكا
-نيويورك 14° · غائم · رطوبة 87% · رياح 26 كم/سا · احتمال المطر 65%
-لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 13° · صافٍ · رطوبة 82% · رياح 8 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 23% · رياح 12 كم/سا · احتمال المطر 0%
-هيوستن 22° · مطر خفيف · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 11° · غائم جزئياً · رطوبة 88% · رياح 8 كم/سا · احتمال المطر 0%</desc>
+نيويورك 14° · غائم · رطوبة 83% · رياح 26 كم/سا · احتمال المطر 65%
+لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · صافٍ · رطوبة 80% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 24% · رياح 11 كم/سا · احتمال المطر 0%
+هيوستن 22° · غائم · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 11° · غائم · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260926170000 +0000" stop="20260926180000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 06:54 — بتوقيتك
 
 الأردن
-عمّان 27° · صافٍ غالباً · رطوبة 45% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 26° · صافٍ غالباً · رطوبة 48% · رياح 14 كم/سا · احتمال المطر 0%
 العقبة 34° · صافٍ · رطوبة 32% · رياح 19 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 34° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-دبي 34° · صافٍ · رطوبة 66% · رياح 10 كم/سا · احتمال المطر 0%
+أبو ظبي 34° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 70% · رياح 9 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 20° · صافٍ غالباً · رطوبة 39% · رياح 5 كم/سا · احتمال المطر 0%
-مانشستر 18° · غائم جزئياً · رطوبة 56% · رياح 15 كم/سا · احتمال المطر 51%
+لندن 20° · صافٍ غالباً · رطوبة 38% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 18° · صافٍ غالباً · رطوبة 58% · رياح 12 كم/سا · احتمال المطر 51%
 أمريكا
-نيويورك 14° · غائم · رطوبة 87% · رياح 26 كم/سا · احتمال المطر 65%
-لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 13° · صافٍ · رطوبة 82% · رياح 8 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 23% · رياح 12 كم/سا · احتمال المطر 0%
-هيوستن 22° · مطر خفيف · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 11° · غائم جزئياً · رطوبة 88% · رياح 8 كم/سا · احتمال المطر 0%</desc>
+نيويورك 14° · غائم · رطوبة 83% · رياح 26 كم/سا · احتمال المطر 65%
+لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · صافٍ · رطوبة 80% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 24% · رياح 11 كم/سا · احتمال المطر 0%
+هيوستن 22° · غائم · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 11° · غائم · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
   <programme start="20260926180000 +0000" stop="20260926190000 +0000" channel="TodayWeather">
     <title lang="ar">🌡️ طقس اليوم للمدن</title>
-    <desc lang="ar">طقس اليوم · آخر تحديث 06:22 — بتوقيتك
+    <desc lang="ar">طقس اليوم · آخر تحديث 06:54 — بتوقيتك
 
 الأردن
-عمّان 27° · صافٍ غالباً · رطوبة 45% · رياح 14 كم/سا · احتمال المطر 0%
+عمّان 26° · صافٍ غالباً · رطوبة 48% · رياح 14 كم/سا · احتمال المطر 0%
 العقبة 34° · صافٍ · رطوبة 32% · رياح 19 كم/سا · احتمال المطر 0%
 الإمارات
-أبو ظبي 34° · صافٍ · رطوبة 67% · رياح 12 كم/سا · احتمال المطر 0%
-دبي 34° · صافٍ · رطوبة 66% · رياح 10 كم/سا · احتمال المطر 0%
+أبو ظبي 34° · صافٍ · رطوبة 70% · رياح 11 كم/سا · احتمال المطر 0%
+دبي 33° · صافٍ · رطوبة 70% · رياح 9 كم/سا · احتمال المطر 0%
 بريطانيا
-لندن 20° · صافٍ غالباً · رطوبة 39% · رياح 5 كم/سا · احتمال المطر 0%
-مانشستر 18° · غائم جزئياً · رطوبة 56% · رياح 15 كم/سا · احتمال المطر 51%
+لندن 20° · صافٍ غالباً · رطوبة 38% · رياح 3 كم/سا · احتمال المطر 0%
+مانشستر 18° · صافٍ غالباً · رطوبة 58% · رياح 12 كم/سا · احتمال المطر 51%
 أمريكا
-نيويورك 14° · غائم · رطوبة 87% · رياح 26 كم/سا · احتمال المطر 65%
-لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-شيكاغو 13° · صافٍ · رطوبة 82% · رياح 8 كم/سا · احتمال المطر 0%
-لاس فيغاس 25° · صافٍ · رطوبة 23% · رياح 12 كم/سا · احتمال المطر 0%
-هيوستن 22° · مطر خفيف · رطوبة 81% · رياح 4 كم/سا · احتمال المطر 0%
-سان فرانسيسكو 11° · غائم جزئياً · رطوبة 88% · رياح 8 كم/سا · احتمال المطر 0%</desc>
+نيويورك 14° · غائم · رطوبة 83% · رياح 26 كم/سا · احتمال المطر 65%
+لوس أنجلوس 18° · صافٍ · رطوبة 81% · رياح 5 كم/سا · احتمال المطر 0%
+شيكاغو 14° · صافٍ · رطوبة 80% · رياح 8 كم/سا · احتمال المطر 0%
+لاس فيغاس 24° · صافٍ · رطوبة 24% · رياح 11 كم/سا · احتمال المطر 0%
+هيوستن 22° · غائم · رطوبة 76% · رياح 5 كم/سا · احتمال المطر 0%
+سان فرانسيسكو 11° · غائم · رطوبة 87% · رياح 8 كم/سا · احتمال المطر 0%</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_weather_0.png" />
   </programme>
-  <programme start="20260926190000 +0000" stop="20260926212232 +0000" channel="TodayWeather">
+  <programme start="20260926190000 +0000" stop="20260926215416 +0000" channel="TodayWeather">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926130000 +0000" stop="20260926140000 +0000" channel="TodayPrayer">
@@ -116872,7 +116930,7 @@ Behemoth high school football star slams defender to the ground like a ragdoll a
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116884,7 +116942,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116896,7 +116954,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116908,7 +116966,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116920,7 +116978,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116932,7 +116990,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116944,7 +117002,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116956,7 +117014,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116968,7 +117026,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116980,7 +117038,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -116992,7 +117050,7 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
@@ -117004,9 +117062,9 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 Amman (عمّان) — الفجر 05:06 · الشروق 06:27 · الظهر 12:28 · العصر 15:54 · المغرب 18:33 · العشاء 19:49
 Abu Dhabi (أبو ظبي) — الفجر 04:56 · الشروق 06:12 · الظهر 12:17 · العصر 15:40 · المغرب 18:18 · العشاء 19:31
 Henderson NV (هندرسون · نيفادا) — الفجر 05:21 · الشروق 06:31 · الظهر 12:31 · العصر 15:56 · المغرب 18:31 · العشاء 19:41
-Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:23 · المغرب 19:02 · العشاء 20:21
+Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظهر 13:00 · العصر 16:22 · المغرب 19:02 · العشاء 20:21
 
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260926220453 +0000" stop="20260926220717 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220453 +0000" stop="20260926220717 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220453 +0000" stop="20260926220717 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220453 +0000" stop="20260926220717 +0000" channel="AbuDhabiTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220453 +0000" stop="20260926220717 +0000" channel="AlEmaratTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220453 +0000" stop="20260926220717 +0000" channel="NatGeoAbuDhabi.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220525 +0000" stop="20260926220717 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220525 +0000" stop="20260926220717 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220525 +0000" stop="20260926220717 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926220525 +0000" stop="20260926220717 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926212208 +0000" stop="20260926220717 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926212232 +0000" stop="20260926220717 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260926222447 +0000" stop="20260926222713 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222447 +0000" stop="20260926222713 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222447 +0000" stop="20260926222713 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222447 +0000" stop="20260926222713 +0000" channel="AbuDhabiTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222447 +0000" stop="20260926222713 +0000" channel="AlEmaratTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222447 +0000" stop="20260926222713 +0000" channel="NatGeoAbuDhabi.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222519 +0000" stop="20260926222713 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222519 +0000" stop="20260926222713 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222519 +0000" stop="20260926222713 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926222519 +0000" stop="20260926222713 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926215415 +0000" stop="20260926222713 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260926215416 +0000" stop="20260926222713 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
