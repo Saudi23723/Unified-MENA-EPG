@@ -47,9 +47,8 @@ from PIL import Image, ImageDraw
 import board_links
 from epg_lib import add_programme, log, new_session, warn, write_xml_atomic
 from match_board import (
-    H, MUTED, PAD, PANEL, PANEL_ALT, PILL, RULE, W, WHITE,
-    backdrop, date_chip, draw_signature, draw_text, forget_boards_past,
-    progress, rule, size_that_fits,
+    H, MUTED, W, WHITE, draw_signature, draw_text, forget_boards_past,
+    progress, size_that_fits,
 )
 
 UTC = timezone.utc
@@ -266,7 +265,13 @@ def collect(session, now: datetime) -> dict:
                         if x["iata"] == other
                         and x["scheduled"] <= now + ROUTE_AHEAD][:ON_A_PAGE]
             kept_rows = [x for x in kept_rows if x["scheduled"] <= now + AHEAD]
-            out[key] = kept_rows[:ON_A_SIDE * PAGES_EACH]
+            # WHAT A TRAVELLER LOOKS FOR FIRST is what has not gone yet:
+            # the two flights that most recently left or landed stay on
+            # top, as an airport board keeps them, and the rest of the
+            # page is what is still to come.
+            gone = [x for x in kept_rows if x["real"] and x["real"] <= now]
+            coming = [x for x in kept_rows if x not in gone]
+            out[key] = (gone[-2:] + coming)[:ROWS]
             log(f"  flights {key}: {len(raw)} row(s) read, "
                 f"{len(out[key])} on the board")
     try:
@@ -364,117 +369,251 @@ CITY_AR = {
     "Nuremberg": "نورمبرغ", "Phnom Penh": "بنوم بنه", "Ezhou": "إيجو",
 }
 
-ON_A_SIDE = 7            # flights a column holds on an airport page
+ROWS = 8                 # flights on an airport page
+ROUTE_ROWS = 4           # flights each way on the route page
+AIRLINE_LOGOS = "logos/airlines"
+
+# THE LOOK OF AN AIRPORT'S OWN SCREEN. A deep ground, a solid header
+# with the direction written large in both languages, a ruled table
+# under bilingual column heads, the carrier's own mark on a white tile —
+# the way a departures hall shows it — and the status in its colour.
+INK = (8, 14, 26)
+HEAD_BG = (14, 24, 42)
+ROW_A = (13, 22, 38)
+ROW_B = (17, 28, 48)
+LINE = (34, 50, 78)
+TILE = (246, 248, 251)
+GOLD = (255, 204, 77, 255)
 
 
 def city_of(x: dict) -> str:
     return CITY_AR.get(x["place"], x["place"])
 
 
-def draw_column(pen, x0: int, x1: int, top: int, heading: str, note: str,
-                accent, flights: list[dict], zone, rows: int,
-                route: bool = False) -> None:
-    """One half of a page: a heading tab and its flights, read right to left."""
-    pen.rounded_rectangle([x0, top, x1, top + 44], radius=12, fill=PANEL,
-                          outline=RULE, width=1)
-    pen.rounded_rectangle([x1 - 8, top + 8, x1 - 3, top + 36], radius=2,
-                          fill=accent)
-    draw_text(pen, (x1 - 20, top + 22), heading, 23, WHITE, anchor="rm",
-              weight="heavy")
-    draw_text(pen, (x0 + 16, top + 22), note, 15, MUTED, anchor="lm",
-              thin=True)
+def plane(pen, cx: int, cy: int, size: int, angle: float, fill) -> None:
+    """An airliner seen from above, nose along `angle` (degrees)."""
+    import math
+    half = [(1.0, 0), (0.86, 0.07), (0.22, 0.08), (-0.08, 0.66),
+            (-0.26, 0.66), (-0.06, 0.08), (-0.56, 0.07), (-0.74, 0.3),
+            (-0.86, 0.3), (-0.76, 0.0)]
+    outline = half + [(x, -y) for x, y in reversed(half[1:-1])]
+    a = math.radians(angle)
+    pen.polygon([(cx + size * (x * math.cos(a) - y * math.sin(a)),
+                  cy + size * (x * math.sin(a) + y * math.cos(a)))
+                 for x, y in outline], fill=fill)
 
-    y = top + 56
-    room = H - y - PAD - 12
-    if not flights:
-        draw_text(pen, ((x0 + x1) // 2, y + 90), "لا رحلات في هذه الساعات",
-                  22, MUTED, anchor="mm")
+
+_LOGO_CACHE: dict = {}
+MARK_URL = "https://pics.avs.io/400/160/{code}@2x.png"
+
+
+def _fetch_mark(code: str) -> str | None:
+    """A carrier not kept in logos/airlines, fetched once for this run.
+
+    The kept marks are the carriers both airports served when the board
+    was drawn; a new one is read from the same source into the runner's
+    temporary folder, and a carrier that has none is printed by name.
+    """
+    import tempfile
+    path = os.path.join(tempfile.gettempdir(), f"airline_{code}.png")
+    if os.path.exists(path):
+        return path
+    try:
+        got = new_session().get(MARK_URL.format(code=code), timeout=15)
+        if got.status_code == 200 and got.content[:4] == b"\x89PNG":
+            with open(path, "wb") as dst:
+                dst.write(got.content)
+            return path
+    except Exception as exc:                                  # noqa: BLE001
+        log(f"  flights: no mark for {code} ({exc})")
+    return None
+
+
+def airline_mark(code: str):
+    """The carrier's mark, trimmed, or None when it is not kept."""
+    if code in _LOGO_CACHE:
+        return _LOGO_CACHE[code]
+    mark = None
+    path = os.path.join(AIRLINE_LOGOS, f"{code}.png")
+    if code and not os.path.exists(path):
+        path = _fetch_mark(code)
+    if path and os.path.exists(path):
+        try:
+            mark = Image.open(path).convert("RGBA")
+            box = mark.getbbox()
+            if box:
+                mark = mark.crop(box)
+        except OSError:
+            mark = None
+    _LOGO_CACHE[code] = mark
+    return mark
+
+
+def draw_carrier(board, pen, x0: int, mid: int, x: dict) -> None:
+    """A white tile with the carrier's mark, or its name when none is kept."""
+    wide, tall = 168, 44
+    mark = airline_mark(x["number"][:2].upper())
+    if mark is None:
+        draw_text(pen, (x0 + wide // 2, mid), x["airline"],
+                  size_that_fits(x["airline"], 16, 10, wide - 8), WHITE,
+                  anchor="mm", thin=True)
         return
-    height = min(92, room // max(rows, len(flights)))
-    for i, x in enumerate(flights):
-        band = [x0, y, x1, y + height - 8]
-        pen.rounded_rectangle(band, radius=10,
-                              fill=PANEL if i % 2 == 0 else PANEL_ALT,
-                              outline=RULE, width=1)
-        mid = y + (height - 8) // 2
-        # Right to left, as the eye reads: when, which flight, where, how.
-        draw_text(pen, (x1 - 14, mid), x["scheduled"].astimezone(zone).strftime("%H:%M"),
-                  27, accent, anchor="rm", weight="heavy")
-        draw_text(pen, (x1 - 106, mid - 10), x["number"], 19, WHITE,
+    pen.rounded_rectangle([x0, mid - tall // 2, x0 + wide, mid + tall // 2],
+                          radius=8, fill=TILE)
+    room_w, room_h = wide - 18, tall - 10
+    scale = min(room_w / mark.width, room_h / mark.height)
+    shown = mark.resize((max(1, int(mark.width * scale)),
+                         max(1, int(mark.height * scale))), Image.LANCZOS)
+    board.paste(shown, (x0 + (wide - shown.width) // 2,
+                        mid - shown.height // 2), shown)
+
+
+def status_tag(pen, x0: int, mid: int, said: str, tone) -> None:
+    """The status as a board shows it: a lit dot and the words in colour."""
+    base = ROW_A
+    fill = tuple(int(base[i] * 0.78 + tone[i] * 0.22) for i in range(3))
+    wide = 250
+    pen.rounded_rectangle([x0, mid - 21, x0 + wide, mid + 21], radius=10,
+                          fill=fill, outline=tone, width=2)
+    pen.ellipse([x0 + wide - 26, mid - 6, x0 + wide - 14, mid + 6], fill=tone)
+    draw_text(pen, (x0 + wide - 36, mid), said,
+              size_that_fits(said, 20, 12, wide - 50), tone, anchor="rm",
+              weight="heavy")
+
+
+# Where each column stands, from the right: the eye starts at the time.
+X_TIME = W - 44          # right edge of the time
+X_PLACE = W - 186        # right edge of the city
+X_FLIGHT = 640           # right edge of the flight number
+X_CARRIER = 318          # left edge of the carrier tile
+X_STATUS = 44            # left edge of the status
+
+
+def column_heads(pen, y: int, place_ar: str, place_en: str) -> None:
+    for x, ar, en, anchor in ((X_TIME, "الوقت", "TIME", "rm"),
+                              (X_PLACE, place_ar, place_en, "rm"),
+                              (X_FLIGHT, "الرحلة", "FLIGHT", "rm"),
+                              (X_CARRIER + 168, "الناقل", "AIRLINE", "rm"),
+                              (X_STATUS + 250, "الحالة", "STATUS", "rm")):
+        draw_text(pen, (x, y), f"{ar}  {en}", 15, MUTED, anchor=anchor,
+                  thin=True)
+
+
+def flight_row(board, pen, y: int, height: int, index: int, x: dict, zone,
+               *, route: bool = False) -> None:
+    pen.rectangle([0, y, W, y + height - 1], fill=ROW_A if index % 2 == 0 else ROW_B)
+    pen.line([(0, y + height - 1), (W, y + height - 1)], fill=LINE, width=1)
+    mid = y + height // 2
+    draw_text(pen, (X_TIME, mid), x["scheduled"].astimezone(zone).strftime("%H:%M"),
+              32, WHITE, anchor="rm", weight="heavy")
+    if route and x.get("other_end"):
+        word = "الوصول" if x["mode"] == "departures" else "الإقلاع"
+        draw_text(pen, (X_PLACE, mid - 11),
+                  f"{word} {x['other_end'].astimezone(zone):%H:%M}", 25, WHITE,
                   anchor="rm", weight="heavy")
-        draw_text(pen, (x1 - 106, mid + 13), x["airline"],
-                  size_that_fits(x["airline"], 12, 9, 112), MUTED,
-                  anchor="rm", thin=True)
+        draw_text(pen, (X_PLACE, mid + 16),
+                  "Abu Dhabi (AUH)",
+                  14, MUTED, anchor="rm", thin=True)
+    else:
         city = city_of(x)
-        if route and x.get("other_end"):
-            word = "الوصول" if x["mode"] == "departures" else "الإقلاع"
-            city = f"{word} {x['other_end'].astimezone(zone):%H:%M}"
-        draw_text(pen, (x1 - 236, mid - 9), city,
-                  size_that_fits(city, 22, 13, 150), WHITE, anchor="rm")
-        if x["iata"] and not route:
-            draw_text(pen, (x1 - 236, mid + 15), x["iata"], 12, MUTED,
-                      anchor="rm", thin=True)
-        said, tone = status_of(x, zone)
-        pill = [x0 + 10, mid - 17, x0 + 170, mid + 17]
-        pen.rounded_rectangle(pill, radius=17, fill=PILL, outline=tone, width=2)
-        draw_text(pen, ((pill[0] + pill[2]) // 2, mid), said,
-                  size_that_fits(said, 17, 11, 146), tone, anchor="mm",
+        draw_text(pen, (X_PLACE, mid - 11), city,
+                  size_that_fits(city, 27, 16, 420), WHITE, anchor="rm",
                   weight="heavy")
-        y += height
+        english = f"{x['place']} ({x['iata']})" if x["iata"] else x["place"]
+        draw_text(pen, (X_PLACE, mid + 16), english, 14, MUTED, anchor="rm",
+                  thin=True)
+    draw_text(pen, (X_FLIGHT, mid), x["number"], 25, GOLD, anchor="rm",
+              weight="heavy")
+    draw_carrier(board, pen, X_CARRIER, mid, x)
+    said, tone = status_of(x, zone)
+    status_tag(pen, X_STATUS, mid, said, tone)
 
 
-def draw_page(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
-    """A page as an airport screen: departures right, arrivals left."""
-    board = backdrop()
-    pen = ImageDraw.Draw(board)
-
-    draw_text(pen, (PAD, PAD - 6), spec["title"], 38, WHITE, weight="heavy")
-    draw_text(pen, (PAD, PAD + 46), f"{spec['subtitle']} · {zone_name}",
-              18, MUTED, thin=True)
-    # The date and not the minute: a board that carries the clock is a new
-    # picture on every pass, and every new picture is a new video segment
-    # pushed to the repository — whether or not a single flight changed.
-    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y"))
+def header(pen, title_ar: str, title_en: str, line_ar: str, line_en: str,
+           accent, angle: float, zone, now) -> int:
+    pen.rectangle([0, 0, W, 118], fill=HEAD_BG)
+    pen.rectangle([0, 118, W, 122], fill=accent)
+    plane(pen, W - 84, 66, 34, angle, accent)
+    draw_text(pen, (W - 136, 50), title_ar, 44, WHITE, anchor="rm",
+              weight="heavy")
+    draw_text(pen, (W - 136, 94), line_ar, 19, MUTED, anchor="rm", thin=True)
+    draw_text(pen, (44, 50), title_en, 34, WHITE, anchor="lm", weight="heavy")
+    draw_text(pen, (44, 94), f"{line_en} · {now.astimezone(zone):%d.%m.%Y}",
+              17, MUTED, anchor="lm", thin=True)
     draw_signature(pen)
+    return 122
 
-    top = PAD + 96
-    rule(pen, top, GREEN)
-    middle = W // 2
-    rows = spec.get("rows", ON_A_SIDE)
-    draw_column(pen, middle + 10, W - PAD + 12, top + 14, *spec["right"],
-                GREEN, spec["right_rows"], zone, rows, spec.get("route", False))
-    draw_column(pen, PAD - 12, middle - 10, top + 14, *spec["left"],
-                BLUE, spec["left_rows"], zone, rows, spec.get("route", False))
-    progress(pen, page, pages, GREEN)
+
+def draw_airport(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
+    board = Image.new("RGB", (W, H), INK)
+    pen = ImageDraw.Draw(board)
+    departing = spec["mode"] == "departures"
+    accent = GREEN if departing else BLUE
+    top = header(pen, spec["title_ar"], spec["title_en"],
+                 f"{spec['airport_ar']} · {zone_name}", spec["airport_en"],
+                 accent, -32 if departing else 32, zone, now)
+    column_heads(pen, top + 24, "إلى" if departing else "من",
+                 "TO" if departing else "FROM")
+    y = top + 46
+    height = (H - y - 34) // ROWS
+    if not spec["rows"]:
+        draw_text(pen, (W // 2, y + 160), "لا رحلات في هذه الساعات", 28,
+                  MUTED, anchor="mm")
+    for i, x in enumerate(spec["rows"]):
+        flight_row(board, pen, y + i * height, height, i, x, zone)
+    progress(pen, page, pages, accent, y=H - 16)
     return board
 
 
+def draw_route(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
+    board = Image.new("RGB", (W, H), INK)
+    pen = ImageDraw.Draw(board)
+    top = header(pen, "عمّان – أبوظبي", "AMMAN – ABU DHABI",
+                 f"كل رحلات اليوم بين المدينتين · {zone_name}",
+                 "All flights today, both ways", GOLD, 0, zone, now)
+    y = top + 14
+    height = 52
+    for mode, title, accent, angle in (
+            ("departures", "من عمّان إلى أبوظبي", GREEN, -32),
+            ("arrivals", "من أبوظبي إلى عمّان", BLUE, 32)):
+        pen.rectangle([0, y, W, y + 40], fill=HEAD_BG)
+        pen.rectangle([W - 8, y, W, y + 40], fill=accent)
+        plane(pen, W - 36, y + 20, 14, angle, accent)
+        draw_text(pen, (W - 64, y + 20), title, 23, WHITE, anchor="rm",
+                  weight="heavy")
+        column_heads(pen, y + 56, "الطرف الآخر", "OTHER END")
+        y += 70
+        rows = spec[mode]
+        if not rows:
+            draw_text(pen, (W // 2, y + 40), "لا رحلات اليوم على هذا الخط", 22,
+                      MUTED, anchor="mm")
+            y += ROUTE_ROWS * height
+        for i, x in enumerate(rows[:ROUTE_ROWS]):
+            flight_row(board, pen, y, height, i, x, zone, route=True)
+            y += height
+        y += (ROUTE_ROWS - min(len(rows), ROUTE_ROWS)) * height if rows else 0
+        y += 8
+    progress(pen, page, pages, GOLD, y=H - 16)
+    return board
+
+
+def draw_page(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
+    if spec.get("route"):
+        return draw_route(spec, zone, zone_name, now, page, pages)
+    return draw_airport(spec, zone, zone_name, now, page, pages)
+
+
 def pages_of(board: dict) -> list[dict]:
-    """The route first, then each airport, both directions side by side."""
-    out = [{
-        "title": "بين عمّان وأبوظبي · كل رحلات اليوم",
-        "subtitle": "Amman - Abu Dhabi · all flights today",
-        "right": ("من عمّان إلى أبوظبي", "وقت الإقلاع"),
-        "left": ("من أبوظبي إلى عمّان", "وقت الوصول"),
-        "right_rows": board.get("route:departures") or [],
-        "left_rows": board.get("route:arrivals") or [],
-        "rows": 5,
-        "route": True,
-    }]
+    """The route first, then each airport's departures and arrivals."""
+    out = [{"route": True,
+            "departures": board.get("route:departures") or [],
+            "arrivals": board.get("route:arrivals") or []}]
     for code, name_ar, name_en in AIRPORTS:
-        dep = board.get(f"{code}:departures") or []
-        arr = board.get(f"{code}:arrivals") or []
-        count = max(1, -(-max(len(dep), len(arr)) // ON_A_SIDE))
-        for n in range(min(count, PAGES_EACH)):
-            part = slice(n * ON_A_SIDE, (n + 1) * ON_A_SIDE)
-            out.append({
-                "title": name_ar,
-                "subtitle": name_en,
-                "right": ("المغادرة", "إلى"),
-                "left": ("القادمة", "من"),
-                "right_rows": dep[part],
-                "left_rows": arr[part],
-            })
+        for mode, mode_ar, mode_en in DIRECTIONS:
+            out.append({"mode": mode, "title_ar": mode_ar,
+                        "title_en": mode_en, "airport_ar": name_ar,
+                        "airport_en": name_en,
+                        "rows": board.get(f"{code}:{mode}") or []})
     return out
 
 
