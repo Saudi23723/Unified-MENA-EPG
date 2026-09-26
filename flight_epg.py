@@ -369,8 +369,7 @@ CITY_AR = {
     "Nuremberg": "نورمبرغ", "Phnom Penh": "بنوم بنه", "Ezhou": "إيجو",
 }
 
-ROWS = 8                 # flights on an airport page
-ROUTE_ROWS = 4           # flights each way on the route page
+ROWS = 10                # flights on an airport page
 AIRLINE_LOGOS = "logos/airlines"
 
 # THE LOOK OF AN AIRPORT'S OWN SCREEN. A deep ground, a solid header
@@ -451,7 +450,7 @@ def airline_mark(code: str):
 
 def draw_carrier(board, pen, x0: int, mid: int, x: dict) -> None:
     """A white tile with the carrier's mark, or its name when none is kept."""
-    wide, tall = 168, 44
+    wide, tall = 160, 38
     mark = airline_mark(x["number"][:2].upper())
     if mark is None:
         draw_text(pen, (x0 + wide // 2, mid), x["airline"],
@@ -473,7 +472,7 @@ def status_tag(pen, x0: int, mid: int, said: str, tone) -> None:
     base = ROW_A
     fill = tuple(int(base[i] * 0.78 + tone[i] * 0.22) for i in range(3))
     wide = 250
-    pen.rounded_rectangle([x0, mid - 21, x0 + wide, mid + 21], radius=10,
+    pen.rounded_rectangle([x0, mid - 19, x0 + wide, mid + 19], radius=10,
                           fill=fill, outline=tone, width=2)
     pen.ellipse([x0 + wide - 26, mid - 6, x0 + wide - 14, mid + 6], fill=tone)
     draw_text(pen, (x0 + wide - 36, mid), said,
@@ -499,30 +498,26 @@ def column_heads(pen, y: int, place_ar: str, place_en: str) -> None:
                   thin=True)
 
 
-def flight_row(board, pen, y: int, height: int, index: int, x: dict, zone,
-               *, route: bool = False) -> None:
+def flight_row(board, pen, y: int, height: int, index: int, x: dict,
+               zone) -> None:
     pen.rectangle([0, y, W, y + height - 1], fill=ROW_A if index % 2 == 0 else ROW_B)
     pen.line([(0, y + height - 1), (W, y + height - 1)], fill=LINE, width=1)
     mid = y + height // 2
+    # A flight between the two cities, kept on Amman's page however far
+    # into the day it is, wears the route's gold at the reading edge.
+    if x.get("pinned"):
+        pen.rectangle([W - 7, y, W, y + height - 1], fill=GOLD)
     draw_text(pen, (X_TIME, mid), x["scheduled"].astimezone(zone).strftime("%H:%M"),
-              32, WHITE, anchor="rm", weight="heavy")
-    if route and x.get("other_end"):
-        word = "الوصول" if x["mode"] == "departures" else "الإقلاع"
-        draw_text(pen, (X_PLACE, mid - 11),
-                  f"{word} {x['other_end'].astimezone(zone):%H:%M}", 25, WHITE,
-                  anchor="rm", weight="heavy")
-        draw_text(pen, (X_PLACE, mid + 16),
-                  "Abu Dhabi (AUH)",
-                  14, MUTED, anchor="rm", thin=True)
-    else:
-        city = city_of(x)
-        draw_text(pen, (X_PLACE, mid - 11), city,
-                  size_that_fits(city, 27, 16, 420), WHITE, anchor="rm",
-                  weight="heavy")
-        english = f"{x['place']} ({x['iata']})" if x["iata"] else x["place"]
-        draw_text(pen, (X_PLACE, mid + 16), english, 14, MUTED, anchor="rm",
-                  thin=True)
-    draw_text(pen, (X_FLIGHT, mid), x["number"], 25, GOLD, anchor="rm",
+              30, GOLD if x.get("pinned") else WHITE, anchor="rm",
+              weight="heavy")
+    city = city_of(x)
+    draw_text(pen, (X_PLACE, mid - 10), city,
+              size_that_fits(city, 25, 16, 420), WHITE, anchor="rm",
+              weight="heavy")
+    english = f"{x['place']} ({x['iata']})" if x["iata"] else x["place"]
+    draw_text(pen, (X_PLACE, mid + 15), english, 13, MUTED, anchor="rm",
+              thin=True)
+    draw_text(pen, (X_FLIGHT, mid), x["number"], 23, GOLD, anchor="rm",
               weight="heavy")
     draw_carrier(board, pen, X_CARRIER, mid, x)
     said, tone = status_of(x, zone)
@@ -565,55 +560,34 @@ def draw_airport(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
     return board
 
 
-def draw_route(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
-    board = Image.new("RGB", (W, H), INK)
-    pen = ImageDraw.Draw(board)
-    top = header(pen, "عمّان – أبوظبي", "AMMAN – ABU DHABI",
-                 f"كل رحلات اليوم بين المدينتين · {zone_name}",
-                 "All flights today, both ways", GOLD, 0, zone, now)
-    y = top + 14
-    height = 52
-    for mode, title, accent, angle in (
-            ("departures", "من عمّان إلى أبوظبي", GREEN, -32),
-            ("arrivals", "من أبوظبي إلى عمّان", BLUE, 32)):
-        pen.rectangle([0, y, W, y + 40], fill=HEAD_BG)
-        pen.rectangle([W - 8, y, W, y + 40], fill=accent)
-        plane(pen, W - 36, y + 20, 14, angle, accent)
-        draw_text(pen, (W - 64, y + 20), title, 23, WHITE, anchor="rm",
-                  weight="heavy")
-        column_heads(pen, y + 56, "الطرف الآخر", "OTHER END")
-        y += 70
-        rows = spec[mode]
-        if not rows:
-            draw_text(pen, (W // 2, y + 40), "لا رحلات اليوم على هذا الخط", 22,
-                      MUTED, anchor="mm")
-            y += ROUTE_ROWS * height
-        for i, x in enumerate(rows[:ROUTE_ROWS]):
-            flight_row(board, pen, y, height, i, x, zone, route=True)
-            y += height
-        y += (ROUTE_ROWS - min(len(rows), ROUTE_ROWS)) * height if rows else 0
-        y += 8
-    progress(pen, page, pages, GOLD, y=H - 16)
-    return board
-
-
 def draw_page(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
-    if spec.get("route"):
-        return draw_route(spec, zone, zone_name, now, page, pages)
     return draw_airport(spec, zone, zone_name, now, page, pages)
 
 
 def pages_of(board: dict) -> list[dict]:
-    """The route first, then each airport's departures and arrivals."""
-    out = [{"route": True,
-            "departures": board.get("route:departures") or [],
-            "arrivals": board.get("route:arrivals") or []}]
+    """Four pages: each airport's departures and arrivals.
+
+    NO PAGE OF ITS OWN FOR THE ROUTE — asked for in those words, "fewer
+    screens without losing flights, without Amman–Abu Dhabi on a screen by
+    itself". So the flights between the two cities ride on Amman's own
+    pages instead: any still to come that the next ten would not reach is
+    kept on the page, at its foot, in the route's gold, so the Etihad
+    flight at 13:25 is on the board at five in the morning.
+    """
+    out = []
     for code, name_ar, name_en in AIRPORTS:
         for mode, mode_ar, mode_en in DIRECTIONS:
+            rows = list(board.get(f"{code}:{mode}") or [])
+            if code == "AMM":
+                pins = [dict(x, pinned=True)
+                        for x in board.get(f"route:{mode}") or []
+                        if not x["real"] and x not in rows][:3]
+                rows = rows[:ROWS - len(pins)] + pins
+                rows = [dict(x, pinned=True) if x["iata"] == "AUH" else x
+                        for x in rows]
             out.append({"mode": mode, "title_ar": mode_ar,
                         "title_en": mode_en, "airport_ar": name_ar,
-                        "airport_en": name_en,
-                        "rows": board.get(f"{code}:{mode}") or []})
+                        "airport_en": name_en, "rows": rows})
     return out
 
 
