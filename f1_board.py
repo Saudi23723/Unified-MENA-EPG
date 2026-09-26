@@ -182,10 +182,18 @@ def draw_track(board, pen, points, box, rotation=0, tone=None, width=5):
     box it is given, it carries no white background to knock out, and it
     costs one line of geometry rather than an image fetch on every pass.
     """
+    # THE SOURCE'S Y POINTS UP, A PICTURE'S POINTS DOWN. The outline is
+    # turned by the circuit's own rotation in the map's frame, then its y
+    # is flipped for the screen. Drawn without the flip every circuit came
+    # out MIRRORED — measured on all 24 of the season's tracks: each one
+    # ran the wrong way round (Monza, Spa, Silverstone anticlockwise; Baku,
+    # Interlagos, Singapore clockwise), which is what "the circuits look
+    # wrong" was.
     import math
     angle = math.radians(rotation)
     turned = [(x * math.cos(angle) - y * math.sin(angle),
-               x * math.sin(angle) + y * math.cos(angle)) for x, y in points]
+               -(x * math.sin(angle) + y * math.cos(angle)))
+              for x, y in points]
     xs = [p[0] for p in turned]
     ys = [p[1] for p in turned]
     span_x, span_y = (max(xs) - min(xs)) or 1, (max(ys) - min(ys)) or 1
