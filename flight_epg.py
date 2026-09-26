@@ -47,7 +47,7 @@ from PIL import Image, ImageDraw
 import board_links
 from epg_lib import add_programme, log, new_session, warn, write_xml_atomic
 from match_board import (
-    H, MUTED, PAD, PANEL, PANEL_ALT, PILL, PILL_INK, RULE, W, WHITE,
+    H, MUTED, PAD, PANEL, PANEL_ALT, PILL, RULE, W, WHITE,
     backdrop, date_chip, draw_signature, draw_text, forget_boards_past,
     progress, rule, size_that_fits,
 )
