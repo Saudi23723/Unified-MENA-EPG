@@ -99,6 +99,36 @@ AHEAD = timedelta(hours=6)
 ON_A_PAGE = 8
 PAGES_EACH = 2           # per airport and direction: sixteen flights
 
+# THE ROUTE ITSELF, ALL DAY. Asked for in those words — "where is the
+# Etihad flight from Amman to Abu Dhabi?" EY592 left Amman at 13:25 that
+# day, and a board of the next sixteen departures from 05:40 never
+# reached it. So the channel opens on the route the two airports were
+# chosen for: every flight between Amman and Abu Dhabi, both ways, from
+# an hour ago to a day ahead, whoever flies it. Both directions are read
+# from Amman's own feeds — Amman's day fits in two pages, Abu Dhabi's
+# does not.
+ROUTE_AHEAD = timedelta(hours=24)
+ROUTE = (
+    ("departures", "AUH", "عمّان إلى أبوظبي", "من عمّان إلى أبوظبي",
+     "Amman to Abu Dhabi", "DEPARTURES"),
+    ("arrivals", "AUH", "أبوظبي إلى عمّان", "من أبوظبي إلى عمّان",
+     "Abu Dhabi to Amman", "ARRIVALS"),
+)
+
+# THE CARRIER THE PASSENGER BOOKED, NOT THE ONE THAT HIRED THE PLANE.
+# The feed names the operator, and Etihad's Amman flights are flown on
+# wet-leased aircraft, so "EY592 · Airhub Airlines" was on the board. The
+# flight number's own two letters say whose flight it is.
+CARRIERS = {
+    "EY": "Etihad Airways", "RJ": "Royal Jordanian", "EK": "Emirates",
+    "FZ": "flydubai", "3L": "Air Arabia Abu Dhabi", "G9": "Air Arabia",
+    "QR": "Qatar Airways", "TK": "Turkish Airlines", "SV": "Saudia",
+    "MS": "EgyptAir", "GF": "Gulf Air", "WY": "Oman Air",
+    "KU": "Kuwait Airways", "PC": "Pegasus", "XY": "flynas",
+    "F3": "flyadeal", "LH": "Lufthansa", "BA": "British Airways",
+    "AF": "Air France", "KL": "KLM", "ME": "Middle East Airlines",
+}
+
 # The last answer each airport gave, so one refused request does not take
 # a whole airport off the screen for a pass.
 STATE = "flight_state.json"
@@ -114,7 +144,8 @@ BLUE = (96, 165, 250, 255)
 
 # ------------------------------------------------------------------ source
 
-def _read(session, code: str, mode: str, now: datetime) -> list[dict]:
+def _read(session, code: str, mode: str, now: datetime,
+          ahead: timedelta = AHEAD) -> list[dict]:
     """Every flight of one airport and direction inside the window."""
     rows, page = [], 1
     while page <= 3:
@@ -134,7 +165,7 @@ def _read(session, code: str, mode: str, now: datetime) -> list[dict]:
         # scheduled order.
         tail = data[-1]["flight"]["time"]["scheduled"]
         key = "departure" if mode == "departures" else "arrival"
-        if tail.get(key) and tail[key] > (now + AHEAD).timestamp():
+        if tail.get(key) and tail[key] > (now + ahead).timestamp():
             break
         page += 1
         time.sleep(1.5)
@@ -162,7 +193,8 @@ def one_flight(row: dict, mode: str) -> dict | None:
     code = ((other.get("code") or {}).get("iata")) or ""
     city = (((other.get("position") or {}).get("region") or {}).get("city")
             or other.get("name") or code)
-    airline = (f.get("airline") or {}).get("name") or ""
+    airline = (CARRIERS.get(number[:2].upper())
+               or (f.get("airline") or {}).get("name") or "")
     status = f.get("status") or {}
     generic = ((status.get("generic") or {}).get("status") or {})
     return {
@@ -196,7 +228,8 @@ def collect(session, now: datetime) -> dict:
         for mode, _mar, _men in DIRECTIONS:
             key = f"{code}:{mode}"
             try:
-                raw = _read(session, code, mode, now)
+                raw = _read(session, code, mode, now,
+                            ROUTE_AHEAD if code == "AMM" else AHEAD)
                 state[key] = {"at": now.isoformat(), "rows": raw}
             except Exception as exc:                          # noqa: BLE001
                 kept = state.get(key) or {}
@@ -214,13 +247,20 @@ def collect(session, now: datetime) -> dict:
             flights = [x for x in flights
                        if now - BEHIND <= (x["real"] or x["estimated"]
                                            or x["scheduled"])
-                       and x["scheduled"] <= now + AHEAD]
+                       and x["scheduled"] <= now + ROUTE_AHEAD]
             flights.sort(key=lambda x: x["scheduled"])
             seen, kept_rows = set(), []
             for x in flights:
                 if (x["number"], x["scheduled"]) not in seen:
                     seen.add((x["number"], x["scheduled"]))
                     kept_rows.append(x)
+            for r_mode, other, *_names in ROUTE:
+                if code == "AMM" and mode == r_mode:
+                    out[f"route:{mode}"] = [
+                        x for x in kept_rows
+                        if x["iata"] == other
+                        and x["scheduled"] <= now + ROUTE_AHEAD][:ON_A_PAGE]
+            kept_rows = [x for x in kept_rows if x["scheduled"] <= now + AHEAD]
             out[key] = kept_rows[:ON_A_PAGE * PAGES_EACH]
             log(f"  flights {key}: {len(raw)} row(s) read, "
                 f"{len(out[key])} on the board")
@@ -277,7 +317,12 @@ def draw_page(code, name_ar, name_en, mode_ar, mode_en, flights, zone,
               weight="heavy")
     draw_text(pen, (PAD, PAD + 48), f"{name_en} · {mode_en} · {zone_name}",
               19, MUTED, thin=True)
-    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y · %H:%M"))
+    # The date and not the minute: a board that carries the clock is a new
+    # picture on every pass, and every new picture is a new video segment
+    # pushed to the repository — sixteen of them a pass, whether or not a
+    # single flight had changed. Without it a page is re-encoded only
+    # when something on it did change.
+    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y"))
     draw_signature(pen)
 
     top = PAD + 100
@@ -327,7 +372,9 @@ def draw_page(code, name_ar, name_en, mode_ar, mode_en, flights, zone,
 
 
 def pages_of(board: dict) -> list[tuple]:
-    out = []
+    out = [("AMM", title_ar, title_en, "كل رحلات اليوم", mode_en,
+            board.get(f"route:{mode}") or [])
+           for mode, _other, title_ar, _sub, title_en, mode_en in ROUTE]
     for code, name_ar, name_en in AIRPORTS:
         for mode, mode_ar, mode_en in DIRECTIONS:
             flights = board.get(f"{code}:{mode}") or []
@@ -354,6 +401,11 @@ def publish(board: dict, now: datetime, prefix: str, zone, zone_name,
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
     ET.SubElement(channel, "display-name", {"lang": "en"}).text = CHANNEL_EN
     lines = [f"{CHANNEL_AR} · {zone_name}", ""]
+    for mode, _other, _title, sub_ar, _en, _men in ROUTE:
+        for x in board.get(f"route:{mode}") or []:
+            said, _tone = status_of(x, zone)
+            lines.append(f"{sub_ar} · {x['scheduled'].astimezone(zone):%H:%M} "
+                         f"{x['number']} {x['airline']} — {said}")
     for code, name_ar, _en in AIRPORTS:
         for mode, mode_ar, _men in DIRECTIONS:
             for x in (board.get(f"{code}:{mode}") or [])[:6]:
