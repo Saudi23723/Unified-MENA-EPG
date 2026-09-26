@@ -203,6 +203,11 @@ def one_flight(row: dict, mode: str) -> dict | None:
         "place": city,
         "iata": code,
         "scheduled": scheduled,
+        # The other end's scheduled time: when a departure lands, when an
+        # arrival took off. The route page prints it where the city would
+        # only repeat itself.
+        "other_end": _when((times.get("scheduled") or {}).get(
+            "arrival" if mode == "departures" else "departure")),
         "estimated": _when((times.get("estimated") or {}).get(key)),
         "real": _when((times.get("real") or {}).get(key)),
         "word": (generic.get("text") or "").lower(),
@@ -261,7 +266,7 @@ def collect(session, now: datetime) -> dict:
                         if x["iata"] == other
                         and x["scheduled"] <= now + ROUTE_AHEAD][:ON_A_PAGE]
             kept_rows = [x for x in kept_rows if x["scheduled"] <= now + AHEAD]
-            out[key] = kept_rows[:ON_A_PAGE * PAGES_EACH]
+            out[key] = kept_rows[:ON_A_SIDE * PAGES_EACH]
             log(f"  flights {key}: {len(raw)} row(s) read, "
                 f"{len(out[key])} on the board")
     try:
@@ -307,81 +312,169 @@ def status_of(x: dict, zone) -> tuple[str, tuple]:
     return "مجدولة", GREY
 
 
-def draw_page(code, name_ar, name_en, mode_ar, mode_en, flights, zone,
-              zone_name, now, page, pages) -> Image.Image:
-    board = backdrop()
-    pen = ImageDraw.Draw(board)
-    accent = GREEN if mode_en == "DEPARTURES" else BLUE
+# THE CITIES IN THE BOARD'S OWN LANGUAGE. The feed names them in English;
+# a board a reader in Amman or Abu Dhabi reads in Arabic says "القاهرة",
+# not "Cairo". Every city both airports served on the day this was
+# written, and a city not here is printed as the feed gives it.
+CITY_AR = {
+    "Abu Dhabi": "أبوظبي", "Addis Ababa": "أديس أبابا", "Ahmedabad": "أحمد آباد",
+    "Aleppo": "حلب", "Algiers": "الجزائر", "Amman": "عمّان",
+    "Amsterdam": "أمستردام", "Antalya": "أنطاليا", "Aqaba": "العقبة",
+    "Athens": "أثينا", "Atlanta": "أتلانتا", "Baghdad": "بغداد",
+    "Bahrain": "البحرين", "Baku": "باكو", "Bangkok": "بانكوك",
+    "Barcelona": "برشلونة", "Beirut": "بيروت", "Bengaluru": "بنغالور",
+    "Benghazi": "بنغازي", "Berlin": "برلين", "Boston": "بوسطن",
+    "Budapest": "بودابست", "Cairo": "القاهرة", "Casablanca": "الدار البيضاء",
+    "Charlotte": "شارلوت", "Chennai": "تشيناي", "Chicago": "شيكاغو",
+    "Cochin": "كوتشي", "Colombo": "كولومبو", "Dallas": "دالاس",
+    "Damascus": "دمشق", "Dammam": "الدمام", "Delhi": "دلهي",
+    "Denpasar": "بالي", "Dhaka": "دكا", "Doha": "الدوحة", "Dubai": "دبي",
+    "Dublin": "دبلن", "Dusseldorf": "دوسلدورف", "Erbil": "أربيل",
+    "Frankfurt": "فرانكفورت", "Geneva": "جنيف", "Hamburg": "هامبورغ",
+    "Hanoi": "هانوي", "Hong Kong": "هونغ كونغ", "Hyderabad": "حيدر آباد",
+    "Islamabad": "إسلام آباد", "Istanbul": "إسطنبول", "Jaipur": "جايبور",
+    "Jakarta": "جاكرتا", "Jeddah": "جدة", "Kabul": "كابل",
+    "Karachi": "كراتشي", "Kathmandu": "كاتماندو", "Kolkata": "كلكتا",
+    "Kozhikode": "كاليكوت", "Kuala Lumpur": "كوالالمبور",
+    "Kuwait City": "الكويت", "Lahore": "لاهور", "Larnaca": "لارنكا",
+    "London": "لندن", "Lucknow": "لكناو", "Lyon": "ليون", "Madrid": "مدريد",
+    "Male": "ماليه", "Manchester": "مانشستر", "Manila": "مانيلا",
+    "Medina": "المدينة المنورة", "Milan": "ميلانو", "Montreal": "مونتريال",
+    "Moscow": "موسكو", "Multan": "ملتان", "Mumbai": "مومباي",
+    "Munich": "ميونخ", "Muscat": "مسقط", "Nairobi": "نيروبي",
+    "New York": "نيويورك", "Paris": "باريس", "Peshawar": "بيشاور",
+    "Phuket": "بوكيت", "Riyadh": "الرياض", "Rome": "روما",
+    "Shanghai": "شنغهاي", "Sharjah": "الشارقة", "Sialkot": "سيالكوت",
+    "Sochi": "سوتشي", "Sulaimaniyah": "السليمانية", "Sydney": "سيدني",
+    "Tashkent": "طشقند", "Tbilisi": "تبليسي", "Tel Aviv": "تل أبيب",
+    "Thiruvananthapuram": "تريفاندرم", "Toronto": "تورونتو",
+    "Trabzon": "طرابزون", "Tunis": "تونس", "Vienna": "فيينا",
+    "Washington": "واشنطن", "Yerevan": "يريفان", "Zurich": "زيورخ",
+    "Basra": "البصرة", "Najaf": "النجف", "Sharm el-Sheikh": "شرم الشيخ",
+    "Hurghada": "الغردقة", "Alexandria": "الإسكندرية", "Tabuk": "تبوك",
+    "Taif": "الطائف", "Abha": "أبها", "Salalah": "صلالة", "Ankara": "أنقرة",
+    "Izmir": "إزمير", "Bodrum": "بودروم", "Bucharest": "بوخارست",
+    "Prague": "براغ", "Warsaw": "وارسو", "Brussels": "بروكسل",
+    "Stockholm": "ستوكهولم", "Copenhagen": "كوبنهاغن", "Seoul": "سيول",
+    "Tokyo": "طوكيو", "Beijing": "بكين", "Singapore": "سنغافورة",
+    "Johannesburg": "جوهانسبرغ", "Khartoum": "الخرطوم", "Tripoli": "طرابلس",
+    "Mosul": "الموصل", "Kyiv": "كييف", "Almaty": "ألماتي",
+    "Victoria": "سيشل", "Kannur": "كانور", "Chiang Rai": "شيانغ راي",
+    "Tiruchirapalli": "تيروتشيرابالي", "Faisalabad": "فيصل آباد",
+    "Nuremberg": "نورمبرغ", "Phnom Penh": "بنوم بنه", "Ezhou": "إيجو",
+}
 
-    draw_text(pen, (PAD, PAD - 6), f"{name_ar} · {mode_ar}", 40, WHITE,
+ON_A_SIDE = 7            # flights a column holds on an airport page
+
+
+def city_of(x: dict) -> str:
+    return CITY_AR.get(x["place"], x["place"])
+
+
+def draw_column(pen, x0: int, x1: int, top: int, heading: str, note: str,
+                accent, flights: list[dict], zone, rows: int,
+                route: bool = False) -> None:
+    """One half of a page: a heading tab and its flights, read right to left."""
+    pen.rounded_rectangle([x0, top, x1, top + 44], radius=12, fill=PANEL,
+                          outline=RULE, width=1)
+    pen.rounded_rectangle([x1 - 8, top + 8, x1 - 3, top + 36], radius=2,
+                          fill=accent)
+    draw_text(pen, (x1 - 20, top + 22), heading, 23, WHITE, anchor="rm",
               weight="heavy")
-    draw_text(pen, (PAD, PAD + 48), f"{name_en} · {mode_en} · {zone_name}",
-              19, MUTED, thin=True)
-    # The date and not the minute: a board that carries the clock is a new
-    # picture on every pass, and every new picture is a new video segment
-    # pushed to the repository — sixteen of them a pass, whether or not a
-    # single flight had changed. Without it a page is re-encoded only
-    # when something on it did change.
-    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y"))
-    draw_signature(pen)
+    draw_text(pen, (x0 + 16, top + 22), note, 15, MUTED, anchor="lm",
+              thin=True)
 
-    top = PAD + 100
-    rule(pen, top, accent)
-
-    heads = ("الوقت", "الرحلة", "إلى" if mode_en == "DEPARTURES" else "من", "الحالة")
-    xs = (PAD + 6, PAD + 130, PAD + 420, W - PAD - 6)
-    for i, text in enumerate(heads):
-        draw_text(pen, (xs[i], top + 18), text, 16, MUTED,
-                  anchor="ra" if i == 3 else "la", thin=True)
-
+    y = top + 56
+    room = H - y - PAD - 12
     if not flights:
-        draw_text(pen, (W // 2, H // 2 + 30), "لا رحلات في هذه الساعات", 30,
-                  MUTED, anchor="mm")
-        progress(pen, page, pages, accent)
-        return board
-
-    y = top + 46
-    height = (H - y - PAD - 10) // ON_A_PAGE
+        draw_text(pen, ((x0 + x1) // 2, y + 90), "لا رحلات في هذه الساعات",
+                  22, MUTED, anchor="mm")
+        return
+    height = min(92, room // max(rows, len(flights)))
     for i, x in enumerate(flights):
-        band = [PAD - 12, y, W - PAD + 12, y + height - 6]
+        band = [x0, y, x1, y + height - 8]
         pen.rounded_rectangle(band, radius=10,
                               fill=PANEL if i % 2 == 0 else PANEL_ALT,
                               outline=RULE, width=1)
-        mid = y + (height - 6) // 2
-        draw_text(pen, (xs[0], mid), x["scheduled"].astimezone(zone).strftime("%H:%M"),
-                  30, accent, anchor="lm", weight="heavy")
-        draw_text(pen, (xs[1], mid - 11), x["number"], 26, WHITE, anchor="lm",
-                  weight="heavy")
-        draw_text(pen, (xs[1], mid + 16), x["airline"],
-                  size_that_fits(x["airline"], 15, 11, 270), MUTED,
-                  anchor="lm", thin=True)
-        place = f"{x['place']} ({x['iata']})" if x["iata"] else x["place"]
-        draw_text(pen, (xs[2], mid), place, size_that_fits(place, 27, 16, 440),
-                  WHITE, anchor="lm")
+        mid = y + (height - 8) // 2
+        # Right to left, as the eye reads: when, which flight, where, how.
+        draw_text(pen, (x1 - 14, mid), x["scheduled"].astimezone(zone).strftime("%H:%M"),
+                  27, accent, anchor="rm", weight="heavy")
+        draw_text(pen, (x1 - 106, mid - 10), x["number"], 19, WHITE,
+                  anchor="rm", weight="heavy")
+        draw_text(pen, (x1 - 106, mid + 13), x["airline"],
+                  size_that_fits(x["airline"], 12, 9, 112), MUTED,
+                  anchor="rm", thin=True)
+        city = city_of(x)
+        if route and x.get("other_end"):
+            word = "الوصول" if x["mode"] == "departures" else "الإقلاع"
+            city = f"{word} {x['other_end'].astimezone(zone):%H:%M}"
+        draw_text(pen, (x1 - 236, mid - 9), city,
+                  size_that_fits(city, 22, 13, 150), WHITE, anchor="rm")
+        if x["iata"] and not route:
+            draw_text(pen, (x1 - 236, mid + 15), x["iata"], 12, MUTED,
+                      anchor="rm", thin=True)
         said, tone = status_of(x, zone)
-        size = size_that_fits(said, 21, 14, 250)
-        wide = 270
-        pill = [W - PAD - wide, mid - 20, W - PAD, mid + 20]
-        pen.rounded_rectangle(pill, radius=20, fill=PILL, outline=tone, width=2)
-        draw_text(pen, ((pill[0] + pill[2]) // 2, mid), said, size, tone,
-                  anchor="mm", weight="heavy")
+        pill = [x0 + 10, mid - 17, x0 + 170, mid + 17]
+        pen.rounded_rectangle(pill, radius=17, fill=PILL, outline=tone, width=2)
+        draw_text(pen, ((pill[0] + pill[2]) // 2, mid), said,
+                  size_that_fits(said, 17, 11, 146), tone, anchor="mm",
+                  weight="heavy")
         y += height
 
-    progress(pen, page, pages, accent)
+
+def draw_page(spec: dict, zone, zone_name, now, page, pages) -> Image.Image:
+    """A page as an airport screen: departures right, arrivals left."""
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+
+    draw_text(pen, (PAD, PAD - 6), spec["title"], 38, WHITE, weight="heavy")
+    draw_text(pen, (PAD, PAD + 46), f"{spec['subtitle']} · {zone_name}",
+              18, MUTED, thin=True)
+    # The date and not the minute: a board that carries the clock is a new
+    # picture on every pass, and every new picture is a new video segment
+    # pushed to the repository — whether or not a single flight changed.
+    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y"))
+    draw_signature(pen)
+
+    top = PAD + 96
+    rule(pen, top, GREEN)
+    middle = W // 2
+    rows = spec.get("rows", ON_A_SIDE)
+    draw_column(pen, middle + 10, W - PAD + 12, top + 14, *spec["right"],
+                GREEN, spec["right_rows"], zone, rows, spec.get("route", False))
+    draw_column(pen, PAD - 12, middle - 10, top + 14, *spec["left"],
+                BLUE, spec["left_rows"], zone, rows, spec.get("route", False))
+    progress(pen, page, pages, GREEN)
     return board
 
 
-def pages_of(board: dict) -> list[tuple]:
-    out = [("AMM", title_ar, title_en, "كل رحلات اليوم", mode_en,
-            board.get(f"route:{mode}") or [])
-           for mode, _other, title_ar, _sub, title_en, mode_en in ROUTE]
+def pages_of(board: dict) -> list[dict]:
+    """The route first, then each airport, both directions side by side."""
+    out = [{
+        "title": "بين عمّان وأبوظبي · كل رحلات اليوم",
+        "subtitle": "Amman - Abu Dhabi · all flights today",
+        "right": ("من عمّان إلى أبوظبي", "وقت الإقلاع"),
+        "left": ("من أبوظبي إلى عمّان", "وقت الوصول"),
+        "right_rows": board.get("route:departures") or [],
+        "left_rows": board.get("route:arrivals") or [],
+        "rows": 5,
+        "route": True,
+    }]
     for code, name_ar, name_en in AIRPORTS:
-        for mode, mode_ar, mode_en in DIRECTIONS:
-            flights = board.get(f"{code}:{mode}") or []
-            chunks = [flights[i:i + ON_A_PAGE]
-                      for i in range(0, len(flights), ON_A_PAGE)] or [[]]
-            for part in chunks:
-                out.append((code, name_ar, name_en, mode_ar, mode_en, part))
+        dep = board.get(f"{code}:departures") or []
+        arr = board.get(f"{code}:arrivals") or []
+        count = max(1, -(-max(len(dep), len(arr)) // ON_A_SIDE))
+        for n in range(min(count, PAGES_EACH)):
+            part = slice(n * ON_A_SIDE, (n + 1) * ON_A_SIDE)
+            out.append({
+                "title": name_ar,
+                "subtitle": name_en,
+                "right": ("المغادرة", "إلى"),
+                "left": ("القادمة", "من"),
+                "right_rows": dep[part],
+                "left_rows": arr[part],
+            })
     return out
 
 
@@ -389,9 +482,8 @@ def publish(board: dict, now: datetime, prefix: str, zone, zone_name,
             channel_id: str, output: str) -> bool:
     os.makedirs(BOARD_DIR, exist_ok=True)
     pages = pages_of(board)
-    for number, (code, name_ar, name_en, mode_ar, mode_en, part) in enumerate(pages):
-        picture = draw_page(code, name_ar, name_en, mode_ar, mode_en, part,
-                            zone, zone_name, now, number + 1, len(pages))
+    for number, spec in enumerate(pages):
+        picture = draw_page(spec, zone, zone_name, now, number + 1, len(pages))
         picture.convert("RGB").save(os.path.join(BOARD_DIR, f"{prefix}{number}.png"))
     forget_boards_past(prefix, len(pages), BOARD_DIR)
 
