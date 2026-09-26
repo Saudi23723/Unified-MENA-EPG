@@ -1,42 +1,46 @@
-"""Channel 6: which airline-logo sources answer from a runner; dump the logos
-of every carrier at AMM and AUH today as a tarball. Never fails."""
-import base64, io, os, sys, tarfile, time
+"""UAE channels (Dubai, Abu Dhabi, Sharjah, Sharqia, Fujairah, Dubai Sports,
+Dubai Racing, AD Nat Geo...): which aggregated feeds carry them, under
+which ids, and how many programmes over what span. Never fails."""
+import gzip, os, re, sys
+import xml.etree.ElementTree as ET
+from collections import defaultdict
 from datetime import datetime, timezone
 sys.path.insert(0, os.getcwd())
-import flight_epg
 from epg_lib import new_session
 S = new_session()
+FEEDS = {
+    "oe_uae1": "https://www.open-epg.com/files/uae1.xml",
+    "oe_uae2": "https://www.open-epg.com/files/uae2.xml",
+    "oe_uae3": "https://www.open-epg.com/files/uae3.xml",
+    "es_AE1": "https://epgshare01.online/epgshare01/epg_ripper_AE1.xml.gz",
+    "es_AE2": "https://epgshare01.online/epgshare01/epg_ripper_AE2.xml.gz",
+    "es_ALL_SOURCES_ar": "https://epgshare01.online/epgshare01/epg_ripper_SA1.xml.gz",
+}
+PAT = re.compile(r"dubai|abu ?dhabi|abudhabi|sharjah|sharqia|sharqiya|fujairah|emarat|sama|nat ?geo|ajman|\bad\b|yas|majid|racing|zayed|baynounah|noor dubai|dubai one|dxb|\.ae\b", re.I)
 now = datetime.now(timezone.utc)
-codes = {}
-for code in ("AMM", "AUH"):
-    for mode in ("departures", "arrivals"):
-        try:
-            for r in flight_epg._read(S, code, mode, now, flight_epg.ROUTE_AHEAD):
-                f = r["flight"]; num = (f["identification"]["number"]["default"] or "")[:2].upper()
-                al = f.get("airline") or {}
-                icao = ((al.get("code") or {}).get("icao")) or ""
-                if num: codes.setdefault(num, icao)
-        except Exception as e:
-            print("FAIL read", code, mode, e)
-print("carriers", len(codes), sorted(codes))
-tar_buf = io.BytesIO(); tar = tarfile.open(fileobj=tar_buf, mode="w:gz")
-for iata, icao in sorted(codes.items()):
-    for name, url in (("avs", f"https://pics.avs.io/400/160/{iata}@2x.png"),
-                      ("fr24", f"https://images.flightradar24.com/assets/airlines/logotypes/{iata}_{icao}.png"),
-                      ("airhex", f"https://content.airhex.com/content/logos/airlines_{iata}_350_100_r.png")):
-        try:
-            r = S.get(url, timeout=20)
-            ok = r.status_code == 200 and r.content[:4] == b"\x89PNG"
-            print(name, iata, icao, r.status_code, len(r.content), "PNG" if ok else "")
-            if ok:
-                info = tarfile.TarInfo(f"{name}/{iata}.png"); info.size = len(r.content)
-                tar.addfile(info, io.BytesIO(r.content))
-        except Exception as e:
-            print(name, iata, "ERR", str(e)[:80])
-        time.sleep(0.3)
-tar.close()
-blob = base64.b64encode(tar_buf.getvalue()).decode()
-print("TAR-BEGIN")
-for i in range(0, len(blob), 4000):
-    print("T|" + blob[i:i + 4000])
-print("TAR-END")
+for name, url in FEEDS.items():
+    try:
+        r = S.get(url, timeout=60); raw = r.content
+        if raw[:2] == b"\x1f\x8b": raw = gzip.decompress(raw)
+        root = ET.fromstring(raw)
+    except Exception as e:
+        print("FAIL", name, getattr(locals().get('r'), 'status_code', None), str(e)[:120]); continue
+    names = {}
+    for ch in root.iter("channel"):
+        dn = [d.text or "" for d in ch.findall("display-name")]
+        icon = ch.find("icon")
+        names[ch.get("id")] = (dn, icon.get("src") if icon is not None else "")
+    count = defaultdict(int); first = {}; last = {}; sample = defaultdict(list)
+    for p in root.iter("programme"):
+        c = p.get("channel")
+        if not (PAT.search(c or "") or any(PAT.search(x) for x in names.get(c, ([], ""))[0])):
+            continue
+        count[c] += 1
+        s = p.get("start", "")[:12]; first[c] = min(first.get(c, s), s); last[c] = max(last.get(c, s), s)
+        if len(sample[c]) < 3: sample[c].append((p.get("start"), (p.findtext("title") or "")[:40]))
+    print(f"== {name}: {len(names)} channels")
+    for c in sorted(set(count) | {k for k, v in names.items() if PAT.search(k) or any(PAT.search(x) for x in v[0])}):
+        dn, icon = names.get(c, ([], ""))
+        print(f"  {c!r} names={dn[:3]} progs={count.get(c,0)} span={first.get(c)}..{last.get(c)} icon={icon[:90]}")
+        for s in sample.get(c, [])[:2]:
+            print("      ", s)
