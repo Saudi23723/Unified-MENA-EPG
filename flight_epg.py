@@ -317,7 +317,12 @@ def draw_page(code, name_ar, name_en, mode_ar, mode_en, flights, zone,
               weight="heavy")
     draw_text(pen, (PAD, PAD + 48), f"{name_en} · {mode_en} · {zone_name}",
               19, MUTED, thin=True)
-    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y · %H:%M"))
+    # The date and not the minute: a board that carries the clock is a new
+    # picture on every pass, and every new picture is a new video segment
+    # pushed to the repository — sixteen of them a pass, whether or not a
+    # single flight had changed. Without it a page is re-encoded only
+    # when something on it did change.
+    date_chip(pen, W - PAD, PAD - 6, now.astimezone(zone).strftime("%d.%m.%Y"))
     draw_signature(pen)
 
     top = PAD + 100
