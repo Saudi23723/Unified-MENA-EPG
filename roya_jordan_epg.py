@@ -55,6 +55,7 @@ import aljazeera_epg
 import filler_epg
 import mbc_epg
 import osn_epg
+import starz_arabic_epg
 import uae_epg
 
 OUTPUT = "roya_jordan_epg.xml"
@@ -304,7 +305,8 @@ def build() -> int:
                          ("Filler", filler_epg),
                          ("MBC", mbc_epg),
                          ("OSN", osn_epg),
-                         ("UAE", uae_epg)):
+                         ("UAE", uae_epg),
+                         ("STARZPLAY Arab", starz_arabic_epg)):
         try:
             total += reader.emit(root, reader.collect(session, OUTPUT))
         except Exception as exc:
