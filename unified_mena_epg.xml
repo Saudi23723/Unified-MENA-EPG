@@ -1899,12 +1899,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260925154600 +0000" stop="20260925173400 +0000" channel="beIN4K.qa">
-    <title lang="en">Marseille vs PSG - French Ligue 1 2026/2027</title>
-    <desc lang="en">Marseille have lost 38 matches against Paris SG in all competitions in the 21st century, which is 15 more than against any other opponent. OM have won just one of their last 13 home Ligue 1 games against PSG, though this was their most recent encounter, almost exactly one year ago on 22 September 2025. Marseille have lost three of their first four</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
   <programme start="20260925173400 +0000" stop="20260925191700 +0000" channel="beIN4K.qa">
     <title lang="en">Brighton &amp; Hove Albion v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Brighton are winless in their last six Premier League home games against Arsenal, having been unbeaten in their first three against the Gunners at the Amex Stadium. Arsenal have won four of their last six Premier League games against Brighton, as many as they had in their first 12 against the Seagulls.</desc>
@@ -2259,13 +2253,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">Fulham are winless in their last 10 Premier League home games against Manchester United  since winning back-to-back matches against them at Craven Cottage in 2009. Manchester United have lost just one of their last 21 Premier League games against Fulham, going down 2-1 at Old Trafford in February 2024.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260925144300 +0000" stop="20260925173000 +0000" channel="beINSports.qa">
-    <title lang="en">Athletics -Heats - Asian Games Aichi-Nagoya 2026 - W/M/X</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="beINSports.qa">
     <title lang="en">Opening Ceremony - Asian Games Aichi-Nagoya 2026</title>
@@ -5753,13 +5740,6 @@ GSP Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925151400 +0000" stop="20260925173500 +0000" channel="beINSports5.qa">
-    <title lang="en">Swimming - Finals - Asian Games Aichi-Nagoya 2026  W/M</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260925173500 +0000" stop="20260925180500 +0000" channel="beINSports5.qa">
     <title lang="en">QAT vs TBA - 3x3 Basketball - QF - Asian Games Aichi-Nagoya 2026  W/M</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -7840,6 +7820,12 @@ Stadio Olimpico di Serravalle Stadium</desc>
   </programme>
   <programme start="20261002160000 +0000" stop="20261002173000 +0000" channel="beINSports9.qa">
     <title lang="en">Premier Padel - Rotterdam P2 2026 - M4 ‎• Live 🔵‎</title>
+    <category lang="ar">باديل</category>
+    <category lang="en">Live</category>
+    <category lang="en">Padel</category>
+  </programme>
+  <programme start="20261002173000 +0000" stop="20261002190000 +0000" channel="beINSports9.qa">
+    <title lang="en">Premier Padel - Rotterdam P2 2026 - M5 ‎• Live 🔵‎</title>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
@@ -10692,13 +10678,6 @@ GSP Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925170000 +0000" stop="20260925173000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">A special News Bulletin from the beIN SPORTS News Room with the addition of sign language for the hard of hearing.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -12180,11 +12159,10 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925133000 +0000" stop="20260925174000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">One Friday Fights - 172 ‎• Live 🔵‎</title>
-    <category lang="ar">الملاكمة</category>
-    <category lang="en">Live</category>
-    <category lang="en">Boxing</category>
+  <programme start="20261002173000 +0000" stop="20261002180000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">US Open 2026 Review Part 2</title>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260925174000 +0000" stop="20260925175000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
@@ -54114,10 +54092,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
     <icon src="https://backend.roya-tv.com/imagechanger/Size03Q40R169/images/programs/713/kloKfQeffViJlwO.jpg" />
   </programme>
-  <programme start="20260925164500 +0000" stop="20260925173000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">نشرة الأخبار المسائية</title>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20260925173000 +0000" stop="20260925183000 +0000" channel="AlJadeed.lb">
     <title lang="ar">برامج الجديد — لم تُعلن التفاصيل</title>
     <category lang="ar">منوعات</category>
@@ -54996,6 +54970,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20260927000503 +0000" stop="20260927010118 +0000" channel="AlJazeera.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20260927010118 +0000" stop="20260927012417 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="ar">أخبار</category>
   </programme>
@@ -61143,10 +61121,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">بوكويو — الحلقة 50</title>
     <desc lang="ar">ينضم بوكويو، الطفل الغريب ذو الملابس الزرقاء، إلى باتو البطة الصفراء، إيلي الفيل الوردي، الطائر النائم، الكلبة لولا، وآخرين.. معاً يمرحون ويتعلمون أشياء جديدة.</desc>
   </programme>
-  <programme start="20260925170000 +0000" stop="20260925173800 +0000" channel="MBC 4">
-    <title lang="ar">ورود وذنوب — الحلقة 71</title>
-    <desc lang="ar">يواجه جهاد عواقب قاسية تقلب حياته رأساً على عقب، فيما تتصدع أقرب الروابط من حوله.</desc>
-  </programme>
   <programme start="20260925173800 +0000" stop="20260925181000 +0000" channel="MBC 4">
     <title lang="ar">ورود وذنوب — الحلقة 72</title>
     <desc lang="ar">يحاول نشأت لملمة ما تبقى من حياته، فيما تفتح قضية قمر باباً لمواجهة جديدة.</desc>
@@ -61585,9 +61559,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260927000503 +0000" stop="20260927010118 +0000" channel="MBC 5">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260925152000 +0000" stop="20260925173000 +0000" channel="MBC Action">
-    <title lang="ar">الدوري السعودي الممتاز للسيدات:النصر × العلا</title>
-    <desc lang="ar">كونوا على موعد مع المباريات المباشرة للدوري السعودي للسيدات.</desc>
+  <programme start="20260927010118 +0000" stop="20260927012417 +0000" channel="MBC 5">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260925173000 +0000" stop="20260925180100 +0000" channel="MBC Action">
     <title lang="ar">كينغدوم — الحلقة 7</title>
@@ -62329,10 +62302,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">وتقابل حبيب — الحلقة 10</title>
     <desc lang="ar">تجد ليلى القاضي نفسها أمام معضلة بعد انفصالها عن زوجها الثري وبقائها في المنزل؛ حيث تتطور مشاعرها بشكل غير متوقع نحو شقيقه فارس، ما يخلق صراعاً عائلياً عالي الوتيرة بسبب رفض الجميع لارتباط هذا الثنائي.</desc>
   </programme>
-  <programme start="20260925165600 +0000" stop="20260925174000 +0000" channel="MBC+ Drama">
-    <title lang="ar">الهيبة — الحلقة 13</title>
-    <desc lang="ar">مسلسل دراما، اجتماعي، أكشن لا يخلو من الرومانسية. أناس يعيشون في الجبل، يتزعمهم (جبل) رأس العشيرة وابن (الشامية)، تجارتهم الرئيسية السلاح، مناطقهم الافتراضية تقع على الحدود اللبنانية/ السورية المشتركة. يتحكمون بكل شيء إما بقوة المال والفساد أو بأزيز الرصاص!</desc>
-  </programme>
   <programme start="20260925174000 +0000" stop="20260925181900 +0000" channel="MBC+ Drama">
     <title lang="ar">الهيبة — الحلقة 14</title>
     <desc lang="ar">مسلسل دراما، اجتماعي، أكشن لا يخلو من الرومانسية. أناس يعيشون في الجبل، يتزعمهم (جبل) رأس العشيرة وابن (الشامية)، تجارتهم الرئيسية السلاح، مناطقهم الافتراضية تقع على الحدود اللبنانية/ السورية المشتركة. يتحكمون بكل شيء إما بقوة المال والفساد أو بأزيز الرصاص!</desc>
@@ -62856,10 +62825,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928033000 +0000" stop="20260928042000 +0000" channel="MBC Masr">
     <title lang="ar">شقة فيصل — الحلقة 31</title>
     <desc lang="ar">تلعب الصدفة دوراً كبيراً في حياة أربعة شبان، إذ يجمعهم القدر في شقة بمنطقة فيصل في مصر، حيث يمتلك كل واحد منهم حلماً وغاية يسعى إلى تحقيقهما رغم كل العقبات والتحديات التي تواجهه.</desc>
-  </programme>
-  <programme start="20260925170900 +0000" stop="20260925173800 +0000" channel="MBC Masr 2">
-    <title lang="ar">رياح الحب الموسمية — الحلقة 4</title>
-    <desc lang="ar">تنحدر (بريا) من الطبقة الوسطى، وتعمل كمدرسة، وهي لا تؤمن بالحب ولا تعترف به، وعلى العكس تماماً يؤمن (رام) رجل الأعمال بالحب، ويشعر بالحزن الشديد بسبب فشل ارتباطه السابق. ماذا سيحدث عندما يجمع القدر هذا الثنائي المختلف تماما في طريقة التفكير والمنزلة الاجتماعية؟</desc>
   </programme>
   <programme start="20260925173800 +0000" stop="20260925180800 +0000" channel="MBC Masr 2">
     <title lang="ar">رياح الحب الموسمية — الحلقة 5</title>
@@ -65916,9 +65881,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Law &amp; Order S25</title>
     <desc lang="en">In the 25th season, the team tackles a new set of crimes and cases to solve. Detective Theo Walker joins as a partner to Det. Vincent Riley following the departure of Det. Jalen Shaw, and the events continue to unfold.</desc>
   </programme>
-  <programme start="20260925171052 +0000" stop="20260925173051 +0000" channel="OSNKids.osn">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
   <programme start="20260925173051 +0000" stop="20260925175050 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -66118,6 +66080,9 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260927000503 +0000" stop="20260927010118 +0000" channel="OSNKids.osn">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260927010118 +0000" stop="20260927012417 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926042000 +0000" stop="20260926061500 +0000" channel="OSNMoviesPremiere.osn">
@@ -68723,10 +68688,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Crikey! It's The Irwins:Robert And Big, Bad Bosco</title>
     <desc lang="en">The family make their annual trip to the Steve Irwin Wildlife Reserve to study wild crocodiles, and continue the mission started by Steve.</desc>
   </programme>
-  <programme start="20260925171000 +0000" stop="20260925173500 +0000" channel="OSNTLC.osn">
-    <title lang="en">Cake Boss:Down The Drain</title>
-    <desc lang="en">Buddy Valastro and his cake crew are back and whipping up amazing cake creations. Buddy wants to stay true to his roots, cake and family. The Valastros prove that no matter how sticky the situation, the family that bakes together stays together!</desc>
-  </programme>
   <programme start="20260925173500 +0000" stop="20260925180000 +0000" channel="OSNTLC.osn">
     <title lang="en">Cake Boss:Pimp My Cake</title>
     <desc lang="en">Buddy Valastro and his cake crew are back and whipping up amazing cake creations. Buddy wants to stay true to his roots, cake and family. The Valastros prove that no matter how sticky the situation, the family that bakes together stays together!</desc>
@@ -69891,10 +69852,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">ساعته وتاريخه - الحلقة 4</title>
     <desc lang="ar">تدور الأحداث حول العديد من القضايا المهمة التي شهدتها المحاكم المصرية، وتتناول الدوافع والملابسات الخاصة بهذه القضايا في أجواء درامية مثيرة.</desc>
   </programme>
-  <programme start="20260925163000 +0000" stop="20260925173000 +0000" channel="DubaiOne.ae">
-    <title lang="ar">Engineering Tomorrow:Dubai One - الحلقة 1</title>
-    <desc lang="en">Teams of engineers from Europe and America are racing to build an entirely new way to travel, called hyperloop. This fully-electric, innovative technology would be so fast and convenient, it would transform the way we live and work, while also eliminating dangerous carbon emissions. Creating a levitating pod in a vacuum tube that can move at close to the speed of sound, requires overcoming significant engineering challenges. But to overcome what may the biggest challenge of all - to convince governments that this technology is the future - they must put rivalry aside and work together.</desc>
-  </programme>
   <programme start="20260925173000 +0000" stop="20260925183000 +0000" channel="DubaiOne.ae">
     <title lang="ar">Sweet Diva - الحلقة 126</title>
     <desc lang="en">Maria da Paz comes from a family of professional vigilantes, the Ramirez, and falls in love with Amadeu, a trained lawyer and member of the rival business clan, the Matheus.</desc>
@@ -70311,10 +70268,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261002000000 +0000" stop="20261002010000 +0000" channel="DubaiOne.ae">
     <title lang="en">211</title>
     <desc lang="en">While on a routine patrol, an aging cop, his partner and their ride-along, get caught in a standoff with a band of former mercenaries robbing a bank.</desc>
-  </programme>
-  <programme start="20260925170000 +0000" stop="20260925172959 +0000" channel="SamaDubai.ae">
-    <title lang="ar">دبي المستقبل - الحلقة 1</title>
-    <desc lang="ar">o خالد العوضي- مدير أنظمة المواصلات RTA o ندى جاسم- مدير إدارة تخطيط وتنظيم السلامة والمخاطر RTA o محمد ال علي- مدير إدارة الأنظمة الذكية RTA</desc>
   </programme>
   <programme start="20260925172959 +0000" stop="20260925175959 +0000" channel="SamaDubai.ae">
     <title lang="ar">صناع العطاء - الحلقة 1</title>
@@ -72307,11 +72260,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928230800 +0000" stop="20260929000800 +0000" channel="DubaiRacing2.ae">
     <title lang="en">Al Shira'a International Show Jumping Championship Abu Dhabi 24/01/2026</title>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="AbuDhabiTV.ae">
-    <title lang="en">Kawalees Abu Dhabi</title>
-    <desc lang="en">An initiative in praise of heroes who work in the shadows and remain unseen to maintain Abu Dhabi and its stance as the vibrant city recognized for high quality life and residents well-being.</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925183000 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20260925174000 +0000" stop="20260925183000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">Taht Al-Ard, Mawsem Haar</title>
     <desc lang="en">Rules of the game set by Al-Safi Damascene family change when Jawdat appears out of nowhere to eliminate the family’s supremacy in the tobacco trade and causes a grave diversion in the family tree.</desc>
   </programme>
@@ -72431,7 +72380,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Wa'ee</title>
     <desc lang="en">An approach to enhance awareness in its holistic meaning and help sculpt stable communities by detecting dysfunctional and negative occurrences within societies, and offering tactics for reform.</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="AlEmaratTV.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="AlEmaratTV.ae">
     <title lang="en">Oloum Al-Dar</title>
     <desc lang="en">A daily comprehensive update on national current affairs and events with a multi-platform of breaking news in politics, sports, business and weather forecasts.</desc>
   </programme>
@@ -72559,7 +72508,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ain Al-Theeb</title>
     <desc lang="en">Sama's marriage was meant to end years of hostility between her tribe &amp; the groom's, but deep-rooted hatred of in-laws has her elope to the desert where a new destiny awaits her with Fares the shepherd</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="NatGeoAbuDhabi.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="en">Lost Cities With Albert Lin</title>
     <desc lang="en">Lost Cities With Albert Lin 1</desc>
   </programme>
@@ -72703,12 +72652,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ocean Wreck Investigation</title>
     <desc lang="en">Ocean Wreck Investigation 1</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173300 +0000" channel="SharjahTV.ae">
-    <title lang="ar">الأخبار</title>
-    <title lang="en">Al Akhbar</title>
-    <desc lang="ar">‫‫يقوم فريق التقديم باستعراض آخر المستجدات والأخبار الراهنة، بالإضافة إلى تقارير مفصلة وأحداث من جميع أنحاء العالم.‬‬</desc>
-  </programme>
-  <programme start="20260925173300 +0000" stop="20260925180000 +0000" channel="SharjahTV.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="SharjahTV.ae">
     <title lang="ar">كوادر</title>
     <title lang="en">Kawader</title>
     <desc lang="en">‫‬</desc>
@@ -73478,7 +73422,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Atyab Halwa</title>
     <desc lang="ar">‫‫يقوم الطاهي بتحضير العديد من الوصفات الشهية، بهدف مساعدة المشاهدين على إتقان فن الطهي بأسهل طرق ممكنة.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="SharqiyaKalba.ae">
+  <programme start="20260929172900 +0000" stop="20260929180000 +0000" channel="SharjahTV.ae">
+    <title lang="ar">قصة أغنية</title>
+    <title lang="en">Qessat Oghneyah</title>
+    <desc lang="ar">‫‫يسلط صانع الأفلام الضوء على القصص التي تكمن وراء بعض أشهر الأغاني العربية، كما ويستكشف الأمور التي تجعلها مميزة.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="SharqiyaKalba.ae">
     <title lang="ar">حديث المساء</title>
     <title lang="en">Hadeeth Al Masaa</title>
     <desc lang="ar">‫‫تقوم المضيفة بدعوة خبراء لمناقشة آخر وأهم الأخبار والمستجدات الاجتماعية والسياسية والاقتصادية والرياضية في مصر.‬‬</desc>
@@ -74408,12 +74357,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Hadeeth Al Masaa</title>
     <desc lang="ar">‫‫تقوم المضيفة بدعوة خبراء لمناقشة آخر وأهم الأخبار والمستجدات الاجتماعية والسياسية والاقتصادية والرياضية في مصر.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="RotanaClassic.sa">
-    <title lang="ar">أغاني أفلام أبيض و أسود</title>
-    <title lang="en">Aghani Aflam Abyadh Wa Aswad</title>
-    <desc lang="ar">‫‫مجموعة من أشهر الأغاني التي يؤديها بعض من أكثر النجوم المحبوبين، من أفلام عربية كلاسيكية صدرت بالأبيض والأسود.‬‬</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925193000 +0000" channel="RotanaClassic.sa">
+  <programme start="20260925174000 +0000" stop="20260925193000 +0000" channel="RotanaClassic.sa">
     <title lang="ar">سر طاقية الإخفاء</title>
     <title lang="en">Ser Taqeyyat Al Ekhfa'</title>
     <desc lang="ar">‫‫يعمل فصيح في مختبر والده ويتسبب بوقع انفجار بداخل المختبر عن طريق الخطأ. ينتج عن الانفجار جنيا يقوم بتحقيق الأمنيات لفصيح.‬‬</desc>
@@ -74753,7 +74697,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Este'radhaat Abyadh Wa Aswad</title>
     <desc lang="ar">‫‫مجموعة شاملة ومتنوعة من الأفلام العربية القديمة والكلاسيكية التي لم تفقد بريقها ورونقها مع مرور السنين.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925190000 +0000" channel="RotanaComedy.sa">
+  <programme start="20260929173000 +0000" stop="20260929193000 +0000" channel="RotanaClassic.sa">
+    <title lang="ar">إجازة بالعافية</title>
+    <title lang="en">Ejaza Bel Afia</title>
+    <desc lang="ar">‫‫يفوز الصديقان سالم وسليمان برحلة إجازة إلى الإسكندرية. في طريقهما، يتعرفان على صحفيتين تحاولان خداعهما وإجبارهما على القبض على أحد اللصوص.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925190000 +0000" channel="RotanaComedy.sa">
     <title lang="ar">لوكاندة الفردوس</title>
     <title lang="en">Lokandet El Fardous</title>
     <desc lang="ar">‫‫تشك سميحة في زوجها الخائن، فترسل جارها عطية لملاحقته ولضبط زوجها متلبسا بالخيانة والكذب في فندق الفردوس.‬‬</desc>
@@ -74988,7 +74937,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Karkar</title>
     <desc lang="ar">‫‫يتعرض رجل ثري لصدمة كهربائية، الأمر الذي يتسبب بتعرض دماغه للتلف. تحاول قريبته وقريبه المتعطشان للمال خداعه من خلال تزويجه لقريبة مزيفة.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="RotanaDrama.sa">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="RotanaDrama.sa">
     <title lang="ar">نيران العشق</title>
     <title lang="en">Neran Al E'sheq</title>
     <desc lang="ar">‫م1 ، ح9 : ‫بعد وفاة محبوبها، تجبر شابة على الزواج من عمه الثري، مما يقلب حياتها رأسا على عقب. لكن، تأخذ الأمور منحى آخر عندما يحدث ما لم يكن بالحسبان في يوم زفافها.‬‬</desc>
@@ -75473,7 +75422,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Neran Al E'sheq</title>
     <desc lang="ar">‫م1 ، ح13 : ‫بعد وفاة محبوبها، تجبر شابة على الزواج من عمه الثري، مما يقلب حياتها رأسا على عقب. لكن، تأخذ الأمور منحى آخر عندما يحدث ما لم يكن بالحسبان في يوم زفافها.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="RotanaKhaleejiah.sa">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="RotanaKhaleejiah.sa">
     <title lang="ar">يا هلا</title>
     <title lang="en">Ya Hala</title>
     <desc lang="ar">‫م1 ، ح13 : ‫‫‫يتناول المضيف قضايا وشؤون التي تتعلق بالمملكة العربية السعودية والوطن العربي بشكل عام، ويحاور خبراء وشخصيات لمناقشتها.‬‬‬‬</desc>
@@ -75943,7 +75892,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ya Hala</title>
     <desc lang="ar">‫م1 ، ح17 : ‫‫‫يتناول المضيف قضايا وشؤون التي تتعلق بالمملكة العربية السعودية والوطن العربي بشكل عام، ويحاور خبراء وشخصيات لمناقشتها.‬‬‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925190000 +0000" channel="RotanaCinemaKSA.sa">
+  <programme start="20260925174000 +0000" stop="20260925190000 +0000" channel="RotanaCinemaKSA.sa">
     <title lang="ar">عقدة الخواجة</title>
     <title lang="en">Okdet El Khawaga</title>
     <desc lang="en">‫‬</desc>
@@ -76198,7 +76147,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Qarmat Byetmarmat</title>
     <desc lang="ar">‫‫يعثر قرموطي على كاميرا تخص غادة، وهي صحافية تحقق في عصابة تقوم بتهريب القطع الأثرية، ويتورط في العملية عن غير قصد.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="RotanaCinemaEgypt.sa">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="RotanaCinemaEgypt.sa">
     <title lang="ar">حريم كريم</title>
     <title lang="en">Hareem Kareem</title>
     <desc lang="ar">‫‫يطلب الشاب المطلق كريم مساعدة زميلاته من أيام الجامعة للعودة إلى زوجته. مع ذلك، تنجذب معظم زميلات كريم له، مما يجعل الأمور تزداد تعقيدا.‬‬</desc>
@@ -76453,12 +76402,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Andaleeb Al Doqqi</title>
     <desc lang="ar">‫‫يحب الشاب البسيط فوزي الغناء ويحلم بالشهرة، لكنه يعاني من أزمات مختلفة إثر وفاة والدته. تتغير حياته عندما يذهب إلى دبي في مغامرة، أملا بالعثور على شقيقه التوأم المفقود منذ فترة طويلة.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="Saudi1.sa">
-    <title lang="ar">خيرها بناسها</title>
-    <title lang="en">Kheerha Be Nasha</title>
-    <desc lang="ar">‫‫يسلط الراوي الضوء على شخصيات سعودية تقوم بتقديم مختلف المساعدات الإنسانية، وذلك بهدف نشر الوعي بين المواطنين.‬‬</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="Saudi1.sa">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="Saudi1.sa">
     <title lang="ar">صلاة العشاء</title>
     <title lang="en">Salat Al Isha</title>
     <desc lang="en">‫‬</desc>
@@ -77198,7 +77142,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Jawhom Reyadhi</title>
     <desc lang="ar">‫‫يقوم المضيف بتسليط الضوء على مختلف أنواع الرياضة التي يتم ممارستها في المملكة العربية السعودية، بالإضافة إلى تفاعله مع العديد من الرياضيين وإبراز البطولات التي تقام هناك.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="LBCSat.lb">
+  <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="Saudi1.sa">
+    <title lang="ar">صلاة العشاء</title>
+    <title lang="en">Salat Al Isha</title>
+    <desc lang="en">‫‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="LBCSat.lb">
     <title lang="ar">قلب أمه</title>
     <title lang="en">Qalb Ommoh</title>
     <desc lang="ar">‫‫ينتهي الأمر برجل العصابات تختوخ بأن يجري عملية زراعة قلب بعد أن يصاب في شجار. يبدأ لاحقا بالتعامل بعطف كبير مع يونس، وهو ابن المرأة التي حصل على القلب منها.‬‬</desc>
@@ -77598,12 +77547,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al A'ahd</title>
     <desc lang="ar">‫م1 ، ح26 : ‫يجبر الشعب السوري على التعامل مع تحديات وعقبات لا نهاية لها أثناء الحكم العثماني لبلادهم، ولكن تقع سلسلة من الأحداث التي تؤدي إلى تغيير حياتهم بشكل كامل.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="KanalDDrama.tr">
-    <title lang="ar">رسالة وداع</title>
-    <title lang="en">Resalat Wadaa'</title>
-    <desc lang="ar">‫م1 ، ح50 : ‫يفترق العاشقان السابقان ألانور وزيا قبل ثلاثين عاما بسبب رسالة تفطر القلب، ثم تتقاطع طرقهما مجددا عندما يقع طفلاهما في حب عميق. ويتعين على الشابين محاربة الرفض العائلي وأسرار الماضي المظلمة لبناء مستقبل معا.‬‬</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925183000 +0000" channel="KanalDDrama.tr">
+  <programme start="20260925174000 +0000" stop="20260925183000 +0000" channel="KanalDDrama.tr">
     <title lang="ar">فاطمة</title>
     <title lang="en">Fatemah</title>
     <desc lang="ar">‫م1 ، ح108 : ‫لشغفها بالفن والموسيقى، تتعلم فاطمة العزف على الكمان بالرغم من نشأتها في بيئة محافظة لا تحث التعبير عن الذات.‬‬</desc>
@@ -78083,7 +78027,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Resalat Wadaa'</title>
     <desc lang="ar">‫م1 ، ح52 : ‫يفترق العاشقان السابقان ألانور وزيا قبل ثلاثين عاما بسبب رسالة تفطر القلب، ثم تتقاطع طرقهما مجددا عندما يقع طفلاهما في حب عميق. ويتعين على الشابين محاربة الرفض العائلي وأسرار الماضي المظلمة لبناء مستقبل معا.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925181500 +0000" channel="ZeeAlwan.ae">
+  <programme start="20260929173000 +0000" stop="20260929183000 +0000" channel="KanalDDrama.tr">
+    <title lang="ar">فاطمة</title>
+    <title lang="en">Fatemah</title>
+    <desc lang="ar">‫م1 ، ح110 : ‫لشغفها بالفن والموسيقى، تتعلم فاطمة العزف على الكمان بالرغم من نشأتها في بيئة محافظة لا تحث التعبير عن الذات.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925181500 +0000" channel="ZeeAlwan.ae">
     <title lang="en">Ishtibaah (Jareemat Mumbai)</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
@@ -78503,7 +78452,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Asmaytouha Guddan S3</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925181500 +0000" channel="ZeeAflam.ae">
+  <programme start="20260925174000 +0000" stop="20260925181500 +0000" channel="ZeeAflam.ae">
     <title lang="en">THE WIFE</title>
     <desc lang="en">Gurmeet Choudhary, Sayani Datta and others</desc>
   </programme>
@@ -78651,7 +78600,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Tadka</title>
     <desc lang="en">Nana Patekar,Shriya Saran,Taapsee Pannu,Ali Fazal and others</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="MBCPluseLife.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="MBCPluseLife.ae">
     <title lang="ar">نادي الكوميديا</title>
     <title lang="en">Nadi Al Comedia</title>
     <desc lang="ar">‫م1 ، ح4 : ‫يتناول فنانو الكوميديا الارتجالية القضايا الاجتماعية والسياسية الشائكة، مستخدمين سلاح الفكاهة والذكاء لتسلية الجمهور بتقديم تعليقات ثاقبة.‬‬</desc>
@@ -79120,12 +79069,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ham Nawaya</title>
     <desc lang="ar">‫‫تواجه الأم الحنونة شيخة العديد من المشاكل والصراعات التي لا تنتهي، أثناء محاولتها مساعدة أولادها في التغلب على مصاعب الحياة وعقباتها.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="AlWoustaAlDhaid.ae">
-    <title lang="ar">فضل الأدعية</title>
-    <title lang="en">Fadl Al'adeia</title>
-    <desc lang="ar">‫م1 ، ح22 : ‫برنامج رمضاني, يقدم باقة مختارة من الأدعية المأثورة والجامعة, تتلى بخشوع وروحانية عالية, مع لمسات إيمانية قصيرة تُعين المشاهد على التدبر والخشوع وتعزيز القرب من الله خلال أيام وليالي شهر رمضان المبارك, ويهدف البرنامج إلى نشر الطمأنينة, وتعميق معنى .‬‬</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="AlWoustaAlDhaid.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="AlWoustaAlDhaid.ae">
     <title lang="ar">جلسة شوابنا</title>
     <title lang="en">Jalsat Shawabina</title>
     <desc lang="ar">‫م1 ، ح32 : ‫يقوم فريق التقديم بدعوة العديد من الضيوف من كبار السن للحديث عن العالدات والتقاليد ونقل حكمتهم التي اكتسبوها للأجيال الجديدة.‬‬</desc>
@@ -79825,7 +79769,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ba'edan A'n Al Modon</title>
     <desc lang="ar">‫‫يستكشف صانع الفيلم تأثير تغير المناخ على الناس والبيئة والمجتمعات القروية في المناطق الجبلية والسهول والوديان الأخرى في العالم.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925190000 +0000" channel="AlHadath.ae">
+  <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="AlWoustaAlDhaid.ae">
+    <title lang="ar">لمحات قانونية</title>
+    <title lang="en">Lamahat Qanooniyah</title>
+    <desc lang="ar">‫‫يناقش المضيف عدة أحكام قانونية في القانون الإماراتي مع مجموعة من المثقفين لتعريف المشاهد بالقوانين الإماراتية وأمور القضاء.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925190000 +0000" channel="AlHadath.ae">
     <title lang="ar">الأخبار</title>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
@@ -80530,7 +80479,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925175500 +0000" channel="AlArabiyaBusiness.ae">
+  <programme start="20260925174000 +0000" stop="20260925175500 +0000" channel="AlArabiyaBusiness.ae">
     <title lang="ar">العربية Business</title>
     <title lang="en">Al Arabiya Business</title>
     <desc lang="ar">تقدم لكم القناة آخر أخبار المال والأعمال من جميع أنحاء العالم.</desc>
@@ -80990,12 +80939,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="CNBCArabiya.ae">
-    <title lang="ar">بالمصري</title>
-    <title lang="en">Bel Masry</title>
-    <desc lang="ar">‫‫يسلط المضيف الضوء على تاريخ وجمال وجغرافيا والمواقع الأثرية وحضارة ودين مصر التي تقع على ساحل البحر المتوسط.‬‬</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="CNBCArabiya.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="CNBCArabiya.ae">
     <title lang="ar">قصص</title>
     <title lang="en">Qesas</title>
     <desc lang="en">‫‬</desc>
@@ -81843,7 +81787,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Eye on Kuwait</title>
     <desc lang="ar">‫‫يلقي المضيف الضوء على آخر الأخبار والمستجدات الاقتصادية والسياسة من الكويت، ويحاور مختلف الخبراء والشخصيات.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="CNNInternational.us">
+  <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="CNBCArabiya.ae">
+    <title lang="ar">تحت الضوء</title>
+    <title lang="en">Under Llight</title>
+    <desc lang="ar">‫‫يقوم المضيف بتسليط الضوء على أحدث الأخبار والتطورات والمستجدات المالية من أنحاء العالم، أثناء تفاعله مع مختلف الخبراء.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="CNNInternational.us">
     <title lang="ar">آمانبور</title>
     <title lang="en">Amanpour</title>
     <desc lang="ar">‫‫تتحدث الصحفية البريطانية الإيرانية كريستيان آمانبور مع شخصيات بارزة حول القضايا الهامة التي تؤثر على الناس. ‬‬</desc>
@@ -82509,12 +82458,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Amanpour - LIVE</title>
     <desc lang="ar">‫‫تتحدث الصحفية البريطانية الإيرانية كريستيان آمانبور مع شخصيات بارزة حول القضايا الهامة التي تؤثر على الناس. ‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="Spacetoon.ae">
-    <title lang="ar">أحجار الضياء</title>
-    <title lang="en">Ahjar Al Dheya'</title>
-    <desc lang="ar">‫‫ترسل "روبي" -وهي أرنبة يابانية مشاكسة من "أرض الجواهر"- إلى الأرض لتكوين صداقات وتعلم دروس حياتية مهمة.‬‬</desc>
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="Spacetoon.ae">
+  <programme start="20260925174000 +0000" stop="20260925180000 +0000" channel="Spacetoon.ae">
     <title lang="ar">بيباتل إكس</title>
     <title lang="en">BeyBattle X</title>
     <desc lang="ar">‫م2 ، ح13 : ‬</desc>
@@ -83704,7 +83648,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Mohaqqeqq Conan</title>
     <desc lang="ar">‫م11 ، ح593 : ‫يستيقظ المحقق سينيشي ليجد نفسه عالقا في جسد طفل يبلغ خمس سنوات، وذلك بعد أن يشهد نشاطا غير قانوني قام به رجلان مشبوهان ويقرر حل هذا الغموض.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925181000 +0000" channel="CartoonNetworkArabic.ae">
+  <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="Spacetoon.ae">
+    <title lang="ar">أبطال الكرة . فرسان الزمن</title>
+    <title lang="en">Abtal Al Korah..Forsan Al Zaman</title>
+    <desc lang="ar">‫م1 ، ح17 : ‫يسعى مجموعة من الطلاب ليصبحوا لاعبي كرة قدم محترفين. تأخذ الأمور منحى آخر، عندما يحدث ما هو غير متوقع.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925181000 +0000" channel="CartoonNetworkArabic.ae">
     <title lang="ar">ذا وندرفلي ويرد ورلد أوف غامبول</title>
     <title lang="en">The Wonderfully Weird World of Gumball</title>
     <desc lang="ar">‫‫عالم غامبول الغريب حيث تنثني قوانين الواقع، وتتحول فيه روابط العائلة ومغامرات الحياة اليومية إلى شيء استثنائي في بلدة إلمور غريبة الأطوار.‬‬</desc>
@@ -84399,7 +84348,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">The Wonderfully Weird World of Gumball</title>
     <desc lang="ar">‫‫عالم غامبول الغريب حيث تنثني قوانين الواقع، وتتحول فيه روابط العائلة ومغامرات الحياة اليومية إلى شيء استثنائي في بلدة إلمور غريبة الأطوار.‬‬</desc>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925181000 +0000" channel="2MMonde.ma">
+  <programme start="20260929174000 +0000" stop="20260929180000 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">تين تايتانز غو!</title>
+    <title lang="en">Teen Titans Go!</title>
+    <desc lang="ar">‫‫يعشق الأبطال الخارقون روبن وسايبورغ وستارفاير ورايفن وبيست بوي إنقاذ العالم، لكن بعد انتهاء محاربة الجريمة، لا تسير الأمور دائما كما هو مخطط لها.‬‬</desc>
+  </programme>
+  <programme start="20260925174000 +0000" stop="20260925181000 +0000" channel="2MMonde.ma">
     <title lang="ar">بحر الظلام</title>
     <title lang="en">Bahr Al Dhalam</title>
     <desc lang="ar">‫‫الرحلة المروعة والمليئة بالصمود لنفس، وهي شابة تم بيعها لتزويجها في سن السادسة عشرة لرجل أعمال ثري ومضطرب نفسيا على مدار ثماني سنوات، تعيش نفس كابوسا من العنف المنزلي والأسر.‬‬</desc>
@@ -85096,10 +85050,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928205847 +0000" stop="20260928210000 +0000" channel="Roya_Ch36">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260927010118 +0000" stop="20260927012417 +0000" channel="AlJazeera.qa">
+  <programme start="20260927012417 +0000" stop="20260927014505 +0000" channel="AlJazeera.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260927010118 +0000" stop="20260927012417 +0000" channel="MBC 5">
+  <programme start="20260927012417 +0000" stop="20260927014505 +0000" channel="MBC 5">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926000200 +0000" stop="20260926001500 +0000" channel="MBC Masr Drama">
@@ -85234,7 +85188,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260929234000 +0000" stop="20260929234500 +0000" channel="MBC Iraq">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260927010118 +0000" stop="20260927012417 +0000" channel="OSNKids.osn">
+  <programme start="20260927012417 +0000" stop="20260927014505 +0000" channel="OSNKids.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260925192500 +0000" stop="20260926011800 +0000" channel="DubaiRacing.ae">
@@ -85264,13 +85218,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260928143500 +0000" stop="20260928202000 +0000" channel="DubaiRacing2.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926190000 +0000" stop="20260927012417 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20260926190000 +0000" stop="20260927014505 +0000" channel="AbuDhabiTV.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926190000 +0000" stop="20260927012417 +0000" channel="AlEmaratTV.ae">
+  <programme start="20260926190000 +0000" stop="20260927014505 +0000" channel="AlEmaratTV.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926190000 +0000" stop="20260927012417 +0000" channel="NatGeoAbuDhabi.ae">
+  <programme start="20260926190000 +0000" stop="20260927014505 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260924210000 +0000" stop="20260925210000 +0000" channel="JordanSports">
@@ -86600,66 +86554,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan1_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
   <programme start="20260925214500 +0300" stop="20260925234000 +0300" channel="Alwan1_sport">
     <title lang="ar">تركيا - فرنسا ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -86839,66 +86733,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">القناة: Alwan Sport 1
 المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan2_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 2
-المصدر: existing XML</desc>
   </programme>
   <programme start="20260925214500 +0300" stop="20260925234000 +0300" channel="Alwan2_sport">
     <title lang="ar">إيطاليا - بلجيكا ‎🔴 LIVE‎</title>
@@ -87680,66 +87514,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">القناة: Alwan Sport 5
 المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925204000 +0300" stop="20260925214500 +0300" channel="Alwan6_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 6
-المصدر: existing XML</desc>
-  </programme>
   <programme start="20260925214500 +0300" stop="20260925234000 +0300" channel="Alwan6_sport">
     <title lang="ar">بولندا - البوسنة ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -87859,66 +87633,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sports</category>
     <desc lang="ar">القناة: Alwan Sport 6
 المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20260925203900 +0300" stop="20260925214400 +0300" channel="Alwan7_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 7
-المصدر: existing XML</desc>
   </programme>
   <programme start="20260925214400 +0300" stop="20260925233900 +0300" channel="Alwan7_sport">
     <title lang="ar">السويد - رومانيا ‎🔴 LIVE‎</title>
@@ -93476,13 +93190,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Almajlis gulf cup</title>
     <category lang="ar">الرياضة</category>
   </programme>
-  <programme start="20260926230000 +0000" stop="20260927012439 +0000" channel="AlkassOne.qa">
+  <programme start="20260926230000 +0000" stop="20260927014550 +0000" channel="AlkassOne.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926145000 +0000" stop="20260926150000 +0000" channel="AlkassTwo.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926230000 +0000" stop="20260927012439 +0000" channel="AlkassTwo.qa">
+  <programme start="20260926230000 +0000" stop="20260927014550 +0000" channel="AlkassTwo.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926093000 +0000" stop="20260926094500 +0000" channel="AlkassThree.qa">
@@ -93491,13 +93205,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926175000 +0000" stop="20260926180000 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926210000 +0000" stop="20260927012439 +0000" channel="AlkassThree.qa">
+  <programme start="20260926210000 +0000" stop="20260927014550 +0000" channel="AlkassThree.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926174500 +0000" stop="20260926180000 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926210000 +0000" stop="20260927012439 +0000" channel="AlkassFour.qa">
+  <programme start="20260926210000 +0000" stop="20260927014550 +0000" channel="AlkassFour.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926131500 +0000" stop="20260926133000 +0000" channel="AlkassFive.qa">
@@ -93506,7 +93220,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926171500 +0000" stop="20260926173000 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926204500 +0000" stop="20260927012439 +0000" channel="AlkassFive.qa">
+  <programme start="20260926204500 +0000" stop="20260927014550 +0000" channel="AlkassFive.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926093000 +0000" stop="20260926094500 +0000" channel="AlkassSix.qa">
@@ -93515,19 +93229,19 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260926175000 +0000" stop="20260926180000 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926210000 +0000" stop="20260927012439 +0000" channel="AlkassSix.qa">
+  <programme start="20260926210000 +0000" stop="20260927014550 +0000" channel="AlkassSix.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260926145000 +0000" stop="20260926150000 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926230000 +0000" stop="20260927012439 +0000" channel="AlkassSeven.qa">
+  <programme start="20260926230000 +0000" stop="20260927014550 +0000" channel="AlkassSeven.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260926230000 +0000" stop="20260927012439 +0000" channel="AlkassEight.qa">
+  <programme start="20260926230000 +0000" stop="20260927014550 +0000" channel="AlkassEight.qa">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260925172000 +0000" stop="20260926055959 +0000" channel="Starz_admnadsports2">
+  <programme start="20260925174500 +0000" stop="20260926055959 +0000" channel="Starz_admnadsports2">
     <title lang="en">UCI World Tour - La Vuelta a España 2026</title>
     <desc lang="en">UCI World Tour - La Vuelta a España 2026</desc>
     <category lang="en">Sport</category>
@@ -93539,14 +93253,14 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260926090000 +0000" stop="20260929172000 +0000" channel="Starz_admnadsports2">
+  <programme start="20260926090000 +0000" stop="20260929174500 +0000" channel="Starz_admnadsports2">
     <title lang="en">No program available</title>
     <title lang="ar">المحتوى غير متوفر</title>
     <desc lang="en">No program available</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/admn-ingest-inhouse/ADMNADSPORTS2Y2025MAR/ADMNADSPORTS2Y2025MAR-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180500 +0000" channel="Starz_starzplaysports1">
+  <programme start="20260925174500 +0000" stop="20260925180500 +0000" channel="Starz_starzplaysports1">
     <title lang="en">Milan X Lecce - Serie A</title>
     <title lang="ar">ميلان × ليتشي - الدوري الإيطالي</title>
     <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
@@ -94151,21 +93865,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534880_landscape10-5cd11f7a-e3e3-4f71-b1b6-cd124a55b729.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173500 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Monza X Sassuolo - Serie A</title>
-    <title lang="ar">مونزا × ساسولو - الدوري الإيطالي</title>
-    <desc lang="en">Get ready for the excitement of Serie A, as Italy’s top clubs battle for the Scudetto, European qualification, and survival in the fight against relegation.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG67844_landscape10-0fb7e283-14c6-4ded-8dc4-b30aedc30937.jpg" />
-  </programme>
-  <programme start="20260925173500 +0000" stop="20260925174000 +0000" channel="Starz_starzplaysports2">
-    <title lang="en">Serie A Highlights</title>
-    <title lang="ar">مقتطفات من الدوري الإيطالي</title>
-    <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG98671_landscape10-6e4f7ed7-7c20-45f1-9da6-0d13d750b2df.jpg" />
-  </programme>
-  <programme start="20260925174000 +0000" stop="20260925181000 +0000" channel="Starz_starzplaysports2">
+  <programme start="20260925174500 +0000" stop="20260925181000 +0000" channel="Starz_starzplaysports2">
     <title lang="en">Serie A Preview Show Magazine</title>
     <title lang="ar">مجلة الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -94742,14 +94442,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534883_landscape10-e05946c0-4a16-41e7-815a-fb6510e3c15b.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="Starz_starzplaysport1">
-    <title lang="en">Musumeci X Mitchell - UFC BJJ</title>
-    <title lang="ar">موسوميتشي × ميتشل - يو إف سي بي جي جي</title>
-    <desc lang="en">Professional Brazilian Jiu-Jitsu fights showcasing elite-level grappling competition.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG634448_landscape10-3bd0c9b8-60fd-434c-8323-4f2c9ad5b29a.jpg" />
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="Starz_starzplaysport1">
+  <programme start="20260925174500 +0000" stop="20260925180000 +0000" channel="Starz_starzplaysport1">
     <title lang="en">AEW Full Gear</title>
     <title lang="ar">ايه إي دبليو فل قير</title>
     <desc lang="en">A world-class roster of diverse male and female wrestlers give fans a new wrestling experience for the first time in 20 years.</desc>
@@ -95456,13 +95149,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG534901_landscape10-1111f53a-9d65-4bb1-a282-273643a14ebc.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925172900 +0000" channel="Starz_golflife">
-    <title lang="en">La Sella Open - Ladies European Tour Highlights</title>
-    <desc lang="en">S2026 , Ep.La Sella Open :</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p12733886_b_h10_ad.jpg" />
-  </programme>
-  <programme start="20260925172900 +0000" stop="20260925180000 +0000" channel="Starz_golflife">
+  <programme start="20260925174500 +0000" stop="20260925180000 +0000" channel="Starz_golflife">
     <title lang="en">Chase The Ace - Padraig Harrington - DP World Tour Championship, DP World Tour Golf</title>
     <desc lang="en">Chase The Ace - Padraig Harrington - DP World Tour Championship, DP World Tour Golf</desc>
     <category lang="en">Sport</category>
@@ -95904,14 +95591,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/aVwv7lIK.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173200 +0000" channel="Starz_cricbuzz1">
-    <title lang="en">1st ODI: South Africa v Australia - One-Day International Cricket</title>
-    <title lang="ar">ون-داي إنترناشونال كريكيت</title>
-    <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p8509066_b_h10_ab.jpg" />
-  </programme>
-  <programme start="20260925173200 +0000" stop="20260925175600 +0000" channel="Starz_cricbuzz1">
+  <programme start="20260925174500 +0000" stop="20260925175600 +0000" channel="Starz_cricbuzz1">
     <title lang="en">Final - CPL T20 Highlights</title>
     <title lang="ar">سي بي إل تي٢٠ هايلايتس</title>
     <desc lang="en">The highlights of the cricket match feature exciting batting, skillful bowling, spectacular catches and nail-biting finishes as teams compete for victory.</desc>
@@ -96625,14 +96305,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/fWTPPMwI.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="Starz_adsportsasia01">
-    <title lang="en">Goalissimo</title>
-    <title lang="ar">غوالازيمو</title>
-    <desc lang="en">Recorded or live show that presents football matches of the European Championships, which are held around the world.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG202587_landscape10_MASTER293379.jpg" />
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180500 +0000" channel="Starz_adsportsasia01">
+  <programme start="20260925174500 +0000" stop="20260925180500 +0000" channel="Starz_adsportsasia01">
     <title lang="en">Serie A Preview Show Magazine</title>
     <title lang="ar">مجلة الدوري الإيطالي</title>
     <desc lang="en">Stay tuned to all the highlights, the best goals, studio analysis, views of players and coaches.</desc>
@@ -97129,7 +96802,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519746_landscape10-6f14e6aa-a693-4c54-8991-7b9457b51fa3.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925190000 +0000" channel="Starz_wedosports">
+  <programme start="20260925174500 +0000" stop="20260925190000 +0000" channel="Starz_wedosports">
     <title lang="en">3ICE World Cup Hockey - LIVE</title>
     <desc lang="en">3ICE World Cup Hockey - LIVE</desc>
     <category lang="en">Sport</category>
@@ -97404,13 +97077,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/MjkrBdF4.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="Starz_criclife1">
-    <title lang="en">ICC Women's T20 World Cup 2026: Scotland vs New Zealand - Prime Time Smash</title>
-    <desc lang="en">ICC Women's T20 World Cup 2026: Scotland vs New Zealand - Prime Time Smash</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
-  </programme>
-  <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="Starz_criclife1">
+  <programme start="20260925174500 +0000" stop="20260925180000 +0000" channel="Starz_criclife1">
     <title lang="en">ICC Men's T20 World Cup 2026: South Africa vs West Indies - Prime Time Smash</title>
     <desc lang="en">ICC Men's T20 World Cup 2026: South Africa vs West Indies - Prime Time Smash</desc>
     <category lang="en">Sport</category>
@@ -98073,14 +97740,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/qhMTsLhi.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925174000 +0000" channel="Starz_criclife3">
-    <title lang="en">2026: Final - Los Angeles Knight Riders vs Washington Freedom - Major League Cricket Match Highlights</title>
-    <title lang="ar">ميجر ليغ كريكيت ماتش هايلايتس</title>
-    <desc lang="en">Highlights of a match from the Major League Cricket Championship where American teams compete against each other in T20 matches.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://stap.tmsimg.com/assets/p25215525_b_h8_ab.jpg" />
-  </programme>
-  <programme start="20260925174000 +0000" stop="20260925181400 +0000" channel="Starz_criclife3">
+  <programme start="20260925174500 +0000" stop="20260925181400 +0000" channel="Starz_criclife3">
     <title lang="en">2nd ODI: England v Sri Lanka - One-Day International Cricket</title>
     <title lang="ar">ون-داي إنترناشونال كريكيت</title>
     <desc lang="en">An extensive and thorough coverage of one-day cricket matches contested by various international teams from across the globe.</desc>
@@ -98767,7 +98427,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/WklLHqAg.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925181500 +0000" channel="Starz_adsportsasia02">
+  <programme start="20260925174500 +0000" stop="20260925181500 +0000" channel="Starz_adsportsasia02">
     <title lang="en">UAE Polo Cup</title>
     <title lang="ar">كأس الإمارات للبولو</title>
     <desc lang="en">Stay tuned to the latest matches from the UAE Polo Cup.</desc>
@@ -99292,24 +98952,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://starzplay-epg-prod-ssl.akamaized.net/poster_streaming/EPG519745_landscape10-34aa5344-9cac-4b81-849f-3cf7e27b65cf.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925173000 +0000" channel="Starz_awsn">
-    <title lang="en">DGPT &amp;apos;26: MVP Open R2</title>
-    <desc lang="en">Round 2 of the 2026 Disc Golf Pro Tour MVP Open in Leicester, Massachusetts.</desc>
-    <category lang="en">Sport</category>
-    <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260925173100 +0000" stop="20260925191613 +0000" channel="Starz_awsn">
+  <programme start="20260925174500 +0000" stop="20260925191613 +0000" channel="Starz_awsn">
     <title lang="en">2026 Waterloo Wildfire vs. Atlantic Attack</title>
     <desc lang="en">Waterloo Wildfire vs. Atlantic Attack in the National Ringette League 2025 to 2026 season.</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/1920X1080/1920x1080.jpg" />
-  </programme>
-  <programme start="20260925191613 +0000" stop="20260925191713 +0000" channel="Starz_awsn">
-    <title lang="en">No program available</title>
-    <title lang="ar">المحتوى غير متوفر</title>
-    <desc lang="en">No program available</desc>
-    <category lang="en">Sport</category>
-    <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
   <programme start="20260925193201 +0000" stop="20260925213318 +0000" channel="Starz_awsn">
     <title lang="en">2026 Atlantic Attack vs. Eastern Ontario Capitals</title>
@@ -99778,7 +99425,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="http://mena-img-cdn-lb.aws.playco.com/ev-livechannels-avod/AVODAWSNY2024M/AVODAWSNY2024M-landscape-poster-v1.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="Starz_redbulltv">
+  <programme start="20260925174500 +0000" stop="20260925180000 +0000" channel="Starz_redbulltv">
     <title lang="en">Red Bull TV</title>
     <desc lang="en">Red Bull TV takes you directly into the real-world communities, personalities and moments that push the boundaries of sports and culture.</desc>
     <category lang="en">Sport</category>
@@ -100360,7 +100007,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://evisioneand.com/image/catalog/user-8/Red Bull TV_1920x1080.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925180000 +0000" channel="Starz_daznringside">
+  <programme start="20260925174500 +0000" stop="20260925180000 +0000" channel="Starz_daznringside">
     <title lang="en">To Be Announced</title>
     <desc lang="en">Program information is not yet available</desc>
     <category lang="en">Sport</category>
@@ -100558,7 +100205,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d2fw02wfy9kwvd.cloudfront.net/evision/epg/920X1080/DAZN%20Ringside%201920x1080.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925182400 +0000" channel="Starz_starzplayrugby">
+  <programme start="20260925174500 +0000" stop="20260925182400 +0000" channel="Starz_starzplayrugby">
     <title lang="en">Hollywoodbets Sharks vs. Maori All Blacks - Rugby Union</title>
     <desc lang="en">Hollywoodbets Sharks vs. Maori All Blacks - Rugby Union</desc>
     <category lang="en">Sport</category>
@@ -100832,7 +100479,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://d21egrkhbash7t.cloudfront.net/dasimages/channel/landscape/1056x594/OWPkhSDm.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260925183311 +0000" channel="Starz_fifaplus">
+  <programme start="20260925174500 +0000" stop="20260925183311 +0000" channel="Starz_fifaplus">
     <title lang="en">England v Sweden | Play-off for third place | FIFA Women's World Cup France 2019™ | Full Match Replay</title>
     <desc lang="en">Watch the full match replay between England and Sweden played at Stade de Nice, Nice on Saturday, 06 July 2019 at 17:00.</desc>
     <category lang="en">Sport</category>
@@ -101228,7 +100875,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <category lang="en">Sport</category>
     <icon src="https://partner-upload-assets.wurl.com/sysdata_s_p_a/70294.jpg" />
   </programme>
-  <programme start="20260925172000 +0000" stop="20260929172000 +0000" channel="Starz_adfight">
+  <programme start="20260925174500 +0000" stop="20260929174500 +0000" channel="Starz_adfight">
     <title lang="en">Total Combat 2026</title>
     <desc lang="en">Total Combat 2026</desc>
     <category lang="en">Sport</category>
@@ -101240,10 +100887,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20260925233400 +0000" stop="20260926002200 +0000" channel="Starz_golflife">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20260925173000 +0000" stop="20260925173100 +0000" channel="Starz_awsn">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
-  <programme start="20260925191713 +0000" stop="20260925193201 +0000" channel="Starz_awsn">
+  <programme start="20260925191613 +0000" stop="20260925193201 +0000" channel="Starz_awsn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260925214906 +0000" stop="20260925215140 +0000" channel="Starz_awsn">
@@ -115179,4 +114823,4 @@ Istanbul (إسطنبول) — الفجر 05:23 · الشروق 06:48 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20260927012417 +0000" stop="20260927012650 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012417 +0000" stop="20260927012650 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012417 +0000" stop="20260927012650 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012417 +0000" stop="20260927012650 +0000" channel="AbuDhabiTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012417 +0000" stop="20260927012650 +0000" channel="AlEmaratTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012417 +0000" stop="20260927012650 +0000" channel="NatGeoAbuDhabi.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927012439 +0000" stop="20260927012650 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927011309 +0000" stop="20260927012650 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927011333 +0000" stop="20260927012650 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20260927014505 +0000" stop="20260927014829 +0000" channel="AlJazeera.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014505 +0000" stop="20260927014829 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014505 +0000" stop="20260927014829 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014505 +0000" stop="20260927014829 +0000" channel="AbuDhabiTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014505 +0000" stop="20260927014829 +0000" channel="AlEmaratTV.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014505 +0000" stop="20260927014829 +0000" channel="NatGeoAbuDhabi.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassOne.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassTwo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassThree.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassFour.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassFive.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassSix.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassSeven.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927014550 +0000" stop="20260927014829 +0000" channel="AlkassEight.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927011309 +0000" stop="20260927014829 +0000" channel="TodayNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260927011333 +0000" stop="20260927014829 +0000" channel="TodayWeather"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>

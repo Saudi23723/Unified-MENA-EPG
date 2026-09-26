@@ -124,12 +124,6 @@
     <display-name lang="en">beIN SPORTS XTRA 9</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_xtra9.png" />
   </channel>
-  <programme start="20260925154600 +0000" stop="20260925173400 +0000" channel="beIN4K.qa">
-    <title lang="en">Marseille vs PSG - French Ligue 1 2026/2027</title>
-    <desc lang="en">Marseille have lost 38 matches against Paris SG in all competitions in the 21st century, which is 15 more than against any other opponent. OM have won just one of their last 13 home Ligue 1 games against PSG, though this was their most recent encounter, almost exactly one year ago on 22 September 2025. Marseille have lost three of their first four</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
   <programme start="20260925173400 +0000" stop="20260925191700 +0000" channel="beIN4K.qa">
     <title lang="en">Brighton &amp; Hove Albion v Arsenal - English Premier League 2026/2027</title>
     <desc lang="en">Brighton are winless in their last six Premier League home games against Arsenal, having been unbeaten in their first three against the Gunners at the Amex Stadium. Arsenal have won four of their last six Premier League games against Brighton, as many as they had in their first 12 against the Seagulls.</desc>
@@ -484,13 +478,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">Fulham are winless in their last 10 Premier League home games against Manchester United  since winning back-to-back matches against them at Craven Cottage in 2009. Manchester United have lost just one of their last 21 Premier League games against Fulham, going down 2-1 at Old Trafford in February 2024.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20260925144300 +0000" stop="20260925173000 +0000" channel="beINSports.qa">
-    <title lang="en">Athletics -Heats - Asian Games Aichi-Nagoya 2026 - W/M/X</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
   </programme>
   <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="beINSports.qa">
     <title lang="en">Opening Ceremony - Asian Games Aichi-Nagoya 2026</title>
@@ -3978,13 +3965,6 @@ GSP Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925151400 +0000" stop="20260925173500 +0000" channel="beINSports5.qa">
-    <title lang="en">Swimming - Finals - Asian Games Aichi-Nagoya 2026  W/M</title>
-    <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
-46 Nations and 10,840 Athletes from across Asia will come together for unforgettable moments of competition and achievement.</desc>
-    <category lang="ar">دورة الألعاب الآسيوية</category>
-    <category lang="en">Asian Games</category>
-  </programme>
   <programme start="20260925173500 +0000" stop="20260925180500 +0000" channel="beINSports5.qa">
     <title lang="en">QAT vs TBA - 3x3 Basketball - QF - Asian Games Aichi-Nagoya 2026  W/M</title>
     <desc lang="en">The 20th Asian Games takes place in Aichi Prefecture and Nagoya, Japan, from September 19 to October 4, 2026.
@@ -6065,6 +6045,12 @@ Stadio Olimpico di Serravalle Stadium</desc>
   </programme>
   <programme start="20261002160000 +0000" stop="20261002173000 +0000" channel="beINSports9.qa">
     <title lang="en">Premier Padel - Rotterdam P2 2026 - M4 ‎• Live 🔵‎</title>
+    <category lang="ar">باديل</category>
+    <category lang="en">Live</category>
+    <category lang="en">Padel</category>
+  </programme>
+  <programme start="20261002173000 +0000" stop="20261002190000 +0000" channel="beINSports9.qa">
+    <title lang="en">Premier Padel - Rotterdam P2 2026 - M5 ‎• Live 🔵‎</title>
     <category lang="ar">باديل</category>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
@@ -8917,13 +8903,6 @@ GSP Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925170000 +0000" stop="20260925173000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">A special News Bulletin from the beIN SPORTS News Room with the addition of sign language for the hard of hearing.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20260925173000 +0000" stop="20260925180000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -10405,11 +10384,10 @@ The six-hour continuous studio includes live coverage from Japan with reaction f
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260925133000 +0000" stop="20260925174000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">One Friday Fights - 172 ‎• Live 🔵‎</title>
-    <category lang="ar">الملاكمة</category>
-    <category lang="en">Live</category>
-    <category lang="en">Boxing</category>
+  <programme start="20261002173000 +0000" stop="20261002180000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">US Open 2026 Review Part 2</title>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260925174000 +0000" stop="20260925175000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - August - 2026</title>
