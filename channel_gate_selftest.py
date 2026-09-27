@@ -2602,6 +2602,30 @@ def gate_the_jordanian_league_is_read() -> None:
            ("تصفيات كأس العالم", "كأس العرب")],
           [[], []])
 
+    # Except at home in a friendly. الأردن - سوريا, Amman, 27 Sep 2026,
+    # was on this channel and missing from its guide: the rule above was
+    # written for qualifiers and it took the friendlies with it. Known by
+    # its sides, because a friendly's label is the least consistent thing
+    # the federation writes.
+    check("JOR", "a home friendly of the national team is on it",
+          [jordan_football.carried_by(label, home, "سوريا")
+           for label, home in (("مباراة ودية", "الأردن"),
+                               ("المنتخب الوطني الأول", "منتخب الأردن"),
+                               ("", "النشامى"))],
+          [["الأردن الرياضية"]] * 3)
+    check("JOR", "and the board shows it",
+          jordan_football.wanted_here("مباراة ودية", "الأردن", "سوريا"),
+          True)
+    check("JOR", "but not away, not official, not a youth side, not a club",
+          [jordan_football.carried_by(label, home, away)
+           for label, home, away in (
+               ("مباراة ودية", "سوريا", "الأردن"),
+               ("تصفيات كأس العالم", "الأردن", "العراق"),
+               ("كأس العرب", "الأردن", "مصر"),
+               ("مباراة ودية ت23", "الأردن", "سوريا"),
+               ("مباراة ودية", "شباب الأردن", "الوحدات"))],
+          [[], [], [], [], []])
+
 
 def gate_a_guide_repeating_its_own_name_is_measured() -> None:
     """A row whose title is the channel's name is the guide saying nothing.

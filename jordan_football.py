@@ -161,7 +161,46 @@ CARRIED_BY_JORDAN_SPORT = re.compile(r"محترفين|كأس الأردن|درع
                                      r"|سوبر", re.I)
 
 
-def carried_by(competition: str) -> list[str]:
+# The national team's own name, as a side, once folded by club_key(). A
+# fullmatch, because "شباب الأردن" is a professional club and holds the
+# country's name inside its own.
+THE_NATIONAL_TEAM = re.compile(r"(?:منتخب\s*)?(?:ال)?اردن(?:\s*ال?اول)?"
+                               r"|نشامي")
+
+# What makes a national-team match OFFICIAL rather than a friendly. Those
+# are the competitions sold one by one — to beIN or elsewhere — and none of
+# them is assumed onto the channel. Everything else the national team
+# plays is a friendly, whatever label the federation prints above it.
+AN_OFFICIAL_TOURNAMENT = re.compile(r"تصفيات|كأس|بطولة|دوري", re.I)
+
+
+def is_the_national_team(name: str) -> bool:
+    """Is this side Jordan itself, rather than a club carrying its name?"""
+    return bool(THE_NATIONAL_TEAM.fullmatch(club_key(name)))
+
+
+def a_home_friendly(competition: str, home: str, away: str) -> bool:
+    """The senior national team, at home, in a match that is not official.
+
+    A reader asked why الأردن - سوريا (27 Sep 2026, Amman) was not on this
+    channel, and it was: the national team's friendlies at home are the
+    national broadcaster's, and JRTV aired this one. The rule above —
+    national team, no channel — was written for qualifiers, which ARE sold
+    separately, and it swept the friendlies up with them.
+
+    HOME, because a friendly abroad belongs to whoever hosts it. SENIOR,
+    because the age grades have no regular television. And identified by
+    its SIDES as well as its label, because a friendly's label is the one
+    thing the federation writes least consistently.
+    """
+    if A_YOUTH_GRADE.search(competition):
+        return False
+    if AN_OFFICIAL_TOURNAMENT.search(competition):
+        return False
+    return is_the_national_team(home) and not is_the_national_team(away)
+
+
+def carried_by(competition: str, home: str = "", away: str = "") -> list[str]:
     """The channel a Jordanian competition is known to be on, if any.
 
     An age grade is refused HERE, and not only by wanted_here, because
@@ -179,6 +218,8 @@ def carried_by(competition: str) -> list[str]:
     if A_YOUTH_GRADE.search(competition):
         return []
     if CARRIED_BY_JORDAN_SPORT.search(competition):
+        return [JORDAN_SPORT]
+    if a_home_friendly(competition, home, away):
         return [JORDAN_SPORT]
     return []
 
@@ -215,7 +256,7 @@ def competition_of(header) -> str:
         for span in header.select("span.haly, span.haly2")))
 
 
-def wanted_here(competition: str) -> bool:
+def wanted_here(competition: str, home: str = "", away: str = "") -> bool:
     """The professional game and the national team. Nothing else.
 
     Asked for in those words, and the reason is what the rest of the page
@@ -228,7 +269,8 @@ def wanted_here(competition: str) -> bool:
     if A_YOUTH_GRADE.search(competition):
         return False
     return bool(PROFESSIONAL.search(competition)
-                or NATIONAL.search(competition))
+                or NATIONAL.search(competition)
+                or a_home_friendly(competition, home, away))
 
 
 def the_clubs_belong(competition: str, home: str, away: str) -> bool:
@@ -252,6 +294,8 @@ def the_clubs_belong(competition: str, home: str, away: str) -> bool:
     roster to be in.
     """
     if NATIONAL.search(competition) and not PROFESSIONAL.search(competition):
+        return True
+    if a_home_friendly(competition, home, away):
         return True
     if A_CUP.search(competition):
         return in_the_league(home) or in_the_league(away)
@@ -344,7 +388,7 @@ def collect_tournament(html: str, competition: str) -> list[dict]:
             "start": start,
             "title": f"{home_name} - {away_name}",
             "competition": competition,
-            "channels": carried_by(competition),
+            "channels": carried_by(competition, home_name, away_name),
         })
 
     log(f"  jfa.jo {competition}: {played} already played, {timeless} with "
@@ -410,13 +454,13 @@ def collect(html: str) -> list[dict]:
             adrift += 1
             continue
         competition, start = header
-        if not wanted_here(competition):
-            unwanted += 1
-            continue
         home_name = norm(home.get_text(" ", strip=True))
         away_name = norm(away.get_text(" ", strip=True))
         if not home_name or not away_name:
             adrift += 1
+            continue
+        if not wanted_here(competition, home_name, away_name):
+            unwanted += 1
             continue
         if not the_clubs_belong(competition, home_name, away_name):
             # Named, with the heading that claimed them, because this is
@@ -430,8 +474,12 @@ def collect(html: str) -> list[dict]:
             "start": start,
             "title": f"{home_name} - {away_name}",
             "competition": competition,
-            "channels": carried_by(competition),
+            "channels": carried_by(competition, home_name, away_name),
         })
+        # Named, so the log says what the federation called it and where
+        # it went — the one fixture of the national team's was invisible.
+        log(f"    {home_name} - {away_name}  │ {competition}  │ "
+            f"{' / '.join(out[-1]['channels']) or 'no channel'}")
 
     log(f"  jfa.jo: {played} already played, {adrift} with no header of "
         f"their own, {unwanted} not professional or national, "
