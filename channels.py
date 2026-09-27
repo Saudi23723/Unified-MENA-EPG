@@ -44,13 +44,10 @@ BUILDS: tuple[str, ...] = (
     "other_sports_epg",
     # Straight after channel 2, whose collection it is handed.
     "multi_sport_epg",
-    # Channel 6 — رحلات اليوم: the Amman and Abu Dhabi airport boards.
-    "flight_epg",
     "ball_sports_epg",
     "hoops_gridiron_epg",
     "turkish_ppv_epg",
     "sporttv_epg",
-    "f1_epg",
     "news_epg",
     "weather_epg",
     "prayer_epg",

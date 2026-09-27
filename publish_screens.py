@@ -132,13 +132,6 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
                              "dubai_hoops_gridiron_epg.xml",
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256"),
-    # The eleventh channel — الفورمولا ١. One clock only: a Grand Prix
-    # is one instant everywhere, and the board prints its sessions in
-    # the viewer's zone already, so a second copy would say the same
-    # thing twice.
-    "f1": ("f1_", "f1_epg.xml", "f1.m3u8", "f1.sha256"),
-    "dubai_f1": ("dubai_f1_", "dubai_f1_epg.xml", "dubai_f1.m3u8",
-                 "dubai_f1.sha256"),
     # The tenth channel — القنوات التركية · PPV, in both clocks.
     "turkish_ppv": ("turkish_ppv_", "turkish_ppv_epg.xml",
                     "turkish_ppv.m3u8", "turkish_ppv.sha256"),
@@ -152,22 +145,12 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport_epg.xml",
                           "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256"),
-    # The sixth channel — رحلات اليوم, rebuilt: Queen Alia and Zayed
-    # International's own departures and arrivals, in both clocks.
-    "flight_tracker": ("flight_tracker_", "flight_epg.xml",
-                       "flight_tracker.m3u8", "flight_tracker.sha256"),
-    "dubai_flight_tracker": ("dubai_flight_tracker_", "dubai_flight_epg.xml",
-                             "dubai_flight_tracker.m3u8",
-                             "dubai_flight_tracker.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
 # channel's data, and the two playlists that point a player at all
 # eight screens at once.
 SHARED_FILES = (
-    # The F1 channel's cache: a source that rate limits is not a source
-    # that failed, and this is what the next pass stands on when it does.
-    "f1_state.json",
     "weather.json",
     # Every board match on الأردن الرياضية, for that channel's guide.
     "jordan_sport_fixtures.json",

@@ -141,14 +141,6 @@ SCREENS = {
     "dubai_hoops_gridiron": ("dubai_hoops_gridiron_",
                              "dubai_hoops_gridiron.m3u8",
                              "dubai_hoops_gridiron.sha256", 20),
-    # THE ELEVENTH CHANNEL — الفورمولا ١. One board, not a reel of them:
-    # this channel draws the state of the championship rather than a
-    # list of fixtures, so there is one picture and it is redrawn, not
-    # paged. TWENTY SECONDS because it divides 140 and lands on a whole
-    # AAC frame (f1_epg.py says why there is only ever one board).
-
-    "f1": ("f1_", "f1.m3u8", "f1.sha256", 20),
-    "dubai_f1": ("dubai_f1_", "dubai_f1.m3u8", "dubai_f1.sha256", 20),
     # THE TENTH CHANNEL — القنوات التركية · PPV: the Turkish grid alone.
     # FOURTEEN, AND THE NUMBER IS NOT FREE. A page of five fixtures is
     # read faster than a page of eight, and this channel now draws five
@@ -184,13 +176,6 @@ SCREENS = {
                     "multi_sport.sha256", 20),
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256", 20),
-    # THE SIXTH CHANNEL — رحلات اليوم: an airport board, eight flights a
-    # page, held long enough to find one's own flight on it.
-    "flight_tracker": ("flight_tracker_", "flight_tracker.m3u8",
-                       "flight_tracker.sha256", 20),
-    "dubai_flight_tracker": ("dubai_flight_tracker_",
-                             "dubai_flight_tracker.m3u8",
-                             "dubai_flight_tracker.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -497,8 +482,6 @@ THEMES = {
     "ball_sports": "audio/theme_sports.m4a",
     "dubai_ball_sports": "audio/theme_sports.m4a",
     "hoops_gridiron": "audio/theme_sports.m4a",
-    "f1": "audio/theme_sports.m4a",
-    "dubai_f1": "audio/theme_sports.m4a",
     "dubai_hoops_gridiron": "audio/theme_sports.m4a",
     "sporttv": "audio/theme_sports.m4a",
     "dubai_sporttv": "audio/theme_sports.m4a",
@@ -506,8 +489,6 @@ THEMES = {
     "dubai_turkish_ppv": "audio/theme_sports.m4a",
     "multi_sport": "audio/theme_sports.m4a",
     "dubai_multi_sport": "audio/theme_sports.m4a",
-    "flight_tracker": "audio/theme_sports.m4a",
-    "dubai_flight_tracker": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4

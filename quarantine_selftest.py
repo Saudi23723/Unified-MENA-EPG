@@ -61,7 +61,7 @@ ONLY_ONE_SCREEN = """
 TWO_SCREENS = """
 2 gate(s) let something through:
 
-  SCREEN: 'f1_ the playlist names one segment per board' -> 3, expected 0
+  SCREEN: 'sporttv_ the playlist names one segment per board' -> 3, expected 0
   SCREEN: 'ball_sports_ and every board it points at is published' -> [0], expected []
 """
 
@@ -175,7 +175,7 @@ check("the held-back screen's unpublished board goes with it, and "
       "dubai_turkish_ppv" not in one[2] and len(one[2]) == len(q.SCREENS) - 1,
       True)
 check("two broken screens hold back two, and the other fifteen go out",
-      verdict(TWO_SCREENS)[:2], (["ball_sports", "f1"], True))
+      verdict(TWO_SCREENS)[:2], (["ball_sports", "sporttv"], True))
 
 print("\nEvery screen the publisher knows can be blamed for its own gate")
 missed = [name for name, screen in q.SCREENS.items()

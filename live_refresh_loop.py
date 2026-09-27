@@ -73,9 +73,9 @@ SKIP_PUBLISH = os.environ.get("SKIP_PUBLISH") == "1"
 # The seven sports guides whose marks go stale at a kickoff. Each one writes
 # both clocks' XML and both clocks' boards in the same run, so one
 # rebuild refreshes the Los Angeles link and the Dubai link together.
-# This list deliberately contains no weather, news, prayer, or flight
-# tracker guide: those are not sports status boards and do not belong in
-# the kickoff refresh path.
+# This list deliberately contains no weather, news or prayer guide: those
+# are not sports status boards and do not belong in the kickoff refresh
+# path.
 GUIDES = (
     "today_matches_epg.py",
     "other_sports_epg.py",
@@ -83,7 +83,6 @@ GUIDES = (
     "sporttv_epg.py",
     "ball_sports_epg.py",
     "hoops_gridiron_epg.py",
-    "f1_epg.py",
     "turkish_ppv_epg.py",
 )
 
@@ -103,8 +102,6 @@ SCREENS = (
     "dubai_ball_sports",
     "hoops_gridiron",
     "dubai_hoops_gridiron",
-    "f1",
-    "dubai_f1",
     "turkish_ppv",
     "dubai_turkish_ppv",
     "multi_sport",

@@ -82,8 +82,7 @@ MOVED: dict[str, str] = {
     "dubai_news_": "dubai_news.m3u8",
     "other_sports_": "sports.m3u8",
     "dubai_sports_": "dubai_sports.m3u8",
-    # Every other screen publish_screens publishes. The flight tracker is
-    # its own workflow with its own publishing, and stays on main.
+    # Every other screen publish_screens publishes.
     "today_matches_": "screen.m3u8",
     "sporttv_": "sporttv.m3u8",
     "dubai_sporttv_": "dubai_sporttv.m3u8",
@@ -94,14 +93,10 @@ MOVED: dict[str, str] = {
     "dubai_ball_sports_": "dubai_ball_sports.m3u8",
     "hoops_gridiron_": "hoops_gridiron.m3u8",
     "dubai_hoops_gridiron_": "dubai_hoops_gridiron.m3u8",
-    "f1_": "f1.m3u8",
-    "dubai_f1_": "dubai_f1.m3u8",
     "turkish_ppv_": "turkish_ppv.m3u8",
     "dubai_turkish_ppv_": "dubai_turkish_ppv.m3u8",
     "multi_sport_": "multi_sport.m3u8",
     "dubai_multi_sport_": "dubai_multi_sport.m3u8",
-    "flight_tracker_": "flight_tracker.m3u8",
-    "dubai_flight_tracker_": "dubai_flight_tracker.m3u8",
 }
 
 # A segment nothing names any more is still kept this long after it first

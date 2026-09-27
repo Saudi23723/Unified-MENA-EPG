@@ -52,9 +52,6 @@ from ball_sports_epg import LOGO as BALL_LOGO
 from hoops_gridiron_epg import CHANNEL_AR as HOOPS_AR
 from hoops_gridiron_epg import CHANNEL_ID as HOOPS_ID
 from hoops_gridiron_epg import LOGO as HOOPS_LOGO
-from f1_epg import CHANNEL_AR as F1_AR
-from f1_epg import CHANNEL_ID as F1_ID
-from f1_epg import LOGO as F1_LOGO
 from sporttv_epg import CHANNEL_AR as SPTV_AR
 from sporttv_epg import CHANNEL_ID as SPTV_ID
 from sporttv_epg import LOGO as SPTV_LOGO
@@ -92,14 +89,6 @@ AIN_FM_ID = "AinFMJordan"
 AIN_FM_NAME = "Ain FM 98.3"
 AIN_FM_LOGO = f"{RAW}/logos/ain_fm.png"
 
-# The sixth channel — ✈️ رحلات اليوم. Queen Alia (Amman) and Zayed
-# International (Abu Dhabi), departures and arrivals, read from the
-# airports' published schedule by flight_epg.py on every pass and
-# encoded into stream/flight_tracker.m3u8 like every screen beside it.
-FLIGHT_ID = "FlightTracker"
-FLIGHT_NAME = "رحلات اليوم"
-FLIGHT_LOGO = f"{RAW}/logos/flight_tracker.png"
-
 # Five channels, ONE playlist, because that is the whole point of it: the
 # reader pastes one link into a player and the second screen appears
 # beside the first without touching anything.
@@ -126,8 +115,6 @@ SCREENS = (
      f"{RAW}/stream/weather.m3u8", "🌤️ طقس اليوم", WEATHER_LOGO),
     (AIN_FM_ID, AIN_FM_NAME, "stream/ain_fm.m3u8",
      f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
-    (FLIGHT_ID, FLIGHT_NAME, "stream/flight_tracker.m3u8",
-     f"{RAW}/stream/flight_tracker.m3u8", "✈️ رحلات اليوم", FLIGHT_LOGO),
     # The seventh channel — 🕌 مواقيت الصلاة: عمّان, أبو ظبي, هندرسون in
     # Nevada and إسطنبول, each calculated the way its own authority
     # calculates it and printed in its own city's clock.
@@ -153,13 +140,6 @@ SCREENS = (
     # the broadcaster published, so مباشر comes off them on time.
     (SPTV_ID, SPTV_AR, "stream/sporttv.m3u8",
      f"{RAW}/stream/sporttv.m3u8", "🇵🇹 Sport TV", SPTV_LOGO),
-    # The eleventh channel — الفورمولا ١. One clock only: a Grand Prix
-    # starts at one instant everywhere and the board already prints its
-    # sessions in the viewer's own zone, so there is nothing for a
-    # second row to say differently.
-    (F1_ID, F1_AR, "stream/f1.m3u8",
-     f"{RAW}/stream/f1.m3u8", "🏁 Formula 1",
-     F1_LOGO),
     # The thirteenth channel — 🏅 الألعاب الكبرى: the Olympics and the
     # multi-sport games, off channel 2 and on a screen of their own. Last
     # in the list, so no channel a viewer already knows by its number
@@ -205,11 +185,6 @@ DUBAI_SCREENS = (
     # two rows of one id for one channel and tunes to neither.
     ("AinFMJordanDubai", AIN_FM_NAME, "stream/ain_fm.m3u8",
      f"{RAW}/stream/ain_fm.m3u8", "🎙️ Ain FM 98.3", AIN_FM_LOGO),
-    # Every time on this one is printed in the Gulf's, so it is its own
-    # encode rather than the first clock's file under a second id.
-    ("FlightTrackerDubai", FLIGHT_NAME, "stream/dubai_flight_tracker.m3u8",
-     f"{RAW}/stream/dubai_flight_tracker.m3u8",
-     "✈️ رحلات اليوم · بتوقيت الإمارات", FLIGHT_LOGO),
     # مواقيت الصلاة keeps every city's own clock — a prayer time in
     # another zone is another city's prayer — so this is the same reel
     # under the second list's heading, like Ain FM above, and only its
@@ -229,9 +204,6 @@ DUBAI_SCREENS = (
     ("SportTVPTDubai", SPTV_AR, "stream/dubai_sporttv.m3u8",
      f"{RAW}/stream/dubai_sporttv.m3u8",
      "🇵🇹 Sport TV · بتوقيت الإمارات", SPTV_LOGO),
-    ("Formula1Dubai", F1_AR, "stream/dubai_f1.m3u8",
-     f"{RAW}/stream/dubai_f1.m3u8",
-     "🏁 Formula 1 · بتوقيت الإمارات", F1_LOGO),
     ("MultiSportDubai", GAMES_AR, "stream/dubai_multi_sport.m3u8",
      f"{RAW}/stream/dubai_multi_sport.m3u8",
      "🏅 Multi-Sport Games · بتوقيت الإمارات", GAMES_LOGO),
@@ -254,11 +226,9 @@ PLAYLIST_NAMES = {
     "TodaySports":    ("Sports Guide",    "📺 Sports Guide"),
     "TodayNews":      ("Breaking News",   "📰 Breaking News"),
     "TodayWeather":   ("Today's Weather", "🌤️ Today's Weather"),
-    "FlightTracker":  ("Flight Tracker",  "✈️ Flight Tracker"),
     "TodayPrayer":    ("Prayers Time",    "🕌 Prayers Time"),
     "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
     "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
-    "Formula1":       ("Formula 1",       "🏁 Formula 1"),
     "MultiSport":     ("Multi-Sport Games", "🏅 Multi-Sport Games"),
 }
 
