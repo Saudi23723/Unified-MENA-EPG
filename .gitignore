@@ -1,0 +1,82 @@
+__pycache__/
+*.pyc
+
+# Virtual environment
+env/
+venv/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+
+# Downloaded or temporary specific test scripts
+test_*.py
+sample_epg.json
+preloaded_state.json
+preloaded_state.txt
+data_keys.txt
+channels.json
+channels2.json
+starzplay.html
+epg_channels.json
+epg_dump.json
+
+# Your own broadcaster -> stream URL mapping. It carries the username and
+# password in your playlist URLs and must never be committed.
+stream_map.json
+
+# Board records — a note about work already published, not published work.
+# See board_marks.py: one small file per board, rewritten every pass, read
+# only by the flip pass on the same machine.
+.marks/
+
+# Screen segments that live on the hls-segments branch, not on main.
+# See tools/segment_branch.py; each line matches a prefix in its MOVED.
+stream/today_prayer_*.ts
+stream/today_news_*.ts
+stream/dubai_news_*.ts
+stream/other_sports_*.ts
+stream/dubai_sports_*.ts
+stream/today_matches_*.ts
+stream/sporttv_*.ts
+stream/dubai_sporttv_*.ts
+stream/today_weather_*.ts
+stream/dubai_matches_*.ts
+stream/dubai_weather_*.ts
+stream/ball_sports_*.ts
+stream/dubai_ball_sports_*.ts
+stream/hoops_gridiron_*.ts
+stream/dubai_hoops_gridiron_*.ts
+stream/f1_*.ts
+stream/dubai_f1_*.ts
+stream/turkish_ppv_*.ts
+stream/dubai_turkish_ppv_*.ts
+stream/multi_sport_*.ts
+stream/dubai_multi_sport_*.ts
+stream/flight_tracker_*.ts
+stream/dubai_flight_tracker_*.ts
+boards/today_prayer_*
+boards/today_weather_*
+boards/dubai_weather_*
+boards/today_news_*
+boards/dubai_news_*
+boards/f1_*
+boards/dubai_f1_*
+boards/hoops_gridiron_*
+boards/dubai_hoops_gridiron_*
+boards/ball_sports_*
+boards/dubai_ball_sports_*
+boards/sporttv_*
+boards/dubai_sporttv_*
+boards/turkish_ppv_*
+boards/dubai_turkish_ppv_*
+boards/today_matches_*
+boards/dubai_matches_*
+boards/other_sports_*
+boards/dubai_sports_*
+boards/multi_sport_*
+boards/dubai_multi_sport_*
+boards/flight_tracker_*
+boards/dubai_flight_tracker_*
+flight_state.json

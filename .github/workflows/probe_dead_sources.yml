@@ -1,0 +1,29 @@
+# Print what every source behind the stalled guides answers from a runner.
+#
+# It commits nothing and publishes nothing.
+name: Probe dead sources
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/epg-channels-not-updating-pa2732]
+    paths:
+      - "probes/probe_dead_sources.py"
+      - "probes/probe_shasha.py"
+      - "probes/probe_oktagon.py"
+      - "update_shasha_epg.py"
+      - ".github/workflows/probe_dead_sources.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core ffmpeg
+      - run: python -u probes/probe_oktagon.py
+        continue-on-error: true

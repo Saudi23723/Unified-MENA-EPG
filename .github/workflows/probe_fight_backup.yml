@@ -1,0 +1,23 @@
+# Ask why tapology stopped answering, and what could stand in for it.
+# It commits nothing and publishes nothing — it prints.
+name: Probe the fight board's backup
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/arabic-channels-epg-99099k]
+    paths:
+      - "probes/probe_fight_backup.py"
+      - ".github/workflows/probe_fight_backup.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_fight_backup.py

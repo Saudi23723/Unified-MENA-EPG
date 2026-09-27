@@ -1,0 +1,230 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""OSN's channels — a full programme guide for each, on the Roya link.
+
+Asked for by name — "can you find OSN's, complete? ... do them with
+logos" — beside MBC on the Jordan (Roya) guide, read the same way:
+roya_jordan_epg.py calls collect() and emit() after its own channels, and
+a failure here costs the OSN channels only.
+
+WHERE THE SCHEDULES COME FROM. OSN publishes no open guide. open-epg's
+Egypt files carry fourteen of its channels about two days ahead, and were
+measured on 24 September 2026:
+
+  open-epg egypt2   fourteen OSN channels, titles mostly in English
+  open-epg egypt1   thirteen of the same under Arabic channel names —
+                    the fallback when egypt2 does not answer
+
+THE CLOCK WAS MEASURED, NOT ASSUMED. egypt2 was checked against
+epgshare's AE1 on MBC 2 for the MBC guide — delta 0 on every shared
+title — and egypt1 against egypt2 on OSN One (five titles) and OSN
+Movies Action (fourteen): delta 0 on every one. Declared offsets are
+read as they stand.
+
+WHAT IS LEFT OUT, AND WHY. OSN Kidzone, Mezze, News and Showcase Classics
+are listed by the feeds that know them with nothing, or two rows, under
+them. A channel with no schedule is not given one here.
+
+The parsing is mbc_epg's own — one reader for one feed family.
+"""
+from __future__ import annotations
+
+import os
+from datetime import datetime, timedelta, timezone
+
+import xml.etree.ElementTree as ET
+
+from epg_lib import add_programme, log, norm, resolve_overlaps, utc_now, warn
+from mbc_epg import LOGO_BASE, XMLTV_TIME, read_feed, rows_in
+
+UTC = timezone.utc
+
+FEEDS = {
+    "eg_en": "https://www.open-epg.com/files/egypt2.xml",
+    "eg_ar": "https://www.open-epg.com/files/egypt1.xml",
+    "sa_ar": "https://www.open-epg.com/files/saudiarabia1.xml",
+    "sa_en": "https://www.open-epg.com/files/saudiarabia2.xml",
+    "uae2": "https://www.open-epg.com/files/uae2.xml",
+}
+
+LOGO_VERSION = "v5"
+
+# THE IDS HAVE NO SPACES. They were the channels' plain names ("OSN Comedy")
+# until a player searching its guide list for "osn" found every other
+# source's OSN channels and none of these. Every id this file shares with
+# a working channel has the dotted, spaceless form — "Aflam.shahid",
+# "AlJazeera.qa" — and so do these now.
+
+# (xmltv id = the name a player shows, logo stem, [names],
+#  [(feed, the feed's channel id), ... in order of preference])
+CHANNELS = [
+    ("OSNOne.osn", "osn_one", ["OSN One", "OSN: ONE", "OSN TV One", "OSN 1", "أو إس إن وان"],
+     [("eg_en", "OSN TV One.eg"), ("eg_ar", "أو إس إن وان.eg")]),
+    ("OSNShowcase.osn", "osn_showcase", ["OSN Showcase", "OSN: SHOWCASE", "OSN Showcase 4k", "OSN TV Showcase", "أو إس إن شو كايس"],
+     [("eg_en", "OSN TV Showcase.eg"), ("eg_ar", "أو إس إن شو كايس.eg")]),
+    ("OSNNow.osn", "osn_now", ["OSN Now", "OSN: NOW", "OSN TV Now", "أو إس إن ناو"],
+     [("eg_en", "OSN TV Now.eg")]),
+    ("OSNComedy.osn", "osn_comedy", ["OSN Comedy", "OSN: COMEDY", "OSN: COMDEY", "OSN Comedy 4k", "OSN TV Comedy", "أو إس إن كوميدي"],
+     [("eg_en", "OSN TV Comedy.eg"), ("eg_ar", "أو إس إن كوميدي.eg")]),
+    ("OSNCrime.osn", "osn_crime", ["OSN Crime", "OSN: CRIME", "OSN TV Crime", "أو إس إن كرايم"],
+     [("eg_en", "OSN TV Crime.eg"), ("eg_ar", "أو إس إن كرايم.eg")]),
+    ("OSNKids.osn", "osn_kids", ["OSN Kids", "OSN: KIDS", "OSN: KIDS ZONE", "OSN Kids Zone", "OSN Kidzone", "OSN TV Kids", "أو إس إن كيدز"],
+     [("eg_en", "OSN TV Kids.eg"), ("eg_ar", "أو إس إن كيدز.eg")]),
+    ("OSNMoviesPremiere.osn", "osn_movies_premiere",
+     ["OSN Movies Premiere", "OSN: MOVIES PREMIERE", "OSN MOVIES Premiere", "OSN TV Movies Premiere", "أو إس إن موفيز بريميير"],
+     [("eg_en", "OSN TV Movies Premiere.eg"), ("eg_ar", "أو إس إن موفيز بريميير.eg")]),
+    ("OSNMoviesHollywood.osn", "osn_movies_hollywood",
+     ["OSN Movies Hollywood", "OSN: MOVIES HOLLYWOOD", "OSN MOVIES Hollywood", "OSN TV Movies Hollywood", "أو إس إن موفيز هوليوود"],
+     [("eg_en", "OSN TV Movies Hollywood.eg"), ("eg_ar", "أو إس إن موفيز هوليوود.eg")]),
+    ("OSNMoviesAction.osn", "osn_movies_action",
+     ["OSN Movies Action", "OSN: MOVIES ACTION", "OSN TV Movies Action", "أو إس إن موفيز أكشن"],
+     [("eg_en", "OSN TV Movies Action.eg"), ("eg_ar", "أو إس إن موفيز أكشن.eg")]),
+    ("OSNMoviesComedy.osn", "osn_movies_comedy",
+     ["OSN Movies Comedy", "OSN: MOVIES COMEDY", "OSN TV Movies Comedy", "أو إس إن موفيز كوميدي"],
+     [("eg_en", "OSN TV Movies Comedy.eg"), ("eg_ar", "أو إس إن موفيز كوميدي.eg")]),
+    ("OSNMoviesFamily.osn", "osn_movies_family",
+     ["OSN Movies Family", "OSN: MOVIES FAMILY", "OSN MOVIES Family", "OSN TV Movies Family", "OSN Family Movies", "أو إس إن فاميلي موفيز"],
+     [("eg_en", "OSN TV Movies Family.eg"), ("eg_ar", "أو إس إن فاميلي موفيز.eg")]),
+    ("OSNYaHala.osn", "osn_yahala", ["OSN Yahala", "OSN: YAHALA", "OSN Ya Hala", "OSN TV Yahala", "أو إس إن ياهلا"],
+     [("eg_en", "OSN Ya Hala.eg"), ("eg_ar", "أو إس إن ياهلا.eg")]),
+    ("OSNYaHalaAflam.osn", "osn_yahala_aflam",
+     ["OSN Yahala Aflam", "OSN: YAHALA AFLAM", "OSN Ya Hala Aflam", "أو إس إن ياهلا أفلام"],
+     [("eg_en", "Osn Ya Hala Aflam.eg"), ("eg_ar", "أو إس إن ياهلا أفلام.eg")]),
+    ("OSNYaHalaBilArabi.osn", "osn_yahala_bilarabi",
+     ["OSN Yahala Bil Arabi", "OSN: YAHALA BIL ARABI", "OSN Ya Hala Bil Arabi", "OSN TV Yahala Bil Arabi",
+      "أو إس إن ياهلا بالعربي"],
+     [("eg_en", "OSN TV Yahala Bil Arabi.eg"), ("eg_ar", "أو إس إن ياهلا بالعربي.eg")]),
+    # THREE MORE OF THE PACKAGE, asked for from a photograph of the list.
+    # saudiarabia1 carries Discovery ID and Fatafeat in Arabic (its clock
+    # measured for the MBC guide), uae2 carries Nick Jr — its clock
+    # measured against egypt1 on OSN Ya Hala: eleven shared titles, delta
+    # 0. Al Safwa, Alfa Al Yawm and Discovery Science are listed by the
+    # feeds that know them with nothing under them, and are left out.
+    ("OSNNickJr.osn", "nick_jr", ["OSN Nick Jr", "OSN: NICK JR", "Nick Jr", "Nick Jr.", "نك جونيور"],
+     [("uae2", "NickJr.ae")]),
+    ("OSNDiscoveryID.osn", "discovery_id",
+     ["OSN Discovery ID", "OSN: DISCOVERY ID", "Discovery ID", "OSN DISCOVERY ID", "OSN Discovery IDX", "Investigation Discovery", "ID", "ديسكفري آي دي"],
+     [("sa_ar", "Discovery ID.sa"), ("sa_en", "Discovery ID.sa")]),
+    ("OSNFatafeat.osn", "fatafeat", ["OSN Fatafeat", "OSN: FATAFEAT", "OSN: FATAFET", "OSN Fatafet", "Fatafeat", "OSN FATAFET", "فتافيت"],
+     [("sa_ar", "Fatafeat.sa"), ("sa_en", "Fatafeat.sa")]),
+    # ANIMAL PLANET, asked for after the rest. saudiarabia2 carries it in
+    # English and saudiarabia1 in Arabic ("Animal Planet HD.sa"), both
+    # clocks measured for the MBC guide; uae2 and epgshare SA1 list it
+    # with nothing under it.
+    ("OSNAnimalPlanet.osn", "animal_planet",
+     ["OSN Animal Planet", "Animal Planet", "OSN: ANIMAL PLANET", "Animal Planet HD",
+      "أنيمال بلانيت"],
+     [("sa_en", "Animal Planet HD.sa"), ("sa_ar", "Animal Planet HD.sa")]),
+    # TLC, asked for the same way: saudiarabia2 in English, saudiarabia1 in
+    # Arabic ("TLC HD.sa"). Its title on the air when it was found, "90 Day
+    # Fiance: Happily Ever After?", is the one the user's own screen showed.
+    ("OSNTLC.osn", "tlc",
+     ["OSN TLC", "TLC", "OSN: TLC", "TLC HD", "تي إل سي"],
+     [("sa_en", "TLC HD.sa"), ("sa_ar", "TLC HD.sa")]),
+]
+
+KEEP_BEHIND = timedelta(days=1)
+
+
+def carry_forward(path: str) -> dict[str, list[dict]]:
+    """What the guide already holds for each OSN channel."""
+    ours = {xmltv_id for xmltv_id, *_ in CHANNELS}
+    out: dict[str, list[dict]] = {}
+    if not path or not os.path.exists(path):
+        return out
+    try:
+        root = ET.parse(path).getroot()
+    except Exception as exc:                                      # noqa: BLE001
+        warn(f"OSN: previous {path} unreadable, nothing to carry: {exc}")
+        return out
+    for programme in root.iter("programme"):
+        cid = programme.get("channel")
+        if cid not in ours:
+            continue
+        try:
+            start = datetime.strptime(programme.get("start"), XMLTV_TIME).astimezone(UTC)
+            stop = datetime.strptime(programme.get("stop"), XMLTV_TIME).astimezone(UTC)
+        except (TypeError, ValueError):
+            continue
+        out.setdefault(cid, []).append({
+            "start": start, "stop": stop,
+            "title": norm(programme.findtext("title") or ""),
+            "desc": norm(programme.findtext("desc") or "")})
+    return out
+
+
+def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
+    """Every OSN channel's programmes, from the best feed that answered."""
+    floor = utc_now() - KEEP_BEHIND
+    feeds: dict[str, ET.Element | None] = {}
+
+    def feed(name: str) -> ET.Element | None:
+        if name not in feeds:
+            try:
+                feeds[name] = read_feed(session, FEEDS[name])
+            except Exception as exc:                              # noqa: BLE001
+                warn(f"OSN: {FEEDS[name]} failed ({exc}) — its channels fall "
+                     f"back to the next feed or to what is already published")
+                feeds[name] = None
+        return feeds[name]
+
+    carried = carry_forward(previous_path)
+    out: dict[str, list[dict]] = {}
+    for xmltv_id, _key, names, sources in CHANNELS:
+        rows: list[dict] = []
+        used = ""
+        for name, cid in sources:
+            root = feed(name)
+            if root is None:
+                continue
+            rows = rows_in(root, cid, floor)
+            if rows:
+                used = name
+                break
+        if not rows:
+            rows = [r for r in carried.get(xmltv_id, []) if r["stop"] >= floor]
+            if rows:
+                warn(f"OSN: no feed answered for {names[0]} — running on the "
+                     f"{len(rows)} programme(s) already published")
+                used = "carried"
+        if rows:
+            out[xmltv_id] = rows
+            log(f"  {names[0]:22} {len(rows):4} programmes from {used}")
+        else:
+            warn(f"OSN: {names[0]} has nothing this run and is left out")
+    return out
+
+
+def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
+    """Declare the OSN channels that have programmes and write them."""
+    total = 0
+    for xmltv_id, key, names, _sources in CHANNELS:
+        rows = per_channel.get(xmltv_id)
+        if not rows:
+            continue
+        channel = ET.SubElement(root, "channel", id=xmltv_id)
+        # "OSN One" under both language tags first — a player set to
+        # Arabic shows the first Arabic name, and a search for "OSN" has
+        # to find it; see the same note in mbc_epg.emit. So every first
+        # name starts "OSN" and is spelled the way the playlist spells it
+        # ("OSN Yahala", not "OSN Ya Hala").
+        ET.SubElement(channel, "display-name", lang="ar").text = names[0]
+        # Every spelling a playlist uses, and each in capitals too —
+        # "OSN MOVIES ACTION", "OSN Comedy 4k" — so a player matching by
+        # name finds the channel whichever way the list writes it.
+        seen: set[str] = set()
+        for name in names + [n.upper() for n in names if n.isascii()]:
+            if name in seen:
+                continue
+            seen.add(name)
+            lang = "en" if name.isascii() else "ar"
+            ET.SubElement(channel, "display-name", lang=lang).text = name
+        logo = f"{key}_{LOGO_VERSION}.png"
+        if os.path.exists(os.path.join("logos", logo)):
+            ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{logo}")
+        for event in resolve_overlaps(sorted(rows, key=lambda e: e["start"])):
+            add_programme(root, xmltv_id, event["start"], event["stop"],
+                          event["title"], event.get("desc", ""))
+            total += 1
+    log(f"OSN: {len(per_channel)}/{len(CHANNELS)} channels, {total} programmes")
+    return total

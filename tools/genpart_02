@@ -1,0 +1,100 @@
+ext(d, (x+bw//2, y0+12), str(val), F_STAT, col, anchor="ma")
+        text(d, (x+bw//2, y0+46), label, F_STATL, MUTED, anchor="ma")
+        x += bw + gap
+
+    # flight cards: 2 columns x 4 rows
+    card_w, card_h = 600, 96
+    gx, gy = 24, 192
+    for i, f in enumerate(page_flights):
+        col_i, row_i = i % 2, i // 2
+        cx = gx + col_i * (card_w + 32)
+        cy = gy + row_i * (card_h + 14)
+        acode = f["code"]
+        aname, acol = AIRLINES[acode]
+        scol = STATUS_COLOR.get(f["status"], MUTED)
+
+        draw_rounded(d, [cx, cy, cx+card_w, cy+card_h], 10, PANEL_2, BORDER)
+        # airline badge
+        draw_rounded(d, [cx+12, cy+12, cx+64, cy+44], 8, acol)
+        text(d, (cx+38, cy+27), acode, F_BADGE, (255, 255, 255), anchor="mm")
+        text(d, (cx+76, cy+12), f["num"], F_FLIGHT)
+        text(d, (cx+76, cy+38), f"{aname}  •  {f['ac']}", F_SMALL, MUTED)
+
+        # route with progress line
+        ry = cy + 72
+        text(d, (cx+76, ry-8), f["o"], F_BODY, TEXT)
+        text(d, (cx+200, ry-8), f["d"], F_BODY, TEXT, anchor="ra")
+        line_y = ry + 14
+        d.line([cx+100, line_y, cx+176, line_y], fill=BORDER, width=3)
+        if f["prog"] > 0:
+            px = cx + 100 + int(76 * f["prog"])
+            d.line([cx+100, line_y, px, line_y], fill=GREEN, width=3)
+            # plane marker
+            d.polygon([(px, line_y-6), (px-8, line_y+6), (px+8, line_y+6)], fill=GREEN)
+        text(d, (cx+230, ry-8), f"DEP {hhmm(f['dep'] + tz*60 - 3*60)}", F_SMALL, MUTED)
+        text(d, (cx+360, ry-8), f"ARR {hhmm(f['arr'] + tz*60 - 3*60)}", F_SMALL, MUTED)
+
+        # status badge
+        bw2 = 118
+        draw_rounded(d, [cx+card_w-bw2-12, cy+12, cx+card_w-12, cy+40], 8, None, scol, 2)
+        text(d, (cx+card_w-bw2//2-12, cy+25), f["status"], F_SMALL, scol, anchor="mm")
+        if f["delay"]:
+            text(d, (cx+card_w-16, cy+52), f"+{f['delay']} min", F_SMALL, RED, anchor="ra")
+        elif f["status"] == "IN FLIGHT":
+            lat, lon = f.get("lat"), f.get("lon")
+            if lat is not None and lon is not None:
+                label = f"{abs(lat):.2f}{'N' if lat >= 0 else 'S'} {abs(lon):.2f}{'E' if lon >= 0 else 'W'}"
+            else:
+                label = f"{int(f['prog']*100)}% en route"
+            text(d, (cx+card_w-16, cy+52), label, F_SMALL, GREEN, anchor="ra")
+
+    # footer
+    d.rectangle([0, H-34, W, H], fill=PANEL)
+    text(d, (24, H-26), f"Departures & arrivals shown in local time  •  Page {page+1} of {pages}", F_SMALL, MUTED)
+    text(d, (W-24, H-26), "Live data • refreshed every 8 min  •  Unified MENA EPG — Channel 6", F_SMALL, MUTED, anchor="ra")
+
+    img.save(out)
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--tz", type=int, required=True)
+    ap.add_argument("--out", required=True)
+    args = ap.parse_args()
+
+    global ROWS
+    ROWS, _ = load_flights()
+    print(f"loaded {len(ROWS)} flights", flush=True)
+
+    WORK = os.environ.get("CH6_WORK", "/tmp/browser/ch6")
+    work = f"{WORK}/frames_{args.out}"
+    os.makedirs(work, exist_ok=True)
+    today = (datetime.datetime.utcnow() + datetime.timedelta(hours=args.tz)).strftime("%A, %d %B %Y")
+
+    # video length = enough pages to show EVERY loaded flight
+    total_pages = max(1, math.ceil(len(ROWS) / PER_PAGE))
+    n = FPS * total_pages * PAGE_SECONDS
+    for i in range(n):
+        render_frame(i / FPS, args.tz, today, f"{work}/f{i:04d}.png")
+        if i % 50 == 0:
+            print(f"frame {i}/{n}", flush=True)
+
+    outdir = os.environ.get("CH6_OUT", f"{WORK}/out_{args.out}")
+    os.makedirs(outdir, exist_ok=True)
+    cmd = [
+        "ffmpeg", "-y", "-framerate", str(FPS), "-i", f"{work}/f%04d.png",
+        "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+        "-pix_fmt", "yuv420p", "-r", str(FPS), "-g", str(FPS*SEG_TIME),
+        "-sc_threshold", "0",
+        "-f", "hls", "-hls_time", str(SEG_TIME),
+        "-hls_playlist_type", "vod",
+        "-hls_segment_type", "mpegts",
+        "-hls_segment_filename", f"{outdir}/{args.out}_%d.ts",
+        f"{outdir}/{args.out}.m3u8",
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+    # rewrite playlist to match house style
+    with open(f"{outdir}/{args.out}.m3u8") as fh:
+        print(fh.read())
+
+if __name__ == "__main__":
+    main()
