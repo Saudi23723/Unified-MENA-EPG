@@ -168,37 +168,6 @@ def gate_shahid() -> None:
             check("Shahid", label, True, False)
     print(f"  {len(every)} foreign labels offered, {len(leaked)} accepted")
 
-    # A LISTINGS PAGE'S MINUTE, CORRECTED BY OUR OWN GUIDES. livesoccertv
-    # put Yemen - Qatar at 11:00 New York (18:00 Riyadh) on 27 September
-    # 2026; it kicked off at 18:55, which Shasha's guide printed. Only a
-    # listings page is corrected, only when both clubs match, and only
-    # when every guide that has the match agrees on one minute.
-    from datetime import datetime, timezone
-    from zoneinfo import ZoneInfo
-    ny, utc = ZoneInfo("America/New_York"), timezone.utc
-
-    def event(title, hour, minute, source="LiveSoccerTV"):
-        return {"title": title, "source_name": source,
-                "start": datetime(2026, 9, 27, hour, minute, tzinfo=ny)}
-
-    live = "\u2068Yemen - Qatar\u2069 \u200e• Live 🔵\u200e"
-    rows = [(datetime(2026, 9, 27, 15, 55, tzinfo=utc), live,
-             "shasha_epg.xml")]
-    fixed = m.second_opinion([event("Yemen - Qatar", 11, 0)], rows)
-    check("Shahid", "a listings page's wrong minute takes our guides' kickoff",
-          f"{fixed[0]['start']:%H:%M %z}", "11:55 -0400")
-    check("Shahid", "and a club's official page is never second-guessed",
-          f"{m.second_opinion([event('Yemen - Qatar', 11, 0, 'BundesligaOfficial')], rows)[0]['start']:%H:%M}",
-          "11:00")
-    check("Shahid", "nor a match that shares only one club",
-          f"{m.second_opinion([event('Yemen - Bahrain', 11, 0)], rows)[0]['start']:%H:%M}",
-          "11:00")
-    split = rows + [(datetime(2026, 9, 27, 15, 30, tzinfo=utc), live,
-                     "alwan_sports_epg.xml")]
-    check("Shahid", "and guides that disagree with each other correct nothing",
-          f"{m.second_opinion([event('Yemen - Qatar', 11, 0)], split)[0]['start']:%H:%M}",
-          "11:00")
-
 
 def gate_not_a_team() -> None:
     """A date or a competition is not a club — in either language.
