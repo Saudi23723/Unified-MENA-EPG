@@ -36,6 +36,8 @@ stream_map.json
 stream/today_prayer_*.ts
 stream/today_news_*.ts
 stream/dubai_news_*.ts
+stream/disasters_*.ts
+stream/dubai_disasters_*.ts
 stream/other_sports_*.ts
 stream/dubai_sports_*.ts
 stream/today_matches_*.ts
@@ -61,6 +63,8 @@ boards/today_weather_*
 boards/dubai_weather_*
 boards/today_news_*
 boards/dubai_news_*
+boards/disasters_*
+boards/dubai_disasters_*
 boards/f1_*
 boards/dubai_f1_*
 boards/hoops_gridiron_*

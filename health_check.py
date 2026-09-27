@@ -95,6 +95,9 @@ ONE_DAY_SOURCES = {
     "weather_epg.xml":
         "the weather board publishes a rolling six-hour bulletin, "
         "rewritten every ten minutes",
+    "disasters_epg.xml":
+        "the disasters board publishes a rolling six-hour bulletin, "
+        "rewritten every pass",
 }
 
 # How long a one-day guide may sit with nothing ahead before it counts as

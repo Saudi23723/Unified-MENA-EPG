@@ -97,9 +97,14 @@ def draw_mark(pen, x: int, y: int, size: int, accent=NEWS_ACCENT) -> None:
             radius=bar_h // 2, fill=colour)
 
 
+NEWS_WORDS = ("خبر", "خبران", "أخبار", "خبر")
+
+
 def draw_board(stories: list[dict], now: datetime, viewer, *,
                title: str, subtitle: str, page: int = 1,
-               pages: int = 1) -> Image.Image:
+               pages: int = 1, accent=NEWS_ACCENT, mark=None,
+               lit_ground=FRESH_BG, words=NEWS_WORDS,
+               empty: str = "لا توجد أخبار") -> Image.Image:
     """One page of the bulletin.
 
     THE PICTURE IS THE SAME PICTURE however much later it is drawn, as
@@ -107,13 +112,17 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     lives by. What it draws of the moment is the DATE and the freshness
     of each story, both of which move on the scale of the news itself
     and not on the scale of the build.
+
+    Another bulletin can wear it — the disasters channel does — with its
+    own accent, mark and words. A story that carries "lit" is lit by
+    that rather than by its age, because what makes a row urgent on
+    that channel is how bad it is, not how new.
     """
     board = backdrop()
     pen = ImageDraw.Draw(board)
-    accent = NEWS_ACCENT
 
     # ---- header ---------------------------------------------------------
-    draw_mark(pen, PAD, PAD - 6, 76, accent)
+    (mark or draw_mark)(pen, PAD, PAD - 6, 76, accent)
     x = PAD + 76 + 24
 
     draw_text(pen, (x, PAD - 4), title, 46, WHITE)
@@ -130,8 +139,8 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     date_chip(pen, right, PAD - 6, f"{now.astimezone(viewer):%d.%m.%Y}")
     draw_signature(pen)
 
-    count = (arabic_count(len(stories), "خبر", "خبران", "أخبار", "خبر")
-             if stories else "لا توجد أخبار")
+    count = (arabic_count(len(stories), *words)
+             if stories else empty)
     if pages > 1:
         count = f"{count} — {page}/{pages}"
     draw_text(pen, (right, PAD + 64), count, 21, accent, anchor="ra")
@@ -140,7 +149,7 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     rule(pen, top, accent)
 
     if not stories:
-        draw_text(pen, (W // 2, H // 2), "لا توجد أخبار الآن", 32, MUTED,
+        draw_text(pen, (W // 2, H // 2), f"{empty} الآن", 32, MUTED,
                   anchor="mm")
         progress(pen, page, pages, accent)
         return board
@@ -153,15 +162,18 @@ def draw_board(stories: list[dict], now: datetime, viewer, *,
     for index, story in enumerate(stories):
         band = [PAD - 12, y, W - PAD + 12, y + height - 8]
 
-        age = (now - story["start"]).total_seconds() / 60
-        fresh = age <= FRESH_MINUTES
+        if "lit" in story:
+            fresh = bool(story["lit"])
+        else:
+            age = (now - story["start"]).total_seconds() / 60
+            fresh = age <= FRESH_MINUTES
 
         # A STORY INSIDE THE HOUR IS THE CHANNEL'S WHOLE PROMISE, so it
         # stands on the amber's own ground with a lit edge on the
         # reading side — the same shape the fixtures board gives a match
         # that is on now, found by the corner of the eye and not read.
         if fresh:
-            pen.rounded_rectangle(band, radius=12, fill=FRESH_BG,
+            pen.rounded_rectangle(band, radius=12, fill=lit_ground,
                                   outline=accent, width=1)
             pen.rounded_rectangle([band[0] + 3, band[1] + 7,
                                    band[0] + 8, band[3] - 7],
