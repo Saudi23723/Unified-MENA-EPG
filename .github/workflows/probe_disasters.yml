@@ -1,0 +1,29 @@
+# Ask the disaster feeds what they publish, before a reader is written.
+#
+# A channel was asked for — storms, earthquakes, floods, volcanoes and
+# the like, and nothing else. Every source is new here. It commits
+# nothing and publishes nothing; read the log, write the reader against
+# what it says, delete this when the answer is in code.
+name: Probe the disaster sources
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/epg-channels-not-updating-pa2732]
+    paths:
+      - "probes/probe_disasters.py"
+      - "disaster_reader.py"
+      - "disasters_epg.py"
+      - ".github/workflows/probe_disasters.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -u probes/probe_disasters.py
