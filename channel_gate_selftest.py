@@ -5981,6 +5981,22 @@ def gate_the_disasters_channel_shows_only_disasters() -> None:
     check("DISASTERS", "an empty pass is one empty page, not no page",
           disasters_epg.pages_of([]), [[]])
 
+    # An M6.6 and nine aftershocks took a page between them on the first
+    # live pass. The small ones fold into the strongest in their place;
+    # a quake that is bad on its own keeps its row.
+    swarm = disaster_reader.fold_swarms(disaster_reader.quakes_from([
+        quake(6.6, "80 km ENE of Tadine, New Caledonia", 40, 168.7, -21.3),
+        quake(5.1, "90 km ENE of Tadine, New Caledonia", 12, 168.7, -21.3),
+        quake(5.0, "61 km ENE of Tadine, New Caledonia", 13, 168.7, -21.3),
+        quake(6.1, "58 km NE of Tadine, New Caledonia", 20, 168.7, -21.3),
+        quake(5.2, "148 km NW of Kilmia, Yemen", 22, 51.0, 14.0),
+    ], now))
+    check("DISASTERS", "AN AFTERSHOCK SWARM IS ONE ROW, a strong quake its own",
+          sorted(disaster_reader.headline(one) for one in swarm),
+          sorted(["زلزال بقوة 6.6 · وهزتان أخريان — كاليدونيا الجديدة",
+                  "زلزال بقوة 6.1 — كاليدونيا الجديدة",
+                  "زلزال بقوة 5.2 — اليمن"]))
+
 
 def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     """The third channel, and the two rules that decide every row on it.

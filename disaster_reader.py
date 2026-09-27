@@ -30,7 +30,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timedelta, timezone
 
-from epg_lib import fetch, log, norm, warn
+from epg_lib import arabic_count, fetch, log, norm, warn
 
 UTC = timezone.utc
 
@@ -250,6 +250,35 @@ def quakes_from(features: list[dict], now: datetime) -> list[dict]:
     return out
 
 
+def fold_swarms(quakes: list[dict]) -> list[dict]:
+    """One row per place for the small quakes, beside the strongest there.
+
+    The first live pass had an M6.6 off New Caledonia and nine M5.0–5.2
+    after it, and the nine took a page between them — ten rows saying
+    one thing. So a quake that is not bad on its own (rank 1) is folded
+    into the strongest quake in the same place, which says how many
+    more there were. A quake that IS bad keeps its own row whatever is
+    around it: two M6s in one country are two events.
+    """
+    by_place: dict[str, list[dict]] = {}
+    for quake in quakes:
+        by_place.setdefault(quake["country"], []).append(quake)
+
+    out: list[dict] = []
+    for group in by_place.values():
+        group.sort(key=lambda one: one["magnitude"], reverse=True)
+        head = dict(group[0])
+        folded = [one for one in group[1:] if one["rank"] < 2]
+        head["more"] = len(folded)
+        if folded:
+            head["start"] = max([head["start"]] + [one["start"]
+                                                   for one in folded])
+            head["first"] = group[0]["start"]
+        out.append(head)
+        out += [one for one in group[1:] if one["rank"] >= 2]
+    return out
+
+
 def gdacs_time(value: str | None) -> datetime | None:
     if not value:
         return None
@@ -343,6 +372,10 @@ def headline(event: dict) -> str:
         what = f"زلزال بقوة {event['magnitude']:.1f}"
         if event.get("tsunami"):
             what += " · تحذير تسونامي"
+        if event.get("more"):
+            what += " · و" + arabic_count(event["more"], "هزة أخرى",
+                                          "هزتان أخريان", "هزات أخرى",
+                                          "هزة أخرى")
     elif kind == "TC":
         # The name in guillemets. Bare, a Latin name beside Arabic lost
         # the space before it on the board — "إعصارMAWAR" — with every
@@ -373,7 +406,7 @@ def summary(event: dict, viewer, place: bool = True) -> str:
     if kind == "EQ":
         if event.get("depth") is not None:
             parts.append(f"على عمق {event['depth']:.0f} كم")
-        at = event["start"].astimezone(viewer)
+        at = (event.get("first") or event["start"]).astimezone(viewer)
         parts.append(f"{at:%d.%m} الساعة {at:%H:%M}")
         if place and event.get("place"):
             parts.append(event["place"])
@@ -392,6 +425,7 @@ def events(session, now: datetime) -> list[dict]:
     found: list[dict] = []
 
     seen_quakes: set[str] = set()
+    quakes: list[dict] = []
     for url in (USGS_SIGNIFICANT, USGS_DAY):
         try:
             data = fetch(session, url).json()
@@ -401,7 +435,8 @@ def events(session, now: datetime) -> list[dict]:
         for quake in quakes_from(data.get("features") or [], now):
             if quake["id"] not in seen_quakes:
                 seen_quakes.add(quake["id"])
-                found.append(quake)
+                quakes.append(quake)
+    found += fold_swarms(quakes)
 
     try:
         data = fetch(session, GDACS).json()
