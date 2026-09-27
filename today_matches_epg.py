@@ -2590,6 +2590,10 @@ def build() -> int:
     # its own channels is a fact; the page's is a guess.
     own_guides.prefer_official_bein(events)
 
+    # Every match the board has on الأردن الرياضية, written down for that
+    # channel's own guide — see jordan_football.remember_what_it_carries.
+    jordan_football.remember_what_it_carries(events)
+
     # Counted before the placeholder goes in, because "لم تُعلن القناة"
     # is a sentence and not a channel, and a row wearing it has none.
     say_which_rows_are_thin(events)

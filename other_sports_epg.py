@@ -54,6 +54,7 @@ import american_sport_on_tv
 import board_marks
 import dubai_time
 import espn_fights
+import jordan_football
 import own_guides
 import pbc
 import real_american_freestyle
@@ -2135,6 +2136,12 @@ def build() -> int:
 
     session = new_session()
     events = collect(session, floor, ceiling)
+
+    # Every event here on الأردن الرياضية, for that channel's own guide —
+    # the basketball and the rest it carries besides football. Written
+    # before the names are shortened for the board.
+    jordan_football.remember_what_it_carries(events,
+                                             jordan_football.OTHER_LEDGER)
 
     # Sorted and shortened once, here, so the printed line and the drawn
     # board show the same names in the same order — they each take the

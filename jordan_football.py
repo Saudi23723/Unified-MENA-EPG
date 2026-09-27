@@ -48,8 +48,10 @@ that learns one.
 """
 from __future__ import annotations
 
+import json
+import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from bs4 import BeautifulSoup
@@ -528,3 +530,108 @@ def fetch_events(session, floor: datetime, ceiling: datetime) -> list[dict]:
 
     log(f"  jfa.jo: {len(inside)} inside the window")
     return sorted(inside, key=lambda one: one["start"])
+
+
+# ---------------------------------------------------------------------------
+# EVERYTHING ANY SOURCE SAYS IS ON الأردن الرياضية.
+#
+# "و الأردن جميع المباريات من غير ما احكي لك ولا تحكي لي". The channel
+# publishes no schedule ahead of time anywhere a runner can read: JRTV's
+# website loads its guide from code outside the page, and the channel's
+# YouTube schedules nothing in advance. So the Jordan Sport guide read only
+# the federation's own competitions, and a national-team match or a
+# basketball game the channel carried reached the board on channel 1 with
+# "Jordan Sports" beside it and never reached the channel's own guide.
+#
+# The board already reads every listings page, and each of them names the
+# channels a match is on. So the board writes down every match it has for
+# this channel, and the channel's guide reads it back. Whatever any source
+# says is on Jordan Sport is on Jordan Sport, and nobody has to name it.
+# ---------------------------------------------------------------------------
+
+LEDGER = "jordan_sport_fixtures.json"
+# Channel 2's own, for the sports that are not football — basketball, the
+# Arab club championships the channel carries. A file of its own, because
+# the two boards are built at different moments and one must not wipe out
+# what the other wrote.
+OTHER_LEDGER = "jordan_sport_other_sports.json"
+LEDGERS = (LEDGER, OTHER_LEDGER)
+
+# The channel's own name, in every spelling a source prints it.
+JORDAN_SPORT_NAME = re.compile(
+    r"jordan\s*(?:tv\s*)?sports?\b"
+    r"|jrtv\s*sports?\b"
+    r"|الأردن\s*الرياضية|الاردن\s*الرياضية"
+    r"|الرياضية\s*الأردنية|الرياضية\s*الاردنية"
+    r"|الأردنية\s*الرياضية|الاردنية\s*الرياضية",
+    re.I)
+
+
+def on_jordan_sport(channels) -> bool:
+    """Does this list of channels include الأردن الرياضية?"""
+    return any(JORDAN_SPORT_NAME.search(norm(str(one)))
+               for one in channels or [])
+
+
+def remember_what_it_carries(events: list[dict],
+                             path: str = LEDGER) -> int:
+    """Write every board match on this channel, for its guide to read."""
+    carried = [{
+        "start": event["start"].astimezone(timezone.utc).isoformat(),
+        "title": norm(event["title"]),
+        "competition": norm(event.get("competition") or ""),
+    } for event in events if on_jordan_sport(event.get("channels"))]
+    carried.sort(key=lambda one: one["start"])
+    try:
+        with open(path + ".tmp", "w", encoding="utf-8") as handle:
+            json.dump(carried, handle, ensure_ascii=False, indent=1)
+        os.replace(path + ".tmp", path)
+    except OSError as exc:
+        warn(f"{path} could not be written ({exc})")
+        return 0
+    log(f"  jordan sport: {len(carried)} match(es) on the board name it")
+    return len(carried)
+
+
+def what_it_carries(floor: datetime, ceiling: datetime,
+                    paths=LEDGERS) -> list[dict]:
+    """The matches the boards say are on this channel, inside the window."""
+    rows = []
+    for path in paths:
+        try:
+            with open(path, encoding="utf-8") as handle:
+                found = json.load(handle)
+        except (OSError, ValueError):
+            continue
+        if isinstance(found, list):
+            rows += found
+    out = []
+    for row in rows:
+        try:
+            start = datetime.fromisoformat(row["start"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if start.tzinfo is None or not norm(row.get("title") or ""):
+            continue
+        if floor <= start < ceiling:
+            out.append({"start": start, "title": norm(row["title"]),
+                        "competition": norm(row.get("competition") or "")})
+    return out
+
+
+# A channel shows one match at a time. A board row inside this window of
+# a fixture the guide already has is that fixture under another spelling
+# (Al Wehdat - Al Faisaly for الوحدات - الفيصلي), not a second match.
+ONE_MATCH_AT_A_TIME = timedelta(minutes=100)
+
+
+def not_already_carried(rows: list[dict], have: list[dict]) -> list[dict]:
+    """Rows whose kickoff no match already in the guide is near — nor one
+    taken a moment ago from the other board."""
+    taken: list[dict] = []
+    for row in sorted(rows, key=lambda one: one["start"]):
+        if any(abs(row["start"] - one["start"]) < ONE_MATCH_AT_A_TIME
+               for one in list(have) + taken):
+            continue
+        taken.append(row)
+    return taken
