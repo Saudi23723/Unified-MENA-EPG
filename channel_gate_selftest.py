@@ -2628,6 +2628,38 @@ def gate_the_jordanian_league_is_read() -> None:
            ("دوري الدرجة الأولى", "دوري الدرجة الثانية",
             "دوري الناشئين ت16", "كأس الأردن للأشبال")],
           [False] * 4)
+    # EVERYTHING ANY SOURCE SAYS IS ON THE CHANNEL. The boards write down
+    # their matches on الأردن الرياضية and the channel's guide reads them
+    # back: "و الأردن جميع المباريات من غير ما احكي لك ولا تحكي لي".
+    import os
+    import tempfile
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    at = _dt(2026, 9, 27, 12, 0, tzinfo=_tz.utc)
+    with tempfile.TemporaryDirectory() as folder:
+        ledger = os.path.join(folder, "ledger.json")
+        jordan_football.remember_what_it_carries([
+            {"start": at + _td(hours=5), "title": "Jordan - Syria",
+             "competition": "Friendly", "channels": ["Jordan Sports", "Sama"]},
+            {"start": at + _td(hours=26), "title": "الفيصلي - الوحدات",
+             "competition": "دوري السلة", "channels": ["الأردن الرياضية"]},
+            {"start": at + _td(hours=3), "title": "X - Y",
+             "competition": "Z", "channels": ["beIN 1"]},
+        ], ledger)
+        rows = jordan_football.what_it_carries(
+            at - _td(days=1), at + _td(days=5), paths=(ledger,))
+        check("JOR", "every board match naming the channel reaches its guide,"
+              " in either script, and nothing that does not name it",
+              [row["title"] for row in rows],
+              ["Jordan - Syria", "الفيصلي - الوحدات"])
+        check("JOR", "and a match the guide already has is not added twice",
+              [row["title"] for row in jordan_football.not_already_carried(
+                  rows, [{"start": at + _td(hours=5, minutes=5)}])],
+              ["الفيصلي - الوحدات"])
+        check("JOR", "a missing ledger is no matches, not an error",
+              jordan_football.what_it_carries(
+                  at, at + _td(days=1),
+                  paths=(os.path.join(folder, "none.json"),)), [])
+
     check("JOR", "the national team is shown but never assumed onto it",
           [jordan_football.carried_by(name) for name in
            ("تصفيات كأس العالم", "كأس العرب")],

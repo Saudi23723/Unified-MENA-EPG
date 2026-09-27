@@ -174,6 +174,9 @@ SHARED_FILES = (
     # that failed, and this is what the next pass stands on when it does.
     "f1_state.json",
     "weather.json",
+    # Every board match on الأردن الرياضية, for that channel's guide.
+    "jordan_sport_fixtures.json",
+    "jordan_sport_other_sports.json",
                 "prayer_times.json",
                 # WHO CARRIES A CARD, remembered across passes. A fight
                 # card's two sources name different carriers, and one of

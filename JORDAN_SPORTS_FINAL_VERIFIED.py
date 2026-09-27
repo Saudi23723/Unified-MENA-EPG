@@ -996,6 +996,32 @@ def collect_events() -> list[dict]:
     except Exception as exc:
         warn(f"JFA fixture table failed: {exc}")
 
+    # Everything any source on the board says is on this channel: the
+    # national team, basketball, whatever it carries. See
+    # jordan_football.remember_what_it_carries.
+    try:
+        floor, ceiling = window_bounds()
+        board = jordan_football.not_already_carried(
+            jordan_football.what_it_carries(floor, ceiling), events)
+        log(f"Board matches naming this channel, not already here: "
+            f"{len(board)}")
+        for ev in board:
+            am = ev["start"].astimezone(AMMAN)
+            log(f"  BOARD | {am:%Y-%m-%d %H:%M} Amman | {ev['title']} | "
+                f"{ev['competition']}")
+            events.append({
+                "start": ev["start"],
+                "date": am.date(),
+                "title": ev["title"],
+                "category": ev["competition"] or "مباراة",
+                "source_name": "TodayMatchesBoard",
+                "source": jordan_football.LEDGER,
+                "duration_minutes": 135,
+                "priority": 300,
+            })
+    except Exception as exc:
+        warn(f"the board's Jordan Sport matches could not be read: {exc}")
+
     # Confirmed football matches from LiveFootballTV
     try:
         football = parse_lftv_jordan_sports(fetch_text(LFTV_JORDAN_SPORTS))
