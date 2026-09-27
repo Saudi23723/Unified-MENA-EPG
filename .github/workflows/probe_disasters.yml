@@ -27,3 +27,15 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
       - run: python -u probes/probe_disasters.py
+      # And the channel itself, built against the live feeds.
+      - run: python -u disasters_epg.py
+      - run: |
+          echo '--- what reached the guide ---'
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          root = ET.parse("disasters_epg.xml").getroot()
+          first = root.find("programme")
+          print(first.findtext("title"))
+          print(first.findtext("desc"))
+          PY
+          ls -la boards/disasters_*.png boards/dubai_disasters_*.png

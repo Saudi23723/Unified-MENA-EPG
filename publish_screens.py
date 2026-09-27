@@ -152,6 +152,11 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport_epg.xml",
                           "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256"),
+    # كوارث العالم — the disasters bulletin, in both clocks.
+    "world_disasters": ("disasters_", "disasters_epg.xml",
+                        "disasters.m3u8", "disasters.sha256"),
+    "dubai_disasters": ("dubai_disasters_", "dubai_disasters_epg.xml",
+                        "dubai_disasters.m3u8", "dubai_disasters.sha256"),
     # The sixth channel — رحلات اليوم, rebuilt: Queen Alia and Zayed
     # International's own departures and arrivals, in both clocks.
     "flight_tracker": ("flight_tracker_", "flight_epg.xml",

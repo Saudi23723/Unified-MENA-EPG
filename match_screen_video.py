@@ -184,6 +184,12 @@ SCREENS = {
                     "multi_sport.sha256", 20),
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256", 20),
+    # كوارث العالم — a bulletin like the news, and held as long: a row
+    # is a headline and a line of numbers, read rather than glanced at.
+    "world_disasters": ("disasters_", "disasters.m3u8",
+                        "disasters.sha256", 35),
+    "dubai_disasters": ("dubai_disasters_", "dubai_disasters.m3u8",
+                        "dubai_disasters.sha256", 35),
     # THE SIXTH CHANNEL — رحلات اليوم: an airport board, eight flights a
     # page, held long enough to find one's own flight on it.
     "flight_tracker": ("flight_tracker_", "flight_tracker.m3u8",
@@ -508,6 +514,8 @@ THEMES = {
     "dubai_multi_sport": "audio/theme_sports.m4a",
     "flight_tracker": "audio/theme_sports.m4a",
     "dubai_flight_tracker": "audio/theme_sports.m4a",
+    "world_disasters": "audio/theme_news.m4a",
+    "dubai_disasters": "audio/theme_news.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4

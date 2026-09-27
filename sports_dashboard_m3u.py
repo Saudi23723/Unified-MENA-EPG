@@ -67,6 +67,9 @@ from prayer_epg import LOGO as PRAYER_LOGO
 from multi_sport_epg import CHANNEL_AR as GAMES_AR
 from multi_sport_epg import CHANNEL_ID as GAMES_ID
 from multi_sport_epg import LOGO as GAMES_LOGO
+from disasters_epg import CHANNEL_AR as DISASTERS_AR
+from disasters_epg import CHANNEL_ID as DISASTERS_ID
+from disasters_epg import LOGO as DISASTERS_LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
@@ -167,6 +170,12 @@ SCREENS = (
     (GAMES_ID, GAMES_AR, "stream/multi_sport.m3u8",
      f"{RAW}/stream/multi_sport.m3u8", "🏅 Multi-Sport Games",
      GAMES_LOGO),
+    # The fourteenth channel — 🌋 كوارث العالم: storms, earthquakes,
+    # floods, volcanoes and fires, and nothing else. Last, so no channel
+    # a viewer already knows by its number moves.
+    (DISASTERS_ID, DISASTERS_AR, "stream/disasters.m3u8",
+     f"{RAW}/stream/disasters.m3u8", "🌋 World Disasters",
+     DISASTERS_LOGO),
 )
 
 
@@ -235,6 +244,9 @@ DUBAI_SCREENS = (
     ("MultiSportDubai", GAMES_AR, "stream/dubai_multi_sport.m3u8",
      f"{RAW}/stream/dubai_multi_sport.m3u8",
      "🏅 Multi-Sport Games · بتوقيت الإمارات", GAMES_LOGO),
+    ("WorldDisastersDubai", DISASTERS_AR, "stream/dubai_disasters.m3u8",
+     f"{RAW}/stream/dubai_disasters.m3u8",
+     "🌋 World Disasters · بتوقيت الإمارات", DISASTERS_LOGO),
 
 )
 
@@ -260,6 +272,7 @@ PLAYLIST_NAMES = {
     "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
     "Formula1":       ("Formula 1",       "🏁 Formula 1"),
     "MultiSport":     ("Multi-Sport Games", "🏅 Multi-Sport Games"),
+    "WorldDisasters": ("World Disasters", "🌋 World Disasters"),
 }
 
 # The second clock's rows are the same channels under Gulf times, so they

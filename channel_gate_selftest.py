@@ -5902,6 +5902,78 @@ def gate_real_status_variants_cover_only_observable_states() -> None:
         board_marks.every_record, board_marks.picture = old[4:]
 
 
+def gate_the_disasters_channel_shows_only_disasters() -> None:
+    """كوارث العالم reads the monitors, and shows the worst first.
+
+    Asked for as "عواصف زلازل فيضانات و ما شابه … مش اخبار و رياضة", so
+    what reaches it is decided by USGS and GDACS, not by a newsroom:
+    a quake above the line, a storm or a flood GDACS still calls current.
+    """
+    print("\nThe disasters channel shows only disasters, the worst first")
+    from datetime import datetime, timedelta, timezone
+
+    import disaster_reader
+    import disasters_epg
+
+    now = datetime(2026, 9, 27, 7, 0, tzinfo=timezone.utc)
+
+    def quake(mag, place, hours_ago, lon, lat, alert=None, tsunami=0):
+        when = now - timedelta(hours=hours_ago)
+        return {"id": f"{mag}{place}", "properties": {
+            "mag": mag, "place": place, "type": "earthquake",
+            "time": int(when.timestamp() * 1000), "alert": alert,
+            "tsunami": tsunami}, "geometry": {"coordinates": [lon, lat, 10]}}
+
+    def gdacs(kind, alert, country, current="true", modified="2026-09-27T05:00:00",
+              name="", severity=""):
+        return {"properties": {
+            "eventtype": kind, "eventid": 1, "eventname": name,
+            "alertlevel": alert, "iscurrent": current, "country": country,
+            "fromdate": "2026-09-20T00:00:00", "todate": modified,
+            "datemodified": modified,
+            "affectedcountries": [{"countryname": country}],
+            "severitydata": {"severitytext": severity}}}
+
+    quakes = disaster_reader.quakes_from([
+        quake(4.9, "159 km ESE of Gizo, Solomon Islands", 3, 158.0, -8.9),
+        quake(4.6, "20 km N of Irbid, Jordan", 5, 35.8, 32.7),
+        quake(6.4, "35 km SW of Malatya, Turkey", 2, 38.1, 38.2, "orange"),
+        quake(5.5, "Kermadec Islands region", 60, -177.0, -30.0),
+    ], now)
+    check("DISASTERS", "a small quake far away is not shown, one near home is,"
+          " a big one is, and one from three days ago is not",
+          sorted(one["country"] for one in quakes), ["الأردن", "تركيا"])
+
+    others = disaster_reader.gdacs_from([
+        gdacs("TC", "Red", "Philippines", name="MAWAR-26",
+              severity="Hurricane/Typhoon > 74 mph (maximum wind speed of "
+                       "240 km/h)"),
+        gdacs("FL", "Orange", "Nigeria"),
+        gdacs("FL", "Green", "Chad", current="false"),
+        gdacs("VO", "Green", "Italy", modified="2026-09-01T00:00:00"),
+        gdacs("EQ", "Green", "Chile"),
+    ], now)
+    check("DISASTERS", "GDACS: current storms and floods, not a finished one,"
+          " not a stale one, and its quakes are USGS's",
+          [one["kind"] for one in others], ["TC", "FL"])
+    check("DISASTERS", "a typhoon is named, with its wind",
+          (disaster_reader.headline(others[0]), others[0]["wind"]),
+          ("إعصار «MAWAR» — الفلبين", 240))
+
+    ordered = disaster_reader.in_order(quakes + others)
+    check("DISASTERS", "THE WORST IS FIRST: red, then orange, then the rest",
+          [one["rank"] for one in ordered], [3, 2, 2, 1])
+    check("DISASTERS", "and red and orange are lit on the board",
+          [disasters_epg.a_row(one)["lit"] for one in ordered],
+          [True, True, True, False])
+    check("DISASTERS", "a tsunami flag makes any quake the worst",
+          disaster_reader.magnitude_rank(5.1, None, True), 3)
+    check("DISASTERS", "a place not in the table keeps the monitor's name",
+          disaster_reader.country_ar("Mid-Indian Ridge"), "Mid-Indian Ridge")
+    check("DISASTERS", "an empty pass is one empty page, not no page",
+          disasters_epg.pages_of([]), [[]])
+
+
 def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
     """The third channel, and the two rules that decide every row on it.
 
@@ -6863,6 +6935,7 @@ def main() -> int:
                   gate_status_variants_follow_absolute_occurrences,
                   gate_real_status_variants_cover_only_observable_states,
                  gate_the_news_channel_says_only_what_a_newsroom_published,
+                 gate_the_disasters_channel_shows_only_disasters,
                  gate_alwan_carries_more_than_football,
                  gate_the_card_is_split_by_the_broadcaster,
                  gate_raf_reads_the_promotions_own_page,

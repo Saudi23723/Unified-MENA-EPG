@@ -47,6 +47,9 @@ SOURCE_FILES = [
     # a schedule, written by the same ten-minute workflow as the two
     # boards beside it.
     "news_epg.xml",
+    # كوارث العالم — the disasters bulletin, rewritten every pass like
+    # the news beside it. Missing before its first build, and skipped.
+    "disasters_epg.xml",
     "thmanyah_epg.xml",
     # The fourth channel — 🌤️ طقس اليوم. Written by the ten-minute
     # workflow like the two boards beside it, from live Open-Meteo

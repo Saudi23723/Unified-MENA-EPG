@@ -52,6 +52,9 @@ BUILDS: tuple[str, ...] = (
     "sporttv_epg",
     "f1_epg",
     "news_epg",
+    # كوارث العالم — storms, earthquakes, floods, volcanoes and fires,
+    # read from the monitors (USGS, GDACS) rather than from newsrooms.
+    "disasters_epg",
     "weather_epg",
     "prayer_epg",
 )
