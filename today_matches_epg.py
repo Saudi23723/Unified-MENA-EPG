@@ -2563,6 +2563,16 @@ def build() -> int:
     # one place and still on the television. Filtering here, once, is what
     # makes it true everywhere: the board, the panel and the playlist all
     # read this list and none of them can now forget.
+    # Every match ANY page here has on الأردن الرياضية, written down for
+    # that channel's own guide — see jordan_football.remember_what_it_
+    # carries. From everything collected, BEFORE the board's own taste in
+    # competitions: the first pass wrote it from the board's rows and the
+    # file came out empty, because what that channel carries — a national
+    # team friendly, the Jordanian league under another heading — is
+    # exactly what wanted() leaves off channel 1. The channel's guide
+    # wants every match on the channel, not every match on the board.
+    jordan_football.remember_what_it_carries(everything)
+
     events = [dict(event, channels=real_channels(event["channels"]))
               for event in everything if wanted(event)]
 
@@ -2589,10 +2599,6 @@ def build() -> int:
     # "beIN SPORTS 2" beIN itself publishes. A number beIN states about
     # its own channels is a fact; the page's is a guess.
     own_guides.prefer_official_bein(events)
-
-    # Every match the board has on الأردن الرياضية, written down for that
-    # channel's own guide — see jordan_football.remember_what_it_carries.
-    jordan_football.remember_what_it_carries(events)
 
     # Counted before the placeholder goes in, because "لم تُعلن القناة"
     # is a sentence and not a channel, and a row wearing it has none.
