@@ -5952,20 +5952,28 @@ def gate_the_disasters_channel_shows_only_disasters() -> None:
         gdacs("FL", "Green", "Chad", current="false"),
         gdacs("VO", "Green", "Italy", modified="2026-09-01T00:00:00"),
         gdacs("EQ", "Green", "Chile"),
+        gdacs("WF", "Green", "Mozambique"),
+        gdacs("DR", "Green", "Somalia"),
+        gdacs("WF", "Orange", "Canada"),
     ], now)
     check("DISASTERS", "GDACS: current storms and floods, not a finished one,"
-          " not a stale one, and its quakes are USGS's",
-          [one["kind"] for one in others], ["TC", "FL"])
+          " not a stale one, its quakes are USGS's, and a fire only when"
+          " it is bad",
+          [one["kind"] for one in others], ["TC", "FL", "WF"])
     check("DISASTERS", "a typhoon is named, with its wind",
           (disaster_reader.headline(others[0]), others[0]["wind"]),
           ("إعصار «MAWAR» — الفلبين", 240))
 
     ordered = disaster_reader.in_order(quakes + others)
     check("DISASTERS", "THE WORST IS FIRST: red, then orange, then the rest",
-          [one["rank"] for one in ordered], [3, 2, 2, 1])
+          [one["rank"] for one in ordered], [3, 2, 2, 2, 1])
+    check("DISASTERS", "and within a level the one that BEGAN last leads —"
+          " a quake this morning above a flood from last week",
+          [one["kind"] for one in ordered if one["rank"] == 2],
+          ["EQ", "FL", "WF"])
     check("DISASTERS", "and red and orange are lit on the board",
           [disasters_epg.a_row(one)["lit"] for one in ordered],
-          [True, True, True, False])
+          [True, True, True, True, False])
     check("DISASTERS", "a tsunami flag makes any quake the worst",
           disaster_reader.magnitude_rank(5.1, None, True), 3)
     check("DISASTERS", "a place not in the table keeps the monitor's name",

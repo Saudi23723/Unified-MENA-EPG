@@ -57,6 +57,13 @@ QUAKE_HOURS = 48
 # whatever its flag says.
 GDACS_DAYS = 7
 
+# FIRES AND DROUGHTS ONLY WHEN THEY ARE BAD. GDACS files every wildfire
+# a satellite sees: the first live pass read 63 of them, all Green, and
+# they filled four of the five pages and pushed eleven of twelve
+# earthquakes off the board. A green fire in the Mozambique bush is a
+# fire, not a disaster; an orange or red one is. A drought is the same.
+ONLY_WHEN_ALERTED = {"WF", "DR"}
+
 KIND_AR = {
     "EQ": "زلزال",
     "TC": "إعصار",
@@ -76,6 +83,28 @@ ALERT_RANK = {"Red": 3, "Orange": 2, "Yellow": 2, "Green": 1}
 # prints. Only names: a place missing here keeps the monitor's own words.
 COUNTRY_AR = {
     "Afghanistan": "أفغانستان", "Albania": "ألبانيا", "Algeria": "الجزائر",
+    "Angola": "أنغولا", "Cape Verde": "الرأس الأخضر",
+    "Cabo Verde": "الرأس الأخضر", "Botswana": "بوتسوانا",
+    "Namibia": "ناميبيا", "Congo": "الكونغو",
+    "Democratic Republic of the Congo": "الكونغو الديمقراطية",
+    "Central African Republic": "أفريقيا الوسطى", "Benin": "بنين",
+    "Burkina Faso": "بوركينا فاسو", "Guinea": "غينيا",
+    "Sierra Leone": "سيراليون", "Liberia": "ليبيريا", "Togo": "توغو",
+    "Rwanda": "رواندا", "Burundi": "بوروندي", "Lesotho": "ليسوتو",
+    "Eswatini": "إسواتيني", "Mauritius": "موريشيوس", "Comoros": "جزر القمر",
+    "Reunion": "ريونيون", "Micronesia": "ميكرونيزيا",
+    "Marshall Islands": "جزر مارشال", "Kiribati": "كيريباتي",
+    "Tuvalu": "توفالو", "French Polynesia": "بولينيزيا الفرنسية",
+    "Paraguay": "باراغواي", "Uruguay": "الأوروغواي", "Guyana": "غيانا",
+    "Suriname": "سورينام", "Trinidad and Tobago": "ترينيداد وتوباغو",
+    "Barbados": "باربادوس", "Bermuda": "برمودا", "Poland": "بولندا",
+    "Hungary": "المجر", "Slovakia": "سلوفاكيا", "Slovenia": "سلوفينيا",
+    "Czech Republic": "التشيك", "Czechia": "التشيك",
+    "Switzerland": "سويسرا", "Belgium": "بلجيكا",
+    "Netherlands": "هولندا", "Ireland": "أيرلندا", "Norway": "النرويج",
+    "Sweden": "السويد", "Finland": "فنلندا", "Denmark": "الدنمارك",
+    "Moldova": "مولدوفا", "Belarus": "بيلاروسيا",
+    "North Macedonia": "مقدونيا الشمالية", "Kosovo": "كوسوفو",
     "Argentina": "الأرجنتين", "Armenia": "أرمينيا", "Australia": "أستراليا",
     "Austria": "النمسا", "Azerbaijan": "أذربيجان", "Bahamas": "الباهاماس",
     "Bahrain": "البحرين", "Bangladesh": "بنغلاديش", "Belize": "بليز",
@@ -279,6 +308,8 @@ def gdacs_from(features: list[dict], now: datetime) -> list[dict]:
         severity = (props.get("severitydata") or {})
         severity_text = norm(severity.get("severitytext") or "")
         alert = (props.get("alertlevel") or "Green").capitalize()
+        if kind in ONLY_WHEN_ALERTED and ALERT_RANK.get(alert, 1) < 2:
+            continue
         name = norm(props.get("eventname") or "")
         name = re.sub(r"-\d{2}$", "", name)          # "NOLO-26" → "NOLO"
 
@@ -390,8 +421,11 @@ def events(session, now: datetime) -> list[dict]:
 
 
 def in_order(found: list[dict]) -> list[dict]:
-    """The worst first; within an alert level, the newest first."""
-    def newest(one: dict) -> datetime:
-        return one.get("touched") or one["start"]
-    return sorted(found, key=lambda one: (one["rank"], newest(one)),
+    """The worst first; within an alert level, the newest first.
+
+    NEWEST BY WHEN IT BEGAN, not by when the monitor last touched it.
+    GDACS re-stamps every current event on every update, so ordering by
+    that put a three-week-old flood above a quake from this morning.
+    """
+    return sorted(found, key=lambda one: (one["rank"], one["start"]),
                   reverse=True)
