@@ -1002,6 +1002,88 @@ def parse_bundesliga_official():
     return events
 
 
+# THE GUIDES THAT PRINT THE KICKOFF ITSELF. A listings page can be wrong
+# about a minute and nothing in this file could tell: on 27 September
+# 2026 livesoccertv put Yemen - Qatar at 11:00 New York, 18:00 Riyadh,
+# and the guide counted down to 18:00 for a match that kicked off at
+# 18:55. It was the only source that had the match, so no ranking could
+# correct it. The Shasha and Alwan guides this repository already
+# publishes both had 18:55: Shasha from its own channel listing, Alwan
+# from the channel's own posts. Both mark the kickoff programme itself
+# as live, so their start IS the kickoff, unlike a broadcaster's grid,
+# which opens with the studio.
+KICKOFF_GUIDES = ("shasha_epg.xml", "alwan_sports_epg.xml")
+
+# How far another guide's kickoff may sit from this one and still be the
+# same match with a wrong minute. Both clubs have to match, and two clubs
+# do not meet twice in a couple of hours.
+KICKOFF_SLACK = timedelta(hours=2)
+
+# The sources a second opinion may correct: the two listings pages. The
+# federation's and the league's own pages are the authority on their own
+# fixtures and are not second-guessed.
+LISTINGS = {"LiveSoccerTV", "LiveFootballTV"}
+
+
+def the_same_two_clubs(first, second):
+    """Both clubs of one fixture in the other, across the scripts."""
+    import own_guides
+
+    left, right = own_guides.fixture_in(first), own_guides.fixture_in(second)
+    if not all(left) or not all(right):
+        return False
+    if (bool(own_guides.A_YOUTH_SIDE.search(first))
+            != bool(own_guides.A_YOUTH_SIDE.search(second))):
+        return False
+    straight = (own_guides.one_club(left[0], right[0])
+                and own_guides.one_club(left[1], right[1]))
+    crossed = (own_guides.one_club(left[0], right[1])
+               and own_guides.one_club(left[1], right[0]))
+    return straight or crossed
+
+
+def kickoffs_our_guides_print():
+    """(start, title, guide) for every live-marked kickoff in KICKOFF_GUIDES."""
+    import own_guides
+
+    rows = []
+    for path in KICKOFF_GUIDES:
+        for row in own_guides.programmes(path, ""):
+            if own_guides.A_LIVE_AIRING.search(row["title"]):
+                rows.append((row["start"], row["title"], path))
+    return rows
+
+
+def second_opinion(events, rows=None):
+    """Correct a listings page's kickoff where our own guides agree on another.
+
+    Only when EVERY guide that has the match agrees on one minute, and it
+    is not this one. Guides that disagree with each other correct
+    nothing.
+    """
+    rows = kickoffs_our_guides_print() if rows is None else rows
+    for event in events:
+        if event.get("source_name") not in LISTINGS:
+            continue
+        seen = {}
+        for start, title, path in rows:
+            if abs(start - event["start"]) > KICKOFF_SLACK:
+                continue
+            if the_same_two_clubs(event["title"], title):
+                seen.setdefault(start.astimezone(timezone.utc), set()).add(path)
+        if len(seen) != 1:
+            continue
+        agreed, paths = next(iter(seen.items()))
+        if agreed == event["start"].astimezone(timezone.utc):
+            continue
+        moved = agreed.astimezone(event["start"].tzinfo)
+        log(f"KICKOFF | {event['title']} | {event.get('source_name')} said "
+            f"{event['start']:%Y-%m-%d %H:%M %z}, "
+            f"{', '.join(sorted(paths))} say {moved:%H:%M %z} — corrected")
+        event["start"] = moved
+    return events
+
+
 def collect_all_sources():
     events = []
 
@@ -1035,7 +1117,7 @@ def collect_all_sources():
     # This is what previously caught only LiveSoccerTV/LiveFootballTV
     # duplicates against BundesligaOfficial and missed Goal/Kooora
     # duplicates with spelling variants (e.g. "Munich" vs "München").
-    return dedupe(events)
+    return second_opinion(dedupe(events))
 
 
 def write_xml(events):
