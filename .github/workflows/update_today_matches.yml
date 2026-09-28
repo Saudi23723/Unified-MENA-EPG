@@ -1,0 +1,287 @@
+name: Build today's matches
+
+on:
+  workflow_dispatch:
+  # ONCE EVERY HALF HOUR, NOT TWELVE TIMES AN HOUR — and no chaining.
+  #
+  # THE FAULT THIS REPLACES, and it was mine. The job publishes eight
+  # times over 175 minutes now, and concurrency below cancels a running
+  # job whenever a new one starts. With a cron every five minutes AND a
+  # workflow_run chained to "Build every EPG", something started every
+  # few minutes and killed the ticker before it had published anything:
+  # run 862 was cancelled two and a half minutes in, mid-build. The
+  # boards had not moved since 15:47 while runs kept starting and dying.
+  #
+  # Cancelling is no longer how a fresh trigger is handled at all — see
+  # concurrency below — so a landed slot is never thrown away. It is
+  # held as this run's successor and starts the moment this one ends.
+  #
+  # So the trigger rate is matched to what one run now covers. Two
+  # events an hour are two chances to start a fresh ticker after a
+  # silence, and each one covers nearly three hours by itself — the
+  # same arithmetic "Build every EPG" already runs on, which is why it
+  # has never had this problem.
+  #
+  # :11 and :41 rather than :00 and :30 on purpose, and offset from
+  # "Build every EPG" at :07 so the two do not contend: GitHub's own
+  # guidance is to avoid the round minutes, where the load spikes that
+  # eat scheduled events land.
+  schedule:
+    - cron: "11,41 * * * *"
+
+concurrency:
+  group: today-matches
+  # A TRIGGER THAT LANDS MID-RUN QUEUES BEHIND IT; IT DOES NOT KILL IT.
+  #
+  # This was true, and it left the boards frozen twice in one morning.
+  # The job runs its ticker for 175 minutes and then exits, and the ONLY
+  # thing that starts another is the cron — which GitHub drops. Measured
+  # 2026-09-12: run 902's ticker ended 07:58 and the 08:11 slot never
+  # arrived, so nothing published for 65 minutes; run 904 ended 12:13,
+  # its 12:11 slot never arrived either. Every slot that DID land during
+  # those three hours was thrown away by cancel-in-progress, because at
+  # the time it landed a ticker was running and cancelling was the whole
+  # point.
+  #
+  # Queued instead, one of those slots becomes the successor: GitHub
+  # holds exactly one pending run per group and cancels any earlier
+  # pending one, so they still cannot pile up — and the moment the
+  # ticker exits, the pending run starts. The gap closes without the
+  # scheduler having to fire at the right minute, only at SOME minute in
+  # the three hours a run covers.
+  #
+  # It also ends the other half of the same fault: a hand-dispatch used
+  # to kill whatever was mid-build. Run 873 had reordered correctly at
+  # 23:39 and was cancelled at 23:42 before it could push.
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  # THE RUN STARTS ITS OWN SUCCESSOR, so the chain never waits on a
+  # cron slot GitHub decided not to deliver. See the last step.
+  actions: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # A PASS EVERY FIVE MINUTES NEEDS THE ROOM TO RUN THEM.
+    # At 20 this job was killed inside the first sleep, so the ticker
+    # below would never have reached pass 2 and the whole change would
+    # have been decoration. 175 matches channel 6's; the ticker stops
+    # itself at 165 so the last pass publishes rather than being cut.
+    timeout-minutes: 175
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Install rendering tools
+        run: |
+          tools/apt_install.sh fonts-freefont-ttf fonts-dejavu-core ffmpeg
+      # When this run began, for the anti-spin floor in the last step.
+      - name: Mark the start
+        run: echo "STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"
+
+      - name: Identify committer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # ─── ONE PASS: BUILD, ENCODE, VERIFY, PUBLISH ──────────────────
+      #
+      # THIS STEP NAMES NO CHANNEL, and that is the point of it.
+      #
+      # It used to be twenty-six steps, one per channel, and the ticker
+      # below repeated every one of those names in two lists of its own.
+      # A workflow's steps are frozen when a run starts; the code under
+      # them is not, because publish_screens does git reset --hard
+      # origin/main every pass. So the lists described a repository that
+      # could change under them, and on 2026-09-13 one did: run #916 was
+      # still calling a channel deleted half an hour earlier, died at its
+      # second command under set -e, and published nothing for an hour.
+      #
+      # The list lives in channels.py now and is read live, so a channel
+      # added or removed on main is picked up by a run already in
+      # flight. one_pass.py holds the sequence — build, encode, verify,
+      # quarantine, playlists, publish — so the first pass and the ticker
+      # cannot drift: they are the same file.
+      - name: Build, verify and publish every channel
+        run: |
+          python -u one_pass.py \
+          || echo "::warning::first pass did not finish — keeping scheduled recovery loop alive"
+
+      # ─── AND AGAIN, EVERY FIVE MINUTES, FOR THE WHOLE WINDOW ─────────
+      #
+      # THE CRON IS NOT ARRIVING. This asks for a run every five minutes
+      # — twelve slots an hour — and measured across 2026-09-10 it fired
+      # twice in three hours, then not at all between 15:47 and 17:50.
+      # For two hours the football, sports, baseball, NBA/NFL, Turkish
+      # and Formula 1 boards all sat on a stale render while somebody
+      # dispatched this by hand, hour after hour. That is not a fix, and
+      # doing it again tomorrow would not be one either.
+      #
+      # The repository already answered this question twice. "Build every
+      # EPG" builds nine times over its window, and channel 6 twenty
+      # times, eight minutes apart, both for exactly this reason:
+      # correctness must not depend on the scheduler firing often. This
+      # brings the same answer to the workflow that had been left out of
+      # it — one landed event now covers not quite three hours on its
+      # own, so a dropped slot costs nothing.
+      #
+      # ADDED AFTER the steps above rather than replacing them, on
+      # purpose: the first pass is still the steps exactly as they were,
+      # already published before this runs at all. If this step never
+      # executes, the workflow behaves precisely as it did before.
+      #
+      # A pass that fails does not stop the ones after it. A source that
+      # answers badly for one pass should cost one pass, not the
+      # remaining two hours — and whatever the failing pass had already
+      # published stays published.
+      #
+      # RUN TO THE WINDOW, NOT TO A COUNT. Fourteen passes was a guess at
+      # how many fit, and run 904 proved it wrong in the expensive
+      # direction: it was still inside pass fourteen when the 175-minute
+      # timeout killed it, mid-build. A deadline stops cleanly with a
+      # published pass behind it, and it stays right when a pass gets
+      # slower or faster — which it does, with the number of matches.
+      - name: Keep publishing while the scheduler is quiet
+        # Scheduled runs own the 165-minute ticker. A manual repair run has
+        # already built, gated and published every channel in the step above;
+        # keeping it alive for nearly three hours only makes a completed fix
+        # look stuck and blocks the next repair behind concurrency.
+        if: github.event_name == 'schedule'
+        run: |
+          # Ten minutes inside the job's own timeout, so the last pass
+          # finishes and pushes rather than being cut off part-way.
+          deadline=$(( $(date +%s) + 165 * 60 ))
+          # How much room a full pass needs. Measured: 4m51s quiet, 8m13s
+          # on run 955's opening pass. Ten minutes is that with headroom.
+          A_PASS=600
+          pass=1
+          # A PASS EVERY FIVE MINUTES, not five minutes between passes.
+          #
+          # This slept a flat 300s after each pass, so the gap between
+          # two boards landing was 300s PLUS however long a pass took —
+          # measured at 9 to 17 minutes apart, median 11, which is how
+          # late a live mark could be. The five minutes is meant to be
+          # the cadence, so it is measured start to start: a pass that
+          # takes four minutes waits one, and a pass that takes six
+          # starts the next one immediately rather than idling on top of
+          # its own length.
+          last=$(date +%s)
+          while [ "$(date +%s)" -lt "$deadline" ]; do
+            # THE MINUTES BETWEEN PASSES ARE NOT IDLE ANY MORE.
+            #
+            # A full pass is the wrong unit of work for a mark: it takes
+            # 4m51s and when a row crosses its kickoff or its final
+            # whistle almost none of that is the work. flip_marks does
+            # only that — it recomputes every drawn board's marks, and
+            # when none has moved, which is almost every minute, it
+            # exits having read a few small files. When one has, it
+            # redraws that board, re-encodes only its screen and
+            # publishes.
+            #
+            # So the marks move within about a minute of the whistle
+            # instead of waiting out the rest of the five.
+            while [ $(( $(date +%s) - last )) -lt 300 ] \
+               && [ "$(date +%s)" -lt "$deadline" ]; do
+              sleep 60
+              python -u flip_marks.py \
+              || echo "::warning::a flip did not finish — the next pass redraws it"
+            done
+            last=$(date +%s)
+
+            # A PASS NEEDS ROOM TO FINISH, and the margin was not enough.
+            #
+            # The deadline is ten minutes inside the job timeout, which
+            # assumed a pass is comfortably shorter than ten minutes. Run
+            # 955's first pass took 8m13s, and the loop only asked whether
+            # the deadline had ARRIVED — so a pass could start one second
+            # before it and run eight minutes past, straight through the
+            # 175-minute timeout. That is what killed run 955: conclusion
+            # "cancelled" at 20:41:12, mid-pass, with no chance to publish
+            # what it had built or to start its successor.
+            #
+            # So a pass starts only with a pass's worth of time left. The
+            # minutes that remain are not idle — the loop above keeps
+            # flipping marks every sixty seconds until the deadline — they
+            # simply do not begin work that cannot finish.
+            if [ $(( deadline - last )) -le "$A_PASS" ]; then
+              continue
+            fi
+
+            pass=$(( pass + 1 ))
+            echo "───── pass $pass ─────"
+            python -u one_pass.py \
+            || echo "::warning::pass $pass did not finish — whatever it published stands, and the next one follows"
+          done
+          echo "───── $pass pass(es) published; the window is up ─────"
+
+      # THE RUN STARTS THE NEXT RUN. THE CRON IS ONLY A COLD START.
+      #
+      # THE FAULT THIS REPLACES, measured over runs 907 to 955. The cron
+      # is "11,41 * * * *" — forty-eight slots a day. Five to eight of
+      # them became runs. GitHub delivers scheduled events on a best
+      # effort and drops most of these, which the comment at the top of
+      # this file already says; what nobody had counted is what it costs.
+      #
+      # Asked of every one of those nineteen run-endings: was a successor
+      # already queued when this run ended?
+      #
+      #   a successor was waiting      8
+      #   nothing was waiting         11
+      #
+      # and the eleven are not near misses. 09-13 03:14 to 06:45, 211
+      # minutes. 09-13 07:23 to 12:42, 319. 09-14 12:46 to 16:33, 227.
+      # 09-15 07:47 to 13:30, 343. 09-15 13:36 to 17:45, 249. Twenty-eight
+      # hours and thirty-seven minutes with no run of this workflow alive
+      # at all, inside three days — two fifths of the clock. The boards
+      # stand still for every minute of it, and the reader sees a live
+      # mark that has not moved since the last run died.
+      #
+      # Queueing the successor was the right idea and it is not enough,
+      # because it still needs a cron slot to LAND while a run is up. So
+      # the run asks for its own successor outright. GitHub blocks events
+      # raised with GITHUB_TOKEN from starting new runs — deliberately,
+      # against recursion — and names two exceptions: workflow_dispatch
+      # and repository_dispatch "always create workflow runs". So this
+      # needs no personal token and no new secret, only actions: write,
+      # which keepalive.yml already holds on the same token.
+      #
+      # It cannot pile runs up: the group above is cancel-in-progress
+      # false, so the successor waits for this run to exit, and GitHub
+      # holds exactly one pending run per group.
+      #
+      # AND IT CANNOT SPIN. A run that dies in its first minutes would
+      # otherwise ask for another immediately, and a broken build would
+      # burn a run every two minutes all night. So a short run waits out
+      # the difference first: no successor is ever asked for less than
+      # fifteen minutes after this one began, which caps the chain at
+      # four runs an hour however badly a build is failing.
+      #
+      # if: always() so a failed pass still hands on. A job killed by the
+      # 175-minute timeout skips this, which is why the ticker above now
+      # refuses to start a pass it cannot finish.
+      - name: Hand the window on to the next run
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          # No STARTED_AT means the run died before it was even marked —
+          # a checkout or an install. That is the case most likely to
+          # repeat immediately, so it waits the whole floor rather than
+          # none of it.
+          if [ -z "${STARTED_AT:-}" ]; then
+            echo "this run did not reach the start mark — waiting the full floor"
+            sleep 900
+          else
+            alive=$(( $(date +%s) - STARTED_AT ))
+            if [ "$alive" -lt 900 ]; then
+              echo "this run lived ${alive}s — waiting out $(( 900 - alive ))s"
+              sleep $(( 900 - alive ))
+            fi
+          fi
+          gh workflow run update_today_matches.yml --ref "$GITHUB_REF_NAME" \
+            && echo "───── successor requested ─────" \
+            || echo "::warning::could not ask for a successor — the cron is the fallback"

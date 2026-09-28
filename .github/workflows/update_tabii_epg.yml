@@ -1,0 +1,62 @@
+name: Update Tabii Spor EPG
+
+on:
+  # Scheduled builds all live in one workflow now — "Build every EPG",
+  # which runs this guide's generator along with every other one. See
+  # build_all_epg.py for why: fifteen separate crons had GitHub delaying
+  # and dropping this repository's scheduled events for hours at a time.
+  #
+  # This file is kept as the way to rebuild THIS guide on its own, by
+  # hand, when something about it needs looking at. It is not part of the
+  # regular schedule and nothing chains to it.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build XMLTV
+        run: |
+          python update_tabii_epg.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add tabii_spor_1_10_epg.xml
+
+          if git diff --cached --quiet; then
+            echo "No EPG changes to commit."
+          else
+            git commit -m "Update Tabii Spor 1-10 EPG"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin main
+              if git push origin main; then
+                echo "Pushed on attempt $attempt"
+                exit 0
+              fi
+              echo "Push rejected (another workflow pushed first), retrying ($attempt/5)..."
+              sleep $(( (RANDOM % 5) + 2 ))
+            done
+            echo "Failed to push after 5 attempts"
+            exit 1
+          fi

@@ -1,0 +1,637 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""The Jordan Football Association's own fixtures — the league nobody else has.
+
+Asked for repeatedly, and absent from every general source. Measured, not
+assumed: livefootballtv offered 97 fixtures, live-footballontv 54,
+yallakora 36, livesoccertv 79 and kooora 6 — 272 between them, and not
+one Jordanian. This repository's own jordan_sports_epg.xml holds 31
+programmes and no fixture at all, being 27 copies of "الأردن الرياضية"
+and a talk show.
+
+Eight Jordan-specific candidates were then asked. soccerway answers but
+renders in a browser, besoccer refuses with a 406, flashscore and
+livesoccertv's Jordan page 404, worldfootball never replied. The
+federation answers, and it publishes its own league.
+
+The block is named on the page — "المباريات القادمة" — and a row is:
+
+    <tr>
+      <td>… competition …</td>
+      <td><span class="haly1">2026-09-03</span></td>
+      <td><span class="haly1">|&nbsp;19:00</span></td>
+      <td><span class="team1">البقعة</span></td>
+      <td><span class="rrresult">VS</span></td>
+      <td><span class="team2">دوقرة</span></td>
+    </tr>
+
+Two things make this safe to read.
+
+THE DATE IS ALREADY A DATE. It is written 2026-09-03, so there is no day
+to infer from a divider and no ordering to trust — the fault that once
+stamped 1876 fixtures with a single date cannot happen here.
+
+"VS" IS THE FIXTURE, A SCORE IS NOT. The same markup carries finished
+matches, where rrresult holds "1 - 0" instead. A finished match
+published as an upcoming one would put a match on the screen that has
+already been played, so a row is refused unless rrresult is VS.
+
+The clock is Amman's. That is an assumption and it is named as one — but
+it is the narrow kind: a national federation publishing its own domestic
+league in its own country's time, not a global site rendering for
+whoever asked. Everything else here is read off the page.
+
+This NAMES NO CHANNEL, and that is fine now: a fixture is worth showing
+before anybody has said where to watch it. It reaches the board with
+"لم تُعلن القناة" beside it and picks up a channel from any later pass
+that learns one.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+from bs4 import BeautifulSoup
+
+from epg_lib import fetch, log, norm, warn
+
+SOURCE = "https://jfa.jo/"
+
+# Amman. Named as the one assumption in this file.
+AMMAN = ZoneInfo("Asia/Amman")
+
+A_DATE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
+A_CLOCK = re.compile(r"(\d{1,2}):(\d{2})")
+
+# What the federation writes between two clubs when the match has not
+# been played. Anything else in that cell is a score.
+NOT_PLAYED_YET = re.compile(r"^\s*(?:VS|vs\.?|ضد)\s*$", re.I)
+
+# Which of its competitions belong on the board, and the reader drew the
+# line himself: "خلي المحترفين و مباريات الاردن المنتخب و بس".
+#
+# So two things and nothing else — the professional club game, and the
+# national team. The federation publishes far more than that on the same
+# page: the under-16s, the youth grades, and the first division, which is
+# not professional football and which this channel does not carry. Those
+# used to reach the board and sit there with "لم تُعلن القناة" beside
+# them, taking rows from the matches somebody is actually looking for.
+#
+# PROFESSIONAL is the club game this channel holds the rights to — the
+# league, the cup, the shield, the super cup. NATIONAL is the country's
+# team, kept because the reader asked for it, and it deliberately gets NO
+# channel: those qualifiers are sold competition by competition and land
+# on beIN or elsewhere.
+#
+# Written WITHOUT the definite article, because Arabic puts a prefix in
+# front of it: the federation writes "الدوري الأردني للمحترفين", and
+# "المحترفين" is not inside "للمحترفين" — the ل joins the word and the
+# match fails. The professional league, the one thing this file exists
+# for, was silently dropped by that one letter.
+PROFESSIONAL = re.compile(r"محترفين|كأس الأردن|درع الاتحاد|سوبر", re.I)
+A_CUP = re.compile(r"كأس الأردن", re.I)
+NATIONAL = re.compile(r"تصفيات|كأس آسيا|كأس العرب|كأس العالم|منتخب", re.I)
+# No definite article in any stem, and that is not a style choice. Arabic
+# glues its prefixes: the page writes "كأس الأردن للأشبال", and "الأشبال"
+# is not inside "للأشبال" — ل + ل + أشبال. The same trap had already cost
+# a build once, when "المحترفين" never matched "للمحترفين" and the league
+# read as empty. Here it was worse than empty: the youth cup passed as
+# senior football and was handed this channel.
+A_YOUTH_GRADE = re.compile(r"\bت\s?\d{2}\b|ناشئين|أشبال|براعم"
+                           r"|تحت\s?\d{2}", re.I)
+
+
+# Who actually carries these. The Jordan Radio and Television
+# Corporation's channel is the exclusive rights holder for the country's
+# domestic football — the professional league, the cup, the super cup —
+# so a fixture in one of them has a channel even though jfa.jo never
+# prints one, and "لم تُعلن القناة" beside it was under-reporting a
+# thing that IS known.
+#
+# The name is the one this repository already publishes for that channel
+# in jordan_sports_epg.xml, so the board and the guide agree.
+#
+# NOT the national team. Its qualifiers are sold competition by
+# competition and land on beIN or elsewhere, so those keep the
+# placeholder until a listings page says otherwise.
+# The ten clubs of the professional league, read off its own standings
+# table, 2026/27.
+#
+# This exists because the competition heading LIES, and a reader caught it
+# on a television: "عمان FC - الكرمل" was published as a professional
+# league match and both of those are youth sides. So was "كفرسوم - جرش".
+# Neither club is in the league, and neither match belonged anywhere near
+# a board of professional football — but the heading above them on the
+# federation's page said محترفين, and a filter that reads only the heading
+# believes it.
+#
+# A LEAGUE HAS A FIXED MEMBERSHIP. That is the structural fact here, and
+# it is the same kind of fact this repository leans on everywhere else: a
+# channel shows one match at a time, a club plays one match at a time.
+# Ten clubs play this league and no eleventh can appear in it, so a
+# fixture claiming it between two clubs that are not in it is refused
+# whatever its heading says.
+#
+# Written in the shape club_key() folds names into, so a prefix, an alef
+# and a ta marbuta cannot break the match the way "للمحترفين" once did.
+PRO_LEAGUE_CLUBS = (
+    "رمثا", "جزيره", "حسين", "وحدات", "عربي",
+    "فيصلي", "شباب الاردن", "بقعه", "سلط", "دوقره",
+)
+
+
+def club_key(name: str) -> str:
+    """A club's name folded so two spellings of it are one string."""
+    name = norm(name).casefold()
+    name = (name.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+                .replace("ة", "ه").replace("ى", "ي"))
+    name = re.sub(r"^ال", "", name)
+    return norm(re.sub(r"\s+", " ", name))
+
+
+def in_the_league(name: str) -> bool:
+    """Is this one of the ten clubs that play the professional league?"""
+    key = club_key(name)
+    return any(club in key or key in club for club in PRO_LEAGUE_CLUBS)
+
+
+JORDAN_SPORT = "الأردن الرياضية"
+CARRIED_BY_JORDAN_SPORT = re.compile(r"محترفين|كأس الأردن|درع الاتحاد"
+                                     r"|سوبر", re.I)
+
+
+# The national team's own name, as a side, once folded by club_key(). A
+# fullmatch, because "شباب الأردن" is a professional club and holds the
+# country's name inside its own.
+THE_NATIONAL_TEAM = re.compile(r"(?:منتخب\s*)?(?:ال)?اردن(?:\s*ال?اول)?"
+                               r"|نشامي")
+
+# What makes a national-team match OFFICIAL rather than a friendly. Those
+# are the competitions sold one by one — to beIN or elsewhere — and none of
+# them is assumed onto the channel. Everything else the national team
+# plays is a friendly, whatever label the federation prints above it.
+AN_OFFICIAL_TOURNAMENT = re.compile(r"تصفيات|كأس|بطولة|دوري", re.I)
+
+
+def is_the_national_team(name: str) -> bool:
+    """Is this side Jordan itself, rather than a club carrying its name?"""
+    return bool(THE_NATIONAL_TEAM.fullmatch(club_key(name)))
+
+
+def a_home_friendly(competition: str, home: str, away: str) -> bool:
+    """The senior national team, at home, in a match that is not official.
+
+    A reader asked why الأردن - سوريا (27 Sep 2026, Amman) was not on this
+    channel, and it was: the national team's friendlies at home are the
+    national broadcaster's, and JRTV aired this one. The rule above —
+    national team, no channel — was written for qualifiers, which ARE sold
+    separately, and it swept the friendlies up with them.
+
+    HOME, because a friendly abroad belongs to whoever hosts it. SENIOR,
+    because the age grades have no regular television. And identified by
+    its SIDES as well as its label, because a friendly's label is the one
+    thing the federation writes least consistently.
+    """
+    if A_YOUTH_GRADE.search(competition):
+        return False
+    if AN_OFFICIAL_TOURNAMENT.search(competition):
+        return False
+    return is_the_national_team(home) and not is_the_national_team(away)
+
+
+def carried_by(competition: str, home: str = "", away: str = "") -> list[str]:
+    """The channel a Jordanian competition is known to be on, if any.
+
+    An age grade is refused HERE, and not only by wanted_here, because
+    the fact belongs beside the channel rather than beside the board's
+    taste in fixtures. Youth football has no regular television at all:
+    the federation's own YouTube carries selected ties, and this channel
+    takes a final or a title decider and nothing else. So "كأس الأردن
+    للناشئين" is not "كأس الأردن" with a suffix — it is a different
+    broadcast arrangement, and matching the tournament's name alone put
+    this channel on it. The only thing keeping that off the screen was
+    wanted_here happening to run first, which is an ordering, not a
+    guarantee: loosen the board's filter once to show a youth final and
+    the wrong channel is printed the same day.
+    """
+    if A_YOUTH_GRADE.search(competition):
+        return []
+    if CARRIED_BY_JORDAN_SPORT.search(competition):
+        return [JORDAN_SPORT]
+    if a_home_friendly(competition, home, away):
+        return [JORDAN_SPORT]
+    return []
+
+
+def a_day_and_a_clock(header) -> datetime | None:
+    """The kickoff, from the header row that introduces a fixture.
+
+    The row prints "2026-09-03  | 19:00" with an icon between the two, so
+    both are searched for in the row's text rather than taken span by
+    span or by position. Nothing here can be mistaken for the other: a
+    date carries no colon, and a score is written "1 - 0".
+    """
+    text = header.get_text(" ", strip=True)
+    day, clock = A_DATE.search(text), A_CLOCK.search(text)
+    if day is None or clock is None:
+        return None
+    try:
+        return datetime(int(day.group(1)), int(day.group(2)),
+                        int(day.group(3)), int(clock.group(1)),
+                        int(clock.group(2)), tzinfo=AMMAN)
+    except ValueError:
+        return None
+
+
+def competition_of(header) -> str:
+    """The competition, and the age grade when the federation adds one.
+
+    Both are needed: "تصفيات كأس آسيا" alone reads as a senior
+    qualifier, and it is span.haly2 beside it — "منتخب الشباب ت20" —
+    that says it is the under-20s.
+    """
+    return norm(" ".join(
+        norm(span.get_text(" ", strip=True))
+        for span in header.select("span.haly, span.haly2")))
+
+
+def wanted_here(competition: str, home: str = "", away: str = "") -> bool:
+    """The professional game and the national team. Nothing else.
+
+    Asked for in those words, and the reason is what the rest of the page
+    is: the age grades have no regular television at all, and the first
+    division is not the professional league. Both used to reach the board
+    — the first division with no channel beside it, because this channel
+    does not carry it — and there are more of those fixtures than of the
+    ones anybody opened the board to find.
+    """
+    if A_YOUTH_GRADE.search(competition):
+        return False
+    return bool(PROFESSIONAL.search(competition)
+                or NATIONAL.search(competition)
+                or a_home_friendly(competition, home, away))
+
+
+def the_clubs_belong(competition: str, home: str, away: str) -> bool:
+    """Do these two clubs actually play the competition claimed above them?
+
+    The heading is not evidence on its own — that is what a reader
+    photographing a youth match published as professional football taught
+    this file. So the clubs are asked as well, and the two questions are
+    different competitions:
+
+    THE LEAGUE, THE SHIELD AND THE SUPER CUP are contested by the ten
+    professional clubs and nobody else, so BOTH sides must be among them.
+
+    THE CUP is not: it draws first-division and amateur clubs in with the
+    professionals, and a tie like الوحدات against a lower side is real,
+    televised, and exactly what a board should carry. So ONE professional
+    club is enough — which still refuses a preliminary tie between two
+    clubs from outside, the round this channel does not televise.
+
+    The national team is judged on its competition alone; it has no club
+    roster to be in.
+    """
+    if NATIONAL.search(competition) and not PROFESSIONAL.search(competition):
+        return True
+    if a_home_friendly(competition, home, away):
+        return True
+    if A_CUP.search(competition):
+        return in_the_league(home) or in_the_league(away)
+    return in_the_league(home) and in_the_league(away)
+
+
+# The league's own page, which carries the whole round. The homepage
+# carries only the nearest handful — sixteen rows of which one was a
+# professional fixture — and a reader photographed الوحدات - الفيصلي on
+# the federation's app while this file was saying the federation did not
+# publish it. It does; that page does not.
+#
+#   the homepage                16 club rows, 1 still to play
+#   tourn.php?id=1              8 club rows, 4 still to play
+#
+# Four is the round: البقعة-دوقرة, شباب الأردن-الرمثا, الوحدات-الفيصلي,
+# العربي-السلط.
+TOURNAMENTS = (
+    ("https://jfa.jo/tourn.php?id=1&idcat=6&idsubcat=16",
+     "الدوري الأردني للمحترفين - CFI"),
+)
+
+A_STADIUM_LINE = re.compile(r"(\d{4})-(\d{2})-(\d{2})\s*-?\s*\|?\s*"
+                            r"(\d{1,2}):(\d{2})")
+
+
+def collect_tournament(html: str, competition: str) -> list[dict]:
+    """One page of one competition, where a fixture is its own <table>.
+
+    A different shape from the homepage and a safer one. There, a header
+    row and a clubs row are separate <tr>s paired BY POSITION, which is
+    the arrangement that once stamped 1876 fixtures with a single date.
+    Here each fixture is a table of its own:
+
+        <table>
+          <tr> الوحدات | VS | الفيصلي </tr>
+          <tr><td> ستاد عمان الدولي - 2026-09-04 - 20:30 </td></tr>
+        </table>
+
+    So the clubs and their kickoff are in the same container by the
+    page's own construction, and nothing has to be inferred from order.
+
+    The guard is the same one in a new place: a table holding a SECOND
+    pair of clubs is not one fixture's table, it is a list, and taking a
+    time out of it would hand every match in it the same kickoff. Such a
+    table is refused rather than read.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+
+    out: list[dict] = []
+    played = timeless = crowded = 0
+
+    for table in soup.find_all("table"):
+        homes = table.select("span.team1")
+        aways = table.select("span.team2")
+        if len(homes) != 1 or len(aways) != 1:
+            if homes and aways:
+                crowded += 1
+            continue
+
+        verdict = table.select_one("span.rrresult")
+        if verdict is None or not NOT_PLAYED_YET.match(
+                norm(verdict.get_text(" ", strip=True))):
+            played += 1
+            continue
+
+        when = A_STADIUM_LINE.search(norm(table.get_text(" | ", strip=True)))
+        if when is None:
+            # No kickoff of its own. Refused, never dated from the page.
+            timeless += 1
+            continue
+
+        year, month, day, hour, minute = (int(part) for part in when.groups())
+        # Amman, the same as the homepage's rows — one federation, one
+        # country, one clock. Kept in that zone rather than converted so
+        # that the two pages' fixtures are the same kind of object and a
+        # fixture on both dedupes on sight.
+        start = datetime(year, month, day, hour, minute, tzinfo=AMMAN)
+
+        home_name = norm(homes[0].get_text(" ", strip=True))
+        away_name = norm(aways[0].get_text(" ", strip=True))
+        if not home_name or not away_name:
+            continue
+        if not the_clubs_belong(competition, home_name, away_name):
+            continue
+
+        out.append({
+            "start": start,
+            "title": f"{home_name} - {away_name}",
+            "competition": competition,
+            "channels": carried_by(competition, home_name, away_name),
+        })
+
+    log(f"  jfa.jo {competition}: {played} already played, {timeless} with "
+        f"no kickoff of their own, {crowded} table(s) holding more than one "
+        f"fixture, {len(out)} to show")
+    return out
+
+
+def collect(html: str) -> list[dict]:
+    """Every upcoming Jordanian fixture the federation publishes.
+
+    The shape, read off the served page rather than guessed at — which
+    took four wrong guesses to stop doing:
+
+        <tr><td colspan=5>
+            <span class="haly">الدوري الأردني للمحترفين - CFI</span>
+            <span class="haly1">2026-09-03 | 19:00</span>
+        </td></tr>
+        <tr>
+            <td><span class="team1">البقعة</span></td>
+            <td><span class="rrresult">VS</span></td>
+            <td><span class="team2">دوقرة</span></td>
+        </tr>
+        <tr><td colspan=5 height=2></td></tr>      ← a rule, then repeat
+
+    A header, then its clubs, then a separator. The pairing is by
+    POSITION, which is the arrangement that once stamped 1876 fixtures
+    with a single date — so the guard is that a header is CONSUMED by the
+    clubs that follow it. A row of clubs with no header of its own finds
+    nothing waiting and is refused; it can never inherit the time of the
+    match above. Every fixture here carries its own header, including
+    repeats of the same competition, so nothing legitimate is lost.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+
+    out: list[dict] = []
+    waiting: tuple[str, datetime] | None = None
+    played = adrift = unwanted = impostors = 0
+
+    for row in soup.find_all("tr"):
+        if row.select_one("span.haly1"):
+            start = a_day_and_a_clock(row)
+            waiting = ((competition_of(row), start)
+                       if start is not None else None)
+            continue
+
+        home = row.select_one("span.team1")
+        away = row.select_one("span.team2")
+        if home is None or away is None:
+            continue
+
+        # Whatever happens next, this header is spent.
+        header, waiting = waiting, None
+
+        verdict = row.select_one("span.rrresult")
+        if verdict is None or not NOT_PLAYED_YET.match(
+                norm(verdict.get_text(" ", strip=True))):
+            played += 1
+            continue
+        if header is None:
+            adrift += 1
+            continue
+        competition, start = header
+        home_name = norm(home.get_text(" ", strip=True))
+        away_name = norm(away.get_text(" ", strip=True))
+        if not home_name or not away_name:
+            adrift += 1
+            continue
+        if not wanted_here(competition, home_name, away_name):
+            unwanted += 1
+            continue
+        if not the_clubs_belong(competition, home_name, away_name):
+            # Named, with the heading that claimed them, because this is
+            # the heading lying and the next run should say so out loud
+            # rather than leaving it to a photograph of a television.
+            impostors += 1
+            log(f"    not the professional game: {home_name} - {away_name}"
+                f"  │ published under: {competition}")
+            continue
+        out.append({
+            "start": start,
+            "title": f"{home_name} - {away_name}",
+            "competition": competition,
+            "channels": carried_by(competition, home_name, away_name),
+        })
+        # Named, so the log says what the federation called it and where
+        # it went — the one fixture of the national team's was invisible.
+        log(f"    {home_name} - {away_name}  │ {competition}  │ "
+            f"{' / '.join(out[-1]['channels']) or 'no channel'}")
+
+    log(f"  jfa.jo: {played} already played, {adrift} with no header of "
+        f"their own, {unwanted} not professional or national, "
+        f"{impostors} between clubs that do not play it, "
+        f"{len(out)} fixture(s) to show")
+    return out
+
+
+def fetch_events(session, floor: datetime, ceiling: datetime) -> list[dict]:
+    """The fixtures inside the guide's window, from every page that has any.
+
+    TWO pages, because one is not enough and that was found the hard way.
+    The homepage lists the nearest handful — one professional fixture out
+    of sixteen rows — and the league's own page lists the round. A reader
+    photographed الوحدات - الفيصلي on the federation's app while this file
+    was reporting the federation did not publish it.
+
+    Merged on the clubs and the kickoff, so a fixture on both pages is one
+    row rather than two.
+    """
+    everything: list[dict] = []
+    try:
+        everything += collect(fetch(session, SOURCE).text)
+    except Exception as exc:                                  # noqa: BLE001
+        warn(f"jfa.jo is unreachable ({exc}) — the board keeps the "
+             f"fixtures the other sources gave it")
+
+    for url, competition in TOURNAMENTS:
+        try:
+            everything += collect_tournament(fetch(session, url).text,
+                                             competition)
+        except Exception as exc:                              # noqa: BLE001
+            warn(f"jfa.jo {competition} is unreachable ({exc}) — the round "
+                 f"is missing from this pass")
+
+    seen: set[tuple] = set()
+    inside: list[dict] = []
+    for event in everything:
+        if not (floor <= event["start"] < ceiling):
+            continue
+        key = (event["start"], event["title"])
+        if key in seen:
+            continue
+        seen.add(key)
+        inside.append(event)
+
+    log(f"  jfa.jo: {len(inside)} inside the window")
+    return sorted(inside, key=lambda one: one["start"])
+
+
+# ---------------------------------------------------------------------------
+# EVERYTHING ANY SOURCE SAYS IS ON الأردن الرياضية.
+#
+# "و الأردن جميع المباريات من غير ما احكي لك ولا تحكي لي". The channel
+# publishes no schedule ahead of time anywhere a runner can read: JRTV's
+# website loads its guide from code outside the page, and the channel's
+# YouTube schedules nothing in advance. So the Jordan Sport guide read only
+# the federation's own competitions, and a national-team match or a
+# basketball game the channel carried reached the board on channel 1 with
+# "Jordan Sports" beside it and never reached the channel's own guide.
+#
+# The board already reads every listings page, and each of them names the
+# channels a match is on. So the board writes down every match it has for
+# this channel, and the channel's guide reads it back. Whatever any source
+# says is on Jordan Sport is on Jordan Sport, and nobody has to name it.
+# ---------------------------------------------------------------------------
+
+LEDGER = "jordan_sport_fixtures.json"
+# Channel 2's own, for the sports that are not football — basketball, the
+# Arab club championships the channel carries. A file of its own, because
+# the two boards are built at different moments and one must not wipe out
+# what the other wrote.
+OTHER_LEDGER = "jordan_sport_other_sports.json"
+LEDGERS = (LEDGER, OTHER_LEDGER)
+
+# The channel's own name, in every spelling a source prints it.
+JORDAN_SPORT_NAME = re.compile(
+    r"jordan\s*(?:tv\s*)?sports?\b"
+    r"|jrtv\s*sports?\b"
+    r"|الأردن\s*الرياضية|الاردن\s*الرياضية"
+    r"|الرياضية\s*الأردنية|الرياضية\s*الاردنية"
+    r"|الأردنية\s*الرياضية|الاردنية\s*الرياضية",
+    re.I)
+
+
+def on_jordan_sport(channels) -> bool:
+    """Does this list of channels include الأردن الرياضية?"""
+    return any(JORDAN_SPORT_NAME.search(norm(str(one)))
+               for one in channels or [])
+
+
+def remember_what_it_carries(events: list[dict],
+                             path: str = LEDGER) -> int:
+    """Write every board match on this channel, for its guide to read."""
+    carried = [{
+        "start": event["start"].astimezone(timezone.utc).isoformat(),
+        "title": norm(event["title"]),
+        "competition": norm(event.get("competition") or ""),
+    } for event in events if on_jordan_sport(event.get("channels"))]
+    carried.sort(key=lambda one: one["start"])
+    try:
+        with open(path + ".tmp", "w", encoding="utf-8") as handle:
+            json.dump(carried, handle, ensure_ascii=False, indent=1)
+        os.replace(path + ".tmp", path)
+    except OSError as exc:
+        warn(f"{path} could not be written ({exc})")
+        return 0
+    log(f"  jordan sport: {len(carried)} match(es) on the board name it")
+    return len(carried)
+
+
+def what_it_carries(floor: datetime, ceiling: datetime,
+                    paths=LEDGERS) -> list[dict]:
+    """The matches the boards say are on this channel, inside the window."""
+    rows = []
+    for path in paths:
+        try:
+            with open(path, encoding="utf-8") as handle:
+                found = json.load(handle)
+        except (OSError, ValueError):
+            continue
+        if isinstance(found, list):
+            rows += found
+    out = []
+    for row in rows:
+        try:
+            start = datetime.fromisoformat(row["start"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if start.tzinfo is None or not norm(row.get("title") or ""):
+            continue
+        if floor <= start < ceiling:
+            out.append({"start": start, "title": norm(row["title"]),
+                        "competition": norm(row.get("competition") or "")})
+    return out
+
+
+# A channel shows one match at a time. A board row inside this window of
+# a fixture the guide already has is that fixture under another spelling
+# (Al Wehdat - Al Faisaly for الوحدات - الفيصلي), not a second match.
+ONE_MATCH_AT_A_TIME = timedelta(minutes=100)
+
+
+def not_already_carried(rows: list[dict], have: list[dict]) -> list[dict]:
+    """Rows whose kickoff no match already in the guide is near — nor one
+    taken a moment ago from the other board."""
+    taken: list[dict] = []
+    for row in sorted(rows, key=lambda one: one["start"]):
+        if any(abs(row["start"] - one["start"]) < ONE_MATCH_AT_A_TIME
+               for one in list(have) + taken):
+            continue
+        taken.append(row)
+    return taken
