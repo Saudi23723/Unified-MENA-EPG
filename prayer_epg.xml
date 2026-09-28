@@ -5,18 +5,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20260928180000 +0000" stop="20260928190000 +0000" channel="TodayPrayer">
-    <title lang="ar">🕌 مواقيت الصلاة</title>
-    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
-
-Amman (عمّان) — الفجر 05:07 · الشروق 06:28 · الظهر 12:27 · العصر 15:52 · المغرب 18:30 · العشاء 19:47
-Abu Dhabi (أبو ظبي) — الفجر 04:57 · الشروق 06:13 · الظهر 12:16 · العصر 15:39 · المغرب 18:16 · العشاء 19:29
-Henderson NV (هندرسون · نيفادا) — الفجر 05:22 · الشروق 06:33 · الظهر 12:30 · العصر 15:54 · المغرب 18:28 · العشاء 19:38
-Istanbul (إسطنبول) — الفجر 05:26 · الشروق 06:50 · الظهر 13:00 · العصر 16:20 · المغرب 18:58 · العشاء 20:18
-
-المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
-  </programme>
   <programme start="20260928190000 +0000" stop="20260928200000 +0000" channel="TodayPrayer">
     <title lang="ar">🕌 مواقيت الصلاة</title>
     <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
@@ -138,6 +126,18 @@ Istanbul (إسطنبول) — الفجر 05:26 · الشروق 06:50 · الظه
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
   <programme start="20260929050000 +0000" stop="20260929060000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+Amman (عمّان) — الفجر 05:07 · الشروق 06:28 · الظهر 12:27 · العصر 15:52 · المغرب 18:30 · العشاء 19:47
+Abu Dhabi (أبو ظبي) — الفجر 04:57 · الشروق 06:13 · الظهر 12:16 · العصر 15:39 · المغرب 18:16 · العشاء 19:29
+Henderson NV (هندرسون · نيفادا) — الفجر 05:22 · الشروق 06:33 · الظهر 12:30 · العصر 15:54 · المغرب 18:28 · العشاء 19:38
+Istanbul (إسطنبول) — الفجر 05:26 · الشروق 06:50 · الظهر 13:00 · العصر 16:20 · المغرب 18:58 · العشاء 20:18
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
+  </programme>
+  <programme start="20260929060000 +0000" stop="20260929070000 +0000" channel="TodayPrayer">
     <title lang="ar">🕌 مواقيت الصلاة</title>
     <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
 
