@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T11:35:45.982Z",
+  "updated_at": "2026-09-28T11:41:44.456Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -86,7 +86,7 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 14.4,
-      "humidity": 95,
+      "humidity": 92,
       "wind_speed": 13.7,
       "rain_chance": 60,
       "condition": "رذاذ خفيف",
@@ -99,11 +99,11 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 19.6,
-      "humidity": 79,
+      "humidity": 73,
       "wind_speed": 7.1,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-09-28T04:30"
     },
     {
@@ -112,7 +112,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 10.0,
-      "humidity": 89,
+      "humidity": 93,
       "wind_speed": 8.1,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -125,11 +125,11 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 23.9,
-      "humidity": 40,
+      "humidity": 47,
       "wind_speed": 13.6,
       "rain_chance": 1,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-09-28T04:30"
     },
     {
@@ -138,11 +138,11 @@
       "latitude": 29.7604,
       "longitude": -95.3698,
       "temperature_c": 24.4,
-      "humidity": 88,
+      "humidity": 84,
       "wind_speed": 5.7,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-09-28T06:30"
     },
     {
@@ -151,11 +151,11 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 13.2,
-      "humidity": 90,
+      "humidity": 94,
       "wind_speed": 8.3,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-09-28T04:30"
     }
   ]
