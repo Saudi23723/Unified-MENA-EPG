@@ -157,6 +157,47 @@ HOURS_AHEAD = 6
 
 TITLE = "🌡️ طقس اليوم للمدن"
 
+# The days after today a forecast page shows: the rest of the week.
+FORECAST_DAYS = 6
+
+WEEKDAYS_AR = ("الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة",
+               "السبت", "الأحد")
+
+
+def a_short_sky(code: int) -> str:
+    """The sky in one or two words — a forecast cell is narrow."""
+    if code in (0, 1):
+        return "صافٍ"
+    if code == 2:
+        return "غائم جزئياً"
+    if code == 3:
+        return "غائم"
+    if code in (45, 48):
+        return "ضباب"
+    if 51 <= code <= 57:
+        return "رذاذ"
+    if 61 <= code <= 67:
+        return "مطر"
+    if code in (71, 73, 75, 77, 85, 86):
+        return "ثلج"
+    if 80 <= code <= 82:
+        return "زخات مطر"
+    if code >= 95:
+        return "عواصف رعدية"
+    return "—"
+
+
+def a_uv_word(uv: int) -> str:
+    if uv <= 2:
+        return "منخفض"
+    if uv <= 5:
+        return "متوسط"
+    if uv <= 7:
+        return "مرتفع"
+    if uv <= 10:
+        return "مرتفع جداً"
+    return "شديد"
+
 
 # ---------------------------------------------------------------- reading
 
@@ -172,7 +213,15 @@ def live_cities(session) -> list[dict] | None:
         "latitude": ",".join(str(one[2]) for one in CITIES),
         "longitude": ",".join(str(one[3]) for one in CITIES),
         "current": ("temperature_2m,relative_humidity_2m,"
-                    "weather_code,wind_speed_10m"),
+                    "weather_code,wind_speed_10m,apparent_temperature"),
+        # THE DAYS AHEAD, asked for by the reader: "a page for all the
+        # cities, the weather expected for the next three days or the
+        # week, whatever is available". Seven days is today and the six
+        # after it, which is what a forecast page draws.
+        "daily": ("weather_code,temperature_2m_max,temperature_2m_min,"
+                  "precipitation_probability_max,sunrise,sunset,"
+                  "uv_index_max"),
+        "forecast_days": FORECAST_DAYS + 1,
         # THE CHANCE OF RAIN, which "current" does not carry. It is an
         # hourly figure, so the hour the reading itself sits in is the
         # one asked for — the probability for 17:00 against a reading
@@ -217,7 +266,7 @@ def live_cities(session) -> list[dict] | None:
                     rain = int(probs[at])
             except (KeyError, TypeError, ValueError, IndexError):
                 rain = None
-            out.append({
+            reading = {
                 "city": city,
                 "country": country,
                 "latitude": lat,
@@ -229,12 +278,76 @@ def live_cities(session) -> list[dict] | None:
                 "condition": WMO_AR.get(code, "غير معروف"),
                 "weather_code": code,
                 "observed_at": current["time"],
-            })
+            }
+            reading.update(the_days(row, current))
+            out.append(reading)
         except (KeyError, TypeError, ValueError):
             warn(f"{city}'s reading was malformed — falling back to the "
                  f"last reading rather than showing a board without it")
             return None
     return out
+
+
+def the_days(row: dict, current: dict) -> dict:
+    """What the daily block adds to a city, or nothing if it is missing.
+
+    OPTIONAL, like the chance of rain: the days ahead are a page of
+    their own, and a source that answers the reading without them still
+    gives the first pages everything they draw. A city without its days
+    simply has no row on the forecast page.
+    """
+    extra: dict = {}
+    try:
+        feels = current.get("apparent_temperature")
+        if feels is not None:
+            extra["feels_c"] = float(feels)
+        extra["utc_offset"] = int(row.get("utc_offset_seconds") or 0)
+        daily = row["daily"]
+        days = []
+        for i, date in enumerate(daily["time"]):
+            top, low = (daily["temperature_2m_max"][i],
+                        daily["temperature_2m_min"][i])
+            if top is None or low is None:
+                continue
+            rain = daily.get("precipitation_probability_max", [None])[i]
+            days.append({
+                "date": date,
+                "code": int(daily["weather_code"][i] or 0),
+                "max": float(top),
+                "min": float(low),
+                "rain": None if rain is None else int(rain),
+            })
+        extra["days"] = days
+        # Today's own row: the high and the low, the sun, the UV.
+        if daily["time"] and daily["time"][0] == current["time"][:10]:
+            if days and days[0]["date"] == daily["time"][0]:
+                extra["today_max"] = days[0]["max"]
+                extra["today_min"] = days[0]["min"]
+            sunrise = (daily.get("sunrise") or [None])[0]
+            sunset = (daily.get("sunset") or [None])[0]
+            if sunrise and sunset:
+                extra["sunrise"] = sunrise[11:16]
+                extra["sunset"] = sunset[11:16]
+            uv = (daily.get("uv_index_max") or [None])[0]
+            if uv is not None:
+                extra["uv"] = int(round(float(uv)))
+    except (KeyError, TypeError, ValueError, IndexError):
+        return {k: v for k, v in extra.items() if k != "days"}
+    return extra
+
+
+def days_ahead(city: dict, now: datetime) -> list[dict]:
+    """The city's days after its own today, at most FORECAST_DAYS.
+
+    TODAY IS THE CITY'S, not the build's: Amman's tomorrow starts nine
+    hours before Los Angeles's does. Read against the clock of this
+    pass, so a reading kept from yesterday (the fallback) does not show
+    today as "tomorrow".
+    """
+    local = (now + timedelta(seconds=int(city.get("utc_offset") or 0)))
+    today = local.strftime("%Y-%m-%d")
+    return [one for one in city.get("days") or []
+            if one["date"] > today][:FORECAST_DAYS]
 
 
 def cached_cities() -> tuple[list[dict], datetime | None]:
@@ -350,6 +463,171 @@ def draw_mark(pen, x: int, y: int, size: int, accent=SKY_ACCENT) -> None:
              fill=WHITE, width=max(3, size // 16))
 
 
+SUN = (255, 204, 77, 255)
+CLOUD = (196, 208, 224, 255)
+CLOUD_DARK = (132, 146, 168, 255)
+DROP = (110, 180, 255, 255)
+BOLT = (255, 214, 64, 255)
+
+
+def draw_sky(pen, cx: int, cy: int, r: int, code: int) -> None:
+    """A small picture of the sky: sun, cloud, rain, snow or storm.
+
+    Drawn in shapes rather than taken from a font, so it looks the same
+    on every machine that builds it and never falls back to a box.
+    """
+    def cloud(x: int, y: int, size: int, fill) -> None:
+        pen.ellipse([x - size, y - size // 2, x, y + size // 2], fill=fill)
+        pen.ellipse([x - size // 2, y - size, x + size // 2 + 2,
+                     y + size // 3], fill=fill)
+        pen.ellipse([x, y - size // 2, x + size, y + size // 2], fill=fill)
+        pen.rounded_rectangle([x - size, y, x + size, y + size // 2 + 2],
+                              radius=size // 3, fill=fill)
+
+    if code in (0, 1):
+        pen.ellipse([cx - r, cy - r, cx + r, cy + r], fill=SUN)
+        return
+    wet = 51 <= code <= 67 or 80 <= code <= 82
+    snow = code in (71, 73, 75, 77, 85, 86)
+    storm = code >= 95
+    if code == 2:
+        s = int(r * 0.7)
+        pen.ellipse([cx - s + r // 3, cy - s - r // 3,
+                     cx + s + r // 3, cy + s - r // 3], fill=SUN)
+    shade = CLOUD_DARK if (wet or storm or snow or code == 3) else CLOUD
+    cloud(cx, cy - r // 5, int(r * 0.75), shade)
+    under = cy + r // 2 + 2
+    if wet:
+        for dx in (-r // 2, 0, r // 2):
+            pen.line([(cx + dx + 3, under), (cx + dx - 2, under + r // 2)],
+                     fill=DROP, width=3)
+    elif snow:
+        for dx in (-r // 2, 0, r // 2):
+            pen.ellipse([cx + dx - 3, under + 2, cx + dx + 3, under + 8],
+                        fill=WHITE)
+    elif storm:
+        pen.polygon([(cx + 2, under - 2), (cx - 6, under + r // 2),
+                     (cx, under + r // 2), (cx - 4, under + r)], fill=BOLT)
+    elif code in (45, 48):
+        for dy in (4, 11):
+            pen.line([(cx - r, under + dy), (cx + r, under + dy)],
+                     fill=CLOUD, width=3)
+
+
+def draw_forecast_board(cities: list[dict], now: datetime, viewer, *,
+                        page: int = 1, pages: int = 1,
+                        countries: str = "",
+                        as_of: datetime | None = None) -> Image.Image:
+    """The days ahead: a city a row, a day a column.
+
+    The city on the right where an Arabic eye starts, like the page
+    before it; the days run from tomorrow at the right to the end of the
+    week at the left, each with its sky drawn, its high in the channel's
+    blue over its low, and the chance of rain when there is one worth
+    saying.
+    """
+    board = backdrop()
+    pen = ImageDraw.Draw(board)
+    accent = SKY_ACCENT
+
+    draw_mark(pen, PAD, PAD - 6, 76, accent)
+    x = PAD + 76 + 24
+    draw_text(pen, (x, PAD - 4), "توقعات الأيام القادمة", 46, WHITE)
+    subtitle = (f"{countries} · من {SOURCE}" if countries
+                else f"من {SOURCE}")
+    draw_text(pen, (x, PAD + 52), subtitle, 21, MUTED, thin=True)
+
+    right = W - PAD
+    date_chip(pen, right, PAD - 6, f"{now.astimezone(viewer):%d.%m.%Y}")
+    draw_signature(pen)
+    if as_of is not None:
+        draw_text(pen, (right, PAD + 30),
+                  f"آخر تحديث {as_of.astimezone(viewer):%H:%M}",
+                  15, MUTED, anchor="ra", thin=True)
+    count = f"العظمى / الصغرى — {page}/{pages}" if pages > 1 \
+        else "العظمى / الصغرى"
+    draw_text(pen, (right, PAD + 64), count, 21, accent, anchor="ra")
+
+    top = PAD + 122
+    rule(pen, top, accent)
+
+    rows = [(one, days_ahead(one, now)) for one in cities]
+    rows = [(one, days) for one, days in rows if days]
+    if not rows:
+        draw_text(pen, (W // 2, H // 2), "لا توجد توقعات الآن", 32,
+                  MUTED, anchor="mm")
+        progress(pen, page, pages, accent)
+        return board
+
+    name_room = 210
+    columns = max(len(days) for _, days in rows)
+    table_right = W - PAD - name_room
+    table_left = PAD - 6
+    col = (table_right - table_left) // columns
+
+    # The day names across the top, from the first city's own calendar:
+    # one page is one country, and a country shares its days.
+    head = top + 10
+    for i, day in enumerate(rows[0][1]):
+        when = datetime.strptime(day["date"], "%Y-%m-%d")
+        centre = table_right - col * i - col // 2
+        label = "غداً" if i == 0 else WEEKDAYS_AR[when.weekday()]
+        draw_text(pen, (centre, head + 10), label, 18, WHITE, anchor="mm")
+        draw_text(pen, (centre, head + 32), f"{when:%d/%m}", 13, MUTED,
+                  anchor="mm", thin=True)
+
+    y = head + 50
+    room = H - y - PAD + 6
+    height = min(92, room // len(rows))
+
+    for index, (city, days) in enumerate(rows):
+        band = [PAD - 12, y, W - PAD + 12, y + height - 6]
+        fill = PANEL if index % 2 == 0 else PANEL_ALT
+        pen.rounded_rectangle(band, radius=12, fill=fill,
+                              outline=RULE, width=1)
+        middle = y + (height - 6) // 2
+        at = size_that_fits(city["city"], 23, 16, name_room - 16)
+        draw_text(pen, (W - PAD - 6, middle), city["city"], at, WHITE,
+                  anchor="rm")
+
+        by_date = {one["date"]: one for one in days}
+        for i, header in enumerate(rows[0][1]):
+            day = by_date.get(header["date"])
+            if day is None and i < len(days):
+                day = days[i]
+            if day is None:
+                continue
+            centre = table_right - col * i - col // 2
+            draw_sky(pen, centre + col // 2 - 22, middle - 10, 13,
+                     day["code"])
+            high, low = int(round(day["max"])), int(round(day["min"]))
+            draw_text(pen, (centre - 6, middle - 12), f"{high}°", 24,
+                      accent, anchor="rm", weight="heavy")
+            draw_text(pen, (centre - 1, middle - 10), f"{low}°", 17,
+                      MUTED, anchor="lm")
+            # The chance of rain as a drop and a number, when it is worth
+            # saying; otherwise the sky in a word.
+            if day.get("rain") is not None and day["rain"] >= 20:
+                text = f"{day['rain']}%"
+                wide = width_of(text, 14)
+                left = centre - (wide + 12) // 2
+                pen.polygon([(left + 4, middle + 12), (left, middle + 20),
+                             (left + 8, middle + 20)], fill=DROP)
+                pen.ellipse([left, middle + 16, left + 8, middle + 24],
+                            fill=DROP)
+                draw_text(pen, (left + 12, middle + 20), text, 14, DROP,
+                          anchor="lm")
+            else:
+                under = a_short_sky(day["code"])
+                draw_text(pen, (centre, middle + 20),
+                          clipped(under, 13, col - 10, thin=True), 13,
+                          MUTED, anchor="mm", thin=True)
+        y += height
+
+    progress(pen, page, pages, accent)
+    return board
+
+
 def draw_board(cities: list[dict], now: datetime, viewer, *,
                page: int = 1, pages: int = 1,
                countries: str = "",
@@ -433,23 +711,51 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
         wind = int(round(city["wind_speed"]))
 
         at = size_that_fits(name, 25, 18, 320)
-        draw_text(pen, (W - PAD - 6, y + 34), name, at, WHITE, anchor="rm")
-        under = size_that_fits(where, 16, 12, 400)
-        draw_text(pen, (W - PAD - 6, y + 66), where, under, MUTED,
+        draw_text(pen, (W - PAD - 6, middle - 12), name, at, WHITE,
+                  anchor="rm")
+        under = size_that_fits(where, 16, 12, 320)
+        draw_text(pen, (W - PAD - 6, middle + 16), where, under, MUTED,
                   anchor="rm", thin=True)
 
         # The temperature in the channel's own blue, at the display
         # weight a board is watched for. A weather number is the figure
         # the whole channel exists to show.
-        draw_text(pen, (PAD + 18, y + 44), f"{temp}°", 42, accent,
+        draw_text(pen, (PAD + 18, middle), f"{temp}°", 42, accent,
                   anchor="lm", weight="heavy")
+        # Beside the temperature, two lines: the day's high and low with
+        # what it feels like, then the air — so nothing spills past the
+        # bottom of a row.
+        beside = PAD + 18 + width_of(f"{temp}°", 42, weight="heavy") + 16
+        day = []
+        if city.get("today_max") is not None:
+            day.append(f"العظمى {int(round(city['today_max']))}°")
+            day.append(f"الصغرى {int(round(city['today_min']))}°")
+        if city.get("feels_c") is not None:
+            day.append(f"الإحساس {int(round(city['feels_c']))}°")
+        if day:
+            draw_text(pen, (beside, middle - 12), " · ".join(day),
+                      15, WHITE, anchor="lm")
+
+        # The sky drawn, and the sun's day and the UV, in the middle.
+        draw_sky(pen, W - PAD - 6 - 360, middle, 17,
+                 int(city.get("weather_code") or 0))
+        if city.get("sunrise"):
+            draw_text(pen, (W // 2 + 30, middle - 12),
+                      f"الشروق {city['sunrise']} · الغروب {city['sunset']}",
+                      15, MUTED, anchor="mm", thin=True)
+        if city.get("uv") is not None:
+            draw_text(pen, (W // 2 + 30, middle + 12),
+                      f"الأشعة فوق البنفسجية {city['uv']} · "
+                      f"{a_uv_word(city['uv'])}",
+                      15, MUTED, anchor="mm", thin=True)
         air = f"رطوبة {city['humidity']}% · رياح {wind} كم/سا"
         # The chance of rain, when the source carried it, said beside
         # the humidity and the wind — the three things a reader stepping
         # out the door wants on one line.
         if city.get("rain_chance") is not None:
             air = f"{air} · احتمال المطر {city['rain_chance']}%"
-        draw_text(pen, (PAD + 18, y + 76), air, 15, MUTED,
+        draw_text(pen, (beside if day else PAD + 18,
+                        middle + 12 if day else y + 76), air, 15, MUTED,
                   anchor="lm", thin=True)
 
         y += height
@@ -460,17 +766,26 @@ def draw_board(cities: list[dict], now: datetime, viewer, *,
 
 def draw_pages(pages: list[list[dict]], now: datetime,
                as_of: datetime | None = None) -> int:
+    """Today's pages first, then the days ahead for the same cities.
+
+    The forecast pages come after, so board 0 — the one the guide
+    points at — is still today's weather.
+    """
     os.makedirs(BOARD_DIR, exist_ok=True)
-    for number, page in enumerate(pages):
+    ahead = [page for page in pages
+             if any(days_ahead(one, now) for one in page)]
+    boards = ([(draw_board, page) for page in pages]
+              + [(draw_forecast_board, page) for page in ahead])
+    for number, (draw, page) in enumerate(boards):
         countries = " و".join(
             dict.fromkeys(one["country"] for one in page))
-        board = draw_board(page, now, VIEWER,
-                           page=number + 1, pages=len(pages),
-                           countries=countries, as_of=as_of)
+        board = draw(page, now, VIEWER,
+                     page=number + 1, pages=len(boards),
+                     countries=countries, as_of=as_of)
         board.convert("RGB").save(
             os.path.join(BOARD_DIR, f"{BOARD_PREFIX}{number}.png"))
-    forget_boards_past(BOARD_PREFIX, len(pages), BOARD_DIR)
-    return len(pages)
+    forget_boards_past(BOARD_PREFIX, len(boards), BOARD_DIR)
+    return len(boards)
 
 
 # ------------------------------------------------------------------ guide
@@ -488,7 +803,21 @@ def a_line(city: dict) -> str:
             f"رطوبة {city['humidity']}% · رياح {wind} كم/سا")
     if city.get("rain_chance") is not None:
         line += f" · احتمال المطر {city['rain_chance']}%"
+    if city.get("today_max") is not None:
+        line += (f" · العظمى {int(round(city['today_max']))}°"
+                 f" الصغرى {int(round(city['today_min']))}°")
     return line
+
+
+def a_forecast_line(city: dict, now: datetime) -> str:
+    """The next three days in one guide line."""
+    parts = []
+    for i, day in enumerate(days_ahead(city, now)[:3]):
+        when = datetime.strptime(day["date"], "%Y-%m-%d")
+        name = "غداً" if i == 0 else WEEKDAYS_AR[when.weekday()]
+        parts.append(f"{name} {int(round(day['max']))}°/"
+                     f"{int(round(day['min']))}° {a_short_sky(day['code'])}")
+    return f"{city['city']}: " + " · ".join(parts) if parts else ""
 
 
 def a_description(pages: list[list[dict]], as_of: datetime,
@@ -505,6 +834,11 @@ def a_description(pages: list[list[dict]], as_of: datetime,
                 country = city["country"]
                 lines.append(country)
             lines.append(a_line(city))
+    ahead = [a_forecast_line(city, datetime.now(UTC)) for page in pages
+             for city in page]
+    ahead = [one for one in ahead if one]
+    if ahead:
+        lines += ["", "توقعات الأيام القادمة"] + ahead
     return "\n".join(lines)
 
 
