@@ -544,6 +544,17 @@ def build() -> int:
         f"{arabic_cats} Arabic categories, {arabic_titles} Arabic titles"
     )
 
+    # beIN's entertainment channels — movies, series, Star, documentaries,
+    # kids — asked for on this same link. beinsports.com's API is sport
+    # only, so they come from beIN's own grid on bein.com; see
+    # bein_entertainment_epg. A failure there leaves the sports guide
+    # exactly as it would have been.
+    try:
+        import bein_entertainment_epg
+        bein_entertainment_epg.add_to(root, session)
+    except Exception as exc:                                # noqa: BLE001
+        warn(f"beIN entertainment channels skipped: {exc}")
+
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Qatar")
     return 0
 
