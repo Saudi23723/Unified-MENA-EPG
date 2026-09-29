@@ -109,7 +109,6 @@ GENERATORS: list[tuple[str, str, str]] = [
     ("Jordan Sports",       "JORDAN_SPORTS_FINAL_VERIFIED.py", "jordan_sports_epg.xml"),
     ("ON Sport",            "update_onsport_epg.py",           "onsport_epg.xml"),
     ("Alwan Sports",        "update_alwan_epg.py",             "alwan_sports_epg.xml"),
-    ("Alwan channels",      "alwan_channels_epg.py",           "alwan_channels_epg.xml"),
     ("Alkass",              "alkass_epg.py",                   "alkass_epg.xml"),
     ("STARZPLAY",           "starzplay_epg.py",                "starzplay_epg.xml"),
     ("Fajer Sports",        "update_fajer_sports_epg.py",      "fajer_sports_epg.xml"),
