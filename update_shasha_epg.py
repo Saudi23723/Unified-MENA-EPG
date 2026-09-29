@@ -24,7 +24,7 @@ OUTPUT = "shasha_epg.xml"
 CHANNEL_ID = "ShashaGuide"
 CHANNEL_NAME = "SHASHA GUIDE | شاشا"
 CHANNEL_ICON = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-                "main/logos/shasha.png")
+                "main/logos/shasha_tile.png")
 
 UTC = timezone.utc
 
@@ -742,7 +742,7 @@ FEEDS = (
     ("ShashaSport3", "Shasha Sport 3", "شاشا سبورت 3"),
 )
 FEED_LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/logos/shasha.png")
+             "main/logos/shasha_tile.png")
 
 
 def add_the_three_feeds(root) -> None:
@@ -750,7 +750,10 @@ def add_the_three_feeds(root) -> None:
                   if p.get("channel") == CHANNEL_ID]
     for xid, name, arabic in FEEDS:
         ch = ET.Element("channel", id=xid)
-        ET.SubElement(ch, "display-name", lang="en").text = name
+        # The playlist names them with a quality after the number
+        # ("Shasha Sport 1 4K"), so every spelling a player may match on.
+        for spelling in (name, f"{name} 4K", f"{name} HD", f"{name} FHD"):
+            ET.SubElement(ch, "display-name", lang="en").text = spelling
         ET.SubElement(ch, "display-name", lang="ar").text = arabic
         ET.SubElement(ch, "icon", src=FEED_LOGO)
         # Channels before programmes, as XMLTV wants them.
