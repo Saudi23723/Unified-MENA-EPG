@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import copy
 import re
 from datetime import datetime, timedelta, timezone, date
 from html import unescape
@@ -22,7 +23,8 @@ OUTPUT = "shasha_epg.xml"
 
 CHANNEL_ID = "ShashaGuide"
 CHANNEL_NAME = "SHASHA GUIDE | شاشا"
-CHANNEL_ICON = "https://www.shasha.com/favicon.ico"
+CHANNEL_ICON = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+                "main/logos/shasha.png")
 
 UTC = timezone.utc
 
@@ -725,6 +727,41 @@ def add_programme(root, start, stop, title, desc, category="Sports"):
     ET.SubElement(p, "desc", lang="ar").text = desc
     ET.SubElement(p, "category", lang="en").text = category
 
+# SHASHA SPORT 1, 2 AND 3, each a channel of its own with Shasha's logo.
+#
+# The player listed three Shasha feeds and only one wore Shasha's mark;
+# the other two showed a blank "TV" tile, because this guide named one
+# channel and a player takes a channel's logo from the guide row it is
+# matched to. Asked for outright: "make Shasha's logo like this" on all
+# three. Each feed carries the guide's own schedule — which match is on
+# which feed is not published — under the name the playlist gives it,
+# so a player matches it by name.
+FEEDS = (
+    ("ShashaSport1", "Shasha Sport 1", "شاشا سبورت 1"),
+    ("ShashaSport2", "Shasha Sport 2", "شاشا سبورت 2"),
+    ("ShashaSport3", "Shasha Sport 3", "شاشا سبورت 3"),
+)
+FEED_LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             "main/logos/shasha.png")
+
+
+def add_the_three_feeds(root) -> None:
+    programmes = [p for p in root.findall("programme")
+                  if p.get("channel") == CHANNEL_ID]
+    for xid, name, arabic in FEEDS:
+        ch = ET.Element("channel", id=xid)
+        ET.SubElement(ch, "display-name", lang="en").text = name
+        ET.SubElement(ch, "display-name", lang="ar").text = arabic
+        ET.SubElement(ch, "icon", src=FEED_LOGO)
+        # Channels before programmes, as XMLTV wants them.
+        root.insert(len(root.findall("channel")), ch)
+    for xid, _name, _arabic in FEEDS:
+        for p in programmes:
+            twin = copy.deepcopy(p)
+            twin.set("channel", xid)
+            root.append(twin)
+
+
 def write_xml(events: list[dict]) -> None:
     root = ET.Element("tv", generator_info_name="Shasha Sports Guide FINAL")
 
@@ -820,6 +857,8 @@ def write_xml(events: list[dict]) -> None:
 
         if cursor < day_end:
             add_countdown(cursor, day_end, desc)
+
+    add_the_three_feeds(root)
 
     try:
         ET.indent(root, space="  ")
