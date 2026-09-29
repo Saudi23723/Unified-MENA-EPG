@@ -70,6 +70,8 @@ CHANNELS = (
      ("beIN Nat Geo", "Nat Geo", "National Geographic")),
     ("NGW_", "beINNatGeoWild.qa", ("beIN Nat Geo Wild", "Nat Geo Wild")),
     ("BBCEarth", "beINBBCEarth.qa", ("beIN BBC Earth", "BBC Earth")),
+    ("Discovery-logo", "beINDiscovery.qa",
+     ("beIN Discovery", "Discovery Channel", "Discovery")),
     ("Aljazeera-Documentary", "beINAlJazeeraDocumentary.qa",
      ("Al Jazeera Documentary", "beIN Al Jazeera Documentary")),
     ("Jeem", "beINJeem.qa", ("beIN Jeem", "Jeem TV", "Jeem")),
@@ -137,7 +139,93 @@ def read_day(session, day) -> dict[str, list[dict]]:
     return out
 
 
+# THE GUIDE PAGE'S OWN DATA, and the source read first.
+#
+# bein.com/en/tv-guide/ was rebuilt: it no longer calls the HTML grid
+# above but fetches one JSON file per channel per day from beIN's own
+# storage, named by the channel's code, which the page itself lists
+# (const channelSets = {"entertainment": [{"file": "165.json", "image":
+# ".../MOVIES1_PREMIERE_DIGITAL_Mono.png"}, ...]}). Checked on a runner
+# against the grid, programme by programme: "الخادمة" is 00:00 on the
+# grid asked for Mecca and 21:00 the evening before in the file, so the
+# file's StartTime and EndTime are UTC. It carries more than the grid:
+# every row's title in Arabic and English, a synopsis, and Discovery,
+# which the grid never listed. Measured: yesterday to three days ahead
+# (Movies 1: 39-40 rows a day). The grid stays as the fallback.
+PAGE = "https://www.bein.com/en/tv-guide/"
+STORE = "https://storagebeincom-b4dvftgkaebcayar.z01.azurefd.net/epg/"
+
+
+def the_page_channels(session) -> list[tuple[str, str]]:
+    """(file, logo) for every entertainment channel the page lists."""
+    html = fetch(session, PAGE).text
+    found = re.search(r"const channelSets = (\{.*?\});\s*\n", html, re.S)
+    if not found:
+        raise ValueError("the guide page no longer lists its channels")
+    import json
+    sets = json.loads(found.group(1))
+    return [(one["file"], one.get("image") or "")
+            for one in sets.get("entertainment") or []]
+
+
+def text_of(pair) -> str:
+    """Arabic when there is Arabic, else the English."""
+    if not isinstance(pair, dict):
+        return ""
+    arabic = (pair.get("Arabic") or "").strip()
+    return arabic or (pair.get("English") or "").strip()
+
+
+def read_store(session) -> dict[str, dict[datetime, dict]]:
+    rows: dict[str, dict[datetime, dict]] = {}
+    first = datetime.now(timezone.utc).date() - timedelta(days=1)
+    for file, logo in the_page_channels(session):
+        known = which(logo)
+        if not known:
+            continue
+        xid, _names = known
+        for step in range(DAYS + 1):
+            day = (first + timedelta(days=step)).isoformat()
+            try:
+                items = fetch(session, f"{STORE}{day}/{file}",
+                              retries=1).json().get("responseObj") or []
+            except Exception:                               # noqa: BLE001
+                continue
+            for item in items:
+                try:
+                    start = datetime.fromisoformat(item["StartTime"]).replace(
+                        tzinfo=timezone.utc)
+                    stop = datetime.fromisoformat(item["EndTime"]).replace(
+                        tzinfo=timezone.utc)
+                except (KeyError, TypeError, ValueError):
+                    continue
+                title = text_of(item.get("Title"))
+                if not title or stop <= start:
+                    continue
+                rows.setdefault(xid, {})[start] = {
+                    "start": start, "stop": stop, "title": title,
+                    "desc": text_of(item.get("Synopsis"))
+                            or text_of(item.get("Remarks")),
+                    "category": text_of(item.get("Category")),
+                }
+    return rows
+
+
 def read_all(session) -> dict[str, dict[datetime, dict]]:
+    """The page's own data first; the HTML grid when that gives nothing."""
+    try:
+        rows = read_store(session)
+        if rows:
+            log(f"  bein.com guide data: {sum(len(v) for v in rows.values())}"
+                f" rows on {len(rows)} channel(s)")
+            return rows
+        warn("bein.com guide data gave nothing — reading the grid instead")
+    except Exception as exc:                                # noqa: BLE001
+        warn(f"bein.com guide data failed ({exc}) — reading the grid instead")
+    return read_grid(session)
+
+
+def read_grid(session) -> dict[str, dict[datetime, dict]]:
     today = datetime.now(MECCA).date()
     rows: dict[str, dict[datetime, dict]] = {}
     for step in range(DAYS):
