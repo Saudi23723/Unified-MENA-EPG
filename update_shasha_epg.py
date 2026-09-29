@@ -24,7 +24,7 @@ OUTPUT = "shasha_epg.xml"
 CHANNEL_ID = "ShashaGuide"
 CHANNEL_NAME = "SHASHA GUIDE | شاشا"
 CHANNEL_ICON = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-                "main/logos/shasha_tile.png")
+                "main/logos/shasha.png")
 
 UTC = timezone.utc
 
@@ -742,7 +742,7 @@ FEEDS = (
     ("ShashaSport3", "Shasha Sport 3", "شاشا سبورت 3"),
 )
 FEED_LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-             "main/logos/shasha_tile.png")
+             "main/logos/shasha.png")
 
 
 def add_the_three_feeds(root) -> None:
