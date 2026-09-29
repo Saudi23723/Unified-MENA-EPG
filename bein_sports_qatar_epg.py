@@ -48,7 +48,8 @@ from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from epg_lib import (
-    add_programme, fetch, log, new_session, run_main, utc_now, warn,
+    A_MATCHUP, MATCH_ON_AIR, ON_AIR_BY_SPORT, add_programme,
+    discipline_named_by, fetch, log, new_session, run_main, utc_now, warn,
     with_live_badge, write_xml_atomic,
 )
 
@@ -386,8 +387,78 @@ def fetch_events_for_channel(session, guid: str) -> list[dict]:
             "has_kickoff": kickoff is not None,
             "cat_ar": cat_ar if is_arabic(cat_ar) else "",
             "cat_en": cat_en,
+            "kickoff": kickoff,
+            "english": (row.get("title")
+                        or nested(row, "data", "Title", "English") or ""),
         })
-    return sorted(events, key=lambda e: e["start"])
+    return trim_stretched(sorted(events, key=lambda e: e["start"]))
+
+
+# BEIN STRETCHES THE LAST ROW IT KNOWS TO THE NEXT ONE IT KNOWS.
+#
+# Past the first few days beIN publishes only the live events, and each
+# one's endDate is simply the next one's startDate: "Belgium vs Türkiye"
+# ran from 18:30 to 11:20 the next morning, "Hungary vs Georgia" for
+# three whole days, "Asian Games Highlights" — twenty minutes on every
+# other day — for twenty-four hours. Measured on the published guide:
+# 69 rows over six hours, every one of them ending exactly where the next
+# row began or at the end of the window.
+#
+# So a row that long AND butting the next one (or last) is cut back to
+# what it can really be; the time it gave back is left to the gap filler,
+# which says honestly that nothing was published. A row that ends before
+# the next begins is beIN's own length and is never touched, and nothing
+# is ever lengthened.
+STRETCHED = timedelta(hours=6)
+STUDIO = timedelta(minutes=15)
+A_SESSION = timedelta(hours=4)
+
+
+def plausible_length(ev: dict, seen: dict[str, timedelta]) -> timedelta:
+    """How long this row can really run, from its own start."""
+    said = {"title": ev.get("english") or ev["title"],
+            "competition": ev.get("cat_en") or ""}
+    if A_MATCHUP.search(said["title"]):
+        figure = discipline_named_by(said)
+        if figure is None:
+            figure = next((span for sport, span in ON_AIR_BY_SPORT.items()
+                           if re.search(r"\b" + re.escape(sport) + r"\b",
+                                        f"{said['title']} {said['competition']}",
+                                        re.I)), MATCH_ON_AIR)
+        kickoff = ev.get("kickoff")
+        lead = (kickoff - ev["start"]
+                if kickoff and ev["start"] <= kickoff < ev["stop"]
+                else timedelta(0))
+        return lead + figure + STUDIO
+    # A title beIN also airs at a normal length elsewhere in the window
+    # takes that length; anything else a games session's.
+    return seen.get(ev["title"]) or discipline_named_by(said) or A_SESSION
+
+
+def trim_stretched(events: list[dict]) -> list[dict]:
+    # The title's usual length: the middle of its normal airings.
+    spans: dict[str, list[timedelta]] = {}
+    for ev in events:
+        span = ev["stop"] - ev["start"]
+        if span <= STRETCHED:
+            spans.setdefault(ev["title"], []).append(span)
+    seen = {title: sorted(many)[len(many) // 2]
+            for title, many in spans.items()}
+    trimmed = 0
+    for i, ev in enumerate(events):
+        span = ev["stop"] - ev["start"]
+        if span <= STRETCHED or ev["title"].startswith("beIN SPORTS"):
+            continue
+        after = events[i + 1]["start"] if i + 1 < len(events) else None
+        if after is not None and after != ev["stop"]:
+            continue
+        cut = ev["start"] + min(span, plausible_length(ev, seen))
+        if cut < ev["stop"]:
+            ev["stop"] = cut
+            trimmed += 1
+    if trimmed:
+        log(f"  trimmed {trimmed} row(s) beIN stretched to the next one")
+    return events
 
 
 def build() -> int:
