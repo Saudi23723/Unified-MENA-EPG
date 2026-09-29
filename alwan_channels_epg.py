@@ -11,8 +11,10 @@ channels that run all day — as one "24/7 Program" row a day, under the
 names the playlist gives them, each with its own logo in Alwan's style
 (make_alwan_channel_logos.py draws them).
 
-The numbered Alwan Sport channels are not here: update_alwan_epg.py
-carries those, with their real matches.
+They ride on the Alwan guide itself (update_alwan_epg.py adds them to
+alwan_sports_epg.xml, beside the numbered Alwan Sport channels and their
+real matches): that is the link the player reads Alwan from, and a
+separate file never reached it.
 """
 
 from __future__ import annotations
@@ -75,19 +77,25 @@ def channel_id(key: str) -> str:
     return f"Alwan_{key}"
 
 
-def build() -> int:
+def add_to(root) -> int:
+    """Put the channels and their rows into `root`, a guide being built —
+    the Alwan guide, alwan_sports_epg.xml, which is the link the player
+    reads Alwan from. Channels go in after the guide's own channels, so
+    every channel still comes before every programme."""
     now = datetime.now(timezone.utc)
     first = (now - timedelta(days=DAYS_BACK)).replace(
         hour=0, minute=0, second=0, microsecond=0)
 
-    root = ET.Element("tv", {"generator-info-name": "Alwan channels"})
+    at = len(root.findall("channel"))
     for key, names, name_ar, _colour, _tag in CHANNELS:
-        ch = ET.SubElement(root, "channel", {"id": channel_id(key)})
+        ch = ET.Element("channel", {"id": channel_id(key)})
         for name in names:
             ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
         ET.SubElement(ch, "display-name", {"lang": "ar"}).text = \
             f"الوان {name_ar}"
         ET.SubElement(ch, "icon", {"src": LOGO.format(key=key)})
+        root.insert(at, ch)
+        at += 1
 
     count = 0
     for key, names, name_ar, _colour, _tag in CHANNELS:
@@ -97,10 +105,16 @@ def build() -> int:
                           start + timedelta(days=1), TITLE,
                           f"{names[0]} — الوان {name_ar}")
             count += 1
+    log(f"Alwan channels: {len(CHANNELS)} channel(s), {count} programme(s)")
+    return count
 
+
+def build() -> int:
+    """Standalone: these channels alone, for a look at them."""
+    root = ET.Element("tv", {"generator-info-name": "Alwan channels"})
+    add_to(root)
     write_xml_atomic(root, OUTPUT, generator_name="Alwan channels",
                      guard_regression=False, min_programmes=1)
-    log(f"Alwan channels: {len(CHANNELS)} channel(s), {count} programme(s)")
     return 0
 
 

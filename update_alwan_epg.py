@@ -1351,6 +1351,23 @@ def write_xml(events):
     try:
         ET.ElementTree(tv).write(tmp, encoding="utf-8", xml_declaration=True)
         validate_xml(tmp, channel_ids_by_number, expected_programmes)
+
+        # Alwan's other channels — films, series, songs, children's,
+        # Quran, F1, WWE, UFC — on this same link, which is the one the
+        # player reads Alwan from (see alwan_channels_epg). Added after
+        # the sports guide has passed its own validation; a failure
+        # here publishes the sports guide exactly as it was.
+        try:
+            import alwan_channels_epg
+            alwan_channels_epg.add_to(tv)
+            ET.indent(tv, space="  ")
+            ET.ElementTree(tv).write(tmp, encoding="utf-8",
+                                     xml_declaration=True)
+        except Exception as exc:                            # noqa: BLE001
+            print(f"WARN Alwan channels skipped: {exc}")
+            ET.ElementTree(tv).write(tmp, encoding="utf-8",
+                                     xml_declaration=True)
+
         os.replace(tmp, OUT)
 
     except Exception:
