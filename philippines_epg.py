@@ -272,6 +272,48 @@ def tidy(rows: list[dict]) -> list[dict]:
     return [r for r in rows if r["stop"] > r["start"]]
 
 
+# The Philippine sports channels, asked for on the Roya link as well. The
+# Roya guide reads them through collect/emit like its other readers, under
+# ids of their own (RoyaPH.…) so the merged link never holds one id twice.
+SPORTS = ("onesports", "bein1", "bein2", "spotv", "spotv2", "premier")
+
+
+def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
+    wanted: dict[str, set] = {}
+    for key in SPORTS:
+        code, sid = SOURCES[key]
+        if code != "ONESPORTS":
+            wanted.setdefault(code, set()).add((key, sid))
+    rows, icons = read_epgshare(session, wanted)
+    try:
+        rows["onesports"] = read_one_sports(session)
+    except Exception as exc:
+        warn(f"Philippines: One Sports guide unreadable ({exc})")
+    out = {}
+    for name, others, key in CHANNELS:
+        if key in SPORTS and rows.get(key):
+            out["Roya" + channel_id(name)] = {
+                "names": (name,) + tuple(others), "icon": icons.get(key, ""),
+                "rows": tidy([dict(r) for r in rows[key]])}
+    log(f"  Philippine sports{'':13} {len(out)} channels")
+    return out
+
+
+def emit(root: ET.Element, per_channel: dict) -> int:
+    count = 0
+    for xid, ch_data in per_channel.items():
+        ch = ET.SubElement(root, "channel", {"id": xid})
+        for n in ch_data["names"]:
+            ET.SubElement(ch, "display-name", {"lang": "en"}).text = n
+        if ch_data["icon"]:
+            ET.SubElement(ch, "icon", {"src": ch_data["icon"]})
+        for r in ch_data["rows"]:
+            add_programme(root, xid, r["start"], r["stop"], r["title"], r["desc"])
+            count += 1
+    return count
+
+
+
 def build() -> int:
     log("PHILIPPINES EPG | TV5 own guide + pan-Asian feeds (epgshare SG1/MY1/ID1)")
     session = new_session()
