@@ -555,6 +555,15 @@ def build() -> int:
     except Exception as exc:                                # noqa: BLE001
         warn(f"beIN entertainment channels skipped: {exc}")
 
+    # ShoofMax and Netflix, 24/7, on this link as well as Alwan's: asked
+    # for "with the link made before", and this is the one the player
+    # assigns from.
+    try:
+        import alwan_channels_epg
+        alwan_channels_epg.add_others_to(root, "beIN.")
+    except Exception as exc:                                # noqa: BLE001
+        warn(f"ShoofMax/Netflix skipped: {exc}")
+
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Qatar")
     return 0
 
