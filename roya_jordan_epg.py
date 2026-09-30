@@ -53,12 +53,12 @@ from epg_lib import (
 import aljadeed_epg
 import aljazeera_epg
 import almashhad_epg
+import bein3_asia_epg
 import filler_epg
 import jordan_tv_epg
 import mbc_epg
 import osn_epg
 import palestine_channels_epg
-import philippines_epg
 import starz_arabic_epg
 import uae_epg
 
@@ -306,7 +306,7 @@ def build() -> int:
                          ("Jordan TV", jordan_tv_epg),
                          ("Al Mashhad", almashhad_epg),
                          ("Palestine", palestine_channels_epg),
-                         ("Philippine sports", philippines_epg),
+                         ("beIN SPORTS 3 Asia", bein3_asia_epg),
                          ("MBC", mbc_epg),
                          ("OSN", osn_epg),
                          ("UAE", uae_epg),

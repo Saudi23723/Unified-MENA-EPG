@@ -48,7 +48,6 @@ SOURCE_FILES = [
     # boards beside it.
     "news_epg.xml",
     "thmanyah_epg.xml",
-    "philippines_epg.xml",
     # The fourth channel — 🌤️ طقس اليوم. Written by the ten-minute
     # workflow like the two boards beside it, from live Open-Meteo
     # readings drawn as boards by weather_epg.py. The entry this
