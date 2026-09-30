@@ -8,6 +8,8 @@ Where each schedule comes from (checked 30 September):
 
 - TV5: its own broadcast guide, tv5.com.ph/schedule — the week, each
   programme with its weekday, its start in Philippine time and its title.
+- One Sports: its own programme guide, onesports.ph's programGuide.json —
+  a week of days with every game, its time and whether it is live.
 - The pan-Asian channels a Philippine line-up carries — HBO, Cinemax,
   History, BBC, CNN, CNA, NHK, KBS, Animax, beIN, SPOTV, GMA Pinoy TV and
   the rest: the same regional feeds air across South-East Asia, and
@@ -17,7 +19,9 @@ Where each schedule comes from (checked 30 September):
 
 Not here, because nothing publishes them: ABS-CBN's channels (Kapamilya,
 TFC, ANC, Cinemo, Myx, Teleradyo) — abs-cbn.com and tfc.tv refuse every
-request (403); One Sports, PBA Rush, UAAP, RPTV, Buko, Tap, PBO, TMC, PTV,
+request (403); One Sports+, PBA Rush and UAAP Varsity (pba.ph sits behind
+Cloudflare's challenge, UAAP has no site, Cignal Play needs a Philippine
+login), RPTV, Buko, Tap, PBO, TMC, PTV,
 Light TV, TV Maria, DepEd and Knowledge Channel publish no schedule; and
 the GMA Pinoy TV "(NA)" feeds run on North American time, which no source
 here carries.
@@ -41,6 +45,7 @@ from epg_lib import (add_programme, fetch, log, new_session, run_main, warn,
 OUTPUT = "philippines_epg.xml"
 EPGSHARE = "https://epgshare01.online/epgshare01/epg_ripper_{}.xml.gz"
 TV5_GUIDE = "https://www.tv5.com.ph/schedule"
+ONE_SPORTS_GUIDE = "https://www.onesports.ph/data/os/7/c/programGuide.json"
 KEEP_BEHIND = timedelta(hours=12)
 MANILA = timezone(timedelta(hours=8))
 
@@ -86,6 +91,7 @@ SOURCES = {
     "gmalife": ("SG1", "GMA.Life.TV.sg"),
     "gmanews": ("SG1", "GMA.News.TV.sg"),
     "tv5": ("TV5", ""),
+    "onesports": ("ONESPORTS", ""),
 }
 
 # (the playlist's name for the channel, other names it goes by, source)
@@ -138,6 +144,7 @@ CHANNELS = (
     ("PH: PREMIER SPORTS", ("Premier Sports",), "premier"),
     ("PH: TECHSTORM", ("TechStorm",), "techstorm"),
     ("PHTV5", ("PH: TV5", "TV5"), "tv5"),
+    ("PHONE SPORTS", ("PH: ONE SPORTS", "One Sports"), "onesports"),
 )
 
 
@@ -221,6 +228,42 @@ def read_tv5(session) -> list[dict]:
             for (a, t), (b, _) in zip(starts, starts[1:])]
 
 
+def read_one_sports(session) -> list[dict]:
+    """One Sports' own programme guide (onesports.ph), a week of days, each
+    programme with its date and time in Philippine time, its title, the
+    match or episode, and whether it is live."""
+    data = fetch(session, ONE_SPORTS_GUIDE, timeout=60).json()
+    starts = {}
+    for day in data.get("schedule") or []:
+        for prog in day.get("programs") or []:
+            hm = re.match(r"(\d{1,2}):(\d{2})", prog.get("time") or "")
+            date = re.match(r"(\d{4})-(\d{2})-(\d{2})", day.get("date") or "")
+            if not hm or not date:
+                continue
+            start = datetime(int(date.group(1)), int(date.group(2)), int(date.group(3)),
+                             int(hm.group(1)), int(hm.group(2)),
+                             tzinfo=MANILA).astimezone(timezone.utc)
+            title = re.sub(r"\s+", " ", prog.get("title") or "").strip()
+            sub = re.sub(r"\s+", " ", prog.get("subtitle") or "").strip()
+            if not title:
+                continue
+            # The guide's editor splits "…9:00Pm Game)" at its colon.
+            if sub and re.search(r"\d$", title) and re.match(r"\d{2}\s*[AaPp]m", sub):
+                title, sub = f"{title}:{sub}", ""
+            if sub:
+                title = f"{title}: {sub}"
+            if prog.get("live") and "live" not in title.lower():
+                title += " (Live)"
+            starts[start] = title
+    ordered = sorted(starts.items())
+    out = [{"start": a, "stop": b, "title": t, "desc": ""}
+           for (a, t), (b, _) in zip(ordered, ordered[1:])]
+    if ordered:
+        a, t = ordered[-1]
+        out.append({"start": a, "stop": a + timedelta(hours=2), "title": t, "desc": ""})
+    return out
+
+
 def tidy(rows: list[dict]) -> list[dict]:
     rows = sorted(rows, key=lambda r: r["start"])
     for a, b in zip(rows, rows[1:]):
@@ -234,13 +277,14 @@ def build() -> int:
     session = new_session()
     wanted: dict[str, set] = {}
     for key, (code, sid) in SOURCES.items():
-        if code != "TV5":
+        if code not in ("TV5", "ONESPORTS"):
             wanted.setdefault(code, set()).add((key, sid))
     rows, icons = read_epgshare(session, wanted)
-    try:
-        rows["tv5"] = read_tv5(session)
-    except Exception as exc:
-        warn(f"Philippines: TV5 guide unreadable ({exc})")
+    for key, reader in (("tv5", read_tv5), ("onesports", read_one_sports)):
+        try:
+            rows[key] = reader(session)
+        except Exception as exc:
+            warn(f"Philippines: {key} guide unreadable ({exc})")
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — Philippines"})
     written = []
