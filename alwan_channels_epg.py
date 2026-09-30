@@ -141,6 +141,10 @@ def add_to(root) -> int:
                 for xid, names, arabic, logo in OTHERS])
     for xid, names, arabic, icon in every:
         ch = ET.Element("channel", {"id": xid})
+        # First name in both scripts: a player lists and searches a guide
+        # channel by its first name only, so the Arabic name has to be in it.
+        ET.SubElement(ch, "display-name", {"lang": "ar"}).text = \
+            f"{names[0]} | {arabic}"
         for name in names:
             ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
         ET.SubElement(ch, "display-name", {"lang": "ar"}).text = arabic
@@ -169,6 +173,8 @@ def add_others_to(root, prefix: str) -> int:
     count = 0
     for xid, names, arabic, logo in OTHERS:
         ch = ET.SubElement(root, "channel", {"id": prefix + xid})
+        ET.SubElement(ch, "display-name", {"lang": "ar"}).text = \
+            f"{names[0]} | {arabic}"
         for name in names:
             ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
         ET.SubElement(ch, "display-name", {"lang": "ar"}).text = arabic

@@ -101,6 +101,10 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
     if not rows:
         return 0
     ch = ET.SubElement(root, "channel", {"id": XMLTV_ID})
+    # First name in both scripts: a player lists and searches a guide
+    # channel by its first name only.
+    ET.SubElement(ch, "display-name", {"lang": "ar"}).text = \
+        f"{NAMES[0]} | {ARABIC}"
     for name in NAMES:
         ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
     ET.SubElement(ch, "display-name", {"lang": "ar"}).text = ARABIC
