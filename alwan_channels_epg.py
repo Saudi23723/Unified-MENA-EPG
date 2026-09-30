@@ -96,6 +96,25 @@ OTHERS = (
                               f"Netflix Action HD{n}"),
      f"نتفليكس أكشن {n}", "netflix.png")
     for n in range(1, 6)
+) + tuple(
+    # Al Rabiaa's own channels (Iraq): no schedule is published anywhere
+    # for them — alrabiaa.tv sits behind Cloudflare, the public guides
+    # carry only the main news channel, and the sports channel's own
+    # Telegram names its shows without times — so a 24/7 row with the
+    # network's own mark (from its official Telegram), asked for outright.
+    (f"AlRabiaa.{key}", tuple(f"{prefix}Al Rabiaa {name}{suffix}"
+                              for prefix in ("IQ| ", "")
+                              for suffix in ("", " HD", " 4K")),
+     arabic, logo)
+    for key, name, arabic, logo in (
+        ("Sport1", "Sport 1", "الرابعة الرياضية 1", "alrabiaa_sport.png"),
+        ("Sport1Plus", "Sport +1", "الرابعة الرياضية +1", "alrabiaa_sport.png"),
+        ("Sport2", "Sport 2", "الرابعة الرياضية 2", "alrabiaa_sport.png"),
+        ("Sport2Plus", "Sport +2", "الرابعة الرياضية +2", "alrabiaa_sport.png"),
+        ("Geo", "Geo", "الرابعة جيو", "alrabiaa_geo.png"),
+        ("Movies", "Movies", "الرابعة أفلام", "alrabiaa_movies.png"),
+        ("Quran", "Quran", "الرابعة قرآن", "alrabiaa_quran.png"),
+    )
 )
 LOGO_FILE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/logos/{name}")
