@@ -52,9 +52,6 @@ from ball_sports_epg import LOGO as BALL_LOGO
 from hoops_gridiron_epg import CHANNEL_AR as HOOPS_AR
 from hoops_gridiron_epg import CHANNEL_ID as HOOPS_ID
 from hoops_gridiron_epg import LOGO as HOOPS_LOGO
-from sporttv_epg import CHANNEL_AR as SPTV_AR
-from sporttv_epg import CHANNEL_ID as SPTV_ID
-from sporttv_epg import LOGO as SPTV_LOGO
 from turkish_ppv_epg import CHANNEL_AR as TPPV_AR
 from turkish_ppv_epg import CHANNEL_ID as TPPV_ID
 from turkish_ppv_epg import LOGO as TPPV_LOGO
@@ -135,11 +132,6 @@ SCREENS = (
     (TPPV_ID, TPPV_AR, "stream/turkish_ppv.m3u8",
      f"{RAW}/stream/turkish_ppv.m3u8", "🇹🇷 Turkish PPV",
      TPPV_LOGO),
-    # The twelfth channel — 🇵🇹 Sport TV: the six Portuguese screens,
-    # and only what they are actually playing. Its rows carry the length
-    # the broadcaster published, so مباشر comes off them on time.
-    (SPTV_ID, SPTV_AR, "stream/sporttv.m3u8",
-     f"{RAW}/stream/sporttv.m3u8", "🇵🇹 Sport TV", SPTV_LOGO),
     # The thirteenth channel — 🏅 الألعاب الكبرى: the Olympics and the
     # multi-sport games, off channel 2 and on a screen of their own. Last
     # in the list, so no channel a viewer already knows by its number
@@ -201,9 +193,6 @@ DUBAI_SCREENS = (
     ("TurkishPPVDubai", TPPV_AR, "stream/dubai_turkish_ppv.m3u8",
      f"{RAW}/stream/dubai_turkish_ppv.m3u8",
      "🇹🇷 Turkish PPV · بتوقيت الإمارات", TPPV_LOGO),
-    ("SportTVPTDubai", SPTV_AR, "stream/dubai_sporttv.m3u8",
-     f"{RAW}/stream/dubai_sporttv.m3u8",
-     "🇵🇹 Sport TV · بتوقيت الإمارات", SPTV_LOGO),
     ("MultiSportDubai", GAMES_AR, "stream/dubai_multi_sport.m3u8",
      f"{RAW}/stream/dubai_multi_sport.m3u8",
      "🏅 Multi-Sport Games · بتوقيت الإمارات", GAMES_LOGO),
