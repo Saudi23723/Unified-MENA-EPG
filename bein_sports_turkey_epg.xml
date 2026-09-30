@@ -125,10 +125,6 @@
     <display-name lang="en">TR: beIN SPORTS VIP 5</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip5.png" />
   </channel>
-  <programme start="20260929030000 +0000" stop="20260929044500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 1. HAFTA AMEDSPOR - ERZURUMSPOR - BANT -</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260929044500 +0000" stop="20260929050000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Süper Lig Haftanın Golleri (26-27) 1.Hafta</title>
     <category lang="en">Sports</category>
@@ -372,10 +368,6 @@
   </programme>
   <programme start="20261002190000 +0000" stop="20261002204500 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Trabzonspor - Gençlerbirliği</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260929030000 +0000" stop="20260929044500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 3. HAFTA BODRUMSPOR - MUGLASPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260929044500 +0000" stop="20260929050000 +0000" channel="beINSPORTS2.tr">
@@ -668,10 +660,6 @@
   </programme>
   <programme start="20261002190000 +0000" stop="20261002204500 +0000" channel="beINSPORTS2.tr">
     <title lang="en">Bandırmaspor - Ümraniyespor</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20260929030000 +0000" stop="20260929044500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">PREMIER LEAGUE (26-27) 5. HAFTA NEWCASTLE - HULL - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260929044500 +0000" stop="20260929050000 +0000" channel="beINSPORTS3.tr">
@@ -1002,10 +990,6 @@
     <title lang="en">Leeds - Brentford</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260929030000 +0000" stop="20260929044500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Dijon - Saint-Étienne</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260929044500 +0000" stop="20260929050000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Ligue 2 Haftanın Golleri</title>
     <category lang="en">Sports</category>
@@ -1234,10 +1218,6 @@
     <title lang="en">Formula 1 Azerbaycan GP</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260929030000 +0000" stop="20260929050000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 01.Hafta Tofaş - Bordo Bandırma / Bant</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260929050000 +0000" stop="20260929064800 +0000" channel="beINSPORTS5.tr">
     <title lang="en">BSL (26-27) 01.Hafta Türk Telekom - Karşıyaka / Bant</title>
     <category lang="en">Sports</category>
@@ -1350,10 +1330,6 @@
     <title lang="en">BSL (26-27) 01.Hafta Anadolu Efes - Beşiktaş / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260929030000 +0000" stop="20260929050000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260929050000 +0000" stop="20260929070000 +0000" channel="beINSPORTSMAX1.tr">
     <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
@@ -1443,10 +1419,6 @@
     <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260929030000 +0000" stop="20260929050000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20260929050000 +0000" stop="20260929070000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="en">beIN Sports Max 2</title>
     <category lang="en">Sports</category>
@@ -1531,8 +1503,8 @@
     <title lang="en">beIN Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20260929030000 +0000" stop="20260929040000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Tenis</title>
+  <programme start="20260929033000 +0000" stop="20260929040000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">TFF 1.Lig Maç Özetleri (26-27) 01.Hafta</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20260929040000 +0000" stop="20260929043000 +0000" channel="beINSPORTSHABER.tr">
