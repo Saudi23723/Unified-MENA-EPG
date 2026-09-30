@@ -73,6 +73,21 @@ CHANNELS = (
 )
 
 
+# Two more channels on this same link, asked for by name, with the same
+# "24/7 Program" row: ShoofMax and Netflix. Not Alwan's, so they keep
+# their own ids and names, and wear their own marks (logos/shoofmax.png
+# and logos/netflix.png, each service's own logo from its own site, on
+# the black square the other logos on this player use).
+OTHERS = (
+    ("ShoofMax", ("ShoofMax", "Shoof Max", "ShoofMax 4K", "ShoofMax HD"),
+     "شوف ماكس", "shoofmax.png"),
+    ("Netflix", ("Netflix", "Netflix 4K", "Netflix HD"),
+     "نتفليكس", "netflix.png"),
+)
+LOGO_FILE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+             "main/logos/{name}")
+
+
 def channel_id(key: str) -> str:
     return f"Alwan_{key}"
 
@@ -87,25 +102,28 @@ def add_to(root) -> int:
         hour=0, minute=0, second=0, microsecond=0)
 
     at = len(root.findall("channel"))
-    for key, names, name_ar, _colour, _tag in CHANNELS:
-        ch = ET.Element("channel", {"id": channel_id(key)})
+    every = ([(channel_id(key), names, f"الوان {name_ar}",
+               LOGO.format(key=key))
+              for key, names, name_ar, _colour, _tag in CHANNELS]
+             + [(xid, names, arabic, LOGO_FILE.format(name=logo))
+                for xid, names, arabic, logo in OTHERS])
+    for xid, names, arabic, icon in every:
+        ch = ET.Element("channel", {"id": xid})
         for name in names:
             ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
-        ET.SubElement(ch, "display-name", {"lang": "ar"}).text = \
-            f"الوان {name_ar}"
-        ET.SubElement(ch, "icon", {"src": LOGO.format(key=key)})
+        ET.SubElement(ch, "display-name", {"lang": "ar"}).text = arabic
+        ET.SubElement(ch, "icon", {"src": icon})
         root.insert(at, ch)
         at += 1
 
     count = 0
-    for key, names, name_ar, _colour, _tag in CHANNELS:
+    for xid, names, arabic, _icon in every:
         for day in range(DAYS_BACK + DAYS_FORWARD):
             start = first + timedelta(days=day)
-            add_programme(root, channel_id(key), start,
-                          start + timedelta(days=1), TITLE,
-                          f"{names[0]} — الوان {name_ar}")
+            add_programme(root, xid, start, start + timedelta(days=1), TITLE,
+                          f"{names[0]} — {arabic}")
             count += 1
-    log(f"Alwan channels: {len(CHANNELS)} channel(s), {count} programme(s)")
+    log(f"Alwan channels: {len(every)} channel(s), {count} programme(s)")
     return count
 
 
