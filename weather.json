@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T15:47:56.703Z",
+  "updated_at": "2026-09-30T15:54:13.869Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,14 +7,14 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 21.1,
-      "humidity": 72,
-      "wind_speed": 13.3,
+      "temperature_c": 21.8,
+      "humidity": 67,
+      "wind_speed": 12.2,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-09-30T18:45",
-      "feels_c": 21.2,
+      "feels_c": 21.9,
       "utc_offset": 10800,
       "days": [
         {
@@ -27,43 +27,43 @@
         {
           "date": "2026-10-01",
           "code": 3,
-          "max": 24.4,
-          "min": 15.6,
-          "rain": 0
-        },
-        {
-          "date": "2026-10-02",
-          "code": 3,
-          "max": 23.6,
-          "min": 16.7,
-          "rain": 0
-        },
-        {
-          "date": "2026-10-03",
-          "code": 2,
-          "max": 25.7,
-          "min": 15.7,
-          "rain": 0
-        },
-        {
-          "date": "2026-10-04",
-          "code": 1,
-          "max": 27.1,
-          "min": 16.2,
-          "rain": 0
-        },
-        {
-          "date": "2026-10-05",
-          "code": 3,
           "max": 24.3,
           "min": 15.4,
           "rain": 0
         },
         {
-          "date": "2026-10-06",
+          "date": "2026-10-02",
+          "code": 3,
+          "max": 24.0,
+          "min": 16.4,
+          "rain": 0
+        },
+        {
+          "date": "2026-10-03",
+          "code": 3,
+          "max": 26.0,
+          "min": 15.9,
+          "rain": 0
+        },
+        {
+          "date": "2026-10-04",
+          "code": 3,
+          "max": 26.8,
+          "min": 16.1,
+          "rain": 0
+        },
+        {
+          "date": "2026-10-05",
           "code": 3,
           "max": 24.5,
-          "min": 14.8,
+          "min": 15.2,
+          "rain": 0
+        },
+        {
+          "date": "2026-10-06",
+          "code": 3,
+          "max": 24.0,
+          "min": 14.9,
           "rain": 5
         }
       ],
@@ -79,66 +79,66 @@
       "latitude": 29.532,
       "longitude": 35.006,
       "temperature_c": 31.7,
-      "humidity": 36,
-      "wind_speed": 16.4,
+      "humidity": 37,
+      "wind_speed": 14.8,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-09-30T18:45",
-      "feels_c": 30.9,
+      "feels_c": 31.3,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-09-30",
-          "code": 2,
-          "max": 33.5,
+          "code": 1,
+          "max": 33.4,
           "min": 24.0,
           "rain": 5
         },
         {
           "date": "2026-10-01",
           "code": 3,
-          "max": 32.4,
-          "min": 23.5,
+          "max": 32.2,
+          "min": 23.6,
           "rain": 0
         },
         {
           "date": "2026-10-02",
           "code": 3,
           "max": 31.5,
-          "min": 23.4,
+          "min": 23.2,
           "rain": 3
         },
         {
           "date": "2026-10-03",
-          "code": 3,
+          "code": 2,
           "max": 33.5,
-          "min": 23.0,
+          "min": 23.5,
           "rain": 0
         },
         {
           "date": "2026-10-04",
           "code": 3,
-          "max": 34.1,
-          "min": 23.8,
+          "max": 33.9,
+          "min": 23.0,
           "rain": 3
         },
         {
           "date": "2026-10-05",
           "code": 3,
-          "max": 31.2,
-          "min": 23.3,
+          "max": 32.1,
+          "min": 23.5,
           "rain": 0
         },
         {
           "date": "2026-10-06",
           "code": 3,
-          "max": 29.6,
-          "min": 24.0,
+          "max": 27.9,
+          "min": 24.1,
           "rain": 0
         }
       ],
-      "today_max": 33.5,
+      "today_max": 33.4,
       "today_min": 24.0,
       "sunrise": "06:32",
       "sunset": "18:26",
