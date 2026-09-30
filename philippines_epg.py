@@ -82,6 +82,7 @@ SOURCES = {
     "afn": ("SG1", "AFN.(HD).sg"),
     "bein1": ("MY1", "beIN.SPORTS.1.my"),
     "bein2": ("SG1", "beIN.SPORTS.2.(HD).sg"),
+    "bein3": ("ID1", "beIN.Sports.3.id"),
     "spotv": ("ID1", "SPOTV.id"),
     "spotv2": ("SG1", "SPOTV.2.(HD).sg"),
     "premier": ("SG1", "Premier.Sports.sg"),
@@ -141,6 +142,8 @@ CHANNELS = (
     ("PH: ASIAN FOOD", ("Asian Food Network", "AFN"), "afn"),
     ("PH: BEIN SPORTS 1", ("beIN Sports 1 PH",), "bein1"),
     ("PH: BEIN SPORTS 2", ("beIN Sports 2 PH",), "bein2"),
+    ("beIN SPORTS 3 Asia", ("PH: BEIN SPORTS 3", "beIN Sports 3 Asia", "BEIN SPORTS 3 ASIA",
+                            "beIN SPORTS 3 HD Asia", "beIN Sports 3"), "bein3"),
     ("PH: PREMIER SPORTS", ("Premier Sports",), "premier"),
     ("PH: TECHSTORM", ("TechStorm",), "techstorm"),
     ("PHTV5", ("PH: TV5", "TV5"), "tv5"),
@@ -272,10 +275,11 @@ def tidy(rows: list[dict]) -> list[dict]:
     return [r for r in rows if r["stop"] > r["start"]]
 
 
-# The Philippine sports channels, asked for on the Roya link as well. The
+# The Philippine sports channels (and beIN SPORTS 3 Asia), asked for on the
+# Roya link as well. The
 # Roya guide reads them through collect/emit like its other readers, under
 # ids of their own (RoyaPH.…) so the merged link never holds one id twice.
-SPORTS = ("onesports", "bein1", "bein2", "spotv", "spotv2", "premier")
+SPORTS = ("onesports", "bein1", "bein2", "bein3", "spotv", "spotv2", "premier")
 
 
 def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
