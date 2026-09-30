@@ -181,6 +181,14 @@
     <display-name lang="en">PH: BEIN SPORTS 2</display-name>
     <display-name lang="en">beIN Sports 2 PH</display-name>
   </channel>
+  <channel id="PH.beIN_SPORTS_3_Asia">
+    <display-name lang="en">beIN SPORTS 3 Asia</display-name>
+    <display-name lang="en">PH: BEIN SPORTS 3</display-name>
+    <display-name lang="en">beIN Sports 3 Asia</display-name>
+    <display-name lang="en">BEIN SPORTS 3 ASIA</display-name>
+    <display-name lang="en">beIN SPORTS 3 HD Asia</display-name>
+    <display-name lang="en">beIN Sports 3</display-name>
+  </channel>
   <channel id="PH.PH_PREMIER_SPORTS">
     <display-name lang="en">PH: PREMIER SPORTS</display-name>
     <display-name lang="en">Premier Sports</display-name>
@@ -1393,10 +1401,6 @@
   <programme start="20261003121000 +0000" stop="20261003123500 +0000" channel="PH.PHDREAMWORKS_TAGALOG">
     <title lang="en">Dragons: Race To The Edge</title>
   </programme>
-  <programme start="20260929171000 +0000" stop="20260929175000 +0000" channel="PH.PH_GMA_PINOY">
-    <title lang="en">First Yaya</title>
-    <desc lang="en">First Yaya' is the aspirational, fairy-tale-like story of an ordinary woman who gets to leadan extraordinary life as the nanny of the children of a widower Philippine Vice-Presidentwho eventually becomes the President by accession and election.</desc>
-  </programme>
   <programme start="20260929175000 +0000" stop="20260929183000 +0000" channel="PH.PH_GMA_PINOY">
     <title lang="en">Task Force Firewall</title>
     <desc lang="en">It centers on a specialized team against cybercrime.</desc>
@@ -1856,10 +1860,6 @@
   <programme start="20261003150000 +0000" stop="20261003153000 +0000" channel="PH.PH_GMA_PINOY">
     <title lang="en">Regal Studio Presents</title>
     <desc lang="en">A collection of weekly specials which feature timely, feel-good stories.</desc>
-  </programme>
-  <programme start="20260929171000 +0000" stop="20260929175000 +0000" channel="PH.PHGMA_PINOY_TV">
-    <title lang="en">First Yaya</title>
-    <desc lang="en">First Yaya' is the aspirational, fairy-tale-like story of an ordinary woman who gets to leadan extraordinary life as the nanny of the children of a widower Philippine Vice-Presidentwho eventually becomes the President by accession and election.</desc>
   </programme>
   <programme start="20260929175000 +0000" stop="20260929183000 +0000" channel="PH.PHGMA_PINOY_TV">
     <title lang="en">Task Force Firewall</title>
@@ -4411,10 +4411,6 @@
     <title lang="en">Trapped In Her Dorm Room</title>
     <desc lang="en">When a classmate's adoration turns into a dangerous obsession, college student Erin finds herself held captive in her own dorm room during Spring Break.</desc>
   </programme>
-  <programme start="20260929173700 +0000" stop="20260929174800 +0000" channel="PH.PHHBO_FAMILY">
-    <title lang="en">UNCLE GRANDPA S3</title>
-    <desc lang="en">In the year 3021, the gang's intergalactic mission goes awry when a strange alien creature infiltrates their ship.</desc>
-  </programme>
   <programme start="20260929174800 +0000" stop="20260929180500 +0000" channel="PH.PHHBO_FAMILY">
     <title lang="en">UNCLE GRANDPA S3</title>
     <desc lang="en">Uncle Grandpa helps a young boy who wants to be a fashion designer by taking him somewhere his taste in style will be appreciated.</desc>
@@ -5638,10 +5634,6 @@
   <programme start="20261003140000 +0000" stop="20261003150000 +0000" channel="PH.PHHBO_SIGNATURE">
     <title lang="en">WAR S1</title>
     <desc lang="en">WAR S1.</desc>
-  </programme>
-  <programme start="20260929171000 +0000" stop="20260929175300 +0000" channel="PH.PHFRANCE_24">
-    <title lang="en">The Debate</title>
-    <desc lang="en">The Debate.</desc>
   </programme>
   <programme start="20260929175300 +0000" stop="20260929180000 +0000" channel="PH.PHFRANCE_24">
     <title lang="en">Short Cuts</title>
@@ -11058,10 +11050,6 @@
   <programme start="20261003150000 +0000" stop="20261003153000 +0000" channel="PH.PHCCTV_4">
     <title lang="en">今日亚洲 / Asia Today</title>
     <desc lang="en">以亚洲人的视角报道亚洲、传达亚洲人的声音、展现亚洲的进步和发展、反映亚洲与世界其他地区的互动.</desc>
-  </programme>
-  <programme start="20260929162000 +0000" stop="20260929175000 +0000" channel="PH.PHROCK_ACTION">
-    <title lang="en">Ring Of Fire Part 2</title>
-    <desc lang="en">An oil rig triggers a volcanic eruption, kick starting a cataclysmic series along the Ring of Fire. If the eruptions aren't stopped, Earth faces an extinction-level event.</desc>
   </programme>
   <programme start="20260929175000 +0000" stop="20260929195500 +0000" channel="PH.PHROCK_ACTION">
     <title lang="en">Cape Fear</title>
@@ -22712,10 +22700,6 @@
   <programme start="20261003160000 +0000" stop="20261003170000 +0000" channel="PH.PHOUTDOOR_CHANNEL">
     <title lang="en">Spiky Gold Hunters</title>
   </programme>
-  <programme start="20260929165500 +0000" stop="20260929175000 +0000" channel="PH.PH_ASIAN_FOOD">
-    <title lang="en">A Taste Of Festival (S1)</title>
-    <desc lang="en">Host Pornsak introduces Teochew and Hakka Chinese New Year dishes and learns to cook the dishes.</desc>
-  </programme>
   <programme start="20260929175000 +0000" stop="20260929181500 +0000" channel="PH.PH_ASIAN_FOOD">
     <title lang="en">Star Vs Food: Malaysia (S1)</title>
     <desc lang="en">Queen of Hearts (Juliana) meets the King of Comfort Food (Chef Najib) to create amazing delicacies.</desc>
@@ -24024,9 +24008,227 @@
     <title lang="en">La Vuelta Highlights 2026: Stage 6: Alcossebre - Castellon</title>
     <desc lang="en">La Vuelta Highlights 2026.</desc>
   </programme>
-  <programme start="20260929172000 +0000" stop="20260929175000 +0000" channel="PH.PH_PREMIER_SPORTS">
-    <title lang="en">5 and 6 Nations Classics 1999 - Wales v England</title>
-    <desc lang="en">A look at some of the best matches in the history of rugby's Six Nations.</desc>
+  <programme start="20260929180000 +0000" stop="20260929183000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Treble 20: MUN Vs LIV</title>
+  </programme>
+  <programme start="20260929183000 +0000" stop="20260929184500 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Top Ten: Dwight Yorke</title>
+  </programme>
+  <programme start="20260929184500 +0000" stop="20260929210000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: CGO Vs CMR (L)</title>
+  </programme>
+  <programme start="20260929210000 +0000" stop="20260929213000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Treble 20: CHA Vs MUN</title>
+  </programme>
+  <programme start="20260929213000 +0000" stop="20260929232000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: BDI Vs ALG</title>
+  </programme>
+  <programme start="20260929232000 +0000" stop="20260930011000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: MOZ Vs SDN</title>
+  </programme>
+  <programme start="20260930011000 +0000" stop="20260930030000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: MAD Vs TAN</title>
+  </programme>
+  <programme start="20260930030000 +0000" stop="20260930045000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: GHA Vs GAM</title>
+  </programme>
+  <programme start="20260930045000 +0000" stop="20260930064000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: UGA Vs LBY</title>
+  </programme>
+  <programme start="20260930064000 +0000" stop="20260930083000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: ZAM Vs TOG</title>
+  </programme>
+  <programme start="20260930083000 +0000" stop="20260930102000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: COM Vs NAM</title>
+  </programme>
+  <programme start="20260930102000 +0000" stop="20260930121000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: CGO Vs CMR</title>
+  </programme>
+  <programme start="20260930121000 +0000" stop="20260930140000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: GAB Vs NIG</title>
+  </programme>
+  <programme start="20260930140000 +0000" stop="20260930155000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">AFCON 2027: BEN Vs MTN</title>
+  </programme>
+  <programme start="20260930155000 +0000" stop="20260930160000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Top 20 Goals: Defenders</title>
+  </programme>
+  <programme start="20260930160000 +0000" stop="20260930164000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: Kanchelskis</title>
+  </programme>
+  <programme start="20260930164000 +0000" stop="20260930185500 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: PAR Vs ARS (L)</title>
+  </programme>
+  <programme start="20260930185500 +0000" stop="20260930210000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: SLB Vs FCB (L)</title>
+  </programme>
+  <programme start="20260930210000 +0000" stop="20260930230000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">WAFCON 2026: MWI Vs ZAM</title>
+  </programme>
+  <programme start="20260930230000 +0000" stop="20260930233000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV: Treble Twenty</title>
+  </programme>
+  <programme start="20260930233000 +0000" stop="20261001012000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL 2026/27: FEN Vs LYO</title>
+  </programme>
+  <programme start="20261001012000 +0000" stop="20261001031000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UEL 2026/27: SUN Vs AZA</title>
+  </programme>
+  <programme start="20261001031000 +0000" stop="20261001050000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL 2026/27: NEC Vs BOD</title>
+  </programme>
+  <programme start="20261001050000 +0000" stop="20261001070000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: BKH Vs JUV</title>
+  </programme>
+  <programme start="20261001070000 +0000" stop="20261001073000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">The Sports Rundown 2026</title>
+  </programme>
+  <programme start="20261001073000 +0000" stop="20261001103000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">La Vuelta 2026: Stage 10</title>
+  </programme>
+  <programme start="20261001103000 +0000" stop="20261001122000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: ROM Vs BAR</title>
+  </programme>
+  <programme start="20261001122000 +0000" stop="20261001141000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: PAR Vs ARS</title>
+  </programme>
+  <programme start="20261001141000 +0000" stop="20261001160000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: LYO Vs CHE</title>
+  </programme>
+  <programme start="20261001160000 +0000" stop="20261001164000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: Keith Gillespie</title>
+  </programme>
+  <programme start="20261001164000 +0000" stop="20261001185500 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: HBK Vs SFC (L)</title>
+  </programme>
+  <programme start="20261001185500 +0000" stop="20261001210000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: PSG Vs OHL (L)</title>
+  </programme>
+  <programme start="20261001210000 +0000" stop="20261001220000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">FIA World Endurance C'ship HL</title>
+  </programme>
+  <programme start="20261001220000 +0000" stop="20261001230000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">FEI North American League 25/26</title>
+  </programme>
+  <programme start="20261001230000 +0000" stop="20261002005000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: BKH Vs JUV</title>
+  </programme>
+  <programme start="20261002005000 +0000" stop="20261002015000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: Treble Legends</title>
+  </programme>
+  <programme start="20261002015000 +0000" stop="20261002025000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: 1991 Rotterdam</title>
+  </programme>
+  <programme start="20261002025000 +0000" stop="20261002035000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: Gary Pallister</title>
+  </programme>
+  <programme start="20261002035000 +0000" stop="20261002065000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">La Vuelta 2026: Stage 11</title>
+  </programme>
+  <programme start="20261002065000 +0000" stop="20261002072000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL Highlights 2026/27</title>
+  </programme>
+  <programme start="20261002072000 +0000" stop="20261002085000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: John Gidman</title>
+  </programme>
+  <programme start="20261002085000 +0000" stop="20261002104000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: MCI Vs RMA</title>
+  </programme>
+  <programme start="20261002104000 +0000" stop="20261002123000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL 2026/27: PSG Vs OHL</title>
+  </programme>
+  <programme start="20261002123000 +0000" stop="20261002130000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL Highlights 2026/27</title>
+  </programme>
+  <programme start="20261002130000 +0000" stop="20261002153000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Archives: MUN Vs ARS</title>
+  </programme>
+  <programme start="20261002153000 +0000" stop="20261002160000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL Magazine Show 2026/27</title>
+  </programme>
+  <programme start="20261002160000 +0000" stop="20261002163000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL Highlights 2026/27</title>
+  </programme>
+  <programme start="20261002163000 +0000" stop="20261002193000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">La Vuelta 2026: Stage 8</title>
+  </programme>
+  <programme start="20261002193000 +0000" stop="20261002223000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">La Vuelta 2026: Stage 9</title>
+  </programme>
+  <programme start="20261002223000 +0000" stop="20261003000000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: Eric Harrison</title>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261003003000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">Inside Sailing 2026: October</title>
+  </programme>
+  <programme start="20261003003000 +0000" stop="20261003010000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL Magazine Show 2026/27</title>
+  </programme>
+  <programme start="20261003010000 +0000" stop="20261003033000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Archives: MUN Vs ARS</title>
+  </programme>
+  <programme start="20261003033000 +0000" stop="20261003040000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">Racing On The Edge</title>
+  </programme>
+  <programme start="20261003040000 +0000" stop="20261003043000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">Inside Sailing 2026: October</title>
+  </programme>
+  <programme start="20261003043000 +0000" stop="20261003053000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">SailGP Highlights 2026: Geneva</title>
+  </programme>
+  <programme start="20261003053000 +0000" stop="20261003060000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL Highlights 2026/27</title>
+  </programme>
+  <programme start="20261003060000 +0000" stop="20261003070000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">FIA World Rally C'ship 2026 (L)</title>
+  </programme>
+  <programme start="20261003070000 +0000" stop="20261003074000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Specials: Developing...</title>
+  </programme>
+  <programme start="20261003074000 +0000" stop="20261003083000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">GT World Challenge Europe (L)</title>
+  </programme>
+  <programme start="20261003083000 +0000" stop="20261003090000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL Magazine Show 2026/27</title>
+  </programme>
+  <programme start="20261003090000 +0000" stop="20261003104000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">Gran Turismo World Series (L)</title>
+  </programme>
+  <programme start="20261003104000 +0000" stop="20261003110000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV One Love: Flag Flying High</title>
+  </programme>
+  <programme start="20261003110000 +0000" stop="20261003113000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">Racing On The Edge</title>
+  </programme>
+  <programme start="20261003113000 +0000" stop="20261003120000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL Magazine Show 2026/27</title>
+  </programme>
+  <programme start="20261003120000 +0000" stop="20261003134000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">Gran Turismo World Series (L)</title>
+  </programme>
+  <programme start="20261003134000 +0000" stop="20261003140000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV One Love: Supporting...</title>
+  </programme>
+  <programme start="20261003140000 +0000" stop="20261003143000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV All The Goals: PL 25/26</title>
+  </programme>
+  <programme start="20261003143000 +0000" stop="20261003150000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UWCL Highlights 2026/27</title>
+  </programme>
+  <programme start="20261003150000 +0000" stop="20261003153000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL Magazine Show 2026/27</title>
+  </programme>
+  <programme start="20261003153000 +0000" stop="20261003154000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Top 20 Goals: Defenders</title>
+  </programme>
+  <programme start="20261003154000 +0000" stop="20261003155000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">MUTV Top 20 Goals: Beckham</title>
+  </programme>
+  <programme start="20261003155000 +0000" stop="20261003165000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">FIA European Truck Racing (L)</title>
+  </programme>
+  <programme start="20261003165000 +0000" stop="20261003170000 +0000" channel="PH.beIN_SPORTS_3_Asia">
+    <title lang="en">UCL Classic Matches: BAR Vs LYO</title>
   </programme>
   <programme start="20260929175000 +0000" stop="20260929194000 +0000" channel="PH.PH_PREMIER_SPORTS">
     <title lang="en">Top 14 Pau v La Rochelle</title>
