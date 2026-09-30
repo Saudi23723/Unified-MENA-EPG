@@ -504,6 +504,21 @@
     <display-name lang="ar">الوان الرياضية</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alwan_ufc.png" />
   </channel>
+  <channel id="ShoofMax">
+    <display-name lang="en">ShoofMax</display-name>
+    <display-name lang="en">Shoof Max</display-name>
+    <display-name lang="en">ShoofMax 4K</display-name>
+    <display-name lang="en">ShoofMax HD</display-name>
+    <display-name lang="ar">شوف ماكس</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/shoofmax.png" />
+  </channel>
+  <channel id="Netflix">
+    <display-name lang="en">Netflix</display-name>
+    <display-name lang="en">Netflix 4K</display-name>
+    <display-name lang="en">Netflix HD</display-name>
+    <display-name lang="ar">نتفليكس</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
   <programme start="20260929115500 +0300" stop="20260929130000 +0300" channel="Alwan1_sport">
     <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -6684,9 +6699,305 @@
     <category lang="en">Filler</category>
     <desc lang="ar">لا توجد مباراة معلنة على Alwan Sport 10 في هذا الوقت.</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_aflam1">
-    <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Aflam 1 4K — الوان أفلام 1</desc>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_hd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_sd">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_4k">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_raw">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_aflam1">
     <title lang="en">24/7 Program</title>
@@ -6716,9 +7027,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Aflam 1 4K — الوان أفلام 1</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_aflam2">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_aflam1">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Aflam 2 4K — الوان أفلام 2</desc>
+    <desc lang="ar">Alwan Aflam 1 4K — الوان أفلام 1</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_aflam2">
     <title lang="en">24/7 Program</title>
@@ -6748,9 +7059,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Aflam 2 4K — الوان أفلام 2</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_aflam3">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_aflam2">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Aflam 3 4K — الوان أفلام 3</desc>
+    <desc lang="ar">Alwan Aflam 2 4K — الوان أفلام 2</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_aflam3">
     <title lang="en">24/7 Program</title>
@@ -6780,9 +7091,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Aflam 3 4K — الوان أفلام 3</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_aflam4">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_aflam3">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Aflam 4 4K — الوان أفلام 4</desc>
+    <desc lang="ar">Alwan Aflam 3 4K — الوان أفلام 3</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_aflam4">
     <title lang="en">24/7 Program</title>
@@ -6812,9 +7123,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Aflam 4 4K — الوان أفلام 4</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_mosalsalat">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_aflam4">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Mosalsalat 4K — الوان مسلسلات</desc>
+    <desc lang="ar">Alwan Aflam 4 4K — الوان أفلام 4</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_mosalsalat">
     <title lang="en">24/7 Program</title>
@@ -6844,9 +7155,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Mosalsalat 4K — الوان مسلسلات</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_mosalsalat_plus">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_mosalsalat">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Mosalsalat+ 4K — الوان مسلسلات+</desc>
+    <desc lang="ar">Alwan Mosalsalat 4K — الوان مسلسلات</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_mosalsalat_plus">
     <title lang="en">24/7 Program</title>
@@ -6876,9 +7187,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Mosalsalat+ 4K — الوان مسلسلات+</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_turkey">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_mosalsalat_plus">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Turkey 4K — الوان تركي</desc>
+    <desc lang="ar">Alwan Mosalsalat+ 4K — الوان مسلسلات+</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_turkey">
     <title lang="en">24/7 Program</title>
@@ -6908,9 +7219,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Turkey 4K — الوان تركي</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_korea">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_turkey">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Korea 4K — الوان كوريا</desc>
+    <desc lang="ar">Alwan Turkey 4K — الوان تركي</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_korea">
     <title lang="en">24/7 Program</title>
@@ -6940,9 +7251,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Korea 4K — الوان كوريا</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_bollywood">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_korea">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Bollywood 4K — الوان بوليوود</desc>
+    <desc lang="ar">Alwan Korea 4K — الوان كوريا</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_bollywood">
     <title lang="en">24/7 Program</title>
@@ -6972,9 +7283,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Bollywood 4K — الوان بوليوود</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_anime">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_bollywood">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Anime 4K — الوان أنيمي</desc>
+    <desc lang="ar">Alwan Bollywood 4K — الوان بوليوود</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_anime">
     <title lang="en">24/7 Program</title>
@@ -7004,9 +7315,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Anime 4K — الوان أنيمي</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_wathaeqiya">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_anime">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Alwathaeqye 4K — الوان الوثائقية</desc>
+    <desc lang="ar">Alwan Anime 4K — الوان أنيمي</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_wathaeqiya">
     <title lang="en">24/7 Program</title>
@@ -7036,9 +7347,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Alwathaeqye 4K — الوان الوثائقية</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_aghani">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_wathaeqiya">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Aghani 4K — الوان أغاني</desc>
+    <desc lang="ar">Alwan Alwathaeqye 4K — الوان الوثائقية</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_aghani">
     <title lang="en">24/7 Program</title>
@@ -7068,9 +7379,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Aghani 4K — الوان أغاني</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_atfal">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_aghani">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Atfal 4K — الوان أطفال</desc>
+    <desc lang="ar">Alwan Aghani 4K — الوان أغاني</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_atfal">
     <title lang="en">24/7 Program</title>
@@ -7100,9 +7411,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Atfal 4K — الوان أطفال</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_quran">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_atfal">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan Quran 4K — الوان القرآن</desc>
+    <desc lang="ar">Alwan Atfal 4K — الوان أطفال</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_quran">
     <title lang="en">24/7 Program</title>
@@ -7132,9 +7443,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan Quran 4K — الوان القرآن</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_f1">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_quran">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan F1 4K — الوان الرياضية</desc>
+    <desc lang="ar">Alwan Quran 4K — الوان القرآن</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_f1">
     <title lang="en">24/7 Program</title>
@@ -7164,9 +7475,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan F1 4K — الوان الرياضية</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_wwe">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_f1">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan WWE 4K — الوان الرياضية</desc>
+    <desc lang="ar">Alwan F1 4K — الوان الرياضية</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_wwe">
     <title lang="en">24/7 Program</title>
@@ -7196,9 +7507,9 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan WWE 4K — الوان الرياضية</desc>
   </programme>
-  <programme start="20260928000000 +0000" stop="20260929000000 +0000" channel="Alwan_ufc">
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_wwe">
     <title lang="en">24/7 Program</title>
-    <desc lang="ar">Alwan UFC 4K — الوان الرياضية</desc>
+    <desc lang="ar">Alwan WWE 4K — الوان الرياضية</desc>
   </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Alwan_ufc">
     <title lang="en">24/7 Program</title>
@@ -7228,4 +7539,72 @@
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Alwan UFC 4K — الوان الرياضية</desc>
   </programme>
-<programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan1_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan1_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929145500 +0000" stop="20260929162500 +0000" channel="Alwan2_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929192500 +0000" stop="20260929210000 +0000" channel="Alwan2_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan3_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan4_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan5_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan6_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan7_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sport_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_hd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_sd"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_4k"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929204000 +0000" stop="20260929210000 +0000" channel="Alwan8_sports_raw"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Alwan_ufc">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Alwan UFC 4K — الوان الرياضية</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="ShoofMax">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">ShoofMax — شوف ماكس</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Netflix">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix — نتفليكس</desc>
+  </programme>
+</tv>
