@@ -79,10 +79,23 @@ CHANNELS = (
 # and logos/netflix.png, each service's own logo from its own site, on
 # the black square the other logos on this player use).
 OTHERS = (
-    ("ShoofMax", ("ShoofMax", "Shoof Max", "ShoofMax 4K", "ShoofMax HD"),
+    ("ShoofMax", ("ShoofMax", "Shoof Max", "ShoofMax 4K", "ShoofMax HD",
+                  "ShoofMax FHD", "Shoof Max 4K"),
      "شوف ماكس", "shoofmax.png"),
-    ("Netflix", ("Netflix", "Netflix 4K", "Netflix HD"),
+    ("Netflix", ("Netflix", "Netflix 4K", "Netflix HD", "Netflix FHD"),
      "نتفليكس", "netflix.png"),
+    # One entry per Netflix channel in the playlist, each its own id: a
+    # player that has matched "Netflix" to one channel stops offering it
+    # for the next, so every channel needs a guide row of its own, named
+    # the way the playlist names it.
+    ("Netflix.BoxOffice", ("Box Office 4K", "Netflix Box Office 4K",
+                           "Box Office"),
+     "نتفليكس بوكس أوفيس", "netflix.png"),
+) + tuple(
+    (f"Netflix.ActionHD{n}", (f"Netflix Action New HD{n}",
+                              f"Netflix Action HD{n}"),
+     f"نتفليكس أكشن {n}", "netflix.png")
+    for n in range(1, 6)
 )
 LOGO_FILE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
              "main/logos/{name}")

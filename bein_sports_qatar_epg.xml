@@ -247,6 +247,8 @@
     <display-name lang="en">Shoof Max</display-name>
     <display-name lang="en">ShoofMax 4K</display-name>
     <display-name lang="en">ShoofMax HD</display-name>
+    <display-name lang="en">ShoofMax FHD</display-name>
+    <display-name lang="en">Shoof Max 4K</display-name>
     <display-name lang="ar">شوف ماكس</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/shoofmax.png" />
   </channel>
@@ -254,7 +256,45 @@
     <display-name lang="en">Netflix</display-name>
     <display-name lang="en">Netflix 4K</display-name>
     <display-name lang="en">Netflix HD</display-name>
+    <display-name lang="en">Netflix FHD</display-name>
     <display-name lang="ar">نتفليكس</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
+  <channel id="beIN.Netflix.BoxOffice">
+    <display-name lang="en">Box Office 4K</display-name>
+    <display-name lang="en">Netflix Box Office 4K</display-name>
+    <display-name lang="en">Box Office</display-name>
+    <display-name lang="ar">نتفليكس بوكس أوفيس</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
+  <channel id="beIN.Netflix.ActionHD1">
+    <display-name lang="en">Netflix Action New HD1</display-name>
+    <display-name lang="en">Netflix Action HD1</display-name>
+    <display-name lang="ar">نتفليكس أكشن 1</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
+  <channel id="beIN.Netflix.ActionHD2">
+    <display-name lang="en">Netflix Action New HD2</display-name>
+    <display-name lang="en">Netflix Action HD2</display-name>
+    <display-name lang="ar">نتفليكس أكشن 2</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
+  <channel id="beIN.Netflix.ActionHD3">
+    <display-name lang="en">Netflix Action New HD3</display-name>
+    <display-name lang="en">Netflix Action HD3</display-name>
+    <display-name lang="ar">نتفليكس أكشن 3</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
+  <channel id="beIN.Netflix.ActionHD4">
+    <display-name lang="en">Netflix Action New HD4</display-name>
+    <display-name lang="en">Netflix Action HD4</display-name>
+    <display-name lang="ar">نتفليكس أكشن 4</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
+  </channel>
+  <channel id="beIN.Netflix.ActionHD5">
+    <display-name lang="en">Netflix Action New HD5</display-name>
+    <display-name lang="en">Netflix Action HD5</display-name>
+    <display-name lang="ar">نتفليكس أكشن 5</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/netflix.png" />
   </channel>
   <programme start="20260928222000 +0000" stop="20260929002700 +0000" channel="beIN4K.qa">
@@ -41702,6 +41742,183 @@ composing his new song first?</desc>
     <desc lang="ar">أطفال, كوميدي, مغامرة, عائلي, رسوم متحركة. ينخرط توم وجيري في حلقة مفرغة من الملاحقة والاستفزاز. ويخوض القط والفأر مغامرات لا حصر لها في محاولاتهما المتواصلة للتفوق على بعضهما بعضاً. صوت: جراي ديلايل, جو ألاسكي, مايكل جوف. إخراج: سبايك براندت.</desc>
     <category lang="ar">برامج الأطفال</category>
   </programme>
+  <programme start="20260928210000 +0000" stop="20260929133500 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929202800 +0000" stop="20260929220000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930214000 +0000" stop="20261001053000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001103000 +0000" stop="20261001120000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002030000 +0000" stop="20261002063000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002113000 +0000" stop="20261002140000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003030000 +0000" stop="20261003210000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003214000 +0000" stop="20261004170000 +0000" channel="beINSports.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930211500 +0000" stop="20261001155000 +0000" channel="beINSports3.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001204500 +0000" stop="20261002154500 +0000" channel="beINSports3.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002204000 +0000" stop="20261003124500 +0000" channel="beINSports3.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003204000 +0000" stop="20261004183000 +0000" channel="beINSports3.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261004204000 +0000" stop="20261005183000 +0000" channel="beINSports3.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001034500 +0000" stop="20261001183500 +0000" channel="beINSports4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001204500 +0000" stop="20261002154500 +0000" channel="beINSports4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003085500 +0000" stop="20261003154500 +0000" channel="beINSports4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003175500 +0000" stop="20261004183000 +0000" channel="beINSports4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261004204000 +0000" stop="20261005183000 +0000" channel="beINSports4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930204500 +0000" stop="20261001183500 +0000" channel="beINSports5.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001204500 +0000" stop="20261002183000 +0000" channel="beINSports5.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002204000 +0000" stop="20261005183000 +0000" channel="beINSports5.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930210000 +0000" stop="20261001183500 +0000" channel="beINSports6.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001204500 +0000" stop="20261002183000 +0000" channel="beINSports6.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002204000 +0000" stop="20261003044000 +0000" channel="beINSports6.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003084000 +0000" stop="20261005183000 +0000" channel="beINSports6.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002210000 +0000" stop="20261003030000 +0000" channel="beINSports7.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003130000 +0000" stop="20261004050000 +0000" channel="beINSports7.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261004150000 +0000" stop="20261005070000 +0000" channel="beINSports7.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005150000 +0000" stop="20261005183000 +0000" channel="beINSports7.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001041500 +0000" stop="20261001185000 +0000" channel="beINSports8.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002110000 +0000" stop="20261002183000 +0000" channel="beINSports8.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002204000 +0000" stop="20261003015000 +0000" channel="beINSports8.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003110000 +0000" stop="20261003150000 +0000" channel="beINSports8.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003171500 +0000" stop="20261003230000 +0000" channel="beINSports8.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261004090000 +0000" stop="20261004133000 +0000" channel="beINSports8.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260928235900 +0000" stop="20260929115000 +0000" channel="beINSports9.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003110000 +0000" stop="20261004020000 +0000" channel="beINSports9.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261004110000 +0000" stop="20261004230000 +0000" channel="beINSports9.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005021500 +0000" stop="20261005070000 +0000" channel="beINSports9.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005130000 +0000" stop="20261005183000 +0000" channel="beINSports9.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001010000 +0000" stop="20261001154500 +0000" channel="beINSportsEn1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001204500 +0000" stop="20261002043000 +0000" channel="beINSportsEn1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002201000 +0000" stop="20261003015000 +0000" channel="beINSportsEn1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005021500 +0000" stop="20261005070000 +0000" channel="beINSportsEn1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005130000 +0000" stop="20261005154500 +0000" channel="beINSportsEn1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930220000 +0000" stop="20261001184000 +0000" channel="beINSportsEn2.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002021000 +0000" stop="20261002154500 +0000" channel="beINSportsEn2.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005021500 +0000" stop="20261005070000 +0000" channel="beINSportsEn2.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261005150000 +0000" stop="20261005183000 +0000" channel="beINSportsEn2.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260928210000 +0000" stop="20260929060000 +0000" channel="beINSportsNews.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260929120000 +0000" stop="20260929133000 +0000" channel="beINSportsNews.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001184500 +0000" stop="20261002123000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002173000 +0000" stop="20261003010000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003060000 +0000" stop="20261003090000 +0000" channel="beINSportsXtra1.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930224500 +0000" stop="20261001100000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261001223000 +0000" stop="20261002100000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261002220000 +0000" stop="20261003100000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20261003193000 +0000" stop="20261004140000 +0000" channel="beINSportsXtra4.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
+  <programme start="20260930081500 +0000" stop="20260930090000 +0000" channel="beINSportsXtra7.qa">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+  </programme>
   <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.ShoofMax">
     <title lang="en">24/7 Program</title>
     <desc lang="ar">ShoofMax — شوف ماكس</desc>
@@ -41766,4 +41983,196 @@ composing his new song first?</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Netflix — نتفليكس</desc>
   </programme>
-<programme start="20260928210000 +0000" stop="20260929133500 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929202800 +0000" stop="20260929220000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930214000 +0000" stop="20261001053000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001103000 +0000" stop="20261001120000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002030000 +0000" stop="20261002063000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002113000 +0000" stop="20261002140000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003030000 +0000" stop="20261003210000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003214000 +0000" stop="20261004170000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930211500 +0000" stop="20261001155000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001204500 +0000" stop="20261002154500 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002204000 +0000" stop="20261003124500 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003204000 +0000" stop="20261004183000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261004204000 +0000" stop="20261005183000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001034500 +0000" stop="20261001183500 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001204500 +0000" stop="20261002154500 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003085500 +0000" stop="20261003154500 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003175500 +0000" stop="20261004183000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261004204000 +0000" stop="20261005183000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930204500 +0000" stop="20261001183500 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001204500 +0000" stop="20261002183000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002204000 +0000" stop="20261005183000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930210000 +0000" stop="20261001183500 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001204500 +0000" stop="20261002183000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002204000 +0000" stop="20261003044000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003084000 +0000" stop="20261005183000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002210000 +0000" stop="20261003030000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003130000 +0000" stop="20261004050000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261004150000 +0000" stop="20261005070000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005150000 +0000" stop="20261005183000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001041500 +0000" stop="20261001185000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002110000 +0000" stop="20261002183000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002204000 +0000" stop="20261003015000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003110000 +0000" stop="20261003150000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003171500 +0000" stop="20261003230000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261004090000 +0000" stop="20261004133000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260928235900 +0000" stop="20260929115000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003110000 +0000" stop="20261004020000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261004110000 +0000" stop="20261004230000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005021500 +0000" stop="20261005070000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005130000 +0000" stop="20261005183000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001010000 +0000" stop="20261001154500 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001204500 +0000" stop="20261002043000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002201000 +0000" stop="20261003015000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005021500 +0000" stop="20261005070000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005130000 +0000" stop="20261005154500 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930220000 +0000" stop="20261001184000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002021000 +0000" stop="20261002154500 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005021500 +0000" stop="20261005070000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261005150000 +0000" stop="20261005183000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260928210000 +0000" stop="20260929060000 +0000" channel="beINSportsNews.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260929120000 +0000" stop="20260929133000 +0000" channel="beINSportsNews.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001184500 +0000" stop="20261002123000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002173000 +0000" stop="20261003010000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003060000 +0000" stop="20261003090000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930224500 +0000" stop="20261001100000 +0000" channel="beINSportsXtra4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001223000 +0000" stop="20261002100000 +0000" channel="beINSportsXtra4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002220000 +0000" stop="20261003100000 +0000" channel="beINSportsXtra4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261003193000 +0000" stop="20261004140000 +0000" channel="beINSportsXtra4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930081500 +0000" stop="20260930090000 +0000" channel="beINSportsXtra7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="beIN.Netflix.BoxOffice">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Box Office 4K — نتفليكس بوكس أوفيس</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="beIN.Netflix.ActionHD1">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD1 — نتفليكس أكشن 1</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="beIN.Netflix.ActionHD2">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD2 — نتفليكس أكشن 2</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="beIN.Netflix.ActionHD3">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD3 — نتفليكس أكشن 3</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="beIN.Netflix.ActionHD4">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD4 — نتفليكس أكشن 4</desc>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260930000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20261001000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261002000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261003000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="beIN.Netflix.ActionHD5">
+    <title lang="en">24/7 Program</title>
+    <desc lang="ar">Netflix Action New HD5 — نتفليكس أكشن 5</desc>
+  </programme>
+</tv>
