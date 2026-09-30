@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T15:21:18.373Z",
+  "updated_at": "2026-09-30T15:27:59.954Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -121,7 +121,7 @@
           "code": 3,
           "max": 34.1,
           "min": 23.8,
-          "rain": 0
+          "rain": 3
         },
         {
           "date": "2026-10-05",
@@ -291,21 +291,21 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 23.3,
-      "humidity": 39,
-      "wind_speed": 14.4,
+      "temperature_c": 23.4,
+      "humidity": 40,
+      "wind_speed": 13.7,
       "rain_chance": 2,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-09-30T16:15",
-      "feels_c": 20.8,
+      "feels_c": 21.1,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-09-30",
           "code": 51,
           "max": 23.5,
-          "min": 18.5,
+          "min": 18.3,
           "rain": 55
         },
         {
@@ -352,7 +352,7 @@
         }
       ],
       "today_max": 23.5,
-      "today_min": 18.5,
+      "today_min": 18.3,
       "sunrise": "06:59",
       "sunset": "18:40",
       "uv": 2
@@ -364,18 +364,18 @@
       "longitude": -2.2426,
       "temperature_c": 20.5,
       "humidity": 51,
-      "wind_speed": 18.0,
+      "wind_speed": 18.4,
       "rain_chance": 31,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-09-30T16:15",
-      "feels_c": 17.9,
+      "feels_c": 17.8,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-09-30",
           "code": 63,
-          "max": 20.9,
+          "max": 21.0,
           "min": 15.3,
           "rain": 100
         },
@@ -422,7 +422,7 @@
           "rain": 35
         }
       ],
-      "today_max": 20.9,
+      "today_max": 21.0,
       "today_min": 15.3,
       "sunrise": "07:08",
       "sunset": "18:48",
@@ -579,15 +579,15 @@
       "humidity": 92,
       "wind_speed": 10.7,
       "rain_chance": 92,
-      "condition": "رذاذ خفيف",
-      "weather_code": 51,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-09-30T10:15",
       "feels_c": 15.8,
       "utc_offset": -18000,
       "days": [
         {
           "date": "2026-09-30",
-          "code": 63,
+          "code": 61,
           "max": 20.8,
           "min": 15.4,
           "rain": 92
@@ -729,7 +729,7 @@
       "days": [
         {
           "date": "2026-09-30",
-          "code": 82,
+          "code": 51,
           "max": 32.0,
           "min": 25.6,
           "rain": 21
