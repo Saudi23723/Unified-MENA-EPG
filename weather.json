@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T11:53:39.991Z",
+  "updated_at": "2026-09-30T11:58:50.407Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,28 +7,28 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 25.8,
+      "temperature_c": 25.7,
       "humidity": 45,
-      "wind_speed": 14.3,
+      "wind_speed": 15.3,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-09-30T14:45",
-      "feels_c": 25.0,
+      "feels_c": 24.5,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-09-30",
           "code": 2,
-          "max": 25.7,
+          "max": 25.8,
           "min": 15.9,
           "rain": 0
         },
         {
           "date": "2026-10-01",
           "code": 3,
-          "max": 24.6,
-          "min": 15.2,
+          "max": 24.4,
+          "min": 15.6,
           "rain": 0
         },
         {
@@ -67,7 +67,7 @@
           "rain": 8
         }
       ],
-      "today_max": 25.7,
+      "today_max": 25.8,
       "today_min": 15.9,
       "sunrise": "06:29",
       "sunset": "18:22",
@@ -79,13 +79,13 @@
       "latitude": 29.532,
       "longitude": 35.006,
       "temperature_c": 33.5,
-      "humidity": 28,
-      "wind_speed": 18.4,
+      "humidity": 29,
+      "wind_speed": 18.7,
       "rain_chance": 3,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-09-30T14:45",
-      "feels_c": 31.9,
+      "feels_c": 32.3,
       "utc_offset": 10800,
       "days": [
         {
@@ -98,8 +98,8 @@
         {
           "date": "2026-10-01",
           "code": 3,
-          "max": 32.5,
-          "min": 23.3,
+          "max": 32.4,
+          "min": 23.5,
           "rain": 0
         },
         {
@@ -590,7 +590,7 @@
           "code": 61,
           "max": 19.5,
           "min": 15.7,
-          "rain": 99
+          "rain": 100
         },
         {
           "date": "2026-10-01",
@@ -732,7 +732,7 @@
           "code": 55,
           "max": 33.1,
           "min": 26.4,
-          "rain": 21
+          "rain": 32
         },
         {
           "date": "2026-10-01",
