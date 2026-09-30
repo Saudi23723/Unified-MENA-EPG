@@ -194,6 +194,11 @@
     <display-name lang="en">PH: TV5</display-name>
     <display-name lang="en">TV5</display-name>
   </channel>
+  <channel id="PH.PHONE_SPORTS">
+    <display-name lang="en">PHONE SPORTS</display-name>
+    <display-name lang="en">PH: ONE SPORTS</display-name>
+    <display-name lang="en">One Sports</display-name>
+  </channel>
   <programme start="20260929171000 +0000" stop="20260929173500 +0000" channel="PH.PH_DREAMWORKS">
     <title lang="en">The Croods: Family Tree</title>
   </programme>
@@ -4420,10 +4425,6 @@
     <title lang="en">Trapped In Her Dorm Room</title>
     <desc lang="en">When a classmate's adoration turns into a dangerous obsession, college student Erin finds herself held captive in her own dorm room during Spring Break.</desc>
   </programme>
-  <programme start="20260929171500 +0000" stop="20260929172600 +0000" channel="PH.PHHBO_FAMILY">
-    <title lang="en">UNCLE GRANDPA S3</title>
-    <desc lang="en">Pizza Steve tries desperately to make the others in the RV interested in his new game console.</desc>
-  </programme>
   <programme start="20260929172600 +0000" stop="20260929173700 +0000" channel="PH.PHHBO_FAMILY">
     <title lang="en">UNCLE GRANDPA S3</title>
     <desc lang="en">Weird Man apprehends a dangerous foreign criminal, Belly Bag discovers a cat stuck in the RV tree, and Uncle Grandpa hosts a space exploration program on this new collection of shorts.</desc>
@@ -7992,14 +7993,6 @@
     <title lang="en">Inside Africa</title>
     <desc lang="en">Every year, humpback whales return to Sainte-Marie to mate, give birth and raise their young. We follow researchers exploring their behaviour.</desc>
   </programme>
-  <programme start="20260929170500 +0000" stop="20260929172500 +0000" channel="PH.PHNICK_JR">
-    <title lang="en">Santiago of the Seas</title>
-    <desc lang="en">When Escarlata turns the crew tiny, they have to find a pint-sized way to save the day. // It's time for the annual Pirate Parade! That is, unless Escarlata has anything to say about it.</desc>
-  </programme>
-  <programme start="20260929172500 +0000" stop="20260929173000 +0000" channel="PH.PHNICK_JR">
-    <title lang="en">Peppa Pig</title>
-    <desc lang="en">Peppa and her family go to the beach, and they do lots of things there including burying Daddy Pig in the sand. When it's time to go they almost leave without Daddy Pig as he has fallen asleep.</desc>
-  </programme>
   <programme start="20260929173000 +0000" stop="20260929173500 +0000" channel="PH.PHNICK_JR">
     <title lang="en">Peppa Pig</title>
     <desc lang="en">George finds a spider in the bathroom sink, but Peppa is really frightened-until she realizes that it doesn't want to hurt her.</desc>
@@ -11304,10 +11297,6 @@
     <title lang="en">Flesh &amp; Blood</title>
     <desc lang="en">In a gritty, plague-ridden 16th-century Europe, a cold-hearted band of mercenaries seek revenge on a noble lord who betrayed them by kidnapping his son's beautiful betrothed.</desc>
   </programme>
-  <programme start="20260929164500 +0000" stop="20260929173000 +0000" channel="PH.PHROCK_ENTERTAINMENT">
-    <title lang="en">Below Deck Mediterranean S11</title>
-    <desc lang="en">A love triangle begins to brew after the first crew night out. Aesha chooses a second stew, making waves on the interior team.</desc>
-  </programme>
   <programme start="20260929173000 +0000" stop="20260929181500 +0000" channel="PH.PHROCK_ENTERTAINMENT">
     <title lang="en">The Librarians: The Next Chapter S2</title>
     <desc lang="en">When Connor is bewitched by a “smell spell” and becomes a contestant on a cooking competition show, the Librarians must break the enchantment by defeating the show's hosts.</desc>
@@ -11987,9 +11976,6 @@
   <programme start="20261003163000 +0000" stop="20261003180000 +0000" channel="PH.PH_TVN">
     <title lang="en">Abra-Ca Empty</title>
   </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PHBBC_WORLD_NEWS">
-    <title lang="en">World Today With M. Moshiri</title>
-  </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PHBBC_WORLD_NEWS">
     <title lang="en">World Today With M. Moshiri</title>
   </programme>
@@ -12577,9 +12563,6 @@
   </programme>
   <programme start="20261003160000 +0000" stop="20261003170000 +0000" channel="PH.PHBBC_WORLD_NEWS">
     <title lang="en">BBC News</title>
-  </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PH_BBC_NEWS">
-    <title lang="en">World Today With M. Moshiri</title>
   </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PH_BBC_NEWS">
     <title lang="en">World Today With M. Moshiri</title>
@@ -14616,10 +14599,6 @@
   <programme start="20261003165000 +0000" stop="20261003170000 +0000" channel="PH.PHARIRANG_TV_WORLD">
     <title lang="en">Fishing In The Museum</title>
   </programme>
-  <programme start="20260929170200 +0000" stop="20260929173200 +0000" channel="PH.PHAL_JAZEERA">
-    <title lang="en">News</title>
-    <desc lang="en">Up-to-date news and analysis from around the world.</desc>
-  </programme>
   <programme start="20260929173200 +0000" stop="20260929180200 +0000" channel="PH.PHAL_JAZEERA">
     <title lang="en">Inside Story</title>
     <desc lang="en">Beyond the headlines to the heart of the news of the day. Al Jazeera gets the Inside Story from some of the best minds from around the globe.</desc>
@@ -15092,10 +15071,6 @@
     <title lang="en">Inside Story</title>
     <desc lang="en">Beyond the headlines to the heart of the news of the day. Al Jazeera gets the Inside Story from some of the best minds from around the globe.</desc>
   </programme>
-  <programme start="20260929170200 +0000" stop="20260929173200 +0000" channel="PH.PH_AL_JAZEERA">
-    <title lang="en">News</title>
-    <desc lang="en">Up-to-date news and analysis from around the world.</desc>
-  </programme>
   <programme start="20260929173200 +0000" stop="20260929180200 +0000" channel="PH.PH_AL_JAZEERA">
     <title lang="en">Inside Story</title>
     <desc lang="en">Beyond the headlines to the heart of the news of the day. Al Jazeera gets the Inside Story from some of the best minds from around the globe.</desc>
@@ -15567,10 +15542,6 @@
   <programme start="20261002233200 +0000" stop="20261003000200 +0000" channel="PH.PH_AL_JAZEERA">
     <title lang="en">Inside Story</title>
     <desc lang="en">Beyond the headlines to the heart of the news of the day. Al Jazeera gets the Inside Story from some of the best minds from around the globe.</desc>
-  </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PHNHK_WORLD">
-    <title lang="en">NHK NEWSLINE</title>
-    <desc lang="en">NHK NEWSLINE brings you up to date with the latest from Japan, Asia and around the world. Our team covers breaking news and major developments, with trusted anchors to tie it all together.</desc>
   </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PHNHK_WORLD">
     <title lang="en">Dining With the Chef</title>
@@ -16507,10 +16478,6 @@
   <programme start="20261003151000 +0000" stop="20261003155500 +0000" channel="PH.PHNHK_WORLD">
     <title lang="en">Train Cruise</title>
     <desc lang="en">Journey through the tranquil rustic landscape of Shimane Pref. Traditional fishermen catch clams. One temple offers blessing for eye ailments. And, residents make unusual sculptures for the deities.</desc>
-  </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PH_NHK_JAPAN_DR">
-    <title lang="en">NHK NEWSLINE</title>
-    <desc lang="en">NHK NEWSLINE brings you up to date with the latest from Japan, Asia and around the world. Our team covers breaking news and major developments, with trusted anchors to tie it all together.</desc>
   </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PH_NHK_JAPAN_DR">
     <title lang="en">Dining With the Chef</title>
@@ -18256,10 +18223,6 @@
     <title lang="en">Dual Survival Brazil</title>
     <desc lang="en">Tigre and Rene put themselves to the test in the Tatacoa desert, with a shortage of water, a labyrinth of rock formations, and scorpion infestations.</desc>
   </programme>
-  <programme start="20260929163000 +0000" stop="20260929172000 +0000" channel="PH.PHHGTV">
-    <title lang="en">Flipping 101 With Tarek El Moussa (S2)</title>
-    <desc lang="en">A real estate agent and a designer have the makings of a flipping dream team, but a tight profit margin on their project has them looking for help.</desc>
-  </programme>
   <programme start="20260929172000 +0000" stop="20260929190000 +0000" channel="PH.PHHGTV">
     <title lang="en">Battle On The Beach (S5)</title>
     <desc lang="en">New teams take on the biggest beach homes yet, starting with living rooms. But before they can get to work, they must compete to choose their house.</desc>
@@ -19836,10 +19799,6 @@
     <title lang="en">Pump Up the Healthy Love</title>
     <desc lang="en">A thrilling and humorous "muscle-growth" drama where Do Hyeonjung , the hardcore gym rat and passionate trainer, shakes up the lives of anxious beginners with his bold and unorthodox coaching.</desc>
   </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PHANIMAX">
-    <title lang="en">NYAIGHT OF THE LIVING CAT</title>
-    <desc lang="en">Kunagi and Kaoru's peaceful daily lives are derailed when the Nyandemic occurs and humans start turning into cats.</desc>
-  </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PHANIMAX">
     <title lang="en">NYAIGHT OF THE LIVING CAT</title>
     <desc lang="en">Kunagi, Kaoru, and Tanishi escape the city in search of a safe shelter, and run into Kaoru's schoolmate Tsutsumi.</desc>
@@ -20592,10 +20551,6 @@
     <title lang="en">D.GRAY-MAN (#53-103)</title>
     <desc lang="en">The Exorcists safely return to the headquarters where they recover from injuries. The Earl is enraged that a Noah helped the Exorcists obtain the Ark.</desc>
   </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PH_ANIMAX">
-    <title lang="en">NYAIGHT OF THE LIVING CAT</title>
-    <desc lang="en">Kunagi and Kaoru's peaceful daily lives are derailed when the Nyandemic occurs and humans start turning into cats.</desc>
-  </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PH_ANIMAX">
     <title lang="en">NYAIGHT OF THE LIVING CAT</title>
     <desc lang="en">Kunagi, Kaoru, and Tanishi escape the city in search of a safe shelter, and run into Kaoru's schoolmate Tsutsumi.</desc>
@@ -21347,10 +21302,6 @@
   <programme start="20261003150000 +0000" stop="20261003153000 +0000" channel="PH.PH_ANIMAX">
     <title lang="en">D.GRAY-MAN (#53-103)</title>
     <desc lang="en">The Exorcists safely return to the headquarters where they recover from injuries. The Earl is enraged that a Noah helped the Exorcists obtain the Ark.</desc>
-  </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PH_ANIPLUS">
-    <title lang="en">Is It Wrong to Try to Pick Up Girls in a Dungeon?</title>
-    <desc lang="en">Now with Liliruca as his partner for good, Bell finally has a proper meeting with Aiz and starts training under her, much to Hestia's jealousy.</desc>
   </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PH_ANIPLUS">
     <title lang="en">Is It Wrong to Try to Pick Up Girls in a Dungeon?</title>
@@ -22379,9 +22330,6 @@
   <programme start="20261003140000 +0000" stop="20261003154500 +0000" channel="PH.PHCINEMAX">
     <title lang="en">DEATH OF A UNICORN</title>
     <desc lang="en">Father-Daughter duo Elliott and Ridley hit a unicorn with their car and bring it to the wilderness retreat of a mega-wealthy pharmaceutical CEO.</desc>
-  </programme>
-  <programme start="20260929170000 +0000" stop="20260929173000 +0000" channel="PH.PHOUTDOOR_CHANNEL">
-    <title lang="en">Farming The Wild</title>
   </programme>
   <programme start="20260929173000 +0000" stop="20260929180000 +0000" channel="PH.PHOUTDOOR_CHANNEL">
     <title lang="en">Farming The Wild</title>
@@ -24118,10 +24066,6 @@
     <title lang="en">La Vuelta Highlights 2026: Stage 6: Alcossebre - Castellon</title>
     <desc lang="en">La Vuelta Highlights 2026.</desc>
   </programme>
-  <programme start="20260929165000 +0000" stop="20260929172000 +0000" channel="PH.PH_PREMIER_SPORTS">
-    <title lang="en">Top 14 Highlights Round 4</title>
-    <desc lang="en">Highlights of the latest round from the Top 14.</desc>
-  </programme>
   <programme start="20260929172000 +0000" stop="20260929175000 +0000" channel="PH.PH_PREMIER_SPORTS">
     <title lang="en">5 and 6 Nations Classics 1999 - Wales v England</title>
     <desc lang="en">A look at some of the best matches in the history of rugby's Six Nations.</desc>
@@ -25435,5 +25379,245 @@
   </programme>
   <programme start="20261007144500 +0000" stop="20261007150000 +0000" channel="PH.PHTV5">
     <title lang="en">VIBE NIGHTS</title>
+  </programme>
+  <programme start="20260927070000 +0000" stop="20260927093000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: ADU vs UST (Live)</title>
+  </programme>
+  <programme start="20260927093000 +0000" stop="20260927120000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: Ateneo vs UP</title>
+  </programme>
+  <programme start="20260927120000 +0000" stop="20260927123000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Starting Line-Up (Replay)</title>
+  </programme>
+  <programme start="20260927123000 +0000" stop="20260927130000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Weekly</title>
+  </programme>
+  <programme start="20260927130000 +0000" stop="20260927160000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">SBA Next 2026 (Delayed Telecast - September 25, 9:00Pm Game)</title>
+  </programme>
+  <programme start="20260927160000 +0000" stop="20260927212800 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign Off</title>
+  </programme>
+  <programme start="20260927212800 +0000" stop="20260927213000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign On</title>
+  </programme>
+  <programme start="20260927213000 +0000" stop="20260928000000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">2026 PVL Invitational: Creamline Vs Est Cola</title>
+  </programme>
+  <programme start="20260928000000 +0000" stop="20260928001500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports Now</title>
+  </programme>
+  <programme start="20260928001500 +0000" stop="20260928010000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: Highlights</title>
+  </programme>
+  <programme start="20260928010000 +0000" stop="20260928123000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya</title>
+  </programme>
+  <programme start="20260928123000 +0000" stop="20260928124500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports Now</title>
+  </programme>
+  <programme start="20260928124500 +0000" stop="20260928130000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: Highlights</title>
+  </programme>
+  <programme start="20260928130000 +0000" stop="20260929000000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Friday Fights 168 (Replay - August 28, 9:30Pm Game)</title>
+  </programme>
+  <programme start="20260929000000 +0000" stop="20260929040000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Sepak takraw: Philippines (Live)</title>
+  </programme>
+  <programme start="20260929040000 +0000" stop="20260929063000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Men's volleyball: PHI vs TPE (Live)</title>
+  </programme>
+  <programme start="20260929063000 +0000" stop="20260929093000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Men's Volleyball: PHI vs CHN</title>
+  </programme>
+  <programme start="20260929093000 +0000" stop="20260929113000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Tennis women's doubles: Eala-Rivera (Live)</title>
+  </programme>
+  <programme start="20260929113000 +0000" stop="20260929133000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Softball: PHI vs THA</title>
+  </programme>
+  <programme start="20260929133000 +0000" stop="20260929213000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Tennis women's doubles: Eala-Rivera</title>
+  </programme>
+  <programme start="20260929213000 +0000" stop="20260930000000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">2026 PVL Invitational: Est Cola Vs Ho Chi Minh City</title>
+  </programme>
+  <programme start="20260930000000 +0000" stop="20260930020000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Women's Basketball: NU vs ADU (Live)</title>
+  </programme>
+  <programme start="20260930020000 +0000" stop="20260930040000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Women's Basketball: Ateneo vs UP (Live)</title>
+  </programme>
+  <programme start="20260930040000 +0000" stop="20260930060000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Tennis: Alex Eala (Live)</title>
+  </programme>
+  <programme start="20260930060000 +0000" stop="20260930070000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Highlights</title>
+  </programme>
+  <programme start="20260930070000 +0000" stop="20260930093000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: UST vs UE (Live)</title>
+  </programme>
+  <programme start="20260930093000 +0000" stop="20260930120000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: FEU vs DLSU (Live)</title>
+  </programme>
+  <programme start="20260930120000 +0000" stop="20260930123000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Weekly</title>
+  </programme>
+  <programme start="20260930123000 +0000" stop="20260930124500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: One Sports Now</title>
+  </programme>
+  <programme start="20260930124500 +0000" stop="20260930153000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20th Asian Games: Tennis: Alex Eala</title>
+  </programme>
+  <programme start="20260930153000 +0000" stop="20260930160000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Starting Line-Up</title>
+  </programme>
+  <programme start="20260930160000 +0000" stop="20260930212800 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign Off</title>
+  </programme>
+  <programme start="20260930212800 +0000" stop="20260930213000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign On</title>
+  </programme>
+  <programme start="20260930213000 +0000" stop="20261001000000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">2026 PVL Invitational: PLDT Vs Creamline</title>
+  </programme>
+  <programme start="20261001000000 +0000" stop="20261001001500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports Now</title>
+  </programme>
+  <programme start="20261001001500 +0000" stop="20261001003000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: Highlights</title>
+  </programme>
+  <programme start="20261001003000 +0000" stop="20261001004500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports Now</title>
+  </programme>
+  <programme start="20261001004500 +0000" stop="20261001010000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya</title>
+  </programme>
+  <programme start="20261001010000 +0000" stop="20261001153000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya</title>
+  </programme>
+  <programme start="20261001153000 +0000" stop="20261001160000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Starting Line-Up (Delayed Telecast)</title>
+  </programme>
+  <programme start="20261001160000 +0000" stop="20261001212800 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign Off</title>
+  </programme>
+  <programme start="20261001212800 +0000" stop="20261001213000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign On</title>
+  </programme>
+  <programme start="20261001213000 +0000" stop="20261002000000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">2026 PVL Invitational: Classification</title>
+  </programme>
+  <programme start="20261002000000 +0000" stop="20261002001500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports Now</title>
+  </programme>
+  <programme start="20261002001500 +0000" stop="20261002003000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: Highlights</title>
+  </programme>
+  <programme start="20261002003000 +0000" stop="20261002004500 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports Now</title>
+  </programme>
+  <programme start="20261002004500 +0000" stop="20261002010000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: One Sports N20Th Asian Games Nagoya</title>
+  </programme>
+  <programme start="20261002010000 +0000" stop="20261002130000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya</title>
+  </programme>
+  <programme start="20261002130000 +0000" stop="20261002133000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Weekly</title>
+  </programme>
+  <programme start="20261002133000 +0000" stop="20261002160000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Friday Fights 173 (Live)</title>
+  </programme>
+  <programme start="20261002160000 +0000" stop="20261002212800 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign Off</title>
+  </programme>
+  <programme start="20261002212800 +0000" stop="20261002213000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign On</title>
+  </programme>
+  <programme start="20261002213000 +0000" stop="20261003000000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">2026 PVL Invitational: Bronzy</title>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261003010000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sabong Tv (Blocktime)</title>
+  </programme>
+  <programme start="20261003010000 +0000" stop="20261003013000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Agri Tv</title>
+  </programme>
+  <programme start="20261003013000 +0000" stop="20261003020000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Bakbakan Tv</title>
+  </programme>
+  <programme start="20261003020000 +0000" stop="20261003040000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Women's Basketball: UST Vs ADU (Live)</title>
+  </programme>
+  <programme start="20261003040000 +0000" stop="20261003060000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Women's Basketball: NU Vs Ateneo (Live)</title>
+  </programme>
+  <programme start="20261003060000 +0000" stop="20261003063000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Highlights</title>
+  </programme>
+  <programme start="20261003063000 +0000" stop="20261003070000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: Highlights</title>
+  </programme>
+  <programme start="20261003070000 +0000" stop="20261003093000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: UST Vs ADU (Live)</title>
+  </programme>
+  <programme start="20261003093000 +0000" stop="20261003120000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: NU Vs Ateneo (Live)</title>
+  </programme>
+  <programme start="20261003120000 +0000" stop="20261003130000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Tbc</title>
+  </programme>
+  <programme start="20261003130000 +0000" stop="20261003153000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Fight Night 48 (Delayed Telecast - October 03, 9:00Am Game)</title>
+  </programme>
+  <programme start="20261003153000 +0000" stop="20261003160000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Weekly</title>
+  </programme>
+  <programme start="20261003160000 +0000" stop="20261003205800 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign Off</title>
+  </programme>
+  <programme start="20261003205800 +0000" stop="20261003220000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign On</title>
+  </programme>
+  <programme start="20261003220000 +0000" stop="20261003230000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Family Tv Mass</title>
+  </programme>
+  <programme start="20261003230000 +0000" stop="20261004010000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya</title>
+  </programme>
+  <programme start="20261004010000 +0000" stop="20261004020000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sabong Nation (Blocktime)</title>
+  </programme>
+  <programme start="20261004020000 +0000" stop="20261004040000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Women's Basketball: UE Vs DLSU (Live)</title>
+  </programme>
+  <programme start="20261004040000 +0000" stop="20261004060000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Women's Basketball: FEU Vs UP (Live)</title>
+  </programme>
+  <programme start="20261004060000 +0000" stop="20261004063000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Highlights</title>
+  </programme>
+  <programme start="20261004063000 +0000" stop="20261004070000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">20Th Asian Games Nagoya: Highlights</title>
+  </programme>
+  <programme start="20261004070000 +0000" stop="20261004093000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: UE Vs DLSU (Live)</title>
+  </programme>
+  <programme start="20261004093000 +0000" stop="20261004120000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">UAAP Season 89 Men's Basketball: FEU Vs UP (Live)</title>
+  </programme>
+  <programme start="20261004120000 +0000" stop="20261004130000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Tbc</title>
+  </programme>
+  <programme start="20261004130000 +0000" stop="20261004153000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">SBA Next 2026 (Delayed Telecast - October 02, 9:00Pm Game)</title>
+  </programme>
+  <programme start="20261004153000 +0000" stop="20261004160000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">One Weekly</title>
+  </programme>
+  <programme start="20261004160000 +0000" stop="20261004180000 +0000" channel="PH.PHONE_SPORTS">
+    <title lang="en">Sign Off</title>
   </programme>
 <programme start="20260930123500 +0000" stop="20260930171000 +0000" channel="PH.PH_DREAMWORKS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001123500 +0000" stop="20261001171000 +0000" channel="PH.PH_DREAMWORKS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002123500 +0000" stop="20261002171000 +0000" channel="PH.PH_DREAMWORKS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930123500 +0000" stop="20260930171000 +0000" channel="PH.PHDREAMWORKS_TAGALOG"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001123500 +0000" stop="20261001171000 +0000" channel="PH.PHDREAMWORKS_TAGALOG"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002123500 +0000" stop="20261002171000 +0000" channel="PH.PHDREAMWORKS_TAGALOG"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930154500 +0000" stop="20260930170000 +0000" channel="PH.PHBBC_WORLD_NEWS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001154500 +0000" stop="20261001170000 +0000" channel="PH.PHBBC_WORLD_NEWS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002160000 +0000" stop="20261002170000 +0000" channel="PH.PHBBC_WORLD_NEWS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930154500 +0000" stop="20260930170000 +0000" channel="PH.PH_BBC_NEWS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001154500 +0000" stop="20261001170000 +0000" channel="PH.PH_BBC_NEWS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002160000 +0000" stop="20261002170000 +0000" channel="PH.PH_BBC_NEWS"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20260930150000 +0000" stop="20260930170000 +0000" channel="PH.PHARIRANG_TV_WORLD"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261001145000 +0000" stop="20261001170000 +0000" channel="PH.PHARIRANG_TV_WORLD"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261002150000 +0000" stop="20261002170000 +0000" channel="PH.PHARIRANG_TV_WORLD"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
