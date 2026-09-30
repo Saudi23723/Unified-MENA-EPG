@@ -86,12 +86,16 @@ API = "https://backend.roya.tv/api/v01/channels/schedule"
 DAYS_BACK = 1
 DAYS_FORWARD = 6
 
-# The backend sometimes nests a programme collection under its own title
-# beside the real broadcast channel that carries it. Those rows belong on
-# the broadcast channel a viewer can actually tune to.
-CHANNEL_ALIASES = {
-    "RFC": "Roya TV",
-}
+# Blocks in Roya's backend that are not channels at all. "RFC" is a
+# video shelf: the recording of an RFC fight night sliced into 1:41:53
+# blocks and looped around the clock. It used to be folded into Roya TV,
+# and resolve_overlaps then cut every real Roya TV programme short where
+# a loop block began — measured against the API on 30 September, ten of
+# Roya TV's twenty programmes ended early ("دنيا يا دنيا" 08:00-11:00
+# published as 08:00-08:29, the rest of it "بطولة RFC"). When a fight is
+# really on Roya TV, Roya TV's own list carries it (17:30-21:00 on
+# 4 September), which is what own_guides reads.
+NOT_CHANNELS = {"RFC"}
 
 # No Live badge on any Roya channel. Roya publishes no live marker of any
 # kind, so the only badge possible here would be "this was on air when the
@@ -178,19 +182,11 @@ def fetch_day(session, day_number: int) -> list[dict]:
 
 
 def canonical_channels(channels: dict[str, dict]) -> dict[str, dict]:
-    """Route known nested programme buckets back to the real channel."""
-    by_name = {meta["name"]: meta for meta in channels.values()}
-    out: dict[str, dict] = {}
-    aliased = 0
-    for site_id, meta in channels.items():
-        target = by_name.get(CHANNEL_ALIASES.get(meta["name"], ""))
-        if target is None:
-            out[site_id] = meta
-            continue
-        out[site_id] = dict(target)
-        aliased += 1
-    if aliased:
-        log(f"Roya channel aliases applied: {aliased}")
+    """Every discovered channel, less the blocks that are not channels."""
+    out = {site_id: meta for site_id, meta in channels.items()
+           if meta["name"] not in NOT_CHANNELS}
+    if len(out) != len(channels):
+        log(f"Roya: {len(channels) - len(out)} non-channel block(s) left out")
     return out
 
 
