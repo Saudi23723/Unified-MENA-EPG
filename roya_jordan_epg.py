@@ -58,6 +58,7 @@ import jordan_tv_epg
 import mbc_epg
 import osn_epg
 import palestine_channels_epg
+import philippines_epg
 import starz_arabic_epg
 import uae_epg
 
@@ -305,6 +306,7 @@ def build() -> int:
                          ("Jordan TV", jordan_tv_epg),
                          ("Al Mashhad", almashhad_epg),
                          ("Palestine", palestine_channels_epg),
+                         ("Philippine sports", philippines_epg),
                          ("MBC", mbc_epg),
                          ("OSN", osn_epg),
                          ("UAE", uae_epg),
