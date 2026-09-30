@@ -4288,7 +4288,9 @@ def gate_no_guide_reads_a_stranger() -> None:
     a rule:
 
         epgshare01.online   bein_sports_turkey_epg.py, tivibu_spor_epg.py
-        open-epg.com        bein_sports_turkey_epg.py
+                            (and, asked for since, mbc_epg.py,
+                            jordan_tv_epg.py, bein3_asia_epg.py)
+        open-epg.com        bein_sports_turkey_epg.py (and mbc, osn)
 
     Both are Turkish EPG dumps, both predate this gate, and both are the
     only thing that carries the Tivibu Spor channels at all — measured:
@@ -4325,6 +4327,15 @@ def gate_no_guide_reads_a_stranger() -> None:
         ("mbc_epg.py", "epgshare01.online"),
         ("mbc_epg.py", "www.open-epg.com"),
         ("osn_epg.py", "www.open-epg.com"),
+        # Jordan TV (التلفزيون الأردني) and beIN SPORTS 3 Asia, asked for
+        # by name on the Roya link. JRTV's own guide (erstream) answers
+        # every hour with "معلومات البرنامج غير متوفرة", and beIN Asia
+        # publishes no open guide; these feeds are the only schedules
+        # there are. Jordan TV's clock was measured against elcinema's
+        # copy of the same day (every row lines up at +03:00) — see
+        # jordan_tv_epg.py.
+        ("jordan_tv_epg.py", "epgshare01.online"),
+        ("bein3_asia_epg.py", "epgshare01.online"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4394,9 +4405,10 @@ def gate_no_guide_reads_a_stranger() -> None:
     # to four when وِرْدُ اليوم read a mirrored Quran edition, back to three
     # when that channel went, and to six when MBC and OSN were asked for
     # on the Roya link — two channel families with no open guide of their
-    # own, every feed's clock measured before it was read.
-    check("SOURCES", "exactly six aggregated-feed reads, all declared",
-          len(KNOWN), 6)
+    # own, every feed's clock measured before it was read — and to eight
+    # when Jordan TV and beIN SPORTS 3 Asia were asked for the same way.
+    check("SOURCES", "exactly eight aggregated-feed reads, all declared",
+          len(KNOWN), 8)
 
 
 

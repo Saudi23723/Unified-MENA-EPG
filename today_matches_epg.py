@@ -596,11 +596,63 @@ def sources_of(row) -> list[str]:
     return seen
 
 
+# THE PAGE IS SPANISH, AND WHERE IT HAS NO ENGLISH NAME IT SAYS SO. Most
+# sides come through in English, but national teams the page only knows
+# in its own language reached the board as "EAU - Qatar", "Bahrein -
+# Yemen" and "República del Congo - Cameroon" beside rows in English. A
+# whole name is looked up here and written in English; anything not in
+# the table is left exactly as the page gave it.
+SPANISH_NAMES = {
+    "EAU": "UAE", "Emiratos Árabes Unidos": "UAE", "Emiratos Arabes Unidos": "UAE",
+    "Bahrein": "Bahrain", "Baréin": "Bahrain", "Barein": "Bahrain",
+    "Omán": "Oman", "Irak": "Iraq", "Catar": "Qatar",
+    "Arabia Saudí": "Saudi Arabia", "Arabia Saudita": "Saudi Arabia",
+    "Jordania": "Jordan", "Líbano": "Lebanon", "Siria": "Syria",
+    "Palestina": "Palestine", "Egipto": "Egypt", "Marruecos": "Morocco",
+    "Argelia": "Algeria", "Túnez": "Tunisia", "Libia": "Libya",
+    "Sudán": "Sudan", "Sudán del Sur": "South Sudan", "Yibuti": "Djibouti",
+    "Comoras": "Comoros", "Mauritania": "Mauritania",
+    "República del Congo": "Congo", "Republica del Congo": "Congo",
+    "RD Congo": "DR Congo", "República Democrática del Congo": "DR Congo",
+    "Camerún": "Cameroon", "Costa de Marfil": "Ivory Coast",
+    "Sudáfrica": "South Africa", "Malí": "Mali", "Guinea Ecuatorial": "Equatorial Guinea",
+    "Cabo Verde": "Cape Verde", "Etiopía": "Ethiopia", "Kenia": "Kenya",
+    "Zimbabue": "Zimbabwe", "Gabón": "Gabon", "Benín": "Benin", "Níger": "Niger",
+    "Botsuana": "Botswana", "Sierra Leona": "Sierra Leone", "Guinea-Bisáu": "Guinea-Bissau",
+    "Ruanda": "Rwanda", "Malaui": "Malawi", "Lesoto": "Lesotho", "Esuatini": "Eswatini",
+    "Irán": "Iran", "Japón": "Japan", "Corea del Sur": "South Korea",
+    "Corea del Norte": "North Korea", "Tailandia": "Thailand", "Filipinas": "Philippines",
+    "Malasia": "Malaysia", "Uzbekistán": "Uzbekistan", "Kirguistán": "Kyrgyzstan",
+    "Tayikistán": "Tajikistan", "Turkmenistán": "Turkmenistan", "Kazajistán": "Kazakhstan",
+    "Afganistán": "Afghanistan", "Pakistán": "Pakistan",
+    "Inglaterra": "England", "Escocia": "Scotland", "Gales": "Wales",
+    "Irlanda": "Republic of Ireland", "Irlanda del Norte": "Northern Ireland",
+    "Alemania": "Germany", "Francia": "France", "España": "Spain", "Italia": "Italy",
+    "Países Bajos": "Netherlands", "Holanda": "Netherlands", "Bélgica": "Belgium",
+    "Suiza": "Switzerland", "Suecia": "Sweden", "Noruega": "Norway",
+    "Dinamarca": "Denmark", "Finlandia": "Finland", "Islandia": "Iceland",
+    "Polonia": "Poland", "Chequia": "Czech Republic", "República Checa": "Czech Republic",
+    "Eslovaquia": "Slovakia", "Hungría": "Hungary", "Rumanía": "Romania",
+    "Grecia": "Greece", "Turquía": "Turkey", "Croacia": "Croatia",
+    "Eslovenia": "Slovenia", "Bosnia y Herzegovina": "Bosnia and Herzegovina",
+    "Macedonia del Norte": "North Macedonia", "Ucrania": "Ukraine", "Rusia": "Russia",
+    "Bielorrusia": "Belarus", "Moldavia": "Moldova", "Lituania": "Lithuania",
+    "Letonia": "Latvia", "Chipre": "Cyprus", "Luxemburgo": "Luxembourg",
+    "Azerbaiyán": "Azerbaijan", "Islas Feroe": "Faroe Islands",
+    "Estados Unidos": "USA", "EE. UU.": "USA", "EEUU": "USA", "México": "Mexico",
+    "Canadá": "Canada", "Brasil": "Brazil", "Perú": "Peru", "Haití": "Haiti",
+    "Panamá": "Panama", "Trinidad y Tobago": "Trinidad and Tobago",
+    "Nueva Zelanda": "New Zealand",
+}
+
+
 def team_in(cell) -> str:
     span = cell.find("span", title=True) if cell else None
     if span and span.get("title"):
-        return norm(span["title"])
-    return norm(cell.get_text(" ", strip=True)) if cell else ""
+        name = norm(span["title"])
+    else:
+        name = norm(cell.get_text(" ", strip=True)) if cell else ""
+    return SPANISH_NAMES.get(name, name)
 
 
 def is_match(row) -> bool:

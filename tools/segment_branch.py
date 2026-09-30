@@ -273,14 +273,31 @@ def hydrate() -> int:
     # And the boards main no longer carries, so a screen whose build fails
     # this pass still has the pictures it had — what a checkout used to
     # give it. Only ever added: a board on disk is this pass's own.
+    #
+    # ONLY THE PAGES THE SCREEN IS PLAYING. The branch never drops a board
+    # (boards_wanted says why), so it holds every page number a screen has
+    # ever reached — and a day with eight pages leaves pages 4 to 7 there
+    # after the days with four. Brought back wholesale, those old pages
+    # sat in the folder, and any pass whose build did not run to its end
+    # (the only thing that deletes them) encoded them into the reel: the
+    # first channel played "بعد غد · الثلاثاء 29.09" on the 30th, a page
+    # drawn on the 27th. So a board comes back only if its number is one
+    # the screen's published playlist names — exactly the reel on the air.
     if tip:
         table = board_table()
+        on_air = pages_on_air()
         placed = 0
+        left = 0
         for line in out(git("ls-tree", "-r", "--name-only", TRACKING, "--",
                             BOARDS)).splitlines():
             name = os.path.basename(line)
-            if not table.prefix_of(name, table.UNTRACKED) \
-                    or os.path.exists(line):
+            prefix = table.prefix_of(name, table.UNTRACKED)
+            if not prefix or os.path.exists(line):
+                continue
+            page = re.fullmatch(re.escape(prefix) + r"(\d+)\.png", name)
+            if page and prefix in on_air \
+                    and int(page.group(1)) not in on_air[prefix]:
+                left += 1
                 continue
             blob = git("cat-file", "blob", f"{TRACKING}:{line}")
             if blob.returncode != 0:
@@ -292,7 +309,31 @@ def hydrate() -> int:
             placed += 1
         if placed:
             log(f"{placed} board file(s) brought onto disk from {BRANCH}")
+        if left:
+            log(f"{left} old page(s) left on {BRANCH}: no published playlist "
+                f"plays them")
     return missing
+
+
+def pages_on_air() -> dict[str, set[int]]:
+    """prefix -> the board numbers its published playlist plays.
+
+    Read from the playlist alone — not the keeping and previous ledgers,
+    which also name segments that have already left the reel.
+    """
+    pages: dict[str, set[int]] = {}
+    for prefix, playlist in MOVED.items():
+        path = os.path.join(STREAM, playlist)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8", errors="replace") as handle:
+            names = names_in(handle.read(), prefix)
+        numbers = {int(m.group(1)) for m in
+                   (re.match(re.escape(prefix) + r"(\d+)\.", n) for n in names)
+                   if m}
+        if numbers:
+            pages[prefix] = numbers
+    return pages
 
 
 def untrack() -> None:
