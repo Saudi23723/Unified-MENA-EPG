@@ -4652,23 +4652,22 @@ def gate_our_own_guides_carry_fights_nobody_lists() -> None:
 
 
 def gate_roya_nested_programmes_are_mapped_back_to_their_channel() -> None:
-    """A programme shelf is not a channel of its own.
+    """A programme shelf is not a channel of its own — nor part of one.
 
-    Roya's backend started handing back a nested block named RFC beside
-    Roya TV, and the guide published that title as though it were a real
-    channel. The fight itself was still there; the place to watch it was
-    not. This holds the tiny repair in isolation.
+    Roya's backend hands back a block named RFC beside Roya TV: a fight
+    recording looped around the clock in 1:41:53 slices. Published as its
+    own channel it was a channel nobody can tune to; folded into Roya TV
+    it cut ten of Roya TV's twenty programmes short on 30 September. It is
+    left out, and Roya TV keeps exactly what Roya's API says it airs.
     """
-    print("\nRoya nested programmes map back to the real channel — roya_jordan_epg")
+    print("\nRoya's RFC loop is not a channel — roya_jordan_epg")
     import roya_jordan_epg
 
     fixed = roya_jordan_epg.canonical_channels({
         "1": {"xmltv_id": "Roya_RFC", "name": "RFC", "logo": "rfc.png"},
         "2": {"xmltv_id": "Roya_RoyaTV", "name": "Roya TV", "logo": "tv.png"},
     })
-    check("ROYA", "RFC rows are published on Roya TV",
-          (fixed["1"]["name"], fixed["1"]["xmltv_id"]),
-          ("Roya TV", "Roya_RoyaTV"))
+    check("ROYA", "the RFC loop is left out", "1" in fixed, False)
     check("ROYA", "and the real channel keeps its own id",
           fixed["2"]["xmltv_id"], "Roya_RoyaTV")
 
