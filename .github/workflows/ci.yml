@@ -91,3 +91,25 @@ jobs:
 
       - name: ✅ CI Complete (Non-blocking)
         run: echo "✅ Tests completed. Updates will continue regardless of test results."
+
+  # BLOCKING, on purpose, and apart from the advisory job above. A gate
+  # failure that names no screen makes the publishing pass publish
+  # NOTHING — every channel on the dashboard freezes on its last picture.
+  # On 30 September that froze every screen for five hours while the same
+  # gate ran here as advice and the pull request merged green. Only that
+  # kind of failure blocks; a screen's own failures stay with the pass,
+  # which holds a broken screen back by itself.
+  publishing-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Put the screens' segments where the gate reads them
+        run: python -u tools/segment_branch.py hydrate
+        continue-on-error: true
+      - name: No change may stop every channel from publishing
+        run: python -u tools/whole_build_gate.py
