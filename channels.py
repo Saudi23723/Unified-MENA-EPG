@@ -47,7 +47,6 @@ BUILDS: tuple[str, ...] = (
     "ball_sports_epg",
     "hoops_gridiron_epg",
     "turkish_ppv_epg",
-    "sporttv_epg",
     "news_epg",
     "weather_epg",
     "prayer_epg",

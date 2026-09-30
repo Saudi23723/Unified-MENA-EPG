@@ -84,8 +84,6 @@ MOVED: dict[str, str] = {
     "dubai_sports_": "dubai_sports.m3u8",
     # Every other screen publish_screens publishes.
     "today_matches_": "screen.m3u8",
-    "sporttv_": "sporttv.m3u8",
-    "dubai_sporttv_": "dubai_sporttv.m3u8",
     "today_weather_": "weather.m3u8",
     "dubai_matches_": "dubai_screen.m3u8",
     "dubai_weather_": "dubai_weather.m3u8",
