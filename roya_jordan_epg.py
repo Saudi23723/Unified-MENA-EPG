@@ -52,6 +52,7 @@ from epg_lib import (
 
 import aljadeed_epg
 import aljazeera_epg
+import almashhad_epg
 import filler_epg
 import jordan_tv_epg
 import mbc_epg
@@ -305,6 +306,7 @@ def build() -> int:
                          ("Al Jazeera", aljazeera_epg),
                          ("Filler", filler_epg),
                          ("Jordan TV", jordan_tv_epg),
+                         ("Al Mashhad", almashhad_epg),
                          ("MBC", mbc_epg),
                          ("OSN", osn_epg),
                          ("UAE", uae_epg),
