@@ -127,6 +127,28 @@ def add_to(root) -> int:
     return count
 
 
+def add_others_to(root, prefix: str) -> int:
+    """ShoofMax and Netflix alone, on another link — the beIN Qatar guide
+    carries them too, under its own ids (prefix) so the merged link never
+    holds one id twice."""
+    now = datetime.now(timezone.utc)
+    first = (now - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    count = 0
+    for xid, names, arabic, logo in OTHERS:
+        ch = ET.SubElement(root, "channel", {"id": prefix + xid})
+        for name in names:
+            ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
+        ET.SubElement(ch, "display-name", {"lang": "ar"}).text = arabic
+        ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+        for day in range(DAYS_BACK + DAYS_FORWARD):
+            start = first + timedelta(days=day)
+            add_programme(root, prefix + xid, start, start + timedelta(days=1),
+                          TITLE, f"{names[0]} — {arabic}")
+            count += 1
+    return count
+
+
 def build() -> int:
     """Standalone: these channels alone, for a look at them."""
     root = ET.Element("tv", {"generator-info-name": "Alwan channels"})
