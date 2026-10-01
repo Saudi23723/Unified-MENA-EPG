@@ -62,6 +62,8 @@ SOURCE_FILES = [
     # authority's calculation. Missing before its first build, and the
     # merge simply goes on without it.
     "prayer_epg.xml",
+    # The fourteenth channel — الفورمولا 1, every session of the season.
+    "f1_epg.xml",
 ]
 
 

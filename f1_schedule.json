@@ -1,0 +1,286 @@
+{
+  "updated_at": "2026-10-01T06:42:38+00:00",
+  "source": "OpenF1",
+  "weekends": [
+    {
+      "name": "Bahrain Grand Prix in Malaysia",
+      "official": "FORMULA 1 GULF AIR BAHRAIN GRAND PRIX IN MALAYSIA 2026",
+      "location": "Kuala Lumpur",
+      "country": "Malaysia",
+      "offset": 480,
+      "round": 16,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-10-02T04:30:00+00:00",
+          "stop": "2026-10-02T05:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-10-02T08:00:00+00:00",
+          "stop": "2026-10-02T09:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-10-03T04:30:00+00:00",
+          "stop": "2026-10-03T05:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-10-03T08:00:00+00:00",
+          "stop": "2026-10-03T09:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-10-04T07:00:00+00:00",
+          "stop": "2026-10-04T09:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "Singapore Grand Prix",
+      "official": "FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2026",
+      "location": "Marina Bay",
+      "country": "Singapore",
+      "offset": 480,
+      "round": 17,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-10-09T08:30:00+00:00",
+          "stop": "2026-10-09T09:30:00+00:00"
+        },
+        {
+          "code": "SPRINT QUALI",
+          "start": "2026-10-09T12:30:00+00:00",
+          "stop": "2026-10-09T13:15:00+00:00"
+        },
+        {
+          "code": "SPRINT",
+          "start": "2026-10-10T09:00:00+00:00",
+          "stop": "2026-10-10T10:00:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-10-10T13:00:00+00:00",
+          "stop": "2026-10-10T14:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-10-11T12:00:00+00:00",
+          "stop": "2026-10-11T14:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "United States Grand Prix",
+      "official": "FORMULA 1 MSC CRUISES UNITED STATES GRAND PRIX 2026",
+      "location": "Austin",
+      "country": "United States",
+      "offset": -300,
+      "round": 18,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-10-23T17:30:00+00:00",
+          "stop": "2026-10-23T18:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-10-23T21:00:00+00:00",
+          "stop": "2026-10-23T22:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-10-24T17:30:00+00:00",
+          "stop": "2026-10-24T18:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-10-24T21:00:00+00:00",
+          "stop": "2026-10-24T22:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-10-25T20:00:00+00:00",
+          "stop": "2026-10-25T22:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "Mexico City Grand Prix",
+      "official": "FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2026",
+      "location": "Mexico City",
+      "country": "Mexico",
+      "offset": -360,
+      "round": 19,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-10-30T18:30:00+00:00",
+          "stop": "2026-10-30T19:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-10-30T22:00:00+00:00",
+          "stop": "2026-10-30T23:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-10-31T17:30:00+00:00",
+          "stop": "2026-10-31T18:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-10-31T21:00:00+00:00",
+          "stop": "2026-10-31T22:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-11-01T20:00:00+00:00",
+          "stop": "2026-11-01T22:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "São Paulo Grand Prix",
+      "official": "FORMULA 1 MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO 2026",
+      "location": "São Paulo",
+      "country": "Brazil",
+      "offset": -180,
+      "round": 20,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-11-06T15:30:00+00:00",
+          "stop": "2026-11-06T16:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-11-06T19:00:00+00:00",
+          "stop": "2026-11-06T20:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-11-07T14:30:00+00:00",
+          "stop": "2026-11-07T15:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-11-07T18:00:00+00:00",
+          "stop": "2026-11-07T19:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-11-08T17:00:00+00:00",
+          "stop": "2026-11-08T19:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "Las Vegas Grand Prix",
+      "official": "FORMULA 1 HEINEKEN LAS VEGAS GRAND PRIX 2026",
+      "location": "Las Vegas",
+      "country": "United States",
+      "offset": -480,
+      "round": 21,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-11-20T00:30:00+00:00",
+          "stop": "2026-11-20T01:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-11-20T04:00:00+00:00",
+          "stop": "2026-11-20T05:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-11-21T00:30:00+00:00",
+          "stop": "2026-11-21T01:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-11-21T04:00:00+00:00",
+          "stop": "2026-11-21T05:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-11-22T04:00:00+00:00",
+          "stop": "2026-11-22T06:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "Qatar Grand Prix",
+      "official": "FORMULA 1 QATAR AIRWAYS QATAR GRAND PRIX 2026",
+      "location": "Lusail",
+      "country": "Qatar",
+      "offset": 180,
+      "round": 22,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-11-27T13:30:00+00:00",
+          "stop": "2026-11-27T14:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-11-27T17:00:00+00:00",
+          "stop": "2026-11-27T18:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-11-28T14:30:00+00:00",
+          "stop": "2026-11-28T15:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-11-28T18:00:00+00:00",
+          "stop": "2026-11-28T19:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-11-29T16:00:00+00:00",
+          "stop": "2026-11-29T18:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "name": "Abu Dhabi Grand Prix",
+      "official": "FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2026",
+      "location": "Yas Marina",
+      "country": "United Arab Emirates",
+      "offset": 240,
+      "round": 23,
+      "sessions": [
+        {
+          "code": "FP1",
+          "start": "2026-12-04T09:30:00+00:00",
+          "stop": "2026-12-04T10:30:00+00:00"
+        },
+        {
+          "code": "FP2",
+          "start": "2026-12-04T13:00:00+00:00",
+          "stop": "2026-12-04T14:00:00+00:00"
+        },
+        {
+          "code": "FP3",
+          "start": "2026-12-05T10:30:00+00:00",
+          "stop": "2026-12-05T11:30:00+00:00"
+        },
+        {
+          "code": "QUALI",
+          "start": "2026-12-05T14:00:00+00:00",
+          "stop": "2026-12-05T15:00:00+00:00"
+        },
+        {
+          "code": "RACE",
+          "start": "2026-12-06T13:00:00+00:00",
+          "stop": "2026-12-06T15:00:00+00:00"
+        }
+      ]
+    }
+  ]
+}

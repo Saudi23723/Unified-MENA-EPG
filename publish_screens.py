@@ -139,6 +139,10 @@ SCREENS: dict[str, tuple[str, str, str, str]] = {
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport_epg.xml",
                           "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256"),
+    # The fourteenth channel — الفورمولا 1: one page, the race weekend in
+    # three clocks already (mine, Abu Dhabi's, the track's), so one screen
+    # serves both link sets, like مواقيت الصلاة.
+    "f1": ("f1_", "f1_epg.xml", "f1.m3u8", "f1.sha256"),
 }
 
 # Files this pass owns that are not any one screen's: the weather
@@ -150,6 +154,8 @@ SHARED_FILES = (
     "jordan_sport_fixtures.json",
     "jordan_sport_other_sports.json",
                 "prayer_times.json",
+                # The Formula 1 calendar, kept for when its sources are down.
+                "f1_schedule.json",
                 # WHO CARRIES A CARD, remembered across passes. A fight
                 # card's two sources name different carriers, and one of
                 # them drops the card the moment its night is past — so

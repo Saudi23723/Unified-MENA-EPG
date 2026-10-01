@@ -61,6 +61,9 @@ from prayer_epg import LOGO as PRAYER_LOGO
 from multi_sport_epg import CHANNEL_AR as GAMES_AR
 from multi_sport_epg import CHANNEL_ID as GAMES_ID
 from multi_sport_epg import LOGO as GAMES_LOGO
+from f1_epg import CHANNEL_AR as F1_AR
+from f1_epg import CHANNEL_ID as F1_ID
+from f1_epg import LOGO as F1_LOGO
 
 OUTPUT = "ai_sports_dashboard.m3u"
 GROUP = "AI Sports Dashboard"
@@ -139,6 +142,10 @@ SCREENS = (
     (GAMES_ID, GAMES_AR, "stream/multi_sport.m3u8",
      f"{RAW}/stream/multi_sport.m3u8", "🏅 Multi-Sport Games",
      GAMES_LOGO),
+    # The fourteenth channel — 🏎️ الفورمولا 1: the race weekend on one
+    # page, in the reader's clock, Abu Dhabi's and the track's.
+    (F1_ID, F1_AR, "stream/f1.m3u8", f"{RAW}/stream/f1.m3u8",
+     "🏎️ Formula 1", F1_LOGO),
 )
 
 
@@ -196,6 +203,11 @@ DUBAI_SCREENS = (
     ("MultiSportDubai", GAMES_AR, "stream/dubai_multi_sport.m3u8",
      f"{RAW}/stream/dubai_multi_sport.m3u8",
      "🏅 Multi-Sport Games · بتوقيت الإمارات", GAMES_LOGO),
+    # الفورمولا 1 already prints Abu Dhabi's time beside the others, so
+    # this is the same reel under the second list's heading, like the
+    # prayer board, and only its id differs.
+    ("Formula1Dubai", F1_AR, "stream/f1.m3u8", f"{RAW}/stream/f1.m3u8",
+     "🏎️ Formula 1", F1_LOGO),
 
 )
 
@@ -219,6 +231,7 @@ PLAYLIST_NAMES = {
     "BallSports":     ("WNBA : MLB",      "🏀 WNBA : ⚾ MLB"),
     "HoopsGridiron":  ("NFL : NBA",       "🏈 NFL : 🏀 NBA"),
     "MultiSport":     ("Multi-Sport Games", "🏅 Multi-Sport Games"),
+    "Formula1":       ("Formula 1",       "🏎️ Formula 1"),
 }
 
 # The second clock's rows are the same channels under Gulf times, so they
