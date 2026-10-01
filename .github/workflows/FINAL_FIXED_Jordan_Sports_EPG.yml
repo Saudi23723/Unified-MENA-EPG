@@ -65,5 +65,5 @@ jobs:
           fi
 
           git commit -m "Update Jordan Sports EPG"
-          git pull --rebase origin main
+          git pull --rebase -X theirs origin main
           git push origin main
