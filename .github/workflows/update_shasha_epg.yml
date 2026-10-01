@@ -57,7 +57,7 @@ jobs:
           # thrown away. Rebase onto the current main and retry, like the other
           # guides do.
           for attempt in 1 2 3 4 5; do
-            git pull --rebase origin main
+            git pull --rebase -X theirs origin main
             if git push origin main; then
               echo "Pushed on attempt $attempt"
               exit 0
