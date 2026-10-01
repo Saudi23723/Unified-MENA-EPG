@@ -75,6 +75,7 @@ import oktagon
 import pfl_events
 import brave_cf
 import uae_warriors
+import hype_fc
 import ufc_bjj
 import beach_volley_fivb
 import womens_volley_fivb
@@ -1844,6 +1845,9 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         everything += brave_cf.events(session, floor, ceiling)
         # And UAE Warriors, asked for by name; see uae_warriors.py.
         everything += uae_warriors.events(session, floor, ceiling)
+        # And HYPE FC, asked for by name. It publishes no readable
+        # calendar, so its announced cards are kept in hype_fc.py.
+        everything += hype_fc.events(session, floor, ceiling)
         # AND UFC BJJ, the UFC's own grappling cards, asked for by name:
         # "why doesn't channel 2 have the UFC BJJ events?". No listings
         # page carries them; ufc.com/ufcbjj leads with the next card, its
