@@ -1520,8 +1520,10 @@ def fill_wait(gap_start, gap_stop, next_kickoff_after, title_at, emit,
       emit(start, stop, title)   -> add one programme
       nothing_title              -> what to show when nothing is coming
 
-    Callers pass gaps that already stop at a day boundary, so a wait row
-    never spans two dates in the grid.
+    A gap runs from one match to the next, across dates if it must: the
+    guide's times are absolute and the player draws its own days, so a wait
+    cut at one zone's midnight read as a new row at an odd hour everywhere
+    else.
     """
     cursor = gap_start
     while cursor < gap_stop:

@@ -1224,54 +1224,40 @@ def write_xml(events):
             "لا توجد مباراة معلنة بعد",
         )
 
+    # ONE TIMELINE, NOT ONE PER DAY — the same as Shasha's guide. The wait
+    # between matches was cut at every Riyadh midnight, a boundary that is
+    # nobody else's midnight, so a viewer on another clock saw a fresh
+    # "next match" row each day at an odd hour. The player draws its own
+    # days; a wait is one row from one match to the countdown before the
+    # next, whatever dates it crosses.
+    def desc_for(moment):
+        day = moment.astimezone(RIYADH_TZ).date()
+        return day_description(day, dedupe(by_day.get(day, [])))
+
+    def wait(gap_start, gap_stop):
+        upcoming = next_kickoff_after(gap_start)
+        add_countdown(gap_start, gap_stop,
+                      desc_for(upcoming if upcoming and upcoming < gap_stop
+                               else gap_start))
+
+    kickoff_times = [k for k in all_kickoffs if window_start <= k < window_end]
     cursor = window_start
-    while cursor < window_end:
-        day_start = cursor
-        day_stop = min(day_start + timedelta(days=1), window_end)
-        current_day = day_start.date()
-
-        # One event per fixture after strong dedupe.
-        day_events = dedupe([
-            e for e in by_day.get(current_day, [])
-            if day_start <= e["start"] < day_stop
-        ])
-        desc = day_description(current_day, day_events)
-
-        if not day_events:
-            add_countdown(day_start, day_stop, desc)
-            cursor = day_stop
+    for index, kickoff in enumerate(kickoff_times):
+        if kickoff > cursor:
+            wait(cursor, kickoff)
+        next_kickoff = kickoff_times[index + 1] if index + 1 < len(kickoff_times) else None
+        stop = min(kickoff + timedelta(hours=3), window_end)
+        if next_kickoff:
+            stop = min(stop, next_kickoff)
+        if stop <= cursor:
             continue
-
-        # Multiple simultaneous matches are combined in one strip cell to avoid
-        # XMLTV overlap while the description still lists each match separately.
-        groups = defaultdict(list)
-        for event in day_events:
-            groups[event["start"]].append(event)
-
-        kickoff_times = sorted(groups)
-
-        if kickoff_times[0] > day_start:
-            add_countdown(day_start, kickoff_times[0], desc)
-
-        for index, kickoff in enumerate(kickoff_times):
-            next_kickoff = kickoff_times[index + 1] if index + 1 < len(kickoff_times) else None
-            natural_stop = kickoff + timedelta(hours=3)
-            stop = min(next_kickoff, natural_stop, day_stop) if next_kickoff else min(natural_stop, day_stop)
-            # Matches kicking off at the same minute share one row, because
-            # a single guide channel cannot show them side by side. They are
-            # joined with " + ", the same separator Shasha's guide uses, so
-            # the two read alike: "A - B + C - D" is two matches, and the
-            # dash always separates the sides of one.
-            # The same join the countdown uses, so a row and the countdown
-            # pointing at it always name the matches identically.
-            title = slot_title(kickoff)
-            add_programme(kickoff, stop, with_live_badge(title), desc)
-
-        last_stop = min(kickoff_times[-1] + timedelta(hours=3), day_stop)
-        if last_stop < day_stop:
-            add_countdown(last_stop, day_stop, desc)
-
-        cursor = day_stop
+        # Matches kicking off at the same minute share one row, named the
+        # way the countdown pointing at it names them — see slot_title.
+        add_programme(max(kickoff, cursor), stop,
+                      with_live_badge(slot_title(kickoff)), desc_for(kickoff))
+        cursor = max(cursor, stop)
+    if cursor < window_end:
+        wait(cursor, window_end)
 
     ET.indent(tv, space="  ")
     ET.ElementTree(tv).write(OUT, encoding="utf-8", xml_declaration=True)
