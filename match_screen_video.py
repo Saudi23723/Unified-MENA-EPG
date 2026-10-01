@@ -171,11 +171,12 @@ SCREENS = {
                     "multi_sport.sha256", 20),
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256", 20),
-    # THE FOURTEENTH CHANNEL — الفورمولا 1: a single page, the race
-    # weekend, in both clocks. Twenty-five seconds like the prayer board,
-    # its one-page neighbour.
-    "f1": ("f1_", "f1.m3u8", "f1.sha256", 25),
-    "dubai_f1": ("dubai_f1_", "dubai_f1.m3u8", "dubai_f1.sha256", 25),
+    # THE FOURTEENTH CHANNEL — الفورمولا 1: one page, the race weekend,
+    # in both clocks. TWENTY SECONDS because the page is drawn seven
+    # times (f1_epg.REPEATS) and 7 x 20 is the 140 s lap of its music —
+    # the song plays through instead of one slice repeating.
+    "f1": ("f1_", "f1.m3u8", "f1.sha256", 20),
+    "dubai_f1": ("dubai_f1_", "dubai_f1.m3u8", "dubai_f1.sha256", 20),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -487,8 +488,12 @@ THEMES = {
     "dubai_turkish_ppv": "audio/theme_sports.m4a",
     "multi_sport": "audio/theme_sports.m4a",
     "dubai_multi_sport": "audio/theme_sports.m4a",
-    "f1": "audio/theme_sports.m4a",
-    "dubai_f1": "audio/theme_sports.m4a",
+    # La Chona (Los Tucanes de Tijuana) from 0:26, asked for by name and
+    # supplied by the reader: 140.000 s, -19 LUFS like the others, and its
+    # last three seconds hand over to 0:23-0:26 so the lap runs on into
+    # its own beginning.
+    "f1": "audio/theme_f1.m4a",
+    "dubai_f1": "audio/theme_f1.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4
