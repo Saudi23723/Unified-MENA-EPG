@@ -38,7 +38,7 @@ PUBLISHED: set[str] = {
     "ball_sports_", "dubai_ball_sports_",
     "turkish_ppv_", "dubai_turkish_ppv_",
     "multi_sport_", "dubai_multi_sport_",
-    "f1_",
+    "f1_", "dubai_f1_",
     "today_matches_", "dubai_matches_",
     "other_sports_", "dubai_sports_",
 }
@@ -54,6 +54,7 @@ UNTRACKED: set[str] = {
     "dubai_turkish_ppv_",
     "dubai_weather_",
     "f1_",
+    "dubai_f1_",
     "hoops_gridiron_",
     "multi_sport_",
     "other_sports_",

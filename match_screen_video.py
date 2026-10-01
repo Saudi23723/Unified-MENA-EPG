@@ -172,9 +172,10 @@ SCREENS = {
     "dubai_multi_sport": ("dubai_multi_sport_", "dubai_multi_sport.m3u8",
                           "dubai_multi_sport.sha256", 20),
     # THE FOURTEENTH CHANNEL — الفورمولا 1: a single page, the race
-    # weekend in three clocks. Twenty-five seconds like the prayer board,
-    # its one-page neighbour: a row is a session and three times.
+    # weekend, in both clocks. Twenty-five seconds like the prayer board,
+    # its one-page neighbour.
     "f1": ("f1_", "f1.m3u8", "f1.sha256", 25),
+    "dubai_f1": ("dubai_f1_", "dubai_f1.m3u8", "dubai_f1.sha256", 25),
 }
 
 # How far ahead the playlist reaches. It is a WINDOW, not a running time:
@@ -487,6 +488,7 @@ THEMES = {
     "multi_sport": "audio/theme_sports.m4a",
     "dubai_multi_sport": "audio/theme_sports.m4a",
     "f1": "audio/theme_sports.m4a",
+    "dubai_f1": "audio/theme_sports.m4a",
 }
 THEME_LAP = 140.0
 THEME_FADE = 0.4
