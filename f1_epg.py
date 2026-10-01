@@ -420,12 +420,23 @@ def draw_board(weekend: dict | None, now: datetime, clock=MINE,
     return board
 
 
+# THE SAME PAGE, SEVEN TIMES. The channel plays La Chona under its card,
+# asked for from 0:26 (audio/theme_f1.m4a, 140 s). A reel carries the
+# slice of the music its board's place lands on, so a one-board reel would
+# play the same twenty seconds over and over; seven copies of the page at
+# twenty seconds each are the whole 140 s, played straight through and
+# round again at the seam the file was built to hide. Same picture, so
+# the viewer sees one page.
+REPEATS = 7
+
+
 def draw_page(weekend: dict | None, now: datetime, clock, clock_name: str,
               prefix: str) -> None:
     os.makedirs(BOARD_DIR, exist_ok=True)
-    draw_board(weekend, now, clock, clock_name).convert("RGB").save(
-        os.path.join(BOARD_DIR, f"{prefix}0.png"))
-    forget_boards_past(prefix, 1, BOARD_DIR)
+    board = draw_board(weekend, now, clock, clock_name).convert("RGB")
+    for n in range(REPEATS):
+        board.save(os.path.join(BOARD_DIR, f"{prefix}{n}.png"))
+    forget_boards_past(prefix, REPEATS, BOARD_DIR)
 
 
 # ------------------------------------------------------------------ guide
