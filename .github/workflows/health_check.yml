@@ -49,5 +49,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      # A push here changes the rules — often merge_epg.py's list of
+      # sources. The published merged link catches up only on the next
+      # build, so checking it as published reports the channel just added
+      # as "missing from the merged link" (30 September, Formula 1): a
+      # failure email for a change that was right. On a push, merge first
+      # in this checkout and check what the new rules produce; the
+      # schedule still checks the published link itself.
+      - name: Merge as the new rules say (push only)
+        if: github.event_name == 'push'
+        run: |
+          pip install -q -r requirements.txt
+          python -u merge_epg.py
       - name: Check every guide and the merged link
         run: python -u health_check.py
