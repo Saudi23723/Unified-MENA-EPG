@@ -196,6 +196,8 @@ def dedupe(events: list[dict]) -> list[dict]:
 
     priority = {
         "LiveFootballTV-Shasha": 130,
+        "Published": 60,
+        "Announced": 50,
         "KSWOfficial": 120,
         "LegaSerieAOfficial": 120,
         "FotMob-Zain": 105,
@@ -630,6 +632,84 @@ def parse_shasha_upcoming() -> list[dict]:
     return events
 
 
+# FIXTURES ANNOUNCED BEFORE THE LISTINGS CARRY THEM. livefootballtv lists
+# a match only once both sides are known and only a few days ahead, so the
+# Gulf Cup's semi-finals and final were missing while the guide filled the
+# week with "next match: Argentina - Benin" — a friendly a week away. These
+# are the dates the Gulf Cup federation published (Jeddah, Riyadh's clock).
+# A listing that carries the same competition within three hours of one
+# replaces it, so the moment the sources name the match, theirs is used.
+ANNOUNCED = (
+    ("2026-10-03 18:55", "Saudi Arabia - Qatar", "Gulf Cup"),
+    ("2026-10-03 21:30", "UAE - Oman", "Gulf Cup"),
+    ("2026-10-06 21:00", "نهائي كأس الخليج 27", "Gulf Cup"),
+)
+
+
+def announced_fixtures(listed: list[dict]) -> list[dict]:
+    events = []
+    for when, title, competition in ANNOUNCED:
+        start = datetime.strptime(when, "%Y-%m-%d %H:%M").replace(
+            tzinfo=LFTV_CLOCK).astimezone(UTC)
+        if not in_window(start):
+            continue
+        if any(ev.get("competition") == competition
+               and abs((ev["start"] - start).total_seconds()) <= 3 * 3600
+               for ev in listed):
+            continue
+        events.append({"start": start, "title": title,
+                       "competition": competition,
+                       "source_name": "Announced", "source": "",
+                       "duration_minutes": 135})
+    return events
+
+
+# WHAT WAS ALREADY PUBLISHED. The listings drop a match as soon as it has
+# been played, and then this guide filled the evening Shasha showed the
+# Gulf Cup with a countdown to a match a week away. A match already
+# published that has kicked off stays, read back from the last guide — each
+# match row's start, and the day's description naming its matches. When a
+# source failed this run, the published upcoming matches stay too.
+def published_matches(source_failed: bool, path: str = OUTPUT) -> list[dict]:
+    try:
+        root = ET.parse(path).getroot()
+    except (OSError, ET.ParseError):
+        return []
+    named = {v: k for k, v in {
+        "Serie A": competition_ar("Serie A"),
+        "Gulf Cup": competition_ar("Gulf Cup"),
+        "Primeira Liga": competition_ar("Primeira Liga"),
+        "Zain Premier League": competition_ar("Zain Premier League"),
+        "KSW": competition_ar("KSW"),
+    }.items()}
+    now = utc_now()
+    events = []
+    for p in root.findall("programme"):
+        if p.get("channel") != CHANNEL_ID:
+            continue
+        category = (p.findtext("category") or "").strip()
+        if not category or category == "Sports":
+            continue
+        try:
+            start = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z").astimezone(UTC)
+        except (TypeError, ValueError):
+            continue
+        if not in_window(start) or (start > now and not source_failed):
+            continue
+        shown = re.sub(r"[\u2066-\u2069\u200e\u200f]", "", p.findtext("title") or "")
+        for line in (p.findtext("desc") or "").splitlines():
+            if not line.startswith("• "):
+                continue
+            title, _, comp = line[2:].partition(" — ")
+            title = title.strip()
+            if title and title in shown and comp.strip() == category:
+                events.append({"start": start, "title": title,
+                               "competition": named.get(category, category),
+                               "source_name": "Published", "source": path,
+                               "duration_minutes": 135})
+    return events
+
+
 def parse_zain() -> list[dict]:
     # Official KFA page is the season/competition validation source.
     try:
@@ -885,18 +965,27 @@ def main():
     )
 
     events = []
+    source_failed = False
     try:
         events.extend(parse_shasha_channel())
     except Exception as exc:
+        source_failed = True
         warn(f"Shasha's own listing failed: {exc} — the other sources carry on")
     try:
-        events.extend(parse_shasha_upcoming())
+        upcoming = parse_shasha_upcoming()
+        source_failed = source_failed or not upcoming
+        events.extend(upcoming)
     except Exception as exc:
+        source_failed = True
         warn(f"The front page failed: {exc} — the other sources carry on")
     events.extend(parse_serie_a())
     events.extend(parse_zain())
     events.extend(parse_ksw())
-    events = dedupe(events)
+    listed = dedupe(events)
+    kept = published_matches(source_failed)
+    log(f"Already published and kept: {len(kept)}")
+    events = dedupe(listed + kept)
+    events = dedupe(events + announced_fixtures(events))
 
     log(f"Shasha total verified programmes: {len(events)}")
     for ev in events:
