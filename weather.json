@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T20:22:44.842Z",
+  "updated_at": "2026-10-01T20:28:29.994Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,13 +292,13 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 17.0,
-      "humidity": 62,
+      "humidity": 61,
       "wind_speed": 12.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-01T21:15",
-      "feels_c": 15.2,
+      "feels_c": 15.1,
       "utc_offset": 3600,
       "days": [
         {
@@ -312,7 +312,7 @@
           "date": "2026-10-02",
           "code": 3,
           "max": 20.5,
-          "min": 13.9,
+          "min": 14.0,
           "rain": 0
         },
         {
@@ -362,14 +362,14 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 14.5,
-      "humidity": 73,
-      "wind_speed": 7.6,
+      "temperature_c": 14.9,
+      "humidity": 65,
+      "wind_speed": 9.0,
       "rain_chance": 5,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-01T21:15",
-      "feels_c": 13.4,
+      "feels_c": 13.2,
       "utc_offset": 3600,
       "days": [
         {
@@ -383,7 +383,7 @@
           "date": "2026-10-02",
           "code": 53,
           "max": 19.0,
-          "min": 13.6,
+          "min": 13.7,
           "rain": 84
         },
         {
