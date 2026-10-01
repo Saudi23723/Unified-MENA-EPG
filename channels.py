@@ -50,6 +50,8 @@ BUILDS: tuple[str, ...] = (
     "news_epg",
     "weather_epg",
     "prayer_epg",
+    # The fourteenth channel — الفورمولا 1: one page, the race weekend.
+    "f1_epg",
 )
 
 
