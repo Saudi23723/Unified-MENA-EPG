@@ -203,11 +203,9 @@ DUBAI_SCREENS = (
     ("MultiSportDubai", GAMES_AR, "stream/dubai_multi_sport.m3u8",
      f"{RAW}/stream/dubai_multi_sport.m3u8",
      "🏅 Multi-Sport Games · بتوقيت الإمارات", GAMES_LOGO),
-    # الفورمولا 1 already prints Abu Dhabi's time beside the others, so
-    # this is the same reel under the second list's heading, like the
-    # prayer board, and only its id differs.
-    ("Formula1Dubai", F1_AR, "stream/f1.m3u8", f"{RAW}/stream/f1.m3u8",
-     "🏎️ Formula 1", F1_LOGO),
+    ("Formula1Dubai", F1_AR, "stream/dubai_f1.m3u8",
+     f"{RAW}/stream/dubai_f1.m3u8", "🏎️ Formula 1 · بتوقيت الإمارات",
+     F1_LOGO),
 
 )
 

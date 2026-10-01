@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""الفورمولا 1 — one page: this race weekend, in three clocks.
+"""الفورمولا 1 — one page: this race weekend, like the official card.
 
 Asked for in these words: a Formula 1 channel, simple, like the official
-race-weekend card — one page for the current or next race, each session
-in "my time / Abu Dhabi's time / the race's time". A session that is
-over is struck through; when the race day is over the page turns to the
-next Grand Prix.
+race-weekend card — one page for the current or next race. Two links, as
+every dashboard channel has: the main one in the reader's own time, the
+UAE one in the UAE's time only. A session that is over is struck through;
+when race day is over on that link's clock the page turns to the next
+Grand Prix.
 
 WHERE THE TIMES COME FROM. OpenF1 (api.openf1.org), which publishes every
 session of the season with its start, its end and the track's own UTC
@@ -17,9 +18,9 @@ back exactly. If OpenF1 does not answer, the Jolpica (Ergast) calendar
 gives the same UTC times, and the circuit's offset is kept from the last
 good reading; if neither answers, the last good reading is used whole.
 
-"MY TIME" is the reader's own clock — Henderson, Nevada, the same city
+"YOUR TIME" is the reader's own clock — Henderson, Nevada, the same city
 the prayer board carries for them (America/Los_Angeles, so it follows
-Pacific summer time by itself).
+Pacific summer time by itself). The UAE link is Asia/Dubai.
 
 NOTHING ON THE BOARD MOVES FASTER THAN A SESSION. The board changes when
 a session starts, when it ends and when the page turns — a handful of
@@ -29,7 +30,8 @@ matters).
 
     python f1_epg.py
 
-Writes f1_epg.xml, boards/f1_0.png and the fallback reading
+Writes f1_epg.xml and boards/f1_0.png (your time), dubai_f1_epg.xml and
+boards/dubai_f1_0.png (the UAE's), and the fallback reading
 f1_schedule.json.
 """
 from __future__ import annotations
@@ -63,18 +65,29 @@ BOARD_DIR = "boards"
 BOARD_PREFIX = "f1_"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/f1.png")
-RAW_BOARD = board_links.link(BOARD_PREFIX + "{n}.png")
 CACHE = "f1_schedule.json"
 
 OPENF1_SESSIONS = "https://api.openf1.org/v1/sessions"
 OPENF1_MEETINGS = "https://api.openf1.org/v1/meetings"
 JOLPICA = "https://api.jolpi.ca/ergast/f1/{year}.json"
 
-# The three clocks, left to right as asked: mine, Abu Dhabi's, the race's.
+# ONE CLOCK A LINK, as asked: the main link in the reader's own time, the
+# UAE link in the UAE's time and nothing else — the same two sets every
+# other dashboard channel comes in.
 MINE = ZoneInfo("America/Los_Angeles")
-MINE_NAME = "وقتي · هندرسون"
-ABU_DHABI = ZoneInfo("Asia/Dubai")
-ABU_DHABI_NAME = "أبو ظبي"
+MINE_NAME = "بتوقيتك"
+DUBAI = ZoneInfo("Asia/Dubai")
+DUBAI_NAME = "بتوقيت الإمارات"
+
+DUBAI_OUTPUT = "dubai_f1_epg.xml"
+DUBAI_CHANNEL_ID = "Formula1Dubai"
+DUBAI_BOARD_PREFIX = "dubai_f1_"
+
+# (clock, its name on the board, guide file, channel id, board prefix)
+CLOCKS = (
+    (MINE, MINE_NAME, OUTPUT, CHANNEL_ID, BOARD_PREFIX),
+    (DUBAI, DUBAI_NAME, DUBAI_OUTPUT, DUBAI_CHANNEL_ID, DUBAI_BOARD_PREFIX),
+)
 
 # How each session is called on the card, the way the official card
 # calls it.
@@ -290,19 +303,20 @@ def race_of(weekend: dict) -> dict:
     return [s for s in weekend["sessions"] if s["code"] == "RACE"][-1]
 
 
-def page_turns(weekend: dict) -> datetime:
-    """The end of race day on the reader's clock — when the page turns."""
+def page_turns(weekend: dict, clock=MINE) -> datetime:
+    """The end of race day on the viewer's clock — when the page turns."""
     race = race_of(weekend)
     end = max(when(race["start"]) + timedelta(hours=2), when(race["stop"]))
-    day = end.astimezone(MINE).date()
+    day = end.astimezone(clock).date()
     return datetime(day.year, day.month, day.day,
-                    tzinfo=MINE).astimezone(UTC) + timedelta(days=1)
+                    tzinfo=clock).astimezone(UTC) + timedelta(days=1)
 
 
-def on_the_page(weekends: list[dict], now: datetime) -> dict | None:
+def on_the_page(weekends: list[dict], now: datetime,
+                clock=MINE) -> dict | None:
     """The weekend under way, or the next one."""
-    ahead = [w for w in weekends if page_turns(w) > now]
-    return min(ahead, key=page_turns) if ahead else None
+    ahead = [w for w in weekends if page_turns(w, clock) > now]
+    return min(ahead, key=lambda w: page_turns(w, clock)) if ahead else None
 
 
 def state_of(session: dict, now: datetime) -> str:
@@ -320,25 +334,18 @@ def stamp(moment: datetime, zone) -> tuple[str, str]:
     return DAYS_AR[here.weekday()], f"{here:%H:%M}"
 
 
-def track_zone(weekend: dict):
-    return timezone(timedelta(minutes=weekend["offset"]))
-
-
-def utc_label(minutes: int) -> str:
-    sign = "+" if minutes >= 0 else "-"
-    hours, mins = divmod(abs(minutes), 60)
-    return f"UTC{sign}{hours}" + (f":{mins:02d}" if mins else "")
-
-
-def draw_board(weekend: dict | None, now: datetime) -> Image.Image:
+def draw_board(weekend: dict | None, now: datetime, clock=MINE,
+               clock_name: str = MINE_NAME) -> Image.Image:
+    """The weekend card: each session, its day and its time — one clock."""
     board = backdrop()
     pen = ImageDraw.Draw(board)
     draw_signature(pen)
 
-    # The red bars either side of the title, as on the official card.
+    # The red bar beside the title, as on the official card.
     pen.rounded_rectangle([PAD, PAD + 4, PAD + 14, PAD + 74], radius=4,
                           fill=RED)
-    draw_text(pen, (PAD + 32, PAD - 2), CHANNEL_AR, 30, MUTED, thin=True)
+    draw_text(pen, (PAD + 32, PAD - 2), f"{CHANNEL_AR} · {clock_name}", 30,
+              MUTED, thin=True)
 
     if weekend is None:
         draw_text(pen, (W // 2, H // 2), "لا يوجد سباق معلن", 34, MUTED,
@@ -361,23 +368,16 @@ def draw_board(weekend: dict | None, now: datetime) -> Image.Image:
     top = PAD + 122
     rule(pen, top, RED)
 
-    # Columns: the session, then the three clocks, each with its own day —
-    # a session on Friday at the track is Thursday night in Nevada.
-    zone = track_zone(weekend)
-    columns = (
-        (MINE, MINE_NAME),
-        (ABU_DHABI, ABU_DHABI_NAME),
-        (zone, f"وقت السباق · {utc_label(weekend['offset'])}"),
-    )
-    session_w = 330
-    col_w = (W - 2 * PAD - session_w) // 3
+    # SESSION · DAY · TIME, the official card's three columns.
+    day_x = PAD + 470
+    time_x = W - PAD - 10
     head_y = top + 26
     draw_text(pen, (PAD + 6, head_y), "SESSION", 19, MUTED, anchor="lm",
               weight="heavy")
-    for index, (_zone, name) in enumerate(columns):
-        cx = PAD + session_w + index * col_w + col_w // 2
-        draw_text(pen, (cx, head_y), name, size_that_fits(name, 21, 14,
-                  col_w - 16), MUTED, anchor="mm", weight="heavy")
+    draw_text(pen, (day_x, head_y), "اليوم", 20, MUTED, anchor="mm",
+              weight="heavy")
+    draw_text(pen, (time_x, head_y), clock_name, 20, MUTED, anchor="rm",
+              weight="heavy")
 
     sessions = weekend["sessions"]
     room = H - (head_y + 24) - PAD
@@ -392,27 +392,26 @@ def draw_board(weekend: dict | None, now: datetime) -> Image.Image:
                               width=3 if state == "live" else 1)
         mid = y + (height - 8) // 2
         ink = STRUCK if state == "done" else WHITE
-        accent = STRUCK if state == "done" else RED
 
         code = session["code"]
         draw_text(pen, (PAD + 6, mid - 12), code, 32, ink, anchor="lm",
                   weight="heavy")
-        under = SESSION_AR.get(code, "")
-        if state == "live":
-            under = "مباشر الآن"
+        under = "مباشر الآن" if state == "live" else SESSION_AR.get(code, "")
         draw_text(pen, (PAD + 6, mid + 22), under, 17,
                   LIVE if state == "live" else (STRUCK if state == "done"
                                                 else MUTED),
                   anchor="lm", thin=state != "live")
 
-        start = when(session["start"])
-        for slot, (clock, _name) in enumerate(columns):
-            cx = PAD + session_w + slot * col_w + col_w // 2
-            day, hhmm = stamp(start, clock)
-            draw_text(pen, (cx, mid - 14), hhmm, 34, accent if slot == 2
-                      else ink, anchor="mm", weight="heavy")
-            draw_text(pen, (cx, mid + 22), day, 17, MUTED if state != "done"
-                      else STRUCK, anchor="mm", thin=True)
+        day, hhmm = stamp(when(session["start"]), clock)
+        here = when(session["start"]).astimezone(clock)
+        draw_text(pen, (day_x, mid - 10), day, 30, ink, anchor="mm",
+                  weight="heavy")
+        draw_text(pen, (day_x, mid + 22), f"{here:%d.%m}", 17,
+                  STRUCK if state == "done" else MUTED, anchor="mm",
+                  thin=True)
+        draw_text(pen, (time_x, mid), hhmm, 44,
+                  STRUCK if state == "done" else RED, anchor="rm",
+                  weight="heavy")
 
         if state == "done":
             pen.line([(PAD, mid), (W - PAD, mid)], fill=STRUCK, width=3)
@@ -421,56 +420,53 @@ def draw_board(weekend: dict | None, now: datetime) -> Image.Image:
     return board
 
 
-def draw_page(weekend: dict | None, now: datetime) -> None:
+def draw_page(weekend: dict | None, now: datetime, clock, clock_name: str,
+              prefix: str) -> None:
     os.makedirs(BOARD_DIR, exist_ok=True)
-    draw_board(weekend, now).convert("RGB").save(
-        os.path.join(BOARD_DIR, f"{BOARD_PREFIX}0.png"))
-    forget_boards_past(BOARD_PREFIX, 1, BOARD_DIR)
+    draw_board(weekend, now, clock, clock_name).convert("RGB").save(
+        os.path.join(BOARD_DIR, f"{prefix}0.png"))
+    forget_boards_past(prefix, 1, BOARD_DIR)
 
 
 # ------------------------------------------------------------------ guide
 
-def describe(weekend: dict) -> str:
-    zone = track_zone(weekend)
-    lines = [weekend["official"] or weekend["name"], ""]
+def describe(weekend: dict, clock, clock_name: str) -> str:
+    lines = [weekend["official"] or weekend["name"], clock_name, ""]
     for session in weekend["sessions"]:
-        start = when(session["start"])
-        mine = " ".join(stamp(start, MINE))
-        abu = " ".join(stamp(start, ABU_DHABI))
-        local = " ".join(stamp(start, zone))
-        lines.append(f"{session['code']} — وقتي {mine} · أبو ظبي {abu} · "
-                     f"الحلبة {local}")
+        day, hhmm = stamp(when(session["start"]), clock)
+        lines.append(f"{session['code']} — {day} {hhmm}")
     return "\n".join(lines)
 
 
-def write_guide(weekends: list[dict], now: datetime) -> bool:
+def write_guide(weekends: list[dict], now: datetime, clock, clock_name: str,
+                output: str, channel_id: str, prefix: str) -> bool:
     tv = ET.Element("tv", {"generator-info-name": CHANNEL_EN})
-    channel = ET.SubElement(tv, "channel", {"id": CHANNEL_ID})
+    channel = ET.SubElement(tv, "channel", {"id": channel_id})
     ET.SubElement(channel, "icon", {"src": LOGO})
     ET.SubElement(channel, "display-name", {"lang": "ar"}).text = CHANNEL_AR
     ET.SubElement(channel, "display-name", {"lang": "en"}).text = CHANNEL_EN
 
-    icon = RAW_BOARD.format(n=0)
+    icon = board_links.link(f"{prefix}0.png")
     floor = now - GUIDE_BACK
     cursor = floor.replace(minute=0, second=0, microsecond=0)
-    for weekend in sorted(weekends, key=page_turns):
-        if page_turns(weekend) <= floor:
+    for weekend in sorted(weekends, key=lambda w: page_turns(w, clock)):
+        if page_turns(weekend, clock) <= floor:
             continue
-        desc = describe(weekend)
+        desc = describe(weekend, clock, clock_name)
         for session in weekend["sessions"]:
             start, stop = when(session["start"]), when(session["stop"])
             if stop <= cursor:
                 continue
             start = max(start, cursor)
             if start > cursor:
-                add_programme(tv, CHANNEL_ID, cursor, start,
+                add_programme(tv, channel_id, cursor, start,
                               title=f"🏁 {weekend['name']}", desc=desc,
                               icon=icon)
-            add_programme(tv, CHANNEL_ID, start, stop,
+            add_programme(tv, channel_id, start, stop,
                           title=f"🏎️ {session['code']} · {weekend['name']}",
                           desc=desc, icon=icon, live_eligible=True, now=now)
             cursor = stop
-    return write_xml_atomic(tv, OUTPUT, generator_name=CHANNEL_EN,
+    return write_xml_atomic(tv, output, generator_name=CHANNEL_EN,
                             guard_regression=False, min_programmes=1)
 
 
@@ -478,15 +474,18 @@ def build() -> int:
     now = datetime.now(UTC)
     weekends = season(new_session(), now)
     if not weekends:
-        warn("no Formula 1 calendar to show — the published board and guide "
-             "are left exactly as they were")
+        warn("no Formula 1 calendar to show — the published boards and "
+             "guides are left exactly as they were")
         return 1
-    weekend = on_the_page(weekends, now)
-    draw_page(weekend, now)
-    if weekend:
-        log(f"  on the page: {weekend['name']} (round {weekend['round']}), "
-            f"turns {page_turns(weekend):%Y-%m-%d %H:%M} UTC")
-    ok = write_guide(weekends, now)
+    ok = True
+    for clock, name, output, channel_id, prefix in CLOCKS:
+        weekend = on_the_page(weekends, now, clock)
+        draw_page(weekend, now, clock, name, prefix)
+        if weekend:
+            log(f"  {name}: {weekend['name']} (round {weekend['round']}), "
+                f"turns {page_turns(weekend, clock):%Y-%m-%d %H:%M} UTC")
+        ok = write_guide(weekends, now, clock, name, output, channel_id,
+                         prefix) and ok
     return 0 if ok else 1
 
 
