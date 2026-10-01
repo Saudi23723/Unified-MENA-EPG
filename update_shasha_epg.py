@@ -896,50 +896,55 @@ def write_xml(events: list[dict]) -> None:
         d = ev["start"].astimezone(UTC).date()
         by_day.setdefault(d, []).append(ev)
 
-    for offset in range((last_day - first_day).days + 1):
-        d = first_day + timedelta(days=offset)
-        day_events = sorted(by_day.get(d, []), key=lambda x: x["start"])
-        desc = build_day_description(d, day_events)
+    # ONE TIMELINE, NOT ONE PER DAY. The wait between matches used to be cut
+    # at every midnight UTC, so a viewer anywhere else saw a fresh "next
+    # match" row each day at an odd hour (17:00 on a Pacific clock) — a
+    # boundary that is nobody's midnight. The guide's times are absolute and
+    # the player draws its own days, so a wait is one row from the end of
+    # one match to the countdown before the next, whatever dates it crosses.
+    window_start = datetime(first_day.year, first_day.month, first_day.day,
+                            tzinfo=UTC)
+    window_end = datetime(last_day.year, last_day.month, last_day.day,
+                          tzinfo=UTC) + timedelta(days=1)
 
-        day_start = datetime(d.year, d.month, d.day, 0, 0, tzinfo=UTC)
-        day_end = day_start + timedelta(days=1)
+    def desc_for(moment: datetime) -> str:
+        d = moment.astimezone(UTC).date()
+        return build_day_description(d, sorted(by_day.get(d, []),
+                                               key=lambda x: x["start"]))
 
-        day_slots = [s for s in slot_starts if day_start <= s < day_end]
+    def wait(gap_start: datetime, gap_stop: datetime) -> None:
+        upcoming = next_slot_after(gap_start)
+        add_countdown(gap_start, gap_stop,
+                      desc_for(upcoming if upcoming and upcoming < gap_stop
+                               else gap_start))
 
-        if not day_slots:
-            add_countdown(day_start, day_end, desc)
+    cursor = window_start
+    window_slots = [s for s in slot_starts if window_start <= s < window_end]
+    for index, slot_start in enumerate(window_slots):
+        if slot_start > cursor:
+            wait(cursor, slot_start)
+
+        group = slots[slot_start]
+        duration = max(int(ev.get("duration_minutes", 135)) for ev in group)
+        limit = window_end
+        if index + 1 < len(window_slots):
+            limit = min(limit, window_slots[index + 1])
+        slot_stop = min(slot_start + timedelta(minutes=duration), limit)
+        if slot_stop <= cursor:
             continue
 
-        cursor = day_start
+        add_programme(
+            root,
+            max(slot_start, cursor),
+            slot_stop,
+            with_live_badge(slot_title(slot_start)),
+            desc_for(slot_start),
+            category=competition_ar(group[0]["competition"]),
+        )
+        cursor = max(cursor, slot_stop)
 
-        for index, slot_start in enumerate(day_slots):
-            if slot_start > cursor:
-                add_countdown(cursor, slot_start, desc)
-
-            group = slots[slot_start]
-            duration = max(int(ev.get("duration_minutes", 135)) for ev in group)
-
-            limit = day_end
-            if index + 1 < len(day_slots):
-                limit = min(limit, day_slots[index + 1])
-
-            slot_stop = min(slot_start + timedelta(minutes=duration), limit)
-            if slot_stop <= cursor:
-                continue
-
-            add_programme(
-                root,
-                max(slot_start, cursor),
-                slot_stop,
-                with_live_badge(slot_title(slot_start)),
-                desc,
-                category=competition_ar(group[0]["competition"]),
-            )
-
-            cursor = max(cursor, slot_stop)
-
-        if cursor < day_end:
-            add_countdown(cursor, day_end, desc)
+    if cursor < window_end:
+        wait(cursor, window_end)
 
     add_the_three_feeds(root)
 
