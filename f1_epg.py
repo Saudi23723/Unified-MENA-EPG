@@ -205,7 +205,7 @@ def from_jolpica(session, year: int, known: list[dict]) -> list[dict]:
 
 
 def official_rounds(session, weekends: list[dict], now: datetime) -> None:
-    """The series' own round numbers, matched by race day.
+    """The series' own round numbers and names, matched by race day.
 
     OpenF1 lists meetings that were moved or called off beside the ones
     that replaced them, so counting its weekends is not the round. Jolpica
@@ -220,11 +220,20 @@ def official_rounds(session, weekends: list[dict], now: datetime) -> None:
             log(f"  round numbers for {year}: Jolpica did not answer ({exc})")
             continue
         for race in body["MRData"]["RaceTable"]["Races"]:
-            rounds[race["date"]] = int(race.get("round") or 0)
+            rounds[race["date"]] = race
     for weekend in weekends:
-        found = rounds.get(race_of(weekend)["start"][:10])
-        if found:
-            weekend["round"] = found
+        race = rounds.get(race_of(weekend)["start"][:10])
+        if not race:
+            continue
+        weekend["round"] = int(race.get("round") or weekend["round"])
+        # The race as the calendar names it, and where it is run. OpenF1
+        # files a moved race under its old meeting: the 2026 Sepang round
+        # is "Bahrain Grand Prix" in "Bahrain" there, and "Bahrain Grand
+        # Prix in Malaysia" in Kuala Lumpur, Malaysia on the calendar.
+        location = race.get("Circuit", {}).get("Location", {})
+        weekend["name"] = race.get("raceName") or weekend["name"]
+        weekend["location"] = location.get("locality") or weekend["location"]
+        weekend["country"] = location.get("country") or weekend["country"]
 
 
 def cached() -> list[dict]:
