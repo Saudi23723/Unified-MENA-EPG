@@ -76,6 +76,7 @@ import pfl_events
 import brave_cf
 import uae_warriors
 import hype_fc
+import rws
 import ufc_bjj
 import beach_volley_fivb
 import womens_volley_fivb
@@ -290,6 +291,9 @@ IN_ORDER = (
     # grid's "boks" — because no federation calendar for it can be read
     # from a runner; see wrestling_uww.py for what was measured.
     "Wrestling",
+    # And Muay Thai, for RWS — the Rajadamnern World Series, asked for
+    # by name. At the end, nothing above it moved. See rws.py.
+    "Muay Thai",
 )
 RANK = {sport: place for place, sport in enumerate(IN_ORDER)}
 
@@ -1848,6 +1852,8 @@ def collect(session, floor: datetime, ceiling: datetime) -> list[dict]:
         # And HYPE FC, asked for by name. It publishes no readable
         # calendar, so its announced cards are kept in hype_fc.py.
         everything += hype_fc.events(session, floor, ceiling)
+        # And RWS, the Saturday Muay Thai night at Rajadamnern, on DAZN.
+        everything += rws.events(session, floor, ceiling)
         # AND UFC BJJ, the UFC's own grappling cards, asked for by name:
         # "why doesn't channel 2 have the UFC BJJ events?". No listings
         # page carries them; ufc.com/ufcbjj leads with the next card, its
