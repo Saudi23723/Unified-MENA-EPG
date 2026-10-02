@@ -1094,6 +1094,8 @@ ON_AIR_BY_SPORT = {
     "WRC": timedelta(hours=4),
     "Boxing": timedelta(hours=5),
     "MMA": timedelta(hours=5),
+    # RWS runs 19:10 to about 22:00 in Bangkok.
+    "Muay Thai": timedelta(hours=3),
     # A wrestling row is either a pro card, which runs three hours and
     # some, or a championship DAY from the federation's calendar, whose
     # sessions run from the morning qualification to the evening finals.
