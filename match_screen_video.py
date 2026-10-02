@@ -404,7 +404,11 @@ def boards(prefix: str) -> list[str]:
 #       stand for Mixkit track 568, "Focus on Yourself", the same
 #       140.000 s -20 LUFS recipe. The dubai_news screen shares the
 #       file, so both news screens change together.
-ENCODER_REVISION = 14
+#   15  the music switched off on every screen, asked for in those words
+#       ("disable all the audios on the dashboard channels"): MUSIC_ON
+#       below. Every segment is re-encoded with the silent track it had
+#       before the themes, so nothing keeps playing the old music.
+ENCODER_REVISION = 15
 
 # TWELVE FRAMES A SECOND, AND A KEYFRAME EVERY TWO.
 #
@@ -467,6 +471,13 @@ KEYFRAME_SECONDS = 2
 # expects it, the segment is encoded exactly as revision 6 encoded it,
 # and the picture is untouched either way.
 THEME = "audio/theme.m4a"      # kept as the shared fallback
+
+# THE MUSIC IS OFF, on every screen, asked for in those words: "disable
+# all the audios on the dashboard channels without breaking anything".
+# Off means the silent track below, not no track — a player with no audio
+# at all can sit on a black screen. The themes and THEMES stay as they
+# are, so turning it back on is this one word and a revision bump.
+MUSIC_ON = False
 THEMES = {
     "today_matches": "audio/theme_matches.m4a",
     "other_sports": "audio/theme_sports.m4a",
@@ -920,7 +931,7 @@ def encode_segment(board: str, out: str, place: int = 0,
     #              and the head of the next, concatenated — the seam is
     #              the one the theme file was built to hide
     #   silent     audio/theme.m4a is missing and the picture is the thing
-    if os.path.exists(THEME):
+    if MUSIC_ON and os.path.exists(THEME):
         if end <= THEME_LAP + 0.000001:
             inputs = ["-i", THEME]
             filters = [
