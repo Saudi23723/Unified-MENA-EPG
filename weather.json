@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T07:34:02.582Z",
+  "updated_at": "2026-10-03T07:39:40.484Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,11 +292,11 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 13.5,
-      "humidity": 86,
+      "humidity": 87,
       "wind_speed": 5.0,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-10-03T08:30",
       "feels_c": 13.2,
       "utc_offset": 3600,
@@ -319,12 +319,12 @@
           "date": "2026-10-05",
           "code": 2,
           "max": 20.2,
-          "min": 14.1,
+          "min": 13.7,
           "rain": 0
         },
         {
           "date": "2026-10-06",
-          "code": 61,
+          "code": 53,
           "max": 19.9,
           "min": 15.1,
           "rain": 19
@@ -345,7 +345,7 @@
         },
         {
           "date": "2026-10-09",
-          "code": 55,
+          "code": 51,
           "max": 18.8,
           "min": 15.2,
           "rain": 27
@@ -363,13 +363,13 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 12.5,
-      "humidity": 77,
+      "humidity": 85,
       "wind_speed": 6.1,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-10-03T08:30",
-      "feels_c": 11.3,
+      "feels_c": 11.7,
       "utc_offset": 3600,
       "days": [
         {
@@ -390,12 +390,12 @@
           "date": "2026-10-05",
           "code": 51,
           "max": 19.4,
-          "min": 15.2,
+          "min": 14.7,
           "rain": 51
         },
         {
           "date": "2026-10-06",
-          "code": 51,
+          "code": 53,
           "max": 15.7,
           "min": 10.9,
           "rain": 55
@@ -409,7 +409,7 @@
         },
         {
           "date": "2026-10-08",
-          "code": 53,
+          "code": 61,
           "max": 15.0,
           "min": 8.9,
           "rain": 21
