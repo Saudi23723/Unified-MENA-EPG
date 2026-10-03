@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T09:51:09.673Z",
+  "updated_at": "2026-10-03T09:59:31.189Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,56 +7,56 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 25.6,
-      "humidity": 29,
+      "temperature_c": 25.7,
+      "humidity": 30,
       "wind_speed": 18.9,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-03T12:45",
-      "feels_c": 23.4,
+      "feels_c": 23.7,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-10-03",
           "code": 3,
-          "max": 26.0,
+          "max": 26.5,
           "min": 16.2,
           "rain": 0
         },
         {
           "date": "2026-10-04",
           "code": 2,
-          "max": 27.2,
-          "min": 18.0,
+          "max": 26.6,
+          "min": 17.7,
           "rain": 0
         },
         {
           "date": "2026-10-05",
           "code": 3,
-          "max": 24.3,
-          "min": 14.9,
+          "max": 23.9,
+          "min": 14.6,
           "rain": 0
         },
         {
           "date": "2026-10-06",
           "code": 3,
-          "max": 23.9,
-          "min": 15.0,
+          "max": 23.8,
+          "min": 14.7,
           "rain": 5
         },
         {
           "date": "2026-10-07",
           "code": 2,
-          "max": 24.9,
-          "min": 14.0,
+          "max": 25.5,
+          "min": 14.5,
           "rain": 0
         },
         {
           "date": "2026-10-08",
           "code": 1,
           "max": 28.5,
-          "min": 16.4,
+          "min": 17.4,
           "rain": 0
         },
         {
@@ -67,7 +67,7 @@
           "rain": 0
         }
       ],
-      "today_max": 26.0,
+      "today_max": 26.5,
       "today_min": 16.2,
       "sunrise": "06:31",
       "sunset": "18:18",
@@ -78,47 +78,47 @@
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 33.6,
-      "humidity": 23,
+      "temperature_c": 33.7,
+      "humidity": 24,
       "wind_speed": 2.8,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-03T12:45",
-      "feels_c": 34.8,
+      "feels_c": 35.1,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-10-03",
           "code": 3,
-          "max": 34.6,
+          "max": 34.5,
           "min": 24.7,
           "rain": 3
         },
         {
           "date": "2026-10-04",
           "code": 1,
-          "max": 33.9,
-          "min": 24.4,
+          "max": 33.4,
+          "min": 23.8,
           "rain": 0
         },
         {
           "date": "2026-10-05",
           "code": 3,
-          "max": 31.8,
-          "min": 23.0,
+          "max": 31.5,
+          "min": 22.4,
           "rain": 0
         },
         {
           "date": "2026-10-06",
           "code": 3,
-          "max": 29.6,
-          "min": 24.1,
+          "max": 29.5,
+          "min": 24.0,
           "rain": 8
         },
         {
           "date": "2026-10-07",
-          "code": 2,
+          "code": 3,
           "max": 31.7,
           "min": 22.0,
           "rain": 1
@@ -127,7 +127,7 @@
           "date": "2026-10-08",
           "code": 1,
           "max": 33.6,
-          "min": 24.0,
+          "min": 23.6,
           "rain": 0
         },
         {
@@ -138,7 +138,7 @@
           "rain": 0
         }
       ],
-      "today_max": 34.6,
+      "today_max": 34.5,
       "today_min": 24.7,
       "sunrise": "06:34",
       "sunset": "18:23",
@@ -732,7 +732,7 @@
           "code": 61,
           "max": 24.8,
           "min": 21.4,
-          "rain": 47
+          "rain": 54
         },
         {
           "date": "2026-10-04",
