@@ -33,6 +33,9 @@ ELCINEMA_ID = 1298
 XMLTV_ID = "AmmanTV.jo"
 NAMES = ("Amman TV", "Amman TV HD", "JO| Amman TV", "AmmanTV", "Amman")
 ARABIC = "قناة عمّان"
+# The channel's own mark, from its site (ammantv.net/apple-icon.png).
+LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+        "main/logos/amman_tv.png")
 KEEP_BEHIND = timedelta(hours=12)
 
 
@@ -62,6 +65,7 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
     for name in NAMES:
         ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
     ET.SubElement(ch, "display-name", {"lang": "ar"}).text = ARABIC
+    ET.SubElement(ch, "icon", {"src": LOGO})
     for row in rows:
         add_programme(root, XMLTV_ID, row["start"], row["stop"],
                       row["title"], f"{ARABIC} — {row['title']}")
