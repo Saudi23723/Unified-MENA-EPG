@@ -4057,6 +4057,11 @@ def gate_a_simulcast_is_not_a_second_channel() -> None:
     # place its events are filtered.
     from datetime import datetime, timedelta, timezone
     now = datetime.now(timezone.utc)
+    # On a real session's minute: an F1 row nowhere near one is a replay
+    # and is refused before simulcasts are ever looked at.
+    ahead = [s for s in sports.f1_sessions() if s > now]
+    if ahead:
+        now = min(ahead) - timedelta(hours=1)
     row = {"start": now + timedelta(hours=1), "sport": "F1",
            "title": "Italian Grand Prix Practice 1",
            "channels": ["Sky Sports F1", "Sky Sports Ultra HDR"]}

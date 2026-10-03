@@ -767,6 +767,14 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
     # does not stop at all.
     LONGEST_EVENT = timedelta(hours=9)
 
+    # AND HOW SHORT. A fight card runs an evening — RFC's live night on
+    # Roya TV was three and a half hours. A half-hour "بطولة RFC" in a
+    # Saturday-night slot is the promotion's magazine or a recap, and the
+    # board is for live events only, asked for in those words more than
+    # once ("only Upcoming Live Events, not replays"). Ninety minutes is
+    # shorter than any card and longer than any recap.
+    SHORTEST_EVENT = timedelta(minutes=90)
+
     out: list[dict] = []
     for path, mark, names_it, sport, competition, preferred_channel in OUR_OWN_FIGHTS:
         # EVERY BLOCK THIS GUIDE PUBLISHES FOR THE COMPETITION, in order.
@@ -845,6 +853,12 @@ def fights_our_guides_have(floor=None, ceiling=None) -> list[dict]:
                     f"{(airing['stop'] - airing['start']).seconds // 3600}h "
                     f"from {airing['start']:%d.%m %H:%M} -- a loop, not an "
                     f"event, so no row")
+                continue
+            if airing["stop"] - airing["start"] < SHORTEST_EVENT:
+                log(f"  {os.path.basename(path)}: {competition} at "
+                    f"{airing['start']:%d.%m %H:%M} runs "
+                    f"{(airing['stop'] - airing['start']).seconds // 60} min "
+                    f"-- a show about it, not the event, so no row")
                 continue
             # ONE ROW, AT THE MOMENT IT STARTS. Not one per day it
             # touches: an event that runs past midnight is still one
