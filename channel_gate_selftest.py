@@ -6774,6 +6774,33 @@ def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
     check("ROYA", "unresolved, the same rows are refused", refused, True)
 
 
+def gate_the_show_around_a_session_is_not_live() -> None:
+    """"فقط ال live" — the hour of studio either side of a session is not it.
+
+    The second channel printed "2026 Formula 1 Pre-Qualifying: Bahrain
+    Grand Prix" as a live event, beside the qualifying it was about (3
+    October 2026). Every board that reads a broadcaster grid — other
+    sports, the big games, ball, hoops, Turkish — refuses through one
+    rule, other_sports_epg.a_live_event, so the rule is held here.
+    """
+    print("\nThe show around a session is not live — one rule, every board")
+    import other_sports_epg as base
+    for title in ("2026 Formula 1 Pre-Qualifying: Bahrain Grand Prix",
+                  "F1 Pre-Race Show", "Post-Race Analysis", "NFL Pregame",
+                  "Postgame Live", "Pre-Match: Arsenal v Chelsea",
+                  "MotoGP Pre-Race", "F1 Post Qualifying", "Pre-Sprint",
+                  "UFC 332 Countdown", "Bahrain Grand Prix Highlights"):
+        check("NOT LIVE", title, base.a_live_event(title), False)
+    for title in ("Bahrain Grand Prix Qualifying - Sakhir",
+                  "2026 Formula 1 Qualifying: Bahrain Grand Prix",
+                  "UFC 332 Prelims", "UFC 332", "Bahrain Grand Prix Race",
+                  "NFL Preseason: Bears vs Bills", "Shenzhen Open 2026",
+                  "MotoGP Grand Prix of Japan Race", "Çeyrek Final Maç 1",
+                  "Presidents Cup", "Premier League: Arsenal v Chelsea",
+                  "Postecoglou's Spurs v City"):
+        check("LIVE", title, base.a_live_event(title), True)
+
+
 def gate_a_game_being_played_is_a_live_event() -> None:
     """The two ball channels were dropping exactly what was on now.
 
@@ -6951,6 +6978,7 @@ def main() -> int:
                  gate_the_youth_competition_asked_for_by_name,
                  gate_one_clashing_pair_does_not_cost_a_whole_guide,
                  gate_a_game_being_played_is_a_live_event,
+                 gate_the_show_around_a_session_is_not_live,
                  gate_womens_international_volleyball_is_on_channel_two):
         try:
             gate()

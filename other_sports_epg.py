@@ -321,6 +321,13 @@ def day_bounds(day: date) -> tuple[datetime, datetime]:
 # Asked for outright: "make sure it's only LIVE event, not recorded and
 # not a program". So a title that names itself a programme is refused
 # before anything else looks at it.
+#
+# The studio hour either side of a session counts as talk too: "2026
+# Formula 1 Pre-Qualifying: Bahrain Grand Prix" went out on beIN 8 and
+# TSN5 an hour before the real qualifying, and the board drew it as live
+# (3 October 2026). Pre-/post- anything a session is called (race,
+# qualifying, sprint, game, match, fight...) is the show around it.
+# "Prelims" and "Preseason" are fights and games being played — kept.
 NOT_LIVE = re.compile(
     r"\b(preview|review|recap|rewind|replay|highlights?|encore|"
     r"classic(?:s)?|vintage|archive|throwback|best\s+of|top\s+\d+|"
@@ -328,6 +335,8 @@ NOT_LIVE = re.compile(
     r"documentary|film|story|profile|special\s+report|"
     r"countdown|build[- ]?up|pre[- ]?(?:game|match|fight)\s*show|"
     r"post[- ]?(?:game|match|fight)\s*show|weigh[- ]?in|press\s+conference|"
+    r"(?:pre|post)[- ]?(?:game|match|fight|race|qualifying|quali|sprint|"
+    r"session|practice|grid|kick[- ]?off)s?|"
     r"sportscenter|sports\s*center|daily|weekly|this\s+week\s+in|"
     r"season\s+preview|30\s+for\s+30|embedded|countdown\s+to)\b"
     r"|\bshow\b", re.I)
