@@ -354,9 +354,55 @@ def a_live_event(title: str) -> bool:
     return not NOT_LIVE.search(title or "")
 
 
+# FORMULA 1 IS HELD TO ITS OWN TIMETABLE. Only live, asked for again and
+# again: the board printed "2026 Formula 1 Qualifying: Bahrain Grand Prix"
+# at 13:00 UTC on beIN 8 and TSN5 — five hours after the session — beside
+# the real one at 08:00, and nothing in its title says replay. The series'
+# own session times (f1_schedule.json, kept by f1_epg.py from OpenF1) say
+# when a session is live; an F1 row that starts nowhere near one is a
+# replay. The pre-show an hour ahead still counts, a row half an hour late
+# still counts, five hours late does not.
+A_FORMULA_ONE = re.compile(r"\bformula\s*(?:one|1)\b|\bf1\b", re.I)
+A_OTHER_SERIES = re.compile(r"\bf[234]\b|formula\s*[234]\b|academy", re.I)
+LIVE_BEFORE = timedelta(minutes=90)
+LIVE_AFTER = timedelta(minutes=30)
+_F1_SESSIONS: list[datetime] | None = None
+
+
+def f1_sessions() -> list[datetime]:
+    """Every F1 session start the series has published, or []."""
+    global _F1_SESSIONS                                     # noqa: PLW0603
+    if _F1_SESSIONS is None:
+        _F1_SESSIONS = []
+        try:
+            with open("f1_schedule.json", encoding="utf-8") as handle:
+                for weekend in json.load(handle).get("weekends") or []:
+                    for session in weekend.get("sessions") or []:
+                        _F1_SESSIONS.append(datetime.fromisoformat(
+                            session["start"]).astimezone(UTC))
+        except (OSError, ValueError, KeyError) as exc:
+            warn(f"f1_schedule.json unreadable ({exc}) — F1 rows unchecked")
+    return _F1_SESSIONS
+
+
+def an_f1_replay(event: dict) -> bool:
+    title = f"{event.get('title') or ''} {event.get('competition') or ''}"
+    if event.get("sport") != "F1" and not A_FORMULA_ONE.search(title):
+        return False
+    if A_OTHER_SERIES.search(title):
+        return False
+    sessions = f1_sessions()
+    if not sessions:
+        return False
+    start = event["start"].astimezone(UTC)
+    return not any(-LIVE_BEFORE <= start - s <= LIVE_AFTER for s in sessions)
+
+
 def an_obvious_rebroadcast(event: dict) -> bool:
     """Reject clean-title reruns whose calendar day proves they are reruns."""
     title = event.get("title") or ""
+    if an_f1_replay(event):
+        return True
     weekday = event["start"].astimezone(VIEWER).weekday()
     if A_REBROADCAST_F1_RACE.search(title) and weekday in (0, 1, 2):
         return True
