@@ -29,8 +29,8 @@ carries every Roya-group channel's full-day programme list (title,
 description, thumbnail, unix start/stop). Nothing here is invented —
 every field comes straight from that API.
 
-Honesty note: Jordan TV (الأردني), Al Mamlaka (المملكة), Amman TV (عمان)
-and other non-Roya Jordanian channels are deliberately NOT included here.
+Honesty note: Al Mamlaka (المملكة) and other non-Roya Jordanian channels
+are deliberately NOT included here.
 sat.tv (a general Arab satellite TV-guide site) does list them, but its
 schedule endpoint sits behind Cloudflare's managed bot challenge — every
 request, even from GitHub Actions' real IP, gets a 403 "Just a moment..."
@@ -56,6 +56,7 @@ import almashhad_epg
 import bein3_asia_epg
 import filler_epg
 import jordan_tv_epg
+import amman_tv_epg
 import mbc_epg
 import osn_epg
 import palestine_channels_epg
@@ -304,6 +305,7 @@ def build() -> int:
                          ("Al Jazeera", aljazeera_epg),
                          ("Filler", filler_epg),
                          ("Jordan TV", jordan_tv_epg),
+                         ("Amman TV", amman_tv_epg),
                          ("Al Mashhad", almashhad_epg),
                          ("Palestine", palestine_channels_epg),
                          ("beIN SPORTS 3 Asia", bein3_asia_epg),
