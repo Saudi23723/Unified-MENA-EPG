@@ -661,6 +661,13 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
+  <channel id="Placeholder.LiveEventOnly">
+    <display-name lang="en">LIVE EVENT ONLY</display-name>
+  </channel>
+  <channel id="Placeholder.News247">
+    <display-name lang="en">NEWS 24/7</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/news_247.png" />
+  </channel>
   <programme start="20261004030000 +0300" stop="20261004045500 +0300" channel="Alwan1_sport">
     <title lang="ar">الأرجنتين - بوركينا ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -6854,5 +6861,69 @@
   <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="AlRabiaa.Quran">
     <title lang="en">24/7 Program</title>
     <desc lang="ar">IQ| Al Rabiaa Quran — الرابعة قرآن</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.LiveEventOnly">
+    <title lang="en">LIVE EVENT ONLY</title>
+    <desc lang="en">LIVE EVENT ONLY</desc>
+  </programme>
+  <programme start="20261003000000 +0000" stop="20261004000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261004000000 +0000" stop="20261005000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261005000000 +0000" stop="20261006000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.News247">
+    <title lang="en">NEWS 24/7 📰</title>
+    <desc lang="en">NEWS 24/7 📰</desc>
   </programme>
 </tv>
