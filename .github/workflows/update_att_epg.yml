@@ -50,6 +50,10 @@ jobs:
           import gzip, xml.etree.ElementTree as ET
           from datetime import datetime
           root = ET.parse(gzip.open("att_epg.xml.gz")).getroot()
+          # Every <channel> before the first <programme>, as XMLTV and the
+          # players that read it expect — or nothing matches.
+          tags = [el.tag for el in root]
+          assert "channel" not in tags[tags.index("programme"):], "a channel after a programme"
           last = {}
           for p in root.iter("programme"):
               st = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
