@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-The owner's own Xtream playlist: its "US| AT&T" category (a guide and the
-AT&T mark for every channel), its two AL-KASS categories (on this
-repository's own Alkass guide; KASS SHOOF has no schedule anywhere) and
-its SOLO categories (one 24/7 programme each, named for what it plays),
-its beIN SPORTS and STARZPLAY SPORT categories (on this repository's own
-beIN and STARZPLAY guides, matched by name) and its US| NBC / FOX / CBS /
-ABC categories (each local station by the call sign in its name, on
-Gracenote's listings for that station). Every name the playlist gives
-one feed — HD, SD, RAW, 4K — lands on one channel. All in one file, on
-the one link already added to the player.
+The owner's own Xtream playlist, in one SMALL file (the day ahead, titles
+only — asked for as "ملف صغير"): its "US| AT&T" category with the AT&T
+mark, and its US| NBC / FOX / CBS / ABC stations, taken first from the
+EPG links the owner sent. The playlist's beIN, Alkass and STARZPLAY
+channels are not in it: they are assigned on the existing links by name
+(playlist_aliases.json, written here), and SOLO rides the unified link.
 
     "قنوات الكأس كلها تعملها assign على link الكأس تبعي"
     "قنوات solo كلها تعملها 24/7 program"
@@ -53,7 +49,6 @@ from __future__ import annotations
 
 import copy
 import gzip
-import hashlib
 import json
 import os
 import re
@@ -70,14 +65,26 @@ OWN = "unified_mena_epg.xml"
 LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
         "main/logos/att.png")
 CATEGORY = re.compile(r"AT\s*&\s*T", re.I)
-BEHIND = timedelta(hours=6)
-AHEAD = timedelta(days=3)
+# Small on purpose — asked for as "ملف صغير": the day ahead, titles only.
+BEHIND = timedelta(hours=2)
+AHEAD = timedelta(days=1)
 # Below this share of mapped channels with programmes, a source is down:
 # keep the guide already published rather than replace it with gaps.
 FLOOR = 0.6
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 Chrome/128 Safari/537.36"}
 EPGSHARE = "https://epgshare01.online/epgshare01/epg_ripper_{}.xml.gz"
+# The owner's own EPG links, sent for the US networks' stations and asked
+# for by name: "بعتلك ٤ او ٥ links تعمل assign منها". ferteque's guide
+# carries the provider's own channel names and the stations by call sign
+# (kdka.us); iptv-epg.org by network and call sign (CBSKDKA.us). Of the
+# others, iptvx.one carries no US station and gabbarit's file is cut
+# short (measured 4 October 2026).
+USER_LINKS = {
+    "ferteque": ("https://github.com/ferteque/Curated-M3U-Repository/raw/"
+                 "refs/heads/main/epg6.xml.gz"),
+    "iptvepg": "https://iptv-epg.org/files/epg-rhtwyyuokk.xml",
+}
 MJH = {"pluto": "https://i.mjh.nz/PlutoTV/us.xml.gz",
        "samsung": "https://i.mjh.nz/SamsungTVPlus/us.xml.gz",
        "roku": "https://i.mjh.nz/Roku/all.xml.gz",
@@ -161,10 +168,10 @@ def channel_id(key: str) -> str:
 def source_url(source: str) -> str | None:
     if source == "own":
         return None
-    return MJH.get(source) or EPGSHARE.format(source)
+    return USER_LINKS.get(source) or MJH.get(source) or EPGSHARE.format(source)
 
 
-def read_source(session, source: str, wanted: set[str], floor, ceiling):
+def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
     """{channel id: [programme elements]} for the wanted ids of one source."""
     if source == "own":
         handle = open(OWN, "rb")
@@ -186,6 +193,9 @@ def read_source(session, source: str, wanted: set[str], floor, ceiling):
                         continue
                 el.clear()
             elif el.tag == "channel":
+                if on_channel:
+                    on_channel(el.get("id") or "",
+                               [d.text or "" for d in el.findall("display-name")])
                 el.clear()
     return found
 
@@ -377,8 +387,12 @@ def add_rows(out: list, cid: str, programmes) -> int:
         # A copy: two playlist channels can share one feed (DISCOVERY
         # TURBO and DISCOVERY TURBO TV), and the same element appended
         # twice would end up under the second channel both times.
-        p = copy.deepcopy(p)
-        p.set("channel", cid)
+        slim = ET.Element("programme", {"start": p.get("start"),
+                                        "stop": p.get("stop"), "channel": cid})
+        title = p.find("title")
+        if title is not None:
+            slim.append(copy.deepcopy(title))
+        p = slim
         out.append(p)
         last_stop = when(p.get("stop"))
         count += 1
@@ -420,7 +434,7 @@ def build() -> int:
         g["ids"].extend(i for i in ids if i)
 
     counts = {"Alkass": 0, "beIN": 0, "STARZPLAY": 0, "US local": 0, "US cable": 0}
-    calls: dict[str, list[str]] = {}
+    us_pending: dict[str, str | None] = {}      # name -> call sign, or None
     for cat, name, epg in streams:
         number = alkass_number(name)
         if CATEGORY.search(cat):
@@ -439,16 +453,15 @@ def build() -> int:
             counts["STARZPLAY"] += 1
         elif US_NETWORK.search(cat):
             sign = call_sign(name, epg)
-            if sign:
-                calls.setdefault(sign, []).append(name)
+            target = None if sign else us_cable_target(name, mapping)
+            if target:
+                assign(target, name)
+                counts["US cable"] += 1
             else:
-                target = us_cable_target(name, mapping)
-                if target:
-                    assign(target, name)
-                    counts["US cable"] += 1
+                us_pending[name] = sign
     say(f"playlist: {len(att)} AT&T, {len(solo)} SOLO, "
         + ", ".join(f"{v} {k}" for k, v in counts.items())
-        + f", {sum(map(len, calls.values()))} US local by call sign")
+        + f", {len(us_pending)} US station name(s)")
 
     now = datetime.now(timezone.utc)
     floor, ceiling = now - BEHIND, now + AHEAD
@@ -460,38 +473,71 @@ def build() -> int:
     for source, cid in groups:
         wanted.setdefault(source, set()).add(cid)
 
-    def station(cid: str) -> str | None:
-        m = re.match(r"([KW][A-Z]{2,3})-", cid or "")
-        return m.group(1) if m and m.group(1) in calls else None
-
     session = requests.Session()
     rows: dict[tuple[str, str], list[ET.Element]] = {}
-    sources = set(wanted) | ({"US_LOCALS1"} if calls else set())
-    for source in sorted(sources):
-        ids = wanted.get(source, set())
-        test = (lambda c, ids=ids: c in ids or station(c)) \
-            if source == "US_LOCALS1" else ids
+
+    def load(source, test, on_channel=None):
         try:
-            got = read_source(session, source, test, floor, ceiling)
+            got = read_source(session, source, test, floor, ceiling, on_channel)
         except Exception as exc:  # noqa: BLE001 - one source down is reported
             say(f"  {source:13} FAILED ({type(exc).__name__}: {exc})"[:200])
-            continue
+            return
         say(f"  {source:13} {len(got):4} channel(s) with programmes")
         for cid, programmes in got.items():
             rows[(source, cid)] = programmes
 
-    # Each call sign on its main station: -DT before a low-power -LD.
-    found = 0
-    for sign, names in calls.items():
-        options = sorted((cid for (src, cid) in rows if src == "US_LOCALS1"
-                          and station(cid) == sign),
-                         key=lambda c: (not c.startswith(sign + "-DT."), c))
-        if options:
-            for name in names:
-                assign(("US_LOCALS1", options[0]), name)
-            found += len(names)
-    say(f"US local: {found} of {sum(map(len, calls.values()))} named stations "
-        f"have Gracenote listings")
+    for source in sorted(wanted):
+        load(source, wanted[source])
+
+    # The US networks' stations, from the owner's own links first: the
+    # provider's exact name in ferteque's guide, then the call sign there,
+    # then the call sign in iptv-epg.org's; Gracenote's listing for the
+    # station last. A station counts only where it has programmes.
+    def settle(source, claims):
+        for name, options in claims.items():
+            live = [cid for cid in options if rows.get((source, cid))]
+            if name in us_pending and live:
+                assign((source, live[0]), name)
+                del us_pending[name]
+
+    def claim_by(pattern, exact):
+        by_name: dict[str, list[str]] = {}
+        by_sign: dict[str, list[str]] = {}
+        claimed: set[str] = set()
+        signs: dict[str, list[str]] = {}
+        for name, sign in us_pending.items():
+            if sign:
+                signs.setdefault(sign, []).append(name)
+
+        def on_channel(cid, names):
+            if exact:
+                for n in names:
+                    if n in us_pending:
+                        by_name.setdefault(n, []).append(cid)
+                        claimed.add(cid)
+            m = re.fullmatch(pattern, cid, re.I)
+            if m:
+                for name in signs.get(m.group(1).upper(), []):
+                    by_sign.setdefault(name, []).append(cid)
+                    claimed.add(cid)
+        return by_name, by_sign, claimed, on_channel
+
+    for source, pattern, exact in (
+            ("ferteque", r"([KW][A-Z]{2,3})(?:DT)?\.us", True),
+            ("iptvepg", r"(?:ABC|CBS|NBC|FOX|CW|MNT|MY|PBS)?(?:East_|West_)?"
+                        r"([KW][A-Z]{2,3})\.us", False),
+            ("US_LOCALS1", r"([KW][A-Z]{2,3})-DT\.us_locals1", False)):
+        if not us_pending:
+            break
+        by_name, by_sign, claimed, on_channel = claim_by(pattern, exact)
+        load(source, claimed.__contains__, on_channel)
+        # The provider's exact name first; then the call sign, a plain
+        # call sign before its DT twin.
+        settle(source, by_name)
+        for name in by_sign:
+            by_sign[name].sort(key=lambda c: ("dt." in c.lower(), c))
+        settle(source, by_sign)
+    say(f"US stations: {len(us_pending)} name(s) left with no listing")
 
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
                   solo)
@@ -528,6 +574,8 @@ def build() -> int:
     # Everything grouped by feed: Alkass, beIN, STARZPLAY, the US networks.
     shown = empty = 0
     for (source, target), g in sorted(groups.items()):
+        if source == "own":
+            continue                     # on the existing links, by name
         cids = list(dict.fromkeys(g["ids"])) or [
             "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{target}")]
         for cid in cids:
@@ -537,28 +585,7 @@ def build() -> int:
             empty += not added
     say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
 
-    # SOLO — one 24/7 programme, in six-hour blocks so a player's grid
-    # always has a row under "now".
-    first = floor.replace(minute=0, second=0, microsecond=0)
-    first -= timedelta(hours=first.hour % 6)
-    subjects: dict[str, list[str]] = {}
-    for name in solo:
-        subjects.setdefault(solo_subject(name), []).append(name)
-    for subject, names in subjects.items():
-        # HD, SD, HEVC and RAW of one channel are one channel here.
-        cid = "Playlist.Solo." + hashlib.md5(subject.encode()).hexdigest()[:10]
-        add_channel(root, cid, names, None)
-        moment = first
-        while moment < ceiling:
-            p = ET.Element("programme", {
-                "start": stamp(moment), "stop": stamp(moment + SOLO_BLOCK),
-                "channel": cid})
-            ET.SubElement(p, "title", {"lang": "ar"}).text = f"{subject} 24/7"
-            ET.SubElement(p, "desc", {"lang": "ar"}).text = \
-                f"{subject} — على مدار الساعة"
-            programmes_out.append(p)
-            moment += SOLO_BLOCK
-    say(f"SOLO: {len(solo)} name(s) on {len(subjects)} channel(s), 24/7")
+    # SOLO rides the unified link (merge_epg.add_solo), not this file.
 
     root.extend(programmes_out)
     ET.indent(root, space=" ")
