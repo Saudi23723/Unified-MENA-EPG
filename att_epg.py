@@ -4,8 +4,13 @@
 The owner's own Xtream playlist: its "US| AT&T" category (a guide and the
 AT&T mark for every channel), its two AL-KASS categories (on this
 repository's own Alkass guide; KASS SHOOF has no schedule anywhere) and
-its SOLO categories (one 24/7 programme each, named for what it plays).
-All in one file, on the one link already added to the player.
+its SOLO categories (one 24/7 programme each, named for what it plays),
+its beIN SPORTS and STARZPLAY SPORT categories (on this repository's own
+beIN and STARZPLAY guides, matched by name) and its US| NBC / FOX / CBS /
+ABC categories (each local station by the call sign in its name, on
+Gracenote's listings for that station). Every name the playlist gives
+one feed — HD, SD, RAW, 4K — lands on one channel. All in one file, on
+the one link already added to the player.
 
     "قنوات الكأس كلها تعملها assign على link الكأس تبعي"
     "قنوات solo كلها تعملها 24/7 program"
@@ -173,7 +178,7 @@ def read_source(session, source: str, wanted: set[str], floor, ceiling):
         for _event, el in ET.iterparse(handle, events=("end",)):
             if el.tag == "programme":
                 cid = el.get("channel")
-                if cid in wanted:
+                if (wanted(cid) if callable(wanted) else cid in wanted):
                     start, stop = when(el.get("start")), when(el.get("stop"))
                     if start and stop and stop > floor and start < ceiling \
                             and stop > start:
@@ -197,8 +202,17 @@ def when(stamp: str | None) -> datetime | None:
 # Alkass: the playlist's two AL-KASS categories, each "AL-KASS n", on this
 # repository's own Alkass guide (alkass_epg.py, from the broadcaster's
 # site). KASS SHOOF has no published schedule anywhere and is left alone.
-ALKASS = re.compile(r"AL-?\s*KASS", re.I)
-ALKASS_N = re.compile(r"AL-?\s*KASS\s*(\d)\b", re.I)
+ALKASS_N = re.compile(r"AL\s*-?\s*KASS\s*(\d|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT)\b", re.I)
+WORDS = {"ONE": 1, "TWO": 2, "THREE": 3, "FOUR": 4, "FIVE": 5, "SIX": 6,
+         "SEVEN": 7, "EIGHT": 8}
+
+
+def alkass_number(name: str) -> int | None:
+    m = ALKASS_N.search(name)
+    if not m:
+        return None
+    word = m.group(1).upper()
+    return WORDS.get(word) or int(word)
 ALKASS_IDS = {1: "AlkassOne.qa", 2: "AlkassTwo.qa", 3: "AlkassThree.qa",
               4: "AlkassFour.qa", 5: "AlkassFive.qa", 6: "AlkassSix.qa",
               7: "AlkassSeven.qa", 8: "AlkassEight.qa"}
@@ -208,6 +222,127 @@ ALKASS_LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
 # a "24/7 program" — the programme is the channel's own subject.
 SOLO = re.compile(r"\bSOLO\b", re.I)
 SOLO_BLOCK = timedelta(hours=6)
+
+
+# beIN SPORTS (MENA), in every one of the playlist's beIN categories, on
+# this repository's own beIN guide — read from beIN's own site. Matched
+# by NAME: the provider's epg ids for these say English where the name
+# does not, and its own listing for them runs three hours off beIN's
+# (measured 4 October 2026: Finland v Albania 06:30 there, 03:27 on
+# beIN's site). FRANCE, AFC, NBA and 4K have no guide here — beIN's
+# site answers those with nothing — and are left alone.
+BEIN = re.compile(r"\bbe\s*IN\b", re.I)
+
+
+def bein_target(name: str) -> str | None:
+    text = name.replace("⚽", "O").upper()
+    text = re.sub(r"^[^:]{1,6}:\s*", "", text)
+    text = re.sub(r"[ᴬ-ᵿʰ-˿ᵃ-ᶻ⁰-⁹◉▼]", " ", text)
+    text = re.sub(r"\b0(\d)\b", r"\1", text)
+    if not re.match(r"BEIN\s*SPORTS?\b", text):
+        return None
+    rest = re.sub(r"^BEIN\s*SPORTS?\s*", "", text)
+    rest = re.sub(r"\b(HD|SD|LQ|FHD|UHD|4K|8K|RAW|HEVC)\b|\(.*?\)", " ", rest)
+    rest = re.sub(r"\s+", " ", rest).strip()
+    if re.search(r"FRANCE|\bFR\b|AFC|NBA|PREMIUM|MAX|TURK|ASIA", rest):
+        m = re.fullmatch(r"MAX (\d)", rest)
+        return f"beINSportsMax{m.group(1)}.qa" if m else None
+    m = (re.fullmatch(r"(\d) (?:ENGLISH|ENG|EN)", rest)
+         or re.fullmatch(r"(?:ENGLISH|ENG|EN) (\d)", rest))
+    if m:
+        return f"beINSportsEn{m.group(1)}.qa" if m.group(1) in "12" else None
+    m = re.fullmatch(r"(\d) XTRA", rest) or re.fullmatch(r"XTRA (\d)", rest)
+    if m:
+        return f"beINSportsXtra{m.group(1)}.qa"
+    if re.fullmatch(r"[1-9]", rest):
+        return f"beINSports{rest}.qa"
+    if rest == "NEWS":
+        return "beINSportsNews.qa"
+    if rest in ("", "GLOBAL"):
+        return "beINSports.qa"
+    return None
+
+
+# STARZPLAY's sport channels — AD Sports and friends — on this repository's
+# own STARZPLAY guide, read from STARZPLAY's own EPG API. AD Premium 2 is
+# the feed STARZPLAY itself titles "أبوظبي الرياضية بريميوم 2", Premium 1
+# its sister; AD Sports Asia 1 and 2 are STARZPLAY's adsportsasia01/02.
+STARZ_CATEGORY = re.compile(r"STARZ\s*PLAY\s*SPORT", re.I)
+STARZ_RULES = [
+    (r"AD (?:SPORTS? )?(?:1 PREMIUM|PREMIUM 1)\b", "Starz_starzplaysports1"),
+    (r"AD (?:SPORTS? )?(?:2 PREMIUM|PREMIUM 2)\b", "Starz_starzplaysports2"),
+    (r"AD SPORTS? ASIA 1\b", "Starz_adsportsasia01"),
+    (r"AD SPORTS? ASIA 2\b", "Starz_adsportsasia02"),
+    (r"AD SPORTS? FIGHT\b", "Starz_adfight"),
+    (r"AD SPORTS? 1\b", "Starz_admnadsports1"),
+    (r"AD SPORTS? 2\b", "Starz_admnadsports2"),
+    (r"CRLIFE 1\b", "Starz_criclife1"),
+    (r"GOLF TV\b", "Starz_golflife"),
+]
+
+
+def starz_target(name: str) -> str | None:
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    for pattern, target in STARZ_RULES:
+        if re.match(pattern, text):
+            return target
+    return None
+
+
+# The US networks' local stations — NBC, FOX, CBS and ABC — each by the
+# call sign in its name, on Gracenote's local listings for that very
+# station (epgshare01 US_LOCALS1). A name whose call sign disagrees with
+# the provider's own id ("CBS (WSBK) BOSTON" filed as WBZ) is left alone:
+# which station it really is cannot be told. Network cable channels in
+# the same categories (FOX NEWS, FS1, NBC's BRAVO...) take the AT&T
+# category's reviewed match.
+US_NETWORK = re.compile(r"^US\|\s*(NBC|FOX|CBS|ABC)\b", re.I)
+CALL = re.compile(r"\b([KW][A-Z]{2,3})\b")
+NOT_CALLS = {"WEST", "WACO", "KIDS", "WILD", "WIDE", "WIRE", "WOW", "WWE"}
+
+
+def call_sign(name: str, epg: str) -> str | None:
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    inside = [c for part in re.findall(r"\(([^)]*)\)", text)
+              for c in CALL.findall(part) if c not in NOT_CALLS]
+    calls = inside or [c for c in CALL.findall(text) if c not in NOT_CALLS]
+    if not calls:
+        return None
+    filed = re.match(r"([KW][A-Z]{2,3})\.us$", epg or "", re.I)
+    if filed and filed.group(1).upper() != calls[0]:
+        return None
+    return calls[0]
+
+
+# Names in the network categories that are not the AT&T category's words.
+US_ALIASES = {"FOX NEWS CHANNEL": "FOX NEWS", "GOLF": "GOLF CHANNEL"}
+US_EXTRA = {"FOX DEPORTES": ["US2", "Fox.Deportes.HD.us2"],
+            "FOX SPORTS DEPORTES": ["US2", "Fox.Deportes.HD.us2"],
+            "FOX SOCCER PLUS": ["US2", "Fox.Soccer.Plus.HD.us2"]}
+
+
+def us_cable_target(name: str, mapping) -> list[str] | None:
+    key = us_cable_key(name)
+    if not key:
+        return None
+    for k in (key, re.sub(r"^(NBC|FOX|CBS|ABC) ", "", key)):
+        k = US_ALIASES.get(k, k)
+        if k in US_EXTRA:
+            return US_EXTRA[k]
+        if k in mapping:
+            return mapping[k]
+    return None
+
+
+def us_cable_key(name: str) -> str | None:
+    """'US: NBC BRAVO (EAST) (D) ᴿᴬᵂ' -> 'BRAVO', in att_channels.json's terms."""
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    if re.search(r"\(WEST\)|\bWEST\b|PACIFIC", text):
+        return None
+    text = re.sub(r"[ᴬ-ᵿʰ-˿ᵃ-ᶻ⁰-⁹]", " ", text)
+    text = re.sub(r"\((?:EAST|[A-Z]{1,2}|#)\)", " ", text)
+    text = re.sub(r"\b(HD|SD|FHD|UHD|4K|RAW|NETWORK)\b|\.", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def stamp(moment: datetime) -> str:
@@ -256,11 +391,47 @@ def build() -> int:
     if streams is None:
         say("guide: playlist unreadable — keeping the published guide")
         return 0
-    att = [name for cat, name, _ in streams if CATEGORY.search(cat)]
-    kass = [(name, epg) for cat, name, epg in streams
-            if ALKASS.search(cat) and ALKASS_N.search(name)]
-    solo = [name for cat, name, _ in streams if SOLO.search(cat)]
-    say(f"playlist: {len(att)} AT&T, {len(kass)} Alkass, {len(solo)} SOLO")
+
+    # Who goes where. A target is (source, id); every playlist name that
+    # shows the same feed becomes one channel carrying all those names.
+    att, solo = [], []
+    groups: dict[tuple[str, str], dict] = {}
+
+    def assign(target, name, logo=None, ids=()):
+        g = groups.setdefault(tuple(target), {"names": [], "logo": logo, "ids": []})
+        g["names"].append(name)
+        g["ids"].extend(i for i in ids if i)
+
+    counts = {"Alkass": 0, "beIN": 0, "STARZPLAY": 0, "US local": 0, "US cable": 0}
+    calls: dict[str, list[str]] = {}
+    for cat, name, epg in streams:
+        number = alkass_number(name)
+        if CATEGORY.search(cat):
+            att.append(name)
+        elif number and number in ALKASS_IDS:
+            assign(("own", ALKASS_IDS[number]), name, ALKASS_LOGO.format(number),
+                   [epg] if re.fullmatch(r"alkass\w+\.qa", epg or "", re.I) else [])
+            counts["Alkass"] += 1
+        elif SOLO.search(cat):
+            solo.append(name)
+        elif BEIN.search(cat) and bein_target(name):
+            assign(("own", bein_target(name)), name)
+            counts["beIN"] += 1
+        elif STARZ_CATEGORY.search(cat) and starz_target(name):
+            assign(("own", starz_target(name)), name)
+            counts["STARZPLAY"] += 1
+        elif US_NETWORK.search(cat):
+            sign = call_sign(name, epg)
+            if sign:
+                calls.setdefault(sign, []).append(name)
+            else:
+                target = us_cable_target(name, mapping)
+                if target:
+                    assign(target, name)
+                    counts["US cable"] += 1
+    say(f"playlist: {len(att)} AT&T, {len(solo)} SOLO, "
+        + ", ".join(f"{v} {k}" for k, v in counts.items())
+        + f", {sum(map(len, calls.values()))} US local by call sign")
 
     now = datetime.now(timezone.utc)
     floor, ceiling = now - BEHIND, now + AHEAD
@@ -269,20 +440,41 @@ def build() -> int:
         hit = mapping.get(core(name))
         if hit:
             wanted.setdefault(hit[0], set()).add(hit[1])
-    if kass:
-        wanted.setdefault("own", set()).update(ALKASS_IDS.values())
+    for source, cid in groups:
+        wanted.setdefault(source, set()).add(cid)
+
+    def station(cid: str) -> str | None:
+        m = re.match(r"([KW][A-Z]{2,3})-", cid or "")
+        return m.group(1) if m and m.group(1) in calls else None
 
     session = requests.Session()
     rows: dict[tuple[str, str], list[ET.Element]] = {}
-    for source, ids in sorted(wanted.items()):
+    sources = set(wanted) | ({"US_LOCALS1"} if calls else set())
+    for source in sorted(sources):
+        ids = wanted.get(source, set())
+        test = (lambda c, ids=ids: c in ids or station(c)) \
+            if source == "US_LOCALS1" else ids
         try:
-            got = read_source(session, source, ids, floor, ceiling)
+            got = read_source(session, source, test, floor, ceiling)
         except Exception as exc:  # noqa: BLE001 - one source down is reported
             say(f"  {source:13} FAILED ({type(exc).__name__}: {exc})"[:200])
             continue
-        say(f"  {source:13} {len(got):4}/{len(ids):<4} channel(s) with programmes")
+        say(f"  {source:13} {len(got):4} channel(s) with programmes")
         for cid, programmes in got.items():
             rows[(source, cid)] = programmes
+
+    # Each call sign on its main station: -DT before a low-power -LD.
+    found = 0
+    for sign, names in calls.items():
+        options = sorted((cid for (src, cid) in rows if src == "US_LOCALS1"
+                          and station(cid) == sign),
+                         key=lambda c: (not c.startswith(sign + "-DT."), c))
+        if options:
+            for name in names:
+                assign(("US_LOCALS1", options[0]), name)
+            found += len(names)
+    say(f"US local: {found} of {sum(map(len, calls.values()))} named stations "
+        f"have Gracenote listings")
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — playlist"})
 
@@ -308,21 +500,17 @@ def build() -> int:
             f"keeping the published guide")
         return 0
 
-    # Alkass — one channel per number, under the playlist's own epg id and
-    # every name the playlist gives it.
-    by_number: dict[int, list[tuple[str, str]]] = {}
-    for name, epg in kass:
-        by_number.setdefault(int(ALKASS_N.search(name).group(1)), []).append((name, epg))
-    kass_rows = 0
-    for number, entries in sorted(by_number.items()):
-        if number not in ALKASS_IDS:
-            continue
-        ids = [epg for _, epg in entries if epg] or [f"Playlist.Alkass{number}"]
-        names = [name for name, _ in entries] + [f"Alkass {number}", f"الكأس {number}"]
-        for cid in dict.fromkeys(ids):
-            add_channel(root, cid, names, ALKASS_LOGO.format(number))
-            kass_rows += add_rows(root, cid, rows.get(("own", ALKASS_IDS[number]), []))
-    say(f"Alkass: {len(by_number)} channel(s), {kass_rows} programme(s)")
+    # Everything grouped by feed: Alkass, beIN, STARZPLAY, the US networks.
+    shown = empty = 0
+    for (source, target), g in sorted(groups.items()):
+        cids = list(dict.fromkeys(g["ids"])) or [
+            "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{target}")]
+        for cid in cids:
+            add_channel(root, cid, g["names"], g["logo"])
+            added = add_rows(root, cid, rows.get((source, target), []))
+            shown += bool(added)
+            empty += not added
+    say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
 
     # SOLO — one 24/7 programme, in six-hour blocks so a player's grid
     # always has a row under "now".
