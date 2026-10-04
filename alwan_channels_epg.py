@@ -163,6 +163,40 @@ def add_to(root) -> int:
     return count
 
 
+# Two placeholders to hand-assign in the player, on this same link:
+# asked for as "قناة من غير لوجو يكون مكتوب بالشريط LIVE EVENT ONLY" and
+# "وحدة ثانية لوجو اخبار يكون مكتوب دائما NEWS 24/7 📰". The bar says
+# exactly that and nothing else — neither claims a programme.
+# (id, the name a player lists, the bar, logo file or None)
+PLACEHOLDERS = (
+    ("Placeholder.LiveEventOnly", "LIVE EVENT ONLY", "LIVE EVENT ONLY", None),
+    ("Placeholder.News247", "NEWS 24/7", "NEWS 24/7 📰", "news_247.png"),
+)
+
+
+def add_placeholders_to(root) -> int:
+    """The two placeholders, channels after the guide's channels."""
+    now = datetime.now(timezone.utc)
+    first = (now - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    at = len(root.findall("channel"))
+    for xid, name, _bar, logo in PLACEHOLDERS:
+        ch = ET.Element("channel", {"id": xid})
+        ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
+        if logo:
+            ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+        root.insert(at, ch)
+        at += 1
+    count = 0
+    for xid, _name, bar, _logo in PLACEHOLDERS:
+        for day in range(DAYS_BACK + DAYS_FORWARD):
+            start = first + timedelta(days=day)
+            add_programme(root, xid, start, start + timedelta(days=1), bar, bar)
+            count += 1
+    log(f"placeholders: {len(PLACEHOLDERS)} channel(s), {count} programme(s)")
+    return count
+
+
 def add_others_to(root, prefix: str) -> int:
     """ShoofMax and Netflix alone, on another link — the beIN Qatar guide
     carries them too, under its own ids (prefix) so the merged link never
