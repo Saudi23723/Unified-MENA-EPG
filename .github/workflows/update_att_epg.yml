@@ -1,0 +1,68 @@
+name: Update AT&T EPG
+
+# The guide for the "US| AT&T" category of the owner's Xtream playlist —
+# see att_epg.py. Every three hours: Pluto and Samsung publish only half
+# a day ahead, so their channels need the guide rebuilt well inside that.
+#
+# The file is published on its own branch, att-epg, as a single commit
+# replaced each time: a few MB rewritten eight times a day would otherwise
+# pile up in main's history for nothing.
+#
+#   https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/att-epg/att_epg.xml.gz
+
+on:
+  schedule:
+    - cron: "41 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [att_epg.py, att_channels.json, .github/workflows/update_att_epg.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: att-epg
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Build the AT&T guide
+        env:
+          XTREAM_URL: ${{ secrets.XTREAM_URL }}
+          XTREAM_USER: ${{ secrets.XTREAM_USER }}
+          XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
+        run: python att_epg.py
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import gzip, xml.etree.ElementTree as ET
+          from datetime import datetime
+          root = ET.parse(gzip.open("att_epg.xml.gz")).getroot()
+          last = {}
+          for p in root.iter("programme"):
+              st = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
+              sp = datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z")
+              assert sp > st, p.get("channel")
+              assert p.get("channel") not in last or st >= last[p.get("channel")], p.get("channel")
+              last[p.get("channel")] = sp
+          print("AT&T XMLTV VALIDATION PASS", len(root.findall("channel")), "channels")
+          PY
+      - name: Publish on the att-epg branch
+        run: |
+          mkdir -p /tmp/out && cp att_epg.xml.gz /tmp/out/
+          cd /tmp/out
+          git init -q -b att-epg
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add att_epg.xml.gz
+          git commit -q -m "AT&T EPG $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" att-epg
