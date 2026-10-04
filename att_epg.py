@@ -40,6 +40,7 @@ scrubbed of the address, the user name and the password.
 
 from __future__ import annotations
 
+import copy
 import gzip
 import json
 import os
@@ -238,6 +239,10 @@ def build() -> int:
             start = when(p.get("start"))
             if last_stop and start < last_stop:
                 continue                     # an overlap in the source
+            # A copy: two playlist channels can share one feed (DISCOVERY
+            # TURBO and DISCOVERY TURBO TV), and the same element appended
+            # twice would end up under the second channel both times.
+            p = copy.deepcopy(p)
             p.set("channel", cid)
             root.append(p)
             last_stop = when(p.get("stop"))
