@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04T11:52:34.899Z",
+  "updated_at": "2026-10-04T11:59:21.747Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -8,19 +8,19 @@
       "latitude": 31.9454,
       "longitude": 35.9284,
       "temperature_c": 27.4,
-      "humidity": 32,
-      "wind_speed": 12.4,
+      "humidity": 33,
+      "wind_speed": 12.3,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-04T14:45",
-      "feels_c": 26.1,
+      "feels_c": 26.3,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-10-04",
           "code": 2,
-          "max": 27.4,
+          "max": 27.5,
           "min": 18.0,
           "rain": 3
         },
@@ -28,7 +28,7 @@
           "date": "2026-10-05",
           "code": 3,
           "max": 24.6,
-          "min": 15.1,
+          "min": 15.3,
           "rain": 0
         },
         {
@@ -67,7 +67,7 @@
           "rain": 2
         }
       ],
-      "today_max": 27.4,
+      "today_max": 27.5,
       "today_min": 18.0,
       "sunrise": "06:31",
       "sunset": "18:17",
@@ -80,7 +80,7 @@
       "longitude": 35.006,
       "temperature_c": 34.2,
       "humidity": 24,
-      "wind_speed": 7.0,
+      "wind_speed": 7.1,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
@@ -98,8 +98,8 @@
         {
           "date": "2026-10-05",
           "code": 3,
-          "max": 32.5,
-          "min": 23.1,
+          "max": 32.4,
+          "min": 23.2,
           "rain": 0
         },
         {
@@ -448,14 +448,14 @@
           "code": 53,
           "max": 15.8,
           "min": 12.9,
-          "rain": 35
+          "rain": 32
         },
         {
           "date": "2026-10-05",
           "code": 3,
           "max": 19.5,
           "min": 11.1,
-          "rain": 5
+          "rain": 4
         },
         {
           "date": "2026-10-06",
@@ -732,7 +732,7 @@
           "code": 53,
           "max": 25.3,
           "min": 21.6,
-          "rain": 38
+          "rain": 40
         },
         {
           "date": "2026-10-05",
