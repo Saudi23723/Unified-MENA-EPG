@@ -232,7 +232,7 @@ def build() -> int:
         if not hit:
             continue
         mapped += 1
-        programmes = sorted(rows.get(tuple(hit), []), key=lambda p: p.get("start"))
+        programmes = sorted(rows.get(tuple(hit), []), key=lambda p: when(p.get("start")))
         last_stop = None
         for p in programmes:
             start = when(p.get("start"))
