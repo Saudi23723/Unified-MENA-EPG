@@ -367,7 +367,7 @@ def add_channel(root, cid: str, names: list[str], logo: str | None):
         ET.SubElement(ch, "icon", {"src": logo})
 
 
-def add_rows(root, cid: str, programmes) -> int:
+def add_rows(out: list, cid: str, programmes) -> int:
     """Copies, in time order, without overlaps. Returns how many."""
     count, last_stop = 0, None
     for p in sorted(programmes, key=lambda p: when(p.get("start"))):
@@ -379,7 +379,7 @@ def add_rows(root, cid: str, programmes) -> int:
         # twice would end up under the second channel both times.
         p = copy.deepcopy(p)
         p.set("channel", cid)
-        root.append(p)
+        out.append(p)
         last_stop = when(p.get("stop"))
         count += 1
     return count
@@ -477,6 +477,11 @@ def build() -> int:
         f"have Gracenote listings")
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — playlist"})
+    # XMLTV puts every <channel> before the first <programme>. A player
+    # reads the channel list at the top and matches against that alone:
+    # written one channel and its programmes at a time, the guide loaded
+    # with nothing matched (4 October 2026).
+    programmes_out: list[ET.Element] = []
 
     # AT&T
     seen, mapped, filled, total = set(), 0, 0, 0
@@ -490,7 +495,7 @@ def build() -> int:
         hit = mapping.get(key)
         if hit:
             mapped += 1
-            added = add_rows(root, cid, rows.get(tuple(hit), []))
+            added = add_rows(programmes_out, cid, rows.get(tuple(hit), []))
             filled += bool(added)
             total += added
     say(f"AT&T: {len(seen)} channel(s), {mapped} with a source, {filled} with "
@@ -507,7 +512,7 @@ def build() -> int:
             "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{target}")]
         for cid in cids:
             add_channel(root, cid, g["names"], g["logo"])
-            added = add_rows(root, cid, rows.get((source, target), []))
+            added = add_rows(programmes_out, cid, rows.get((source, target), []))
             shown += bool(added)
             empty += not added
     say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
@@ -525,15 +530,17 @@ def build() -> int:
         add_channel(root, cid, names, None)
         moment = first
         while moment < ceiling:
-            p = ET.SubElement(root, "programme", {
+            p = ET.Element("programme", {
                 "start": stamp(moment), "stop": stamp(moment + SOLO_BLOCK),
                 "channel": cid})
             ET.SubElement(p, "title", {"lang": "ar"}).text = f"{subject} 24/7"
             ET.SubElement(p, "desc", {"lang": "ar"}).text = \
                 f"{subject} — على مدار الساعة"
+            programmes_out.append(p)
             moment += SOLO_BLOCK
     say(f"SOLO: {len(solo)} name(s) on {len(subjects)} channel(s), 24/7")
 
+    root.extend(programmes_out)
     ET.indent(root, space=" ")
     data = ET.tostring(root, encoding="utf-8", xml_declaration=True)
     with gzip.open(OUT + ".tmp", "wb", compresslevel=9) as handle:
