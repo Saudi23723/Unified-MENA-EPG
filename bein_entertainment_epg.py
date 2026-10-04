@@ -39,6 +39,11 @@ from epg_lib import (
 )
 
 OUTPUT = "bein_entertainment_epg.xml"
+# Each channel's own mark, as beIN's guide page shows it (assets.bein.com),
+# on a white rounded tile so the black ones — BBC Earth, Cartoon Network,
+# Star, Nat Geo — read on a player's dark list. logos/bein_ent_*.png.
+LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+        "main/logos/bein_ent_{}.png")
 URL = "https://www.bein.com/ar/epg-ajax-template/"
 MECCA = timezone(timedelta(hours=3))
 DAYS = 4
@@ -258,6 +263,8 @@ def add_to(root, session=None) -> tuple[int, int]:
         ch = ET.SubElement(root, "channel", {"id": xid})
         for name in names:
             ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
+        ET.SubElement(ch, "icon", {"src": LOGO.format(
+            xid.replace("beIN", "").replace(".qa", "").lower())})
 
     total = 0
     for _piece, xid, _names in CHANNELS:
