@@ -4348,6 +4348,10 @@ def gate_no_guide_reads_a_stranger() -> None:
         # channel was matched to its feed once, by hand — see
         # att_channels.json and the docstring of att_epg.py.
         ("att_epg.py", "epgshare01.online"),
+        # The owner's own EPG link for the US networks' stations, sent by
+        # hand and asked for by name ("تعمل assign منها"): ferteque's guide
+        # carries the provider's exact channel names. See att_epg.USER_LINKS.
+        ("att_epg.py", "github.com"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4390,6 +4394,9 @@ def gate_no_guide_reads_a_stranger() -> None:
                 continue
             if "claude.ai" in url or "claude.com" in url:
                 continue
+            # The one foreign link the owner sent and asked to be read.
+            if path == "att_epg.py" and "github.com/ferteque/" in url:
+                continue
             if OURS not in url:
                 foreign.append(f"{path}: {url[:70]}")
     check("SOURCES", "every GitHub URL it holds is this reader's own repo",
@@ -4420,9 +4427,10 @@ def gate_no_guide_reads_a_stranger() -> None:
     # own, every feed's clock measured before it was read — and to eight
     # when Jordan TV and beIN SPORTS 3 Asia were asked for the same way,
     # and to nine for the owner's own playlist's US| AT&T channels, whose
-    # operator's guide refuses a runner.
-    check("SOURCES", "exactly nine aggregated-feed reads, all declared",
-          len(KNOWN), 9)
+    # operator's guide refuses a runner, and to ten for the EPG link the
+    # owner sent for the US networks' stations.
+    check("SOURCES", "exactly ten aggregated-feed reads, all declared",
+          len(KNOWN), 10)
 
 
 
