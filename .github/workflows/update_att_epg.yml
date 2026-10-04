@@ -31,6 +31,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -74,3 +76,20 @@ jobs:
           git add att_epg.xml.gz
           git commit -q -m "AT&T EPG $(date -u +%Y-%m-%dT%H:%MZ)"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" att-epg
+      # The playlist's names for channels already guided here, and its
+      # SOLO channels: every guide build writes them onto those channels,
+      # so the owner's existing links match them. Committed only when the
+      # playlist changed.
+      - name: Keep the playlist's names on main
+        run: |
+          [ -f playlist_aliases.json ] || exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add playlist_aliases.json
+          if git diff --cached --quiet; then echo "playlist names unchanged"; exit 0; fi
+          git commit -q -m "Playlist names for the guided channels"
+          for attempt in 1 2 3 4 5; do
+            git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main && exit 0
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          echo "could not push the playlist names"; exit 1

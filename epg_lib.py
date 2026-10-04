@@ -15,6 +15,7 @@ Design goals (applies to every script that imports this module):
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import time
@@ -378,6 +379,39 @@ def close_every_gap(root: ET.Element, now=None) -> int:
     return added
 
 
+
+# The owner's own playlist names for channels this repository already
+# guides — "8K: beIN SP⚽RTS 1 ᴴᴰ ◉" for beIN SPORTS 1, "M: AD PREMIUM 1 ᴴᴰ"
+# for STARZPLAY's AD Premium 1 — kept in playlist_aliases.json by
+# att_epg.py. Asked for as "assign": the player matches a channel with no
+# guide id by its name, so each of these names is written onto the very
+# channel it shows, in whichever guide carries that channel. No new link.
+PLAYLIST_ALIASES = "playlist_aliases.json"
+
+
+def add_playlist_names(root: ET.Element) -> int:
+    try:
+        with open(PLAYLIST_ALIASES, encoding="utf-8") as handle:
+            names = json.load(handle).get("names") or {}
+    except (OSError, ValueError):
+        return 0
+    added = 0
+    for ch in root.findall("channel"):
+        extra = names.get(ch.get("id") or "")
+        if not extra:
+            continue
+        have = {d.text for d in ch.findall("display-name")}
+        icon = ch.find("icon")
+        for name in extra:
+            if name not in have:
+                el = ET.Element("display-name")
+                el.text = name
+                # Display names before the icon, as the XMLTV DTD orders them.
+                ch.insert(list(ch).index(icon) if icon is not None else len(ch), el)
+                have.add(name)
+                added += 1
+    return added
+
 def write_xml_atomic(
     root: ET.Element,
     output_path: str,
@@ -439,6 +473,8 @@ def write_xml_atomic(
                 f"and intended, pass guard_regression=False for this guide."
             )
             return False
+
+    add_playlist_names(root)
 
     try:
         ET.indent(root, space="  ")

@@ -112,10 +112,47 @@ def build() -> int:
     # Independently-sourced files are already individually validated and use
     # namespaced channel ids, so a cross-file overlap check would just be
     # noise here — skip it and only check structural validity.
+    add_solo(root)
     write_xml_atomic(root, OUTPUT, check_overlaps=False,
                       generator_name="Unified MENA EPG — combined")
     return 0
 
+
+
+# The owner's playlist's SOLO channels — each plays one thing round the
+# clock — asked for as a "24/7 program": one programme named for what the
+# channel plays, under every name the playlist gives it. The names come
+# from playlist_aliases.json, kept by att_epg.py.
+def add_solo(root: ET.Element) -> int:
+    import hashlib
+    import json
+    from datetime import datetime, timedelta, timezone
+    try:
+        with open("playlist_aliases.json", encoding="utf-8") as handle:
+            solo = json.load(handle).get("solo") or {}
+    except (OSError, ValueError):
+        return 0
+    now = datetime.now(timezone.utc)
+    first = (now - timedelta(hours=6)).replace(minute=0, second=0, microsecond=0)
+    first -= timedelta(hours=first.hour % 6)
+    block = timedelta(hours=6)
+    for subject, names in sorted(solo.items()):
+        cid = "Playlist.Solo." + hashlib.md5(subject.encode()).hexdigest()[:10]
+        ch = ET.Element("channel", {"id": cid})
+        for name in names:
+            ET.SubElement(ch, "display-name").text = name
+        root.insert(0, ch)
+        moment = first
+        while moment < now + timedelta(days=3):
+            p = ET.SubElement(root, "programme", {
+                "start": moment.strftime("%Y%m%d%H%M%S +0000"),
+                "stop": (moment + block).strftime("%Y%m%d%H%M%S +0000"),
+                "channel": cid})
+            ET.SubElement(p, "title", {"lang": "ar"}).text = f"{subject} 24/7"
+            ET.SubElement(p, "desc", {"lang": "ar"}).text = f"{subject} — على مدار الساعة"
+            moment += block
+    log(f"SOLO: {len(solo)} channel(s), 24/7")
+    return len(solo)
 
 if __name__ == "__main__":
     raise SystemExit(build())
