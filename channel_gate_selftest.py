@@ -4341,6 +4341,13 @@ def gate_no_guide_reads_a_stranger() -> None:
         # jordan_tv_epg.py.
         ("jordan_tv_epg.py", "epgshare01.online"),
         ("bein3_asia_epg.py", "epgshare01.online"),
+        # The owner's playlist's "US| AT&T" category, asked for by name.
+        # DirecTV's own guide refuses a runner (403 from its CDN, 500 from
+        # its API, measured 4 October 2026); Gracenote's US listings and
+        # the team schedules reach a runner only through this feed. Every
+        # channel was matched to its feed once, by hand — see
+        # att_channels.json and the docstring of att_epg.py.
+        ("att_epg.py", "epgshare01.online"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4411,9 +4418,11 @@ def gate_no_guide_reads_a_stranger() -> None:
     # when that channel went, and to six when MBC and OSN were asked for
     # on the Roya link — two channel families with no open guide of their
     # own, every feed's clock measured before it was read — and to eight
-    # when Jordan TV and beIN SPORTS 3 Asia were asked for the same way.
-    check("SOURCES", "exactly eight aggregated-feed reads, all declared",
-          len(KNOWN), 8)
+    # when Jordan TV and beIN SPORTS 3 Asia were asked for the same way,
+    # and to nine for the owner's own playlist's US| AT&T channels, whose
+    # operator's guide refuses a runner.
+    check("SOURCES", "exactly nine aggregated-feed reads, all declared",
+          len(KNOWN), 9)
 
 
 
