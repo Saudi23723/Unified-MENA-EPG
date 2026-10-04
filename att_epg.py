@@ -385,6 +385,23 @@ def add_rows(out: list, cid: str, programmes) -> int:
     return count
 
 
+def write_aliases(names: dict[str, list[str]], solo: list[str]) -> None:
+    """playlist_aliases.json — the playlist's names for channels this
+    repository already guides, and its SOLO channels. Every guide written
+    through epg_lib carries these names, so the owner's existing links
+    match these channels: an "assign", not a new link."""
+    subjects: dict[str, list[str]] = {}
+    for name in solo:
+        subjects.setdefault(solo_subject(name), []).append(name)
+    data = {"names": {k: sorted(set(v)) for k, v in sorted(names.items())},
+            "solo": {k: sorted(set(v)) for k, v in sorted(subjects.items())}}
+    with open("playlist_aliases.json", "w", encoding="utf-8") as handle:
+        json.dump(data, handle, ensure_ascii=False, indent=1)
+        handle.write("\n")
+    say(f"aliases: {sum(map(len, data['names'].values()))} name(s) on "
+        f"{len(data['names'])} guided channel(s), {len(subjects)} SOLO")
+
+
 def build() -> int:
     mapping: dict[str, list[str]] = json.load(open(MAP, encoding="utf-8"))
     streams = playlist()
@@ -475,6 +492,9 @@ def build() -> int:
             found += len(names)
     say(f"US local: {found} of {sum(map(len, calls.values()))} named stations "
         f"have Gracenote listings")
+
+    write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
+                  solo)
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — playlist"})
     # XMLTV puts every <channel> before the first <programme>. A player
