@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 """
 The owner's own Xtream playlist, in one SMALL file (the day ahead, titles
-only — asked for as "ملف صغير"): its "US| AT&T" category with the AT&T
-mark, and its US| NBC / FOX / CBS / ABC stations, taken first from the
-EPG links the owner sent. The playlist's beIN, Alkass and STARZPLAY
+only — asked for as "ملف صغير"): its US| NBC / FOX / CBS / ABC
+stations, taken first from the EPG links the owner sent. The "US| AT&T"
+category was taken off this guide at the owner's word ("اشطب لينك ال
+at&t بالكامل"); att_channels.json stays only for the network cable
+channels (FOX NEWS, FS1, BRAVO...) that share its reviewed matches. The playlist's beIN, Alkass and STARZPLAY
 channels are not in it: they are assigned on the existing links by name
 (playlist_aliases.json, written here), and SOLO rides the unified link.
 
@@ -62,8 +64,6 @@ import requests
 OUT = "att_epg.xml.gz"
 MAP = "att_channels.json"
 OWN = "unified_mena_epg.xml"
-LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
-        "main/logos/att.png")
 CATEGORY = re.compile(r"AT\s*&\s*T", re.I)
 # Small on purpose — asked for as "ملف صغير": the day ahead, titles only.
 BEHIND = timedelta(hours=2)
@@ -150,18 +150,6 @@ def playlist() -> list[tuple[str, str, str]] | None:
 
 
 # --- names ---------------------------------------------------------------
-
-def core(name: str) -> str:
-    """'AT&T: A&E ᴿᴬᵂ' -> 'A&E' — the key att_channels.json is kept by."""
-    name = re.sub(r"^\s*AT\s*&\s*T\s*:\s*", "", name)
-    name = re.sub(r"[\sᴬ-ᵿ⁰-⁹]+$", "", name)
-    return re.sub(r"\s+", " ", name).strip().upper()
-
-
-def channel_id(key: str) -> str:
-    key = key.replace("+", " Plus").replace("&", " And ").replace("!", " Bang")
-    return "ATT." + (re.sub(r"[^A-Za-z0-9]+", "", key.title()) or "Channel")
-
 
 # --- the sources ---------------------------------------------------------
 
@@ -425,7 +413,7 @@ def build() -> int:
 
     # Who goes where. A target is (source, id); every playlist name that
     # shows the same feed becomes one channel carrying all those names.
-    att, solo = [], []
+    solo = []
     groups: dict[tuple[str, str], dict] = {}
 
     def assign(target, name, logo=None, ids=()):
@@ -438,7 +426,7 @@ def build() -> int:
     for cat, name, epg in streams:
         number = alkass_number(name)
         if CATEGORY.search(cat):
-            att.append(name)
+            continue          # AT&T: taken off this guide at the owner's word
         elif number and number in ALKASS_IDS:
             assign(("own", ALKASS_IDS[number]), name, ALKASS_LOGO.format(number),
                    [epg] if re.fullmatch(r"alkass\w+\.qa", epg or "", re.I) else [])
@@ -459,17 +447,13 @@ def build() -> int:
                 counts["US cable"] += 1
             else:
                 us_pending[name] = sign
-    say(f"playlist: {len(att)} AT&T, {len(solo)} SOLO, "
+    say(f"playlist: {len(solo)} SOLO, "
         + ", ".join(f"{v} {k}" for k, v in counts.items())
         + f", {len(us_pending)} US station name(s)")
 
     now = datetime.now(timezone.utc)
     floor, ceiling = now - BEHIND, now + AHEAD
     wanted: dict[str, set[str]] = {}
-    for name in att:
-        hit = mapping.get(core(name))
-        if hit:
-            wanted.setdefault(hit[0], set()).add(hit[1])
     for source, cid in groups:
         wanted.setdefault(source, set()).add(cid)
 
@@ -549,28 +533,6 @@ def build() -> int:
     # with nothing matched (4 October 2026).
     programmes_out: list[ET.Element] = []
 
-    # AT&T
-    seen, mapped, filled, total = set(), 0, 0, 0
-    for name in att:
-        key = core(name)
-        cid = channel_id(key)
-        if cid in seen:
-            continue
-        seen.add(cid)
-        add_channel(root, cid, [name, f"AT&T: {key}"], LOGO)
-        hit = mapping.get(key)
-        if hit:
-            mapped += 1
-            added = add_rows(programmes_out, cid, rows.get(tuple(hit), []))
-            filled += bool(added)
-            total += added
-    say(f"AT&T: {len(seen)} channel(s), {mapped} with a source, {filled} with "
-        f"programmes, {total} programme(s)")
-    if mapped and filled < FLOOR * mapped:
-        say(f"guide: only {filled}/{mapped} filled — a source is down; "
-            f"keeping the published guide")
-        return 0
-
     # Everything grouped by feed: Alkass, beIN, STARZPLAY, the US networks.
     shown = empty = 0
     for (source, target), g in sorted(groups.items()):
@@ -584,6 +546,10 @@ def build() -> int:
             shown += bool(added)
             empty += not added
     say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
+    if (shown + empty) and shown < FLOOR * (shown + empty):
+        say(f"guide: only {shown}/{shown + empty} filled — a source is down; "
+            f"keeping the published guide")
+        return 0
 
     # SOLO rides the unified link (merge_epg.add_solo), not this file.
 
