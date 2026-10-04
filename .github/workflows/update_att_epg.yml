@@ -1,6 +1,6 @@
 name: Update AT&T EPG
 
-# The guide for the "US| AT&T" category of the owner's Xtream playlist —
+# The guide for the owner's Xtream playlist — US| AT&T, AL-KASS, SOLO —
 # see att_epg.py. Every three hours: Pluto and Samsung publish only half
 # a day ahead, so their channels need the guide rebuilt well inside that.
 #
@@ -41,7 +41,10 @@ jobs:
           XTREAM_USER: ${{ secrets.XTREAM_USER }}
           XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
         run: python att_epg.py
+      # No file means the run kept the published guide (playlist or a
+      # source unreadable) — nothing to publish, and nothing failed.
       - name: Validate
+        if: hashFiles('att_epg.xml.gz') != ''
         run: |
           python - <<'PY'
           import gzip, xml.etree.ElementTree as ET
@@ -57,6 +60,7 @@ jobs:
           print("AT&T XMLTV VALIDATION PASS", len(root.findall("channel")), "channels")
           PY
       - name: Publish on the att-epg branch
+        if: hashFiles('att_epg.xml.gz') != ''
         run: |
           mkdir -p /tmp/out && cp att_epg.xml.gz /tmp/out/
           cd /tmp/out
