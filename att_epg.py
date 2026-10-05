@@ -216,6 +216,13 @@ def source_url(source: str) -> str | None:
 SOURCE_ICONS: dict[tuple[str, str], str] = {}
 
 
+# A source's stand-in for a schedule it does not have — iptv-epg.org fills
+# Iqraa TV and a thousand more rows with "No Data". Not a programme: the
+# channel is then one no source schedules, and shows its own name.
+PLACEHOLDER = re.compile(r"(?i)^(no data|no information|no programme information|"
+                         r"to be announced|tba|tbc)?$")
+
+
 def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
     """{channel id: [programme elements]} for the wanted ids of one source."""
     if source == "own":
@@ -233,7 +240,8 @@ def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
                 if (wanted(cid) if callable(wanted) else cid in wanted):
                     start, stop = when(el.get("start")), when(el.get("stop"))
                     if start and stop and stop > floor and start < ceiling \
-                            and stop > start:
+                            and stop > start and not PLACEHOLDER.match(
+                                (el.findtext("title") or "").strip()):
                         found.setdefault(cid, []).append(el)
                         continue
                 el.clear()
