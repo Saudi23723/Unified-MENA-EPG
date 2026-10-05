@@ -89,15 +89,22 @@ def build() -> int:
         file_channels = 0
         file_programmes = 0
 
+        mine = set()
         for ch in src_root.findall("channel"):
             cid = ch.get("id")
             if not cid or cid in seen_channel_ids:
                 continue
             seen_channel_ids.add(cid)
+            mine.add(cid)
             root.append(ch)
             file_channels += 1
 
+        # A channel two links carry (Al Jazeera, on Roya's and on Alwan's)
+        # keeps the rows of the file that brought it first, so the merged
+        # link never lists one programme twice.
         for pr in src_root.findall("programme"):
+            if pr.get("channel") not in mine and pr.get("channel") in seen_channel_ids:
+                continue
             root.append(pr)
             file_programmes += 1
 

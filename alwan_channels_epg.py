@@ -194,7 +194,7 @@ def add_placeholders_to(root) -> int:
             add_programme(root, xid, start, start + timedelta(days=1), bar, bar)
             count += 1
     log(f"placeholders: {len(PLACEHOLDERS)} channel(s), {count} programme(s)")
-    return count + add_solo_to(root)
+    return count + add_solo_to(root) + add_aljazeera_to(root)
 
 
 # The owner's playlist's SOLO channels — each plays one thing round the
@@ -269,3 +269,39 @@ def build() -> int:
 if __name__ == "__main__":
     import sys
     sys.exit(run_main(build, OUTPUT))
+
+
+# Al Jazeera on this link too, asked for as "زبط الجزيرة": the player has
+# this link and not the unified one, and the provider files its "Al
+# Jazeera 4K" under AlJazeera.qa — the id of this repository's guide —
+# with nothing in its own EPG under it. The rows are the Roya guide's own
+# (aljazeera_epg: the broadcaster's page, AE1 for the hours between),
+# copied as they stand; the names are the playlist's.
+ALJAZEERA_ID = "AlJazeera.qa"
+ALJAZEERA_NAMES = ("Al Jazeera 4K", "AR: Al Jazeera 4K", "AR: Al Jazeera HD",
+                   "AR: Al Jazeera UHD", "Al Jazeera HD", "Al Jazeera",
+                   "الجزيرة")
+
+
+def add_aljazeera_to(root, source: str = "roya_jordan_epg.xml") -> int:
+    try:
+        guide = ET.parse(source).getroot()
+    except Exception as exc:                                # noqa: BLE001
+        log(f"Al Jazeera: {source} unreadable ({exc}) — left off this link")
+        return 0
+    found = guide.find(f"channel[@id='{ALJAZEERA_ID}']")
+    rows = [p for p in guide.findall("programme")
+            if p.get("channel") == ALJAZEERA_ID]
+    if found is None or not rows:
+        return 0
+    ch = ET.Element("channel", {"id": ALJAZEERA_ID})
+    for name in ALJAZEERA_NAMES:
+        ET.SubElement(ch, "display-name").text = name
+    icon = found.find("icon")
+    if icon is not None:
+        ch.append(icon)
+    root.insert(len(root.findall("channel")), ch)
+    for p in rows:
+        root.append(p)
+    log(f"Al Jazeera: {len(rows)} programme(s) on this link")
+    return len(rows)

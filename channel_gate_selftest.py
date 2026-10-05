@@ -4352,6 +4352,10 @@ def gate_no_guide_reads_a_stranger() -> None:
         # hand and asked for by name ("تعمل assign منها"): ferteque's guide
         # carries the provider's exact channel names. See att_epg.USER_LINKS.
         ("att_epg.py", "github.com"),
+        # Al Jazeera's own page names only its headline shows' start
+        # times; AE1 fills the hours between, its clock checked against
+        # the page (5 October 2026). See aljazeera_epg.between_hours.
+        ("aljazeera_epg.py", "epgshare01.online"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4428,9 +4432,10 @@ def gate_no_guide_reads_a_stranger() -> None:
     # when Jordan TV and beIN SPORTS 3 Asia were asked for the same way,
     # and to nine for the owner's own playlist's US| AT&T channels, whose
     # operator's guide refuses a runner, and to ten for the EPG link the
-    # owner sent for the US networks' stations.
-    check("SOURCES", "exactly ten aggregated-feed reads, all declared",
-          len(KNOWN), 10)
+    # owner sent for the US networks' stations, and to eleven for the
+    # hours Al Jazeera's own page leaves unnamed.
+    check("SOURCES", "exactly eleven aggregated-feed reads, all declared",
+          len(KNOWN), 11)
 
 
 

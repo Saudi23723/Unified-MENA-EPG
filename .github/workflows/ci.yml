@@ -6,6 +6,9 @@ name: CI
 
 on:
   push:
+    # probe-shasha holds throwaway runner probes, never a guide; checking
+    # it only mailed the owner a failure for code that is never published.
+    branches-ignore: [probe-shasha]
   pull_request:
   workflow_dispatch:
 
