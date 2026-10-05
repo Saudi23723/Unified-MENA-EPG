@@ -393,7 +393,10 @@ def us_cable_key(name: str) -> str | None:
 
 
 def stamp(moment: datetime) -> str:
-    return moment.strftime("%Y%m%d%H%M%S +0000")
+    # In UTC first: a time read from a source keeps the source's offset
+    # (US2 writes -0400), and labelling its wall clock +0000 put the rows
+    # built from it four hours out of place (5 October 2026).
+    return moment.astimezone(timezone.utc).strftime("%Y%m%d%H%M%S +0000")
 
 
 def solo_subject(name: str) -> str:
