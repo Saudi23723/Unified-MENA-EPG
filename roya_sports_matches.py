@@ -113,9 +113,15 @@ def collect(session, now: datetime | None = None) -> list[dict]:
         away = (detail.get("away_team") or {}).get("name") or ""
         league = detail.get("league_name") or ""
         venue = (detail.get("match_info") or {}).get("stadium") or ""
-        for channel in detail.get("channels") or []:
-            cid = channel_id(channel.get("name") or "")
-            if not cid or not home or not away:
+        names = [channel.get("name") or "" for channel in detail.get("channels") or []]
+        targets = [cid for cid in map(channel_id, names) if cid]
+        # The national team on Roya is on Roya Sport too — the owner's word
+        # (5 October 2026), for Jordan v Venezuela, which Roya Sports lists
+        # on Roya TV and the app only.
+        if national(detail) and any("رؤيا" in n or "roya" in n.lower() for n in names):
+            targets.append("Roya_RoyaSport")
+        for cid in dict.fromkeys(targets):
+            if not home or not away:
                 continue
             rows.append({"channel": cid, "start": start, "stop": start + MATCH,
                          "title": f"⚽ {home} × {away}",
