@@ -439,7 +439,8 @@ def add_rows(out: list, cid: str, programmes) -> int:
 def no_overlaps(programmes: list) -> list:
     """Each channel's rows in time order, a row that starts before the
     previous one ends left out — what the publish step's validation, and
-    every player, require."""
+    every player, require. One that starts inside the previous one is
+    moved to start where it ends."""
     by_channel: dict[str, list] = {}
     for p in programmes:
         by_channel.setdefault(p.get("channel"), []).append(p)
@@ -448,23 +449,29 @@ def no_overlaps(programmes: list) -> list:
         last = None
         for p in sorted(rows, key=lambda p: when(p.get("start"))):
             start, stop = when(p.get("start")), when(p.get("stop"))
-            if not start or not stop or stop <= start or (last and start < last):
+            if not start or not stop or stop <= start:
                 continue
+            if last and start < last:
+                if stop <= last:
+                    continue
+                # Starts where the previous one ends, rather than leaving
+                # the hole dropping it would.
+                p.set("start", stamp(last))
             out.append(p)
             last = stop
     return out
 
 
 def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling) -> None:
-    """Every stretch of floor..ceiling that out[since:] leaves empty, ten
-    minutes or more, becomes a row with the channel's own name."""
+    """Every stretch of floor..ceiling that out[since:] leaves empty, a
+    minute or more, becomes a row with the channel's own name."""
     spans = sorted((when(p.get("start")), when(p.get("stop"))) for p in out[since:])
     cursor, holes = floor, []
     for start, stop in spans:
-        if start - cursor >= timedelta(minutes=10):
+        if start - cursor >= timedelta(minutes=1):
             holes.append((cursor, start))
         cursor = max(cursor, stop)
-    if ceiling - cursor >= timedelta(minutes=10):
+    if ceiling - cursor >= timedelta(minutes=1):
         holes.append((cursor, ceiling))
     for start, stop in holes:
         p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
