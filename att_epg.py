@@ -682,7 +682,7 @@ def build() -> int:
         if target:
             assign(("own", target), name)
             continue
-        if pm.ISLAMIC.match(cat) or (pm.route(cat, name) is pm.ARAB
+        if pm.ISLAMIC.match(cat) or (pm.route(cat, name) in (pm.ARAB, pm.ARAB_WIDE)
                                      and pm.QURAN_CHANNEL.search(name)):
             kind = pm.islamic(name)
             if kind:
@@ -712,7 +712,9 @@ def build() -> int:
         def on_channel(cid, names, asking=asking, claims=claims):
             if not pm.usable(cid):
                 return
-            for key in {pm.norm(n) for n in names}:
+            if source == "ferteque":
+                names = pm.trusted_names(names)
+            for key in pm.source_names(names):
                 for name in asking.get(key, ()):
                     # A West Coast copy runs three hours behind: it is the
                     # channel only for a name that says West, and only then.
