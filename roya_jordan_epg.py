@@ -60,6 +60,7 @@ import amman_tv_epg
 import mbc_epg
 import osn_epg
 import palestine_channels_epg
+import roya_sports_matches
 import starz_arabic_epg
 import uae_epg
 
@@ -290,14 +291,28 @@ def build() -> int:
     # That is why a channel is gathered whole, over every day, and
     # resolved once — resolving each day on its own would leave exactly
     # the pair that breaks this.
+    # Jordan's matches, from Roya Sports' own page of who carries them: the
+    # schedule above is a template that never has them (roya_sports_matches).
+    matches: list[dict] = []
+    try:
+        matches = roya_sports_matches.collect(session)
+    except Exception as exc:  # noqa: BLE001 - the schedule goes on without them
+        warn(f"Roya Sports failed, the schedule is published without its matches: {exc}")
+    for match in matches:
+        if match["channel"] in per_channel:
+            per_channel[match["channel"]] = roya_sports_matches.make_room(
+                per_channel[match["channel"]], match["start"], match["stop"])
+            per_channel[match["channel"]].append({**match, "icon": None, "live": True})
+
     for xmltv_id, rows in per_channel.items():
         for event in resolve_overlaps(rows):
             add_programme(root, xmltv_id, event["start"], event["stop"],
-                          event["title"], event["desc"], icon=event["icon"])
+                          event["title"], event["desc"], icon=event["icon"],
+                          live_eligible=bool(event.get("live")))
             total += 1
 
     log(f"Roya: {ok_days}/{DAYS_BACK + DAYS_FORWARD + 1} days fetched OK, "
-        f"{total} programmes total, no Live badge (Roya publishes no live marker)")
+        f"{total} programmes total, Live badge on Roya Sports' matches only")
 
     # الجديد and الجزيرة share this file. Each is read after Roya, and each
     # inside its own try, so one broken source costs only its own channel.
