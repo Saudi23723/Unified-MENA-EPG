@@ -2,34 +2,47 @@
 <tv generator-info-name="Unified MENA EPG — beIN Sports Türkiye">
   <channel id="beINSPORTS1.tr">
     <display-name lang="tr">beIN SPORTS 1</display-name>
+    <display-name>TR: BeIN Sports 1 4K</display-name>
+    <display-name>TR: BeIN Sports 1 HD</display-name>
+    <display-name>TR: BeIN Sports 1 HD Backup</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_tr1.png" />
   </channel>
   <channel id="beINSPORTS2.tr">
     <display-name lang="tr">beIN SPORTS 2</display-name>
+    <display-name>TR: BeIN Sports 2 HD</display-name>
+    <display-name>TR: BeIN Sports 2 HD Backup</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_tr2.png" />
   </channel>
   <channel id="beINSPORTS3.tr">
     <display-name lang="tr">beIN SPORTS 3</display-name>
+    <display-name>TR: BeIN Sports 3 HD</display-name>
+    <display-name>TR: BeIN Sports 3 HD Backup</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_tr3.png" />
   </channel>
   <channel id="beINSPORTS4.tr">
     <display-name lang="tr">beIN SPORTS 4</display-name>
+    <display-name>TR: BeIN Sports 4 HD</display-name>
+    <display-name>TR: BeIN Sports 4 HD Backup</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_tr4.png" />
   </channel>
   <channel id="beINSPORTS5.tr">
     <display-name lang="tr">beIN SPORTS 5</display-name>
+    <display-name>TR: Bein sports 5 HD</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_tr5.png" />
   </channel>
   <channel id="beINSPORTSMAX1.tr">
     <display-name lang="tr">beIN SPORTS MAX 1</display-name>
+    <display-name>TR: BeIN Sports Max 1 HD</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_trmax1.png" />
   </channel>
   <channel id="beINSPORTSMAX2.tr">
     <display-name lang="tr">beIN SPORTS MAX 2</display-name>
+    <display-name>TR: BeIN Sports Max 2 HD</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_trmax2.png" />
   </channel>
   <channel id="beINSPORTSHABER.tr">
     <display-name lang="tr">beIN SPORTS HABER</display-name>
+    <display-name>TR: BeIN Sports Haber HD</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_haber.png" />
   </channel>
   <channel id="TivibuSpor.tr">
@@ -46,6 +59,7 @@
     <display-name lang="tr">Tivibu Sport 1</display-name>
     <display-name lang="ar">تيفيبو سبور 1</display-name>
     <display-name lang="ar">تيفيبو سبور ١</display-name>
+    <display-name>TR: TiviBu Sport 1 HD</display-name>
   </channel>
   <channel id="TivibuSpor2.tr">
     <display-name lang="tr">Tivibu Spor 2</display-name>
@@ -54,6 +68,7 @@
     <display-name lang="tr">Tivibu Sport 2</display-name>
     <display-name lang="ar">تيفيبو سبور 2</display-name>
     <display-name lang="ar">تيفيبو سبور ٢</display-name>
+    <display-name>TR: TiviBu Sport 2 HD</display-name>
   </channel>
   <channel id="TivibuSpor3.tr">
     <display-name lang="tr">Tivibu Spor 3</display-name>
@@ -62,6 +77,7 @@
     <display-name lang="tr">Tivibu Sport 3</display-name>
     <display-name lang="ar">تيفيبو سبور 3</display-name>
     <display-name lang="ar">تيفيبو سبور ٣</display-name>
+    <display-name>TR: TiviBu Sport 3 HD</display-name>
   </channel>
   <channel id="TivibuSpor4.tr">
     <display-name lang="tr">Tivibu Spor 4</display-name>
@@ -2649,10 +2665,6 @@
   </programme>
   <programme start="20261008190000 +0000" stop="20261008210000 +0000" channel="TivibuSpor.tr">
     <title lang="en">Her Gece Spor</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20261004053000 +0000" stop="20261004064500 +0000" channel="TivibuSpor1.tr">
-    <title lang="en">Ayos Osmaniyespor - Malatya Yeşilyurt</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20261004064500 +0000" stop="20261004071500 +0000" channel="TivibuSpor1.tr">
