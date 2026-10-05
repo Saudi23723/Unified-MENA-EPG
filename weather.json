@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05T05:49:20.224Z",
+  "updated_at": "2026-10-05T05:55:48.983Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,28 +7,28 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 17.7,
-      "humidity": 70,
-      "wind_speed": 3.1,
+      "temperature_c": 17.4,
+      "humidity": 69,
+      "wind_speed": 2.3,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-05T08:45",
-      "feels_c": 17.9,
+      "feels_c": 17.6,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-10-05",
           "code": 3,
-          "max": 24.8,
-          "min": 15.2,
+          "max": 24.4,
+          "min": 15.1,
           "rain": 3
         },
         {
           "date": "2026-10-06",
           "code": 61,
           "max": 23.8,
-          "min": 16.5,
+          "min": 16.0,
           "rain": 15
         },
         {
@@ -67,8 +67,8 @@
           "rain": 8
         }
       ],
-      "today_max": 24.8,
-      "today_min": 15.2,
+      "today_max": 24.4,
+      "today_min": 15.1,
       "sunrise": "06:32",
       "sunset": "18:16",
       "uv": 6
@@ -78,21 +78,21 @@
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 24.8,
+      "temperature_c": 24.6,
       "humidity": 52,
-      "wind_speed": 13.7,
+      "wind_speed": 13.0,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-05T08:45",
-      "feels_c": 24.3,
+      "feels_c": 24.1,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-10-05",
           "code": 3,
-          "max": 32.3,
-          "min": 23.1,
+          "max": 32.1,
+          "min": 22.8,
           "rain": 10
         },
         {
@@ -138,8 +138,8 @@
           "rain": 8
         }
       ],
-      "today_max": 32.3,
-      "today_min": 23.1,
+      "today_max": 32.1,
+      "today_min": 22.8,
       "sunrise": "06:35",
       "sunset": "18:20",
       "uv": 7
