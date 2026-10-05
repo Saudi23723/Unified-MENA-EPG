@@ -39,7 +39,7 @@ def norm(name: str | None) -> str:
     s = re.sub(r"^\s*([a-z]{2,6}(?:-[a-z]{2,4})?(?:\s*\|\s*[a-z]{2,4})?)\s*[:|]\s*", "", s)
     # iptv-epg.org writes the country with a dash: "FR - Ligue 1+".
     s = re.sub(r"^\s*[a-z]{2}\s+-\s+", "", s)
-    s = re.sub(r"\[\s*live\s*\]", " ", s)
+    s = re.sub(r"\[[^\]]*\]", " ", s)          # "[ Live ]", "[ Match Time ]"
     s = re.sub(r"\bhd\s*\+", " hd ", s)
     s = re.sub(r"\+\s*(\d)\b", r" plus\1 ", s)
     s = s.replace("+", " plus ")
@@ -105,6 +105,15 @@ def own_target(index, category: str, name: str) -> str | None:
     return None
 
 
+# A source's own spelling of a channel the playlist names otherwise.
+SOURCE_ALIASES = {"sky news arabic": "sky news arabia", "sky stv": "stv"}
+
+
+def source_key(name: str) -> str:
+    key = norm(name)
+    return SOURCE_ALIASES.get(key, key)
+
+
 # Category -> (sources in order, the country ids it may take).
 ARAB = (["AE1", "SA2", "BEIN1", "ALJAZEERA1"],
         {"ae", "sa", "qa", "eg", "lb", "jo", "kw", "iq", "sy", "bh", "om"})
@@ -133,6 +142,12 @@ def route(category: str, name: str) -> tuple[list[str], set[str]]:
     for pattern, answer in ROUTES:
         if re.search(pattern, category):
             return answer
+    if re.match(r"Real 4K", category, re.I):
+        # A mixed shelf — UK, French, Italian, Spanish 4K feeds side by side:
+        # every country's files, by exact name only.
+        # Not Italy's: its "Sky Sport F1" would take the UK's "Sky Sports F1 4K".
+        return (["UK1", "FR1", "DE1", "ES1", "US2", "PT1", "TR3", "ferteque",
+                 "iptvepg"], {"uk", "fr", "de", "es", "us", "us2", "pt", "tr"})
     if category.startswith("International Sports"):
         m = re.match(r"\s*spt-vip\s*\|\s*([a-z]{2})\s*:", name, re.I)
         if m and m.group(1).lower() in SPORT_PREFIX:

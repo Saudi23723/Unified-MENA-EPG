@@ -694,7 +694,7 @@ def build() -> int:
                              "sunnah": "sunnah.png"}.get(what), "names": []})
                 entry["names"].append(name)
                 continue
-        pending[name] = (cat, pm.norm(name))
+        pending[name] = (cat, pm.source_key(name))
 
     found: dict[str, tuple[str, str]] = {}            # name -> (source, id)
     for source in pm.SOURCE_ORDER:
