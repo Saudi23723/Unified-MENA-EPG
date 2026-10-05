@@ -91,7 +91,7 @@ def own_target(index, category: str, name: str) -> str | None:
     # Ours are the Arab world's feeds (and beIN's Turkish ones): a UK, French
     # or American category's Nat Geo or beIN is that country's own feed.
     turkish = category.strip().lower().startswith("turkish")
-    if route(category, name) is not ARAB and not turkish:
+    if route(category, name) not in (ARAB, ARAB_WIDE) and not turkish:
         return None
     key = norm(name)
     keys = [key, OWN_ALIASES.get(key, key)]
@@ -119,7 +119,7 @@ def source_key(name: str) -> str:
 ARAB = (["AE1", "SA2", "BEIN1", "ALJAZEERA1"],
         {"ae", "sa", "qa", "eg", "lb", "jo", "kw", "iq", "sy", "bh", "om"})
 ROUTES = [
-    (r"^UK \| India", (["IN1", "IN2", "UK1"], {"in", "uk"})),
+    (r"^UK \| India", (["IN1", "IN2", "UK1", "ferteque", "iptvepg"], {"in", "uk"})),
     # Not Ireland's file: its "BBC 1" is BBC One Northern Ireland.
     (r"^UK\b", (["UK1", "ferteque", "iptvepg"], {"uk"})),
     (r"^France", (["FR1", "ferteque", "iptvepg"], {"fr"})),
@@ -127,10 +127,20 @@ ROUTES = [
     (r"^Turkish", (["TR3", "TR1", "ferteque", "iptvepg"], {"tr"})),
     (r"^USA", (["US2", "US_SPORTS1", "ferteque", "iptvepg"], {"us", "us2"})),
 ]
+# The Arab world's own channels — news, faith, sport, MBC — broadcast one
+# feed everywhere: the owner's two links file Al Araby, Iqraa, DW English or
+# Arryadia under whichever country they were picked up in (.us, .fr, .uk).
+# By exact name only; not the documentary shelf, whose Arabic Discovery or
+# DMAX is not the American or British channel of the same name.
+ARAB_WIDE = (ARAB[0] + ["ferteque", "iptvepg"],
+             ARAB[1] | {"us", "us2", "uk", "fr", "ca", "de", "nl", "tr", "it", "es"})
+ARAB_WIDE_CATEGORY = re.compile(r"^(News|Islamic|Arabic Sports|MBC\b)", re.I)
 SPORT_PREFIX = {"de": (["DE1"], {"de"}), "es": (["ES1"], {"es"}),
                 "it": (["IT1"], {"it"}), "nl": (["NL1"], {"nl"}),
                 "uk": (["UK1"], {"uk"}), "fr": (["FR1"], {"fr"}),
                 "us": (["US2", "US_SPORTS1"], {"us", "us2"}),
+                "usa": (["US2", "US_SPORTS1"], {"us", "us2"}),
+                "in": (["IN1", "IN2"], {"in"}),
                 "pt": (["PT1"], {"pt"}), "tr": (["TR3", "TR1"], {"tr"})}
 # The order the sources are read in, smallest and most exact first.
 SOURCE_ORDER = ["AE1", "SA2", "BEIN1", "ALJAZEERA1", "UK1", "FR1", "PT1",
@@ -150,17 +160,34 @@ def route(category: str, name: str) -> tuple[list[str], set[str]]:
         return (["UK1", "FR1", "DE1", "ES1", "US2", "PT1", "TR3", "ferteque",
                  "iptvepg"], {"uk", "fr", "de", "es", "us", "us2", "pt", "tr"})
     if category.startswith("International Sports"):
-        m = re.match(r"\s*spt-vip\s*\|\s*([a-z]{2})\s*:", name, re.I)
+        m = re.match(r"\s*spt-vip\s*\|\s*([a-z]{2,3})\s*:", name, re.I)
         if m and m.group(1).lower() in SPORT_PREFIX:
             sources, countries = SPORT_PREFIX[m.group(1).lower()]
             return sources + ["ferteque", "iptvepg"], countries
         return [], set()
+    if ARAB_WIDE_CATEGORY.match(category):
+        return ARAB_WIDE
     return ARAB
 
 
 def west(text: str) -> bool:
     """A West Coast copy runs three hours behind its East one."""
     return bool(re.search(r"west(?!ern)|pacific", text, re.I))
+
+
+def source_names(names) -> set[str]:
+    """A source's names as keys, also without a bracketed call sign or
+    region: "CBS HARTFORD (WFSB)" is the playlist's "CBS Hartford"."""
+    keys = set()
+    for n in names:
+        keys.add(norm(n))
+        bare = re.sub(r"\([^)]*\)", " ", n)
+        # Only a call sign in the bracket ("France 24 (I)" is not France 24),
+        # and not when the bracket was the name ("CBS (New York)").
+        inside = " ".join(re.findall(r"\(([^)]*)\)", n))
+        if bare != n and _signs(inside) and not west(n) and len(norm(bare).split()) >= 2:
+            keys.add(norm(bare))
+    return {k for k in keys if k}
 
 
 def usable(cid: str) -> bool:
@@ -295,3 +322,73 @@ def real_logo(index: dict, category: str, name: str) -> str | None:
             return url
     return None
 
+
+
+
+CALL_SIGN = re.compile(r"([kw][a-z]{2,3})(?:dt|ld)?")
+NOT_SIGNS = {"world", "west", "wild", "kids", "king", "week", "work", "wine", "wolf", "word",
+             "wave", "wake", "wall", "war", "way", "web", "wet", "win", "wow", "key",
+             "kid", "kim", "kia", "keep", "kiss", "know", "wise", "with", "will", "well",
+             "what", "when", "warm", "wire", "wood", "kong", "kino", "kika", "korn"}
+FILLER = {"tv", "hd", "channel", "the", "us", "uk", "east", "network", "television",
+          "entertainment", "latino", "dt", "raw", "uhd", "fhd", "sd", "hdr", "and"}
+
+
+def _tokens(name: str) -> set[str]:
+    return set(norm(re.sub(r"[ᴬ-ᶻ]+|\[[^\]]*\]", " ", name)).split()) - FILLER
+
+
+def _signs(name: str) -> set[str]:
+    """An American station's call sign, "WFSB" in "CBS HARTFORD (WFSB)"."""
+    out = set()
+    for word in norm(name).split():
+        m = CALL_SIGN.fullmatch(word)
+        if m and word not in NOT_SIGNS and m.group(1) not in NOT_SIGNS:
+            out.add(m.group(1))
+    return out
+
+
+def _squeeze(name: str) -> str:
+    """A name without spaces, quality marks or filler words, nor a trailing "tv"."""
+    toks = [t for t in norm(re.sub(r"[ᴬ-ᶻ]+|\[[^\]]*\]", " ", name)).split() if t not in FILLER]
+    return re.sub(r"tv$", "", "".join(toks))
+
+
+def trusted_names(names) -> list[str]:
+    """The names of one source id that are that channel. ferteque files a
+    channel's own name first, then names gathered from playlists, and some
+    of those are other channels — "Dw News", "Gb News" and "Rt News" under
+    "News"; "Cbs Salt Lake City (kutv)" under "ABC Salt Lake City"; "Al
+    Araby 2" under "Al Araby TV". A later name counts only when it agrees
+    with the first: the same call sign, or the same words and numbers with
+    only quality marks or a city added."""
+    names = [n for n in names if n and n.strip()]
+    if not names:
+        return []
+    first = names[0]
+    head = _tokens(first)
+    signs = _signs(first)
+    digits = sorted(re.findall(r"\d+", norm(first)))
+    out = [first]
+    same = _squeeze(first)
+    for n in names[1:]:
+        toks = _tokens(n)
+        if same and _squeeze(n) == same:
+            out.append(n)              # "Cinemax East", "Teennick", "Outside Tv"
+        elif signs & _signs(n):
+            out.append(n)
+        elif toks and len(head) >= 2 and head <= toks and \
+                sorted(re.findall(r"\d+", norm(n))) == digits:
+            out.append(n)
+        elif toks and toks <= head and len(toks) >= 2 and \
+                sorted(re.findall(r"\d+", norm(n))) == digits:
+            out.append(n)
+    # A station's network and city alone ("CBS (Denver)") when a name that
+    # carries its call sign says the same ("CBS 4 (kcnc) Denver").
+    signed = [_tokens(n) for n in out if signs & _signs(n)]
+    for n in names[1:]:
+        toks = _tokens(n)
+        if n not in out and len(toks) >= 2 and not re.search(r"\d", norm(n)) and \
+                any(toks <= t for t in signed):
+            out.append(n)
+    return out
