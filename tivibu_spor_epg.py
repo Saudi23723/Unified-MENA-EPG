@@ -32,10 +32,8 @@ player that matches by name needs the one its playlist happens to carry.
 İ and I are different letters and neither case-folds to the other, so
 both forms are written out rather than one being derived.
 
-No icons. A channel is published with no <icon> rather than with a mark
-this project invented for it: a placeholder wearing a broadcaster's
-identity claims to be something it is not. If a real Tivibu logo is added
-to logos/ later, LOGO_KEYS below is where it gets wired in.
+Icons are Tivibu's own marks (logos/tivibu_spor*.png, from iptv-org's
+logo list), wired in LOGO_KEYS below — never a mark invented for it.
 """
 
 from __future__ import annotations
@@ -97,7 +95,14 @@ CHANNELS = [
 CHANNEL_IDS = {xid for xid, _feed_id, _names in CHANNELS}
 
 # Empty until a real mark exists; see the note in the module docstring.
-LOGO_KEYS: dict[str, str] = {}
+# The channels' own marks, from iptv-org's logo list (i.imgur.com, the
+# wordmark with SPOR and the channel's number). Tivibu Spor 1 has none of
+# its own there and wears the family's plain "tivibu SPOR" mark.
+LOGO_KEYS: dict[str, str] = {
+    "TivibuSpor.tr": "tivibu_spor", "TivibuSpor1.tr": "tivibu_spor",
+    "TivibuSpor2.tr": "tivibu_spor_2", "TivibuSpor3.tr": "tivibu_spor_3",
+    "TivibuSpor4.tr": "tivibu_spor_4",
+}
 
 # Turkish for "live". Spelled with either i so an upper-cased title still
 # matches — Python's case folding does not map I to the dotless ı.
