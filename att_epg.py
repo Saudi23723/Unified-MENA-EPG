@@ -63,6 +63,7 @@ from io import BytesIO
 
 import requests
 
+import playlist_logos as pl
 import playlist_match as pm
 
 OUT = "att_epg.xml.gz"
@@ -775,6 +776,7 @@ def build() -> int:
     # of its name that points at it alone, and the provider's id where
     # that id is plainly this channel's.
     full_names = {name for _cat, name, _epg in FULL}
+    category_of = {name: cat.strip() for cat, name, _epg in FULL}
     target_of: dict[str, tuple] = {}
     point: dict[str, set] = {}
     for key, g in groups.items():
@@ -835,6 +837,13 @@ def build() -> int:
     say(f"guideless: {sum(map(len, provider_ids.values()))} provider id(s) carried, "
         f"{len(point)} name form(s)")
 
+    # A drawn mark for every round-the-clock channel that has none (the
+    # Shoof and Shahid loops): its title on a tile, by category.
+    for key, entry in always.items():
+        if not entry.get("logo"):
+            subject = re.sub(r"\s*24/7$", "", entry["title"])
+            entry["logo_url"] = pl.make(subject, category_of.get(entry["names"][0], ""))
+
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
                   solo, always)
 
@@ -861,6 +870,10 @@ def build() -> int:
                 for c in cids]
         used.update(cids)
         logo = g["logo"] or SOURCE_ICONS.get((source, target))
+        if not logo:
+            mine = [n for n in g["names"] if n in category_of]
+            if mine:
+                logo = pl.make(pm.shown_name(mine[0]), category_of[mine[0]])
         for cid in cids:
             add_channel(root, cid, g["names"], logo)
             before = len(programmes_out)
@@ -893,7 +906,7 @@ def build() -> int:
         if kind != "always":
             continue
         entry = always[key]
-        logo = LOGO_BASE + entry["logo"] if entry.get("logo") else None
+        logo = LOGO_BASE + entry["logo"] if entry.get("logo") else entry.get("logo_url")
         for epg in ids:
             add_channel(root, epg, entry["names"], logo)
             fill_holes(programmes_out, len(programmes_out), epg, entry["title"],
@@ -905,7 +918,6 @@ def build() -> int:
     first = floor.replace(minute=0, second=0, microsecond=0)
     # A channel no source schedules takes the logo of its sister in the same
     # category and name family ("Pt: Sport TV 8K" -> Sport TV's), if any.
-    category_of = {name: cat.strip() for cat, name, _epg in FULL}
     family_logo: dict[tuple, Counter] = {}
     for (source, target), g in groups.items():
         logo = g["logo"] or SOURCE_ICONS.get((source, target))
@@ -922,6 +934,8 @@ def build() -> int:
             if family_logo.get(fam):
                 sister = family_logo[fam].most_common(1)[0][0]
                 break
+        if not sister:
+            sister = pl.make(subject, category_of.get(names[0], ""))
         for cid in cids:
             add_channel(root, cid, names, sister)
             start = first
