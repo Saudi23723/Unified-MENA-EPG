@@ -70,6 +70,7 @@ SOURCE_FILES = [
 def build() -> int:
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — combined"})
     seen_channel_ids: set[str] = set()
+    channel_of: dict[str, ET.Element] = {}
 
     total_channels = 0
     total_programmes = 0
@@ -92,9 +93,24 @@ def build() -> int:
         mine = set()
         for ch in src_root.findall("channel"):
             cid = ch.get("id")
-            if not cid or cid in seen_channel_ids:
+            if not cid:
+                continue
+            if cid in seen_channel_ids:
+                # The same channel on a second link may carry names the
+                # first did not (the playlist's, on Alwan's) — keep them
+                # all, so a player matching by name finds it either way.
+                kept = channel_of[cid]
+                names = {d.text for d in kept.findall("display-name")}
+                last = kept.findall("display-name")[-1] if names else None
+                for d in ch.findall("display-name"):
+                    if d.text and d.text not in names:
+                        names.add(d.text)
+                        at = list(kept).index(last) + 1 if last is not None else 0
+                        kept.insert(at, d)
+                        last = d
                 continue
             seen_channel_ids.add(cid)
+            channel_of[cid] = ch
             mine.add(cid)
             root.append(ch)
             file_channels += 1
