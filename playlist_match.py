@@ -186,3 +186,14 @@ def loop_subject(name: str) -> str:
     text = re.sub(r"\bHD(\d+)\b", r"\1", text, flags=re.I)        # "HD3" -> "3"
     text = re.sub(r"\b(HD|FHD|SD|4K|UHD)\b\+?", " ", text, flags=re.I)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def shown_name(name: str) -> str:
+    """'Sy| Lana TV HD' -> 'Lana TV'; 'News | Ar: Al Mayadeen TV' -> 'Al Mayadeen TV'."""
+    text = re.sub(r"^\s*spt-vip\s*\|\s*", "", name, flags=re.I)
+    text = re.sub(r"^\s*[^\W\d_]{2,6}(?:-[^\W\d_]{2,6})?(?:\s*\|\s*[^\W\d_]{2,4})?\s*[:|]\s*",
+                  "", text)
+    text = re.sub(r"\[\s*live\s*\]", " ", text, flags=re.I)
+    text = re.sub(r"\b(HD|FHD|SD|4K|8K|UHD|HDR|Low|Backup)\b\+?", " ", text, flags=re.I)
+    return re.sub(r"\s+", " ", text).strip(" -|") or name.strip()
+

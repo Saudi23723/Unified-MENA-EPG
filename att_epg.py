@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import copy
 import gzip
+import hashlib
 import json
 import os
 import re
@@ -430,6 +431,26 @@ def add_rows(out: list, cid: str, programmes) -> int:
     return count
 
 
+def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling) -> None:
+    """Every stretch of floor..ceiling that out[since:] leaves empty, ten
+    minutes or more, becomes a row with the channel's own name."""
+    spans = sorted((when(p.get("start")), when(p.get("stop"))) for p in out[since:])
+    cursor, holes = floor, []
+    for start, stop in spans:
+        if start - cursor >= timedelta(minutes=10):
+            holes.append((cursor, start))
+        cursor = max(cursor, stop)
+    if ceiling - cursor >= timedelta(minutes=10):
+        holes.append((cursor, ceiling))
+    for start, stop in holes:
+        p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
+                                     "channel": cid})
+        ET.SubElement(p, "title").text = name
+        ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذا الوقت"
+        out.append(p)
+    out[since:] = sorted(out[since:], key=lambda p: when(p.get("start")))
+
+
 def write_aliases(names: dict[str, list[str]], solo: list[str],
                   always: dict[str, dict] | None = None) -> None:
     """playlist_aliases.json — the playlist's names for channels this
@@ -675,9 +696,15 @@ def build() -> int:
                 "logo": None, "names": []})["names"].append(name)
             del pending[name]
             looped += 1
+    # The rest no trusted source schedules at all. Each still says what it
+    # is — its own name, all day — so no channel of the playlist shows
+    # "No information"; nothing is claimed about what it is airing.
+    named: dict[str, list[str]] = {}
+    for name in pending:
+        named.setdefault(pm.shown_name(name), []).append(name)
     say(f"guideless: {len(FULL)} channel(s) — {len(found)} matched in a source, "
         f"{sum(len(v['names']) for v in always.values())} round the clock, "
-        f"{len(pending)} with no trusted source")
+        f"{len(pending)} with no trusted source, shown by name")
 
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
                   solo, always)
@@ -698,9 +725,14 @@ def build() -> int:
             "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{target}")]
         for cid in cids:
             add_channel(root, cid, g["names"], g["logo"])
+            before = len(programmes_out)
             added = add_rows(programmes_out, cid, rows.get((source, target), []))
             shown += bool(added)
             empty += not added
+            # A source's own holes (and a feed with nothing today) say the
+            # channel's name rather than "No information".
+            fill_holes(programmes_out, before, cid, pm.shown_name(g["names"][0]),
+                       floor, ceiling)
     say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
     if (shown + empty) and shown < FLOOR * (shown + empty):
         say(f"guide: only {shown}/{shown + empty} filled — a source is down; "
@@ -708,6 +740,22 @@ def build() -> int:
         return 0
 
     # SOLO rides the unified link (merge_epg.add_solo), not this file.
+
+    # The guideless playlist's channels no source schedules: their own
+    # name in six-hour rows, so none of them reads "No information".
+    first = floor.replace(minute=0, second=0, microsecond=0)
+    for subject, names in sorted(named.items()):
+        cid = "Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]
+        add_channel(root, cid, names, None)
+        start = first
+        while start < ceiling:
+            stop = start + timedelta(hours=6)
+            p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
+                                         "channel": cid})
+            ET.SubElement(p, "title").text = subject
+            ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذه القناة"
+            programmes_out.append(p)
+            start = stop
 
     root.extend(programmes_out)
     ET.indent(root, space=" ")
