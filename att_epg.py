@@ -748,9 +748,12 @@ def build() -> int:
     for name, (cat, key) in list(pending.items()):
         if pm.LOOP.match(cat):
             subject = pm.loop_subject(name)
+            # The Netflix category's loops wear the Netflix mark already in
+            # logos/ (the owner's screen showed them as a plain "TV" tile).
+            logo = "netflix.png" if re.match(r"\s*Netflix", cat, re.I) else None
             always.setdefault(f"loop:{subject}", {
                 "title": f"{subject} 24/7", "desc": f"{subject} — على مدار الساعة",
-                "logo": None, "names": []})["names"].append(name)
+                "logo": logo, "names": []})["names"].append(name)
             del pending[name]
             looped += 1
     # The rest no trusted source schedules at all. Each still says what it
