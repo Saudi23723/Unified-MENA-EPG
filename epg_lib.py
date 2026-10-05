@@ -194,7 +194,13 @@ def add_programme(
 # blank the moment that day runs out, and a player renders a blank as a
 # dead channel. Four Tivibu channels did exactly this: sixty rows, no
 # holes at all, and the last one ended fifteen minutes ago.
-NEVER_BLANK_FOR = timedelta(hours=8)
+#
+# Two days, not eight hours: a player reads the guide when it last
+# refreshed, not every twenty minutes. Measured 5 October 2026 on the
+# published links: at eight hours, 8 of the second playlist's channels
+# (MBC Masr Drama, OSN Kids...) were blank by evening and 97 by the next
+# morning for a player that had not refreshed since.
+NEVER_BLANK_FOR = timedelta(hours=48)
 
 # A hole narrower than this is not a hole. Two passes closing the same gap
 # a few milliseconds apart — one in a reader, one here — left a row whose
