@@ -106,7 +106,8 @@ def own_target(index, category: str, name: str) -> str | None:
 
 
 # A source's own spelling of a channel the playlist names otherwise.
-SOURCE_ALIASES = {"sky news arabic": "sky news arabia", "sky stv": "stv"}
+SOURCE_ALIASES = {"sky news arabic": "sky news arabia", "sky stv": "stv",
+                  "sky cinema premier": "sky cinema premiere"}
 
 
 def source_key(name: str) -> str:
