@@ -36,7 +36,7 @@ def norm(name: str | None) -> str:
     s = "".join(ch for ch in s if not unicodedata.combining(ch))
     s = s.lower().replace("&", " and ")
     s = re.sub(r"^\s*spt-vip\s*\|\s*", "", s)
-    s = re.sub(r"^\s*([a-z]{2,4}(?:-[a-z]{2,4})?(?:\s*\|\s*[a-z]{2,4})?)\s*[:|]\s*", "", s)
+    s = re.sub(r"^\s*([a-z]{2,6}(?:-[a-z]{2,4})?(?:\s*\|\s*[a-z]{2,4})?)\s*[:|]\s*", "", s)
     # iptv-epg.org writes the country with a dash: "FR - Ligue 1+".
     s = re.sub(r"^\s*[a-z]{2}\s+-\s+", "", s)
     s = re.sub(r"\[\s*live\s*\]", " ", s)
@@ -63,6 +63,9 @@ OWN_ALIASES = {
     "dubai sport 1": "dubai sports 1", "dubai sport 2": "dubai sports 2",
     "dubai racing 1": "dubai racing", "roya": "roya tv",
     "spacetoon tv": "spacetoon", "abu dhabi al emarat": "al emarat",
+    # Thmanyah's sport channels, which the playlist spells "Thamanya".
+    "thamanya 1 sport": "thmanyah 1", "thamanya 2 sport": "thmanyah 2",
+    "thamanya 3 sport": "thmanyah 3",
 }
 
 
@@ -225,4 +228,54 @@ def id_stem(epg_id: str) -> str:
 
 def squeezed(name: str) -> str:
     return norm(name).replace(" ", "")
+
+
+# --- real logos ---------------------------------------------------------------
+
+# iptv-org's open channel database (iptv-org.github.io/api): 31,000 channels,
+# each with its country and its own logo. A channel no source gives a logo
+# takes the one iptv-org files under the same name in the same country.
+IPTV_ORG = ("https://iptv-org.github.io/api/channels.json",
+            "https://iptv-org.github.io/api/logos.json")
+ARAB_COUNTRIES = {"ae", "sa", "qa", "eg", "lb", "jo", "kw", "iq", "sy", "bh", "om",
+                  "ps", "ye", "ly", "ma", "dz", "tn", "sd"}
+COUNTRY_OF_SUFFIX = {"uk": "gb", "us2": "us"}
+
+
+def logo_key(name: str) -> str:
+    """norm() without the words a logo's name may or may not carry."""
+    return " ".join(t for t in norm(name).split()
+                    if t not in ("tv", "channel", "television", "network"))
+
+
+def logo_index(channels: list, logos: list) -> dict:
+    first: dict[str, str] = {}
+    for logo in logos:
+        if logo.get("feed") is None and logo.get("channel") and logo.get("url"):
+            first.setdefault(logo["channel"], logo["url"])
+    index: dict[tuple, str] = {}
+    for ch in channels:
+        url = first.get(ch.get("id"))
+        if not url:
+            continue
+        for name in [ch.get("name") or ""] + list(ch.get("alt_names") or []):
+            key = logo_key(name)
+            if key:
+                index.setdefault(((ch.get("country") or "").lower(), key), url)
+    return index
+
+
+def real_logo(index: dict, category: str, name: str) -> str | None:
+    if not index:
+        return None
+    _sources, countries = route(category, name)
+    wanted = {COUNTRY_OF_SUFFIX.get(c, c) for c in countries}
+    if countries is ARAB[1] or wanted & ARAB_COUNTRIES:
+        wanted |= ARAB_COUNTRIES
+    key = logo_key(name)
+    for country in sorted(wanted):
+        url = index.get((country, key))
+        if url:
+            return url
+    return None
 

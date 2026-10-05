@@ -777,6 +777,23 @@ def build() -> int:
     # that id is plainly this channel's.
     full_names = {name for _cat, name, _epg in FULL}
     category_of = {name: cat.strip() for cat, name, _epg in FULL}
+    # Real logos before drawn ones: iptv-org's open database by name and
+    # country (the owner: a real logo first, invent one only after).
+    real_logos: dict = {}
+    try:
+        lists = [session.get(u, headers=UA, timeout=120).json() for u in pm.IPTV_ORG]
+        real_logos = pm.logo_index(*lists)
+        say(f"logos: {len(real_logos)} real logo name(s) from iptv-org")
+    except Exception as exc:  # noqa: BLE001 - drawn marks still cover them
+        say(f"logos: iptv-org unreadable ({type(exc).__name__})")
+
+    def real_logo(names: list[str]) -> str | None:
+        for name in names:
+            if name in category_of:
+                url = pm.real_logo(real_logos, category_of[name], name)
+                if url:
+                    return url
+        return None
     target_of: dict[str, tuple] = {}
     point: dict[str, set] = {}
     for key, g in groups.items():
@@ -842,7 +859,8 @@ def build() -> int:
     for key, entry in always.items():
         if not entry.get("logo"):
             subject = re.sub(r"\s*24/7$", "", entry["title"])
-            entry["logo_url"] = pl.make(subject, category_of.get(entry["names"][0], ""))
+            entry["logo_url"] = real_logo(entry["names"]) or \
+                pl.make(subject, category_of.get(entry["names"][0], ""))
 
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
                   solo, always)
@@ -869,7 +887,7 @@ def build() -> int:
                 "Playlist." + hashlib.md5(f"{source}\t{target}\t{c}".encode()).hexdigest()[:12]
                 for c in cids]
         used.update(cids)
-        logo = g["logo"] or SOURCE_ICONS.get((source, target))
+        logo = g["logo"] or SOURCE_ICONS.get((source, target)) or real_logo(g["names"])
         if not logo:
             mine = [n for n in g["names"] if n in category_of]
             if mine:
@@ -928,8 +946,8 @@ def build() -> int:
     for subject, names in sorted(named.items()):
         cids = ["Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]] + \
             provider_ids.get(("named", subject), [])
-        sister = None
-        for name in names:
+        sister = real_logo(names)
+        for name in names if not sister else ():
             fam = (category_of.get(name, ""), " ".join(pm.norm(name).split()[:2]))
             if family_logo.get(fam):
                 sister = family_logo[fam].most_common(1)[0][0]
