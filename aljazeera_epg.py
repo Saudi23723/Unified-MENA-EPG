@@ -111,6 +111,21 @@ WEEKDAYS = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,
 XMLTV_TIME = "%Y%m%d%H%M%S %z"
 KEEP_BEHIND = timedelta(days=1)
 KEEP_AHEAD = timedelta(days=14)
+
+# THE HOURS BETWEEN. Al Jazeera's page gives the start of its headline
+# shows only — a bulletin at 08:00, the next named row at 11:00 — so the
+# guide showed "لم يُعلن البث" for much of every day. epgshare01's AE1
+# guide carries the channel's full grid, and its clock was checked
+# against the page on 5 October 2026: bulletins on the hour in both, the
+# 19:05 debate slot at 19:05 in both. It fills only the hours no row from
+# the page covers; the page always wins where it speaks.
+AE1 = "https://epgshare01.online/epgshare01/epg_ripper_AE1.xml.gz"
+AE1_ID = "Al.Jazeera.HD.ae"
+# Al Jazeera's own Arabic names for the shows AE1 lists in English.
+ARABIC = {"News Bulletin": "نشرة الأخبار", "News Summary": "موجز الأخبار",
+          "Behind The News": "ما وراء الخبر",
+          "Opposite Direction": "الاتجاه المعاكس",
+          "The Interview": "المقابلة"}
 # The last row of a day has no successor to end against.
 TAIL_MINUTES = 60
 # A row ends when the next one starts. If the page ever lists only part of
@@ -224,6 +239,10 @@ def carry_forward(path: str) -> list[dict]:
         # rather than carrying the bad row forward forever.
         if NOW_LABEL in title:
             continue
+        # A gap the last write filled is not a programme: carried forward
+        # it would block the real row that now covers that hour.
+        if "لم يُعلن" in title or "No listing published" in title:
+            continue
         if not title or stop <= start:
             continue
         out.append({"start": start.astimezone(UTC), "stop": stop.astimezone(UTC),
@@ -240,6 +259,35 @@ def channel_icon() -> str | None:
     left off until fetch_logos.py has actually written it.
     """
     return f"{LOGO_BASE}/{LOGO_FILE}" if os.path.exists(f"logos/{LOGO_FILE}") else None
+
+
+def between_hours(session, taken: list[dict]) -> list[dict]:
+    """AE1's rows for the hours no row from the page covers."""
+    import gzip
+    from io import BytesIO
+    try:
+        raw = fetch(session, AE1, timeout=120).content
+    except Exception as exc:
+        warn(f"Al Jazeera: AE1 unreachable ({exc}) — gaps stay as they are")
+        return []
+    raw = gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw
+    out = []
+    for _event, el in ET.iterparse(BytesIO(raw)):
+        if el.tag == "programme" and el.get("channel") == AE1_ID:
+            try:
+                start = datetime.strptime(el.get("start"), XMLTV_TIME).astimezone(UTC)
+                stop = datetime.strptime(el.get("stop"), XMLTV_TIME).astimezone(UTC)
+            except Exception:
+                start = stop = None
+            title = norm(el.findtext("title") or "")
+            if start and stop and stop > start and title and not any(
+                    e["start"] < stop and start < e["stop"] for e in taken):
+                out.append({"start": start, "stop": stop,
+                            "title": ARABIC.get(title, title), "desc": ""})
+        if el.tag in ("programme", "channel"):
+            el.clear()
+    log(f"  Al Jazeera: {len(out)} row(s) from AE1 for the hours between")
+    return out
 
 
 def collect(session, previous_path: str) -> list[dict]:
@@ -259,6 +307,8 @@ def collect(session, previous_path: str) -> list[dict]:
 
     merged: dict[tuple, dict] = {}
     for event in carried + fresh:
+        merged[(event["start"], event["stop"])] = event
+    for event in between_hours(session, list(merged.values())):
         merged[(event["start"], event["stop"])] = event
 
     now = utc_now()
