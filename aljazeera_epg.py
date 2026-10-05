@@ -125,7 +125,8 @@ AE1_ID = "Al.Jazeera.HD.ae"
 ARABIC = {"News Bulletin": "نشرة الأخبار", "News Summary": "موجز الأخبار",
           "Behind The News": "ما وراء الخبر",
           "Opposite Direction": "الاتجاه المعاكس",
-          "The Interview": "المقابلة"}
+          "The Interview": "المقابلة", "On The Scale": "في الميزان",
+          "From Washington": "من واشنطن", "Scenarios": "سيناريوهات"}
 # The last row of a day has no successor to end against.
 TAIL_MINUTES = 60
 # A row ends when the next one starts. If the page ever lists only part of
@@ -261,6 +262,16 @@ def channel_icon() -> str | None:
     return f"{LOGO_BASE}/{LOGO_FILE}" if os.path.exists(f"logos/{LOGO_FILE}") else None
 
 
+def free_pieces(start, stop, taken: list[dict]) -> list[tuple]:
+    """The stretches of start..stop no row in taken overlaps, five minutes or more."""
+    pieces = [(start, stop)]
+    for e in taken:
+        pieces = [part for a, b in pieces
+                  for part in ((a, min(b, e["start"])), (max(a, e["stop"]), b))
+                  if part[1] > part[0]]
+    return [(a, b) for a, b in pieces if b - a >= timedelta(minutes=5)]
+
+
 def between_hours(session, taken: list[dict]) -> list[dict]:
     """AE1's rows for the hours no row from the page covers."""
     import gzip
@@ -280,10 +291,13 @@ def between_hours(session, taken: list[dict]) -> list[dict]:
             except Exception:
                 start = stop = None
             title = norm(el.findtext("title") or "")
-            if start and stop and stop > start and title and not any(
-                    e["start"] < stop and start < e["stop"] for e in taken):
-                out.append({"start": start, "stop": stop,
-                            "title": ARABIC.get(title, title), "desc": ""})
+            if start and stop and stop > start and title:
+                # Keep only the part of the hour no row of ours covers: a
+                # bulletin the page lists from 05:00 to 05:12 leaves AE1's
+                # 05:00-06:00 row the twelve minutes on, not nothing.
+                for piece_start, piece_stop in free_pieces(start, stop, taken):
+                    out.append({"start": piece_start, "stop": piece_stop,
+                                "title": ARABIC.get(title, title), "desc": ""})
         if el.tag in ("programme", "channel"):
             el.clear()
     log(f"  Al Jazeera: {len(out)} row(s) from AE1 for the hours between")
