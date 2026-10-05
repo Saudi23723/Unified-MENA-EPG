@@ -71,6 +71,11 @@ CATEGORY = re.compile(r"AT\s*&\s*T", re.I)
 # Small on purpose — asked for as "ملف صغير": the day ahead, titles only.
 BEHIND = timedelta(hours=2)
 AHEAD = timedelta(days=1)
+# How far the channel-name rows reach: as far as every other guide fills
+# (epg_lib.NEVER_BLANK_FOR), so a player that has not refreshed for a day
+# still shows each channel's name, not "No information". Programmes are
+# still only copied for AHEAD — the file stays small.
+NAMED_AHEAD = timedelta(hours=48)
 # Below this share of mapped channels with programmes, a source is down:
 # keep the guide already published rather than replace it with gaps.
 FLOOR = 0.6
@@ -732,7 +737,7 @@ def build() -> int:
             # A source's own holes (and a feed with nothing today) say the
             # channel's name rather than "No information".
             fill_holes(programmes_out, before, cid, pm.shown_name(g["names"][0]),
-                       floor, ceiling)
+                       floor, now + NAMED_AHEAD)
     say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
     if (shown + empty) and shown < FLOOR * (shown + empty):
         say(f"guide: only {shown}/{shown + empty} filled — a source is down; "
@@ -748,7 +753,7 @@ def build() -> int:
         cid = "Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]
         add_channel(root, cid, names, None)
         start = first
-        while start < ceiling:
+        while start < now + NAMED_AHEAD:
             stop = start + timedelta(hours=6)
             p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
                                          "channel": cid})
