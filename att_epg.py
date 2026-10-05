@@ -61,6 +61,8 @@ from io import BytesIO
 
 import requests
 
+import playlist_match as pm
+
 OUT = "att_epg.xml.gz"
 MAP = "att_channels.json"
 OWN = "unified_mena_epg.xml"
@@ -97,6 +99,11 @@ MJH = {"pluto": "https://i.mjh.nz/PlutoTV/us.xml.gz",
 # go into the one guide on the one link: a channel the two share is listed
 # once, under the names each playlist gives it.
 PLAYLISTS = ("XTREAM", "XTREAM2")
+# Playlists that bring no guide of their own (the second answers
+# xmltv.php with nothing): every one of their channels a trusted source
+# names exactly is given one — see playlist_match.py.
+GUIDELESS = ("XTREAM2",)
+FULL: set[tuple[str, str, str]] = set()
 
 
 def login(prefix: str = "XTREAM") -> tuple[str, str, str]:
@@ -144,6 +151,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         part = playlist(prefix)
         if part is None:
             return None
+        if prefix in GUIDELESS:
+            FULL.update(part)
         for stream in part:
             if stream not in seen:
                 seen.add(stream)
@@ -421,7 +430,8 @@ def add_rows(out: list, cid: str, programmes) -> int:
     return count
 
 
-def write_aliases(names: dict[str, list[str]], solo: list[str]) -> None:
+def write_aliases(names: dict[str, list[str]], solo: list[str],
+                  always: dict[str, dict] | None = None) -> None:
     """playlist_aliases.json — the playlist's names for channels this
     repository already guides, and its SOLO channels. Every guide written
     through epg_lib carries these names, so the owner's existing links
@@ -430,12 +440,15 @@ def write_aliases(names: dict[str, list[str]], solo: list[str]) -> None:
     for name in solo:
         subjects.setdefault(solo_subject(name), []).append(name)
     data = {"names": {k: sorted(set(v)) for k, v in sorted(names.items())},
-            "solo": {k: sorted(set(v)) for k, v in sorted(subjects.items())}}
+            "solo": {k: sorted(set(v)) for k, v in sorted(subjects.items())},
+            "always": {k: {**v, "names": sorted(set(v["names"]))}
+                       for k, v in sorted((always or {}).items())}}
     with open("playlist_aliases.json", "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, indent=1)
         handle.write("\n")
     say(f"aliases: {sum(map(len, data['names'].values()))} name(s) on "
-        f"{len(data['names'])} guided channel(s), {len(subjects)} SOLO")
+        f"{len(data['names'])} guided channel(s), {len(subjects)} SOLO, "
+        f"{len(data['always'])} round the clock")
 
 
 def build() -> int:
@@ -481,6 +494,12 @@ def build() -> int:
                 counts["US cable"] += 1
             else:
                 us_pending[name] = sign
+        elif (cat, name, epg) in FULL and re.match(r"\s*USA\b", cat, re.I):
+            # The guideless playlist's local stations, by the call sign it
+            # writes in brackets ("ABC 7 (WABC) New York") — and only then.
+            sign = re.search(r"\(([KW][A-Z]{2,3})\)", name.upper())
+            if sign and sign.group(1) not in NOT_CALLS and call_sign(name, epg):
+                us_pending[name] = sign.group(1)
     say(f"playlist: {len(solo)} SOLO, "
         + ", ".join(f"{v} {k}" for k, v in counts.items())
         + f", {len(us_pending)} US station name(s)")
@@ -557,8 +576,111 @@ def build() -> int:
         settle(source, by_sign)
     say(f"US stations: {len(us_pending)} name(s) left with no listing")
 
+    # The guideless playlist: every channel the rules above did not take is
+    # matched by name — ours first, then its country's sources — or, for
+    # the Quran and the channels that loop one title, given that title
+    # round the clock. See playlist_match.py for why no provider id is used.
+    taken = {n for g in groups.values() for n in g["names"]} | set(solo) | set(us_pending)
+    always: dict[str, dict] = {}
+    pending: dict[str, tuple[str, str]] = {}          # name -> (category, key)
+    try:
+        own = pm.own_index(ET.parse(OWN).getroot())
+    except Exception as exc:  # noqa: BLE001 - reported, the rest goes on
+        say(f"guideless: our own guide unreadable ({type(exc).__name__})")
+        own = {}
+    for cat, name, epg in sorted(FULL):
+        if name in taken or CATEGORY.search(cat):
+            continue
+        if re.fullmatch(r"\s*TOD\s*", cat):
+            target = bein_target(re.sub(r"\bTod\b", "", re.sub(
+                r"(?i)rnglish", "English", name), flags=re.I))
+            if target:
+                assign(("own", target), name)
+                continue
+        target = pm.own_target(own, cat, name)
+        if target:
+            assign(("own", target), name)
+            continue
+        if pm.ISLAMIC.match(cat) or (pm.route(cat, name) is pm.ARAB
+                                     and pm.QURAN_CHANNEL.search(name)):
+            kind = pm.islamic(name)
+            if kind:
+                title, what = kind
+                subject = pm.reciter(name)
+                entry = always.setdefault(f"{what}:{subject}", {
+                    "title": title, "desc": subject,
+                    "logo": "quran.png" if what == "quran" else None, "names": []})
+                entry["names"].append(name)
+                continue
+        pending[name] = (cat, pm.norm(name))
+
+    found: dict[str, tuple[str, str]] = {}            # name -> (source, id)
+    for source in pm.SOURCE_ORDER:
+        asking: dict[str, list[str]] = {}
+        for name, (cat, key) in pending.items():
+            sources, countries = pm.route(cat, name)
+            if source in sources and name not in found:
+                asking.setdefault(key, []).append(name)
+        if not asking:
+            continue
+        claims: dict[str, set[str]] = {}
+        countries_of = {name: pm.route(pending[name][0], name)[1]
+                        for names in asking.values() for name in names}
+
+        def on_channel(cid, names, asking=asking, claims=claims):
+            if not pm.usable(cid):
+                return
+            for key in {pm.norm(n) for n in names}:
+                for name in asking.get(key, ()):
+                    # A West Coast copy runs three hours behind: it is the
+                    # channel only for a name that says West, and only then.
+                    if pm.suffix(cid) in countries_of[name] and \
+                            pm.west(cid + " " + " ".join(names)) == pm.west(name):
+                        claims.setdefault(name, set()).add(cid)
+
+        claimed: set[str] = set()
+
+        def wants(cid, claims=claims, claimed=claimed):
+            if cid in claimed:
+                return True
+            if any(cid in c for c in claims.values()):
+                claimed.add(cid)
+                return True
+            return False
+
+        before = set(rows)
+        load(source, wants, on_channel)
+        for name, cids in claims.items():
+            live = {cid: len(rows.get((source, cid), [])) for cid in cids}
+            live = {cid: n for cid, n in live.items() if n}
+            if live:
+                # One source's duplicates of one name (A2.tr, A2.HD.tr) are
+                # one channel: the copy with the most rows.
+                best = max(live, key=lambda c: (live[c], -len(c)))
+                found[name] = (source, best)
+        keep = set(found.values())
+        for key in set(rows) - before:
+            if key not in keep:
+                del rows[key]
+    for name, (source, cid) in found.items():
+        assign((source, cid), name)
+        del pending[name]
+
+    looped = 0
+    for name, (cat, key) in list(pending.items()):
+        if pm.LOOP.match(cat):
+            subject = pm.loop_subject(name)
+            always.setdefault(f"loop:{subject}", {
+                "title": f"{subject} 24/7", "desc": f"{subject} — على مدار الساعة",
+                "logo": None, "names": []})["names"].append(name)
+            del pending[name]
+            looped += 1
+    say(f"guideless: {len(FULL)} channel(s) — {len(found)} matched in a source, "
+        f"{sum(len(v['names']) for v in always.values())} round the clock, "
+        f"{len(pending)} with no trusted source")
+
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
-                  solo)
+                  solo, always)
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — playlist"})
     # XMLTV puts every <channel> before the first <programme>. A player
