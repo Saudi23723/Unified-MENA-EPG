@@ -76,6 +76,7 @@ AHEAD = timedelta(days=1)
 # still shows each channel's name, not "No information". Programmes are
 # still only copied for AHEAD — the file stays small.
 NAMED_AHEAD = timedelta(hours=48)
+LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/"
 # Below this share of mapped channels with programmes, a source is down:
 # keep the guide already published rather than replace it with gaps.
 FLOOR = 0.6
@@ -465,9 +466,12 @@ def no_overlaps(programmes: list) -> list:
     return out
 
 
-def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling) -> None:
+def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling,
+               desc: str = "لا يوجد جدول منشور لهذا الوقت",
+               block: timedelta | None = None) -> None:
     """Every stretch of floor..ceiling that out[since:] leaves empty, a
-    minute or more, becomes a row with the channel's own name."""
+    minute or more, becomes a row with the channel's own name (cut into
+    blocks, when given, so a player shows the title on screen)."""
     spans = sorted((when(p.get("start")), when(p.get("stop"))) for p in out[since:])
     cursor, holes = floor, []
     for start, stop in spans:
@@ -476,11 +480,17 @@ def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling) -> No
         cursor = max(cursor, stop)
     if ceiling - cursor >= timedelta(minutes=1):
         holes.append((cursor, ceiling))
+    pieces = []
     for start, stop in holes:
+        while block and stop - start > block:
+            pieces.append((start, start + block))
+            start += block
+        pieces.append((start, stop))
+    for start, stop in pieces:
         p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
                                      "channel": cid})
         ET.SubElement(p, "title").text = name
-        ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذا الوقت"
+        ET.SubElement(p, "desc").text = desc
         out.append(p)
     out[since:] = sorted(out[since:], key=lambda p: when(p.get("start")))
 
@@ -638,8 +648,11 @@ def build() -> int:
     taken = {n for g in groups.values() for n in g["names"]} | set(solo) | set(us_pending)
     always: dict[str, dict] = {}
     pending: dict[str, tuple[str, str]] = {}          # name -> (category, key)
+    own_ids: set[str] = set()
     try:
-        own = pm.own_index(ET.parse(OWN).getroot())
+        own_root = ET.parse(OWN).getroot()
+        own = pm.own_index(own_root)
+        own_ids = {c.get("id") for c in own_root.findall("channel")}
     except Exception as exc:  # noqa: BLE001 - reported, the rest goes on
         say(f"guideless: our own guide unreadable ({type(exc).__name__})")
         own = {}
@@ -740,6 +753,74 @@ def build() -> int:
         f"{sum(len(v['names']) for v in always.values())} round the clock, "
         f"{len(pending)} with no trusted source, shown by name")
 
+    # HOW THE OWNER'S PLAYER FINDS THEM. It looks a channel up by the
+    # provider's epg id first and by name after — and the names on the
+    # owner's device are not this account's: "ABC 7 (WABC) New York" and
+    # "Fox News" there, "USA: ABC 7 (WABC) New York" and "Usa: Fox News HD"
+    # here (5 October 2026, every country category but the Islamic one
+    # read "No information"). So each guideless channel carries every form
+    # of its name that points at it alone, and the provider's id where
+    # that id is plainly this channel's.
+    full_names = {name for _cat, name, _epg in FULL}
+    target_of: dict[str, tuple] = {}
+    point: dict[str, set] = {}
+    for key, g in groups.items():
+        for name in g["names"]:
+            point.setdefault(name, set()).add(("group", key))
+            if name in full_names:
+                target_of.setdefault(name, ("group", key))
+    for key, entry in always.items():
+        for name in entry["names"]:
+            target_of.setdefault(name, ("always", key))
+    for subject, names in named.items():
+        for name in names:
+            target_of.setdefault(name, ("named", subject))
+    for name, target in target_of.items():
+        for form in pm.name_variants(name):
+            point.setdefault(form, set()).add(target)
+
+    def widen(names: list[str]) -> list[str]:
+        out = list(names)
+        for name in names:
+            if name in target_of:
+                out += [f for f in pm.name_variants(name) if len(point[f]) == 1]
+        return list(dict.fromkeys(out))
+
+    for g in groups.values():
+        g["names"] = widen(g["names"])
+    for entry in always.values():
+        entry["names"] = widen(entry["names"])
+    for subject in named:
+        named[subject] = widen(named[subject])
+
+    by_id: dict[str, list[str]] = {}
+    for _cat, name, epg in FULL:
+        if epg and name in target_of:
+            by_id.setdefault(epg, []).append(name)
+    taken_ids = own_ids | {i for g in groups.values() for i in g["ids"]}
+    provider_ids: dict[tuple, list[str]] = {}
+    for epg, names in sorted(by_id.items()):
+        if epg in taken_ids:
+            continue
+        targets = {target_of[n] for n in names}
+        # One id the provider files under different channels (bbc4.uk under
+        # BBC 4 and BBC World News) is left out: carried, it would show one
+        # channel's programmes on the other. Those are found by name.
+        if len(targets) == 1:
+            provider_ids.setdefault(targets.pop(), []).append(epg)
+    for (kind, key), ids in provider_ids.items():
+        if kind == "group" and key[0] != "own":
+            g = groups[key]
+            g["ids"] = list(dict.fromkeys(
+                (g["ids"] or ["Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{key[0]}.{key[1]}")])
+                + ids))
+    own_extra = {key[1]: ids for (kind, key), ids in provider_ids.items()
+                 if kind == "group" and key[0] == "own"}
+    if own_extra:
+        load("own", set(own_extra))
+    say(f"guideless: {sum(map(len, provider_ids.values()))} provider id(s) carried, "
+        f"{sum(len(v) for v in point.values() if len(v) == 1)} name form(s)")
+
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
                   solo, always)
 
@@ -783,21 +864,44 @@ def build() -> int:
 
     # SOLO rides the unified link (merge_epg.add_solo), not this file.
 
+    # Ours and the round-the-clock ones under the provider's id too: the
+    # player looks the id up before the name.
+    for cid, ids in sorted(own_extra.items()):
+        names = groups[("own", cid)]["names"]
+        for epg in ids:
+            add_channel(root, epg, names, None)
+            before = len(programmes_out)
+            add_rows(programmes_out, epg, rows.get(("own", cid), []))
+            fill_holes(programmes_out, before, epg, pm.shown_name(names[0]),
+                       floor, now + NAMED_AHEAD)
+    for (kind, key), ids in sorted(provider_ids.items()):
+        if kind != "always":
+            continue
+        entry = always[key]
+        logo = LOGO_BASE + entry["logo"] if entry.get("logo") else None
+        for epg in ids:
+            add_channel(root, epg, entry["names"], logo)
+            fill_holes(programmes_out, len(programmes_out), epg, entry["title"],
+                       floor, now + NAMED_AHEAD, desc=entry.get("desc") or entry["title"],
+                       block=timedelta(hours=6))
+
     # The guideless playlist's channels no source schedules: their own
     # name in six-hour rows, so none of them reads "No information".
     first = floor.replace(minute=0, second=0, microsecond=0)
     for subject, names in sorted(named.items()):
-        cid = "Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]
-        add_channel(root, cid, names, None)
-        start = first
-        while start < now + NAMED_AHEAD:
-            stop = start + timedelta(hours=6)
-            p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
-                                         "channel": cid})
-            ET.SubElement(p, "title").text = subject
-            ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذه القناة"
-            programmes_out.append(p)
-            start = stop
+        cids = ["Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]] + \
+            provider_ids.get(("named", subject), [])
+        for cid in cids:
+            add_channel(root, cid, names, None)
+            start = first
+            while start < now + NAMED_AHEAD:
+                stop = start + timedelta(hours=6)
+                p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
+                                             "channel": cid})
+                ET.SubElement(p, "title").text = subject
+                ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذه القناة"
+                programmes_out.append(p)
+                start = stop
 
     root.extend(no_overlaps(programmes_out))
     ET.indent(root, space=" ")

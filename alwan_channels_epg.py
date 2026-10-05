@@ -263,10 +263,14 @@ def add_always_to(root) -> int:
             ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
         root.insert(at, ch)
         at += 1
-        for day in range(DAYS_BACK + DAYS_FORWARD):
-            start = first + timedelta(days=day)
-            add_programme(root, cid, start, start + timedelta(days=1),
+        # Six-hour rows over three days rather than one a day over eight:
+        # a day-long row starts off screen and the player draws its bar
+        # with no title on it (the owner's screen, 5 October 2026).
+        start = first
+        while start < now + timedelta(days=2):
+            add_programme(root, cid, start, start + timedelta(hours=6),
                           entry["title"], entry.get("desc") or entry["title"])
+            start += timedelta(hours=6)
             count += 1
     log(f"round the clock: {len(always)} channel(s), {count} programme(s)")
     return count

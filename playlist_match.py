@@ -197,3 +197,30 @@ def shown_name(name: str) -> str:
     text = re.sub(r"\b(HD|FHD|SD|4K|8K|UHD|HDR|Low|Backup)\b\+?", " ", text, flags=re.I)
     return re.sub(r"\s+", " ", text).strip(" -|") or name.strip()
 
+
+QUALITY = re.compile(r"(?:\s*\b(?:HD|FHD|SD|UHD|4K|8K|HDR|HEVC|Backup)\b\+?|\s*\[\s*live\s*\])+\s*$",
+                     re.I)
+PREFIX = re.compile(r"^\s*(?:spt-vip\s*\|\s*)?(?:[^\W\d_]{2,6}(?:-[^\W\d_]{2,6})?"
+                    r"(?:\s*\|\s*[^\W\d_]{2,4})?\s*[:|]\s*)?")
+
+
+def name_variants(name: str) -> list[str]:
+    """The forms a player may list the same channel under. The owner's
+    device shows "ABC 7 (WABC) New York" and "Fox News" where the account
+    the guide reads says "USA: ABC 7 (WABC) New York" and "Usa: Fox News
+    HD" (5 October 2026): with and without the country prefix, with and
+    without the quality tag."""
+    base = name.strip()
+    bare = QUALITY.sub("", base).strip()
+    out = [base, bare, PREFIX.sub("", base, count=1).strip(), PREFIX.sub("", bare, count=1).strip()]
+    return [v for v in dict.fromkeys(out) if v]
+
+
+def id_stem(epg_id: str) -> str:
+    """'bbc1.uk' -> 'bbc1' — the channel an id is named after, squeezed."""
+    return re.sub(r"[^a-z0-9]", "", (epg_id or "").rsplit(".", 1)[0].lower())
+
+
+def squeezed(name: str) -> str:
+    return norm(name).replace(" ", "")
+
