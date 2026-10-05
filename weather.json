@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05T03:18:38.182Z",
+  "updated_at": "2026-10-05T03:24:10.786Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -29,7 +29,7 @@
           "code": 3,
           "max": 23.7,
           "min": 16.3,
-          "rain": 13
+          "rain": 15
         },
         {
           "date": "2026-10-07",
@@ -93,35 +93,35 @@
           "code": 3,
           "max": 32.2,
           "min": 23.3,
-          "rain": 5
+          "rain": 10
         },
         {
           "date": "2026-10-06",
           "code": 3,
           "max": 28.8,
           "min": 24.1,
-          "rain": 10
+          "rain": 8
         },
         {
           "date": "2026-10-07",
           "code": 3,
           "max": 32.2,
           "min": 22.7,
-          "rain": 0
+          "rain": 5
         },
         {
           "date": "2026-10-08",
           "code": 1,
           "max": 33.1,
           "min": 23.6,
-          "rain": 3
+          "rain": 1
         },
         {
           "date": "2026-10-09",
           "code": 3,
           "max": 33.8,
           "min": 24.1,
-          "rain": 2
+          "rain": 3
         },
         {
           "date": "2026-10-10",
@@ -291,14 +291,14 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 14.1,
+      "temperature_c": 14.0,
       "humidity": 85,
-      "wind_speed": 6.8,
+      "wind_speed": 7.2,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-05T04:15",
-      "feels_c": 13.6,
+      "feels_c": 13.5,
       "utc_offset": 3600,
       "days": [
         {
@@ -376,7 +376,7 @@
           "date": "2026-10-05",
           "code": 51,
           "max": 18.2,
-          "min": 14.9,
+          "min": 14.8,
           "rain": 83
         },
         {
@@ -423,7 +423,7 @@
         }
       ],
       "today_max": 18.2,
-      "today_min": 14.9,
+      "today_min": 14.8,
       "sunrise": "07:17",
       "sunset": "18:35",
       "uv": 1
