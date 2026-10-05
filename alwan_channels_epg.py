@@ -261,6 +261,9 @@ def add_always_to(root) -> int:
         logo = entry.get("logo")
         if logo and os.path.exists(f"logos/{logo}"):
             ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+        elif entry.get("logo_url"):
+            # A mark drawn for it by playlist_logos.py, beside the playlist guide.
+            ET.SubElement(ch, "icon", {"src": entry["logo_url"]})
         root.insert(at, ch)
         at += 1
         # Six-hour rows over three days rather than one a day over eight:
