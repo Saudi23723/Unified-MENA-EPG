@@ -659,10 +659,13 @@ def build() -> int:
     always: dict[str, dict] = {}
     pending: dict[str, tuple[str, str]] = {}          # name -> (category, key)
     own_ids: set[str] = set()
+    own_icons: dict[str, str] = {}
     try:
         own_root = ET.parse(OWN).getroot()
         own = pm.own_index(own_root)
         own_ids = {c.get("id") for c in own_root.findall("channel")}
+        own_icons = {c.get("id"): c.find("icon").get("src") for c in own_root.findall("channel")
+                     if c.find("icon") is not None and c.find("icon").get("src")}
     except Exception as exc:  # noqa: BLE001 - reported, the rest goes on
         say(f"guideless: our own guide unreadable ({type(exc).__name__})")
         own = {}
@@ -914,8 +917,12 @@ def build() -> int:
     # player looks the id up before the name.
     for cid, ids in sorted(own_extra.items()):
         names = groups[("own", cid)]["names"]
+        # Our own guide's logo for the channel; else a real one; else drawn.
+        mine = [n for n in names if n in category_of]
+        logo = own_icons.get(cid) or real_logo(names) or (
+            pl.make(pm.shown_name(mine[0]), category_of[mine[0]]) if mine else None)
         for epg in ids:
-            add_channel(root, epg, names, None)
+            add_channel(root, epg, names, logo)
             before = len(programmes_out)
             add_rows(programmes_out, epg, rows.get(("own", cid), []))
             fill_holes(programmes_out, before, epg, pm.shown_name(names[0]),
