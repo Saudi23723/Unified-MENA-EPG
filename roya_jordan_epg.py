@@ -47,6 +47,7 @@ import xml.etree.ElementTree as ET
 
 from epg_lib import (
     add_programme, fetch, log, new_session, resolve_overlaps, run_main, warn,
+    with_live_badge,
     write_xml_atomic,
 )
 
@@ -101,7 +102,10 @@ DAYS_FORWARD = 6
 # 4 September), which is what own_guides reads.
 NOT_CHANNELS = {"RFC"}
 
-# No Live badge on any Roya channel. Roya publishes no live marker of any
+# Live badge only on the matches Roya Sports lists (roya_sports_matches),
+# which are live broadcasts by definition, and on those always.
+#
+# Nothing else on a Roya channel. Roya publishes no live marker of any
 # kind, so the only badge possible here would be "this was on air when the
 # workflow ran", read off the clock — which put Live on a cooking show and
 # a comedy rerun, and went stale minutes later either way. Guessing from
@@ -302,7 +306,12 @@ def build() -> int:
         if match["channel"] in per_channel:
             per_channel[match["channel"]] = roya_sports_matches.make_room(
                 per_channel[match["channel"]], match["start"], match["stop"])
-            per_channel[match["channel"]].append({**match, "icon": None, "live": True})
+            # A match Roya Sports lists is a live broadcast: badged in the
+            # title, always — not only when a run happens to fall inside it,
+            # which a player that refreshed earlier never sees (the owner,
+            # 5 October 2026: "the Live indicator on Roya Sport, always").
+            per_channel[match["channel"]].append({
+                **match, "title": with_live_badge(match["title"]), "icon": None})
 
     for xmltv_id, rows in per_channel.items():
         for event in resolve_overlaps(rows):
