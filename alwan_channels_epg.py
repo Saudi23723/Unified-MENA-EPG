@@ -194,6 +194,42 @@ def add_placeholders_to(root) -> int:
             add_programme(root, xid, start, start + timedelta(days=1), bar, bar)
             count += 1
     log(f"placeholders: {len(PLACEHOLDERS)} channel(s), {count} programme(s)")
+    return count + add_solo_to(root)
+
+
+# The owner's playlist's SOLO channels — each plays one thing round the
+# clock — asked for as a "24/7 program": one row a day named for what the
+# channel plays, under every name the playlist gives it (kept by att_epg.py
+# in playlist_aliases.json). On this link because it is the one the player
+# has; the unified link picks them up from this file.
+def add_solo_to(root) -> int:
+    import hashlib
+    import json
+    try:
+        with open("playlist_aliases.json", encoding="utf-8") as handle:
+            solo = json.load(handle).get("solo") or {}
+    except (OSError, ValueError):
+        return 0
+    now = datetime.now(timezone.utc)
+    first = (now - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    at = len(root.findall("channel"))
+    for subject, names in sorted(solo.items()):
+        ch = ET.Element("channel", {"id": "Playlist.Solo." + hashlib.md5(
+            subject.encode()).hexdigest()[:10]})
+        for name in names:
+            ET.SubElement(ch, "display-name").text = name
+        root.insert(at, ch)
+        at += 1
+    count = 0
+    for subject in sorted(solo):
+        cid = "Playlist.Solo." + hashlib.md5(subject.encode()).hexdigest()[:10]
+        for day in range(DAYS_BACK + DAYS_FORWARD):
+            start = first + timedelta(days=day)
+            add_programme(root, cid, start, start + timedelta(days=1),
+                          f"{subject} 24/7", f"{subject} — على مدار الساعة")
+            count += 1
+    log(f"SOLO: {len(solo)} channel(s), {count} programme(s)")
     return count
 
 
