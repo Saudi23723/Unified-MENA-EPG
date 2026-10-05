@@ -319,6 +319,13 @@ def collect(session, previous_path: str) -> list[dict]:
         warn("Al Jazeera published nothing readable — the channel is running "
              "on what was already in the guide")
 
+    # The page is the authority for every hour it lists: a row carried from
+    # an earlier run that overlaps a fresh one gives way to it. Kept side
+    # by side, a stale 05:00-05:12 bulletin won over the page's 05:00-06:00
+    # and the rest of the hour went out as "No listing published".
+    carried = [c for c in carried
+               if not any(f["start"] < c["stop"] and c["start"] < f["stop"]
+                          for f in fresh)]
     merged: dict[tuple, dict] = {}
     for event in carried + fresh:
         merged[(event["start"], event["stop"])] = event
