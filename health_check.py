@@ -68,6 +68,13 @@ MERGED = "unified_mena_epg.xml"
 DEAD_DAYS = 0.5
 THIN_DAYS = 2
 
+# Channels two links carry on purpose: Al Jazeera is copied from Roya's guide
+# onto Alwan's, the link the owner's player loads. The merge keeps the rows
+# of the first file and the names of both, so nothing is dropped.
+SHARED_CHANNELS = {
+    "AlJazeera.qa": {"roya_jordan_epg.xml", "alwan_sports_epg.xml"},
+}
+
 # Sources that publish a short horizon — one day, or a rolling few
 # hours — by their own design rather than because something broke.
 # Judging these on days-ahead raises a failure
@@ -542,6 +549,8 @@ def main() -> int:
             note(f"{path}: only {days} day(s) ahead")
 
         for cid in info["ids"]:
+            if {seen_owner.get(cid), path} <= SHARED_CHANNELS.get(cid, set()):
+                continue
             if cid in seen_owner and seen_owner[cid] != path:
                 fail(f"channel id {cid} is claimed by both {seen_owner[cid]} and "
                      f"{path} — the merge keeps one and drops the other")
