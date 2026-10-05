@@ -436,6 +436,25 @@ def add_rows(out: list, cid: str, programmes) -> int:
     return count
 
 
+def no_overlaps(programmes: list) -> list:
+    """Each channel's rows in time order, a row that starts before the
+    previous one ends left out — what the publish step's validation, and
+    every player, require."""
+    by_channel: dict[str, list] = {}
+    for p in programmes:
+        by_channel.setdefault(p.get("channel"), []).append(p)
+    out = []
+    for rows in by_channel.values():
+        last = None
+        for p in sorted(rows, key=lambda p: when(p.get("start"))):
+            start, stop = when(p.get("start")), when(p.get("stop"))
+            if not start or not stop or stop <= start or (last and start < last):
+                continue
+            out.append(p)
+            last = stop
+    return out
+
+
 def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling) -> None:
     """Every stretch of floor..ceiling that out[since:] leaves empty, ten
     minutes or more, becomes a row with the channel's own name."""
@@ -723,11 +742,19 @@ def build() -> int:
 
     # Everything grouped by feed: Alkass, beIN, STARZPLAY, the US networks.
     shown = empty = 0
+    used: set[str] = set()
     for (source, target), g in sorted(groups.items()):
         if source == "own":
             continue                     # on the existing links, by name
         cids = list(dict.fromkeys(g["ids"])) or [
             "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{target}")]
+        # Two source ids that differ only in punctuation (Halab.Today.TV.ae,
+        # HalabToday.TV.ae) must not become one channel with both feeds'
+        # rows stacked on it — the 5 October build failed validation so.
+        cids = [c if c not in used else
+                "Playlist." + hashlib.md5(f"{source}\t{target}\t{c}".encode()).hexdigest()[:12]
+                for c in cids]
+        used.update(cids)
         for cid in cids:
             add_channel(root, cid, g["names"], g["logo"])
             before = len(programmes_out)
@@ -762,7 +789,7 @@ def build() -> int:
             programmes_out.append(p)
             start = stop
 
-    root.extend(programmes_out)
+    root.extend(no_overlaps(programmes_out))
     ET.indent(root, space=" ")
     data = ET.tostring(root, encoding="utf-8", xml_declaration=True)
     with gzip.open(OUT + ".tmp", "wb", compresslevel=9) as handle:
