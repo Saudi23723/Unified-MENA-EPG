@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [att_epg.py, att_channels.json, .github/workflows/update_att_epg.yml]
+    paths: [att_epg.py, playlist_match.py, att_channels.json, .github/workflows/update_att_epg.yml]
 
 permissions:
   contents: write
@@ -28,7 +28,8 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The second playlist reads every country file it matches against.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:

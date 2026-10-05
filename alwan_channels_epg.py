@@ -19,6 +19,7 @@ separate file never reached it.
 
 from __future__ import annotations
 
+import os
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
@@ -194,7 +195,7 @@ def add_placeholders_to(root) -> int:
             add_programme(root, xid, start, start + timedelta(days=1), bar, bar)
             count += 1
     log(f"placeholders: {len(PLACEHOLDERS)} channel(s), {count} programme(s)")
-    return count + add_solo_to(root) + add_aljazeera_to(root)
+    return count + add_solo_to(root) + add_always_to(root) + add_aljazeera_to(root)
 
 
 # The owner's playlist's SOLO channels — each plays one thing round the
@@ -230,6 +231,44 @@ def add_solo_to(root) -> int:
                           f"{subject} 24/7", f"{subject} — على مدار الساعة")
             count += 1
     log(f"SOLO: {len(solo)} channel(s), {count} programme(s)")
+    return count
+
+
+# The second playlist's channels that play one thing round the clock —
+# its Quran reciters (under the Quran mark), its azkar and sunnah
+# channels, and the ones that loop one series — kept by att_epg.py in
+# playlist_aliases.json. One row a day saying what the channel plays,
+# under every name the playlist gives it; on this link for the same
+# reason as SOLO: it is the one the owner's player loads.
+def add_always_to(root) -> int:
+    import hashlib
+    import json
+    try:
+        with open("playlist_aliases.json", encoding="utf-8") as handle:
+            always = json.load(handle).get("always") or {}
+    except (OSError, ValueError):
+        return 0
+    now = datetime.now(timezone.utc)
+    first = (now - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    at = len(root.findall("channel"))
+    count = 0
+    for key, entry in sorted(always.items()):
+        cid = "Playlist.Always." + hashlib.md5(key.encode()).hexdigest()[:10]
+        ch = ET.Element("channel", {"id": cid})
+        for name in entry.get("names") or []:
+            ET.SubElement(ch, "display-name").text = name
+        logo = entry.get("logo")
+        if logo and os.path.exists(f"logos/{logo}"):
+            ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+        root.insert(at, ch)
+        at += 1
+        for day in range(DAYS_BACK + DAYS_FORWARD):
+            start = first + timedelta(days=day)
+            add_programme(root, cid, start, start + timedelta(days=1),
+                          entry["title"], entry.get("desc") or entry["title"])
+            count += 1
+    log(f"round the clock: {len(always)} channel(s), {count} programme(s)")
     return count
 
 
