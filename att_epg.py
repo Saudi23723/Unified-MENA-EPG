@@ -50,6 +50,7 @@ scrubbed of the address, the user name and the password.
 from __future__ import annotations
 
 import copy
+from collections import Counter
 import gzip
 import hashlib
 import json
@@ -209,6 +210,11 @@ def source_url(source: str) -> str | None:
     return USER_LINKS.get(source) or MJH.get(source) or EPGSHARE.format(source)
 
 
+# Each source channel's own logo, as its guide publishes it: the playlist's
+# channels that show a plain "TV" tile take it (5 October 2026).
+SOURCE_ICONS: dict[tuple[str, str], str] = {}
+
+
 def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
     """{channel id: [programme elements]} for the wanted ids of one source."""
     if source == "own":
@@ -231,6 +237,9 @@ def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
                         continue
                 el.clear()
             elif el.tag == "channel":
+                icon = el.find("icon")
+                if icon is not None and (icon.get("src") or "").startswith("http"):
+                    SOURCE_ICONS[(source, el.get("id") or "")] = icon.get("src")
                 if on_channel:
                     on_channel(el.get("id") or "",
                                [d.text or "" for d in el.findall("display-name")])
@@ -677,7 +686,8 @@ def build() -> int:
                 subject = pm.reciter(name)
                 entry = always.setdefault(f"{what}:{subject}", {
                     "title": title, "desc": subject,
-                    "logo": "quran.png" if what == "quran" else None, "names": []})
+                    "logo": {"quran": "quran.png", "azkar": "azkar.png",
+                             "sunnah": "sunnah.png"}.get(what), "names": []})
                 entry["names"].append(name)
                 continue
         pending[name] = (cat, pm.norm(name))
@@ -847,8 +857,9 @@ def build() -> int:
                 "Playlist." + hashlib.md5(f"{source}\t{target}\t{c}".encode()).hexdigest()[:12]
                 for c in cids]
         used.update(cids)
+        logo = g["logo"] or SOURCE_ICONS.get((source, target))
         for cid in cids:
-            add_channel(root, cid, g["names"], g["logo"])
+            add_channel(root, cid, g["names"], logo)
             before = len(programmes_out)
             added = add_rows(programmes_out, cid, rows.get((source, target), []))
             shown += bool(added)
@@ -889,11 +900,27 @@ def build() -> int:
     # The guideless playlist's channels no source schedules: their own
     # name in six-hour rows, so none of them reads "No information".
     first = floor.replace(minute=0, second=0, microsecond=0)
+    # A channel no source schedules takes the logo of its sister in the same
+    # category and name family ("Pt: Sport TV 8K" -> Sport TV's), if any.
+    category_of = {name: cat.strip() for cat, name, _epg in FULL}
+    family_logo: dict[tuple, Counter] = {}
+    for (source, target), g in groups.items():
+        logo = g["logo"] or SOURCE_ICONS.get((source, target))
+        for name in g["names"]:
+            if logo and name in category_of:
+                fam = (category_of[name], " ".join(pm.norm(name).split()[:2]))
+                family_logo.setdefault(fam, Counter())[logo] += 1
     for subject, names in sorted(named.items()):
         cids = ["Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]] + \
             provider_ids.get(("named", subject), [])
+        sister = None
+        for name in names:
+            fam = (category_of.get(name, ""), " ".join(pm.norm(name).split()[:2]))
+            if family_logo.get(fam):
+                sister = family_logo[fam].most_common(1)[0][0]
+                break
         for cid in cids:
-            add_channel(root, cid, names, None)
+            add_channel(root, cid, names, sister)
             start = first
             while start < now + NAMED_AHEAD:
                 stop = start + timedelta(hours=6)
