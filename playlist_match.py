@@ -37,6 +37,8 @@ def norm(name: str | None) -> str:
     s = s.lower().replace("&", " and ")
     s = re.sub(r"^\s*spt-vip\s*\|\s*", "", s)
     s = re.sub(r"^\s*([a-z]{2,4}(?:-[a-z]{2,4})?(?:\s*\|\s*[a-z]{2,4})?)\s*[:|]\s*", "", s)
+    # iptv-epg.org writes the country with a dash: "FR - Ligue 1+".
+    s = re.sub(r"^\s*[a-z]{2}\s+-\s+", "", s)
     s = re.sub(r"\[\s*live\s*\]", " ", s)
     s = re.sub(r"\bhd\s*\+", " hd ", s)
     s = re.sub(r"\+\s*(\d)\b", r" plus\1 ", s)
