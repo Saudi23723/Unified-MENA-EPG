@@ -93,19 +93,25 @@ MJH = {"pluto": "https://i.mjh.nz/PlutoTV/us.xml.gz",
 
 # --- the login, kept out of every line printed --------------------------
 
-def login() -> tuple[str, str, str]:
-    blob = "\n".join(os.environ.get(k, "") for k in
-                     ("XTREAM_URL", "XTREAM_USER", "XTREAM_PASS"))
+# Every playlist the guide serves, by the prefix of its three secrets. Both
+# go into the one guide on the one link: a channel the two share is listed
+# once, under the names each playlist gives it.
+PLAYLISTS = ("XTREAM", "XTREAM2")
+
+
+def login(prefix: str = "XTREAM") -> tuple[str, str, str]:
+    blob = "\n".join(os.environ.get(f"{prefix}_{k}", "") for k in
+                     ("URL", "USER", "PASS"))
 
     def pick(pattern: str) -> str:
         m = re.search(pattern, blob, re.I)
         return m.group(1).strip() if m else ""
 
     url = pick(r"(https?://[^\s/?#]+)")
-    user = (os.environ.get("XTREAM_USER", "").strip()
+    user = (os.environ.get(f"{prefix}_USER", "").strip()
             or pick(r"[?&]username=([^&\s]+)")
             or pick(r"(?:user\s*name|username|user|اسم المستخدم)\s*[:=]\s*(\S+)"))
-    password = (os.environ.get("XTREAM_PASS", "").strip()
+    password = (os.environ.get(f"{prefix}_PASS", "").strip()
                 or pick(r"[?&]password=([^&\s]+)")
                 or pick(r"(?:password|pass|كلمة السر|كلمة المرور)\s*[:=]\s*(\S+)"))
     return url, user, password
@@ -120,13 +126,41 @@ def say(text: str) -> None:
     print(text, flush=True)
 
 
-def playlist() -> list[tuple[str, str, str]] | None:
+def playlists() -> list[tuple[str, str, str]] | None:
+    """Every configured playlist's channels together, or None.
+
+    A playlist with no secrets is simply not configured. One that is
+    configured but cannot be read makes the whole answer None, so the
+    published guide is kept rather than rebuilt without its channels.
+    """
+    found = False
+    streams: list[tuple[str, str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for prefix in PLAYLISTS:
+        if not any(os.environ.get(f"{prefix}_{k}", "").strip()
+                   for k in ("URL", "USER", "PASS")):
+            continue
+        found = True
+        part = playlist(prefix)
+        if part is None:
+            return None
+        for stream in part:
+            if stream not in seen:
+                seen.add(stream)
+                streams.append(stream)
+    if not found:
+        say("playlist: no login in the secrets")
+        return None
+    return streams
+
+
+def playlist(prefix: str = "XTREAM") -> list[tuple[str, str, str]] | None:
     """[(category, channel name, epg id)] for the whole playlist, or None."""
-    url, user, password = login()
+    url, user, password = login(prefix)
     host = re.sub(r"^https?://", "", url).split(":")[0]
     SECRETS.extend(x for x in (url, user, password, host) if x)
     if not (url and user and password):
-        say("playlist: no login in the secrets")
+        say(f"playlist {prefix}: its login is incomplete in the secrets")
         return None
     auth = {"username": user, "password": password}
     try:
@@ -145,7 +179,7 @@ def playlist() -> list[tuple[str, str, str]] | None:
     except Exception as exc:  # noqa: BLE001 - scrubbed and reported
         say(f"playlist: unreadable ({type(exc).__name__}: {exc})"[:300])
         return None
-    say(f"playlist: {len(streams)} channel(s) in {len(cats)} categories")
+    say(f"playlist {prefix}: {len(streams)} channel(s) in {len(cats)} categories")
     return streams
 
 
@@ -406,7 +440,7 @@ def write_aliases(names: dict[str, list[str]], solo: list[str]) -> None:
 
 def build() -> int:
     mapping: dict[str, list[str]] = json.load(open(MAP, encoding="utf-8"))
-    streams = playlist()
+    streams = playlists()
     if streams is None:
         say("guide: playlist unreadable — keeping the published guide")
         return 0

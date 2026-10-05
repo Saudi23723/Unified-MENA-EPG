@@ -42,6 +42,9 @@ jobs:
           XTREAM_URL: ${{ secrets.XTREAM_URL }}
           XTREAM_USER: ${{ secrets.XTREAM_USER }}
           XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
+          XTREAM2_URL: ${{ secrets.XTREAM2_URL }}
+          XTREAM2_USER: ${{ secrets.XTREAM2_USER }}
+          XTREAM2_PASS: ${{ secrets.XTREAM2_PASS }}
         run: python att_epg.py
       # No file means the run kept the published guide (playlist or a
       # source unreadable) — nothing to publish, and nothing failed.
