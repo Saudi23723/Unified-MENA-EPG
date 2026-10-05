@@ -1,0 +1,593 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Guard the published guides and the links that serve them.
+
+This never writes anything. It reads what is committed and reports what
+is wrong with it, so a guide that quietly died, a channel that lost its
+logo, or a merge that dropped a source shows up as a red run instead of
+as a blank guide in TiviMate weeks later.
+
+What counts as a failure:
+
+  * a source file named in merge_epg.py that is missing or unparsable
+  * a programme whose stop is not after its start, or two that overlap on
+    one channel — either makes the file invalid XMLTV
+  * a guide with less than half a day left in the future: it is still
+    being published, but there is nothing left to watch in it. tabii's
+    guide sat like that — 83 programmes, one of them still ahead — and
+    nothing said so. Sources that publish a short horizon by their own
+    design — one day, or a rolling handful of hours — are
+    listed in ONE_DAY_SOURCES and fail only when nothing at all is left
+    ahead, since half a day is more than such a guide ever carries late
+    in its cycle
+  * a channel with no name, or an icon pointing at a logo file this
+    repository does not actually have
+  * the same channel id claimed by two different source files — the merge
+    keeps whichever it reads first and silently drops the other
+  * a channel that exists in a source file but is missing from the merged
+    guide
+What is only reported:
+
+  * a guide with less than two days ahead of now — thin, not broken
+  * a channel with no programmes at all
+  * a guide made up of more stand-in than guide_ceilings.json allows it.
+    A stand-in is a title that fills time instead of describing a
+    broadcast, and a guide that turns mostly into them has usually lost a
+    source rather than run out of sport. ON Sport sat at 94 per cent for
+    days after FilGoal shut off its feed. This FAILED the run until 16
+    September 2026 and now only reports: empty hours are not a fault, and
+    a red run twice a day saying so buries the ones that matter. See
+    check_ceilings for what that trade gives up
+
+Run it with no arguments. Exit code 1 means something needs attention.
+
+`--structure-only` skips the freshness checks — whether a guide has run
+out, how many days it reaches. Those are about the data ageing, not about
+the code, so a pull request must not go red for them; the scheduled run
+is what watches freshness.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import re
+import sys
+import xml.etree.ElementTree as ET
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
+
+UTC = timezone.utc
+REPO_LOGO_RE = re.compile(
+    r"raw\.githubusercontent\.com/[^/]+/[^/]+/[^/]+/logos/([^/?#]+)$", re.I)
+
+MERGED = "unified_mena_epg.xml"
+# Under half a day left means the guide has stopped being a guide.
+DEAD_DAYS = 0.5
+THIN_DAYS = 2
+
+# Channels two links carry on purpose: Al Jazeera is copied from Roya's guide
+# onto Alwan's, the link the owner's player loads. The merge keeps the rows
+# of the first file and the names of both, so nothing is dropped.
+SHARED_CHANNELS = {
+    "AlJazeera.qa": {"roya_jordan_epg.xml", "alwan_sports_epg.xml"},
+}
+
+# Sources that publish a short horizon — one day, or a rolling few
+# hours — by their own design rather than because something broke.
+# Judging these on days-ahead raises a failure
+# every evening for a guide that is working perfectly: Alkass serves one
+# day and nothing else -- ?day=next, ?day=prev and an invented ?day=next2
+# all return byte-identical schedules -- so by late evening in Doha it
+# always has under half a day left. They are held to a different rule
+# below: they must still cover now, and they must have been refreshed.
+ONE_DAY_SOURCES = {
+    "alkass_epg.xml": "alkass.net/tvguide publishes the current day only",
+    # The boards below are bulletins, not schedules: their generators write
+    # HOURS_AHEAD hours from now and rewrite the whole guide every ten
+    # minutes, so measured from midnight their horizon shrinks all day and
+    # by late evening is always under half a day — exactly the
+    # shape Alkass is excused for, produced by design rather than by
+    # failure. They pass the same two-part test instead: something must
+    # still be ahead, or the newest programme must have ended within
+    # ONE_DAY_STALE_HOURS.
+    "news_epg.xml":
+        "the news board publishes a rolling six-hour bulletin, rewritten "
+        "every ten minutes",
+    "prayer_epg.xml":
+        "the prayer board publishes a rolling twelve-hour guide, "
+        "so a build that landed today should still be covering now",
+    "weather_epg.xml":
+        "the weather board publishes a rolling six-hour bulletin, "
+        "rewritten every ten minutes",
+}
+
+# How long a one-day guide may sit with nothing ahead before it counts as
+# dead rather than as waiting. Such a guide runs out every night by design:
+# its last programme ends at midnight in the broadcaster's own timezone and
+# the source publishes the next day some time after that. Failing the
+# moment nothing is ahead turned that nightly window into a nightly alarm —
+# Alkass went red at 23:50 in Doha for having reached the end of its own
+# day. What actually distinguishes dead from waiting is how long ago the
+# guide's newest programme ended: hours means the day is over, a day or
+# more means the source has stopped refreshing.
+ONE_DAY_STALE_HOURS = 8
+
+errors: list[str] = []
+notes: list[str] = []
+
+
+def fail(msg: str) -> None:
+    errors.append(msg)
+
+
+def note(msg: str) -> None:
+    notes.append(msg)
+
+
+def stale_hours(path: str, now: datetime) -> float | None:
+    """Hours since this guide's newest programme ended, or None if unreadable.
+
+    Negative would mean it still reaches into the future; callers only ask
+    once they know it does not.
+    """
+    try:
+        root = ET.parse(path).getroot()
+    except Exception:
+        return None
+    stops = [parse_stamp(p.get("stop")) for p in root.findall("programme")]
+    stops = [s for s in stops if s]
+    if not stops:
+        return None
+    return (now - max(stops)).total_seconds() / 3600.0
+
+
+# A title that says the guide does not know what is on. Each entry is a
+# real string some guide publishes, not a guess:
+#
+#   لا توجد مباراة مجدولة       ON Sport, Alwan, Fajer, Thmanyah
+#   مباراة لم تُعلن قناتها بعد   Thmanyah — a match exists, its channel is unknown
+#   PPV — حسب المباراة          tabii Spor 1-10, the standing notice
+#   Tanıtım                     Tivibu Spor, the channel trailing itself
+#
+# The countdown filler, "⏰ التالي: Liverpool - Nottingham", is
+# deliberately NOT in this list, and the distinction is the whole point of
+# the check. A countdown only exists because a real fixture was found; it
+# names the match and when it starts. A guide that has lost its source
+# cannot produce one — it produces "لا توجد مباراة مجدولة" and nothing
+# else. Counting countdowns as ignorance would have put a healthy ON Sport
+# at 74 per cent and a blind one at 86, which is not a signal anybody can
+# act on. Counting only ignorance puts them at 36 and 86.
+#
+# A channel whose every row carries one single title is counted here
+# whatever that title is, because that is what beIN's XTRA blurb and an
+# operator repeating its own channel name both amount to.
+STANDIN_TITLE = re.compile(
+    r"لا توجد مباراة|لا يوجد|مباراة لم تُعلن|لم يُعلن البث"
+    r"|No listing published|PPV — حسب المباراة|Tanıtım|24/7",
+    re.I)
+
+CEILINGS_FILE = "guide_ceilings.json"
+
+
+def folded(text: str) -> str:
+    """One spelling for comparing a title against a channel's own name."""
+    return " ".join((text or "").split()).casefold()
+
+
+def channel_names(root) -> dict[str, set[str]]:
+    """Every spelling a file gives each of its channels.
+
+    A row whose title is just the channel's own name is filler — the
+    guide is saying "this is Alkass" where it should be saying what is
+    on — and the rule above it, one-title-for-a-whole-channel, does not
+    catch it as soon as a single real programme joins in.
+
+    jordan_sports_epg.xml is the worked example, and it is exactly the
+    blindness this whole file exists to prevent. Twenty-six of its
+    twenty-nine rows read "الأردن الرياضية" and the other three are one
+    talk show: a guide with no fixture in it at all, measuring 0%
+    stand-in against a 15% ceiling, passing every run.
+
+    A display-name is often two names in one — "Jordan Sport | الأردن
+    الرياضية" — so each side is kept as well as the whole, because the
+    filler writes only the Arabic half.
+    """
+    names: dict[str, set[str]] = {}
+    for channel in root.findall("channel"):
+        bag = names.setdefault(channel.get("id"), set())
+        for name in channel.findall("display-name"):
+            whole = folded(name.text)
+            if not whole:
+                continue
+            bag.add(whole)
+            for half in whole.split("|"):
+                if half.strip():
+                    bag.add(half.strip())
+    return names
+
+
+def standin_share(path: str, sourceless: tuple[str, ...] = ()) -> tuple[int, int]:
+    """(stand-in rows, total rows) for one published guide.
+
+    `sourceless` names channels whose upstream declares them and schedules
+    NOTHING for them — a permanent state, not a failing one. They are left
+    out of the ratio because including them measures the wrong thing.
+
+    beIN Türkiye is the worked example. Four of its twelve channels are
+    Tivibu Spor, and epgshare01's TR3 feed lists all four and gives them
+    zero programmes; every row this guide publishes for them is honest
+    ignorance. Counting those rows made the file read 47% while the eight
+    beIN channels — the ones anybody watches — sat between 0% and 13%. The
+    ceiling had already been raised 25 → 45 to accommodate it, and it went
+    over anyway, because the dead share is not a constant: it was sixty
+    rows per channel on 1 September and eighty-three on the 3rd, since a
+    guide that reaches further ahead has more empty hours to fill. A
+    ceiling cannot be calibrated against a number that grows on its own.
+
+    Left out, the same file reads 5% — which is exactly what it measured
+    when it was known to be working. That is the number the ceiling was
+    always meant to be watching.
+
+    They are named in guide_ceilings.json rather than here, so adding one
+    is a reviewable decision, and they are still reported every run.
+    """
+    try:
+        root = ET.parse(path).getroot()
+    except Exception:
+        return 0, 0
+    own_name = channel_names(root)
+    per: dict[str, list] = {}
+    for programme in root.findall("programme"):
+        title = (programme.findtext("title") or "").strip()
+        cid = programme.get("channel")
+        if cid in sourceless:
+            continue
+        slot = per.setdefault(cid, [0, 0, set()])
+        slot[0] += 1
+        if (STANDIN_TITLE.search(title)
+                or folded(title) in own_name.get(cid, ())):
+            slot[1] += 1
+        else:
+            slot[2].add(title)
+    for slot in per.values():
+        # One title for a whole channel is filler whatever it says. Judged
+        # on the rows that are not already stand-in: close_every_gap adds a
+        # row saying nothing is known, and counting that as a second title
+        # would let one filler row hide a channel that repeats "Tanıtım"
+        # sixty times.
+        if slot[0] >= 4 and len(slot[2]) <= 1:
+            slot[1] = slot[0]
+    return (sum(v[1] for v in per.values()),
+            sum(v[0] for v in per.values()))
+
+
+def check_live_coverage(now: datetime) -> None:
+    """No channel may show a blank row at this moment.
+
+    A player renders a hole as a blank row and a viewer reads a blank row
+    as a dead channel. Nothing checked for this, and two were live in the
+    published guides for hours: the four Tivibu Spor channels, whose
+    upstream feed had stopped supplying anything past the previous evening,
+    and Al Jadeed, whose source publishes 03:00 to 20:59 and leaves six
+    hours of every night unwritten.
+
+    Both were found by reading the files by hand. That is what this check
+    is for — every guard in this repository exists because something
+    reached a television first.
+
+    A short-horizon source is held to a softer rule: it genuinely
+    reaches nowhere overnight, and staleness is already checked for it
+    elsewhere.
+    """
+    print(f"\n{'file':34} {'channels blank right now':>26}")
+    for path in source_files():
+        if not os.path.exists(path):
+            continue
+        try:
+            root = ET.parse(path).getroot()
+        except Exception:
+            continue
+
+        declared = [c.get("id") for c in root.findall("channel")]
+        spans: dict[str, list] = {}
+        for programme in root.findall("programme"):
+            start = parse_stamp(programme.get("start"))
+            stop = parse_stamp(programme.get("stop"))
+            if start and stop:
+                spans.setdefault(programme.get("channel"), []).append(
+                    (start, stop))
+
+        blank = [cid for cid in declared
+                 if not any(a <= now < b for a, b in spans.get(cid, []))]
+        print(f"{path:34} {len(blank):>26}")
+        for cid in blank:
+            rows = sorted(spans.get(cid, []))
+            if not rows:
+                fail(f"{path}: {cid} is declared and has no programmes at all")
+            elif path in ONE_DAY_SOURCES:
+                note(f"{path}: {cid} shows nothing right now — short-horizon "
+                     f"source ({ONE_DAY_SOURCES[path]})")
+            else:
+                last = max(b for _, b in rows)
+                gap = ("its listing ran out "
+                       f"{(now - last).total_seconds() / 3600:.1f}h ago"
+                       if last <= now else
+                       "there is a hole in the middle of its day")
+                fail(f"{path}: {cid} shows a blank row right now — {gap}. "
+                     f"A viewer reads a blank row as a dead channel, so the "
+                     f"guide should say it does not know instead")
+
+
+def check_ceilings(now: datetime) -> None:
+    """Measure how much of each guide is stand-in and report it.
+
+    This REPORTS, it does not fail. The share is still measured, still
+    printed in the table below with an OVER mark, and still the fastest
+    way to see that a source has stopped answering — it is what would
+    have caught FilGoal on the first run after its feed was shut off,
+    instead of days later and on a television.
+
+    It stopped failing on 16 September 2026, at the reader's word and
+    repeated twice: a quiet stretch with no fixtures is not a fault, and
+    a red run every twelve hours saying so buries the runs that mean
+    something. What it costs is the FilGoal alarm: a guide whose source
+    dies now fills with stand-in and says so only in this log, where
+    nobody is watching. The reader was told that in those words and
+    chose this. Restoring the alarm means turning these back into fail()
+    — do that only if he asks.
+    """
+    if not os.path.exists(CEILINGS_FILE):
+        note(f"{CEILINGS_FILE} is missing — no guide is held to a "
+             f"stand-in ceiling this run")
+        return
+    try:
+        ceilings = json.load(open(CEILINGS_FILE, encoding="utf-8"))
+    except Exception as exc:
+        fail(f"{CEILINGS_FILE} is unreadable: {exc}")
+        return
+
+    # Channels their own source declares and never schedules. Reported,
+    # never counted — see standin_share for why counting them measures
+    # the wrong thing.
+    no_source = ceilings.get("_no_source", {})
+    for path, channels in sorted(no_source.items()):
+        for cid in channels:
+            note(f"{path}: {cid} has no source — its feed lists the "
+                 f"channel and schedules nothing for it, so its rows are "
+                 f"left out of the stand-in ratio")
+
+    print(f"\n{'file':34} {'stand-in':>9} {'ceiling':>8}")
+    for path, ceiling in sorted(ceilings.items()):
+        if not path.endswith(".xml") or not isinstance(ceiling, (int, float)):
+            continue
+        if not os.path.exists(path):
+            continue
+        standin, total = standin_share(path, tuple(no_source.get(path, ())))
+        if not total:
+            continue
+        share = round(100 * standin / total)
+        mark = "  OVER" if share > ceiling else ""
+        print(f"{path:34} {share:>8}% {ceiling:>7}%{mark}")
+        if share > ceiling:
+            note(f"{path}: {share}% of its rows are stand-in, above the "
+                 f"{ceiling}% this guide is held to. A guide does not "
+                 f"usually fill up with stand-in because there is no sport "
+                 f"— check whether one of its sources has stopped "
+                 f"answering, the way FilGoal's feed did")
+
+
+def source_files() -> list[str]:
+    """The list merge_epg.py itself publishes, read from the file so the
+    two can never drift apart."""
+    text = open("merge_epg.py", encoding="utf-8").read()
+    block = re.search(r"SOURCE_FILES\s*=\s*\[(.*?)\]", text, re.S)
+    if not block:
+        fail("merge_epg.py: SOURCE_FILES not found — cannot tell what is published")
+        return []
+    return re.findall(r'"([^"]+\.xml)"', block.group(1))
+
+
+def parse_stamp(value: str) -> datetime | None:
+    try:
+        return datetime.strptime(value, "%Y%m%d%H%M%S %z")
+    except (TypeError, ValueError):
+        return None
+
+
+def check_file(path: str, now: datetime, *, check_overlaps: bool = True) -> dict:
+    """Everything worth knowing about one guide."""
+    out = {"channels": {}, "programmes": 0, "ahead": 0, "ids": set()}
+    try:
+        root = ET.parse(path).getroot()
+    except Exception as exc:
+        fail(f"{path}: unreadable ({exc})")
+        return out
+
+    if root.tag != "tv":
+        fail(f"{path}: root element is <{root.tag}>, not <tv>")
+
+    for ch in root.findall("channel"):
+        cid = ch.get("id")
+        if not cid:
+            fail(f"{path}: a <channel> has no id")
+            continue
+        out["ids"].add(cid)
+        names = [d.text for d in ch.findall("display-name") if (d.text or "").strip()]
+        if not names:
+            fail(f"{path}: channel {cid} has no display-name")
+        icon = ch.find("icon")
+        src = icon.get("src") if icon is not None else ""
+        if not src:
+            note(f"{path}: channel {cid} has no icon")
+        else:
+            local = REPO_LOGO_RE.search(src)
+            if local and not os.path.exists(os.path.join("logos", local.group(1))):
+                fail(f"{path}: channel {cid} points at logos/{local.group(1)}, "
+                     f"which is not in this repository")
+        out["channels"][cid] = 0
+
+    # XMLTV does not require programmes to be stored in time order, and
+    # several guides here do not store them that way — a player sorts by
+    # start itself. So overlap has to be judged after sorting per channel;
+    # judging it in document order reports every unsorted channel as
+    # broken when nothing is wrong with it.
+    spans: dict[str, list[tuple[datetime, datetime]]] = defaultdict(list)
+    for pr in root.findall("programme"):
+        cid = pr.get("channel")
+        start, stop = parse_stamp(pr.get("start")), parse_stamp(pr.get("stop"))
+        if start is None or stop is None:
+            fail(f"{path}: programme on {cid} has an unreadable time "
+                 f"({pr.get('start')} -> {pr.get('stop')})")
+            continue
+        if stop <= start:
+            fail(f"{path}: programme on {cid} ends before it starts "
+                 f"({pr.get('start')} -> {pr.get('stop')})")
+        else:
+            spans[cid].append((start, stop))
+
+        out["programmes"] += 1
+        if cid in out["channels"]:
+            out["channels"][cid] += 1
+        if start > now:
+            out["ahead"] += 1
+
+    if check_overlaps:
+        for cid, rows in spans.items():
+            cursor = None
+            for start, stop in sorted(rows):
+                if cursor is not None and start < cursor:
+                    fail(f"{path}: overlapping programmes on {cid} at "
+                         f"{start:%Y-%m-%d %H:%M %z}")
+                cursor = stop if cursor is None else max(cursor, stop)
+
+
+    empty = [c for c, n in out["channels"].items() if n == 0]
+    if empty:
+        note(f"{path}: {len(empty)} channel(s) carry no programmes: "
+             f"{', '.join(sorted(empty)[:6])}")
+    return out
+
+
+def main() -> int:
+    structure_only = "--structure-only" in sys.argv[1:]
+    now = datetime.now(UTC)
+    print(f"Health check{' (structure only)' if structure_only else ''} | "
+          f"{now:%Y-%m-%d %H:%M} UTC\n", flush=True)
+
+    files = source_files()
+    if not files:
+        return 1
+
+    seen_owner: dict[str, str] = {}
+    all_source_ids: set[str] = set()
+
+    print(f"{'file':34} {'ch':>4} {'prog':>6} {'ahead':>6} {'days':>5}")
+    for path in files:
+        if not os.path.exists(path):
+            # A guide that has never published is new; a guide that has
+            # published before and is now gone has lost its file. Only the
+            # second is a failure — telling them apart is what git history
+            # is for, and conflating them means either a false alarm on
+            # every new guide or silence when a real one disappears.
+            ever = subprocess.run(
+                ["git", "log", "--oneline", "-1", "--", path],
+                capture_output=True, text=True, check=False)
+            if ever.returncode == 0 and ever.stdout.strip():
+                fail(f"{path}: named in merge_epg.py, published before, and "
+                     f"now missing from the repository")
+                print(f"{path:34}   MISSING")
+            else:
+                note(f"{path}: newly registered and not built yet — it "
+                     f"appears after its first scheduled run")
+                print(f"{path:34}   not built yet")
+            continue
+        info = check_file(path, now)
+        days = 0
+        try:
+            root = ET.parse(path).getroot()
+            stamps = [parse_stamp(p.get("start")) for p in root.findall("programme")]
+            future = [s for s in stamps if s and s > now]
+            days = round((max(future) - now) / timedelta(days=1), 1) if future else 0
+        except Exception:
+            pass
+        print(f"{path:34} {len(info['ids']):4} {info['programmes']:6} "
+              f"{info['ahead']:6} {days:5}")
+        if structure_only:
+            pass
+        elif path in ONE_DAY_SOURCES:
+            # A one-day guide is judged on whether it is still being
+            # refreshed, not on how far ahead it reaches — it never reaches
+            # far, and every night it reaches nowhere at all.
+            if info["ahead"]:
+                note(f"{path}: {days} day(s) ahead — short-horizon source "
+                     f"({ONE_DAY_SOURCES[path]})")
+            elif info["programmes"]:
+                behind = stale_hours(path, now)
+                if behind is None:
+                    fail(f"{path}: {info['programmes']} programmes and no "
+                         f"readable times — cannot tell whether it is fresh")
+                elif behind > ONE_DAY_STALE_HOURS:
+                    fail(f"{path}: nothing ahead and its newest programme ended "
+                         f"{behind:.0f}h ago — the source has stopped refreshing "
+                         f"({ONE_DAY_SOURCES[path]})")
+                elif behind < 0:
+                    note(f"{path}: on its last programme of the day — nothing "
+                         f"starts after it, and it is still running "
+                         f"({ONE_DAY_SOURCES[path]})")
+                else:
+                    note(f"{path}: today has ended and tomorrow is not published "
+                         f"yet — newest programme ended {behind:.0f}h ago, within "
+                         f"the {ONE_DAY_STALE_HOURS}h this source is given "
+                         f"({ONE_DAY_SOURCES[path]})")
+        elif info["programmes"] and days < DEAD_DAYS:
+            fail(f"{path}: {info['programmes']} programmes but only {days} day(s) "
+                 f"still ahead — this guide has run out")
+        elif days < THIN_DAYS:
+            note(f"{path}: only {days} day(s) ahead")
+
+        for cid in info["ids"]:
+            if {seen_owner.get(cid), path} <= SHARED_CHANNELS.get(cid, set()):
+                continue
+            if cid in seen_owner and seen_owner[cid] != path:
+                fail(f"channel id {cid} is claimed by both {seen_owner[cid]} and "
+                     f"{path} — the merge keeps one and drops the other")
+            seen_owner[cid] = path
+        all_source_ids |= info["ids"]
+
+    print()
+    if not os.path.exists(MERGED):
+        fail(f"{MERGED}: the merged link is missing")
+    else:
+        # Sources are merged as-is, so a cross-file overlap check here would
+        # only re-report what each file was already checked for.
+        merged = check_file(MERGED, now, check_overlaps=False)
+        print(f"{MERGED:34} {len(merged['ids']):4} {merged['programmes']:6} "
+              f"{merged['ahead']:6}")
+        missing = sorted(all_source_ids - merged["ids"])
+        if missing:
+            fail(f"{MERGED}: {len(missing)} channel(s) present in a source file "
+                 f"but absent from the merged link: {', '.join(missing[:8])}")
+
+    print()
+    if not structure_only:
+        check_ceilings(now)
+        check_live_coverage(now)
+
+    for n in notes:
+        print(f"NOTE  {n}", flush=True)
+    for e in errors:
+        print(f"FAIL  {e}", flush=True)
+
+    if errors:
+        print(f"\n{len(errors)} problem(s) found.", flush=True)
+        return 1
+    print(f"\nAll good — {len(files)} source files and the merged link are healthy"
+          f"{f', {len(notes)} note(s)' if notes else ''}.", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

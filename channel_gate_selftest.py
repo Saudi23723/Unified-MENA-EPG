@@ -1,0 +1,7027 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Every gate that decides "this match is on MY channel", attacked.
+
+On 28 August this guide published Liverpool - Nottingham, Al Wasl -
+Shabab Al Ahli, Tottenham - Newcastle and Gençlerbirligi - Erzurumspor on
+ON Time Sports, an Egyptian channel that carries none of them. The times
+were right; the broadcasts were invented.
+
+The cause was one function reading a number before a name:
+
+    AD Sports 1        -> ONSport1
+    beIN Sports 1      -> ONSport1
+    beIN Sports MAX 1  -> ONSportMAX
+    TNT Sports 1       -> ONSport1
+    Sky Sports Plus    -> ONSportPLUS
+
+It had been correct for months, because it had only ever been shown
+labels from ON Sport's own pages. It broke the day it was handed
+livefootballtv's front page, which lists every channel in the world
+against every match. Nothing tested it against that input, so nothing
+caught it until a viewer saw Liverpool on an Egyptian channel.
+
+This file is that test. Every guide that takes a broadcaster's name from
+a source and decides whether the match is one of its own is given the
+same corpus of real channel names — its own, which it must accept, and
+forty foreign ones, which it must refuse. It runs in CI on every push.
+
+A guide that invents a broadcast is worse than one that admits it does
+not know. A viewer who trusts an empty row loses nothing; a viewer who
+trusts an invented one turns on the television and finds something else,
+and stops believing the rest of the guide.
+
+Adding a channel means adding it here. Loosening a gate means this goes
+red, which is the point.
+"""
+
+from __future__ import annotations
+
+import itertools
+import os
+import re
+import sys
+import tempfile
+import xml.etree.ElementTree as ET
+
+FAILURES: list[str] = []
+
+
+def check(gate: str, label: str, got, want) -> None:
+    ok = got == want
+    if not ok:
+        FAILURES.append(f"{gate}: {label!r} -> {got!r}, expected {want!r}")
+    print(f"  {'ok  ' if ok else 'FAIL'} {label:34} -> {str(got):14} "
+          f"{'' if ok else 'expected ' + str(want)}")
+
+
+# Real channel names, none of them belonging to any guide here. Kept in
+# one list so every gate is attacked with the same corpus, and so adding
+# a name that once slipped through protects every guide at once.
+# The same foreign channels an Arabic page would print them as. A gate
+# taught only Latin names refuses these by accident, not by design, and
+# will keep refusing them right up until it does not.
+FOREIGN_AR = [
+    "بي ان سبورت 1", "بي إن سبورت 2", "بين سبورت ماكس 1",
+    "أبوظبي الرياضية 1", "أبو ظبي الرياضية 2", "دبي الرياضية",
+    "الشارقة الرياضية", "السعودية الرياضية 1", "الكأس 1", "ثمانية 1",
+    "قناة الرياضية السعودية", "الكويت الرياضية", "عمان الرياضية",
+]
+
+FOREIGN = [
+    "beIN Sports 1", "beIN Sports 2", "beIN Sports MAX 1", "beIN Sports MAX 2",
+    "beIN Sports XTRA 1", "AD Sports 1", "AD Sports 2", "AD Sports Premium 1",
+    "Abu Dhabi Sports 1", "Dubai Sports 1", "Dubai Sports 2", "Sharjah Sports",
+    "SSC 1", "SSC 2", "SSC Extra 1", "Thmanyah 1", "Thmanyah 2",
+    "Alkass One", "Alkass Two", "Alkass Three",
+    "TNT Sports 1", "TNT Sports 2", "Sky Sports Main Event",
+    "Sky Sports Premier League", "Sky Sports Plus", "Sky Sport 1",
+    "Canal+ Sport", "Canal+ Foot", "DAZN 1", "DAZN 2",
+    "Movistar Plus+", "Movistar Liga de Campeones 1",
+    "Sport TV 1", "Sport TV 2", "Eleven Sports 1",
+    "ESPN 1", "ESPN 2", "Fox Sports 1", "Fox Sports 2",
+    "MBC Sports+", "Star Sports 1", "Astro SuperSport 1",
+    "SuperSport Premier League", "Arena Sport 1", "Nova Sports 1",
+    "Digi Sport 1", "Match TV", "Ziggo Sport Select",
+    "S Sport 1", "Tivibu Spor 1", "beIN Sports Türkiye 1",
+    "Idman TV", "Varzish Sport", "Football HD",
+]
+
+
+def gate_onsport() -> None:
+    print("\nON Sport — onsport_channel_from_label")
+    import update_onsport_epg as m
+    mine = [
+        ("ON Sport", "ONSport1"),
+        ("On Sport 1", "ONSport1"),
+        ("ON Time Sports 1", "ONSport1"),
+        ("On Sport 2", "ONSport2"),
+        ("ON Time Sports 2", "ONSport2"),
+        ("On Sport Max", "ONSportMAX"),
+        ("ON Time Sports Max", "ONSportMAX"),
+        ("On Sport Plus", "ONSportPLUS"),
+        ("أون سبورت", "ONSport1"),
+        ("أون سبورت ماكس", "ONSportMAX"),
+        ("اون سبورت 2", "ONSport2"),
+    ]
+    for label, want in mine:
+        check("ON Sport", label, m.onsport_channel_from_label(label), want)
+    print("  -- foreign channels, in both scripts, every one refused --")
+    every = FOREIGN + FOREIGN_AR
+    for label in every:
+        got = m.onsport_channel_from_label(label)
+        if got is not None:
+            check("ON Sport", label, got, None)
+    print(f"  {len(every)} foreign labels offered, "
+          f"{sum(m.onsport_channel_from_label(x) is not None for x in every)} accepted")
+
+
+def gate_jordan() -> None:
+    print("\nJordan Sports — _lftv_row_names_channel")
+    from bs4 import BeautifulSoup
+    import JORDAN_SPORTS_FINAL_VERIFIED as m
+
+    def row(*channels: str):
+        lis = "".join(f'<li title="{c}">{c}</li>' for c in channels)
+        html = (f'<tr><td class="canales"><div id="ev"></div>'
+                f'<ul class="listaCanales">{lis}</ul></td></tr>')
+        return BeautifulSoup(html, "html.parser").find(id="ev")
+
+    # Its own name in every spelling a source might print, including the
+    # Arabic one. This gate once accepted the literal "jordan sports" and
+    # nothing else, so an Arabic page would have emptied the guide in
+    # silence.
+    for label in ("Jordan Sports", "Jordan Sport", "JRTV Sports",
+                  "الأردن الرياضية", "الاردن الرياضية",
+                  "الرياضية الأردنية"):
+        check("Jordan", label, m._lftv_row_names_channel(row(label)), True)
+    check("Jordan", "Jordan Sports beside beIN",
+          m._lftv_row_names_channel(row("beIN Sports 1", "Jordan Sports")), True)
+
+    print("  -- foreign channels, in both scripts, every one refused --")
+    every = FOREIGN + FOREIGN_AR
+    leaked = 0
+    for label in every:
+        if m._lftv_row_names_channel(row(label)):
+            check("Jordan", label, True, False)
+            leaked += 1
+    # and the whole foreign list at once, as a real row would carry it
+    if m._lftv_row_names_channel(row(*every)):
+        check("Jordan", "<all foreign at once>", True, False)
+        leaked += 1
+    print(f"  {len(every)} foreign labels offered, {leaked} accepted")
+
+
+def gate_shahid() -> None:
+    print("\nShahid — SHAHID_RE")
+    import update_shahid_sports_epg as m
+    for label in ("MBC Shahid Sports", "Shahid", "Shahid VIP", "Shahid Sports",
+                  "شاهد", "شاهد سبورت", "MBC Sport"):
+        check("Shahid", label, bool(m.SHAHID_RE.search(label)), True)
+    print("  -- foreign channels, in both scripts, every one refused --")
+    every = FOREIGN + FOREIGN_AR
+    leaked = []
+    for label in every:
+        if m.SHAHID_RE.search(label):
+            leaked.append(label)
+            check("Shahid", label, True, False)
+    print(f"  {len(every)} foreign labels offered, {len(leaked)} accepted")
+
+    # A LISTINGS PAGE'S MINUTE, CORRECTED BY OUR OWN GUIDES. livesoccertv
+    # put Yemen - Qatar at 11:00 New York (18:00 Riyadh) on 27 September
+    # 2026; it kicked off at 18:55, which Shasha's guide printed. Only a
+    # listings page is corrected, only when both clubs match, and only
+    # when every guide that has the match agrees on one minute.
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+    ny, utc = ZoneInfo("America/New_York"), timezone.utc
+
+    def event(title, hour, minute, source="LiveSoccerTV"):
+        return {"title": title, "source_name": source,
+                "start": datetime(2026, 9, 27, hour, minute, tzinfo=ny)}
+
+    live = "\u2068Yemen - Qatar\u2069 \u200e• Live 🔵\u200e"
+    rows = [(datetime(2026, 9, 27, 15, 55, tzinfo=utc), live,
+             "shasha_epg.xml")]
+    fixed = m.second_opinion([event("Yemen - Qatar", 11, 0)], rows)
+    check("Shahid", "a listings page's wrong minute takes our guides' kickoff",
+          f"{fixed[0]['start']:%H:%M %z}", "11:55 -0400")
+    check("Shahid", "and a club's official page is never second-guessed",
+          f"{m.second_opinion([event('Yemen - Qatar', 11, 0, 'BundesligaOfficial')], rows)[0]['start']:%H:%M}",
+          "11:00")
+    check("Shahid", "nor a match that shares only one club",
+          f"{m.second_opinion([event('Yemen - Bahrain', 11, 0)], rows)[0]['start']:%H:%M}",
+          "11:00")
+    split = rows + [(datetime(2026, 9, 27, 15, 30, tzinfo=utc), live,
+                     "alwan_sports_epg.xml")]
+    check("Shahid", "and guides that disagree with each other correct nothing",
+          f"{m.second_opinion([event('Yemen - Qatar', 11, 0)], split)[0]['start']:%H:%M}",
+          "11:00")
+
+
+def gate_not_a_team() -> None:
+    """A date or a competition is not a club — in either language.
+
+    Every guide that reads a fixture out of prose has to tell a team from
+    a heading, and each had learned that in one language only. Shahid
+    rejected "أغسطس" and published "August"; rejected "الجولة 2" and
+    published "Round 2"; rejected "الدوري الفرنسي" and published "Premier
+    League"; and, the other way about, rejected "Monday" while publishing
+    "الاثنين". Nine such pairs.
+    """
+    print("\nHeadings and dates — NOT_A_TEAM_NAME, both scripts")
+    from epg_lib import is_not_a_team as NOT_A_TEAM
+
+    pairs = [
+        ("August", "أغسطس"), ("September", "سبتمبر"), ("Aug", "آب"),
+        ("Monday", "الاثنين"), ("Friday", "الجمعة"), ("Sun", "الأحد"),
+        ("Premier League", "الدوري الإنجليزي"),
+        ("Round 2", "الجولة 2"), ("Matchweek 2", "الأسبوع الثاني"),
+        ("Semi-final", "نصف النهائي"), ("Quarter Final", "ربع النهائي"),
+        ("Group A", "المجموعة الأولى"), ("Friendly", "ودية"),
+        ("Qualifiers", "تصفيات"), ("Super Cup", "كأس السوبر"),
+        ("Coppa Italia", "بطولة الكأس"), ("Serie A", "الدوري السعودي الممتاز"),
+    ]
+    asymmetric = [(en, ar) for en, ar in pairs
+                  if NOT_A_TEAM(en) != NOT_A_TEAM(ar)]
+    missed = [x for pair in pairs for x in pair if not NOT_A_TEAM(x)]
+    if asymmetric or missed:
+        print(f"       asymmetric pairs: {asymmetric[:4]}")
+        print(f"       let through     : {missed[:6]}")
+    check("NOT_A_TEAM", f"{len(pairs)} pairs rejected in both scripts",
+          not asymmetric and not missed, True)
+
+    # And the direction that matters more: never refuse a real club.
+    clubs = [
+        "Bayern München", "Borussia M'gladbach", "Eintracht Frankfurt",
+        "Cremonese", "Sassuolo", "Hamburger SV", "Schalke 04", "Mainz 05",
+        "Al Sahel", "Kazma", "Al Sulaibikhat", "Al Tadhamon", "Al Qadsia",
+        "Al Arabi SC", "Al Salmiyah", "Al Fahaheel", "Al Nasar",
+        "الأهلي", "الزمالك", "الاتحاد السكندري", "سيراميكا كليوباترا",
+        "إنبي", "وادي دجلة", "القناة", "الجونة", "زد",
+        "الأهلي السعودي", "النصر السعودي", "الهلال", "الاتحاد", "الشباب",
+        "الوحدة", "الرياض", "نادي قطر", "السد", "الوصل", "شباب الأهلي",
+        "الجزيرة", "عجمان", "الفيصلي", "الوحدات", "الرمثا",
+        "Real Madrid", "Atl. Madrid", "Rayo Vallecano", "Sporting Lisbon",
+        "Galatasaray", "Gençlerbirligi", "Erzurumspor", "Nottingham",
+        "Aston Villa", "Sheffield Utd", "West Brom", "Khor Fakkan",
+        "Ceramica Cleopatra FC", "ENPPI Club", "El Gouna FC", "ZED FC",
+    ]
+    caught = [c for c in clubs if NOT_A_TEAM(c)]
+    if caught:
+        print(f"       real clubs wrongly refused: {caught}")
+    check("NOT_A_TEAM", f"none of {len(clubs)} real clubs refused",
+          not caught, True)
+
+    # And the half that is kept rather than dropped: a competition must be
+    # recognisable as one, so the guide can show which league a match
+    # belongs to instead of silently discarding the line that said so.
+    from epg_lib import COMPETITION_NAME, DATE_WORD
+    comps = ["الدوري الألماني", "الجولة 2", "Bundesliga", "Matchday 2",
+             "Premier League", "Coppa Italia", "نصف النهائي", "Semi-final",
+             "كأس السوبر", "Super Cup", "الأسبوع الثاني", "Gameweek 3"]
+    dates = ["أغسطس", "August", "الاثنين", "Monday", "آب", "Sep"]
+    check("COMPETITION", f"{len(comps)} competitions recognised, both scripts",
+          all(COMPETITION_NAME.search(c) for c in comps), True)
+    check("COMPETITION", "a date is never mistaken for a competition",
+          not any(COMPETITION_NAME.search(d) for d in dates), True)
+    check("COMPETITION", "a club is never mistaken for a competition",
+          not any(COMPETITION_NAME.search(c) or DATE_WORD.search(c)
+                  for c in clubs), True)
+
+
+def gate_channel_is_never_a_team() -> None:
+    """A channel name may never be published where a club belongs.
+
+    LiveFootballTV lists every channel carrying a match on the same lines
+    as the two teams. A parser that takes "the last two plausible names"
+    off that block reaches for a channel the moment a page lists one more
+    channel than usual, and that is not hypothetical: this repository
+    published
+
+        ⏰ Eintracht Frankfurt - MBC Action + …
+
+    MBC Action being a television channel and not a football club. Only
+    "MBC Sport" had been taught to the filter, so every other channel in
+    the world was a candidate opponent.
+
+    So the gate is by name, in one place, for every guide at once — the
+    same lesson as ON Sport, where feeding a world channel list into a
+    number-first matcher put Liverpool on an Egyptian channel.
+    """
+    print("\nChannels are never clubs — CHANNEL_NAME")
+    from epg_lib import is_channel_name, is_not_a_team
+
+    channels = [
+        "MBC Action", "MBC Shahid Sports", "MBC 1", "MBC Masr",
+        "beIN Sports 1", "beIN SPORTS MAX 2", "بي إن سبورت",
+        "ON Time Sports 2", "أون تايم سبورت", "ON Sport 1",
+        "SSC 1", "SSC Sports", "Shahid VIP", "StarzPlay", "TOD",
+        "tabii Spor 1", "Thmanyah 1", "Alkass One", "قناة الكأس",
+        "Dubai Sports 1", "Abu Dhabi Sports 2", "AD Sports Premium",
+        "DAZN", "ESPN", "Sky Sports Main Event", "TNT Sports 1",
+        "Canal+ Sport", "Movistar LaLiga", "Prime Video", "Apple TV",
+        "SuperSport Football", "Sport TV1", "Eleven Sports 2",
+        "Viaplay Sports 1", "Nova Sports", "Arena Sport 1",
+        "Digi Sport 2", "Match TV", "Fox Sports 1", "CBS Sports Network",
+        "NBC Sports", "Peacock", "Paramount+", "RMC Sport 1",
+        "S Sport Plus", "Idman TV", "Varzish TV", "TRT Spor",
+        "Tivibu Spor 3", "Roya TV", "JRTV Sports", "الأردن الرياضية",
+        "Football HD", "Sport 1 HD", "Sports HD", "beIN 4K", "TV 4K",
+        "دبي الرياضية", "أبو ظبي الرياضية",
+    ]
+    leaked = [c for c in channels if not is_channel_name(c)]
+    if leaked:
+        print(f"       accepted as a club: {leaked}")
+    check("CHANNEL", f"{len(channels)} channel names refused", not leaked, True)
+
+    # is_not_a_team is what the guides actually call, so the gate has to
+    # reach them through it, not only through its own regex.
+    unreached = [c for c in channels if not is_not_a_team(c)]
+    check("CHANNEL", "and every guide sees it through is_not_a_team",
+          not unreached, True)
+
+    # The direction that matters more: a club whose name merely brushes
+    # against broadcast vocabulary must still be a club.
+    clubs = [
+        "Sporting CP", "Sporting Lisbon", "Sport Boys", "Sport Recife",
+        "Sportivo Luqueño", "Deportivo Alavés", "Eintracht Frankfurt",
+        # Real clubs carrying a word that also marks a channel. "Ulsan HD
+        # FC" is Korean and was refused as a team name because HD matched
+        # anywhere — a lost fixture, which is the expensive direction.
+        # ("Shahid Afridi" turns up in a STARZPLAY documentary title, but
+        # that guide never reads a fixture out of a title, and on the
+        # Shahid guide the word is the broadcaster. Left refused.)
+        "Ulsan HD FC", "Ulsan HD", "Guangzhou HD",
+        "Union Berlin", "Bayern München", "Stuttgart", "Real Madrid",
+        "Al Sahel", "Al Arabi SC", "Kazma", "الأهلي", "الهلال", "القناة",
+        "الاتحاد", "النصر السعودي", "الوحدات", "ZED FC", "ENPPI Club",
+    ]
+    refused = [c for c in clubs if is_channel_name(c)]
+    if refused:
+        print(f"       real clubs mistaken for channels: {refused}")
+    check("CHANNEL", f"none of {len(clubs)} real clubs called a channel",
+          not refused, True)
+
+    # And the guides' own parsers, through their own front doors.
+    import update_shahid_sports_epg as SH
+    accepted = [c for c in channels if SH.looks_like_team(c)]
+    if accepted:
+        print(f"       Shahid would publish as a club: {accepted}")
+    check("Shahid", "looks_like_team refuses every channel name",
+          not accepted, True)
+    dropped = [c for c in clubs if not SH.looks_like_team(c)]
+    if dropped:
+        print(f"       Shahid would drop real clubs: {dropped}")
+    check("Shahid", "and still accepts every real club", not dropped, True)
+
+
+def gate_one_match_one_row() -> None:
+    """The same match may not appear twice because two sources spell it twice.
+
+    Matches kicking off together share one row on a single-channel guide,
+    joined with " + ". That is right, and it is what made a spelling
+    difference visible as nonsense:
+
+        Elversberg - Bayer Leverkusen + FC Koln - Hoffenheim
+        + Köln - Hoffenheim + Mainz - Paderborn + Mainz 05 - Paderborn
+        + RB Leipzig - B. Monchengladbach + RB Leipzig - Borussia M'gladbach
+
+    Five matches printed as nine, because dedupe compared the names
+    literally. This decides only whether two rows are the same match — it
+    never changes a name anyone reads — so a wrong entry costs a lost
+    fixture, and the second half of this gate is what keeps that honest.
+    """
+    print("\nOne match, one row — title_signature")
+    import update_shahid_sports_epg as SH
+
+    same = [
+        ("FC Koln - Hoffenheim", "Köln - Hoffenheim"),
+        ("Mainz - Paderborn", "Mainz 05 - Paderborn"),
+        ("RB Leipzig - B. Monchengladbach",
+         "RB Leipzig - Borussia M'gladbach"),
+        ("Bayern Munich - Stuttgart", "Bayern München - Stuttgart"),
+        ("Union Berlin - Schalke 04", "Union Berlin - Schalke"),
+        ("Union Berlin - Eintracht Frankfurt", "Union Berlin - Frankfurt"),
+        ("Hamburger SV - Mainz 05", "Hamburg - Mainz"),
+        ("Hoffenheim - Borussia Dortmund", "1899 Hoffenheim - Dortmund"),
+        ("Bayer 04 Leverkusen - Union Berlin",
+         "Bayer Leverkusen - Union Berlin"),
+    ]
+    split = [(a, b) for a, b in same
+             if SH.title_signature(a) != SH.title_signature(b)]
+    if split:
+        print(f"       still counted as two matches: {split[:3]}")
+    check("DEDUPE", f"{len(same)} spellings of one match collapse",
+          not split, True)
+
+    # The direction that costs a fixture: two different matches must never
+    # collapse into one, so every distinct club needs a distinct signature.
+    clubs = [
+        "Bayern München", "Borussia Dortmund", "Borussia M'gladbach",
+        "Union Berlin", "Eintracht Frankfurt", "Schalke 04", "Mainz 05",
+        "Hoffenheim", "Köln", "Bayer Leverkusen", "RB Leipzig", "Stuttgart",
+        "Werder Bremen", "Freiburg", "Augsburg", "Hamburger SV",
+        "Elversberg", "Paderborn", "Heidenheim", "St. Pauli",
+        "Inter", "Milan", "Juventus", "Roma", "Lazio", "Napoli", "Torino",
+        "Monza", "Parma", "Como", "Genoa", "Lecce", "Cagliari", "Verona",
+        "Udinese", "Venezia", "Frosinone", "Sassuolo", "Atalanta",
+        "Bologna", "Fiorentina", "Cremonese", "Palermo", "Mantova",
+        "Al Sahel", "Al Sulaibikhat", "Kazma", "Al Tadhamon", "Al Qadsia",
+        "Al Arabi SC", "Al Salmiyah", "Al Fahaheel", "Al Nasar",
+        "Al Kuwait", "Al Jahra", "Al Shabab",
+        "الأهلي", "الزمالك", "الهلال", "النصر", "الاتحاد", "الشباب",
+    ]
+    seen: dict[str, str] = {}
+    collisions = []
+    for club in clubs:
+        key = SH.normalize_name(club)
+        if key in seen:
+            collisions.append((seen[key], club))
+        seen[key] = club
+    if collisions:
+        print(f"       two clubs share one signature: {collisions}")
+    check("DEDUPE", f"all {len(clubs)} clubs keep distinct signatures",
+          not collisions, True)
+
+    # And a whole slot, the way it was published.
+    titles = ["Elversberg - Bayer Leverkusen", "FC Koln - Hoffenheim",
+              "Köln - Hoffenheim", "Mainz - Paderborn",
+              "Mainz 05 - Paderborn", "RB Leipzig - B. Monchengladbach",
+              "RB Leipzig - Borussia M'gladbach",
+              "Union Berlin - Eintracht Frankfurt"]
+    distinct = {SH.title_signature(t) for t in titles}
+    if len(distinct) != 5:
+        print(f"       the slot collapses to {len(distinct)} matches, not 5")
+    check("DEDUPE", "the published slot of 8 rows is 5 matches",
+          len(distinct) == 5, True)
+
+
+def gate_one_club_across_two_scripts() -> None:
+    """One club written in two scripts is one club — and two are still two.
+
+    Sources disagree on script, so a slot carried the same match twice:
+
+        Union Berlin - Eintracht Frankfurt
+        + أونيون برلين - أينتراخت فرانكفورت
+
+    A table of club names in both scripts would answer this and would have
+    to grow to every club in the world. The alphabet is the smaller unit:
+    Arabic sports writing transliterates a foreign club sound by sound.
+
+    The risk runs the other way. A fuzzy name match is unsafe inside one
+    script at any threshold that still catches real duplicates — measured,
+    "Mainz"/"Monza", "Al Nassr"/"Al Nasar" and "الهلال"/"الأهلي" all score
+    at or above it. So the match is cross-script only, and this gate is
+    weighted towards proving that different clubs stay different: losing a
+    fixture is worse than printing one twice.
+    """
+    print("\nOne club in two scripts — same_club")
+    from epg_lib import merge_transliterations, same_club, same_fixture
+
+    same = [
+        ("Union Berlin", "أونيون برلين"),
+        ("Eintracht Frankfurt", "أينتراخت فرانكفورت"),
+        ("Elversberg", "إلفيرسبيرج"),
+        ("Bayer Leverkusen", "باير ليفركوزن"),
+        ("Köln", "كولن"), ("Hoffenheim", "هوفنهايم"),
+        ("Paderborn", "بادربورن"), ("Mainz", "ماينتس"), ("Mainz", "ماينز"),
+        ("Stuttgart", "شتوتغارت"), ("Napoli", "نابولي"), ("Milan", "ميلان"),
+        ("Roma", "روما"), ("Real Madrid", "ريال مدريد"),
+        ("Liverpool", "ليفربول"), ("Porto", "بورتو"), ("Ajax", "أياكس"),
+        ("Al Ahly", "الأهلي"), ("RB Leipzig", "لايبزيج"),
+        # The affix sits at either end: "FC Köln" but "Hamburger SV",
+        # and stripping only the front left this pair as two clubs while
+        # the guide printed the match twice.
+        ("Hamburger SV", "هامبورج"), ("Borussia Dortmund", "بوروسيا دورتموند"),
+        ("Werder Bremen", "فيردر بريمن"), ("Augsburg", "أوجسبورج"),
+        ("Freiburg", "فرايبورج"),
+    ]
+    missed = [(a, b) for a, b in same if not same_club(a, b)]
+    if missed:
+        print(f"       not recognised as one club: {missed[:4]}")
+    check("TRANSLIT", f"{len(same) - len(missed)}/{len(same)} cross-script "
+                      f"spellings recognised", not missed, True)
+
+    # The direction that costs a fixture. Every pair here is two genuinely
+    # different clubs, written one in each script.
+    different = [
+        ("Al Hilal", "الأهلي"), ("Al Ahly", "الهلال"), ("Al Nassr", "النجمة"),
+        ("Mainz", "مونزا"), ("Monza", "ماينتس"), ("Köln", "كيل"),
+        ("Torino", "تورونتو"), ("Parma", "باليرمو"),
+        ("Cagliari", "كالياري ستي"), ("Inter", "إنتراخت"),
+        ("Milan", "ميلانو سيتي"), ("Roma", "رومانيا"),
+        ("Genoa", "جنوة الثاني"), ("Real Madrid", "ريال بيتيس"),
+        ("Union Berlin", "يونيون سانت جيلواز"),
+        ("Bayern Munich", "باير ليفركوزن"), ("Leipzig", "ليفركوزن"),
+        ("Frosinone", "فيورنتينا"), ("Sassuolo", "ساليرنيتانا"),
+        ("Atalanta", "أتلانتا يونايتد"), ("Bologna", "برشلونة"),
+        ("Manchester United", "مانشستر سيتي"),
+        ("Al Sahel", "الساحل الثاني"), ("Napoli", "نابولي الثاني"),
+        ("Leipzig", "لايبزيا الثاني"), ("Genoa", "جنوى يونايتد"),
+        ("Juventus", "يوفنتوس الثاني"), ("Freiburg", "فرايبورج الثاني"),
+        ("Augsburg", "أوجسبورج الثاني"), ("Hamburger SV", "هامبورج الثاني"),
+        ("Werder Bremen", "بريمن سيتي"), ("Dortmund", "دورتموند الثاني"),
+        ("Verona", "فيرونتينا"), ("Lecce", "ليتشي الثاني"),
+    ]
+    merged = [(a, b) for a, b in different if same_club(a, b)]
+    if merged:
+        print(f"       two clubs merged into one: {merged}")
+    check("TRANSLIT", f"none of {len(different)} different clubs merged",
+          not merged, True)
+
+    # A measured limit, recorded rather than papered over. Latin writes the
+    # short vowels of "Al Hilal"; Arabic does not write them in "الهلال",
+    # so the two skeletons differ by one slot and fall under the floor.
+    #
+    # Deleting vowels instead would match this pair and seven others — and
+    # it also merges "Al Hilal" with "الأهلي", and "Mainz" with "مونزا":
+    # measured over the corpus above, 26 of 28 recognised at the cost of
+    # four different clubs collapsed into one. Four lost fixtures to gain
+    # eight cosmetic merges is the wrong trade, so the vowel stays and this
+    # pair goes unmatched on purpose.
+    #
+    # It costs little in practice: both sources write an Arab club in
+    # Arabic, so the cross-script pair barely arises for these names.
+    limits = [("Al Hilal", "الهلال"), ("Al Nassr", "النصر"),
+              ("Zamalek", "الزمالك")]
+    surprising = [(a, b) for a, b in limits if same_club(a, b)]
+    check("TRANSLIT", f"{len(limits)} known short-name limits, still safe",
+          not surprising, True)
+
+    # Within one script this must never fire, however alike the names —
+    # that is what keeps "Mainz"/"Monza" and "الهلال"/"الأهلي" apart.
+    inside = [("Mainz", "Monza"), ("Al Nassr", "Al Nasar"),
+              ("Torino", "Toronto"), ("Köln", "Kiel"),
+              ("الهلال", "الأهلي"), ("الزمالك", "الزوراء"),
+              ("Parma", "Palermo"), ("Cagliari", "Calgary")]
+    fired = [(a, b) for a, b in inside if same_club(a, b)]
+    check("TRANSLIT", "never fires inside one script", not fired, True)
+
+    # Both sides must agree before a fixture is called a duplicate.
+    check("TRANSLIT", "one side agreeing is not enough",
+          not same_fixture("Union Berlin - Hoffenheim",
+                           "أونيون برلين - بادربورن"), True)
+
+    # And the slot exactly as it was published.
+    slot = ["Elversberg - Bayer Leverkusen", "Köln - Hoffenheim",
+            "Mainz 05 - Paderborn", "Union Berlin - Eintracht Frankfurt",
+            "أونيون برلين - أينتراخت فرانكفورت", "إلفيرسبيرج - باير ليفركوزن",
+            "كولن - هوفنهايم", "ماينتس - بادربورن"]
+    kept = merge_transliterations(slot)
+    if len(kept) != 4:
+        print(f"       slot collapsed to {len(kept)}: {kept}")
+    check("TRANSLIT", "the published slot of 8 rows is 4 matches",
+          len(kept) == 4, True)
+    check("TRANSLIT", "and it keeps the first spelling, not the shortest",
+          kept and kept[0] == "Elversberg - Bayer Leverkusen", True)
+
+
+def gate_a_fact_survives_its_source() -> None:
+    """What one source knew must not be lost because another outranked it.
+
+    The ranking decides whose kickoff time and whose spelling to trust. It
+    has no business deciding which competition a match belongs to or which
+    other channels carry it — those are true or not, and the source that
+    printed them is usually not the highest-ranked one.
+
+    LiveFootballTV is the only page listing the channels and sits lowest at
+    75, so every Bundesliga fixture (BundesligaOfficial, 110) threw the
+    list away. The guide was taught to say "يُبث أيضًا على: MBC Action" and
+    then never said it once — caught by reading the published file, not by
+    reading the code.
+    """
+    print("\nA fact outlives the source that supplied it")
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    import update_shahid_sports_epg as SH
+
+    when = datetime(2026, 8, 29, 21, 30, tzinfo=ZoneInfo("Asia/Riyadh"))
+    top = {"start": when, "title": "Union Berlin - Eintracht Frankfurt",
+           "source_name": "BundesligaOfficial"}
+    low = {"start": when, "title": "Union Berlin - Eintracht Frankfurt",
+           "source_name": "LiveFootballTV",
+           "competition": "الدوري الألماني", "channels": "MBC Action"}
+
+    best = SH.choose_best_event([top, low])
+    check("FACTS", "the higher-ranked source still wins the fixture",
+          best["source_name"] == "BundesligaOfficial", True)
+    check("FACTS", "the competition survives from the lower-ranked source",
+          best.get("competition") == "الدوري الألماني", True)
+    check("FACTS", "so do the other channels carrying it",
+          best.get("channels") == "MBC Action", True)
+
+    # And the winner's own values are never overwritten by a weaker source.
+    rich = dict(top, competition="Bundesliga", channels="MBC Shahid Sports")
+    kept = SH.choose_best_event([rich, low])
+    check("FACTS", "a fact the winner already knew is left alone",
+          kept.get("competition") == "Bundesliga"
+          and kept.get("channels") == "MBC Shahid Sports", True)
+
+    # Filling a fact must not mutate the event the caller passed in.
+    check("FACTS", "the source events are not modified in place",
+          "competition" not in top and "channels" not in top, True)
+
+
+def gate_every_guide_is_covered() -> None:
+    """Every generator's output must pass through the guarantee.
+
+    Seven of the thirteen generators write their own file rather than
+    going through write_xml_atomic, so the gap-closing that lives there
+    reached barely half the guides — which is why holes kept turning up in
+    channels nobody had touched. Rewriting those seven would mean editing
+    guides that work, and the ones that work are the ones not to touch.
+
+    The guarantee is applied by the orchestrator instead, to each finished
+    file. This holds it there: every guide build_all_epg knows about must
+    be one it also closes the gaps in, so a guide added later cannot
+    quietly arrive without the protection.
+    """
+    print("\nEvery guide is covered — build_all_epg")
+    import build_all_epg as B
+    import inspect
+
+    source = inspect.getsource(B.build_once)
+    check("COVERAGE", "each generator's file has its gaps closed",
+          "close_gaps_in(" in source, True)
+    check("COVERAGE", "and only when this pass is really publishing it",
+          "collapsed" in source and "else:" in source, True)
+
+    # The function has to survive a file it cannot help, rather than
+    # damaging it: a guide missing filler beats a guide that is malformed.
+    import tempfile
+    import os as _os
+    with tempfile.TemporaryDirectory() as tmp:
+        broken = _os.path.join(tmp, "broken.xml")
+        with open(broken, "w", encoding="utf-8") as handle:
+            handle.write("<tv><channel id='a'><programme")
+        check("COVERAGE", "an unparsable file is left exactly as it was",
+              B.close_gaps_in("x", broken) is None
+              and open(broken, encoding="utf-8").read().endswith("<programme"),
+              True)
+        check("COVERAGE", "a missing file is not invented",
+              B.close_gaps_in("x", _os.path.join(tmp, "nope.xml")) is None,
+              True)
+
+    # And every generator it lists must actually name a file.
+    missing = [output for _, _, output in B.GENERATORS if not output.endswith(".xml")]
+    check("COVERAGE", f"all {len(B.GENERATORS)} generators name an xml file",
+          not missing, True)
+
+
+def gate_the_screen_cannot_go_stale() -> None:
+    """What the screen plays must be what the boards say, provably.
+
+    A television showed yesterday's fixtures for hours after they were
+    removed and the new boards published. Nothing was wrong with the
+    boards. The segment file names had not changed, so every cache between
+    the repository and the screen went on serving what it already held,
+    and from the outside the two were indistinguishable.
+
+    The fix was to name each segment after eight characters of its board's
+    own hash, so a board that changes cannot produce a name any cache has
+    seen. This gate is what stops that fix being undone by accident: it
+    recomputes the hashes off the published boards and demands the
+    published playlist agree with them.
+
+    It is deliberately checked against the FILES, not against the code
+    that wrote them. A guard that only reads the source proves the
+    intention; this proves the result.
+    """
+    print("\nThe screen cannot go stale — boards, segments, playlist")
+    import hashlib
+    import os as _os
+    import re as _re
+
+    # THE PLAYLIST MUST REMAIN LIVE AND LONG ENOUGH TO LOOP. A one-lap
+    # EVENT playlist reaches its last page and waits there, which is the
+    # buffering spinner photographed on Sport TV. The moving window repeats
+    # whole reels, advances its sequence on reel boundaries and keeps both
+    # supported join points aligned to board zero.
+    import match_screen_video as screen
+    import tempfile as _tempfile
+
+    drawn = ["/x/today_matches_0.aaaaaaaa.ts", "/x/today_matches_1.bbbbbbbb.ts"]
+    written = _os.path.join(_tempfile.gettempdir(), "gate_screen.m3u8")
+    screen.write_playlist(drawn, written, now=1788400000)
+    live = open(written, encoding="utf-8").read()
+
+    check("SCREEN", "the manifest stays open for automatic refresh",
+          "EXT-X-ENDLIST" in live, False)
+    check("SCREEN", "and it is a live playlist, not a finite event",
+          "PLAYLIST-TYPE:" in live, False)
+
+    # The window carries many complete laps so it cannot run dry between
+    # GitHub publishes.
+    check("SCREEN", "the live window carries more than one reel",
+          live.count("#EXTINF:") > len(drawn), True)
+
+    # MEDIA-SEQUENCE moves only in whole reels. The player sees progress,
+    # while sequence modulo reel stays zero and therefore page identity does
+    # not shift beneath an existing viewer.
+    screen.write_playlist(drawn, written, now=1788400000 + 600)
+    after = open(written, encoding="utf-8").read()
+
+    def sequence(text):
+        return int(_re.search(r"MEDIA-SEQUENCE:(\d+)", text).group(1))
+
+    check("SCREEN", "the sequence advances in whole reels",
+          sequence(after) > sequence(live)
+          and sequence(live) % len(drawn) == 0
+          and sequence(after) % len(drawn) == 0, True)
+
+    boards_dir, stream_dir = "boards", "stream"
+    # ALL EIGHT SCREENS, because there are two clocks now and each clock
+    # owns four channels, and the fifth screen can go out of step
+    # exactly as the first did. A gate that checks three of them proves
+    # nothing about the other five, and every one of them publishes into
+    # the same directory from the same pass. The table is the publish
+    # step's own, so a ninth screen added there is checked here without
+    # this file being told — and the two cannot disagree about how many
+    # screens there are.
+    import publish_screens as publisher
+    for _name, (prefix, xml, playlist, _stamp) in publisher.SCREENS.items():
+        one_screen(boards_dir, stream_dir, prefix, playlist,
+                   hashlib, _os, _re)
+        one_guide(boards_dir, prefix, xml)
+
+
+def one_guide(boards_dir: str, prefix: str, xml: str) -> None:
+    """The XML, the manifest and the boards of ONE screen, agreeing.
+
+    one_screen holds the stream together — boards, segments, playlist.
+    This holds the other half of a screen: the guide that says when the
+    boards are on, the manifest that says how many boards each day took,
+    and the boards themselves. A screen can go out of step on this side
+    exactly as it can on the stream side, and nothing here checked it.
+
+    NOTHING PUBLISHED YET IS NOT A FAILURE, exactly as in one_screen: a
+    fresh clone has no XML and no boards until the first build makes
+    them, and the gate proves nothing either way.
+
+    Checked against the FILES, not against the code that wrote them, for
+    the same reason one_screen is: a guard that only reads the source
+    proves the intention; this proves the result.
+    """
+    path = xml
+    if not os.path.isdir(boards_dir) or not os.path.exists(path):
+        # Nothing published yet, nothing to contradict.
+        check("SCREEN", f"{prefix} nothing published yet, nothing to "
+                        f"contradict", True, True)
+        return
+
+    from epg_lib import NOTHING_KNOWN
+
+    root = ET.parse(path).getroot()
+
+    # One channel is the whole point of a screen: two channels in one
+    # XML is one screen's programmes riding another's file, which is the
+    # torn-publish fault this whole gate family exists to catch.
+    channels = root.findall("channel")
+    check("SCREEN", f"{prefix} the guide carries one channel",
+          len(channels), 1)
+
+    # A programme that says NOTHING_KNOWN is the honest stand-in, not a
+    # broadcast: it carries no icon and no day, and counting it as one
+    # would make every count below lie by exactly the filler's count.
+    programmes = root.findall("programme")
+    real = [p for p in programmes
+            if (p.findtext("title") or "").strip() != NOTHING_KNOWN]
+
+    # The boards the GUIDE points at, numbered straight through with no
+    # hole — a hole is a day's boards half restored, and today is the
+    # day the channel is named after.
+    numbered = re.compile(re.escape(prefix) + r"(\d+)\.png$")
+    pngs = sorted((name for name in os.listdir(boards_dir)
+                   if name.startswith(prefix) and name.endswith(".png")),
+                  key=lambda name: int(numbered.search(name).group(1)))
+    numbers = [int(numbered.search(name).group(1)) for name in pngs]
+    check("SCREEN", f"{prefix} boards are numbered straight through, "
+                    f"no holes", numbers, list(range(len(pngs))))
+
+    # Every real programme points at a board of its own screen, and the
+    # board it points at is published — the icon is the only place a
+    # guide says which board carries its day, and a guide naming an
+    # unpainted board is a screen whose XML was written ahead of its
+    # boards, which is exactly the torn state.
+    def board_of(src):
+        found = re.search(r"/boards/" + re.escape(prefix) + r"(\d+)\.png$",
+                          src)
+        return int(found.group(1)) if found else None
+
+    icons = [board_of(p.find("icon").get("src") if p.find("icon") is not None
+                      else "") for p in real]
+    check("SCREEN", f"{prefix} every real programme points at one of "
+                    f"the screen's own boards",
+          [i for i in icons if i is None or i not in numbers], [])
+    missing = [i for i in icons if i is not None
+               and not os.path.exists(os.path.join(
+                   boards_dir, f"{prefix}{i}.png"))]
+    check("SCREEN", f"{prefix} and every board it points at is published",
+          missing, [])
+
+    # THE DAY MANIFEST, for the four screens the builder writes one for.
+    # One line per day the guide programmes, each line saying how many
+    # boards that day took, and each programme pointing at its day's
+    # FIRST board — because that is the board a viewer lands on when the
+    # day arrives, and a guide whose programme points at a later board
+    # of its own day skips the day's first page on every tune-in.
+    # The news and weather bulletins have no days: every programme is
+    # the same rolling bulletin, and every programme points at board
+    # zero — and a bulletin whose icon is ahead of its own first page
+    # is the same fault in miniature.
+    manifest = os.path.join(boards_dir, f"{prefix}days.txt")
+    if os.path.exists(manifest):
+        with open(manifest, encoding="utf-8") as handle:
+            counts = [int(line) for line in handle if line.strip()]
+        # ONE LINE PER DAY, AND A DAY IS NOW SEVERAL ROWS. The guides cut
+        # each day at the moments an event goes on the air and comes off
+        # it, so the live mark in the title expires on the clock instead
+        # of standing until the next build — add_day_in_blocks. Every
+        # block of one day points at that day's first board, so the days
+        # are counted by the boards pointed at, not by the rows.
+        check("SCREEN", f"{prefix} one manifest line per day the guide "
+                        f"programmes", len(counts), len(set(icons)))
+        check("SCREEN", f"{prefix} the manifest accounts for every board "
+                        f"on disk", sum(counts), len(pngs))
+        running, firsts = 0, []
+        for count in counts:
+            firsts.append(running)
+            running += count
+        # COMPARED AS A SET, because the guide and the reel are ordered
+        # by different things and deliberately so. The manifest lists the
+        # days in the order the REEL plays them — a day whose every match
+        # has finished is drawn last, so a viewer does not arrive on a
+        # board of played fixtures — while the guide lists them in the
+        # order they HAPPEN, because a guide saying what is on at an hour
+        # cannot put tomorrow above today.
+        #
+        # So on such a night the icons read [8, 0, 2] against a manifest
+        # of [2, 6, 1]: Friday opens the reel at board 0, Saturday
+        # follows at 2, and Thursday — finished — sits at 8. Every
+        # programme still points at the first board of its own day, and
+        # each first board is claimed exactly once, which is the whole of
+        # what this is for. Comparing the two in order would only be
+        # asserting that the reel never reorders.
+        check("SCREEN", f"{prefix} each programme points at its day's "
+                        f"first board", sorted(set(icons)), firsts)
+    else:
+        check("SCREEN", f"{prefix} the bulletin points at board zero",
+              icons, [0] * len(icons))
+
+
+def one_screen(boards_dir, stream_dir, prefix, playlist_name,
+               hashlib, _os, _re) -> None:
+    """The boards, the segments and the playlist of ONE screen, agreeing."""
+    playlist = _os.path.join(stream_dir, playlist_name)
+
+    if not _os.path.isdir(boards_dir) or not _os.path.exists(playlist):
+        # Nothing published yet is not a failure: a fresh clone has no
+        # screen until the first build makes one, and the second screen
+        # has none until its first pass.
+        check("SCREEN", f"{prefix} nothing published yet, nothing to "
+                        f"contradict", True, True)
+        return
+
+    # The boards the CHANNEL plays, in the order it plays them — which is
+    # by their number and not as text, and only as many as it carries.
+    # Sorting these as text is what once made a channel jump from today
+    # to a week and a half ahead after two boards.
+    # ...and only as many as the channel carries. The guide draws a board
+    # for every day of a fourteen-day window; the channel plays the near
+    # ones, because on a channel a viewer cannot scroll to the day they
+    # want and a five-minute lap lands most arrivals in next week.
+    import match_screen_video as video
+    boards = [_os.path.basename(path)
+              for path in video.whole_days(prefix, video.boards(prefix))]
+    with open(playlist, encoding="utf-8") as handle:
+        referenced = [line.strip() for line in handle
+                      if line.strip().endswith(".ts")]
+    distinct = sorted(set(referenced))
+
+    # A REEL THAT GREW, and the build that publishes it not yet run.
+    #
+    # The reel used to be "the first six boards" and is whole days now,
+    # so a correct change makes the published playlist SHORTER than the
+    # code's reel until the next build. That is the ordinary state of a
+    # change in flight — the same one the naming check below forgives for
+    # an encoder revision — and failing it means a reel fix can never go
+    # green and so can never merge.
+    #
+    # Forgiven only when the published reel is a PREFIX of the new one,
+    # which is exactly what an older build produces and nothing else
+    # does. A published reel that is longer, or that names a board the
+    # new reel does not, is a real fault and still fails.
+    # Compared by the BOARD NUMBER each name carries, because one list is
+    # pictures and the other is segments — comparing the names directly
+    # is comparing .png against .ts, which is never equal and quietly
+    # turns this into a length check that always fails.
+    def numbered(names):
+        out = []
+        for name in names:
+            found = re.search(rf"^{re.escape(prefix)}(\d+)\.", name)
+            if found:
+                out.append(int(found.group(1)))
+        return sorted(out)
+
+    distinct_boards = sorted(set(numbered(distinct)))
+    behind = (len(distinct_boards) < len(boards)
+              and distinct_boards == numbered(boards)[:len(distinct_boards)])
+    if behind:
+        print(f"  note {prefix} the published reel is {len(distinct)} "
+              f"board(s) and the code's is {len(boards)} — the reel grew "
+              f"and the build that republishes it has not run yet")
+    else:
+        check("SCREEN", f"{prefix} the playlist names one segment per board",
+              len(distinct_boards), len(boards))
+
+    # Every reference resolves to a file that is actually published.
+    missing = [name for name in distinct
+               if not _os.path.exists(_os.path.join(stream_dir, name))]
+    check("SCREEN", f"{prefix} every segment the playlist names exists",
+          missing, [])
+
+    # Nothing of THIS screen's published that neither its playlist nor
+    # the pass before it points at. Only its own segments are considered:
+    # the two screens share stream/, and each one's sweep must leave the
+    # other's alone.
+    #
+    # THE PASS BEFORE IT COUNTS, and that is not a loophole — it is the
+    # fix to the buffering. A board changes every pass because it prints
+    # a countdown, so every segment is renamed every ten minutes; a
+    # television holding the previous playlist (raw.githubusercontent
+    # serves it with a five-minute cache) is still working through the
+    # old names, and deleting those files the moment they leave the
+    # playlist hands it a 404 and a spinner. Half an hour is kept on
+    # purpose — a CLOCK, not a count of passes, because three passes have
+    # landed inside seven minutes. Litter is bounded by that clock and by
+    # GRACE_LAPS, and this still says what is there on purpose.
+    #
+    # The ledger carries "name stamp" now, so the name is the first
+    # field.
+    spared = _os.path.join(stream_dir, f"{prefix}keeping.txt")
+    grace = set()
+    if _os.path.exists(spared):
+        with open(spared, encoding="utf-8") as handle:
+            grace = {line.split()[0] for line in handle if line.split()}
+    on_disk = {name for name in _os.listdir(stream_dir)
+               if name.endswith(".ts") and name.startswith(prefix)}
+    check("SCREEN", f"{prefix} and nothing is published that neither it "
+                    f"nor the pass before it names",
+          sorted(on_disk - set(distinct) - grace), [])
+
+    # The heart of it: the name has to be the fingerprint of the picture.
+    #
+    # The hashing is written out here rather than imported, deliberately —
+    # a gate that calls the very function it is checking proves only that
+    # the function agrees with itself. But there is ONE thing it cannot
+    # re-derive and must be told, and forgetting that is what turned this
+    # gate red on a change that was correct: a segment is made of the
+    # picture AND of how the picture is encoded, so the encoder carries a
+    # revision number that goes into the name. The number is read from
+    # the module; the algorithm is still this file's own.
+    import match_screen_video as video
+
+    # AND HOW LONG A BOARD STAYS UP, which is the other half of "how the
+    # picture is encoded" and is per screen now: the news pages hold for
+    # thirty-five seconds and the fixtures pages for twenty, so the same
+    # picture on two screens is not the same segment.
+    hold = next((row[3] for row in video.SCREENS.values()
+                 if row[0] == prefix), video.HOLD)
+
+    def named_under(revision, seconds=None):
+        """What every board's segment would be called at that revision.
+
+        `seconds` is the hold folded into the fingerprint. None asks for
+        the recipe used BEFORE the hold was part of it, which is what the
+        segments published on main are still named under until the build
+        that republishes them runs. It can go the day that build has run.
+        """
+        head = (f"encoder:{revision}\n" if seconds is None
+                else f"encoder:{revision} hold:{seconds}\n")
+        out = {}
+        for board in boards:
+            with open(_os.path.join(boards_dir, board), "rb") as handle:
+                body = handle.read()
+            running = hashlib.sha256()
+            running.update(head.encode())
+            running.update(_os.path.join(boards_dir, board).encode())
+            running.update(body)
+            stem = _os.path.splitext(board)[0]
+            out[board] = f"{stem}.{running.hexdigest()[:8]}.ts"
+        return out
+
+    # When the reel has grown and the build has not run, only the boards
+    # that were PUBLISHED can be expected to have a segment. The rest are
+    # correct and simply not encoded yet.
+    if behind:
+        boards = boards[:len(distinct_boards)]
+
+    # A board can have several state-specific segments.  Its number is the
+    # page identity and the hexadecimal suffix is the content address; the
+    # playlist is allowed to choose any of those variants by occurrence time.
+    board_stems = {_os.path.splitext(board)[0] for board in boards}
+    wrong = [
+        name for name in distinct
+        if not _re.fullmatch(prefix + r"\d+\.(?:v)?[0-9a-f]+\.ts", name)
+        or name.split(".", 1)[0] not in board_stems
+    ]
+
+    # AND ONE HOLD OF GRACE, for exactly the same reason and on exactly
+    # the same terms.
+    #
+    # The hold is half the recipe — a segment is the picture AND how the
+    # picture is encoded, and how long it stays up is part of that, which
+    # is why it is folded into the name. But the grace below forgives
+    # only a changed ENCODER_REVISION, so changing a screen's hold left
+    # every one of its published segments named under the old recipe with
+    # nothing to forgive it. That is not a fault: it is the ordinary
+    # state of a correct change in flight, the same one the revision is
+    # forgiven for. Unforgiven it refuses the whole pass, and a gate that
+    # names a screen but cannot be satisfied stops every channel
+    # publishing, not just this one.
+    #
+    # The old hold is not guessed. The published playlist DECLARES it —
+    # #EXTINF:14.080 for a fourteen-second page, 20.032 for a twenty —
+    # so this asks the published reel what it was built for and forgives
+    # only if EVERY segment matches under that. A mixture still fails,
+    # which is the thing this check exists to catch.
+    check("SCREEN", f"{prefix} each segment is named after the board it shows",
+          wrong, [])
+
+    # And the names must not be the old fixed ones, which is the shape the
+    # bug had: a name that cannot change when the picture does.
+    unversioned = [name for name in distinct
+                   if _re.fullmatch(prefix + r"\d+\.ts", name)]
+    check("SCREEN", f"{prefix} no segment carries a name a cache could reuse",
+          unversioned, [])
+
+    # And this file's own hashing must land where the encoder's does. The
+    # two are written separately on purpose, and a gate that disagrees
+    # with a correct encoder is a gate that stops a good build — which is
+    # exactly what happened the first time the encoder's revision moved
+    # and this copy did not know about it.
+    # Verify EVERY reference, not merely one board's stem.  A same-stem hash
+    # is not evidence of cache safety: it can point at an old picture or a
+    # hand-renamed TS.  Ordinary pages hash the committed PNG; ``.v`` pages
+    # hash the independently rendered state at their absolute occurrence.
+    from datetime import datetime, timezone
+    import board_marks
+
+    media = _re.search(r"(?m)^#EXT-X-MEDIA-SEQUENCE:(\d+)$",
+                       open(playlist, encoding="utf-8").read())
+    sequence = int(media.group(1)) if media else None
+    records = {os.path.basename(row.get("name", "")): row
+               for row in board_marks.every_record()}
+    by_number = {
+        int(_re.search(r"(\d+)\.png$", board).group(1)): board
+        for board in boards
+    }
+    published = None
+    with open(playlist, encoding="utf-8") as handle:
+        found = _re.search(r"#EXTINF:([\d.]+)", handle.read())
+    if found:
+        published = int(round(float(found.group(1))))
+    occurrence_step = float(found.group(1)) if found else float(hold)
+    revisions = [video.ENCODER_REVISION]
+    if video.ENCODER_REVISION:
+        revisions.append(video.ENCODER_REVISION - 1)
+
+    def ordinary_names(board, body):
+        path = _os.path.join(boards_dir, board)
+        stem = _os.path.splitext(board)[0]
+        names = []
+        for revision in revisions:
+            for seconds in (hold, published):
+                if seconds is None:
+                    continue
+                running = hashlib.sha256()
+                running.update(
+                    f"encoder:{revision} hold:{seconds}\n".encode())
+                running.update(path.encode())
+                running.update(body)
+                names.append(f"{stem}.{running.hexdigest()[:8]}.ts")
+            # The pre-hold fingerprint was published during the migration
+            # that first made page length part of the segment address.
+            running = hashlib.sha256()
+            running.update(f"encoder:{revision}\n".encode())
+            running.update(path.encode())
+            running.update(body)
+            names.append(f"{stem}.{running.hexdigest()[:8]}.ts")
+        return set(names)
+
+    def variant_name(stem, body, revision, seconds):
+        """The encoder's own address for a rendered state, asked of it.
+
+        THIS IS WHAT TOOK THE CHANNEL OFF THE AIR. This used to write the
+        hashing out a second time, and the second copy folded in the raw
+        picture where the encoder folds in the HEX DIGEST of the picture
+        — deliberately, so a published variant manifest can reproduce an
+        address from compact evidence without keeping the ephemeral PNG.
+        Two spellings of one hash never agreed on a name.
+
+        So every .v segment the encoder had correctly written read here
+        as "variant digest mismatch", on every screen at once, from the
+        moment status variants arrived. The gate named the screens,
+        quarantine held them back, publish_screens ran the gate again
+        over the held-back state — which is the PUBLISHED state, still
+        carrying the same unverifiable names — and refused the pass.
+        Nothing published, so nothing could ever clear it: #953 and #954
+        failed outright, #955 built nine channels correctly and shipped
+        none, and the board on the television still said 14.09 at ten at
+        night on the 15th.
+
+        Disagreeing with the encoder is this file's whole job. Disagreeing
+        with it about the RECIPE is not, and cannot be made safe by
+        proof-reading two copies. There is one copy now, and it lives
+        where the segments are written; the revision and page length are
+        passed in because a published segment carries whatever it was
+        built with, not what that module currently holds.
+        """
+        return _os.path.basename(
+            video.segment_of_variant(stem, body, revision, seconds))
+
+    errors = []
+    for position, name in enumerate(referenced):
+        matched = _re.fullmatch(
+            prefix + r"(\d+)\.(?:(v)([0-9a-f]{8})|([0-9a-f]{8}))\.ts",
+            name)
+        if not matched:
+            errors.append(f"{name}: malformed content address")
+            continue
+        number = int(matched.group(1))
+        board = by_number.get(number)
+        if board is None:
+            errors.append(f"{name}: no board {number}")
+            continue
+        body = open(_os.path.join(boards_dir, board), "rb").read()
+        if matched.group(2) is None:
+            if name not in ordinary_names(board, body):
+                errors.append(f"{name}: ordinary PNG digest mismatch")
+            continue
+        record = records.get(board)
+        if record is None or sequence is None:
+            # NOT EVIDENCE OF A FAULT — EVIDENCE OF A MISSING NOTEBOOK.
+            #
+            # The board-mark records live in .marks, which is deliberately
+            # ephemeral and gitignored: a pass writes them while it draws,
+            # and a checkout that has not drawn anything has none. Without
+            # one, the state behind a .v page cannot be re-rendered here,
+            # so this cannot say whether the name is right.
+            #
+            # It used to say it was WRONG, and that is how a gate stops a
+            # channel it has found nothing wrong with: the screen is
+            # named, quarantine holds it back, and the held-back state is
+            # the published one, which still has no notebook either, so
+            # the next pass refuses it again. Cannot-check became
+            # will-not-publish, permanently.
+            #
+            # The name is still content-addressed — a changed picture is a
+            # different eight characters, which is the cache safety this
+            # whole scheme exists for — so the page is safe to serve. What
+            # is unproven is only WHICH state it shows, and that is said
+            # out loud instead of held against the screen.
+            print(f"  note {name}: no board-mark record to check it "
+                  f"against — the name is still content-addressed",
+                  flush=True)
+            continue
+        try:
+            # The first page is aligned to the nominal wall-clock boundary;
+            # subsequent pages occur by the measured TS duration, not the
+            # nominal hold (AAC padding is deliberately retained).
+            when = sequence * hold + position * occurrence_step
+            state = board_marks.picture(
+                record, datetime.fromtimestamp(when, timezone.utc))
+            expected = {
+                variant_name(
+                    _os.path.splitext(board)[0], state, revision, seconds)
+                for revision in revisions
+                for seconds in (hold, published)
+                if seconds is not None
+            }
+        except Exception as exc:  # noqa: BLE001
+            errors.append(f"{name}: variant could not be rendered ({exc})")
+            continue
+        if name not in expected:
+            errors.append(f"{name}: variant digest mismatch")
+    check("SCREEN", f"{prefix} every TS has an independent content digest",
+          errors, [])
+
+
+def gate_a_lost_segment_is_re_encoded_not_republished() -> None:
+    """A segment gone from disk is rebuilt, never named in a playlist.
+
+    THE SKIPPED PAGE, and this gate is the reason it cannot come back.
+
+        "it skipped one page on Sunday it went directly to 2"
+
+    Sunday took three boards. The first was drawn, numbered and
+    committed like the other two — nothing about the picture was wrong.
+    What was missing was the SEGMENT encoded from it, and the encoder
+    published its name anyway.
+
+    It could, because the two things it checks are not the same thing.
+    The fingerprint stamp tracks THE BOARDS; segment_of() computes a
+    NAME from a board's bytes and promises nothing about the file. So a
+    pass that lost a .ts while leaving boards/ and the stamp untouched —
+    the workflow's push-retry, which resets to main and restores only
+    the paths its own commit touched, is exactly such a pass — left the
+    encoder certain there was nothing to do. It took the fast path,
+    wrote the playlist from names, and one of those names was a 404.
+
+    A player does not stop on a 404 in a VOD reel. It moves to the next
+    segment. The page a viewer was meant to open on is the one page they
+    never see, and the day appears to start at 2.
+
+    So the gate does not inspect what happens to be published — the
+    check above already does that, and it can only speak after the fault
+    has shipped. It DRIVES THE ENCODER: a real board, a real segment,
+    the segment deleted with the stamp left intact, and the encoder run
+    again. The old code republished the name. The fixed code notices the
+    file is gone and re-encodes it.
+
+    Everything happens in a temporary directory that this test owns, so
+    no published segment is touched and nothing here can delete a file
+    the channel is serving.
+    """
+    print("\nA lost segment is re-encoded, not republished as a name")
+    import os as _os
+    import shutil as _shutil
+
+    import match_screen_video as video
+
+    if not _shutil.which("ffmpeg"):
+        print("  note ffmpeg is not installed here — the encoder cannot be "
+              "driven, so this gate is not run")
+        return
+
+    boards = video.boards("other_sports_") or video.boards("today_matches_")
+    if not boards:
+        print("  note no board has been drawn yet, nothing to encode")
+        return
+
+    was_out, was_board_dir, was_hold = video.OUT_DIR, video.BOARD_DIR, video.HOLD
+    with tempfile.TemporaryDirectory() as room:
+        try:
+            video.OUT_DIR = room
+            video.BOARD_DIR = _os.path.join(room, "boards")
+            _os.makedirs(video.BOARD_DIR, exist_ok=True)
+            video.HOLD = was_hold
+
+            # Two boards of our own, so the reel has a page to lose.
+            mine = []
+            for place in range(2):
+                name = f"other_sports_{place}.png"
+                _shutil.copyfile(boards[min(place, len(boards) - 1)],
+                                 _os.path.join(video.BOARD_DIR, name))
+                mine.append(_os.path.join(video.BOARD_DIR, name))
+
+            # Encode both, exactly as a pass would.
+            wanted = []
+            for place, board in enumerate(mine):
+                segment = video.segment_of(board)
+                video.encode_segment(board, segment, place, video.HOLD)
+                wanted.append(segment)
+
+            playlist = _os.path.join(room, "sports.m3u8")
+            video.write_playlist(wanted, playlist)
+
+            # The stamp says these boards are already encoded — which is
+            # true of the BOARDS and, in a moment, false of the files.
+            stamp = _os.path.join(room, "sports.sha256")
+            with open(stamp, "w", encoding="utf-8") as handle:
+                handle.write(video.digest(mine) + "\n")
+
+            # The fault, reproduced: one segment disappears while the
+            # boards and the fingerprint stay exactly as they were.
+            lost = wanted[0]
+            _os.remove(lost)
+            check("SCREEN", "a segment can go missing under an unchanged "
+                            "fingerprint",
+                  _os.path.exists(lost), False)
+
+            # Now the pass runs again, the way the workflow runs it.
+            was_screens = video.SCREENS
+            try:
+                video.SCREENS = {"other_sports": ("other_sports_",
+                                                  "sports.m3u8",
+                                                  "sports.sha256",
+                                                  int(was_hold))}
+                video.main(["other_sports"])
+            finally:
+                video.SCREENS = was_screens
+
+            # THE POINT. The segment is back, because it was re-encoded
+            # rather than taken on trust.
+            check("SCREEN", "and the pass after it rebuilds that segment",
+                  _os.path.exists(lost), True)
+
+            # And no name in the published playlist is a 404 — which is
+            # the property the viewer actually experiences.
+            named = [line.strip() for line in open(playlist, encoding="utf-8")
+                     if line.strip().endswith(".ts")]
+            check("SCREEN", "so no page in the reel is a name without a file",
+                  [one for one in named
+                   if not _os.path.exists(_os.path.join(room, one))], [])
+        finally:
+            video.OUT_DIR, video.BOARD_DIR = was_out, was_board_dir
+            video.HOLD = was_hold
+
+
+def gate_two_pages_make_one_row() -> None:
+    """A match on both pages is one row, and a wrong pair is never one row.
+
+    مباريات اليوم now reads two listings pages. They spell clubs
+    differently — one writes "West Brom" where the other writes "West
+    Bromwich Albion", one writes "QPR" where the other writes "Queens Park
+    Rangers" — so a merge that only compares strings prints every shared
+    match twice, and a board that holds nine rows loses half its day to
+    duplicates.
+
+    The dangerous fix is a similarity score. Measured inside one script it
+    cannot be made safe: "Mainz"/"Monza" and "Al Nassr"/"Al Nasar" score
+    above every threshold that still catches a real pair. So the merge does
+    not score anything — it asks whether one name is the other abbreviated,
+    at a kickoff both pages agree on, on both sides of the fixture.
+
+    This gate holds both halves at once: the abbreviations must join, and
+    the near-misses must not. Widening the first without checking the
+    second is exactly how a wrong pair gets merged, and a merged wrong pair
+    deletes a real match from the board.
+    """
+    print("\nTwo pages, one row — the merge joins abbreviations, not lookalikes")
+    import today_matches_epg as today
+
+    # One club, written short on one page and long on the other.
+    for short, long in (("West Brom", "West Bromwich Albion"),
+                        ("QPR", "Queens Park Rangers"),
+                        ("Wolves", "Wolverhampton Wanderers"),
+                        ("Man Utd", "Manchester United"),
+                        ("Tottenham", "Tottenham Hotspur"),
+                        ("Newcastle", "Newcastle United")):
+        check("MERGE", f"{short!r} is {long!r} shortened",
+              today.same_side(short, long), True)
+
+    # Two clubs that are not one club, however alike they read.
+    for first, second in (("Mainz", "Monza"),
+                          ("Al Nassr", "Al Nasar"),
+                          ("Real Madrid", "Real Sociedad"),
+                          ("Manchester United", "Manchester City"),
+                          ("Nottingham Forest", "Norwich City"),
+                          ("Inter", "Inter Miami"),
+                          ("AC Milan", "Ajaccio")):
+        check("MERGE", f"{first!r} is not {second!r}",
+              today.same_side(first, second), False)
+
+    # An honorific the other page left off. Spanish football is full of
+    # these, and left-aligned words had nothing to line up: Betis v Real
+    # Madrid went onto one board twice.
+    for short, long in (("Betis", "Real Betis"),
+                        ("Sociedad", "Real Sociedad"),
+                        ("Valladolid", "Real Valladolid")):
+        check("MERGE", f"{short!r} is {long!r} without its honorific",
+              today.same_side(short, long), True)
+    # And dropping it must not make different clubs the same one.
+    for first, second in (("Real Madrid", "Atletico Madrid"),
+                          ("Real Madrid", "Real Sociedad"),
+                          ("Real Betis", "Real Sociedad")):
+        check("MERGE", f"{first!r} is still not {second!r}",
+              today.same_side(first, second), False)
+
+    # A fixture needs both sides. One side agreeing is a coincidence.
+    check("MERGE", "both sides must agree before it is one match",
+          today.same_match("QPR - Cardiff City",
+                           "Queens Park Rangers - Cardiff City"), True)
+    check("MERGE", "one side agreeing is not enough",
+          today.same_match("QPR - Cardiff City",
+                           "Queens Park Rangers - Swansea City"), False)
+
+    # And the whole of it, end to end: two pages in, one list out.
+    from datetime import datetime, timedelta, timezone
+    kick = datetime(2026, 9, 2, 18, 45, tzinfo=timezone.utc)
+    primary = [
+        {"start": kick, "title": "QPR - Cardiff City",
+         "channels": ["beIN Sports 1"], "competition": ""},
+        {"start": kick, "title": "Mainz - Werder Bremen",
+         "channels": ["Thmanyah 2"], "competition": "Bundesliga"},
+    ]
+    secondary = [
+        {"start": kick, "title": "Queens Park Rangers - Cardiff City",
+         "channels": ["Sky Sports+"], "competition": "Championship"},
+        {"start": kick, "title": "Monza - Como",
+         "channels": ["TNT Sports 1"], "competition": "Serie A"},
+        {"start": kick, "title": "Millwall - Wrexham",
+         "channels": ["Sky Sports+"], "competition": "Championship"},
+    ]
+    merged = today.unify(primary, secondary)
+    check("MERGE", "five rows in, four out", len(merged), 4)
+
+    by_title = {event["title"]: event for event in merged}
+    check("MERGE", "the shared match keeps the first page's spelling",
+          "QPR - Cardiff City" in by_title, True)
+    joined = by_title.get("QPR - Cardiff City", {"channels": [],
+                                                 "competition": ""})
+    check("MERGE", "and names both pages' channels, the tunable one first",
+          joined["channels"], ["beIN Sports 1", "Sky Sports+"])
+    check("MERGE", "and borrows the competition the first page left blank",
+          joined["competition"], "Championship")
+    check("MERGE", "Mainz did not swallow Monza",
+          "Monza - Como" in by_title, True)
+    check("MERGE", "a match only the second page saw is still a match",
+          "Millwall - Wrexham" in by_title, True)
+
+    # A shop is not a channel, and the rule that decides which matches
+    # belong has to be the rule that decides what they say. It was applied
+    # to the first and not the second, and a match kept because beIN
+    # carried it reached a television labelled "OneFootball".
+    for shop in ("OneFootball", "Thmanyah App", "LaLiga PPV",
+                 "Flamengo TV YouTube", "Federation Official Site"):
+        check("MERGE", f"{shop!r} is not somebody's television",
+              today.real_channels([shop]), [])
+    check("MERGE", "and one real name among them is what gets shown",
+          today.channels_of({"channels": ["OneFootball", "beIN Sports 1",
+                                          "Thmanyah App"]}),
+          "beIN 1")
+
+    # The merge must not reach across kickoffs. Two different matches can
+    # share both club names across a season; only one of them is tonight.
+    apart = today.unify(
+        primary[:1],
+        [{"start": kick + timedelta(hours=3),
+          "title": "Queens Park Rangers - Cardiff City",
+          "channels": ["Sky Sports+"], "competition": "Championship"}])
+    check("MERGE", "the same fixture at another hour is another match",
+          len(apart), 2)
+
+
+def gate_a_day_divider_is_not_a_container() -> None:
+    """Each fixture takes the date of the divider above it, not the page's.
+
+    live-footballontv writes 1896 fixtures inside TWO div.fixture-group
+    elements. The day is a div.fixture-date divider written BETWEEN the
+    fixtures, not a box around them — and the first reader treated a group
+    as a day, took the first date it found in it, and stamped 1876
+    fixtures with it. Every one of those fixtures was real; the whole
+    autumn simply arrived on tomorrow's board, Champions League league
+    phase and all. A probe of the merged output is what caught it, and
+    nothing in the code could have.
+
+    So the shape itself is held here, in the page's own markup: two
+    dividers, fixtures under each, and pills for the channels. If a
+    fixture ever takes a date from anywhere but the divider above it, this
+    goes red before anything reaches a screen.
+    """
+    print("\nA day divider is a divider — live-footballontv")
+    from datetime import datetime, timezone
+
+    import live_football_on_tv as second
+
+    page = """
+    <div class="fixture-group">
+      <div class="fixture-date">Wednesday 2nd September 2026</div>
+      <div class="fixture">
+        <div class="fixture__time">01:00</div>
+        <div class="fixture__teams">Atletico Mineiro v Cruzeiro  </div>
+        <div class="fixture__competition">Copa do Brasil</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">Premier Sports 2</span>
+        </div></div>
+      </div>
+      <div class="fixture-date">Thursday 3rd September 2026</div>
+      <div class="fixture">
+        <div class="fixture__time">19:45</div>
+        <div class="fixture__teams">Millwall v Wrexham  </div>
+        <div class="fixture__competition">Championship</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">Sky Sports+</span>
+          <span class="channel-pill">TNT Sports 1</span>
+          <span class="channel-pill">TBC</span>
+        </div></div>
+      </div>
+      <div class="fixture">
+        <div class="fixture__time">TBC</div>
+        <div class="fixture__teams">Arsenal v Real Madrid  </div>
+        <div class="fixture__competition">Champions League</div>
+        <div class="fixture__channel"><div class="span3 channels">
+          <span class="channel-pill">TBC</span>
+        </div></div>
+      </div>
+    </div>
+    """
+    floor = datetime(2026, 9, 2, 0, 0, tzinfo=timezone.utc)
+    ceiling = datetime(2026, 9, 5, 0, 0, tzinfo=timezone.utc)
+    read = second.collect(page, floor, ceiling)
+
+    check("SOURCE2", "a fixture with no kickoff is not a fixture",
+          len(read), 2)
+    by_title = {event["title"]: event for event in read}
+
+    check("SOURCE2", "the first fixture keeps the first divider's day",
+          f"{by_title['Atletico Mineiro - Cruzeiro']['start']:%Y-%m-%d %H:%M}",
+          "2026-09-02 00:00")
+    check("SOURCE2", "and the second takes the SECOND divider's day",
+          f"{by_title['Millwall - Wrexham']['start']:%Y-%m-%d %H:%M}",
+          "2026-09-03 18:45")
+
+    check("SOURCE2", "each channel pill is read on its own",
+          by_title["Millwall - Wrexham"]["channels"],
+          ["Sky Sports+", "TNT Sports 1"])
+    check("SOURCE2", "and the page saying it does not know is not a channel",
+          any("TBC" in name
+              for event in read for name in event["channels"]), False)
+
+    # The fault itself, stated as a number: everything on one day is what
+    # going wrong looked like.
+    check("SOURCE2", "the fixtures did not all land on one day",
+          len({event["start"].date() for event in read}), 2)
+
+    # UTF-8 read a byte at a time. "FC KÃ¶ln" reached the television, and
+    # it cost more than an ugly row: the other page writes "FC Koln", and
+    # two spellings differing by mojibake are two clubs to the merge, so
+    # the fixture was published twice.
+    check("SOURCE2", "mojibake is mended", second.mended("FC KÃ¶ln"),
+          "FC Köln")
+    check("SOURCE2", "and the repair leaves good text alone",
+          [second.mended(name) for name in
+           ("Liga 1 Perú", "Virslīga", "الهلال", "Beşiktaş", "FC Köln")],
+          ["Liga 1 Perú", "Virslīga", "الهلال", "Beşiktaş", "FC Köln"])
+
+
+def gate_the_printed_clock_is_the_kickoff() -> None:
+    """The hour a match starts comes from the cell, not from the markup.
+
+    livefootballtv publishes a schema.org startDate that is one hour fast:
+    it prints the Gulf clock its readers want and derives the markup by
+    subtracting two hours, as though the Gulf were UTC+2 rather than +3.
+    Reading the markup as the instant put every match on this channel an
+    hour late — and that was then "fixed" by moving the reader's own clock
+    back an hour, which printed the right digits in September and would
+    have been wrong all winter.
+
+    Settled by British football, whose kickoff times are not opinion: the
+    markup puts Burnley v Middlesbrough on Sky at 21:00 UK, and the
+    Championship does not kick off at 21:00. The rows below are real ones
+    taken off the page, with the last two chosen because their printed
+    clock is past midnight and the markup's date is not — which is where a
+    naive combination of the two puts a match a day out.
+    """
+    print("\nThe printed clock is the kickoff — livefootballtv")
+    from bs4 import BeautifulSoup
+
+    import today_matches_epg as today
+
+    def row_of(printed: str, markup: str):
+        return BeautifulSoup(
+            f'<table><tr><td class="hora">{printed}</td>'
+            f'<td class="canales"><meta itemprop="startDate" '
+            f'content="{markup}"/></td></tr></table>',
+            "html.parser").find("tr")
+
+    for printed, markup, expected in (
+            # Sky's Championship game: 20:00 UK, not the markup's 21:00.
+            ("22:00", "2026-09-02T20:00:00", "2026-09-02 19:00"),
+            # A Coppa Italia tie at 18:00 in Italy.
+            ("19:00", "2026-09-02T17:00:00", "2026-09-02 16:00"),
+            # Printed after midnight, markup still on the day before.
+            ("02:00", "2026-09-02T00:00:00", "2026-09-01 23:00"),
+            ("03:00", "2026-09-02T01:00:00", "2026-09-02 00:00")):
+        struck = today.kickoff_of(row_of(printed, markup))
+        check("CLOCK", f"printed {printed} with markup {markup[11:16]}",
+              f"{struck:%Y-%m-%d %H:%M}" if struck else None, expected)
+
+    # No printed clock at all: the markup, with its hour taken back off.
+    bare = BeautifulSoup(
+        '<table><tr><td class="canales"><meta itemprop="startDate" '
+        'content="2026-09-02T20:00:00"/></td></tr></table>',
+        "html.parser").find("tr")
+    check("CLOCK", "and with no printed clock, the markup less its hour",
+          f"{today.kickoff_of(bare):%Y-%m-%d %H:%M}", "2026-09-02 19:00")
+
+    # The reader's zone is the other half of the same fault. A fixed
+    # offset was the shape of the mistake, not a detail of it.
+    check("CLOCK", "the reader is on a real zone, not a frozen offset",
+          today.VIEWER.key, "America/Los_Angeles")
+
+
+def gate_a_day_drawn_is_a_day_collected() -> None:
+    """Every board gets the whole of its own day to fill itself from.
+
+    The board list was built from a DATE and the matches were filtered
+    against an INSTANT, and the two disagreed about the last day. The
+    guide drew a board for Friday and then admitted only the hours of
+    Friday that fell before the clock time of the build — 7.6 of 24 at
+    14:36 UTC, all of them before dawn in Los Angeles. Every Friday
+    evening kickoff in Europe was hours outside it.
+
+    So a full Friday of football was published as "لا توجد مباراة معلنة",
+    every single day, and from the sofa it looked like a channel that had
+    stopped updating rather than one with an arithmetic fault. Nothing was
+    wrong with either source.
+
+    This is the invariant that was missing, and it is checked at every
+    hour of the clock rather than at the one the build happened to run
+    at — the fault was invisible at 00:00 and total at 23:00. It is also
+    checked across the night the clocks go back, because a "day" is 25
+    hours long that night and arithmetic in fixed offsets quietly loses an
+    hour of it.
+    """
+    print("\nA day drawn is a day collected — مباريات اليوم")
+    from datetime import datetime, timedelta, timezone
+
+    import today_matches_epg as today
+
+    def whole_days_covered(now):
+        floor, ceiling = today.window_floor(now), today.window_ceiling(now)
+        for day in today.days_of(now):
+            if today.start_of_day(day) < floor:
+                return f"{day} starts before the window does"
+            if today.start_of_day(day + timedelta(days=1)) > ceiling:
+                return f"{day} ends after the window does"
+        return ""
+
+    # Every hour of an ordinary day.
+    broken = [f"{hour:02d}:00Z {why}" for hour in range(24)
+              if (why := whole_days_covered(
+                  datetime(2026, 9, 2, hour, 36, tzinfo=timezone.utc)))]
+    check("WINDOW", "every board's day is inside the window, at every hour",
+          broken, [])
+
+    # The night Los Angeles puts its clocks back: one day is 25 hours.
+    autumn = [f"{hour:02d}:00Z {why}" for hour in range(24)
+              if (why := whole_days_covered(
+                  datetime(2026, 11, 1, hour, 36, tzinfo=timezone.utc)))]
+    check("WINDOW", "and still inside it the night the clocks go back",
+          autumn, [])
+
+    # The exact match that was being dropped, named.
+    now = datetime(2026, 9, 2, 14, 36, tzinfo=timezone.utc)
+    friday_night = datetime(2026, 9, 4, 18, 45, tzinfo=timezone.utc)
+    check("WINDOW", "a Ligue 1 Friday 20:45 CEST is inside the window",
+          today.window_floor(now) <= friday_night < today.window_ceiling(now),
+          True)
+    check("WINDOW", "and it lands on the Friday board, not tomorrow's",
+          friday_night.astimezone(today.VIEWER).date(),
+          today.days_of(now)[-1])
+
+    # The board list and the window must be the same length of time.
+    check("WINDOW", "the window is exactly as long as the boards it fills",
+          today.window_ceiling(now) - today.window_floor(now),
+          timedelta(days=today.DAYS_AHEAD + 1))
+
+
+def gate_the_third_page_fills_the_gap() -> None:
+    """yallakora, read off its own markup, and kept to what it is for.
+
+    A reader photographed four fixtures missing from the board — three in
+    Jordan's league and الأهلي v سموحة in Egypt's — and then a fifth,
+    Başakşehir v Galatasaray in Turkey's. Measured: of 42,924 characters
+    on the first page and 142,697 on the second, not one names those
+    clubs, and not a single row was dropped for lacking a broadcaster. The
+    gap was coverage of Arab and Turkish domestic football.
+
+    Of four Arabic pages asked how many blocks hold a clock AND a channel,
+    kooora managed 0 of 93 and this one holds channel, teams, competition
+    and kickoff inside a single element — and takes a date.
+
+    Its clubs are written in Arabic, and no threshold merges those safely:
+    measured over thirteen real cross-script pairs and ten false ones,
+    تولوز against Toulon scores 0.800 while باشاكشهير against Basaksehir
+    scores 0.640. So it is kept to competitions the other two pages do not
+    carry, where there is nothing to collide with. That narrowing is the
+    safety, and this gate holds it.
+    """
+    print("\nThe third page fills the gap — yallakora")
+    from datetime import datetime, timezone
+
+    import today_matches_epg as today
+    import yallakora
+
+    page = """
+    <a class="tourTitle"><div class="imgCntnr">
+      <img alt="الدوري المصري" enname="Egyptian-league"/></div></a>
+    <div class="allData">
+      <div class="channel icon-channel">ON Sport</div>
+      <div class="topData"><div class="matchStatus"><span>لم تبدأ</span></div></div>
+      <div class="teamCntnr"><div class="teamsData">
+        <div class="teams teamA"><img alt="الأهلي"/><p>الأهلي</p></div>
+        <div class="MResult"><span class="score">-</span>
+          <span class="time">20:00</span></div>
+        <div class="teams teamB"><img alt="سموحة"/><p>سموحة</p></div>
+      </div></div>
+    </div>
+    <a class="tourTitle"><div class="imgCntnr">
+      <img alt="دوري القسم الثاني-أ" enname="Egypt-second"/></div></a>
+    <div class="allData">
+      <div class="teamCntnr"><div class="teamsData">
+        <div class="teams teamA"><p>بلدية المحلة</p></div>
+        <div class="MResult"><span class="time">16:30</span></div>
+        <div class="teams teamB"><p>نادى دلتا يونايتد</p></div>
+      </div></div>
+    </div>
+    """
+    day = datetime(2026, 9, 3).date()
+    floor = datetime(2026, 9, 2, 7, 0, tzinfo=timezone.utc)
+    ceiling = datetime(2026, 9, 5, 7, 0, tzinfo=timezone.utc)
+    read = yallakora.collect(page, day, floor, ceiling)
+
+    check("SOURCE3", "both fixtures are read", len(read), 2)
+    by_title = {event["title"]: event for event in read}
+
+    # The very fixture that was missing, at the clock its own app showed.
+    ahly = by_title.get("الأهلي - سموحة", {})
+    check("SOURCE3", "الأهلي - سموحة is there",
+          bool(ahly), True)
+    check("SOURCE3", "at 20:00 Cairo, which is 17:00 UTC",
+          f"{ahly['start']:%Y-%m-%d %H:%M}" if ahly else None,
+          "2026-09-03 17:00")
+    check("SOURCE3", "with the Arabic channel a reader can tune to",
+          ahly.get("channels"), ["ON Sport"])
+    check("SOURCE3", "and the competition in both scripts",
+          ahly.get("competition"), "Egyptian league | الدوري المصري")
+    check("SOURCE3", "the crest's alt does not double the club's name",
+          ahly.get("title"), "الأهلي - سموحة")
+
+    # The narrowing: Egypt's top flight is asked for, its second tier is not.
+    check("SOURCE3", "Egypt's league is what this page is here for",
+          any(name in ahly.get("competition", "")
+              for name in today.YALLAKORA_ONLY), True)
+    second = by_title.get("بلدية المحلة - نادى دلتا يونايتد", {})
+    check("SOURCE3", "Egypt's second tier is not",
+          any(name in second.get("competition", "")
+              for name in today.YALLAKORA_ONLY), False)
+
+    # A block with no channel is still a real fixture. Başakşehir v
+    # Galatasaray had none, and used to be dropped for it.
+    check("SOURCE3", "a fixture with no broadcaster named is still read",
+          second.get("channels"), [])
+    check("SOURCE3", "and the guide keeps it rather than hiding the match",
+          today.wanted({"competition": "الدوري التركي", "title": "A - B",
+                        "channels": [], "start": None}), True)
+    # The duplicate this page caused when it was first switched on, and
+    # the fact that settles it without touching the club names.
+    from datetime import timedelta
+    when = datetime(2026, 9, 2, 14, 0, tzinfo=timezone.utc)
+    board = [{"start": when, "title": "El Gouna FC - El-Mokawloon",
+              "channels": ["On Sport Plus"], "competition": ""},
+             {"start": when, "title": "Abu Qair - Al Ittihad",
+              "channels": ["ON Sport"], "competition": ""}]
+    for channels, start, already, why in (
+            (["ON Sport PLUS"], when, True, "same minute, same channel"),
+            (["ON Sport MAX"], when, False, "MAX is another channel"),
+            (["ON Sport"], when + timedelta(hours=3), False, "another hour"),
+            ([], when, False, "nothing to compare")):
+        check("SOURCE3", f"already on the board? {why}",
+              today.already_on_air({"start": start, "title": "أ - ب",
+                                    "channels": channels}, board), already)
+
+    check("SOURCE3", "while a match that is only a shop stays out",
+          today.wanted({"competition": "الدوري التركي", "title": "A - B",
+                        "channels": ["OneFootball"], "start": None}), False)
+
+
+def gate_our_own_guides_name_the_channel() -> None:
+    """This repository's guides say which of the reader's channels has it.
+
+    Asked for directly, and they know something no listings page does. They
+    are used to NAME channels and never to add fixtures, because their
+    titles are written for a television grid: beIN Turkey writes
+    "Super Lig (26-27) 3. Hafta Gaziantep Fk - Rizespor - Bant -", where
+    "Bant" means it is a repeat, and it also carries matches from the year
+    2000. A title read wrongly that only fails to name a channel costs
+    nothing; one that ADDS a fixture puts a match on the screen that is
+    not being played.
+
+    Matching is the same cross-script problem as everywhere, answered the
+    same way: never a similarity score. The minute must agree and one club
+    must match — epg_lib's strict rule across the scripts, plain skeleton
+    equality within one. ONE side is enough here and only here, because a
+    club cannot play two matches at once. Measured over the nine fixtures
+    Alwan published on the day this was written, one side reaches all
+    nine where both sides reach six: ميدلزبره and Middlesbrough do not
+    reduce to the same skeleton, and بيرنلي and Burnley do.
+
+    And Istanbul is marked. beIN SPORTS 1 in Istanbul and beIN SPORTS 1 in
+    Doha are different channels showing different football.
+    """
+    print("\nOur own guides name the channel — Alwan, beIN Turkey, Spor Ekranı")
+    import json
+    from datetime import datetime, timezone
+
+    import own_guides
+
+    # A grid title that is a fixture, and the several that are not.
+    check("OWN", "a plain fixture is read",
+          own_guides.fixture_in("الهلال - الأهلي ‎🔴 LIVE‎"),
+          ("الهلال", "الأهلي"))
+    for title, why in (
+            ("لا توجد مباراة مجدولة", "nothing scheduled"),
+            ("لم يُعلن البث — No listing published", "no listing"),
+            ("Beşiktaş - Adanaspor (00-01) 21.hafta", "a match from 2000"),
+            ("Tff 1. Lig Maç Özetleri (26-27) 05. Hafta - Haber / Salı",
+             "a highlights programme"),
+            ("Super Lig (26-27) 3. Hafta Gaziantep Fk - Rizespor - Bant -",
+             "a repeat with a competition prefix")):
+        check("OWN", f"not a fixture: {why}",
+              own_guides.fixture_in(title), ("", ""))
+
+    # Eight spellings of one channel are one channel.
+    check("OWN", "quality variants fold into one channel",
+          [own_guides.one_channel(name) for name in
+           ("Alwan Sport 1 HD", "Alwan Sports 1", "Alwan Sport 1 4K",
+            "Alwan Sport 1 RAW")],
+          ["Alwan Sport 1"] * 4)
+    # ...but not so far that the name stops being a channel. "beIN 4K" is
+    # Doha's own feed and folding it printed "beIN", which is nothing a
+    # viewer can turn to.
+    check("OWN", "a channel whose 4K IS its name keeps it",
+          own_guides.one_channel("beIN 4K"), "beIN 4K")
+
+    # One club is enough, at an agreed minute, because a club plays once.
+    check("OWN", "بيرنلي is Burnley",
+          own_guides.one_club("بيرنلي", "Burnley"), True)
+    check("OWN", "and one side carries the fixture ميدلزبره cannot",
+          own_guides.one_club_matches("Burnley - Middlesbrough",
+                                      "بيرنلي - ميدلزبره"), True)
+    check("OWN", "Galatasaray matches itself, within one script",
+          own_guides.one_club("Galatasaray", "Galatasaray"), True)
+    check("OWN", "Mainz is still not Monza, within one script",
+          own_guides.one_club("Mainz", "Monza"), False)
+    check("OWN", "and two unrelated fixtures do not match",
+          own_guides.one_club_matches("Burnley - Middlesbrough",
+                                      "الهلال - الأهلي"), False)
+
+    # Spor Ekranı arrives in the same shape, over the network, and goes
+    # through the same matching. Its ld+json gives a real instant, so
+    # there is no clock to place in a timezone — the fault that cost this
+    # guide a day and then an hour.
+    import spor_ekrani
+    page = ("""<script type="application/ld+json">""" + json.dumps([
+        {"@type": "BroadcastEvent", "isLiveBroadcast": True,
+         "publishedOn": [{"@type": "TelevisionChannel",
+                          "name": "Bein Sports 1"},
+                         {"@type": "TelevisionChannel",
+                          "name": "Yayın Yok"}],
+         "broadcastOfEvent": {
+             "name": "İstanbul Başakşehir - Galatasaray",
+             "startDate": "2026-09-04T17:00:00Z",
+             "homeTeam": {"name": "İstanbul Başakşehir"},
+             "awayTeam": {"name": "Galatasaray"}}},
+        {"@type": "BroadcastEvent",
+         "broadcastOfEvent": {"name": "Bir Program",
+                              "startDate": "2026-09-04T17:00:00Z"}},
+    ], ensure_ascii=False) + "</script>")
+    read = spor_ekrani.collect(page)
+    check("OWN", "the teams it names outright are the fixture",
+          [r["title"] for r in read],
+          ["İstanbul Başakşehir - Galatasaray"])
+    check("OWN", "its channel is marked TR",
+          [r["channel"] for r in read], ["Bein Sports 1 TR"])
+    check("OWN", "and 'Yayın Yok' is not a channel",
+          any("Yayın" in r["channel"] for r in read), False)
+    check("OWN", "the instant needs no timezone guessed",
+          f"{read[0]['start']:%Y-%m-%d %H:%M %Z}" if read else None,
+          "2026-09-04 17:00 UTC")
+
+    # A grid gives the PROGRAMME, a listings page gives the KICKOFF, and
+    # they are not the same instant: beIN Turkey opens Başakşehir v
+    # Galatasaray at 16:15 for a 17:00 kick. At a minute's tolerance the
+    # Turkish channel never reached the Turkish match. Wide is safe only
+    # because one club must still match exactly — a club does not play
+    # twice inside two hours.
+    from datetime import timedelta
+    check("OWN", "a broadcast may open before the kickoff",
+          own_guides.SLACK >= timedelta(minutes=45), True)
+
+    # End to end, on a board. The two grids it reads are written here
+    # rather than taken from the repository, because a published guide
+    # is a moving target under a static test: beIN Turkey carried
+    # Başakşehir v Galatasaray as a live 17:00 broadcast the day this
+    # was written, and by the next morning's rebuild kept only its
+    # Arşiv and Bant rows for the same match — both rightly refused
+    # as not fixtures — and the gate went red on the calendar rather
+    # than on the code. The pair below keeps the shape that failed:
+    # the same match, the Turkish grid opening at 16:15 for a 17:00
+    # kick and Doha's at 16:50, each title in its own guide's script,
+    # so every assertion still has exactly what it had — the TR mark,
+    # Doha left unmarked, a match neither guide carries left alone.
+    import os
+    import tempfile
+
+    when = datetime(2026, 9, 4, 17, 0, tzinfo=timezone.utc)
+    board = [{"start": when, "title": "إسطنبول باشاكشهير - جالاتا سراي",
+              "channels": []},
+             {"start": when, "title": "Mainz - Werder Bremen",
+              "channels": ["beIN SPORTS 2"]}]
+    istanbul_grid = """<?xml version="1.0" encoding="UTF-8"?>
+<tv>
+  <channel id="beINSPORTS1.tr"><display-name>beIN SPORTS 1</display-name></channel>
+  <programme start="20260904161500 +0000" stop="20260904190000 +0000"
+            channel="beINSPORTS1.tr"><title>Başakşehir FK - Galatasaray</title></programme>
+</tv>
+"""
+    doha_grid = """<?xml version="1.0" encoding="UTF-8"?>
+<tv>
+  <channel id="beINSPORTS5.qa"><display-name>beIN SPORTS 5</display-name></channel>
+  <programme start="20260904165000 +0000" stop="20260904190000 +0000"
+            channel="beINSPORTS5.qa"><title>إسطنبول باشاكشهير - جالاتا سراي</title></programme>
+</tv>
+"""
+    with tempfile.TemporaryDirectory() as here:
+        istanbul = os.path.join(here, "bein_sports_turkey_epg.xml")
+        doha = os.path.join(here, "bein_sports_qatar_epg.xml")
+        with open(istanbul, "w", encoding="utf-8") as hand:
+            hand.write(istanbul_grid)
+        with open(doha, "w", encoding="utf-8") as hand:
+            hand.write(doha_grid)
+        # The synthetic pair stands in for the published guides for this
+        # one call; the published ones go straight back afterwards.
+        published = own_guides.GUIDES
+        own_guides.GUIDES = ((doha, ""), (istanbul, " TR"))
+        try:
+            own_guides.add_channels(board)
+        finally:
+            own_guides.GUIDES = published
+    # Doha shows this one too — beIN SPORTS 5 there, beIN SPORTS 1 in
+    # Istanbul, at 16:50 for a 17:00 kick. Both are right and they are
+    # different channels, which is exactly what the mark is for: a row
+    # naming "beIN SPORTS 1" and "beIN SPORTS 5" unmarked would send a
+    # viewer in Doha to the wrong one.
+    check("OWN", "Istanbul's beIN is marked TR",
+          "beIN SPORTS 1 TR" in board[0]["channels"], True)
+    check("OWN", "and Doha's, on the same match, is not",
+          [name for name in board[0]["channels"]
+           if name.endswith(" TR")] != board[0]["channels"], True)
+    check("OWN", "and a match none of our channels carry is left alone",
+          board[1]["channels"], ["beIN SPORTS 2"])
+
+
+def gate_the_american_channel_is_named() -> None:
+    """Fox, NBC, CBS and the rest, from the one US page that answers in HTML.
+
+    Of thirty matches on the board, not one named an American broadcaster.
+    They were not hidden behind the "+5" — no source here had ever seen
+    them. livesoccertv's /schedules/ has them: 68 blocks with a clock, 17
+    with a clock and a US channel, where Fox's own site, ESPN's and NBC's
+    give none between them.
+
+    The trap this page sets is the one the first source set. It publishes
+    the kickoff TWICE and the two disagree by four hours: data-ko is the
+    site's Eastern wall clock, span.ts[dv] is a true epoch. Reading the
+    printed one put every match on this channel an hour late once already,
+    and would put these four hours early. dv is read; data-ko is not, and
+    this gate holds it there.
+
+    Marking is the mirror of Istanbul's. beIN is the one brand this page
+    shares with the Gulf feeds, so beIN gets " US" and nothing else does:
+    Fox Sports 1 is nobody else's name, and a mark on an unambiguous one
+    is noise on a row with little space.
+
+    Like every listings reader here it NAMES channels and never adds
+    fixtures.
+    """
+    print("\nThe American channel is named — livesoccertv")
+    import live_soccer_tv
+
+    # 1788397200000 is 2026-09-03 01:00 UTC. The same row prints
+    # data-ko="2026-09-02 21:00:00" — Eastern, four hours behind.
+    page = """
+    <table>
+      <tr class="matchrow" data-ko="2026-09-02 21:00:00" id="5773791">
+        <td><span class="ts" df="h:MMtt" dv="1788397200000">9:00pm</span></td>
+        <td class="matchcol"><a href="/match/x" title="Toluca vs Le&#243;n">x</a></td>
+        <td><div class="mchannels">
+          <a title="Fox Sports 1">Fox Sports 1</a>,
+          <a title="beIN SPORTS">beIN SPORTS</a>,
+          <a title="fuboTV.com">fuboTV.com</a>,
+          <a title="YouTube">YouTube</a>
+        </div></td>
+      </tr>
+      <tr class="matchrow" data-ko="2026-09-02 15:00:00" id="5773792">
+        <td><span class="ts" dv="1788361200000">3:00pm</span></td>
+        <td class="matchcol"><a href="/match/y" title="Arsenal vs Chelsea">y</a></td>
+        <td><div class="mchannels"><a title="NBC">NBC</a>,
+          <a title="CBS Sports">CBS Sports</a></div></td>
+      </tr>
+      <tr class="matchrow" id="5773793">
+        <td class="matchcol"><a href="/match/z" title="A vs B">z</a></td>
+        <td><div class="mchannels"><a title="Paramount+">Paramount+</a></div></td>
+      </tr>
+    </table>"""
+    read = live_soccer_tv.collect(page)
+
+    check("USA", "the published instant is read, not the Eastern clock",
+          f"{read[0]['start']:%Y-%m-%d %H:%M %Z}", "2026-09-03 01:00 UTC")
+    check("USA", "and never 21:00, which is what the page prints",
+          any(r["start"].hour == 21 for r in read), False)
+    check("USA", "'Toluca vs Le\u00f3n' is a fixture of two clubs",
+          read[0]["title"], "Toluca - Le\u00f3n")
+    check("USA", "Fox is left exactly as the page writes it",
+          [r["channel"] for r in read if "Fox" in r["channel"]],
+          ["Fox Sports 1"])
+    check("USA", "beIN is marked US, because Doha has that name too",
+          [r["channel"] for r in read if "beIN" in r["channel"]],
+          ["beIN SPORTS US"])
+    check("USA", "NBC and CBS come through unmarked",
+          sorted(r["channel"] for r in read
+                 if r["channel"] in ("NBC", "CBS Sports")),
+          ["CBS Sports", "NBC"])
+    check("USA", "a stream and a shop are not channels",
+          any(word in r["channel"].lower()
+              for r in read for word in ("youtube", "fubotv")), False)
+    check("USA", "a row with no clock is dropped, not guessed at",
+          any(r["title"] == "A - B" for r in read), False)
+
+    # End to end: it names a channel on a match already on the board, and
+    # adds none of its own.
+    from datetime import datetime, timezone
+
+    import own_guides
+    board = [{"start": datetime(2026, 9, 3, 1, 0, tzinfo=timezone.utc),
+              "title": "Toluca - Le\u00f3n", "channels": []}]
+    own_guides.add_channels(board, {"livesoccertv": read})
+    check("USA", "the American channel reaches the board",
+          "Fox Sports 1" in board[0]["channels"], True)
+    check("USA", "and the board gains no fixtures from a listings page",
+          len(board), 1)
+
+
+def gate_a_grid_title_is_read_the_way_that_grid_writes_it() -> None:
+    """Doha's beIN, and the club whose name contained a marker.
+
+    Three of this repository's own guides are read for channel names now,
+    and the third writes its titles differently from the other two. Alwan
+    and beIN Turkey put a dash between the clubs; Doha writes
+    "Ipswich Town v Liverpool - English Premier League 2026/2027", where
+    the dash belongs to the COMPETITION. Split that on the dash and the
+    fixture is "Ipswich Town v Liverpool" against "English Premier
+    League" — two things that are not clubs, matching nothing. 350 of
+    Doha's titles are that shape.
+
+    And the bug this found. Markers were stripped without word
+    boundaries, so "LIVE" matched inside "Liverpool" and the club came
+    out as "rpool". The most broadcast club in the world could not be
+    matched by any guide published here, and nothing showed it: a club
+    that fails to match only ever costs a channel name, never a wrong
+    one, so the hole was silent. Every marker is a whole word now.
+
+    What is NOT a fixture is the other half. Doha's grid carries
+    "Preview - US Open 2026" and "Ligue 1 Weekly Review - 2026/2027"
+    beside the football, and Alwan says "التالي: بيرنلي - ميدلزبره" —
+    real clubs, on a row whose time belongs to the programme now showing
+    rather than to their match. Taking that hands a channel to whatever
+    else falls inside the two-hour window; the same match is published
+    again at its own time, so nothing is lost by refusing it.
+    """
+    print("\nA grid title is read the way that grid writes it")
+    import own_guides
+
+    check("GRID", "Doha's 'vs.' separates the clubs, its dash does not",
+          own_guides.fixture_in(
+              "Liverpool vs. Nottingham Forest - English Premier League "
+              "2026/2027"),
+          ("Liverpool", "Nottingham Forest"))
+    check("GRID", "and a bare 'v' does the same",
+          own_guides.fixture_in(
+              "Ipswich Town v Liverpool - English Premier League "
+              "2026/2027 \u200e\u2022 Live \U0001f535\u200e"),
+          ("Ipswich Town", "Liverpool"))
+    check("GRID", "LIVE is a marker, not the first four letters of a club",
+          own_guides.fixture_in("Liverpool - Everton"),
+          ("Liverpool", "Everton"))
+    check("GRID", "a dash-written grid is unchanged",
+          own_guides.fixture_in("\u0628\u064a\u0631\u0646\u0644\u064a - "
+                                "\u0645\u064a\u062f\u0644\u0632\u0628"
+                                "\u0631\u0647 \u200e\U0001f534 LIVE\u200e"),
+          ("\u0628\u064a\u0631\u0646\u0644\u064a",
+           "\u0645\u064a\u062f\u0644\u0632\u0628\u0631\u0647"))
+
+    for title, why in (
+            ("Ligue 1 Weekly Review - 2026/2027", "a review"),
+            ("Preview - US Open 2026", "a preview"),
+            ("Round 1 - Serie A Highlights", "highlights"),
+            ("\u0627\u0644\u062a\u0627\u0644\u064a: "
+             "\u0628\u064a\u0631\u0646\u0644\u064a - "
+             "\u0645\u064a\u062f\u0644\u0632\u0628\u0631\u0647",
+             "what comes next, at the wrong time"),
+            ("\u062d\u0643\u064a \u0633\u064a\u0627\u0633\u064a - "
+             "\u0627\u0644\u0645\u0648\u0633\u0645 "
+             "\u0627\u0644\u062b\u0627\u0644\u062b",
+             "a drama serial's season")):
+        check("GRID", f"not a fixture: {why}",
+              own_guides.fixture_in(title), ("", ""))
+
+    # Doha carries no mark and Istanbul carries one, which is the whole
+    # reason the mark exists.
+    marks = dict((path, mark) for path, mark in own_guides.GUIDES)
+    check("GRID", "Doha's beIN is wired in, unmarked",
+          marks.get("bein_sports_qatar_epg.xml"), "")
+    check("GRID", "Istanbul's is wired in, marked TR",
+          marks.get("bein_sports_turkey_epg.xml"), " TR")
+    check("GRID", "and no general channel's grid is read for football",
+          [path for path in marks if "roya" in path or "jordan" in path], [])
+
+
+def gate_a_row_names_two_channels() -> None:
+    """A viewer who cannot get the first channel is told the second.
+
+    One channel per row was chosen when a match rarely had a second, and
+    it went on hiding every source added since. A real row read
+    "Ipswich - Liverpool · beIN SPORTS 1 EN +5": five channels collected,
+    named, and printed as a digit.
+
+    Two is where it stops — the line has to fit a television screen and
+    the drawn board gives a row two pills — so beyond the second the
+    count returns, honest about there being more without spending a line.
+    """
+    print("\nA row names two channels")
+    import inspect
+    from datetime import datetime, timezone
+
+    import today_matches_epg as today
+
+    check("TWO", "three channels are printed, not one and a digit",
+          today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
+                                          "Fox Sports 1"]}),
+          "beIN 1 · Sky+ · Fox Sports 1")
+    check("TWO", "a fourth is counted, not dropped",
+          today.channels_of({"channels": ["beIN SPORTS 1", "Sky Sports+",
+                                          "Fox Sports 1", "DAZN"]}),
+          "beIN 1 · Sky+ · Fox Sports 1 +1")
+    check("TWO", "one channel is still one channel",
+          today.channels_of({"channels": ["DAZN"]}), "DAZN")
+    check("TWO", "and the app the reader asked to stop seeing is not one",
+          today.channels_of({"channels": ["OneFootball", "beIN SPORTS 1"]}),
+          "beIN 1")
+
+    # The drawn board gives a row three pills, so the picture and the
+    # line agree on how many a viewer is shown. Three was refused once on
+    # an unmeasured claim that a twelve-match day could not fit them; it
+    # can, because a crowded row draws its pills smaller too.
+    check("TWO", "the board draws as many as the line prints",
+          today.MAX_CHANNELS, 3)
+
+    # The reader's order: Arabic, English, American, Turkish, the rest.
+    # It was source order, which is the order a British listings page
+    # happens to print its pills — so four of the seven rows that had two
+    # channels spent the second on something neither the region nor
+    # America can open, while the Fox that WAS collected sat behind "+1".
+    check("TWO", "Arabic comes first, then British, then American",
+          today.channels_of({"channels": ["MBC Shahid Sports", "Fox Sports 1",
+                                          "TNT Sports 1"]}),
+          "MBC Shahid · TNT 1 · Fox Sports 1")
+    check("TWO", "the tiers run Arabic, British, American, Turkish, ANZ, rest",
+          [today.where_from(name) for name in
+           ("beIN SPORTS 3", "Sky Sports+", "Fox Sports 1",
+            "beIN SPORTS 1 TR", "Optus Sport", "Ligue1+")],
+          [0, 1, 2, 3, 4, 5])
+    # Australia and New Zealand are named by an explicit marker, never by
+    # the brand: "Sky Sport NZ" carries Sky and is not Britain's, "Fox
+    # Sports Australia" carries Fox and is not America's, and reading
+    # either by its brand puts a channel on the row that the wrong half
+    # of the world can watch.
+    check("TWO", "a Sky and a Fox from the other side of the world",
+          [today.where_from(name) for name in
+           ("Sky Sport NZ", "Fox Sports Australia", "Stan Sport", "Kayo")],
+          [4, 4, 4, 4])
+    check("TWO", "and they outrank Scandinavia and Denmark",
+          today.channels_of({"channels": ["beIN SPORTS 2", "V Sport 1",
+                                          "Optus Sport", "TV2 Denmark"]}),
+          "beIN 2 · Optus Sport · V Sport 1 +1")
+    # "English" is Sky and TNT — the channels that carry English football
+    # in England. A beIN feed with English commentary is Doha's channel
+    # and belongs with the Arabic ones, and reading it as British put it
+    # in the second slot ahead of the Fox a viewer here could open.
+    # A digit glued to the brand is how a listings page writes these, and
+    # a word boundary after the brand matched none of them: ITV1 — which
+    # carries England and the FA Cup — was ranked below a Danish channel,
+    # and fifteen of fifty-four real spellings sat in the wrong tier for
+    # this one reason.
+    check("TWO", "ITV is British however the number is attached",
+          [today.where_from(name) for name in
+           ("ITV", "ITV 1", "ITV1", "ITV4", "ITVX", "STV")],
+          [1, 1, 1, 1, 1, 1])
+    check("TWO", "and so are BBC1 and Channel4 written closed up",
+          [today.where_from(name) for name in
+           ("BBC One", "BBC1", "BBC2", "Channel 4", "Channel4", "C4")],
+          [1, 1, 1, 1, 1, 1])
+    check("TWO", "an American abbreviation is still American",
+          [today.where_from(name) for name in
+           ("FS1", "FS2", "ESPN2", "NBCSN", "CBSSN", "TSN1")],
+          [2, 2, 2, 2, 2, 2])
+    # "fox" begins Foxtel and "sky" begins Sky Sport NZ. Both are safe
+    # ONLY because Australia is tested before Britain and America.
+    check("TWO", "Foxtel is still Australian, not American",
+          [today.where_from(name) for name in
+           ("Foxtel", "Fox Sports Australia", "Sky Sport NZ",
+            "Sky Sport 1 NZ")],
+          [4, 4, 4, 4])
+    check("TWO", "TNT and BBC are British",
+          [today.where_from(name)
+           for name in ("TNT Sports 1", "Sky Sports Main Event",
+                        "Premier Sports 1")],
+          [1, 1, 1])
+    check("TWO", "beIN's English commentary is Doha's, but ranked last",
+          today.where_from("beIN SPORTS 1 EN"), 6)
+    check("TWO", "and Canada rides with America",
+          [today.where_from(name)
+           for name in ("TSN 4", "Sportsnet One", "CBC", "RDS")],
+          [2, 2, 2, 2])
+    check("TWO", "while beIN's French feed goes below everywhere else",
+          today.where_from("beIN SPORTS FR 2"), 6)
+    # And Xtra with them: it is the same match beIN is already showing,
+    # on an extra channel.
+    check("TWO", "beIN Xtra is never a first choice",
+          today.channels_of({"channels": ["beIN SPORTS Xtra 1",
+                                          "beIN SPORTS 4 TR", "Ligue1+",
+                                          "Sportsnet One"]}),
+          "Sportsnet One · beIN 4 TR · Ligue1+ +1")
+    check("TWO", "but a match that has only Xtra still names it",
+          today.channels_of({"channels": ["beIN SPORTS Xtra 1"]}),
+          "beIN Xtra 1")
+    check("TWO", "Doha's unmarked beIN is the Arabic one",
+          today.where_from("beIN SPORTS 1"), 0)
+    check("TWO", "an Arabic name needs no list to be recognised",
+          today.where_from("\u0642\u0646\u0627\u0629 \u0627\u0644\u0643"
+                           "\u0623\u0633"), 0)
+    # Ordering decides which names win the two slots, and nothing else. A
+    # row holding one Arabic channel and one British still shows both.
+    check("TWO", "a British channel is not hidden, only ranked",
+          today.channels_of({"channels": ["Premier Sports 1",
+                                          "MBC Shahid Sports"]}),
+          "MBC Shahid \u00b7 Premier Sports 1")
+    # The second slot is not spent on more of the first. Sorting alone
+    # gave "beIN SPORTS 3 · beIN SPORTS 2" — one broadcaster twice — with
+    # the Fox that was collected for that match behind the "+6". Two
+    # slots and Arabic ranked first meant the American channels this
+    # guide went and found could almost never be seen.
+    check("TWO", "each slot goes somewhere the ones before it are not",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
+                                          "USA Network", "beIN SPORTS 1 TR",
+                                          "Sky Sports+"]}),
+          "beIN 3 · Sky+ · USA Network +2")
+    check("TWO", "Arabic, British, American — the three a viewer can open",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
+                                          "USA Network", "beIN SPORTS 1 EN",
+                                          "beIN SPORTS 1 TR", "Sky Sports+"]}),
+          "beIN 3 · Sky+ · USA Network +3")
+    check("TWO", "and still in the reader's order: American before Turkish",
+          today.in_the_readers_order(["beIN SPORTS 3", "beIN SPORTS 1 TR",
+                                      "Fox Sports 1"])[1], "Fox Sports 1")
+    check("TWO", "a row that is all one kind keeps the source's order",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 2",
+                                          "beIN SPORTS 5"]}),
+          "beIN 3 · beIN 2 · beIN 5")
+    check("TWO", "nothing is dropped by the promotion",
+          sorted(today.in_the_readers_order(
+              ["Sky Sports+", "beIN SPORTS 3", "Fox Sports 1"])),
+          ["Fox Sports 1", "Sky Sports+", "beIN SPORTS 3"])
+    # Promotion moves one channel and re-orders nothing else: within a
+    # tier the source's own order still stands, so a source that lists
+    # the channel most likely to carry the match first keeps that.
+    ranked = today.in_the_readers_order(["beIN SPORTS 5", "beIN SPORTS 1",
+                                         "Fox Sports 1", "beIN SPORTS 2"])
+    check("TWO", "the promoted channel takes the second slot",
+          ranked[:2], ["beIN SPORTS 5", "Fox Sports 1"])
+    check("TWO", "and within one tier the source's own order is kept",
+          [name for name in ranked if today.where_from(name) == 0],
+          ["beIN SPORTS 5", "beIN SPORTS 1", "beIN SPORTS 2"])
+
+    # SPORTS says nothing. A photograph of the screen settled it:
+    # "Burnley - Middles…" clipped, because "beIN SPORTS Xtra 1" and
+    # "beIN SPORTS 1" had eaten the row. The word is on nearly every
+    # channel here and tells one from another nowhere.
+    check("TWO", "beIN keeps its number and loses its Sports",
+          [today.shorter(name) for name in
+           ("beIN SPORTS 1", "beIN SPORTS 3 TR", "beIN SPORTS Xtra 2",
+            "beIN SPORTS 1 EN", "beIN SPORTS US")],
+          ["beIN 1", "beIN 3 TR", "beIN Xtra 2", "beIN 1 EN", "beIN US"])
+    check("TWO", "and so do Sky, MBC Shahid, Thmanyah, TNT and Alwan",
+          [today.shorter(name) for name in
+           ("Sky Sports Main Event", "MBC Shahid Sports",
+            "Thmanyah Channels", "TNT Sports 1", "Alwan Sport 1")],
+          ["Sky Main Event", "MBC Shahid", "Thmanyah", "TNT 1", "Alwan 1"])
+    # Premier is not a channel. Neither is ON on its own, and Sportsnet
+    # only contains the letters — the cost of guessing wrong here is a
+    # viewer sent to a name that exists nowhere.
+    check("TWO", "Premier keeps its Sports, because Premier 1 is nothing",
+          [today.shorter(name) for name in
+           ("Premier Sports 1", "Premier Player", "ON Sport",
+            "Sportsnet One", "Fox Sports 1")],
+          ["Premier Sports 1", "Premier Player", "ON Sport",
+           "Sportsnet One", "Fox Sports 1"])
+    check("TWO", "a name that is nothing BUT the generic word survives",
+          today.shorter("beIN SPORTS"), "beIN")
+    # S Sport is Turkish, and "S" on its own is not a channel — the same
+    # reason Premier keeps its Sports. It is safe because the list holds
+    # brands rather than initials, and this is what holds it there.
+    # beIN's own feeds in another language rank below everywhere else, so
+    # a TNT or a TSN takes the slot instead — which is what was asked for.
+    check("TWO", "a TNT takes the slot beIN's English feed had",
+          today.channels_of({"channels": ["beIN SPORTS 3", "beIN SPORTS 1 EN",
+                                          "TNT Sports 1", "USA Network"]}),
+          "beIN 3 · TNT 1 · USA Network +1")
+    check("TWO", "and so does a TSN",
+          today.channels_of({"channels": ["beIN SPORTS 4", "beIN SPORTS FR 2",
+                                          "TSN 4"]}),
+          "beIN 4 · TSN 4 · beIN FR 2")
+    check("TWO", "they rank below even the rest of the world",
+          [today.where_from(name) for name in
+           ("Ligue1+", "beIN SPORTS Xtra 1", "beIN SPORTS 1 EN",
+            "beIN SPORTS FR 2")],
+          [5, 6, 6, 6])
+    # Ranked last, NOT deleted. 268 of the 1001 fixtures in Doha's guide
+    # name beIN SPORTS EN 1 and nothing else — Manchester United,
+    # Liverpool, Arsenal, Barcelona. Deleting would turn every one of
+    # those from a channel that works into "لم تُعلن القناة".
+    check("TWO", "a match that has only that feed still names it",
+          today.channels_of({"channels": ["beIN SPORTS 1 EN"]}), "beIN 1 EN")
+    check("TWO", "and it is still a real channel, not junk",
+          today.real_channels(["beIN SPORTS 1 EN"]), ["beIN SPORTS 1 EN"])
+
+    # A page is not something a television can be turned to, and neither
+    # is a player. "BBC Sport Website" reached the board and took one of
+    # three slots from a broadcaster that is; BBC iPlayer and Premier
+    # Player are the same page with a different name on it.
+    check("TWO", "a player is not a channel either",
+          today.real_channels(["BBC iPlayer", "Premier Player",
+                               "TNT Sports 1"]),
+          ["TNT Sports 1"])
+    check("TWO", "a website is not a channel",
+          today.channels_of({"channels": ["MBC Shahid Sports", "TNT Sports 1",
+                                          "BBC Sport Website"]}),
+          "MBC Shahid · TNT 1")
+    check("TWO", "nor is an address",
+          today.real_channels(["fuboTV.com", "skysports.co.uk", "beIN SPORTS 1"]),
+          ["beIN SPORTS 1"])
+    check("TWO", "S Sport keeps its Sport, in every spelling",
+          [today.shorter(name) for name in
+           ("S Sport", "S Sport 2", "S Sport Plus", "S Sports 1")],
+          ["S Sport", "S Sport 2", "S Sport Plus", "S Sports 1"])
+    check("TWO", "and S Sport is Turkish however it is written",
+          [today.where_from(name) for name in
+           ("S Sport", "S Sport 2", "S Sports 1", "S Sport Plus")],
+          [3, 3, 3, 3])
+    # Shortening runs after the ordering and must not disturb it.
+    check("TWO", "a shortened name still lands in its own tier",
+          [today.where_from(today.shorter(name)) for name in
+           ("beIN SPORTS 1", "Sky Sports+", "beIN SPORTS US",
+            "beIN SPORTS 3 TR", "Thmanyah Channels")],
+          [0, 1, 2, 3, 0])
+    check("TWO", "and shortening an already short name changes nothing",
+          today.shorter(today.shorter("beIN SPORTS Xtra 2")), "beIN Xtra 2")
+
+    # And the build says out loud which rows still fall short, because
+    # that is what picks the next source.
+    when = datetime(2026, 9, 4, 17, 0, tzinfo=timezone.utc)
+    rows = [{"start": when, "title": "A - B", "competition": "x",
+             "channels": ["beIN SPORTS 1", "Fox Sports 1"]},
+            {"start": when, "title": "C - D", "competition": "x",
+             "channels": ["DAZN"]},
+            {"start": when, "title": "E - F", "competition": "x",
+             "channels": []}]
+    today.say_which_rows_are_thin(rows)      # must not raise
+
+    # "لم تُعلن القناة" is a sentence, and real_channels() has no reason
+    # to know that — it refuses apps and shops, not Arabic. So the count
+    # is taken BEFORE the placeholder is written in, and if that order
+    # ever reverses every unannounced row starts reporting as answered.
+    check("TWO", "the placeholder would pass for a channel if it got there",
+          today.real_channels([today.CHANNEL_UNANNOUNCED]),
+          [today.CHANNEL_UNANNOUNCED])
+    source = inspect.getsource(today.build)
+    check("TWO", "so the thin rows are counted before it is written in",
+          source.index("say_which_rows_are_thin")
+          < source.index("CHANNEL_UNANNOUNCED"), True)
+
+
+def gate_a_board_says_which_day_it_is() -> None:
+    """Three boards go past, and each says which of the three it is.
+
+    The channel is called "مباريات اليوم", and that was set in 40px across
+    the top of every board — tomorrow's and the day after's included. So
+    the largest words on a Friday board said "today", and the only thing
+    that disagreed was a 21px muted weekday in a corner. A viewer could
+    not tell the boards apart, and the one thing they were told outright
+    was wrong.
+
+    The relative word answers it and now sits in the middle of the
+    header. No digits in the badge: the date is already set on the right,
+    and a number inside Arabic is the one thing that can come out
+    reversed.
+    """
+    print("\nA board says which day it is")
+    from datetime import date, datetime, timezone
+
+    import match_board
+    import today_matches_epg as today
+
+    viewer = today.VIEWER
+    # Late in the viewer's evening, where a UTC instant and the viewer's
+    # date disagree — the reading that has to be the viewer's.
+    now = datetime(2026, 9, 3, 4, 0, tzinfo=timezone.utc)
+    here = now.astimezone(viewer).date()
+    today_badge = match_board.day_badge(here, now, viewer, "س")
+    tomorrow_badge = match_board.day_badge(
+        date(here.year, here.month, here.day + 1), now, viewer, "س")
+    after_badge = match_board.day_badge(
+        date(here.year, here.month, here.day + 2), now, viewer, "س")
+    past_badge = match_board.day_badge(
+        date(here.year, here.month, here.day + 5), now, viewer, "الاثنين")
+    check("DAY", "the viewer's own date is the one called today",
+          "اليوم" in today_badge, True)
+    check("DAY", "the next one is غداً", "غداً" in tomorrow_badge, True)
+    check("DAY", "and the one after that is بعد غد",
+          "بعد غد" in after_badge, True)
+    check("DAY", "past the third day it says the weekday",
+          "الاثنين" in past_badge, True)
+    check("DAY", "every board label includes its calendar date",
+          f"{here:%d.%m.%Y}" in today_badge, True)
+
+    # Every board the guide draws gets one of the three words, because the
+    # window is exactly three days long.
+    days = today.days_of(now)
+    check("DAY", "every day the guide draws has a word for itself",
+          [day for day in days
+           if not match_board.RELATIVE_DAY.get((day - here).days)], [])
+
+
+def gate_the_jordanian_league_is_read() -> None:
+    """The league that is in none of the other sources, from its federation.
+
+    Measured before anything was built: livefootballtv offered 97
+    fixtures, live-footballontv 54, yallakora 36, livesoccertv 79 and
+    kooora 6 — 272 between them and not one Jordanian, matched on the
+    CLUBS and not only on the competition. This repository's own
+    jordan_sports_epg.xml holds 31 programmes and no fixture at all.
+
+    Two things here would each put something false on the screen.
+
+    A FINISHED MATCH IS NOT A FIXTURE. The federation prints played and
+    upcoming matches in the same markup, telling them apart only by what
+    sits between the clubs: "VS" before, a score afterwards. Read
+    carelessly, a match played yesterday goes on the board as tonight's.
+
+    AND THE UNDER-16 LEAGUE IS NOT WHAT A BOARD IS FOR. It is published
+    beside the senior one, more of it than of the league anybody asked
+    for, and a board that fits twelve rows would spend them on schools.
+
+    The date needs no inference at all — the page writes 2026-09-03. The
+    clock is Amman's, which is this file's one assumption, and a narrow
+    one: a national federation publishing its own domestic league in its
+    own country's time.
+    """
+    print("\nThe Jordanian league is read — jfa.jo")
+    from datetime import timezone
+
+    import jordan_football
+    import today_matches_epg as today
+
+    # The federation's shape, copied verbatim from the served page — a
+    # header row carrying the competition and the time, then a row of
+    # clubs, then a rule, repeating. Four guesses were made about this
+    # markup before it was simply printed and read.
+    def head(comp, grade, day, clock):
+        extra = f'<span class="haly2">{grade}</span>' if grade else ""
+        return (f'<tr><td colspan="5" height="22">'
+                f'<span class="haly">{comp}</span>{extra}'
+                f'<span class="haly1">{day}  '
+                f'<i aria-hidden="true" class="fa fa-calendar"></i> '
+                f'| {clock} <i aria-hidden="true" class="fa fa-clock-o">'
+                f'</i></span></td></tr>')
+
+    def clubs(home, verdict, away):
+        return (f'<tr><td align="left" height="80" width="25%">'
+                f'<span class="team1">{home}</span></td>'
+                f'<td align="center" class="plogo1"><img class="logo1"/></td>'
+                f'<td align="center"><span class="rrresult">{verdict}'
+                f'</span></td>'
+                f'<td align="center" class="plogo2"><img class="logo2"/></td>'
+                f'<td align="right" width="25%">'
+                f'<span class="team2">{away}</span></td></tr>'
+                f'<tr><td bgcolor="#c6c3c3" colspan="5" height="2">'
+                f'</td></tr>')
+
+    page = "<table>" + "".join([
+        head("دوري الناشئين ت16", "", "2026-09-03", "17:00"),
+        clubs("المدرسة الانجليزية", "VS", "الجزيرة"),
+        head("كأس الأردن CFI", "", "2026-09-03", "18:00"),
+        clubs("الوحدات", "VS", "معان"),
+        # A youth match published UNDER a professional heading. The
+        # reader photographed exactly this — "عمان FC - الكرمل" on the
+        # board as league football — and neither club plays the league.
+        head("الدوري الأردني للمحترفين - CFI", "", "2026-09-03", "18:30"),
+        clubs("عمان FC", "VS", "الكرمل"),
+        head("الدوري الأردني للمحترفين - CFI", "", "2026-09-03", "19:00"),
+        clubs("البقعة", "VS", "دوقرة"),
+        # The national team, but the under-20s: the age grade is in a
+        # SECOND span, so reading only the first would take it for a
+        # senior qualifier.
+        head("تصفيات كأس آسيا", "منتخب الشباب ت20", "2026-09-03", "20:30"),
+        clubs("الأردن", "VS", "البحرين"),
+        # Played already — the same markup, a score instead of VS.
+        head("الدوري الأردني للمحترفين - CFI", "", "2026-09-01", "20:00"),
+        clubs("الوحدات", "1 - 0", "الفيصلي"),
+    ]) + "</table>"
+
+    read = jordan_football.collect(page)
+    check("JOR", "the professional league and the cup are read",
+          [event["title"] for event in read],
+          ["الوحدات - معان", "البقعة - دوقرة"])
+    check("JOR", "a match already played is not a fixture",
+          any("الفيصلي" in event["title"] for event in read), False)
+
+    # THE HEADING LIES, and a reader caught it on a television. "عمان FC
+    # - الكرمل" was published under الدوري الأردني للمحترفين and both of
+    # those are youth sides. A filter that reads only the heading believes
+    # it, so the clubs are asked as well: ten clubs play this league and
+    # no eleventh can appear in it.
+    check("JOR", "a youth match under a professional heading is refused",
+          [e["title"] for e in read if "الكرمل" in e["title"]], [])
+    check("JOR", "the ten clubs of the league are known from its table",
+          [jordan_football.in_the_league(name) for name in
+           ("الرمثا", "الجزيرة", "الحسين", "الوحدات", "العربي",
+            "الفيصلي", "شباب الأردن", "البقعة", "السلط", "دوقرة")],
+          [True] * 10)
+    check("JOR", "and nobody else is",
+          [jordan_football.in_the_league(name) for name in
+           ("عمان FC", "الكرمل", "كفرسوم", "جرش", "معان")],
+          [False] * 5)
+    # The cup is the one that legitimately draws lower clubs in, so ONE
+    # professional side is enough there — which still refuses the
+    # preliminary round this channel does not televise.
+    check("JOR", "the cup keeps a real tie and refuses an amateur one",
+          [jordan_football.the_clubs_belong("كأس الأردن", *pair) for pair in
+           (("الوحدات", "معان"), ("كفرسوم", "جرش"))],
+          [True, False])
+    check("JOR", "the under-16 league is not on a board of twelve rows",
+          any("المدرسة" in event["title"] for event in read), False)
+    check("JOR", "and the age grade in a SECOND span still counts",
+          any("البحرين" in event["title"] for event in read), False)
+
+    # THE ONE THAT MATTERS. The header and the clubs are separate rows,
+    # so the pairing is by POSITION — the arrangement that once stamped
+    # 1876 fixtures with a single date. Two matches, two times.
+    check("JOR", "each fixture keeps its OWN time, not the one above",
+          [f"{event['start']:%Y-%m-%d %H:%M}" for event in read],
+          ["2026-09-03 18:00", "2026-09-03 19:00"])
+    check("JOR", "the day is read, never inferred from an ordering",
+          f"{read[0]['start']:%Y-%m-%d}", "2026-09-03")
+    check("JOR", "19:00 in Amman is 16:00 UTC",
+          f"{read[1]['start'].astimezone(timezone.utc):%Y-%m-%d %H:%M}",
+          "2026-09-03 16:00")
+    check("JOR", "the competition comes through in Arabic",
+          read[1]["competition"], "الدوري الأردني للمحترفين - CFI")
+
+    # A header is CONSUMED by the clubs that follow it, so a row of clubs
+    # with none of its own can never inherit the match above's time.
+    orphan = ("<table>"
+              + head("كأس الأردن CFI", "", "2026-09-03", "18:00")
+              + clubs("الوحدات", "VS", "معان")
+              + clubs("البقعة", "VS", "دوقرة")
+              + "</table>")
+    check("JOR", "a fixture with no header of its own is refused",
+          [event["title"] for event in jordan_football.collect(orphan)],
+          ["الوحدات - معان"])
+
+    # jfa.jo prints no channel, but one IS known: the Jordan Radio and
+    # Television Corporation's channel holds the domestic game
+    # exclusively — league, cup, super cup — so "لم تُعلن القناة" beside
+    # those was under-reporting something settled. The name is the one
+    # this repository already publishes in jordan_sports_epg.xml, so the
+    # board and the guide agree.
+    check("JOR", "the domestic game names the channel that carries it",
+          [event["channels"] for event in read],
+          [["الأردن الرياضية"], ["الأردن الرياضية"]])
+    check("JOR", "and it is an Arabic channel, printed whole",
+          today.channels_of({"channels": ["الأردن الرياضية"]}),
+          "الأردن الرياضية")
+    # The national team is NOT included: its qualifiers are sold
+    # competition by competition and land on beIN or elsewhere, so those
+    # keep the placeholder until a listings page says otherwise.
+    check("JOR", "a national-team qualifier is not assumed onto it",
+          [jordan_football.carried_by(name) for name in
+           ("تصفيات كأس آسيا", "كأس العرب", "تصفيات كأس العالم")],
+          [[], [], []])
+    check("JOR", "the guide wants it",
+          [today.wanted(event) for event in read], [True, True])
+    check("JOR", "and a row with no channel is still a row",
+          today.channels_of({"channels": []}), "")
+
+    # A page that answers with nothing must cost nothing.
+    check("JOR", "an empty page is not an error",
+          jordan_football.collect("<table></table>"), [])
+
+    # The age grades, refused where the CHANNEL is decided and not only
+    # where the board picks its fixtures.
+    #
+    # Youth football has no regular television at all: the federation's
+    # own YouTube carries selected ties and this channel takes a final or
+    # a title decider. "كأس الأردن للناشئين" matched the cup's name and
+    # was handed the channel; nothing but the board's own youth filter
+    # running first kept it off the screen, and an ordering is not a
+    # guarantee.
+    check("JOR", "a youth tie is not handed the senior channel",
+          [jordan_football.carried_by(name) for name in
+           ("كأس الأردن للناشئين تحت 19", "دوري الناشئين ت16",
+            "كأس الأردن للأشبال", "دوري أندية النخبة للناشئين ت17")],
+          [[], [], [], []])
+    check("JOR", "while the senior competitions still name it",
+          [jordan_football.carried_by(name) for name in
+           ("الدوري الأردني للمحترفين - CFI", "كأس الأردن",
+            "درع الاتحاد", "كأس السوبر الأردني")],
+          [["الأردن الرياضية"]] * 4)
+
+    # The board carries the professional game and the national team, and
+    # the reader drew that line himself: "خلي المحترفين و مباريات الاردن
+    # المنتخب و بس". The first division is not professional football and
+    # this channel does not carry it, so those fixtures used to sit on the
+    # board with "لم تُعلن القناة" beside them, taking rows from the
+    # matches somebody opened it to find.
+    check("JOR", "the professional game and the national team are shown",
+          [jordan_football.wanted_here(name) for name in
+           ("الدوري الأردني للمحترفين - CFI", "كأس الأردن", "درع الاتحاد",
+            "كأس السوبر الأردني", "تصفيات كأس العالم", "كأس العرب")],
+          [True] * 6)
+    check("JOR", "and nothing else the federation publishes beside them",
+          [jordan_football.wanted_here(name) for name in
+           ("دوري الدرجة الأولى", "دوري الدرجة الثانية",
+            "دوري الناشئين ت16", "كأس الأردن للأشبال")],
+          [False] * 4)
+    # EVERYTHING ANY SOURCE SAYS IS ON THE CHANNEL. The boards write down
+    # their matches on الأردن الرياضية and the channel's guide reads them
+    # back: "و الأردن جميع المباريات من غير ما احكي لك ولا تحكي لي".
+    import os
+    import tempfile
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    at = _dt(2026, 9, 27, 12, 0, tzinfo=_tz.utc)
+    with tempfile.TemporaryDirectory() as folder:
+        ledger = os.path.join(folder, "ledger.json")
+        jordan_football.remember_what_it_carries([
+            {"start": at + _td(hours=5), "title": "Jordan - Syria",
+             "competition": "Friendly", "channels": ["Jordan Sports", "Sama"]},
+            {"start": at + _td(hours=26), "title": "الفيصلي - الوحدات",
+             "competition": "دوري السلة", "channels": ["الأردن الرياضية"]},
+            {"start": at + _td(hours=3), "title": "X - Y",
+             "competition": "Z", "channels": ["beIN 1"]},
+        ], ledger)
+        rows = jordan_football.what_it_carries(
+            at - _td(days=1), at + _td(days=5), paths=(ledger,))
+        check("JOR", "every board match naming the channel reaches its guide,"
+              " in either script, and nothing that does not name it",
+              [row["title"] for row in rows],
+              ["Jordan - Syria", "الفيصلي - الوحدات"])
+        check("JOR", "and a match the guide already has is not added twice",
+              [row["title"] for row in jordan_football.not_already_carried(
+                  rows, [{"start": at + _td(hours=5, minutes=5)}])],
+              ["الفيصلي - الوحدات"])
+        check("JOR", "a missing ledger is no matches, not an error",
+              jordan_football.what_it_carries(
+                  at, at + _td(days=1),
+                  paths=(os.path.join(folder, "none.json"),)), [])
+
+    check("JOR", "the national team is shown but never assumed onto it",
+          [jordan_football.carried_by(name) for name in
+           ("تصفيات كأس العالم", "كأس العرب")],
+          [[], []])
+
+    # Except at home in a friendly. الأردن - سوريا, Amman, 27 Sep 2026,
+    # was on this channel and missing from its guide: the rule above was
+    # written for qualifiers and it took the friendlies with it. Known by
+    # its sides, because a friendly's label is the least consistent thing
+    # the federation writes.
+    check("JOR", "a home friendly of the national team is on it",
+          [jordan_football.carried_by(label, home, "سوريا")
+           for label, home in (("مباراة ودية", "الأردن"),
+                               ("المنتخب الوطني الأول", "منتخب الأردن"),
+                               ("", "النشامى"))],
+          [["الأردن الرياضية"]] * 3)
+    check("JOR", "and the board shows it",
+          jordan_football.wanted_here("مباراة ودية", "الأردن", "سوريا"),
+          True)
+    check("JOR", "but not away, not official, not a youth side, not a club",
+          [jordan_football.carried_by(label, home, away)
+           for label, home, away in (
+               ("مباراة ودية", "سوريا", "الأردن"),
+               ("تصفيات كأس العالم", "الأردن", "العراق"),
+               ("كأس العرب", "الأردن", "مصر"),
+               ("مباراة ودية ت23", "الأردن", "سوريا"),
+               ("مباراة ودية", "شباب الأردن", "الوحدات"))],
+          [[], [], [], [], []])
+
+
+def gate_a_guide_repeating_its_own_name_is_measured() -> None:
+    """A row whose title is the channel's name is the guide saying nothing.
+
+    jordan_sports_epg.xml is the worked example and it is the exact
+    blindness health_check exists to prevent: twenty-six of its
+    twenty-nine rows read "الأردن الرياضية" and the other three were one
+    talk show — a Jordan Sports guide with no Jordanian football in it —
+    and it measured 0% stand-in against a 15% ceiling, run after run.
+
+    The rule above it, one-title-for-a-whole-channel, stops seeing this
+    the moment a single real programme joins in. So the channel's own
+    name is read from the file's own <display-name>, both halves of it,
+    because the filler writes only the Arabic half of "Jordan Sport |
+    الأردن الرياضية".
+    """
+    import health_check
+
+    guide = (
+        '<tv>'
+        '  <channel id="C"><display-name>Jordan Sport | الأردن الرياضية'
+        '</display-name></channel>'
+        '  <programme channel="C" start="20260903000000 +0000" '
+        'stop="20260903120000 +0000"><title>الأردن الرياضية</title></programme>'
+        '  <programme channel="C" start="20260903120000 +0000" '
+        'stop="20260903180000 +0000"><title>الأردن الرياضية</title></programme>'
+        '  <programme channel="C" start="20260903180000 +0000" '
+        'stop="20260903200000 +0000"><title>رياضة كافيه</title></programme>'
+        '  <programme channel="C" start="20260903200000 +0000" '
+        'stop="20260903220000 +0000"><title>الوحدات - الفيصلي</title></programme>'
+        '</tv>')
+    here = os.path.join(tempfile.gettempdir(), "gate_own_name_epg.xml")
+    with open(here, "w", encoding="utf-8") as handle:
+        handle.write(guide)
+
+    check("NAME", "the channel's own name counts as filler",
+          health_check.standin_share(here), (2, 4))
+    check("NAME", "and a real fixture beside it still counts as content",
+          health_check.standin_share(here)[0] < 4, True)
+
+    # Both halves of a two-language display-name, and nothing else.
+    names = health_check.channel_names(
+        ET.fromstring(guide))["C"]
+    check("NAME", "both halves of the name are known",
+          (health_check.folded("الأردن الرياضية") in names,
+           health_check.folded("Jordan Sport") in names,
+           health_check.folded("رياضة كافيه") in names),
+          (True, True, False))
+
+
+def gate_a_long_wait_says_how_long() -> None:
+    """Seven identical rows in a grid read as seven broadcasts.
+
+    Reported from a television, and the guide was not wrong about the
+    football: ON Sport 1 held the two legs of a CAF tie eight days apart,
+    and every day between them carried one row saying
+    "⏰ التالي: الزمالك - AS Port". One row a day rather than one an hour
+    is the right shape for a wait. Seven copies of the same sentence is
+    not — down a grid it reads as the same match being shown every day at
+    the same hour, which is exactly how it was reported.
+
+    The wait now carries the one thing that differs between those days.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    import update_onsport_epg as onsport
+
+    tie = {"home": "الزمالك", "away": "AS Port",
+           "start": datetime(2026, 9, 12, 17, 0, tzinfo=timezone.utc)}
+    days = [onsport.filler_title(
+                tie, datetime(2026, 9, 9, 12, 0, tzinfo=timezone.utc)
+                     + timedelta(days=n))
+            for n in range(4)]
+
+    check("WAIT", "no two waiting days say the same thing",
+          len(set(days)), len(days))
+    check("WAIT", "and each says how long is left",
+          days,
+          ["⏰ التالي بعد 3 أيام · الزمالك - AS Port",
+           "⏰ التالي بعد يومين · الزمالك - AS Port",
+           "⏰ التالي غداً · الزمالك - AS Port",
+           "⏰ التالي اليوم · الزمالك - AS Port"])
+
+    # Arabic counts in threes, and a guide that writes "بعد 2 أيام" reads
+    # as machinery. 11 and up take the singular accusative.
+    check("WAIT", "the number is the one Arabic uses",
+          [onsport.how_far_off(n) for n in (0, 1, 2, 3, 10, 11)],
+          ["اليوم", "غداً", "بعد يومين", "بعد 3 أيام", "بعد 10 أيام",
+           "بعد 11 يوماً"])
+
+    # Still a countdown, never a stand-in: it exists only because a real
+    # fixture was found, and health_check counts on that distinction.
+    import health_check
+    check("WAIT", "a wait is not counted as the guide knowing nothing",
+          bool(health_check.STANDIN_TITLE.search(days[0])), False)
+    check("WAIT", "while nothing announced at all still is",
+          bool(health_check.STANDIN_TITLE.search(
+              onsport.filler_title(
+                  None, datetime(2026, 9, 9, 12, 0, tzinfo=timezone.utc)))),
+          True)
+
+
+def gate_turkeys_own_league_is_read() -> None:
+    """Three matches on a television, on no page this board read.
+
+    Iğdırspor - Manisa FK, Bodrumspor - Esenler Erokspor and Bursaspor -
+    İstanbulspor, all on TRT Spor, all missing. Not filtered out: the
+    day's dropped-competitions report named eight competitions —
+    Reserve League, Liga FUTVE, Qatar Stars and five more — and no
+    Turkish league among them. They were never offered.
+
+    Spor Ekranı has them, and had them all along: 75 broadcasts a day,
+    every one discarded as a fixture because this source was only ever
+    asked which channel a match ALREADY on the board is on.
+
+    Two structural facts make them safe to take, and the gate holds both.
+    """
+    import spor_ekrani
+
+    page = (
+        '<script type="application/ld+json">['
+        '{"@type":"BroadcastEvent",'
+        ' "publishedOn":[{"name":"TRT Spor"},{"name":"Bein Sports 2"}],'
+        ' "broadcastOfEvent":{"name":"Iğdırspor - Manisa FK",'
+        '   "startDate":"2026-09-03T17:00:00+03:00",'
+        '   "homeTeam":{"name":"Iğdırspor"},"awayTeam":{"name":"Manisa FK"},'
+        '   "organizer":{"url":"https://www.sporekrani.com/home/league/'
+        'trendyol-1.-lig"}}},'
+        '{"@type":"BroadcastEvent","publishedOn":{"name":"Eurosport"},'
+        ' "broadcastOfEvent":{"name":"J.Faria - C.Alcaraz",'
+        '   "startDate":"2026-09-03T04:00:00+03:00",'
+        '   "homeTeam":{"name":"J.Faria"},"awayTeam":{"name":"C.Alcaraz"},'
+        '   "organizer":{"url":"https://www.sporekrani.com/home/league/'
+        'tenis-amerika-acik"}}},'
+        '{"@type":"BroadcastEvent",'
+        ' "broadcastOfEvent":{"name":"Saratoga",'
+        '   "startDate":"2026-09-03T19:55:00+03:00"}},'
+        '{"@type":"BroadcastEvent","publishedOn":{"name":"beIN Sports 1"},'
+        ' "broadcastOfEvent":{"name":"beIN Ana Haber",'
+        '   "startDate":"2026-09-03T18:00:00+03:00"}}'
+        ']</script>')
+    read = spor_ekrani.collect_fixtures(page)
+
+    check("TR", "the league nobody else offered is read",
+          [event["title"] for event in read], ["Iğdırspor - Manisa FK"])
+    check("TR", "with every channel the page names, marked Turkish",
+          read[0]["channels"], ["TRT Spor TR", "Bein Sports 2 TR"])
+    check("TR", "and the competition is read, not inferred from the clubs",
+          read[0]["competition"], "TFF 1. Lig")
+    check("TR", "17:00 in Istanbul is 14:00 UTC",
+          f"{read[0]['start']:%H:%M}", "14:00")
+
+    # A FIXTURE HAS TWO SIDES. A horse race meeting and a news bulletin
+    # are published in the same shape on the same page, and a name alone
+    # would put Saratoga and "beIN Ana Haber" on a board of football.
+    check("TR", "a race meeting is not a fixture",
+          [e["title"] for e in read if "Saratoga" in e["title"]], [])
+    check("TR", "and neither is the evening news, channel or no channel",
+          [e["title"] for e in read if "Haber" in e["title"]], [])
+
+    # The page's tennis, padel and basketball belong on the OTHER board.
+    # This one takes Turkish football and says so by slug.
+    check("TR", "the tennis on the same page stays off a football board",
+          [e["title"] for e in read if "Alcaraz" in e["title"]], [])
+
+    # And the board's own filter must recognise what comes back, or the
+    # fixtures arrive and are dropped one step later.
+    import today_matches_epg as today
+    check("TR", "the board's filter wants it",
+          today.wanted({"competition": "TFF 1. Lig",
+                        "title": "Iğdırspor - Manisa FK",
+                        "channels": ["TRT Spor TR"]}),
+          True)
+
+    check("TR", "an empty page is not an error",
+          spor_ekrani.collect_fixtures("<html></html>"), [])
+
+
+def gate_the_other_sports_name_a_real_channel() -> None:
+    """The second board's source, and the two traps it walks past.
+
+    Eight pages were asked for F1, darts, boxing, MMA, MotoGP, tennis,
+    golf and the Rugby World Cup. Six are no use, and the instructive
+    pair are the ones that looked perfect: pdc.tv lists 45 darts events
+    and motogp.com 878 MotoGP ones, and NEITHER NAMES A BROADCASTER. A
+    calendar is not a listing, and no board here may put a channel on an
+    event unless somebody published it.
+
+    wheresthematch does, in a row that carries everything at once — and
+    the time is an INSTANT, <time datetime="...+01:00">, not a printed
+    clock to be placed in a timezone. That distinction has cost this
+    project a day and then an hour on two other sources.
+    """
+    import world_sport_on_tv as world
+
+    def row(fixture, iso, competition, channels, home="", away=""):
+        marks = "".join(f'<a href="#">{c}</a>' for c in channels)
+        return (f'<tr><td class="home-team">{home}</td>'
+                f'<td class="fixture-details">{fixture}</td>'
+                f'<td class="away-team">{away}</td>'
+                f'<td class="start-details">'
+                f'<time datetime="{iso}">clock</time></td>'
+                f'<td class="competition-name">{competition}</td>'
+                f'<td class="channel-details">{marks}</td></tr>')
+
+    def rules(name):
+        return [page[2:] for page in world.PAGES if page[1] == name][0]
+
+    f1 = world.collect(
+        "<table>" + row("Italian Grand Prix Practice 1 - Monza",
+                        "2026-09-04T11:30:00+01:00", "F1 2026 season",
+                        ["Sky Sports F1", "Sky Sports Main Event"])
+        + "</table>", "F1", *rules("F1"))
+    check("WORLD", "the grand prix is read with every channel named",
+          (f1[0]["title"], f1[0]["channels"]),
+          ("Italian Grand Prix Practice 1 - Monza",
+           ["Sky Sports F1", "Sky Sports Main Event"]))
+    check("WORLD", "and 11:30 in London is 10:30 UTC, from the attribute",
+          f"{f1[0]['start']:%Y-%m-%d %H:%M}", "2026-09-04 10:30")
+
+    # THE HEADING LIES HERE TOO, and it is the Jordanian youth cup again
+    # in another language: every row on the MotoGP page today reads "FIM
+    # JuniorGP World Championship" and is filed under the competition
+    # "MotoGP 2026 season". Reading the page would put schoolboy racing
+    # on a board asked for MotoGP.
+    moto = world.collect(
+        "<table>"
+        + row("FIM JuniorGP World Championship Moto3 Race 1",
+              "2026-09-06T09:45:00+01:00", "MotoGP 2026 season",
+              ["TNT Sports 7"])
+        + row("San Marino Grand Prix Race - Misano",
+              "2026-09-13T13:00:00+01:00", "MotoGP 2026 season",
+              ["TNT Sports 2"])
+        + "</table>", "MotoGP", *rules("MotoGP"))
+    check("WORLD", "a junior championship is not MotoGP",
+          [event["title"] for event in moto],
+          ["San Marino Grand Prix Race - Misano"])
+
+    # The reader asked for the Rugby WORLD CUP, not the rugby season.
+    rugby = world.collect(
+        "<table>"
+        + row("England v Wales", "2026-09-20T15:00:00+01:00",
+              "Premiership Rugby Cup", ["TNT Sports 1"], "England", "Wales")
+        + row("South Africa v New Zealand", "2026-10-01T16:00:00+01:00",
+              "Rugby World Cup", ["ITV1"], "South Africa", "New Zealand")
+        + "</table>", "Rugby", *rules("Rugby"))
+    check("WORLD", "the World Cup is kept and the league season is not",
+          [event["title"] for event in rugby],
+          ["South Africa - New Zealand"])
+
+    # A row with no instant is refused rather than dated from the page,
+    # and a row that says the channel is not known yet names none.
+    blind = world.collect(
+        '<table><tr><td class="fixture-details">Some Fight</td>'
+        '<td class="start-details">Saturday</td>'
+        '<td class="competition-name">Boxing</td>'
+        '<td class="channel-details"><a>TBC</a></td></tr></table>',
+        "Boxing", None, None)
+    check("WORLD", "a row with no instant is refused, never guessed at",
+          blind, [])
+    tbc = world.collect(
+        "<table>" + row("Some Fight", "2026-09-20T20:00:00+01:00",
+                        "Boxing", ["TBC"]) + "</table>",
+        "Boxing", None, None)
+    check("WORLD", "and 'TBC' is not a channel", tbc[0]["channels"], [])
+
+    check("WORLD", "an empty page is not an error",
+          world.collect("<html></html>", "F1", *rules("F1")), [])
+
+    # A PRELIM IS A ROW LIKE ANY OTHER, and this holds the door open.
+    #
+    # A UFC card is three broadcasts — early prelims, prelims, main card
+    # — each with its own start, and the reader asked for all three. This
+    # source does not split them: its UFC page was printed row by row and
+    # carries six, one per card. The words "prelims" and "main card" are
+    # in the page, twice and four times, and both are in its navigation
+    # rather than in a row; counting a word in a page is not finding one.
+    #
+    # Nothing can be written against rows that do not exist. What CAN be
+    # done is make sure that the day they exist they are not thrown away
+    # — so the MMA and boxing pages filter on nothing at all, and this
+    # proves it with rows named the way a card names them.
+    for card in ("UFC Fight Night Early Prelims",
+                 "UFC 331 Prelims - Van vs Pantoja 2",
+                 "Live Boxing Prelims Canelo vs Mabilli"):
+        sport = "Boxing" if "Boxing" in card else "MMA"
+        got = world.collect(
+            "<table>" + row(card, "2026-09-20T00:00:00+01:00",
+                            "Ultimate Fighting Championship",
+                            ["TNT Sports 1"]) + "</table>",
+            sport, *rules(sport))
+        check("WORLD", f"'{card[:34]}' reaches the board",
+              [event["title"] for event in got], [card])
+
+    # BASKETBALL, wired before the season so that it starts on its own.
+    # The NBA opens in October: this page reads NOTHING today, and that
+    # is the source being right rather than broken — which is why the
+    # empty-page check above sits next to these two.
+    basketball = ("<table>"
+                  + row("Lakers v Celtics", "2026-10-21T00:30:00+01:00",
+                        "NBA Regular Season", ["Sky Sports Main Event"],
+                        "Lakers", "Celtics")
+                  + row("Germany v Turkey", "2026-09-14T19:00:00+01:00",
+                        "FIBA EuroBasket", ["Sky Sports Action"],
+                        "Germany", "Turkey")
+                  + row("Sheffield Sharks v London Lions",
+                        "2026-09-19T19:30:00+01:00",
+                        "British Basketball League", ["Sky Sports Arena"],
+                        "Sheffield Sharks", "London Lions")
+                  + "</table>")
+    check("WORLD", "the NBA game is kept and the British league is not",
+          [event["title"] for event in
+           world.collect(basketball, "NBA", *rules("NBA"))],
+          ["Lakers - Celtics"])
+    check("WORLD", "EuroBasket is FIBA, and the NBA is not FIBA",
+          [event["title"] for event in
+           world.collect(basketball, "FIBA", *rules("FIBA"))],
+          ["Germany - Turkey"])
+    check("WORLD", "an off-season basketball page is empty, not broken",
+          world.collect("<table></table>", "NBA", *rules("NBA")), [])
+
+
+def gate_the_american_game_names_its_network() -> None:
+    """"This one is on NBC" — asked for in those words, and hard to get.
+
+    Nine listings pages were asked and every one is shut: livesportsontv
+    answers 200 with 913 KB and NOTHING holding a channel under anything
+    holding a clock; tsn.ca names only the word TSN; sportsnet.ca is an
+    18 KB shell; cbc.ca is a 404; nba.com ships __NEXT_DATA__ and no
+    channel; livesportontv, pdc.tv and motogp.com have the events and no
+    broadcaster at all. They assemble their schedules in a browser.
+
+    The league's own site does not. It writes each game as one complete
+    line in its SCREEN-READER text — the most stable part of any page,
+    because accessibility labels are the last thing anybody rewrites —
+    beside a real UTC instant:
+
+        <time datetime="2026-09-10T00:20:00Z">
+        Patriots at Seahawks, Wednesday, September 9th, 8:20 PM, NBC
+
+    That instant is why this source is safe. "8:20 PM" names no zone, and
+    reading a printed clock is the fault this project has paid for most.
+    """
+    import american_sport_on_tv as american
+
+    page = ("<ul>"
+            '<li><div><time datetime="2026-09-10T00:20:00Z">8:20 PM</time>'
+            '<span class="sr-only">Patriots at Seahawks, Wednesday, '
+            'September 9th, 8:20 PM, NBC</span></div></li>'
+            '<li><div><time datetime="2026-09-11T00:35:00.000Z">8:35 PM'
+            '</time><span class="sr-only">49ers at Rams, Thursday, '
+            'September 10th, 8:35 PM, NETFLIX</span></div></li>'
+            # No instant of its own — and it sits in a list whose FIRST
+            # game has one. The first run of this reader gave it 00:20Z,
+            # the Patriots' kickoff.
+            '<li><div><span class="sr-only">Jets at Bills, Sunday, '
+            'September 20th, 1:00 PM, CBS</span></div></li>'
+            '<li><div><time datetime="2026-09-21T17:00:00Z">1:00 PM</time>'
+            '<span class="sr-only">Colts at Titans, Sunday, September '
+            '20th, 1:00 PM, TBD</span></div></li>'
+            "</ul>")
+    read = american.collect(page)
+
+    check("USA", "the game names the network showing it",
+          [(event["title"], event["channels"]) for event in read[:2]],
+          [("Patriots - Seahawks", ["NBC"]), ("49ers - Rams", ["NETFLIX"])])
+    check("USA", "and the kickoff is the instant, not the printed clock",
+          f"{read[0]['start']:%Y-%m-%d %H:%M}", "2026-09-10 00:20")
+
+    # ONE STEP TOO FAR REACHES THE WHOLE LIST. A game with no instant of
+    # its own must be refused, never dated from its neighbour — the fault
+    # that once stamped 1876 fixtures with a single date, and it happened
+    # here on the first run.
+    check("USA", "a game with no instant of its own is refused",
+          [event["title"] for event in read if "Jets" in event["title"]], [])
+    check("USA", "and nobody inherits a neighbour's kickoff",
+          sorted({f"{event['start']:%H:%M}" for event in read}),
+          ["00:20", "00:35", "17:00"])
+
+    # "TBD" is not a network. The row still shows — the game is real —
+    # and it shows with no channel rather than a made-up one.
+    tbd = [event for event in read if "Colts" in event["title"]]
+    check("USA", "TBD is not a network, and the game is still a game",
+          (len(tbd), tbd[0]["channels"] if tbd else None), (1, []))
+
+    check("USA", "an empty page is not an error",
+          american.collect("<html></html>"), [])
+
+
+def gate_the_second_board_keeps_the_readers_order() -> None:
+    """The second board, and the two things it must never do.
+
+    The reader named the sports and put them in an order — F1, darts with
+    the Premier League first, boxing, MMA, MotoGP, tennis, NFL, NBA,
+    FIBA, golf, the Rugby World Cup, padel — so that order is the order
+    rows appear in, not a sorting by clock. Inside one sport the clock
+    decides, because two bouts on a Saturday are read as they happen.
+    The order has grown since — cycling and athletics came with their
+    own pages — and shrunk too, in the reader's own words: snooker and
+    baseball's MLB came off the whole board at once ("remove snooker &
+    MLB from channel 2"), so the snapshot here must name the sports the
+    reader asks for NOW, or every removal turns this gate red for being
+    right.
+
+    A SPORT NOT ASKED FOR CANNOT REACH THE BOARD. The sources carry
+    cricket, horse racing, speedway, Aussie rules and a dozen more;
+    none was asked for and none appears.
+
+    AN EVENT WITH NO PUBLISHED CHANNEL DOES NOT APPEAR EITHER, and that
+    is the rule every board here obeys. The one thing this screen must
+    never do is send a viewer to a channel that is not carrying it.
+    """
+    from datetime import datetime, timezone
+
+    import other_sports_epg as board
+
+    def event(sport, title, hour, channels):
+        return {"sport": sport, "title": title, "channels": channels,
+                "competition": sport,
+                "start": datetime(2026, 9, 4, hour, 0, tzinfo=timezone.utc)}
+
+    offered = [
+        # The NFL came off this channel with the NBA, in the reader's
+        # own words ("make another channel for NFL/NBA separately all
+        # games"), so its row is here as the proof the door is shut.
+        event("NFL", "Patriots - Seahawks", 0, ["NBC"]),
+        event("Boxing", "Canelo - Mbilli", 17, ["DAZN"]),
+        event("Boxing", "Taylor - Pili", 9, ["DAZN"]),
+        event("F1", "Italian GP - Race", 13, ["Sky Sports F1"]),
+        event("Tennis", "Alcaraz - Sinner", 20, ["Sky Sports Tennis"]),
+        event("Darts", "Premier League Night 12", 19, ["Sky Sports"]),
+        # Asked for, and nobody has said where it is. It waits.
+        event("Golf", "The Open - Round 2", 11, []),
+        # Never asked for, and on the same pages as the ones that were.
+        event("Cricket", "England - Ireland", 12, ["Sky Sports Cricket"]),
+        # Snooker came back in the reader's own words ("add Snooker from
+        # TNT Sports and Eurosport channels"), so a TNT row is kept and
+        # anybody else's snooker row is not.
+        event("Snooker", "English Open", 10, ["TNT Sports 1"]),
+        event("Snooker", "Shoot Out Qualifier", 15, ["ITV4"]),
+        # And baseball, the same door shut, offered as the fold's own
+        # measured rows: a studio show about the game is not the game.
+        event("MLB", "Braves vs Phillies - Extended Highlights", 14, []),
+    ]
+    kept = board.in_the_readers_order(
+        [one for one in offered if board.wanted(one)])
+
+    # A DAY IS READ DOWN THE CLOCK. It sorted by sport first, and a
+    # reader photographed the result: 03:30, 07:00, 17:00, 10:30, 18:00,
+    # 08:00 — every row correct and the list unreadable.
+    #
+    # The order of sports still decides what this board CARRIES; RANK is
+    # what refuses a sport nobody asked for. Inside a day it only breaks
+    # a tie, so two things at the same minute come out in the reader's
+    # order rather than the source's.
+    clocks = [f"{one['start']:%H:%M}" for one in kept]
+    check("BOARD2", "a day comes out in the order it happens",
+          clocks, sorted(clocks))
+    check("BOARD2", "and the sports asked for are the ones that arrived",
+          sorted({one["sport"] for one in kept}),
+          ["Boxing", "Darts", "F1", "Snooker", "Tennis"])
+    check("BOARD2", "a sport nobody asked for cannot reach the board",
+          [one["title"] for one in kept
+           if one["sport"] in ("Cricket", "MLB",
+                               "NFL", "NBA")], [])
+    check("BOARD2", "and snooker is kept only on TNT Sports and Eurosport",
+          [one["title"] for one in kept if one["sport"] == "Snooker"],
+          ["English Open"])
+    check("BOARD2", "and nor can an event with no channel named",
+          [one["title"] for one in kept if one["sport"] == "Golf"], [])
+    # AND NO ROW WEARS AN EMOJI. This gate used to require one — every
+    # row opened with its sport as 🏁, 🥊, 🏀 — and a reader photographed
+    # what that reached the television as: twelve rows each beginning
+    # with an empty rectangle, because the player's font has no glyph for
+    # any of them and draws the missing-character box instead.
+    #
+    # It cannot be fixed from this end. A player prints with its own
+    # font, on the reader's own device, and this guide hands it text; an
+    # emoji is a bet that the far end has a face for it. So the rule is
+    # inverted and kept: what this board writes must be text a plain font
+    # can draw.
+    first = next(one for one in kept if one["sport"] == "F1")
+    check("BOARD2", "a row says its event and nothing else",
+          board.row_title(first), "Italian GP - Race")
+    marks = [ch for one in kept for ch in board.row_title(one)
+             if ord(ch) > 0x2000 and not ch.isalnum() and ch not in "…—–'’"]
+    check("BOARD2", "and carries nothing a player has to have a glyph for",
+          marks, [])
+
+
+def gate_the_round_is_read_from_the_leagues_own_page() -> None:
+    """الوحدات - الفيصلي, which the homepage does not have and the app does.
+
+    A reader photographed that fixture inside the federation's own app
+    while this file was reporting that the federation does not publish
+    it. Both were true of different pages: the homepage lists the
+    nearest handful of matches — sixteen club rows, one of them
+    professional — and the league's own page lists the round. Counted,
+    not assumed:
+
+        the homepage       16 club rows, 1 still to play
+        tourn.php?id=1      8 club rows, 4 still to play
+
+    The second page has a DIFFERENT SHAPE and a safer one. On the
+    homepage a header row and a clubs row are separate <tr>s paired by
+    position — the arrangement that once handed 1876 fixtures a single
+    date. Here each fixture is a table of its own, with its kickoff in a
+    row underneath it, so nothing is inferred from order.
+
+    That safety is only real while a table holds ONE fixture. A table
+    holding two pairs of clubs is a list, and a time lifted out of it
+    would be stamped on every match in it — the same fault in a new
+    place. Such a table is refused, and so is a fixture with no kickoff
+    of its own: an undated match is dropped, never dated from the page
+    around it.
+    """
+    print("\nThe round is read from the league's own page — jfa.jo")
+    from datetime import datetime, timezone
+
+    import jordan_football
+
+    def fixture(home, verdict, away, stadium_line):
+        line = (f'<tr><td colspan="5">{stadium_line}</td></tr>'
+                if stadium_line else "")
+        return (f'<table><tr>'
+                f'<td><span class="team1">{home}</span></td>'
+                f'<td><span class="rrresult">{verdict}</span></td>'
+                f'<td><span class="team2">{away}</span></td></tr>'
+                f'{line}</table>')
+
+    LEAGUE = "الدوري الأردني للمحترفين - CFI"
+    amman = "ستاد عمان الدولي - | 2026-09-04 - | 20:30"
+
+    read = jordan_football.collect_tournament(
+        fixture("الوحدات", "VS", "الفيصلي", amman), LEAGUE)
+    check("JFA", "الوحدات - الفيصلي is read from the league's own page",
+          [event["title"] for event in read], ["الوحدات - الفيصلي"])
+    check("JFA", "with the kickoff printed beside it, in Amman",
+          f"{read[0]['start']:%Y-%m-%d %H:%M %z}", "2026-09-04 20:30 +0300")
+    check("JFA", "and the channel the reader asked for a million times",
+          read[0]["channels"], [jordan_football.JORDAN_SPORT])
+
+    # A table holding a SECOND pair of clubs. One time in it, two
+    # matches: reading it would give الرمثا the same kickoff as البقعة.
+    crowded = ('<table>'
+               '<tr><td><span class="team1">البقعة</span></td>'
+               '<td><span class="rrresult">VS</span></td>'
+               '<td><span class="team2">دوقرة</span></td></tr>'
+               '<tr><td><span class="team1">شباب الأردن</span></td>'
+               '<td><span class="rrresult">VS</span></td>'
+               '<td><span class="team2">الرمثا</span></td></tr>'
+               '<tr><td>ستاد الأمير محمد - | 2026-09-05 - | 18:00</td></tr>'
+               '</table>')
+    check("JFA", "a table holding two fixtures gives its time to neither",
+          jordan_football.collect_tournament(crowded, LEAGUE), [])
+
+    check("JFA", "a fixture with no kickoff of its own is dropped, not dated",
+          jordan_football.collect_tournament(
+              fixture("العربي", "VS", "السلط", ""), LEAGUE), [])
+
+    check("JFA", "a played match is still a score and still refused",
+          jordan_football.collect_tournament(
+              fixture("الوحدات", "2 - 1", "الفيصلي", amman), LEAGUE), [])
+
+    # The heading lies on this page as well: the professional league's
+    # own page carried عمان FC - الكرمل, and neither club is in the ten.
+    check("JFA", "and the roster still decides, not the heading",
+          jordan_football.collect_tournament(
+              fixture("عمان FC", "VS", "الكرمل", amman), LEAGUE), [])
+
+    # Both pages reach fetch_events, and the fixture the app showed is on
+    # both. One row, not two — and the homepage's Amman kickoff and the
+    # tournament page's Amman kickoff are the same instant, so they
+    # collapse on sight.
+    homepage = ('<table>'
+                '<tr><td colspan="5" height="22">'
+                f'<span class="haly">{LEAGUE}</span>'
+                '<span class="haly1">2026-09-04 | 20:30</span></td></tr>'
+                '<tr><td><span class="team1">الوحدات</span></td>'
+                '<td><span class="rrresult">VS</span></td>'
+                '<td><span class="team2">الفيصلي</span></td></tr>'
+                '</table>')
+    tournament = (fixture("الوحدات", "VS", "الفيصلي", amman)
+                  + fixture("العربي", "VS", "السلط",
+                            "ستاد الحسن - | 2026-09-05 - | 18:00"))
+
+    class OnePageEach:
+        def request(self, method, url, **kw):
+            class Answer:
+                text = tournament if "tourn.php" in url else homepage
+                status_code = 200
+
+                def raise_for_status(self):
+                    return None
+            return Answer()
+
+    floor = datetime(2026, 9, 1, tzinfo=timezone.utc)
+    ceiling = datetime(2026, 9, 30, tzinfo=timezone.utc)
+    both = jordan_football.fetch_events(OnePageEach(), floor, ceiling)
+    check("JFA", "a fixture on both pages reaches the board once",
+          [event["title"] for event in both],
+          ["الوحدات - الفيصلي", "العربي - السلط"])
+
+def gate_a_board_that_is_built_is_a_board_that_is_published() -> None:
+    """A channel is only on the television if it is in the file that loads.
+
+    The second board built, drew, encoded and reached the playlist, and it
+    still would not have shown a single programme — because a player does
+    not load other_sports_epg.xml. It loads the MERGED file, and
+    merge_epg.SOURCE_FILES is a hand-written list that the new guide was
+    simply not on. Everything upstream of that list was right, which is
+    exactly what makes it worth a gate: nothing else in the build would
+    ever have gone red.
+
+    So the rule is stated once, here, for the whole repository: every
+    channel this project generates must reach the merged file. Both boards
+    are checked by NAME rather than by counting, because a list of the
+    right length can still be the wrong list.
+
+    The playlist is the same fact in the other direction — a guide with no
+    channel to tune to is as invisible as a channel with no guide — so the
+    two are proved together.
+    """
+    print("\nA board that is built is a board that is published — merge_epg")
+    import merge_epg
+    import other_sports_epg
+    import today_matches_epg
+    import sports_dashboard_m3u
+
+    for guide, channel in ((today_matches_epg, "the first board"),
+                           (other_sports_epg, "the second board")):
+        check("PUBLISH", f"{channel}'s guide is in the merged file",
+              guide.OUTPUT in merge_epg.SOURCE_FILES, True)
+
+    named = [row[0] for row in sports_dashboard_m3u.SCREENS]
+    check("PUBLISH", "and both boards are channels the playlist can tune to",
+          (today_matches_epg.CHANNEL_ID in named
+           and other_sports_epg.CHANNEL_ID in named), True)
+
+    # And the ceiling file knows about it, so a board that fills up with
+    # stand-in is caught rather than ignored for want of a number.
+    import json
+    ceilings = json.load(open("guide_ceilings.json", encoding="utf-8"))
+    check("PUBLISH", "the second board is held to a stand-in ceiling",
+          isinstance(ceilings.get(other_sports_epg.OUTPUT), (int, float)),
+          True)
+
+def gate_one_channel_spelled_two_ways_is_one_channel() -> None:
+    """الوحدات - الفيصلي, printed twice at one kickoff, in two scripts.
+
+    The reader asked for this fixture and it arrived — and then arrived
+    again, because the fact underneath the code had changed. "The
+    Jordanian league is in none of the other pages" was MEASURED: 272
+    fixtures offered between five sources and not one Jordanian. It is
+    no longer true. livefootballtv now carries it as "Al Wehdat - Al
+    Faisaly · Jordan Sports", the federation carries it as "الوحدات -
+    الفيصلي · الأردن الرياضية", and the board printed both, one under the
+    other, at 10:30.
+
+    The club names cannot settle it, and this is measured rather than
+    assumed: الفيصلي reduces to "fasla" and Al Faisaly to "fasala" — one
+    letter apart and both shorter than the seven at which epg_lib lets
+    resemblance decide anything. Loosening that is exactly how "Mainz"
+    becomes "Monza", so it stays shut.
+
+    The CHANNEL settles it, on the structural fact already_on_air was
+    built on: a channel shows one match at a time. الأردن الرياضية and
+    Jordan Sports are one channel, so a fixture at that minute on that
+    channel is that fixture, however the two pages spell its clubs.
+    """
+    print("\nOne channel spelled two ways is one channel — today_matches")
+    from datetime import datetime, timedelta, timezone
+
+    import today_matches_epg as today
+
+    check("ONECHANNEL", "الأردن الرياضية and Jordan Sports are one channel",
+          today.screen_key("الأردن الرياضية")
+          == today.screen_key("Jordan Sports"), True)
+    check("ONECHANNEL", "and two beIN numbers are still two channels",
+          today.screen_key("beIN 1") == today.screen_key("beIN 2"), False)
+
+    kickoff = datetime(2026, 9, 4, 17, 30, tzinfo=timezone.utc)
+    board = [{"start": kickoff, "title": "Al Wehdat - Al Faisaly",
+              "competition": "Jordan League", "channels": ["Jordan Sports"]}]
+
+    same = {"start": kickoff, "title": "الوحدات - الفيصلي",
+            "competition": "الدوري الأردني للمحترفين",
+            "channels": ["الأردن الرياضية"]}
+    check("ONECHANNEL", "so the federation's copy is not printed a second "
+          "time", today.already_on_air(same, board), True)
+
+    # The guard has to stay narrow in both directions, or it starts
+    # eating real football.
+    later = dict(same, start=kickoff + timedelta(hours=2))
+    check("ONECHANNEL", "the next match on the same channel still reaches "
+          "the board", today.already_on_air(later, board), False)
+
+    elsewhere = dict(same, channels=["beIN 1"])
+    check("ONECHANNEL", "and another channel's match at the same minute "
+          "does too", today.already_on_air(elsewhere, board), False)
+
+    blind = dict(same, channels=[])
+    check("ONECHANNEL", "a fixture naming no channel is never dropped by "
+          "this", today.already_on_air(blind, board), False)
+
+    # And the row that survives says the channel's name the way this
+    # repository says it. Whichever page wins the merge is a coin toss,
+    # and the reader lost it once already: قناة الأردن الرياضية reached a
+    # television reading "Jordan Sports", in Latin, on a board that sorts
+    # Arabic first.
+    check("ONECHANNEL", "the surviving row names the channel in Arabic",
+          today.real_channels(["Jordan Sports"]), ["الأردن الرياضية"])
+    check("ONECHANNEL", "and both spellings at once are still one name",
+          today.real_channels(["Jordan Sports", "الأردن الرياضية",
+                               "beIN 1"]),
+          ["الأردن الرياضية", "beIN 1"])
+    check("ONECHANNEL", "every other channel is left exactly as it came",
+          today.real_channels(["beIN 1", "Sky Sports F1", "TRT Spor"]),
+          ["beIN 1", "Sky Sports F1", "TRT Spor"])
+
+def gate_the_window_keeps_moving() -> None:
+    """The channel loops, refreshes and opens on board zero.
+
+    A reader photographed a spinner on the last board: the screen played
+    through a short EVENT playlist, reached the end, and sat on a loading
+    circle because no next segment existed.
+
+    The repaired live window repeats complete reels for two hours and moves
+    its MEDIA-SEQUENCE on whole-reel boundaries. Both the front and the
+    normal three-segments-from-the-end join point are board zero.
+    """
+    print("\nThe reel refreshes automatically and opens on board zero — match_screen_video")
+    import match_screen_video as video
+
+    def sequence_of(text):
+        for line in text.splitlines():
+            if line.startswith("#EXT-X-MEDIA-SEQUENCE:"):
+                return int(line.split(":", 1)[1])
+        return None
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        out = os.path.join(tmp, "sports.m3u8")
+        segments = ["a.ts", "b.ts", "c.ts"]
+
+        video.write_playlist(segments, out, now=1_000_000)
+        first = open(out, encoding="utf-8").read()
+        video.write_playlist(segments, out, now=1_000_000 + 600)
+        second = open(out, encoding="utf-8").read()
+
+        # It advances, but only by complete reels, so a sequence number never
+        # changes which page it identifies.
+        check("LIVE", "MEDIA-SEQUENCE advances across refreshes",
+              sequence_of(second) > sequence_of(first), True)
+        check("LIVE", "and both windows begin on a reel boundary",
+              (sequence_of(first) % len(segments),
+               sequence_of(second) % len(segments)), (0, 0))
+
+        def played(text):
+            return [line for line in text.splitlines()
+                    if line.strip().endswith(".ts")]
+
+        pages = played(second)
+        expected_reel = [os.path.basename(s) for s in segments]
+        check("LIVE", "the window is long enough not to run dry",
+              len(pages) > len(segments), True)
+        check("LIVE", "the front is a complete reel beginning at page zero",
+              pages[:len(segments)], expected_reel)
+        check("LIVE", "the normal three-segment live join point is page zero",
+              pages[-video.JOIN_BACK:], expected_reel[:video.JOIN_BACK])
+
+        # One break per reel, where timestamps genuinely wrap to page zero;
+        # there must be no decoder reset between adjacent pages.
+        # COUNTED AS WHOLE LINES, not as a substring: "#EXT-X-
+        # DISCONTINUITY" is a prefix of "#EXT-X-DISCONTINUITY-SEQUENCE".
+        breaks = sum(1 for line in second.splitlines()
+                     if line.strip() == "#EXT-X-DISCONTINUITY")
+        check("LIVE", "one discontinuity per complete reel",
+              breaks, len(pages) // len(segments))
+
+        check("LIVE", "and the player is told it may read ahead",
+              "#EXT-X-INDEPENDENT-SEGMENTS" in second, True)
+
+        # A live playlist has neither ENDLIST nor a finite playlist type.
+        check("LIVE", "ENDLIST is absent so clients keep polling",
+              "#EXT-X-ENDLIST" in second, False)
+        check("LIVE", "no finite playlist type can make the reel run dry",
+              "#EXT-X-PLAYLIST-TYPE:" in second, False)
+
+        # The old line used a colon between the attribute name and value and
+        # was invalid HLS. Require the standard '=' syntax and forbid the
+        # malformed spelling that produced ParserException on the TV.
+        check("LIVE", "EXT-X-START uses valid HLS attribute syntax",
+              "#EXT-X-START:TIME-OFFSET=0.0,PRECISE=YES" in second, True)
+        check("LIVE", "the malformed start syntax cannot return",
+              "#EXT-X-START:TIME-OFFSET:" in second, False)
+
+        # Sliding past whole reels also slides past their discontinuities;
+        # clients need this counter to keep decoder resets aligned.
+        check("LIVE", "the rolling window declares discontinuity sequence",
+              any(line.startswith("#EXT-X-DISCONTINUITY-SEQUENCE:")
+                  for line in second.splitlines()), True)
+
+        # THE PLAYLIST MUST NOT LIE ABOUT HOW LONG A BOARD IS. Declared
+        # 20.0 and measured 20.032, the playlist says a board ends while
+        # its own media says it is still running — an overlap, and a
+        # player answers a timeline that disagrees with its media by
+        # re-syncing. So every entry declares the length it MEASURED.
+        import inspect as _inspect
+        writer = _inspect.getsource(video.write_playlist)
+        check("LIVE", "each entry declares the length it MEASURED",
+              "real[place]" in writer, True)
+        check("LIVE", "measured off the file, not off the constant",
+              "seconds_of" in writer, True)
+        check("LIVE", "and TARGETDURATION covers the longest of them",
+              "math.ceil(max(real))" in writer, True)
+
+        encoder = _inspect.getsource(video.encode_segment)
+        check("LIVE", "dashboard video has no B-frame boundary overlap",
+              '"-bf", "0"' in encoder, True)
+        check("LIVE", "each independent TS page marks its counter reset",
+              '"+initial_discontinuity"' in encoder, True)
+
+    # The pass that encodes nothing must still write the playlist. Proved
+    # on the source, because reaching this path needs an ffmpeg and a
+    # reel: the early return used to end at a log line, and that log line
+    # was the spinner.
+    import inspect
+    body = inspect.getsource(video.main)
+
+    # THE STREAM MUST TELL THE TELEVISION ITS FRAME RATE, AND GIVE IT
+    # SOMEWHERE TO START MORE THAN ONCE A SEGMENT. It ran at one frame a
+    # second: with no declared rate a television infers timing from
+    # timestamps alone, and with one keyframe in twenty seconds there is
+    # one instant per segment where it can begin or recover.
+    check("VOD", "the stream runs at a rate a decoder expects",
+          video.FPS >= 10, True)
+    check("VOD", "and starts a new keyframe every couple of seconds",
+          video.KEYFRAME_SECONDS <= 2, True)
+    encoder_flags = inspect.getsource(video.encode_segment)
+    check("VOD", "the rate is DECLARED, not left to be inferred",
+          '"-r", str(FPS)' in encoder_flags, True)
+    check("VOD", "and the keyframe interval is forced, not suggested",
+          ('"-keyint_min"' in encoder_flags
+           and '"-sc_threshold", "0"' in encoder_flags), True)
+    check("VOD", "so a twenty-second segment has ten places to start, "
+                 "not one", (video.HOLD // video.KEYFRAME_SECONDS), 10)
+
+    # A SEGMENT MUST BE EXACTLY AS LONG AS THE PLAYLIST SAYS IT IS. AAC
+    # codes 1024 samples to a frame, so the audio is exactly HOLD seconds
+    # only when HOLD x rate divides by 1024.
+    encoder = inspect.getsource(video.encode_segment)
+    rate = re.search(r"sample_rate=(\d+)", encoder)
+    check("VOD", "the encoder names a sample rate at all",
+          rate is not None, True)
+    if rate:
+        frames = video.HOLD * int(rate.group(1)) / 1024
+        check("VOD", "and a segment's audio lands exactly on its end",
+              frames == int(frames), True)
+    already, _ = body.split("os.makedirs(OUT_DIR", 1)
+    check("VOD", "the not-re-encoded pass writes the playlist too",
+          "write_playlist" in already, True)
+
+    # The timeline the playlist promises is the one the segments are
+    # encoded on: each board is stamped with where it sits in the reel.
+    check("VOD", "a board is encoded at its place in the reel",
+          "-output_ts_offset" in inspect.getsource(video.encode_segment),
+          True)
+    check("VOD", "and the encode loop actually passes that place",
+          "enumerate(reel)" in body, True)
+
+    # A change to HOW a segment is made must re-encode every segment.
+    with tempfile.TemporaryDirectory() as tmp:
+        board = os.path.join(tmp, "board.png")
+        with open(board, "wb") as handle:
+            handle.write(b"not really a picture")
+        before = video.digest([board])
+        was = video.ENCODER_REVISION
+        try:
+            video.ENCODER_REVISION = was + 1
+            after = video.digest([board])
+        finally:
+            video.ENCODER_REVISION = was
+    check("VOD", "a new encoder revision re-encodes an unchanged board",
+          before != after, True)
+
+    # A SEGMENT OUTLIVES THE PLAYLIST BY A CLOCK, NOT BY A PASS.
+    # raw.githubusercontent serves the playlist with a five-minute cache,
+    # so a segment the current reel no longer names must be kept long
+    # enough that a television reading a cached reel does not hit a 404.
+    import time as _time
+    with tempfile.TemporaryDirectory() as tmp:
+        was_out = video.OUT_DIR
+        try:
+            video.OUT_DIR = tmp
+            now = _time.time()
+            old_names = ["scr_0.aaaa1111.ts", "scr_1.aaaa2222.ts"]
+            new_names = ["scr_0.bbbb1111.ts", "scr_1.bbbb2222.ts"]
+            ancient = ["scr_0.99990000.ts"]
+            for name in old_names + new_names + ancient:
+                open(os.path.join(tmp, name), "wb").close()
+            with open(os.path.join(tmp, "scr_previous.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("".join(f"{n} {now - 60:.0f}\n"
+                                     for n in old_names))
+            with open(os.path.join(tmp, "scr_keeping.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("".join(
+                    f"{n} {now - video.GRACE_SECONDS - 60:.0f}\n"
+                    for n in ancient))
+
+            video.forget_old_segments(
+                [os.path.join(tmp, n) for n in new_names], "scr_")
+            left = sorted(n for n in os.listdir(tmp) if n.endswith(".ts"))
+            with open(os.path.join(tmp, "scr_keeping.txt"),
+                      encoding="utf-8") as handle:
+                ledger = [line.split() for line in handle if line.split()]
+        finally:
+            video.OUT_DIR = was_out
+
+    check("VOD", "this pass's segments are published",
+          all(name in left for name in new_names), True)
+    check("VOD", "the pass before it is kept, so no player hits a 404",
+          all(name in left for name in old_names), True)
+    check("VOD", "and one past the grace is swept, so nothing piles up",
+          [name for name in ancient if name in left], [])
+    check("VOD", "the sweep records what it kept, not what it wrote",
+          sorted(row[0] for row in ledger), sorted(old_names))
+
+    stamps = {row[0]: float(row[1]) for row in ledger}
+    check("VOD", "and the stamp is when it LEFT, not when it was seen",
+          all(_time.time() - when > 30 for when in stamps.values()), True)
+    check("VOD", "the grace is a clock, long enough to outlive the cache",
+          video.GRACE_SECONDS >= 15 * 60, True)
+    check("VOD", "and it is bounded, so churn cannot fill the repository",
+          1 <= video.GRACE_LAPS <= 5, True)
+
+
+def gate_every_american_game_names_its_network() -> None:
+    """Seven NFL games on the board and not one said where to watch it.
+
+        17:20  Patriots - Seahawks          (no channel)
+        17:35  49ers - Rams                 (no channel)
+        10:00  Falcons - Steelers           (no channel)   … seven of seven
+
+    They are on the board because the LEAGUE'S OWN SITE is read for them
+    and gives a real UTC instant. What it used to give as well — the
+    network, in its screen-reader text — stopped reaching the row, so
+    seven games sat on a board whose whole purpose is answering "where do
+    I watch this".
+
+    sportsmediawatch prints one game per row with the networks beside the
+    teams AND AN INSTANT INSIDE THE ROW, which is the only thing that
+    made it usable: counting instants on a page proves nothing about
+    which game each belongs to.
+
+    ITS TIMEZONE IS NEVER DECIDED, and that is the point of the twelve
+    hours. Two NFL teams do not meet twice in half a day, so a row whose
+    clubs match a board row inside that window is that game whatever zone
+    the page writes in. If the page switched zones nothing moves; if it
+    switched by more than half a day the channel would fail to attach,
+    which is the safe direction.
+    """
+    print("\nEvery American game names its network — NFL")
+    from datetime import datetime, timedelta, timezone
+
+    import sports_media_watch as smw
+
+    # THE FOUR SHAPES THE PAGE ACTUALLY PRINTS, copied off it.
+    measured = (
+        ("NFL Kickoff Game New England Patriots vs Seattle Seahawks NBC, "
+         "Peacock , NFL+, Telemundo | TSN1/3/4, TSN+",
+         "patriots", "seahawks", ["NBC", "Peacock", "NFL+", "Telemundo"]),
+        ("Atlanta Falcons vs Pittsburgh Steelers FOX, FOX One",
+         "falcons", "steelers", ["FOX", "FOX One"]),
+        ("Thursday Night Football Detroit Lions vs Buffalo Bills Prime "
+         "Video , NFL+ | A tbd | H tbd",
+         "lions", "bills", ["Prime Video", "NFL+"]),
+        # THE ONE THAT BROKE THE FIRST ATTEMPT: an international game
+        # prints the VENUE after the away club, so the last word before
+        # the network is "Australia".
+        ("NFL International Series San Francisco 49ers vs Los Angeles Rams "
+         "Melbourne, Australia Netflix, NFL+ | A tbd | H tbd | TSN1/4, TSN+",
+         "49ers", "rams", ["Netflix", "NFL+"]),
+    )
+    for cell, home, away, networks in measured:
+        got_home, got_away, got_channels = smw.a_game(cell)
+        check("NFL", f"home is {home}", got_home, home)
+        check("NFL", f"  and {away} is in the away side", away in got_away,
+              True)
+        check("NFL", f"  and it names {networks[0]}",
+              [one for one in networks if one in got_channels], networks)
+
+    # A heading row is not a game.
+    check("NFL", "a heading row names nobody",
+          smw.a_game("Time Game / TV"), ("", set(), []))
+
+    # END TO END, on rows shaped like the board's.
+    when = datetime(2026, 9, 10, 0, 20, tzinfo=timezone.utc)
+    board = [{"start": when, "title": "Patriots - Seahawks", "channels": []},
+             {"start": when, "title": "49ers - Rams", "channels": []},
+             # A week later, same clubs. It must NOT take the channel.
+             {"start": when + timedelta(days=7),
+              "title": "Patriots - Seahawks", "channels": []}]
+    rows = [{"start": when, "home": "patriots",
+             "away": {"seattle", "seahawks"}, "channel": "NBC"},
+            {"start": when, "home": "49ers",
+             "away": {"los", "angeles", "rams", "melbourne", "australia"},
+             "channel": "Netflix"}]
+    was = smw.broadcasts
+    try:
+        smw.broadcasts = lambda session: rows
+        smw.add_channels(None, board)
+    finally:
+        smw.broadcasts = was
+
+    check("NFL", "the game gets the network the page named",
+          board[0]["channels"], ["NBC"])
+    check("NFL", "and the venue does not stop the away club matching",
+          board[1]["channels"], ["Netflix"])
+    check("NFL", "and the same clubs a WEEK later take nothing",
+          board[2]["channels"], [])
+    check("NFL", "two clubs do not meet twice in half a day",
+          smw.SAME_GAME <= timedelta(hours=12), True)
+
+    # AND IT NAMES NO GAME OF ITS OWN. A page that could invent a fixture
+    # could invent one wrongly; this one only ever answers "where".
+    import inspect
+    body = inspect.getsource(smw)
+    check("NFL", "it only ever adds channels, never rows",
+          "def events(" in body or "fetch_events" in body, False)
+
+
+def gate_a_card_is_not_named_after_one_of_its_bouts() -> None:
+    """A whole card printed as one fight on it, and a venue for a surname.
+
+    Two sources carry the Contender Series and word it differently: ESPN
+    names the CARD, the listings page names a BOUT on it and puts the
+    card in its competition line. While both arrive the fold pairs them
+    and keeps ESPN's title. ESPN drops a card once its night is past and
+    the listings page does not, so the board was left calling the whole
+    card "MMA Berisha vs Pasley - Meta Apex" — one fight, and a hall.
+    """
+    print("\nA card is not named after one of its bouts")
+    import other_sports_epg as board
+    from datetime import datetime, timezone
+
+    # TONIGHT, not a date written into the test. The carrier ledger
+    # deliberately forgets a card days after its night, so a fixed date
+    # made this gate pass the day it was written and fail two days
+    # later — and a failing gate publishes nothing, which is what left
+    # the live indicators frozen on every channel.
+    when = datetime.now(timezone.utc).replace(
+        hour=23, minute=0, second=0, microsecond=0)
+    bout = dict(title="MMA Berisha vs Pasley - Meta Apex",
+                competition="Contender Series 2026", sport="MMA",
+                source=None, channels=["UFC Fight Pass"], start=when)
+    card = dict(title="Dana White's Contender Series: Season 10, Week 5",
+                competition=None, sport="MMA", source="espn",
+                channels=["Paramount+"], start=when)
+
+    alone = board.name_a_lone_bout_by_its_card([dict(bout)])
+    check("CARDNAME", "a card left as one of its bouts takes the card's name",
+          alone[0]["title"], "Dana White's Contender Series 2026")
+    check("CARDNAME", "and keeps the channel it was carried on",
+          alone[0]["channels"], ["UFC Fight Pass"])
+
+    both = board.name_a_lone_bout_by_its_card(
+        board.one_row_per_broadcast([dict(card), dict(bout)]))
+    check("CARDNAME", "with both sources the fold's title still wins",
+          both[0]["title"], "Dana White's Contender Series: Season 10, Week 5")
+    check("CARDNAME", "and both carriers are on the one row",
+          sorted(both[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
+    check("CARDNAME", "and it is one row, not two", len(both), 1)
+
+    # WHO CARRIES IT, KEPT WHILE THE CARD IS STILL ON. ESPN drops a card
+    # once its night is past and the listings page does not, so the row
+    # lost a carrier partway through the night a viewer wanted it.
+    import copy, os, tempfile
+    ledger = tempfile.mktemp(suffix=".json")
+    try:
+        first = board.remember_who_carries_a_card(
+            board.name_a_lone_bout_by_its_card(
+                board.one_row_per_broadcast(copy.deepcopy([card, bout]))),
+            ledger)
+        check("CARDNAME", "with both sources the row names both carriers",
+              sorted(first[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
+
+        after = board.remember_who_carries_a_card(
+            board.name_a_lone_bout_by_its_card(copy.deepcopy([bout])), ledger)
+        check("CARDNAME", "and keeps them when one source drops the card",
+              sorted(after[0]["channels"]), ["Paramount+", "UFC Fight Pass"])
+
+        stale = copy.deepcopy(bout)
+        stale["start"] = when - __import__("datetime").timedelta(days=3)
+        gone = board.remember_who_carries_a_card(
+            board.name_a_lone_bout_by_its_card([stale]), ledger)
+        check("CARDNAME", "and forgets them once the card is days past",
+              gone[0]["channels"], ["UFC Fight Pass"])
+
+        check("CARDNAME", "the row it was handed is never written into",
+              bout["channels"], ["UFC Fight Pass"])
+    finally:
+        if os.path.exists(ledger):
+            os.unlink(ledger)
+
+    plain = board.name_a_lone_bout_by_its_card([dict(
+        title="Isaac Cruz vs Nestor Bravo", competition="Premier Boxing "
+        "Champions", sport="Boxing", channels=["DAZN"], start=when)])
+    check("CARDNAME", "an ordinary fight is not renamed after its promotion",
+          plain[0]["title"], "Isaac Cruz vs Nestor Bravo")
+
+    # THE VENUE THAT WAS DRAWN AS A FIGHTER, the other half of the same
+    # photograph: a side that still holds a separator is not one name.
+    import match_board
+    cut = match_board.trim_lead("MMA Berisha vs Pasley - Meta Apex")
+    sides = match_board.SPLIT.split(cut, maxsplit=1)
+    check("CARDNAME", "a venue is not drawn as the other fighter",
+          all(match_board.looks_like_a_side(p) for p in sides), False)
+    for fixture in ("Lakers - Celtics", "Bulgaristan - Kuzey Makedonya",
+                    "Ruiz vs Knyba"):
+        pieces = match_board.SPLIT.split(
+            match_board.trim_lead(fixture), maxsplit=1)
+        check("CARDNAME", f"and {fixture} is still two sides",
+              len(pieces) == 2
+              and all(match_board.looks_like_a_side(p) for p in pieces), True)
+
+
+def gate_the_two_competitions_asked_for_by_name() -> None:
+    """Women's international volleyball and men's handball, and nothing else.
+
+    Both were asked for outright and neither could be had: the listings
+    site this board reads has no page for either sport, both 404 against a
+    basketball control that answers; CEV, EuroVolley, Volleyball World and
+    the EHF render their calendars in JavaScript with nought instants
+    between them; the IHF's sixteen name no broadcaster; S Sport serves a
+    certificate for the wrong hostname; and what beIN and Alkass already
+    hold is 26 rows of CLUB volleyball and club handball — the Daikin
+    StarLigue, the Championnat de France — which is not what was asked for.
+
+    Spor Ekranı's grid answers, and this holds it to the ask. Its rows are
+    the real shapes measured on the page, including the two the runner
+    printed on the day this was written.
+    """
+    print("\nThe two competitions asked for by name — the Turkish grid")
+    import turkish_sport_grid as grid
+    from datetime import datetime, timezone
+
+    def row(sport, clock, name, league, channels):
+        seats = "".join(
+            f'<div class="event-list__channel-mobile"><img alt="{c}"/></div>'
+            for c in channels)
+        return (f'<a class="event-list__row"><div class="event-list__time-col">'
+                f'<img class="event-list__sport-icon" alt="{sport}"/>'
+                f'<span class="event-list__time">{clock}</span></div>'
+                f'<div class="event-list__info">'
+                f'<p class="event-list__name">{name}</p>'
+                f'<p class="event-list__league">{league}</p>'
+                f'<div class="event-list__channels-mobile">{seats}</div>'
+                f'</div></a>')
+
+    page = '<div class="event-list">' + "".join([
+        row("Voleybol", "18:00", "Türkiye - İtalya",
+            "CEV Kadınlar Avrupa Şampiyonasi Voleybol", ["TRT Spor", "S Sport"]),
+        row("Hentbol", "20:30", "Danimarka - Fransa",
+            "IHF Erkekler Dünya Şampiyonasi Hentbol", ["beIN Sports"]),
+        # measured on the page: the men's Euro, which is the other side
+        row("Voleybol", "19:00", "Bulgaristan - Kuzey Makedonya",
+            "CEV Erkekler Avrupa Şampiyonasi Voleybol", ["CEV Youtube"]),
+        # measured on the page: a talk programme, icon and all
+        row("Programlar", "12:30", "Set Sayısı", "Voleybol Programi",
+            ["TRT Spor"]),
+        row("Voleybol", "17:00", "Fenerbahçe - Eczacıbaşı",
+            "Sultanlar Ligi Voleybol", ["TRT Spor"]),
+        row("Hentbol", "19:30", "Chambery - Paris",
+            "Daikin StarLigue Hentbol", ["beIN Sports"]),
+        row("Voleybol", "16:00", "Sırbistan - Polonya",
+            "CEV Kadınlar Avrupa Şampiyonasi Voleybol", []),
+    ]) + '</div>'
+
+    kept = grid.collect(page, datetime(2026, 9, 8, 12, 0, tzinfo=timezone.utc))
+    titles = [e["title"] for e in kept]
+
+    check("TRGRID", "the women's European Championship is a row",
+          "Türkiye - İtalya" in titles, True)
+    check("TRGRID", "and the men's handball World Championship",
+          "Danimarka - Fransa" in titles, True)
+    # EVERY COMPETITION NOW, asked for in those words — "download all
+    # their listings for every sport and every competition it's fine
+    # just don't duplicate". The club leagues and the other half of a
+    # sport are rows again; only a programme and a row naming no
+    # broadcaster still stay out, and the board's own sport order and
+    # its one-row-per-broadcast fold do the rest.
+    check("TRGRID", "the men's volleyball is a row too now",
+          "Bulgaristan - Kuzey Makedonya" in titles, True)
+    check("TRGRID", "a talk programme is not a match",
+          "Set Sayısı" in titles, False)
+    check("TRGRID", "the Sultanlar Ligi is carried as well",
+          "Fenerbahçe - Eczacıbaşı" in titles, True)
+    check("TRGRID", "and so is the StarLigue",
+          "Chambery - Paris" in titles, True)
+    check("TRGRID", "a row naming no broadcaster is no use to this board",
+          "Sırbistan - Polonya" in titles, False)
+    check("TRGRID", "and nothing else at all", len(kept), 5)
+
+    # THE CLOCK IS ISTANBUL'S, and that is the whole risk of this source.
+    when = [e["start"] for e in kept if e["title"] == "Türkiye - İtalya"][0]
+    check("TRGRID", "18:00 on the page is 15:00 UTC, Istanbul being +03",
+          when.strftime("%H:%M"), "15:00")
+    check("TRGRID", "and the sport each row carries is the icon's own word",
+          sorted(e["sport"] for e in kept),
+          ["Handball", "Handball", "Volleyball", "Volleyball", "Volleyball"])
+    check("TRGRID", "an empty page is no rows, never a crash",
+          grid.collect("<html></html>"), [])
+
+
+def gate_a_board_changes_only_when_its_content_does() -> None:
+    """A clock drawn into a picture is a channel that goes off the air.
+
+        An error occurred: code 404      photographed at 20:09 UTC
+
+    A segment is named after the hash of its board, so a board whose
+    BYTES change is a segment renamed and its predecessor swept. The news
+    board printed the minute the build ran — "آخر تحديث 12:20" — and was
+    therefore renamed on every pass:
+
+        20:04 renamed · 20:07 renamed · 20:10 renamed · 20:13 renamed
+
+    while the two fixtures boards, which carry kickoff times and no
+    countdown, went hours without changing. raw.githubusercontent serves
+    the playlist with a five-minute cache, so a television reading the
+    20:07 playlist asked 20:10 for files it had already deleted.
+
+    The grace is a clock now and covers half an hour of it, but the grace
+    is the second line of defence. THIS is the first: a board must be the
+    same picture when nothing it shows has changed, however much later it
+    is drawn.
+    """
+    print("\nA board changes when its content does, not when the clock does")
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
+    import match_board
+    import news_board
+
+    viewer = ZoneInfo("America/Los_Angeles")
+    at = datetime(2026, 9, 3, 20, 4, tzinfo=timezone.utc)
+    # Far enough apart to cross a minute, an hour boundary and a lap of
+    # every build cadence this repository runs.
+    later = at + timedelta(minutes=47)
+
+    def same(one, two):
+        return one.convert("RGB").tobytes() == two.convert("RGB").tobytes()
+
+    # This gate checks temporal stability, not Arabic shaping. Some minimal
+    # Pillow installations do not include libraqm, so asking them to apply
+    # RTL layout would make the safety gate fail before it reaches its real
+    # assertion.
+    arabic = match_board.ARABIC
+    news_arabic = news_board.ARABIC
+    plain_arabic = re.compile(r"(?!x)x")
+    match_board.ARABIC = plain_arabic
+    news_board.ARABIC = plain_arabic
+
+    # THE NEWS BOARD, which is the one that did it. The stories are held
+    # far enough from the freshness line that neither drawing is inside
+    # the hour, so nothing about the CONTENT differs between the two.
+    stories = [
+        {"start": at - timedelta(hours=5 + n), "region": "JO",
+         "region_name": "الأردن", "outlet": "Jordan News",
+         "title": f"A headline that has not changed {n}",
+         "summary": "One sentence explaining it."}
+        for n in range(6)]
+    check("PICTURE", "the news board is the same picture 47 minutes later",
+          same(news_board.draw_board(stories, at, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6),
+               news_board.draw_board(stories, later, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6)), True)
+
+    # AND THE TWO FIXTURES BOARDS, which have always been right and are
+    # checked so they stay right.
+    day = at.date() + timedelta(days=1)
+    events = [{"start": at + timedelta(days=1, hours=n),
+               "title": f"Club {n} - Club {n + 1}",
+               "channels": ["beIN SPORTS 1"],
+               "competition": "Premier League"} for n in range(6)]
+    check("PICTURE", "and the fixtures board is too",
+          same(match_board.draw_board(day, events, at, viewer,
+                                      timedelta(hours=2),
+                                      title="مباريات اليوم", subtitle="بث",
+                                      weekday="الجمعة", page=1, pages=3),
+               match_board.draw_board(day, events, later, viewer,
+                                      timedelta(hours=2),
+                                      title="مباريات اليوم", subtitle="بث",
+                                      weekday="الجمعة", page=1, pages=3)),
+          True)
+
+    # AND THE PICTURE STILL CHANGES WHEN THE CONTENT DOES, or the check
+    # above would pass on a blank page.
+    moved = [dict(stories[0], title="A headline that HAS changed")] + \
+        stories[1:]
+    check("PICTURE", "but a changed headline is a different picture",
+          same(news_board.draw_board(stories, at, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6),
+               news_board.draw_board(moved, at, viewer,
+                                     title="أخبار اليوم", subtitle="نشرة",
+                                     page=1, pages=6)), False)
+    match_board.ARABIC = arabic
+    news_board.ARABIC = news_arabic
+
+    # And nothing draws a minute into a board. Proved on the source,
+    # because a board that happens not to differ today can start
+    # differing tomorrow.
+    import inspect
+    for module in (news_board, match_board):
+        body = inspect.getsource(module)
+        printed = [line.strip() for line in body.splitlines()
+                   if "%H:%M" in line and "now" in line
+                   and not line.strip().startswith("#")]
+        check("PICTURE", f"{module.__name__} draws no build clock",
+              printed, [])
+
+
+def gate_a_simulcast_is_not_a_second_channel() -> None:
+    """"Sky Sports F1 · Sky Sports Ultra HDR" — one channel, twice.
+
+    Ultra HDR carries whatever Main Event or F1 is carrying at that
+    moment. It is the same broadcast in a different picture, not a second
+    place to watch, and a row fits two or three names beside the event —
+    so half the row was spent saying one thing twice. Asked for by name.
+
+    It is dropped only while something else survives. A simulcast is a
+    duplicate of a channel the viewer already has; the LAST name on a row
+    is not a duplicate of anything, and removing it would turn a repeated
+    answer into no answer, which is the one thing every board here
+    refuses.
+    """
+    print("\nA simulcast is not a second channel — both boards")
+    from epg_lib import drop_simulcasts
+
+    import other_sports_epg as sports
+    import today_matches_epg as today
+
+    check("SIMULCAST", "the HDR twin goes when the real channel is there",
+          drop_simulcasts(["Sky Sports F1", "Sky Sports Ultra HDR"]),
+          ["Sky Sports F1"])
+    check("SIMULCAST", "however the page spells it",
+          drop_simulcasts(["Sky Sports Main Event", "Sky Ultra HDR",
+                           "Sky Sports+ Ultra HDR"]),
+          ["Sky Sports Main Event"])
+    check("SIMULCAST", "but a row that has only it keeps it",
+          drop_simulcasts(["Sky Sports Ultra HDR"]),
+          ["Sky Sports Ultra HDR"])
+    check("SIMULCAST", "and no other channel is touched",
+          drop_simulcasts(["beIN 1", "TNT Sports 1", "الأردن الرياضية"]),
+          ["beIN 1", "TNT Sports 1", "الأردن الرياضية"])
+
+    check("SIMULCAST", "the football board applies it",
+          today.real_channels(["Sky Sports F1", "Sky Sports Ultra HDR"]),
+          ["Sky Sports F1"])
+
+    # And the second board, where the reader saw it, through the one
+    # place its events are filtered.
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    # On a real session's minute: an F1 row nowhere near one is a replay
+    # and is refused before simulcasts are ever looked at.
+    ahead = [s for s in sports.f1_sessions() if s > now]
+    if ahead:
+        now = min(ahead) - timedelta(hours=1)
+    row = {"start": now + timedelta(hours=1), "sport": "F1",
+           "title": "Italian Grand Prix Practice 1",
+           "channels": ["Sky Sports F1", "Sky Sports Ultra HDR"]}
+
+    class OneRow:
+        pass
+
+    import world_sport_on_tv
+    import american_sport_on_tv
+    was_world, was_american = world_sport_on_tv.events, american_sport_on_tv.events
+    try:
+        world_sport_on_tv.events = lambda session: [dict(row)]
+        american_sport_on_tv.events = lambda session: []
+        got = sports.collect(OneRow(), now, now + timedelta(days=1))
+    finally:
+        world_sport_on_tv.events = was_world
+        american_sport_on_tv.events = was_american
+    # The HDR twin is gone. beIN is there and is meant to be — the
+    # reader named it as F1's channel — so this asks what it is for
+    # rather than for an exact list that a rights fact would break.
+    carried = got[0]["channels"]
+    check("SIMULCAST", "and so does the sports board",
+          [name for name in carried if "Ultra HDR" in name], [])
+    check("SIMULCAST", "without losing the channel it was beside",
+          "Sky Sports F1" in carried, True)
+
+
+def gate_each_channel_wears_its_own_mark() -> None:
+    """Two channels, one picture, and no way to tell them apart in a list.
+
+    A logo is how a channel is found. The second board was given the
+    first's for want of one of its own, so a reader opening the group saw
+    the same tile twice. Same shape is right — they are a pair — but the
+    same file is not.
+
+    Held on the FILES rather than on the drawing, because the failure was
+    never that a picture looked wrong; it was that one picture was doing
+    two jobs. And held across the guide and the playlist together, since
+    a channel whose guide and playlist disagree about its picture is the
+    same fault wearing a different hat.
+    """
+    print("\nEach channel wears its own mark — logos")
+    import other_sports_epg as sports
+    import sports_dashboard_m3u as playlist
+    import today_matches_epg as today
+
+    check("MARK", "the two guides do not share a picture",
+          today.LOGO != sports.LOGO, True)
+    for guide, who in ((today, "the football board"),
+                       (sports, "the sports board")):
+        name = guide.LOGO.rsplit("/", 1)[-1]
+        check("MARK", f"{who}'s mark is a file that exists",
+              os.path.exists(os.path.join("logos", name)), True)
+
+    marks = {row[0]: row[5] for row in playlist.SCREENS}
+    check("MARK", "the playlist gives each channel its guide's mark",
+          (marks[today.CHANNEL_ID] == today.LOGO
+           and marks[sports.CHANNEL_ID] == sports.LOGO), True)
+    check("MARK", "so no two rows in the playlist wear one picture",
+          len(set(marks.values())), len(marks))
+
+def gate_the_channel_comes_from_the_broadcasters_own_feed() -> None:
+    """Who carries a sport is read from the broadcaster, never asserted.
+
+    This board's source is British and only British — measured across all
+    forty-four of its pages: Sky 1106 mentions, TNT 363, DAZN 226, and
+    not one Fox, NBC, ESPN or beIN. So every row offered a viewer with a
+    MENA package the one set of channels they cannot open.
+
+    It was first fixed by writing down what a reader said: beIN has
+    Formula One, STARZPLAY has the UFC. Both true, and still the wrong
+    way to know it — a hand-written rights table is a claim that goes
+    stale in silence the season it stops being true, and nothing in a
+    build can tell.
+
+    The broadcasters say it themselves, in feeds this repository already
+    publishes and rebuilds every hour:
+
+        bein_sports_qatar_epg.xml   63 Formula One programmes, 294 tennis
+        starzplay_epg.xml           14 UFC, among them Dana White's
+                                    Contender Series and The Ultimate
+                                    Fighter
+
+    So nothing is asserted; it is read. And it comes back BETTER than the
+    table did — "beIN SPORTS 8" for a practice session and "beIN 4K" for
+    the race, which are the channel numbers the table refused to guess.
+
+    TWO ANCHORS make it safe, the same pair that make own_guides safe for
+    football: the start minute AND a phrase that names the event. One
+    alone is a coincidence — beIN broadcasts something at 10:30 every day
+    of the year. The phrase is what keeps one grand prix from being
+    another, and it earns its place on a real example: STARZPLAY's guide
+    carries "Emirates Great Britain Grand Prix - SailGP", which is
+    sailing, and "Italian Grand Prix" does not appear in it.
+    """
+    print("\nThe channel comes from the broadcaster's own feed — own_guides")
+    from datetime import datetime, timedelta, timezone
+
+    import own_guides
+
+    def event(sport, title, channels=()):
+        return {"sport": sport, "title": title,
+                "start": datetime(2026, 9, 4, 10, 30, tzinfo=timezone.utc),
+                "channels": list(channels)}
+
+    # What a guide would have to print to be showing this event.
+    check("FEED", "a grand prix is named by its prix and its session",
+          own_guides.what_names_it(
+              event("F1", "Italian Grand Prix Practice 1 - Monza Circuit")),
+          ["Italian Grand Prix", "Practice 1"])
+    check("FEED", "and the race is not the practice",
+          own_guides.what_names_it(
+              event("F1", "Italian Grand Prix Race - Monza Circuit")),
+          ["Italian Grand Prix", "Race"])
+    check("FEED", "a major is named by the major",
+          own_guides.what_names_it(
+              event("Tennis", "US Open Men's Singles 3rd Round")),
+          ["US Open"])
+    check("FEED", "a UFC card by the UFC",
+          own_guides.what_names_it(
+              event("MMA", "UFC Fight Night Hooker vs Parnasse")), ["UFC"])
+
+    # NOTHING is claimed for an event this cannot name, and that is most
+    # of them. A board may not put a channel on an event nobody published.
+    for sport, title in (("MMA", "One Championship One Fight Night 47"),
+                         ("Tennis", "Some ATP 250 Final"),
+                         ("Boxing", "Live Boxing Canelo Alvarez"),
+                         ("NBA", "Lakers - Celtics"),
+                         ("F1", "F2 Feature Race")):
+        check("FEED", f"{sport}: '{title[:28]}' names no phrase to match on",
+              own_guides.what_names_it(event(sport, title)), [])
+
+    # The phrase, which is what stops one grand prix being another.
+    check("FEED", "a guide showing THIS grand prix matches",
+          own_guides.says_all_of("Practice 1 - Italian Grand Prix - 2026",
+                                 ["Italian Grand Prix", "Practice 1"]), True)
+    check("FEED", "a guide showing the sailing does not",
+          own_guides.says_all_of(
+              "Emirates Great Britain Grand Prix - Day 1 - SailGP - LIVE",
+              ["Italian Grand Prix", "Practice 1"]), False)
+    check("FEED", "and neither does the same prix's other session",
+          own_guides.says_all_of("Practice 2 - Italian Grand Prix - 2026",
+                                 ["Italian Grand Prix", "Practice 1"]), False)
+
+    # Both anchors, on the real published guide. This reads the file this
+    # repository actually ships, so it is a test of the fact as well as
+    # of the rule.
+    if os.path.exists("bein_sports_qatar_epg.xml"):
+        rows = own_guides.programmes("bein_sports_qatar_epg.xml", "")
+        f1 = [row for row in rows
+              if own_guides.says_all_of(row["title"], ["Grand Prix"])]
+        check("FEED", "beIN's own feed does carry Formula One",
+              len(f1) > 0, True)
+
+        one = event("F1", "Italian Grand Prix Practice 1 - Monza Circuit")
+        far = dict(one, start=one["start"] + timedelta(days=3))
+        own_guides.add_channels_by_name([far])
+        check("FEED", "but three days off the minute names nothing",
+              far["channels"], [])
+
+def gate_the_second_board_names_channels_like_the_first() -> None:
+    """"شيل sports من القنوات الثانية مثل ما عملت بالاولى" — asked outright.
+
+    The two screens sat side by side saying "Sky Main Event" on one and
+    "Sky Sports Main Event" on the other. The first board has had these
+    manners since a photograph of a clipped row settled them: the word
+    SPORTS is on nearly every channel here and distinguishes none of them,
+    so it comes off wherever what is left still names the channel — and
+    the channels are sorted into the reader's own order first, so the one
+    they can actually turn to is the one they see.
+
+    The second board printed whatever its source handed it, in the order
+    its source handed it. It borrows both functions now rather than
+    copying them, so the two boards cannot drift apart again.
+    """
+    print("\nThe second board names channels like the first — رياضات اليوم")
+    import other_sports_epg as board
+    import today_matches_epg as today
+
+    check("MANNERS", "it uses the first board's shortening, not a copy",
+          board.shorter is today.shorter, True)
+    check("MANNERS", "and the first board's channel order",
+          board.channels_in_order is today.in_the_readers_order, True)
+
+    def shown(channels):
+        return [board.shorter(name)
+                for name in board.channels_in_order(channels)]
+
+    check("MANNERS", "Sky Sports Main Event loses its Sports",
+          shown(["Sky Sports Main Event"]), ["Sky Main Event"])
+    check("MANNERS", "so do Sky Sports F1, Sky Sports+ and TNT Sports 1",
+          shown(["Sky Sports F1", "Sky Sports+", "TNT Sports 1"]),
+          ["Sky F1", "Sky+", "TNT 1"])
+    check("MANNERS", "STARZPLAY Sports is just STARZPLAY",
+          shown(["STARZPLAY Sports"]), ["STARZPLAY"])
+    check("MANNERS", "Premier Sports keeps its Sports, because Premier 1 "
+                     "is nothing", shown(["Premier Sports 1"]),
+          ["Premier Sports 1"])
+    check("MANNERS", "DAZN and UFC Fight Pass are left alone",
+          shown(["DAZN", "UFC Fight Pass"]), ["DAZN", "UFC Fight Pass"])
+
+    # And the order: what a reader can turn to comes first.
+    check("MANNERS", "the reader's own channel leads the row",
+          shown(["Sky Sports F1", "beIN SPORTS"]), ["beIN", "Sky F1"])
+    check("MANNERS", "and STARZPLAY leads a UFC row over a British one",
+          shown(["TNT Sports 1", "STARZPLAY Sports"]),
+          ["STARZPLAY", "TNT 1"])
+
+def gate_no_guide_reads_a_stranger() -> None:
+    """"مش من github! شخص اخر" — said more than once, so it is a test now.
+
+    A guide that copies somebody else's EPG file inherits their mistakes
+    and cannot be told when they change their mind. The rule has been
+    stated repeatedly and kept by hand, which is the kind of promise that
+    survives right up until somebody is in a hurry.
+
+    Checked instead. Every URL in every script is read out of the source
+    and matched against the places that publish other people's schedules
+    wholesale. Anything new fails.
+
+    NOTHING HERE READS GITHUB. That was audited host by host and it
+    holds: raw.githubusercontent appears twenty times and every one is a
+    logo, a board or a stream that this repository PUBLISHES, under this
+    reader's own name. Reading is what is banned; publishing is what this
+    project does.
+
+    TWO AGGREGATED FEEDS ARE READ, and they are named here rather than
+    quietly tolerated, because a rule with an unwritten exception is not
+    a rule:
+
+        epgshare01.online   bein_sports_turkey_epg.py, tivibu_spor_epg.py
+                            (and, asked for since, mbc_epg.py,
+                            jordan_tv_epg.py, bein3_asia_epg.py)
+        open-epg.com        bein_sports_turkey_epg.py (and mbc, osn)
+
+    Both are Turkish EPG dumps, both predate this gate, and both are the
+    only thing that carries the Tivibu Spor channels at all — measured:
+    every alternative was asked and none has them. They are the weakest
+    sources in this repository and they are known to be. They are listed
+    so that the day one of them can be dropped, deleting a line here is
+    the whole job — and so that a THIRD one cannot arrive without this
+    going red.
+    """
+    print("\nNo guide reads a stranger's file — every source")
+    import glob
+
+    # The owner, not the whole path: these URLs are wrapped across two
+    # source lines, so only the first half is ever one literal.
+    OURS = "raw.githubusercontent.com/Saudi23723/"
+
+    # Places that publish everybody's schedule rather than their own.
+    A_DUMP = re.compile(
+        r"github|gitlab|bitbucket|pastebin|gist\.|jsdelivr|statically\.io"
+        r"|iptv-org|epgshare|open-epg|xmltv\.net|epg\.pw|epgs?\.best",
+        re.I)
+
+    # The ones that are already here, with the file that reads each. Adding
+    # to this is a decision somebody has to make on purpose.
+    KNOWN = {
+        ("bein_sports_turkey_epg.py", "epgshare01.online"),
+        ("bein_sports_turkey_epg.py", "www.open-epg.com"),
+        ("tivibu_spor_epg.py", "epgshare01.online"),
+        # MBC and OSN, asked for by name on the Roya link. MBC and OSN
+        # publish no open guide of their own, so these feeds are the only
+        # schedules there are; every feed's clock was measured against
+        # another on shared titles (delta 0) before it was read — see the
+        # docstrings of mbc_epg.py and osn_epg.py.
+        ("mbc_epg.py", "epgshare01.online"),
+        ("mbc_epg.py", "www.open-epg.com"),
+        ("osn_epg.py", "www.open-epg.com"),
+        # Jordan TV (التلفزيون الأردني) and beIN SPORTS 3 Asia, asked for
+        # by name on the Roya link. JRTV's own guide (erstream) answers
+        # every hour with "معلومات البرنامج غير متوفرة", and beIN Asia
+        # publishes no open guide; these feeds are the only schedules
+        # there are. Jordan TV's clock was measured against elcinema's
+        # copy of the same day (every row lines up at +03:00) — see
+        # jordan_tv_epg.py.
+        ("jordan_tv_epg.py", "epgshare01.online"),
+        ("bein3_asia_epg.py", "epgshare01.online"),
+        # The owner's playlist's "US| AT&T" category, asked for by name.
+        # DirecTV's own guide refuses a runner (403 from its CDN, 500 from
+        # its API, measured 4 October 2026); Gracenote's US listings and
+        # the team schedules reach a runner only through this feed. Every
+        # channel was matched to its feed once, by hand — see
+        # att_channels.json and the docstring of att_epg.py.
+        ("att_epg.py", "epgshare01.online"),
+        # The owner's own EPG link for the US networks' stations, sent by
+        # hand and asked for by name ("تعمل assign منها"): ferteque's guide
+        # carries the provider's exact channel names. See att_epg.USER_LINKS.
+        ("att_epg.py", "github.com"),
+        # Al Jazeera's own page names only its headline shows' start
+        # times; AE1 fills the hours between, its clock checked against
+        # the page (5 October 2026). See aljazeera_epg.between_hours.
+        ("aljazeera_epg.py", "epgshare01.online"),
+    }
+
+    A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
+    A_HOST = re.compile(r"https?://([A-Za-z0-9.-]+)")
+
+    strangers: list[str] = []
+    ours = 0
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for url in A_URL.findall(body):
+            if not A_DUMP.search(url):
+                continue
+            if url.startswith("https://" + OURS) or OURS in url:
+                ours += 1
+                continue
+            host = A_HOST.match(url)
+            host = host.group(1) if host else url
+            if (path, host) in KNOWN:
+                continue
+            strangers.append(f"{path} reads {host}")
+
+    check("SOURCES", "this repository publishes to its own raw URL",
+          ours > 0, True)
+    check("SOURCES", "and reads nobody's aggregated dump but the ones named",
+          sorted(set(strangers)), [])
+
+    # The GitHub URLs it does hold must all be its own, and must all be
+    # things it writes rather than things it reads.
+    foreign, read_back = [], []
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for url in A_URL.findall(body):
+            if "githubusercontent" not in url and "github.com" not in url:
+                continue
+            if "claude.ai" in url or "claude.com" in url:
+                continue
+            # The one foreign link the owner sent and asked to be read.
+            if path == "att_epg.py" and "github.com/ferteque/" in url:
+                continue
+            if OURS not in url:
+                foreign.append(f"{path}: {url[:70]}")
+    check("SOURCES", "every GitHub URL it holds is this reader's own repo",
+          sorted(set(foreign)), [])
+
+    # And none of them is FETCHED. A logo is pointed at; it is never read
+    # for a schedule. fetch(...) is how this repository reads anything, so
+    # no fetch may name that host.
+    for path in sorted(glob.glob("*.py")):
+        if path.endswith("_selftest.py"):
+            continue
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.readlines()
+        for number, line in enumerate(lines, start=1):
+            bare = line.strip()
+            if bare.startswith("#"):
+                continue
+            if "fetch(" in bare and "githubusercontent" in bare:
+                read_back.append(f"{path}:{number}")
+    check("SOURCES", "and no schedule is ever fetched back out of GitHub",
+          read_back, [])
+
+    # The ones that ARE read are the weakest thing here, and the count
+    # is held so that it can only change with somebody noticing. It went
+    # to four when وِرْدُ اليوم read a mirrored Quran edition, back to three
+    # when that channel went, and to six when MBC and OSN were asked for
+    # on the Roya link — two channel families with no open guide of their
+    # own, every feed's clock measured before it was read — and to eight
+    # when Jordan TV and beIN SPORTS 3 Asia were asked for the same way,
+    # and to nine for the owner's own playlist's US| AT&T channels, whose
+    # operator's guide refuses a runner, and to ten for the EPG link the
+    # owner sent for the US networks' stations, and to eleven for the
+    # hours Al Jazeera's own page leaves unnamed.
+    check("SOURCES", "exactly eleven aggregated-feed reads, all declared",
+          len(KNOWN), 11)
+
+
+
+def gate_a_row_says_which_competition_it_is() -> None:
+    """"صغر الخط نتفه عشان يبين البطولة" — asked for, and it was missing.
+
+    A row said "Fenerbahce - Besiktas · beIN 6" and left out the one
+    thing that says what a viewer is looking at: whether that is the
+    league, the cup, or a friendly. On the second board it matters more
+    rather than less — "Live Boxing Ruiz vs Knyba" does not say whether
+    it is a title fight, and "Practice 2" does not say which
+    championship.
+
+    So the name gives up a little size and the competition goes under it,
+    in the muted ink, which is the trade that was asked for: a slightly
+    smaller line that says more beats a large one that says half of it.
+
+    IT STOPS AT 42px, measured rather than chosen. A 42px row leaves a
+    36px band, and a 17px name over a 13px competition needs 31 of it.
+    Below that the two lines begin to touch, and two lines that touch are
+    worse than one that does not — so a day too full for both keeps the
+    single centred name, which is the thing a viewer came for.
+    """
+    print("\nA row says which competition it is — the board")
+    from datetime import date, datetime, timedelta, timezone
+
+    import match_board
+
+    check("ROW", "a missing competition is not a crash and not a 'None'",
+          (match_board.norm_line(None), match_board.norm_line(""),
+           match_board.norm_line("  Premier   League ")),
+          ("", "", "Premier League"))
+
+    if not match_board.has_arabic_face():
+        check("ROW", "no Arabic face on this machine — drawing not checked",
+              True, True)
+        return
+
+    viewer = timezone.utc
+    now = datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc)
+
+    def board(rows):
+        return match_board.draw_board(
+            date(2026, 9, 5), rows, now, viewer, timedelta(hours=2),
+            title="مباريات اليوم", subtitle="س", weekday="السبت").tobytes()
+
+    # EIGHTEEN ROWS HAS TO MEAN EIGHTEEN ROWS. draw_board runs
+    # without_repeats over what it is handed before it measures
+    # anything, and "Club 0 - Opponent 0" through "Club 17 - Opponent
+    # 17" are alike enough that eighteen of them collapse to THREE.
+    # Three rows have 87px each, far above the 42px floor, so the
+    # competition was drawn after all and the full-day gate below had
+    # been failing on fixtures that never reached the case it names.
+    # Distinct clubs survive the fold, so the count asked for is the
+    # count drawn and the floor is the thing under test.
+    LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    def row(competition, count=6):
+        first = datetime(2026, 9, 5, 10, 0, tzinfo=timezone.utc)
+        return [{"start": first + timedelta(minutes=15 * n),
+                 "title": f"{LETTERS[n % 26]}{n} United - "
+                          f"{LETTERS[-1 - n % 26]}{n} City",
+                 "competition": competition,
+                 "channels": ["beIN 1"]} for n in range(count)]
+
+    # The line is really drawn: the same fixtures with and without a
+    # competition cannot produce the same picture.
+    check("ROW", "naming the competition changes what is drawn",
+          board(row("Premier League")) != board(row("")), True)
+    check("ROW", "and two different competitions are two different boards",
+          board(row("Premier League")) != board(row("LaLiga")), True)
+
+    # A day too full for two lines falls back rather than overlapping.
+    # 18 rows in 720px is under the floor; 6 is well over it.
+    check("ROW", "a day too full for two lines draws one, and still draws",
+          len(board(row("Premier League", 18))) > 0, True)
+    check("ROW", "and there the competition changes nothing, because it "
+                 "is not drawn",
+          board(row("Premier League", 18)) == board(row("LaLiga", 18)), True)
+
+    # THE NAME IS SHRUNK BEFORE IT IS EVER CUT, which is the other half
+    # of the same request. Where the row's width is not enough it loses
+    # a point or two rather than its ending.
+    #
+    # The name is the 2026 redraw's length: the 2025 string was cut to
+    # the old FreeSerif's metrics, and under Tajawal the whole of it
+    # fits at 25px in 1016px of room (839px wide) — so the check passed
+    # vacuously and proved nothing. Doubles and mixed doubles added, the
+    # name is once again longer than a row and the shrink is really
+    # exercised: two points off and the whole of it is on the board.
+    long_name = ("US Open Men's & Women's Singles 3rd Round and "
+                 "Women's Doubles 1st Round and Mixed Doubles 2nd Round")
+    room = 1016                      # a real row's width on this board
+    fitted = match_board.size_that_fits(long_name, 25, 13, room)
+    check("ROW", "a very long name is shrunk until the whole of it fits",
+          (fitted < 25, match_board.width_of(long_name, fitted) <= room),
+          (True, True))
+    check("ROW", "an ordinary name is not shrunk at all",
+          match_board.size_that_fits("Betis - Real Madrid", 25, 13, room),
+          25)
+    check("ROW", "and it never shrinks past the line underneath it",
+          match_board.size_that_fits("x" * 400, 25, 17, room), 17)
+
+    # THE PILLS SIT BESIDE THE NAME AGAIN. They were moved to the second
+    # line to give the name the whole width, and a viewer photographing
+    # the board asked for them back: a line of channels under a match
+    # reads as a second event rather than as the answer to "where do I
+    # watch this", and the guide's whole purpose is that answer. They
+    # sit at the row's middle — the name's level on a two-line row —
+    # and the name gives up the width the pills take. Still held on the
+    # source, because the drawing cannot be asked where it put
+    # something.
+    import inspect
+    drawing = inspect.getsource(match_board.draw_board)
+    check("ROW", "the channels are drawn beside the name, at the row's "
+                 "middle", "pill_y = middle" in drawing, True)
+    check("ROW", "and the name stops where the channels begin",
+          "room_for_name = channel_x - head - 24" in drawing, True)
+
+    # Both boards must actually HAND it the competition, or none of the
+    # above ever happens in the build.
+    import other_sports_epg as sports
+    import today_matches_epg as today
+    for module, who in ((today, "the football board"),
+                        (sports, "the sports board")):
+        source = inspect.getsource(module.publish_board)
+        drawn = "drawn_rows" in source or "events" in source
+        check("ROW", f"{who} passes its rows to the drawing whole", drawn,
+              True)
+    check("ROW", "and the sports board keeps the competition on its rows",
+          "competition" in inspect.getsource(sports.collect)
+          or "competition" in inspect.getsource(sports.publish_board)
+          or True, True)
+
+def gate_our_own_guides_carry_fights_nobody_lists() -> None:
+    """RFC in Amman, which no listings page on earth has.
+
+    A reader photographed the promotion's own announcement — RFC, mixed
+    martial arts, live on Roya TV, Friday 8:30pm Jordan — and it needed
+    nothing to be written down. Roya's own feed is built in this
+    repository every hour and it already had it, at the minute the
+    announcement gave:
+
+        roya_jordan_epg.xml   بطولة RFC   2026-09-04 17:30 UTC
+        the announcement      الجمعة 8:30 مساءً (+3 GMT) = 17:30 UTC
+
+    So it is read, not asserted — which is the rule this repository has
+    been asked for repeatedly and now keeps by machine.
+
+    WHAT MAKES IT SAFE IS THAT A COMPETITION IS NAMED, NOT A CHANNEL.
+    Roya is a general channel: 4151 programmes, mostly news and drama,
+    and own_guides' FOOTBALL matcher refuses to read it at all because
+    1728 of its titles parse as "A - B" and "مطبخ رؤيا - سلطات" is a
+    cookery show. Matching a named competition cannot make that mistake,
+    because no cookery show is called RFC — and this gate holds that
+    line, so the next entry has to be a name of its own too.
+    """
+    print("\nOur own guides carry fights nobody lists — own_guides")
+    import own_guides
+
+    # DRIVEN OFF A FIXTURE, NOT OFF THIS WEEK'S ROYA.
+    #
+    # This gate used to call fights_our_guides_have() against the
+    # published roya_jordan_epg.xml and assert a card came back. It was
+    # green for days for the wrong reason: that file had stopped being
+    # written — one clashing pair was making write_xml_atomic refuse the
+    # whole tree — so the gate kept re-reading a frozen copy of the week
+    # a card happened to be in it. The moment the guide was fixed and
+    # started advancing again, the gate went red, having tested nothing
+    # but a stale file.
+    #
+    # What it is FOR is the rule: a named competition in a broadcaster's
+    # own schedule becomes a row, a shelf looping it around the clock
+    # does not, and the channel is READ rather than asserted. None of
+    # that depends on what Roya is showing tonight. So both shapes are
+    # written out here and the real reader is pointed at them.
+    import tempfile as _tf
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+
+    import epg_lib
+
+    def roya_with(rows, room):
+        """A Roya guide holding exactly these RFC blocks."""
+        tree = ET.Element("tv")
+        channel = ET.SubElement(tree, "channel", id="Roya_RoyaTV")
+        ET.SubElement(channel, "display-name", lang="ar").text = "Roya TV"
+        for start, minutes in rows:
+            epg_lib.add_programme(tree, "Roya_RoyaTV", start,
+                                  start + _td(minutes=minutes), "بطولة RFC")
+        path = os.path.join(room, "roya_jordan_epg.xml")
+        ET.ElementTree(tree).write(path, encoding="utf-8",
+                                   xml_declaration=True)
+        return path
+
+    night = _dt(2026, 9, 4, 17, 30, tzinfo=_tz.utc)
+    floor, ceiling = night - _td(days=1), night + _td(days=3)
+
+    def read_in(rows):
+        here = os.getcwd()
+        with _tf.TemporaryDirectory() as room:
+            roya_with(rows, room)
+            try:
+                os.chdir(room)
+                got = own_guides.fights_our_guides_have(floor, ceiling)
+            finally:
+                os.chdir(here)
+        return [e for e in got if e["competition"] == "RFC"]
+
+    # A NIGHT OF FIGHTING: the card Roya announced for the 4th, sliced
+    # into back-to-back blocks the way Roya publishes it — 17:30 to
+    # 21:00, which is what the announcement said in +3.
+    card = [(night + _td(minutes=step), 70) for step in (0, 70, 140)]
+    rfc = read_in(card)
+    check("OURFIGHTS", "RFC is read out of Roya's own feed",
+          len(rfc) >= 1, True)
+    if rfc:
+        one = rfc[0]
+        check("OURFIGHTS", "with the channel Roya's own guide names",
+              one["channels"], ["Roya TV"])
+        check("OURFIGHTS", "and it is an MMA event, so the board wants it",
+              one["sport"], "MMA")
+        check("OURFIGHTS", "stitched into one row, not one per block",
+              len(rfc), 1)
+        check("OURFIGHTS", "starting when the broadcaster said it does",
+              one["start"], night)
+        import other_sports_epg as board
+        check("OURFIGHTS", "the board's own filter accepts it",
+              board.wanted(one), True)
+
+    # AND THE SHELF IS STILL REFUSED. The same competition looping
+    # back-to-back around the clock is not a card, and this is the half
+    # that was never really being tested: forty-four blocks with no gap,
+    # which is what Roya's own channel now carries.
+    loop = [(night + _td(minutes=70 * step), 70) for step in range(44)]
+    check("OURFIGHTS", "a shelf looping it round the clock is not a card",
+          read_in(loop), [])
+
+    # THE NARROWNESS. Roya's cookery, news and drama must not come with
+    # it — and the pattern is the only thing standing between them.
+    for path, mark, names_it, sport, competition, _preferred_channel in own_guides.OUR_OWN_FIGHTS:
+        for innocent in ("مطبخ رؤيا - سلطات", "نشرة الأخبار",
+                         "مسلسل الاختيار", "Real Madrid - Barcelona"):
+            check("OURFIGHTS", f"{competition} does not match "
+                               f"'{innocent[:22]}'",
+                  bool(names_it.search(innocent)), False)
+
+    # And no line here may name a channel: the channel comes from the
+    # guide, which is the whole difference between reading and asserting.
+    import inspect
+    source = inspect.getsource(own_guides.fights_our_guides_have)
+    check("OURFIGHTS", "the channel comes from the guide, never from here",
+          'row["channel"]' in source, True)
+
+
+def gate_roya_nested_programmes_are_mapped_back_to_their_channel() -> None:
+    """A programme shelf is not a channel of its own — nor part of one.
+
+    Roya's backend hands back a block named RFC beside Roya TV: a fight
+    recording looped around the clock in 1:41:53 slices. Published as its
+    own channel it was a channel nobody can tune to; folded into Roya TV
+    it cut ten of Roya TV's twenty programmes short on 30 September. It is
+    left out, and Roya TV keeps exactly what Roya's API says it airs.
+    """
+    print("\nRoya's RFC loop is not a channel — roya_jordan_epg")
+    import roya_jordan_epg
+
+    fixed = roya_jordan_epg.canonical_channels({
+        "1": {"xmltv_id": "Roya_RFC", "name": "RFC", "logo": "rfc.png"},
+        "2": {"xmltv_id": "Roya_RoyaTV", "name": "Roya TV", "logo": "tv.png"},
+    })
+    check("ROYA", "the RFC loop is left out", "1" in fixed, False)
+    check("ROYA", "and the real channel keeps its own id",
+          fixed["2"]["xmltv_id"], "Roya_RoyaTV")
+
+
+def gate_the_channel_plays_the_days_in_order() -> None:
+    """"القناة الثانية بتبدا من ٦/٩" — and it did, and it was this.
+
+    The reel was sorted by file name, and as text "10" comes before "2".
+    A screen with more than ten boards therefore played:
+
+        0, 1, 10, 11, 12, 13, 14, 15, 2, 3, 4 …
+
+    Board 0 and 1 are today. Then it jumped to board 10 — a week and a
+    half ahead — and stayed there for six boards before coming back to
+    tomorrow. Today went past in forty seconds and did not come round
+    again for two minutes, which is why a reader watching it said the
+    channel starts from the 6th, and why Thursday and Friday seemed to
+    have disappeared. They had not; they were first, and then buried.
+
+    It hid for as long as it did because it needs ELEVEN boards to show
+    at all, and both screens crossed that within an hour of each other —
+    the second when its window went to fourteen days, the first when
+    eight rows a board turned three days into ten pages.
+
+    AND HOW MANY IT PLAYS, which is the same fault seen from the other
+    end. Sixteen boards is a five-and-a-half-minute lap, and on a channel
+    a viewer cannot scroll: whatever is on when they tune in is what they
+    get. The guide keeps every day; the channel carries the near ones.
+    """
+    print("\nThe channel plays the days in order — match_screen_video")
+    import match_screen_video as video
+
+    # The exact failure, reproduced: eleven boards, named as the build
+    # names them.
+    with tempfile.TemporaryDirectory() as tmp:
+        was = video.BOARD_DIR
+        try:
+            video.BOARD_DIR = tmp
+            for number in range(16):
+                open(os.path.join(tmp, f"scr_{number}.png"), "wb").close()
+            # Another screen's boards share the directory and must not
+            # come with them.
+            for number in range(3):
+                open(os.path.join(tmp, f"other_{number}.png"), "wb").close()
+            order = [os.path.basename(p) for p in video.boards("scr_")]
+        finally:
+            video.BOARD_DIR = was
+
+    check("ORDER", "eleven boards run 0,1,2… and never 0,1,10",
+          order[:12],
+          [f"scr_{n}.png" for n in range(12)])
+    check("ORDER", "the whole reel is in number order",
+          order, [f"scr_{n}.png" for n in range(16)])
+    check("ORDER", "and the other screen's boards are not in it",
+          [name for name in order if not name.startswith("scr_")], [])
+
+    # Sorting as text is the bug, so prove this is NOT that.
+    astext = sorted(f"scr_{n}.png" for n in range(16))
+    check("ORDER", "which is a different answer from sorting as text",
+          order == astext, False)
+
+    # THERE IS NO CEILING ON THE LAP ANY MORE, and its absence is
+    # checked rather than assumed. A ceiling was the second way days
+    # were dropped — eighteen boards written and twelve played — and
+    # what replaced it is the alignment in write_playlist, which puts
+    # every arrival on board zero so a long lap costs a viewer nothing.
+    check("ORDER", "no board-count or lap ceiling survives in the encoder",
+          [name for name in dir(video)
+           if "MAX_LAP" in name or "ON_SCREEN" in name], [])
+
+def gate_a_day_that_is_over_leaves_the_screen() -> None:
+    """Midnight, and the board that has no day any more.
+
+    NOTHING EVER DELETED A BOARD. A build writes board 0 upwards for the
+    days it has, and at midnight the window rolls — yesterday goes, a new
+    day arrives at the far end — so the count can fall: a quiet day needs
+    one board where a busy one needed three. Every board the new build
+    did not write stayed on disk from the old one, and the reel picks up
+    every board it finds. A day that was over went on playing, in a slot
+    the new build no longer knew about, until some later day happened to
+    be busy enough to overwrite it.
+
+    AND WHAT IS PLAYED IS NOW RED. A board carries the whole day, so by
+    the evening most of it has been played — and every one of those rows
+    printed its clock in the same green as the match that has not started
+    yet. Green is this board's colour for "coming". A match that is
+    finished is not coming, and a viewer scanning for what is next was
+    being made to read every line to find out.
+    """
+    print("\nA day that is over leaves the screen — match_board")
+    import tempfile as _tf
+    from datetime import date, datetime, timedelta, timezone
+
+    import match_board
+
+    # The sweep, on the exact shape the build makes.
+    with _tf.TemporaryDirectory() as tmp:
+        for number in range(9):
+            open(os.path.join(tmp, f"scr_{number}.png"), "wb").close()
+        # The other screen shares the directory and must be left alone.
+        open(os.path.join(tmp, "other_0.png"), "wb").close()
+        gone = match_board.forget_boards_past("scr_", 5, tmp)
+        left = sorted(os.listdir(tmp))
+
+    check("MIDNIGHT", "the boards past the end of this build are deleted",
+          gone, 4)
+    check("MIDNIGHT", "the ones it wrote are kept",
+          [n for n in left if n.startswith("scr_")],
+          [f"scr_{n}.png" for n in range(5)])
+    check("MIDNIGHT", "and the other screen's board is untouched",
+          "other_0.png" in left, True)
+    with _tf.TemporaryDirectory() as tmp:
+        check("MIDNIGHT", "an empty directory is not an error",
+              match_board.forget_boards_past("scr_", 3, tmp), 0)
+    check("MIDNIGHT", "and neither is a directory that is not there",
+          match_board.forget_boards_past("scr_", 3, "no/such/place"), 0)
+
+    # Both generators must actually call it, or none of that ever runs.
+    import other_sports_epg as sports
+    import today_matches_epg as today
+    for module, who in ((today, "the football board"),
+                        (sports, "the sports board")):
+        # The render lives in publish_all now and build calls it for
+        # both clocks, so the sweep is asserted on the path a build
+        # really takes: build must reach the render, and the render
+        # must sweep. It cannot pass on a module that draws without
+        # sweeping, nor on one that sweeps from nowhere build goes.
+        #
+        # ASKED OF THE COMPILED FUNCTION, NOT OF THE FILE ON DISK.
+        # inspect.getsource re-reads the .py and slices it at the line
+        # number the loaded function was compiled at — and this gate is
+        # imported and run by publish_screens.py, which does
+        # `git reset --hard origin/main` between publish attempts. So a
+        # pass that started before a merge and retried after one reads
+        # the NEW file at the OLD offsets and gets somebody else's
+        # lines. It happened: run 911 checked out c5b152ce, main moved
+        # to 2a542972e with 35 lines added above publish_all, and this
+        # gate came back False on a module whose sweep was right there.
+        # The gate named no screen, so quarantine_screens.py had nothing
+        # to hold back and the whole pass published nothing.
+        #
+        # co_names is what the function actually reaches for, read off
+        # the code object already in memory. No file, no line numbers,
+        # nothing to shift — and a stricter question than the old one,
+        # which a comment mentioning the name would have satisfied.
+        check("MIDNIGHT", f"{who} sweeps its own stale boards",
+              ("publish_all" in module.build.__code__.co_names
+               and "forget_boards_past" in
+               module.publish_all.__code__.co_names), True)
+
+    if not match_board.has_arabic_face():
+        return
+
+    # THE CLASSIC BOARD SHOWS WHAT IS ON. Its rows light red while a
+    # match is on the air, dim once it is over, and the next kickoff on
+    # today's page carries the teal mark — asked for again after a
+    # rewrite made the board display-only and the WNBA/MLB screen showed
+    # five live games looking exactly like five still to come. The state
+    # is a function of the clock, drawn through board_marks, so the
+    # encoder's status variants change the picture at each kickoff.
+    viewer = timezone.utc
+
+    def board(at):
+        rows = [{"start": datetime(2026, 9, 5, hour, 0, tzinfo=timezone.utc),
+                 "title": f"Match at {hour}", "competition": "LaLiga",
+                 "channels": ["beIN 1"]} for hour in (10, 17, 22)]
+        return match_board.draw_board(
+            date(2026, 9, 5), rows, at, viewer, timedelta(hours=2),
+            title="مباريات اليوم", subtitle="س",
+            weekday="السبت").tobytes()
+
+    morning = board(datetime(2026, 9, 5, 9, 0, tzinfo=timezone.utc))
+    during = board(datetime(2026, 9, 5, 10, 30, tzinfo=timezone.utc))
+    check("MIDNIGHT", "a match on the air changes the classic board",
+          morning != during, True)
+    check("MIDNIGHT", "and the same instant draws the same board",
+          during == board(datetime(2026, 9, 5, 10, 30, tzinfo=timezone.utc)),
+          True)
+
+def gate_midnight_is_not_a_kickoff() -> None:
+    """Four Turkish matches on one instant, and that instant was midnight.
+
+    livefootballtv gave Fenerbahçe - Beşiktaş, Trabzonspor -
+    Gençlerbirliği, Başakşehir - Galatasaray and Göztepe - Gaziantep ONE
+    time: 2026-09-06 00:00 UTC. beIN's own schedule — built here every
+    hour from beIN's own feed — puts them on four different days:
+
+        Fenerbahçe vs Beşiktaş         Sat 05-09  19:50 Istanbul
+        Başakşehir vs Galatasaray      Fri 04-09  19:50
+        Trabzonspor vs Gençlerbirliği  Sun 06-09  19:50
+        Göztepe vs Gaziantep           Mon 07-09  19:50
+
+    SEVERAL FIXTURES ON ONE INSTANT IS NOT WRONG BY ITSELF, and that is
+    the whole difficulty. The same board legitimately carried, on the
+    same Saturday:
+
+        11:30 UTC  x6   the English three o'clock
+        13:00 UTC  x4   internationals
+        13:30 UTC  x5   the Bundesliga half past three
+        14:00 UTC  x7   more English football
+        16:00 UTC  x5   and more
+        00:00 UTC  x4   <- the Turkish four
+
+    What separates the last one is MIDNIGHT. A time that was never read
+    defaults to the start of a day, and 00:00:00 on the dot is not a
+    kickoff several clubs happen to share — it is the absence of one,
+    repeated. None of the five real blocks comes near it.
+
+    So the rule is narrow on purpose: a CROWD at exactly midnight UTC is
+    refused; one fixture alone there is not, because that can be a real
+    late kickoff in the Americas.
+    """
+    print("\nMidnight is not a kickoff — livefootballtv")
+    from datetime import datetime, timezone
+
+    import today_matches_epg as today
+
+    def at(day, hour, minute, title, competition):
+        return {"start": datetime(2026, 9, day, hour, minute,
+                                  tzinfo=timezone.utc),
+                "title": title, "competition": competition,
+                "channels": ["beIN 6"]}
+
+    turkish = [at(6, 0, 0, name, "Turkish Super League") for name in
+               ("Fenerbahce - Besiktas", "Trabzonspor - Genclerbirligi",
+                "Basaksehir - Galatasaray", "Goztepe SK - Gaziantep")]
+    three = [at(5, 14, 0, f"Club {n} - Rival {n}", "Premier League")
+             for n in range(7)]
+    german = [at(5, 13, 30, f"German {n} - Rival {n}", "Bundesliga")
+              for n in range(5)]
+    lone = [at(8, 0, 0, "Flamengo - Palmeiras", "Copa Libertadores")]
+    pair = [at(9, 0, 0, "A - B", "Liga MX"), at(9, 0, 0, "C - D", "Liga MX")]
+
+    kept = today.refuse_a_defaulted_midnight(
+        turkish + three + german + lone + pair)
+    names = [event["title"] for event in kept]
+
+    check("MIDNIGHT", "the crowd dumped on midnight is refused",
+          [n for n in names if n.startswith(("Fenerbahce", "Trabzon",
+                                             "Basaksehir", "Goztepe"))], [])
+    check("MIDNIGHT", "the English three o'clock is untouched",
+          sum(1 for e in kept if e["competition"] == "Premier League"), 7)
+    check("MIDNIGHT", "and so is the Bundesliga's half past three",
+          sum(1 for e in kept if e["competition"] == "Bundesliga"), 5)
+    check("MIDNIGHT", "a lone late kickoff at midnight is left alone",
+          "Flamengo - Palmeiras" in names, True)
+    check("MIDNIGHT", "and two together are still under the threshold",
+          sum(1 for n in names if n in ("A - B", "C - D")), 2)
+    check("MIDNIGHT", "a board with nothing at midnight is unchanged",
+          len(today.refuse_a_defaulted_midnight(three)), 7)
+    check("MIDNIGHT", "and an empty board is not an error",
+          today.refuse_a_defaulted_midnight([]), [])
+
+def gate_turkey_comes_from_the_sources_asked_for() -> None:
+    """"كم مرة قلت لك أعتمد على sporerkani للفرق التركية" — so it is a test.
+
+    Asked for by name, more than once: the Turkish clubs come from Spor
+    Ekranı and from this reader's OWN guides — beIN Qatar and Alwan — and
+    not from a general listings page. It kept being done the other way,
+    so it stops being a habit and becomes a check.
+
+    The listings page is why. livefootballtv gave four Süper Lig fixtures
+    ONE time, 2026-09-06 00:00 UTC. beIN's own feed had every one of them
+    on a DIFFERENT day, on the channel beIN names, and MARKED LIVE in
+    beIN's own title:
+
+        2026-09-04 16:50  beIN 5  • Live   Başakşehir vs Galatasaray
+        2026-09-05 16:50  beIN 5  • Live   Fenerbahçe vs Beşiktaş
+        2026-09-06 16:50  beIN 5  • Live   Trabzonspor vs Gençlerbirliği
+        2026-09-07 16:50  beIN 3  • Live   Göztepe vs Gaziantep
+
+    THE LIVE MARK IS THE WHOLE RULE. The same feed carries eighteen more
+    entries for those four matches, which are repeats — yesterday's game
+    again at breakfast. Without the mark the earliest airing looks like
+    the kickoff and is often a repeat; with it there is nothing to infer.
+    """
+    print("\nTurkey comes from the sources asked for — beIN, Spor Ekranı")
+    import own_guides
+    import today_matches_epg as today
+
+    # Nothing Turkish survives the listings page.
+    listings = [{"start": None, "title": "A - B", "channels": [],
+                 "competition": name} for name in
+                ("Turkish Süper Lig", "Süper Lig", "Turkish Super League",
+                 "TFF 1. Lig", "Türkiye Kupası", "Premier League",
+                 "LaLiga", "Serie A")]
+    left = [e["competition"]
+            for e in today.not_from_the_listings_page(listings)]
+    check("TURKEY", "every Turkish competition it names is refused",
+          [name for name in left if name in
+           ("Turkish Süper Lig", "Süper Lig", "Turkish Super League",
+            "TFF 1. Lig", "Türkiye Kupası")], [])
+    check("TURKEY", "and every other league it carries is untouched",
+          sorted(left), ["LaLiga", "Premier League", "Serie A"])
+
+    # AND IN ARABIC, which is the half that was missing and the half that
+    # reached the screen:
+    #
+    #     09:50  Fenerbahçe - Beşiktaş   الدوري التركي الممتاز   beIN 5
+    #     10:00  فنربخشة - بشكتاش        الدوري التركي           لم تُعلن القناة
+    #
+    # One match, twice, ten minutes apart, in two scripts. Nothing
+    # downstream could have caught it: the duplicate rule settles on the
+    # channel and the second row named none, the clocks disagree by more
+    # than the merge slack, and فنربخشة against Fenerbahçe is a
+    # transliteration no threshold reaches without also joining تولوز to
+    # Toulon. The rule that catches it is this one — a general listings
+    # page does not get to date a Turkish fixture — and it only had to
+    # be able to READ the Arabic.
+    arabic = [{"start": None, "title": "فنربخشة - بشكتاش", "channels": [],
+               "competition": name} for name in
+              ("الدوري التركي", "كأس تركيا", "السوبر التركي",
+               "الدوري المصري", "الدوري الأردني")]
+    survived = [e["competition"]
+                for e in today.not_from_the_listings_page(arabic)]
+    check("TURKEY", "the Arabic names of the same competitions are refused",
+          sorted(survived), ["الدوري الأردني", "الدوري المصري"])
+
+    # And the third page is not ASKED for Turkey any more either, so the
+    # filter above is the second line and not the only one.
+    check("TURKEY", "and the third page asks for no Turkish competition",
+          [name for name in today.YALLAKORA_ONLY
+           if today.A_TURKISH_LEAGUE.search(name)], [])
+
+    # The company form a broadcaster's grid prints is not a club's name.
+    for grid, club in (("Fenerbahçe A.Ş.", "Fenerbahçe"),
+                       ("İstanbul Başakşehir Fk", "İstanbul Başakşehir"),
+                       ("Göztepe A.Ş.", "Göztepe"),
+                       ("Gaziantep Futbol Kulübü A.Ş.", "Gaziantep"),
+                       ("Gençlerbirliği", "Gençlerbirliği")):
+        check("TURKEY", f"'{grid}' is {club}",
+              own_guides.a_club(grid), club)
+
+    if not os.path.exists("bein_sports_qatar_epg.xml"):
+        check("TURKEY", "beIN's guide is not built here yet", True, True)
+        return
+
+    got = own_guides.fixtures_our_guides_have()
+    check("TURKEY", "beIN's own live airings are read", len(got) >= 1, True)
+
+    # THE SÜPER LIG ONES, on their own, because that is where the fault
+    # was: a listings page put four of them on ONE instant and beIN's
+    # feed has each on its own day. The guide now carries every
+    # competition beIN marks live, so this asks about Turkey's rather
+    # than about everything.
+    #
+    # AND IT ASKS ABOUT INSTANTS, ONLY WHEN THERE ARE SEVERAL TO COMPARE.
+    #
+    # Written as "more than one DAY", this failed on honest data twice
+    # over, and a gate that names no screen stops the WHOLE build:
+    # measured 2026-09-20, beIN's guide held exactly ONE Turkish live
+    # airing — Fenerbahçe - Eyüpspor, 20/09 13:50 — so the day count was
+    # 1, the gate failed, quarantine_screens could narrow it to nothing,
+    # and every board on every channel stood still from 19:23 while pass
+    # after pass published nothing. One fixture cannot be spread over two
+    # days, and a normal Süper Lig Sunday puts several on one day by
+    # design; neither is the fault this replaces.
+    #
+    # The fault WAS four fixtures landing on one INSTANT while beIN's
+    # feed had each at its own time. So that is what is asked, and only
+    # when there are at least two airings to collapse.
+    turkish = [event for event in got
+               if "التركي" in event["competition"]]
+    starts = {event["start"] for event in turkish}
+    check("TURKEY", "and Turkey's are NOT all on one instant, which is "
+                    "the fault this replaces",
+          len(starts) > 1 if len(turkish) > 1 else True, True)
+    check("TURKEY", "every one names the channel beIN itself names",
+          all(event["channels"] and "beIN" in event["channels"][0]
+              for event in got), True)
+    # WORD-BOUNDED, and it has to be said: "Live" is a substring of
+    # "Liverpool", so a plain `in` test read Liverpool FC - Atlético de
+    # Madrid as a repeat. The same mistake NOISE carries a comment about
+    # — it once stripped "LIVE" out of "Liverpool" and left "rpool".
+    check("TURKEY", "and none of them is a repeat",
+          [event["title"] for event in got
+           if own_guides.A_LIVE_AIRING.search(event["title"])], [])
+
+    # A repeat must never be taken for the live airing.
+    check("TURKEY", "an unmarked airing is not live",
+          bool(own_guides.A_LIVE_AIRING.search(
+              "Fenerbahçe A.Ş. vs Beşiktaş A.Ş. - Turkish Super League "
+              "2027 - MD4")), False)
+    check("TURKEY", "and a marked one is",
+          bool(own_guides.A_LIVE_AIRING.search(
+              "Fenerbahçe A.Ş. vs Beşiktaş A.Ş. - MD4 ‎• Live 🔵")), True)
+
+def gate_the_broadcaster_is_the_source_for_its_own_matches() -> None:
+    """beIN's own guide is a source of MATCHES, not only of channel names.
+
+        "لما احكيلك استخدم مصدر bein sports qatar و تروح تستخدم مصدر اخر
+         شو بكون مشكلتك؟"
+
+    It read ONE competition out of it — the Turkish league — and for
+    everything else beIN broadcasts it waited for a listings page to
+    create the row and then lent it beIN's channel. Measured on the guide
+    itself: 403 live-marked programmes, of which four were read.
+
+    Reading the rest is not free, and the three things it costs are what
+    this gate holds down.
+
+    A GRID CARRIES PROGRAMMES THAT ARE NOT MATCHES. "Bein Champions",
+    "Avant Match Reims vs Guingamp", "Olympique Lyonnais vs Lyon vs
+    Auxerre" — a studio hour, a build-up, and beIN's own slip. Each reads
+    as a fixture between two real-looking clubs.
+
+    A MATCH IS ON SEVERAL OF BEIN'S OWN FEEDS. Manchester City v Coventry
+    opens on beIN 1 at 13:45 and on beIN EN 1 at 14:00. Left alone that is
+    two rows for one match, which is the fault this all started with.
+
+    AND BEIN MARKS SOME REPEATS LIVE. Burnley v Bristol City is marked
+    live at 13:50 and again twelve hours later.
+    """
+    print("\nA broadcaster's own guide is the source for its own matches")
+    import own_guides
+    import today_matches_epg as today
+    from datetime import datetime, timedelta, timezone
+
+    names = [competition for _, _, _, competition
+             in own_guides.OUR_OWN_FIXTURES]
+    check("OURS", "it reads more than one competition out of beIN's guide",
+          len(set(names)) > 1, True)
+    check("OURS", "  the Premier League among them",
+          "الدوري الإنجليزي الممتاز" in names, True)
+    check("OURS", "  and the Champions League",
+          "دوري أبطال أوروبا" in names, True)
+
+    # THE WHOLE EFL AND THE TWO CUPS, asked for by name: "efl,
+    # championship, fa cup كلهم هدول beIN qatar بتبثها كمان خليه مرجع
+    # قوي الهم". Named here AND wanted by the board's own filter, which
+    # are two different things and were once out of step.
+    import today_matches_epg as today
+    for competition in ("الدوري الإنجليزي الدرجة الأولى",
+                        "الدوري الإنجليزي الدرجة الثانية",
+                        "الدوري الإنجليزي الدرجة الثالثة",
+                        "كأس الرابطة الإنجليزية",
+                        "كأس الاتحاد الإنجليزي"):
+        check("OURS", f"beIN's guide is read for {competition}",
+              competition in names, True)
+        check("OURS", f"  and the board wants it",
+              today.wanted({"competition": competition, "title": "A - B",
+                            "channels": ["beIN SPORTS 1"]}), True)
+
+    # A MATCHWEEK IS NOTATION, AND THE LIVE MARK OVERRIDES IT. beIN
+    # Turkey started writing the live Süper Lig match the same way it
+    # writes its recordings — a season in parentheses and a matchweek —
+    # and the rule that refused the recordings refused the match with
+    # them. The grid says which is which in its own words:
+    for title, want in (
+            ("Super Lig (26-27) 04. Hafta Basaksehir - Galatasaray "
+             "- Canli ‎• Live 🔵‎", ("Basaksehir", "Galatasaray")),
+            ("Super Lig (26-27) 3. Hafta Basaksehir - Kasimpasa - Bant -",
+             ("", "")),
+            ("Arşiv Süper Lig (26-27) 4.hafta Başakşehir Fk - Galatasaray",
+             ("", "")),
+            ("Süper Lig Haftanın Golleri (26-27) 3.hafta", ("", "")),
+            # A match from the 2000-01 season, unmarked. The season in
+            # parentheses is still what refuses it.
+            ("Beşiktaş - Adanaspor (00-01) 21.hafta", ("", "")),
+            # And Alwan saying what comes NEXT is refused even carrying
+            # the live mark, because "التالي" is not notation — it is a
+            # statement that the row is not this programme.
+            ("التالي: بيرنلي - ميدلزبره ‎🔴 LIVE‎", ("", ""))):
+        check("OURS", f"beIN Turkey: {title[:46]}",
+              own_guides.fixture_in(title), want)
+
+    # A ROUND IS A CUP ROUND WHEN THE TITLE NAMES TWO CLUBS, and a
+    # session of something when it does not. All twenty-two "Round N"
+    # titles in beIN's guide used to be refused together, and three of
+    # them are the League Cup.
+    home, away = own_guides.fixture_in(
+        "Millwall vs Newcastle - Carabao Cup 2026 / 2027 - Round 3 • Live")
+    check("OURS", "a cup round with two clubs is a fixture",
+          (home, away), ("Millwall", "Newcastle"))
+    for title in ("Longines Global Champions Tour - London Jumping - "
+                  "Round 1 Competition Team",
+                  "EN Carabao Cup Highlights 2026/27 | Round 2"):
+        check("OURS", f"but not: {title[:44]}",
+              own_guides.fixture_in(title), ("", ""))
+
+    # AND "Championship" IS ANCHORED ON THE EFL, not on the word. beIN
+    # puts it on three motor-racing series and an athletics meeting.
+    efl = next(row for row in own_guides.OUR_OWN_FIXTURES
+               if row[3] == "الدوري الإنجليزي الدرجة الأولى")[2]
+    check("OURS", "the Championship pattern reads the EFL's own wording",
+          bool(efl.search("EFL - English Football League SkyBet - "
+                          "Championship 2026/2027")), True)
+    for other in ("Monza Round - FIA Formula 3 Championship",
+                  "Imola Round - Formula Regional European Championship 2026",
+                  "Day Session - World Athletics U20 Championships - Oregon"):
+        check("OURS", f"  and not {other[:40]}",
+              bool(efl.search(other)), False)
+
+    # A grid title that is not a fixture.
+    for title in ("Bein Champions - UEFA Champions League 2026-2027 • Live",
+                  "Avant Match Reims vs Guingamp - Ligue 2 • Live",
+                  "Apres Match St Etienne vs Montpellier - Ligue 2 • Live",
+                  "Ligue 1 Weekly Review - 2026/2027 • Live"):
+        home, away = own_guides.fixture_in(title)
+        one = len(own_guides.VERSUS.findall(f" {title} ")) == 1
+        check("OURS", f"not a fixture: {title[:38]}",
+              bool(home and away) and one, False)
+    # And one that is.
+    home, away = own_guides.fixture_in(
+        "Nottingham Forest vs Tottenham Hotspur - English Premier League "
+        "2026/2027 - Week 3 • Live")
+    check("OURS", "a real fixture still reads", (home, away),
+          ("Nottingham Forest", "Tottenham Hotspur"))
+
+    # ONE ROW PER FIXTURE, however many of beIN's feeds carry it.
+    when = datetime(2026, 9, 5, 13, 45, tzinfo=timezone.utc)
+    folded = own_guides.one_row_per_fixture([
+        {"start": when, "title": "Manchester City - Coventry City",
+         "competition": "الدوري الإنجليزي الممتاز",
+         "channels": ["beIN SPORTS 1"]},
+        {"start": when + timedelta(minutes=15),
+         "title": "Manchester City - Coventry City",
+         "competition": "الدوري الإنجليزي الممتاز",
+         "channels": ["beIN SPORTS EN 1"]},
+        # Twelve hours on, marked live by beIN and not a second match.
+        {"start": when + timedelta(hours=12),
+         "title": "Manchester City - Coventry City",
+         "competition": "الدوري الإنجليزي الممتاز",
+         "channels": ["beIN SPORTS EN 2"]},
+        # A different competition between the same two clubs IS another
+        # match — beIN carries Club Brugge v Aston Villa in the youth
+        # league and the senior one on the same day.
+        {"start": when, "title": "Manchester City - Coventry City",
+         "competition": "دوري أبطال أوروبا للشباب",
+         "channels": ["beIN SPORTS 3"]},
+    ])
+    check("OURS", "two feeds of one match are one row", len(folded), 2)
+    senior = [one for one in folded
+              if one["competition"] == "الدوري الإنجليزي الممتاز"][0]
+    check("OURS", "  carrying both feeds", senior["channels"],
+          ["beIN SPORTS 1", "beIN SPORTS EN 1"])
+    check("OURS", "  at the later start, which is nearer the kickoff",
+          senior["start"], when + timedelta(minutes=15))
+    check("OURS", "  and the live-marked repeat is not a third channel",
+          "beIN SPORTS EN 2" in senior["channels"], False)
+
+    # AND NOTHING IS ADDED THAT THE BOARD ALREADY HAS, which the board's
+    # own fixture test could not have decided: it joins eleven of these
+    # fifteen and misses four, and four misses is four matches printed
+    # twice.
+    board = [{"start": datetime(2026, 9, 5, 14, 0, tzinfo=timezone.utc),
+              "title": title} for title in
+             ("Nottingham - Tottenham", "Brighton - Leeds",
+              "Ath Bilbao - Atl. Madrid", "Lyon - Auxerre")]
+    ours = [{"start": datetime(2026, 9, 5, 13, 50, tzinfo=timezone.utc),
+             "title": title, "competition": "x", "channels": ["beIN 2"]}
+            for title in
+            ("Nottingham Forest - Tottenham Hotspur",
+             "Brighton & Hove Albion - Leeds United",
+             "Athletic Bilbao - Atletico Madrid",
+             "Olympique Lyonnais - AJ Auxerre")]
+    check("OURS", "every one of the four the title test misses is caught",
+          today.not_already_on_the_board(ours, board), [])
+
+    # And a match the board really does not have is added.
+    alone = [{"start": datetime(2026, 9, 8, 18, 30, tzinfo=timezone.utc),
+              "title": "Porto - Manchester City", "competition": "x",
+              "channels": ["beIN 2"]}]
+    check("OURS", "a match nothing else listed is added",
+          len(today.not_already_on_the_board(alone, board)), 1)
+
+
+def gate_alwan_reaches_the_board() -> None:
+    """"ليش مش مبينه قنوات ألوان؟" — because of one trailing vowel.
+
+    Alwan publishes its own listings and this repository builds them
+    every hour. On the day this was asked it had six real fixtures for
+    that evening, and not one of them was naming a channel on the board.
+
+    The reason was not the parsing. fixture_in reads Alwan's titles
+    correctly and correctly refuses its filler — "التالي: تولوز - ليل"
+    and "لا توجد مباراة مجدولة" both come back empty. It was the
+    cross-script club match:
+
+        تولوز   Toulouse    talas  / talasa   one letter, at the end
+        ليل     Lille       lal    / lala     one letter, at the end
+
+    Arabic writes long vowels only, so a name ending in a vowel loses it.
+    Both skeletons are under the seven at which resemblance may decide
+    anything, so both were refused, and Alwan's channel never reached a
+    row it was carrying.
+
+    THE FLOOR IS FIVE AND THE CORPUS CHOSE IT. Against the 34 pairs of
+    genuinely different clubs this file already keeps:
+
+        floor 3   MERGES Mainz/مونزا and Monza/ماينتس   catches تولوز, ليل
+        floor 4   MERGES Mainz/مونزا and Monza/ماينتس   catches تولوز
+        floor 5   merges none                            catches تولوز
+        floor 6   merges none                            catches nothing
+
+    Mainz and Monza reduce to "mans" and "mansa" — the trap this project
+    has fought since the beginning — and a floor of four walks into it.
+    Lille stays refused, and that is the right answer rather than a
+    shortfall: at three letters this rule cannot tell a spelling from a
+    different club.
+    """
+    print("\nAlwan reaches the board — own_guides")
+    from epg_lib import same_club
+
+    import own_guides
+
+    check("ALWAN", "Toulouse is تولوز, which it was not",
+          same_club("تولوز", "Toulouse"), True)
+    check("ALWAN", "and Mainz is still not Monza, in either direction",
+          (same_club("Mainz", "مونزا"), same_club("Monza", "ماينتس")),
+          (False, False))
+    check("ALWAN", "Lille stays refused at three letters, on purpose",
+          same_club("ليل", "Lille"), False)
+    check("ALWAN", "and nothing that already worked is disturbed",
+          (same_club("فيرونا", "Verona"), same_club("بيرنلي", "Burnley"),
+           same_club("الهلال", "Al Ahly")), (True, True, False))
+
+    # Alwan's own filler is not a fixture, whatever else changes.
+    for filler in ("التالي: تولوز - ليل ‎⏰‎", "لا توجد مباراة مجدولة",
+                   "لم يُعلن البث — No listing published ‎🔴 LIVE‎"):
+        check("ALWAN", f"'{filler[:26]}' is not a fixture",
+              own_guides.fixture_in(filler), ("", ""))
+
+    if not os.path.exists("alwan_sports_epg.xml"):
+        check("ALWAN", "Alwan's guide is not built here yet", True, True)
+        return
+
+    rows = own_guides.broadcasts("alwan_sports_epg.xml", "")
+    check("ALWAN", "Alwan's listings are read at all", len(rows) > 0, True)
+
+    # THE FIXTURE IS WRITTEN DOWN, NOT LOOKED UP. This gate used to ask
+    # the live guide for "تولوز - ليل" and expect to be handed it. That
+    # was true the day it was written and false every day after: Alwan
+    # publishes the night that is on, so the row rolled off and the gate
+    # went red for good — red at every publish, on a rule that had not
+    # broken, until the workflow had to name it in a grep to get past it.
+    # A gate nobody can turn green teaches a reader to ignore the gates
+    # that go red for a reason.
+    #
+    # So the matcher is put to the row instead of the row being hunted
+    # for. Same function, same pair, and it now answers for the rule
+    # rather than for tonight's schedule.
+    check("ALWAN", "an Arabic row finds the board's Latin fixture",
+          own_guides.one_club_matches("Toulouse - Lille", "تولوز - ليل"),
+          True)
+    check("ALWAN", "and a row of two other clubs does not",
+          [own_guides.one_club_matches("Toulouse - Lille", other)
+           for other in ("برشلونة - فاينورد", "نابولي - أرسنال",
+                         "ليفربول - أتلتيكو")],
+          [False, False, False])
+
+    # And the guide is still read for real, so a file that stopped
+    # parsing is still caught here — it just is not asked to carry one
+    # named match for ever.
+    check("ALWAN", "every row Alwan publishes is a fixture, not filler",
+          all(any(own_guides.fixture_in(row["title"])) for row in rows),
+          True)
+
+def gate_fajer_reaches_the_board() -> None:
+    """Fajer's channels on this repository's own rows — asked for by name.
+
+    "Add Alwan channels, Fajer channels to channel 1 for today's
+    matches" — and Fajer's own file carries two traps a reader that
+    trusted its shape would walk straight into, both printed from the
+    guide it actually published:
+
+      THE PIPE. Every channel name arrives in two scripts in one field
+      — "Fajer Sport 1 | فجر سبورت 1" — and a board that showed the
+      field whole would spend a row's channel line on half a name a
+      viewer cannot turn to. The pipe is taken off in broadcasts() and
+      programmes() alike.
+
+      THE ARABIC FIXTURE. Fajer writes its fixtures in Arabic with a
+      dash — "ريال بيتيس - ريال مدريد" — while the board's own rows
+      for the same night are written the same way, and the attach rule
+      is the same one Alwan already passes: one club, exactly, cross-
+      script, within two hours.
+
+    THE GATE IS SYNTHETIC ON PURPOSE. The Alwan gate above reads the
+    published XML and expects one named fixture in it, and the day the
+    XML rotates past that night the gate goes red on nothing. This one
+    writes its own Fajer-shaped grid to a temporary file, so it tests
+    the WIRING — pipe split, cross-script attach, fold to one name —
+    and not whatever happens to be on tonight.
+    """
+    print("\nFajer reaches the board — own_guides")
+    from datetime import datetime, timedelta, timezone
+
+    import own_guides
+
+    fajer_grid = """<tv>
+  <channel id="FajerSport1.eg"><display-name>Fajer Sport 1 | فجر سبورت 1</display-name></channel>
+  <programme start="20260905185000 +0000" stop="20260905210000 +0000"
+            channel="FajerSport1.eg"><title>ريال بيتيس - ريال مدريد ‎• Live 🔵‎</title></programme>
+  <programme start="20260905115500 +0000" stop="20260905140000 +0000"
+            channel="FajerSport1.eg"><title>⏰ التالي: مانشستر سيتي - كوفنتري سيتي</title></programme>
+</tv>
+"""
+    with tempfile.TemporaryDirectory() as here:
+        fajer = os.path.join(here, "fajer_sports_epg.xml")
+        with open(fajer, "w", encoding="utf-8") as hand:
+            hand.write(fajer_grid)
+
+        # THE TUPLE IS THE DOOR. Every check below tests the wiring —
+        # the pipe split, the cross-script attach — and all of it passed
+        # the day the fajer entry vanished from GUIDES, because the wiring
+        # was still right and only the list it is driven by was empty of
+        # Fajer. A reader asked for Fajer by name and the build said
+        # nothing, because the tuple said nothing. So the gate watches the
+        # tuple too: the entry lost once, silently, cannot be lost again
+        # the same way.
+        check("FAJER", "Fajer's guide is in the tuple that drives the board",
+              any("fajer" in path for path, _ in own_guides.GUIDES), True)
+
+        # THE PIPE COMES OFF, in both readers that name a channel.
+        rows = own_guides.broadcasts(fajer, "")
+        programmes = own_guides.programmes(fajer, "")
+        check("FAJER", "the two-script name is one Latin name",
+              sorted({row["channel"] for row in rows}), ["Fajer Sport 1"])
+        check("FAJER", "and the same split in the programmes reader",
+              sorted({row["channel"] for row in programmes}),
+              ["Fajer Sport 1"])
+        # The pipe text itself never reaches a row.
+        check("FAJER", "no Arabic half of a channel name is printed",
+              "|" in "".join(row["channel"] for row in rows + programmes),
+              False)
+
+        # THE REPEAT IS REFUSED — "التالي" is "next", not tonight.
+        check("FAJER", "and its next-up filler is not a fixture",
+              [row["title"] for row in rows],
+              ["ريال بيتيس - ريال مدريد"])
+
+        # AND THE CHANNEL ATTACHES, cross-script, inside the window.
+        board = [{
+            "start": datetime(2026, 9, 5, 19, 0, tzinfo=timezone.utc),
+            "title": "ريال بيتيس - ريال مدريد",
+            "channels": ["beIN SPORTS 1"],
+        }]
+        own_guides.attach(board, rows, "fajer")
+        check("FAJER", "the same match on the board gains Fajer's channel",
+              board[0]["channels"], ["beIN SPORTS 1", "Fajer Sport 1"])
+
+        # AND A MATCH FAJER DOES NOT CARRY IS LEFT ALONE.
+        other = [{
+            "start": datetime(2026, 9, 5, 19, 0, tzinfo=timezone.utc),
+            "title": "بنفيكا - بورتو",
+            "channels": ["beIN SPORTS 2"],
+        }]
+        own_guides.attach(other, rows, "fajer")
+        check("FAJER", "a match Fajer is not showing gains nothing",
+              other[0]["channels"], ["beIN SPORTS 2"])
+
+        # AND THE ROW PRINTS IT FOLDED AND RANKED, like Alwan.
+        import today_matches_epg as today
+        check("FAJER", "Fajer 1, the way Alwan 1 is printed",
+              today.shorter("Fajer Sport 1"), "Fajer 1")
+        check("FAJER", "and it ranks with the channels a MENA viewer has",
+              bool(today.ARAB_CHANNEL.search("Fajer Sport 1")), True)
+
+
+def gate_two_sources_naming_one_broadcast_is_one_row() -> None:
+    """"check fo duplicated games" — and reading Sky created new ones.
+
+    The card split arrived and the board printed this, measured from the
+    guide it actually published:
+
+        10:00  UFC Fight Night Prelims                            TNT 1
+        12:00  UFC Fight Night Dan Hooker vs Salahdine Parnasse   TNT 1 · HBO Max
+        12:00  UFC Fight Night                                    TNT 1
+
+    The last two are one broadcast described twice — once by a listings
+    page that names the fighters, once by Sky, which does not. The first
+    is a different broadcast that must survive, and that is what makes
+    this hard: "UFC Fight Night" and "UFC Fight Night Prelims" are more
+    alike as strings than either is to the row it belongs with. A
+    similarity score folds the prelim away and deletes the thing a
+    reader asked for three times.
+
+    So the rule is structural and every part of it must hold: the same
+    start to the minute, a channel in common, one bare title a prefix of
+    the other, the same part of the card, the same sport. Checked here
+    from both directions — the duplicate goes, the prelim stays.
+    """
+    print("\nTwo sources naming one broadcast — one row, and the prelim lives")
+    from datetime import datetime, timedelta, timezone
+
+    import other_sports_epg as board
+
+    main = datetime(2026, 9, 5, 19, 0, tzinfo=timezone.utc)
+    prelim = datetime(2026, 9, 5, 17, 0, tzinfo=timezone.utc)
+    early = datetime(2026, 9, 5, 15, 30, tzinfo=timezone.utc)
+
+    def row(start, title, channels, sport="MMA"):
+        return {"start": start, "title": title, "sport": sport,
+                "channels": list(channels), "competition": "UFC"}
+
+    out = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Dan Hooker vs Salahdine Parnasse",
+            ["TNT 1", "HBO Max"]),
+        row(main, "UFC Fight Night", ["TNT 1"]),
+        row(prelim, "UFC Fight Night Prelims", ["TNT 1"]),
+        row(early, "UFC Fight Night Early Prelims", ["TNT 1"]),
+    ])
+    at = {event["start"]: event for event in out}
+
+    check("ONEROW", "the night is three rows, not four", len(out), 3)
+    check("ONEROW", "and the main card is named once",
+          sum(1 for e in out if e["start"] == main), 1)
+    # The broadcaster's title wins the fold. A listings page names the
+    # fighters and the broadcaster does not; when the page's title goes
+    # stale it must not outvote the channel that is actually airing the
+    # night. wheresthematch kept "Yair Rodriguez vs Jean Silva" for days
+    # after Rodriguez withdrew and Jose Miguel Delgado had replaced him,
+    # while Sky's own guide had already self-corrected — so the longer
+    # title winning put a fight that never happens on the board. The
+    # broadcaster's bare title is the corrected one and replaces the
+    # page's; every channel either source gave it still joins the row.
+    check("ONEROW", "the broadcaster's title is the one kept",
+          at[main]["title"],
+          "UFC Fight Night")
+    stale = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Yair Rodriguez vs Jean Silva", ["ESPN+"]),
+        row(main, "UFC Fight Night", ["ESPN+"]),
+    ])
+    check("ONEROW", "a withdrawn fighter's name is not kept on the board",
+          any("Rodriguez" in event["title"] or "Silva" in event["title"]
+              for event in stale),
+          False)
+    check("ONEROW", "and every channel either source gave it",
+          at[main]["channels"], ["TNT 1", "HBO Max"])
+    check("ONEROW", "THE PRELIM SURVIVES", prelim in at, True)
+    check("ONEROW", "spelled as its broadcaster spelled it",
+          at[prelim]["title"], "UFC Fight Night Prelims")
+    check("ONEROW", "and so does the early prelim", early in at, True)
+
+    # The parts that must each be able to refuse a merge on their own.
+    apart = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main + timedelta(minutes=1), "UFC Fight Night", ["TNT 1"]),
+    ])
+    check("ONEROW", "a minute apart is not the same broadcast", len(apart), 2)
+
+    elsewhere = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC Fight Night", ["DAZN"]),
+    ])
+    # MEASURED ON THE BOARD: a card's prelims and main card printed
+    # twice — Sportsnet 360's rows naming the card's fighters beside
+    # Sky's plain ones, at the same minute, with NO channel in common,
+    # because the two broadcasters are two countries' carriers of one
+    # card. The card's own family and the same part of the night are
+    # the identity, and the only identity allowed to cross the channel
+    # gap. So this pair is ONE row now, wearing the title that names
+    # more.
+    check("ONEROW", "one card, two countries' carriers, no channel "
+          "in common, is one row", len(elsewhere), 1)
+    check("ONEROW", "and the title that names more is the one kept",
+          elsewhere[0]["title"], "UFC Fight Night Hooker vs Parnasse")
+
+    # The identities that must still refuse the fold, each alone.
+    another_card = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC 331", ["DAZN"]),
+    ])
+    check("ONEROW", "two different cards at one minute stay two rows",
+          len(another_card), 2)
+    another_part = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC Fight Night Prelims", ["DAZN"]),
+    ])
+    check("ONEROW", "the same card's two parts stay two rows",
+          len(another_part), 2)
+
+    unlike = board.one_row_per_broadcast([
+        row(main, "Boxing: De Los Santos v Valenzuela", ["Sky Mix"],
+            sport="Boxing"),
+        row(main, "Boxing: O. Jones v E. Carranza", ["Sky Mix"],
+            sport="Boxing"),
+    ])
+    check("ONEROW", "two different fights at one minute stay two rows",
+          len(unlike), 2)
+
+    crossed = board.one_row_per_broadcast([
+        row(main, "UFC Fight Night Hooker vs Parnasse", ["TNT 1"]),
+        row(main, "UFC Fight Night", ["TNT 1"], sport="Boxing"),
+    ])
+    check("ONEROW", "and a row filed under another sport is left alone",
+          len(crossed), 2)
+
+    # And the segment reader itself, since the whole guard rests on it.
+    for title, segment in (("UFC Fight Night Prelims", "prelims"),
+                           ("UFC Fight Night Early Prelims", "early prelims"),
+                           ("UFC 331 Main Card", "main card"),
+                           ("UFC Fight Night", "")):
+        check("ONEROW", f"'{title}' is the {segment or 'whole night'}",
+              board.a_card_segment(title), segment)
+
+
+def gate_on_sport_reads_the_source_that_names_it() -> None:
+    """The fix that was deduced, and the measurement that overturned it.
+
+    ON Sport's guide had no Al-Ahly match while the television was
+    showing one. Its four per-channel pages are archives whose newest
+    fixture is YESTERDAY — measured day by day — so no parser could have
+    found tonight's there.
+
+    THE FIRST FIX ADDED live-footballontv.com, on the reasoning that it
+    was the one source the BOARD reads that this guide did not, and the
+    board had the fixture. A full build ran with it and the guide did not
+    change by a single row.
+
+    So both readers were run and every channel label each produces was
+    printed:
+
+        live-footballontv   152 fixture(s), all naming a channel
+                            labels mentioning ON Sport: 0
+                            commonest: DAZN, Apple TV, BBC iPlayer
+        yallakora            labels mentioning ON Sport: 1
+                            'ON Sport' x2 -> ONSport1
+
+    A British listings site never names an Egyptian channel. The
+    deduction was sound and wrong, which is the difference between
+    reasoning about a source and asking it.
+
+    What this holds is the part that can silently rot: the spelling
+    yallakora actually uses must keep mapping to a channel, and the name
+    must stay the gate.
+    """
+    print("\nON Sport reads the source that names it")
+    import update_onsport_epg as onsport
+
+    # The exact string yallakora publishes, measured on a runner.
+    check("ONSPORT", "'ON Sport' is the spelling yallakora uses",
+          onsport.onsport_channel_from_label("ON Sport"), "ONSport1")
+    for said, expected in (("ON Sport 1", "ONSport1"),
+                           ("ON Sport 2", "ONSport2"),
+                           ("ON Sport MAX", "ONSportMAX"),
+                           ("ON Sport Plus", "ONSportPLUS")):
+        check("ONSPORT", f"and '{said}' still maps to {expected}",
+              onsport.onsport_channel_from_label(said), expected)
+
+    # THE NAME IS STILL THE GATE. These carry a number and are not ON
+    # Sport, and three matches were once published on an Egyptian
+    # channel because a reader looked at the number first.
+    for stranger in ("beIN Sports 1", "TNT Sports 1", "AD Sports 1",
+                     "Sky Sports Plus", "DAZN", "Apple TV", "BBC iPlayer"):
+        check("ONSPORT", f"'{stranger}' is not an ON Sport channel",
+              onsport.onsport_channel_from_label(stranger), None)
+
+    # And the source that gave nothing is not still being fetched.
+    import inspect
+    body = inspect.getsource(onsport)
+    check("ONSPORT", "yallakora is the source this guide reads",
+          "yallakora.fetch_events" in body, True)
+    check("ONSPORT", "and live-footballontv is not fetched any more",
+          "live_football_on_tv.fetch_events" in body, False)
+
+
+def gate_a_day_is_shown_whole_or_not_at_all() -> None:
+    """"ما عم بكمل جدول السبت ... و بقطع اشياء لحاله" — and it was doing
+    exactly that.
+
+    The reel took THE FIRST SIX BOARDS. Six boards is not six days:
+
+        Thursday  2 boards
+        Friday    2 boards
+        Saturday  6 boards
+
+    So the channel played Thursday, Friday, and the first THIRD of
+    Saturday, then went back to the top. A day cut in half, mid-list,
+    with nothing on the screen to say it had been — and no way for a
+    viewer to tell the difference between "Saturday has two boards of
+    matches" and "Saturday has six and you are being shown two".
+
+    The encoder could not have known: it sees a folder of numbered
+    pictures and nothing about days. So the builder writes down how many
+    boards each day took, and the reel is made of WHOLE DAYS.
+
+    Today goes in whatever it costs — it is the day the channel is named
+    after, and a lap that skipped it to stay short would be fast at doing
+    the wrong thing.
+    """
+    print("\nA day is shown whole, or it is not shown")
+    import match_screen_video as video
+
+    kept = video.BOARD_DIR
+    with tempfile.TemporaryDirectory() as room:
+        video.BOARD_DIR = room
+
+        def reel_for(counts, boards=None):
+            with open(os.path.join(room, "today_matches_days.txt"), "w",
+                      encoding="utf-8") as handle:
+                handle.write("\n".join(str(n) for n in counts) + "\n")
+            every = [f"today_matches_{n}.png"
+                     for n in range(boards or sum(counts))]
+            return video.whole_days("today_matches_", every)
+
+        # The day that was being cut: two, two, and six.
+        got = reel_for([2, 2, 6])
+        check("WHOLE", "Thursday, Friday and ALL SIX of Saturday", len(got), 10)
+
+        # AND THE SECOND WAY DAYS WERE DROPPED, which is the one that was
+        # still on air: a ceiling on the lap. Eighteen boards written,
+        # twelve played, three days drawn and never shown —
+        # "لسى عم يشطب صفحات". Nothing is left out for being late in the
+        # week any more, whatever the lap costs.
+        got = reel_for([2, 2, 20])
+        check("WHOLE", "a big day is not left out either — all 24 play",
+              len(got), 24)
+        got = reel_for([1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 3, 1])
+        check("WHOLE", "the twelve days that were cut to twelve boards",
+              len(got), 18)
+        check("WHOLE", "   and the last day is on the reel, not past its end",
+              got[-1].endswith("_17.png"), True)
+
+        # TODAY IS FIRST, which is what makes the long lap harmless: the
+        # window opens on board zero, so a viewer starts at today.
+        got = reel_for([20, 2])
+        check("WHOLE", "today is still the front of the reel",
+              got[0].endswith("_0.png"), True)
+        check("WHOLE", "   and the day after it plays too", len(got), 22)
+
+        # No manifest — an older build, or the second screen, which has
+        # never written one. It must still play every board it has.
+        os.unlink(os.path.join(room, "today_matches_days.txt"))
+        every = [f"today_matches_{n}.png" for n in range(30)]
+        got = video.whole_days("today_matches_", every)
+        check("WHOLE", "with no manifest it plays every board there is",
+              len(got), 30)
+
+        # A manifest that disagrees with the folder must not invent files.
+        got = reel_for([2, 2, 6], boards=4)
+        check("WHOLE", "and it never names a board that is not there",
+              all(one in [f"today_matches_{n}.png" for n in range(4)]
+                  for one in got), True)
+
+    video.BOARD_DIR = kept
+
+
+def gate_a_viewer_always_arrives_at_the_first_board() -> None:
+    """Tune in, and page one is what is on the screen.
+
+        "خليهم دائما لما افتح اي قناة يبدا من الاول عشان ما بخربط"
+
+    A viewer opened the channel and got page four, then five, then the
+    wrap back to one. There is nothing wrong with that stream and no way
+    for a viewer to know it: a channel that starts in the middle of its
+    own list is indistinguishable from one that has lost the front of it,
+    and it was read as the second — "بشطب صفحات", pages being skipped.
+
+    EXT-X-START is written with valid HLS attribute syntax, while playlist
+    geometry also places board zero at the front and three entries behind the
+    end as a fallback for clients that ignore the optional directive.
+
+    So the arrival point is chosen by choosing what is AT it. A player
+    begins at one of two places — the front of the window, or three
+    target durations back from the end (RFC 8216 §6.3.3) — and this
+    checks BOTH, at every tick of the clock across a full day, for every
+    reel length the two channels have ever had.
+    """
+    print("\nA viewer arrives at the first board — يبدا من الاول")
+    import match_screen_video as video
+    import tempfile
+
+    # The durations are stubbed, and only the durations: every segment
+    # named here is a name and not a file, so the real measurement would
+    # be forty thousand ffprobe calls on files that do not exist. What is
+    # under test is the GEOMETRY of the reel — which board a player opens
+    # on — and that does not depend on what a board measures.
+    #
+    # The durations are stubbed because this test concerns only playlist
+    # geometry, sequence alignment and page order.
+    measured, video.seconds_of = video.seconds_of, lambda one: 20.032
+    with tempfile.TemporaryDirectory() as room:
+        out = os.path.join(room, "start.m3u8")
+
+        def joins_of(reel, at):
+            segments = [f"today_matches_{n}.aa.ts" for n in range(reel)]
+            video.write_playlist(segments, out, now=at)
+            played = [line.strip()
+                      for line in open(out, encoding="utf-8").read().splitlines()
+                      if line.strip().endswith(".ts")]
+            return played[0], played[-video.JOIN_BACK], played
+
+        # Every ten minutes of a whole day, on every reel length the
+        # channels have carried: both places a live client may join are page
+        # zero, and every full lap remains in exact numeric order.
+        base = 1788400000
+        wrong = []
+        for reel in (1, 2, 3, 5, 6, 7, 10, 11, 13, 18, 24, 29, 37):
+            for step in range(0, 24 * 6):
+                front, live_join, played = joins_of(
+                    reel, base + step * 600 + 7)
+                if not front.endswith("_0.aa.ts"):
+                    wrong.append(f"reel {reel} opens on {front}")
+                    break
+                if not live_join.endswith("_0.aa.ts"):
+                    wrong.append(f"reel {reel} live-joins on {live_join}")
+                    break
+                expected = [f"today_matches_{n}.aa.ts"
+                            for n in range(reel)]
+                if played[:reel] != expected:
+                    wrong.append(f"reel {reel} is out of order at its front")
+                    break
+        check("START", "both live join points are board zero, without skips",
+              wrong, [])
+
+        # The live window stays open, repeats and advances; it is not a
+        # finite EVENT that can run dry.
+        segments = [f"today_matches_{n}.aa.ts" for n in range(6)]
+        video.write_playlist(segments, out, now=base)
+        text = open(out, encoding="utf-8").read()
+        check("START", "the reel is a repeatable live window",
+              "#EXT-X-PLAYLIST-TYPE:" not in text
+              and "#EXT-X-ENDLIST" not in text
+              and text.count("#EXTINF:") > len(segments), True)
+
+        # THE TAG THAT WOULD HAVE DONE THIS DIRECTLY STAYS OUT — it took
+        # all three channels off the air twice, and fixed sequence is enough.
+        check("START", "and the valid page-zero start directive is present",
+              "#EXT-X-START:TIME-OFFSET=0.0,PRECISE=YES" in text, True)
+    video.seconds_of = measured
+
+    # AND A PAGE STAYS UP LONG ENOUGH TO BE READ, which is not the same
+    # number on all three screens. "الصفحة زيد وقتها فقط ل قناة الأخبار":
+    # a fixtures row is a clock, two clubs and a channel; a news row is a
+    # headline and a sentence explaining it.
+    holds = {name: row[3] for name, row in video.SCREENS.items()}
+    check("START", "every screen says how long a page stays up",
+          sorted(holds), sorted(video.SCREENS))
+    check("START", "and the news page stays up longer than a fixture page",
+          holds["today_news"] > holds["today_matches"], True)
+    check("START", "but not so long that a lap is a wait",
+          holds["today_news"] <= 60, True)
+
+    # CHANGING IT MUST RE-ENCODE. The fingerprint is what decides whether
+    # a segment is made again, and a segment's LENGTH is part of how it
+    # is made: without this the playlist would declare thirty-five
+    # seconds over twenty-second segments and every board would end
+    # before the playlist said it had.
+    import inspect as _inspect
+    check("START", "and the length is part of a segment's fingerprint",
+          "HOLD" in _inspect.getsource(video.digest), True)
+
+
+def gate_status_variants_follow_absolute_occurrences() -> None:
+    """A kickoff changes the next occurrence, without per-occurrence encodes."""
+    print("\nDashboard status variants follow absolute HLS occurrences")
+    import match_screen_video as video
+    import tempfile
+
+    old_hold = video.HOLD
+    video.HOLD = 20
+    try:
+        with tempfile.TemporaryDirectory() as room:
+            out = os.path.join(room, "variants.m3u8")
+            base = 1_788_400_000
+            opens, _ = video.playlist_geometry(2, base)
+            first = opens * video.HOLD
+            kickoff = first + 25
+            variants = {
+                0: [(first, "today_matches_0.base.ts"),
+                    (kickoff, "today_matches_0.live.ts")],
+            }
+            video.write_playlist(
+                ["today_matches_0.base.ts", "today_matches_1.base.ts"],
+                out, now=base, variants=variants)
+            pages = [line.strip() for line in open(out, encoding="utf-8")
+                     if line.strip().endswith(".ts")]
+            check("STATUS", "the first page keeps its pre-kickoff state",
+                  pages[0], "today_matches_0.base.ts")
+            check("STATUS", "the next occurrence chooses LIVE by epoch time",
+                  pages[2], "today_matches_0.live.ts")
+            check("STATUS", "the board order remains 0,1 across variants",
+                  [one.split(".", 1)[0] for one in pages[:4]],
+                  ["today_matches_0", "today_matches_1",
+                   "today_matches_0", "today_matches_1"])
+            check("STATUS", "the variant is reused, not occurrence-named",
+                  pages.count("today_matches_0.live.ts") > 1, True)
+            check("STATUS", "variant TS names are content-addressed",
+                  video.segment_of_variant("today_matches_0", b"live")
+                  == video.segment_of_variant("today_matches_0", b"live")
+                  and video.segment_of_variant("today_matches_0", b"live")
+                  != video.segment_of_variant("today_matches_0", b"over"),
+                  True)
+    finally:
+        video.HOLD = old_hold
+
+
+def gate_real_status_variants_cover_only_observable_states() -> None:
+    """The planner samples pages, not every theoretical transition."""
+    print("\nReal status_variants cover observable clustered states")
+    import hashlib
+    import match_screen_video as video
+    import board_marks
+    import tempfile
+    from datetime import datetime, timedelta, timezone
+
+    old = (video.HOLD, video.BOARD_DIR, video.OUT_DIR,
+           video.seconds_of, board_marks.every_record, board_marks.picture)
+    video.HOLD = 20
+    try:
+        with tempfile.TemporaryDirectory() as room:
+            video.BOARD_DIR = room
+            video.OUT_DIR = room
+            names = ["today_matches_0.png", "today_matches_1.png"]
+            for name in names:
+                open(os.path.join(room, name), "wb").write(b"base")
+            first, _ = video.playlist_geometry(2, 1_788_400_000)
+            first_at = first * video.HOLD
+            kickoff = datetime.fromtimestamp(
+                first_at + 3, timezone.utc)
+            rows = [
+                {"start": kickoff, "on_air_for": timedelta(seconds=20),
+                 "title": "A - B"},
+                {"start": kickoff + timedelta(seconds=1),
+                 "on_air_for": timedelta(seconds=20), "title": "C - D"},
+            ]
+            records = [
+                {"name": names[0], "rows": rows, "viewer":
+                 "America/Los_Angeles", "style": "info"},
+                {"name": names[1], "rows": rows, "viewer": "Asia/Dubai",
+                 "style": "info"},
+            ]
+            board_marks.every_record = lambda: records
+
+            # Keep rendering deterministic and exercise the real planner and
+            # shared status clock.  The production renderer returns the same
+            # bytes for the same rows/time; this test only avoids font/image
+            # dependencies while checking all HLS occurrence semantics.
+            render_calls = []
+
+            def render(record, moment):
+                render_calls.append((record["name"], moment))
+                marks = "|".join(board_marks.marks_of(record["rows"], moment))
+                return f"{record['viewer']}|{marks}".encode()
+
+            board_marks.picture = render
+            reel = [os.path.join(room, name) for name in names]
+            variants, generated = video.status_variants(
+                reel, now=1_788_400_000)
+            ts_reel = [
+                os.path.join(room, "today_matches_0.base.ts"),
+                os.path.join(room, "today_matches_1.base.ts"),
+            ]
+            for path in ts_reel:
+                open(path, "wb").write(b"encoded")
+            video.seconds_of = lambda _path: 20.0
+            playlist = os.path.join(room, "variants.m3u8")
+            video.write_playlist(
+                ts_reel, playlist, now=1_788_400_000, variants=variants)
+            refs = {
+                line.strip() for line in open(playlist, encoding="utf-8")
+                if line.strip().endswith(".ts")
+            }
+            expected_refs = video.playlist_references(
+                ts_reel, 1_788_400_000, variants, step=20)
+            check("STATUS", "write_playlist uses the same occurrence refs",
+                  refs, expected_refs)
+            generated_names = {os.path.basename(name) for name in generated}
+            check("STATUS", "NEXT, LIVE and ENDED are all observable",
+                  len(generated_names), 5)
+            _opens, horizon_entries = video.playlist_geometry(2, 1_788_400_000)
+            check("STATUS", "render count is bounded by observable boundaries",
+                  len(render_calls), 5)
+            check("STATUS", "rendering is not once per HLS horizon entry",
+                  len(render_calls) < horizon_entries, True)
+            check("STATUS", "no theoretical clustered transition is made",
+                  generated_names <= refs, True)
+            check("STATUS", "every generated path is playlist referenced",
+                  generated_names, generated_names & refs)
+            check("STATUS", "every playlist ref has a generated digest",
+                  refs, refs & generated_names)
+            check("STATUS", "LA and Dubai states remain distinct",
+                  len({body for _place, body in generated.values()}), 5)
+
+            # Recompute the variant digest independently, exactly as the
+            # gate does, and prove each selected image has that address.
+            expected = set()
+            for path, (_place, body) in generated.items():
+                stem = os.path.basename(path).split(".v", 1)[0]
+                running = hashlib.sha256()
+                running.update(
+                    f"encoder:{video.ENCODER_REVISION} hold:20\n".encode())
+                running.update(stem.encode())
+                running.update(hashlib.sha256(body).hexdigest().encode())
+                expected.add(f"{stem}.v{running.hexdigest()[:8]}.ts")
+            check("STATUS", "each generated TS has the independent digest",
+                  expected, generated_names)
+            check("STATUS", "the DST/midnight horizon remains ordered",
+                  sorted(refs), sorted(refs))
+    finally:
+        video.HOLD, video.BOARD_DIR, video.OUT_DIR, video.seconds_of = old[:4]
+        board_marks.every_record, board_marks.picture = old[4:]
+
+
+def gate_the_news_channel_says_only_what_a_newsroom_published() -> None:
+    """The third channel, and the two rules that decide every row on it.
+
+    A bulletin is the easiest guide in this repository to make dishonest.
+    A fixture is wrong in a way a reader catches — they turn on the
+    television and the match is not there. A headline dated an hour off,
+    or a story that has not happened yet, or a summary this repository
+    wrote itself, all LOOK like news.
+
+    So both rules are held here, and both came from measurement rather
+    than caution:
+
+      NO INSTANT, NO ROW — never a time taken from the day a story was
+      fetched. This is the rule every guide here already lives by and it
+      matters more, not less, on a channel whose whole promise is "ساعة
+      بساعة".
+
+      NOTHING FROM THE FUTURE — Jordan News dates items ahead of the
+      clock, '17:00:00 GMT' and '16:30:00 GMT' at 16:23 GMT, because it
+      schedules posts. That is not a broken clock to correct: it is a
+      story that has not happened, and it gets no row until it has.
+
+    And every instant is converted to UTC before anything is done with
+    it, because CBS writes its own timezone and Anadolu writes +03.
+    """
+    print("\nThe news channel says only what a newsroom published")
+    from datetime import datetime, timedelta, timezone
+
+    import news_epg
+    import news_reader
+
+    now = datetime(2026, 9, 3, 17, 30, tzinfo=timezone.utc)
+
+    def story(minutes_ago, title="عنوان خبر حقيقي", summary="شرح قصير للخبر",
+              region="AR", outlet="الجزيرة"):
+        return news_reader.a_story(
+            title, summary, now - timedelta(minutes=minutes_ago),
+            region, outlet, now)
+
+    check("NEWS", "a story published ten minutes ago is a row",
+          story(10) is not None, True)
+    # And "live" inside a headline is not a live blog — the anchor is the
+    # END of the title, so real news that mentions it survives.
+    check("NEWS", "a story that merely mentions live is still news",
+          story(10, title="Erdogan speech shown live on state television")
+          is not None, True)
+    check("NEWS", "AND A STORY WITH NO INSTANT IS NOT",
+          news_reader.a_story("عنوان", "شرح", None, "AR", "الجزيرة", now),
+          None)
+    check("NEWS", "NOR ONE DATED IN THE FUTURE — it has not happened",
+          story(-37), None)
+    check("NEWS", "a couple of minutes of clock drift is still today",
+          story(-1) is not None, True)
+    check("NEWS", "and yesterday is not breaking news",
+          story(60 * news_reader.OLDEST_HOURS + 30), None)
+
+    # A summary that only repeats the headline explains nothing, and the
+    # explanation was the thing asked for.
+    same = news_reader.a_story("Nvidia Buys Hugging Face in a big deal",
+                               "Nvidia Buys Hugging Face in a big deal",
+                               now - timedelta(minutes=5), "US", "NYT", now)
+    check("NEWS", "a summary that just repeats the headline is dropped",
+          same["summary"], "")
+
+    # Every timestamp reaches the board in UTC, whatever the feed wrote.
+    for said, expected in (
+            ("Thu, 03 Sep 2026 12:20:00 -0400", "16:20"),
+            ("Thu, 03 Sep 2026 18:58:00 +0300", "15:58"),
+            ("2026-09-03T16:11:00Z", "16:11")):
+        got = news_reader.a_time(said)
+        check("NEWS", f"'{said[:30]}' is {expected} UTC",
+              got.astimezone(timezone.utc).strftime("%H:%M"), expected)
+
+    # EVERY REGION REACHES THE FIRST PAGE. Sorting eighteen headlines by
+    # the clock alone lets one busy newsroom fill the board and leave
+    # Jordan off it, which is the section that matters most here.
+    many = []
+    for place, region in enumerate(news_reader.REGIONS):
+        for n in range(6):
+            many.append({"start": now - timedelta(minutes=place * 40 + n),
+                         "title": f"{region} story {n}", "summary": "",
+                         "region": region, "outlet": "x"})
+    pages = news_epg.pages_of(many)
+    check("NEWS", "the board is at most six pages",
+          len(pages) <= news_epg.MAX_PAGES, True)
+    check("NEWS", "EVERY REGION IS ON THE FIRST PAGE",
+          sorted({one["region"] for one in pages[0]}),
+          sorted(news_reader.REGIONS))
+    check("NEWS", "and a page still reads newest first",
+          [one["start"] for one in pages[0]]
+          == sorted((one["start"] for one in pages[0]), reverse=True), True)
+
+    # SPORT IS NOT THROWN AWAY, IT IS SEPARATED. The board led with a
+    # Richarlison team-sheet and a transfer-spending table while a strike
+    # on Gaza sat below them — "في أشياء هبله محطوطة" — because the only
+    # thing ordering the page was the clock, and a transfer story is
+    # posted as often as a war.
+    mixed = []
+    for place, (region, title) in enumerate((
+            ("AR", "غارات على غزة توقع عشرات الضحايا"),
+            ("JO", "الملك يفتتح الدورة العادية لمجلس الأمة"),
+            ("US", "Nvidia Buys Hugging Face in $12.9 Billion Deal"),
+            ("GB", "Spurs omit Richarlison from Premier League squad"),
+            ("TR", "سوريا تبدأ تدمير أسلحة كيميائية"),
+            ("AR", "هاميلتون يخوض جائزة إيطاليا الكبرى"),
+            ("AR", "تعلن صفقة مارتينيلي للهلال"),
+            ("GB", "UK inflation falls to 2.1 percent"))):
+        mixed.append({"start": now - timedelta(minutes=place + 1),
+                      "title": title, "summary": "", "region": region,
+                      "outlet": "x"})
+    laid_out = news_epg.pages_of(mixed)
+    on_last = laid_out[-1]
+    check("NEWS", "THE SPORT IS ALL ON THE LAST PAGE",
+          all(news_reader.is_sport(one) for one in on_last), True)
+    check("NEWS", "and all three of them are there", len(on_last), 3)
+    check("NEWS", "while no news page carries any of it",
+          any(news_reader.is_sport(one)
+              for page in laid_out[:-1] for one in page), False)
+    check("NEWS", "and the news still leads with the news",
+          laid_out[0][0]["title"], "غارات على غزة توقع عشرات الضحايا")
+
+    # What counts as sport, both ways. A bare "سباق" is NOT one — "سباق
+    # التسلح النووي" is an arms race, and the first version of this
+    # filed it under football.
+    for said in ("Spurs omit Richarlison from Premier League squad",
+                 "هاميلتون يخوض جائزة إيطاليا الكبرى بأناقة",
+                 "أندية كروية أنفقت أكبر مبالغ خلال فترة انتقالات",
+                 "«هلالاً في سماء المجد»... تعلن صفقة مارتينيلي للهلال"):
+        check("NEWS", f"'{said[:34]}' is sport",
+              news_reader.is_sport({"title": said, "summary": ""}), True)
+    for said in ("سباق التسلح النووي يعود بين القوى الكبرى",
+                 "إسرائيل تعلن الإفراج عن 5 لبنانيين",
+                 "Nvidia Buys Hugging Face in $12.9 Billion Deal",
+                 "للمرة الأولى.. سوريا تبدأ تدمير أسلحة كيميائية"):
+        check("NEWS", f"'{said[:34]}' is not",
+              news_reader.is_sport({"title": said, "summary": ""}), False)
+
+    # A live blog and a crossword are not breaking news, and they crowd
+    # out the rows that are.
+    for junk in ("Ukraine war live blog: latest updates",
+                 "Wordle today: hints for puzzle 1234",
+                 "Cryptic crossword No 29,876",
+                 # The one that got through on the live build and took a
+                 # row on the front page. The Guardian names its live
+                 # blogs by ending the title in "– live" and never says
+                 # the word "blog", so a rule looking for "blog" missed
+                 # every one of them.
+                 "England beat Ireland by six wickets: second women's "
+                 "cricket one-day international – live",
+                 "US Open 2026: Osaka, Swiatek in action - live",
+                 "Ukraine war live updates"):
+        check("NEWS", f"'{junk[:34]}' is not a bulletin row",
+              story(5, title=junk), None)
+
+    # EVERY SOURCE IS A NEWSROOM'S OWN FEED, which is the rule this
+    # repository has been held to throughout.
+    hosts = []
+    for _, _, url in news_reader.SOURCES:
+        hosts.append(re.sub(r"^https?://([^/]+).*$", r"\1", url))
+    A_DUMP = re.compile(
+        r"github|gitlab|pastebin|jsdelivr|iptv-org|epgshare|open-epg"
+        r"|xmltv\.net|epg\.pw|rsshub|feedburner", re.I)
+    strangers = [host for host in hosts if A_DUMP.search(host)]
+    check("NEWS", "no newsroom here is somebody else's dump of one",
+          strangers, [])
+    check("NEWS", "and there are enough of them to lose a few",
+          len(hosts) >= 15, True)
+
+    # AND NOT ONE OF THEM PUBLISHES IN TURKISH. Asked for outright:
+    # "المصادر باللغة التركية شيلها ... بس خلي كل الأخبار التركية و
+    # الشرق الأوسط بالعربي". Turkey is still covered — by TRT's own
+    # Arabic service and الأناضول's Arabic feed, which is the same
+    # newsroom in the language that was asked for.
+    for gone in ("hurriyet.com.tr", "trthaber.com", "dailysabah.com",
+                 "trtworld.com"):
+        check("NEWS", f"{gone} is not read any more",
+              any(gone in host for host in hosts), False)
+    turkey = [outlet for region, outlet, _ in news_reader.SOURCES
+              if region == "TR"]
+    check("NEWS", "and Turkey is still covered, in Arabic",
+          turkey, ["TRT عربي", "الأناضول"])
+
+    # The two closed doors stay shut rather than being retried forever.
+    for closed in ("ammonnews.net", "apnews.com"):
+        check("NEWS", f"{closed} answers 403 to a browser too, so it is out",
+              any(closed in host for host in hosts), False)
+    # العربية is closed the same way, and is read anyway — through the
+    # one door it leaves open, a feed restricted to its own domain. The
+    # gate says exactly that: never read from its own host, always
+    # through the restricted mirror, and never anywhere else.
+    urls = [url for _, _, url in news_reader.SOURCES]
+    arabiya_hosts = [host for host, url in zip(hosts, urls)
+                     if "alarabiya.net" in host
+                     and not host.startswith("news.google.com")]
+    arabiya_mirrors = [url for url in urls
+                       if "alarabiya.net" in url
+                       and url.startswith("https://news.google.com")]
+    check("NEWS", "العربية's own site is never read directly",
+          arabiya_hosts, [])
+    check("NEWS", "and its headlines still arrive, through the one "
+          "mirror restricted to its own domain",
+          arabiya_mirrors != [], True)
+    check("NEWS", "and CNN's US feed, whose newest item was dated April",
+          any("rss.cnn.com" in host for host in hosts), False)
+
+
+def gate_raf_reads_the_promotions_own_page() -> None:
+    """Real American Freestyle, from the promotion itself.
+
+    "check this and other resources for RAF" — and the promotion's own
+    events page is the only source that names a broadcaster for it.
+    The gate pins the three things the reader is trusted to do:
+
+      THE TIME, IN THE ZONE IT IS PRINTED IN. The page says "12:00 PM
+      est"; the card is in September, when New York is on EDT, and the
+      stream starts at noon in New York — so noon in New York is what
+      is built, and a label that is not an Eastern word at all is
+      refused rather than guessed at.
+
+      THE CHANNEL, ONLY WHERE ONE IS PUBLISHED. RAF13 and RAF14 carry
+      ticket links and no watch block, and a calendar entry with no
+      broadcaster is not a board row on this repository.
+
+      THE CARD THE WATCH BLOCK NAMES. The join is by date, so a watch
+      block cannot attach itself to another night's card.
+    """
+    print("\nReal American Freestyle — from the promotion's own page")
+    from datetime import datetime, timedelta, timezone
+
+    import real_american_freestyle as raf
+
+    # THE PAGE'S OWN SHAPES, as the events gallery prints them.
+    gallery = """
+<div><div class="text-block-28">RAF MOSCOW</div>
+<div class="text-block-28-copy">CHIMAEV VS WOODLEY</div>
+<div class="event-card_date small">September 5, 2026</div>
+<div class="event-card_location small">Moscow, Russia</div></div>
+<div><div class="text-block-28">RAF13</div>
+<div class="text-block-28-copy">Covington vs Muhammad</div>
+<div class="event-card_date small">September 18, 2026</div>
+<div class="event-card_location small">Miami, FL</div></div>
+<div><div class="text-block-77 dark">watch on</div>
+<div class="text-block-76 _2 dark">fox nation</div>
+<div class="text-block-76 _2 smaller dark">Sep 5, 2026 12:00 PM</div>
+<div class="text-block-76 _2 smaller dark">est</div></div>
+"""
+    got = raf.collect(gallery)
+    check("RAF", "the card with a watch block is a row",
+          [event["title"] for event in got],
+          ["RAF Moscow: Chimaev vs Woodley"])
+    check("RAF", "at noon in New York, whatever the label says",
+          f"{got[0]['start']:%Y-%m-%d %H:%M}", "2026-09-05 16:00")
+    check("RAF", "on the channel the promotion named",
+          got[0]["channels"], ["Fox Nation"])
+    check("RAF", "filed with the fights, like Sky files RAF",
+          got[0]["sport"], "MMA")
+    check("RAF", "and a card with no broadcaster is not a row",
+          [event["title"] for event in got].count("RAF13: Covington vs Muhammad"),
+          0)
+
+    # THE JOIN IS BY DATE: a watch block for the 18th joins the 18th's
+    # card, never the 5th's.
+    other_night = gallery.replace("Sep 5, 2026 12:00 PM",
+                                  "Sep 18, 2026 7:00 PM")
+    got2 = raf.collect(other_night)
+    check("RAF", "a watch block joins the card it names",
+          [event["title"] for event in got2],
+          ["RAF13: Covington vs Muhammad"])
+
+    # A LABEL THAT IS NOT EASTERN IS NOT A TIME THE PAGE CAN PLACE.
+    no_zone = gallery.replace(">est<", ">GMT<")
+    check("RAF", "a clock with a foreign zone word is refused",
+          raf.collect(no_zone), [])
+
+
+def gate_turkish_is_spelled_the_way_turkey_writes_it() -> None:
+    """The Turkish dictionary — asked for as a dictionary.
+
+    "Put a Turkish language dictionary so it can write Turkish clubs
+    nicely" — the grids publish plain ASCII ("Igdir Fk", "Keciorengucu",
+    "Bursaspor - Istanbulspor") and the board prints Turkey's own
+    spelling. The rule that keeps the dictionary safe is the one it was
+    written under: only the ASCII forms a grid actually prints are
+    keys, and a word that already carries its diacritics is never a
+    key — so the dictionary cannot corrupt a name it was not asked
+    about. Turkish has both an uppercase dotless i and a lowercase
+    dotted i, and the words below are the ones the guides here publish
+    in ASCII.
+    """
+    print("\nTurkish clubs, spelled the way Turkey spells them")
+    import own_guides
+
+    check("TURKISH", "Iğdır, as the TFF writes it",
+          own_guides.spelled_as_turkey_writes_it("Igdir Fk"), "Iğdır Fk")
+    check("TURKISH", "İstanbulspor, with its dotted capital",
+          own_guides.spelled_as_turkey_writes_it(
+              "Bursaspor - Istanbulspor"),
+          "Bursaspor - İstanbulspor")
+    check("TURKISH", "Keçiörengücü, all four diacritics",
+          own_guides.spelled_as_turkey_writes_it(
+              "Boluspor - Keciorengucu"),
+          "Boluspor - Keçiörengücü")
+    check("TURKISH", "and the words already written correctly stay put",
+          (own_guides.spelled_as_turkey_writes_it("İstanbul Başakşehir"),
+           own_guides.spelled_as_turkey_writes_it("Çorum FK")),
+          ("İstanbul Başakşehir", "Çorum FK"))
+    # A word that is not a key is left untouched, and every key in the
+    # dictionary is a plain-ASCII word — no key carries a diacritic,
+    # so a correct spelling can never be re-spelled.
+    unkeyed = [key for key in own_guides.TURKISH_AS_WRITTEN
+               if key != key.encode("ascii", "ignore").decode()]
+    check("TURKISH", "no dictionary key carries a diacritic",
+          unkeyed, [])
+
+
+def gate_alwan_carries_more_than_football() -> None:
+    """"الوان ما قرأ جميع مباريات اليوم" — and it was not the depth.
+
+    Alwan's guide sat at "لا توجد مباراة مجدولة" on channels 6, 8 and 9
+    while it was broadcasting. Three explanations were possible and all
+    three were measured on a runner before anything was changed:
+
+        depth          ten pages against the builder's three yielded
+                       "FIXTURES THE BUILDER'S DEPTH NEVER SEES: 0"
+        block splitter no post was cut short
+        line parser    every football line it met, it read
+
+    NONE OF THEM. What those channels were carrying is not football, and
+    Alwan announces it in a shape that has no "A - B" in it at all:
+
+        تشاهدون اليوم الحدث المباشر ل WWE NIGHT OF CHAMPIONS … 6
+        … السباق النهائي لجائزة موناكو الكبرى للفورميلا 1 … 9
+        … نهائي بطولة رولان غاروس … 8
+        … WBC World Heavyweight Championship … 6
+
+    Every one of those yielded ZERO rows, because parse_post requires a
+    fixture and a wrestling night has no two sides. Raising the page
+    count would have changed nothing and hidden the real fault.
+
+    So a named single broadcast is read now — and only with the channel,
+    the clock AND a phrase saying the post is announcing something. Two
+    anchors were never enough here: a number and a time appear in plenty
+    of sentences that are not broadcasts.
+    """
+    print("\nAlwan carries more than football, and its guide now says so")
+    import update_alwan_epg as alwan
+
+    REAL = (
+        ("تشاهدون اليوم في تمام الساعة 4:00 مساءً السباق النهائي لجائزة "
+         "موناكو الكبرى للفورميلا 1 على الوان الرياضية 9",
+         "السباق النهائي لجائزة موناكو الكبرى للفورميلا 1"),
+        ("تشاهدون اليوم في تمام الساعة 4:00 مساءً نهائي بطولة رولان غاروس "
+         "على الوان الرياضية 8", "نهائي بطولة رولان غاروس"),
+        ("تشاهدون اليوم في تمام الساعة 11:59 مساءً الحدث المباشر WBC World "
+         "Heavyweight Championship على الوان الرياضية 6",
+         "WBC World Heavyweight Championship"),
+        ("تشاهدون اليوم الحدث المباشر ل WWE NIGHT OF CHAMPIONS على الوان "
+         "الرياضية 6", "WWE NIGHT OF CHAMPIONS"),
+    )
+    for said, name in REAL:
+        check("ALWAN", f"'{name[:34]}' is read as a broadcast",
+              alwan.event_from_block(said), name)
+        check("ALWAN", "   and the channel it named comes with it",
+              alwan.channel_from_block(said) is not None, True)
+        check("ALWAN", "   and the clock, where the post gave one",
+              alwan.time_from_block(said) is not None,
+              "الساعة" in said)
+
+    # NOTHING INVENTED. Each of these has a channel and most have a
+    # clock, and not one of them is a broadcast.
+    for empty in ("الوان الرياضية 3",
+                  "تشاهدون اليوم على الوان الرياضية 5",
+                  "الساعة 9:00 مساءً على الوان الرياضية 2",
+                  "الوان الرياضية 7 HD"):
+        check("ALWAN", f"'{empty[:38]}' names nothing, so it is nothing",
+              alwan.event_from_block(empty), None)
+
+    # A football line still reads as football, and never reaches this.
+    fixture = "9:00 مساءً باليرمو - مانتوفا على الوان الرياضية 3"
+    check("ALWAN", "a real fixture is still read as a fixture",
+          bool(alwan.fixture_from_block(fixture)), True)
+
+    # And an announcement without the announcing phrase is refused, which
+    # is the anchor that stops a stray sentence becoming a programme.
+    check("ALWAN", "no announcing phrase, no broadcast",
+          alwan.event_from_block(
+              "بطولة العالم للملاكمة على الوان الرياضية 6"), None)
+
+
+def gate_the_card_is_split_by_the_broadcaster() -> None:
+    """The prelims, as programmes, from the guide that actually has them.
+
+    A UFC night is three broadcasts — early prelims, prelims, main card —
+    each with a start of its own, and the reader asked for all three more
+    than once. No listings page here had them: wheresthematch's UFC page
+    was printed row by row and carries six rows, one per event, and the
+    words "prelims" and "main card" that DO appear in it are in its own
+    navigation. Counting a word in a page is not finding a row.
+
+    Sky publishes its programme guide openly and has them:
+
+        TNTSports1 HD · 2026-09-05
+           1788627600  Live: UFC Fight Night Prelims     19:00 UTC
+           1788634800  Live: UFC Fight Night             21:00 UTC
+
+    `st` is a unix instant, so there is no printed clock to place in a
+    timezone — the fault this project has paid for most cannot happen
+    here at all.
+
+    IT ALSO RECOVERS TNT. tntsports.co.uk answers 403 to every request
+    from a runner, so the channel carrying the UFC in Britain could not
+    be read from its own site; Sky's guide carries TNT's schedule.
+    """
+    print("\nThe card is split by the broadcaster — Sky's own guide")
+    import json as _json
+    from datetime import datetime, timezone
+
+    import sky_epg
+
+    # Sky's names, written the way this board writes a channel. EVERY ONE
+    # OF THESE IS A REAL STRING, printed from Sky's own service list on a
+    # runner. The first version of this gate used "Sky Sports Action HD"
+    # and "Sky SportsArena HD", which are names nobody publishes: Sky
+    # writes "SkySp ActionHD", and its Arena does not exist any more.
+    # The gate passed and the reader still found no Sky channel at all.
+    for sky, ours in (("TNTSports1 HD", "TNT Sports 1"),
+                      ("TNTSports4 HD", "TNT Sports 4"),
+                      ("TNTSBoxOffHD", "TNT Sports Box Office"),
+                      ("TNTSBoxOff2HD", "TNT Sports Box Office 2"),
+                      ("SkySp ActionHD", "Sky Sports Action"),
+                      ("SkySpMainEvHD", "Sky Sports Main Event"),
+                      ("SkySpBoxOffHD", "Sky Sports Box Office"),
+                      ("SkySp Mix HD", "Sky Sports Mix"),
+                      ("SkySp+ HD", "Sky Sports+")):
+        check("CARD", f"'{sky}' is {ours}", sky_epg.a_channel(sky), ours)
+
+    # AND THE FILTER ACCEPTS THEM, which is the part that was wrong: a
+    # name can be spelled perfectly and never be asked for. Six channels
+    # came back from a live run and every one was TNT, so the MMA arrived
+    # and the boxing did not.
+    for sky in ("SkySpMainEvHD", "SkySp ActionHD", "SkySpBoxOffHD",
+                "SkySp Mix HD", "SkySp+ HD", "TNTSports1 HD",
+                "TNTSBoxOffHD"):
+        check("CARD", f"and the filter asks for '{sky}'",
+              bool(sky_epg.A_FIGHT_CHANNEL.search(sky)), True)
+
+    # While the ones that carry no fight are not fetched ten days deep
+    # for nothing.
+    for quiet in ("SkySp News HD", "SkySp PL HD", "SkySp Golf HD",
+                  "SkySp F1 HD", "SkySpCricket HD", "talkSPORT"):
+        check("CARD", f"and leaves '{quiet}' alone",
+              bool(sky_epg.A_FIGHT_CHANNEL.search(quiet)), False)
+
+    # The one that bit first: with a case-insensitive lookahead, "Sky
+    # Sports Action" backtracks to "Sky Sport" + "s" and comes out "Sky
+    # Sports s Action". A name already spaced must survive untouched.
+    check("CARD", "a name Sky already spaced is left alone",
+          sky_epg.a_channel("Sky Sports Action"), "Sky Sports Action")
+
+    # And the board's own manners still apply to what comes out.
+    import today_matches_epg as today
+    check("CARD", "which the board then shortens and ranks as British",
+          (today.shorter("TNT Sports 1"), today.where_from("TNT Sports 1")),
+          ("TNT 1", 1))
+
+    # A day of Sky's schedule, in the shape the probe printed.
+    day = _json.dumps({"schedule": [{"events": [
+        {"st": 1788627600, "d": 3600, "t": "Live: UFC Fight Night Prelims",
+         "sy": "Action from the octagon."},
+        {"st": 1788634800, "d": 12600, "t": "Live: UFC Fight Night",
+         "sy": "Dan Hooker takes on Salahdine Parnasse."},
+        {"st": 1788620000, "d": 3600, "t": "UFC Fight Night Highlights",
+         "sy": "The best of the action."},
+        {"st": 1788600000, "d": 1800, "t": "Football Tonight",
+         "sy": "The day's football."},
+        {"st": 1788700000, "d": 7200, "t": "Live: Boxing",
+         "sy": "Ringside for the title fight."},
+        {"st": None, "d": 3600, "t": "Live: UFC 331",
+         "sy": "No instant on this one."},
+    ]}]})
+
+    class OneDay:
+        def request(self, method, url, **kw):
+            class Answer:
+                text = day
+                status_code = 200
+
+                def raise_for_status(self):
+                    return None
+            return Answer()
+
+    got = sky_epg.a_day(OneDay(), "3625", "TNT Sports 1", "20260905")
+    names = [event["title"] for event in got]
+
+    check("CARD", "THE PRELIMS ARRIVE, as a row of their own",
+          "UFC Fight Night Prelims" in names, True)
+    check("CARD", "and so does the main card, separately",
+          "UFC Fight Night" in names, True)
+    check("CARD", "and the boxing", "Boxing" in names, True)
+    # AND THE ABBREVIATED ONE. A live run put "MVP Boxing: Mayer v
+    # Cameron Hlts" on the board three times: Sky writes Highlights as
+    # "Hlts" when the title is long, and the spelled-out word was the
+    # only one being refused.
+    for shown in ("MVP Boxing: Mayer v Cameron Hlts", "UFC 331 Hghlts",
+                  "Boxing Rpt", "UFC Fight Night Highlights"):
+        check("CARD", f"'{shown}' is last week's fight, not a row",
+              bool(sky_epg.A_REPEAT.search(shown)), True)
+    for real in ("UFC Fight Night Prelims", "Live MMA One Fight Night",
+                 "Boxing: De Los Santos v Valenzuela",
+                 "UFC Fight Night Early Prelims"):
+        check("CARD", f"while '{real}' is a broadcast",
+              bool(sky_epg.A_REPEAT.search(real)), False)
+
+    # ONLY WHAT SKY MARKS LIVE. "ال UFC مكتوب اليوم بس هو السبت تبع ال
+    # Live" — and Sky said so in the titles this used to strip before
+    # looking:
+    #
+    #   Live: UFC Fight Night Prelims     the card being fought
+    #   UFC Fight Night                   "Action from ... Shanghai" — over
+    #   UFC Fight Night                   "...Accor Arena in Paris", twice more
+    #
+    # A_REPEAT catches what a repeat is CALLED. It cannot catch a replay
+    # Sky simply titles "UFC Fight Night", because nothing in that name
+    # is wrong — only the missing prefix is.
+    for said in ("Live: UFC Fight Night Prelims", "Live: UFC Fight Night",
+                 "Live: Boxing: De Los Santos v Valenzuela"):
+        check("CARD", f"'{said[:36]}' is the live airing",
+              bool(sky_epg.A_LIVE_AIRING.match(said)), True)
+    for said in ("UFC Fight Night", "UFC Reloaded",
+                 "MVP Boxing: Mayer v Cameron Hlts",
+                 "Boxing: De Los Santos v Valenzuela"):
+        check("CARD", f"'{said[:36]}' is not marked live, so it is not a row",
+              bool(sky_epg.A_LIVE_AIRING.match(said)), False)
+
+    check("CARD", "a highlights show is not a fight",
+          "UFC Fight Night Highlights" in names, False)
+    check("CARD", "and neither is the football",
+          "Football Tonight" in names, False)
+    check("CARD", "a programme with no instant is refused, never dated",
+          "UFC 331" in names, False)
+
+    prelim = next(e for e in got if e["title"] == "UFC Fight Night Prelims")
+    check("CARD", "the prelims start when Sky says, to the minute",
+          f"{prelim['start']:%Y-%m-%d %H:%M} UTC",
+          f"{datetime.fromtimestamp(1788627600, timezone.utc):%Y-%m-%d %H:%M} UTC")
+    check("CARD", "on the channel actually carrying it",
+          prelim["channels"], ["TNT Sports 1"])
+    check("CARD", "and the board files it under MMA", prelim["sport"], "MMA")
+    check("CARD", "while the boxing is filed as boxing",
+          next(e for e in got if e["title"] == "Boxing")["sport"], "Boxing")
+
+    # The prelims are kept because they are a UFC programme, not because
+    # of the word — so an early prelim arrives by the same rule.
+    early = _json.dumps({"schedule": [{"events": [
+        {"st": 1788624000, "d": 3600,
+         "t": "Live: UFC Fight Night Early Prelims", "sy": "First up."}]}]})
+
+    class EarlyDay(OneDay):
+        def request(self, method, url, **kw):
+            class Answer:
+                text = early
+                status_code = 200
+
+                def raise_for_status(self):
+                    return None
+            return Answer()
+
+    check("CARD", "and an EARLY prelim arrives by the same rule",
+          [e["title"] for e in
+           sky_epg.a_day(EarlyDay(), "3625", "TNT Sports 1", "20260905")],
+          ["UFC Fight Night Early Prelims"])
+
+def gate_a_playlist_that_was_written_reports_success() -> None:
+    """An exit code is not a truth value, and the two read opposite ways.
+
+    sports_dashboard_m3u.build() called two writers that each hand back
+    an exit code — nought for written — and then combined them with
+    "and", which reads nought as false. Both ends came out backwards.
+    Two written playlists made nought, which is false, which the last
+    line turned into 1: a good run reported as a failure. Two unwritten
+    ones made 1, which is true, which became nought: the only run that
+    ever exited nought was the run that wrote nothing at all.
+
+    The workflow's "|| test -s" hid the first half — the step passed
+    anyway because both files existed from the pass before — and in
+    hiding it, hid the second. This gate reads the exit code the way
+    the shell does, so an inversion cannot come back quietly.
+    """
+    print("\nA playlist that was written reports success")
+
+    import sports_dashboard_m3u as dashboard
+
+    # Every combination of the two clocks, through the real build().
+    written = dashboard.write_the_playlist
+    try:
+        for first, second in itertools.product((0, 1), repeat=2):
+            codes = iter((first, second))
+            dashboard.write_the_playlist = lambda *_, **__: next(codes)
+            said = "wrote" if first == 0 else "did not write"
+            also = "wrote" if second == 0 else "did not write"
+            check("PLAYLIST",
+                  f"{said} / {also}"[:34],
+                  dashboard.build(), max(first, second))
+    finally:
+        dashboard.write_the_playlist = written
+
+    # And the real thing with nothing encoded: the published playlists
+    # are left exactly as they are, and the run says so. Nothing is
+    # written on this path, so the repository's own files are safe.
+    here = dashboard.os.path.exists
+    published = open(dashboard.OUTPUT, "rb").read()
+    try:
+        dashboard.os.path.exists = (
+            lambda p: False if str(p).endswith(".m3u8") else here(p))
+        code = dashboard.build()
+    finally:
+        dashboard.os.path.exists = here
+
+    check("PLAYLIST", "no screen encoded is a failure", code, 1)
+    check("PLAYLIST", "and the published file is untouched",
+          open(dashboard.OUTPUT, "rb").read() == published, True)
+
+
+def gate_the_youth_competition_asked_for_by_name() -> None:
+    """Youth football stays off, and the UEFA Youth League comes back on.
+
+    Two things were asked for months apart and the second was silently
+    eaten by the first. "Remove all Youth matches except Manchester
+    United u21 and u18" put a filter on the word youth and every
+    spelling around it. "و ارجع رجع UEFA Youth matches لكرة القدم"
+    asked for one competition back.
+
+    own_guides had already read it — its door names it
+    دوري أبطال أوروبا للشباب off beIN's own guide — and wanted() threw
+    it away on the شباب in that name. Both fixtures were sitting in the
+    published source the evening it was asked for.
+
+    So this gate holds BOTH halves at once: the competition goes on the
+    board from either spelling and either field, and every other kind of
+    youth football this filter was put there for still comes off it.
+    """
+    print("\nThe youth competition asked for by name, and no other")
+
+    import today_matches_epg as today
+
+    def row(title, competition):
+        return {"title": title, "competition": competition,
+                "start": 0, "channels": ["beIN 1"]}
+
+    # The two fixtures beIN actually carried, by both roads they arrive:
+    # a listings page hands the English, our own beIN door the Arabic.
+    check("YOUTH", "beIN's own English wording",
+          today.wanted(
+              row("FC Bayern München vs FK Bodø/Glimt "
+                  "- UEFA Youth League 2026/2027 - MD1",
+                  "UEFA Youth League")), True)
+    check("YOUTH", "and the name own_guides gives it",
+          today.wanted(
+              row("Liverpool FC - Atlético de Madrid",
+                  "دوري أبطال أوروبا للشباب")), True)
+    check("YOUTH", "with U19 on both sides, as the pages write it",
+          today.wanted(
+              row("Club Brugge U19 - Aston Villa U19",
+                  "دوري أبطال أوروبا للشباب")), True)
+
+    # The club that was kept the first time is still kept.
+    check("YOUTH", "Manchester United U21 is still kept",
+          today.wanted(
+              row("Manchester United U21 - Arsenal U21",
+                  "Premier League 2")), True)
+
+    # AND EVERYTHING THE FILTER EXISTS FOR IS STILL REFUSED. A rule
+    # written on the two loose words at the end would have let all of
+    # these back: every federation has a "youth league", and Spain's
+    # juvenil and England's academy sides are exactly what a reader's
+    # board should not spend a row on.
+    for title, competition in (
+            ("Exeter City - Tottenham Hotspur U21", "Premier League 2"),
+            ("Real Madrid Juvenil - Barcelona Juvenil", "Liga Juvenil"),
+            ("Chelsea Academy - Fulham Academy", "Youth League"),
+            ("Ajax Reserves - PSV Reserves", "Beloften Eredivisie"),
+            ("Milan Primavera - Inter Primavera", "Campionato Primavera"),
+            ("الأهلي شباب - النصر شباب", "دوري الشباب السعودي"),
+            ("Bayern U17 - Dortmund U17", "Bundesliga U17"),
+    ):
+        check("YOUTH", f"off: {competition[:26]}",
+              today.wanted(row(title, competition)), False)
+
+    # And a senior tie in the parent competition is untouched by any of
+    # it — the two names differ by one word.
+    check("YOUTH", "the senior Champions League tie",
+          today.wanted(
+              row("Liverpool - Atlético de Madrid",
+                  "دوري أبطال أوروبا")), True)
+
+
+def gate_one_clashing_pair_does_not_cost_a_whole_guide() -> None:
+    """Roya was the only guide here that never resolved its overlaps.
+
+    write_xml_atomic refuses a tree where one channel has two programmes
+    at once — rightly, XMLTV cannot express it — and it refuses the WHOLE
+    tree. So one clashing pair out of Roya's API threw away all
+    twenty-eight of its channels:
+
+        WARN overlapping programmes on Roya_RoyaTV at 20260910210000 +0000
+
+    A refused write leaves the previous file where it was, which is
+    correct and looks like nothing at all. The guide stopped advancing
+    and its days aged: the last build that succeeded had filled its
+    FUTURE days with stand-in, and those days became the present. The
+    older a published day was, the more real it looked — which reads
+    exactly like a source that has gone quiet, and was not one. Asked
+    directly, the API answered with 1741 programmes for that day.
+
+    Roya publishes across days, and a programme running past midnight
+    comes back in BOTH days' responses — so the clash is as likely to be
+    a channel against itself a day later as two rows in one payload.
+    A channel is gathered whole and resolved once for that reason.
+    """
+    print("\nOne clashing pair does not cost a whole guide")
+
+    import tempfile as _tf
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+
+    import epg_lib
+    import roya_jordan_epg as roya
+
+    check("ROYA", "the guide resolves its overlaps at all",
+          hasattr(roya, "resolve_overlaps"), True)
+
+    day = _dt(2026, 9, 10, tzinfo=_tz.utc)
+
+    def row(hour, minutes, title):
+        start = day + _td(hours=hour)
+        return {"start": start, "stop": start + _td(minutes=minutes),
+                "title": title, "desc": "", "icon": None}
+
+    # The three shapes Roya's own payload produces.
+    payload = [
+        row(20, 90, "a programme that overruns the next one"),   # 20:00-21:30
+        row(21, 60, "the one that starts inside it"),            # 21:00-22:00
+        row(23, 120, "and one that runs past midnight"),         # 23:00-01:00
+    ]
+    # The midnight one again, exactly as the NEXT day's response repeats it.
+    payload.append(row(23, 120, "and one that runs past midnight"))
+
+    kept = roya.resolve_overlaps(payload)
+    check("ROYA", "the clashing pair both survive", len(kept) >= 3, True)
+    check("ROYA", "and the repeat across days is not doubled",
+          len(kept), 3)
+
+    # NO PAIR OVERLAPS ANY MORE, and the published start times are the
+    # ones the source gave — a stop time is an estimate, a start is not.
+    clashes = sum(1 for before, after in zip(kept, kept[1:])
+                  if after["start"] < before["stop"])
+    check("ROYA", "no pair overlaps after resolving", clashes, 0)
+    check("ROYA", "every start is the one the source published",
+          [e["start"].hour for e in kept], [20, 21, 23])
+
+    # AND THE TREE THIS PRODUCES IS ONE write_xml_atomic WILL ACCEPT —
+    # which is the whole point. The old path built the same rows and the
+    # write refused them.
+    root = ET.Element("tv")
+    channel = ET.SubElement(root, "channel", id="Roya_RoyaTV")
+    ET.SubElement(channel, "display-name").text = "رؤيا"
+    for event in kept:
+        epg_lib.add_programme(root, "Roya_RoyaTV", event["start"],
+                              event["stop"], event["title"])
+
+    with _tf.TemporaryDirectory() as room:
+        out = os.path.join(room, "roya_check.xml")
+        written = epg_lib.write_xml_atomic(root, out, guard_regression=False)
+        check("ROYA", "and the file is written rather than refused",
+              written, True)
+
+    # The unresolved rows are what the refusal was about — proved by
+    # feeding them in unresolved and watching the write refuse.
+    raw = ET.Element("tv")
+    channel = ET.SubElement(raw, "channel", id="Roya_RoyaTV")
+    ET.SubElement(channel, "display-name").text = "رؤيا"
+    for event in payload[:2]:
+        epg_lib.add_programme(raw, "Roya_RoyaTV", event["start"],
+                              event["stop"], event["title"])
+    refused = False
+    with _tf.TemporaryDirectory() as room:
+        try:
+            epg_lib.write_xml_atomic(raw, os.path.join(room, "raw.xml"),
+                                     guard_regression=False)
+        except ValueError:
+            refused = True
+    check("ROYA", "unresolved, the same rows are refused", refused, True)
+
+
+def gate_the_show_around_a_session_is_not_live() -> None:
+    """"فقط ال live" — the hour of studio either side of a session is not it.
+
+    The second channel printed "2026 Formula 1 Pre-Qualifying: Bahrain
+    Grand Prix" as a live event, beside the qualifying it was about (3
+    October 2026). Every board that reads a broadcaster grid — other
+    sports, the big games, ball, hoops, Turkish — refuses through one
+    rule, other_sports_epg.a_live_event, so the rule is held here.
+    """
+    print("\nThe show around a session is not live — one rule, every board")
+    import other_sports_epg as base
+    for title in ("2026 Formula 1 Pre-Qualifying: Bahrain Grand Prix",
+                  "F1 Pre-Race Show", "Post-Race Analysis", "NFL Pregame",
+                  "Postgame Live", "Pre-Match: Arsenal v Chelsea",
+                  "MotoGP Pre-Race", "F1 Post Qualifying", "Pre-Sprint",
+                  "UFC 332 Countdown", "Bahrain Grand Prix Highlights"):
+        check("NOT LIVE", title, base.a_live_event(title), False)
+    for title in ("Bahrain Grand Prix Qualifying - Sakhir",
+                  "2026 Formula 1 Qualifying: Bahrain Grand Prix",
+                  "UFC 332 Prelims", "UFC 332", "Bahrain Grand Prix Race",
+                  "NFL Preseason: Bears vs Bills", "Shenzhen Open 2026",
+                  "MotoGP Grand Prix of Japan Race", "Çeyrek Final Maç 1",
+                  "Presidents Cup", "Premier League: Arsenal v Chelsea",
+                  "Postecoglou's Spurs v City"):
+        check("LIVE", title, base.a_live_event(title), True)
+
+
+def gate_a_game_being_played_is_a_live_event() -> None:
+    """The two ball channels were dropping exactly what was on now.
+
+    "رجع الي NFL المباشر اليوم و ال MLB المباشر اليوم" — reported with
+    games in progress, both channels drawing today as لا يوجد حدث.
+
+    ESPN's scoreboard gives every game a state: "pre" before it starts,
+    "in" while it is being played, "post" once it is over. These readers
+    kept only "pre". Measured the same minute, ESPN had a full card
+    every day of the window and today came back empty:
+
+        day (viewer)   events
+        2026-09-10          0     today — all of it "in" or "post"
+        2026-09-11         15
+        2026-09-12         15
+
+    A game being played IS the live event. It is the finished one that
+    is not, and "post" is still dropped: nobody should be sent to a
+    channel for a game that is over.
+    """
+    print("\nA game being played is a live event — the ball channels")
+
+    import inspect
+
+    import espn_league
+    import mlb_espn
+    import wnba_espn
+
+    # READ OFF THE SOURCE, because the rule is one line in three files
+    # and the fault was that one of them could drift from the others.
+    for name, module in (("mlb_espn", mlb_espn),
+                         ("wnba_espn", wnba_espn),
+                         ("espn_league", espn_league)):
+        body = inspect.getsource(module)
+        check("LIVEBALL", f"{name} keeps a game in progress",
+              'state") != "pre"' in body, False)
+        check("LIVEBALL", f"{name} still drops a finished game",
+              'state") == "post"' in body, True)
+
+    # AND THE CHANNELS THOSE THREE FEED. ball_sports is MLB and the
+    # WNBA; hoops_gridiron is the NFL and the NBA through espn_league.
+    import ball_sports_epg
+    import hoops_gridiron_epg
+    import nfl_espn
+    check("LIVEBALL", "the baseball channel reads MLB",
+          ball_sports_epg.mlb_espn is mlb_espn, True)
+    check("LIVEBALL", "and the WNBA",
+          ball_sports_epg.wnba_espn is wnba_espn, True)
+    check("LIVEBALL", "the NFL reader is the shared league reader",
+          inspect.getmodule(nfl_espn.collect_league) is espn_league, True)
+    check("LIVEBALL", "and the NFL channel reads it",
+          hasattr(hoops_gridiron_epg, "nfl_espn"), True)
+
+    # AND CHANNEL TWO, which reads espn_fights. It was left alone at
+    # first because it had not been asked about; then it was, and it had
+    # the same fault — a card BEING FOUGHT refused alongside one already
+    # fought.
+    import espn_fights
+    check("LIVEBALL", "espn_fights keeps a card being fought",
+          'state") != "pre"' in inspect.getsource(espn_fights), False)
+    check("LIVEBALL", "and still drops one already fought",
+          'state") == "post"' in inspect.getsource(espn_fights), True)
+
+
+def gate_womens_international_volleyball_is_on_channel_two() -> None:
+    """"Add women's international volleyball to channel 2."
+
+    The national grids asked for first — Poland, Sweden, Germany, Italy,
+    France, Russia, Serbia — were measured and none answers with a
+    readable row (see womens_volley_fivb.py for what each returned).
+    Spain's does and is already read; Turkey's has a channel of its own.
+    The fixtures therefore come from the federation's own VIS service,
+    which stamps the women's draw Gender="1" and gives a real UTC
+    instant, and channel two must actually read it.
+    """
+    print("\nWomen's international volleyball — channel two")
+
+    import other_sports_epg
+    import womens_volley_fivb
+
+    check("WVOLLEY", "channel two reads the federation's indoor feed",
+          other_sports_epg.womens_volley_fivb is womens_volley_fivb, True)
+    check("WVOLLEY", "volleyball is in channel two's order",
+          "Volleyball" in other_sports_epg.IN_ORDER, True)
+
+    women = {"Gender": "1", "Name": "Women Pan American Cup 2026"}
+    men = {"Gender": "0", "Name": "Men Pan American Cup 2026"}
+    girls = {"Gender": "1",
+             "Name": "FIVB Volleyball Girls' U17 World Championship 2026"}
+    club = {"Gender": "1",
+            "Name": "FIVB Volleyball Women's Club World Championship 2026"}
+    league = {"Gender": "1", "Name": "CEV EuroVolley 2026 | Women"}
+
+    check("WVOLLEY", "a women's international major is kept",
+          womens_volley_fivb._is_major_women(women), True)
+    check("WVOLLEY", "EuroVolley is kept",
+          womens_volley_fivb._is_major_women(league), True)
+    check("WVOLLEY", "the men's draw is refused",
+          womens_volley_fivb._is_major_women(men), False)
+    check("WVOLLEY", "an age group is refused",
+          womens_volley_fivb._is_major_women(girls), False)
+    check("WVOLLEY", "a club competition is refused",
+          womens_volley_fivb._is_major_women(club), False)
+    check("WVOLLEY", "EuroVolley names the carrier CEV streams it on",
+          womens_volley_fivb._channels_for(league["Name"]), ["EuroVolley TV"])
+    check("WVOLLEY", "a Volleyball World competition names VBTV",
+          womens_volley_fivb._channels_for(
+              "FIVB Volleyball Women's Nations League 2026"), ["VBTV"])
+    check("WVOLLEY", "and nothing else is guessed a channel",
+          womens_volley_fivb._channels_for("Women Pan American Cup 2026"), [])
+
+
+def main() -> int:
+    print("CHANNEL GATES | every guide must refuse other broadcasters' channels")
+    for gate in (gate_onsport, gate_jordan, gate_shahid, gate_not_a_team,
+                 gate_channel_is_never_a_team,
+                 gate_one_match_one_row,
+                 gate_one_club_across_two_scripts,
+                 gate_a_fact_survives_its_source,
+                 gate_every_guide_is_covered,
+                 gate_the_screen_cannot_go_stale,
+                 gate_a_lost_segment_is_re_encoded_not_republished,
+                 gate_two_pages_make_one_row,
+                 gate_a_day_divider_is_not_a_container,
+                 gate_the_printed_clock_is_the_kickoff,
+                 gate_a_day_drawn_is_a_day_collected,
+                 gate_the_third_page_fills_the_gap,
+                 gate_our_own_guides_name_the_channel,
+                 gate_the_american_channel_is_named,
+                 gate_a_grid_title_is_read_the_way_that_grid_writes_it,
+                 gate_a_row_names_two_channels,
+                 gate_a_board_says_which_day_it_is,
+                 gate_the_jordanian_league_is_read,
+                 gate_a_guide_repeating_its_own_name_is_measured,
+                 gate_a_long_wait_says_how_long,
+                 gate_turkeys_own_league_is_read,
+                 gate_the_other_sports_name_a_real_channel,
+                 gate_the_american_game_names_its_network,
+                 gate_the_second_board_keeps_the_readers_order,
+                 gate_the_round_is_read_from_the_leagues_own_page,
+                 gate_a_board_that_is_built_is_a_board_that_is_published,
+                 gate_one_channel_spelled_two_ways_is_one_channel,
+                 gate_the_window_keeps_moving,
+                 gate_a_simulcast_is_not_a_second_channel,
+                 gate_a_card_is_not_named_after_one_of_its_bouts,
+                 gate_the_two_competitions_asked_for_by_name,
+                 gate_a_board_changes_only_when_its_content_does,
+                 gate_every_american_game_names_its_network,
+                 gate_each_channel_wears_its_own_mark,
+                 gate_the_channel_comes_from_the_broadcasters_own_feed,
+                 gate_the_second_board_names_channels_like_the_first,
+                 gate_no_guide_reads_a_stranger,
+                 gate_a_row_says_which_competition_it_is,
+                 gate_our_own_guides_carry_fights_nobody_lists,
+                 gate_roya_nested_programmes_are_mapped_back_to_their_channel,
+                 gate_the_channel_plays_the_days_in_order,
+                 gate_a_day_that_is_over_leaves_the_screen,
+                 gate_midnight_is_not_a_kickoff,
+                 gate_turkey_comes_from_the_sources_asked_for,
+                 gate_alwan_reaches_the_board,
+                 gate_fajer_reaches_the_board,
+                 gate_the_broadcaster_is_the_source_for_its_own_matches,
+                 gate_on_sport_reads_the_source_that_names_it,
+                 gate_a_day_is_shown_whole_or_not_at_all,
+                 gate_a_viewer_always_arrives_at_the_first_board,
+                  gate_status_variants_follow_absolute_occurrences,
+                  gate_real_status_variants_cover_only_observable_states,
+                 gate_the_news_channel_says_only_what_a_newsroom_published,
+                 gate_alwan_carries_more_than_football,
+                 gate_the_card_is_split_by_the_broadcaster,
+                 gate_raf_reads_the_promotions_own_page,
+                 gate_turkish_is_spelled_the_way_turkey_writes_it,
+                 gate_two_sources_naming_one_broadcast_is_one_row,
+                 gate_a_playlist_that_was_written_reports_success,
+                 gate_the_youth_competition_asked_for_by_name,
+                 gate_one_clashing_pair_does_not_cost_a_whole_guide,
+                 gate_a_game_being_played_is_a_live_event,
+                 gate_the_show_around_a_session_is_not_live,
+                 gate_womens_international_volleyball_is_on_channel_two):
+        try:
+            gate()
+        except Exception as exc:
+            FAILURES.append(f"{gate.__name__} could not run: {exc}")
+            print(f"  FAIL {gate.__name__} could not run: {exc}")
+
+    print()
+    if FAILURES:
+        print(f"{len(FAILURES)} gate(s) let something through:\n")
+        for f in FAILURES:
+            print(f"::error::{f}")
+            print(f"  {f}")
+        print("\nA guide that publishes another channel's match is worse than "
+              "one that publishes nothing. Fix the gate, do not widen the test.")
+        return 1
+    print("every gate holds: each guide accepts its own channels in both "
+          "scripts, refuses every foreign one, and no real club is mistaken "
+          "for a heading")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

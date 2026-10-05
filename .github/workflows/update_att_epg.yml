@@ -1,0 +1,99 @@
+name: Update AT&T EPG
+
+# The guide for the owner's Xtream playlist — US| AT&T, AL-KASS, SOLO —
+# see att_epg.py. Every three hours: Pluto and Samsung publish only half
+# a day ahead, so their channels need the guide rebuilt well inside that.
+#
+# The file is published on its own branch, att-epg, as a single commit
+# replaced each time: a few MB rewritten eight times a day would otherwise
+# pile up in main's history for nothing.
+#
+#   https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/att-epg/att_epg.xml.gz
+
+on:
+  schedule:
+    - cron: "41 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [att_epg.py, playlist_match.py, att_channels.json, .github/workflows/update_att_epg.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: att-epg
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # The second playlist reads every country file it matches against.
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Build the AT&T guide
+        env:
+          XTREAM_URL: ${{ secrets.XTREAM_URL }}
+          XTREAM_USER: ${{ secrets.XTREAM_USER }}
+          XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
+          XTREAM2_URL: ${{ secrets.XTREAM2_URL }}
+          XTREAM2_USER: ${{ secrets.XTREAM2_USER }}
+          XTREAM2_PASS: ${{ secrets.XTREAM2_PASS }}
+        run: python att_epg.py
+      # No file means the run kept the published guide (playlist or a
+      # source unreadable) — nothing to publish, and nothing failed.
+      - name: Validate
+        if: hashFiles('att_epg.xml.gz') != ''
+        run: |
+          python - <<'PY'
+          import gzip, xml.etree.ElementTree as ET
+          from datetime import datetime
+          root = ET.parse(gzip.open("att_epg.xml.gz")).getroot()
+          # Every <channel> before the first <programme>, as XMLTV and the
+          # players that read it expect — or nothing matches.
+          tags = [el.tag for el in root]
+          assert "channel" not in tags[tags.index("programme"):], "a channel after a programme"
+          last = {}
+          for p in root.iter("programme"):
+              st = datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z")
+              sp = datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z")
+              assert sp > st, p.get("channel")
+              assert p.get("channel") not in last or st >= last[p.get("channel")], p.get("channel")
+              last[p.get("channel")] = sp
+          print("AT&T XMLTV VALIDATION PASS", len(root.findall("channel")), "channels")
+          PY
+      - name: Publish on the att-epg branch
+        if: hashFiles('att_epg.xml.gz') != ''
+        run: |
+          mkdir -p /tmp/out && cp att_epg.xml.gz /tmp/out/
+          cd /tmp/out
+          git init -q -b att-epg
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add att_epg.xml.gz
+          git commit -q -m "AT&T EPG $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" att-epg
+      # The playlist's names for channels already guided here, and its
+      # SOLO channels: every guide build writes them onto those channels,
+      # so the owner's existing links match them. Committed only when the
+      # playlist changed.
+      - name: Keep the playlist's names on main
+        run: |
+          [ -f playlist_aliases.json ] || exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add playlist_aliases.json
+          if git diff --cached --quiet; then echo "playlist names unchanged"; exit 0; fi
+          git commit -q -m "Playlist names for the guided channels"
+          for attempt in 1 2 3 4 5; do
+            git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main && exit 0
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          echo "could not push the playlist names"; exit 1

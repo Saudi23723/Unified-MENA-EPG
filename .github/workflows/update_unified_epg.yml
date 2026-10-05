@@ -1,0 +1,79 @@
+name: Merge Unified MENA EPG
+
+on:
+  # The merge runs at the end of "Build every EPG", in the same job as the
+  # generators that feed it — see build_all_epg.py. It used to have an
+  # hourly cron of its own and to chain off all fourteen sources through
+  # workflow_run, which by itself was several hundred workflow runs a day
+  # in a repository whose scheduled events GitHub had started dropping.
+  #
+  # This file is kept as the way to re-merge by hand from whatever is
+  # currently committed, without rebuilding any source first.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unified-mena-epg
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Merge all EPG sources
+        run: python merge_epg.py
+
+      - name: Validate XMLTV
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse("unified_mena_epg.xml").getroot()
+          assert root.tag == "tv"
+          assert root.find("channel") is not None
+          print("UNIFIED MENA EPG XMLTV VALIDATION PASS")
+          PY
+
+      - name: Commit merged EPG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add unified_mena_epg.xml
+
+          if git diff --cached --quiet; then
+            echo "No unified EPG changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Merge unified MENA EPG"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase -X theirs origin main
+            if git push origin main; then
+              echo "Pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected (another workflow pushed first), retrying ($attempt/5)..."
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          echo "Failed to push after 5 attempts"
+          exit 1
