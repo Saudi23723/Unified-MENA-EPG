@@ -779,11 +779,12 @@ def build() -> int:
         for form in pm.name_variants(name):
             point.setdefault(form, set()).add(target)
 
+    # Every form, the owner's word (5 October 2026): "assign everything".
     def widen(names: list[str]) -> list[str]:
         out = list(names)
         for name in names:
             if name in target_of:
-                out += [f for f in pm.name_variants(name) if len(point[f]) == 1]
+                out += pm.name_variants(name)
         return list(dict.fromkeys(out))
 
     for g in groups.values():
@@ -802,12 +803,12 @@ def build() -> int:
     for epg, names in sorted(by_id.items()):
         if epg in taken_ids:
             continue
-        targets = {target_of[n] for n in names}
-        # One id the provider files under different channels (bbc4.uk under
-        # BBC 4 and BBC World News) is left out: carried, it would show one
-        # channel's programmes on the other. Those are found by name.
-        if len(targets) == 1:
-            provider_ids.setdefault(targets.pop(), []).append(epg)
+        # Every id is carried — the owner's word: "assign everything". One
+        # the provider files under several channels (bbc4.uk under BBC 4 and
+        # BBC World News) goes to the channel it is named after, else to
+        # the first of them.
+        named_after = [n for n in names if pm.squeezed(n) == pm.id_stem(epg)]
+        provider_ids.setdefault(target_of[(named_after or names)[0]], []).append(epg)
     for (kind, key), ids in provider_ids.items():
         if kind == "group" and key[0] != "own":
             g = groups[key]
@@ -819,7 +820,7 @@ def build() -> int:
     if own_extra:
         load("own", set(own_extra))
     say(f"guideless: {sum(map(len, provider_ids.values()))} provider id(s) carried, "
-        f"{sum(len(v) for v in point.values() if len(v) == 1)} name form(s)")
+        f"{len(point)} name form(s)")
 
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
                   solo, always)
