@@ -373,7 +373,17 @@ def close_gaps_in(label: str, path: str) -> str | None:
         print(f"::warning::{label}: could not close gaps ({exc}) — published "
               f"as its generator wrote it")
         return None
-    if not filled:
+    # The owner's playlist names, for the same reason: write_xml_atomic
+    # writes them, and the guides that write their own file never got
+    # them — Thmanyah, Shasha's SD feeds, Jordan Sport and Alwan's
+    # documentary showed nothing on Family4k (6 October 2026) while
+    # playlist_aliases.json held every one of those names.
+    try:
+        named = epg_lib.add_playlist_names(root)
+    except Exception as exc:
+        print(f"::warning::{label}: could not add the playlist names ({exc})")
+        named = 0
+    if not filled and not named:
         return None
 
     try:
@@ -389,7 +399,8 @@ def close_gaps_in(label: str, path: str) -> str | None:
         print(f"::warning::{label}: gap-filled file was not valid ({exc}) — "
               f"kept the generator's own file")
         return None
-    return f"closed {filled} gap(s)"
+    return ", ".join(x for x in (filled and f"closed {filled} gap(s)",
+                                 named and f"{named} playlist name(s)") if x)
 
 
 def keep_published_if_collapsed(label: str, path: str,
