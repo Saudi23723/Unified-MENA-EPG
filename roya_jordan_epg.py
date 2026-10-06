@@ -58,6 +58,7 @@ import bein3_asia_epg
 import filler_epg
 import jordan_tv_epg
 import amman_tv_epg
+import mamlaka_epg
 import mbc_epg
 import osn_epg
 import palestine_channels_epg
@@ -330,6 +331,7 @@ def build() -> int:
                          ("Filler", filler_epg),
                          ("Jordan TV", jordan_tv_epg),
                          ("Amman TV", amman_tv_epg),
+                         ("Al Mamlaka", mamlaka_epg),
                          ("Al Mashhad", almashhad_epg),
                          ("Palestine", palestine_channels_epg),
                          ("beIN SPORTS 3 Asia", bein3_asia_epg),
