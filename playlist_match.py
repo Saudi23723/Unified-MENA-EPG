@@ -316,6 +316,33 @@ def logo_index(channels: list, logos: list) -> dict:
     return index
 
 
+# tv-logo/tv-logos: an open library of channel logos, one file per channel
+# and country ("countries/france/bein-sports-1-fr.png"). Read as a file
+# list only; the player loads the logo it points at.
+TV_LOGOS_TREE = "https://api.github.com/repos/tv-logo/tv-logos/git/trees/main?recursive=1"
+TV_LOGOS_RAW = "https://raw.githubusercontent.com/tv-logo/tv-logos/main/"
+
+
+def add_tv_logos(index: dict, tree: dict) -> int:
+    """Add tv-logos' files to a logo_index, after iptv-org's (never over)."""
+    added = 0
+    for item in tree.get("tree") or []:
+        path = item.get("path") or ""
+        m = re.match(r"countries/[^/]+/(.+)-([a-z]{2})\.png$", path)
+        if not m:
+            continue
+        slug, country = m.group(1), m.group(2)
+        key = logo_key(slug.replace("-", " "))
+        if not key:
+            continue
+        url = TV_LOGOS_RAW + path
+        if (country, key) not in index:
+            index[(country, key)] = url
+            added += 1
+        index.setdefault(("*", key), set()).add(url)
+    return added
+
+
 # A source's stand-in for a logo it does not have, or an address it wrote
 # wrong — Télérama's "https://television.telerama.frhttps://focus..."
 # pointing at "clear-192.png", on every beIN France channel (6 October

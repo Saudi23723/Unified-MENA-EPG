@@ -113,6 +113,8 @@ PLAYLISTS = ("XTREAM", "XTREAM2")
 # names exactly is given one — see playlist_match.py.
 GUIDELESS = ("XTREAM2",)
 FULL: set[tuple[str, str, str]] = set()
+# Channel name -> the provider's own logo for it (see playlist()).
+PROVIDER_ICONS: dict[str, str] = {}
 
 
 def login(prefix: str = "XTREAM") -> tuple[str, str, str]:
@@ -189,15 +191,23 @@ def playlist(prefix: str = "XTREAM") -> list[tuple[str, str, str]] | None:
             return r.json()
         cats = {str(c["category_id"]): c.get("category_name") or ""
                 for c in api(action="get_live_categories")}
+        raw_streams = api(action="get_live_streams")
         streams = [(cats.get(str(s.get("category_id")), ""), s["name"].strip(),
                     (s.get("epg_channel_id") or "").strip())
-                   for s in api(action="get_live_streams")
+                   for s in raw_streams
                    if (s.get("name") or "").strip()
                    and not s["name"].lstrip().startswith("#")]
     except Exception as exc:  # noqa: BLE001 - scrubbed and reported
         say(f"playlist: unreadable ({type(exc).__name__}: {exc})"[:300])
         return None
     say(f"playlist {prefix}: {len(streams)} channel(s) in {len(cats)} categories")
+    for s in raw_streams:
+        if not (s.get("name") or "").strip():
+            continue
+        icon = (s.get("stream_icon") or "").strip()
+        if icon.startswith("http") and host not in icon and \
+                not any(x and x in icon for x in (user, password)) and pm.good_icon(icon):
+            PROVIDER_ICONS.setdefault(s["name"].strip(), icon)
     return streams
 
 
@@ -800,12 +810,27 @@ def build() -> int:
     except Exception as exc:  # noqa: BLE001 - drawn marks still cover them
         say(f"logos: iptv-org unreadable ({type(exc).__name__})")
 
+    # A second open logo library, by country (tv-logo/tv-logos), for the
+    # channels iptv-org has none for.
+    try:
+        tree = session.get(pm.TV_LOGOS_TREE, headers=UA, timeout=120).json()
+        added = pm.add_tv_logos(real_logos, tree)
+        say(f"logos: {added} more real logo name(s) from tv-logos")
+    except Exception as exc:  # noqa: BLE001 - iptv-org and drawn marks still cover them
+        say(f"logos: tv-logos unreadable ({type(exc).__name__})")
+
     def real_logo(names: list[str]) -> str | None:
+        """The channel's original logo: iptv-org, then tv-logos, then the
+        provider's own. None only when all three have searched and found
+        none — and only then is one drawn."""
         for name in names:
             if name in category_of:
                 url = pm.real_logo(real_logos, category_of[name], name)
                 if url:
                     return url
+        for name in names:
+            if PROVIDER_ICONS.get(name):
+                return PROVIDER_ICONS[name]
         return None
     target_of: dict[str, tuple] = {}
     point: dict[str, set] = {}

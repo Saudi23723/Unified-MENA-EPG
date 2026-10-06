@@ -4369,6 +4369,13 @@ def gate_no_guide_reads_a_stranger() -> None:
         ("family_coverage.py", "www.open-epg.com"),
         ("family_coverage.py", "iptv-epg.org"),
         ("family_coverage.py", "iptvx.one"),
+        # Logos, not schedules: tv-logo/tv-logos, an open logo library,
+        # for the channels iptv-org has none for (the owner: "original
+        # logos for all channels unless there's really no original",
+        # 6 October 2026). Its file list is read; the player loads the
+        # logo it points at. See playlist_match.add_tv_logos.
+        ("playlist_match.py", "api.github.com"),
+        ("playlist_match.py", "raw.githubusercontent.com"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4414,6 +4421,9 @@ def gate_no_guide_reads_a_stranger() -> None:
             # The one foreign link the owner sent and asked to be read.
             if path == "att_epg.py" and "github.com/ferteque/" in url:
                 continue
+            # The open logo library, pointed at for logos only.
+            if path == "playlist_match.py" and "/tv-logo/tv-logos/" in url:
+                continue
             if OURS not in url:
                 foreign.append(f"{path}: {url[:70]}")
     check("SOURCES", "every GitHub URL it holds is this reader's own repo",
@@ -4449,9 +4459,10 @@ def gate_no_guide_reads_a_stranger() -> None:
     # hours Al Jazeera's own page leaves unnamed, and to twelve for the
     # second playlist's real logos, and to fifteen for the owner's own
     # TiviMate links, read only to know which channels they already guide
-    # (family_coverage.py) — no schedule is taken from them.
-    check("SOURCES", "exactly fifteen aggregated-feed reads, all declared",
-          len(KNOWN), 15)
+    # (family_coverage.py) — no schedule is taken from them — and to
+    # seventeen for tv-logos, a second logo library.
+    check("SOURCES", "exactly seventeen aggregated-feed reads, all declared",
+          len(KNOWN), 17)
 
 
 
