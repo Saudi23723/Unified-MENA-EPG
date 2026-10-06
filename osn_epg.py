@@ -171,16 +171,20 @@ def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
     carried = carry_forward(previous_path)
     out: dict[str, list[dict]] = {}
     for xmltv_id, _key, names, sources in CHANNELS:
+        # THE FEED THAT REACHES FURTHEST AHEAD, not the first with any rows.
+        # Taking the first that answered left Discovery ID and Fatafeat on
+        # saudiarabia1, whose rows had all ended, while saudiarabia2 had
+        # the whole day: both read "لم يُعلن البث" (6 October 2026).
         rows: list[dict] = []
         used = ""
         for name, cid in sources:
             root = feed(name)
             if root is None:
                 continue
-            rows = rows_in(root, cid, floor)
-            if rows:
-                used = name
-                break
+            found = rows_in(root, cid, floor)
+            if found and (not rows or max(r["stop"] for r in found)
+                          > max(r["stop"] for r in rows)):
+                rows, used = found, name
         if not rows:
             rows = [r for r in carried.get(xmltv_id, []) if r["stop"] >= floor]
             if rows:
@@ -219,7 +223,13 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
             seen.add(name)
             lang = "en" if name.isascii() else "ar"
             ET.SubElement(channel, "display-name", lang=lang).text = name
-        logo = f"{key}_{LOGO_VERSION}.png"
+        # The channel's ORIGINAL logo where one exists (the owner: "original
+        # logos for all channels unless there's really no original") —
+        # iptv-org's, copied into logos/ as <key>_orig.png. The drawn
+        # round one only for a channel with none.
+        logo = f"{key}_orig.png"
+        if not os.path.exists(os.path.join("logos", logo)):
+            logo = f"{key}_{LOGO_VERSION}.png"
         if os.path.exists(os.path.join("logos", logo)):
             ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{logo}")
         for event in resolve_overlaps(sorted(rows, key=lambda e: e["start"])):
