@@ -245,6 +245,15 @@ def build() -> int:
 
     log(f"Alkass: {len(with_data)}/{len(CHANNELS)} channels, {total} programmes")
 
+    # The owner's second playlist (Family4k) rides this link — the one its
+    # player has on for it (alwan_channels_epg.add_playlist_guide_to). A
+    # failure there publishes the Alkass guide exactly as it was.
+    try:
+        import alwan_channels_epg
+        alwan_channels_epg.add_playlist_guide_to(root, OUTPUT)
+    except Exception as exc:                                # noqa: BLE001
+        warn(f"playlist channels skipped: {exc}")
+
     # This guide moved from beIN's four-day guide to Alkass's own one-day
     # one, so it is a third of the size it used to be by design and the
     # previous file is no longer a fair yardstick — the collapse guard
