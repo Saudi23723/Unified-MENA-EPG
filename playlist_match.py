@@ -291,18 +291,29 @@ def logo_key(name: str) -> str:
                     if t not in ("tv", "channel", "television", "network"))
 
 
+WIKI = re.compile(r"(https://upload\.wikimedia\.org/wikipedia/[^/]+)/(?:thumb/)?"
+                  r"([0-9a-f])/([0-9a-f]{2})/([^/?]+?)(?:/\d+px-[^/?]+)?$", re.I)
+
+
 def shown_url(url: str) -> str | None:
-    """A logo address a player can draw. TiviMate draws no SVG: a
-    Wikimedia SVG becomes its own PNG rendering; any other SVG is none."""
-    bare = url.split("?")[0].lower()
-    if not bare.endswith(".svg"):
-        return url
-    m = re.match(r"(https://upload\.wikimedia\.org/wikipedia/[^/]+)/(?!thumb/)"
-                 r"([0-9a-f])/([0-9a-f]{2})/([^/?]+\.svg)$", url.split("?")[0], re.I)
+    """A logo address a player can draw.
+
+    TiviMate draws no SVG, and Wikimedia serves a thumbnail only at its
+    standard widths and never wider than a picture's own — a 512px or a
+    960px thumbnail of a smaller PNG answers 404 (the Family4k audit,
+    6 October 2026). So a Wikimedia picture is its original file when it
+    is a raster, and its standard 500px rendering when it is an SVG; any
+    other SVG is none."""
+    bare = url.split("?")[0]
+    m = WIKI.match(bare)
     if m:
         base, a, ab, name = m.groups()
-        return f"{base}/thumb/{a}/{ab}/{name}/512px-{name}.png"
-    return None
+        if name.lower().endswith(".svg"):
+            return f"{base}/thumb/{a}/{ab}/{name}/500px-{name}.png"
+        return f"{base}/{a}/{ab}/{name}"
+    if bare.lower().endswith(".svg"):
+        return None
+    return url
 
 
 def logo_index(channels: list, logos: list) -> dict:
@@ -359,6 +370,7 @@ def add_tv_logos(index: dict, tree: dict) -> int:
         if not key:
             continue
         url = TV_LOGOS_RAW + path
+        index.setdefault(("tvl", country, key), url)
         if (country, key) not in index:
             index[(country, key)] = url
             added += 1
@@ -390,6 +402,12 @@ def real_logo(index: dict, category: str, name: str) -> str | None:
     for country in sorted(wanted):
         url = index.get((country, key))
         if url:
+            # A local Wikipedia's file (en, fr, de... — not Commons) is
+            # often a fair-use picture that gets deleted: BET Jams and RMC
+            # Story answered 404. tv-logos' own file for the same channel
+            # first, when it has one.
+            if re.search(r"upload\.wikimedia\.org/wikipedia/(?!commons/)", url):
+                return index.get(("tvl", country, key)) or url
             return url
     anywhere = index.get(("*", key)) or set()
     if len(anywhere) == 1:
