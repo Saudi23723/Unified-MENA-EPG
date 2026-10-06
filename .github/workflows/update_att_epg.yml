@@ -34,9 +34,14 @@ jobs:
     # The second playlist reads every country file it matches against.
     timeout-minutes: 60
     steps:
+      # The latest commit only. fetch-depth 0 pulled the whole history —
+      # gigabytes of screen segments — and on 6 October 2026 the checkout
+      # alone ran past 55 minutes, holding the guide (and every run queued
+      # behind it) for an hour. Nothing here reads history: the push at the
+      # end rebases onto main, whose new commits sit on top of this one.
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Bring back any build GitHub has let die
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
