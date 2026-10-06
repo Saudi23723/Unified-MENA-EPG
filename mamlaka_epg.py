@@ -130,11 +130,12 @@ def collect(session=None, previous_path: str = "") -> dict[str, list[dict]]:
     return {XMLTV_ID: rows} if rows else {}
 
 
-def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
+def emit(root: ET.Element, per_channel: dict[str, list[dict]],
+         channel_id: str = XMLTV_ID) -> int:
     rows = per_channel.get(XMLTV_ID) or []
     if not rows:
         return 0
-    ch = ET.SubElement(root, "channel", {"id": XMLTV_ID})
+    ch = ET.SubElement(root, "channel", {"id": channel_id})
     # SHAPED EXACTLY AS AL MASHHAD'S ENTRY on this same link, which the
     # owner's player lists ("Al Mashhad | المشهد") while it did not list
     # this one: "English | Arabic" first under "ar", the English names
@@ -150,6 +151,6 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
     if os.path.exists(os.path.join("logos", "al_mamlaka.png")):
         ET.SubElement(ch, "icon", {"src": LOGO})
     for row in rows:
-        add_programme(root, XMLTV_ID, row["start"], row["stop"],
+        add_programme(root, channel_id, row["start"], row["stop"],
                       row["title"], f"{ARABIC} — {row['title']}")
     return len(rows)
