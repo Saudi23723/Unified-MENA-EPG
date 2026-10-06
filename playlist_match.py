@@ -291,15 +291,38 @@ def logo_key(name: str) -> str:
                     if t not in ("tv", "channel", "television", "network"))
 
 
+def shown_url(url: str) -> str | None:
+    """A logo address a player can draw. TiviMate draws no SVG: a
+    Wikimedia SVG becomes its own PNG rendering; any other SVG is none."""
+    bare = url.split("?")[0].lower()
+    if not bare.endswith(".svg"):
+        return url
+    m = re.match(r"(https://upload\.wikimedia\.org/wikipedia/[^/]+)/(?!thumb/)"
+                 r"([0-9a-f])/([0-9a-f]{2})/([^/?]+\.svg)$", url.split("?")[0], re.I)
+    if m:
+        base, a, ab, name = m.groups()
+        return f"{base}/thumb/{a}/{ab}/{name}/512px-{name}.png"
+    return None
+
+
 def logo_index(channels: list, logos: list) -> dict:
     first: dict[str, str] = {}
-    for logo in logos:
-        if logo.get("feed") is None and logo.get("channel") and logo.get("url"):
-            first.setdefault(logo["channel"], logo["url"])
-    # A channel whose only logos are per feed still has an original one.
-    for logo in logos:
-        if logo.get("channel") and logo.get("url"):
-            first.setdefault(logo["channel"], logo["url"])
+    # A PNG before an SVG, a channel's general logo before a feed's —
+    # and a channel whose only logos are per feed still has an original.
+    for want_general in (True, False):
+        for want_raster in (True, False):
+            for logo in logos:
+                url = logo.get("url") or ""
+                if not (logo.get("channel") and url):
+                    continue
+                if want_general and logo.get("feed") is not None:
+                    continue
+                raster = not url.split("?")[0].lower().endswith(".svg")
+                if want_raster != raster:
+                    continue
+                shown = shown_url(url)
+                if shown:
+                    first.setdefault(logo["channel"], shown)
     index: dict[tuple, str] = {}
     for ch in channels:
         url = first.get(ch.get("id"))
