@@ -39,7 +39,7 @@ GRID = "mamlaka_schedule.json"
 XMLTV_ID = "AlMamlakaTV.jo"
 ARABIC = "قناة المملكة"
 # Every way the owner's playlists write it, and the plain names.
-NAMES = ("Al Mamlaka TV", "Al Mamlaka", "Al Mamlaka TV HD", "Almamlaka TV",
+NAMES = ("Al Mamlaka", "Al Mamlaka TV", "Al Mamlaka TV HD", "Almamlaka TV",
          "AR: Almamlaka TV 4K", "AR: Almamlaka TV HD", "STC: AL MAMLAKA ᴴᴰ",
          "STC: AL MAMLAKA ʰᵉᵛᶜ", "AT&T: AL MAMLAKA ᴿᴬᵂ", "Jo| Al Mamlaka HD",
          "Al Mamlaka HD", "Mamlaka TV", "المملكة")
@@ -135,13 +135,19 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
     if not rows:
         return 0
     ch = ET.SubElement(root, "channel", {"id": XMLTV_ID})
-    # First name in both scripts: a player lists and searches a guide
-    # channel by its first name only.
-    ET.SubElement(ch, "display-name", {"lang": "ar"}).text = f"{NAMES[0]} | {ARABIC}"
-    for name in NAMES:
-        ET.SubElement(ch, "display-name",
-                      {"lang": "ar" if not name.isascii() else "en"}).text = name
+    # EXACTLY AS MBC, the channels the owner's player is known to list on
+    # this link: a player set to Arabic shows and searches a channel by its
+    # FIRST Arabic name, so that is the plain "Al Mamlaka" — then the same
+    # under "en", then the Arabic, then every playlist spelling (unlabelled,
+    # as MBC's are). "Al Mamlaka TV | قناة المملكة" first, as Amman TV has
+    # it, left the owner unable to find it ("قناة المملكة مش موجودة").
+    ET.SubElement(ch, "display-name", {"lang": "ar"}).text = NAMES[0]
+    ET.SubElement(ch, "display-name", {"lang": "en"}).text = NAMES[0]
     ET.SubElement(ch, "display-name", {"lang": "ar"}).text = ARABIC
+    ET.SubElement(ch, "display-name", {"lang": "ar"}).text = "المملكة"
+    for name in NAMES[1:]:
+        if name != "المملكة":
+            ET.SubElement(ch, "display-name").text = name
     if os.path.exists(os.path.join("logos", "al_mamlaka.png")):
         ET.SubElement(ch, "icon", {"src": LOGO})
     for row in rows:
