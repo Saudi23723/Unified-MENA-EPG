@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [att_epg.py, playlist_match.py, att_channels.json, .github/workflows/update_att_epg.yml]
+    paths: [att_epg.py, playlist_match.py, family_coverage.py, att_channels.json, .github/workflows/update_att_epg.yml]
 
 permissions:
   contents: write
@@ -79,10 +79,16 @@ jobs:
               last[p.get("channel")] = sp
           print("AT&T XMLTV VALIDATION PASS", len(root.findall("channel")), "channels")
           PY
+      # Which of these channels no other link the owner has on guides —
+      # the only ones the SAIF ALKASS link carries (family_coverage.py).
+      - name: Channels no other link guides
+        if: hashFiles('att_epg.xml.gz') != ''
+        run: python family_coverage.py || echo "::warning::coverage not decided — the Alkass link keeps its own rule"
       - name: Publish on the att-epg branch
         if: hashFiles('att_epg.xml.gz') != ''
         run: |
           mkdir -p /tmp/out && cp att_epg.xml.gz /tmp/out/
+          [ -f alkass_extra.json ] && cp alkass_extra.json /tmp/out/
           # The drawn marks ride the same branch, replaced whole each run.
           [ -d logos_gen ] && cp -r logos_gen /tmp/out/
           cd /tmp/out

@@ -998,6 +998,11 @@ def build() -> int:
         handle.write(data)
     os.replace(OUT + ".tmp", OUT)
     say(f"wrote {OUT} ({os.path.getsize(OUT) // 1024} KB)")
+    # The guideless playlist's channels as the player shows them — name and
+    # the provider's guide id, nothing of the login — for family_coverage.py.
+    with open("family_channels.json", "w", encoding="utf-8") as handle:
+        json.dump(sorted([name, epg] for _cat, name, epg in FULL), handle,
+                  ensure_ascii=False)
     return 0
 
 
