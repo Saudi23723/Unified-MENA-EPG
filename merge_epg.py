@@ -172,7 +172,7 @@ def build() -> int:
             cid = ch.get("id")
             if not cid:
                 continue
-            # The playlists' own channels ride the Alwan link for the
+            # The playlists' own channels ride the SAIF ALKASS link for the
             # player that loads it (alwan_channels_epg.add_playlist_guide_to);
             # they have their own link and would double this one's size.
             if cid.startswith("Playlist.Guide."):

@@ -353,24 +353,25 @@ def add_aljazeera_to(root, source: str = "roya_jordan_epg.xml") -> int:
     return len(rows)
 
 
-# EVERY OTHER CHANNEL OF THE OWNER'S PLAYLISTS, on this link too.
+# EVERY OTHER CHANNEL OF THE OWNER'S PLAYLISTS, on the SAIF ALKASS link
+# (alkass_epg.py calls this — it lives here beside the playlist's other
+# channels).
 #
 # att_epg.py builds the guide for both Xtream playlists (the second one,
 # "Family4k", sends no guide of its own) and publishes it on the att-epg
 # branch. The owner's player does not load that link for Family4k and the
 # owner will not add one ("ما بدي أضيف لينك ثاني", 6 October 2026): every
 # one of its channels showed "No information" while the guide held them.
-# This link is the one the player has on for it, so the same channels and
-# rows ride here, under their own ids (Playlist.Guide.*) so nothing clashes,
-# leaving out any channel this link already names.
+# The owner chose the link they ride on: "حط على Saif alkass". The same
+# channels and rows ride there, under their own ids (Playlist.Guide.*) so
+# nothing clashes, leaving out any channel that link already names.
 #
 # If the playlist guide cannot be read this pass, the rows the last
-# published copy of this link carried are kept, so a passing network
+# published copy of that link carried are kept, so a passing network
 # fault never empties the channels.
 PLAYLIST_GUIDE = ("https://raw.githubusercontent.com/Saudi23723/"
                   "Unified-MENA-EPG/att-epg/att_epg.xml.gz")
 PLAYLIST_PREFIX = "Playlist.Guide."
-PUBLISHED = "alwan_sports_epg.xml"
 
 
 def _playlist_guide_root():
@@ -384,8 +385,8 @@ def _playlist_guide_root():
     return ET.fromstring(raw), False
 
 
-def _published_root():
-    root = ET.parse(PUBLISHED).getroot()
+def _published_root(published: str):
+    root = ET.parse(published).getroot()
     keep = ET.Element("tv")
     for el in root:
         if (el.get("id") or el.get("channel") or "").startswith(PLAYLIST_PREFIX):
@@ -393,14 +394,14 @@ def _published_root():
     return keep, True
 
 
-def add_playlist_guide_to(root) -> int:
+def add_playlist_guide_to(root, published: str) -> int:
     try:
         source, prefixed = _playlist_guide_root()
     except Exception as exc:                                # noqa: BLE001
         log(f"playlist guide unreadable ({type(exc).__name__}) — keeping "
             f"the rows already published")
         try:
-            source, prefixed = _published_root()
+            source, prefixed = _published_root(published)
         except Exception:                                   # noqa: BLE001
             return 0
     have = {(d.text or "").strip().lower()

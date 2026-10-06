@@ -1361,7 +1361,6 @@ def write_xml(events):
             import alwan_channels_epg
             alwan_channels_epg.add_to(tv)
             alwan_channels_epg.add_placeholders_to(tv)
-            alwan_channels_epg.add_playlist_guide_to(tv)
             ET.indent(tv, space="  ")
             ET.ElementTree(tv).write(tmp, encoding="utf-8",
                                      xml_declaration=True)
