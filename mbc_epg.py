@@ -203,16 +203,20 @@ def collect(session, previous_path: str = "") -> dict[str, list[dict]]:
     carried = carry_forward(previous_path)
     out: dict[str, list[dict]] = {}
     for xmltv_id, _key, names, sources in CHANNELS:
+        # THE FEED THAT REACHES FURTHEST AHEAD, not the first with any rows:
+        # taking the first left every MBC channel on a feed whose rows had
+        # ended while another had the day, reading "لم يُعلن البث" on the
+        # Jo link (6 October 2026). The same fault, and fix, as osn_epg.
         rows: list[dict] = []
         used = ""
         for name, cid in sources:
             root = feed(name)
             if root is None:
                 continue
-            rows = rows_in(root, cid, floor)
-            if rows:
-                used = name
-                break
+            found = rows_in(root, cid, floor)
+            if found and (not rows or max(r["stop"] for r in found)
+                          > max(r["stop"] for r in rows)):
+                rows, used = found, name
         if not rows:
             rows = [r for r in carried.get(xmltv_id, []) if r["stop"] >= floor]
             if rows:
