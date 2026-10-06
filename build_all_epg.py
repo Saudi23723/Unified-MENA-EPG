@@ -627,6 +627,19 @@ def build_once() -> bool:
     return publish()
 
 
+def revive_screens() -> None:
+    """Bring the screen chain back if it has died (tools/revive_workflows.sh
+    says why). Every twenty minutes while this run is alive, so a chain
+    GitHub broke mid-run is not left dead until the next cron lands."""
+    if not os.environ.get("GH_TOKEN"):
+        return
+    try:
+        subprocess.run(["bash", "tools/revive_workflows.sh", "update_today_matches.yml"],
+                       timeout=60, check=False)
+    except Exception as exc:  # noqa: BLE001 - a watchdog never breaks the build
+        print(f"::warning::revive: {exc}", flush=True)
+
+
 def main() -> int:
     once = "--once" in sys.argv
     passes = 1 if once else PASSES
@@ -637,6 +650,7 @@ def main() -> int:
         print(f"\n########  pass {index + 1} of {passes}  "
               f"########", flush=True)
         ok = build_once()
+        revive_screens()
 
         if index + 1 >= passes:
             break

@@ -35,6 +35,9 @@ on:
 
 permissions:
   contents: read
+  # To start the screens and the guides again when GitHub has let them
+  # die (tools/revive_workflows.sh).
+  actions: write
 
 concurrency:
   group: health-check
@@ -46,6 +49,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Bring back any build GitHub has let die
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash tools/revive_workflows.sh update_today_matches.yml update_all_epg.yml:30
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

@@ -285,3 +285,7 @@ jobs:
           gh workflow run update_today_matches.yml --ref "$GITHUB_REF_NAME" \
             && echo "───── successor requested ─────" \
             || echo "::warning::could not ask for a successor — the cron is the fallback"
+          # And the guides' builder, when GitHub has let it die too: no run
+          # of it alive and none started in the last half hour
+          # (tools/revive_workflows.sh).
+          bash tools/revive_workflows.sh update_all_epg.yml:30
