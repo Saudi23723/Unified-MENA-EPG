@@ -172,6 +172,11 @@ def build() -> int:
             cid = ch.get("id")
             if not cid:
                 continue
+            # The playlists' own channels ride the Alwan link for the
+            # player that loads it (alwan_channels_epg.add_playlist_guide_to);
+            # they have their own link and would double this one's size.
+            if cid.startswith("Playlist.Guide."):
+                continue
             if cid in seen_channel_ids:
                 # The same channel on a second link may carry names the
                 # first did not (the playlist's, on Alwan's) — keep them
@@ -197,6 +202,8 @@ def build() -> int:
         # link never lists one programme twice.
         for pr in src_root.findall("programme"):
             if pr.get("channel") not in mine and pr.get("channel") in seen_channel_ids:
+                continue
+            if (pr.get("channel") or "").startswith("Playlist.Guide."):
                 continue
             root.append(pr)
             file_programmes += 1

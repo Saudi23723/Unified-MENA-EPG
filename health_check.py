@@ -582,7 +582,10 @@ def main() -> int:
         merged = check_file(MERGED, now, check_overlaps=False)
         print(f"{MERGED:34} {len(merged['ids']):4} {merged['programmes']:6} "
               f"{merged['ahead']:6}")
-        missing = sorted(all_source_ids - merged["ids"])
+        # The playlists' channels ride the Alwan link only, on purpose
+        # (merge_epg.py leaves them out; they have a link of their own).
+        missing = sorted(cid for cid in all_source_ids - merged["ids"]
+                         if not cid.startswith("Playlist.Guide."))
         if missing:
             fail(f"{MERGED}: {len(missing)} channel(s) present in a source file "
                  f"but absent from the merged link: {', '.join(missing[:8])}")
