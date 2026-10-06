@@ -351,3 +351,84 @@ def add_aljazeera_to(root, source: str = "roya_jordan_epg.xml") -> int:
         root.append(p)
     log(f"Al Jazeera: {len(rows)} programme(s) on this link")
     return len(rows)
+
+
+# EVERY OTHER CHANNEL OF THE OWNER'S PLAYLISTS, on this link too.
+#
+# att_epg.py builds the guide for both Xtream playlists (the second one,
+# "Family4k", sends no guide of its own) and publishes it on the att-epg
+# branch. The owner's player does not load that link for Family4k and the
+# owner will not add one ("ما بدي أضيف لينك ثاني", 6 October 2026): every
+# one of its channels showed "No information" while the guide held them.
+# This link is the one the player has on for it, so the same channels and
+# rows ride here, under their own ids (Playlist.Guide.*) so nothing clashes,
+# leaving out any channel this link already names.
+#
+# If the playlist guide cannot be read this pass, the rows the last
+# published copy of this link carried are kept, so a passing network
+# fault never empties the channels.
+PLAYLIST_GUIDE = ("https://raw.githubusercontent.com/Saudi23723/"
+                  "Unified-MENA-EPG/att-epg/att_epg.xml.gz")
+PLAYLIST_PREFIX = "Playlist.Guide."
+PUBLISHED = "alwan_sports_epg.xml"
+
+
+def _playlist_guide_root():
+    import gzip
+    import requests
+    r = requests.get(PLAYLIST_GUIDE, timeout=120)
+    r.raise_for_status()
+    raw = r.content
+    if raw[:2] == b"\x1f\x8b":
+        raw = gzip.decompress(raw)
+    return ET.fromstring(raw), False
+
+
+def _published_root():
+    root = ET.parse(PUBLISHED).getroot()
+    keep = ET.Element("tv")
+    for el in root:
+        if (el.get("id") or el.get("channel") or "").startswith(PLAYLIST_PREFIX):
+            keep.append(el)
+    return keep, True
+
+
+def add_playlist_guide_to(root) -> int:
+    try:
+        source, prefixed = _playlist_guide_root()
+    except Exception as exc:                                # noqa: BLE001
+        log(f"playlist guide unreadable ({type(exc).__name__}) — keeping "
+            f"the rows already published")
+        try:
+            source, prefixed = _published_root()
+        except Exception:                                   # noqa: BLE001
+            return 0
+    have = {(d.text or "").strip().lower()
+            for c in root.findall("channel") for d in c.findall("display-name")}
+    taken = {c.get("id") for c in root.findall("channel")}
+
+    def own_id(cid: str) -> str:
+        return cid if prefixed else PLAYLIST_PREFIX + cid
+
+    chosen: set[str] = set()
+    at = len(root.findall("channel"))
+    for ch in source.findall("channel"):
+        names = [(d.text or "").strip() for d in ch.findall("display-name")]
+        if not names or any(n.lower() in have for n in names):
+            continue
+        cid = own_id(ch.get("id") or "")
+        if cid in taken or cid in chosen:
+            continue
+        ch.set("id", cid)
+        root.insert(at, ch)
+        at += 1
+        chosen.add(cid)
+    count = 0
+    for pr in source.findall("programme"):
+        cid = own_id(pr.get("channel") or "")
+        if cid in chosen:
+            pr.set("channel", cid)
+            root.append(pr)
+            count += 1
+    log(f"playlist guide: {len(chosen)} channel(s), {count} programme(s)")
+    return count
