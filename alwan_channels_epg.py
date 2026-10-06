@@ -20,6 +20,7 @@ separate file never reached it.
 from __future__ import annotations
 
 import os
+import re
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
@@ -411,11 +412,51 @@ def add_playlist_guide_to(root, published: str) -> int:
     def own_id(cid: str) -> str:
         return cid if prefixed else PLAYLIST_PREFIX + cid
 
+    # ONLY CHANNELS WITH A REAL SCHEDULE. A channel no trusted source
+    # lists carries filler here — "لم يُعلن البث" or its own name all day.
+    # On this link, high in the owner's list, that filler won over the
+    # real guide the player was reading from the owner's other links:
+    # every MBC channel went blank on 6 October 2026. A channel whose
+    # rows are all filler is left off, so those links fill it as before.
+    #
+    # And a schedule that has run out is filler too: the MBC rows here were
+    # a copy of a guide ending within the hour. So a channel stays only with
+    # a real row still running three hours from now.
+    #
+    # NO ARABIC CHANNEL AT ALL. The owner's other links already guide them
+    # (beIN, Alkass, Roya, the Saudi and Egyptian lists...), and those were
+    # right; this was only ever for the foreign channels showing nothing.
+    from epg_lib import NOTHING_KNOWN
+    from playlist_match import norm
+    soon = datetime.now(timezone.utc) + timedelta(hours=3)
+    names_of = {ch.get("id"): {norm(d.text) for d in ch.findall("display-name")}
+                for ch in source.findall("channel")}
+    real: set[str] = set()
+    for pr in source.findall("programme"):
+        cid = pr.get("channel") or ""
+        title = (pr.findtext("title") or "").strip()
+        if cid in real or not title or title.startswith(NOTHING_KNOWN[:12]):
+            continue
+        if norm(title) in names_of.get(cid, ()):
+            continue
+        try:
+            stop = datetime.strptime(pr.get("stop") or "", "%Y%m%d%H%M%S %z")
+        except ValueError:
+            continue
+        if stop > soon:
+            real.add(cid)
+    arab = re.compile(r"(?i)(?:\.(?:ae|sa|eg|qa|jo|kw|lb|iq|sy|bh|om|ma|dz|tn"
+                      r"|ly|ps|ye|sd)$|^(?:Playlist\.Guide\.)?Playlist\."
+                      r"(?:AE1|SA2|BEIN1|ALJAZEERA1|own))")
+    real = {cid for cid in real if not arab.search(cid)}
+
     chosen: set[str] = set()
     at = len(root.findall("channel"))
     for ch in source.findall("channel"):
         names = [(d.text or "").strip() for d in ch.findall("display-name")]
         if not names or any(n.lower() in have for n in names):
+            continue
+        if ch.get("id") not in real:
             continue
         cid = own_id(ch.get("id") or "")
         if cid in taken or cid in chosen:
