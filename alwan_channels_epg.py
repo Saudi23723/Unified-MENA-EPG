@@ -372,6 +372,8 @@ def add_aljazeera_to(root, source: str = "roya_jordan_epg.xml") -> int:
 # fault never empties the channels.
 PLAYLIST_GUIDE = ("https://raw.githubusercontent.com/Saudi23723/"
                   "Unified-MENA-EPG/att-epg/att_epg.xml.gz")
+PLAYLIST_EXTRA = ("https://raw.githubusercontent.com/Saudi23723/"
+                  "Unified-MENA-EPG/att-epg/alkass_extra.json")
 PLAYLIST_PREFIX = "Playlist.Guide."
 
 
@@ -396,6 +398,7 @@ def _published_root(published: str):
 
 
 def add_playlist_guide_to(root, published: str) -> int:
+    import requests
     try:
         source, prefixed = _playlist_guide_root()
     except Exception as exc:                                # noqa: BLE001
@@ -450,17 +453,48 @@ def add_playlist_guide_to(root, published: str) -> int:
                       r"(?:AE1|SA2|BEIN1|ALJAZEERA1|own))")
     real = {cid for cid in real if not arab.search(cid)}
 
+    only_names: dict[str, list[str]] = {}
+    # BETTER, WHEN IT IS THERE: the channels NO other link the owner has
+    # on guides (family_coverage.py, beside the playlist guide). Those —
+    # Arabic or not, scheduled or only named — are exactly the ones this
+    # link can carry without overriding anything, and every other channel
+    # is left to the link that already guides it.
+    try:
+        r = requests.get(PLAYLIST_EXTRA, timeout=60)
+        r.raise_for_status()
+        extra = r.json()
+        # Keyed as the source names them: raw ids from the playlist guide,
+        # prefixed ones from the published fallback.
+        only_names = {(PLAYLIST_PREFIX + cid if prefixed else cid): names
+                      for cid, names in extra.items()}
+        real = set(only_names)
+        log(f"playlist guide: {len(real)} channel(s) no other link guides")
+    except Exception as exc:                                # noqa: BLE001
+        log(f"playlist guide: coverage list unreadable ({type(exc).__name__}) "
+            f"— real schedules of non-Arabic channels only")
+
     chosen: set[str] = set()
     at = len(root.findall("channel"))
     for ch in source.findall("channel"):
-        names = [(d.text or "").strip() for d in ch.findall("display-name")]
-        if not names or any(n.lower() in have for n in names):
-            continue
         if ch.get("id") not in real:
             continue
-        cid = own_id(ch.get("id") or "")
+        names = only_names.get(ch.get("id")) or \
+            [(d.text or "").strip() for d in ch.findall("display-name")]
+        if not names or any(n.lower() in have for n in names):
+            continue
+        raw = ch.get("id") or ""
+        cid = own_id(raw)
         if cid in taken or cid in chosen:
             continue
+        if only_names.get(raw):
+            for d in ch.findall("display-name"):
+                ch.remove(d)
+            icon = ch.find("icon")
+            at_icon = list(ch).index(icon) if icon is not None else len(ch)
+            for i, name in enumerate(only_names[raw]):
+                el = ET.Element("display-name")
+                el.text = name
+                ch.insert(at_icon + i, el)
         ch.set("id", cid)
         root.insert(at, ch)
         at += 1
