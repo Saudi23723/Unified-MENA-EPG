@@ -223,13 +223,7 @@ def emit(root: ET.Element, per_channel: dict[str, list[dict]]) -> int:
             seen.add(name)
             lang = "en" if name.isascii() else "ar"
             ET.SubElement(channel, "display-name", lang=lang).text = name
-        # The channel's ORIGINAL logo where one exists (the owner: "original
-        # logos for all channels unless there's really no original") —
-        # iptv-org's, copied into logos/ as <key>_orig.png. The drawn
-        # round one only for a channel with none.
-        logo = f"{key}_orig.png"
-        if not os.path.exists(os.path.join("logos", logo)):
-            logo = f"{key}_{LOGO_VERSION}.png"
+        logo = f"{key}_{LOGO_VERSION}.png"
         if os.path.exists(os.path.join("logos", logo)):
             ET.SubElement(channel, "icon", src=f"{LOGO_BASE}/{logo}")
         for event in resolve_overlaps(sorted(rows, key=lambda e: e["start"])):
