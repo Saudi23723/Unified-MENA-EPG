@@ -45,6 +45,9 @@ on:
 
 permissions:
   contents: write
+  # To start the screen chain again when GitHub has broken it
+  # (tools/revive_workflows.sh).
+  actions: write
 
 concurrency:
   group: build-every-epg
@@ -108,6 +111,8 @@ jobs:
       # killed part way through has already published what it finished.
       # Only a scheduled run bridges the hour; anything else builds once.
       - name: Build every guide, merge them, and publish each pass
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
             python -u build_all_epg.py
