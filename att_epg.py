@@ -113,6 +113,16 @@ PLAYLISTS = ("XTREAM", "XTREAM2")
 # names exactly is given one — see playlist_match.py.
 GUIDELESS = ("XTREAM2",)
 FULL: set[tuple[str, str, str]] = set()
+# (pattern on the playlist name, the brand's mark in logos/), first match wins.
+BRAND_LOGOS = [
+    (r"\bshoof\s*max\b", "shoofmax.png"),
+    (r"\bon\s*time\s*sports?\s*max\b", "onsportmax.png"),
+    (r"\bon\s*time\s*sports?\s*plus\b", "onsportplus.png"),
+    (r"\bon\s*time\s*sports?\b", "onsport1.png"),
+    (r"\broya\b", "roya_tv.png"),
+    (r"\bnetflix\b", "netflix.png"),
+    (r"^\s*shahid\b", "shahid.png"),
+]
 # Channel name -> the provider's own logo for it (see playlist()).
 PROVIDER_ICONS: dict[str, str] = {}
 
@@ -831,6 +841,15 @@ def build() -> int:
         for name in names:
             if PROVIDER_ICONS.get(name):
                 return PROVIDER_ICONS[name]
+        # A channel of a brand with no logo of its own — one series looped,
+        # a numbered feed — wears its brand's original mark: "ShoofMax-
+        # البيت الكبير" is ShoofMax's, "Sport | Ar: On Time Sport Max" is
+        # ON Sport's Max. Only marks this repository already keeps.
+        for name in names:
+            for pattern, logo in BRAND_LOGOS:
+                if re.search(pattern, name, re.I) and \
+                        os.path.exists(os.path.join("logos", logo)):
+                    return LOGO_BASE + logo
         return None
     target_of: dict[str, tuple] = {}
     point: dict[str, set] = {}
