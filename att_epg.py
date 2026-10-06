@@ -900,7 +900,13 @@ def build() -> int:
                 "Playlist." + hashlib.md5(f"{source}\t{target}\t{c}".encode()).hexdigest()[:12]
                 for c in cids]
         used.update(cids)
-        logo = g["logo"] or SOURCE_ICONS.get((source, target)) or real_logo(g["names"])
+        # THE ORIGINAL LOGO FIRST (the owner: "original logos for all
+        # channels unless there's really no original"). A source's own icon
+        # came first and was often broken or a placeholder — every beIN
+        # France channel showed Télérama's transparent "clear" tile.
+        src_icon = SOURCE_ICONS.get((source, target))
+        logo = g["logo"] or real_logo(g["names"]) or \
+            (src_icon if pm.good_icon(src_icon) else None)
         if not logo:
             mine = [n for n in g["names"] if n in category_of]
             if mine:
@@ -956,6 +962,8 @@ def build() -> int:
     family_logo: dict[tuple, Counter] = {}
     for (source, target), g in groups.items():
         logo = g["logo"] or SOURCE_ICONS.get((source, target))
+        if not pm.good_icon(logo):
+            continue
         for name in g["names"]:
             if logo and name in category_of:
                 fam = (category_of[name], " ".join(pm.norm(name).split()[:2]))

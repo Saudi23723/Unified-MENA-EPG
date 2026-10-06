@@ -296,6 +296,10 @@ def logo_index(channels: list, logos: list) -> dict:
     for logo in logos:
         if logo.get("feed") is None and logo.get("channel") and logo.get("url"):
             first.setdefault(logo["channel"], logo["url"])
+    # A channel whose only logos are per feed still has an original one.
+    for logo in logos:
+        if logo.get("channel") and logo.get("url"):
+            first.setdefault(logo["channel"], logo["url"])
     index: dict[tuple, str] = {}
     for ch in channels:
         url = first.get(ch.get("id"))
@@ -305,7 +309,24 @@ def logo_index(channels: list, logos: list) -> dict:
             key = logo_key(name)
             if key:
                 index.setdefault(((ch.get("country") or "").lower(), key), url)
+                # Every country's logo under the name alone too ("*"), for a
+                # name the category does not place: TNT Sports, DAZN, Rangers
+                # TV. Used only where the name has ONE logo the world over.
+                index.setdefault(("*", key), set()).add(url)
     return index
+
+
+# A source's stand-in for a logo it does not have, or an address it wrote
+# wrong — Télérama's "https://television.telerama.frhttps://focus..."
+# pointing at "clear-192.png", on every beIN France channel (6 October
+# 2026). Never a channel's logo.
+BAD_ICON = re.compile(r"(?i)clear-\d+\.png|placeholder|default[-_.]|no[-_]?logo|"
+                      r"blank\.|transparent|1x1\.")
+
+
+def good_icon(url: str | None) -> bool:
+    return bool(url) and url.startswith("http") and url.count("://") == 1 \
+        and not BAD_ICON.search(url)
 
 
 def real_logo(index: dict, category: str, name: str) -> str | None:
@@ -320,6 +341,9 @@ def real_logo(index: dict, category: str, name: str) -> str | None:
         url = index.get((country, key))
         if url:
             return url
+    anywhere = index.get(("*", key)) or set()
+    if len(anywhere) == 1:
+        return next(iter(anywhere))
     return None
 
 
