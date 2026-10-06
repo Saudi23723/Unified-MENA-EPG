@@ -102,6 +102,22 @@ ONE_DAY_SOURCES = {
     "weather_epg.xml":
         "the weather board publishes a rolling six-hour bulletin, "
         "rewritten every ten minutes",
+    # The Emirates-time list's copies of the two bulletins above, and the
+    # multi-sport board, whose guide is one rolling "no event" row between
+    # Games. Checked since 6 October 2026, when the dashboard's guides were
+    # merged into the link (merge_epg.py) — the same shape as news_epg.xml.
+    "dubai_news_epg.xml":
+        "the Emirates-time news board publishes a rolling bulletin, "
+        "rewritten every ten minutes",
+    "dubai_weather_epg.xml":
+        "the Emirates-time weather board publishes a rolling bulletin, "
+        "rewritten every ten minutes",
+    "multi_sport_epg.xml":
+        "the multi-sport board publishes a rolling guide, one row while "
+        "no Games are on",
+    "dubai_multi_sport_epg.xml":
+        "the Emirates-time multi-sport board publishes a rolling guide, "
+        "one row while no Games are on",
 }
 
 # How long a one-day guide may sit with nothing ahead before it counts as
