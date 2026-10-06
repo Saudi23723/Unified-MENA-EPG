@@ -4361,6 +4361,14 @@ def gate_no_guide_reads_a_stranger() -> None:
         # before any is drawn (the owner, 5 October 2026). See
         # playlist_match.IPTV_ORG.
         ("playlist_match.py", "iptv-org.github.io"),
+        # Not a schedule source: the owner's OWN TiviMate links for the
+        # second playlist (their screen, 6 October 2026), read only to
+        # learn which channels they already guide, so the SAIF ALKASS link
+        # never carries one of those and overrides it. See
+        # family_coverage.OWNER_LINKS.
+        ("family_coverage.py", "www.open-epg.com"),
+        ("family_coverage.py", "iptv-epg.org"),
+        ("family_coverage.py", "iptvx.one"),
     }
 
     A_URL = re.compile(r"https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+")
@@ -4439,9 +4447,11 @@ def gate_no_guide_reads_a_stranger() -> None:
     # operator's guide refuses a runner, and to ten for the EPG link the
     # owner sent for the US networks' stations, and to eleven for the
     # hours Al Jazeera's own page leaves unnamed, and to twelve for the
-    # second playlist's real logos.
-    check("SOURCES", "exactly twelve aggregated-feed reads, all declared",
-          len(KNOWN), 12)
+    # second playlist's real logos, and to fifteen for the owner's own
+    # TiviMate links, read only to know which channels they already guide
+    # (family_coverage.py) — no schedule is taken from them.
+    check("SOURCES", "exactly fifteen aggregated-feed reads, all declared",
+          len(KNOWN), 15)
 
 
 
