@@ -172,7 +172,9 @@ def add_to(root) -> int:
 # (id, the name a player lists, the bar, logo file or None)
 PLACEHOLDERS = (
     ("Placeholder.LiveEventOnly", "LIVE EVENT ONLY", "LIVE EVENT ONLY", None),
-    ("Placeholder.News247", "NEWS 24/7", "NEWS 24/7 📰", "news_247.png"),
+    # No logo on NEWS 24/7 either, its guide only ("شيل ال logo تبع news
+    # 24/7 بس خلي ال epg").
+    ("Placeholder.News247", "NEWS 24/7", "NEWS 24/7 📰", None),
 )
 
 
