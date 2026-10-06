@@ -254,6 +254,17 @@ def build() -> int:
     except Exception as exc:                                # noqa: BLE001
         warn(f"playlist channels skipped: {exc}")
 
+    # Al Mamlaka here too, for the owner to assign by hand: SAIF Jo carries
+    # it, and this link, the one the player reads for Family4k, lists it as
+    # well ("خليها تبين على ال list"). The Playlist.Guide. id keeps it off
+    # the merged link, which has it from the Roya file already.
+    try:
+        import mamlaka_epg
+        mamlaka_epg.emit(root, mamlaka_epg.collect(),
+                         channel_id="Playlist.Guide.AlMamlaka")
+    except Exception as exc:                                # noqa: BLE001
+        warn(f"Al Mamlaka skipped: {exc}")
+
     # This guide moved from beIN's four-day guide to Alkass's own one-day
     # one, so it is a third of the size it used to be by design and the
     # previous file is no longer a fair yardstick — the collapse guard
