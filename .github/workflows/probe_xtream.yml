@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: {ref: probe-shasha, fetch-depth: 0}
+        with: {ref: probe-shasha}
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install -q -r requirements.txt
-      - run: git fetch -q origin main && git checkout origin/main -- "*.xml" && python tools/_zain_probe.py
+      - run: git fetch -q --depth=1 origin main && git checkout FETCH_HEAD -- "*.xml" && python tools/_zain_probe.py
