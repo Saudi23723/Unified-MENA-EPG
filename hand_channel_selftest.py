@@ -11,7 +11,7 @@ passed — they read the committed guides, which did not carry the new
 channels yet — and the health check failed only after the next build
 wrote them, because it kept its own copy of the rule for which channels
 several links may share. Now the rule is one function
-(merge_epg.off_merged_link) and this test builds the channels in memory
+(merge_rules.off_merged_link) and this test builds the channels in memory
 on every link that carries them and runs the health check's own rule
 (health_check.id_clash) over them, before anything is merged.
 """

@@ -58,7 +58,7 @@ import sys
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
-from merge_epg import off_merged_link
+from merge_rules import off_merged_link
 from datetime import datetime, timedelta, timezone
 
 UTC = timezone.utc
@@ -491,7 +491,7 @@ def check_file(path: str, now: datetime, *, check_overlaps: bool = True) -> dict
 
 def id_clash(seen_owner: dict[str, str], cid: str, path: str) -> str | None:
     """Why `path` may not carry channel `cid` too, or None. A channel the
-    merge leaves out (merge_epg.off_merged_link — the same rule, not a
+    merge leaves out (merge_rules.off_merged_link — the same rule, not a
     copy) cannot clash: several links carry the hand-assign channels on
     purpose. hand_channel_selftest.py runs this on what the build writes."""
     owner = seen_owner.get(cid)
