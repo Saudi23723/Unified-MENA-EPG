@@ -567,6 +567,12 @@ def main() -> int:
         for cid in info["ids"]:
             if {seen_owner.get(cid), path} <= SHARED_CHANNELS.get(cid, set()):
                 continue
+            # A Playlist.Guide. channel never reaches the merged link
+            # (merge_epg skips them), so several links carrying one — the
+            # hand-assign channels sit on Alkass and Roya both, on purpose —
+            # costs the merge nothing.
+            if cid.startswith("Playlist.Guide."):
+                continue
             if cid in seen_owner and seen_owner[cid] != path:
                 fail(f"channel id {cid} is claimed by both {seen_owner[cid]} and "
                      f"{path} — the merge keeps one and drops the other")
