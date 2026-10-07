@@ -20,13 +20,6 @@
     <display-name lang="ar">ON Sport PLUS</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/onsportplus.png" />
   </channel>
-  <programme start="20261004210000 +0000" stop="20261005210000 +0000" channel="ONSport1">
-    <title lang="ar">⏰ التالي بعد يومين · الزمالك - زد</title>
-    <desc lang="ar">ON Sport 1 | 2026-10-05
-
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20261005210000 +0000" stop="20261006210000 +0000" channel="ONSport1">
     <title lang="ar">⏰ التالي غداً · الزمالك - زد</title>
     <desc lang="ar">ON Sport 1 | 2026-10-06
@@ -219,9 +212,9 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261004210000 +0000" stop="20261005210000 +0000" channel="ONSport2">
+  <programme start="20261020210000 +0000" stop="20261021210000 +0000" channel="ONSport1">
     <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport 2 | 2026-10-05
+    <desc lang="ar">ON Sport 1 | 2026-10-21
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
@@ -331,35 +324,19 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261004210000 +0000" stop="20261005210000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي غداً · Algeria - Niger</title>
-    <desc lang="ar">ON Sport MAX | 2026-10-05
+  <programme start="20261020210000 +0000" stop="20261021210000 +0000" channel="ONSport2">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport 2 | 2026-10-21
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261005210000 +0000" stop="20261006193000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي اليوم · Algeria - Niger</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-06
+  <programme start="20261005210000 +0000" stop="20261006210000 +0000" channel="ONSportMAX">
+    <title lang="ar">⏰ التالي غداً · بترول أسيوط - الأهلي</title>
+    <desc lang="ar">ON Sport MAX | 2026-10-06
 
-• 22:30 — Algeria - Niger
-  Amistoso
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261006193000 +0000" stop="20261006210000 +0000" channel="ONSportMAX">
-    <title lang="ar">Algeria - Niger ‎• Live 🔵‎</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-06
-
-• 22:30 — Algeria - Niger
-  Amistoso
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-    <category lang="en">Amistoso</category>
   </programme>
   <programme start="20261006210000 +0000" stop="20261007140000 +0000" channel="ONSportMAX">
     <title lang="ar">⏰ التالي اليوم · بترول أسيوط - الأهلي</title>
@@ -606,9 +583,9 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261004210000 +0000" stop="20261005210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">⏰ التالي بعد يومين · بيراميدز - القناة</title>
-    <desc lang="ar">ON Sport PLUS | 2026-10-05
+  <programme start="20261020210000 +0000" stop="20261021210000 +0000" channel="ONSportMAX">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport MAX | 2026-10-21
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
@@ -768,6 +745,13 @@
   <programme start="20261019210000 +0000" stop="20261020210000 +0000" channel="ONSportPLUS">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <desc lang="ar">ON Sport PLUS | 2026-10-20
+
+لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261020210000 +0000" stop="20261021210000 +0000" channel="ONSportPLUS">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport PLUS | 2026-10-21
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
