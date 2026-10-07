@@ -264,14 +264,13 @@ def build() -> int:
                          channel_id="Playlist.Guide.AlMamlaka")
     except Exception as exc:                                # noqa: BLE001
         warn(f"Al Mamlaka skipped: {exc}")
-    # Hydra, the owner's hand-assign channel, here too (see
+    # The owner's hand-assign channels (Hydra, NEWS 24/7, ...) here too (see
     # alwan_channels_epg.add_hand_channel_to).
     try:
         import alwan_channels_epg
-        alwan_channels_epg.add_hand_channel_to(root, "Placeholder.Hydra",
-                                               "Playlist.Guide.Hydra")
+        alwan_channels_epg.add_hand_channels_to(root)
     except Exception as exc:                                # noqa: BLE001
-        warn(f"Hydra skipped: {exc}")
+        warn(f"hand-assign channels skipped: {exc}")
 
     # This guide moved from beIN's four-day guide to Alkass's own one-day
     # one, so it is a third of the size it used to be by design and the

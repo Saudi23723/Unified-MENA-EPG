@@ -344,14 +344,13 @@ def build() -> int:
         except Exception as exc:
             warn(f"{name} failed entirely, the guide is published without it: {exc}")
 
-    # Hydra, the owner's hand-assign channel, on this link as well (see
+    # The owner's hand-assign channels (Hydra, NEWS 24/7, ...) on this link as well (see
     # alwan_channels_epg.add_hand_channel_to).
     try:
         import alwan_channels_epg
-        alwan_channels_epg.add_hand_channel_to(root, "Placeholder.Hydra",
-                                               "Playlist.Guide.Hydra")
+        alwan_channels_epg.add_hand_channels_to(root)
     except Exception as exc:                                # noqa: BLE001
-        warn(f"Hydra skipped: {exc}")
+        warn(f"hand-assign channels skipped: {exc}")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — Jordan (Roya)")
     return 0
