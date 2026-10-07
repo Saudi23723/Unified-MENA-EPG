@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-07T11:38:08.278Z",
+  "updated_at": "2026-10-07T11:43:30.416Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,7 +434,7 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 6.8,
-      "humidity": 85,
+      "humidity": 84,
       "wind_speed": 6.2,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -505,13 +505,13 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 22.8,
-      "humidity": 61,
+      "humidity": 53,
       "wind_speed": 7.6,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-07T04:30",
-      "feels_c": 23.3,
+      "feels_c": 22.5,
       "utc_offset": -25200,
       "days": [
         {
@@ -576,13 +576,13 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 12.0,
-      "humidity": 72,
+      "humidity": 74,
       "wind_speed": 15.0,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-07T06:30",
-      "feels_c": 9.1,
+      "feels_c": 9.2,
       "utc_offset": -18000,
       "days": [
         {
@@ -647,13 +647,13 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 22.4,
-      "humidity": 27,
+      "humidity": 28,
       "wind_speed": 12.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-07T04:30",
-      "feels_c": 18.9,
+      "feels_c": 19.0,
       "utc_offset": -25200,
       "days": [
         {
@@ -718,13 +718,13 @@
       "latitude": 32.7767,
       "longitude": -96.797,
       "temperature_c": 16.6,
-      "humidity": 79,
+      "humidity": 81,
       "wind_speed": 3.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-07T06:30",
-      "feels_c": 17.0,
+      "feels_c": 17.1,
       "utc_offset": -18000,
       "days": [
         {
@@ -789,18 +789,18 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 14.1,
-      "humidity": 90,
+      "humidity": 81,
       "wind_speed": 5.8,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-10-07T04:30",
-      "feels_c": 14.0,
+      "feels_c": 13.5,
       "utc_offset": -25200,
       "days": [
         {
           "date": "2026-10-07",
-          "code": 1,
+          "code": 0,
           "max": 26.9,
           "min": 13.5,
           "rain": 0
