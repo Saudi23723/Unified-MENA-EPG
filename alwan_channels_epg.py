@@ -181,6 +181,17 @@ PLACEHOLDERS = (
 )
 
 
+def add_hand_channels_to(root) -> int:
+    """EVERY placeholder on another of the owner's links, each under a
+    Playlist.Guide. id. A channel the owner assigns by hand must be on
+    every link any of their playlists reads — put on one link only, it
+    went missing twice in a playlist that reads another (Al Mamlaka, then
+    Hydra: "كل مرة", 7 October 2026). So a placeholder added to
+    PLACEHOLDERS reaches the Alkass and Roya links by itself."""
+    return sum(add_hand_channel_to(root, xid, "Playlist.Guide." + xid.split(".", 1)[1])
+               for xid, *_rest in PLACEHOLDERS)
+
+
 def add_hand_channel_to(root, xid: str, channel_id: str) -> int:
     """One placeholder (by its id in PLACEHOLDERS) on another link, under
     channel_id — so it shows in a playlist whose player reads that link
