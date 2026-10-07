@@ -122,3 +122,10 @@ jobs:
       # check here and failed the health check after the next build.
       - name: Hand-assign channels pass the health check on every link
         run: python -u hand_channel_selftest.py
+      # The scheduled health check runs with NO packages installed. On 7
+      # October 2026 it imported a module that needs requests and failed
+      # on every run until fixed. Load it here the way that job does.
+      - name: The health check loads with no packages installed
+        run: |
+          python -m venv /tmp/bare
+          /tmp/bare/bin/python -c "import health_check, merge_rules"
