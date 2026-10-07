@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import re
 from datetime import datetime, timedelta, timezone, date
 from html import unescape
@@ -340,114 +341,51 @@ def _zain_add(events, start_utc, home, away, source_name, source_url):
 
 def _parse_oddalerts_zain() -> list[dict]:
     """
-    Parse each visible OddAlerts fixture row independently:
-      Tue 25 Aug, 20:00
-      Kazma
-      Al Tadhamon
+    Every Zain fixture from the page's own structured data: each
+    SportsEvent carries "Home vs Away" and a startDate WITH its offset
+    ("2026-10-09T14:50:00+00:00"), so no clock has to be guessed.
 
-    We do NOT infer one page-level time and reuse it for all fixtures.
-    If the page lists the same kickoff time for several matches, each match
-    must still have its own explicit date/time row.
+    WHY NOT THE PRINTED ROWS. The page prints its kickoffs on London's
+    clock ("Fri 09 Oct, 15:50" for 14:50 UTC), and this reader took them
+    for Kuwait's: every Kuwaiti league match went two hours early — Al
+    Nasar - Al Kuwait at 15:50 in Kuwait for a 17:50 kickoff (the owner,
+    7 October 2026: "ما أتوقع الوقت صح"). A kickoff at exactly midnight
+    UTC is the page's "date to be fixed" (the postponed rows) and is left
+    out rather than published at three in the morning.
     """
     events = []
     soup = BeautifulSoup(fetch_text(ODDALERTS_ZAIN), "html.parser")
-    text = soup.get_text("\n", strip=True)
 
-    # Normalize to non-empty lines while preserving row order.
-    lines = [norm(x) for x in text.splitlines() if norm(x)]
+    def walk(obj):
+        if isinstance(obj, dict):
+            if obj.get("@type") == "SportsEvent":
+                yield obj
+            for value in obj.values():
+                yield from walk(value)
+        elif isinstance(obj, list):
+            for value in obj:
+                yield from walk(value)
 
-    months = {
-        "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
-        "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
-    }
-    date_re = re.compile(
-        r"^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+"
-        r"(\d{1,2})\s+"
-        r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec),\s*"
-        r"(\d{1,2}):(\d{2})$",
-        re.I,
-    )
-
-    # Filter out obvious non-team UI/stat lines that can follow a fixture.
-    bad = re.compile(
-        r"^(?:1\s+\d|X\s+\d|2\s+\d|Season|Upcoming|Results|No fixtures|"
-        r"Zain Premier League|Every Zain|Overview|Fixtures|Predictions|Standings|"
-        r"Explore|Sign In|Login|Join The Team|Create|Pro\b|Monthly|Weekly|Quarterly)",
-        re.I,
-    )
-
-    # A finished row carries a status column between the kickoff and the
-    # teams, and then each side's goals:
-    #
-    #   Thu 27 Aug, 16:45 | FT | Al Sahel | 1 | Al Sulaibikhat | 0
-    #   Thu 27 Aug, 19:00 | FT | Kazma    | 3 | Al Tadhamon    | 1
-    #
-    # Taking the first two plausible lines makes that "FT - Al Sahel":
-    # a status code standing in for the home side, the real home side
-    # demoted to away, and the away side dropped off the end entirely.
-    # This guide published exactly that for thirty-one rows. An upcoming
-    # row has no status column, which is why only finished matches were
-    # wrong and the error looked like an odd team name rather than a
-    # parser losing a column.
-    #
-    # Skipped like any other furniture, so the pair becomes the two clubs.
-    status_line = re.compile(
-        r"(?:FT|HT|AET|ET|Pen|Pens|Postp|Canc|Abd|Susp|Live|vs)\.?", re.I)
-
-    kwt = ZoneInfo("Asia/Kuwait")
-    now_kwt = utc_now().astimezone(kwt)
-
-    i = 0
-    while i < len(lines):
-        m = date_re.match(lines[i])
-        if not m:
-            i += 1
+    for script in soup.find_all("script", type="application/ld+json"):
+        try:
+            data = json.loads(script.string or "")
+        except ValueError:
             continue
-
-        dd, mon, hh, mm = m.groups()
-        # Find the next two plausible team-name lines.
-        teams = []
-        j = i + 1
-        while j < len(lines) and len(teams) < 2 and j <= i + 8:
-            candidate = lines[j]
-            if date_re.match(candidate):
-                break
-            if (
-                not bad.match(candidate)
-                and not status_line.fullmatch(candidate)
-                and "%" not in candidate
-                and len(candidate) <= 60
-                and not candidate.isdigit()
-            ):
-                teams.append(candidate)
-            j += 1
-
-        if len(teams) == 2:
-            year = now_kwt.year
+        for ev in walk(data):
+            home, sep, away = (ev.get("name") or "").partition(" vs ")
+            if not sep or not home.strip() or not away.strip():
+                continue
             try:
-                local = datetime(
-                    year,
-                    months[mon.casefold()],
-                    int(dd),
-                    int(hh),
-                    int(mm),
-                    tzinfo=kwt,
-                )
-                # Season starts in Aug 2026 and runs into 2027.
-                if local < now_kwt - timedelta(days=120):
-                    local = local.replace(year=year + 1)
-                _zain_add(
-                    events,
-                    local.astimezone(UTC),
-                    teams[0],
-                    teams[1],
-                    "OddAlerts-Zain",
-                    ODDALERTS_ZAIN,
-                )
-            except Exception:
-                pass
-
-        i = max(i + 1, j)
+                start = datetime.fromisoformat(ev.get("startDate") or "")
+            except ValueError:
+                continue
+            if start.tzinfo is None:
+                continue
+            start = start.astimezone(UTC)
+            if (start.hour, start.minute) == (0, 0):
+                continue
+            _zain_add(events, start, home.strip(), away.strip(),
+                      "OddAlerts-Zain", ODDALERTS_ZAIN)
 
     if not events:
         warn("OddAlerts returned no Zain fixture — the Kuwaiti league is "
@@ -721,8 +659,8 @@ def parse_zain() -> list[dict]:
 
     events = []
 
-    # Primary fixture-time source: every accepted match must carry its own
-    # visible date/time line.
+    # Primary fixture-time source: each match's own startDate, with its
+    # offset, from the page's structured data.
     try:
         events.extend(_parse_oddalerts_zain())
     except Exception as exc:
