@@ -181,6 +181,29 @@ PLACEHOLDERS = (
 )
 
 
+def add_hand_channel_to(root, xid: str, channel_id: str) -> int:
+    """One placeholder (by its id in PLACEHOLDERS) on another link, under
+    channel_id — so it shows in a playlist whose player reads that link
+    and not this one (the Hydra playlist did not list it from Alwan:
+    "نفس الاخطاء", 7 October 2026). A Playlist.Guide. id keeps it off the
+    merged link, which has it from this file already."""
+    entry = next((e for e in PLACEHOLDERS if e[0] == xid), None)
+    if entry is None:
+        return 0
+    _xid, name, bar, logo = entry
+    ch = ET.Element("channel", {"id": channel_id})
+    ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
+    if logo:
+        ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+    root.insert(len(root.findall("channel")), ch)
+    first = (datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    for day in range(DAYS_BACK + DAYS_FORWARD):
+        start = first + timedelta(days=day)
+        add_programme(root, channel_id, start, start + timedelta(days=1), bar, bar)
+    return DAYS_BACK + DAYS_FORWARD
+
+
 def add_placeholders_to(root) -> int:
     """The two placeholders, channels after the guide's channels."""
     now = datetime.now(timezone.utc)
