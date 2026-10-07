@@ -667,6 +667,10 @@
   <channel id="Placeholder.News247">
     <display-name lang="en">NEWS 24/7</display-name>
   </channel>
+  <channel id="Placeholder.Hydra">
+    <display-name lang="en">Hydra</display-name>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/hydra.png" />
+  </channel>
   <channel id="Playlist.Solo.e58a1b0094">
     <display-name>BE: SOLO ACTION ᴿᴬᵂ</display-name>
   </channel>
@@ -7858,6 +7862,38 @@
   <programme start="20261013000000 +0000" stop="20261014000000 +0000" channel="Placeholder.News247">
     <title lang="en">NEWS 24/7 📰</title>
     <desc lang="en">NEWS 24/7 📰</desc>
+  </programme>
+  <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261011000000 +0000" stop="20261012000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261012000000 +0000" stop="20261013000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
+  </programme>
+  <programme start="20261013000000 +0000" stop="20261014000000 +0000" channel="Placeholder.Hydra">
+    <title lang="ar">أفلام هيدرا 24/7</title>
+    <desc lang="ar">أفلام هيدرا 24/7</desc>
   </programme>
   <programme start="20261006000000 +0000" stop="20261007000000 +0000" channel="Playlist.Solo.e58a1b0094">
     <title lang="en">ACTION 24/7</title>
@@ -26104,17 +26140,17 @@
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261007065500 +0000" stop="20261007070000 +0000" channel="AlJazeera.qa">
+  <programme start="20261007065500 +0000" stop="20261007080000 +0000" channel="AlJazeera.qa">
     <title lang="ar">دقيقة رياضة</title>
     <desc lang="ar">موجز لأهم الأحداث الرياضية العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261007070000 +0000" stop="20261007080000 +0000" channel="AlJazeera.qa">
+  <programme start="20261007080000 +0000" stop="20261007110000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261007080000 +0000" stop="20261007115500 +0000" channel="AlJazeera.qa">
+  <programme start="20261007110000 +0000" stop="20261007115500 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
