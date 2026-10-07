@@ -116,3 +116,9 @@ jobs:
         continue-on-error: true
       - name: No change may stop every channel from publishing
         run: python -u tools/whole_build_gate.py
+      # The owner's hand-assign channels ride several links on purpose.
+      # Built in memory the way the build writes them, they must pass the
+      # health check's own rule — on 7 October 2026 they passed every
+      # check here and failed the health check after the next build.
+      - name: Hand-assign channels pass the health check on every link
+        run: python -u hand_channel_selftest.py
