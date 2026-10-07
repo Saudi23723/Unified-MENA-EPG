@@ -165,7 +165,7 @@ def add_to(root) -> int:
     return count
 
 
-# Two placeholders to hand-assign in the player, on this same link:
+# Placeholders to hand-assign in the player, on this same link:
 # asked for as "قناة من غير لوجو يكون مكتوب بالشريط LIVE EVENT ONLY" and
 # "وحدة ثانية لوجو اخبار يكون مكتوب دائما NEWS 24/7 📰". The bar says
 # exactly that and nothing else — neither claims a programme.
@@ -175,6 +175,9 @@ PLACEHOLDERS = (
     # No logo on NEWS 24/7 either, its guide only ("شيل ال logo تبع news
     # 24/7 بس خلي ال epg").
     ("Placeholder.News247", "NEWS 24/7", "NEWS 24/7 📰", None),
+    # "سميها Hydra" — the bar "أفلام هيدرا 24/7", under a mark drawn in
+    # the style of the provider's own (logos/hydra.png).
+    ("Placeholder.Hydra", "Hydra", "أفلام هيدرا 24/7", "hydra.png"),
 )
 
 
