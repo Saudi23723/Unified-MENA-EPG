@@ -50,4 +50,19 @@ for f in sorted(glob.glob("*.xml")):
                     flag.setdefault(k, (int(diff), f"{st:%m-%d %H:%M}Z vs ref {rst:%m-%d %H:%M}Z", t[:60]))
                 break
 lines = [f"{k[0]} {k[1]} | {k[2]} | off {v[0]:+d}m | {v[1]} | {v[2]}" for k, v in sorted(flag.items())]
+import json as _j
+ls = []
+for day in ("20261009", "20261010", "20261008"):
+    try:
+        j = requests.get(f"https://prod-public-api.livescore.com/v1/api/app/date/soccer/{day}/0?MD=1", headers=H, timeout=60).json()
+        for st_ in j.get("Stages", []):
+            if st_.get("Cnm") in ("Kuwait", "Egypt"):
+                for e in st_.get("Events", []):
+                    ls.append(f"LS {st_.get('Cnm')} {st_.get('Snm')} | {e['T1'][0]['Nm']} - {e['T2'][0]['Nm']} | Esd {e.get('Esd')}")
+    except Exception as ex:
+        ls.append(f"LS ERR {ex}")
+for h, a_, rst, name in ref:
+    if "Kuwait" in name or "Kazma" in name or "Mahalla" in name or "Qir" in name or "Premier League]" in name and ("Arabi" in name or "Nasr" in name or "Qadsia" in name):
+        ls.append(f"FM {rst:%m-%d %H:%M}Z {name}")
+print("::notice::" + "%0A".join(ls)[:6000])
 print(f"::notice::ref {len(ref)} matches; checked {checked} rows; flagged {len(flag)}%0A" + "%0A".join(lines)[:8000])
