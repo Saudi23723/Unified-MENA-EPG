@@ -44,7 +44,8 @@ for f in sorted(glob.glob("*.xml")):
             if (a & ha and b & aw) or (a & aw and b & ha):
                 checked += 1
                 diff = (st - rst).total_seconds() / 60
-                if 30 <= abs(diff) <= 8 * 60:
+                live = bool(re.search(r"Live|مباشر|🔴|🔵|LIVE|Canlı|CANLI|En vivo|Direct", t))
+                if (live and abs(diff) >= 30) or (not live and (30 <= diff <= 150 or -8 * 60 <= diff <= -65)):
                     k = (f, p.get("channel"), name)
                     flag.setdefault(k, (int(diff), f"{st:%m-%d %H:%M}Z vs ref {rst:%m-%d %H:%M}Z", t[:60]))
                 break
