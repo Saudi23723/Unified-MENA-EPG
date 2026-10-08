@@ -684,6 +684,7 @@
     <display-name>STC Drama</display-name>
     <display-name>STC: STC TV DRAMA ᴴᴰ</display-name>
     <display-name>STC: STC TV DRAMA ʰᵉᵛᶜ</display-name>
+    <display-name>GOBX: STC DRAMA ᴴᴰ</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/stc_tv.png" />
   </channel>
   <channel id="Placeholder.STCTVFamily">
@@ -691,6 +692,7 @@
     <display-name>STC Family</display-name>
     <display-name>STC: STC TV FAMILY ᴴᴰ</display-name>
     <display-name>STC: STC TV FAMILY ʰᵉᵛᶜ</display-name>
+    <display-name>GOBX: STC FAMILY ᴴᴰ</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/stc_tv.png" />
   </channel>
   <channel id="Placeholder.STCTVMundial">
@@ -25525,21 +25527,6 @@
     <title lang="ar">السنة النبوية</title>
     <desc lang="en">Saudia Sunnah</desc>
   </programme>
-  <programme start="20261007060000 +0000" stop="20261007065500 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20261007065500 +0000" stop="20261007070000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">دقيقة رياضة</title>
-    <desc lang="ar">موجز لأهم الأحداث الرياضية العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20261007070000 +0000" stop="20261007080000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20261007080000 +0000" stop="20261007110000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
@@ -25614,17 +25601,17 @@
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261008040000 +0000" stop="20261008070000 +0000" channel="AlJazeera.qa">
+  <programme start="20261008040000 +0000" stop="20261008050000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261008070000 +0000" stop="20261008080000 +0000" channel="AlJazeera.qa">
+  <programme start="20261008050000 +0000" stop="20261008070000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261008080000 +0000" stop="20261008110000 +0000" channel="AlJazeera.qa">
+  <programme start="20261008070000 +0000" stop="20261008110000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
