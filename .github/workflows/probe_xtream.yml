@@ -13,4 +13,11 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install -q -r requirements.txt
-      - run: git fetch -q --depth=1 origin main && git checkout FETCH_HEAD -- "*.xml" && python tools/_zain_probe.py
+      - run: git fetch -q --depth=1 origin main && git checkout FETCH_HEAD -- "*.xml" "*.py" && python tools/_zain_probe.py
+        env:
+          XTREAM_URL: ${{ secrets.XTREAM_URL }}
+          XTREAM_USER: ${{ secrets.XTREAM_USER }}
+          XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
+          XTREAM2_URL: ${{ secrets.XTREAM2_URL }}
+          XTREAM2_USER: ${{ secrets.XTREAM2_USER }}
+          XTREAM2_PASS: ${{ secrets.XTREAM2_PASS }}

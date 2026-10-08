@@ -1,15 +1,20 @@
-import re, requests
-from bs4 import BeautifulSoup
-H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36"}
+import re, sys, glob
+sys.path.insert(0, ".")
+import att_epg, family_coverage as fc
+ids, names = set(), set()
+for label, where in fc.OWNER_LINKS + [("alkass", "alkass_epg.xml"), ("unified", "unified_mena_epg.xml")]:
+    try:
+        i, n, _ = fc.channels_of(where); ids |= i; names |= n
+    except Exception as e:
+        print("unreadable", label, type(e).__name__)
 out = []
-for u in ["https://www.livefootballtv.info/", "https://www.livefootballtv.info/channel/on-sport"]:
-    t = requests.get(u, headers=H, timeout=60).text
-    lines = [l.strip() for l in BeautifulSoup(t, "html.parser").get_text("\n").split("\n") if l.strip()]
-    for i, l in enumerate(lines):
-        if re.search(r"Mehalla|Mahalla", l):
-            day = next((lines[j] for j in range(i, -1, -1) if re.search(r"\d{2}/\d{2}/\d{4}", lines[j])), "?")
-            out.append(f"{u[-20:]} | {day} | " + " / ".join(lines[max(0, i-4):i+3]))
-    for m in re.finditer(r"Mehalla.{0,300}", t):
-        out.append("RAW " + re.sub(r"\s+", " ", t[max(0, m.start()-600):m.start()+50]))
-        break
-print("::notice::" + "%0A".join(out)[:7000])
+for prefix in ("XTREAM", "XTREAM2"):
+    rows = att_epg.playlist(prefix) or []
+    for cat, name, epg in rows:
+        if re.search(r"stc|jawwy", name + " " + cat, re.I):
+            out.append(f"{prefix} | {cat[:25]} | {name} | id={epg or '-'} | id_in_links={epg in ids if epg else '-'} | name_in_links={name.lower() in names}")
+text = "%0A".join(out)
+for s in att_epg.SECRETS:
+    if s: text = text.replace(s, "***")
+print("::notice::" + text[:9000])
+print("::notice::" + text[9000:18000])
