@@ -5362,7 +5362,18 @@ def gate_alwan_reaches_the_board() -> None:
         return
 
     rows = own_guides.broadcasts("alwan_sports_epg.xml", "")
-    check("ALWAN", "Alwan's listings are read at all", len(rows) > 0, True)
+    # Read at all — WHEN the guide names a fixture. On a day Alwan posts
+    # none, every row of its sports channels is filler, and nothing read
+    # is the right answer: this gate used to pass only because the guide
+    # was left untouched on such days, still carrying the last fixtures
+    # (8 October 2026, once the link stopped freezing it failed — and a
+    # failure here stops the whole publishing pass).
+    root = ET.parse("alwan_sports_epg.xml").getroot()
+    names_fixture = any(own_guides.fixture_in(p.findtext("title") or "") != ("", "")
+                        for p in root.iter("programme")
+                        if (p.get("channel") or "").startswith("Alwan"))
+    check("ALWAN", "Alwan's listings are read at all",
+          len(rows) > 0 or not names_fixture, True)
 
     # THE FIXTURE IS WRITTEN DOWN, NOT LOOKED UP. This gate used to ask
     # the live guide for "تولوز - ليل" and expect to be handed it. That
