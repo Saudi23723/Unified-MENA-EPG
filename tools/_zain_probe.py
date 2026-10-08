@@ -1,18 +1,13 @@
 import re, requests
-H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36", "Accept-Language": "ar,en"}
+H = {"User-Agent": "Unified-MENA-EPG logo search (github.com/Saudi23723/Unified-MENA-EPG)"}
 out = []
-for u in ["https://elcinema.com/tvguide/", "https://elcinema.com/en/tvguide/", "https://www.stctv.com/", "https://www.stctv.com/en/live", "https://stctv.com/ar/live-tv",
-          "https://www.intigral.net/", "https://iptv-epg.org/files/epg-sa.xml", "https://epgshare01.online/epgshare01/epg_ripper_SA1.xml.gz"]:
-    try:
-        r = requests.get(u, headers=H, timeout=60)
-        t = r.content
-        if t[:2] == b"\x1f\x8b":
-            import gzip; t = gzip.decompress(t)
-        t = t.decode("utf-8", "replace")
-        hits = sorted(set(re.findall(r"[^<>\"]{0,40}(?:stc ?tv|STC TV|إس تي سي|اس تي سي|جوّي|jawwy)[^<>\"]{0,60}", t, re.I)))[:12]
-        links = sorted(set(re.findall(r'href="(/tvguide/\d+/)"[^>]*>\s*([^<]{0,40})', t)))
-        stcl = [l for l in links if re.search("stc|اس تي|إس تي", l[1], re.I)]
-        out.append(f"{r.status_code} {len(t)} {u} | hits={hits} | tvguide links={len(links)} stc={stcl}")
-    except Exception as e:
-        out.append(f"ERR {u} {type(e).__name__}")
-print("::notice::" + "%0A".join(out)[:9000])
+t = requests.get("https://api.github.com/repos/tv-logo/tv-logos/git/trees/main?recursive=1", headers=H, timeout=60).json()
+out += ["TVL " + p["path"] for p in t.get("tree", []) if re.search(r"stc|jawwy|intigral", p["path"], re.I)]
+for q in ["stc tv logo", "stc tv", "Saudi Telecom Company logo", "stc logo"]:
+    j = requests.get("https://commons.wikimedia.org/w/api.php", params={"action": "query", "list": "search", "srsearch": q, "srnamespace": 6, "format": "json", "srlimit": 10}, headers=H, timeout=60).json()
+    out += ["WM " + x["title"] for x in j.get("query", {}).get("search", [])]
+for title in ["Stc_tv", "Saudi_Telecom_Company", "Intigral"]:
+    j = requests.get("https://en.wikipedia.org/w/api.php", params={"action": "query", "titles": title, "prop": "pageimages", "piprop": "original", "format": "json"}, headers=H, timeout=60).json()
+    for p in j.get("query", {}).get("pages", {}).values():
+        out.append(f"WP {title}: {p.get('original', {}).get('source')}")
+print("::notice::" + "%0A".join(sorted(set(out)))[:8000])
