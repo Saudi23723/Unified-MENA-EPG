@@ -178,7 +178,41 @@ PLACEHOLDERS = (
     # "سميها Hydra" — the bar "أفلام هيدرا 24/7", under a mark drawn in
     # the style of the provider's own (logos/hydra.png).
     ("Placeholder.Hydra", "Hydra", "أفلام هيدرا 24/7", "hydra.png"),
+    # stc tv's own channels ("Stc Cinema, drama, family etc ... مش موجودة
+    # بال list", 8 October 2026). stc publishes no schedule for them — not
+    # on its site (which refuses every request), elCinema, iptv-epg or
+    # epgshare — so each says what it plays, under the mark the playlist
+    # gives them (logos/stc_tv.png), and carries every name the playlist
+    # writes it under, so a player matches it by itself.
+    ("Placeholder.STCTVCinema", "STC TV Cinema", "STC TV Cinema — أفلام 24/7",
+     "stc_tv.png", ("STC Cinema", "STC: STC TV CINEMA ᴴᴰ", "STC: STC TV CINEMA ʰᵉᵛᶜ",
+                    "GOBX: STC TV CINEMA ᴴᴰ")),
+    ("Placeholder.STCTVDrama", "STC TV Drama", "STC TV Drama — مسلسلات 24/7",
+     "stc_tv.png", ("STC Drama", "STC: STC TV DRAMA ᴴᴰ", "STC: STC TV DRAMA ʰᵉᵛᶜ")),
+    ("Placeholder.STCTVFamily", "STC TV Family", "STC TV Family — برامج العائلة 24/7",
+     "stc_tv.png", ("STC Family", "STC: STC TV FAMILY ᴴᴰ", "STC: STC TV FAMILY ʰᵉᵛᶜ")),
+    ("Placeholder.STCTVMundial", "STC TV Mundial Powr", "STC TV Mundial Powr 24/7",
+     "stc_tv.png", ("STC Mundial", "STC: STC TV MUNDIAL POWR ᴴᴰ",
+                    "STC: STC TV MUNDIAL POWR ʰᵉᵛᶜ")),
+    ("Placeholder.STCTVShababAlBomb", "STC TV Shabab Al Bomb", "شباب البومب 24/7",
+     "stc_tv.png", ("STC Shabab Al Bomb", "شباب البومب", "STC: STC TV SHABAB AL BOMB ᴴᴰ",
+                    "STC: STC TV SHABAB AL BOMB ʰᵉᵛᶜ", "GOBX: STC TV SHABAB AL BOMB ᴴᴰ")),
 )
+
+
+def _entry(e):
+    """(id, name, bar, logo, other names) — the other names are optional."""
+    return (*e[:4], tuple(e[4]) if len(e) > 4 else ())
+
+
+def _channel(xid: str, name: str, logo, aliases) -> ET.Element:
+    ch = ET.Element("channel", {"id": xid})
+    ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
+    for alias in aliases:
+        ET.SubElement(ch, "display-name").text = alias
+    if logo:
+        ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+    return ch
 
 
 def add_hand_channels_to(root) -> int:
@@ -201,11 +235,8 @@ def add_hand_channel_to(root, xid: str, channel_id: str) -> int:
     entry = next((e for e in PLACEHOLDERS if e[0] == xid), None)
     if entry is None:
         return 0
-    _xid, name, bar, logo = entry
-    ch = ET.Element("channel", {"id": channel_id})
-    ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
-    if logo:
-        ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+    _xid, name, bar, logo, aliases = _entry(entry)
+    ch = _channel(channel_id, name, logo, aliases)
     root.insert(len(root.findall("channel")), ch)
     first = (datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)).replace(
         hour=0, minute=0, second=0, microsecond=0)
@@ -216,20 +247,17 @@ def add_hand_channel_to(root, xid: str, channel_id: str) -> int:
 
 
 def add_placeholders_to(root) -> int:
-    """The two placeholders, channels after the guide's channels."""
+    """The placeholders, channels after the guide's channels."""
     now = datetime.now(timezone.utc)
     first = (now - timedelta(days=DAYS_BACK)).replace(
         hour=0, minute=0, second=0, microsecond=0)
     at = len(root.findall("channel"))
-    for xid, name, _bar, logo in PLACEHOLDERS:
-        ch = ET.Element("channel", {"id": xid})
-        ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
-        if logo:
-            ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+    for xid, name, _bar, logo, aliases in map(_entry, PLACEHOLDERS):
+        ch = _channel(xid, name, logo, aliases)
         root.insert(at, ch)
         at += 1
     count = 0
-    for xid, _name, bar, _logo in PLACEHOLDERS:
+    for xid, _name, bar, _logo, _aliases in map(_entry, PLACEHOLDERS):
         for day in range(DAYS_BACK + DAYS_FORWARD):
             start = first + timedelta(days=day)
             add_programme(root, xid, start, start + timedelta(days=1), bar, bar)
