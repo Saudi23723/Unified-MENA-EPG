@@ -671,37 +671,6 @@
     <display-name lang="en">Hydra</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/hydra.png" />
   </channel>
-  <channel id="Placeholder.STCTVCinema">
-    <display-name lang="en">STC TV Cinema</display-name>
-    <display-name>STC Cinema</display-name>
-    <display-name>STC: STC TV CINEMA ᴴᴰ</display-name>
-    <display-name>STC: STC TV CINEMA ʰᵉᵛᶜ</display-name>
-    <display-name>GOBX: STC TV CINEMA ᴴᴰ</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/stc_tv.png" />
-  </channel>
-  <channel id="Placeholder.STCTVDrama">
-    <display-name lang="en">STC TV Drama</display-name>
-    <display-name>STC Drama</display-name>
-    <display-name>STC: STC TV DRAMA ᴴᴰ</display-name>
-    <display-name>STC: STC TV DRAMA ʰᵉᵛᶜ</display-name>
-    <display-name>GOBX: STC DRAMA ᴴᴰ</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/stc_tv.png" />
-  </channel>
-  <channel id="Placeholder.STCTVFamily">
-    <display-name lang="en">STC TV Family</display-name>
-    <display-name>STC Family</display-name>
-    <display-name>STC: STC TV FAMILY ᴴᴰ</display-name>
-    <display-name>STC: STC TV FAMILY ʰᵉᵛᶜ</display-name>
-    <display-name>GOBX: STC FAMILY ᴴᴰ</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/stc_tv.png" />
-  </channel>
-  <channel id="Placeholder.STCTVMundial">
-    <display-name lang="en">STC TV Mundial Powr</display-name>
-    <display-name>STC Mundial</display-name>
-    <display-name>STC: STC TV MUNDIAL POWR ᴴᴰ</display-name>
-    <display-name>STC: STC TV MUNDIAL POWR ʰᵉᵛᶜ</display-name>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/stc_tv.png" />
-  </channel>
   <channel id="Placeholder.STCTVShababAlBomb">
     <display-name lang="en">STC TV Shabab Al Bomb</display-name>
     <display-name>STC Shabab Al Bomb</display-name>
@@ -8374,134 +8343,6 @@
   <programme start="20261014000000 +0000" stop="20261015000000 +0000" channel="Placeholder.Hydra">
     <title lang="ar">أفلام هيدرا 24/7</title>
     <desc lang="ar">أفلام هيدرا 24/7</desc>
-  </programme>
-  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261011000000 +0000" stop="20261012000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261012000000 +0000" stop="20261013000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261013000000 +0000" stop="20261014000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261014000000 +0000" stop="20261015000000 +0000" channel="Placeholder.STCTVCinema">
-    <title lang="ar">STC TV Cinema — أفلام 24/7</title>
-    <desc lang="ar">STC TV Cinema — أفلام 24/7</desc>
-  </programme>
-  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261011000000 +0000" stop="20261012000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261012000000 +0000" stop="20261013000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261013000000 +0000" stop="20261014000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261014000000 +0000" stop="20261015000000 +0000" channel="Placeholder.STCTVDrama">
-    <title lang="ar">STC TV Drama — مسلسلات 24/7</title>
-    <desc lang="ar">STC TV Drama — مسلسلات 24/7</desc>
-  </programme>
-  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261011000000 +0000" stop="20261012000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261012000000 +0000" stop="20261013000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261013000000 +0000" stop="20261014000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261014000000 +0000" stop="20261015000000 +0000" channel="Placeholder.STCTVFamily">
-    <title lang="ar">STC TV Family — برامج العائلة 24/7</title>
-    <desc lang="ar">STC TV Family — برامج العائلة 24/7</desc>
-  </programme>
-  <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261008000000 +0000" stop="20261009000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261009000000 +0000" stop="20261010000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261010000000 +0000" stop="20261011000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261011000000 +0000" stop="20261012000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261012000000 +0000" stop="20261013000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261013000000 +0000" stop="20261014000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
-  </programme>
-  <programme start="20261014000000 +0000" stop="20261015000000 +0000" channel="Placeholder.STCTVMundial">
-    <title lang="en">STC TV Mundial Powr 24/7</title>
-    <desc lang="en">STC TV Mundial Powr 24/7</desc>
   </programme>
   <programme start="20261007000000 +0000" stop="20261008000000 +0000" channel="Placeholder.STCTVShababAlBomb">
     <title lang="ar">شباب البومب 24/7</title>
@@ -29175,11 +29016,6 @@
     <title lang="ar">السنة النبوية</title>
     <desc lang="en">Saudia Sunnah</desc>
   </programme>
-  <programme start="20261007180000 +0000" stop="20261007190500 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20261007190500 +0000" stop="20261007200000 +0000" channel="AlJazeera.qa">
     <title lang="ar">ساعة نقاش</title>
     <category lang="ar">أخبار</category>
@@ -29249,18 +29085,19 @@
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261008150000 +0000" stop="20261008180000 +0000" channel="AlJazeera.qa">
+  <programme start="20261008150000 +0000" stop="20261008170000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261008180000 +0000" stop="20261008190500 +0000" channel="AlJazeera.qa">
+  <programme start="20261008170000 +0000" stop="20261008180000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261008190500 +0000" stop="20261008200000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">ساعة نقاش</title>
+  <programme start="20261008180000 +0000" stop="20261008200000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20261008200000 +0000" stop="20261008210000 +0000" channel="AlJazeera.qa">
