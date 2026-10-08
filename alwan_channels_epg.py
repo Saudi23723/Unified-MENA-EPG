@@ -165,7 +165,7 @@ def add_to(root) -> int:
     return count
 
 
-# Two placeholders to hand-assign in the player, on this same link:
+# Placeholders to hand-assign in the player, on this same link:
 # asked for as "قناة من غير لوجو يكون مكتوب بالشريط LIVE EVENT ONLY" and
 # "وحدة ثانية لوجو اخبار يكون مكتوب دائما NEWS 24/7 📰". The bar says
 # exactly that and nothing else — neither claims a programme.
@@ -175,7 +175,44 @@ PLACEHOLDERS = (
     # No logo on NEWS 24/7 either, its guide only ("شيل ال logo تبع news
     # 24/7 بس خلي ال epg").
     ("Placeholder.News247", "NEWS 24/7", "NEWS 24/7 📰", None),
+    # "سميها Hydra" — the bar "أفلام هيدرا 24/7", under a mark drawn in
+    # the style of the provider's own (logos/hydra.png).
+    ("Placeholder.Hydra", "Hydra", "أفلام هيدرا 24/7", "hydra.png"),
 )
+
+
+def add_hand_channels_to(root) -> int:
+    """EVERY placeholder on another of the owner's links, each under a
+    Playlist.Guide. id. A channel the owner assigns by hand must be on
+    every link any of their playlists reads — put on one link only, it
+    went missing twice in a playlist that reads another (Al Mamlaka, then
+    Hydra: "كل مرة", 7 October 2026). So a placeholder added to
+    PLACEHOLDERS reaches the Alkass and Roya links by itself."""
+    return sum(add_hand_channel_to(root, xid, "Playlist.Guide." + xid.split(".", 1)[1])
+               for xid, *_rest in PLACEHOLDERS)
+
+
+def add_hand_channel_to(root, xid: str, channel_id: str) -> int:
+    """One placeholder (by its id in PLACEHOLDERS) on another link, under
+    channel_id — so it shows in a playlist whose player reads that link
+    and not this one (the Hydra playlist did not list it from Alwan:
+    "نفس الاخطاء", 7 October 2026). A Playlist.Guide. id keeps it off the
+    merged link, which has it from this file already."""
+    entry = next((e for e in PLACEHOLDERS if e[0] == xid), None)
+    if entry is None:
+        return 0
+    _xid, name, bar, logo = entry
+    ch = ET.Element("channel", {"id": channel_id})
+    ET.SubElement(ch, "display-name", {"lang": "en"}).text = name
+    if logo:
+        ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=logo)})
+    root.insert(len(root.findall("channel")), ch)
+    first = (datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    for day in range(DAYS_BACK + DAYS_FORWARD):
+        start = first + timedelta(days=day)
+        add_programme(root, channel_id, start, start + timedelta(days=1), bar, bar)
+    return DAYS_BACK + DAYS_FORWARD
 
 
 def add_placeholders_to(root) -> int:

@@ -57,6 +57,8 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+
+from merge_rules import off_merged_link
 from datetime import datetime, timedelta, timezone
 
 UTC = timezone.utc
@@ -487,6 +489,20 @@ def check_file(path: str, now: datetime, *, check_overlaps: bool = True) -> dict
     return out
 
 
+def id_clash(seen_owner: dict[str, str], cid: str, path: str) -> str | None:
+    """Why `path` may not carry channel `cid` too, or None. A channel the
+    merge leaves out (merge_rules.off_merged_link — the same rule, not a
+    copy) cannot clash: several links carry the hand-assign channels on
+    purpose. hand_channel_selftest.py runs this on what the build writes."""
+    owner = seen_owner.get(cid)
+    if owner is None or owner == path or off_merged_link(cid):
+        return None
+    if {owner, path} <= SHARED_CHANNELS.get(cid, set()):
+        return None
+    return (f"channel id {cid} is claimed by both {owner} and {path} — "
+            f"the merge keeps one and drops the other")
+
+
 def main() -> int:
     structure_only = "--structure-only" in sys.argv[1:]
     now = datetime.now(UTC)
@@ -565,12 +581,10 @@ def main() -> int:
             note(f"{path}: only {days} day(s) ahead")
 
         for cid in info["ids"]:
-            if {seen_owner.get(cid), path} <= SHARED_CHANNELS.get(cid, set()):
-                continue
-            if cid in seen_owner and seen_owner[cid] != path:
-                fail(f"channel id {cid} is claimed by both {seen_owner[cid]} and "
-                     f"{path} — the merge keeps one and drops the other")
-            seen_owner[cid] = path
+            problem = id_clash(seen_owner, cid, path)
+            if problem:
+                fail(problem)
+            seen_owner.setdefault(cid, path)
         all_source_ids |= info["ids"]
 
     print()
@@ -585,7 +599,7 @@ def main() -> int:
         # The playlists' channels ride the SAIF ALKASS link only, on purpose
         # (merge_epg.py leaves them out; they have a link of their own).
         missing = sorted(cid for cid in all_source_ids - merged["ids"]
-                         if not cid.startswith("Playlist.Guide."))
+                         if not off_merged_link(cid))
         if missing:
             fail(f"{MERGED}: {len(missing)} channel(s) present in a source file "
                  f"but absent from the merged link: {', '.join(missing[:8])}")

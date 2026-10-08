@@ -18,6 +18,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
 from epg_lib import add_programme, log, warn, write_xml_atomic
+from merge_rules import off_merged_link
 
 OUTPUT = "unified_mena_epg.xml"
 
@@ -175,7 +176,7 @@ def build() -> int:
             # The playlists' own channels ride the SAIF ALKASS link for the
             # player that loads it (alwan_channels_epg.add_playlist_guide_to);
             # they have their own link and would double this one's size.
-            if cid.startswith("Playlist.Guide."):
+            if off_merged_link(cid):
                 continue
             if cid in seen_channel_ids:
                 # The same channel on a second link may carry names the
@@ -203,7 +204,7 @@ def build() -> int:
         for pr in src_root.findall("programme"):
             if pr.get("channel") not in mine and pr.get("channel") in seen_channel_ids:
                 continue
-            if (pr.get("channel") or "").startswith("Playlist.Guide."):
+            if off_merged_link(pr.get("channel") or ""):
                 continue
             root.append(pr)
             file_programmes += 1
