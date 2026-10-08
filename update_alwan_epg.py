@@ -1550,11 +1550,16 @@ def main():
 
     log(f"Alwan total programmes after merge: {len(merged)}")
 
-    # Safety: if Telegram temporarily yields zero useful fixtures,
-    # do not erase an already-useful XML.
-    if not merged and OUT.exists():
-        warn("No usable Alwan fixtures at all; existing XML left untouched")
-        return 0
+    # No fixtures at all is still a guide to write. The real rows already
+    # on disk are in `merged` (merge_existing keeps every one still in the
+    # window), so writing loses nothing — and NOT writing froze everything
+    # else on this link: the playlist's channels and the hand-assign
+    # channels added since never reached it (stc tv's, 8 October 2026,
+    # were on the Alkass and Roya links and missing here because Telegram
+    # had posted no match that morning).
+    if not merged:
+        warn("No usable Alwan fixtures at all; the sports channels carry "
+             "their filler, the rest of the link is written as usual")
 
     if not fresh and existing:
         warn("No new usable Alwan fixtures; existing programmes reused")
