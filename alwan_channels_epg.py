@@ -178,22 +178,11 @@ PLACEHOLDERS = (
     # "سميها Hydra" — the bar "أفلام هيدرا 24/7", under a mark drawn in
     # the style of the provider's own (logos/hydra.png).
     ("Placeholder.Hydra", "Hydra", "أفلام هيدرا 24/7", "hydra.png"),
-    # stc tv's own channels ("Stc Cinema, drama, family etc ... مش موجودة
-    # بال list", 8 October 2026). stc publishes no schedule for them — not
-    # on its site (which refuses every request), elCinema, iptv-epg or
-    # epgshare — so each says what it plays, under the mark the playlist
-    # gives them (logos/stc_tv.png), and carries every name the playlist
-    # writes it under, so a player matches it by itself.
-    ("Placeholder.STCTVCinema", "STC TV Cinema", "STC TV Cinema — أفلام 24/7",
-     "stc_tv.png", ("STC Cinema", "STC: STC TV CINEMA ᴴᴰ", "STC: STC TV CINEMA ʰᵉᵛᶜ",
-                    "GOBX: STC TV CINEMA ᴴᴰ")),
-    ("Placeholder.STCTVDrama", "STC TV Drama", "STC TV Drama — مسلسلات 24/7",
-     "stc_tv.png", ("STC Drama", "STC: STC TV DRAMA ᴴᴰ", "STC: STC TV DRAMA ʰᵉᵛᶜ")),
-    ("Placeholder.STCTVFamily", "STC TV Family", "STC TV Family — برامج العائلة 24/7",
-     "stc_tv.png", ("STC Family", "STC: STC TV FAMILY ᴴᴰ", "STC: STC TV FAMILY ʰᵉᵛᶜ")),
-    ("Placeholder.STCTVMundial", "STC TV Mundial Powr", "STC TV Mundial Powr 24/7",
-     "stc_tv.png", ("STC Mundial", "STC: STC TV MUNDIAL POWR ᴴᴰ",
-                    "STC: STC TV MUNDIAL POWR ʰᵉᵛᶜ")),
+    # stc tv's own channels: Cinema, Drama, Family and Mundial Powr were
+    # here with a fixed bar and taken off ("اشطب ... لأنهم من غير EPG
+    # حقيقي", 8 October 2026) — stc publishes no schedule for them, and a
+    # bar that says only "films 24/7" is not a guide. Shabab Al Bomb stays:
+    # it plays the one series, round the clock, so its bar is what airs.
     ("Placeholder.STCTVShababAlBomb", "STC TV Shabab Al Bomb", "شباب البومب 24/7",
      "stc_tv.png", ("STC Shabab Al Bomb", "شباب البومب", "STC: STC TV SHABAB AL BOMB ᴴᴰ",
                     "STC: STC TV SHABAB AL BOMB ʰᵉᵛᶜ", "GOBX: STC TV SHABAB AL BOMB ᴴᴰ")),
