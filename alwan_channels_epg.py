@@ -200,9 +200,28 @@ PLACEHOLDERS = (
 )
 
 
+def _playlist_names() -> list[str]:
+    """Every channel name in every playlist (att_epg writes them)."""
+    import json
+    try:
+        with open("playlist_aliases.json", encoding="utf-8") as handle:
+            return json.load(handle).get("every") or []
+    except (OSError, ValueError):
+        return []
+
+
 def _entry(e):
-    """(id, name, bar, logo, other names) — the other names are optional."""
-    return (*e[:4], tuple(e[4]) if len(e) > 4 else ())
+    """(id, name, bar, logo, other names). The other names are the ones
+    written here and every playlist's own name for the same channel —
+    "STC: STC TV CINEMA ᴴᴰ" for STC TV Cinema, whatever playlist it is in —
+    so a player matches it by itself in any playlist."""
+    import playlist_match as pm
+    aliases = list(e[4]) if len(e) > 4 else []
+    own = {pm.norm(n) for n in (e[1], *aliases)} - {""}
+    for name in _playlist_names():
+        if pm.norm(name) in own and name not in aliases and name != e[1]:
+            aliases.append(name)
+    return (*e[:4], tuple(aliases))
 
 
 def _channel(xid: str, name: str, logo, aliases) -> ET.Element:
