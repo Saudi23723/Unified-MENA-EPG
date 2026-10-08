@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T01:32:00.792Z",
+  "updated_at": "2026-10-08T01:37:56.988Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,28 +291,28 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 9.5,
-      "humidity": 75,
-      "wind_speed": 13.7,
+      "temperature_c": 9.3,
+      "humidity": 76,
+      "wind_speed": 14.0,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-08T02:30",
-      "feels_c": 6.3,
+      "feels_c": 6.1,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-08",
-          "code": 3,
-          "max": 15.2,
-          "min": 8.4,
+          "code": 51,
+          "max": 14.9,
+          "min": 8.3,
           "rain": 5
         },
         {
           "date": "2026-10-09",
-          "code": 61,
-          "max": 17.9,
-          "min": 10.6,
+          "code": 53,
+          "max": 18.1,
+          "min": 10.7,
           "rain": 86
         },
         {
@@ -351,8 +351,8 @@
           "rain": 26
         }
       ],
-      "today_max": 15.2,
-      "today_min": 8.4,
+      "today_max": 14.9,
+      "today_min": 8.3,
       "sunrise": "07:12",
       "sunset": "18:22",
       "uv": 2
@@ -363,8 +363,8 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 8.7,
-      "humidity": 72,
-      "wind_speed": 15.1,
+      "humidity": 73,
+      "wind_speed": 15.5,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
@@ -375,15 +375,15 @@
         {
           "date": "2026-10-08",
           "code": 61,
-          "max": 13.8,
-          "min": 6.7,
+          "max": 13.6,
+          "min": 7.0,
           "rain": 100
         },
         {
           "date": "2026-10-09",
           "code": 63,
-          "max": 16.0,
-          "min": 10.1,
+          "max": 16.2,
+          "min": 10.3,
           "rain": 100
         },
         {
@@ -422,8 +422,8 @@
           "rain": 39
         }
       ],
-      "today_max": 13.8,
-      "today_min": 6.7,
+      "today_max": 13.6,
+      "today_min": 7.0,
       "sunrise": "07:22",
       "sunset": "18:28",
       "uv": 2
