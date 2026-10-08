@@ -534,7 +534,8 @@ def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling,
 
 
 def write_aliases(names: dict[str, list[str]], solo: list[str],
-                  always: dict[str, dict] | None = None) -> None:
+                  always: dict[str, dict] | None = None,
+                  every: list[str] | None = None) -> None:
     """playlist_aliases.json — the playlist's names for channels this
     repository already guides, and its SOLO channels. Every guide written
     through epg_lib carries these names, so the owner's existing links
@@ -545,7 +546,12 @@ def write_aliases(names: dict[str, list[str]], solo: list[str],
     data = {"names": {k: sorted(set(v)) for k, v in sorted(names.items())},
             "solo": {k: sorted(set(v)) for k, v in sorted(subjects.items())},
             "always": {k: {**v, "names": sorted(set(v["names"]))}
-                       for k, v in sorted((always or {}).items())}}
+                       for k, v in sorted((always or {}).items())},
+            # Every channel name in every playlist: the hand-assign channels
+            # (alwan_channels_epg.PLACEHOLDERS) take each one that is their
+            # own name, so they match in ANY playlist by themselves ("مش بس
+            # فاميلي أي playlist", 8 October 2026).
+            "every": sorted(set(every or []))}
     with open("playlist_aliases.json", "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, indent=1)
         handle.write("\n")
@@ -920,7 +926,7 @@ def build() -> int:
                 pl.make(subject, category_of.get(entry["names"][0], ""))
 
     write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
-                  solo, always)
+                  solo, always, [name for _cat, name, _epg in streams])
 
     root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — playlist"})
     # XMLTV puts every <channel> before the first <programme>. A player
