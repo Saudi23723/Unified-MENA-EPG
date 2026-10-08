@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T10:18:30.335Z",
+  "updated_at": "2026-10-08T10:24:24.061Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -363,18 +363,18 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 10.4,
-      "humidity": 62,
+      "humidity": 64,
       "wind_speed": 7.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-08T11:15",
-      "feels_c": 7.8,
+      "feels_c": 7.9,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-08",
-          "code": 61,
+          "code": 63,
           "max": 13.1,
           "min": 6.3,
           "rain": 100
@@ -388,7 +388,7 @@
         },
         {
           "date": "2026-10-10",
-          "code": 53,
+          "code": 61,
           "max": 11.4,
           "min": 9.6,
           "rain": 97
