@@ -959,15 +959,6 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
-  <programme start="20261008013100 +0000" stop="20261008043700 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Bahrain Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20261008043700 +0000" stop="20261008061600 +0000" channel="beIN4K.qa">
     <title lang="en">Fulham v Manchester United - English Premier League 2026/2027</title>
     <desc lang="en">Fulham are winless in their last 10 Premier League home games against Manchester United  since winning back-to-back matches against them at Craven Cottage in 2009. Manchester United have lost just one of their last 21 Premier League games against Fulham, going down 2-1 at Old Trafford in February 2024.</desc>
@@ -1497,6 +1488,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
   <programme start="20261015024500 +0000" stop="20261015044500 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United v Tottenham Hotspur - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United won this exact fixture 2-0 in February, ending a six-game winless run against Tottenham Hotspur in the Premier League. Tottenham Hotspur have lost 25 Premier League away games against Manchester United – only Everton  have lost more on the road against an opponent in the competition.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
+  </programme>
+  <programme start="20261015044500 +0000" stop="20261015064500 +0000" channel="beIN4K.qa">
+    <title lang="en">Liverpool v Manchester City - English Premier League 2026/2027</title>
+    <desc lang="en">Liverpool lost home and away to Manchester City in the Premier League last season, the first time they have lost 2+ times in succession to the Citizens in the league since March 1937. After their 2-1 win at Anfield last season, Manchester City could enjoy back-to-back league victories away to Liverpool for the first time since January 1953.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -4103,12 +4100,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261008024500 +0000" stop="20261008044500 +0000" channel="beINSports3.qa">
-    <title lang="en">Espanyol vs Elche - Spanish LaLiga 2026/2027 - Week 7</title>
-    <desc lang="en">Espanyol are unbeaten in their last four LaLiga games against Elche  and are on their longest scoring run against them in the competition. Elche have recorded more LaLiga victories against Espanyol than any other side, while they have only scored more goals in the competition against Sevilla  than against Espanyol.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20261008044500 +0000" stop="20261008064500 +0000" channel="beINSports3.qa">
     <title lang="en">Osasuna vs Rayo Vallecano - Spanish LaLiga 2026/2027 - Week 7</title>
     <desc lang="en">Osasuna have won their last two LaLiga matches against Rayo Vallecano and could record three consecutive victories against them in the competition for only the second time in their history, after doing so between 2021 and 2022 under Jagoba Arrasate. Osasuna have lost just one of their 14 home LaLiga matches against Rayo Vallecano, a 0-1 defeat in J</desc>
@@ -4743,12 +4734,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <desc lang="en">Lens’ only previous meetings with a Portuguese team came in the 2002-03 UEFA Cup, where they were eliminated by Porto in the last 32 of that edition. Sporting CP have won all three of their UEFA Champions League games against French sides since the start of 2024-25: 2-0 v Lille, 2-1 v Marseille and 2-1 v Paris SG. All three of those victories did c</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20261008025200 +0000" stop="20261008044500 +0000" channel="beINSports4.qa">
-    <title lang="en">Portugal vs Norway - UEFA Nations League 2026/27 - Match Day 4</title>
-    <desc lang="en">Norway lost nine of their 12 matches against Portugal, the third highest loss percentage against all opponents they faced more than five times. Norway have lost their last two games, most recently suffering three defeats in a row back in June-October 2016.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261008044500 +0000" stop="20261008051500 +0000" channel="beINSports4.qa">
     <title lang="en">Netherlands vs Serbia - UEFA Nations League 2026/27 - Match Day 4</title>
@@ -7582,12 +7567,6 @@ Mohammed Bin Zayed Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261008040000 +0000" stop="20261008044700 +0000" channel="beINSports8.qa">
-    <title lang="en">Moto 3  - Japan GP 2026 - Qualifying</title>
-    <desc lang="en">Moto3 is the lightweight class of the FIM Grand Prix World Championship, providing a highly competitive platform for young riders to develop their skills on the international stage. Featuring 250cc four-stroke single-cylinder motorcycles, the championship is renowned for close, unpredictable racing and frequent battles within large groups. Moto3 ru</desc>
-    <category lang="ar">بطولة العالم للدراجات النارية</category>
-    <category lang="en">Moto GP - World Championship</category>
-  </programme>
   <programme start="20261008044700 +0000" stop="20261008054500 +0000" channel="beINSports8.qa">
     <title lang="en">Moto 3  - Japan GP 2026 - Main Race</title>
     <desc lang="en">Moto3 is the lightweight class of the FIM Grand Prix World Championship, providing a highly competitive platform for young riders to develop their skills on the international stage. Featuring 250cc four-stroke single-cylinder motorcycles, the championship is renowned for close, unpredictable racing and frequent battles within large groups. Moto3 ru</desc>
@@ -8870,6 +8849,11 @@ Jaber Al-Mubarak Al-Hamad Stadium Stadium</desc>
   </programme>
   <programme start="20261015030000 +0000" stop="20261015044500 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - Valkenswaard  Jumping - Against The Clock With Jump Off</title>
+    <category lang="ar">الفروسية</category>
+    <category lang="en">Equestrian</category>
+  </programme>
+  <programme start="20261015044500 +0000" stop="20261015073000 +0000" channel="beINSports9.qa">
+    <title lang="en">Longines Global Champions Tour - Valkenswaard  Jumping - Grand Prix</title>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
   </programme>
@@ -10778,12 +10762,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">The National Football League (NFL) is composed of 32 teams and it is divided equally between the American Football Conference (AFC) and the National Football Conference (NFC). The NFL season culminates in the Super Bowl which is played in early February between the winners of the AFC and NFC championship games.</desc>
     <category lang="ar">دوري كرة القدم الأمريكية</category>
     <category lang="en">NFL- National Football League</category>
-  </programme>
-  <programme start="20261008040000 +0000" stop="20261008044500 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Doc Rse Environnement Sport50 Sport Face Au Climat - Documentaire</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261008044500 +0000" stop="20261008053000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">NFL Extra -</title>
@@ -12709,12 +12687,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261008043000 +0000" stop="20261008044600 +0000" channel="beINSportsNews.qa">
-    <title lang="ar">E3 | S1 البطل</title>
-    <desc lang="ar">مريم، لاعبة كاراتيه متميزة، يجمعها باللعبة شغف كبير، وتطمح إلى صقل موهبتها وترك بصمة مميزة في عالم الكاراتيه.</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
-  </programme>
   <programme start="20261008044600 +0000" stop="20261008050000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Without Restrictions</title>
     <desc lang="en">A look at the challenges that many physically challenged athletes and sports men and women have to face to enjoy the sports that many take for granted.</desc>
@@ -14411,6 +14383,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20261015043000 +0000" stop="20261015044500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Interview  - 14/10/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261015044500 +0000" stop="20261015050000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 14/10/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -56853,4 +56831,4 @@ their little Moomin growing up.</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">IQ| Al Rabiaa Quran — الرابعة قرآن</desc>
   </programme>
-<programme start="20261009205959 +0000" stop="20261011043332 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009205959 +0000" stop="20261011043332 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011043332 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261009205959 +0000" stop="20261011045332 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009205959 +0000" stop="20261011045332 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261009235959 +0000" stop="20261011045332 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
