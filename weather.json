@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T04:20:30.965Z",
+  "updated_at": "2026-10-09T04:26:53.614Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -57,7 +57,7 @@
           "code": 3,
           "max": 30.9,
           "min": 20.5,
-          "rain": 7
+          "rain": 10
         },
         {
           "date": "2026-10-15",
@@ -128,14 +128,14 @@
           "code": 3,
           "max": 38.0,
           "min": 26.6,
-          "rain": 0
+          "rain": 2
         },
         {
           "date": "2026-10-15",
           "code": 3,
           "max": 33.8,
           "min": 27.2,
-          "rain": 0
+          "rain": 3
         }
       ],
       "today_max": 32.8,
@@ -291,27 +291,27 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 14.6,
+      "temperature_c": 14.5,
       "humidity": 92,
-      "wind_speed": 19.8,
+      "wind_speed": 20.9,
       "rain_chance": 49,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-09T05:15",
-      "feels_c": 12.8,
+      "feels_c": 12.5,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-09",
-          "code": 63,
-          "max": 18.3,
-          "min": 11.2,
+          "code": 53,
+          "max": 17.4,
+          "min": 11.1,
           "rain": 90
         },
         {
           "date": "2026-10-10",
           "code": 51,
-          "max": 14.8,
+          "max": 14.7,
           "min": 10.6,
           "rain": 8
         },
@@ -351,8 +351,8 @@
           "rain": 27
         }
       ],
-      "today_max": 18.3,
-      "today_min": 11.2,
+      "today_max": 17.4,
+      "today_min": 11.1,
       "sunrise": "07:14",
       "sunset": "18:20",
       "uv": 1
@@ -362,9 +362,9 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 14.6,
-      "humidity": 96,
-      "wind_speed": 13.7,
+      "temperature_c": 14.4,
+      "humidity": 97,
+      "wind_speed": 12.2,
       "rain_chance": 100,
       "condition": "مطر",
       "weather_code": 63,
@@ -375,22 +375,22 @@
         {
           "date": "2026-10-09",
           "code": 63,
-          "max": 15.8,
+          "max": 15.2,
           "min": 10.3,
           "rain": 100
         },
         {
           "date": "2026-10-10",
-          "code": 61,
-          "max": 12.9,
-          "min": 9.8,
+          "code": 53,
+          "max": 12.7,
+          "min": 9.5,
           "rain": 100
         },
         {
           "date": "2026-10-11",
           "code": 51,
           "max": 13.0,
-          "min": 8.9,
+          "min": 9.1,
           "rain": 18
         },
         {
@@ -422,11 +422,11 @@
           "rain": 51
         }
       ],
-      "today_max": 15.8,
+      "today_max": 15.2,
       "today_min": 10.3,
       "sunrise": "07:24",
       "sunset": "18:26",
-      "uv": 1
+      "uv": 2
     },
     {
       "city": "نيويورك",
