@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T01:32:15.322Z",
+  "updated_at": "2026-10-09T01:37:27.532Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,28 +291,28 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 12.4,
-      "humidity": 86,
-      "wind_speed": 19.1,
+      "temperature_c": 12.8,
+      "humidity": 85,
+      "wind_speed": 21.2,
       "rain_chance": 84,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-09T02:30",
-      "feels_c": 9.7,
+      "feels_c": 9.9,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-09",
-          "code": 53,
-          "max": 18.2,
-          "min": 11.0,
+          "code": 63,
+          "max": 18.7,
+          "min": 11.5,
           "rain": 94
         },
         {
           "date": "2026-10-10",
-          "code": 53,
-          "max": 15.0,
-          "min": 10.9,
+          "code": 51,
+          "max": 14.8,
+          "min": 10.6,
           "rain": 6
         },
         {
@@ -351,8 +351,8 @@
           "rain": 27
         }
       ],
-      "today_max": 18.2,
-      "today_min": 11.0,
+      "today_max": 18.7,
+      "today_min": 11.5,
       "sunrise": "07:14",
       "sunset": "18:20",
       "uv": 2
@@ -369,21 +369,21 @@
       "condition": "مطر",
       "weather_code": 63,
       "observed_at": "2026-10-09T02:30",
-      "feels_c": 12.3,
+      "feels_c": 12.4,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-09",
           "code": 63,
           "max": 15.8,
-          "min": 10.5,
+          "min": 10.6,
           "rain": 100
         },
         {
           "date": "2026-10-10",
-          "code": 53,
-          "max": 12.7,
-          "min": 9.6,
+          "code": 61,
+          "max": 12.9,
+          "min": 9.8,
           "rain": 97
         },
         {
@@ -423,7 +423,7 @@
         }
       ],
       "today_max": 15.8,
-      "today_min": 10.5,
+      "today_min": 10.6,
       "sunrise": "07:24",
       "sunset": "18:26",
       "uv": 1
