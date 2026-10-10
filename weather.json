@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-10T11:29:23.002Z",
+  "updated_at": "2026-10-10T11:45:25.248Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,14 +7,14 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 30.7,
-      "humidity": 32,
-      "wind_speed": 4.8,
+      "temperature_c": 30.8,
+      "humidity": 35,
+      "wind_speed": 8.1,
       "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
-      "observed_at": "2026-10-10T14:15",
-      "feels_c": 31.6,
+      "observed_at": "2026-10-10T14:45",
+      "feels_c": 31.2,
       "utc_offset": 10800,
       "days": [
         {
@@ -50,14 +50,14 @@
           "code": 3,
           "max": 24.9,
           "min": 17.0,
-          "rain": 14
+          "rain": 8
         },
         {
           "date": "2026-10-15",
           "code": 2,
           "max": 19.9,
           "min": 14.4,
-          "rain": 12
+          "rain": 8
         },
         {
           "date": "2026-10-16",
@@ -78,13 +78,13 @@
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 35.1,
-      "humidity": 34,
-      "wind_speed": 16.9,
+      "temperature_c": 35.5,
+      "humidity": 33,
+      "wind_speed": 16.8,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
-      "observed_at": "2026-10-10T14:15",
+      "observed_at": "2026-10-10T14:45",
       "feels_c": 35.8,
       "utc_offset": 10800,
       "days": [
@@ -121,14 +121,14 @@
           "code": 3,
           "max": 33.4,
           "min": 24.8,
-          "rain": 12
+          "rain": 6
         },
         {
           "date": "2026-10-15",
           "code": 1,
           "max": 29.0,
           "min": 22.6,
-          "rain": 2
+          "rain": 0
         },
         {
           "date": "2026-10-16",
@@ -149,14 +149,14 @@
       "country": "الإمارات",
       "latitude": 24.4539,
       "longitude": 54.3773,
-      "temperature_c": 35.7,
+      "temperature_c": 35.5,
       "humidity": 51,
-      "wind_speed": 17.1,
+      "wind_speed": 16.1,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-10-10T15:15",
-      "feels_c": 39.2,
+      "observed_at": "2026-10-10T15:45",
+      "feels_c": 39.1,
       "utc_offset": 14400,
       "days": [
         {
@@ -192,14 +192,14 @@
           "code": 3,
           "max": 35.3,
           "min": 28.9,
-          "rain": 4
+          "rain": 0
         },
         {
           "date": "2026-10-15",
           "code": 3,
           "max": 35.3,
           "min": 29.5,
-          "rain": 0
+          "rain": 4
         },
         {
           "date": "2026-10-16",
@@ -220,14 +220,14 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 35.7,
-      "humidity": 44,
-      "wind_speed": 14.3,
+      "temperature_c": 35.4,
+      "humidity": 48,
+      "wind_speed": 12.8,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-10-10T15:15",
-      "feels_c": 38.3,
+      "observed_at": "2026-10-10T15:45",
+      "feels_c": 38.8,
       "utc_offset": 14400,
       "days": [
         {
@@ -263,21 +263,21 @@
           "code": 3,
           "max": 34.9,
           "min": 27.4,
-          "rain": 8
+          "rain": 4
         },
         {
           "date": "2026-10-15",
           "code": 3,
           "max": 35.7,
           "min": 27.4,
-          "rain": 2
+          "rain": 6
         },
         {
           "date": "2026-10-16",
           "code": 0,
           "max": 34.5,
           "min": 27.7,
-          "rain": 0
+          "rain": 2
         }
       ],
       "today_max": 38.9,
@@ -291,43 +291,43 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 13.4,
-      "humidity": 60,
+      "temperature_c": 13.5,
+      "humidity": 59,
       "wind_speed": 17.6,
       "rain_chance": 0,
-      "condition": "رذاذ خفيف",
-      "weather_code": 51,
-      "observed_at": "2026-10-10T12:15",
+      "condition": "غائم",
+      "weather_code": 3,
+      "observed_at": "2026-10-10T12:45",
       "feels_c": 9.8,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-10",
-          "code": 51,
-          "max": 14.5,
+          "code": 53,
+          "max": 14.2,
           "min": 9.8,
-          "rain": 2
+          "rain": 0
         },
         {
           "date": "2026-10-11",
           "code": 3,
           "max": 15.6,
           "min": 9.9,
-          "rain": 14
+          "rain": 5
         },
         {
           "date": "2026-10-12",
           "code": 61,
           "max": 18.0,
           "min": 14.1,
-          "rain": 43
+          "rain": 39
         },
         {
           "date": "2026-10-13",
           "code": 51,
           "max": 20.0,
           "min": 15.4,
-          "rain": 59
+          "rain": 46
         },
         {
           "date": "2026-10-14",
@@ -341,42 +341,42 @@
           "code": 3,
           "max": 18.8,
           "min": 15.0,
-          "rain": 25
+          "rain": 21
         },
         {
           "date": "2026-10-16",
           "code": 55,
           "max": 17.3,
           "min": 11.5,
-          "rain": 28
+          "rain": 22
         }
       ],
-      "today_max": 14.5,
+      "today_max": 14.2,
       "today_min": 9.8,
       "sunrise": "07:15",
       "sunset": "18:18",
-      "uv": 2
+      "uv": 1
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 11.5,
-      "humidity": 71,
-      "wind_speed": 21.2,
-      "rain_chance": 93,
+      "temperature_c": 12.1,
+      "humidity": 64,
+      "wind_speed": 22.3,
+      "rain_chance": 79,
       "condition": "غائم جزئياً",
       "weather_code": 2,
-      "observed_at": "2026-10-10T12:15",
-      "feels_c": 7.5,
+      "observed_at": "2026-10-10T12:45",
+      "feels_c": 7.7,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-10",
           "code": 53,
-          "max": 12.5,
-          "min": 10.0,
+          "max": 12.6,
+          "min": 9.8,
           "rain": 100
         },
         {
@@ -384,28 +384,28 @@
           "code": 53,
           "max": 13.7,
           "min": 8.7,
-          "rain": 12
+          "rain": 10
         },
         {
           "date": "2026-10-12",
           "code": 61,
           "max": 18.5,
           "min": 12.8,
-          "rain": 45
+          "rain": 59
         },
         {
           "date": "2026-10-13",
           "code": 61,
           "max": 18.3,
           "min": 13.7,
-          "rain": 85
+          "rain": 81
         },
         {
           "date": "2026-10-14",
           "code": 3,
           "max": 17.1,
           "min": 10.4,
-          "rain": 4
+          "rain": 1
         },
         {
           "date": "2026-10-15",
@@ -419,35 +419,35 @@
           "code": 51,
           "max": 12.1,
           "min": 10.0,
-          "rain": 46
+          "rain": 39
         }
       ],
-      "today_max": 12.5,
-      "today_min": 10.0,
+      "today_max": 12.6,
+      "today_min": 9.8,
       "sunrise": "07:26",
       "sunset": "18:24",
-      "uv": 2
+      "uv": 1
     },
     {
       "city": "نيويورك",
       "country": "أمريكا",
       "latitude": 40.7128,
       "longitude": -74.006,
-      "temperature_c": 10.3,
+      "temperature_c": 10.9,
       "humidity": 79,
-      "wind_speed": 5.5,
+      "wind_speed": 5.1,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
-      "observed_at": "2026-10-10T07:15",
-      "feels_c": 8.7,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
+      "observed_at": "2026-10-10T07:45",
+      "feels_c": 9.5,
       "utc_offset": -14400,
       "days": [
         {
           "date": "2026-10-10",
           "code": 3,
-          "max": 21.9,
-          "min": 10.4,
+          "max": 21.8,
+          "min": 10.9,
           "rain": 0
         },
         {
@@ -460,41 +460,41 @@
         {
           "date": "2026-10-12",
           "code": 51,
-          "max": 23.3,
-          "min": 14.2,
+          "max": 22.5,
+          "min": 14.1,
           "rain": 82
         },
         {
           "date": "2026-10-13",
-          "code": 80,
-          "max": 23.7,
-          "min": 16.5,
+          "code": 3,
+          "max": 19.5,
+          "min": 16.1,
           "rain": 49
         },
         {
           "date": "2026-10-14",
-          "code": 53,
-          "max": 19.7,
-          "min": 11.9,
+          "code": 51,
+          "max": 24.5,
+          "min": 15.6,
           "rain": 49
         },
         {
           "date": "2026-10-15",
           "code": 3,
-          "max": 15.9,
-          "min": 9.6,
+          "max": 17.9,
+          "min": 12.3,
           "rain": 8
         },
         {
           "date": "2026-10-16",
-          "code": 81,
-          "max": 17.1,
-          "min": 13.5,
+          "code": 63,
+          "max": 19.1,
+          "min": 13.1,
           "rain": 30
         }
       ],
-      "today_max": 21.9,
-      "today_min": 10.4,
+      "today_max": 21.8,
+      "today_min": 10.9,
       "sunrise": "07:01",
       "sunset": "18:23",
       "uv": 4
@@ -504,68 +504,68 @@
       "country": "أمريكا",
       "latitude": 34.0522,
       "longitude": -118.2437,
-      "temperature_c": 19.6,
+      "temperature_c": 18.7,
       "humidity": 90,
-      "wind_speed": 4.2,
+      "wind_speed": 2.6,
       "rain_chance": 5,
       "condition": "غائم جزئياً",
       "weather_code": 2,
-      "observed_at": "2026-10-10T04:15",
-      "feels_c": 21.8,
+      "observed_at": "2026-10-10T04:45",
+      "feels_c": 20.8,
       "utc_offset": -25200,
       "days": [
         {
           "date": "2026-10-10",
           "code": 51,
-          "max": 29.4,
-          "min": 18.1,
+          "max": 30.3,
+          "min": 18.3,
           "rain": 6
         },
         {
           "date": "2026-10-11",
           "code": 63,
           "max": 21.6,
-          "min": 16.0,
+          "min": 15.9,
           "rain": 62
         },
         {
           "date": "2026-10-12",
           "code": 53,
-          "max": 20.3,
+          "max": 18.3,
           "min": 16.9,
           "rain": 83
         },
         {
           "date": "2026-10-13",
-          "code": 1,
-          "max": 22.4,
-          "min": 16.8,
+          "code": 0,
+          "max": 22.6,
+          "min": 17.0,
           "rain": 18
         },
         {
           "date": "2026-10-14",
           "code": 0,
-          "max": 26.5,
-          "min": 18.4,
+          "max": 26.7,
+          "min": 18.5,
           "rain": 1
         },
         {
           "date": "2026-10-15",
           "code": 0,
-          "max": 30.3,
-          "min": 21.5,
+          "max": 30.1,
+          "min": 21.2,
           "rain": 0
         },
         {
           "date": "2026-10-16",
           "code": 0,
-          "max": 33.8,
-          "min": 24.1,
+          "max": 34.3,
+          "min": 23.8,
           "rain": 0
         }
       ],
-      "today_max": 29.4,
-      "today_min": 18.1,
+      "today_max": 30.3,
+      "today_min": 18.3,
       "sunrise": "06:54",
       "sunset": "18:24",
       "uv": 6
@@ -575,21 +575,21 @@
       "country": "أمريكا",
       "latitude": 41.8781,
       "longitude": -87.6298,
-      "temperature_c": 13.1,
-      "humidity": 70,
-      "wind_speed": 12.2,
+      "temperature_c": 12.7,
+      "humidity": 72,
+      "wind_speed": 11.7,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-10-10T06:15",
-      "feels_c": 10.7,
+      "observed_at": "2026-10-10T06:45",
+      "feels_c": 10.4,
       "utc_offset": -18000,
       "days": [
         {
           "date": "2026-10-10",
           "code": 3,
-          "max": 28.2,
-          "min": 12.9,
+          "max": 27.9,
+          "min": 12.6,
           "rain": 1
         },
         {
@@ -601,42 +601,42 @@
         },
         {
           "date": "2026-10-12",
-          "code": 55,
-          "max": 28.8,
-          "min": 17.3,
+          "code": 3,
+          "max": 28.4,
+          "min": 17.2,
           "rain": 16
         },
         {
           "date": "2026-10-13",
-          "code": 53,
-          "max": 21.7,
-          "min": 16.2,
+          "code": 51,
+          "max": 26.4,
+          "min": 20.0,
           "rain": 16
         },
         {
           "date": "2026-10-14",
-          "code": 51,
-          "max": 16.0,
-          "min": 13.3,
+          "code": 3,
+          "max": 18.9,
+          "min": 13.4,
           "rain": 19
         },
         {
           "date": "2026-10-15",
-          "code": 61,
-          "max": 18.2,
-          "min": 12.2,
+          "code": 53,
+          "max": 16.0,
+          "min": 12.5,
           "rain": 48
         },
         {
           "date": "2026-10-16",
-          "code": 3,
-          "max": 17.9,
-          "min": 10.6,
+          "code": 51,
+          "max": 17.8,
+          "min": 5.0,
           "rain": 22
         }
       ],
-      "today_max": 28.2,
-      "today_min": 12.9,
+      "today_max": 27.9,
+      "today_min": 12.6,
       "sunrise": "06:57",
       "sunset": "18:17",
       "uv": 4
@@ -647,19 +647,19 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 25.7,
-      "humidity": 22,
-      "wind_speed": 13.0,
+      "humidity": 21,
+      "wind_speed": 17.4,
       "rain_chance": 1,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-10-10T04:15",
-      "feels_c": 22.1,
+      "observed_at": "2026-10-10T04:45",
+      "feels_c": 21.4,
       "utc_offset": -25200,
       "days": [
         {
           "date": "2026-10-10",
           "code": 61,
-          "max": 33.1,
+          "max": 32.8,
           "min": 22.7,
           "rain": 15
         },
@@ -672,66 +672,66 @@
         },
         {
           "date": "2026-10-12",
-          "code": 3,
-          "max": 23.3,
-          "min": 18.7,
+          "code": 51,
+          "max": 22.3,
+          "min": 17.0,
           "rain": 38
         },
         {
           "date": "2026-10-13",
-          "code": 51,
-          "max": 20.4,
-          "min": 16.4,
+          "code": 3,
+          "max": 21.2,
+          "min": 15.9,
           "rain": 23
         },
         {
           "date": "2026-10-14",
           "code": 0,
-          "max": 24.1,
-          "min": 17.2,
+          "max": 23.2,
+          "min": 17.4,
           "rain": 1
         },
         {
           "date": "2026-10-15",
           "code": 0,
-          "max": 28.2,
-          "min": 20.4,
+          "max": 27.6,
+          "min": 19.8,
           "rain": 0
         },
         {
           "date": "2026-10-16",
           "code": 0,
-          "max": 30.1,
-          "min": 21.8,
+          "max": 28.5,
+          "min": 21.4,
           "rain": 1
         }
       ],
-      "today_max": 33.1,
+      "today_max": 32.8,
       "today_min": 22.7,
       "sunrise": "06:43",
       "sunset": "18:11",
-      "uv": 4
+      "uv": 5
     },
     {
       "city": "دالاس",
       "country": "أمريكا",
       "latitude": 32.7767,
       "longitude": -96.797,
-      "temperature_c": 18.0,
-      "humidity": 74,
-      "wind_speed": 1.6,
+      "temperature_c": 17.8,
+      "humidity": 82,
+      "wind_speed": 4.1,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
-      "observed_at": "2026-10-10T06:15",
+      "observed_at": "2026-10-10T06:45",
       "feels_c": 18.8,
       "utc_offset": -18000,
       "days": [
         {
           "date": "2026-10-10",
           "code": 0,
-          "max": 31.0,
-          "min": 17.5,
+          "max": 31.3,
+          "min": 17.8,
           "rain": 0
         },
         {
@@ -744,41 +744,41 @@
         {
           "date": "2026-10-12",
           "code": 3,
-          "max": 32.0,
-          "min": 21.5,
+          "max": 30.5,
+          "min": 21.7,
           "rain": 1
         },
         {
           "date": "2026-10-13",
-          "code": 51,
-          "max": 34.2,
-          "min": 24.8,
+          "code": 3,
+          "max": 32.8,
+          "min": 24.6,
           "rain": 2
         },
         {
           "date": "2026-10-14",
-          "code": 3,
-          "max": 34.6,
-          "min": 26.0,
+          "code": 51,
+          "max": 34.4,
+          "min": 25.5,
           "rain": 14
         },
         {
           "date": "2026-10-15",
           "code": 51,
-          "max": 31.6,
-          "min": 25.4,
+          "max": 29.9,
+          "min": 25.0,
           "rain": 24
         },
         {
           "date": "2026-10-16",
-          "code": 55,
-          "max": 28.3,
-          "min": 20.2,
+          "code": 80,
+          "max": 27.6,
+          "min": 17.7,
           "rain": 27
         }
       ],
-      "today_max": 31.0,
-      "today_min": 17.5,
+      "today_max": 31.3,
+      "today_min": 17.8,
       "sunrise": "07:27",
       "sunset": "19:00",
       "uv": 6
@@ -788,14 +788,14 @@
       "country": "أمريكا",
       "latitude": 37.7749,
       "longitude": -122.4194,
-      "temperature_c": 14.1,
-      "humidity": 92,
-      "wind_speed": 16.7,
+      "temperature_c": 14.2,
+      "humidity": 96,
+      "wind_speed": 17.8,
       "rain_chance": 1,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
-      "observed_at": "2026-10-10T04:15",
-      "feels_c": 12.5,
+      "condition": "غائم",
+      "weather_code": 3,
+      "observed_at": "2026-10-10T04:45",
+      "feels_c": 12.8,
       "utc_offset": -25200,
       "days": [
         {
@@ -814,37 +814,37 @@
         },
         {
           "date": "2026-10-12",
-          "code": 3,
-          "max": 20.2,
-          "min": 13.7,
+          "code": 2,
+          "max": 18.5,
+          "min": 13.0,
           "rain": 2
         },
         {
           "date": "2026-10-13",
           "code": 1,
-          "max": 19.3,
-          "min": 13.8,
+          "max": 21.2,
+          "min": 13.5,
           "rain": 0
         },
         {
           "date": "2026-10-14",
-          "code": 2,
-          "max": 21.7,
-          "min": 13.6,
+          "code": 3,
+          "max": 23.1,
+          "min": 13.8,
           "rain": 0
         },
         {
           "date": "2026-10-15",
           "code": 0,
           "max": 26.2,
-          "min": 15.9,
+          "min": 15.7,
           "rain": 0
         },
         {
           "date": "2026-10-16",
           "code": 0,
-          "max": 27.3,
-          "min": 16.5,
+          "max": 28.2,
+          "min": 17.4,
           "rain": 0
         }
       ],
