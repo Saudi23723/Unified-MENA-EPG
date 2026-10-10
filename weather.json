@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-10T12:15:37.388Z",
+  "updated_at": "2026-10-10T12:22:48.118Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -150,13 +150,13 @@
       "latitude": 24.4539,
       "longitude": 54.3773,
       "temperature_c": 35.1,
-      "humidity": 53,
+      "humidity": 54,
       "wind_speed": 14.5,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-10T16:15",
-      "feels_c": 39.2,
+      "feels_c": 39.4,
       "utc_offset": 14400,
       "days": [
         {
@@ -168,7 +168,7 @@
         },
         {
           "date": "2026-10-11",
-          "code": 2,
+          "code": 1,
           "max": 37.6,
           "min": 28.8,
           "rain": 0
@@ -291,20 +291,20 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 13.6,
-      "humidity": 59,
-      "wind_speed": 16.9,
+      "temperature_c": 14.0,
+      "humidity": 53,
+      "wind_speed": 18.7,
       "rain_chance": 0,
-      "condition": "رذاذ خفيف",
-      "weather_code": 51,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-10-10T13:15",
-      "feels_c": 10.1,
+      "feels_c": 10.0,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-10",
-          "code": 53,
-          "max": 14.2,
+          "code": 51,
+          "max": 14.8,
           "min": 9.8,
           "rain": 0
         },
@@ -351,20 +351,20 @@
           "rain": 22
         }
       ],
-      "today_max": 14.2,
+      "today_max": 14.8,
       "today_min": 9.8,
       "sunrise": "07:15",
       "sunset": "18:18",
-      "uv": 1
+      "uv": 2
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 12.4,
-      "humidity": 61,
-      "wind_speed": 23.8,
+      "temperature_c": 12.3,
+      "humidity": 62,
+      "wind_speed": 23.0,
       "rain_chance": 88,
       "condition": "غائم جزئياً",
       "weather_code": 2,
@@ -375,8 +375,8 @@
         {
           "date": "2026-10-10",
           "code": 53,
-          "max": 12.6,
-          "min": 9.8,
+          "max": 12.5,
+          "min": 10.0,
           "rain": 100
         },
         {
@@ -422,8 +422,8 @@
           "rain": 39
         }
       ],
-      "today_max": 12.6,
-      "today_min": 9.8,
+      "today_max": 12.5,
+      "today_min": 10.0,
       "sunrise": "07:26",
       "sunset": "18:24",
       "uv": 1
