@@ -356,7 +356,8 @@ def close_every_gap(root: ET.Element, now=None) -> int:
     for programme in root.findall("programme"):
         start, stop = when(programme.get("start")), when(programme.get("stop"))
         if start and stop and stop > start:
-            spans.setdefault(programme.get("channel"), []).append((start, stop))
+            spans.setdefault(programme.get("channel"), []).append(
+                (start, stop, id(programme), programme))
 
     added = 0
     for channel in root.findall("channel"):
@@ -371,10 +372,22 @@ def close_every_gap(root: ET.Element, now=None) -> int:
             continue
 
         cursor = min(rows[0][0], now)
-        for start, stop in rows:
+        last = None
+        for start, stop, _key, programme in rows:
             if start - cursor >= SMALLEST_GAP:
                 add_programme(root, cid, cursor, start, NOTHING_KNOWN)
                 added += 1
+            elif start > cursor and last is not None:
+                # A seam under a minute — Roya's ends one show at 20:59:39
+                # and starts the next at 21:00:00. Too short for a filler
+                # row, but a player looking in those seconds shows a dead
+                # channel (and the health check, run at 20:59:59 on 11
+                # October 2026, failed on exactly that). The show before
+                # runs on to the next one: nothing is cut or moved.
+                last.set("stop", start.strftime("%Y%m%d%H%M%S %z"))
+                added += 1
+            if stop >= cursor:
+                last = programme
             cursor = max(cursor, stop)
         if horizon - cursor >= SMALLEST_GAP:
             add_programme(root, cid, cursor, horizon, NOTHING_KNOWN)
