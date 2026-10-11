@@ -536,6 +536,23 @@ def main() -> int:
           bool(late) and slow_now[0] == 950,
           f"{len(late)} pass(es), clock stopped at {slow_now[0]:.0f}s")
 
+    # A seam under a minute (Roya's 20:59:39 -> 21:00:00, 11 October
+    # 2026) must not leave the channel blank in those seconds.
+    seam = ET.Element("tv")
+    ET.SubElement(seam, "channel", {"id": "c"})
+    for a, b in (("20261011203521", "20261011205939"), ("20261011210000", "20261011212404")):
+        ET.SubElement(seam, "programme", {"start": a + " +0000", "stop": b + " +0000",
+                                          "channel": "c"}).text = ""
+    at = datetime(2026, 10, 11, 20, 59, 59, tzinfo=timezone.utc)
+    L.close_every_gap(seam, now=at)
+    def on_air(t):
+        return [p for p in seam.findall("programme")
+                if datetime.strptime(p.get("start"), "%Y%m%d%H%M%S %z") <= t
+                < datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z")]
+    check("a seam under a minute is closed by the show before it",
+          len(on_air(at)) == 1 and on_air(at)[0].get("start").startswith("20261011203521"),
+          f"{[(p.get('start'), p.get('stop')) for p in seam.findall('programme')]}")
+
     print()
     if failures:
         print(f"{len(failures)} check(s) failed: {', '.join(failures)}")
