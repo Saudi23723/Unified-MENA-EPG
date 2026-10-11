@@ -5,18 +5,6 @@
     <display-name lang="ar">الفورمولا 1</display-name>
     <display-name lang="en">Formula 1</display-name>
   </channel>
-  <programme start="20261010130000 +0000" stop="20261010140000 +0000" channel="Formula1">
-    <title lang="en">🏎️ QUALI · Singapore Grand Prix</title>
-    <desc lang="ar">Singapore Grand Prix
-بتوقيتك
-
-FP1 — الجمعة 01:30
-SPRINT QUALI — الجمعة 05:30
-SPRINT — السبت 02:00
-QUALI — السبت 06:00
-RACE — الأحد 05:00</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
-  </programme>
   <programme start="20261010140000 +0000" stop="20261011120000 +0000" channel="Formula1">
     <title lang="en">🏁 Singapore Grand Prix</title>
     <desc lang="ar">Singapore Grand Prix
@@ -30,7 +18,7 @@ RACE — الأحد 05:00</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
   </programme>
   <programme start="20261011120000 +0000" stop="20261011140000 +0000" channel="Formula1">
-    <title lang="en">🏎️ RACE · Singapore Grand Prix • Live 🟢</title>
+    <title lang="en">🏎️ RACE · Singapore Grand Prix</title>
     <desc lang="ar">Singapore Grand Prix
 بتوقيتك
 
@@ -39,7 +27,6 @@ SPRINT QUALI — الجمعة 05:30
 SPRINT — السبت 02:00
 QUALI — السبت 06:00
 RACE — الأحد 05:00</desc>
-    <category lang="en">Live</category>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
   </programme>
   <programme start="20261011140000 +0000" stop="20261023173000 +0000" channel="Formula1">
