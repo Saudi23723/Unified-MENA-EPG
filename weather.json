@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-12T01:38:53.883Z",
+  "updated_at": "2026-10-12T01:44:55.101Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,28 +291,28 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 13.8,
-      "humidity": 81,
-      "wind_speed": 7.9,
+      "temperature_c": 13.9,
+      "humidity": 80,
+      "wind_speed": 8.3,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-10-12T02:30",
-      "feels_c": 12.8,
+      "feels_c": 12.9,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-12",
-          "code": 61,
-          "max": 16.7,
-          "min": 13.6,
+          "code": 53,
+          "max": 16.8,
+          "min": 13.8,
           "rain": 45
         },
         {
           "date": "2026-10-13",
-          "code": 55,
-          "max": 20.2,
-          "min": 14.8,
+          "code": 53,
+          "max": 20.3,
+          "min": 14.5,
           "rain": 61
         },
         {
@@ -351,39 +351,39 @@
           "rain": 11
         }
       ],
-      "today_max": 16.7,
-      "today_min": 13.6,
+      "today_max": 16.8,
+      "today_min": 13.8,
       "sunrise": "07:19",
       "sunset": "18:13",
-      "uv": 1
+      "uv": 0
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 11.0,
-      "humidity": 75,
-      "wind_speed": 10.4,
+      "temperature_c": 10.8,
+      "humidity": 76,
+      "wind_speed": 11.2,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-10-12T02:30",
-      "feels_c": 8.7,
+      "feels_c": 8.3,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-12",
           "code": 51,
-          "max": 16.2,
+          "max": 15.8,
           "min": 9.8,
           "rain": 59
         },
         {
           "date": "2026-10-13",
-          "code": 61,
-          "max": 16.8,
-          "min": 12.6,
+          "code": 63,
+          "max": 16.7,
+          "min": 11.7,
           "rain": 96
         },
         {
@@ -422,11 +422,11 @@
           "rain": 18
         }
       ],
-      "today_max": 16.2,
+      "today_max": 15.8,
       "today_min": 9.8,
       "sunrise": "07:30",
       "sunset": "18:19",
-      "uv": 1
+      "uv": 0
     },
     {
       "city": "نيويورك",
