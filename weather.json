@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-12T01:01:57.823Z",
+  "updated_at": "2026-10-12T01:08:56.841Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -149,56 +149,56 @@
       "country": "الإمارات",
       "latitude": 24.4539,
       "longitude": 54.3773,
-      "temperature_c": 28.2,
-      "humidity": 86,
-      "wind_speed": 6.9,
+      "temperature_c": 28.0,
+      "humidity": 87,
+      "wind_speed": 8.3,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-12T05:00",
-      "feels_c": 34.4,
+      "feels_c": 33.9,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-10-12",
           "code": 3,
-          "max": 37.4,
-          "min": 28.1,
+          "max": 37.0,
+          "min": 27.8,
           "rain": 0
         },
         {
           "date": "2026-10-13",
           "code": 3,
-          "max": 37.3,
-          "min": 28.7,
+          "max": 38.0,
+          "min": 28.6,
           "rain": 0
         },
         {
           "date": "2026-10-14",
           "code": 3,
-          "max": 35.5,
-          "min": 28.6,
+          "max": 34.9,
+          "min": 28.7,
           "rain": 0
         },
         {
           "date": "2026-10-15",
           "code": 3,
-          "max": 35.4,
-          "min": 29.2,
+          "max": 35.9,
+          "min": 29.7,
           "rain": 4
         },
         {
           "date": "2026-10-16",
           "code": 0,
-          "max": 36.0,
-          "min": 29.1,
+          "max": 36.1,
+          "min": 29.6,
           "rain": 2
         },
         {
           "date": "2026-10-17",
           "code": 0,
-          "max": 36.6,
-          "min": 28.6,
+          "max": 36.5,
+          "min": 28.9,
           "rain": 0
         },
         {
@@ -209,8 +209,8 @@
           "rain": 0
         }
       ],
-      "today_max": 37.4,
-      "today_min": 28.1,
+      "today_max": 37.0,
+      "today_min": 27.8,
       "sunrise": "06:18",
       "sunset": "17:58",
       "uv": 7
