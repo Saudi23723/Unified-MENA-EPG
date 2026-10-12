@@ -150,6 +150,8 @@ jobs:
         # keeping it alive for nearly three hours only makes a completed fix
         # look stuck and blocks the next repair behind concurrency.
         if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Ten minutes inside the job's own timeout, so the last pass
           # finishes and pushes rather than being cut off part-way.
@@ -214,6 +216,15 @@ jobs:
             echo "───── pass $pass ─────"
             python -u one_pass.py \
             || echo "::warning::pass $pass did not finish — whatever it published stands, and the next one follows"
+
+            # THE GUIDES' BUILDER, CHECKED EVERY PASS. It used to be asked
+            # after only at hand-off, once in three hours: on 12 October
+            # 2026 its ticker ended at 09:13, GitHub delivered none of its
+            # :07/:37 events, and no guide was rebuilt for over an hour
+            # while this run was alive the whole time and never looked.
+            # Starts it only when nothing of it is alive and its newest run
+            # is over thirty minutes old; never fails this pass.
+            bash tools/revive_workflows.sh update_all_epg.yml:30 || true
           done
           echo "───── $pass pass(es) published; the window is up ─────"
 
