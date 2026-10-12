@@ -1,0 +1,1262 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from __future__ import annotations
+
+import re
+from datetime import datetime, timedelta, timezone, date
+from html import unescape
+from zoneinfo import ZoneInfo
+import xml.etree.ElementTree as ET
+
+import requests
+from bs4 import BeautifulSoup
+
+import epg_lib
+import jordan_football
+
+
+OUTPUT = "jordan_sports_epg.xml"
+
+CHANNEL_ID = "JordanSports"
+CHANNEL_NAME = "Jordan Sport | الأردن الرياضية"
+
+# Recurring JRTV studio shows (currently "رياضة كافيه") carry this category.
+# They are scheduled programmes, not live match broadcasts, so they must not
+# get the live badge — only real fixtures do.
+PROGRAMME_CATEGORY = "Sports Programme"
+
+# Badge appended to every real match. It marks the broadcast as LIVE — the
+# standard EPG meaning — so it stays visible when browsing ahead, matching
+# the other sports guides in this repository.
+LRM = "\u200e"
+LIVE_LABEL = "• Live \U0001F535"  # "• Live 🔵"
+
+
+def ltr(value: str) -> str:
+    """Wrap a Latin run so it keeps its own order inside RTL text."""
+    return f"{LRM}{value}{LRM}"
+
+
+AMMAN = ZoneInfo("Asia/Amman")
+ABU_DHABI = ZoneInfo("Asia/Dubai")
+LAS_VEGAS = ZoneInfo("America/Los_Angeles")
+UTC = timezone.utc
+
+DAYS_BACK = 1
+DAYS_FORWARD = 21
+HTTP_TIMEOUT = 20
+
+USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/126.0 Safari/537.36"
+)
+
+# Official JRTV homepage currently publishes programme cards including:
+# "رياضة كافيه - يوم الثلاثاء الساعة 5:00 مساءً".
+JRTV_HOME = "https://www.jrtv.gov.jo/"
+
+# Channel-specific football listing. It is intentionally used only when the
+# match row explicitly belongs to Jordan Sports.
+LFTV_JORDAN_SPORTS = "https://www.livefootballtv.info/channel/jordan-sports"
+
+# And the federation's own fixture table, read by jordan_football.py.
+#
+# This guide had been publishing no football at all. Twenty-six of its
+# twenty-nine rows were the channel's own name filling empty hours and the
+# other three were one talk show — a Jordan Sports guide with not a single
+# Jordanian fixture in it, for as long as anyone has looked. The two
+# sources above are why: livefootballtv's channel page lists this channel
+# and schedules nothing on it, and the Super Cup is one match a year.
+#
+# jfa.jo publishes the league, the cup and the shield, and the channel is
+# their exclusive rights holder, so those fixtures belong here. Only the
+# competitions jordan_football.carried_by() names for THIS channel are
+# taken: a national-team qualifier is sold separately and lands on beIN or
+# elsewhere, and the age grades have no regular television at all.
+
+JFA_SUPER_CUP = (
+    "https://jfa.jo/tourn.php?id=10&idcat=6&idsubcat=34&"
+    "title=%D9%83%D8%A3%D8%B3-%D8%A7%D9%84%D8%B3%D9%88%D8%A8%D8%B1"
+)
+SPORT24_SUPER_CUP = "https://www.sport24.rest/competition/18668"
+SPORT24_BASE = "https://www.sport24.rest"
+
+session = requests.Session()
+session.headers.update({
+    "User-Agent": USER_AGENT,
+    "Accept-Language": "ar,en-US;q=0.9,en;q=0.8",
+})
+
+
+def log(msg: str) -> None:
+    print(msg, flush=True)
+
+
+def warn(msg: str) -> None:
+    print(f"WARN {msg}", flush=True)
+
+
+def norm(s: str) -> str:
+    return re.sub(r"\s+", " ", unescape(s or "")).strip()
+
+
+def utc_now() -> datetime:
+    return datetime.now(UTC)
+
+
+def window_bounds():
+    now = utc_now()
+    start = (now - timedelta(days=DAYS_BACK)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    end = (now + timedelta(days=DAYS_FORWARD + 1)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    return start, end
+
+
+def in_window(dt_utc: datetime) -> bool:
+    start, end = window_bounds()
+    return start <= dt_utc < end
+
+
+def fetch_text(url: str) -> str:
+    r = session.get(url, timeout=HTTP_TIMEOUT)
+    r.raise_for_status()
+    return r.text
+
+
+def xmltv_time(dt: datetime) -> str:
+    return dt.astimezone(UTC).strftime("%Y%m%d%H%M%S +0000")
+
+
+# ---------------------------------------------------------------------------
+# Official JRTV recurring programme parsing
+# ---------------------------------------------------------------------------
+
+AR_WEEKDAYS = {
+    "الاثنين": 0,
+    "الثلاثاء": 1,
+    "الأربعاء": 2,
+    "الاربعاء": 2,
+    "الخميس": 3,
+    "الجمعة": 4,
+    "السبت": 5,
+    "الأحد": 6,
+    "الاحد": 6,
+}
+
+# We keep the accepted programme list deliberately conservative. More titles
+# can be added only after JRTV itself publishes a stable schedule for them.
+KNOWN_JRTV_SPORT_PROGRAMMES = {
+    "رياضة كافيه",
+}
+
+# Official JRTV schedule verified on 2026-08-19.
+# This is used only when the JRTV JavaScript shell hides programme cards
+# from a normal HTTP client. Keeping it explicit is safer than inventing
+# additional programme times.
+OFFICIAL_JRTV_FALLBACK = [
+    {
+        "title": "رياضة كافيه",
+        "weekday": 1,          # Tuesday
+        "hour": 17,
+        "minute": 0,
+        "duration_minutes": 60,
+        "source_name": "JRTVOfficialFallback",
+        "source": JRTV_HOME,
+        "category": PROGRAMME_CATEGORY,
+    },
+]
+
+JRTV_PROGRAM_RE = re.compile(
+    r"(?P<title>رياضة\s+كافيه).*?"
+    r"(?:يوم\s+)?(?P<weekday>الاثنين|الثلاثاء|الأربعاء|الاربعاء|الخميس|الجمعة|السبت|الأحد|الاحد)"
+    r".*?الساعة\s+"
+    r"(?P<hour>\d{1,2})(?::(?P<minute>\d{2}))?\s*"
+    r"(?P<ampm>صباح(?:اً|ا)?|مساء(?:ً|ا)?)",
+    re.S,
+)
+
+
+def parse_official_jrtv_programmes(html: str) -> list[dict]:
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    text = norm(soup.get_text(" ", strip=True))
+    recurring: list[dict] = []
+
+    for m in JRTV_PROGRAM_RE.finditer(text):
+        title = norm(m.group("title"))
+        if title not in KNOWN_JRTV_SPORT_PROGRAMMES:
+            continue
+
+        weekday_name = m.group("weekday")
+        weekday = AR_WEEKDAYS[weekday_name]
+        hh = int(m.group("hour"))
+        mm = int(m.group("minute") or 0)
+        ampm = m.group("ampm")
+
+        if "مساء" in ampm:
+            if hh != 12:
+                hh += 12
+        elif hh == 12:
+            hh = 0
+
+        recurring.append({
+            "title": title,
+            "weekday": weekday,
+            "hour": hh,
+            "minute": mm,
+            "duration_minutes": 60,
+            "source_name": "JRTVOfficial",
+            "source": JRTV_HOME,
+            "category": PROGRAMME_CATEGORY,
+        })
+
+    # Deduplicate identical recurring cards if the homepage repeats them.
+    seen = set()
+    out = []
+    for item in recurring:
+        key = (
+            item["title"],
+            item["weekday"],
+            item["hour"],
+            item["minute"],
+        )
+        if key not in seen:
+            seen.add(key)
+            out.append(item)
+    return out
+
+
+def get_official_jrtv_recurring(html: str) -> tuple[list[dict], str]:
+    """
+    Prefer live parsing from JRTV. If JRTV serves only its JavaScript app shell
+    to requests/GitHub Actions, use the single currently verified official
+    recurring sports slot instead of returning an empty guide.
+    """
+    parsed = parse_official_jrtv_programmes(html)
+    if parsed:
+        return parsed, "live"
+
+    shell_markers = (
+        "you need to enable javascript",
+        '<div id="root"',
+        '<div id="app"',
+    )
+    low = html.casefold()
+    shell_only = any(marker in low for marker in shell_markers)
+
+    # JRTV is currently a JS-rendered site, so a zero-result HTML response is
+    # not evidence that the published programme was removed. Use only the
+    # explicitly verified official fallback; never invent other programmes.
+    if shell_only or not parsed:
+        return [dict(x) for x in OFFICIAL_JRTV_FALLBACK], "fallback"
+
+    return [], "none"
+
+
+def expand_recurring_programmes(recurring: list[dict]) -> list[dict]:
+    start, end = window_bounds()
+    first_local = start.astimezone(AMMAN).date() - timedelta(days=1)
+    last_local = end.astimezone(AMMAN).date() + timedelta(days=1)
+
+    events: list[dict] = []
+    d = first_local
+    while d <= last_local:
+        for item in recurring:
+            if d.weekday() != item["weekday"]:
+                continue
+            local = datetime(
+                d.year, d.month, d.day,
+                item["hour"], item["minute"],
+                tzinfo=AMMAN,
+            )
+            start_utc = local.astimezone(UTC)
+            if not in_window(start_utc):
+                continue
+            events.append({
+                "start": start_utc,
+                "title": item["title"],
+                "category": item["category"],
+                "source_name": item["source_name"],
+                "source": item["source"],
+                "duration_minutes": item["duration_minutes"],
+                "priority": 100,
+            })
+        d += timedelta(days=1)
+    return events
+
+
+# ---------------------------------------------------------------------------
+# Jordan Sports football listings
+# ---------------------------------------------------------------------------
+
+DATE_NUMERIC = re.compile(
+    r"(?:(?:today|tomorrow)\s+)?"
+    r"(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday),?\s*"
+    r"(\d{1,2})/(\d{1,2})/(20\d{2})",
+    re.I,
+)
+
+TIME_RE = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
+
+BAD_TEXT = re.compile(
+    r"^(?:live football on|football on tv|change to your time zone|"
+    r"ranking by|statistical data|number of|view full ranking|"
+    r"as of today|in this moment|the next match|"
+    r"image:|button:|menu|teams|competitions|tv channels|news|free widget|"
+    r"arab mena|all teams|all competitions|all channels|"
+    r"monday|tuesday|wednesday|thursday|friday|saturday|sunday)",
+    re.I,
+)
+
+STAGE_TEXT = re.compile(
+    r"^(?:playoffs?|final|semi-?finals?|quarter-?finals?|"
+    r"group stage|round of \d+|qualifiers?|friendly)$",
+    re.I,
+)
+
+BROADCASTER_HINTS = re.compile(
+    r"(?:sport|sports|tv|youtube|app|bein|dazn|alkass|الكأس|"
+    r"ssc|jordan fa|ppv)",
+    re.I,
+)
+
+
+def parse_lftv_date(line: str) -> date | None:
+    s = norm(line)
+    m = DATE_NUMERIC.search(s)
+    if m:
+        dd, mm, yy = map(int, m.groups())
+        try:
+            return date(yy, mm, dd)
+        except ValueError:
+            return None
+
+    if "football on tv today" in s.casefold():
+        m = re.search(r"(\d{1,2})/(\d{1,2})/(20\d{2})", s)
+        if m:
+            dd, mm, yy = map(int, m.groups())
+            try:
+                return date(yy, mm, dd)
+            except ValueError:
+                return None
+    return None
+
+
+def _clean_lftv_line(s: str) -> str:
+    return re.sub(r"^Image:\s*", "", norm(s), flags=re.I)
+
+
+def _plausible_name(s: str) -> bool:
+    if not s or len(s) > 80:
+        return False
+    if BAD_TEXT.search(s) or TIME_RE.match(s) or s.isdigit():
+        return False
+    return True
+
+
+def _extract_match_block(block: list[str]) -> tuple[str, str, str] | None:
+    cleaned = [_clean_lftv_line(x) for x in block]
+    cleaned = [x for x in cleaned if x and _plausible_name(x)]
+
+    # Require an explicit Jordan Sports broadcaster marker in this row.
+    channel_idx = next(
+        (
+            i for i, x in enumerate(cleaned)
+            if x.casefold() in {
+                "jordan sports",
+                "jordan tv sport",
+                "jordan sport",
+            }
+        ),
+        None,
+    )
+    if channel_idx is None:
+        return None
+
+    # Everything before the first broadcaster-like field belongs to the
+    # competition/stage/teams section.
+    first_broadcaster = next(
+        (
+            i for i, x in enumerate(cleaned[:channel_idx + 1])
+            if BROADCASTER_HINTS.search(x)
+        ),
+        channel_idx,
+    )
+
+    core = cleaned[:first_broadcaster]
+    if len(core) < 3:
+        core = [
+            x for x in cleaned[:channel_idx]
+            if not BROADCASTER_HINTS.search(x)
+        ]
+    if len(core) < 3:
+        return None
+
+    non_stage = [x for x in core if not STAGE_TEXT.match(x)]
+    if len(non_stage) < 3:
+        return None
+
+    home, away = non_stage[-2], non_stage[-1]
+    competition = non_stage[-3]
+
+    if home.casefold() == away.casefold():
+        return None
+    if BROADCASTER_HINTS.search(home) or BROADCASTER_HINTS.search(away):
+        return None
+
+    return norm(competition), norm(home), norm(away)
+
+
+ISO_DURATION_RE = re.compile(r"^P?T?(?:(\d+)H)?(?:(\d+)M)?$", re.I)
+
+
+def _lftv_duration_minutes(value: str, default: int = 135) -> int:
+    """"T1H45M" -> 105. Anything unreadable keeps the default."""
+    m = ISO_DURATION_RE.match(norm(value)) if value else None
+    if not m or not any(m.groups()):
+        return default
+    hours = int(m.group(1) or 0)
+    minutes = int(m.group(2) or 0)
+    total = hours * 60 + minutes
+    return total if 20 <= total <= 360 else default
+
+
+# The channel's own name, in every spelling a source might print it.
+#
+# This asked for the literal string "jordan sports" and nothing else, so
+# "Jordan Sport" singular, "JRTV Sports", and the channel's own Arabic
+# name "الأردن الرياضية" all failed it. A guide whose gate does not know
+# its own name in the language of the page does not publish something
+# wrong — it silently publishes nothing, which is how a source going
+# quiet and a source being misread look identical from the outside.
+#
+# Still a gate: it names this channel and no other, so a row listing only
+# beIN or AD Sports is refused exactly as before.
+JORDAN_SPORTS_NAME = re.compile(
+    r"jordan\s*sports?\b"
+    r"|jrtv\s*sports?\b"
+    r"|الأردن\s*الرياضية|الاردن\s*الرياضية"
+    r"|الرياضية\s*الأردنية|الرياضية\s*الاردنية"
+    r"|الأردنية\s*الرياضية|الاردنية\s*الرياضية",
+    re.I,
+)
+
+
+def _lftv_row_names_channel(node) -> bool:
+    """Is this fixture's broadcaster list the Jordan Sports channel?
+
+    The Event block sits in the row's `canales` cell beside a
+    `<ul class="listaCanales">` naming every channel carrying the match.
+    A match listed for other broadcasters must not land on this guide.
+    """
+    row = node
+    for _ in range(6):
+        if row is None:
+            return False
+        listing = row.find("ul", class_="listaCanales") if hasattr(row, "find") else None
+        if listing is not None:
+            text = norm(listing.get_text(" ", strip=True))
+            titles = " ".join(
+                norm(li.get("title") or "") for li in listing.find_all("li")
+            )
+            return bool(JORDAN_SPORTS_NAME.search(f"{text} {titles}"))
+        row = row.parent
+    return False
+
+
+def parse_lftv_microdata(html: str) -> list[dict]:
+    """Read the fixtures livefootballtv publishes as schema.org microdata.
+
+    Every match on the page carries its own Event block:
+
+        <div itemscope itemtype="https://schema.org/Event">
+          <meta itemprop="name" content="Ramtha SC - Al-Hussein SC" />
+          <meta itemprop="startDate" content="2026-08-22T18:00:00" />
+          <meta itemprop="duration" content="T1H45M" />
+
+    That is worth reading in place of walking the visible text, for two
+    reasons. It states the fixture exactly, so nothing has to be inferred
+    from where a line sits relative to a time. And `startDate` is UTC,
+    while the time in the visible row is the site's own display zone —
+    the row above renders as 20:00 against a startDate of 18:00, two
+    hours apart, so reading the visible time as Amman wall-clock put every
+    match here an hour early.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    events: list[dict] = []
+    seen_blocks = 0
+
+    for node in soup.find_all(attrs={"itemtype": re.compile(r"schema\.org/Event")}):
+        seen_blocks += 1
+        fields = {}
+        for meta in node.find_all("meta", attrs={"itemprop": True}):
+            fields.setdefault(meta.get("itemprop"), meta.get("content") or "")
+
+        title = norm(fields.get("name", ""))
+        stamp = norm(fields.get("startDate", ""))
+        if not title or not stamp:
+            continue
+        if not _lftv_row_names_channel(node):
+            continue
+
+        try:
+            start_utc = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if start_utc.tzinfo is None:
+            start_utc = start_utc.replace(tzinfo=UTC)
+        start_utc = start_utc.astimezone(UTC)
+
+        if not in_window(start_utc):
+            continue
+
+        # The competition, from the label in the same row or the slug of
+        # the competition link the Event block points at.
+        competition = ""
+        row = node
+        for _ in range(6):
+            if row is None:
+                break
+            label = row.find("label", title=True) if hasattr(row, "find") else None
+            if label is not None:
+                competition = norm(label.get("title"))
+                break
+            row = row.parent
+        if not competition:
+            slug = norm(fields.get("url", "")).rstrip("/").rsplit("/", 1)[-1]
+            competition = slug.replace("-", " ").title() if slug else "Football"
+
+        events.append({
+            "start": start_utc,
+            "title": title,
+            "category": competition,
+            "source_name": "LiveFootballTV",
+            "source": LFTV_JORDAN_SPORTS,
+            "duration_minutes": _lftv_duration_minutes(fields.get("duration", "")),
+            "priority": 200,
+        })
+
+    kept = dedupe(events)
+    if seen_blocks:
+        log(f"livefootballtv: {seen_blocks} fixture(s) published, {len(kept)} "
+            f"inside the guide window")
+    return kept
+
+
+MICRODATA_MARKER = "schema.org/Event"
+
+
+def parse_lftv_jordan_sports(html: str) -> list[dict]:
+    """Microdata first; the text walk only if the page has no microdata.
+
+    The two cases have to be told apart. A page that publishes Event
+    blocks but has no fixture inside the guide window is simply a quiet
+    week — livefootballtv says so itself ("At this time there is no
+    football match being televised") and lists past matches below. That
+    must not be read as the reader having failed, or every quiet week
+    would run the fallback and log a warning that is not true.
+    """
+    structured = parse_lftv_microdata(html)
+    if structured or MICRODATA_MARKER in (html or ""):
+        return structured
+    warn("livefootballtv: no Event microdata on the page, falling back to the text walk")
+    return _parse_lftv_by_text(html)
+
+
+def _parse_lftv_by_text(html: str) -> list[dict]:
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    lines = [norm(x) for x in soup.stripped_strings if norm(x)]
+    events: list[dict] = []
+    current_date: date | None = None
+
+    i = 0
+    while i < len(lines):
+        d = parse_lftv_date(lines[i])
+        if d:
+            current_date = d
+            i += 1
+            continue
+
+        tm = TIME_RE.match(lines[i])
+        if not tm or current_date is None:
+            i += 1
+            continue
+
+        hh, mm = map(int, tm.groups())
+        block: list[str] = []
+        j = i + 1
+
+        while j < len(lines) and j <= i + 30:
+            if TIME_RE.match(lines[j]) or parse_lftv_date(lines[j]):
+                break
+            block.append(lines[j])
+            j += 1
+
+        parsed = _extract_match_block(block)
+        if parsed:
+            competition, home, away = parsed
+
+            # livefootballtv.info's Arab-MENA guide is interpreted in the
+            # broadcaster's local wall-clock here. The EPG stores UTC after
+            # converting from Asia/Amman, so TiviMate can convert correctly.
+            local = datetime(
+                current_date.year,
+                current_date.month,
+                current_date.day,
+                hh, mm,
+                tzinfo=AMMAN,
+            )
+            start_utc = local.astimezone(UTC)
+
+            if in_window(start_utc):
+                events.append({
+                    "start": start_utc,
+                    "title": f"{home} - {away}",
+                    "category": competition,
+                    "source_name": "LiveFootballTV",
+                    "source": LFTV_JORDAN_SPORTS,
+                    "duration_minutes": 135,
+                    "priority": 200,
+                })
+
+        i = max(i + 1, j)
+
+    return dedupe(events)
+
+
+
+# ---------------------------------------------------------------------------
+# JFA official fixture + Sport24 Jordan Sports confirmation
+# ---------------------------------------------------------------------------
+
+AR_MONTHS = {
+    "يناير": 1, "فبراير": 2, "مارس": 3, "أبريل": 4, "ابريل": 4,
+    "مايو": 5, "يونيو": 6, "يوليو": 7, "أغسطس": 8, "اغسطس": 8,
+    "سبتمبر": 9, "أكتوبر": 10, "اكتوبر": 10, "نوفمبر": 11, "ديسمبر": 12,
+}
+
+
+def _team_key(s: str) -> str:
+    s = norm(s).casefold()
+    s = s.replace("إ", "ا").replace("أ", "ا").replace("آ", "ا")
+    s = s.replace("ة", "ه").replace("ى", "ي")
+    s = re.sub(r"[^a-z0-9\u0600-\u06ff]+", " ", s)
+    s = norm(s)
+    aliases = {
+        "الحسين اربد": "الحسين",
+        "نادي الوحدات": "الوحدات",
+        "al wehdat": "الوحدات",
+        "al faisaly": "الفيصلي",
+        "al faysali": "الفيصلي",
+        "al ramtha": "الرمثا",
+        "al hussein irbid": "الحسين",
+    }
+    return aliases.get(s, s)
+
+
+def _jfa_noise_line(s: str) -> bool:
+    low = norm(s).casefold()
+    return (
+        not low
+        or low in {
+            "image", "vs", "كأس السوبر", "المباريات القادمة",
+            "ألبومات الصور", "جدول المباريات", "النتائج",
+        }
+        or low.startswith("image:")
+        or "ستاد" in low
+        or "ملعب" in low
+        or re.search(r"20\d{2}-\d{2}-\d{2}", low) is not None
+    )
+
+
+def _jfa_team_candidate(s: str) -> bool:
+    s = norm(s)
+    if _jfa_noise_line(s):
+        return False
+    if len(s) > 55 or len(s) < 2:
+        return False
+    if re.search(r"\d{1,2}:\d{2}", s):
+        return False
+    return bool(re.search(r"[\u0600-\u06ffA-Za-z]", s))
+
+
+def parse_jfa_super_cup(html: str) -> list[dict]:
+    """Parse the official JFA Super Cup upcoming fixtures.
+
+    JFA currently renders each upcoming card roughly as:
+        TEAM | Image | VS | Image | TEAM | stadium - YYYY-MM-DD - HH:MM
+
+    The older all-in-one regex was too brittle because the number of DOM/text
+    separators around Image/VS changes.  This parser anchors on the literal
+    VS marker, then independently finds the nearest team names and the first
+    following official date/time.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    strings = [norm(x) for x in soup.stripped_strings if norm(x)]
+    events: list[dict] = []
+
+    for i, value in enumerate(strings):
+        if value.casefold() != "vs":
+            continue
+
+        home = None
+        for j in range(i - 1, max(-1, i - 8), -1):
+            if _jfa_team_candidate(strings[j]):
+                home = strings[j]
+                break
+
+        away = None
+        for j in range(i + 1, min(len(strings), i + 9)):
+            if _jfa_team_candidate(strings[j]):
+                away = strings[j]
+                break
+
+        if not home or not away or _team_key(home) == _team_key(away):
+            continue
+
+        tail = " | ".join(strings[i + 1:min(len(strings), i + 18)])
+        dt_match = re.search(
+            r"(20\d{2}-\d{2}-\d{2})\s*(?:-|\||،|,|\s)+\s*([01]?\d|2[0-3]):([0-5]\d)",
+            tail,
+        )
+        if not dt_match:
+            # Some JFA pages put the time before the date in a single card.
+            dt_match_rev = re.search(
+                r"([01]?\d|2[0-3]):([0-5]\d).*?(20\d{2}-\d{2}-\d{2})",
+                tail,
+            )
+            if not dt_match_rev:
+                continue
+            hh, mm = map(int, dt_match_rev.group(1, 2))
+            d = datetime.strptime(dt_match_rev.group(3), "%Y-%m-%d").date()
+        else:
+            d = datetime.strptime(dt_match.group(1), "%Y-%m-%d").date()
+            hh, mm = map(int, dt_match.group(2, 3))
+
+        local = datetime(d.year, d.month, d.day, hh, mm, tzinfo=AMMAN)
+        start_utc = local.astimezone(UTC)
+        if not in_window(start_utc):
+            continue
+
+        events.append({
+            "start": start_utc,
+            "date": d,
+            "home": norm(home),
+            "away": norm(away),
+            "title": f"{norm(home)} - {norm(away)}",
+            "category": "كأس السوبر الأردني",
+            "source_name": "JFAOfficial",
+            "source": JFA_SUPER_CUP,
+            "duration_minutes": 135,
+            "priority": 350,
+        })
+
+    # Final defensive dedupe by date + normalized teams.
+    out, seen = [], set()
+    for ev in events:
+        teams = tuple(sorted((_team_key(ev["home"]), _team_key(ev["away"]))))
+        key = (ev["date"], teams)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(ev)
+    return out
+
+def _sport24_date_from_text(text: str) -> date | None:
+    m = re.search(
+        r"(\d{1,2})\s+(" + "|".join(map(re.escape, AR_MONTHS)) + r")\s+(20\d{2})",
+        text,
+    )
+    if not m:
+        return None
+    try:
+        return date(int(m.group(3)), AR_MONTHS[m.group(2)], int(m.group(1)))
+    except ValueError:
+        return None
+
+
+def discover_sport24_super_cup_matches(html: str) -> list[str]:
+    soup = BeautifulSoup(html, "html.parser")
+    urls, seen = [], set()
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if not re.search(r"/match/\d+", href):
+            continue
+        if href.startswith("/"):
+            href = SPORT24_BASE + href
+        elif not href.startswith("http"):
+            href = SPORT24_BASE + "/" + href.lstrip("/")
+        if href not in seen:
+            seen.add(href)
+            urls.append(href)
+    return urls
+
+
+def parse_sport24_jordan_confirmation(html: str, url: str) -> dict | None:
+    """Return a broadcaster-confirmation record from a Sport24 match page.
+
+    Sport24 page headings/titles change wording frequently.  We therefore do
+    NOT rely on extracting the two team names from the H1.  For this source we
+    only need independent confirmation that a dated match page explicitly says
+    it is carried by Jordan Sports.  The official JFA page remains the source
+    of the fixture teams and kickoff time.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg"]):
+        tag.decompose()
+
+    text = norm(soup.get_text(" ", strip=True))
+    if "الأردن الرياضية" not in text:
+        return None
+
+    d = _sport24_date_from_text(text)
+    if d is None:
+        return None
+
+    return {
+        "date": d,
+        "text": text,
+        "source": url,
+    }
+
+
+def _sport24_mentions_team(text: str, team: str) -> bool:
+    """Loose but deterministic team-name presence test for Sport24 pages."""
+    hay = _team_key(text)
+    needle = _team_key(team)
+    if not needle:
+        return False
+
+    aliases = {
+        "الفيصلي": ["الفيصلي"],
+        "الوحدات": ["الوحدات"],
+        "الرمثا": ["الرمثا"],
+        "الحسين": ["الحسين", "الحسين اربد"],
+    }
+    probes = aliases.get(needle, [needle])
+    return any(_team_key(x) in hay for x in probes)
+
+
+def get_jfa_sport24_confirmed_super_cup() -> list[dict]:
+    official = parse_jfa_super_cup(fetch_text(JFA_SUPER_CUP))
+    log(f"JFA Super Cup upcoming fixtures detected: {len(official)}")
+
+    match_urls = discover_sport24_super_cup_matches(fetch_text(SPORT24_SUPER_CUP))
+    log(f"Sport24 Super Cup match pages discovered: {len(match_urls)}")
+
+    confirmations = []
+    for url in match_urls:
+        try:
+            c = parse_sport24_jordan_confirmation(fetch_text(url), url)
+            if c:
+                confirmations.append(c)
+                log(
+                    f"SPORT24 JORDAN SPORTS CONFIRMATION | "
+                    f"{c['date']} | {url}"
+                )
+        except Exception as exc:
+            warn(f"Sport24 match confirmation failed: {url} | {exc}")
+
+    out = []
+    for ev in official:
+        matched = None
+        for c in confirmations:
+            if c["date"] != ev["date"]:
+                continue
+
+            # Robust cross-check: same date + both official JFA team names are
+            # present anywhere on the Sport24 match page + explicit broadcaster
+            # marker was already verified by parse_sport24_jordan_confirmation.
+            if (
+                _sport24_mentions_team(c["text"], ev["home"])
+                and _sport24_mentions_team(c["text"], ev["away"])
+            ):
+                matched = c
+                break
+
+        if matched:
+            ev = dict(ev)
+            ev["source_name"] = "JFAOfficial+Sport24JordanSports"
+            ev["source"] = f"{JFA_SUPER_CUP} | {matched['source']}"
+            out.append(ev)
+            am = ev["start"].astimezone(AMMAN)
+            log(
+                f"CONFIRMED JORDAN SPORTS | {am:%Y-%m-%d %H:%M} Amman | "
+                f"{ev['title']} | كأس السوبر الأردني"
+            )
+        else:
+            log(
+                f"NOT ADDED - no Jordan Sports confirmation | "
+                f"{ev['date']} | {ev['title']}"
+            )
+
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Event handling / XML
+# ---------------------------------------------------------------------------
+
+def event_key(ev: dict) -> str:
+    start = ev["start"].astimezone(UTC).replace(second=0, microsecond=0)
+    title = re.sub(
+        r"[^a-z0-9\u0600-\u06ff]+",
+        " ",
+        ev["title"].casefold(),
+    )
+    return f"{start:%Y%m%d%H%M}|{norm(title)}"
+
+
+def dedupe(events: list[dict]) -> list[dict]:
+    best: dict[str, dict] = {}
+    for ev in events:
+        k = event_key(ev)
+        old = best.get(k)
+        if old is None or ev.get("priority", 0) > old.get("priority", 0):
+            best[k] = ev
+    return sorted(best.values(), key=lambda x: x["start"])
+
+
+def collect_events() -> list[dict]:
+    events: list[dict] = []
+
+    # Official ordinary programme(s)
+    try:
+        jrtv_html = fetch_text(JRTV_HOME)
+        recurring, mode = get_official_jrtv_recurring(jrtv_html)
+        log(
+            f"JRTV official recurring sports programmes detected: "
+            f"{len(recurring)} | mode={mode}"
+        )
+        for item in recurring:
+            log(
+                f"  JRTV | {item['title']} | weekday={item['weekday']} | "
+                f"{item['hour']:02d}:{item['minute']:02d} Amman | "
+                f"{item['source_name']}"
+            )
+        events.extend(expand_recurring_programmes(recurring))
+    except Exception as exc:
+        warn(f"JRTV official programme fetch failed: {exc}")
+        # Network failure must not erase a schedule that was explicitly
+        # verified from JRTV. Use only the documented fallback.
+        recurring = [dict(x) for x in OFFICIAL_JRTV_FALLBACK]
+        log(
+            f"JRTV fallback recurring sports programmes used after fetch error: "
+            f"{len(recurring)}"
+        )
+        events.extend(expand_recurring_programmes(recurring))
+
+    # Official JFA fixtures cross-confirmed as Jordan Sports broadcasts.
+    try:
+        jfa_confirmed = get_jfa_sport24_confirmed_super_cup()
+        log(
+            f"JFA + Sport24 confirmed Jordan Sports matches detected: "
+            f"{len(jfa_confirmed)}"
+        )
+        events.extend(jfa_confirmed)
+    except Exception as exc:
+        warn(f"JFA/Sport24 cross-confirmation failed: {exc}")
+
+    # The federation's own fixtures, for the competitions this channel holds.
+    try:
+        floor, ceiling = window_bounds()
+        fixtures = jordan_football.fetch_events(
+            epg_lib.new_session(), floor, ceiling)
+        carried = [ev for ev in fixtures
+                   if jordan_football.JORDAN_SPORT in ev["channels"]]
+        log(f"JFA fixtures carried by this channel: {len(carried)} "
+            f"of {len(fixtures)} in the window")
+        for ev in carried:
+            am = ev["start"].astimezone(AMMAN)
+            log(f"  JFA | {am:%Y-%m-%d %H:%M} Amman | {ev['title']} | "
+                f"{ev['competition']}")
+            events.append({
+                "start": ev["start"],
+                "date": am.date(),
+                "title": ev["title"],
+                "category": ev["competition"],
+                "source_name": "JFAOfficial",
+                "source": jordan_football.SOURCE,
+                "duration_minutes": 135,
+                "priority": 340,
+            })
+    except Exception as exc:
+        warn(f"JFA fixture table failed: {exc}")
+
+    # Everything any source on the board says is on this channel: the
+    # national team, basketball, whatever it carries. See
+    # jordan_football.remember_what_it_carries.
+    try:
+        floor, ceiling = window_bounds()
+        board = jordan_football.not_already_carried(
+            jordan_football.what_it_carries(floor, ceiling), events)
+        log(f"Board matches naming this channel, not already here: "
+            f"{len(board)}")
+        for ev in board:
+            am = ev["start"].astimezone(AMMAN)
+            log(f"  BOARD | {am:%Y-%m-%d %H:%M} Amman | {ev['title']} | "
+                f"{ev['competition']}")
+            events.append({
+                "start": ev["start"],
+                "date": am.date(),
+                "title": ev["title"],
+                "category": ev["competition"] or "مباراة",
+                "source_name": "TodayMatchesBoard",
+                "source": jordan_football.LEDGER,
+                "duration_minutes": 135,
+                "priority": 300,
+            })
+    except Exception as exc:
+        warn(f"the board's Jordan Sport matches could not be read: {exc}")
+
+    # Confirmed football matches from LiveFootballTV
+    try:
+        football = parse_lftv_jordan_sports(fetch_text(LFTV_JORDAN_SPORTS))
+        log(f"Jordan Sports confirmed football matches detected: {len(football)}")
+        events.extend(football)
+    except Exception as exc:
+        warn(f"Jordan Sports football parsing failed: {exc}")
+
+    return dedupe(events)
+
+
+def build_day_description(d: date, events: list[dict]) -> str:
+    if not events:
+        return (
+            f"الأردن الرياضية | {d.isoformat()}\n\n"
+            "لا يوجد برنامج أو مباراة بموعد موثق في المصادر الحالية."
+        )
+
+    lines = [f"جدول الأردن الرياضية | {d.isoformat()}", ""]
+    for ev in sorted(events, key=lambda x: x["start"]):
+        am = ev["start"].astimezone(AMMAN)
+        ad = ev["start"].astimezone(ABU_DHABI)
+        lv = ev["start"].astimezone(LAS_VEGAS)
+        lines.append(f"• {ev['title']} — {ev['category']}")
+        lines.append(
+            f"  {am:%H:%M} الأردن | "
+            f"{ad:%H:%M} أبو ظبي | "
+            f"{lv:%H:%M} لاس فيغاس"
+        )
+    return "\n".join(lines)
+
+
+def add_programme(
+    root,
+    start: datetime,
+    stop: datetime,
+    title: str,
+    desc: str,
+    category: str = "Sports",
+):
+    p = ET.SubElement(
+        root,
+        "programme",
+        start=xmltv_time(start),
+        stop=xmltv_time(stop),
+        channel=CHANNEL_ID,
+    )
+    ET.SubElement(p, "title", lang="ar").text = title
+    ET.SubElement(p, "desc", lang="ar").text = desc
+    ET.SubElement(p, "category", lang="en").text = category
+
+
+def status_title(day: date, events: list[dict], moment: datetime) -> str:
+    """Return the state that is true at this exact XMLTV block."""
+    live = [event for event in events
+            if epg_lib.status_of(event, moment) == "live"]
+    if live:
+        return f"🔴 LIVE · {live[-1]['title']}"
+
+    upcoming = [event for event in events if event["start"] > moment]
+    if upcoming:
+        return f"⏳ NEXT · {upcoming[0]['title']}"
+
+    finished = [event for event in events
+                if epg_lib.status_of(event, moment) == "over"]
+    if finished:
+        return f"✅ FINISHED · {finished[-1]['title']}"
+    return "Jordan Sports"
+
+
+def write_xml(events: list[dict]) -> None:
+    root = ET.Element(
+        "tv",
+        generator_info_name="Jordan Sports time-aware EPG",
+    )
+
+    ch = ET.SubElement(root, "channel", id=CHANNEL_ID)
+    ET.SubElement(ch, "icon", src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/jordan_sport.png")
+    ET.SubElement(ch, "display-name", lang="ar").text = CHANNEL_NAME
+    ET.SubElement(ch, "display-name", lang="en").text = "Jordan Sport"
+
+    # epg_lib.status_of() owns the single live/next/finished clock used by
+    # the rest of this repository. Give it the source's duration explicitly.
+    timed_events = [
+        {**event, "on_air_for": timedelta(
+            minutes=int(event.get("duration_minutes", 60)))}
+        for event in events
+    ]
+
+    today_amman = utc_now().astimezone(AMMAN).date()
+    first_day = today_amman - timedelta(days=DAYS_BACK)
+    last_day = today_amman + timedelta(days=DAYS_FORWARD)
+    by_day: dict[date, list[dict]] = {}
+    for event in timed_events:
+        day = event["start"].astimezone(AMMAN).date()
+        by_day.setdefault(day, []).append(event)
+
+    for off in range((last_day - first_day).days + 1):
+        day = first_day + timedelta(days=off)
+        day_events = sorted(by_day.get(day, []), key=lambda x: x["start"])
+        day_start_local = datetime(day.year, day.month, day.day, 0, 0,
+                                   tzinfo=AMMAN)
+        day_end_local = day_start_local + timedelta(days=1)
+        day_start = day_start_local.astimezone(UTC)
+        day_end = day_end_local.astimezone(UTC)
+
+        # Carry a programme that started before the viewer day into the new
+        # day until its real end, so LIVE does not disappear at midnight.
+        shown = epg_lib.still_on_air_at(timed_events, day_start) + day_events
+        shown.sort(key=lambda x: x["start"])
+        day_desc = build_day_description(day, shown)
+        epg_lib.add_day_in_blocks(
+            root,
+            CHANNEL_ID,
+            day_start,
+            day_end,
+            shown,
+            lambda moment, d=day, rows=shown, desc=day_desc: (
+                status_title(d, rows, moment), desc),
+        )
+
+    try:
+        ET.indent(root, space="  ")
+    except AttributeError:
+        pass
+
+    ET.ElementTree(root).write(
+        OUTPUT,
+        encoding="utf-8",
+        xml_declaration=True,
+    )
+    ET.parse(OUTPUT)
+    log(f"Written and XML-validated: {OUTPUT}")
+
+
+# ---------------------------------------------------------------------------
+# Offline self-test
+# ---------------------------------------------------------------------------
+
+def _self_test() -> None:
+    jrtv_sample = """
+    <html><body>
+    <div>رياضة كافيه . يوم الثلاثاء الساعة 5:00 مساءً. رياضي</div>
+    </body></html>
+    """
+    recurring = parse_official_jrtv_programmes(jrtv_sample)
+    assert len(recurring) == 1
+    assert recurring[0]["title"] == "رياضة كافيه"
+    assert recurring[0]["weekday"] == 1
+    assert recurring[0]["hour"] == 17
+    assert recurring[0]["minute"] == 0
+
+    shell_sample = """
+    <html><body><div id="root"></div>
+    <p>You need to enable JavaScript to run this app.</p></body></html>
+    """
+    fallback, mode = get_official_jrtv_recurring(shell_sample)
+    assert mode == "fallback"
+    assert len(fallback) == 1
+    assert fallback[0]["title"] == "رياضة كافيه"
+    assert fallback[0]["weekday"] == 1
+    assert fallback[0]["hour"] == 17
+
+    lftv_sample = """
+    <html><body>
+    <div>Football on TV today wednesday, 19/08/2026</div>
+    <div>20:45</div>
+    <div>Jordan League</div>
+    <div>Al Faisaly</div>
+    <div>Al Wihdat</div>
+    <div>Jordan Sports</div>
+    </body></html>
+    """
+
+    old_in_window = globals()["in_window"]
+    try:
+        globals()["in_window"] = lambda dt: True
+        matches = parse_lftv_jordan_sports(lftv_sample)
+    finally:
+        globals()["in_window"] = old_in_window
+
+    assert len(matches) == 1
+    assert matches[0]["title"] == "Al Faisaly - Al Wihdat"
+    assert matches[0]["category"] == "Jordan League"
+    assert matches[0]["start"].astimezone(AMMAN).hour == 20
+    assert matches[0]["start"].astimezone(AMMAN).minute == 45
+
+    jfa_sample = """
+    <html><body>
+      <div>المباريات القادمة</div><div>كأس السوبر</div>
+      <div>الفيصلي</div><div>Image</div><div>VS</div><div>Image</div><div>الوحدات</div>
+      <div>ستاد عمان الدولي - 2026-08-21 - 20:00</div>
+      <div>الرمثا</div><div>Image</div><div>VS</div><div>Image</div><div>الحسين</div>
+      <div>ستاد عمان الدولي - 2026-08-22 - 20:00</div>
+    </body></html>
+    """
+    old_in_window = globals()["in_window"]
+    try:
+        globals()["in_window"] = lambda dt: True
+        jfa_matches = parse_jfa_super_cup(jfa_sample)
+    finally:
+        globals()["in_window"] = old_in_window
+
+    assert len(jfa_matches) == 2
+    assert jfa_matches[0]["title"] == "الفيصلي - الوحدات"
+    assert jfa_matches[0]["date"].isoformat() == "2026-08-21"
+    assert jfa_matches[0]["start"].astimezone(AMMAN).hour == 20
+    assert jfa_matches[1]["title"] == "الرمثا - الحسين"
+
+    log("SELF TEST | PASS")
+
+
+def main():
+    log(
+        "JORDAN SPORTS EPG | JRTV + JFA official fixtures + Sport24 broadcaster confirmation "
+        "+ LiveFootballTV backup | NO INVENTED PROGRAMME TIMES"
+    )
+
+    _self_test()
+    events = collect_events()
+
+    log(f"Jordan Sports total verified timed events: {len(events)}")
+    for ev in events:
+        am = ev["start"].astimezone(AMMAN)
+        ad = ev["start"].astimezone(ABU_DHABI)
+        lv = ev["start"].astimezone(LAS_VEGAS)
+        log(
+            f"  JORDAN SPORTS | {am:%Y-%m-%d %H:%M} الأردن | "
+            f"{ad:%Y-%m-%d %H:%M} أبو ظبي | "
+            f"{lv:%Y-%m-%d %H:%M} لاس فيغاس | "
+            f"{ev['title']} | {ev['source_name']}"
+        )
+
+    write_xml(events)
+
+
+if __name__ == "__main__":
+    main()
