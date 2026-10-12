@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-12T04:26:40+00:00",
+  "updated_at": "2026-10-12T04:32:59+00:00",
   "source": "OpenF1",
   "weekends": [
     {
@@ -180,8 +180,8 @@
     {
       "name": "Miami Grand Prix",
       "official": "FORMULA 1 CRYPTO.COM MIAMI GRAND PRIX 2026",
-      "location": "Miami",
-      "country": "USA",
+      "location": "Miami Gardens",
+      "country": "United States",
       "offset": -240,
       "sessions": [
         {
@@ -210,12 +210,12 @@
           "stop": "2026-05-03T19:00:00+00:00"
         }
       ],
-      "round": 4
+      "round": 6
     },
     {
       "name": "Canadian Grand Prix",
       "official": "FORMULA 1 LENOVO GRAND PRIX DU CANADA 2026",
-      "location": "Montreal",
+      "location": "Montréal",
       "country": "Canada",
       "offset": -240,
       "sessions": [
@@ -245,7 +245,7 @@
           "stop": "2026-05-24T22:00:00+00:00"
         }
       ],
-      "round": 5
+      "round": 7
     },
     {
       "name": "Monaco Grand Prix",
@@ -280,7 +280,7 @@
           "stop": "2026-06-07T15:00:00+00:00"
         }
       ],
-      "round": 6
+      "round": 8
     },
     {
       "name": "Barcelona Grand Prix",
@@ -315,7 +315,7 @@
           "stop": "2026-06-14T15:00:00+00:00"
         }
       ],
-      "round": 7
+      "round": 9
     },
     {
       "name": "Austrian Grand Prix",
@@ -350,13 +350,13 @@
           "stop": "2026-06-28T15:00:00+00:00"
         }
       ],
-      "round": 8
+      "round": 10
     },
     {
       "name": "British Grand Prix",
       "official": "FORMULA 1 PIRELLI BRITISH GRAND PRIX 2026",
       "location": "Silverstone",
-      "country": "UK",
+      "country": "United Kingdom",
       "offset": 60,
       "sessions": [
         {
@@ -385,12 +385,12 @@
           "stop": "2026-07-05T16:00:00+00:00"
         }
       ],
-      "round": 9
+      "round": 11
     },
     {
       "name": "Belgian Grand Prix",
       "official": "FORMULA 1 MOËT & CHANDON BELGIAN GRAND PRIX 2026",
-      "location": "Spa",
+      "location": "Spa-Francorchamps",
       "country": "Belgium",
       "offset": 120,
       "sessions": [
@@ -420,7 +420,7 @@
           "stop": "2026-07-19T15:00:00+00:00"
         }
       ],
-      "round": 10
+      "round": 12
     },
     {
       "name": "Hungarian Grand Prix",
@@ -455,7 +455,7 @@
           "stop": "2026-07-26T15:00:00+00:00"
         }
       ],
-      "round": 11
+      "round": 13
     },
     {
       "name": "Dutch Grand Prix",
@@ -490,7 +490,7 @@
           "stop": "2026-08-23T15:00:00+00:00"
         }
       ],
-      "round": 12
+      "round": 14
     },
     {
       "name": "Italian Grand Prix",
@@ -525,7 +525,7 @@
           "stop": "2026-09-06T15:00:00+00:00"
         }
       ],
-      "round": 13
+      "round": 15
     },
     {
       "name": "Spanish Grand Prix",
@@ -560,7 +560,7 @@
           "stop": "2026-09-13T15:00:00+00:00"
         }
       ],
-      "round": 14
+      "round": 16
     },
     {
       "name": "Azerbaijan Grand Prix",
@@ -595,13 +595,13 @@
           "stop": "2026-09-26T13:00:00+00:00"
         }
       ],
-      "round": 15
+      "round": 17
     },
     {
-      "name": "Bahrain Grand Prix in Malaysia",
+      "name": "Bahrain Grand Prix",
       "official": "FORMULA 1 GULF AIR BAHRAIN GRAND PRIX IN MALAYSIA 2026",
       "location": "Kuala Lumpur",
-      "country": "Malaysia",
+      "country": "Bahrain",
       "offset": 480,
       "sessions": [
         {
@@ -630,7 +630,7 @@
           "stop": "2026-10-04T09:00:00+00:00"
         }
       ],
-      "round": 16
+      "round": 18
     },
     {
       "name": "Singapore Grand Prix",
@@ -665,13 +665,13 @@
           "stop": "2026-10-11T14:00:00+00:00"
         }
       ],
-      "round": 17
+      "round": 19
     },
     {
       "name": "United States Grand Prix",
       "official": "FORMULA 1 MSC CRUISES UNITED STATES GRAND PRIX 2026",
       "location": "Austin",
-      "country": "USA",
+      "country": "United States",
       "offset": -300,
       "sessions": [
         {
@@ -700,7 +700,7 @@
           "stop": "2026-10-25T22:00:00+00:00"
         }
       ],
-      "round": 18
+      "round": 20
     },
     {
       "name": "Mexico City Grand Prix",
@@ -735,10 +735,10 @@
           "stop": "2026-11-01T22:00:00+00:00"
         }
       ],
-      "round": 19
+      "round": 21
     },
     {
-      "name": "Brazilian Grand Prix",
+      "name": "São Paulo Grand Prix",
       "official": "FORMULA 1 MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO 2026",
       "location": "São Paulo",
       "country": "Brazil",
@@ -770,13 +770,13 @@
           "stop": "2026-11-08T19:00:00+00:00"
         }
       ],
-      "round": 20
+      "round": 22
     },
     {
       "name": "Las Vegas Grand Prix",
       "official": "FORMULA 1 HEINEKEN LAS VEGAS GRAND PRIX 2026",
       "location": "Las Vegas",
-      "country": "USA",
+      "country": "United States",
       "offset": -480,
       "sessions": [
         {
@@ -805,7 +805,7 @@
           "stop": "2026-11-22T06:00:00+00:00"
         }
       ],
-      "round": 21
+      "round": 23
     },
     {
       "name": "Qatar Grand Prix",
@@ -840,13 +840,13 @@
           "stop": "2026-11-29T18:00:00+00:00"
         }
       ],
-      "round": 22
+      "round": 24
     },
     {
       "name": "Abu Dhabi Grand Prix",
       "official": "FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2026",
-      "location": "Abu Dhabi",
-      "country": "UAE",
+      "location": "Yas Marina",
+      "country": "United Arab Emirates",
       "offset": 240,
       "sessions": [
         {
@@ -875,7 +875,7 @@
           "stop": "2026-12-06T15:00:00+00:00"
         }
       ],
-      "round": 23
+      "round": 25
     },
     {
       "name": "Bahrain Grand Prix",
