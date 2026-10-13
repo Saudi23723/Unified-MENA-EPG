@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-13T14:21:38.112Z",
+  "updated_at": "2026-10-13T14:27:44.400Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,20 +291,20 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 20.3,
-      "humidity": 39,
+      "temperature_c": 20.2,
+      "humidity": 41,
       "wind_speed": 22.0,
       "rain_chance": 17,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-13T15:15",
-      "feels_c": 16.1,
+      "feels_c": 16.2,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-13",
           "code": 51,
-          "max": 20.4,
+          "max": 20.2,
           "min": 14.5,
           "rain": 51
         },
@@ -351,7 +351,7 @@
           "rain": 10
         }
       ],
-      "today_max": 20.4,
+      "today_max": 20.2,
       "today_min": 14.5,
       "sunrise": "07:20",
       "sunset": "18:11",
@@ -362,20 +362,20 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 16.9,
-      "humidity": 51,
-      "wind_speed": 25.6,
+      "temperature_c": 16.6,
+      "humidity": 56,
+      "wind_speed": 25.9,
       "rain_chance": 55,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "رذاذ",
+      "weather_code": 53,
       "observed_at": "2026-10-13T15:15",
-      "feels_c": 12.3,
+      "feels_c": 12.2,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-13",
-          "code": 51,
-          "max": 17.3,
+          "code": 53,
+          "max": 17.4,
           "min": 11.7,
           "rain": 97
         },
@@ -388,7 +388,7 @@
         },
         {
           "date": "2026-10-15",
-          "code": 53,
+          "code": 55,
           "max": 18.3,
           "min": 10.2,
           "rain": 78
@@ -422,7 +422,7 @@
           "rain": 18
         }
       ],
-      "today_max": 17.3,
+      "today_max": 17.4,
       "today_min": 11.7,
       "sunrise": "07:32",
       "sunset": "18:17",
