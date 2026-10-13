@@ -20,44 +20,39 @@
     <display-name lang="ar">ON Sport PLUS</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/onsportplus.png" />
   </channel>
-  <programme start="20261011210000 +0000" stop="20261012170000 +0000" channel="ONSport1">
-    <title lang="ar">⏰ التالي اليوم · بيراميدز - سيراميكا كليوباترا</title>
-    <desc lang="ar">جدول ON Sport 1 | 2026-10-12
+  <programme start="20261012210000 +0000" stop="20261013140000 +0000" channel="ONSport1">
+    <title lang="ar">⏰ التالي اليوم · أبو قير للأسمدة - بترول أسيوط</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-10-13
 
-• 20:00 — بيراميدز - سيراميكا كليوباترا
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261012170000 +0000" stop="20261012190000 +0000" channel="ONSport1">
-    <title lang="ar">بيراميدز - سيراميكا كليوباترا ‎• Live 🔵‎</title>
-    <desc lang="ar">جدول ON Sport 1 | 2026-10-12
-
-• 20:00 — بيراميدز - سيراميكا كليوباترا
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-    <category lang="ar">Egyptian league | الدوري المصري</category>
-  </programme>
-  <programme start="20261012190000 +0000" stop="20261012210000 +0000" channel="ONSport1">
-    <title lang="ar">⏰ التالي غداً · الاتحاد السكندري - الجونة</title>
-    <desc lang="ar">جدول ON Sport 1 | 2026-10-12
-
-• 20:00 — بيراميدز - سيراميكا كليوباترا
-  Egyptian league | الدوري المصري
+• 17:00 — أبو قير للأسمدة - بترول أسيوط
+  Egyptian Premier League
+• 20:00 — الاتحاد السكندري - الجونة
+  Egyptian Premier League
 
 التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
 لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261012210000 +0000" stop="20261013170000 +0000" channel="ONSport1">
+  <programme start="20261013140000 +0000" stop="20261013160000 +0000" channel="ONSport1">
+    <title lang="ar">أبو قير للأسمدة - بترول أسيوط ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-10-13
+
+• 17:00 — أبو قير للأسمدة - بترول أسيوط
+  Egyptian Premier League
+• 20:00 — الاتحاد السكندري - الجونة
+  Egyptian Premier League
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="en">Egyptian Premier League</category>
+  </programme>
+  <programme start="20261013160000 +0000" stop="20261013170000 +0000" channel="ONSport1">
     <title lang="ar">⏰ التالي اليوم · الاتحاد السكندري - الجونة</title>
     <desc lang="ar">جدول ON Sport 1 | 2026-10-13
 
+• 17:00 — أبو قير للأسمدة - بترول أسيوط
+  Egyptian Premier League
 • 20:00 — الاتحاد السكندري - الجونة
   Egyptian Premier League
 
@@ -69,6 +64,8 @@
     <title lang="ar">الاتحاد السكندري - الجونة ‎• Live 🔵‎</title>
     <desc lang="ar">جدول ON Sport 1 | 2026-10-13
 
+• 17:00 — أبو قير للأسمدة - بترول أسيوط
+  Egyptian Premier League
 • 20:00 — الاتحاد السكندري - الجونة
   Egyptian Premier League
 
@@ -81,6 +78,8 @@
     <title lang="ar">⏰ التالي بعد 3 أيام · APR FC - الزمالك</title>
     <desc lang="ar">جدول ON Sport 1 | 2026-10-13
 
+• 17:00 — أبو قير للأسمدة - بترول أسيوط
+  Egyptian Premier League
 • 20:00 — الاتحاد السكندري - الجونة
   Egyptian Premier League
 
@@ -213,9 +212,9 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261011210000 +0000" stop="20261012210000 +0000" channel="ONSport2">
+  <programme start="20261027210000 +0000" stop="20261028210000 +0000" channel="ONSport1">
     <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport 2 | 2026-10-12
+    <desc lang="ar">ON Sport 1 | 2026-10-28
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
@@ -325,71 +324,11 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261011210000 +0000" stop="20261012140000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي اليوم · مودرن سبورت - نادي الشرقية إنبي</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-12
+  <programme start="20261027210000 +0000" stop="20261028210000 +0000" channel="ONSport2">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport 2 | 2026-10-28
 
-• 17:00 — مودرن سبورت - نادي الشرقية إنبي
-  Egyptian league | الدوري المصري
-• 20:00 — سموحة - غزل المحلة
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261012140000 +0000" stop="20261012160000 +0000" channel="ONSportMAX">
-    <title lang="ar">مودرن سبورت - نادي الشرقية إنبي ‎• Live 🔵‎</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-12
-
-• 17:00 — مودرن سبورت - نادي الشرقية إنبي
-  Egyptian league | الدوري المصري
-• 20:00 — سموحة - غزل المحلة
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-    <category lang="ar">Egyptian league | الدوري المصري</category>
-  </programme>
-  <programme start="20261012160000 +0000" stop="20261012170000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي اليوم · سموحة - غزل المحلة</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-12
-
-• 17:00 — مودرن سبورت - نادي الشرقية إنبي
-  Egyptian league | الدوري المصري
-• 20:00 — سموحة - غزل المحلة
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261012170000 +0000" stop="20261012190000 +0000" channel="ONSportMAX">
-    <title lang="ar">سموحة - غزل المحلة ‎• Live 🔵‎</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-12
-
-• 17:00 — مودرن سبورت - نادي الشرقية إنبي
-  Egyptian league | الدوري المصري
-• 20:00 — سموحة - غزل المحلة
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-    <category lang="ar">Egyptian league | الدوري المصري</category>
-  </programme>
-  <programme start="20261012190000 +0000" stop="20261012210000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي غداً · الأهلي - كينشاسا</title>
-    <desc lang="ar">جدول ON Sport MAX | 2026-10-12
-
-• 17:00 — مودرن سبورت - نادي الشرقية إنبي
-  Egyptian league | الدوري المصري
-• 20:00 — سموحة - غزل المحلة
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261012210000 +0000" stop="20261013100000 +0000" channel="ONSportMAX">
@@ -652,38 +591,11 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261011210000 +0000" stop="20261012140000 +0000" channel="ONSportPLUS">
-    <title lang="ar">⏰ التالي اليوم · المقاولون العرب - زد</title>
-    <desc lang="ar">جدول ON Sport PLUS | 2026-10-12
+  <programme start="20261027210000 +0000" stop="20261028210000 +0000" channel="ONSportMAX">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport MAX | 2026-10-28
 
-• 17:00 — المقاولون العرب - زد
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261012140000 +0000" stop="20261012160000 +0000" channel="ONSportPLUS">
-    <title lang="ar">المقاولون العرب - زد ‎• Live 🔵‎</title>
-    <desc lang="ar">جدول ON Sport PLUS | 2026-10-12
-
-• 17:00 — المقاولون العرب - زد
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
-    <category lang="en">Sports</category>
-    <category lang="ar">Egyptian league | الدوري المصري</category>
-  </programme>
-  <programme start="20261012160000 +0000" stop="20261012210000 +0000" channel="ONSportPLUS">
-    <title lang="ar">⏰ التالي غداً · البنك الأهلي - طلائع الجيش</title>
-    <desc lang="ar">جدول ON Sport PLUS | 2026-10-12
-
-• 17:00 — المقاولون العرب - زد
-  Egyptian league | الدوري المصري
-
-التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
-لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261012210000 +0000" stop="20261013140000 +0000" channel="ONSportPLUS">
@@ -814,6 +726,13 @@
   <programme start="20261026210000 +0000" stop="20261027210000 +0000" channel="ONSportPLUS">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <desc lang="ar">ON Sport PLUS | 2026-10-27
+
+لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261027210000 +0000" stop="20261028210000 +0000" channel="ONSportPLUS">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport PLUS | 2026-10-28
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
