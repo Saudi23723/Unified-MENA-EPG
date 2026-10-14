@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14T22:21:27.433Z",
+  "updated_at": "2026-10-14T22:26:33.257Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,14 +291,14 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 15.1,
+      "temperature_c": 15.0,
       "humidity": 80,
-      "wind_speed": 8.6,
+      "wind_speed": 9.4,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-10-14T23:15",
-      "feels_c": 14.4,
+      "feels_c": 14.2,
       "utc_offset": 3600,
       "days": [
         {
@@ -311,15 +311,15 @@
         {
           "date": "2026-10-15",
           "code": 3,
-          "max": 20.5,
-          "min": 15.1,
+          "max": 20.6,
+          "min": 14.9,
           "rain": 18
         },
         {
           "date": "2026-10-16",
-          "code": 61,
-          "max": 16.5,
-          "min": 10.5,
+          "code": 53,
+          "max": 16.4,
+          "min": 10.3,
           "rain": 82
         },
         {
@@ -362,14 +362,14 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 14.9,
-      "humidity": 74,
+      "temperature_c": 14.8,
+      "humidity": 73,
       "wind_speed": 19.1,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-14T23:15",
-      "feels_c": 12.2,
+      "feels_c": 12.1,
       "utc_offset": 3600,
       "days": [
         {
@@ -381,16 +381,16 @@
         },
         {
           "date": "2026-10-15",
-          "code": 61,
-          "max": 17.3,
-          "min": 10.2,
+          "code": 55,
+          "max": 17.4,
+          "min": 10.4,
           "rain": 87
         },
         {
           "date": "2026-10-16",
-          "code": 53,
+          "code": 55,
           "max": 13.1,
-          "min": 9.2,
+          "min": 8.3,
           "rain": 82
         },
         {
